@@ -1,11 +1,12 @@
 {
-  "name": "seiran-detectives-narrative-graybox",
+  "name": "seiran-detectives-four-full-levels",
   "private": true,
-  "version": "0.1.0-anm004",
+  "version": "0.9.0-anm009",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "check": "npm run test && npm run build",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest"

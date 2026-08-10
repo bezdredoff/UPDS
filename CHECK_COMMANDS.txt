@@ -1,0 +1,9 @@
+npm install
+npm run test
+npm run build
+
+# Полный gate:
+npm run check
+
+# Необязательный неигровой baseline для проверки проходимости данных:
+./node_modules/.bin/vite-node scripts/balance-probe.ts

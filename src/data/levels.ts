@@ -1,0 +1,194 @@
+import type { BackgroundKey } from './narrative';
+
+export const BOARD_SIZE = 8;
+
+export type TileKey = 'camisole' | 'laundryTag' | 'panties' | 'towel' | 'socks' | 'sportsBra';
+export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel';
+export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet';
+export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004';
+
+export type BoardPlacement = Readonly<{ index: number; layers: 1 | 2 }>;
+export type IngredientPlacement = Readonly<{ index: number; kind: IngredientKey }>;
+
+export type LevelObjective =
+  | Readonly<{ kind: 'collect'; tile: TileKey; target: number; label: string }>
+  | Readonly<{ kind: 'clearBlockers'; target: number; label: string }>
+  | Readonly<{ kind: 'drop'; ingredient: IngredientKey; target: number; label: string }>;
+
+export type LevelDefinition = Readonly<{
+  id: string;
+  shortId: string;
+  title: string;
+  storyAction: string;
+  background: BackgroundKey;
+  moves: number;
+  objectives: readonly LevelObjective[];
+  blocker: BlockerKey;
+  blockers: readonly BoardPlacement[];
+  ingredients: readonly IngredientPlacement[];
+  seed: number;
+  clueId: ClueId;
+  clueTitle: string;
+  clueSummary: string;
+  startBark: Readonly<{ speaker: string; text: string }>;
+  winBark: Readonly<{ speaker: string; text: string }>;
+  loseBark: Readonly<{ speaker: string; text: string }>;
+}>;
+
+export const tileKeys: readonly TileKey[] = ['camisole', 'laundryTag', 'panties', 'towel', 'socks', 'sportsBra'];
+
+export const tilePresentation: Record<TileKey, Readonly<{ label: string; asset: string; color: string }>> = {
+  camisole: { label: 'Ткань', asset: './assets/match3/tile_camisole_purple.png', color: '#7466ae' },
+  laundryTag: { label: 'Бирка', asset: './assets/match3/tile_laundry_tag_gold.png', color: '#d8a347' },
+  panties: { label: 'Комплект', asset: './assets/match3/tile_panties_coral.png', color: '#df7181' },
+  towel: { label: 'Полотенце', asset: './assets/match3/tile_rolled_towel_blue.png', color: '#6da9cf' },
+  socks: { label: 'Пара', asset: './assets/match3/tile_socks_cream.png', color: '#d8c7a8' },
+  sportsBra: { label: 'Спорт', asset: './assets/match3/tile_sports_bra_teal.png', color: '#45a6a3' },
+};
+
+export const ingredientPresentation: Record<IngredientKey, Readonly<{ label: string; asset: string }>> = {
+  receipt: { label: 'Квитанция', asset: './assets/match3/goal_receipt.png' },
+  memoryCard: { label: 'Карта памяти', asset: './assets/match3/goal_memory_card.png' },
+  serviceKey: { label: 'Сервисный ключ', asset: './assets/clues/clue_service_key.png' },
+  damagedTowel: { label: 'Полотенце со швом', asset: './assets/clues/clue_towel_conductive_seam.png' },
+};
+
+export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; asset: string }>> = {
+  lockedCell: { label: 'Закрытая клетка', asset: './assets/match3/obstacle_locked_cell.png' },
+  propBox: { label: 'Коробка реквизита', asset: './assets/match3/obstacle_prop_box_2layer.png' },
+  foam: { label: 'Пена', asset: './assets/match3/obstacle_soap_foam.png' },
+  cabinet: { label: 'Секция шкафа', asset: './assets/match3/obstacle_service_cabinet.png' },
+};
+
+export const specialAsset = './assets/match3/special_observation_magnifier.png';
+
+const positions = (items: readonly (number | readonly [number, 1 | 2])[]): BoardPlacement[] => items.map((item) => (
+  typeof item === 'number' ? { index: item, layers: 1 } : { index: item[0], layers: item[1] }
+));
+
+export const levels: readonly LevelDefinition[] = [
+  {
+    id: 'M3_00_LOCKER_TUTORIAL',
+    shortId: 'M3_00',
+    title: 'Шкафчик Эми',
+    storyAction: 'Зафиксировать содержимое шкафчика и найти связь с прачечной.',
+    background: 'lockerAthletics',
+    moves: 24,
+    objectives: [
+      { kind: 'collect', tile: 'camisole', target: 8, label: 'Ткань' },
+      { kind: 'collect', tile: 'laundryTag', target: 8, label: 'Бирки' },
+      { kind: 'collect', tile: 'panties', target: 8, label: 'Комплекты' },
+      { kind: 'clearBlockers', target: 6, label: 'Клетки' },
+      { kind: 'drop', ingredient: 'receipt', target: 1, label: 'Квитанция' },
+    ],
+    blocker: 'lockedCell',
+    blockers: positions([18, 19, 26, 27, 34, 35]),
+    ingredients: [{ index: 3, kind: 'receipt' }],
+    seed: 9001,
+    clueId: 'CUE_001',
+    clueTitle: 'Выборочная пропажа',
+    clueSummary: 'Из партии прачечной исчезли не все вещи; цена и заметность не объясняют выбор.',
+    startBark: { speaker: 'Оноэ', text: 'Сначала категории. Потом выводы.' },
+    winBark: { speaker: 'Эми', text: 'Нашли что-нибудь настоящее?' },
+    loseBark: { speaker: 'Оноэ', text: 'Мы нарушили порядок поиска. Повторим без потери прогресса сцены.' },
+  },
+  {
+    id: 'M3_01_PHOTO_PROPS',
+    shortId: 'M3_01',
+    title: 'Фотореквизит Кэнтаро',
+    storyAction: 'Разобрать реквизит по номерам и найти карту памяти с таймкодами.',
+    background: 'kentaroApartment',
+    moves: 26,
+    objectives: [
+      { kind: 'clearBlockers', target: 10, label: 'Коробки' },
+      { kind: 'collect', tile: 'laundryTag', target: 12, label: 'Бирки' },
+      { kind: 'drop', ingredient: 'memoryCard', target: 1, label: 'Карта' },
+    ],
+    blocker: 'propBox',
+    blockers: positions([[9, 2], [10, 2], 17, 18, [25, 2], 26, 33, [34, 2], 41, 42]),
+    ingredients: [{ index: 5, kind: 'memoryCard' }],
+    seed: 9002,
+    clueId: 'CUE_002',
+    clueTitle: 'Проверяемое алиби',
+    clueSummary: 'Таймкоды съёмки подтверждают алиби Кэнтаро; сервисная тележка остаётся общей связью.',
+    startBark: { speaker: 'Кэнтаро', text: 'Сначала номера. И ничего не надевайте — это реквизит.' },
+    winBark: { speaker: 'Мику', text: 'Нашла. Теперь посмотрим не на комнату, а на время.' },
+    loseBark: { speaker: 'Аюки', text: 'Комната победила. Требую реванш и более узкую специализацию коробок.' },
+  },
+  {
+    id: 'M3_02_POOL_LAUNDRY',
+    shortId: 'M3_02',
+    title: 'Мокрые показания',
+    storyAction: 'Восстановить партию стирки, очистить пену и открыть сервисный шкаф.',
+    background: 'poolLocker',
+    moves: 25,
+    objectives: [
+      { kind: 'clearBlockers', target: 18, label: 'Пена' },
+      { kind: 'collect', tile: 'laundryTag', target: 4, label: 'Бирки' },
+      { kind: 'drop', ingredient: 'serviceKey', target: 1, label: 'Ключ' },
+    ],
+    blocker: 'foam',
+    blockers: positions([[16, 2], 17, 18, [19, 2], 20, 21, 24, [25, 2], 26, 29, [30, 2], 31, 34, 35, [36, 2], 37, 38, 39]),
+    ingredients: [{ index: 6, kind: 'serviceKey' }],
+    seed: 9003,
+    clueId: 'CUE_003',
+    clueTitle: 'Смешанные цели',
+    clueSummary: 'Тип, цена, цвет и владелец вещей не объясняют выбор; вещи смешали до возврата.',
+    startBark: { speaker: 'Норихиро', text: 'Бирки сначала. Мокрые догадки сушатся дольше полотенец.' },
+    winBark: { speaker: 'Оноэ', text: 'Партия восстановлена. Теперь сравним пропавшее.' },
+    loseBark: { speaker: 'Норихиро', text: 'Пена победила дедукцию. Начните с краёв.' },
+  },
+  {
+    id: 'M3_03_ORDERED_APARTMENT',
+    shortId: 'M3_03',
+    title: 'Идеальный порядок',
+    storyAction: 'Проверить возвращённый мешок и найти предмет с новым повреждением.',
+    background: 'norihiroApartment',
+    moves: 27,
+    objectives: [
+      { kind: 'clearBlockers', target: 8, label: 'Секции' },
+      { kind: 'collect', tile: 'socks', target: 12, label: 'Пары' },
+      { kind: 'drop', ingredient: 'receipt', target: 1, label: 'Чек' },
+      { kind: 'drop', ingredient: 'damagedTowel', target: 1, label: 'Полотенце' },
+    ],
+    blocker: 'cabinet',
+    blockers: positions([17, 18, 21, 22, 33, 34, 37, 38]),
+    ingredients: [{ index: 1, kind: 'receipt' }, { index: 6, kind: 'damagedTowel' }],
+    seed: 9004,
+    clueId: 'CUE_004',
+    clueTitle: 'Серебристая нить',
+    clueSummary: 'Ничего не украли, но под сервисной биркой появился новый проводящий шов.',
+    startBark: { speaker: 'Норихиро', text: 'Слева направо. Если нарушите порядок, вы его восстановите.' },
+    winBark: { speaker: 'Мику', text: 'Здесь ничего не украли. Но кое-что добавили.' },
+    loseBark: { speaker: 'Норихиро', text: 'Вы проиграли шкафу. Он согласен на повторную проверку.' },
+  },
+] as const;
+
+export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: string }>> = {
+  CUE_001: { asset: './assets/clues/clue_laundry_receipt.png', label: 'Квитанция прачечной' },
+  CUE_002: { asset: './assets/clues/clue_memory_card.png', label: 'Карта памяти' },
+  CUE_003: { asset: './assets/clues/clue_service_key.png', label: 'Сервисный ключ' },
+  CUE_004: { asset: './assets/clues/clue_towel_conductive_seam.png', label: 'Проводящий шов' },
+};
+
+export function validateLevelDefinitions(definitions: readonly LevelDefinition[] = levels): string[] {
+  const errors: string[] = [];
+  const ids = new Set<string>();
+  for (const level of definitions) {
+    if (ids.has(level.id)) errors.push(`Duplicate level id: ${level.id}`);
+    ids.add(level.id);
+    if (level.moves <= 0) errors.push(`${level.id}: moves must be positive`);
+    if (level.objectives.length === 0) errors.push(`${level.id}: no objectives`);
+    if (level.blockers.some(({ index }) => index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: blocker outside board`);
+    if (new Set(level.blockers.map(({ index }) => index)).size !== level.blockers.length) errors.push(`${level.id}: duplicate blocker cell`);
+    if (level.ingredients.some(({ index }) => index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: ingredient outside board`);
+    if (level.ingredients.some(({ index }) => level.blockers.some((blocker) => blocker.index === index))) errors.push(`${level.id}: ingredient overlaps blocker`);
+    const blockerGoal = level.objectives.find((objective) => objective.kind === 'clearBlockers');
+    if (blockerGoal?.target !== level.blockers.length) errors.push(`${level.id}: blocker objective does not match placement count`);
+    for (const ingredient of level.ingredients) {
+      const objective = level.objectives.find((candidate) => candidate.kind === 'drop' && candidate.ingredient === ingredient.kind);
+      if (!objective) errors.push(`${level.id}: missing objective for ${ingredient.kind}`);
+    }
+  }
+  return errors;
+}

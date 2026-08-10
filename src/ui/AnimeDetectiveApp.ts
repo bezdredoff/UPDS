@@ -1,133 +1,599 @@
-import { ChoiceId, choices, getScene, levels, sceneMeta, StoryLine } from '../data/narrative';
+import { APP_VERSION, BUILD_LABEL } from '../appVersion';
+import {
+  characterForSpeaker,
+  characterRigs,
+  expressionForDirection,
+  faceAsset,
+  placeholderCharacters,
+  placeholderForSpeaker,
+  type CharacterKey,
+  type RuntimeExpression,
+} from '../data/characterRigs';
+import {
+  blockerPresentation,
+  cluePresentation,
+  ingredientPresentation,
+  levels,
+  specialAsset,
+  tilePresentation,
+  type ClueId,
+  type LevelDefinition,
+} from '../data/levels';
+import {
+  backgroundAssets,
+  choices,
+  getBackgroundForLine,
+  getScene,
+  isDirection,
+  parsedLineCount,
+  sceneMeta,
+  type ChoiceId,
+  type StoryLine,
+} from '../data/narrative';
+import {
+  CampaignStore,
+  freshSave,
+  isPreMatchScene,
+  levelForPreMatchScene,
+  postSceneForLevel,
+  type CampaignSave,
+} from '../engine/CampaignStore';
+import { Match3Game, type MoveResult } from '../engine/Match3Game';
 
-type Save = { scene:number; line:number; choice:ChoiceId; clues:string[]; completed:number[] };
-const KEY = 'seiran-detectives-graybox-v1';
-const fresh = (): Save => ({ scene:0, line:0, choice:'A', clues:[], completed:[] });
-const tokens = ['◈','✦','●','◆','✿','▣'];
+type Bark = Readonly<{ speaker: string; text: string }>;
+
+const escapeHtml = (value: string): string => value
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#039;');
+
+const icon = (name: string, alt = ''): string => `<img src="./assets/ui/icon_${name}.svg" alt="${escapeHtml(alt)}">`;
 
 export class AnimeDetectiveApp {
-  private save: Save = fresh();
+  private save: CampaignSave = freshSave();
   private story: StoryLine[] = [];
-  constructor(private root: HTMLElement) {}
+  private readonly store: CampaignStore;
+  private activeMatch: Match3Game | null = null;
+  private activeLevelIndex = 0;
+  private selectedCell: number | null = null;
+  private matchBark: Bark | null = null;
+  private triggeredBarks = new Set<string>();
+  private pendingClue: ClueId | null = null;
+  private timers: number[] = [];
 
-  mount() { this.renderMenu(); }
-
-  private load() {
-    try { this.save = { ...fresh(), ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch { this.save = fresh(); }
+  constructor(private readonly root: HTMLElement) {
+    this.store = new CampaignStore(window.localStorage);
   }
-  private persist() { localStorage.setItem(KEY, JSON.stringify(this.save)); }
 
-  private shell(content:string) {
+  mount(): void {
+    this.renderMenu();
+  }
+
+  private persist(): void {
+    try {
+      this.store.save(this.save);
+    } catch {
+      // The complete game remains playable when private browsing blocks storage.
+    }
+  }
+
+  private clearTimers(): void {
+    for (const timer of this.timers) window.clearTimeout(timer);
+    this.timers = [];
+  }
+
+  private shell(content: string): void {
+    this.clearTimers();
     this.root.innerHTML = `<main class="phone">${content}</main>`;
   }
 
-  private renderMenu() {
-    this.load();
+  private renderMenu(): void {
+    this.save = this.store.load();
     const hasSave = this.save.scene > 0 || this.save.line > 0 || this.save.completed.length > 0;
-    this.shell(`<section class="menu">
-      <div class="crest">S</div><p class="eyebrow">SEIRAN COLLEGE</p>
-      <h1>Детективы<br><span>класса U</span></h1>
-      <p class="tagline">Комедийная visual novel × match‑3</p>
-      <div class="menu-actions">
-        <button id="new" class="primary">Новая игра</button>
-        <button id="continue" ${hasSave?'':'disabled'}>Продолжить</button>
-        <button id="episodes">Выбор сцены <small>graybox</small></button>
-      </div>
-      <footer>ANM‑004 · Narrative Graybox</footer>
-    </section>`);
-    this.root.querySelector('#new')?.addEventListener('click',()=>{ this.save=fresh(); this.persist(); this.openScene(0,0); });
-    this.root.querySelector('#continue')?.addEventListener('click',()=>this.openScene(this.save.scene,this.save.line));
-    this.root.querySelector('#episodes')?.addEventListener('click',()=>this.renderSceneSelect());
-  }
-
-  private renderSceneSelect() {
-    this.shell(`<section class="panel"><button class="back">← Меню</button><p class="eyebrow">GRAYBOX TOOLS</p><h2>Выбор сцены</h2><div class="scene-list">${sceneMeta.map((m,i)=>`<button data-scene="${i}"><b>${i}. ${m[0]}</b><small>${m[1]}</small></button>`).join('')}</div></section>`);
-    this.root.querySelector('.back')?.addEventListener('click',()=>this.renderMenu());
-    this.root.querySelectorAll<HTMLElement>('[data-scene]').forEach(b=>b.addEventListener('click',()=>this.openScene(Number(b.dataset.scene),0)));
-  }
-
-  private openScene(scene:number,line=0) {
-    this.save.scene=scene; this.save.line=line; this.story=getScene(scene,this.save.choice); this.persist(); this.renderVN();
-  }
-
-  private renderVN() {
-    const meta=sceneMeta[this.save.scene];
-    const entry=this.story[Math.min(this.save.line,this.story.length-1)];
-    if (!entry) return this.advanceScene();
-    const direction=entry.speaker==='РЕЖИССУРА' || entry.speaker==='СИСТЕМА';
-    this.shell(`<section class="vn bg-${this.save.scene}">
-      <header><button id="menu">☰</button><div><small>СЦЕНА ${this.save.scene}</small><b>${meta[1]}</b></div><button id="dossier">Досье <i>${this.save.clues.length}</i></button></header>
-      <div class="stage"><div class="sprite left"><span>${this.initialFor(entry.speaker)}</span></div><div class="location-card">GRAYBOX BACKGROUND<br><b>${meta[1]}</b></div></div>
-      <div class="dialogue ${direction?'direction':''}" id="next">
-        <div class="name">${direction?'ПОСТАНОВКА':entry.speaker}<em>${entry.emotion}</em></div>
-        <p>${entry.text}</p><span class="line-id">${entry.id}</span><span class="tap">▼</span>
+    this.shell(`<section class="menu-screen">
+      <img class="menu-background" src="${backgroundAssets.clubroom}" alt="">
+      <div class="menu-wash"></div>
+      <div class="menu-content">
+        <p class="eyebrow">SEIRAN COLLEGE · CASE 001</p>
+        <h1>Детективы<br><span>класса U</span></h1>
+        <p class="tagline">Комедийная visual novel × match‑3</p>
+        <div class="hero-medallions" aria-label="Мику, Оноэ и Аюки">
+          ${(['miku', 'onoe', 'ayuki'] as const).map((key) => `<img src="${characterRigs[key].medallion}" alt="${characterRigs[key].displayName}">`).join('')}
+        </div>
+        <div class="menu-actions">
+          <button id="new" class="primary">Новая игра</button>
+          <button id="continue" ${hasSave ? '' : 'disabled'}>Продолжить</button>
+          <button id="episodes">Навигация по сценам <small>QA</small></button>
+        </div>
+        <footer>${BUILD_LABEL}<br><span>${APP_VERSION} · ${parsedLineCount} строк сценария</span></footer>
       </div>
     </section>`);
-    this.root.querySelector('#menu')?.addEventListener('click',e=>{e.stopPropagation();this.renderMenu();});
-    this.root.querySelector('#dossier')?.addEventListener('click',e=>{e.stopPropagation();this.renderDossier();});
-    this.root.querySelector('#next')?.addEventListener('click',()=>this.nextLine());
+
+    this.root.querySelector('#new')?.addEventListener('click', () => {
+      this.save = freshSave();
+      this.persist();
+      this.openScene(0, 0);
+    });
+    this.root.querySelector('#continue')?.addEventListener('click', () => this.openScene(this.save.scene, this.save.line));
+    this.root.querySelector('#episodes')?.addEventListener('click', () => this.renderSceneSelect());
   }
 
-  private initialFor(s:string) { const map:Record<string,string>={'МИКУ':'M','МИКУ (МЫСЛИ)':'M','ОНОЭ':'O','АЮКИ':'A','ЭМИ':'E','КЭНТАРО':'K','НОРИХИРО':'N','МАЮ':'М'}; return map[s] || '…'; }
-
-  private nextLine() {
-    const entry=this.story[this.save.line];
-    if (this.save.scene===1 && entry?.id==='VN0040') return this.renderChoice();
-    this.save.line++; this.persist();
-    if (this.save.line>=this.story.length) this.advanceScene(); else this.renderVN();
-  }
-
-  private renderChoice() {
-    this.shell(`<section class="choice-screen"><p class="eyebrow">CHOICE_00</p><h2>С чего начать?</h2>${(Object.keys(choices) as ChoiceId[]).map(id=>`<button data-choice="${id}"><i>${id}</i><b>${choices[id].title}</b><small>${choices[id].effect}</small></button>`).join('')}</section>`);
-    this.root.querySelectorAll<HTMLElement>('[data-choice]').forEach(b=>b.addEventListener('click',()=>{
-      this.save.choice=b.dataset.choice as ChoiceId; this.story=getScene(1,this.save.choice);
-      this.save.line=this.story.findIndex(l=>l.id===`VN0041${this.save.choice}`); this.persist(); this.renderVN();
+  private renderSceneSelect(): void {
+    this.shell(`<section class="panel scene-select">
+      <button class="icon-text back">${icon('back')} Меню</button>
+      <p class="eyebrow">QA NAVIGATION</p>
+      <h2>Выбор сцены</h2>
+      <p class="panel-copy">Прямой переход предназначен для проверки контента и не открывает предыдущие улики автоматически.</p>
+      <div class="scene-list">${sceneMeta.map((meta, index) => `
+        <button data-scene="${index}">
+          <i>${String(index).padStart(2, '0')}</i>
+          <span><b>${escapeHtml(meta.title)}</b><small>${escapeHtml(meta.location)}</small></span>
+        </button>`).join('')}</div>
+      <aside class="placeholder-note"><b>Допустимые заглушки ANM‑009</b><span>Эми · Маю · Кэнтаро · Норихиро</span></aside>
+    </section>`);
+    this.root.querySelector('.back')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelectorAll<HTMLElement>('[data-scene]').forEach((button) => button.addEventListener('click', () => {
+      this.openScene(Number(button.dataset.scene), 0);
     }));
   }
 
-  private advanceScene() {
-    if ([1,3,5,7].includes(this.save.scene)) return this.startMatch(Math.floor(this.save.scene/2));
-    if (this.save.scene===8) return this.renderEnding();
-    this.openScene(this.save.scene+1,0);
+  private openScene(scene: number, line = 0): void {
+    this.activeMatch = null;
+    this.selectedCell = null;
+    this.save.scene = Math.max(0, Math.min(sceneMeta.length - 1, scene));
+    this.story = getScene(this.save.scene, this.save.choice);
+    this.save.line = Math.max(0, Math.min(line, this.story.length));
+    this.persist();
+
+    if (this.save.line >= this.story.length) {
+      this.advanceScene();
+      return;
+    }
+    this.renderVN();
   }
 
-  private startMatch(levelIndex:number) {
-    const level=levels[levelIndex]; let moves=level.moves, score=0, selected=-1;
-    let board=Array.from({length:64},()=>Math.floor(Math.random()*tokens.length));
-    const render=()=>{
-      this.shell(`<section class="match"><header><button id="quit">←</button><div><small>РАССЛЕДОВАНИЕ ${levelIndex+1}/4</small><b>${level.title}</b></div><button id="dossier">Досье</button></header>
-        <div class="objectives"><span>Ходы <b>${moves}</b></span><span>Наблюдения <b>${score}/${level.target}</b></span></div>
-        <div class="board">${board.map((v,i)=>`<button data-cell="${i}" class="t${v} ${selected===i?'selected':''}">${tokens[v]}</button>`).join('')}</div>
-        <p class="hint">Меняй соседние жетоны. В graybox засчитывается каждый собранный ряд.</p>
-      </section>`);
-      this.root.querySelector('#quit')?.addEventListener('click',()=>this.openScene(this.save.scene,this.story.length-1));
-      this.root.querySelector('#dossier')?.addEventListener('click',()=>this.renderDossier());
-      this.root.querySelectorAll<HTMLElement>('[data-cell]').forEach(c=>c.addEventListener('click',()=>click(Number(c.dataset.cell))));
+  private renderVN(): void {
+    const entry = this.story[this.save.line];
+    if (!entry) {
+      this.advanceScene();
+      return;
+    }
+
+    const meta = sceneMeta[this.save.scene];
+    const direction = isDirection(entry);
+    const background = getBackgroundForLine(this.save.scene, this.save.line, this.story);
+    const character = direction ? null : characterForSpeaker(entry.speaker);
+    const placeholder = direction ? null : placeholderForSpeaker(entry.speaker);
+    const expression = expressionForDirection(entry.emotion);
+    const clueToast = this.pendingClue ? this.clueToastMarkup(this.pendingClue) : '';
+
+    this.shell(`<section class="vn-screen">
+      <img class="vn-background" src="${backgroundAssets[background]}" alt="${escapeHtml(meta.location)}">
+      <div class="vn-vignette"></div>
+      <header class="topbar">
+        <button id="menu" class="icon-button" aria-label="Меню">${icon('menu')}</button>
+        <div><small>СЦЕНА ${this.save.scene}</small><b>${escapeHtml(meta.title)}</b></div>
+        <button id="dossier" class="dossier-button">${icon('dossier')}<i>${this.save.clues.length}</i></button>
+      </header>
+      <div class="stage">
+        ${character ? this.characterMarkup(character, expression, entry.emotion) : ''}
+        ${placeholder ? this.placeholderMarkup(placeholder) : ''}
+        ${direction ? `<div class="direction-card"><span>ПОСТАНОВКА</span><b>${escapeHtml(entry.emotion)}</b></div>` : ''}
+        ${clueToast}
+      </div>
+      <button class="dialogue ${direction ? 'direction' : ''}" id="next">
+        <span class="name">${direction ? 'ПОСТАНОВКА' : escapeHtml(entry.speaker)}<em>${escapeHtml(entry.emotion)}</em></span>
+        <span class="dialogue-text">${escapeHtml(entry.text)}</span>
+        <span class="line-id">${entry.id}</span><span class="tap">▼</span>
+      </button>
+    </section>`);
+
+    this.pendingClue = null;
+    this.root.querySelector('#menu')?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      this.renderMenu();
+    });
+    this.root.querySelector('#dossier')?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      this.renderDossier(() => this.renderVN());
+    });
+    this.root.querySelector('#next')?.addEventListener('click', () => this.nextLine());
+    if (character && !this.usesPoseB(character, entry.emotion)) this.animatePortrait(character, expression);
+  }
+
+  private characterMarkup(character: CharacterKey, expression: RuntimeExpression, direction: string): string {
+    const rig = characterRigs[character];
+    if (this.usesPoseB(character, direction)) {
+      return `<div class="portrait portrait-static-wrap"><img class="portrait-static" src="${rig.poseB}" alt="${rig.displayName}"></div>`;
+    }
+    const face = faceAsset(character, expression);
+    return `<div class="portrait character-rig" data-character="${character}">
+      <img class="portrait-base" src="${rig.base}" alt="${rig.displayName}">
+      <img class="portrait-face ${face ? '' : 'is-hidden'}" src="${face ?? rig.faces.speaking}" alt="">
+    </div>`;
+  }
+
+  private placeholderMarkup(key: keyof typeof placeholderCharacters): string {
+    const character = placeholderCharacters[key];
+    return `<div class="portrait-placeholder" style="--placeholder-accent:${character.accent}">
+      <span>${character.initials}</span>
+      <b>${character.displayName}</b>
+      <small>PORTRAIT PLACEHOLDER</small>
+    </div>`;
+  }
+
+  private usesPoseB(character: CharacterKey, direction: string): boolean {
+    const value = direction.toLocaleUpperCase('ru-RU');
+    if (character === 'miku') return /С БЛОКНОТОМ|УКАЗЫВАЕТ НА/.test(value);
+    if (character === 'onoe') return /КРУЖЕВНЫМ ПАКЕТОМ|БЕР[ЕЁ]Т ПИНЦЕТ/.test(value);
+    return /С ТЕЛЕФОНОМ|ПОКАЗЫВАЕТ ТЕЛЕФОН|С ДОСКОЙ НА ТЕЛЕФОНЕ/.test(value);
+  }
+
+  private animatePortrait(character: CharacterKey, baseExpression: RuntimeExpression): void {
+    const face = this.root.querySelector<HTMLImageElement>('.portrait-face');
+    if (!face) return;
+    const startedAt = performance.now();
+    let speaking = false;
+    const setFace = (expression: RuntimeExpression): void => {
+      const asset = faceAsset(character, expression);
+      face.classList.toggle('is-hidden', !asset);
+      if (asset) face.src = asset;
     };
-    const adjacent=(a:number,b:number)=>Math.abs(a-b)===8 || (Math.floor(a/8)===Math.floor(b/8)&&Math.abs(a-b)===1);
-    const matches=()=>{ const hit=new Set<number>(); for(let r=0;r<8;r++)for(let c=0;c<6;c++){const i=r*8+c;if(board[i]===board[i+1]&&board[i]===board[i+2]){hit.add(i);hit.add(i+1);hit.add(i+2);}} for(let c=0;c<8;c++)for(let r=0;r<6;r++){const i=r*8+c;if(board[i]===board[i+8]&&board[i]===board[i+16]){hit.add(i);hit.add(i+8);hit.add(i+16);}} return hit;};
-    const click=(i:number)=>{ if(selected<0){selected=i;return render();} if(!adjacent(selected,i)){selected=i;return render();} [board[selected],board[i]]=[board[i],board[selected]]; selected=-1; moves--; const hit=matches(); if(hit.size){score+=hit.size;hit.forEach(x=>board[x]=Math.floor(Math.random()*tokens.length));} if(score>=level.target)return win(); if(moves<=0)return lose(); render(); };
-    const win=()=>{ if(!this.save.completed.includes(levelIndex))this.save.completed.push(levelIndex); if(!this.save.clues.includes(level.clue))this.save.clues.push(level.clue); this.persist(); this.renderResult(true,levelIndex); };
-    const lose=()=>this.renderResult(false,levelIndex);
-    render();
+
+    const talk = (): void => {
+      if (performance.now() - startedAt > 1750) {
+        setFace(baseExpression);
+        return;
+      }
+      speaking = !speaking;
+      setFace(speaking ? 'speaking' : baseExpression);
+      this.timers.push(window.setTimeout(talk, 120 + Math.round(Math.random() * 60)));
+    };
+    this.timers.push(window.setTimeout(talk, 180));
+
+    const blink = (): void => {
+      setFace('blink');
+      this.timers.push(window.setTimeout(() => {
+        setFace(baseExpression);
+        this.timers.push(window.setTimeout(blink, 3400 + Math.round(Math.random() * 2800)));
+      }, 170));
+    };
+    this.timers.push(window.setTimeout(blink, 3600 + Math.round(Math.random() * 2200)));
   }
 
-  private renderResult(won:boolean,index:number) {
-    const level=levels[index]; this.shell(`<section class="result"><div class="result-icon">${won?'✓':'↻'}</div><p class="eyebrow">${won?'УЛИКА НАЙДЕНА':'ХОДЫ ЗАКОНЧИЛИСЬ'}</p><h2>${won?level.clue:'Версия требует повторной проверки'}</h2><button class="primary" id="go">${won?'Вернуться к расследованию':'Повторить уровень'}</button></section>`);
-    this.root.querySelector('#go')?.addEventListener('click',()=>won?this.openScene(index*2+2,0):this.startMatch(index));
+  private nextLine(): void {
+    const entry = this.story[this.save.line];
+    if (!entry) return this.advanceScene();
+    if (!this.save.readLines.includes(entry.id)) this.save.readLines.push(entry.id);
+    if (this.save.scene === 1 && entry.id === 'VN0040') {
+      this.persist();
+      this.renderChoice();
+      return;
+    }
+    this.save.line += 1;
+    this.persist();
+    if (this.save.line >= this.story.length) this.advanceScene();
+    else this.renderVN();
   }
 
-  private renderDossier() {
-    const back=()=>this.openScene(this.save.scene,this.save.line);
-    this.shell(`<section class="panel dossier"><button id="back" class="back">← Назад</button><p class="eyebrow">ДЕЛО 001</p><h2>Серийные пропажи</h2><div class="tabs"><b>Улики</b><span>Подозреваемые</span><span>Хронология</span><span>Связи</span></div><div class="clues">${this.save.clues.length?this.save.clues.map((c,i)=>`<article><i>0${i+1}</i><p>${c}</p></article>`).join(''):'<p class="empty">Улик пока нет. Продолжайте расследование.</p>'}</div><button id="reset">Сбросить прогресс graybox</button></section>`);
-    this.root.querySelector('#back')?.addEventListener('click',back);
-    this.root.querySelector('#reset')?.addEventListener('click',()=>{this.save=fresh();this.persist();this.renderMenu();});
+  private renderChoice(): void {
+    this.shell(`<section class="choice-screen">
+      <img class="choice-background" src="${backgroundAssets.clubroom}" alt="">
+      <div class="choice-panel">
+        <p class="eyebrow">CHOICE_00</p><h2>С чего начать?</h2>
+        ${(Object.keys(choices) as ChoiceId[]).map((id) => `<button data-choice="${id}"><i>${id}</i><span><b>${choices[id].title}</b><small>${choices[id].effect}</small></span></button>`).join('')}
+      </div>
+    </section>`);
+    this.root.querySelectorAll<HTMLElement>('[data-choice]').forEach((button) => button.addEventListener('click', () => {
+      this.save.choice = button.dataset.choice as ChoiceId;
+      this.story = getScene(1, this.save.choice);
+      const branchIndex = this.story.findIndex((line) => line.id === `VN0041${this.save.choice}`);
+      this.save.line = Math.max(0, branchIndex);
+      this.persist();
+      this.renderVN();
+    }));
   }
 
-  private renderEnding() {
-    this.save.scene=8;this.save.line=this.story.length;this.persist();
-    this.shell(`<section class="ending"><div class="thread">⌁</div><p class="eyebrow">КОНЕЦ ВЕРТИКАЛЬНОГО СРЕЗА</p><h1>Это не ткань.</h1><p>Под сервисной биркой спрятана проводящая серебристая нить. След ведёт в центральную прачечную.</p><div class="summary">Выбор: <b>${choices[this.save.choice].title}</b><br>Найдено улик: <b>${this.save.clues.length}/4</b></div><button class="primary" id="menu">В главное меню</button><button id="replay">Начать заново</button></section>`);
-    this.root.querySelector('#menu')?.addEventListener('click',()=>this.renderMenu());
-    this.root.querySelector('#replay')?.addEventListener('click',()=>{this.save=fresh();this.persist();this.openScene(0,0);});
+  private advanceScene(): void {
+    if (isPreMatchScene(this.save.scene)) {
+      this.save.line = this.story.length;
+      this.persist();
+      this.renderMatchIntro(levelForPreMatchScene(this.save.scene));
+      return;
+    }
+    if (this.save.scene === sceneMeta.length - 1) {
+      this.renderEnding();
+      return;
+    }
+    this.openScene(this.save.scene + 1, 0);
+  }
+
+  private renderMatchIntro(levelIndex: number): void {
+    const level = levels[levelIndex];
+    this.activeLevelIndex = levelIndex;
+    this.activeMatch = null;
+    this.shell(`<section class="level-intro">
+      <img class="level-intro-background" src="${backgroundAssets[level.background]}" alt="">
+      <div class="level-intro-shade"></div>
+      <header class="topbar transparent">
+        <button id="back" class="icon-button" aria-label="Назад">${icon('back')}</button>
+        <div><small>РАССЛЕДОВАНИЕ ${levelIndex + 1}/4</small><b>${escapeHtml(level.shortId)}</b></div>
+        <button id="dossier" class="dossier-button">${icon('dossier')}<i>${this.save.clues.length}</i></button>
+      </header>
+      <div class="level-card">
+        <p class="eyebrow">${escapeHtml(level.id)}</p>
+        <h2>${escapeHtml(level.title)}</h2>
+        <p>${escapeHtml(level.storyAction)}</p>
+        <div class="intro-objectives">${level.objectives.map((objective) => this.objectiveMarkup(level, objective, 0, false)).join('')}</div>
+        <div class="moves-chip"><b>${level.moves}</b><span>ходов</span></div>
+        <button id="start" class="primary">Начать поиск</button>
+      </div>
+    </section>`);
+    this.root.querySelector('#back')?.addEventListener('click', () => this.openScene(this.save.scene, Math.max(0, this.story.length - 1)));
+    this.root.querySelector('#dossier')?.addEventListener('click', () => this.renderDossier(() => this.renderMatchIntro(levelIndex)));
+    this.root.querySelector('#start')?.addEventListener('click', () => this.startMatch(levelIndex));
+  }
+
+  private startMatch(levelIndex: number): void {
+    const level = levels[levelIndex];
+    const attempt = (this.save.attempts[level.id] ?? 0) + 1;
+    this.save.attempts[level.id] = attempt;
+    this.persist();
+    this.activeLevelIndex = levelIndex;
+    this.activeMatch = new Match3Game(level, level.seed + attempt * 101);
+    this.selectedCell = null;
+    this.triggeredBarks = new Set(['start']);
+    this.matchBark = level.startBark;
+    this.renderMatch();
+  }
+
+  private renderMatch(): void {
+    const game = this.activeMatch;
+    if (!game) return this.renderMatchIntro(this.activeLevelIndex);
+    const level = game.level;
+    const blocker = blockerPresentation[level.blocker];
+
+    this.shell(`<section class="match-screen">
+      <img class="match-background" src="${backgroundAssets[level.background]}" alt="">
+      <div class="match-shade"></div>
+      <header class="topbar match-topbar">
+        <button id="quit" class="icon-button" aria-label="Покинуть уровень">${icon('back')}</button>
+        <div><small>${escapeHtml(level.shortId)}</small><b>${escapeHtml(level.title)}</b></div>
+        <button id="dossier" class="dossier-button">${icon('dossier')}<i>${this.save.clues.length}</i></button>
+      </header>
+      <div class="match-hud">
+        <div class="moves-left"><small>ХОДЫ</small><b>${game.movesLeft}</b></div>
+        <div class="objectives">${level.objectives.map((objective, index) => this.objectiveMarkup(level, objective, game.objectiveValue(index), true)).join('')}</div>
+      </div>
+      ${this.matchBark ? `<div class="field-bark"><b>${escapeHtml(this.matchBark.speaker)}</b><span>${escapeHtml(this.matchBark.text)}</span></div>` : ''}
+      <div class="board" role="grid" aria-label="Поле 8 на 8">${game.board.map((cell, index) => {
+        const selected = this.selectedCell === index ? ' selected' : '';
+        const tile = cell.tile ? tilePresentation[cell.tile] : null;
+        const ingredient = cell.ingredient ? ingredientPresentation[cell.ingredient] : null;
+        const cellLabel = ingredient?.label ?? tile?.label ?? 'Пустая клетка';
+        return `<button class="board-cell${selected}" data-cell="${index}" role="gridcell" aria-label="${escapeHtml(cellLabel)}">
+          <span class="tile-socket"></span>
+          ${tile ? `<img class="tile" src="${tile.asset}" alt="">` : ''}
+          ${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="">` : ''}
+          ${cell.special ? `<img class="special ${cell.special}" src="${specialAsset}" alt="">` : ''}
+          ${cell.blockerLayers > 0 ? `<span class="blocker"><img src="${blocker.asset}" alt=""><b>${cell.blockerLayers}</b></span>` : ''}
+        </button>`;
+      }).join('')}</div>
+      <p class="match-hint">Нажми на фишку, затем на соседнюю. Совпадения рядом снимают слой препятствия.</p>
+    </section>`);
+
+    this.root.querySelector('#quit')?.addEventListener('click', () => {
+      this.activeMatch = null;
+      this.renderMatchIntro(this.activeLevelIndex);
+    });
+    this.root.querySelector('#dossier')?.addEventListener('click', () => this.renderDossier(() => this.renderMatch()));
+    this.root.querySelectorAll<HTMLElement>('[data-cell]').forEach((cell) => cell.addEventListener('click', () => this.handleCell(Number(cell.dataset.cell))));
+  }
+
+  private handleCell(index: number): void {
+    const game = this.activeMatch;
+    if (!game) return;
+    if (this.selectedCell === null) {
+      this.selectedCell = index;
+      this.renderMatch();
+      return;
+    }
+    if (this.selectedCell === index) {
+      this.selectedCell = null;
+      this.renderMatch();
+      return;
+    }
+
+    const first = this.selectedCell;
+    this.selectedCell = null;
+    const result = game.attemptSwap(first, index);
+    if (!result.valid) {
+      if (result.reason === 'not-adjacent') this.selectedCell = index;
+      else if (result.reason === 'ingredient') this.matchBark = { speaker: 'Мику', text: 'Сюжетный объект нужно опустить вниз совпадениями под ним.' };
+      else if (result.reason === 'blocked') this.matchBark = { speaker: 'Оноэ', text: 'Эта секция заперта. Сначала соберём совпадение рядом.' };
+      else if (result.reason === 'no-match') this.matchBark = { speaker: 'Оноэ', text: 'Этот обмен не образует ряд. Проверим соседние категории.' };
+      this.renderMatch();
+      return;
+    }
+
+    this.updateBark(result);
+    if (result.won) {
+      this.completeLevel();
+      return;
+    }
+    if (result.lost) {
+      this.renderLoss();
+      return;
+    }
+    this.renderMatch();
+  }
+
+  private updateBark(result: MoveResult): void {
+    const game = this.activeMatch!;
+    const index = this.activeLevelIndex;
+    const progress = game.progress;
+    const moveNumber = game.level.moves - game.movesLeft;
+
+    if (game.movesLeft === 5 && !this.triggeredBarks.has('fiveMoves')) {
+      this.triggeredBarks.add('fiveMoves');
+      const texts: Bark[] = [
+        { speaker: 'Мику', text: 'Ещё немного. Нам нужна связь с прачечной.' },
+        { speaker: 'Кэнтаро', text: 'Если вы её снова потеряете, это будет уже коллективное алиби.' },
+        { speaker: 'Мику', text: 'Нужен шкаф. Там журнал возврата.' },
+        { speaker: 'Оноэ', text: 'Нужны оба объекта. Без чека версия не закрыта.' },
+      ];
+      this.matchBark = texts[index];
+      return;
+    }
+    if (result.specialsCreated > 0 && !this.triggeredBarks.has('special')) {
+      this.triggeredBarks.add('special');
+      this.matchBark = { speaker: 'Мику', text: 'Если посмотреть на всё сразу, беспорядок превращается в узор.' };
+      return;
+    }
+    const blockerThresholds = [3, 1, 6, 4];
+    if (progress.blockersCleared >= blockerThresholds[index] && !this.triggeredBarks.has('blockers')) {
+      this.triggeredBarks.add('blockers');
+      const texts: Bark[] = [
+        { speaker: 'Аюки', text: 'Улика U-1 освобождена. Нет, я не дала ей имя.' },
+        { speaker: 'Оноэ', text: 'Упаковка плотная. Один удар откроет, второй освободит содержимое.' },
+        { speaker: 'Мику', text: 'Под пеной вещи из разных секций. Их смешали ещё до шкафчиков.' },
+        { speaker: 'Аюки', text: 'Ни тайника, ни сообщницы. У этой квартиры нет чувства драмы.' },
+      ];
+      this.matchBark = texts[index];
+      return;
+    }
+    if (moveNumber === 1 && !this.triggeredBarks.has('ingredient')) {
+      this.triggeredBarks.add('ingredient');
+      const texts: Bark[] = [
+        { speaker: 'Оноэ', text: 'Документ в верхней секции. Освободи путь к нижнему краю.' },
+        { speaker: 'Аюки', text: 'Маленькая чёрная карта, огромный шанс на драму.' },
+        { speaker: 'Аюки', text: 'Ключ всплыл. Метафорически. Буквально он движется вниз.' },
+        { speaker: 'Мику', text: 'Ищем оба документа: чек и полотенце с изменённым краем.' },
+      ];
+      this.matchBark = texts[index];
+      return;
+    }
+    if (result.cascades >= 2) this.matchBark = { speaker: 'Аюки', text: `Цепочка наблюдений: ${result.cascades}. Это уже почти дедукция.` };
+  }
+
+  private completeLevel(): void {
+    const levelIndex = this.activeLevelIndex;
+    const level = levels[levelIndex];
+    if (!this.save.completed.includes(levelIndex)) this.save.completed.push(levelIndex);
+    if (!this.save.clues.includes(level.clueId)) this.save.clues.push(level.clueId);
+    this.pendingClue = level.clueId;
+    this.activeMatch = null;
+    this.save.scene = postSceneForLevel(levelIndex);
+    this.save.line = 0;
+    this.story = getScene(this.save.scene, this.save.choice);
+    this.persist();
+    this.renderEvidenceTransition(level);
+  }
+
+  private renderEvidenceTransition(level: LevelDefinition): void {
+    const clue = cluePresentation[level.clueId];
+    this.shell(`<section class="evidence-transition">
+      <img class="evidence-background" src="${backgroundAssets[level.background]}" alt="">
+      <div class="evidence-panel">
+        <p class="eyebrow">УЛИКА НАЙДЕНА</p>
+        <img src="${clue.asset}" alt="${escapeHtml(clue.label)}">
+        <h2>${escapeHtml(level.clueTitle)}</h2>
+        <p><b>${escapeHtml(level.winBark.speaker)}:</b> ${escapeHtml(level.winBark.text)}</p>
+        <button id="continue-story" class="primary">Продолжить сцену</button>
+      </div>
+    </section>`);
+    const continueStory = (): void => this.renderVN();
+    this.root.querySelector('#continue-story')?.addEventListener('click', continueStory);
+    this.timers.push(window.setTimeout(continueStory, 1800));
+  }
+
+  private renderLoss(): void {
+    const level = levels[this.activeLevelIndex];
+    this.activeMatch = null;
+    this.shell(`<section class="result-screen loss">
+      <div class="result-mark">↻</div>
+      <p class="eyebrow">ХОДЫ ЗАКОНЧИЛИСЬ</p>
+      <h2>Версия требует повторной проверки</h2>
+      <blockquote><b>${escapeHtml(level.loseBark.speaker)}</b>${escapeHtml(level.loseBark.text)}</blockquote>
+      <button class="primary" id="retry">Повторить уровень</button>
+      <button id="back">Вернуться к сцене</button>
+    </section>`);
+    this.root.querySelector('#retry')?.addEventListener('click', () => this.startMatch(this.activeLevelIndex));
+    this.root.querySelector('#back')?.addEventListener('click', () => this.renderMatchIntro(this.activeLevelIndex));
+  }
+
+  private objectiveMarkup(level: LevelDefinition, objective: LevelDefinition['objectives'][number], value: number, showProgress: boolean): string {
+    let asset: string;
+    if (objective.kind === 'collect') asset = tilePresentation[objective.tile].asset;
+    else if (objective.kind === 'drop') asset = ingredientPresentation[objective.ingredient].asset;
+    else asset = blockerPresentation[level.blocker].asset;
+    const current = Math.min(value, objective.target);
+    return `<div class="objective ${showProgress && current >= objective.target ? 'done' : ''}">
+      <img src="${asset}" alt=""><span>${escapeHtml(objective.label)}</span>
+      <b>${showProgress ? `${current}/` : ''}${objective.target}</b>
+    </div>`;
+  }
+
+  private clueToastMarkup(clueId: ClueId): string {
+    const level = levels.find((candidate) => candidate.clueId === clueId)!;
+    const clue = cluePresentation[clueId];
+    return `<div class="clue-toast"><img src="${clue.asset}" alt=""><span><small>ДОСЬЕ ОБНОВЛЕНО</small><b>${escapeHtml(level.clueTitle)}</b></span></div>`;
+  }
+
+  private renderDossier(back: () => void): void {
+    const kentaroCleared = this.save.completed.includes(1);
+    const norihiroCleared = this.save.completed.includes(3);
+    this.shell(`<section class="panel dossier">
+      <button id="back" class="icon-text back">${icon('back')} Назад</button>
+      <p class="eyebrow">ДЕЛО 001</p><h2>Серийные пропажи</h2>
+      <div class="tabs"><b>Улики</b><span>Версии</span><span>Хронология</span></div>
+      <div class="clue-grid">${levels.map((level, index) => {
+        const unlocked = this.save.clues.includes(level.clueId);
+        const clue = cluePresentation[level.clueId];
+        return `<article class="clue-card ${unlocked ? '' : 'locked'}">
+          <div>${unlocked ? `<img src="${clue.asset}" alt="">` : '<span>?</span>'}</div>
+          <small>УЛИКА 0${index + 1}</small>
+          <b>${unlocked ? escapeHtml(level.clueTitle) : 'Не открыта'}</b>
+          <p>${unlocked ? escapeHtml(level.clueSummary) : 'Победите в соответствующем расследовании.'}</p>
+        </article>`;
+      }).join('')}</div>
+      <h3>Проверяемые версии</h3>
+      <div class="suspects">
+        <article class="${kentaroCleared ? 'cleared' : ''}"><i>К</i><span><b>Кэнтаро</b><small>${kentaroCleared ? 'ОПРАВДАН ТАЙМКОДАМИ' : 'АКТИВНАЯ ВЕРСИЯ'}</small></span></article>
+        <article class="${norihiroCleared ? 'cleared' : ''}"><i>Н</i><span><b>Норихиро</b><small>${norihiroCleared ? 'ВЕРСИЯ ЗАКРЫТА' : 'ОЖИДАЕТ ПРОВЕРКИ'}</small></span></article>
+      </div>
+      <button id="reset" class="danger-link">Сбросить прогресс</button>
+    </section>`);
+    this.root.querySelector('#back')?.addEventListener('click', back);
+    this.root.querySelector('#reset')?.addEventListener('click', () => {
+      this.save = this.store.reset();
+      this.renderMenu();
+    });
+  }
+
+  private renderEnding(): void {
+    this.save.scene = sceneMeta.length - 1;
+    this.save.line = this.story.length;
+    this.persist();
+    this.shell(`<section class="ending-screen">
+      <img class="ending-background" src="${backgroundAssets.norihiroApartment}" alt="">
+      <div class="ending-panel">
+        <img class="thread-clue" src="${cluePresentation.CUE_004.asset}" alt="Проводящий шов">
+        <p class="eyebrow">КОНЕЦ ВЕРТИКАЛЬНОГО СРЕЗА</p>
+        <h1>Это не ткань.</h1>
+        <p>Под сервисной биркой спрятана проводящая серебристая нить. След ведёт в центральную прачечную.</p>
+        <div class="summary">Выбор: <b>${escapeHtml(choices[this.save.choice].title)}</b><br>Найдено улик: <b>${this.save.clues.length}/4</b></div>
+        <button class="primary" id="menu">В главное меню</button>
+        <button id="replay">Начать заново</button>
+      </div>
+    </section>`);
+    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelector('#replay')?.addEventListener('click', () => {
+      this.save = freshSave();
+      this.persist();
+      this.openScene(0, 0);
+    });
   }
 }
