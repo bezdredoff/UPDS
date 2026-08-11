@@ -1,4 +1,4 @@
-import { backgroundAssets, choices, getScene, sceneMeta } from '../../data/narrative';
+import { backgroundAssets, getScene, sceneMeta } from '../../data/narrative';
 import { cluePresentation } from '../../data/levels';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
@@ -7,6 +7,7 @@ import type { AppShell } from '../../app/AppShell';
 import { escapeHtml, headerActionMarkup } from '../../ui/viewMarkup';
 
 export class EndingController {
+  private t(key: string, params?: Readonly<Record<string, string | number>>): string { return this.services.localization.t(key, params); }
   private verticalSliceCompletionTracked = false;
 
   constructor(
@@ -30,19 +31,19 @@ export class EndingController {
     this.shell.render(`<section class="ending-screen">
       <img class="ending-background" src="${backgroundAssets.norihiroApartment}" alt="">
       <header class="app-header ending-topbar">
-        <div class="app-header-title"><small>CASE 001</small><b>Глава завершена</b></div>
-        <nav class="app-header-actions" aria-label="Навигация">
-          ${headerActionMarkup('header-settings', 'settings', 'Настройки')}
+        <div class="app-header-title"><small>${escapeHtml(this.t('ending.case'))}</small><b>${escapeHtml(this.t('ending.chapterComplete'))}</b></div>
+        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('common.navigation'))}">
+          ${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
         </nav>
       </header>
       <div class="ending-panel">
-        <img class="thread-clue" src="${cluePresentation.CUE_004.asset}" alt="Проводящий шов">
-        <p class="eyebrow">КОНЕЦ ВЕРТИКАЛЬНОГО СРЕЗА</p>
-        <h1>Первая нить найдена.</h1>
-        <p>Глава завершена на VN0249. Серебристо-бирюзовая проводящая нить выводит расследование за пределы бытовой кражи.</p>
-        <div class="summary">Выбор: <b>${escapeHtml(choices[this.session.save.choice].title)}</b><br>Найдено улик: <b>${this.session.save.clues.length}/4</b></div>
-        <button class="primary" id="menu-primary">В главное меню</button>
-        <button id="replay">Начать заново</button>
+        <img class="thread-clue" src="${cluePresentation.CUE_004.asset}" alt="${escapeHtml(this.t('ending.clueAlt'))}">
+        <p class="eyebrow">${escapeHtml(this.t('ending.eyebrow'))}</p>
+        <h1>${escapeHtml(this.t('ending.heading'))}</h1>
+        <p>${escapeHtml(this.t('ending.copy'))}</p>
+        <div class="summary">${escapeHtml(this.t('ending.choice'))}: <b>${escapeHtml(this.t(`vn.choice.${this.session.save.choice}.title`))}</b><br>${escapeHtml(this.t('ending.cluesFound'))}: <b>${this.session.save.clues.length}/4</b></div>
+        <button class="primary" id="menu-primary">${escapeHtml(this.t('ending.mainMenu'))}</button>
+        <button id="replay">${escapeHtml(this.t('ending.replay'))}</button>
       </div>
     </section>`);
     this.root.querySelector('#menu-primary')?.addEventListener('click', () => this.navigation.showMenu());

@@ -1,4 +1,4 @@
-# UPDS — актуальный roadmap после ANM-019D
+# UPDS — актуальный roadmap после ANM-019E1
 
 ## Completed foundation
 
@@ -18,7 +18,7 @@
 
 ### ANM-019 — Localization foundation
 
-Localization core, ru/en Main Menu + Settings, and VN metadata/choices/chrome are complete. Screenplay runtime localization and an English prologue slice are complete. Next: expand translated screenplay coverage, then Match-3/dossier/ending. Russian remains the source/fallback locale while features migrate.
+Localization core, ru/en Main Menu + Settings, and VN metadata/choices/chrome are complete. Screenplay runtime localization and an English prologue slice are complete. Dossier and ending localization are complete. Next: Match-3 presentation/runtime localization, then expand translated screenplay coverage. Russian remains the source/fallback locale while features migrate.
 
 ### Production character completion
 
