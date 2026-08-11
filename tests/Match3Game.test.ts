@@ -30,11 +30,30 @@ describe('Match3Game', () => {
         madeMove = true;
         expect(result.cascades).toBeGreaterThan(0);
         expect(result.cleared).toBeGreaterThanOrEqual(3);
+        expect(result.frames[0]?.phase).toBe('swap');
+        expect(result.frames.some((frame) => frame.phase === 'clear')).toBe(true);
+        expect(result.frames.some((frame) => frame.phase === 'settle')).toBe(true);
+        expect(result.frames.every((frame) => frame.board.length === 64)).toBe(true);
         expect(game.movesLeft).toBe(level.moves - 1);
         break;
       }
     }
     expect(madeMove).toBe(true);
+  });
+
+
+  it.each(levels.map((level, index) => [index, level] as const))('returns an objective-aware hint without mutating level %i', (_index, level) => {
+    const game = new Match3Game(level, level.seed + 31337);
+    const beforeBoard = game.board.map((cell) => ({ ...cell }));
+    const beforeMoves = game.movesLeft;
+
+    const hint = game.getHintMove();
+
+    expect(hint).not.toBeNull();
+    expect(game.board.map((cell) => ({ ...cell }))).toEqual(beforeBoard);
+    expect(game.movesLeft).toBe(beforeMoves);
+    const result = game.attemptSwap(hint!.first, hint!.second);
+    expect(result.valid).toBe(true);
   });
 
   it('does not spend a move on an invalid swap', () => {

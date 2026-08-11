@@ -33,6 +33,19 @@ export type MatchGroup = Readonly<{
   indices: readonly number[];
 }>;
 
+export type Match3Frame = Readonly<{
+  phase: 'swap' | 'clear' | 'settle' | 'reshuffle';
+  cascade: number;
+  board: readonly BoardCell[];
+  specialsActivated: number;
+}>;
+
+export type HintMove = Readonly<{
+  first: number;
+  second: number;
+  score: number;
+}>;
+
 export type MoveResult = Readonly<{
   valid: boolean;
   reason?: 'same-cell' | 'not-adjacent' | 'ingredient' | 'blocked' | 'no-match' | 'finished';
@@ -41,6 +54,8 @@ export type MoveResult = Readonly<{
   specialsCreated: number;
   blockersCleared: number;
   ingredientsDropped: number;
+  reshuffled: boolean;
+  frames: readonly Match3Frame[];
   won: boolean;
   lost: boolean;
 }>;
@@ -76,6 +91,8 @@ const emptyMoveResult = (reason: MoveResult['reason'], won: boolean, lost: boole
   specialsCreated: 0,
   blockersCleared: 0,
   ingredientsDropped: 0,
+  reshuffled: false,
+  frames: [],
   won,
   lost,
 });
@@ -158,16 +175,63 @@ export class Match3Game {
       return emptyMoveResult('no-match', this.won, this.lost);
     }
 
+    const frames: Match3Frame[] = [{
+      phase: 'swap',
+      cascade: 0,
+      board: this.snapshotBoard(),
+      specialsActivated: activatedSpecials.length,
+    }];
+
     this.movesLeft -= 1;
-    const totals = this.resolve(groups, activatedSpecials, second);
-    if (!this.won && !this.lost && !this.hasAvailableMove()) this.shuffle();
+    const totals = this.resolve(groups, activatedSpecials, second, frames);
+    let reshuffled = false;
+    if (!this.won && !this.lost && !this.hasAvailableMove()) {
+      this.shuffle();
+      reshuffled = true;
+      frames.push({
+        phase: 'reshuffle',
+        cascade: totals.cascades,
+        board: this.snapshotBoard(),
+        specialsActivated: 0,
+      });
+    }
 
     return {
       valid: true,
       ...totals,
+      reshuffled,
+      frames,
       won: this.won,
       lost: this.lost,
     };
+  }
+
+  getHintMove(): HintMove | null {
+    let best: HintMove | null = null;
+
+    for (let index = 0; index < this.cells.length; index += 1) {
+      for (const candidate of [index + 1, index + BOARD_SIZE]) {
+        if (candidate >= this.cells.length || !this.areAdjacent(index, candidate)) continue;
+        if (!this.cells[index].tile || !this.cells[candidate].tile) continue;
+        if (this.isLockedCell(index) || this.isLockedCell(candidate)) continue;
+
+        this.swapContents(index, candidate);
+        const activatedSpecials = [index, candidate].filter((cellIndex) => this.cells[cellIndex].special !== null);
+        const groups = this.findMatchGroups();
+        if (groups.length > 0 || activatedSpecials.length > 0) {
+          const score = this.scorePotentialMove(groups, activatedSpecials);
+          const move = { first: index, second: candidate, score };
+          if (
+            !best
+            || move.score > best.score
+            || (move.score === best.score && (move.first < best.first || (move.first === best.first && move.second < best.second)))
+          ) best = move;
+        }
+        this.swapContents(index, candidate);
+      }
+    }
+
+    return best;
   }
 
   findMatchGroups(): MatchGroup[] {
@@ -239,7 +303,12 @@ export class Match3Game {
     }
   }
 
-  private resolve(initialGroups: readonly MatchGroup[], activatedSpecials: readonly number[], preferredSpecialCell: number): ResolutionTotals {
+  private resolve(
+    initialGroups: readonly MatchGroup[],
+    activatedSpecials: readonly number[],
+    preferredSpecialCell: number,
+    frames: Match3Frame[],
+  ): ResolutionTotals {
     const totals: ResolutionTotals = { cleared: 0, cascades: 0, specialsCreated: 0, blockersCleared: 0, ingredientsDropped: 0 };
     let groups = [...initialGroups];
     let specialActivations = [...activatedSpecials];
@@ -263,6 +332,7 @@ export class Match3Game {
         if (!specialActivations.includes(creation)) clear.delete(creation);
       }
 
+      const activatedCount = specialActivations.length;
       const clearedThisCascade = this.clearTiles(clear);
       totals.cleared += clearedThisCascade;
       totals.blockersCleared += this.damageBlockers(clear);
@@ -274,12 +344,77 @@ export class Match3Game {
         totals.specialsCreated += 1;
       }
 
+      frames.push({
+        phase: 'clear',
+        cascade: totals.cascades,
+        board: this.snapshotBoard(),
+        specialsActivated: activatedCount,
+      });
+
       totals.ingredientsDropped += this.settleBoard();
+      frames.push({
+        phase: 'settle',
+        cascade: totals.cascades,
+        board: this.snapshotBoard(),
+        specialsActivated: 0,
+      });
       groups = this.findMatchGroups();
       specialActivations = [];
     }
 
     return totals;
+  }
+
+  private snapshotBoard(): readonly BoardCell[] {
+    return this.cells.map((cell) => ({ ...cell }));
+  }
+
+  private scorePotentialMove(groups: readonly MatchGroup[], activatedSpecials: readonly number[]): number {
+    const matched = new Set(groups.flatMap((group) => [...group.indices]));
+    let score = 100 + matched.size * 4 + activatedSpecials.length * 90;
+
+    for (const group of groups) {
+      if (group.indices.length >= 4) score += 24 + (group.indices.length - 4) * 8;
+    }
+
+    for (const objective of this.level.objectives) {
+      if (objective.kind === 'collect') {
+        const remaining = Math.max(0, objective.target - (this.collected[objective.tile] ?? 0));
+        if (remaining <= 0) continue;
+        const useful = [...matched].filter((index) => this.cells[index].tile === objective.tile).length;
+        score += useful * 36;
+        continue;
+      }
+
+      if (objective.kind === 'clearBlockers') {
+        const usefulBlockers = new Set<number>();
+        for (const index of matched) {
+          const row = rowOf(index);
+          const column = colOf(index);
+          for (const neighbour of [index, index - 1, index + 1, index - BOARD_SIZE, index + BOARD_SIZE]) {
+            if (neighbour < 0 || neighbour >= this.cells.length) continue;
+            const neighbourRow = rowOf(neighbour);
+            const neighbourColumn = colOf(neighbour);
+            if (Math.abs(neighbourRow - row) + Math.abs(neighbourColumn - column) > 1) continue;
+            if (this.cells[neighbour].blockerLayers > 0) usefulBlockers.add(neighbour);
+          }
+        }
+        score += usefulBlockers.size * 30;
+        continue;
+      }
+
+      const remaining = Math.max(0, objective.target - (this.ingredientsDropped[objective.ingredient] ?? 0));
+      if (remaining <= 0) continue;
+      for (let ingredientIndex = 0; ingredientIndex < this.cells.length; ingredientIndex += 1) {
+        if (this.cells[ingredientIndex].ingredient !== objective.ingredient) continue;
+        const ingredientColumn = colOf(ingredientIndex);
+        const ingredientRow = rowOf(ingredientIndex);
+        const clearsBelow = [...matched].some((index) => colOf(index) === ingredientColumn && rowOf(index) > ingredientRow);
+        if (clearsBelow) score += 34;
+      }
+    }
+
+    return score;
   }
 
   private expandSpecialEffects(clear: Set<number>): void {

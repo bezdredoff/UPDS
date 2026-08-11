@@ -38,7 +38,7 @@ import {
   postSceneForLevel,
   type CampaignSave,
 } from '../engine/CampaignStore';
-import { Match3Game, type MoveResult } from '../engine/Match3Game';
+import { Match3Game, type BoardCell, type Match3Frame, type MoveResult } from '../engine/Match3Game';
 import { preloadImageAssets } from '../platform/AssetPreloader';
 import { createDiagnosticsSnapshot } from '../platform/Diagnostics';
 import { downloadJson } from '../platform/Download';
@@ -72,6 +72,7 @@ export class AnimeDetectiveApp {
   private matchInputLocked = false;
   private activePointer: { id: number; startIndex: number; startX: number; startY: number } | null = null;
   private suppressBoardClickUntil = 0;
+  private hintedCells = new Set<number>();
   private autoMode = false;
   private autoSpeed: AutoSpeed = 'normal';
   private textScale: TextScale = 'normal';
@@ -559,9 +560,35 @@ export class AnimeDetectiveApp {
     this.selectedCell = null;
     this.matchInputLocked = false;
     this.activePointer = null;
+    this.hintedCells.clear();
     this.triggeredBarks = new Set(['start']);
     this.matchBark = level.startBark;
     this.renderMatch();
+  }
+
+  private boardCellsMarkup(board: readonly BoardCell[], blockerAsset: string): string {
+    return board.map((cell, index) => {
+      const selected = this.selectedCell === index ? ' selected' : '';
+      const hinted = this.hintedCells.has(index) ? ' hinted' : '';
+      const tile = cell.tile ? tilePresentation[cell.tile] : null;
+      const ingredient = cell.ingredient ? ingredientPresentation[cell.ingredient] : null;
+      const cellLabel = ingredient?.label ?? tile?.label ?? 'Пустая клетка';
+      return `<button class="board-cell${selected}${hinted}" data-cell="${index}" role="gridcell" aria-label="${escapeHtml(cellLabel)}">
+        <span class="tile-socket"></span>
+        ${tile ? `<img class="tile" src="${tile.asset}" alt="">` : ''}
+        ${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="">` : ''}
+        ${cell.special ? `<img class="special ${cell.special}" src="${specialAsset}" alt="">` : ''}
+        ${cell.blockerLayers > 0 ? `<span class="blocker"><img src="${blockerAsset}" alt=""><b>${cell.blockerLayers}</b></span>` : ''}
+      </button>`;
+    }).join('');
+  }
+
+  private barkMedallion(): string {
+    const speaker = this.matchBark?.speaker ?? '';
+    if (speaker.includes('Мику')) return characterRigs.miku.medallion;
+    if (speaker.includes('Оноэ')) return characterRigs.onoe.medallion;
+    if (speaker.includes('Аюки')) return characterRigs.ayuki.medallion;
+    return characterRigs.miku.medallion;
   }
 
   private renderMatch(): void {
@@ -578,33 +605,137 @@ export class AnimeDetectiveApp {
         <div><small>${escapeHtml(level.shortId)}</small><b>${escapeHtml(level.title)}</b></div>
         <button id="dossier" class="dossier-button">${icon('dossier')}<i>${this.save.clues.length}</i></button>
       </header>
-      <div class="match-hud">
-        <div class="moves-left"><small>ХОДЫ</small><b>${game.movesLeft}</b></div>
-        <div class="objectives">${level.objectives.map((objective, index) => this.objectiveMarkup(level, objective, game.objectiveValue(index), true)).join('')}</div>
+
+      <div class="match-case-hud">
+        <section class="objective-board" aria-label="Цели расследования">
+          <span class="case-tab">ЦЕЛЬ</span>
+          <div class="objectives">${level.objectives.map((objective, index) => this.objectiveMarkup(level, objective, game.objectiveValue(index), true)).join('')}</div>
+        </section>
+        <section class="stage-board" aria-label="Ходы и этап">
+          <span class="case-tab">ХОДЫ</span>
+          <div class="moves-left"><b>${game.movesLeft}</b></div>
+          <div class="stage-meta"><small>ЭТАП ${this.activeLevelIndex + 1}/4</small><b>${escapeHtml(level.shortId)}</b></div>
+        </section>
       </div>
-      ${this.matchBark ? `<div class="field-bark"><b>${escapeHtml(this.matchBark.speaker)}</b><span>${escapeHtml(this.matchBark.text)}</span></div>` : ''}
-      <div class="board" role="grid" aria-label="Поле 8 на 8">${game.board.map((cell, index) => {
-        const selected = this.selectedCell === index ? ' selected' : '';
-        const tile = cell.tile ? tilePresentation[cell.tile] : null;
-        const ingredient = cell.ingredient ? ingredientPresentation[cell.ingredient] : null;
-        const cellLabel = ingredient?.label ?? tile?.label ?? 'Пустая клетка';
-        return `<button class="board-cell${selected}" data-cell="${index}" role="gridcell" aria-label="${escapeHtml(cellLabel)}">
-          <span class="tile-socket"></span>
-          ${tile ? `<img class="tile" src="${tile.asset}" alt="">` : ''}
-          ${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="">` : ''}
-          ${cell.special ? `<img class="special ${cell.special}" src="${specialAsset}" alt="">` : ''}
-          ${cell.blockerLayers > 0 ? `<span class="blocker"><img src="${blocker.asset}" alt=""><b>${cell.blockerLayers}</b></span>` : ''}
-        </button>`;
-      }).join('')}</div>
-      <p class="match-hint">Свайпни фишку в сторону обмена или нажми на две соседние. Поле не прокручивает страницу.</p>
+
+      ${this.matchBark ? `<div class="field-bark"><img src="${this.barkMedallion()}" alt=""><div><b>${escapeHtml(this.matchBark.speaker)}</b><span>${escapeHtml(this.matchBark.text)}</span></div></div>` : ''}
+      <div id="match-feedback" class="match-feedback" aria-live="polite"></div>
+      <div class="board" role="grid" aria-label="Поле 8 на 8">${this.boardCellsMarkup(game.board, blocker.asset)}</div>
+
+      <div class="match-tooltray">
+        <div class="detective-strip" aria-label="Команда расследования">
+          ${(['miku', 'onoe', 'ayuki'] as const).map((key) => `<span><img src="${characterRigs[key].medallion}" alt="${characterRigs[key].displayName}"><b>${escapeHtml(characterRigs[key].displayName)}</b></span>`).join('')}
+        </div>
+        <button id="hint" class="hint-button">
+          <img src="${specialAsset}" alt=""><span><b>ПОДСКАЗКА</b><small>Лучший ход</small></span>
+        </button>
+      </div>
+      <p class="match-hint">Свайп или две соседние фишки · подсказка учитывает текущие цели.</p>
     </section>`);
 
     this.root.querySelector('#quit')?.addEventListener('click', () => {
+      if (this.matchInputLocked) return;
       this.activeMatch = null;
       this.renderMatchIntro(this.activeLevelIndex);
     });
-    this.root.querySelector('#dossier')?.addEventListener('click', () => this.renderDossier(() => this.renderMatch()));
+    this.root.querySelector('#dossier')?.addEventListener('click', () => {
+      if (this.matchInputLocked) return;
+      this.renderDossier(() => this.renderMatch());
+    });
+    this.root.querySelector('#hint')?.addEventListener('click', () => this.showObjectiveHint());
     this.installBoardInput();
+  }
+
+  private showObjectiveHint(): void {
+    const game = this.activeMatch;
+    if (!game || this.matchInputLocked) return;
+    const hint = game.getHintMove();
+    this.selectedCell = null;
+    this.hintedCells.clear();
+    if (!hint) {
+      this.matchBark = { speaker: 'Оноэ', text: 'Поле не даёт корректного обмена. Нужна перестановка.' };
+      this.renderMatch();
+      return;
+    }
+    this.hintedCells.add(hint.first);
+    this.hintedCells.add(hint.second);
+    this.matchBark = { speaker: 'Мику', text: 'Этот обмен лучше всего продвигает текущие цели расследования.' };
+    this.renderMatch();
+  }
+
+  private prefersReducedMatchMotion(): boolean {
+    return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  }
+
+  private matchDelay(milliseconds: number): Promise<void> {
+    if (this.prefersReducedMatchMotion()) return Promise.resolve();
+    return new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+  }
+
+  private setMatchFeedback(text: string, kind = ''): void {
+    const feedback = this.root.querySelector<HTMLElement>('#match-feedback');
+    if (!feedback) return;
+    feedback.className = `match-feedback${kind ? ` ${kind}` : ''}${text ? ' visible' : ''}`;
+    feedback.textContent = text;
+  }
+
+  private renderMatchFrame(frame: Match3Frame): void {
+    const game = this.activeMatch;
+    const board = this.root.querySelector<HTMLElement>('.board');
+    if (!game || !board) return;
+    const blocker = blockerPresentation[game.level.blocker];
+    board.innerHTML = this.boardCellsMarkup(frame.board, blocker.asset);
+    board.className = `board phase-${frame.phase}`;
+    if (frame.phase === 'clear') {
+      if (frame.specialsActivated > 0) this.setMatchFeedback('НАБЛЮДЕНИЕ!', 'special-feedback');
+      else if (frame.cascade >= 2) this.setMatchFeedback(`ЦЕПОЧКА ×${frame.cascade}`, 'combo-feedback');
+      else this.setMatchFeedback('СОВПАДЕНИЕ', 'match-feedback-good');
+    } else if (frame.phase === 'reshuffle') {
+      this.setMatchFeedback('ПОЛЕ ПЕРЕМЕШАНО', 'reshuffle-feedback');
+    } else {
+      this.setMatchFeedback('');
+    }
+  }
+
+  private async playMoveFrames(result: MoveResult, first: number, second: number): Promise<void> {
+    if (!result.valid) {
+      const cells = [first, second]
+        .map((index) => this.root.querySelector<HTMLElement>(`[data-cell="${index}"]`))
+        .filter((cell): cell is HTMLElement => Boolean(cell));
+      cells.forEach((cell) => cell.classList.add('swap-rejected'));
+      this.setMatchFeedback('НЕТ СОВПАДЕНИЯ', 'reject-feedback');
+      await this.matchDelay(220);
+      return;
+    }
+
+    if (this.prefersReducedMatchMotion()) return;
+
+    const beforeFirst = this.root.querySelector<HTMLElement>(`[data-cell="${first}"]`);
+    const beforeSecond = this.root.querySelector<HTMLElement>(`[data-cell="${second}"]`);
+    beforeFirst?.classList.add('swap-origin');
+    beforeSecond?.classList.add('swap-target');
+    await this.matchDelay(90);
+
+    for (const frame of result.frames) {
+      this.renderMatchFrame(frame);
+      const duration = frame.phase === 'swap' ? 120
+        : frame.phase === 'clear' ? 155
+          : frame.phase === 'settle' ? 170
+            : 320;
+      await this.matchDelay(duration);
+    }
+
+    if (result.cascades >= 2) {
+      this.setMatchFeedback(`ЦЕПОЧКА ×${result.cascades}`, 'combo-feedback');
+      await this.matchDelay(180);
+    }
+    if (result.won) {
+      this.setMatchFeedback('УЛИКА СОБРАНА', 'win-feedback');
+      await this.matchDelay(420);
+    } else if (result.lost) {
+      this.setMatchFeedback('ХОДЫ ЗАКОНЧИЛИСЬ', 'loss-feedback');
+      await this.matchDelay(360);
+    }
   }
 
   private installBoardInput(): void {
@@ -651,6 +782,7 @@ export class AnimeDetectiveApp {
 
       event.preventDefault();
       this.suppressBoardClickUntil = performance.now() + 500;
+      this.hintedCells.clear();
       if (swipe.targetIndex === null) {
         this.selectedCell = null;
         this.matchBark = { speaker: 'Мику', text: 'За краем поля обмена нет. Попробуем соседнюю клетку.' };
@@ -664,6 +796,7 @@ export class AnimeDetectiveApp {
   private handleCell(index: number): void {
     const game = this.activeMatch;
     if (!game || this.matchInputLocked) return;
+    this.hintedCells.clear();
     if (this.selectedCell === null) {
       this.selectedCell = index;
       this.renderMatch();
@@ -680,10 +813,11 @@ export class AnimeDetectiveApp {
     this.attemptMatchSwap(first, index, true);
   }
 
-  private attemptMatchSwap(first: number, second: number, selectSecondWhenNonAdjacent = false): void {
+  private async attemptMatchSwap(first: number, second: number, selectSecondWhenNonAdjacent = false): Promise<void> {
     const game = this.activeMatch;
     if (!game || this.matchInputLocked) return;
     this.matchInputLocked = true;
+    this.hintedCells.clear();
     try {
       const result = game.attemptSwap(first, second);
       if (!result.valid) {
@@ -691,11 +825,13 @@ export class AnimeDetectiveApp {
         else if (result.reason === 'ingredient') this.matchBark = { speaker: 'Мику', text: 'Сюжетный объект нужно опустить вниз совпадениями под ним.' };
         else if (result.reason === 'blocked') this.matchBark = { speaker: 'Оноэ', text: 'Эта секция заперта. Сначала соберём совпадение рядом.' };
         else if (result.reason === 'no-match') this.matchBark = { speaker: 'Оноэ', text: 'Этот обмен не образует ряд. Проверим соседние категории.' };
+        await this.playMoveFrames(result, first, second);
         this.renderMatch();
         return;
       }
 
       this.updateBark(result);
+      await this.playMoveFrames(result, first, second);
       if (result.won) {
         this.completeLevel();
         return;
