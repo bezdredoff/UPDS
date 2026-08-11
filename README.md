@@ -2,7 +2,7 @@
 
 Mobile-first visual novel × match-3 vertical slice.
 
-Current build: **ANM-013 · VN Pre-release UX + Golden Sample Alignment** (`0.13.0-anm013`).
+Current build: ANM-014 · Match-3 Pre-release UX + Feedback (`0.14.0-anm014`).
 
 ## Local
 
@@ -29,3 +29,7 @@ See [`docs/ANM012_MOBILE_UX_RU.md`](docs/ANM012_MOBILE_UX_RU.md).
 See [`docs/ANM013_VN_PRE_RELEASE_UX_RU.md`](docs/ANM013_VN_PRE_RELEASE_UX_RU.md).
 
 Protected project contracts remain unchanged: canon, stable VN line IDs, save key `seiran-detectives-anm009-v1`, approved art direction, and the `base + face overlay` production rig.
+
+## ANM-014 match-3 UX
+
+See `docs/ANM014_MATCH3_PRE_RELEASE_UX_RU.md`.

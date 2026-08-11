@@ -103,6 +103,9 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('tile_');
     expect(root.innerHTML).toContain('obstacle_locked_cell.png');
     expect(root.innerHTML).toContain('goal_receipt.png');
-    expect(root.innerHTML).toContain('Свайпни фишку');
+    expect(root.innerHTML).toContain('match-case-hud');
+    expect(root.innerHTML).toContain('detective-strip');
+    expect(root.innerHTML).toContain('ПОДСКАЗКА');
+    expect(root.innerHTML).toContain('подсказка учитывает текущие цели');
   });
 });
