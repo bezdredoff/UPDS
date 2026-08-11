@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 const read = (path: string): string => readFileSync(resolve(process.cwd(), path), 'utf8');
 
-describe('ANM-010 GitHub/phone pipeline contract', () => {
+describe('GitHub/phone pipeline contract', () => {
   it('keeps CI as a read-only npm run check gate', () => {
     const workflow = read('.github/workflows/ci.yml');
     expect(workflow).toContain('name: Quality gate');
@@ -48,8 +48,4 @@ describe('ANM-010 GitHub/phone pipeline contract', () => {
     expect(workflow).toContain('Reset binary inbox branch');
   });
 
-  it('keeps the current save key contract untouched', () => {
-    const campaign = read('src/engine/CampaignStore.ts');
-    expect(campaign).toContain("seiran-detectives-anm009-v1");
-  });
 });

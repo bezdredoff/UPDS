@@ -55,17 +55,9 @@ import {
 } from './vnDialoguePaging';
 import { createDialogueRenderedFit } from './dialogueMeasurement';
 import { autoDelayForLine, nextUnreadIndex, type AutoSpeed, type TextScale } from './vnPlayback';
+import { escapeHtml, headerActionMarkup, iconMarkup as icon, panelHeaderMarkup } from './viewMarkup';
 
 type Bark = Readonly<{ speaker: string; text: string }>;
-
-const escapeHtml = (value: string): string => value
-  .replace(/&/g, '&amp;')
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;')
-  .replace(/"/g, '&quot;')
-  .replace(/'/g, '&#039;');
-
-const icon = (name: string, alt = ''): string => `<img src="./assets/ui/icon_${name}.svg" alt="${escapeHtml(alt)}">`;
 
 export class AnimeDetectiveApp {
   private save: CampaignSave = freshSave();
@@ -153,19 +145,6 @@ export class AnimeDetectiveApp {
     scope.querySelector('[data-pwa-check]')?.addEventListener('click', async () => { await this.services.pwa.checkForUpdate(); rerender(); });
   }
 
-  private headerActionMarkup(id: string, iconName: string, label: string, badge?: number, extraClass = ''): string {
-    return `<button id="${id}" class="app-header-action${extraClass ? ` ${extraClass}` : ''}" aria-label="${escapeHtml(label)}" title="${escapeHtml(label)}">${icon(iconName)}${badge === undefined ? '' : `<i>${badge}</i>`}<span class="visually-hidden">${escapeHtml(label)}</span></button>`;
-  }
-
-  private panelHeaderMarkup(eyebrow: string, title: string, options: Readonly<{ settings?: boolean }> = { settings: true }): string {
-    return `<header class="panel-nav app-header">
-      ${this.headerActionMarkup('back', 'back', 'Назад', undefined, 'app-header-back')}
-      <div class="app-header-title"><small>${escapeHtml(eyebrow)}</small><b>${escapeHtml(title)}</b></div>
-      <nav class="app-header-actions" aria-label="Навигация">
-        ${options.settings ? this.headerActionMarkup('header-settings', 'settings', 'Настройки') : ''}
-      </nav>
-    </header>`;
-  }
 
   private returnToMainMenu(): void {
     if (this.activeMatch && typeof window.confirm === 'function' && !window.confirm('Выйти в главное меню? Текущая попытка match-3 будет потеряна.')) return;
@@ -243,7 +222,7 @@ export class AnimeDetectiveApp {
     const storageLabel = this.services.storage.mode === 'persistent' ? 'localStorage · persistent' : 'memory fallback · текущая вкладка';
 
     this.shell(`<section class="panel support-panel">
-      ${this.panelHeaderMarkup('PLATFORM · QA TOOLS', 'Диагностика')}
+      ${panelHeaderMarkup('PLATFORM · QA TOOLS', 'Диагностика')}
       <h2>Сохранения и диагностика</h2>
       <p class="panel-copy">Сервисные инструменты для мобильного плейтеста. Они не меняют канон, VN IDs или игровые правила.</p>
       ${status ? `<div class="support-status">${escapeHtml(status)}</div>` : ''}
@@ -259,7 +238,7 @@ export class AnimeDetectiveApp {
       ${this.pwaStatusMarkup()}
       <div class="support-actions">
         <button id="export-save">${icon('save')}<span><b>Экспорт сохранения</b><small>JSON для переноса или резервной копии</small></span></button>
-        <button id="import-save">${icon('load')}<span><b>Импорт сохранения</b><small>Совместимый ANM-009+ JSON</small></span></button>
+        <button id="import-save">${icon('load')}<span><b>Импорт сохранения</b><small>Совместимый UPDS save JSON</small></span></button>
         <input id="save-file" class="visually-hidden" type="file" accept="application/json,.json">
         <button id="export-diagnostics">${icon('log')}<span><b>Экспорт диагностики</b><small>Build, save, ошибки, assets, PWA и устройство</small></span></button>
         <button id="export-playtest">${icon('log')}<span><b>Экспорт playtest report</b><small>Summary + полный локальный журнал событий</small></span></button>
@@ -368,7 +347,7 @@ export class AnimeDetectiveApp {
   private renderSettings(back: () => void = () => this.renderMenu(), showMainMenu = false): void {
     this.services.telemetry.trackScreen('settings', this.activeMatch ? 'match' : 'system');
     this.shell(`<section class="panel settings-panel">
-      ${this.panelHeaderMarkup('CONFIG · SYSTEM', 'Настройки', { settings: false })}
+      ${panelHeaderMarkup('CONFIG · SYSTEM', 'Настройки', { settings: false })}
       <h2>Звук и отклик</h2>
       <p class="panel-copy">Музыка и SFX генерируются локально через Web Audio и не требуют загрузки аудиофайлов. Настройки сохраняются отдельно от игрового прогресса.</p>
       ${this.audioSettingsMarkup()}
@@ -387,7 +366,7 @@ export class AnimeDetectiveApp {
     this.services.audio.setScene('menu');
     this.services.telemetry.trackScreen('scene-select');
     this.shell(`<section class="panel scene-select">
-      ${this.panelHeaderMarkup('QA NAVIGATION', 'Сцены')}
+      ${panelHeaderMarkup('QA NAVIGATION', 'Сцены')}
       <h2>Выбор сцены</h2>
       <p class="panel-copy">Прямой переход предназначен для проверки контента и не открывает предыдущие улики автоматически.</p>
       <div class="scene-list">${sceneMeta.map((meta, index) => `
@@ -480,8 +459,8 @@ export class AnimeDetectiveApp {
           <i>${icon('dossier')}<em>${this.save.clues.length}</em></i>
         </button>
         <nav class="app-header-actions" aria-label="Навигация visual novel">
-          ${this.headerActionMarkup('history', 'log', 'История диалога')}
-          ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
+          ${headerActionMarkup('history', 'log', 'История диалога')}
+          ${headerActionMarkup('header-settings', 'settings', 'Настройки')}
         </nav>
       </header>
       <div class="stage ${staging ? `stage-${staging.side}` : 'stage-empty'}" data-stage-side="${staging?.side ?? 'none'}">
@@ -678,16 +657,16 @@ export class AnimeDetectiveApp {
     phone.querySelector('#vn-main-menu')?.addEventListener('click', () => this.returnToMainMenu());
     phone.querySelectorAll<HTMLElement>('[data-auto-speed]').forEach((button) => button.addEventListener('click', () => {
       this.autoSpeed = button.dataset.autoSpeed as AutoSpeed;
-      this.renderVnConfigOverlayFromScratch();
+      this.refreshVnConfigOverlay();
     }));
     phone.querySelectorAll<HTMLElement>('[data-text-scale]').forEach((button) => button.addEventListener('click', () => {
       this.textScale = button.dataset.textScale as TextScale;
-      this.renderVnConfigOverlayFromScratch();
+      this.refreshVnConfigOverlay();
     }));
-    this.bindAudioSettingsControls(phone, () => this.renderVnConfigOverlayFromScratch());
+    this.bindAudioSettingsControls(phone, () => this.refreshVnConfigOverlay());
   }
 
-  private renderVnConfigOverlayFromScratch(): void {
+  private refreshVnConfigOverlay(): void {
     this.root.querySelector('.vn-overlay')?.remove();
     this.renderVnConfigOverlay();
   }
@@ -811,7 +790,7 @@ export class AnimeDetectiveApp {
       <header class="app-header choice-topbar">
         <div class="app-header-title"><small>CASE 001 · CHOICE_00</small><b>Выбор версии</b></div>
         <nav class="app-header-actions" aria-label="Навигация">
-          ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
+          ${headerActionMarkup('header-settings', 'settings', 'Настройки')}
         </nav>
       </header>
       <div class="choice-panel">
@@ -869,11 +848,11 @@ export class AnimeDetectiveApp {
       <img class="level-intro-background" src="${backgroundAssets[level.background]}" alt="">
       <div class="level-intro-shade"></div>
       <header class="app-header match-topbar intro-topbar">
-        ${this.headerActionMarkup('back', 'back', 'Назад', undefined, 'app-header-back')}
+        ${headerActionMarkup('back', 'back', 'Назад', undefined, 'app-header-back')}
         <div class="app-header-title"><small>РАССЛЕДОВАНИЕ ${levelIndex + 1}/4</small><b>${escapeHtml(level.title)}</b></div>
         <nav class="app-header-actions" aria-label="Навигация расследования">
-          ${this.headerActionMarkup('dossier', 'dossier', 'Досье', this.save.clues.length)}
-          ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
+          ${headerActionMarkup('dossier', 'dossier', 'Досье', this.save.clues.length)}
+          ${headerActionMarkup('header-settings', 'settings', 'Настройки')}
         </nav>
       </header>
       <div class="level-card">
@@ -956,11 +935,11 @@ export class AnimeDetectiveApp {
       <img class="match-background" src="${backgroundAssets[level.background]}" alt="">
       <div class="match-shade"></div>
       <header class="app-header match-topbar">
-        ${this.headerActionMarkup('quit', 'back', 'Назад к расследованию', undefined, 'app-header-back')}
+        ${headerActionMarkup('quit', 'back', 'Назад к расследованию', undefined, 'app-header-back')}
         <div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>${escapeHtml(level.title)}</b></div>
         <nav class="app-header-actions" aria-label="Навигация расследования">
-          ${this.headerActionMarkup('dossier', 'dossier', 'Досье', this.save.clues.length)}
-          ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
+          ${headerActionMarkup('dossier', 'dossier', 'Досье', this.save.clues.length)}
+          ${headerActionMarkup('header-settings', 'settings', 'Настройки')}
         </nav>
       </header>
 
@@ -1421,10 +1400,10 @@ export class AnimeDetectiveApp {
     this.activeMatch = null;
     this.shell(`<section class="result-screen loss">
       <header class="app-header result-topbar">
-        ${this.headerActionMarkup('back', 'back', 'Назад к расследованию', undefined, 'app-header-back')}
+        ${headerActionMarkup('back', 'back', 'Назад к расследованию', undefined, 'app-header-back')}
         <div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>Результат</b></div>
         <nav class="app-header-actions" aria-label="Навигация">
-          ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
+          ${headerActionMarkup('header-settings', 'settings', 'Настройки')}
         </nav>
       </header>
       <div class="result-content">
@@ -1464,7 +1443,7 @@ export class AnimeDetectiveApp {
     const kentaroCleared = this.save.completed.includes(1);
     const norihiroCleared = this.save.completed.includes(3);
     this.shell(`<section class="panel dossier">
-      ${this.panelHeaderMarkup('ДЕЛО 001', 'Досье')}
+      ${panelHeaderMarkup('ДЕЛО 001', 'Досье')}
       <h2>Серийные пропажи</h2>
       <div class="tabs"><b>Улики</b><span>Версии</span><span>Хронология</span></div>
       <div class="clue-grid">${levels.map((level, index) => {
@@ -1507,7 +1486,7 @@ export class AnimeDetectiveApp {
       <header class="app-header ending-topbar">
         <div class="app-header-title"><small>CASE 001</small><b>Глава завершена</b></div>
         <nav class="app-header-actions" aria-label="Навигация">
-          ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
+          ${headerActionMarkup('header-settings', 'settings', 'Настройки')}
         </nav>
       </header>
       <div class="ending-panel">

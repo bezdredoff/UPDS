@@ -111,6 +111,6 @@ ANM-011 ZIP не изменяет `.github/workflows/*` или `scripts/validate
 3. Дождаться read-only validation + `npm run check`.
 4. Открыть автоматически созданный PR.
 5. Открыть Pages `/preview/` на iPhone.
-6. Выполнить manual QA save/diagnostics из README_ANM011.
+6. Выполнить актуальный manual regression из `docs/process/TESTING_RU.md`; исторический README_ANM011 хранится только в архиве.
 7. Нажать `Approve workflows to run` для независимого PR CI.
 8. Merge только после green Quality gate и ручной проверки preview.

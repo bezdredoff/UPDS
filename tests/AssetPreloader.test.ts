@@ -20,7 +20,7 @@ afterEach(() => {
   }
 });
 
-describe('AssetPreloader platform safety', () => {
+describe('asset preloader platform safety', () => {
   it('deduplicates asset URLs without changing their order', () => {
     expect(uniqueAssetList(['/a.png', '', '/b.png', '/a.png'])).toEqual(['/a.png', '/b.png']);
   });

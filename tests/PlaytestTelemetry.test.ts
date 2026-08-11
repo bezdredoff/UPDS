@@ -16,7 +16,7 @@ class MemoryStorage implements StorageLike {
   removeItem(key: string): void { this.values.delete(key); }
 }
 
-describe('ANM-017 local playtest telemetry', () => {
+describe('local playtest telemetry', () => {
   it('keeps telemetry separate from campaign save and exports summary plus raw events', () => {
     const storage = new MemoryStorage();
     const telemetry = new PlaytestTelemetry(storage);

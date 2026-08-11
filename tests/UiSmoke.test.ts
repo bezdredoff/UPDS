@@ -93,7 +93,7 @@ describe('AnimeDetectiveApp render smoke', () => {
     }
   });
 
-  it('renders ANM-015 player-facing audio controls without requiring browser audio support', () => {
+  it('renders player-facing audio controls without requiring browser audio support', () => {
     const { root, app } = create();
     app.mount();
     app.renderSettings();
@@ -105,7 +105,7 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('Проверить SFX');
   });
 
-  it('renders ANM-011 save and diagnostics tools', () => {
+  it('renders save and diagnostics tools', () => {
     const { root, app } = create();
     app.mount();
     app.renderSupport();

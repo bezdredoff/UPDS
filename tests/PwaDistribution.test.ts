@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 const read = (path: string): string => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 
-describe('ANM-017 PWA distribution contract', () => {
+describe('PWA distribution contract', () => {
   it('ships a relative-scope installable manifest for both stable root and /preview/', () => {
     const manifest = JSON.parse(read('public/manifest.webmanifest')) as Record<string, unknown>;
     expect(manifest.start_url).toBe('./');

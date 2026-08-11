@@ -13,7 +13,7 @@ class MemoryStorage implements StorageLike {
   removeItem(key: string): void { this.values.delete(key); }
 }
 
-describe('ANM-011 infrastructure hardening', () => {
+describe('platform infrastructure', () => {
   it('falls back to in-memory storage when the browser storage probe fails', () => {
     const handle = getSafeStorage(() => ({ getItem: () => null, setItem: () => { throw new Error('blocked'); }, removeItem: () => undefined }));
     expect(handle.mode).toBe('memory');

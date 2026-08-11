@@ -13,7 +13,7 @@ class MemoryStorage implements StorageLike {
   removeItem(key: string): void { this.values.delete(key); }
 }
 
-describe('ANM-015 audio and haptics foundation', () => {
+describe('audio and haptics foundation', () => {
   it('clamps and restores persisted settings safely', () => {
     expect(clampVolume(-2)).toBe(0);
     expect(clampVolume(2)).toBe(1);

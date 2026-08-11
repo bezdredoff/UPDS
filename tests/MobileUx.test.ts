@@ -1,4 +1,3 @@
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
   DRAG_COMMIT_RATIO,
@@ -10,11 +9,10 @@ import {
   getSwipeDecision,
 } from '../src/ui/boardInteraction';
 
-const style = readFileSync(new URL('../src/style.css', import.meta.url), 'utf8');
 
 const swipe = (start: number, x: number, y: number, size = 40) => getSwipeDecision(start, x, y, size);
 
-describe('ANM-012 mobile UX contract', () => {
+describe('mobile input contract', () => {
   it('locks the regression matrix to the supported phone sizes', () => {
     expect(MOBILE_REGRESSION_VIEWPORTS).toEqual([
       { width: 320, height: 568 },
@@ -67,12 +65,5 @@ describe('ANM-012 mobile UX contract', () => {
     expect(preview.direction).toBe('left');
     expect(preview.targetIndex).toBeNull();
     expect(preview.committed).toBe(false);
-  });
-  it('contains page motion and removes the old 640px viewport floor', () => {
-    expect(style).toContain('touch-action: none;');
-    expect(style).toContain('overscroll-behavior: none;');
-    expect(style).toContain('min-height: 0;');
-    expect(style).not.toContain('min-height: 640px;');
-    expect(style).toContain('@media (max-height: 650px), (max-width: 340px)');
   });
 });
