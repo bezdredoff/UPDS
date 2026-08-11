@@ -1,0 +1,85 @@
+import { describe, expect, it } from 'vitest';
+import { APP_VERSION } from '../src/appVersion';
+import {
+  PLAYTEST_EVENT_LIMIT,
+  PLAYTEST_SCHEMA_VERSION,
+  PLAYTEST_STORAGE_KEY,
+  PlaytestTelemetry,
+  summarizePlaytest,
+} from '../src/platform/PlaytestTelemetry';
+import type { StorageLike } from '../src/platform/SafeStorage';
+
+class MemoryStorage implements StorageLike {
+  readonly values = new Map<string, string>();
+  getItem(key: string): string | null { return this.values.get(key) ?? null; }
+  setItem(key: string, value: string): void { this.values.set(key, value); }
+  removeItem(key: string): void { this.values.delete(key); }
+}
+
+describe('ANM-017 local playtest telemetry', () => {
+  it('keeps telemetry separate from campaign save and exports summary plus raw events', () => {
+    const storage = new MemoryStorage();
+    const telemetry = new PlaytestTelemetry(storage);
+    telemetry.startSession({ installed: true, online: false });
+    telemetry.track('choice_selected', { choice: 'B' });
+    telemetry.track('vn_line', { lineId: 'VN0001' });
+    telemetry.track('vn_skip', { skipped: 4 });
+    telemetry.track('match_start', { levelId: 'L01', attempt: 1, moveBudget: 24 });
+    telemetry.track('match_hint', { levelId: 'L01' });
+    telemetry.track('match_move', { levelId: 'L01', reshuffled: true, specialsCreated: 2, cascades: 3 });
+    telemetry.track('match_end', { levelId: 'L01', outcome: 'win', durationMs: 12000, moveBudget: 24, movesLeft: 5 });
+    telemetry.track('vertical_slice_complete');
+
+    expect(storage.getItem(PLAYTEST_STORAGE_KEY)).not.toBeNull();
+    expect(storage.getItem('seiran-detectives-anm009-v1')).toBeNull();
+
+    const bundle = telemetry.createExportBundle();
+    expect(bundle.schemaVersion).toBe(PLAYTEST_SCHEMA_VERSION);
+    expect(bundle.appVersion).toBe(APP_VERSION);
+    expect(bundle.summary.sessions).toBe(1);
+    expect(bundle.summary.verticalSliceCompletions).toBe(1);
+    expect(bundle.summary.choices.B).toBe(1);
+    expect(bundle.summary.vn.uniqueLinesViewed).toBe(1);
+    expect(bundle.summary.levels.L01).toMatchObject({ starts: 1, wins: 1, hints: 1, validMoves: 0, invalidMoves: 0, reshuffles: 1, specials: 2, maxCascade: 3, medianMovesUsed: 19, medianMovesLeftOnWin: 5 });
+    expect(bundle.summary.pwa.installedLaunches).toBe(1);
+    expect(bundle.summary.pwa.offlineLaunches).toBe(1);
+    expect(bundle.events.length).toBeGreaterThan(0);
+  });
+
+  it('deduplicates consecutive screen views and caps the persistent event log', () => {
+    const storage = new MemoryStorage();
+    const telemetry = new PlaytestTelemetry(storage);
+    telemetry.trackScreen('vn', 'VN0001');
+    telemetry.trackScreen('vn', 'VN0001');
+    telemetry.trackScreen('vn', 'VN0002');
+    expect(telemetry.events().filter((event) => event.name === 'screen_view')).toHaveLength(2);
+
+    for (let index = 0; index < PLAYTEST_EVENT_LIMIT + 50; index += 1) telemetry.track('vn_line', { lineId: `VN${index}` });
+    expect(telemetry.events()).toHaveLength(PLAYTEST_EVENT_LIMIT);
+  });
+
+  it('starts a fresh session identity when playtest data is cleared between testers', () => {
+    const storage = new MemoryStorage();
+    const telemetry = new PlaytestTelemetry(storage);
+    const first = telemetry.sessionId;
+    telemetry.startSession();
+    telemetry.clear();
+    const second = telemetry.sessionId;
+    expect(second).not.toBe(first);
+    telemetry.startSession({ reset: true });
+    expect(telemetry.createExportBundle().summary.sessions).toBe(1);
+  });
+
+  it('summarizes wins, losses and abandons without treating abandons as completed attempts', () => {
+    const storage = new MemoryStorage();
+    const telemetry = new PlaytestTelemetry(storage);
+    telemetry.track('match_start', { levelId: 'L02' });
+    telemetry.track('match_end', { levelId: 'L02', outcome: 'loss', durationMs: 1000, moveBudget: 26, movesLeft: 0 });
+    telemetry.track('match_start', { levelId: 'L02' });
+    telemetry.track('match_end', { levelId: 'L02', outcome: 'win', durationMs: 2000, moveBudget: 26, movesLeft: 3 });
+    telemetry.track('match_start', { levelId: 'L02' });
+    telemetry.track('match_end', { levelId: 'L02', outcome: 'abandon', durationMs: 500, moveBudget: 26, movesLeft: 10 });
+    const summary = summarizePlaytest(telemetry.events());
+    expect(summary.levels.L02).toMatchObject({ starts: 3, wins: 1, losses: 1, abandons: 1, winRate: 50, medianMovesLeftOnWin: 3 });
+  });
+});

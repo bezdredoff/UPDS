@@ -90,6 +90,10 @@ export class AnimeDetectiveApp {
   private dialoguePageIndex = 0;
   private dialoguePages: string[] = [];
   private dialogueReflowTimer: number | null = null;
+  private trackedVnLineId: string | null = null;
+  private trackedPagingKey: string | null = null;
+  private matchAttemptStartedAt: number | null = null;
+  private verticalSliceCompletionTracked = false;
 
   constructor(private readonly root: HTMLElement, services: RuntimeServices = createRuntimeServices()) {
     this.services = services;
@@ -98,6 +102,13 @@ export class AnimeDetectiveApp {
 
   mount(): void {
     this.bindDialogueReflow();
+    this.services.pwa.subscribe(() => this.renderPwaUpdateBanner());
+    if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+      window.addEventListener('pagehide', () => {
+        if (this.activeMatch) this.trackActiveMatchEnd('abandon', 'pagehide');
+        this.services.telemetry.endSession('pagehide');
+      }, { once: true });
+    }
     this.renderMenu();
   }
 
@@ -113,6 +124,33 @@ export class AnimeDetectiveApp {
   private shell(content: string): void {
     this.clearTimers();
     this.root.innerHTML = `<main class="phone">${content}</main>`;
+    this.renderPwaUpdateBanner();
+  }
+
+  private renderPwaUpdateBanner(): void {
+    const phone = this.root.querySelector<HTMLElement>('.phone');
+    if (!phone) return;
+    phone.querySelector('.pwa-update-banner')?.remove();
+    const pwa = this.services.pwa.snapshot();
+    if (!pwa.updateAvailable) return;
+    phone.insertAdjacentHTML('beforeend', `<aside class="pwa-update-banner" role="status"><div><small>НОВАЯ ВЕРСИЯ</small><b>Доступно обновление игры</b><span>Обновление применится после перезапуска интерфейса.</span></div><button id="pwa-update-now" class="primary">Обновить</button><button id="pwa-update-later">Позже</button></aside>`);
+    phone.querySelector('#pwa-update-now')?.addEventListener('click', () => {
+      if (this.activeMatch && typeof window.confirm === 'function' && !window.confirm('Обновить игру сейчас? Текущая попытка match-3 будет потеряна.')) return;
+      if (this.activeMatch) this.trackActiveMatchEnd('abandon', 'pwa-update');
+      this.services.pwa.applyUpdate();
+    });
+    phone.querySelector('#pwa-update-later')?.addEventListener('click', () => phone.querySelector('.pwa-update-banner')?.remove());
+  }
+
+  private pwaStatusMarkup(): string {
+    const pwa = this.services.pwa.snapshot();
+    const installLabel = pwa.installed ? 'Установлено' : pwa.canPromptInstall ? 'Можно установить' : 'Через меню браузера';
+    return `<div class="pwa-status-card"><div><small>PWA / OFFLINE</small><b>${pwa.offlineReady ? 'OFFLINE READY' : pwa.supported ? 'CACHE PREPARING' : 'BROWSER MODE'}</b><span>${escapeHtml(installLabel)} · ${pwa.online ? 'online' : 'offline'} · ${escapeHtml(pwa.lane)}${pwa.cacheFailed ? ` · ${pwa.cacheFailed} cache failures` : ''}</span></div><div class="pwa-status-actions">${pwa.canPromptInstall && !pwa.installed ? '<button data-pwa-install>Установить</button>' : ''}<button data-pwa-check>Проверить обновление</button></div></div>`;
+  }
+
+  private bindPwaControls(scope: ParentNode, rerender: () => void): void {
+    scope.querySelector('[data-pwa-install]')?.addEventListener('click', async () => { await this.services.pwa.promptInstall(); rerender(); });
+    scope.querySelector('[data-pwa-check]')?.addEventListener('click', async () => { await this.services.pwa.checkForUpdate(); rerender(); });
   }
 
   private headerActionMarkup(id: string, iconName: string, label: string, badge?: number, extraClass = ''): string {
@@ -131,12 +169,32 @@ export class AnimeDetectiveApp {
 
   private returnToMainMenu(): void {
     if (this.activeMatch && typeof window.confirm === 'function' && !window.confirm('Выйти в главное меню? Текущая попытка match-3 будет потеряна.')) return;
+    if (this.activeMatch) this.trackActiveMatchEnd('abandon', 'main-menu');
     this.activeMatch = null;
     this.renderMenu();
   }
 
+  private trackActiveMatchEnd(outcome: 'win' | 'loss' | 'abandon', reason = ''): void {
+    const game = this.activeMatch;
+    if (!game || this.matchAttemptStartedAt === null) return;
+    const level = game.level;
+    this.services.telemetry.track('match_end', {
+      levelId: level.id,
+      levelIndex: this.activeLevelIndex,
+      attempt: this.save.attempts[level.id] ?? 0,
+      outcome,
+      reason,
+      durationMs: Math.max(0, Date.now() - this.matchAttemptStartedAt),
+      movesLeft: game.movesLeft,
+      moveBudget: level.moves,
+      progress: game.progress,
+    });
+    this.matchAttemptStartedAt = null;
+  }
+
   private renderMenu(): void {
     this.services.audio.setScene('menu');
+    this.services.telemetry.trackScreen('menu');
     this.autoMode = false;
     this.save = this.store.load();
     const hasSave = this.save.scene > 0 || this.save.line > 0 || this.save.completed.length > 0;
@@ -175,10 +233,13 @@ export class AnimeDetectiveApp {
 
   private renderSupport(status = ''): void {
     this.services.audio.setScene('menu');
+    this.services.telemetry.trackScreen('support');
     const loadReport = this.store.getLastLoadReport();
     const recovery = this.store.getRecoveryBackup();
     const assetHealth = this.services.assetHealth.snapshot();
     const errors = this.services.errorLog.getEntries();
+    const playtest = this.services.telemetry.snapshot();
+    const pwa = this.services.pwa.snapshot();
     const storageLabel = this.services.storage.mode === 'persistent' ? 'localStorage · persistent' : 'memory fallback · текущая вкладка';
 
     this.shell(`<section class="panel support-panel">
@@ -192,12 +253,17 @@ export class AnimeDetectiveApp {
         <article><small>STORAGE</small><b>${this.services.storage.mode === 'persistent' ? 'OK' : 'FALLBACK'}</b><span>${escapeHtml(storageLabel)}</span></article>
         <article><small>RUNTIME</small><b>${errors.length} errors</b><span>${assetHealth.failures.length} asset failures</span></article>
         <article><small>AUDIO</small><b>${this.services.audio.supported ? 'WEB AUDIO' : 'FALLBACK'}</b><span>music ${Math.round(this.services.audio.settings.musicVolume * 100)}% · sfx ${Math.round(this.services.audio.settings.effectsVolume * 100)}% · ${this.services.audio.settings.muted ? 'muted' : 'active'}</span></article>
+        <article><small>PLAYTEST</small><b>${playtest.eventCount} events</b><span>${playtest.summary.sessions} sessions · ${playtest.summary.verticalSliceCompletions} completions</span></article>
+        <article><small>PWA</small><b>${pwa.offlineReady ? 'OFFLINE READY' : pwa.registration.toUpperCase()}</b><span>${pwa.installed ? 'installed' : 'browser'} · ${pwa.online ? 'online' : 'offline'} · ${escapeHtml(pwa.lane)}</span></article>
       </div>
+      ${this.pwaStatusMarkup()}
       <div class="support-actions">
         <button id="export-save">${icon('save')}<span><b>Экспорт сохранения</b><small>JSON для переноса или резервной копии</small></span></button>
         <button id="import-save">${icon('load')}<span><b>Импорт сохранения</b><small>Совместимый ANM-009+ JSON</small></span></button>
         <input id="save-file" class="visually-hidden" type="file" accept="application/json,.json">
-        <button id="export-diagnostics">${icon('log')}<span><b>Экспорт диагностики</b><small>Build, save, ошибки, assets и устройство</small></span></button>
+        <button id="export-diagnostics">${icon('log')}<span><b>Экспорт диагностики</b><small>Build, save, ошибки, assets, PWA и устройство</small></span></button>
+        <button id="export-playtest">${icon('log')}<span><b>Экспорт playtest report</b><small>Summary + полный локальный журнал событий</small></span></button>
+        <button id="clear-playtest">${icon('close')}<span><b>Очистить playtest data</b><small>Сбросить локальную телеметрию перед новым тестером</small></span></button>
         ${recovery ? `<button id="export-recovery">${icon('log')}<span><b>Экспорт recovery backup</b><small>Сохранён источник повреждённого или заменённого save</small></span></button>` : ''}
       </div>
       <div class="support-meta">
@@ -205,6 +271,8 @@ export class AnimeDetectiveApp {
         <span>Build time: ${escapeHtml(BUILD_TIMESTAMP)}</span>
         <span>Preload: ${assetHealth.preloadLoaded}/${assetHealth.preloadRequested}; failed: ${assetHealth.preloadFailed}</span>
         <span>Recovery backup: ${recovery ? 'есть' : 'нет'}</span>
+        <span>Playtest session: ${escapeHtml(playtest.sessionId)}</span>
+        <span>PWA cache: ${escapeHtml(pwa.cacheBuild)} · failures ${pwa.cacheFailed} · ${pwa.scope ? escapeHtml(pwa.scope) : 'no scope'}</span>
       </div>
       <button id="clear-errors" class="danger-link">Очистить журнал runtime-ошибок</button>
     </section>`);
@@ -217,13 +285,23 @@ export class AnimeDetectiveApp {
         save: this.save, storageMode: this.services.storage.mode, loadReport: this.store.getLastLoadReport(),
         recoveryBackup: this.store.getRecoveryBackup(), errorLog: this.services.errorLog, assetHealth: this.services.assetHealth,
         audio: { supported: this.services.audio.supported, hapticsSupported: this.services.audio.hapticsSupported, scene: this.services.audio.scene, settings: this.services.audio.settings },
+        playtest: this.services.telemetry.snapshot(), pwa: this.services.pwa.snapshot(),
       }));
     });
     this.root.querySelector('#export-recovery')?.addEventListener('click', () => downloadJson(`UPDS_recovery_${APP_VERSION}.json`, this.store.getRecoveryBackup()));
+    this.root.querySelector('#export-playtest')?.addEventListener('click', () => downloadJson(`UPDS_playtest_${APP_VERSION}.json`, this.services.telemetry.createExportBundle()));
+    this.root.querySelector('#clear-playtest')?.addEventListener('click', () => {
+      if (typeof window.confirm === 'function' && !window.confirm('Очистить локальную playtest telemetry? Игровое сохранение останется.')) return;
+      this.services.telemetry.clear();
+      this.services.telemetry.startSession({ reset: true, online: navigator.onLine, installed: this.services.pwa.snapshot().installed });
+      this.renderSupport('Playtest telemetry очищена. Начата новая локальная сессия.');
+    });
     this.root.querySelector('#clear-errors')?.addEventListener('click', () => { this.services.errorLog.clear(); this.renderSupport('Журнал runtime-ошибок очищен.'); });
 
     const input = this.root.querySelector<HTMLInputElement>('#save-file');
     this.root.querySelector('#import-save')?.addEventListener('click', () => input?.click());
+    this.bindPwaControls(this.root, () => this.renderSupport(status));
+
     input?.addEventListener('change', async () => {
       const file = input.files?.[0];
       if (!file) return;
@@ -288,21 +366,26 @@ export class AnimeDetectiveApp {
   }
 
   private renderSettings(back: () => void = () => this.renderMenu(), showMainMenu = false): void {
+    this.services.telemetry.trackScreen('settings', this.activeMatch ? 'match' : 'system');
     this.shell(`<section class="panel settings-panel">
       ${this.panelHeaderMarkup('CONFIG · SYSTEM', 'Настройки', { settings: false })}
       <h2>Звук и отклик</h2>
       <p class="panel-copy">Музыка и SFX генерируются локально через Web Audio и не требуют загрузки аудиофайлов. Настройки сохраняются отдельно от игрового прогресса.</p>
       ${this.audioSettingsMarkup()}
+      <h2>Установка и офлайн</h2>
+      ${this.pwaStatusMarkup()}
       <div class="settings-note"><b>Мобильный контракт</b><span>Звук активируется только после первого касания/клавиши. При сворачивании вкладки музыка приостанавливается и безопасно возобновляется при возвращении.</span></div>
       ${showMainMenu ? `<div class="settings-navigation"><small>НАВИГАЦИЯ</small><button id="settings-main-menu">${icon('menu')}<span><b>Главное меню</b><em>${this.activeMatch ? 'Текущая попытка потребует подтверждения' : 'Сохранённый прогресс не потеряется'}</em></span></button></div>` : ''}
     </section>`);
     this.root.querySelector('#back')?.addEventListener('click', back);
     this.root.querySelector('#settings-main-menu')?.addEventListener('click', () => this.returnToMainMenu());
     this.bindAudioSettingsControls(this.root, () => this.renderSettings(back, showMainMenu));
+    this.bindPwaControls(this.root, () => this.renderSettings(back, showMainMenu));
   }
 
   private renderSceneSelect(): void {
     this.services.audio.setScene('menu');
+    this.services.telemetry.trackScreen('scene-select');
     this.shell(`<section class="panel scene-select">
       ${this.panelHeaderMarkup('QA NAVIGATION', 'Сцены')}
       <h2>Выбор сцены</h2>
@@ -327,6 +410,8 @@ export class AnimeDetectiveApp {
     this.dialoguePageLineId = null;
     this.dialoguePageIndex = 0;
     this.dialoguePages = [];
+    this.trackedVnLineId = null;
+    this.trackedPagingKey = null;
     this.save.scene = Math.max(0, Math.min(sceneMeta.length - 1, scene));
     this.story = getScene(this.save.scene, this.save.choice);
     this.save.line = Math.max(0, Math.min(line, this.story.length));
@@ -353,6 +438,12 @@ export class AnimeDetectiveApp {
     }
 
     const meta = sceneMeta[this.save.scene];
+    this.services.telemetry.trackScreen('vn', entry.id);
+    if (this.trackedVnLineId !== entry.id) {
+      this.trackedVnLineId = entry.id;
+      this.trackedPagingKey = null;
+      this.services.telemetry.track('vn_line', { scene: this.save.scene, line: this.save.line, lineId: entry.id, speaker: isDirection(entry) ? 'DIRECTION' : entry.speaker });
+    }
     if (this.dialoguePageLineId !== entry.id) {
       this.dialoguePageLineId = entry.id;
       this.dialoguePageIndex = 0;
@@ -418,6 +509,11 @@ export class AnimeDetectiveApp {
 
     dialoguePages = this.measureAndApplyDialoguePages(entry.id, entry.text, fallbackDialoguePages);
     dialoguePage = dialoguePages[this.dialoguePageIndex] ?? entry.text;
+    const pagingKey = `${entry.id}:${dialoguePages.length}:${this.textScale}`;
+    if (dialoguePages.length > 1 && pagingKey !== this.trackedPagingKey) {
+      this.trackedPagingKey = pagingKey;
+      this.services.telemetry.track('vn_paging', { lineId: entry.id, pages: dialoguePages.length, textScale: this.textScale, locale: dialogueLocale() });
+    }
     this.pendingClue = null;
     this.preloadNextVnAssets();
     this.root.querySelector('#header-settings')?.addEventListener('click', (event) => {
@@ -430,12 +526,14 @@ export class AnimeDetectiveApp {
     });
     this.root.querySelector('#history')?.addEventListener('click', (event) => {
       event.stopPropagation();
+      this.services.telemetry.track('vn_log_open', { lineId: entry.id });
       this.renderHistoryOverlay();
     });
     this.root.querySelector('#next')?.addEventListener('click', () => this.nextLine());
     this.root.querySelector('#skip')?.addEventListener('click', () => this.skipReadLines());
     this.root.querySelector('#auto')?.addEventListener('click', () => {
       this.autoMode = !this.autoMode;
+      this.services.telemetry.track('vn_auto', { enabled: this.autoMode, speed: this.autoSpeed });
       this.renderVN();
     });
     this.root.querySelector('#save-vn')?.addEventListener('click', () => {
@@ -595,11 +693,13 @@ export class AnimeDetectiveApp {
   }
 
   private skipReadLines(): void {
+    const from = this.save.line;
     const target = nextUnreadIndex(this.story, this.save.line, this.save.readLines);
     if (target === this.save.line) {
       this.showVnStatus('SKIP доступен только для уже прочитанных реплик');
       return;
     }
+    this.services.telemetry.track('vn_skip', { scene: this.save.scene, fromLine: from, toLine: target, skipped: Math.max(0, target - from) });
     this.save.line = target;
     this.persist();
     const entry = this.story[this.save.line];
@@ -702,6 +802,7 @@ export class AnimeDetectiveApp {
 
   private renderChoice(): void {
     this.services.audio.setScene('vn');
+    this.services.telemetry.trackScreen('choice', 'CHOICE_00');
     this.shell(`<section class="choice-screen">
       <div class="choice-background-stack" aria-hidden="true">
         <img class="choice-background choice-background-fill" src="${backgroundAssets.clubroom}" alt="">
@@ -722,6 +823,7 @@ export class AnimeDetectiveApp {
     this.root.querySelectorAll<HTMLElement>('[data-choice]').forEach((button) => button.addEventListener('click', () => {
       this.services.audio.play('choice');
       this.save.choice = button.dataset.choice as ChoiceId;
+      this.services.telemetry.track('choice_selected', { choice: this.save.choice });
       this.story = getScene(1, this.save.choice);
       const branchIndex = this.story.findIndex((line) => line.id === `VN0041${this.save.choice}`);
       this.save.line = Math.max(0, branchIndex);
@@ -758,6 +860,7 @@ export class AnimeDetectiveApp {
 
   private renderMatchIntro(levelIndex: number): void {
     this.services.audio.setScene('match');
+    this.services.telemetry.trackScreen('match-intro', levels[levelIndex]?.id ?? String(levelIndex));
     const level = levels[levelIndex];
     this.preloadMatchAssets(level);
     this.activeLevelIndex = levelIndex;
@@ -795,6 +898,8 @@ export class AnimeDetectiveApp {
     this.persist();
     this.activeLevelIndex = levelIndex;
     this.activeMatch = new Match3Game(level, level.seed + attempt * 101);
+    this.matchAttemptStartedAt = Date.now();
+    this.services.telemetry.track('match_start', { levelId: level.id, levelIndex, attempt, moveBudget: level.moves });
     this.selectedCell = null;
     this.matchInputLocked = false;
     this.activePointer = null;
@@ -841,6 +946,7 @@ export class AnimeDetectiveApp {
 
   private renderMatch(): void {
     this.services.audio.setScene('match');
+    this.services.telemetry.trackScreen('match', levels[this.activeLevelIndex]?.id ?? String(this.activeLevelIndex));
     const game = this.activeMatch;
     if (!game) return this.renderMatchIntro(this.activeLevelIndex);
     const level = game.level;
@@ -887,6 +993,7 @@ export class AnimeDetectiveApp {
 
     this.root.querySelector('#quit')?.addEventListener('click', () => {
       if (this.matchInputLocked) return;
+      this.trackActiveMatchEnd('abandon', 'back-to-intro');
       this.activeMatch = null;
       this.renderMatchIntro(this.activeLevelIndex);
     });
@@ -906,6 +1013,7 @@ export class AnimeDetectiveApp {
     const game = this.activeMatch;
     if (!game || this.matchInputLocked) return;
     const hint = game.getHintMove();
+    this.services.telemetry.track('match_hint', { levelId: game.level.id, levelIndex: this.activeLevelIndex, movesLeft: game.movesLeft, available: Boolean(hint) });
     this.selectedCell = null;
     this.hintedCells.clear();
     if (!hint) {
@@ -1188,6 +1296,10 @@ export class AnimeDetectiveApp {
     this.hintedCells.clear();
     try {
       const result = game.attemptSwap(first, second);
+      this.services.telemetry.track('match_move', {
+        levelId: game.level.id, levelIndex: this.activeLevelIndex, valid: result.valid, reason: result.valid ? 'ok' : result.reason,
+        movesLeft: game.movesLeft, cascades: result.cascades, specialsCreated: result.specialsCreated, reshuffled: result.reshuffled, won: result.won, lost: result.lost,
+      });
       if (!result.valid) {
         if (result.reason === 'not-adjacent' && selectSecondWhenNonAdjacent) {
           this.selectedCell = second;
@@ -1267,6 +1379,7 @@ export class AnimeDetectiveApp {
   }
 
   private completeLevel(): void {
+    this.trackActiveMatchEnd('win');
     const levelIndex = this.activeLevelIndex;
     const level = levels[levelIndex];
     if (!this.save.completed.includes(levelIndex)) this.save.completed.push(levelIndex);
@@ -1282,6 +1395,7 @@ export class AnimeDetectiveApp {
 
   private renderEvidenceTransition(level: LevelDefinition): void {
     this.services.audio.setScene('vn');
+    this.services.telemetry.trackScreen('evidence', level.id);
     this.services.audio.play('clue');
     const clue = cluePresentation[level.clueId];
     this.shell(`<section class="evidence-transition">
@@ -1301,7 +1415,9 @@ export class AnimeDetectiveApp {
 
   private renderLoss(): void {
     this.services.audio.setScene('match');
+    this.services.telemetry.trackScreen('loss', levels[this.activeLevelIndex]?.id ?? String(this.activeLevelIndex));
     const level = levels[this.activeLevelIndex];
+    this.trackActiveMatchEnd('loss');
     this.activeMatch = null;
     this.shell(`<section class="result-screen loss">
       <header class="app-header result-topbar">
@@ -1344,6 +1460,7 @@ export class AnimeDetectiveApp {
 
   private renderDossier(back: () => void): void {
     this.services.audio.play('dossier');
+    this.services.telemetry.trackScreen('dossier');
     const kentaroCleared = this.save.completed.includes(1);
     const norihiroCleared = this.save.completed.includes(3);
     this.shell(`<section class="panel dossier">
@@ -1377,6 +1494,11 @@ export class AnimeDetectiveApp {
 
   private renderEnding(): void {
     this.services.audio.setScene('ending');
+    this.services.telemetry.trackScreen('ending');
+    if (!this.verticalSliceCompletionTracked) {
+      this.verticalSliceCompletionTracked = true;
+      this.services.telemetry.track('vertical_slice_complete', { choice: this.save.choice, clues: this.save.clues.length, completedLevels: this.save.completed.length });
+    }
     this.save.scene = sceneMeta.length - 1;
     this.save.line = this.story.length;
     this.persist();
