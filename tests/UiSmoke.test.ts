@@ -51,7 +51,7 @@ describe('AnimeDetectiveApp render smoke', () => {
   it('mounts the production menu without a browser DOM implementation', () => {
     const { root, app } = create();
     app.mount();
-    expect(root.innerHTML).toContain('ANM-011 · Infrastructure Hardening');
+    expect(root.innerHTML).toContain('ANM-012 · Mobile UX Foundation');
     expect(root.innerHTML).toContain('Новая игра');
     expect(root.innerHTML).toContain('characters/miku/medallions');
   });
@@ -87,7 +87,7 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('Экспорт сохранения');
     expect(root.innerHTML).toContain('Импорт сохранения');
     expect(root.innerHTML).toContain('Экспорт диагностики');
-    expect(root.innerHTML).toContain('0.11.0-anm011');
+    expect(root.innerHTML).toContain('0.12.0-anm012');
   });
 
   it('renders a complete 8x8 board with runtime images', () => {
@@ -98,5 +98,6 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('tile_');
     expect(root.innerHTML).toContain('obstacle_locked_cell.png');
     expect(root.innerHTML).toContain('goal_receipt.png');
+    expect(root.innerHTML).toContain('Свайпни фишку');
   });
 });

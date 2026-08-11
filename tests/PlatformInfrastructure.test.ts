@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { APP_VERSION } from '../src/appVersion';
 import { ANM009_SAVE_KEY, CampaignStore, SAVE_RECOVERY_KEY, SAVE_SCHEMA_VERSION, freshSave, normalizeSave } from '../src/engine/CampaignStore';
 import { uniqueAssetList } from '../src/platform/AssetPreloader';
 import { ERROR_LOG_MAX_ENTRIES, ErrorLog } from '../src/platform/ErrorLog';
@@ -27,7 +28,7 @@ describe('ANM-011 infrastructure hardening', () => {
     expect(store.save({ ...state, clues: [...state.clues] })).toBe(true);
     const persisted = JSON.parse(storage.getItem(ANM009_SAVE_KEY)!);
     expect(persisted.schemaVersion).toBe(SAVE_SCHEMA_VERSION);
-    expect(persisted.appVersion).toBe('0.11.0-anm011');
+    expect(persisted.appVersion).toBe(APP_VERSION);
     expect(persisted.state).toBeUndefined();
     expect(normalizeSave(persisted)).toMatchObject({ scene: 4, line: 7, completed: [0, 1] });
   });
