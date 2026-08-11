@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { APP_VERSION, BUILD_LABEL } from '../src/appVersion';
 import { getScene, type ChoiceId } from '../src/data/narrative';
 import { AnimeDetectiveApp } from '../src/ui/AnimeDetectiveApp';
 
@@ -51,7 +52,7 @@ describe('AnimeDetectiveApp render smoke', () => {
   it('mounts the production menu without a browser DOM implementation', () => {
     const { root, app } = create();
     app.mount();
-    expect(root.innerHTML).toContain('ANM-012 · Mobile UX Foundation');
+    expect(root.innerHTML).toContain(BUILD_LABEL);
     expect(root.innerHTML).toContain('Новая игра');
     expect(root.innerHTML).toContain('characters/miku/medallions');
   });
@@ -62,6 +63,10 @@ describe('AnimeDetectiveApp render smoke', () => {
     app.openScene(0, mikuLine);
     expect(root.innerHTML).toContain('character-rig');
     expect(root.innerHTML).toContain('base-neutral.png');
+    expect(root.innerHTML).toContain('vn-controls');
+    expect(root.innerHTML).toContain('>SKIP<');
+    expect(root.innerHTML).toContain('>AUTO<');
+    expect(root.innerHTML).toContain('>LOG<');
 
     const placeholderCases = [
       { scene: 1, speaker: 'ЭМИ', label: 'Эми', choice: 'A' as ChoiceId },
@@ -87,7 +92,7 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('Экспорт сохранения');
     expect(root.innerHTML).toContain('Импорт сохранения');
     expect(root.innerHTML).toContain('Экспорт диагностики');
-    expect(root.innerHTML).toContain('0.12.0-anm012');
+    expect(root.innerHTML).toContain(APP_VERSION);
   });
 
   it('renders a complete 8x8 board with runtime images', () => {

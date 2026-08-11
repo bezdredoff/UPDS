@@ -29,6 +29,7 @@ export type SaveImportResult = Readonly<{ ok: true; state: CampaignSave }> | Rea
 export const ANM009_SAVE_KEY = 'seiran-detectives-anm009-v1';
 export const SAVE_SCHEMA_VERSION = 1;
 export const SAVE_RECOVERY_KEY = `${ANM009_SAVE_KEY}:recovery-v1`;
+export const MANUAL_SAVE_KEY = `${ANM009_SAVE_KEY}:manual-v1`;
 
 export const freshSave = (): CampaignSave => ({ scene: 0, line: 0, choice: 'A', clues: [], completed: [], attempts: {}, readLines: [] });
 
@@ -116,6 +117,24 @@ export class CampaignStore {
   save(state: CampaignSave): boolean {
     try { this.storage.setItem(this.key, JSON.stringify(persistedSave(state))); return true; }
     catch { return false; }
+  }
+
+
+  saveManual(state: CampaignSave): boolean {
+    try { this.storage.setItem(MANUAL_SAVE_KEY, JSON.stringify(persistedSave(state))); return true; }
+    catch { return false; }
+  }
+
+  loadManual(): CampaignSave | null {
+    try {
+      const raw = this.storage.getItem(MANUAL_SAVE_KEY);
+      if (!raw) return null;
+      const parsed: unknown = JSON.parse(raw);
+      if (!isRecord(parsed)) return null;
+      const schemaVersion = parsed.schemaVersion === undefined ? 0 : Number(parsed.schemaVersion);
+      if (!Number.isInteger(schemaVersion) || schemaVersion < 0 || schemaVersion > SAVE_SCHEMA_VERSION) return null;
+      return normalizeSave(parsed);
+    } catch { return null; }
   }
 
   reset(): CampaignSave {

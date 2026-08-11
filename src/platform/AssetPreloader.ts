@@ -2,6 +2,8 @@ import type { AssetHealth } from './AssetHealth';
 
 export const uniqueAssetList = (assets: readonly string[]): string[] => [...new Set(assets.filter(Boolean))];
 
+const requestedAssets = new Set<string>();
+
 const preloadOne = (asset: string, health: AssetHealth): Promise<void> => new Promise((resolve) => {
   const image = new Image();
   image.decoding = 'async';
@@ -11,7 +13,8 @@ const preloadOne = (asset: string, health: AssetHealth): Promise<void> => new Pr
 });
 
 export const preloadImageAssets = async (assets: readonly string[], health: AssetHealth): Promise<void> => {
-  const uniqueAssets = uniqueAssetList(assets);
+  const uniqueAssets = uniqueAssetList(assets).filter((asset) => !requestedAssets.has(asset));
+  for (const asset of uniqueAssets) requestedAssets.add(asset);
   health.recordPreloadStart(uniqueAssets.length);
   await Promise.all(uniqueAssets.map((asset) => preloadOne(asset, health)));
 };

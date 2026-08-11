@@ -23,6 +23,7 @@ import {
   backgroundAssets,
   choices,
   getBackgroundForLine,
+  getReadHistory,
   getScene,
   isDirection,
   parsedLineCount,
@@ -38,10 +39,12 @@ import {
   type CampaignSave,
 } from '../engine/CampaignStore';
 import { Match3Game, type MoveResult } from '../engine/Match3Game';
+import { preloadImageAssets } from '../platform/AssetPreloader';
 import { createDiagnosticsSnapshot } from '../platform/Diagnostics';
 import { downloadJson } from '../platform/Download';
 import { createRuntimeServices, type RuntimeServices } from '../platform/RuntimeServices';
 import { getSwipeDecision } from './boardInteraction';
+import { autoDelayForLine, nextUnreadIndex, type AutoSpeed, type TextScale } from './vnPlayback';
 
 type Bark = Readonly<{ speaker: string; text: string }>;
 
@@ -69,6 +72,9 @@ export class AnimeDetectiveApp {
   private matchInputLocked = false;
   private activePointer: { id: number; startIndex: number; startX: number; startY: number } | null = null;
   private suppressBoardClickUntil = 0;
+  private autoMode = false;
+  private autoSpeed: AutoSpeed = 'normal';
+  private textScale: TextScale = 'normal';
 
   constructor(private readonly root: HTMLElement, services: RuntimeServices = createRuntimeServices()) {
     this.services = services;
@@ -94,6 +100,7 @@ export class AnimeDetectiveApp {
   }
 
   private renderMenu(): void {
+    this.autoMode = false;
     this.save = this.store.load();
     const hasSave = this.save.scene > 0 || this.save.line > 0 || this.save.completed.length > 0;
     this.shell(`<section class="menu-screen">
@@ -222,6 +229,11 @@ export class AnimeDetectiveApp {
       this.advanceScene();
       return;
     }
+    const resumeEntry = this.story[this.save.line];
+    if (this.save.scene === 1 && resumeEntry?.id === 'VN0040' && this.save.readLines.includes('VN0040')) {
+      this.renderChoice();
+      return;
+    }
     this.renderVN();
   }
 
@@ -239,14 +251,18 @@ export class AnimeDetectiveApp {
     const placeholder = direction ? null : placeholderForSpeaker(entry.speaker);
     const expression = expressionForDirection(entry.emotion);
     const clueToast = this.pendingClue ? this.clueToastMarkup(this.pendingClue) : '';
+    const skipAvailable = this.save.readLines.includes(entry.id);
 
-    this.shell(`<section class="vn-screen">
+    this.shell(`<section class="vn-screen text-${this.textScale}">
       <img class="vn-background" src="${backgroundAssets[background]}" alt="${escapeHtml(meta.location)}">
       <div class="vn-vignette"></div>
-      <header class="topbar">
-        <button id="menu" class="icon-button" aria-label="Меню">${icon('menu')}</button>
-        <div><small>СЦЕНА ${this.save.scene}</small><b>${escapeHtml(meta.title)}</b></div>
-        <button id="dossier" class="dossier-button">${icon('dossier')}<i>${this.save.clues.length}</i></button>
+      <header class="vn-topbar">
+        <button id="dossier" class="vn-case-pill" aria-label="Открыть досье">
+          <span><small>CASE 001 · SCENE ${String(this.save.scene).padStart(2, '0')}</small><b>${escapeHtml(meta.title)}</b></span>
+          <i>${icon('dossier')}<em>${this.save.clues.length}</em></i>
+        </button>
+        <button id="history" class="vn-top-action">${icon('log')}<span>LOG</span></button>
+        <button id="menu" class="vn-top-action">${icon('menu')}<span>MENU</span></button>
       </header>
       <div class="stage">
         ${character ? this.characterMarkup(character, expression, entry.emotion) : ''}
@@ -254,14 +270,26 @@ export class AnimeDetectiveApp {
         ${direction ? `<div class="direction-card"><span>ПОСТАНОВКА</span><b>${escapeHtml(entry.emotion)}</b></div>` : ''}
         ${clueToast}
       </div>
-      <button class="dialogue ${direction ? 'direction' : ''}" id="next">
-        <span class="name">${direction ? 'ПОСТАНОВКА' : escapeHtml(entry.speaker)}<em>${escapeHtml(entry.emotion)}</em></span>
-        <span class="dialogue-text">${escapeHtml(entry.text)}</span>
-        <span class="line-id">${entry.id}</span><span class="tap">▼</span>
-      </button>
+      <div class="dialogue-shell ${direction ? 'direction' : ''}">
+        <button class="dialogue ${direction ? 'direction' : ''}" id="next">
+          <span class="name">${direction ? 'ПОСТАНОВКА' : escapeHtml(entry.speaker)}<em>${escapeHtml(entry.emotion)}</em></span>
+          <span class="dialogue-text">${escapeHtml(entry.text)}</span>
+          <span class="line-id">${entry.id}</span>
+          <span class="dialogue-progress" aria-hidden="true"><i></i><i></i><i></i><b>▼</b></span>
+        </button>
+      </div>
+      <nav class="vn-controls" aria-label="Управление visual novel">
+        <button id="skip" ${skipAvailable ? '' : 'disabled'}>${icon('skip')}<span>SKIP</span></button>
+        <button id="auto" class="${this.autoMode ? 'is-active' : ''}">${icon('auto')}<span>AUTO</span></button>
+        <button id="save-vn">${icon('save')}<span>SAVE</span></button>
+        <button id="load-vn">${icon('load')}<span>LOAD</span></button>
+        <button id="config">${icon('settings')}<span>CONFIG</span></button>
+      </nav>
+      <div id="vn-status" class="vn-status" hidden></div>
     </section>`);
 
     this.pendingClue = null;
+    this.preloadNextVnAssets();
     this.root.querySelector('#menu')?.addEventListener('click', (event) => {
       event.stopPropagation();
       this.renderMenu();
@@ -270,8 +298,122 @@ export class AnimeDetectiveApp {
       event.stopPropagation();
       this.renderDossier(() => this.renderVN());
     });
+    this.root.querySelector('#history')?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      this.renderHistoryOverlay();
+    });
     this.root.querySelector('#next')?.addEventListener('click', () => this.nextLine());
+    this.root.querySelector('#skip')?.addEventListener('click', () => this.skipReadLines());
+    this.root.querySelector('#auto')?.addEventListener('click', () => {
+      this.autoMode = !this.autoMode;
+      this.renderVN();
+    });
+    this.root.querySelector('#save-vn')?.addEventListener('click', () => {
+      if (this.store.saveManual(this.save)) this.showVnStatus('Ручной слот сохранён');
+      else this.showVnStatus('Не удалось сохранить ручной слот');
+    });
+    this.root.querySelector('#load-vn')?.addEventListener('click', () => {
+      const manual = this.store.loadManual();
+      if (!manual) { this.showVnStatus('Ручной слот пока пуст'); return; }
+      this.save = manual;
+      this.persist();
+      this.openScene(this.save.scene, this.save.line);
+    });
+    this.root.querySelector('#config')?.addEventListener('click', () => this.renderVnConfigOverlay());
     if (character && !this.usesPoseB(character, entry.emotion)) this.animatePortrait(character, expression);
+    if (this.autoMode) this.timers.push(window.setTimeout(() => this.nextLine(), autoDelayForLine(entry.text, this.autoSpeed)));
+  }
+
+  private preloadNextVnAssets(): void {
+    if (typeof Image === 'undefined') return;
+    const nextIndex = Math.min(this.story.length - 1, this.save.line + 1);
+    const next = this.story[nextIndex];
+    if (!next) return;
+    const assets = [backgroundAssets[getBackgroundForLine(this.save.scene, nextIndex, this.story)]];
+    if (!isDirection(next)) {
+      const character = characterForSpeaker(next.speaker);
+      if (character) {
+        const rig = characterRigs[character];
+        assets.push(this.usesPoseB(character, next.emotion) ? rig.poseB : rig.base);
+        const face = faceAsset(character, expressionForDirection(next.emotion));
+        if (face) assets.push(face);
+      }
+    }
+    void preloadImageAssets(assets, this.services.assetHealth);
+  }
+
+  private renderHistoryOverlay(): void {
+    this.clearTimers();
+    const current = this.story[this.save.line];
+    const history = getReadHistory(this.save.readLines, this.save.choice);
+    const entries = current && !history.some((line) => line.id === current.id) ? [...history, current] : history;
+    const phone = this.root.querySelector<HTMLElement>('.phone');
+    if (!phone) return;
+    phone.insertAdjacentHTML('beforeend', `<section class="vn-overlay" role="dialog" aria-modal="true" aria-label="История диалога">
+      <div class="vn-overlay-card history-card">
+        <header><div><small>CASE LOG</small><h2>История диалога</h2></div><button id="close-overlay" class="overlay-close" aria-label="Закрыть">${icon('close')}</button></header>
+        <div class="history-list">${entries.length ? entries.map((line) => `
+          <article class="${isDirection(line) ? 'is-direction' : ''}">
+            <div><b>${isDirection(line) ? 'ПОСТАНОВКА' : escapeHtml(line.speaker)}</b><small>${line.id}</small></div>
+            <p>${escapeHtml(line.text)}</p>
+          </article>`).join('') : '<p class="empty-history">Здесь появятся уже прочитанные реплики.</p>'}</div>
+      </div>
+    </section>`);
+    phone.querySelector('#close-overlay')?.addEventListener('click', () => this.renderVN());
+  }
+
+  private renderVnConfigOverlay(): void {
+    this.clearTimers();
+    const phone = this.root.querySelector<HTMLElement>('.phone');
+    if (!phone) return;
+    phone.insertAdjacentHTML('beforeend', `<section class="vn-overlay" role="dialog" aria-modal="true" aria-label="Настройки чтения">
+      <div class="vn-overlay-card config-card">
+        <header><div><small>CONFIG</small><h2>Настройки чтения</h2></div><button id="close-overlay" class="overlay-close" aria-label="Закрыть">${icon('close')}</button></header>
+        <fieldset><legend>Скорость AUTO</legend><div class="segmented">
+          ${(['slow', 'normal', 'fast'] as AutoSpeed[]).map((speed) => `<button data-auto-speed="${speed}" class="${this.autoSpeed === speed ? 'is-selected' : ''}">${speed === 'slow' ? 'Медленно' : speed === 'normal' ? 'Обычно' : 'Быстро'}</button>`).join('')}
+        </div></fieldset>
+        <fieldset><legend>Размер текста</legend><div class="segmented">
+          ${(['normal', 'large'] as TextScale[]).map((scale) => `<button data-text-scale="${scale}" class="${this.textScale === scale ? 'is-selected' : ''}">${scale === 'normal' ? 'Обычный' : 'Крупный'}</button>`).join('')}
+        </div></fieldset>
+        <p>Настройки действуют в текущей сессии. Системный Reduced Motion по-прежнему имеет приоритет для анимаций.</p>
+      </div>
+    </section>`);
+    phone.querySelector('#close-overlay')?.addEventListener('click', () => this.renderVN());
+    phone.querySelectorAll<HTMLElement>('[data-auto-speed]').forEach((button) => button.addEventListener('click', () => {
+      this.autoSpeed = button.dataset.autoSpeed as AutoSpeed;
+      this.renderVnConfigOverlayFromScratch();
+    }));
+    phone.querySelectorAll<HTMLElement>('[data-text-scale]').forEach((button) => button.addEventListener('click', () => {
+      this.textScale = button.dataset.textScale as TextScale;
+      this.renderVnConfigOverlayFromScratch();
+    }));
+  }
+
+  private renderVnConfigOverlayFromScratch(): void {
+    this.root.querySelector('.vn-overlay')?.remove();
+    this.renderVnConfigOverlay();
+  }
+
+  private skipReadLines(): void {
+    const target = nextUnreadIndex(this.story, this.save.line, this.save.readLines);
+    if (target === this.save.line) {
+      this.showVnStatus('SKIP доступен только для уже прочитанных реплик');
+      return;
+    }
+    this.save.line = target;
+    this.persist();
+    const entry = this.story[this.save.line];
+    if (entry?.id === 'VN0040' && this.save.readLines.includes('VN0040')) this.renderChoice();
+    else if (this.save.line >= this.story.length) this.advanceScene();
+    else this.renderVN();
+  }
+
+  private showVnStatus(message: string): void {
+    const status = this.root.querySelector<HTMLElement>('#vn-status');
+    if (!status) return;
+    status.textContent = message;
+    status.hidden = false;
+    this.timers.push(window.setTimeout(() => { status.hidden = true; }, 1500));
   }
 
   private characterMarkup(character: CharacterKey, expression: RuntimeExpression, direction: string): string {
@@ -720,8 +862,8 @@ export class AnimeDetectiveApp {
       <div class="ending-panel">
         <img class="thread-clue" src="${cluePresentation.CUE_004.asset}" alt="Проводящий шов">
         <p class="eyebrow">КОНЕЦ ВЕРТИКАЛЬНОГО СРЕЗА</p>
-        <h1>Это не ткань.</h1>
-        <p>Под сервисной биркой спрятана проводящая серебристая нить. След ведёт в центральную прачечную.</p>
+        <h1>Первая нить найдена.</h1>
+        <p>Глава завершена на VN0249. Серебристо-бирюзовая проводящая нить выводит расследование за пределы бытовой кражи.</p>
         <div class="summary">Выбор: <b>${escapeHtml(choices[this.save.choice].title)}</b><br>Найдено улик: <b>${this.save.clues.length}/4</b></div>
         <button class="primary" id="menu">В главное меню</button>
         <button id="replay">Начать заново</button>
