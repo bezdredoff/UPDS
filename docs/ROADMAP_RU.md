@@ -1,4 +1,4 @@
-# UPDS — актуальный roadmap после ANM-018A
+# UPDS — актуальный roadmap после ANM-019A
 
 ## Completed foundation
 
@@ -15,6 +15,10 @@
 - feature-oriented UI orchestrator decomposition.
 
 ## Next recommended work
+
+### ANM-019 — Localization foundation
+
+Atomic migration before adding more content: localization core, system UI + language selector, VN content/metadata, then Match-3/dossier/ending. Russian remains the source/fallback locale while features migrate.
 
 ### Production character completion
 

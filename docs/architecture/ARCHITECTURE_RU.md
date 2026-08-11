@@ -1,10 +1,10 @@
 # UPDS — текущая архитектура
 
-Build: `0.18.1-anm018a`.
+Build: `0.19.0-anm019a`.
 
 ## Runtime flow
 
-`content/data → engine → feature controllers → app composition → platform services`
+`content/data + localization → engine → feature controllers → app composition → platform services`
 
 Presentation code may animate engine results, but it must not redefine Match-3 rules, narrative IDs or campaign persistence semantics.
 
@@ -136,7 +136,9 @@ New episodes/levels/characters should primarily extend content/data definitions.
 
 ### Localization
 
-Future localization should be introduced as a service/content layer using stable IDs (`VN...`, choice IDs, level IDs). Internal dialogue paging remains presentation-only after translated text is resolved.
+`src/localization/` owns locale resolution, message catalogs, named-parameter formatting and locale persistence. `RuntimeServices` owns one shared `LocalizationService`; feature controllers consume it rather than creating per-feature localization state.
+
+Russian is the current source/fallback locale. Feature text migrates atomically to stable namespaced keys; narrative localization keeps authored stable IDs (`VN...`, choice IDs, level IDs) as lookup identities. Internal dialogue paging remains presentation-only after translated text is resolved.
 
 ### Save migrations
 
