@@ -5,6 +5,7 @@ import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppSession } from '../../app/AppSession';
 import type { AppShell } from '../../app/AppShell';
+import { escapeHtml } from '../../ui/viewMarkup';
 
 export class MainMenuController {
   constructor(
@@ -20,24 +21,25 @@ export class MainMenuController {
     this.services.telemetry.trackScreen('menu');
     this.session.reload();
     const hasSave = this.session.save.scene > 0 || this.session.save.line > 0 || this.session.save.completed.length > 0;
+    const t = (key: string, params: Readonly<Record<string, string | number | boolean>> = {}) => escapeHtml(this.services.localization.t(key, params));
     this.shell.render(`<section class="menu-screen">
       <img class="menu-background" src="${backgroundAssets.clubroom}" alt="">
       <div class="menu-wash"></div>
       <div class="menu-content">
-        <p class="eyebrow">SEIRAN COLLEGE · CASE 001</p>
-        <h1>Детективы<br><span>класса U</span></h1>
-        <p class="tagline">Комедийная visual novel × match‑3</p>
-        <div class="hero-medallions" aria-label="Мику, Оноэ и Аюки">
+        <p class="eyebrow">${t('menu.eyebrow')}</p>
+        <h1>${t('menu.title')}<br><span>${t('menu.titleAccent')}</span></h1>
+        <p class="tagline">${t('menu.tagline')}</p>
+        <div class="hero-medallions" aria-label="${t('menu.heroAria')}">
           ${(['miku', 'onoe', 'ayuki'] as const).map((key) => `<img src="${characterRigs[key].medallion}" alt="${characterRigs[key].displayName}">`).join('')}
         </div>
         <div class="menu-actions">
-          <button id="new" class="primary">Новая игра</button>
-          <button id="continue" ${hasSave ? '' : 'disabled'}>Продолжить</button>
-          <button id="settings">Настройки</button>
-          <button id="episodes">Навигация по сценам <small>QA</small></button>
-          <button id="support">Сохранения и диагностика <small>QA</small></button>
+          <button id="new" class="primary">${t('menu.newGame')}</button>
+          <button id="continue" ${hasSave ? '' : 'disabled'}>${t('menu.continue')}</button>
+          <button id="settings">${t('menu.settings')}</button>
+          <button id="episodes">${t('menu.sceneNavigation')} <small>QA</small></button>
+          <button id="support">${t('menu.saveDiagnostics')} <small>QA</small></button>
         </div>
-        <footer>${BUILD_LABEL}<br><span>${APP_VERSION} · ${parsedLineCount} строк сценария</span></footer>
+        <footer>${BUILD_LABEL}<br><span>${APP_VERSION} · ${t('menu.scriptLines', { count: parsedLineCount })}</span></footer>
       </div>
     </section>`);
 

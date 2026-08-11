@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { APP_VERSION, BUILD_LABEL } from '../src/appVersion';
+import { LOCALE_SETTINGS_KEY } from '../src/localization/LocaleSettingsStore';
 import { getScene, type ChoiceId } from '../src/data/narrative';
 import { AnimeDetectiveApp } from '../src/ui/AnimeDetectiveApp';
 
@@ -103,6 +104,25 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('Haptics');
     expect(root.innerHTML).toContain('Проверить музыку');
     expect(root.innerHTML).toContain('Проверить SFX');
+  });
+
+
+  it('renders the ANM-019B language selector and an English menu/settings vertical slice', () => {
+    const storage = (globalThis.window as unknown as { localStorage: Storage }).localStorage;
+    storage.setItem(LOCALE_SETTINGS_KEY, 'en');
+    const { root, app } = create();
+    app.mount();
+    expect(root.innerHTML).toContain('New Game');
+    expect(root.innerHTML).toContain('Scene Navigation');
+    expect(root.innerHTML).toContain('Saves &amp; Diagnostics');
+    expect(root.innerHTML).not.toContain('Новая игра');
+
+    app.renderSettings();
+    expect(root.innerHTML).toContain('Audio &amp; Feedback');
+    expect(root.innerHTML).toContain('Music volume');
+    expect(root.innerHTML).toContain('Check for update');
+    expect(root.innerHTML).toContain('data-language-select');
+    expect(root.innerHTML).toContain('<option value="en" selected>English</option>');
   });
 
   it('renders save and diagnostics tools', () => {

@@ -1,4 +1,4 @@
-# UPDS — актуальный roadmap после ANM-019A
+# UPDS — актуальный roadmap после ANM-019B
 
 ## Completed foundation
 
@@ -18,7 +18,7 @@
 
 ### ANM-019 — Localization foundation
 
-Atomic migration before adding more content: localization core, system UI + language selector, VN content/metadata, then Match-3/dossier/ending. Russian remains the source/fallback locale while features migrate.
+Localization core and the ru/en Main Menu + Settings vertical slice are complete. Next: VN metadata/choices/chrome, screenplay locale split/paging validation, then Match-3/dossier/ending. Russian remains the source/fallback locale while features migrate.
 
 ### Production character completion
 

@@ -59,4 +59,17 @@ describe('ANM-019A localization foundation', () => {
     expect(LOCALE_SETTINGS_KEY).toBe('seiran-detectives-locale-v1');
     expect(new LocaleSettingsStore(storage).load()).toBe('en');
   });
+
+  it('ships complete ru/en catalogs for the ANM-019B menu/settings slice', async () => {
+    const [{ ruCatalog }, { enCatalog }] = await Promise.all([
+      import('../src/localization/catalogs/ru'),
+      import('../src/localization/catalogs/en'),
+    ]);
+    expect(enCatalog['menu.newGame']).toBe('New Game');
+    expect(enCatalog['settings.audioHeading']).toBe('Audio & Feedback');
+    expect(enCatalog['pwa.checkUpdate']).toBe('Check for update');
+    expect(ruCatalog['menu.newGame']).toBe('Новая игра');
+    expect(Object.keys(enCatalog).sort()).toEqual(Object.keys(ruCatalog).sort());
+  });
+
 });

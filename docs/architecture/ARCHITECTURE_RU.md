@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Build: `0.19.0-anm019a`.
+Build: `0.19.1-anm019b`.
 
 ## Runtime flow
 
