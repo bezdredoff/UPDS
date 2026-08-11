@@ -1,4 +1,4 @@
-import { APP_VERSION, BUILD_LABEL } from '../appVersion';
+import { APP_VERSION, BUILD_ID, BUILD_LABEL, BUILD_TIMESTAMP } from '../appVersion';
 import {
   characterForSpeaker,
   characterRigs,
@@ -31,7 +31,6 @@ import {
   type StoryLine,
 } from '../data/narrative';
 import {
-  CampaignStore,
   freshSave,
   isPreMatchScene,
   levelForPreMatchScene,
@@ -39,6 +38,9 @@ import {
   type CampaignSave,
 } from '../engine/CampaignStore';
 import { Match3Game, type MoveResult } from '../engine/Match3Game';
+import { createDiagnosticsSnapshot } from '../platform/Diagnostics';
+import { downloadJson } from '../platform/Download';
+import { createRuntimeServices, type RuntimeServices } from '../platform/RuntimeServices';
 
 type Bark = Readonly<{ speaker: string; text: string }>;
 
@@ -54,7 +56,8 @@ const icon = (name: string, alt = ''): string => `<img src="./assets/ui/icon_${n
 export class AnimeDetectiveApp {
   private save: CampaignSave = freshSave();
   private story: StoryLine[] = [];
-  private readonly store: CampaignStore;
+  private readonly services: RuntimeServices;
+  private readonly store: RuntimeServices['store'];
   private activeMatch: Match3Game | null = null;
   private activeLevelIndex = 0;
   private selectedCell: number | null = null;
@@ -63,8 +66,9 @@ export class AnimeDetectiveApp {
   private pendingClue: ClueId | null = null;
   private timers: number[] = [];
 
-  constructor(private readonly root: HTMLElement) {
-    this.store = new CampaignStore(window.localStorage);
+  constructor(private readonly root: HTMLElement, services: RuntimeServices = createRuntimeServices()) {
+    this.services = services;
+    this.store = services.store;
   }
 
   mount(): void {
@@ -72,11 +76,7 @@ export class AnimeDetectiveApp {
   }
 
   private persist(): void {
-    try {
-      this.store.save(this.save);
-    } catch {
-      // The complete game remains playable when private browsing blocks storage.
-    }
+    if (!this.store.save(this.save)) this.services.errorLog.record('application', 'Campaign save failed; runtime progress continues in memory.');
   }
 
   private clearTimers(): void {
@@ -106,6 +106,7 @@ export class AnimeDetectiveApp {
           <button id="new" class="primary">Новая игра</button>
           <button id="continue" ${hasSave ? '' : 'disabled'}>Продолжить</button>
           <button id="episodes">Навигация по сценам <small>QA</small></button>
+          <button id="support">Сохранения и диагностика <small>QA</small></button>
         </div>
         <footer>${BUILD_LABEL}<br><span>${APP_VERSION} · ${parsedLineCount} строк сценария</span></footer>
       </div>
@@ -118,6 +119,72 @@ export class AnimeDetectiveApp {
     });
     this.root.querySelector('#continue')?.addEventListener('click', () => this.openScene(this.save.scene, this.save.line));
     this.root.querySelector('#episodes')?.addEventListener('click', () => this.renderSceneSelect());
+    this.root.querySelector('#support')?.addEventListener('click', () => this.renderSupport());
+  }
+
+  private renderSupport(status = ''): void {
+    const loadReport = this.store.getLastLoadReport();
+    const recovery = this.store.getRecoveryBackup();
+    const assetHealth = this.services.assetHealth.snapshot();
+    const errors = this.services.errorLog.getEntries();
+    const storageLabel = this.services.storage.mode === 'persistent' ? 'localStorage · persistent' : 'memory fallback · текущая вкладка';
+
+    this.shell(`<section class="panel support-panel">
+      <button id="back" class="icon-text back">${icon('back')} Меню</button>
+      <p class="eyebrow">ANM-011 · INFRASTRUCTURE</p>
+      <h2>Сохранения и диагностика</h2>
+      <p class="panel-copy">Сервисные инструменты для мобильного плейтеста. Они не меняют канон, VN IDs или игровые правила.</p>
+      ${status ? `<div class="support-status">${escapeHtml(status)}</div>` : ''}
+      <div class="diagnostic-grid">
+        <article><small>BUILD</small><b>${escapeHtml(APP_VERSION)}</b><span>${escapeHtml(BUILD_ID)}</span></article>
+        <article><small>SAVE SCHEMA</small><b>v1</b><span>${escapeHtml(loadReport.status)} · ${escapeHtml(loadReport.detail)}</span></article>
+        <article><small>STORAGE</small><b>${this.services.storage.mode === 'persistent' ? 'OK' : 'FALLBACK'}</b><span>${escapeHtml(storageLabel)}</span></article>
+        <article><small>RUNTIME</small><b>${errors.length} errors</b><span>${assetHealth.failures.length} asset failures</span></article>
+      </div>
+      <div class="support-actions">
+        <button id="export-save">${icon('save')}<span><b>Экспорт сохранения</b><small>JSON для переноса или резервной копии</small></span></button>
+        <button id="import-save">${icon('load')}<span><b>Импорт сохранения</b><small>Совместимый ANM-009+ JSON</small></span></button>
+        <input id="save-file" class="visually-hidden" type="file" accept="application/json,.json">
+        <button id="export-diagnostics">${icon('log')}<span><b>Экспорт диагностики</b><small>Build, save, ошибки, assets и устройство</small></span></button>
+        ${recovery ? `<button id="export-recovery">${icon('log')}<span><b>Экспорт recovery backup</b><small>Сохранён источник повреждённого или заменённого save</small></span></button>` : ''}
+      </div>
+      <div class="support-meta">
+        <b>${escapeHtml(BUILD_LABEL)}</b>
+        <span>Build time: ${escapeHtml(BUILD_TIMESTAMP)}</span>
+        <span>Preload: ${assetHealth.preloadLoaded}/${assetHealth.preloadRequested}; failed: ${assetHealth.preloadFailed}</span>
+        <span>Recovery backup: ${recovery ? 'есть' : 'нет'}</span>
+      </div>
+      <button id="clear-errors" class="danger-link">Очистить журнал runtime-ошибок</button>
+    </section>`);
+
+    this.root.querySelector('#back')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelector('#export-save')?.addEventListener('click', () => downloadJson(`UPDS_save_${APP_VERSION}.json`, this.store.createExportBundle(this.save)));
+    this.root.querySelector('#export-diagnostics')?.addEventListener('click', () => {
+      downloadJson(`UPDS_diagnostics_${APP_VERSION}.json`, createDiagnosticsSnapshot({
+        save: this.save, storageMode: this.services.storage.mode, loadReport: this.store.getLastLoadReport(),
+        recoveryBackup: this.store.getRecoveryBackup(), errorLog: this.services.errorLog, assetHealth: this.services.assetHealth,
+      }));
+    });
+    this.root.querySelector('#export-recovery')?.addEventListener('click', () => downloadJson(`UPDS_recovery_${APP_VERSION}.json`, this.store.getRecoveryBackup()));
+    this.root.querySelector('#clear-errors')?.addEventListener('click', () => { this.services.errorLog.clear(); this.renderSupport('Журнал runtime-ошибок очищен.'); });
+
+    const input = this.root.querySelector<HTMLInputElement>('#save-file');
+    this.root.querySelector('#import-save')?.addEventListener('click', () => input?.click());
+    input?.addEventListener('change', async () => {
+      const file = input.files?.[0];
+      if (!file) return;
+      try {
+        const text = await file.text();
+        if (!window.confirm('Импорт заменит текущий прогресс. Продолжить?')) return;
+        const result = this.store.importFromText(text);
+        if (!result.ok) { this.services.errorLog.record('application', `Save import rejected: ${result.error}`); this.renderSupport(result.error); return; }
+        this.save = result.state;
+        this.renderSupport('Сохранение импортировано. Continue продолжит с импортированной позиции.');
+      } catch (error) {
+        this.services.errorLog.record('application', error);
+        this.renderSupport('Не удалось прочитать выбранный файл.');
+      }
+    });
   }
 
   private renderSceneSelect(): void {

@@ -21,6 +21,7 @@ class FakeRoot {
 type AppHarness = {
   openScene(scene: number, line?: number): void;
   startMatch(level: number): void;
+  renderSupport(status?: string): void;
 };
 
 const originalWindow = globalThis.window;
@@ -50,7 +51,7 @@ describe('AnimeDetectiveApp render smoke', () => {
   it('mounts the production menu without a browser DOM implementation', () => {
     const { root, app } = create();
     app.mount();
-    expect(root.innerHTML).toContain('ANM-010 · GitHub Phone Pipeline');
+    expect(root.innerHTML).toContain('ANM-011 · Infrastructure Hardening');
     expect(root.innerHTML).toContain('Новая игра');
     expect(root.innerHTML).toContain('characters/miku/medallions');
   });
@@ -76,6 +77,17 @@ describe('AnimeDetectiveApp render smoke', () => {
       expect(root.innerHTML).toContain('PORTRAIT PLACEHOLDER');
       expect(root.innerHTML).toContain(item.label);
     }
+  });
+
+  it('renders ANM-011 save and diagnostics tools', () => {
+    const { root, app } = create();
+    app.mount();
+    app.renderSupport();
+    expect(root.innerHTML).toContain('Сохранения и диагностика');
+    expect(root.innerHTML).toContain('Экспорт сохранения');
+    expect(root.innerHTML).toContain('Импорт сохранения');
+    expect(root.innerHTML).toContain('Экспорт диагностики');
+    expect(root.innerHTML).toContain('0.11.0-anm011');
   });
 
   it('renders a complete 8x8 board with runtime images', () => {

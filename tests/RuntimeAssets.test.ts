@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { characterRigs } from '../src/data/characterRigs';
 import { backgroundAssets } from '../src/data/narrative';
 import { blockerPresentation, cluePresentation, ingredientPresentation, specialAsset, tilePresentation } from '../src/data/levels';
+import { runtimeAssetCatalog } from '../src/platform/RuntimeAssets';
 
 const localPath = (asset: string): string => resolve(process.cwd(), 'public', asset.replace(/^\.\//, ''));
 
@@ -18,6 +19,12 @@ describe('runtime asset contract', () => {
       specialAsset,
     ];
     for (const asset of assets) expect(existsSync(localPath(asset)), asset).toBe(true);
+  });
+
+
+
+  it('contains every asset registered for ANM-011 runtime preloading', () => {
+    for (const asset of runtimeAssetCatalog) expect(existsSync(localPath(asset)), asset).toBe(true);
   });
 
   it('contains a base, six face overlays, pose B and medallion for every finished rig', () => {
