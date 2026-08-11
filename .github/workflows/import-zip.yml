@@ -169,7 +169,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/source"
           tar -C "$RUNNER_TEMP/source" -xzf "$RUNNER_TEMP/validated-source/candidate-source.tgz"
           rsync -a --delete --exclude='.git/' "$RUNNER_TEMP/source/" ./
-      - name: Create and push candidate branch
+      - name: Create or reuse candidate branch
         id: branch
         shell: bash
         run: |
@@ -177,6 +177,9 @@ jobs:
           branch="candidate/${{ needs.validate-candidate.outputs.candidate_slug }}-${GITHUB_RUN_ID}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Build the exact validated candidate tree locally first. A rerun keeps
+          # GITHUB_RUN_ID, so the same deterministic branch name is expected.
           git switch -c "$branch"
           git add -A
           if git diff --cached --quiet; then
@@ -184,9 +187,22 @@ jobs:
             exit 1
           fi
           git commit -m "Import ${{ needs.validate-candidate.outputs.archive_name }}"
-          git push origin "$branch"
+          local_tree="$(git rev-parse 'HEAD^{tree}')"
+
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+            git fetch --no-tags origin "$branch:refs/remotes/origin/$branch"
+            remote_tree="$(git rev-parse "refs/remotes/origin/$branch^{tree}")"
+            if [[ "$remote_tree" != "$local_tree" ]]; then
+              echo "Candidate branch $branch already exists with different content; refusing to overwrite it." >&2
+              exit 1
+            fi
+            echo "Candidate branch already contains this validated tree; reusing it."
+          else
+            git push origin "$branch"
+          fi
+
           echo "branch=$branch" >> "$GITHUB_OUTPUT"
-      - name: Open pull request
+      - name: Open or reuse pull request
         id: pr
         env:
           GH_TOKEN: ${{ github.token }}
@@ -195,11 +211,24 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          pr_url="$(gh pr create \
-            --base main \
-            --head "$BRANCH" \
-            --title "Candidate import: $ARCHIVE" \
-            --body $'Mobile ZIP candidate imported by GitHub Actions.\n\n- The archive passed `npm run check` in a read-only job before this branch was created.\n- Independent PR CI must still be explicitly approved and pass before merge.\n- Test the GitHub Pages preview linked by the import workflow before merging.\n- Do not merge if the changed-file list contains unexpected canon, VN IDs, save key, art-direction, or rig-contract changes.' )"
+
+          pr_url="$(gh pr list --base main --head "$BRANCH" --state open --limit 1 --json url --jq '.[0].url // ""')"
+          if [[ -n "$pr_url" ]]; then
+            echo "Open pull request already exists for $BRANCH; reusing $pr_url."
+          else
+            existing_state="$(gh pr list --base main --head "$BRANCH" --state all --limit 1 --json state --jq '.[0].state // ""')"
+            if [[ -n "$existing_state" ]]; then
+              echo "A non-open pull request already exists for $BRANCH (state: $existing_state); refusing to create a duplicate." >&2
+              exit 1
+            fi
+
+            pr_url="$(gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "Candidate import: $ARCHIVE" \
+              --body $'Mobile ZIP candidate imported by GitHub Actions.\n\n- The archive passed `npm run check` in a read-only job before this branch was created.\n- Independent PR CI must still be explicitly approved and pass before merge.\n- Test the GitHub Pages preview linked by the import workflow before merging.\n- Do not merge if the changed-file list contains unexpected canon, VN IDs, save key, art-direction, or rig-contract changes.' )"
+          fi
+
           pr_number="${pr_url##*/}"
           echo "pr_url=$pr_url" >> "$GITHUB_OUTPUT"
           echo "pr_number=$pr_number" >> "$GITHUB_OUTPUT"
