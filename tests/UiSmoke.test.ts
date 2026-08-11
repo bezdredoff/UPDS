@@ -64,6 +64,8 @@ describe('AnimeDetectiveApp render smoke', () => {
     const mikuLine = getScene(0).findIndex((line) => line.speaker.startsWith('МИКУ'));
     app.openScene(0, mikuLine);
     expect(root.innerHTML).toContain('character-rig');
+    expect(root.innerHTML).toMatch(/data-stage-side="(left|right|center)"/);
+    expect(root.innerHTML).toMatch(/portrait-(left|right|center)/);
     expect(root.innerHTML).toContain('base-neutral.png');
     expect(root.innerHTML).toContain('vn-controls');
     expect(root.innerHTML).toContain('vn-background-fill');

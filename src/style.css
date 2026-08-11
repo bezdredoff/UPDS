@@ -247,16 +247,19 @@ img { display: block; }
 .stage { position: relative; z-index: 2; min-height: 0; overflow: hidden; }
 .portrait {
   position: absolute;
-  left: 50%;
-  bottom: 0;
-  height: 100%;
+  bottom: -78%;
+  height: 178%;
   width: auto;
-  max-width: calc(100% - 18px);
+  max-width: none;
   aspect-ratio: 2 / 3;
   transform: translateX(-50%);
-  filter: drop-shadow(0 10px 10px #10162b4d);
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 12px 12px #10162b59);
 }
-.character-rig { animation: idle-breathe 2.8s ease-in-out infinite; transform-origin: 50% 100%; }
+.portrait-left { left: 29%; }
+.portrait-right { left: 71%; }
+.portrait-center { left: 50%; }
+.character-rig { animation: idle-breathe 2.8s ease-in-out infinite; }
 .portrait-base, .portrait-static {
   position: absolute;
   inset: 0;
@@ -278,10 +281,9 @@ img { display: block; }
 .portrait-placeholder {
   --placeholder-accent: var(--coral);
   position: absolute;
-  left: 50%;
-  bottom: 3%;
+  bottom: -8%;
   width: 190px;
-  height: min(320px, 88%);
+  height: min(300px, 74%);
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
@@ -293,6 +295,9 @@ img { display: block; }
   color: white;
   box-shadow: 0 12px 35px #10132677;
 }
+.portrait-placeholder-left { left: 29%; }
+.portrait-placeholder-right { left: 71%; }
+.portrait-placeholder-center { left: 50%; }
 .portrait-placeholder span { font: 700 80px Georgia, serif; opacity: .42; }
 .portrait-placeholder b { font-size: 16px; }
 .portrait-placeholder small { margin-top: 7px; font-size: 8px; letter-spacing: .15em; opacity: .72; }
@@ -506,8 +511,8 @@ img { display: block; }
   .vn-case-pill, .vn-top-action { min-height: 44px; border-radius: 9px; }
   .vn-top-action img { width: 19px; height: 19px; }
   .vn-case-pill b { font-size: 9px; }
-  .portrait { height: 100%; width: auto; max-width: calc(100% - 14px); bottom: 0; }
-  .portrait-placeholder { width: 152px; height: min(240px, 90%); }
+  .portrait { height: 168%; bottom: -68%; max-width: none; }
+  .portrait-placeholder { width: 152px; height: min(220px, 70%); }
   .portrait-placeholder span { font-size: 60px; }
   .vn-screen { grid-template-rows: auto minmax(0, 1fr) 136px auto; }
   .dialogue-shell { height: 100%; min-height: 0; padding: 12px 8px 5px; }

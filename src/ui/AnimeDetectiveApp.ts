@@ -45,6 +45,7 @@ import { downloadJson } from '../platform/Download';
 import { createRuntimeServices, type RuntimeServices } from '../platform/RuntimeServices';
 import { getDragPreview, getSwipeDecision } from './boardInteraction';
 import { matchMotionDuration } from './matchMotion';
+import { resolveVnStaging, type VnStageSide } from './vnStaging';
 import { autoDelayForLine, nextUnreadIndex, type AutoSpeed, type TextScale } from './vnPlayback';
 
 type Bark = Readonly<{ speaker: string; text: string }>;
@@ -321,6 +322,7 @@ export class AnimeDetectiveApp {
     const character = direction ? null : characterForSpeaker(entry.speaker);
     const placeholder = direction ? null : placeholderForSpeaker(entry.speaker);
     const expression = expressionForDirection(entry.emotion);
+    const staging = direction ? null : resolveVnStaging(this.story, this.save.line);
     const clueToast = this.pendingClue ? this.clueToastMarkup(this.pendingClue) : '';
     const skipAvailable = this.save.readLines.includes(entry.id);
     if (character && !this.usesPoseB(character, entry.emotion)) {
@@ -344,9 +346,9 @@ export class AnimeDetectiveApp {
         <button id="history" class="vn-top-action">${icon('log')}<span>LOG</span></button>
         <button id="menu" class="vn-top-action">${icon('menu')}<span>MENU</span></button>
       </header>
-      <div class="stage">
-        ${character ? this.characterMarkup(character, expression, entry.emotion) : ''}
-        ${placeholder ? this.placeholderMarkup(placeholder) : ''}
+      <div class="stage ${staging ? `stage-${staging.side}` : 'stage-empty'}" data-stage-side="${staging?.side ?? 'none'}">
+        ${character ? this.characterMarkup(character, expression, entry.emotion, staging?.side ?? 'center') : ''}
+        ${placeholder ? this.placeholderMarkup(placeholder, staging?.side ?? 'center') : ''}
         ${direction ? `<div class="direction-card"><span>ПОСТАНОВКА</span><b>${escapeHtml(entry.emotion)}</b></div>` : ''}
         ${clueToast}
       </div>
@@ -502,21 +504,21 @@ export class AnimeDetectiveApp {
     this.timers.push(window.setTimeout(() => { status.hidden = true; }, 1500));
   }
 
-  private characterMarkup(character: CharacterKey, expression: RuntimeExpression, direction: string): string {
+  private characterMarkup(character: CharacterKey, expression: RuntimeExpression, direction: string, side: VnStageSide): string {
     const rig = characterRigs[character];
     if (this.usesPoseB(character, direction)) {
-      return `<div class="portrait portrait-static-wrap"><img class="portrait-static" src="${rig.poseB}" alt="${rig.displayName}"></div>`;
+      return `<div class="portrait portrait-${side} portrait-static-wrap"><img class="portrait-static" src="${rig.poseB}" alt="${rig.displayName}"></div>`;
     }
     const face = faceAsset(character, expression);
-    return `<div class="portrait character-rig" data-character="${character}">
+    return `<div class="portrait portrait-${side} character-rig" data-character="${character}">
       <img class="portrait-base" src="${rig.base}" alt="${rig.displayName}">
       <img class="portrait-face ${face ? '' : 'is-hidden'}" src="${face ?? rig.faces.speaking}" alt="">
     </div>`;
   }
 
-  private placeholderMarkup(key: keyof typeof placeholderCharacters): string {
+  private placeholderMarkup(key: keyof typeof placeholderCharacters, side: VnStageSide): string {
     const character = placeholderCharacters[key];
-    return `<div class="portrait-placeholder" style="--placeholder-accent:${character.accent}">
+    return `<div class="portrait-placeholder portrait-placeholder-${side}" style="--placeholder-accent:${character.accent}">
       <span>${character.initials}</span>
       <b>${character.displayName}</b>
       <small>PORTRAIT PLACEHOLDER</small>
