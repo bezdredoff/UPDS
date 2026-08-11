@@ -59,8 +59,10 @@ describe('ANM-016 VN presentation and sequence audit', () => {
     expect(style).toContain('.portrait-center { left: 50%; }');
     expect(style).toContain('.dialogue {');
     expect(style).toContain('grid-template-rows: minmax(0, 1fr) auto;');
-    expect(style).toContain('.dialogue-text { position: relative; z-index: 1; display: block; width: 100%; height: 100%;');
-    expect(style).toContain('min-width: 0; min-height: 0;');
+    expect(style).toContain('.dialogue-text { position: relative; z-index: 1; display: block; align-self: start; width: 100%;');
+    expect(style).toContain('height: calc(2.84em + 19px);');
+    expect(style).toContain('min-height: calc(2.84em + 19px);');
+    expect(style).toContain('max-height: calc(2.84em + 19px);');
     expect(style).toContain('overflow: hidden;');
     expect(appSource).toContain('createDialogueRenderedFit(textElement)');
     expect(appSource).toContain('vn-background-stack');

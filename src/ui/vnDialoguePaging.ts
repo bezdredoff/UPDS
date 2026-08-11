@@ -84,6 +84,10 @@ type SegmentEntry = Readonly<{ segment: string }>;
 type SegmenterLike = Readonly<{ segment(input: string): Iterable<SegmentEntry> }>;
 type SegmenterConstructor = new (locale?: string | string[], options?: { granularity?: SegmenterGranularity }) => SegmenterLike;
 
+function usesCjkLocale(locale: string): boolean {
+  return /^(?:ja|zh|ko)(?:-|$)/iu.test(locale);
+}
+
 const segmenterConstructor = (): SegmenterConstructor | null => {
   if (typeof Intl === 'undefined') return null;
   const intlWithSegmenter = Intl as typeof Intl & { Segmenter?: SegmenterConstructor };
@@ -103,14 +107,22 @@ const segmentSentences = (text: string, locale: string): string[] => {
 };
 
 const segmentWords = (text: string, locale: string): string[] => {
+  // Whitespace languages are safest when we preserve each original token
+  // byte-for-byte (apart from collapsed inter-token whitespace). This avoids
+  // Intl word segmentation inventing spaces inside things like quoted words,
+  // variable expressions or German compounds.
+  if (!usesCjkLocale(locale)) {
+    const words = text.trim().split(/\s+/u).filter(Boolean);
+    return words.length > 0 ? words : [text];
+  }
+
   const Segmenter = segmenterConstructor();
   if (Segmenter) {
     const segmenter = new Segmenter(locale, { granularity: 'word' });
     const segments = Array.from(segmenter.segment(text), (entry) => normalize(entry.segment)).filter(Boolean);
     if (segments.length > 0) return segments;
   }
-  const words = text.split(/\s+/).map(normalize).filter(Boolean);
-  return words.length > 1 ? words : Array.from(text);
+  return Array.from(text);
 };
 
 const segmentGraphemes = (text: string, locale: string): string[] => {
@@ -139,57 +151,153 @@ const joinSegments = (segments: readonly string[]): string => {
   return normalize(result);
 };
 
-const maxFittingPrefix = (segments: readonly string[], fits: DialogueFitPredicate): number => {
-  if (segments.length === 0) return 0;
-  let low = 1;
-  let high = segments.length;
-  let best = 0;
-  while (low <= high) {
-    const middle = Math.floor((low + high) / 2);
-    if (fits(joinSegments(segments.slice(0, middle)))) {
-      best = middle;
-      low = middle + 1;
-    } else {
-      high = middle - 1;
-    }
-  }
-  return best;
+const CONTINUATION_MARKER = '…';
+const PREFERRED_CONTINUATION_WORDS = 4;
+const MIN_CONTINUATION_WORDS = 3;
+const PREFERRED_CONTINUATION_CJK_GRAPHEMES = 6;
+const MIN_CONTINUATION_CJK_GRAPHEMES = 4;
+
+export const dialogueContinuationText = (page: string, hasContinuation: boolean): string => {
+  if (!hasContinuation) return page;
+  const trimmed = page.trimEnd();
+  if (!trimmed) return CONTINUATION_MARKER;
+  if (trimmed.endsWith(CONTINUATION_MARKER)) return trimmed;
+  if (/[.;:。；：]$/u.test(trimmed)) return `${trimmed.slice(0, -1)}${CONTINUATION_MARKER}`;
+  return `${trimmed}${CONTINUATION_MARKER}`;
 };
 
-const splitOversizedUnit = (unit: string, fits: DialogueFitPredicate, locale: string): string[] => {
-  const words = segmentWords(unit, locale);
-  if (words.length > 1) {
-    const pages: string[] = [];
-    let remaining = [...words];
-    while (remaining.length > 0) {
-      const count = maxFittingPrefix(remaining, fits);
-      if (count > 0) {
-        pages.push(joinSegments(remaining.splice(0, count)));
-        continue;
+const visibleWordCount = (text: string): number => text
+  .trim()
+  .split(/\s+/u)
+  .filter((token) => /[\p{L}\p{N}]/u.test(token))
+  .length;
+
+const cjkGraphemeCount = (text: string, locale: string): number => segmentGraphemes(text, locale)
+  .filter((segment) => /[\p{L}\p{N}\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u.test(segment))
+  .length;
+
+const meaningfulUnitCount = (text: string, locale: string, forceGrapheme = false): number => forceGrapheme || usesCjkLocale(locale)
+  ? cjkGraphemeCount(text, locale)
+  : visibleWordCount(text);
+
+const minimumContinuationUnits = (locale: string, preferred: boolean, forceGrapheme = false): number => forceGrapheme || usesCjkLocale(locale)
+  ? (preferred ? PREFERRED_CONTINUATION_CJK_GRAPHEMES : MIN_CONTINUATION_CJK_GRAPHEMES)
+  : (preferred ? PREFERRED_CONTINUATION_WORDS : MIN_CONTINUATION_WORDS);
+
+const hasHealthyContinuation = (remaining: string, locale: string, preferred: boolean, forceGrapheme = false): boolean => {
+  if (!remaining.trim()) return true;
+  return meaningfulUnitCount(remaining, locale, forceGrapheme) >= minimumContinuationUnits(locale, preferred, forceGrapheme);
+};
+
+const hasHealthyPageBody = (candidate: string, locale: string, forceGrapheme = false): boolean => {
+  const minimum = forceGrapheme || usesCjkLocale(locale) ? 4 : 3;
+  return meaningfulUnitCount(candidate, locale, forceGrapheme) >= minimum;
+};
+
+type SplitCandidate = Readonly<{ head: string; tail: string }>;
+
+const hasAwkwardPunctuationBoundary = (head: string, tail: string): boolean => {
+  const left = head.trimEnd();
+  const right = tail.trimStart();
+  if (!left || !right) return true;
+  if (/[(\[{<«“]$/u.test(left)) return true;
+  if (/^[,.;:!?…%)\]}>»”]/u.test(right)) return true;
+  return false;
+};
+
+const largestHealthyBoundary = (
+  units: readonly string[],
+  fits: DialogueFitPredicate,
+  locale: string,
+  options: Readonly<{ allowSmallHead?: boolean; preferredTail?: boolean; ignoreTailMinimum?: boolean; forceGrapheme?: boolean; join?: (parts: readonly string[]) => string }> = {},
+): SplitCandidate | null => {
+  if (units.length < 2) return null;
+  const join = options.join ?? joinSegments;
+  for (let cut = units.length - 1; cut >= 1; cut -= 1) {
+    const head = join(units.slice(0, cut));
+    const tail = join(units.slice(cut));
+    if (!head || !tail) continue;
+    if (hasAwkwardPunctuationBoundary(head, tail)) continue;
+    if (!options.ignoreTailMinimum && !hasHealthyContinuation(tail, locale, options.preferredTail ?? true, options.forceGrapheme ?? false)) continue;
+    if (!options.allowSmallHead && !hasHealthyPageBody(head, locale, options.forceGrapheme ?? false)) continue;
+    if (fits(dialogueContinuationText(head, true))) return { head, tail };
+  }
+  return null;
+};
+
+const splitAtPreferredBoundary = (
+  remaining: string,
+  fits: DialogueFitPredicate,
+  locale: string,
+): SplitCandidate | null => {
+  const sentences = segmentSentences(remaining, locale);
+  const sentenceBoundary = largestHealthyBoundary(sentences, fits, locale);
+  if (sentenceBoundary) return sentenceBoundary;
+  const sentenceBoundaryHardMin = largestHealthyBoundary(sentences, fits, locale, { preferredTail: false });
+  if (sentenceBoundaryHardMin) return sentenceBoundaryHardMin;
+
+  const words = segmentWords(remaining, locale);
+  const wordBoundary = largestHealthyBoundary(words, fits, locale);
+  if (wordBoundary) return wordBoundary;
+  const wordBoundaryHardMin = largestHealthyBoundary(words, fits, locale, { preferredTail: false });
+  if (wordBoundaryHardMin) return wordBoundaryHardMin;
+  const wordBoundarySmallHead = largestHealthyBoundary(words, fits, locale, { allowSmallHead: true, preferredTail: false });
+  if (wordBoundarySmallHead) return wordBoundarySmallHead;
+  const wordBoundaryAnyTail = largestHealthyBoundary(words, fits, locale, { allowSmallHead: true, ignoreTailMinimum: true });
+  if (wordBoundaryAnyTail) return wordBoundaryAnyTail;
+
+  // Grapheme splitting is a last resort for CJK or a genuinely unbreakable
+  // single word/identifier. Do not use it to manufacture one-word tails in
+  // normal whitespace-separated dialogue.
+  if (!usesCjkLocale(locale) && visibleWordCount(remaining) > 1) return null;
+  const graphemes = segmentGraphemes(remaining, locale);
+  const graphemeJoin = (parts: readonly string[]): string => parts.join('');
+  return largestHealthyBoundary(graphemes, fits, locale, { allowSmallHead: true, preferredTail: false, forceGrapheme: true, join: graphemeJoin });
+};
+
+const rebalanceContinuationTails = (pages: readonly string[], fits: DialogueFitPredicate, locale: string): string[] => {
+  const balanced = [...pages];
+  if (balanced.length < 2) return balanced;
+
+  if (usesCjkLocale(locale)) {
+    for (let index = balanced.length - 1; index >= 1; index -= 1) {
+      while (cjkGraphemeCount(balanced[index], locale) < MIN_CONTINUATION_CJK_GRAPHEMES) {
+        const previous = segmentGraphemes(balanced[index - 1], locale);
+        if (previous.length <= 1) break;
+        const moved = previous.pop() ?? '';
+        const candidate = `${moved}${balanced[index]}`;
+        if (!fits(dialogueContinuationText(candidate, index < balanced.length - 1))) break;
+        balanced[index - 1] = previous.join('');
+        balanced[index] = candidate;
       }
-      const first = remaining.shift() ?? '';
-      pages.push(...splitOversizedUnit(first, fits, locale));
     }
-    return pages;
+    return balanced;
   }
 
-  const graphemes = segmentGraphemes(unit, locale);
-  if (graphemes.length <= 1) return [unit];
-  const pages: string[] = [];
-  let remaining = [...graphemes];
-  while (remaining.length > 0) {
-    const count = maxFittingPrefix(remaining, (candidate) => fits(candidate.replace(/\s+/g, '')));
-    const safeCount = Math.max(1, count);
-    pages.push(remaining.splice(0, safeCount).join(''));
+  for (let index = balanced.length - 1; index >= 1; index -= 1) {
+    while (visibleWordCount(balanced[index]) < MIN_CONTINUATION_WORDS) {
+      // If both sides are single no-space fragments, they may be two halves
+      // of one intentionally grapheme-split compound word. Never insert a
+      // synthetic space between those fragments while balancing page tails.
+      if (!/\s/u.test(balanced[index - 1]) && !/\s/u.test(balanced[index])) break;
+      const previous = balanced[index - 1].trim().split(/\s+/u).filter(Boolean);
+      if (previous.length <= 1) break;
+      const moved = previous.pop() ?? '';
+      const candidate = joinSegments([moved, balanced[index]]);
+      if (!fits(dialogueContinuationText(candidate, index < balanced.length - 1))) break;
+      balanced[index - 1] = previous.join(' ');
+      balanced[index] = candidate;
+    }
   }
-  return pages;
+  return balanced;
 };
 
 /**
- * Browser/runtime paginator. `fits` must answer whether candidate text fits in
- * the actual rendered dialogue text viewport. Sentence boundaries are kept
- * whenever possible; an oversized sentence falls back to locale-aware word
- * segmentation and finally grapheme segmentation.
+ * Browser/runtime paginator. `fits` measures the real two-line dialogue
+ * viewport. Continuation pages reserve room for a presentation ellipsis,
+ * prefer sentence/word boundaries and avoid orphan tails of one or two words.
+ * Raw authored text remains untouched: the ellipsis is applied only by
+ * `dialogueContinuationText` when a non-final internal page is displayed.
  */
 export const paginateDialogueTextMeasured = (
   text: string,
@@ -200,34 +308,42 @@ export const paginateDialogueTextMeasured = (
   if (!normalized) return [''];
   if (fits(normalized)) return [normalized];
 
-  const sentences = segmentSentences(normalized, locale);
   const pages: string[] = [];
-  let pending = '';
+  let remaining = normalized;
+  let guard = 0;
 
-  for (const sentence of sentences) {
-    const combined = pending ? joinSegments([pending, sentence]) : sentence;
-    if (fits(combined)) {
-      pending = combined;
+  while (remaining && guard < 256) {
+    guard += 1;
+    if (fits(remaining)) {
+      pages.push(remaining);
+      remaining = '';
+      break;
+    }
+
+    const split = splitAtPreferredBoundary(remaining, fits, locale);
+    if (!split || split.head === remaining || !split.head) {
+      // Measurement can still encounter a single enormous unbreakable token.
+      // Keep progress deterministic, but never emit 1–2 grapheme pages when a
+      // healthy fallback exists in the caller.
+      const graphemes = segmentGraphemes(remaining, locale);
+      let best = 0;
+      for (let cut = graphemes.length - 1; cut >= 1; cut -= 1) {
+        const head = graphemes.slice(0, cut).join('');
+        const tail = graphemes.slice(cut).join('');
+        if (!hasHealthyContinuation(tail, locale, false, true)) continue;
+        if (fits(dialogueContinuationText(head, true))) { best = cut; break; }
+      }
+      if (best <= 0) return pages.length > 0 ? [...pages, remaining] : [normalized];
+      pages.push(graphemes.slice(0, best).join(''));
+      remaining = normalize(graphemes.slice(best).join(''));
       continue;
     }
 
-    if (pending) {
-      pages.push(pending);
-      pending = '';
-    }
-
-    if (fits(sentence)) {
-      pending = sentence;
-      continue;
-    }
-
-    const fragments = splitOversizedUnit(sentence, fits, locale);
-    if (fragments.length > 1) pages.push(...fragments.slice(0, -1));
-    pending = fragments.length > 0 ? fragments[fragments.length - 1] : '';
+    pages.push(split.head);
+    remaining = split.tail;
   }
 
-  if (pending) pages.push(pending);
-  return pages.length > 0 ? pages : [normalized];
+  return pages.length > 0 ? rebalanceContinuationTails(pages, fits, locale) : [normalized];
 };
 
 export const dialogueLocale = (): string => {
