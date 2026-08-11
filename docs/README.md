@@ -25,6 +25,7 @@ This directory is the documentation source of truth for the current repository.
 - [`features/ANM019B_LOCALIZED_SYSTEM_UI_RU.md`](features/ANM019B_LOCALIZED_SYSTEM_UI_RU.md)
 - [`features/ANM019C_LOCALIZED_VN_METADATA_CHOICES_RU.md`](features/ANM019C_LOCALIZED_VN_METADATA_CHOICES_RU.md)
 - [`features/ANM019D_LOCALIZED_SCREENPLAY_RUNTIME_RU.md`](features/ANM019D_LOCALIZED_SCREENPLAY_RUNTIME_RU.md)
+- [`features/ANM019E1_LOCALIZED_DOSSIER_ENDING_RU.md`](features/ANM019E1_LOCALIZED_DOSSIER_ENDING_RU.md)
 
 ## Process
 
