@@ -107,17 +107,20 @@ describe('ANM-016B R3 render-measured paging', () => {
 const appSourceR3 = readFileSync(new URL('../src/ui/AnimeDetectiveApp.ts', import.meta.url), 'utf8');
 const styleR3 = readFileSync(new URL('../src/style.css', import.meta.url), 'utf8');
 
-describe('ANM-016B R3 browser integration contract', () => {
-  it('uses rendered viewport dimensions as the browser source of truth', () => {
-    expect(appSourceR3).toContain('paginateDialogueTextMeasured(text, fits, dialogueLocale())');
-    expect(appSourceR3).toContain('textElement.scrollHeight <= safeHeight');
-    expect(appSourceR3).toContain('textElement.scrollWidth <= textElement.clientWidth + 1');
+describe('ANM-016B R4 browser integration contract', () => {
+  it('measures in an isolated probe instead of mutating the visible flex/grid item', () => {
+    expect(appSourceR3).toContain('createDialogueRenderedFit(textElement)');
+    expect(appSourceR3).toContain('paginateDialogueTextMeasured(text, measurement.fits, dialogueLocale())');
+    expect(appSourceR3).toContain('measurement.dispose()');
+    expect(appSourceR3).not.toContain('textElement.scrollHeight <= safeHeight');
     expect(appSourceR3).toContain('document.fonts.ready.then(() => requestReflow())');
     expect(appSourceR3).toContain("window.addEventListener('resize', requestReflow");
   });
 
-  it('keeps localization-friendly wrapping and a bottom glyph safety reserve', () => {
-    expect(styleR3).toContain('padding: 0 1px 4px 0;');
+  it('keeps a stable dialogue viewport and localization-friendly wrapping', () => {
+    expect(styleR3).toContain('grid-template-rows: minmax(0, 1fr) auto;');
+    expect(styleR3).toContain('height: 100%; min-width: 0; min-height: 0;');
+    expect(styleR3).toContain('padding: 9px 1px 6px 0;');
     expect(styleR3).toContain('overflow-wrap: break-word;');
     expect(styleR3).toContain('line-break: auto;');
     expect(styleR3).toContain('hyphens: auto;');

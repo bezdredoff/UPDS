@@ -52,6 +52,7 @@ import {
   paginateDialogueText,
   paginateDialogueTextMeasured,
 } from './vnDialoguePaging';
+import { createDialogueRenderedFit } from './dialogueMeasurement';
 import { autoDelayForLine, nextUnreadIndex, type AutoSpeed, type TextScale } from './vnPlayback';
 
 type Bark = Readonly<{ speaker: string; text: string }>;
@@ -433,19 +434,26 @@ export class AnimeDetectiveApp {
 
   private measureAndApplyDialoguePages(lineId: string, text: string, fallbackPages: string[]): string[] {
     const textElement = this.root.querySelector<HTMLElement>('.dialogue-text');
-    if (!textElement || textElement.clientWidth <= 0 || textElement.clientHeight <= 0) {
+    if (!textElement) {
       this.dialoguePages = fallbackPages;
       return fallbackPages;
     }
 
-    const fits = (candidate: string): boolean => {
-      textElement.textContent = candidate;
-      const safeHeight = Math.max(0, textElement.clientHeight - 1);
-      return textElement.scrollHeight <= safeHeight
-        && textElement.scrollWidth <= textElement.clientWidth + 1;
-    };
+    const measurement = createDialogueRenderedFit(textElement);
+    if (!measurement) {
+      // An unstable/zero-size layout must never drive the measured paginator
+      // down to one- or two-grapheme pages. Keep the deterministic fallback
+      // until resize/font/layout reflow gives us a real viewport.
+      this.dialoguePages = fallbackPages;
+      return fallbackPages;
+    }
 
-    const measuredPages = paginateDialogueTextMeasured(text, fits, dialogueLocale());
+    let measuredPages: string[];
+    try {
+      measuredPages = paginateDialogueTextMeasured(text, measurement.fits, dialogueLocale());
+    } finally {
+      measurement.dispose();
+    }
     this.dialoguePages = measuredPages;
     this.dialoguePageIndex = Math.min(this.dialoguePageIndex, measuredPages.length - 1);
 
