@@ -66,6 +66,8 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('character-rig');
     expect(root.innerHTML).toContain('base-neutral.png');
     expect(root.innerHTML).toContain('vn-controls');
+    expect(root.innerHTML).toContain('vn-background-fill');
+    expect(root.innerHTML).toContain('vn-background-fit');
     expect(root.innerHTML).toContain('>SKIP<');
     expect(root.innerHTML).toContain('>AUTO<');
     expect(root.innerHTML).toContain('>LOG<');
@@ -120,6 +122,8 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('match-case-hud');
     expect(root.innerHTML).toContain('detective-strip');
     expect(root.innerHTML).toContain('ПОДСКАЗКА');
-    expect(root.innerHTML).toContain('подсказка учитывает текущие цели');
+    expect(root.innerHTML).toContain('Перетащите фишку');
+    expect(root.innerHTML).toContain('подсказка учитывает цели');
+    expect(root.innerHTML).toContain('tile-stack');
   });
 });

@@ -33,11 +33,20 @@ export type MatchGroup = Readonly<{
   indices: readonly number[];
 }>;
 
+export type SettleMotion = Readonly<{
+  index: number;
+  fromIndex: number | null;
+  kind: 'fall' | 'spawn';
+  rows: number;
+}>;
+
 export type Match3Frame = Readonly<{
   phase: 'swap' | 'clear' | 'settle' | 'reshuffle';
   cascade: number;
   board: readonly BoardCell[];
   specialsActivated: number;
+  clearedIndices?: readonly number[];
+  motions?: readonly SettleMotion[];
 }>;
 
 export type HintMove = Readonly<{
@@ -333,6 +342,15 @@ export class Match3Game {
       }
 
       const activatedCount = specialActivations.length;
+      const visibleClear = [...clear].filter((index) => Boolean(this.cells[index]?.tile) && !this.isLockedCell(index));
+      frames.push({
+        phase: 'clear',
+        cascade: totals.cascades,
+        board: this.snapshotBoard(),
+        specialsActivated: activatedCount,
+        clearedIndices: visibleClear.sort((a, b) => a - b),
+      });
+
       const clearedThisCascade = this.clearTiles(clear);
       totals.cleared += clearedThisCascade;
       totals.blockersCleared += this.damageBlockers(clear);
@@ -344,19 +362,14 @@ export class Match3Game {
         totals.specialsCreated += 1;
       }
 
-      frames.push({
-        phase: 'clear',
-        cascade: totals.cascades,
-        board: this.snapshotBoard(),
-        specialsActivated: activatedCount,
-      });
-
-      totals.ingredientsDropped += this.settleBoard();
+      const settle = this.settleBoard();
+      totals.ingredientsDropped += settle.dropped;
       frames.push({
         phase: 'settle',
         cascade: totals.cascades,
         board: this.snapshotBoard(),
         specialsActivated: 0,
+        motions: settle.motions,
       });
       groups = this.findMatchGroups();
       specialActivations = [];
@@ -479,60 +492,92 @@ export class Match3Game {
     return clearedBlockers;
   }
 
-  private settleBoard(): number {
-    let dropped = this.collectBottomIngredients();
-    this.compactColumns();
-    dropped += this.collectBottomIngredients();
-    if (dropped > 0) this.compactColumns();
+  private settleBoard(): { dropped: number; motions: readonly SettleMotion[] } {
+    const origins: Array<number | null> = this.cells.map((cell, index) => (cell.tile || cell.ingredient) ? index : null);
+    let dropped = this.collectBottomIngredients(origins);
+    this.compactColumns(origins);
+    dropped += this.collectBottomIngredients(origins);
+    if (dropped > 0) this.compactColumns(origins);
 
     for (let index = 0; index < this.cells.length; index += 1) {
       const cell = this.cells[index];
-      if (!cell.tile && !cell.ingredient) cell.tile = this.randomTile();
+      if (!cell.tile && !cell.ingredient) {
+        cell.tile = this.randomTile();
+        origins[index] = null;
+      }
     }
-    return dropped;
+
+    const motions: SettleMotion[] = [];
+    for (let index = 0; index < this.cells.length; index += 1) {
+      const cell = this.cells[index];
+      if (!cell.tile && !cell.ingredient) continue;
+      const fromIndex = origins[index];
+      if (fromIndex === null) {
+        const row = rowOf(index);
+        const segmentTop = this.segmentTopFor(index);
+        motions.push({ index, fromIndex: null, kind: 'spawn', rows: Math.max(1, row - segmentTop + 1) });
+      } else if (fromIndex !== index) {
+        const rows = rowOf(index) - rowOf(fromIndex);
+        if (rows > 0) motions.push({ index, fromIndex, kind: 'fall', rows });
+      }
+    }
+    return { dropped, motions };
   }
 
-  private compactColumns(): void {
+  private compactColumns(origins: Array<number | null>): void {
     for (let column = 0; column < BOARD_SIZE; column += 1) {
       let segmentBottom = BOARD_SIZE - 1;
       for (let row = BOARD_SIZE - 1; row >= -1; row -= 1) {
         const barrier = row >= 0 && this.isLockedCell(indexOf(row, column));
         if (row >= 0 && !barrier) continue;
-        this.compactSegment(column, row + 1, segmentBottom);
+        this.compactSegment(column, row + 1, segmentBottom, origins);
         segmentBottom = row - 1;
       }
     }
   }
 
-  private compactSegment(column: number, segmentTop: number, segmentBottom: number): void {
+  private compactSegment(column: number, segmentTop: number, segmentBottom: number, origins: Array<number | null>): void {
     if (segmentTop > segmentBottom) return;
-    const contents: Array<Pick<MutableCell, 'tile' | 'ingredient' | 'special'>> = [];
+    const contents: Array<Pick<MutableCell, 'tile' | 'ingredient' | 'special'> & { origin: number | null }> = [];
     for (let row = segmentBottom; row >= segmentTop; row -= 1) {
-      const cell = this.cells[indexOf(row, column)];
-      if (cell.tile || cell.ingredient) contents.push({ tile: cell.tile, ingredient: cell.ingredient, special: cell.special });
+      const index = indexOf(row, column);
+      const cell = this.cells[index];
+      if (cell.tile || cell.ingredient) contents.push({ tile: cell.tile, ingredient: cell.ingredient, special: cell.special, origin: origins[index] });
     }
     for (let row = segmentBottom, contentIndex = 0; row >= segmentTop; row -= 1, contentIndex += 1) {
-      const cell = this.cells[indexOf(row, column)];
+      const index = indexOf(row, column);
+      const cell = this.cells[index];
       const content = contents[contentIndex];
       cell.tile = content?.tile ?? null;
       cell.ingredient = content?.ingredient ?? null;
       cell.special = content?.special ?? null;
+      origins[index] = content?.origin ?? null;
     }
   }
 
-  private collectBottomIngredients(): number {
+  private collectBottomIngredients(origins?: Array<number | null>): number {
     let dropped = 0;
     for (let column = 0; column < BOARD_SIZE; column += 1) {
-      const cell = this.cells[indexOf(BOARD_SIZE - 1, column)];
+      const index = indexOf(BOARD_SIZE - 1, column);
+      const cell = this.cells[index];
       if (!cell.ingredient) continue;
       const ingredient = cell.ingredient;
       this.ingredientsDropped[ingredient] = (this.ingredientsDropped[ingredient] ?? 0) + 1;
       cell.ingredient = null;
       cell.tile = null;
       cell.special = null;
+      if (origins) origins[index] = null;
       dropped += 1;
     }
     return dropped;
+  }
+
+  private segmentTopFor(index: number): number {
+    const column = colOf(index);
+    for (let row = rowOf(index) - 1; row >= 0; row -= 1) {
+      if (this.isLockedCell(indexOf(row, column))) return row + 1;
+    }
+    return 0;
   }
 
   private ensurePlayable(): void {

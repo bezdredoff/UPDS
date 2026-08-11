@@ -43,7 +43,8 @@ import { preloadImageAssets } from '../platform/AssetPreloader';
 import { createDiagnosticsSnapshot } from '../platform/Diagnostics';
 import { downloadJson } from '../platform/Download';
 import { createRuntimeServices, type RuntimeServices } from '../platform/RuntimeServices';
-import { getSwipeDecision } from './boardInteraction';
+import { getDragPreview, getSwipeDecision } from './boardInteraction';
+import { matchMotionDuration } from './matchMotion';
 import { autoDelayForLine, nextUnreadIndex, type AutoSpeed, type TextScale } from './vnPlayback';
 
 type Bark = Readonly<{ speaker: string; text: string }>;
@@ -322,9 +323,18 @@ export class AnimeDetectiveApp {
     const expression = expressionForDirection(entry.emotion);
     const clueToast = this.pendingClue ? this.clueToastMarkup(this.pendingClue) : '';
     const skipAvailable = this.save.readLines.includes(entry.id);
+    if (character && !this.usesPoseB(character, entry.emotion)) {
+      const rig = characterRigs[character];
+      const currentFace = faceAsset(character, expression);
+      void preloadImageAssets([rig.base, rig.faces.speaking, rig.faces.blink, ...(currentFace ? [currentFace] : [])], this.services.assetHealth);
+    }
 
     this.shell(`<section class="vn-screen text-${this.textScale}">
-      <img class="vn-background" src="${backgroundAssets[background]}" alt="${escapeHtml(meta.location)}">
+      <div class="vn-background-stack" aria-hidden="true">
+        <img class="vn-background vn-background-fill" src="${backgroundAssets[background]}" alt="">
+        <img class="vn-background vn-background-fit" src="${backgroundAssets[background]}" alt="">
+      </div>
+      <span class="visually-hidden">${escapeHtml(meta.location)}</span>
       <div class="vn-vignette"></div>
       <header class="vn-topbar">
         <button id="dossier" class="vn-case-pill" aria-label="Открыть досье">
@@ -404,9 +414,13 @@ export class AnimeDetectiveApp {
       const character = characterForSpeaker(next.speaker);
       if (character) {
         const rig = characterRigs[character];
-        assets.push(this.usesPoseB(character, next.emotion) ? rig.poseB : rig.base);
-        const face = faceAsset(character, expressionForDirection(next.emotion));
-        if (face) assets.push(face);
+        const poseB = this.usesPoseB(character, next.emotion);
+        assets.push(poseB ? rig.poseB : rig.base);
+        if (!poseB) {
+          assets.push(rig.faces.speaking, rig.faces.blink);
+          const face = faceAsset(character, expressionForDirection(next.emotion));
+          if (face) assets.push(face);
+        }
       }
     }
     void preloadImageAssets(assets, this.services.assetHealth);
@@ -567,7 +581,10 @@ export class AnimeDetectiveApp {
   private renderChoice(): void {
     this.services.audio.setScene('vn');
     this.shell(`<section class="choice-screen">
-      <img class="choice-background" src="${backgroundAssets.clubroom}" alt="">
+      <div class="choice-background-stack" aria-hidden="true">
+        <img class="choice-background choice-background-fill" src="${backgroundAssets.clubroom}" alt="">
+        <img class="choice-background choice-background-fit" src="${backgroundAssets.clubroom}" alt="">
+      </div>
       <div class="choice-panel">
         <p class="eyebrow">CHOICE_00</p><h2>С чего начать?</h2>
         ${(Object.keys(choices) as ChoiceId[]).map((id) => `<button data-choice="${id}"><i>${id}</i><span><b>${choices[id].title}</b><small>${choices[id].effect}</small></span></button>`).join('')}
@@ -598,9 +615,22 @@ export class AnimeDetectiveApp {
     this.openScene(this.save.scene + 1, 0);
   }
 
+  private preloadMatchAssets(level: LevelDefinition): void {
+    if (typeof Image === 'undefined') return;
+    const assets = [
+      backgroundAssets[level.background],
+      blockerPresentation[level.blocker].asset,
+      specialAsset,
+      ...Object.values(tilePresentation).map((presentation) => presentation.asset),
+      ...Object.values(ingredientPresentation).map((presentation) => presentation.asset),
+    ];
+    void preloadImageAssets(assets, this.services.assetHealth);
+  }
+
   private renderMatchIntro(levelIndex: number): void {
     this.services.audio.setScene('match');
     const level = levels[levelIndex];
+    this.preloadMatchAssets(level);
     this.activeLevelIndex = levelIndex;
     this.activeMatch = null;
     this.shell(`<section class="level-intro">
@@ -641,19 +671,29 @@ export class AnimeDetectiveApp {
     this.renderMatch();
   }
 
-  private boardCellsMarkup(board: readonly BoardCell[], blockerAsset: string): string {
+  private boardCellsMarkup(
+    board: readonly BoardCell[],
+    blockerAsset: string,
+    options: Readonly<{ clearing?: ReadonlySet<number>; motions?: ReadonlyMap<number, Readonly<{ kind: 'fall' | 'spawn'; rows: number }>> }> = {},
+  ): string {
     return board.map((cell, index) => {
       const selected = this.selectedCell === index ? ' selected' : '';
       const hinted = this.hintedCells.has(index) ? ' hinted' : '';
+      const clearing = options.clearing?.has(index) ? ' is-clearing' : '';
+      const motion = options.motions?.get(index);
+      const motionClass = motion ? ` settle-${motion.kind}` : '';
+      const motionStyle = motion ? ` style="--settle-rows:${motion.rows}"` : '';
       const tile = cell.tile ? tilePresentation[cell.tile] : null;
       const ingredient = cell.ingredient ? ingredientPresentation[cell.ingredient] : null;
       const cellLabel = ingredient?.label ?? tile?.label ?? 'Пустая клетка';
-      return `<button class="board-cell${selected}${hinted}" data-cell="${index}" role="gridcell" aria-label="${escapeHtml(cellLabel)}">
+      return `<button class="board-cell${selected}${hinted}${clearing}${motionClass}" data-cell="${index}" role="gridcell" aria-label="${escapeHtml(cellLabel)}"${motionStyle}>
         <span class="tile-socket"></span>
-        ${tile ? `<img class="tile" src="${tile.asset}" alt="">` : ''}
-        ${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="">` : ''}
-        ${cell.special ? `<img class="special ${cell.special}" src="${specialAsset}" alt="">` : ''}
-        ${cell.blockerLayers > 0 ? `<span class="blocker"><img src="${blockerAsset}" alt=""><b>${cell.blockerLayers}</b></span>` : ''}
+        <span class="tile-stack">
+          ${tile ? `<img class="tile" src="${tile.asset}" alt="" draggable="false">` : ''}
+          ${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="" draggable="false">` : ''}
+          ${cell.special ? `<img class="special ${cell.special}" src="${specialAsset}" alt="" draggable="false">` : ''}
+        </span>
+        ${cell.blockerLayers > 0 ? `<span class="blocker"><img src="${blockerAsset}" alt="" draggable="false"><b>${cell.blockerLayers}</b></span>` : ''}
       </button>`;
     }).join('');
   }
@@ -706,7 +746,7 @@ export class AnimeDetectiveApp {
           <img src="${specialAsset}" alt=""><span><b>ПОДСКАЗКА</b><small>Лучший ход</small></span>
         </button>
       </div>
-      <p class="match-hint">Свайп или две соседние фишки · подсказка учитывает текущие цели.</p>
+      <p class="match-hint">Перетащите фишку, свайпните или выберите две соседние · подсказка учитывает цели.</p>
     </section>`);
 
     this.root.querySelector('#quit')?.addEventListener('click', () => {
@@ -761,7 +801,11 @@ export class AnimeDetectiveApp {
     const board = this.root.querySelector<HTMLElement>('.board');
     if (!game || !board) return;
     const blocker = blockerPresentation[game.level.blocker];
-    board.innerHTML = this.boardCellsMarkup(frame.board, blocker.asset);
+    const clearing = frame.clearedIndices ? new Set(frame.clearedIndices) : undefined;
+    const motions = frame.motions
+      ? new Map(frame.motions.map((motion) => [motion.index, { kind: motion.kind, rows: motion.rows }] as const))
+      : undefined;
+    board.innerHTML = this.boardCellsMarkup(frame.board, blocker.asset, { clearing, motions });
     board.className = `board phase-${frame.phase}`;
     if (frame.phase === 'clear') {
       if (frame.specialsActivated > 0) { this.services.audio.play('special'); this.setMatchFeedback('НАБЛЮДЕНИЕ!', 'special-feedback'); }
@@ -770,25 +814,92 @@ export class AnimeDetectiveApp {
     } else if (frame.phase === 'reshuffle') {
       this.services.audio.play('reshuffle');
       this.setMatchFeedback('ПОЛЕ ПЕРЕМЕШАНО', 'reshuffle-feedback');
-    } else {
+    } else if (frame.phase !== 'settle') {
       this.setMatchFeedback('');
     }
   }
 
+  private matchCellStack(index: number): HTMLElement | null {
+    return this.root.querySelector<HTMLElement>(`[data-cell="${index}"] .tile-stack`);
+  }
+
+  private clearDragPreview(): void {
+    this.root.querySelectorAll<HTMLElement>('.board-cell.drag-source, .board-cell.drag-target, .board-cell.drag-target--commit').forEach((cell) => {
+      cell.classList.remove('drag-source', 'drag-target', 'drag-target--commit');
+    });
+    this.root.querySelectorAll<HTMLElement>('.tile-stack').forEach((stack) => {
+      stack.style.removeProperty('--drag-x');
+      stack.style.removeProperty('--drag-y');
+      stack.style.removeProperty('--drag-target-x');
+      stack.style.removeProperty('--drag-target-y');
+    });
+  }
+
+  private async animateSwapStacks(first: number, second: number, keepAtTarget = false): Promise<void> {
+    const firstCell = this.root.querySelector<HTMLElement>(`[data-cell="${first}"]`);
+    const secondCell = this.root.querySelector<HTMLElement>(`[data-cell="${second}"]`);
+    const firstStack = this.matchCellStack(first);
+    const secondStack = this.matchCellStack(second);
+    if (!firstCell || !secondCell || !firstStack || !secondStack) return;
+
+    const firstRect = firstCell.getBoundingClientRect();
+    const secondRect = secondCell.getBoundingClientRect();
+    const dx = secondRect.left - firstRect.left;
+    const dy = secondRect.top - firstRect.top;
+    const duration = matchMotionDuration('swap', this.prefersReducedMatchMotion());
+    if (duration <= 0) return;
+
+    for (const [stack, x, y] of [[firstStack, dx, dy], [secondStack, -dx, -dy]] as const) {
+      stack.style.setProperty('--swap-x', `${x}px`);
+      stack.style.setProperty('--swap-y', `${y}px`);
+      stack.classList.add('swap-moving');
+    }
+    await this.matchDelay(duration);
+    for (const stack of [firstStack, secondStack]) {
+      stack.classList.remove('swap-moving');
+      if (keepAtTarget) stack.classList.add('swap-held');
+      else {
+        stack.style.removeProperty('--swap-x');
+        stack.style.removeProperty('--swap-y');
+      }
+    }
+  }
+
   private async playMoveFrames(result: MoveResult, first: number, second: number): Promise<void> {
+    const reduced = this.prefersReducedMatchMotion();
+    this.clearDragPreview();
+
     if (!result.valid) {
       this.services.audio.play('invalidSwap');
       const cells = [first, second]
         .map((index) => this.root.querySelector<HTMLElement>(`[data-cell="${index}"]`))
         .filter((cell): cell is HTMLElement => Boolean(cell));
+      const noMatch = result.reason === 'no-match';
+      if (noMatch) await this.animateSwapStacks(first, second, !reduced);
       cells.forEach((cell) => cell.classList.add('swap-rejected'));
-      this.setMatchFeedback('НЕТ СОВПАДЕНИЯ', 'reject-feedback');
-      await this.matchDelay(220);
+      this.setMatchFeedback(noMatch ? 'НЕТ СОВПАДЕНИЯ' : 'ОБМЕН НЕДОСТУПЕН', 'reject-feedback');
+      await this.matchDelay(matchMotionDuration('invalidHold', reduced));
+      cells.forEach((cell) => cell.classList.remove('swap-rejected'));
+      if (noMatch && !reduced) {
+        const stacks = [this.matchCellStack(first), this.matchCellStack(second)].filter((stack): stack is HTMLElement => Boolean(stack));
+        stacks.forEach((stack) => stack.classList.add('swap-return-home'));
+        await this.matchDelay(matchMotionDuration('swap', false));
+        stacks.forEach((stack) => {
+          stack.classList.remove('swap-held', 'swap-return-home');
+          stack.style.removeProperty('--swap-x');
+          stack.style.removeProperty('--swap-y');
+        });
+      }
+      this.setMatchFeedback('');
       return;
     }
 
     this.services.audio.play('swap');
-    if (this.prefersReducedMatchMotion()) {
+    await this.animateSwapStacks(first, second, !reduced);
+
+    if (reduced) {
+      const finalFrame = [...result.frames].reverse().find((frame) => frame.phase === 'settle' || frame.phase === 'reshuffle') ?? result.frames[result.frames.length - 1];
+      if (finalFrame) this.renderMatchFrame(finalFrame);
       if (result.specialsCreated > 0) this.services.audio.play('special');
       else if (result.cascades >= 2) this.services.audio.play('cascade');
       else this.services.audio.play('match');
@@ -798,33 +909,29 @@ export class AnimeDetectiveApp {
       return;
     }
 
-    const beforeFirst = this.root.querySelector<HTMLElement>(`[data-cell="${first}"]`);
-    const beforeSecond = this.root.querySelector<HTMLElement>(`[data-cell="${second}"]`);
-    beforeFirst?.classList.add('swap-origin');
-    beforeSecond?.classList.add('swap-target');
-    await this.matchDelay(90);
-
     for (const frame of result.frames) {
       this.renderMatchFrame(frame);
-      const duration = frame.phase === 'swap' ? 120
-        : frame.phase === 'clear' ? 155
-          : frame.phase === 'settle' ? 170
-            : 320;
+      if (frame.phase === 'swap') continue;
+      const duration = frame.phase === 'clear'
+        ? matchMotionDuration('clear', false)
+        : frame.phase === 'settle'
+          ? matchMotionDuration('settle', false)
+          : matchMotionDuration('reshuffle', false);
       await this.matchDelay(duration);
     }
 
     if (result.cascades >= 2) {
       this.setMatchFeedback(`ЦЕПОЧКА ×${result.cascades}`, 'combo-feedback');
-      await this.matchDelay(180);
+      await this.matchDelay(matchMotionDuration('feedbackHold', false));
     }
     if (result.won) {
       this.services.audio.play('win');
       this.setMatchFeedback('УЛИКА СОБРАНА', 'win-feedback');
-      await this.matchDelay(420);
+      await this.matchDelay(matchMotionDuration('feedbackHold', false));
     } else if (result.lost) {
       this.services.audio.play('lose');
       this.setMatchFeedback('ХОДЫ ЗАКОНЧИЛИСЬ', 'loss-feedback');
-      await this.matchDelay(360);
+      await this.matchDelay(matchMotionDuration('feedbackHold', false));
     }
   }
 
@@ -839,47 +946,78 @@ export class AnimeDetectiveApp {
       });
       cell.addEventListener('pointerdown', (event) => {
         if (this.matchInputLocked || event.button !== 0) return;
-        this.activePointer = {
-          id: event.pointerId,
-          startIndex: Number(cell.dataset.cell),
-          startX: event.clientX,
-          startY: event.clientY,
-        };
+        const startIndex = Number(cell.dataset.cell);
+        this.activePointer = { id: event.pointerId, startIndex, startX: event.clientX, startY: event.clientY };
+        this.hintedCells.clear();
+        cell.classList.add('drag-source');
         cell.setPointerCapture?.(event.pointerId);
       });
     });
 
     board.addEventListener('pointermove', (event) => {
-      if (this.activePointer?.id !== event.pointerId) return;
+      const pointer = this.activePointer;
+      if (!pointer || pointer.id !== event.pointerId || this.matchInputLocked) return;
       event.preventDefault();
+      const sourceCell = this.root.querySelector<HTMLElement>(`[data-cell="${pointer.startIndex}"]`);
+      const sourceStack = sourceCell?.querySelector<HTMLElement>('.tile-stack');
+      if (!sourceCell || !sourceStack) return;
+      const cellSize = Math.max(1, sourceCell.getBoundingClientRect().width);
+      const preview = getDragPreview(pointer.startIndex, event.clientX - pointer.startX, event.clientY - pointer.startY, cellSize);
+
+      this.root.querySelectorAll<HTMLElement>('.board-cell.drag-target, .board-cell.drag-target--commit').forEach((target) => {
+        target.classList.remove('drag-target', 'drag-target--commit');
+        const stack = target.querySelector<HTMLElement>('.tile-stack');
+        stack?.style.removeProperty('--drag-target-x');
+        stack?.style.removeProperty('--drag-target-y');
+      });
+      sourceStack.style.setProperty('--drag-x', `${preview.x}px`);
+      sourceStack.style.setProperty('--drag-y', `${preview.y}px`);
+
+      if (preview.targetReacting && preview.targetIndex !== null) {
+        const targetCell = this.root.querySelector<HTMLElement>(`[data-cell="${preview.targetIndex}"]`);
+        const targetStack = targetCell?.querySelector<HTMLElement>('.tile-stack');
+        if (targetCell && targetStack) {
+          targetCell.classList.add('drag-target');
+          if (preview.committed) targetCell.classList.add('drag-target--commit');
+          targetStack.style.setProperty('--drag-target-x', `${preview.targetOffsetX}px`);
+          targetStack.style.setProperty('--drag-target-y', `${preview.targetOffsetY}px`);
+        }
+      }
     });
+
     board.addEventListener('pointercancel', (event) => {
-      if (this.activePointer?.id === event.pointerId) this.activePointer = null;
+      if (this.activePointer?.id !== event.pointerId) return;
+      this.activePointer = null;
+      this.clearDragPreview();
     });
+
     board.addEventListener('pointerup', (event) => {
       const pointer = this.activePointer;
       if (!pointer || pointer.id !== event.pointerId || this.matchInputLocked) return;
       this.activePointer = null;
+      const sourceCell = this.root.querySelector<HTMLElement>(`[data-cell="${pointer.startIndex}"]`);
+      const cellSize = Math.max(1, sourceCell?.getBoundingClientRect().width ?? board.getBoundingClientRect().width / 8);
+      const deltaX = event.clientX - pointer.startX;
+      const deltaY = event.clientY - pointer.startY;
+      const drag = getDragPreview(pointer.startIndex, deltaX, deltaY, cellSize);
+      const swipe = getSwipeDecision(pointer.startIndex, deltaX, deltaY, cellSize);
+      this.clearDragPreview();
 
-      const cellSize = Math.max(1, board.getBoundingClientRect().width / 8);
-      const swipe = getSwipeDecision(
-        pointer.startIndex,
-        event.clientX - pointer.startX,
-        event.clientY - pointer.startY,
-        cellSize,
-      );
-      if (!swipe.committed) return;
+      const committed = drag.committed || swipe.committed;
+      const targetIndex = drag.committed ? drag.targetIndex : swipe.targetIndex;
+      if (!committed) return;
 
       event.preventDefault();
       this.suppressBoardClickUntil = performance.now() + 500;
       this.hintedCells.clear();
-      if (swipe.targetIndex === null) {
+      this.selectedCell = null;
+      if (targetIndex === null) {
         this.selectedCell = null;
         this.matchBark = { speaker: 'Мику', text: 'За краем поля обмена нет. Попробуем соседнюю клетку.' };
         this.renderMatch();
         return;
       }
-      this.attemptMatchSwap(pointer.startIndex, swipe.targetIndex);
+      this.attemptMatchSwap(pointer.startIndex, targetIndex);
     });
   }
 
@@ -911,8 +1049,12 @@ export class AnimeDetectiveApp {
     try {
       const result = game.attemptSwap(first, second);
       if (!result.valid) {
-        if (result.reason === 'not-adjacent' && selectSecondWhenNonAdjacent) this.selectedCell = second;
-        else if (result.reason === 'ingredient') this.matchBark = { speaker: 'Мику', text: 'Сюжетный объект нужно опустить вниз совпадениями под ним.' };
+        if (result.reason === 'not-adjacent' && selectSecondWhenNonAdjacent) {
+          this.selectedCell = second;
+          this.renderMatch();
+          return;
+        }
+        if (result.reason === 'ingredient') this.matchBark = { speaker: 'Мику', text: 'Сюжетный объект нужно опустить вниз совпадениями под ним.' };
         else if (result.reason === 'blocked') this.matchBark = { speaker: 'Оноэ', text: 'Эта секция заперта. Сначала соберём совпадение рядом.' };
         else if (result.reason === 'no-match') this.matchBark = { speaker: 'Оноэ', text: 'Этот обмен не образует ряд. Проверим соседние категории.' };
         await this.playMoveFrames(result, first, second);
