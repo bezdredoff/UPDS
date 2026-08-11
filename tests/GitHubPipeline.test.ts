@@ -22,6 +22,8 @@ describe('ANM-010 GitHub/phone pipeline contract', () => {
     expect(workflow).toContain('branches:');
     expect(workflow).toContain('- main');
     expect(workflow).toContain('Sync mobile inbox branch to stable main');
+    expect(workflow.match(/if: github\.ref == 'refs\/heads\/main'/g)).toHaveLength(3);
+    expect(workflow).toContain('ref: main');
   });
 
   it('validates mobile ZIPs before write-capable jobs and publishes a Pages preview slot', () => {
@@ -33,6 +35,12 @@ describe('ANM-010 GitHub/phone pipeline contract', () => {
     expect(workflow).toContain('python3 scripts/validate-upload-zip.py');
     expect(workflow).toContain('npm run check');
     expect(workflow).toContain('Create candidate branch and pull request');
+    expect(workflow).toContain('Create or reuse candidate branch');
+    expect(workflow).toContain('git ls-remote --exit-code --heads origin "$branch"');
+    expect(workflow).toContain('Candidate branch already contains this validated tree; reusing it.');
+    expect(workflow).toContain('Open or reuse pull request');
+    expect(workflow).toContain('gh pr list --base main --head "$BRANCH" --state open');
+    expect(workflow).toContain('A non-open pull request already exists for $BRANCH');
     expect(workflow).toContain('path: ${{ runner.temp }}/site/preview');
     expect(workflow).toContain('actions/deploy-pages@v4');
     expect(workflow).toContain('Reject pipeline self-modification from mobile ZIP');

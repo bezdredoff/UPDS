@@ -24,8 +24,11 @@ StackBlitz не используется.
 3. Settings → Actions → General → Workflow permissions:
    - оставить минимальные default permissions;
    - включить **Allow GitHub Actions to create and approve pull requests**. Workflow создаёт PR, но сам его не approve/merge.
-4. Создать ветку `incoming` от `main`.
-5. Создать ветку `incoming` как копию `main`. Ветка не должна быть protected: workflow после каждого успешного импорта и каждого deploy `main` force-sync'ит её обратно на `main`, удаляя ZIP из достижимой истории.
+4. Создать ветку `incoming` как копию `main`. Ветка не должна быть protected: workflow после каждого успешного импорта и каждого deploy `main` force-sync'ит её обратно на `main`, удаляя ZIP из достижимой истории.
+5. Settings → Environments → `github-pages` → Deployment branches and tags → **Selected branches and tags**. Разрешить только:
+   - `main`;
+   - `incoming`.
+   Не добавлять `candidate/*`: candidate не должен самостоятельно деплоить Pages. Preview публикуется из `incoming` workflow как `/preview/`.
 6. Защитить `main` ruleset/branch protection:
    - Require a pull request before merging;
    - Require status checks to pass;
@@ -59,9 +62,19 @@ StackBlitz не используется.
 8. Проверить Files changed и merge вручную.
 9. Push в `main` автоматически запускает `pages.yml`; `/` становится новой стабильной версией.
 
-## Ручной fallback
+## Rerun и ручной fallback
 
 `Import mobile ZIP candidate` имеет `workflow_dispatch`. Его можно запустить из Actions для ZIP, который уже лежит в выбранной ветке/commit, передав `archive_path` и необязательный `candidate_label`.
+
+ANM-010A делает повторный запуск одного и того же import-run идемпотентным:
+
+- имя candidate-ветки остаётся детерминированным и содержит `GITHUB_RUN_ID`;
+- если ветка уже существует и её tree совпадает с повторно провалидированным candidate, workflow переиспользует её;
+- если ветка с тем же именем содержит другое дерево, workflow останавливается и не перезаписывает её;
+- если открытый PR для candidate уже существует, workflow переиспользует его;
+- closed/merged PR с тем же head не создаётся повторно автоматически.
+
+`pages.yml` можно запускать вручную как recovery только на `main`. Если `workflow_dispatch` случайно запустить на `candidate/*` или другой ветке, все stable Pages jobs будут пропущены main-only guard'ом.
 
 ## Ограничения ANM-010
 
