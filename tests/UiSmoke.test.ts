@@ -136,7 +136,7 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('aria-label="Visual novel controls"');
     expect(root.innerHTML).toContain('STAGE DIRECTION');
     // Dialogue text itself remains authored Russian until ANM-019D.
-    expect(root.innerHTML).toContain('После звонка.');
+    expect(root.innerHTML).toContain('After the bell.');
 
     const choiceLine = getScene(1).findIndex((entry) => entry.id === 'VN0040');
     expect(choiceLine).toBeGreaterThanOrEqual(0);

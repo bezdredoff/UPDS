@@ -73,6 +73,21 @@ export class VnController {
     return this.t(`vn.choice.${id}.${field}`);
   }
 
+  private lineText(line: StoryLine): string {
+    const key = `vn.line.${line.id}.text`;
+    return this.services.localization.has(key, this.services.localization.locale) ? this.t(key) : line.text;
+  }
+
+  private lineSpeaker(line: StoryLine): string {
+    const key = `vn.line.${line.id}.speaker`;
+    return this.services.localization.has(key, this.services.localization.locale) ? this.t(key) : line.speaker;
+  }
+
+  private lineEmotion(line: StoryLine): string {
+    const key = `vn.line.${line.id}.emotion`;
+    return this.services.localization.has(key, this.services.localization.locale) ? this.t(key) : line.emotion;
+  }
+
   mount(): void {
     this.bindDialogueReflow();
   }
@@ -127,10 +142,11 @@ export class VnController {
       this.dialoguePageIndex = 0;
       this.dialoguePages = [];
     }
-    const fallbackDialoguePages = paginateDialogueText(entry.text, currentDialogueProfile(this.textScale));
+    const localizedText = this.lineText(entry);
+    const fallbackDialoguePages = paginateDialogueText(localizedText, currentDialogueProfile(this.textScale));
     let dialoguePages = this.dialoguePages.length > 0 ? this.dialoguePages : fallbackDialoguePages;
     this.dialoguePageIndex = Math.min(this.dialoguePageIndex, dialoguePages.length - 1);
-    let dialoguePage = dialoguePages[this.dialoguePageIndex] ?? entry.text;
+    let dialoguePage = dialoguePages[this.dialoguePageIndex] ?? localizedText;
     const direction = isDirection(entry);
     const background = getBackgroundForLine(this.session.save.scene, this.session.save.line, this.story);
     const character = direction ? null : characterForSpeaker(entry.speaker);
@@ -165,11 +181,11 @@ export class VnController {
       <div class="stage ${staging ? `stage-${staging.side}` : 'stage-empty'}" data-stage-side="${staging?.side ?? 'none'}">
         ${character ? this.characterMarkup(character, expression, entry.emotion, staging?.side ?? 'center') : ''}
         ${placeholder ? this.placeholderMarkup(placeholder, staging?.side ?? 'center') : ''}
-        ${direction ? `<div class="direction-card"><span>${escapeHtml(this.t('vn.chrome.direction'))}</span><b>${escapeHtml(entry.emotion)}</b></div>` : ''}
+        ${direction ? `<div class="direction-card"><span>${escapeHtml(this.t('vn.chrome.direction'))}</span><b>${escapeHtml(this.lineEmotion(entry))}</b></div>` : ''}
         ${clueToast}
       </div>
       <div class="dialogue-shell ${direction ? 'direction' : ''}">
-        <span class="dialogue-nameplate">${direction ? escapeHtml(this.t('vn.chrome.direction')) : escapeHtml(entry.speaker)}<em>${escapeHtml(entry.emotion)}</em></span>
+        <span class="dialogue-nameplate">${direction ? escapeHtml(this.t('vn.chrome.direction')) : escapeHtml(this.lineSpeaker(entry))}<em>${escapeHtml(this.lineEmotion(entry))}</em></span>
         <button class="dialogue ${direction ? 'direction' : ''}" id="next">
           <span class="dialogue-text" data-dialogue-page="${this.dialoguePageIndex + 1}" data-dialogue-pages="${dialoguePages.length}">${escapeHtml(dialogueContinuationText(dialoguePage, this.dialoguePageIndex < dialoguePages.length - 1))}</span>
           <span class="line-id">${entry.id}${dialoguePages.length > 1 ? ` · ${this.dialoguePageIndex + 1}/${dialoguePages.length}` : ''}</span>
@@ -185,8 +201,8 @@ export class VnController {
       <div id="vn-status" class="vn-status" hidden></div>
     </section>`);
 
-    dialoguePages = this.measureAndApplyDialoguePages(entry.id, entry.text, fallbackDialoguePages);
-    dialoguePage = dialoguePages[this.dialoguePageIndex] ?? entry.text;
+    dialoguePages = this.measureAndApplyDialoguePages(entry.id, localizedText, fallbackDialoguePages);
+    dialoguePage = dialoguePages[this.dialoguePageIndex] ?? localizedText;
     const pagingKey = `${entry.id}:${dialoguePages.length}:${this.textScale}`;
     if (dialoguePages.length > 1 && pagingKey !== this.trackedPagingKey) {
       this.trackedPagingKey = pagingKey;
@@ -321,14 +337,14 @@ export class VnController {
     const entries = current && !history.some((line) => line.id === current.id) ? [...history, current] : history;
     const phone = this.root.querySelector<HTMLElement>('.phone');
     if (!phone) return;
-    phone.insertAdjacentHTML('beforeend', `<section class="vn-overlay" role="dialog" aria-modal="true" aria-label="История диалога">
+    phone.insertAdjacentHTML('beforeend', `<section class="vn-overlay" role="dialog" aria-modal="true" aria-label="${escapeHtml(this.t('vn.history.aria'))}">
       <div class="vn-overlay-card history-card">
-        <header><div><small>CASE LOG</small><h2>История диалога</h2></div><button id="close-overlay" class="overlay-close" aria-label="Закрыть">${icon('close')}</button></header>
+        <header><div><small>CASE LOG</small><h2>${escapeHtml(this.t('vn.history.title'))}</h2></div><button id="close-overlay" class="overlay-close" aria-label="${escapeHtml(this.t('vn.history.close'))}">${icon('close')}</button></header>
         <div class="history-list">${entries.length ? entries.map((line) => `
           <article class="${isDirection(line) ? 'is-direction' : ''}">
-            <div><b>${isDirection(line) ? 'ПОСТАНОВКА' : escapeHtml(line.speaker)}</b><small>${line.id}</small></div>
-            <p>${escapeHtml(line.text)}</p>
-          </article>`).join('') : '<p class="empty-history">Здесь появятся уже прочитанные реплики.</p>'}</div>
+            <div><b>${isDirection(line) ? escapeHtml(this.t('vn.chrome.direction')) : escapeHtml(this.lineSpeaker(line))}</b><small>${line.id}</small></div>
+            <p>${escapeHtml(this.lineText(line))}</p>
+          </article>`).join('') : `<p class="empty-history">${escapeHtml(this.t('vn.history.empty'))}</p>`}</div>
       </div>
     </section>`);
     phone.querySelector('#close-overlay')?.addEventListener('click', () => this.renderVN());
@@ -338,18 +354,18 @@ export class VnController {
     this.shell.clearTimers();
     const phone = this.root.querySelector<HTMLElement>('.phone');
     if (!phone) return;
-    phone.insertAdjacentHTML('beforeend', `<section class="vn-overlay" role="dialog" aria-modal="true" aria-label="Настройки чтения">
+    phone.insertAdjacentHTML('beforeend', `<section class="vn-overlay" role="dialog" aria-modal="true" aria-label="${escapeHtml(this.t('vn.config.aria'))}">
       <div class="vn-overlay-card config-card">
-        <header><div><small>CONFIG</small><h2>Настройки чтения</h2></div><button id="close-overlay" class="overlay-close" aria-label="Закрыть">${icon('close')}</button></header>
-        <fieldset><legend>Скорость AUTO</legend><div class="segmented">
-          ${(['slow', 'normal', 'fast'] as AutoSpeed[]).map((speed) => `<button data-auto-speed="${speed}" class="${this.autoSpeed === speed ? 'is-selected' : ''}">${speed === 'slow' ? 'Медленно' : speed === 'normal' ? 'Обычно' : 'Быстро'}</button>`).join('')}
+        <header><div><small>CONFIG</small><h2>${escapeHtml(this.t('vn.config.title'))}</h2></div><button id="close-overlay" class="overlay-close" aria-label="${escapeHtml(this.t('vn.config.close'))}">${icon('close')}</button></header>
+        <fieldset><legend>${escapeHtml(this.t('vn.config.autoSpeed'))}</legend><div class="segmented">
+          ${(['slow', 'normal', 'fast'] as AutoSpeed[]).map((speed) => `<button data-auto-speed="${speed}" class="${this.autoSpeed === speed ? 'is-selected' : ''}">${speed === 'slow' ? this.t('vn.config.slow') : speed === 'normal' ? this.t('vn.config.normal') : this.t('vn.config.fast')}</button>`).join('')}
         </div></fieldset>
-        <fieldset><legend>Размер текста</legend><div class="segmented">
-          ${(['normal', 'large'] as TextScale[]).map((scale) => `<button data-text-scale="${scale}" class="${this.textScale === scale ? 'is-selected' : ''}">${scale === 'normal' ? 'Обычный' : 'Крупный'}</button>`).join('')}
+        <fieldset><legend>${escapeHtml(this.t('vn.config.textSize'))}</legend><div class="segmented">
+          ${(['normal', 'large'] as TextScale[]).map((scale) => `<button data-text-scale="${scale}" class="${this.textScale === scale ? 'is-selected' : ''}">${scale === 'normal' ? this.t('vn.config.normal') : this.t('vn.config.large')}</button>`).join('')}
         </div></fieldset>
-        <fieldset><legend>Звук и отклик</legend>${audioSettingsMarkup(this.services)}</fieldset>
-        <div class="vn-config-navigation"><small>НАВИГАЦИЯ</small><button id="vn-main-menu">${icon('menu')}<span><b>Главное меню</b><em>Текущая позиция сохранена</em></span></button></div>
-        <p>Скорость AUTO и размер текста действуют в текущей сессии. Audio-настройки сохраняются между запусками. Системный Reduced Motion по-прежнему имеет приоритет для анимаций.</p>
+        <fieldset><legend>${escapeHtml(this.t('vn.config.audio'))}</legend>${audioSettingsMarkup(this.services)}</fieldset>
+        <div class="vn-config-navigation"><small>${escapeHtml(this.t('vn.config.navigation'))}</small><button id="vn-main-menu">${icon('menu')}<span><b>${escapeHtml(this.t('vn.config.mainMenu'))}</b><em>${escapeHtml(this.t('vn.config.saved'))}</em></span></button></div>
+        <p>${escapeHtml(this.t('vn.config.note'))}</p>
       </div>
     </section>`);
     phone.querySelector('#close-overlay')?.addEventListener('click', () => this.renderVN());
