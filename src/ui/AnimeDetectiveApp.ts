@@ -46,7 +46,12 @@ import { createRuntimeServices, type RuntimeServices } from '../platform/Runtime
 import { getDragPreview, getSwipeDecision } from './boardInteraction';
 import { matchMotionDuration } from './matchMotion';
 import { resolveVnStaging, type VnStageSide } from './vnStaging';
-import { currentDialogueProfile, paginateDialogueText } from './vnDialoguePaging';
+import {
+  currentDialogueProfile,
+  dialogueLocale,
+  paginateDialogueText,
+  paginateDialogueTextMeasured,
+} from './vnDialoguePaging';
 import { autoDelayForLine, nextUnreadIndex, type AutoSpeed, type TextScale } from './vnPlayback';
 
 type Bark = Readonly<{ speaker: string; text: string }>;
@@ -81,6 +86,8 @@ export class AnimeDetectiveApp {
   private textScale: TextScale = 'normal';
   private dialoguePageLineId: string | null = null;
   private dialoguePageIndex = 0;
+  private dialoguePages: string[] = [];
+  private dialogueReflowTimer: number | null = null;
 
   constructor(private readonly root: HTMLElement, services: RuntimeServices = createRuntimeServices()) {
     this.services = services;
@@ -88,6 +95,7 @@ export class AnimeDetectiveApp {
   }
 
   mount(): void {
+    this.bindDialogueReflow();
     this.renderMenu();
   }
 
@@ -296,6 +304,7 @@ export class AnimeDetectiveApp {
     this.selectedCell = null;
     this.dialoguePageLineId = null;
     this.dialoguePageIndex = 0;
+    this.dialoguePages = [];
     this.save.scene = Math.max(0, Math.min(sceneMeta.length - 1, scene));
     this.story = getScene(this.save.scene, this.save.choice);
     this.save.line = Math.max(0, Math.min(line, this.story.length));
@@ -325,10 +334,12 @@ export class AnimeDetectiveApp {
     if (this.dialoguePageLineId !== entry.id) {
       this.dialoguePageLineId = entry.id;
       this.dialoguePageIndex = 0;
+      this.dialoguePages = [];
     }
-    const dialoguePages = paginateDialogueText(entry.text, currentDialogueProfile(this.textScale));
+    const fallbackDialoguePages = paginateDialogueText(entry.text, currentDialogueProfile(this.textScale));
+    let dialoguePages = this.dialoguePages.length > 0 ? this.dialoguePages : fallbackDialoguePages;
     this.dialoguePageIndex = Math.min(this.dialoguePageIndex, dialoguePages.length - 1);
-    const dialoguePage = dialoguePages[this.dialoguePageIndex] ?? entry.text;
+    let dialoguePage = dialoguePages[this.dialoguePageIndex] ?? entry.text;
     const direction = isDirection(entry);
     const background = getBackgroundForLine(this.save.scene, this.save.line, this.story);
     const character = direction ? null : characterForSpeaker(entry.speaker);
@@ -382,6 +393,8 @@ export class AnimeDetectiveApp {
       <div id="vn-status" class="vn-status" hidden></div>
     </section>`);
 
+    dialoguePages = this.measureAndApplyDialoguePages(entry.id, entry.text, fallbackDialoguePages);
+    dialoguePage = dialoguePages[this.dialoguePageIndex] ?? entry.text;
     this.pendingClue = null;
     this.preloadNextVnAssets();
     this.root.querySelector('#menu')?.addEventListener('click', (event) => {
@@ -416,6 +429,62 @@ export class AnimeDetectiveApp {
     this.root.querySelector('#config')?.addEventListener('click', () => this.renderVnConfigOverlay());
     if (character && !this.usesPoseB(character, entry.emotion)) this.animatePortrait(character, expression);
     if (this.autoMode) this.timers.push(window.setTimeout(() => this.nextLine(), autoDelayForLine(dialoguePage, this.autoSpeed)));
+  }
+
+  private measureAndApplyDialoguePages(lineId: string, text: string, fallbackPages: string[]): string[] {
+    const textElement = this.root.querySelector<HTMLElement>('.dialogue-text');
+    if (!textElement || textElement.clientWidth <= 0 || textElement.clientHeight <= 0) {
+      this.dialoguePages = fallbackPages;
+      return fallbackPages;
+    }
+
+    const fits = (candidate: string): boolean => {
+      textElement.textContent = candidate;
+      const safeHeight = Math.max(0, textElement.clientHeight - 1);
+      return textElement.scrollHeight <= safeHeight
+        && textElement.scrollWidth <= textElement.clientWidth + 1;
+    };
+
+    const measuredPages = paginateDialogueTextMeasured(text, fits, dialogueLocale());
+    this.dialoguePages = measuredPages;
+    this.dialoguePageIndex = Math.min(this.dialoguePageIndex, measuredPages.length - 1);
+
+    const currentPage = measuredPages[this.dialoguePageIndex] ?? text;
+    textElement.textContent = currentPage;
+    textElement.dataset.dialoguePage = String(this.dialoguePageIndex + 1);
+    textElement.dataset.dialoguePages = String(measuredPages.length);
+
+    const lineIdElement = this.root.querySelector<HTMLElement>('.line-id');
+    if (lineIdElement) {
+      lineIdElement.textContent = measuredPages.length > 1
+        ? `${lineId} · ${this.dialoguePageIndex + 1}/${measuredPages.length}`
+        : lineId;
+    }
+
+    const progressElement = this.root.querySelector<HTMLElement>('.dialogue-progress');
+    if (progressElement) {
+      progressElement.innerHTML = `${measuredPages.map((_, page) => `<i class="${page <= this.dialoguePageIndex ? 'is-active' : ''}"></i>`).join('')}<b>▼</b>`;
+    }
+    return measuredPages;
+  }
+
+  private bindDialogueReflow(): void {
+    if (typeof window === 'undefined' || typeof window.addEventListener !== 'function') return;
+    const requestReflow = (): void => {
+      if (!this.root.querySelector('.vn-screen')) return;
+      if (this.dialogueReflowTimer !== null) window.clearTimeout(this.dialogueReflowTimer);
+      this.dialogueReflowTimer = window.setTimeout(() => {
+        this.dialogueReflowTimer = null;
+        this.dialoguePages = [];
+        this.renderVN();
+      }, 80);
+    };
+    window.addEventListener('resize', requestReflow, { passive: true });
+    window.addEventListener('orientationchange', requestReflow, { passive: true });
+
+    if (typeof document !== 'undefined' && document.fonts?.ready) {
+      void document.fonts.ready.then(() => requestReflow());
+    }
   }
 
   private preloadNextVnAssets(): void {
@@ -580,7 +649,9 @@ export class AnimeDetectiveApp {
     this.services.audio.play('vnAdvance');
     const entry = this.story[this.save.line];
     if (!entry) return this.advanceScene();
-    const dialoguePages = paginateDialogueText(entry.text, currentDialogueProfile(this.textScale));
+    const dialoguePages = this.dialoguePageLineId === entry.id && this.dialoguePages.length > 0
+      ? this.dialoguePages
+      : paginateDialogueText(entry.text, currentDialogueProfile(this.textScale));
     if (this.dialoguePageLineId === entry.id && this.dialoguePageIndex < dialoguePages.length - 1) {
       this.dialoguePageIndex += 1;
       this.renderVN();
