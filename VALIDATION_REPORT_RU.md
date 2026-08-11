@@ -1,162 +1,81 @@
-# ANM-011 — отчёт валидации
+# ANM-012 — Validation Report
 
-**Версия:** `0.11.0-anm011`  
-**Дата:** 2026-08-11  
-**Scope:** Infrastructure Hardening поверх ANM-010.  
-**Результат локальной сессии:** PARTIAL PASS — TypeScript strict и узкие executable/static проверки PASS; полный `npm run check` должен быть подтверждён GitHub Actions, потому что sandbox не может установить npm dependencies из registry.
+Дата: 11 августа 2026
+Версия: `0.12.0-anm012`
+Feature: Mobile UX Foundation
 
-## Что реализовано
+## Scope
 
-ANM-011 добавляет production-oriented runtime foundation без изменения игрового канона и механики:
+- mobile viewport/safe-area hardening;
+- compact layout для `320×568` и низких экранов;
+- Pointer Events swipe input для Match-3 с сохранением tap input;
+- board scroll containment;
+- transaction input lock и защита от pointerup/click double activation;
+- landscape recovery;
+- mobile regression tests и QA matrix.
 
-- `src/platform/SafeStorage.ts` — probe реального `localStorage` и memory fallback;
-- `src/platform/ErrorLog.ts` — persistent capped runtime error log + global error handlers;
-- `src/platform/Download.ts` — browser JSON download helper;
-- `src/platform/AssetHealth.ts` — asset failure monitoring + graceful image fallback;
-- `src/platform/AssetPreloader.ts` — idle preload без блокирования первого render;
-- `src/platform/RuntimeAssets.ts` — data-driven runtime asset catalog;
-- `src/platform/Diagnostics.ts` — diagnostics JSON snapshot;
-- `src/platform/RuntimeServices.ts` — единая сборка storage/store/error/assets services;
-- `CampaignStore` получил schema metadata, corrupt-save recovery, recovery backup и export/import;
-- главное меню получило QA-экран `Сохранения и диагностика`;
-- Vite build injects build ID и build timestamp;
-- добавлены regression tests и документация ANM-011.
-
-## Save compatibility contract
-
-Save key намеренно не изменён:
-
-`seiran-detectives-anm009-v1`
-
-Stored save остаётся плоским объектом с прежними gameplay fields. ANM-011 добавляет только top-level metadata:
-
-- `schemaVersion: 1`;
-- `savedAt`;
-- `appVersion`.
-
-Такой save остаётся читаемым normalize-контрактом ANM-010. Это необходимо, потому что stable `/` и candidate `/preview/` GitHub Pages используют один origin/localStorage.
-
-Внешний export имеет отдельный envelope `upds-campaign-save`; import принимает его и legacy flat UPDS saves, но отвергает foreign save key и schema новее поддерживаемой.
-
-## Выполненные проверки в этой сессии
+## Выполнено в этой сессии
 
 ### PASS — TypeScript strict
-
-Выполнено:
 
 ```bash
 tsc -p tsconfig.json
 ```
 
-Результат: exit code 0.
+Exit code: `0`.
 
-Примечание: используется установленный в sandbox TypeScript; project `npm run build` всё равно обязан повторно выполнить pinned TypeScript `5.5.4` в GitHub Actions.
+### PASS — protected contracts byte-for-byte
 
-### PASS — executable platform logic smoke
-
-Отдельно скомпилированы и реально выполнены новые platform/save модули. Проверено:
-
-- fallback на memory storage при blocked persistent storage;
-- schema metadata сохраняется flat и не заворачивает gameplay state;
-- save export/import round-trip;
-- corrupt JSON создаёт recovery backup и возвращает playable fresh save;
-- error log ограничен 50 последними entries.
-
-Результат:
-
-`ANM-011 platform logic smoke: PASS`
-
-### PASS — protected gameplay/canon contracts unchanged
-
-Byte-for-byte совпадают с ANM-010:
+Не изменены относительно post-ANM-010A / ANM-011 baseline:
 
 - `src/data/narrative.ts`;
-- `src/data/characterRigs.ts`;
+- `src/content/ANM-003_Vertical_Slice_Screenplay.md`;
 - `src/data/levels.ts`;
 - `src/engine/Match3Game.ts`;
-- `src/content/ANM-003_Vertical_Slice_Screenplay.md`.
-
-Следовательно ANM-011 не меняет authored narrative, stable VN IDs, four-level gameplay data, move budgets, match-3 rules или character rig definitions.
-
-### PASS — ANM-010 pipeline self-modification boundary unchanged
-
-Byte-for-byte совпадают с ANM-010:
-
+- `src/data/characterRigs.ts`;
 - `.github/workflows/ci.yml`;
 - `.github/workflows/pages.yml`;
 - `.github/workflows/import-zip.yml`;
 - `scripts/validate-upload-zip.py`.
 
-Это означает, что ANM-011 candidate ZIP должен пройти установленную ANM-010 проверку `Reject pipeline self-modification from mobile ZIP`.
+Save key остаётся `seiran-detectives-anm009-v1`.
 
-### PASS — static runtime assets + workflow YAML
+### PASS — static mobile contract
 
-Проверены literal runtime asset paths, полный ожидаемый набор трёх layered character rigs и парсинг всех `.github/workflows/*.yml`.
+Проверено:
 
-Результат:
+- старого `min-height: 640px` больше нет;
+- `.board` содержит `touch-action: none`;
+- page root содержит `overscroll-behavior: none`;
+- compact media profile существует;
+- landscape recovery media profile существует;
+- non-board navigation contract использует 44 px minimum target.
 
-`STATIC_ASSET_AND_YAML_CHECK: PASS`
+### NOT VERIFIED LOCAL — полный `npm run check`
 
-В `public/assets` остаётся 69 runtime-файлов.
+Локальный sandbox не имеет полного npm cache и сетевого доступа к registry. `npm ci --ignore-scripts --offline` завершился `ENOTCACHED` на `why-is-node-running@2.3.0`.
 
-### STATIC — test-suite size
+Поэтому Vitest/Vite production build не объявляются PASS локально. Они должны быть первой обязательной проверкой read-only job `Import mobile ZIP candidate` в GitHub Actions.
 
-После ANM-011 suite содержит 8 test-файлов и ожидаемо 34 test cases:
+После добавления ANM-012 test suite ожидает 9 test-файлов и 39 фактических test cases с учётом `it.each` parameterization.
 
-- baseline ANM-009: 22;
-- ANM-010 pipeline contract: +4;
-- ANM-011 platform tests: +6;
-- ANM-011 runtime asset catalog test: +1;
-- ANM-011 support UI smoke: +1.
+## Ручной QA после `/preview/`
 
-Полный Vitest run локально не заявляется PASS без фактического запуска.
+Обязателен реальный Safari/iPhone pass по `docs/ANM012_MOBILE_UX_RU.md`, особенно:
 
-## NOT VERIFIED LOCALLY — `npm run check`
+- `320×568`/маленький viewport;
+- отсутствие document scroll;
+- tap swap;
+- swipe swap во всех направлениях;
+- отсутствие page scroll во время swipe;
+- edge swipe;
+- invalid swap + следующий input;
+- dossier return;
+- portrait → landscape → portrait recovery.
 
-Sandbox не имеет DNS-доступа к `registry.npmjs.org`; `npm ci` не может надёжно установить pinned project dependencies. Поэтому `vitest run` и `vite build` в этой сессии не помечаются PASS.
+## Известные ограничения
 
-Это намеренно становится первым реальным acceptance gate нового GitHub/phone pipeline:
-
-1. ANM-010 должен уже находиться в `main`.
-2. ANM-011 ZIP загружается с телефона в `incoming/incoming/`.
-3. read-only importer выполняет `npm ci --ignore-scripts` и `npm run check`.
-4. только после PASS создаются candidate branch/PR и GitHub Pages `/preview/`.
-5. независимый PR `Quality gate` должен быть отдельно approved и снова пройти.
-
-## Ручной QA для Pages `/preview/`
-
-### Critical infrastructure path
-
-1. До открытия preview создать или иметь существующий ANM-010 progress.
-2. Открыть ANM-011 `/preview/` → `Продолжить`; позиция должна сохраниться.
-3. Продвинуться минимум на одну VN line и вернуться на stable `/`; ANM-010 должен продолжить читать тот же save.
-4. `Сохранения и диагностика` → проверить `STORAGE`, `BUILD`, `SAVE SCHEMA`, `RUNTIME`.
-5. `Экспорт сохранения` → убедиться, что iPhone создаёт JSON в Files/Downloads.
-6. Изменить progress → `Импорт сохранения` → подтвердить замену → Continue должен вернуться к экспортированной позиции.
-7. `Экспорт диагностики` → проверить наличие build/save/errors/assets/device sections.
-8. Если recovery backup присутствует, проверить отдельный `Экспорт recovery backup`.
-
-### Asset/error resilience
-
-1. Обычная игра не должна показывать broken-image icon.
-2. Face overlay failure должен скрыть overlay и оставить base-neutral.
-3. Non-face image failure должен показать встроенный neutral fallback.
-4. Ошибка должна появиться в diagnostics/error count.
-
-### Regression path
-
-1. Новая игра → scene 0.
-2. Choice A/B/C → `Начать поиск`.
-3. M3_00–M3_03 по-прежнему доступны без изменения data contract.
-4. Dossier/retry/Continue остаются рабочими.
-5. Production rigs Мику/Оноэ/Аюки и четыре утверждённых portrait placeholders остаются прежними.
-
-## Известные ограничения ANM-011
-
-- full Vitest/Vite gate должен подтвердить GitHub-hosted runner;
-- diagnostics и error log локальны браузеру, remote backend telemetry ещё отсутствует;
-- memory fallback сохраняет progress только на время жизни вкладки/страницы;
-- asset preloader улучшает последующие переходы, но не является offline/PWA cache — это отдельный будущий этап;
-- save import intentionally replaces current progress только после browser confirmation;
-- future schema не переписывается автоматически старым runtime;
-- игровые ограничения ANM-009 (portrait placeholders, отсутствие audio/haptics, статичная Pose B, human balance playtests) остаются вне scope ANM-011.
+- ANM-012 не добавляет покадровую cascade/swap animation; это отдельный Match-3 polish этап.
+- Board cells физически меньше 44 px на узком 8×8 поле; 44 px minimum применяется к non-board controls. Увеличение board cells потребовало бы zoom/scroll или иной board layout и не входит в scope.
+- Portrait остаётся целевым режимом; landscape — recovery/return mode.
+- Полный browser DOM/mobile automation пока не добавлен; финальный acceptance — реальный GitHub Pages preview на iPhone.

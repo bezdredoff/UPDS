@@ -41,6 +41,7 @@ import { Match3Game, type MoveResult } from '../engine/Match3Game';
 import { createDiagnosticsSnapshot } from '../platform/Diagnostics';
 import { downloadJson } from '../platform/Download';
 import { createRuntimeServices, type RuntimeServices } from '../platform/RuntimeServices';
+import { getSwipeDecision } from './boardInteraction';
 
 type Bark = Readonly<{ speaker: string; text: string }>;
 
@@ -65,6 +66,9 @@ export class AnimeDetectiveApp {
   private triggeredBarks = new Set<string>();
   private pendingClue: ClueId | null = null;
   private timers: number[] = [];
+  private matchInputLocked = false;
+  private activePointer: { id: number; startIndex: number; startX: number; startY: number } | null = null;
+  private suppressBoardClickUntil = 0;
 
   constructor(private readonly root: HTMLElement, services: RuntimeServices = createRuntimeServices()) {
     this.services = services;
@@ -131,7 +135,7 @@ export class AnimeDetectiveApp {
 
     this.shell(`<section class="panel support-panel">
       <button id="back" class="icon-text back">${icon('back')} Меню</button>
-      <p class="eyebrow">ANM-011 · INFRASTRUCTURE</p>
+      <p class="eyebrow">PLATFORM · QA TOOLS</p>
       <h2>Сохранения и диагностика</h2>
       <p class="panel-copy">Сервисные инструменты для мобильного плейтеста. Они не меняют канон, VN IDs или игровые правила.</p>
       ${status ? `<div class="support-status">${escapeHtml(status)}</div>` : ''}
@@ -411,6 +415,8 @@ export class AnimeDetectiveApp {
     this.activeLevelIndex = levelIndex;
     this.activeMatch = new Match3Game(level, level.seed + attempt * 101);
     this.selectedCell = null;
+    this.matchInputLocked = false;
+    this.activePointer = null;
     this.triggeredBarks = new Set(['start']);
     this.matchBark = level.startBark;
     this.renderMatch();
@@ -448,7 +454,7 @@ export class AnimeDetectiveApp {
           ${cell.blockerLayers > 0 ? `<span class="blocker"><img src="${blocker.asset}" alt=""><b>${cell.blockerLayers}</b></span>` : ''}
         </button>`;
       }).join('')}</div>
-      <p class="match-hint">Нажми на фишку, затем на соседнюю. Совпадения рядом снимают слой препятствия.</p>
+      <p class="match-hint">Свайпни фишку в сторону обмена или нажми на две соседние. Поле не прокручивает страницу.</p>
     </section>`);
 
     this.root.querySelector('#quit')?.addEventListener('click', () => {
@@ -456,12 +462,66 @@ export class AnimeDetectiveApp {
       this.renderMatchIntro(this.activeLevelIndex);
     });
     this.root.querySelector('#dossier')?.addEventListener('click', () => this.renderDossier(() => this.renderMatch()));
-    this.root.querySelectorAll<HTMLElement>('[data-cell]').forEach((cell) => cell.addEventListener('click', () => this.handleCell(Number(cell.dataset.cell))));
+    this.installBoardInput();
+  }
+
+  private installBoardInput(): void {
+    const board = this.root.querySelector<HTMLElement>('.board');
+    if (!board) return;
+
+    this.root.querySelectorAll<HTMLElement>('[data-cell]').forEach((cell) => {
+      cell.addEventListener('click', () => {
+        if (performance.now() < this.suppressBoardClickUntil) return;
+        this.handleCell(Number(cell.dataset.cell));
+      });
+      cell.addEventListener('pointerdown', (event) => {
+        if (this.matchInputLocked || event.button !== 0) return;
+        this.activePointer = {
+          id: event.pointerId,
+          startIndex: Number(cell.dataset.cell),
+          startX: event.clientX,
+          startY: event.clientY,
+        };
+        cell.setPointerCapture?.(event.pointerId);
+      });
+    });
+
+    board.addEventListener('pointermove', (event) => {
+      if (this.activePointer?.id !== event.pointerId) return;
+      event.preventDefault();
+    });
+    board.addEventListener('pointercancel', (event) => {
+      if (this.activePointer?.id === event.pointerId) this.activePointer = null;
+    });
+    board.addEventListener('pointerup', (event) => {
+      const pointer = this.activePointer;
+      if (!pointer || pointer.id !== event.pointerId || this.matchInputLocked) return;
+      this.activePointer = null;
+
+      const cellSize = Math.max(1, board.getBoundingClientRect().width / 8);
+      const swipe = getSwipeDecision(
+        pointer.startIndex,
+        event.clientX - pointer.startX,
+        event.clientY - pointer.startY,
+        cellSize,
+      );
+      if (!swipe.committed) return;
+
+      event.preventDefault();
+      this.suppressBoardClickUntil = performance.now() + 500;
+      if (swipe.targetIndex === null) {
+        this.selectedCell = null;
+        this.matchBark = { speaker: 'Мику', text: 'За краем поля обмена нет. Попробуем соседнюю клетку.' };
+        this.renderMatch();
+        return;
+      }
+      this.attemptMatchSwap(pointer.startIndex, swipe.targetIndex);
+    });
   }
 
   private handleCell(index: number): void {
     const game = this.activeMatch;
-    if (!game) return;
+    if (!game || this.matchInputLocked) return;
     if (this.selectedCell === null) {
       this.selectedCell = index;
       this.renderMatch();
@@ -475,26 +535,37 @@ export class AnimeDetectiveApp {
 
     const first = this.selectedCell;
     this.selectedCell = null;
-    const result = game.attemptSwap(first, index);
-    if (!result.valid) {
-      if (result.reason === 'not-adjacent') this.selectedCell = index;
-      else if (result.reason === 'ingredient') this.matchBark = { speaker: 'Мику', text: 'Сюжетный объект нужно опустить вниз совпадениями под ним.' };
-      else if (result.reason === 'blocked') this.matchBark = { speaker: 'Оноэ', text: 'Эта секция заперта. Сначала соберём совпадение рядом.' };
-      else if (result.reason === 'no-match') this.matchBark = { speaker: 'Оноэ', text: 'Этот обмен не образует ряд. Проверим соседние категории.' };
-      this.renderMatch();
-      return;
-    }
+    this.attemptMatchSwap(first, index, true);
+  }
 
-    this.updateBark(result);
-    if (result.won) {
-      this.completeLevel();
-      return;
+  private attemptMatchSwap(first: number, second: number, selectSecondWhenNonAdjacent = false): void {
+    const game = this.activeMatch;
+    if (!game || this.matchInputLocked) return;
+    this.matchInputLocked = true;
+    try {
+      const result = game.attemptSwap(first, second);
+      if (!result.valid) {
+        if (result.reason === 'not-adjacent' && selectSecondWhenNonAdjacent) this.selectedCell = second;
+        else if (result.reason === 'ingredient') this.matchBark = { speaker: 'Мику', text: 'Сюжетный объект нужно опустить вниз совпадениями под ним.' };
+        else if (result.reason === 'blocked') this.matchBark = { speaker: 'Оноэ', text: 'Эта секция заперта. Сначала соберём совпадение рядом.' };
+        else if (result.reason === 'no-match') this.matchBark = { speaker: 'Оноэ', text: 'Этот обмен не образует ряд. Проверим соседние категории.' };
+        this.renderMatch();
+        return;
+      }
+
+      this.updateBark(result);
+      if (result.won) {
+        this.completeLevel();
+        return;
+      }
+      if (result.lost) {
+        this.renderLoss();
+        return;
+      }
+      this.renderMatch();
+    } finally {
+      this.matchInputLocked = false;
     }
-    if (result.lost) {
-      this.renderLoss();
-      return;
-    }
-    this.renderMatch();
   }
 
   private updateBark(result: MoveResult): void {
