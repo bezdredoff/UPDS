@@ -46,6 +46,7 @@ import { createRuntimeServices, type RuntimeServices } from '../platform/Runtime
 import { getDragPreview, getSwipeDecision } from './boardInteraction';
 import { matchMotionDuration } from './matchMotion';
 import { resolveVnStaging, type VnStageSide } from './vnStaging';
+import { currentDialogueProfile, paginateDialogueText } from './vnDialoguePaging';
 import { autoDelayForLine, nextUnreadIndex, type AutoSpeed, type TextScale } from './vnPlayback';
 
 type Bark = Readonly<{ speaker: string; text: string }>;
@@ -78,6 +79,8 @@ export class AnimeDetectiveApp {
   private autoMode = false;
   private autoSpeed: AutoSpeed = 'normal';
   private textScale: TextScale = 'normal';
+  private dialoguePageLineId: string | null = null;
+  private dialoguePageIndex = 0;
 
   constructor(private readonly root: HTMLElement, services: RuntimeServices = createRuntimeServices()) {
     this.services = services;
@@ -291,6 +294,8 @@ export class AnimeDetectiveApp {
   private openScene(scene: number, line = 0): void {
     this.activeMatch = null;
     this.selectedCell = null;
+    this.dialoguePageLineId = null;
+    this.dialoguePageIndex = 0;
     this.save.scene = Math.max(0, Math.min(sceneMeta.length - 1, scene));
     this.story = getScene(this.save.scene, this.save.choice);
     this.save.line = Math.max(0, Math.min(line, this.story.length));
@@ -317,6 +322,13 @@ export class AnimeDetectiveApp {
     }
 
     const meta = sceneMeta[this.save.scene];
+    if (this.dialoguePageLineId !== entry.id) {
+      this.dialoguePageLineId = entry.id;
+      this.dialoguePageIndex = 0;
+    }
+    const dialoguePages = paginateDialogueText(entry.text, currentDialogueProfile(this.textScale));
+    this.dialoguePageIndex = Math.min(this.dialoguePageIndex, dialoguePages.length - 1);
+    const dialoguePage = dialoguePages[this.dialoguePageIndex] ?? entry.text;
     const direction = isDirection(entry);
     const background = getBackgroundForLine(this.save.scene, this.save.line, this.story);
     const character = direction ? null : characterForSpeaker(entry.speaker);
@@ -355,9 +367,9 @@ export class AnimeDetectiveApp {
       <div class="dialogue-shell ${direction ? 'direction' : ''}">
         <button class="dialogue ${direction ? 'direction' : ''}" id="next">
           <span class="name">${direction ? 'ПОСТАНОВКА' : escapeHtml(entry.speaker)}<em>${escapeHtml(entry.emotion)}</em></span>
-          <span class="dialogue-text">${escapeHtml(entry.text)}</span>
-          <span class="line-id">${entry.id}</span>
-          <span class="dialogue-progress" aria-hidden="true"><i></i><i></i><i></i><b>▼</b></span>
+          <span class="dialogue-text" data-dialogue-page="${this.dialoguePageIndex + 1}" data-dialogue-pages="${dialoguePages.length}">${escapeHtml(dialoguePage)}</span>
+          <span class="line-id">${entry.id}${dialoguePages.length > 1 ? ` · ${this.dialoguePageIndex + 1}/${dialoguePages.length}` : ''}</span>
+          <span class="dialogue-progress" aria-hidden="true">${dialoguePages.map((_, page) => `<i class="${page <= this.dialoguePageIndex ? 'is-active' : ''}"></i>`).join('')}<b>▼</b></span>
         </button>
       </div>
       <nav class="vn-controls" aria-label="Управление visual novel">
@@ -403,7 +415,7 @@ export class AnimeDetectiveApp {
     });
     this.root.querySelector('#config')?.addEventListener('click', () => this.renderVnConfigOverlay());
     if (character && !this.usesPoseB(character, entry.emotion)) this.animatePortrait(character, expression);
-    if (this.autoMode) this.timers.push(window.setTimeout(() => this.nextLine(), autoDelayForLine(entry.text, this.autoSpeed)));
+    if (this.autoMode) this.timers.push(window.setTimeout(() => this.nextLine(), autoDelayForLine(dialoguePage, this.autoSpeed)));
   }
 
   private preloadNextVnAssets(): void {
@@ -568,6 +580,12 @@ export class AnimeDetectiveApp {
     this.services.audio.play('vnAdvance');
     const entry = this.story[this.save.line];
     if (!entry) return this.advanceScene();
+    const dialoguePages = paginateDialogueText(entry.text, currentDialogueProfile(this.textScale));
+    if (this.dialoguePageLineId === entry.id && this.dialoguePageIndex < dialoguePages.length - 1) {
+      this.dialoguePageIndex += 1;
+      this.renderVN();
+      return;
+    }
     if (!this.save.readLines.includes(entry.id)) this.save.readLines.push(entry.id);
     if (this.save.scene === 1 && entry.id === 'VN0040') {
       this.persist();

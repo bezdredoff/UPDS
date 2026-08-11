@@ -128,4 +128,26 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('подсказка учитывает цели');
     expect(root.innerHTML).toContain('tile-stack');
   });
+  it('pages compact VN dialogue before advancing the authored line', () => {
+    Object.assign(globalThis.window as unknown as Record<string, unknown>, { innerWidth: 320, innerHeight: 568 });
+    const { root, app } = create();
+    app.openScene(0, 0);
+    expect(root.innerHTML).toContain('VN0001 · 1/2');
+    expect(root.innerHTML).toContain('data-dialogue-page="1"');
+
+    const state = app as unknown as { nextLine(): void; save: { line: number; readLines: string[] } };
+    expect(state.save.line).toBe(0);
+    expect(state.save.readLines).not.toContain('VN0001');
+
+    state.nextLine();
+    expect(state.save.line).toBe(0);
+    expect(state.save.readLines).not.toContain('VN0001');
+    expect(root.innerHTML).toContain('VN0001 · 2/2');
+    expect(root.innerHTML).toContain('data-dialogue-page="2"');
+
+    state.nextLine();
+    expect(state.save.line).toBe(1);
+    expect(state.save.readLines).toContain('VN0001');
+  });
+
 });

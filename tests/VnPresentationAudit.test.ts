@@ -61,3 +61,14 @@ describe('ANM-016 VN presentation and sequence audit', () => {
     expect(appSource).toContain('vn-background-stack');
   });
 });
+
+// ANM-016B keeps paging presentation-only: authored VN IDs stay stable while a line may have internal UI pages.
+describe('ANM-016B dialogue presentation contract', () => {
+  it('renders internal page metadata and removes scroll-as-overflow from the dialogue text', () => {
+    expect(appSource).toContain('data-dialogue-page=');
+    expect(appSource).toContain('data-dialogue-pages=');
+    expect(appSource).toContain('dialoguePageIndex');
+    expect(style).toContain('.dialogue-text');
+    expect(style).toContain('overflow: hidden');
+  });
+});
