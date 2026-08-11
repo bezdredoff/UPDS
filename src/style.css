@@ -1244,3 +1244,63 @@ img { display: block; }
   .settings-navigation, .vn-config-navigation { margin-top: 10px; padding-top: 9px; }
   .settings-navigation button, .vn-config-navigation button { min-height: 44px; padding: 6px 9px; }
 }
+
+/* ANM-017 playtest & distribution foundation */
+.pwa-status-card {
+  margin: 12px 0;
+  padding: 11px 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid #c7d5d2;
+  border-radius: 11px;
+  background: #f4fbf8;
+}
+.pwa-status-card > div:first-child { min-width: 0; display: grid; gap: 3px; }
+.pwa-status-card small { color: var(--teal); font-size: 8px; font-weight: 950; letter-spacing: .12em; }
+.pwa-status-card b { color: var(--indigo); font-size: 11px; }
+.pwa-status-card span { color: var(--ink-soft); font-size: 8px; overflow-wrap: anywhere; }
+.pwa-status-actions { display: grid; gap: 6px; }
+.pwa-status-actions button {
+  min-height: 36px;
+  padding: 6px 9px;
+  border: 1px solid #9ebbb6;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--indigo);
+  font-size: 8px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+.pwa-update-banner {
+  position: absolute;
+  z-index: 90;
+  left: 10px;
+  right: 10px;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  padding: 11px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid #d6b76f;
+  border-radius: 12px;
+  background: #fff9e9f5;
+  color: var(--indigo);
+  box-shadow: 0 12px 36px #171a2f4d;
+  backdrop-filter: blur(12px);
+}
+.pwa-update-banner > div { min-width: 0; display: grid; gap: 2px; }
+.pwa-update-banner small { color: #9c752c; font-size: 7px; font-weight: 950; letter-spacing: .12em; }
+.pwa-update-banner b { font-size: 10px; }
+.pwa-update-banner span { color: var(--ink-soft); font-size: 8px; line-height: 1.25; }
+.pwa-update-banner button { min-height: 40px; padding: 6px 10px; border: 1px solid #c8b886; border-radius: 8px; background: #fff; font-size: 8px; font-weight: 850; }
+.pwa-update-banner .primary { min-height: 40px; }
+
+@media (max-width: 350px), (max-height: 650px) {
+  .pwa-status-card { grid-template-columns: 1fr; }
+  .pwa-status-actions { grid-template-columns: 1fr 1fr; }
+  .pwa-update-banner { grid-template-columns: 1fr 1fr; }
+  .pwa-update-banner > div { grid-column: 1 / -1; }
+}

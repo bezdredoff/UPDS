@@ -5,6 +5,8 @@ import { ANM009_SAVE_KEY, SAVE_SCHEMA_VERSION, type CampaignSave, type SaveLoadR
 import type { AssetHealth } from './AssetHealth';
 import type { ErrorLog } from './ErrorLog';
 import type { StorageMode } from './SafeStorage';
+import type { PlaytestSummary } from './PlaytestTelemetry';
+import type { PwaSnapshot } from './PwaController';
 
 export type DiagnosticsContext = Readonly<{
   save: CampaignSave;
@@ -14,6 +16,8 @@ export type DiagnosticsContext = Readonly<{
   errorLog: ErrorLog;
   assetHealth: AssetHealth;
   audio: Readonly<{ supported: boolean; hapticsSupported: boolean; scene: AudioScene; settings: AudioSettings }>;
+  playtest: Readonly<{ schemaVersion: number; eventCount: number; sessionId: string; summary: PlaytestSummary }>;
+  pwa: PwaSnapshot;
 }>;
 
 export const createDiagnosticsSnapshot = (context: DiagnosticsContext): unknown => ({
@@ -30,6 +34,8 @@ export const createDiagnosticsSnapshot = (context: DiagnosticsContext): unknown 
   },
   assets: context.assetHealth.snapshot(),
   audio: context.audio,
+  playtest: context.playtest,
+  pwa: context.pwa,
   errors: context.errorLog.getEntries(),
   environment: {
     path: globalThis.location?.pathname ?? 'unknown',

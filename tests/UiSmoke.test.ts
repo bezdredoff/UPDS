@@ -113,6 +113,8 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('Экспорт сохранения');
     expect(root.innerHTML).toContain('Импорт сохранения');
     expect(root.innerHTML).toContain('Экспорт диагностики');
+    expect(root.innerHTML).toContain('Экспорт playtest report');
+    expect(root.innerHTML).toContain('PWA / OFFLINE');
     expect(root.innerHTML).toContain(APP_VERSION);
   });
 
