@@ -1,7 +1,7 @@
 {
   "name": "seiran-detectives-four-full-levels",
   "private": true,
-  "version": "0.10.0-anm010",
+  "version": "0.11.0-anm011",
   "type": "module",
   "scripts": {
     "dev": "vite",
