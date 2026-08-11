@@ -31,9 +31,19 @@ describe('Match3Game', () => {
         expect(result.cascades).toBeGreaterThan(0);
         expect(result.cleared).toBeGreaterThanOrEqual(3);
         expect(result.frames[0]?.phase).toBe('swap');
-        expect(result.frames.some((frame) => frame.phase === 'clear')).toBe(true);
-        expect(result.frames.some((frame) => frame.phase === 'settle')).toBe(true);
+        const clearFrames = result.frames.filter((frame) => frame.phase === 'clear');
+        const settleFrames = result.frames.filter((frame) => frame.phase === 'settle');
+        expect(clearFrames.length).toBeGreaterThan(0);
+        expect(settleFrames.length).toBeGreaterThan(0);
         expect(result.frames.every((frame) => frame.board.length === 64)).toBe(true);
+        for (const frame of clearFrames) {
+          expect(frame.clearedIndices?.length ?? 0).toBeGreaterThan(0);
+          expect(frame.clearedIndices?.some((cellIndex) => Boolean(frame.board[cellIndex]?.tile || frame.board[cellIndex]?.ingredient || frame.board[cellIndex]?.special))).toBe(true);
+        }
+        for (const frame of settleFrames) {
+          expect((frame.motions?.length ?? 0)).toBeGreaterThan(0);
+          expect(frame.motions?.every((motion) => motion.index >= 0 && motion.index < 64 && motion.rows > 0)).toBe(true);
+        }
         expect(game.movesLeft).toBe(level.moves - 1);
         break;
       }

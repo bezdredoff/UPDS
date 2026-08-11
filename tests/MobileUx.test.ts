@@ -1,8 +1,12 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
+  DRAG_COMMIT_RATIO,
+  DRAG_TARGET_REACTION_RATIO,
+  DRAG_VISUAL_LIMIT_RATIO,
   MIN_TOUCH_TARGET_PX,
   MOBILE_REGRESSION_VIEWPORTS,
+  getDragPreview,
   getSwipeDecision,
 } from '../src/ui/boardInteraction';
 
@@ -39,6 +43,31 @@ describe('ANM-012 mobile UX contract', () => {
     expect(swipe(63, 14, 0)).toEqual({ committed: true, direction: 'right', targetIndex: null });
   });
 
+
+  it('previews drag displacement, neighbour reaction and commit before release', () => {
+    const early = getDragPreview(27, 4, 1, 40);
+    expect(early.direction).toBe('right');
+    expect(early.targetIndex).toBe(28);
+    expect(early.targetReacting).toBe(true);
+    expect(early.committed).toBe(false);
+
+    const committed = getDragPreview(27, 16, 1, 40);
+    expect(committed.committed).toBe(true);
+    expect(committed.targetIndex).toBe(28);
+    expect(committed.x).toBeGreaterThan(0);
+    expect(committed.targetOffsetX).toBeLessThan(0);
+
+    const capped = getDragPreview(27, 200, 0, 40);
+    expect(capped.x).toBeCloseTo(40 * DRAG_VISUAL_LIMIT_RATIO);
+    expect(DRAG_COMMIT_RATIO).toBeGreaterThan(DRAG_TARGET_REACTION_RATIO);
+  });
+
+  it('never commits drag outside the board even when the finger moves far enough', () => {
+    const preview = getDragPreview(0, -30, 0, 40);
+    expect(preview.direction).toBe('left');
+    expect(preview.targetIndex).toBeNull();
+    expect(preview.committed).toBe(false);
+  });
   it('contains page motion and removes the old 640px viewport floor', () => {
     expect(style).toContain('touch-action: none;');
     expect(style).toContain('overscroll-behavior: none;');
