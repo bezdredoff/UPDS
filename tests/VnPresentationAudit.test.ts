@@ -49,11 +49,14 @@ describe('ANM-016 VN presentation and sequence audit', () => {
     expect(getBackgroundForLine(1, transition, scene)).toBe('lockerAthletics');
   });
 
-  it('uses a stable four-row VN shell, full-height portraits and contain-over-fill backgrounds', () => {
+  it('uses a stable four-row VN shell, close-up bottom-anchored portraits and contain-over-fill backgrounds', () => {
     expect(style).toContain('grid-template-rows: auto minmax(0, 1fr) clamp(154px, 22dvh, 198px) auto');
     expect(style).toContain('.vn-background-fit { object-fit: contain');
     expect(style).toContain('.vn-background-fill { object-fit: cover');
-    expect(style).toContain('height: 100%;\n  width: auto;');
+    expect(style).toContain('bottom: -78%;\n  height: 178%;');
+    expect(style).toContain('.portrait-left { left: 29%; }');
+    expect(style).toContain('.portrait-right { left: 71%; }');
+    expect(style).toContain('.portrait-center { left: 50%; }');
     expect(style).toContain('.dialogue-text { position: relative; z-index: 1; flex: 1 1 auto; min-height: 0;');
     expect(appSource).toContain('vn-background-stack');
   });
