@@ -18,11 +18,16 @@ export const headerActionMarkup = (
 export const panelHeaderMarkup = (
   eyebrow: string,
   title: string,
-  options: Readonly<{ settings?: boolean }> = { settings: true },
-): string => `<header class="panel-nav app-header">
-  ${headerActionMarkup('back', 'back', 'Назад', undefined, 'app-header-back')}
+  options: Readonly<{ settings?: boolean; backLabel?: string; navigationLabel?: string; settingsLabel?: string }> = { settings: true },
+): string => {
+  const backLabel = options.backLabel ?? 'Назад';
+  const navigationLabel = options.navigationLabel ?? 'Навигация';
+  const settingsLabel = options.settingsLabel ?? 'Настройки';
+  return `<header class="panel-nav app-header">
+  ${headerActionMarkup('back', 'back', backLabel, undefined, 'app-header-back')}
   <div class="app-header-title"><small>${escapeHtml(eyebrow)}</small><b>${escapeHtml(title)}</b></div>
-  <nav class="app-header-actions" aria-label="Навигация">
-    ${options.settings ? headerActionMarkup('header-settings', 'settings', 'Настройки') : ''}
+  <nav class="app-header-actions" aria-label="${escapeHtml(navigationLabel)}">
+    ${options.settings ? headerActionMarkup('header-settings', 'settings', settingsLabel) : ''}
   </nav>
 </header>`;
+};

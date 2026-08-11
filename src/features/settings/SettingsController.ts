@@ -1,8 +1,8 @@
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppShell } from '../../app/AppShell';
-import { iconMarkup as icon, panelHeaderMarkup } from '../../ui/viewMarkup';
-import { audioSettingsMarkup, bindAudioSettingsControls, bindPwaControls, pwaStatusMarkup } from '../../ui/systemControls';
+import { escapeHtml, iconMarkup as icon, panelHeaderMarkup } from '../../ui/viewMarkup';
+import { audioSettingsMarkup, bindAudioSettingsControls, bindLanguageSettingsControls, bindPwaControls, languageSettingsMarkup, pwaStatusMarkup } from '../../ui/systemControls';
 
 export class SettingsController {
   constructor(
@@ -15,19 +15,27 @@ export class SettingsController {
 
   render(back: () => void = () => this.navigation.showMenu(), showMainMenu = false): void {
     const matchActive = this.isMatchActive();
+    const t = (key: string) => escapeHtml(this.services.localization.t(key));
     this.services.telemetry.trackScreen('settings', matchActive ? 'match' : 'system');
     this.shell.render(`<section class="panel settings-panel">
-      ${panelHeaderMarkup('CONFIG · SYSTEM', 'Настройки', { settings: false })}
-      <h2>Звук и отклик</h2>
-      <p class="panel-copy">Музыка и SFX генерируются локально через Web Audio и не требуют загрузки аудиофайлов. Настройки сохраняются отдельно от игрового прогресса.</p>
+      ${panelHeaderMarkup(this.services.localization.t('settings.eyebrow'), this.services.localization.t('settings.title'), {
+        settings: false,
+        backLabel: this.services.localization.t('common.back'),
+        navigationLabel: this.services.localization.t('common.navigation'),
+      })}
+      <h2>${t('settings.languageHeading')}</h2>
+      ${languageSettingsMarkup(this.services)}
+      <h2>${t('settings.audioHeading')}</h2>
+      <p class="panel-copy">${t('settings.audioCopy')}</p>
       ${audioSettingsMarkup(this.services)}
-      <h2>Установка и офлайн</h2>
+      <h2>${t('settings.installHeading')}</h2>
       ${pwaStatusMarkup(this.services)}
-      <div class="settings-note"><b>Мобильный контракт</b><span>Звук активируется только после первого касания/клавиши. При сворачивании вкладки музыка приостанавливается и безопасно возобновляется при возвращении.</span></div>
-      ${showMainMenu ? `<div class="settings-navigation"><small>НАВИГАЦИЯ</small><button id="settings-main-menu">${icon('menu')}<span><b>Главное меню</b><em>${matchActive ? 'Текущая попытка потребует подтверждения' : 'Сохранённый прогресс не потеряется'}</em></span></button></div>` : ''}
+      <div class="settings-note"><b>${t('settings.mobileContractTitle')}</b><span>${t('settings.mobileContractCopy')}</span></div>
+      ${showMainMenu ? `<div class="settings-navigation"><small>${t('settings.navigationLabel')}</small><button id="settings-main-menu">${icon('menu')}<span><b>${t('settings.mainMenu')}</b><em>${t(matchActive ? 'settings.mainMenuMatchWarning' : 'settings.mainMenuSafe')}</em></span></button></div>` : ''}
     </section>`);
     this.root.querySelector('#back')?.addEventListener('click', back);
     this.root.querySelector('#settings-main-menu')?.addEventListener('click', () => this.navigation.returnToMainMenu());
+    bindLanguageSettingsControls(this.services, this.root, () => this.render(back, showMainMenu));
     bindAudioSettingsControls(this.services, this.root, () => this.render(back, showMainMenu));
     bindPwaControls(this.services, this.root, () => this.render(back, showMainMenu));
   }

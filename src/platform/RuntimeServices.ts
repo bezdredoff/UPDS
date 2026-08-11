@@ -28,6 +28,7 @@ export const createRuntimeServices = (): RuntimeServices => {
   const pwa = new PwaController(errorLog, telemetry);
   const localeSettings = new LocaleSettingsStore(storage.storage);
   const localization = new LocalizationService(appCatalogs, localeSettings.load());
+  if (typeof document !== 'undefined') document.documentElement.lang = localization.locale;
   localization.subscribe((locale) => localeSettings.save(locale));
   return {
     storage,

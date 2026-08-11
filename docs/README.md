@@ -22,6 +22,7 @@ This directory is the documentation source of truth for the current repository.
 - [`features/ANM018_REPOSITORY_MAINTENANCE_RU.md`](features/ANM018_REPOSITORY_MAINTENANCE_RU.md)
 - [`features/ANM018A_UI_ORCHESTRATOR_DECOMPOSITION_RU.md`](features/ANM018A_UI_ORCHESTRATOR_DECOMPOSITION_RU.md)
 - [`features/ANM019A_LOCALIZATION_CORE_RU.md`](features/ANM019A_LOCALIZATION_CORE_RU.md)
+- [`features/ANM019B_LOCALIZED_SYSTEM_UI_RU.md`](features/ANM019B_LOCALIZED_SYSTEM_UI_RU.md)
 
 ## Process
 

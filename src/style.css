@@ -1304,3 +1304,12 @@ img { display: block; }
   .pwa-update-banner { grid-template-columns: 1fr 1fr; }
   .pwa-update-banner > div { grid-column: 1 / -1; }
 }
+
+/* ANM-019B · localized language selector */
+.language-settings { margin: 0 0 18px; }
+.language-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.035); }
+.language-row > span { display: grid; gap: 4px; min-width: 0; }
+.language-row b { font-size: 14px; }
+.language-row em { font-size: 11px; font-style: normal; opacity: .68; line-height: 1.35; }
+.language-row select { min-width: 128px; min-height: 42px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--panel-strong); color: var(--text); padding: 0 34px 0 12px; font: inherit; }
+@media (max-width: 520px) { .language-row { align-items: stretch; flex-direction: column; } .language-row select { width: 100%; } }
