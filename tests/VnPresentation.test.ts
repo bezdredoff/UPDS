@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 const style = readFileSync(new URL('../src/style.css', import.meta.url), 'utf8');
-const appSource = readFileSync(new URL('../src/ui/AnimeDetectiveApp.ts', import.meta.url), 'utf8');
+const vnSource = readFileSync(new URL('../src/features/vn/VnController.ts', import.meta.url), 'utf8');
 
 describe('current VN presentation contract', () => {
   it('keeps a stable four-row shell with contain-over-fill backgrounds and bottom-anchored portraits', () => {
@@ -17,7 +17,7 @@ describe('current VN presentation contract', () => {
   });
 
   it('keeps the nameplate above the stage/dialogue seam and the lower portrait behind the dialogue card', () => {
-    expect(appSource).toContain('<span class="dialogue-nameplate">');
+    expect(vnSource).toContain('<span class="dialogue-nameplate">');
     expect(style).toContain('.dialogue-shell {\n  position: relative;\n  z-index: 8;');
     expect(style).toContain('.dialogue-nameplate {');
     expect(style).toContain('z-index: 12;');
@@ -30,16 +30,16 @@ describe('current VN presentation contract', () => {
     expect(style).toContain('max-height: calc(2.84em + 19px);');
     expect(style).toContain('overflow-wrap: break-word;');
     expect(style).toContain('hyphens: auto;');
-    expect(appSource).toContain('createDialogueRenderedFit(textElement)');
-    expect(appSource).toContain('dialogueContinuationText(dialoguePage, this.dialoguePageIndex < dialoguePages.length - 1)');
+    expect(vnSource).toContain('createDialogueRenderedFit(textElement)');
+    expect(vnSource).toContain('dialogueContinuationText(dialoguePage, this.dialoguePageIndex < dialoguePages.length - 1)');
   });
 
   it('keeps compact contextual navigation and no persistent main-menu action in gameplay headers', () => {
-    expect(appSource).toContain("headerActionMarkup('history', 'log', 'История диалога')");
-    expect(appSource).toContain("headerActionMarkup('header-settings', 'settings', 'Настройки')");
-    expect(appSource).toContain("headerActionMarkup('dossier', 'dossier', 'Досье', this.save.clues.length)");
-    expect(appSource).not.toContain("headerActionMarkup('menu', 'menu', 'Главное меню')");
-    expect(appSource).toContain('id="vn-main-menu"');
+    expect(vnSource).toContain("headerActionMarkup('history', 'log', 'История диалога')");
+    expect(vnSource).toContain("headerActionMarkup('header-settings', 'settings', 'Настройки')");
+    expect(vnSource).toContain('id="dossier" class="vn-case-pill"');
+    expect(vnSource).not.toContain("headerActionMarkup('menu', 'menu', 'Главное меню')");
+    expect(vnSource).toContain('id="vn-main-menu"');
     expect(style).toContain('width: 44px;');
     expect(style).toContain('min-height: 44px;');
   });

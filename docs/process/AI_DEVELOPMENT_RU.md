@@ -8,6 +8,23 @@
 4. Use current repository `main` as baseline whenever possible.
 5. Treat `docs/archive/` as history only.
 
+## Work in the smallest feature boundary
+
+After ANM-018A, do not start by loading/editing `AnimeDetectiveApp.ts` for a feature-specific task unless composition/navigation itself changes.
+
+Typical ownership:
+
+- VN text/AUTO/SKIP/staging → `src/features/vn/` plus relevant `src/ui/vn*` helper;
+- Match-3 interaction/motion/session presentation → `src/features/match3/` plus `boardInteraction.ts` / `matchMotion.ts`;
+- Match-3 rules/balance mechanics → `src/engine/Match3Game.ts` and `src/data/levels.ts` as appropriate;
+- settings → `src/features/settings/`;
+- diagnostics/playtest export/QA scene navigation → `src/features/diagnostics/`;
+- dossier → `src/features/dossier/`;
+- ending → `src/features/ending/`;
+- cross-feature navigation/composition only → `src/ui/AnimeDetectiveApp.ts`, `src/app/`.
+
+Do not make VN import Match-3 or Match-3 import VN. Add a narrow navigation/callback seam through the composition root instead.
+
 ## Source hierarchy
 
 Narrative authority:
@@ -32,10 +49,19 @@ Raven Manor may be used as an **engineering donor/reference** for architecture, 
 - Do not modify `.github/workflows/*` or `scripts/validate-upload-zip.py` in ordinary mobile feature ZIPs.
 - Do not change protected narrative/rig contracts unless the task explicitly requires it.
 - Prefer pure helpers for rules/decisions; keep DOM/API boundaries thin.
+- Feature state belongs to the feature controller, not a generic giant `AppContext`.
+- `AnimeDetectiveApp` is a composition root, not a screen implementation file.
 - Browser-only code must tolerate missing APIs in headless tests.
-- Do not pin tests to a specific historical app version; compare against `APP_VERSION` / `package.json` when version matters.
+- Do not pin tests to a historical app version; compare against `APP_VERSION` / `package.json` when version matters.
 - Do not write tests that merely require a historical implementation string if observable behavior can be tested directly.
-- CSS/source-string assertions are acceptable only for a small number of presentation invariants that cannot be exercised in the current headless environment.
+- CSS/source-string assertions are acceptable only for a small number of presentation/architecture invariants that cannot be exercised in the current headless environment.
+
+## Future content/localization rules
+
+- Keep stable content IDs independent from localized display text.
+- Do not use Russian UI strings as save/telemetry/control identifiers.
+- New authored content should not require controller `switch` statements when existing data/content contracts can express the sequence.
+- Dialogue internal pages are runtime presentation state and must never become authored/save IDs.
 
 ## Mobile archive rules
 
@@ -53,8 +79,9 @@ Never broaden stable service-worker behavior into `/preview/`. Candidate QA must
 
 A change is ready for preview when:
 
-- strict TypeScript passes;
+- strict TypeScript + unused-code checks pass;
 - relevant unit/contracts pass;
+- feature architecture boundaries remain intact;
 - protected files are unchanged unless explicitly in scope;
 - archive validator passes;
 - GitHub importer completes clean `npm ci` + `npm run check`;

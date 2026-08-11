@@ -2,7 +2,7 @@
 
 Mobile-first visual novel × match-3 vertical slice.
 
-Current build: **ANM-018 · Repository & Maintenance Refactor (`0.18.0-anm018`)**.
+Current build: **ANM-018A · UI Orchestrator Decomposition (`0.18.1-anm018a`)**.
 
 ## Quick start
 

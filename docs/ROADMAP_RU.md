@@ -1,4 +1,4 @@
-# UPDS — актуальный roadmap после ANM-018
+# UPDS — актуальный roadmap после ANM-018A
 
 ## Completed foundation
 
@@ -11,7 +11,8 @@
 - compact unified navigation;
 - local playtest telemetry;
 - PWA/install/offline/update foundation;
-- repository/test/documentation maintenance refactor.
+- repository/test/documentation maintenance refactor;
+- feature-oriented UI orchestrator decomposition.
 
 ## Next recommended work
 
