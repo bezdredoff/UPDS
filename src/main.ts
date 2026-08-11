@@ -9,6 +9,7 @@ import { runtimeAssetCatalog } from './platform/RuntimeAssets';
 const root = document.querySelector<HTMLElement>('#app');
 if (!root) throw new Error('Missing #app');
 const services = createRuntimeServices();
+services.audio.arm();
 installGlobalErrorHandlers(services.errorLog);
 installImageFallbackHandler(services.errorLog, services.assetHealth);
 scheduleImagePreload(runtimeAssetCatalog, services.assetHealth);

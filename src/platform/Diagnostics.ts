@@ -1,4 +1,6 @@
 import { APP_VERSION, BUILD_ID, BUILD_LABEL, BUILD_TIMESTAMP } from '../appVersion';
+import type { AudioScene } from '../audio/MusicTheme';
+import type { AudioSettings } from '../audio/AudioSettings';
 import { ANM009_SAVE_KEY, SAVE_SCHEMA_VERSION, type CampaignSave, type SaveLoadReport } from '../engine/CampaignStore';
 import type { AssetHealth } from './AssetHealth';
 import type { ErrorLog } from './ErrorLog';
@@ -11,6 +13,7 @@ export type DiagnosticsContext = Readonly<{
   recoveryBackup: unknown | null;
   errorLog: ErrorLog;
   assetHealth: AssetHealth;
+  audio: Readonly<{ supported: boolean; hapticsSupported: boolean; scene: AudioScene; settings: AudioSettings }>;
 }>;
 
 export const createDiagnosticsSnapshot = (context: DiagnosticsContext): unknown => ({
@@ -26,6 +29,7 @@ export const createDiagnosticsSnapshot = (context: DiagnosticsContext): unknown 
     recoveryBackup: context.recoveryBackup,
   },
   assets: context.assetHealth.snapshot(),
+  audio: context.audio,
   errors: context.errorLog.getEntries(),
   environment: {
     path: globalThis.location?.pathname ?? 'unknown',
