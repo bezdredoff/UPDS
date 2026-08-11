@@ -60,6 +60,19 @@ export class VnController {
     private readonly navigation: AppNavigation,
   ) {}
 
+  private t(key: string, params: Readonly<Record<string, string | number | boolean>> = {}): string {
+    return this.services.localization.t(key, params);
+  }
+
+  private sceneText(field: 'title' | 'location'): string {
+    const meta = sceneMeta[this.session.save.scene];
+    return this.t(`vn.scene.${meta.id}.${field}`);
+  }
+
+  private choiceText(id: ChoiceId, field: 'title' | 'effect'): string {
+    return this.t(`vn.choice.${id}.${field}`);
+  }
+
   mount(): void {
     this.bindDialogueReflow();
   }
@@ -103,7 +116,6 @@ export class VnController {
       return;
     }
 
-    const meta = sceneMeta[this.session.save.scene];
     this.services.telemetry.trackScreen('vn', entry.id);
     if (this.trackedVnLineId !== entry.id) {
       this.trackedVnLineId = entry.id;
@@ -138,33 +150,33 @@ export class VnController {
         <img class="vn-background vn-background-fill" src="${backgroundAssets[background]}" alt="">
         <img class="vn-background vn-background-fit" src="${backgroundAssets[background]}" alt="">
       </div>
-      <span class="visually-hidden">${escapeHtml(meta.location)}</span>
+      <span class="visually-hidden">${escapeHtml(this.sceneText('location'))}</span>
       <div class="vn-vignette"></div>
       <header class="app-header vn-topbar">
-        <button id="dossier" class="vn-case-pill" aria-label="Открыть досье">
-          <span><small>CASE 001 · SCENE ${String(this.session.save.scene).padStart(2, '0')}</small><b>${escapeHtml(meta.title)}</b></span>
+        <button id="dossier" class="vn-case-pill" aria-label="${escapeHtml(this.t('vn.chrome.openDossier'))}">
+          <span><small>CASE 001 · SCENE ${String(this.session.save.scene).padStart(2, '0')}</small><b>${escapeHtml(this.sceneText('title'))}</b></span>
           <i>${icon('dossier')}<em>${this.session.save.clues.length}</em></i>
         </button>
-        <nav class="app-header-actions" aria-label="Навигация visual novel">
-          ${headerActionMarkup('history', 'log', 'История диалога')}
-          ${headerActionMarkup('header-settings', 'settings', 'Настройки')}
+        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('vn.chrome.navigation'))}">
+          ${headerActionMarkup('history', 'log', this.t('vn.chrome.history'))}
+          ${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
         </nav>
       </header>
       <div class="stage ${staging ? `stage-${staging.side}` : 'stage-empty'}" data-stage-side="${staging?.side ?? 'none'}">
         ${character ? this.characterMarkup(character, expression, entry.emotion, staging?.side ?? 'center') : ''}
         ${placeholder ? this.placeholderMarkup(placeholder, staging?.side ?? 'center') : ''}
-        ${direction ? `<div class="direction-card"><span>ПОСТАНОВКА</span><b>${escapeHtml(entry.emotion)}</b></div>` : ''}
+        ${direction ? `<div class="direction-card"><span>${escapeHtml(this.t('vn.chrome.direction'))}</span><b>${escapeHtml(entry.emotion)}</b></div>` : ''}
         ${clueToast}
       </div>
       <div class="dialogue-shell ${direction ? 'direction' : ''}">
-        <span class="dialogue-nameplate">${direction ? 'ПОСТАНОВКА' : escapeHtml(entry.speaker)}<em>${escapeHtml(entry.emotion)}</em></span>
+        <span class="dialogue-nameplate">${direction ? escapeHtml(this.t('vn.chrome.direction')) : escapeHtml(entry.speaker)}<em>${escapeHtml(entry.emotion)}</em></span>
         <button class="dialogue ${direction ? 'direction' : ''}" id="next">
           <span class="dialogue-text" data-dialogue-page="${this.dialoguePageIndex + 1}" data-dialogue-pages="${dialoguePages.length}">${escapeHtml(dialogueContinuationText(dialoguePage, this.dialoguePageIndex < dialoguePages.length - 1))}</span>
           <span class="line-id">${entry.id}${dialoguePages.length > 1 ? ` · ${this.dialoguePageIndex + 1}/${dialoguePages.length}` : ''}</span>
           <span class="dialogue-progress" aria-hidden="true">${dialoguePages.map((_, page) => `<i class="${page <= this.dialoguePageIndex ? 'is-active' : ''}"></i>`).join('')}<b>▼</b></span>
         </button>
       </div>
-      <nav class="vn-controls" aria-label="Управление visual novel">
+      <nav class="vn-controls" aria-label="${escapeHtml(this.t('vn.chrome.controls'))}">
         <button id="skip" ${skipAvailable ? '' : 'disabled'}>${icon('skip')}<span>SKIP</span></button>
         <button id="auto" class="${this.autoMode ? 'is-active' : ''}">${icon('auto')}<span>AUTO</span></button>
         <button id="save-vn">${icon('save')}<span>SAVE</span></button>
@@ -203,12 +215,12 @@ export class VnController {
       this.renderVN();
     });
     this.root.querySelector('#save-vn')?.addEventListener('click', () => {
-      if (this.services.store.saveManual(this.session.save)) this.showVnStatus('Ручной слот сохранён');
-      else this.showVnStatus('Не удалось сохранить ручной слот');
+      if (this.services.store.saveManual(this.session.save)) this.showVnStatus(this.t('vn.status.saved'));
+      else this.showVnStatus(this.t('vn.status.saveFailed'));
     });
     this.root.querySelector('#load-vn')?.addEventListener('click', () => {
       const manual = this.services.store.loadManual();
-      if (!manual) { this.showVnStatus('Ручной слот пока пуст'); return; }
+      if (!manual) { this.showVnStatus(this.t('vn.status.emptySlot')); return; }
       this.session.save = manual;
       this.session.persist();
       this.openScene(this.session.save.scene, this.session.save.line);
@@ -362,7 +374,7 @@ export class VnController {
     const from = this.session.save.line;
     const target = nextUnreadIndex(this.story, this.session.save.line, this.session.save.readLines);
     if (target === this.session.save.line) {
-      this.showVnStatus('SKIP доступен только для уже прочитанных реплик');
+      this.showVnStatus(this.t('vn.status.skipReadOnly'));
       return;
     }
     this.services.telemetry.track('vn_skip', { scene: this.session.save.scene, fromLine: from, toLine: target, skipped: Math.max(0, target - from) });
@@ -470,7 +482,7 @@ export class VnController {
   private clueToastMarkup(clueId: ClueId): string {
     const level = levels.find((candidate) => candidate.clueId === clueId)!;
     const clue = cluePresentation[clueId];
-    return `<div class="clue-toast"><img src="${clue.asset}" alt=""><span><small>ДОСЬЕ ОБНОВЛЕНО</small><b>${escapeHtml(level.clueTitle)}</b></span></div>`;
+    return `<div class="clue-toast"><img src="${clue.asset}" alt=""><span><small>${escapeHtml(this.t('vn.chrome.dossierUpdated'))}</small><b>${escapeHtml(level.clueTitle)}</b></span></div>`;
   }
 
   renderChoice(): void {
@@ -482,14 +494,14 @@ export class VnController {
         <img class="choice-background choice-background-fit" src="${backgroundAssets.clubroom}" alt="">
       </div>
       <header class="app-header choice-topbar">
-        <div class="app-header-title"><small>CASE 001 · CHOICE_00</small><b>Выбор версии</b></div>
-        <nav class="app-header-actions" aria-label="Навигация">
-          ${headerActionMarkup('header-settings', 'settings', 'Настройки')}
+        <div class="app-header-title"><small>CASE 001 · CHOICE_00</small><b>${escapeHtml(this.t('vn.choice.header'))}</b></div>
+        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('common.navigation'))}">
+          ${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
         </nav>
       </header>
       <div class="choice-panel">
-        <p class="eyebrow">CHOICE_00</p><h2>С чего начать?</h2>
-        ${(Object.keys(choices) as ChoiceId[]).map((id) => `<button data-choice="${id}"><i>${id}</i><span><b>${choices[id].title}</b><small>${choices[id].effect}</small></span></button>`).join('')}
+        <p class="eyebrow">CHOICE_00</p><h2>${escapeHtml(this.t('vn.choice.prompt'))}</h2>
+        ${(Object.keys(choices) as ChoiceId[]).map((id) => `<button data-choice="${id}"><i>${id}</i><span><b>${escapeHtml(this.choiceText(id, 'title'))}</b><small>${escapeHtml(this.choiceText(id, 'effect'))}</small></span></button>`).join('')}
       </div>
     </section>`);
     this.root.querySelector('#header-settings')?.addEventListener('click', () => this.navigation.showSettings(() => this.renderChoice(), true));

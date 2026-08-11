@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Build: `0.19.1-anm019b`.
+Build: `0.19.2-anm019c`.
 
 ## Runtime flow
 
@@ -138,7 +138,7 @@ New episodes/levels/characters should primarily extend content/data definitions.
 
 `src/localization/` owns locale resolution, message catalogs, named-parameter formatting and locale persistence. `RuntimeServices` owns one shared `LocalizationService`; feature controllers consume it rather than creating per-feature localization state.
 
-Russian is the current source/fallback locale. Feature text migrates atomically to stable namespaced keys; narrative localization keeps authored stable IDs (`VN...`, choice IDs, level IDs) as lookup identities. Internal dialogue paging remains presentation-only after translated text is resolved.
+Russian is the current source/fallback locale. Feature text migrates atomically to stable namespaced keys. VN scene display metadata now resolves from stable `VN_SCENE_*` IDs and `CHOICE_00` display text resolves from stable A/B/C choice IDs; authored screenplay text remains Russian until ANM-019D. Internal dialogue paging remains presentation-only after translated text is resolved.
 
 ### Save migrations
 
