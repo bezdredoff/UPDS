@@ -11,7 +11,7 @@ Version: `0.16.8-anm016d`
 - один визуальный `.app-header` contract для постоянных интерактивных экранов;
 - тёмно-синий почти непрозрачный фон header;
 - белые иконки на отдельной тёмной кнопке с золотой границей;
-- minimum touch target 42×42 px, 38×38 только в самом компактном viewport;
+- minimum touch target 44×44 px на всех поддерживаемых мобильных viewport;
 - `MENU` и `SETTINGS` доступны из VN, choice, Match-3 intro/board, loss result, ending и сервисных panel screens;
 - `LOG` остаётся контекстным действием только VN;
 - `DOSSIER` остаётся контекстным действием VN / Match-3;

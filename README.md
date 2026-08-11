@@ -2,7 +2,7 @@
 
 Mobile-first visual novel × match-3 vertical slice.
 
-Current build: ANM-016D · Unified Header Navigation & Contrast (`0.16.8-anm016d`), retaining ANM-016B R6 dialogue paging and ANM-016C R2 stage/dialogue seam fixes.
+Current build: ANM-016E · Compact Context Navigation (`0.16.9-anm016e`), retaining ANM-016D high-contrast shared headers, ANM-016B R6 dialogue paging and ANM-016C R2 stage/dialogue seam fixes.
 
 ## Local
 
@@ -31,5 +31,6 @@ See [`docs/GITHUB_PHONE_PIPELINE_RU.md`](docs/GITHUB_PHONE_PIPELINE_RU.md).
 - ANM-016B R4 stable measurement viewport: [`docs/ANM016B_R4_STABLE_MEASUREMENT_RU.md`](docs/ANM016B_R4_STABLE_MEASUREMENT_RU.md)
 - ANM-016B R6 two-line balanced dialogue paging: [`docs/ANM016B_R6_TWO_LINE_BALANCED_PAGING_RU.md`](docs/ANM016B_R6_TWO_LINE_BALANCED_PAGING_RU.md)
 - ANM-016D unified header/navigation + contrast: [`docs/ANM016D_HEADER_NAVIGATION_RU.md`](docs/ANM016D_HEADER_NAVIGATION_RU.md)
+- ANM-016E compact context navigation: [`docs/ANM016E_COMPACT_NAVIGATION_RU.md`](docs/ANM016E_COMPACT_NAVIGATION_RU.md)
 
 Protected project contracts remain unchanged: canon, stable VN line IDs, save key `seiran-detectives-anm009-v1`, approved art direction, and the `base + face overlay` production rig.

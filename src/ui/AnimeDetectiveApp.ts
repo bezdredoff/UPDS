@@ -119,15 +119,20 @@ export class AnimeDetectiveApp {
     return `<button id="${id}" class="app-header-action${extraClass ? ` ${extraClass}` : ''}" aria-label="${escapeHtml(label)}" title="${escapeHtml(label)}">${icon(iconName)}${badge === undefined ? '' : `<i>${badge}</i>`}<span class="visually-hidden">${escapeHtml(label)}</span></button>`;
   }
 
-  private panelHeaderMarkup(eyebrow: string, title: string, options: Readonly<{ settings?: boolean; menu?: boolean }> = { settings: true, menu: true }): string {
+  private panelHeaderMarkup(eyebrow: string, title: string, options: Readonly<{ settings?: boolean }> = { settings: true }): string {
     return `<header class="panel-nav app-header">
       ${this.headerActionMarkup('back', 'back', 'Назад', undefined, 'app-header-back')}
       <div class="app-header-title"><small>${escapeHtml(eyebrow)}</small><b>${escapeHtml(title)}</b></div>
       <nav class="app-header-actions" aria-label="Навигация">
         ${options.settings ? this.headerActionMarkup('header-settings', 'settings', 'Настройки') : ''}
-        ${options.menu ? this.headerActionMarkup('menu', 'menu', 'Главное меню') : ''}
       </nav>
     </header>`;
+  }
+
+  private returnToMainMenu(): void {
+    if (this.activeMatch && typeof window.confirm === 'function' && !window.confirm('Выйти в главное меню? Текущая попытка match-3 будет потеряна.')) return;
+    this.activeMatch = null;
+    this.renderMenu();
   }
 
   private renderMenu(): void {
@@ -205,8 +210,7 @@ export class AnimeDetectiveApp {
     </section>`);
 
     this.root.querySelector('#back')?.addEventListener('click', () => this.renderMenu());
-    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderSupport(status)));
-    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderSupport(status), true));
     this.root.querySelector('#export-save')?.addEventListener('click', () => downloadJson(`UPDS_save_${APP_VERSION}.json`, this.store.createExportBundle(this.save)));
     this.root.querySelector('#export-diagnostics')?.addEventListener('click', () => {
       downloadJson(`UPDS_diagnostics_${APP_VERSION}.json`, createDiagnosticsSnapshot({
@@ -283,17 +287,18 @@ export class AnimeDetectiveApp {
     scope.querySelector('[data-preview-effects]')?.addEventListener('click', () => this.services.audio.previewEffects());
   }
 
-  private renderSettings(back: () => void = () => this.renderMenu()): void {
+  private renderSettings(back: () => void = () => this.renderMenu(), showMainMenu = false): void {
     this.shell(`<section class="panel settings-panel">
-      ${this.panelHeaderMarkup('CONFIG · AUDIO', 'Настройки', { settings: false, menu: true })}
+      ${this.panelHeaderMarkup('CONFIG · SYSTEM', 'Настройки', { settings: false })}
       <h2>Звук и отклик</h2>
       <p class="panel-copy">Музыка и SFX генерируются локально через Web Audio и не требуют загрузки аудиофайлов. Настройки сохраняются отдельно от игрового прогресса.</p>
       ${this.audioSettingsMarkup()}
       <div class="settings-note"><b>Мобильный контракт</b><span>Звук активируется только после первого касания/клавиши. При сворачивании вкладки музыка приостанавливается и безопасно возобновляется при возвращении.</span></div>
+      ${showMainMenu ? `<div class="settings-navigation"><small>НАВИГАЦИЯ</small><button id="settings-main-menu">${icon('menu')}<span><b>Главное меню</b><em>${this.activeMatch ? 'Текущая попытка потребует подтверждения' : 'Сохранённый прогресс не потеряется'}</em></span></button></div>` : ''}
     </section>`);
     this.root.querySelector('#back')?.addEventListener('click', back);
-    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
-    this.bindAudioSettingsControls(this.root, () => this.renderSettings(back));
+    this.root.querySelector('#settings-main-menu')?.addEventListener('click', () => this.returnToMainMenu());
+    this.bindAudioSettingsControls(this.root, () => this.renderSettings(back, showMainMenu));
   }
 
   private renderSceneSelect(): void {
@@ -310,8 +315,7 @@ export class AnimeDetectiveApp {
       <aside class="placeholder-note"><b>Допустимые заглушки ANM‑009</b><span>Эми · Маю · Кэнтаро · Норихиро</span></aside>
     </section>`);
     this.root.querySelector('#back')?.addEventListener('click', () => this.renderMenu());
-    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderSceneSelect()));
-    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderSceneSelect(), true));
     this.root.querySelectorAll<HTMLElement>('[data-scene]').forEach((button) => button.addEventListener('click', () => {
       this.openScene(Number(button.dataset.scene), 0);
     }));
@@ -387,7 +391,6 @@ export class AnimeDetectiveApp {
         <nav class="app-header-actions" aria-label="Навигация visual novel">
           ${this.headerActionMarkup('history', 'log', 'История диалога')}
           ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
-          ${this.headerActionMarkup('menu', 'menu', 'Главное меню')}
         </nav>
       </header>
       <div class="stage ${staging ? `stage-${staging.side}` : 'stage-empty'}" data-stage-side="${staging?.side ?? 'none'}">
@@ -417,10 +420,6 @@ export class AnimeDetectiveApp {
     dialoguePage = dialoguePages[this.dialoguePageIndex] ?? entry.text;
     this.pendingClue = null;
     this.preloadNextVnAssets();
-    this.root.querySelector('#menu')?.addEventListener('click', (event) => {
-      event.stopPropagation();
-      this.renderMenu();
-    });
     this.root.querySelector('#header-settings')?.addEventListener('click', (event) => {
       event.stopPropagation();
       this.renderVnConfigOverlay();
@@ -573,10 +572,12 @@ export class AnimeDetectiveApp {
           ${(['normal', 'large'] as TextScale[]).map((scale) => `<button data-text-scale="${scale}" class="${this.textScale === scale ? 'is-selected' : ''}">${scale === 'normal' ? 'Обычный' : 'Крупный'}</button>`).join('')}
         </div></fieldset>
         <fieldset><legend>Звук и отклик</legend>${this.audioSettingsMarkup()}</fieldset>
+        <div class="vn-config-navigation"><small>НАВИГАЦИЯ</small><button id="vn-main-menu">${icon('menu')}<span><b>Главное меню</b><em>Текущая позиция сохранена</em></span></button></div>
         <p>Скорость AUTO и размер текста действуют в текущей сессии. Audio-настройки сохраняются между запусками. Системный Reduced Motion по-прежнему имеет приоритет для анимаций.</p>
       </div>
     </section>`);
     phone.querySelector('#close-overlay')?.addEventListener('click', () => this.renderVN());
+    phone.querySelector('#vn-main-menu')?.addEventListener('click', () => this.returnToMainMenu());
     phone.querySelectorAll<HTMLElement>('[data-auto-speed]').forEach((button) => button.addEventListener('click', () => {
       this.autoSpeed = button.dataset.autoSpeed as AutoSpeed;
       this.renderVnConfigOverlayFromScratch();
@@ -710,7 +711,6 @@ export class AnimeDetectiveApp {
         <div class="app-header-title"><small>CASE 001 · CHOICE_00</small><b>Выбор версии</b></div>
         <nav class="app-header-actions" aria-label="Навигация">
           ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
-          ${this.headerActionMarkup('menu', 'menu', 'Главное меню')}
         </nav>
       </header>
       <div class="choice-panel">
@@ -718,8 +718,7 @@ export class AnimeDetectiveApp {
         ${(Object.keys(choices) as ChoiceId[]).map((id) => `<button data-choice="${id}"><i>${id}</i><span><b>${choices[id].title}</b><small>${choices[id].effect}</small></span></button>`).join('')}
       </div>
     </section>`);
-    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderChoice()));
-    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderChoice(), true));
     this.root.querySelectorAll<HTMLElement>('[data-choice]').forEach((button) => button.addEventListener('click', () => {
       this.services.audio.play('choice');
       this.save.choice = button.dataset.choice as ChoiceId;
@@ -772,7 +771,6 @@ export class AnimeDetectiveApp {
         <nav class="app-header-actions" aria-label="Навигация расследования">
           ${this.headerActionMarkup('dossier', 'dossier', 'Досье', this.save.clues.length)}
           ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
-          ${this.headerActionMarkup('menu', 'menu', 'Главное меню')}
         </nav>
       </header>
       <div class="level-card">
@@ -786,8 +784,7 @@ export class AnimeDetectiveApp {
     </section>`);
     this.root.querySelector('#back')?.addEventListener('click', () => this.openScene(this.save.scene, Math.max(0, this.story.length - 1)));
     this.root.querySelector('#dossier')?.addEventListener('click', () => this.renderDossier(() => this.renderMatchIntro(levelIndex)));
-    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderMatchIntro(levelIndex)));
-    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderMatchIntro(levelIndex), true));
     this.root.querySelector('#start')?.addEventListener('click', () => this.startMatch(levelIndex));
   }
 
@@ -858,7 +855,6 @@ export class AnimeDetectiveApp {
         <nav class="app-header-actions" aria-label="Навигация расследования">
           ${this.headerActionMarkup('dossier', 'dossier', 'Досье', this.save.clues.length)}
           ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
-          ${this.headerActionMarkup('menu', 'menu', 'Главное меню')}
         </nav>
       </header>
 
@@ -900,13 +896,7 @@ export class AnimeDetectiveApp {
     });
     this.root.querySelector('#header-settings')?.addEventListener('click', () => {
       if (this.matchInputLocked) return;
-      this.renderSettings(() => this.renderMatch());
-    });
-    this.root.querySelector('#menu')?.addEventListener('click', () => {
-      if (this.matchInputLocked) return;
-      if (typeof window.confirm === 'function' && !window.confirm('Выйти в главное меню? Текущая попытка match-3 будет потеряна.')) return;
-      this.activeMatch = null;
-      this.renderMenu();
+      this.renderSettings(() => this.renderMatch(), true);
     });
     this.root.querySelector('#hint')?.addEventListener('click', () => this.showObjectiveHint());
     this.installBoardInput();
@@ -1319,7 +1309,6 @@ export class AnimeDetectiveApp {
         <div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>Результат</b></div>
         <nav class="app-header-actions" aria-label="Навигация">
           ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
-          ${this.headerActionMarkup('menu', 'menu', 'Главное меню')}
         </nav>
       </header>
       <div class="result-content">
@@ -1332,8 +1321,7 @@ export class AnimeDetectiveApp {
     </section>`);
     this.root.querySelector('#retry')?.addEventListener('click', () => this.startMatch(this.activeLevelIndex));
     this.root.querySelector('#back')?.addEventListener('click', () => this.renderMatchIntro(this.activeLevelIndex));
-    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderLoss()));
-    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderLoss(), true));
   }
 
   private objectiveMarkup(level: LevelDefinition, objective: LevelDefinition['objectives'][number], value: number, showProgress: boolean): string {
@@ -1380,8 +1368,7 @@ export class AnimeDetectiveApp {
       <button id="reset" class="danger-link">Сбросить прогресс</button>
     </section>`);
     this.root.querySelector('#back')?.addEventListener('click', back);
-    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderDossier(back)));
-    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderDossier(back), true));
     this.root.querySelector('#reset')?.addEventListener('click', () => {
       this.save = this.store.reset();
       this.renderMenu();
@@ -1399,7 +1386,6 @@ export class AnimeDetectiveApp {
         <div class="app-header-title"><small>CASE 001</small><b>Глава завершена</b></div>
         <nav class="app-header-actions" aria-label="Навигация">
           ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
-          ${this.headerActionMarkup('menu', 'menu', 'Главное меню')}
         </nav>
       </header>
       <div class="ending-panel">
@@ -1408,12 +1394,12 @@ export class AnimeDetectiveApp {
         <h1>Первая нить найдена.</h1>
         <p>Глава завершена на VN0249. Серебристо-бирюзовая проводящая нить выводит расследование за пределы бытовой кражи.</p>
         <div class="summary">Выбор: <b>${escapeHtml(choices[this.save.choice].title)}</b><br>Найдено улик: <b>${this.save.clues.length}/4</b></div>
-        <button class="primary" id="menu">В главное меню</button>
+        <button class="primary" id="menu-primary">В главное меню</button>
         <button id="replay">Начать заново</button>
       </div>
     </section>`);
-    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
-    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderEnding()));
+    this.root.querySelector('#menu-primary')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderEnding(), true));
     this.root.querySelector('#replay')?.addEventListener('click', () => {
       this.save = freshSave();
       this.persist();

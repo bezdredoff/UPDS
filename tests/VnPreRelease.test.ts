@@ -48,7 +48,8 @@ describe('ANM-013 VN pre-release contract', () => {
     expect(appSource).toContain('vn-case-pill');
     expect(appSource).toContain("headerActionMarkup('history', 'log', 'История диалога')");
     expect(appSource).toContain("headerActionMarkup('header-settings', 'settings', 'Настройки')");
-    expect(appSource).toContain("headerActionMarkup('menu', 'menu', 'Главное меню')");
+    expect(appSource).not.toContain("headerActionMarkup('menu', 'menu', 'Главное меню')");
+    expect(appSource).toContain('id="vn-main-menu"');
     expect(appSource).toContain('>SKIP<');
     expect(appSource).toContain('>AUTO<');
     expect(appSource).toContain('>SAVE<');
