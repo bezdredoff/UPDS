@@ -48,6 +48,7 @@ import { matchMotionDuration } from './matchMotion';
 import { resolveVnStaging, type VnStageSide } from './vnStaging';
 import {
   currentDialogueProfile,
+  dialogueContinuationText,
   dialogueLocale,
   paginateDialogueText,
   paginateDialogueTextMeasured,
@@ -379,7 +380,7 @@ export class AnimeDetectiveApp {
       <div class="dialogue-shell ${direction ? 'direction' : ''}">
         <span class="dialogue-nameplate">${direction ? 'ПОСТАНОВКА' : escapeHtml(entry.speaker)}<em>${escapeHtml(entry.emotion)}</em></span>
         <button class="dialogue ${direction ? 'direction' : ''}" id="next">
-          <span class="dialogue-text" data-dialogue-page="${this.dialoguePageIndex + 1}" data-dialogue-pages="${dialoguePages.length}">${escapeHtml(dialoguePage)}</span>
+          <span class="dialogue-text" data-dialogue-page="${this.dialoguePageIndex + 1}" data-dialogue-pages="${dialoguePages.length}">${escapeHtml(dialogueContinuationText(dialoguePage, this.dialoguePageIndex < dialoguePages.length - 1))}</span>
           <span class="line-id">${entry.id}${dialoguePages.length > 1 ? ` · ${this.dialoguePageIndex + 1}/${dialoguePages.length}` : ''}</span>
           <span class="dialogue-progress" aria-hidden="true">${dialoguePages.map((_, page) => `<i class="${page <= this.dialoguePageIndex ? 'is-active' : ''}"></i>`).join('')}<b>▼</b></span>
         </button>
@@ -458,7 +459,7 @@ export class AnimeDetectiveApp {
     this.dialoguePageIndex = Math.min(this.dialoguePageIndex, measuredPages.length - 1);
 
     const currentPage = measuredPages[this.dialoguePageIndex] ?? text;
-    textElement.textContent = currentPage;
+    textElement.textContent = dialogueContinuationText(currentPage, this.dialoguePageIndex < measuredPages.length - 1);
     textElement.dataset.dialoguePage = String(this.dialoguePageIndex + 1);
     textElement.dataset.dialoguePages = String(measuredPages.length);
 

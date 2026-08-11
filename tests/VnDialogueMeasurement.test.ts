@@ -11,6 +11,7 @@ describe('ANM-016B R4 dialogue measurement safety', () => {
   });
 
   it('accepts a normal mobile dialogue viewport with multiple visible lines', () => {
+    expect(isUsableDialogueViewport(280, 55, 24)).toBe(false);
     expect(isUsableDialogueViewport(280, 96, 24)).toBe(true);
     expect(isUsableDialogueViewport(340, 120, 27)).toBe(true);
   });

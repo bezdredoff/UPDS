@@ -14,7 +14,7 @@ const numeric = (value: string, fallback: number): number => {
 export const isUsableDialogueViewport = (width: number, height: number, lineHeight: number): boolean => {
   if (!Number.isFinite(width) || !Number.isFinite(height) || !Number.isFinite(lineHeight)) return false;
   if (width < 120 || lineHeight < 8) return false;
-  return height >= Math.max(44, lineHeight * 1.8);
+  return height >= Math.max(48, lineHeight * 2 + 10);
 };
 
 const copiedProperties = [

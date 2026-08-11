@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { getScene } from '../src/data/narrative';
 import {
+  dialogueContinuationText,
   dialoguePageBudget,
   paginateDialogueText,
   paginateDialogueTextMeasured,
@@ -119,7 +120,9 @@ describe('ANM-016B R4 browser integration contract', () => {
 
   it('keeps a stable dialogue viewport and localization-friendly wrapping', () => {
     expect(styleR3).toContain('grid-template-rows: minmax(0, 1fr) auto;');
-    expect(styleR3).toContain('height: 100%; min-width: 0; min-height: 0;');
+    expect(styleR3).toContain('height: calc(2.84em + 19px);');
+    expect(styleR3).toContain('min-height: calc(2.84em + 19px);');
+    expect(styleR3).toContain('max-height: calc(2.84em + 19px);');
     expect(styleR3).toContain('padding: 9px 1px 6px 0;');
     expect(styleR3).toContain('overflow-wrap: break-word;');
     expect(styleR3).toContain('line-break: auto;');
@@ -128,3 +131,48 @@ describe('ANM-016B R4 browser integration contract', () => {
   });
 });
 
+
+
+describe('ANM-016B R6 two-line balanced paging', () => {
+  it('adds a presentation ellipsis only to non-final internal pages', () => {
+    expect(dialogueContinuationText('Продолжение будет дальше.', true)).toBe('Продолжение будет дальше…');
+    expect(dialogueContinuationText('Продолжение будет дальше', true)).toBe('Продолжение будет дальше…');
+    expect(dialogueContinuationText('Последняя страница.', false)).toBe('Последняя страница.');
+  });
+
+  it('reserves ellipsis width while measuring a continuation page', () => {
+    const text = 'Раз два три четыре пять шесть семь восемь девять десять одиннадцать двенадцать.';
+    const measured: string[] = [];
+    const pages = paginateDialogueTextMeasured(text, (candidate) => {
+      measured.push(candidate);
+      return candidate.length <= 39;
+    }, 'ru');
+    expect(pages.length).toBeGreaterThan(1);
+    expect(measured.some((candidate) => candidate.endsWith('…'))).toBe(true);
+  });
+
+  it('balances a short final remainder to at least three words when the fit allows it', () => {
+    const text = 'Один два три четыре пять шесть семь восемь девять десять одиннадцать двенадцать тринадцать.';
+    const pages = paginateDialogueTextMeasured(text, (candidate) => candidate.length <= 34, 'ru');
+    expect(pages.length).toBeGreaterThan(1);
+    for (const continuation of pages.slice(1)) {
+      expect(continuation.trim().split(/\s+/u).length).toBeGreaterThanOrEqual(3);
+    }
+    expect(pages.join(' ').replace(/\s+/gu, ' ').trim()).toBe(text);
+  });
+
+  it('keeps Japanese continuation pages substantive without injecting spaces', () => {
+    const text = 'これは長い台詞なので二行では全部入りません。次の画面にも十分な文章を残します。さらに自然に続きます。';
+    const pages = paginateDialogueTextMeasured(text, (candidate) => Array.from(candidate).length <= 22, 'ja');
+    expect(pages.length).toBeGreaterThan(1);
+    expect(pages.join('')).toBe(text);
+    for (const continuation of pages.slice(1)) {
+      expect(Array.from(continuation.replace(/[。、！？…]/gu, '')).length).toBeGreaterThanOrEqual(4);
+    }
+  });
+
+  it('wires the visible page through the presentation-only continuation marker', () => {
+    expect(appSourceR3).toContain('dialogueContinuationText(dialoguePage, this.dialoguePageIndex < dialoguePages.length - 1)');
+    expect(appSourceR3).toContain('dialogueContinuationText(currentPage, this.dialoguePageIndex < measuredPages.length - 1)');
+  });
+});
