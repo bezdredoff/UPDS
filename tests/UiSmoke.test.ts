@@ -125,6 +125,30 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('<option value="en" selected>English</option>');
   });
 
+  it('renders the ANM-019C English VN chrome, scene metadata and choices without translating screenplay lines', () => {
+    const storage = (globalThis.window as unknown as { localStorage: Storage }).localStorage;
+    storage.setItem(LOCALE_SETTINGS_KEY, 'en');
+    const { root, app } = create();
+    app.openScene(0, 0);
+    expect(root.innerHTML).toContain('The Club That Barely Exists');
+    expect(root.innerHTML).toContain('aria-label="Dialogue history"');
+    expect(root.innerHTML).toContain('aria-label="Settings"');
+    expect(root.innerHTML).toContain('aria-label="Visual novel controls"');
+    expect(root.innerHTML).toContain('STAGE DIRECTION');
+    // Dialogue text itself remains authored Russian until ANM-019D.
+    expect(root.innerHTML).toContain('После звонка.');
+
+    const choiceLine = getScene(1).findIndex((entry) => entry.id === 'VN0040');
+    expect(choiceLine).toBeGreaterThanOrEqual(0);
+    app.openScene(1, choiceLine);
+    app.nextLine();
+    expect(root.innerHTML).toContain('Choose an approach');
+    expect(root.innerHTML).toContain('Where do we start?');
+    expect(root.innerHTML).toContain('Find the second victim first');
+    expect(root.innerHTML).toContain('Source trust +1');
+    expect(root.innerHTML).not.toContain('Сначала найдём вторую пострадавшую');
+  });
+
   it('renders save and diagnostics tools', () => {
     const { root, app } = create();
     app.mount();

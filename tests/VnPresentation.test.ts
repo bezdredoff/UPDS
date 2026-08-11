@@ -35,8 +35,8 @@ describe('current VN presentation contract', () => {
   });
 
   it('keeps compact contextual navigation and no persistent main-menu action in gameplay headers', () => {
-    expect(vnSource).toContain("headerActionMarkup('history', 'log', 'История диалога')");
-    expect(vnSource).toContain("headerActionMarkup('header-settings', 'settings', 'Настройки')");
+    expect(vnSource).toContain("headerActionMarkup('history', 'log', this.t('vn.chrome.history'))");
+    expect(vnSource).toContain("headerActionMarkup('header-settings', 'settings', this.t('common.settings'))");
     expect(vnSource).toContain('id="dossier" class="vn-case-pill"');
     expect(vnSource).not.toContain("headerActionMarkup('menu', 'menu', 'Главное меню')");
     expect(vnSource).toContain('id="vn-main-menu"');
