@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { MATCH_MOTION_MS, matchMotionDuration } from '../src/ui/matchMotion';
 
 const style = readFileSync(new URL('../src/style.css', import.meta.url), 'utf8');
-const appSource = readFileSync(new URL('../src/ui/AnimeDetectiveApp.ts', import.meta.url), 'utf8');
+const matchSource = readFileSync(new URL('../src/features/match3/Match3Controller.ts', import.meta.url), 'utf8');
 
 describe('current Match-3 presentation contract', () => {
   it('keeps readable motion timings with a reduced-motion fast path', () => {
@@ -16,10 +16,10 @@ describe('current Match-3 presentation contract', () => {
   });
 
   it('keeps objective-aware hints and staged move feedback', () => {
-    expect(appSource).toContain('getHintMove()');
-    expect(appSource).toContain('playMoveFrames');
-    expect(appSource).toContain("frame.phase === 'reshuffle'");
-    expect(appSource).toContain('class="tile-stack"');
+    expect(matchSource).toContain('getHintMove()');
+    expect(matchSource).toContain('playMoveFrames');
+    expect(matchSource).toContain("frame.phase === 'reshuffle'");
+    expect(matchSource).toContain('class="tile-stack"');
     expect(style).toContain('.board-cell.hinted');
     expect(style).toContain('.swap-rejected');
     expect(style).toContain('.phase-clear');

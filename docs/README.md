@@ -20,6 +20,7 @@ This directory is the documentation source of truth for the current repository.
 - [`features/ANM016_PRESENTATION_POLISH_RU.md`](features/ANM016_PRESENTATION_POLISH_RU.md)
 - [`features/ANM017_PLAYTEST_DISTRIBUTION_RU.md`](features/ANM017_PLAYTEST_DISTRIBUTION_RU.md)
 - [`features/ANM018_REPOSITORY_MAINTENANCE_RU.md`](features/ANM018_REPOSITORY_MAINTENANCE_RU.md)
+- [`features/ANM018A_UI_ORCHESTRATOR_DECOMPOSITION_RU.md`](features/ANM018A_UI_ORCHESTRATOR_DECOMPOSITION_RU.md)
 
 ## Process
 
@@ -29,8 +30,8 @@ This directory is the documentation source of truth for the current repository.
 
 ## Current validation
 
-- [`reports/ANM018_VALIDATION_REPORT_RU.md`](reports/ANM018_VALIDATION_REPORT_RU.md)
-- [`reports/ANM018_MANUAL_QA_RU.md`](reports/ANM018_MANUAL_QA_RU.md)
+- [`reports/ANM018A_VALIDATION_REPORT_RU.md`](reports/ANM018A_VALIDATION_REPORT_RU.md)
+- [`reports/ANM018A_MANUAL_QA_RU.md`](reports/ANM018A_MANUAL_QA_RU.md)
 
 ## Archive
 

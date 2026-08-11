@@ -28,3 +28,29 @@ describe('repository maintenance contract', () => {
     expect(tsconfig.compilerOptions.noUnusedParameters).toBe(true);
   });
 });
+
+const animeAppSource = readFileSync(new URL('../src/ui/AnimeDetectiveApp.ts', import.meta.url), 'utf8');
+const vnControllerSource = readFileSync(new URL('../src/features/vn/VnController.ts', import.meta.url), 'utf8');
+const matchControllerSource = readFileSync(new URL('../src/features/match3/Match3Controller.ts', import.meta.url), 'utf8');
+
+describe('UI architecture boundaries', () => {
+  it('keeps AnimeDetectiveApp as a small composition root', () => {
+    expect(animeAppSource.split('\n').length).toBeLessThanOrEqual(200);
+    expect(animeAppSource).toContain('new VnController');
+    expect(animeAppSource).toContain('new Match3Controller');
+    expect(animeAppSource).toContain('const navigation: AppNavigation');
+  });
+
+  it('keeps VN and Match-3 feature controllers independent from each other', () => {
+    expect(vnControllerSource).not.toContain("features/match3");
+    expect(vnControllerSource).not.toContain('Match3Controller');
+    expect(matchControllerSource).not.toContain("features/vn");
+    expect(matchControllerSource).not.toContain('VnController');
+  });
+
+  it('keeps campaign persistence centralized behind AppSession rather than recreated by feature controllers', () => {
+    expect(vnControllerSource).not.toContain('new CampaignStore');
+    expect(matchControllerSource).not.toContain('new CampaignStore');
+    expect(animeAppSource).toContain('new AppSession');
+  });
+});
