@@ -23,6 +23,7 @@ type AppHarness = {
   openScene(scene: number, line?: number): void;
   startMatch(level: number): void;
   renderSupport(status?: string): void;
+  renderSettings(): void;
 };
 
 const originalWindow = globalThis.window;
@@ -55,6 +56,7 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain(BUILD_LABEL);
     expect(root.innerHTML).toContain('Новая игра');
     expect(root.innerHTML).toContain('characters/miku/medallions');
+    expect(root.innerHTML).toContain('Настройки');
   });
 
   it('renders a layered finished rig and every approved portrait placeholder', () => {
@@ -82,6 +84,18 @@ describe('AnimeDetectiveApp render smoke', () => {
       expect(root.innerHTML).toContain('PORTRAIT PLACEHOLDER');
       expect(root.innerHTML).toContain(item.label);
     }
+  });
+
+  it('renders ANM-015 player-facing audio controls without requiring browser audio support', () => {
+    const { root, app } = create();
+    app.mount();
+    app.renderSettings();
+    expect(root.innerHTML).toContain('Звук и отклик');
+    expect(root.innerHTML).toContain('Громкость музыки');
+    expect(root.innerHTML).toContain('Громкость эффектов');
+    expect(root.innerHTML).toContain('Haptics');
+    expect(root.innerHTML).toContain('Проверить музыку');
+    expect(root.innerHTML).toContain('Проверить SFX');
   });
 
   it('renders ANM-011 save and diagnostics tools', () => {

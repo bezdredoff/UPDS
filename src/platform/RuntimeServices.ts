@@ -1,3 +1,4 @@
+import { AudioManager } from '../audio/AudioManager';
 import { CampaignStore } from '../engine/CampaignStore';
 import { AssetHealth } from './AssetHealth';
 import { ErrorLog } from './ErrorLog';
@@ -8,9 +9,17 @@ export type RuntimeServices = Readonly<{
   store: CampaignStore;
   errorLog: ErrorLog;
   assetHealth: AssetHealth;
+  audio: AudioManager;
 }>;
 
 export const createRuntimeServices = (): RuntimeServices => {
   const storage = getSafeStorage(() => window.localStorage);
-  return { storage, store: new CampaignStore(storage.storage), errorLog: new ErrorLog(storage.storage), assetHealth: new AssetHealth() };
+  const errorLog = new ErrorLog(storage.storage);
+  return {
+    storage,
+    store: new CampaignStore(storage.storage),
+    errorLog,
+    assetHealth: new AssetHealth(),
+    audio: new AudioManager(storage.storage, errorLog),
+  };
 };

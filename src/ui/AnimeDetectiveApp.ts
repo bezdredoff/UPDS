@@ -101,6 +101,7 @@ export class AnimeDetectiveApp {
   }
 
   private renderMenu(): void {
+    this.services.audio.setScene('menu');
     this.autoMode = false;
     this.save = this.store.load();
     const hasSave = this.save.scene > 0 || this.save.line > 0 || this.save.completed.length > 0;
@@ -117,6 +118,7 @@ export class AnimeDetectiveApp {
         <div class="menu-actions">
           <button id="new" class="primary">Новая игра</button>
           <button id="continue" ${hasSave ? '' : 'disabled'}>Продолжить</button>
+          <button id="settings">Настройки</button>
           <button id="episodes">Навигация по сценам <small>QA</small></button>
           <button id="support">Сохранения и диагностика <small>QA</small></button>
         </div>
@@ -125,16 +127,19 @@ export class AnimeDetectiveApp {
     </section>`);
 
     this.root.querySelector('#new')?.addEventListener('click', () => {
+      this.services.audio.play('uiClick');
       this.save = freshSave();
       this.persist();
       this.openScene(0, 0);
     });
-    this.root.querySelector('#continue')?.addEventListener('click', () => this.openScene(this.save.scene, this.save.line));
+    this.root.querySelector('#continue')?.addEventListener('click', () => { this.services.audio.play('uiClick'); this.openScene(this.save.scene, this.save.line); });
+    this.root.querySelector('#settings')?.addEventListener('click', () => { this.services.audio.play('uiClick'); this.renderSettings(); });
     this.root.querySelector('#episodes')?.addEventListener('click', () => this.renderSceneSelect());
     this.root.querySelector('#support')?.addEventListener('click', () => this.renderSupport());
   }
 
   private renderSupport(status = ''): void {
+    this.services.audio.setScene('menu');
     const loadReport = this.store.getLastLoadReport();
     const recovery = this.store.getRecoveryBackup();
     const assetHealth = this.services.assetHealth.snapshot();
@@ -152,6 +157,7 @@ export class AnimeDetectiveApp {
         <article><small>SAVE SCHEMA</small><b>v1</b><span>${escapeHtml(loadReport.status)} · ${escapeHtml(loadReport.detail)}</span></article>
         <article><small>STORAGE</small><b>${this.services.storage.mode === 'persistent' ? 'OK' : 'FALLBACK'}</b><span>${escapeHtml(storageLabel)}</span></article>
         <article><small>RUNTIME</small><b>${errors.length} errors</b><span>${assetHealth.failures.length} asset failures</span></article>
+        <article><small>AUDIO</small><b>${this.services.audio.supported ? 'WEB AUDIO' : 'FALLBACK'}</b><span>music ${Math.round(this.services.audio.settings.musicVolume * 100)}% · sfx ${Math.round(this.services.audio.settings.effectsVolume * 100)}% · ${this.services.audio.settings.muted ? 'muted' : 'active'}</span></article>
       </div>
       <div class="support-actions">
         <button id="export-save">${icon('save')}<span><b>Экспорт сохранения</b><small>JSON для переноса или резервной копии</small></span></button>
@@ -175,6 +181,7 @@ export class AnimeDetectiveApp {
       downloadJson(`UPDS_diagnostics_${APP_VERSION}.json`, createDiagnosticsSnapshot({
         save: this.save, storageMode: this.services.storage.mode, loadReport: this.store.getLastLoadReport(),
         recoveryBackup: this.store.getRecoveryBackup(), errorLog: this.services.errorLog, assetHealth: this.services.assetHealth,
+        audio: { supported: this.services.audio.supported, hapticsSupported: this.services.audio.hapticsSupported, scene: this.services.audio.scene, settings: this.services.audio.settings },
       }));
     });
     this.root.querySelector('#export-recovery')?.addEventListener('click', () => downloadJson(`UPDS_recovery_${APP_VERSION}.json`, this.store.getRecoveryBackup()));
@@ -199,7 +206,68 @@ export class AnimeDetectiveApp {
     });
   }
 
+  private audioSettingsMarkup(): string {
+    const settings = this.services.audio.settings;
+    const music = Math.round(settings.musicVolume * 100);
+    const effects = Math.round(settings.effectsVolume * 100);
+    return `<div class="audio-settings" data-audio-settings>
+      <label class="volume-row"><span><b>Музыка</b><em data-music-value>${music}%</em></span><input data-music-volume type="range" min="0" max="100" step="1" value="${music}" aria-label="Громкость музыки"></label>
+      <label class="volume-row"><span><b>Эффекты</b><em data-effects-value>${effects}%</em></span><input data-effects-volume type="range" min="0" max="100" step="1" value="${effects}" aria-label="Громкость эффектов"></label>
+      <div class="audio-toggles">
+        <button data-toggle-mute class="setting-toggle ${settings.muted ? 'is-on' : ''}" aria-pressed="${settings.muted}"><span><b>Без звука</b><small>${settings.muted ? 'Включено' : 'Выключено'}</small></span><i>${settings.muted ? 'ON' : 'OFF'}</i></button>
+        <button data-toggle-haptics class="setting-toggle ${settings.hapticsEnabled ? 'is-on' : ''}" aria-pressed="${settings.hapticsEnabled}"><span><b>Haptics</b><small>${this.services.audio.hapticsSupported ? 'Поддерживается устройством' : 'Недоступно в этом браузере'}</small></span><i>${settings.hapticsEnabled ? 'ON' : 'OFF'}</i></button>
+      </div>
+      <div class="audio-preview-actions">
+        <button data-preview-music>▶ Проверить музыку</button>
+        <button data-preview-effects>✦ Проверить SFX</button>
+      </div>
+      <p class="audio-capability">Web Audio: <b>${this.services.audio.supported ? 'доступен' : 'недоступен'}</b> · Haptics: <b>${this.services.audio.hapticsSupported ? 'доступны' : 'fallback без вибрации'}</b></p>
+    </div>`;
+  }
+
+  private bindAudioSettingsControls(scope: ParentNode, rerender: () => void): void {
+    const music = scope.querySelector<HTMLInputElement>('[data-music-volume]');
+    const effects = scope.querySelector<HTMLInputElement>('[data-effects-volume]');
+    music?.addEventListener('input', () => {
+      const value = Number(music.value) / 100;
+      this.services.audio.updateSettings({ musicVolume: value });
+      const label = scope.querySelector<HTMLElement>('[data-music-value]');
+      if (label) label.textContent = `${Math.round(value * 100)}%`;
+    });
+    effects?.addEventListener('input', () => {
+      const value = Number(effects.value) / 100;
+      this.services.audio.updateSettings({ effectsVolume: value });
+      const label = scope.querySelector<HTMLElement>('[data-effects-value]');
+      if (label) label.textContent = `${Math.round(value * 100)}%`;
+    });
+    scope.querySelector('[data-toggle-mute]')?.addEventListener('click', () => {
+      this.services.audio.updateSettings({ muted: !this.services.audio.settings.muted });
+      rerender();
+    });
+    scope.querySelector('[data-toggle-haptics]')?.addEventListener('click', () => {
+      this.services.audio.updateSettings({ hapticsEnabled: !this.services.audio.settings.hapticsEnabled });
+      rerender();
+    });
+    scope.querySelector('[data-preview-music]')?.addEventListener('click', () => this.services.audio.previewMusic());
+    scope.querySelector('[data-preview-effects]')?.addEventListener('click', () => this.services.audio.previewEffects());
+  }
+
+  private renderSettings(): void {
+    this.services.audio.setScene('menu');
+    this.shell(`<section class="panel settings-panel">
+      <button id="back" class="icon-text back">${icon('back')} Меню</button>
+      <p class="eyebrow">CONFIG · AUDIO</p>
+      <h2>Звук и отклик</h2>
+      <p class="panel-copy">Музыка и SFX генерируются локально через Web Audio и не требуют загрузки аудиофайлов. Настройки сохраняются отдельно от игрового прогресса.</p>
+      ${this.audioSettingsMarkup()}
+      <div class="settings-note"><b>Мобильный контракт</b><span>Звук активируется только после первого касания/клавиши. При сворачивании вкладки музыка приостанавливается и безопасно возобновляется при возвращении.</span></div>
+    </section>`);
+    this.root.querySelector('#back')?.addEventListener('click', () => this.renderMenu());
+    this.bindAudioSettingsControls(this.root, () => this.renderSettings());
+  }
+
   private renderSceneSelect(): void {
+    this.services.audio.setScene('menu');
     this.shell(`<section class="panel scene-select">
       <button class="icon-text back">${icon('back')} Меню</button>
       <p class="eyebrow">QA NAVIGATION</p>
@@ -239,6 +307,7 @@ export class AnimeDetectiveApp {
   }
 
   private renderVN(): void {
+    this.services.audio.setScene('vn');
     const entry = this.story[this.save.line];
     if (!entry) {
       this.advanceScene();
@@ -376,7 +445,8 @@ export class AnimeDetectiveApp {
         <fieldset><legend>Размер текста</legend><div class="segmented">
           ${(['normal', 'large'] as TextScale[]).map((scale) => `<button data-text-scale="${scale}" class="${this.textScale === scale ? 'is-selected' : ''}">${scale === 'normal' ? 'Обычный' : 'Крупный'}</button>`).join('')}
         </div></fieldset>
-        <p>Настройки действуют в текущей сессии. Системный Reduced Motion по-прежнему имеет приоритет для анимаций.</p>
+        <fieldset><legend>Звук и отклик</legend>${this.audioSettingsMarkup()}</fieldset>
+        <p>Скорость AUTO и размер текста действуют в текущей сессии. Audio-настройки сохраняются между запусками. Системный Reduced Motion по-прежнему имеет приоритет для анимаций.</p>
       </div>
     </section>`);
     phone.querySelector('#close-overlay')?.addEventListener('click', () => this.renderVN());
@@ -388,6 +458,7 @@ export class AnimeDetectiveApp {
       this.textScale = button.dataset.textScale as TextScale;
       this.renderVnConfigOverlayFromScratch();
     }));
+    this.bindAudioSettingsControls(phone, () => this.renderVnConfigOverlayFromScratch());
   }
 
   private renderVnConfigOverlayFromScratch(): void {
@@ -478,6 +549,7 @@ export class AnimeDetectiveApp {
   }
 
   private nextLine(): void {
+    this.services.audio.play('vnAdvance');
     const entry = this.story[this.save.line];
     if (!entry) return this.advanceScene();
     if (!this.save.readLines.includes(entry.id)) this.save.readLines.push(entry.id);
@@ -493,6 +565,7 @@ export class AnimeDetectiveApp {
   }
 
   private renderChoice(): void {
+    this.services.audio.setScene('vn');
     this.shell(`<section class="choice-screen">
       <img class="choice-background" src="${backgroundAssets.clubroom}" alt="">
       <div class="choice-panel">
@@ -501,6 +574,7 @@ export class AnimeDetectiveApp {
       </div>
     </section>`);
     this.root.querySelectorAll<HTMLElement>('[data-choice]').forEach((button) => button.addEventListener('click', () => {
+      this.services.audio.play('choice');
       this.save.choice = button.dataset.choice as ChoiceId;
       this.story = getScene(1, this.save.choice);
       const branchIndex = this.story.findIndex((line) => line.id === `VN0041${this.save.choice}`);
@@ -525,6 +599,7 @@ export class AnimeDetectiveApp {
   }
 
   private renderMatchIntro(levelIndex: number): void {
+    this.services.audio.setScene('match');
     const level = levels[levelIndex];
     this.activeLevelIndex = levelIndex;
     this.activeMatch = null;
@@ -592,6 +667,7 @@ export class AnimeDetectiveApp {
   }
 
   private renderMatch(): void {
+    this.services.audio.setScene('match');
     const game = this.activeMatch;
     if (!game) return this.renderMatchIntro(this.activeLevelIndex);
     const level = game.level;
@@ -659,6 +735,7 @@ export class AnimeDetectiveApp {
     }
     this.hintedCells.add(hint.first);
     this.hintedCells.add(hint.second);
+    this.services.audio.play('hint');
     this.matchBark = { speaker: 'Мику', text: 'Этот обмен лучше всего продвигает текущие цели расследования.' };
     this.renderMatch();
   }
@@ -687,10 +764,11 @@ export class AnimeDetectiveApp {
     board.innerHTML = this.boardCellsMarkup(frame.board, blocker.asset);
     board.className = `board phase-${frame.phase}`;
     if (frame.phase === 'clear') {
-      if (frame.specialsActivated > 0) this.setMatchFeedback('НАБЛЮДЕНИЕ!', 'special-feedback');
-      else if (frame.cascade >= 2) this.setMatchFeedback(`ЦЕПОЧКА ×${frame.cascade}`, 'combo-feedback');
-      else this.setMatchFeedback('СОВПАДЕНИЕ', 'match-feedback-good');
+      if (frame.specialsActivated > 0) { this.services.audio.play('special'); this.setMatchFeedback('НАБЛЮДЕНИЕ!', 'special-feedback'); }
+      else if (frame.cascade >= 2) { this.services.audio.play('cascade'); this.setMatchFeedback(`ЦЕПОЧКА ×${frame.cascade}`, 'combo-feedback'); }
+      else { this.services.audio.play('match'); this.setMatchFeedback('СОВПАДЕНИЕ', 'match-feedback-good'); }
     } else if (frame.phase === 'reshuffle') {
+      this.services.audio.play('reshuffle');
       this.setMatchFeedback('ПОЛЕ ПЕРЕМЕШАНО', 'reshuffle-feedback');
     } else {
       this.setMatchFeedback('');
@@ -699,6 +777,7 @@ export class AnimeDetectiveApp {
 
   private async playMoveFrames(result: MoveResult, first: number, second: number): Promise<void> {
     if (!result.valid) {
+      this.services.audio.play('invalidSwap');
       const cells = [first, second]
         .map((index) => this.root.querySelector<HTMLElement>(`[data-cell="${index}"]`))
         .filter((cell): cell is HTMLElement => Boolean(cell));
@@ -708,7 +787,16 @@ export class AnimeDetectiveApp {
       return;
     }
 
-    if (this.prefersReducedMatchMotion()) return;
+    this.services.audio.play('swap');
+    if (this.prefersReducedMatchMotion()) {
+      if (result.specialsCreated > 0) this.services.audio.play('special');
+      else if (result.cascades >= 2) this.services.audio.play('cascade');
+      else this.services.audio.play('match');
+      if (result.reshuffled) this.services.audio.play('reshuffle');
+      if (result.won) this.services.audio.play('win');
+      else if (result.lost) this.services.audio.play('lose');
+      return;
+    }
 
     const beforeFirst = this.root.querySelector<HTMLElement>(`[data-cell="${first}"]`);
     const beforeSecond = this.root.querySelector<HTMLElement>(`[data-cell="${second}"]`);
@@ -730,9 +818,11 @@ export class AnimeDetectiveApp {
       await this.matchDelay(180);
     }
     if (result.won) {
+      this.services.audio.play('win');
       this.setMatchFeedback('УЛИКА СОБРАНА', 'win-feedback');
       await this.matchDelay(420);
     } else if (result.lost) {
+      this.services.audio.play('lose');
       this.setMatchFeedback('ХОДЫ ЗАКОНЧИЛИСЬ', 'loss-feedback');
       await this.matchDelay(360);
     }
@@ -909,6 +999,8 @@ export class AnimeDetectiveApp {
   }
 
   private renderEvidenceTransition(level: LevelDefinition): void {
+    this.services.audio.setScene('vn');
+    this.services.audio.play('clue');
     const clue = cluePresentation[level.clueId];
     this.shell(`<section class="evidence-transition">
       <img class="evidence-background" src="${backgroundAssets[level.background]}" alt="">
@@ -926,6 +1018,7 @@ export class AnimeDetectiveApp {
   }
 
   private renderLoss(): void {
+    this.services.audio.setScene('match');
     const level = levels[this.activeLevelIndex];
     this.activeMatch = null;
     this.shell(`<section class="result-screen loss">
@@ -959,6 +1052,7 @@ export class AnimeDetectiveApp {
   }
 
   private renderDossier(back: () => void): void {
+    this.services.audio.play('dossier');
     const kentaroCleared = this.save.completed.includes(1);
     const norihiroCleared = this.save.completed.includes(3);
     this.shell(`<section class="panel dossier">
@@ -990,6 +1084,7 @@ export class AnimeDetectiveApp {
   }
 
   private renderEnding(): void {
+    this.services.audio.setScene('ending');
     this.save.scene = sceneMeta.length - 1;
     this.save.line = this.story.length;
     this.persist();

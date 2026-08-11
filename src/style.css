@@ -485,7 +485,7 @@ img { display: block; }
 .history-list p { margin: 5px 0 0; color: #302c3e; font: 14px/1.42 Georgia, serif; }
 .history-list .is-direction b { color: #2b6f6c; }
 .empty-history { padding: 30px 12px; color: var(--ink-soft); text-align: center; }
-.config-card { max-width: 390px; }
+.config-card { max-width: 390px; overflow-y: auto; overscroll-behavior: contain; }
 .config-card fieldset { margin: 14px 14px 0; padding: 12px; border: 1px solid #d9bd83; border-radius: 12px; }
 .config-card legend { padding: 0 6px; color: #2a4b76; font-size: 10px; font-weight: 900; }
 .segmented { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; }
@@ -1003,3 +1003,38 @@ img { display: block; }
 .support-actions button small { color:var(--ink-soft); font-size:9px; line-height:1.25; }
 .support-meta { margin-top:16px; padding:12px; display:grid; gap:4px; border-radius:8px; background:#30263a; color:#f8edf0; font-size:9px; line-height:1.35; overflow-wrap:anywhere; }
 .support-meta b { color:#fff; font-size:11px; }
+
+/* ANM-015 audio & haptics foundation */
+.settings-panel { padding-bottom: max(36px, env(safe-area-inset-bottom)); }
+.audio-settings { margin-top: 14px; display: grid; gap: 10px; }
+.volume-row { padding: 11px 12px; display: grid; gap: 9px; border: 1px solid #d8cfd6; border-radius: 11px; background: #fffdf7; }
+.volume-row > span { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.volume-row b { color: var(--indigo); font-size: 12px; }
+.volume-row em { color: var(--teal); font-size: 11px; font-style: normal; font-weight: 900; }
+.volume-row input[type="range"] { width: 100%; accent-color: var(--teal); }
+.audio-toggles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.setting-toggle { min-height: 58px; padding: 9px 10px; display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; border: 1px solid #d7ccd4; border-radius: 10px; background: #fff; text-align: left; }
+.setting-toggle span { min-width: 0; display: grid; gap: 2px; }
+.setting-toggle b { font-size: 11px; }
+.setting-toggle small { color: var(--ink-soft); font-size: 8px; line-height: 1.25; }
+.setting-toggle i { min-width: 34px; padding: 4px 6px; border-radius: 999px; background: #e4dfe4; color: #756f78; font-size: 8px; font-style: normal; font-weight: 900; text-align: center; }
+.setting-toggle.is-on { border-color: #9acbc5; background: #eef9f6; }
+.setting-toggle.is-on i { background: var(--teal); color: white; }
+.audio-preview-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.audio-preview-actions button { min-height: 44px; border: 1px solid #cfc3cb; border-radius: 9px; background: #fff; font-size: 10px; font-weight: 800; }
+.audio-capability { margin: 0; color: var(--ink-soft); font-size: 9px; line-height: 1.4; }
+.settings-note { margin-top: 16px; padding: 12px; display: grid; gap: 4px; border-left: 3px solid var(--gold); border-radius: 7px; background: #fff7dc; }
+.settings-note b { color: var(--plum); font-size: 11px; }
+.settings-note span { color: #6f665f; font-size: 10px; line-height: 1.45; }
+.config-card .audio-settings { margin-top: 0; }
+.config-card .volume-row { padding: 8px 9px; gap: 6px; }
+.config-card .audio-toggles { grid-template-columns: 1fr; }
+.config-card .audio-preview-actions button { min-height: 40px; }
+.config-card .audio-capability { padding: 0 2px; }
+
+@media (max-height: 650px), (max-width: 340px) {
+  .audio-settings { gap: 7px; }
+  .volume-row { padding: 8px 9px; gap: 6px; }
+  .setting-toggle { min-height: 48px; padding: 7px 8px; }
+  .audio-preview-actions button { min-height: 40px; }
+}
