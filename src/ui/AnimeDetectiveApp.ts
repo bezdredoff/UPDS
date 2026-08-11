@@ -115,6 +115,21 @@ export class AnimeDetectiveApp {
     this.root.innerHTML = `<main class="phone">${content}</main>`;
   }
 
+  private headerActionMarkup(id: string, iconName: string, label: string, badge?: number, extraClass = ''): string {
+    return `<button id="${id}" class="app-header-action${extraClass ? ` ${extraClass}` : ''}" aria-label="${escapeHtml(label)}" title="${escapeHtml(label)}">${icon(iconName)}${badge === undefined ? '' : `<i>${badge}</i>`}<span class="visually-hidden">${escapeHtml(label)}</span></button>`;
+  }
+
+  private panelHeaderMarkup(eyebrow: string, title: string, options: Readonly<{ settings?: boolean; menu?: boolean }> = { settings: true, menu: true }): string {
+    return `<header class="panel-nav app-header">
+      ${this.headerActionMarkup('back', 'back', 'Назад', undefined, 'app-header-back')}
+      <div class="app-header-title"><small>${escapeHtml(eyebrow)}</small><b>${escapeHtml(title)}</b></div>
+      <nav class="app-header-actions" aria-label="Навигация">
+        ${options.settings ? this.headerActionMarkup('header-settings', 'settings', 'Настройки') : ''}
+        ${options.menu ? this.headerActionMarkup('menu', 'menu', 'Главное меню') : ''}
+      </nav>
+    </header>`;
+  }
+
   private renderMenu(): void {
     this.services.audio.setScene('menu');
     this.autoMode = false;
@@ -162,8 +177,7 @@ export class AnimeDetectiveApp {
     const storageLabel = this.services.storage.mode === 'persistent' ? 'localStorage · persistent' : 'memory fallback · текущая вкладка';
 
     this.shell(`<section class="panel support-panel">
-      <button id="back" class="icon-text back">${icon('back')} Меню</button>
-      <p class="eyebrow">PLATFORM · QA TOOLS</p>
+      ${this.panelHeaderMarkup('PLATFORM · QA TOOLS', 'Диагностика')}
       <h2>Сохранения и диагностика</h2>
       <p class="panel-copy">Сервисные инструменты для мобильного плейтеста. Они не меняют канон, VN IDs или игровые правила.</p>
       ${status ? `<div class="support-status">${escapeHtml(status)}</div>` : ''}
@@ -191,6 +205,8 @@ export class AnimeDetectiveApp {
     </section>`);
 
     this.root.querySelector('#back')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderSupport(status)));
+    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
     this.root.querySelector('#export-save')?.addEventListener('click', () => downloadJson(`UPDS_save_${APP_VERSION}.json`, this.store.createExportBundle(this.save)));
     this.root.querySelector('#export-diagnostics')?.addEventListener('click', () => {
       downloadJson(`UPDS_diagnostics_${APP_VERSION}.json`, createDiagnosticsSnapshot({
@@ -267,25 +283,23 @@ export class AnimeDetectiveApp {
     scope.querySelector('[data-preview-effects]')?.addEventListener('click', () => this.services.audio.previewEffects());
   }
 
-  private renderSettings(): void {
-    this.services.audio.setScene('menu');
+  private renderSettings(back: () => void = () => this.renderMenu()): void {
     this.shell(`<section class="panel settings-panel">
-      <button id="back" class="icon-text back">${icon('back')} Меню</button>
-      <p class="eyebrow">CONFIG · AUDIO</p>
+      ${this.panelHeaderMarkup('CONFIG · AUDIO', 'Настройки', { settings: false, menu: true })}
       <h2>Звук и отклик</h2>
       <p class="panel-copy">Музыка и SFX генерируются локально через Web Audio и не требуют загрузки аудиофайлов. Настройки сохраняются отдельно от игрового прогресса.</p>
       ${this.audioSettingsMarkup()}
       <div class="settings-note"><b>Мобильный контракт</b><span>Звук активируется только после первого касания/клавиши. При сворачивании вкладки музыка приостанавливается и безопасно возобновляется при возвращении.</span></div>
     </section>`);
-    this.root.querySelector('#back')?.addEventListener('click', () => this.renderMenu());
-    this.bindAudioSettingsControls(this.root, () => this.renderSettings());
+    this.root.querySelector('#back')?.addEventListener('click', back);
+    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
+    this.bindAudioSettingsControls(this.root, () => this.renderSettings(back));
   }
 
   private renderSceneSelect(): void {
     this.services.audio.setScene('menu');
     this.shell(`<section class="panel scene-select">
-      <button class="icon-text back">${icon('back')} Меню</button>
-      <p class="eyebrow">QA NAVIGATION</p>
+      ${this.panelHeaderMarkup('QA NAVIGATION', 'Сцены')}
       <h2>Выбор сцены</h2>
       <p class="panel-copy">Прямой переход предназначен для проверки контента и не открывает предыдущие улики автоматически.</p>
       <div class="scene-list">${sceneMeta.map((meta, index) => `
@@ -295,7 +309,9 @@ export class AnimeDetectiveApp {
         </button>`).join('')}</div>
       <aside class="placeholder-note"><b>Допустимые заглушки ANM‑009</b><span>Эми · Маю · Кэнтаро · Норихиро</span></aside>
     </section>`);
-    this.root.querySelector('.back')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelector('#back')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderSceneSelect()));
+    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
     this.root.querySelectorAll<HTMLElement>('[data-scene]').forEach((button) => button.addEventListener('click', () => {
       this.openScene(Number(button.dataset.scene), 0);
     }));
@@ -363,13 +379,16 @@ export class AnimeDetectiveApp {
       </div>
       <span class="visually-hidden">${escapeHtml(meta.location)}</span>
       <div class="vn-vignette"></div>
-      <header class="vn-topbar">
+      <header class="app-header vn-topbar">
         <button id="dossier" class="vn-case-pill" aria-label="Открыть досье">
           <span><small>CASE 001 · SCENE ${String(this.save.scene).padStart(2, '0')}</small><b>${escapeHtml(meta.title)}</b></span>
           <i>${icon('dossier')}<em>${this.save.clues.length}</em></i>
         </button>
-        <button id="history" class="vn-top-action">${icon('log')}<span>LOG</span></button>
-        <button id="menu" class="vn-top-action">${icon('menu')}<span>MENU</span></button>
+        <nav class="app-header-actions" aria-label="Навигация visual novel">
+          ${this.headerActionMarkup('history', 'log', 'История диалога')}
+          ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
+          ${this.headerActionMarkup('menu', 'menu', 'Главное меню')}
+        </nav>
       </header>
       <div class="stage ${staging ? `stage-${staging.side}` : 'stage-empty'}" data-stage-side="${staging?.side ?? 'none'}">
         ${character ? this.characterMarkup(character, expression, entry.emotion, staging?.side ?? 'center') : ''}
@@ -390,7 +409,6 @@ export class AnimeDetectiveApp {
         <button id="auto" class="${this.autoMode ? 'is-active' : ''}">${icon('auto')}<span>AUTO</span></button>
         <button id="save-vn">${icon('save')}<span>SAVE</span></button>
         <button id="load-vn">${icon('load')}<span>LOAD</span></button>
-        <button id="config">${icon('settings')}<span>CONFIG</span></button>
       </nav>
       <div id="vn-status" class="vn-status" hidden></div>
     </section>`);
@@ -402,6 +420,10 @@ export class AnimeDetectiveApp {
     this.root.querySelector('#menu')?.addEventListener('click', (event) => {
       event.stopPropagation();
       this.renderMenu();
+    });
+    this.root.querySelector('#header-settings')?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      this.renderVnConfigOverlay();
     });
     this.root.querySelector('#dossier')?.addEventListener('click', (event) => {
       event.stopPropagation();
@@ -428,7 +450,6 @@ export class AnimeDetectiveApp {
       this.persist();
       this.openScene(this.save.scene, this.save.line);
     });
-    this.root.querySelector('#config')?.addEventListener('click', () => this.renderVnConfigOverlay());
     if (character && !this.usesPoseB(character, entry.emotion)) this.animatePortrait(character, expression);
     if (this.autoMode) this.timers.push(window.setTimeout(() => this.nextLine(), autoDelayForLine(dialoguePage, this.autoSpeed)));
   }
@@ -685,11 +706,20 @@ export class AnimeDetectiveApp {
         <img class="choice-background choice-background-fill" src="${backgroundAssets.clubroom}" alt="">
         <img class="choice-background choice-background-fit" src="${backgroundAssets.clubroom}" alt="">
       </div>
+      <header class="app-header choice-topbar">
+        <div class="app-header-title"><small>CASE 001 · CHOICE_00</small><b>Выбор версии</b></div>
+        <nav class="app-header-actions" aria-label="Навигация">
+          ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
+          ${this.headerActionMarkup('menu', 'menu', 'Главное меню')}
+        </nav>
+      </header>
       <div class="choice-panel">
         <p class="eyebrow">CHOICE_00</p><h2>С чего начать?</h2>
         ${(Object.keys(choices) as ChoiceId[]).map((id) => `<button data-choice="${id}"><i>${id}</i><span><b>${choices[id].title}</b><small>${choices[id].effect}</small></span></button>`).join('')}
       </div>
     </section>`);
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderChoice()));
+    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
     this.root.querySelectorAll<HTMLElement>('[data-choice]').forEach((button) => button.addEventListener('click', () => {
       this.services.audio.play('choice');
       this.save.choice = button.dataset.choice as ChoiceId;
@@ -736,10 +766,14 @@ export class AnimeDetectiveApp {
     this.shell(`<section class="level-intro">
       <img class="level-intro-background" src="${backgroundAssets[level.background]}" alt="">
       <div class="level-intro-shade"></div>
-      <header class="topbar transparent">
-        <button id="back" class="icon-button" aria-label="Назад">${icon('back')}</button>
-        <div><small>РАССЛЕДОВАНИЕ ${levelIndex + 1}/4</small><b>${escapeHtml(level.shortId)}</b></div>
-        <button id="dossier" class="dossier-button">${icon('dossier')}<i>${this.save.clues.length}</i></button>
+      <header class="app-header match-topbar intro-topbar">
+        ${this.headerActionMarkup('back', 'back', 'Назад', undefined, 'app-header-back')}
+        <div class="app-header-title"><small>РАССЛЕДОВАНИЕ ${levelIndex + 1}/4</small><b>${escapeHtml(level.title)}</b></div>
+        <nav class="app-header-actions" aria-label="Навигация расследования">
+          ${this.headerActionMarkup('dossier', 'dossier', 'Досье', this.save.clues.length)}
+          ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
+          ${this.headerActionMarkup('menu', 'menu', 'Главное меню')}
+        </nav>
       </header>
       <div class="level-card">
         <p class="eyebrow">${escapeHtml(level.id)}</p>
@@ -752,6 +786,8 @@ export class AnimeDetectiveApp {
     </section>`);
     this.root.querySelector('#back')?.addEventListener('click', () => this.openScene(this.save.scene, Math.max(0, this.story.length - 1)));
     this.root.querySelector('#dossier')?.addEventListener('click', () => this.renderDossier(() => this.renderMatchIntro(levelIndex)));
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderMatchIntro(levelIndex)));
+    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
     this.root.querySelector('#start')?.addEventListener('click', () => this.startMatch(levelIndex));
   }
 
@@ -816,10 +852,14 @@ export class AnimeDetectiveApp {
     this.shell(`<section class="match-screen">
       <img class="match-background" src="${backgroundAssets[level.background]}" alt="">
       <div class="match-shade"></div>
-      <header class="topbar match-topbar">
-        <button id="quit" class="icon-button" aria-label="Покинуть уровень">${icon('back')}</button>
-        <div><small>${escapeHtml(level.shortId)}</small><b>${escapeHtml(level.title)}</b></div>
-        <button id="dossier" class="dossier-button">${icon('dossier')}<i>${this.save.clues.length}</i></button>
+      <header class="app-header match-topbar">
+        ${this.headerActionMarkup('quit', 'back', 'Назад к расследованию', undefined, 'app-header-back')}
+        <div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>${escapeHtml(level.title)}</b></div>
+        <nav class="app-header-actions" aria-label="Навигация расследования">
+          ${this.headerActionMarkup('dossier', 'dossier', 'Досье', this.save.clues.length)}
+          ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
+          ${this.headerActionMarkup('menu', 'menu', 'Главное меню')}
+        </nav>
       </header>
 
       <div class="match-case-hud">
@@ -857,6 +897,16 @@ export class AnimeDetectiveApp {
     this.root.querySelector('#dossier')?.addEventListener('click', () => {
       if (this.matchInputLocked) return;
       this.renderDossier(() => this.renderMatch());
+    });
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => {
+      if (this.matchInputLocked) return;
+      this.renderSettings(() => this.renderMatch());
+    });
+    this.root.querySelector('#menu')?.addEventListener('click', () => {
+      if (this.matchInputLocked) return;
+      if (typeof window.confirm === 'function' && !window.confirm('Выйти в главное меню? Текущая попытка match-3 будет потеряна.')) return;
+      this.activeMatch = null;
+      this.renderMenu();
     });
     this.root.querySelector('#hint')?.addEventListener('click', () => this.showObjectiveHint());
     this.installBoardInput();
@@ -1264,15 +1314,26 @@ export class AnimeDetectiveApp {
     const level = levels[this.activeLevelIndex];
     this.activeMatch = null;
     this.shell(`<section class="result-screen loss">
-      <div class="result-mark">↻</div>
-      <p class="eyebrow">ХОДЫ ЗАКОНЧИЛИСЬ</p>
-      <h2>Версия требует повторной проверки</h2>
-      <blockquote><b>${escapeHtml(level.loseBark.speaker)}</b>${escapeHtml(level.loseBark.text)}</blockquote>
-      <button class="primary" id="retry">Повторить уровень</button>
-      <button id="back">Вернуться к сцене</button>
+      <header class="app-header result-topbar">
+        ${this.headerActionMarkup('back', 'back', 'Назад к расследованию', undefined, 'app-header-back')}
+        <div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>Результат</b></div>
+        <nav class="app-header-actions" aria-label="Навигация">
+          ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
+          ${this.headerActionMarkup('menu', 'menu', 'Главное меню')}
+        </nav>
+      </header>
+      <div class="result-content">
+        <div class="result-mark">↻</div>
+        <p class="eyebrow">ХОДЫ ЗАКОНЧИЛИСЬ</p>
+        <h2>Версия требует повторной проверки</h2>
+        <blockquote><b>${escapeHtml(level.loseBark.speaker)}</b>${escapeHtml(level.loseBark.text)}</blockquote>
+        <button class="primary" id="retry">Повторить уровень</button>
+      </div>
     </section>`);
     this.root.querySelector('#retry')?.addEventListener('click', () => this.startMatch(this.activeLevelIndex));
     this.root.querySelector('#back')?.addEventListener('click', () => this.renderMatchIntro(this.activeLevelIndex));
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderLoss()));
+    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
   }
 
   private objectiveMarkup(level: LevelDefinition, objective: LevelDefinition['objectives'][number], value: number, showProgress: boolean): string {
@@ -1298,8 +1359,8 @@ export class AnimeDetectiveApp {
     const kentaroCleared = this.save.completed.includes(1);
     const norihiroCleared = this.save.completed.includes(3);
     this.shell(`<section class="panel dossier">
-      <button id="back" class="icon-text back">${icon('back')} Назад</button>
-      <p class="eyebrow">ДЕЛО 001</p><h2>Серийные пропажи</h2>
+      ${this.panelHeaderMarkup('ДЕЛО 001', 'Досье')}
+      <h2>Серийные пропажи</h2>
       <div class="tabs"><b>Улики</b><span>Версии</span><span>Хронология</span></div>
       <div class="clue-grid">${levels.map((level, index) => {
         const unlocked = this.save.clues.includes(level.clueId);
@@ -1319,6 +1380,8 @@ export class AnimeDetectiveApp {
       <button id="reset" class="danger-link">Сбросить прогресс</button>
     </section>`);
     this.root.querySelector('#back')?.addEventListener('click', back);
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderDossier(back)));
+    this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
     this.root.querySelector('#reset')?.addEventListener('click', () => {
       this.save = this.store.reset();
       this.renderMenu();
@@ -1332,6 +1395,13 @@ export class AnimeDetectiveApp {
     this.persist();
     this.shell(`<section class="ending-screen">
       <img class="ending-background" src="${backgroundAssets.norihiroApartment}" alt="">
+      <header class="app-header ending-topbar">
+        <div class="app-header-title"><small>CASE 001</small><b>Глава завершена</b></div>
+        <nav class="app-header-actions" aria-label="Навигация">
+          ${this.headerActionMarkup('header-settings', 'settings', 'Настройки')}
+          ${this.headerActionMarkup('menu', 'menu', 'Главное меню')}
+        </nav>
+      </header>
       <div class="ending-panel">
         <img class="thread-clue" src="${cluePresentation.CUE_004.asset}" alt="Проводящий шов">
         <p class="eyebrow">КОНЕЦ ВЕРТИКАЛЬНОГО СРЕЗА</p>
@@ -1343,6 +1413,7 @@ export class AnimeDetectiveApp {
       </div>
     </section>`);
     this.root.querySelector('#menu')?.addEventListener('click', () => this.renderMenu());
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.renderSettings(() => this.renderEnding()));
     this.root.querySelector('#replay')?.addEventListener('click', () => {
       this.save = freshSave();
       this.persist();

@@ -72,7 +72,10 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('vn-background-fit');
     expect(root.innerHTML).toContain('>SKIP<');
     expect(root.innerHTML).toContain('>AUTO<');
-    expect(root.innerHTML).toContain('>LOG<');
+    expect(root.innerHTML).toContain('aria-label="История диалога"');
+    expect(root.innerHTML).toContain('aria-label="Настройки"');
+    expect(root.innerHTML).toContain('aria-label="Главное меню"');
+    expect(root.innerHTML).not.toContain('id="config"');
 
     const placeholderCases = [
       { scene: 1, speaker: 'ЭМИ', label: 'Эми', choice: 'A' as ChoiceId },
