@@ -2,8 +2,11 @@ npm install
 npm run test
 npm run build
 
-# Полный gate:
+# Полный локальный/CI gate:
 npm run check
 
-# Необязательный неигровой baseline для проверки проходимости данных:
+# Проверка структуры ZIP до импорта:
+python3 scripts/validate-upload-zip.py <FULL_PROJECT.zip>
+
+# Необязательный data-balance baseline:
 ./node_modules/.bin/vite-node scripts/balance-probe.ts

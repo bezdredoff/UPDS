@@ -50,7 +50,7 @@ describe('AnimeDetectiveApp render smoke', () => {
   it('mounts the production menu without a browser DOM implementation', () => {
     const { root, app } = create();
     app.mount();
-    expect(root.innerHTML).toContain('ANM-009 · Four Full Levels');
+    expect(root.innerHTML).toContain('ANM-010 · GitHub Phone Pipeline');
     expect(root.innerHTML).toContain('Новая игра');
     expect(root.innerHTML).toContain('characters/miku/medallions');
   });
