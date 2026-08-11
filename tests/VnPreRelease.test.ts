@@ -46,8 +46,9 @@ describe('ANM-013 VN pre-release contract', () => {
 
   it('ships the golden-sample control hierarchy without embedding the golden sample itself', () => {
     expect(appSource).toContain('vn-case-pill');
-    expect(appSource).toContain('>LOG<');
-    expect(appSource).toContain('>MENU<');
+    expect(appSource).toContain("headerActionMarkup('history', 'log', 'История диалога')");
+    expect(appSource).toContain("headerActionMarkup('header-settings', 'settings', 'Настройки')");
+    expect(appSource).toContain("headerActionMarkup('menu', 'menu', 'Главное меню')");
     expect(appSource).toContain('>SKIP<');
     expect(appSource).toContain('>AUTO<');
     expect(appSource).toContain('>SAVE<');
