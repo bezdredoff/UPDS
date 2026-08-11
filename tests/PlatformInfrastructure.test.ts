@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { APP_VERSION } from '../src/appVersion';
-import { ANM009_SAVE_KEY, CampaignStore, SAVE_RECOVERY_KEY, SAVE_SCHEMA_VERSION, freshSave, normalizeSave } from '../src/engine/CampaignStore';
+import { ANM009_SAVE_KEY, MANUAL_SAVE_KEY, CampaignStore, SAVE_RECOVERY_KEY, SAVE_SCHEMA_VERSION, freshSave, normalizeSave } from '../src/engine/CampaignStore';
 import { uniqueAssetList } from '../src/platform/AssetPreloader';
 import { ERROR_LOG_MAX_ENTRIES, ErrorLog } from '../src/platform/ErrorLog';
 import { runtimeAssetCatalog } from '../src/platform/RuntimeAssets';
@@ -31,6 +31,16 @@ describe('ANM-011 infrastructure hardening', () => {
     expect(persisted.appVersion).toBe(APP_VERSION);
     expect(persisted.state).toBeUndefined();
     expect(normalizeSave(persisted)).toMatchObject({ scene: 4, line: 7, completed: [0, 1] });
+  });
+
+  it('keeps an ANM-013 manual VN save slot separate from the stable campaign save key', () => {
+    const storage = new MemoryStorage();
+    const store = new CampaignStore(storage);
+    const manual = { ...freshSave(), scene: 5, line: 9, choice: 'B' as const };
+    expect(store.saveManual(manual)).toBe(true);
+    expect(storage.getItem(ANM009_SAVE_KEY)).toBeNull();
+    expect(storage.getItem(MANUAL_SAVE_KEY)).not.toBeNull();
+    expect(store.loadManual()).toMatchObject({ scene: 5, line: 9, choice: 'B' });
   });
 
   it('backs up invalid JSON and recovers to a fresh playable save', () => {

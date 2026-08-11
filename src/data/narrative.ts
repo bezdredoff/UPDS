@@ -31,7 +31,7 @@ export type BackgroundKey =
   | 'norihiroApartment';
 
 const sceneStarts = ['VN0001', 'VN0023', 'VN0058', 'VN0085', 'VN0114', 'VN0143', 'VN0167', 'VN0192', 'VN0217'];
-const sceneEnds = ['VN0022', 'VN0057', 'VN0084', 'VN0113', 'VN0142', 'VN0166', 'VN0191', 'VN0216', 'VN0245'];
+const sceneEnds = ['VN0022', 'VN0057', 'VN0084', 'VN0113', 'VN0142', 'VN0166', 'VN0191', 'VN0216', 'VN0249'];
 const linePattern = /`\[(VN\d{4}[ABC]?)\]\s*([^|]+)\|\s*([^|]+)\|\s*([^`]+)`/g;
 const conditionalSpeakerPattern = /^\{IF\s+([^}]+)\}\s*/;
 
@@ -80,23 +80,34 @@ const conditionMatches = (condition: string, state: ChoiceState): boolean => {
   return values[rawKey] === rawValue;
 };
 
+const lineForChoice = (line: StoryLine, choice: ChoiceId): StoryLine | null => {
+  const suffix = line.id.match(/[ABC]$/)?.[0];
+  if (suffix && suffix !== choice) return null;
+
+  const conditional = line.speaker.match(conditionalSpeakerPattern);
+  if (!conditional) return line;
+  if (!conditionMatches(conditional[1], choices[choice].state)) return null;
+  return { ...line, speaker: line.speaker.replace(conditionalSpeakerPattern, '').trim() };
+};
+
 export function getScene(index: number, choice: ChoiceId = 'A'): StoryLine[] {
   const start = numberOf(sceneStarts[index]);
   const end = numberOf(sceneEnds[index]);
-  const state = choices[choice].state;
 
   return parsedLines.flatMap((line) => {
     const number = numberOf(line.id);
     if (number < start || number > end) return [];
+    const resolved = lineForChoice(line, choice);
+    return resolved ? [resolved] : [];
+  });
+}
 
-    const suffix = line.id.match(/[ABC]$/)?.[0];
-    if (suffix && suffix !== choice) return [];
-
-    const conditional = line.speaker.match(conditionalSpeakerPattern);
-    if (!conditional) return [line];
-    if (!conditionMatches(conditional[1], state)) return [];
-
-    return [{ ...line, speaker: line.speaker.replace(conditionalSpeakerPattern, '').trim() }];
+export function getReadHistory(readLineIds: readonly string[], choice: ChoiceId = 'A'): StoryLine[] {
+  const read = new Set(readLineIds);
+  return parsedLines.flatMap((line) => {
+    if (!read.has(line.id)) return [];
+    const resolved = lineForChoice(line, choice);
+    return resolved ? [resolved] : [];
   });
 }
 

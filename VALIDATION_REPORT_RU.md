@@ -1,81 +1,47 @@
-# ANM-012 — Validation Report
+# ANM-013 — Validation Report
 
-Дата: 11 августа 2026
-Версия: `0.12.0-anm012`
-Feature: Mobile UX Foundation
+**Build:** `0.13.0-anm013`  
+**Feature:** VN Pre-release UX + Golden Sample Alignment
 
-## Scope
+## Реально выполнено в этой сессии
 
-- mobile viewport/safe-area hardening;
-- compact layout для `320×568` и низких экранов;
-- Pointer Events swipe input для Match-3 с сохранением tap input;
-- board scroll containment;
-- transaction input lock и защита от pointerup/click double activation;
-- landscape recovery;
-- mobile regression tests и QA matrix.
+- TypeScript strict для `src` (`tsc -p tsconfig.json --noEmit`) — **PASS**.
+- TypeScript syntax transpile всех `tests/*.test.ts` — **PASS**.
+- ANM-013 static/runtime-contract smoke — **PASS**:
+  - authored screenplay rows: 262;
+  - runtime finale включает `VN0246–VN0249`;
+  - optional teaser `VN0250` остаётся authored и не входит в runtime scene 8;
+  - save key не изменён;
+  - тесты не фиксируют literal текущей/старой версии приложения;
+  - Golden Sample UI реализован нативно без включения reference PNG в runtime.
+- Byte-for-byte protected contract against known-good ANM-012 R2 baseline — **PASS** для 8 файлов:
+  - `.github/workflows/ci.yml`;
+  - `.github/workflows/pages.yml`;
+  - `.github/workflows/import-zip.yml`;
+  - `scripts/validate-upload-zip.py`;
+  - `src/content/ANM-003_Vertical_Slice_Screenplay.md`;
+  - `src/data/levels.ts`;
+  - `src/engine/Match3Game.ts`;
+  - `src/data/characterRigs.ts`.
 
-## Выполнено в этой сессии
+ANM-012 R2 — это архив, который уже прошёл mobile importer и был смержен; сохранение его защищённых файлов побайтно предотвращает повтор проблемы с финальным переводом строки в workflow YAML.
 
-### PASS — TypeScript strict
+## Полный npm gate
 
-```bash
-tsc -p tsconfig.json
-```
+`npm run check` **НЕ объявляется локальным PASS** в этой сессии: sandbox не имеет полного установленного dependency tree, а offline `npm ci` блокируется отсутствующим cached tarball `why-is-node-running@2.3.0`. GitHub mobile importer должен выполнить authoritative clean `npm ci --ignore-scripts` + `npm run check` перед созданием candidate branch.
 
-Exit code: `0`.
+## Добавленные/изменённые runtime-функции
 
-### PASS — protected contracts byte-for-byte
+- LOG/backlog прочитанных VN-строк;
+- SKIP только прочитанного с остановкой на unread/choice checkpoint;
+- AUTO + slow/normal/fast session config;
+- normal/large text session config;
+- отдельный manual VN save slot при неизменном основном save key;
+- resume `CHOICE_00` после выхода на прочитанном `VN0040`;
+- priority preload следующего фона/portrait;
+- runtime finale `VN0246–VN0249`;
+- Golden Sample aligned top/dialogue/bottom control composition.
 
-Не изменены относительно post-ANM-010A / ANM-011 baseline:
+## Ручная проверка после GitHub `/preview/`
 
-- `src/data/narrative.ts`;
-- `src/content/ANM-003_Vertical_Slice_Screenplay.md`;
-- `src/data/levels.ts`;
-- `src/engine/Match3Game.ts`;
-- `src/data/characterRigs.ts`;
-- `.github/workflows/ci.yml`;
-- `.github/workflows/pages.yml`;
-- `.github/workflows/import-zip.yml`;
-- `scripts/validate-upload-zip.py`.
-
-Save key остаётся `seiran-detectives-anm009-v1`.
-
-### PASS — static mobile contract
-
-Проверено:
-
-- старого `min-height: 640px` больше нет;
-- `.board` содержит `touch-action: none`;
-- page root содержит `overscroll-behavior: none`;
-- compact media profile существует;
-- landscape recovery media profile существует;
-- non-board navigation contract использует 44 px minimum target.
-
-### NOT VERIFIED LOCAL — полный `npm run check`
-
-Локальный sandbox не имеет полного npm cache и сетевого доступа к registry. `npm ci --ignore-scripts --offline` завершился `ENOTCACHED` на `why-is-node-running@2.3.0`.
-
-Поэтому Vitest/Vite production build не объявляются PASS локально. Они должны быть первой обязательной проверкой read-only job `Import mobile ZIP candidate` в GitHub Actions.
-
-После добавления ANM-012 test suite ожидает 9 test-файлов и 39 фактических test cases с учётом `it.each` parameterization.
-
-## Ручной QA после `/preview/`
-
-Обязателен реальный Safari/iPhone pass по `docs/ANM012_MOBILE_UX_RU.md`, особенно:
-
-- `320×568`/маленький viewport;
-- отсутствие document scroll;
-- tap swap;
-- swipe swap во всех направлениях;
-- отсутствие page scroll во время swipe;
-- edge swipe;
-- invalid swap + следующий input;
-- dossier return;
-- portrait → landscape → portrait recovery.
-
-## Известные ограничения
-
-- ANM-012 не добавляет покадровую cascade/swap animation; это отдельный Match-3 polish этап.
-- Board cells физически меньше 44 px на узком 8×8 поле; 44 px minimum применяется к non-board controls. Увеличение board cells потребовало бы zoom/scroll или иной board layout и не входит в scope.
-- Portrait остаётся целевым режимом; landscape — recovery/return mode.
-- Полный browser DOM/mobile automation пока не добавлен; финальный acceptance — реальный GitHub Pages preview на iPhone.
+См. `docs/ANM013_VN_PRE_RELEASE_UX_RU.md`.
