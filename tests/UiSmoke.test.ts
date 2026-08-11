@@ -74,7 +74,7 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('>AUTO<');
     expect(root.innerHTML).toContain('aria-label="История диалога"');
     expect(root.innerHTML).toContain('aria-label="Настройки"');
-    expect(root.innerHTML).toContain('aria-label="Главное меню"');
+    expect(root.innerHTML).not.toContain('aria-label="Главное меню"');
     expect(root.innerHTML).not.toContain('id="config"');
 
     const placeholderCases = [

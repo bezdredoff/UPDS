@@ -157,10 +157,10 @@ img { display: block; }
 }
 .app-header-action {
   position: relative;
-  width: 42px;
-  min-width: 42px;
-  height: 42px;
-  min-height: 42px;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
   padding: 0;
   display: grid;
   place-items: center;
@@ -242,7 +242,7 @@ img { display: block; }
 .vn-case-pill {
   flex: 1 1 auto;
   min-width: 0;
-  min-height: 42px;
+  min-height: 44px;
   padding: 4px 7px 4px 9px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 30px;
@@ -553,7 +553,7 @@ img { display: block; }
   .vn-case-pill { min-height: 44px; border-radius: 9px; padding-left: 8px; }
   .vn-case-pill b { font-size: 9px; }
   .vn-topbar .app-header-actions { gap: 3px; }
-  .vn-topbar .app-header-action { width: 40px; min-width: 40px; height: 40px; min-height: 40px; border-radius: 9px; }
+  .vn-topbar .app-header-action { width: 44px; min-width: 44px; height: 44px; min-height: 44px; border-radius: 9px; }
   .vn-topbar .app-header-action img { width: 19px; height: 19px; }
   .portrait { height: 168%; bottom: -68%; max-width: none; }
   .portrait-placeholder { width: 152px; height: min(220px, 70%); }
@@ -1053,7 +1053,7 @@ img { display: block; }
 
   .app-header { min-height: max(54px, calc(44px + env(safe-area-inset-top))); padding: max(5px, env(safe-area-inset-top)) 6px 5px; gap: 4px; }
   .app-header-actions { gap: 3px; }
-  .app-header-action { width: 40px; min-width: 40px; height: 40px; min-height: 40px; border-radius: 9px; }
+  .app-header-action { width: 44px; min-width: 44px; height: 44px; min-height: 44px; border-radius: 9px; }
   .app-header-action img { width: 19px; height: 19px; }
   .match-case-hud { padding: 4px 7px 3px; gap: 5px; grid-template-columns: minmax(0, 1fr) 128px; }
   .objective-board, .stage-board { min-height: 56px; padding: 18px 5px 4px; border-radius: 9px; }
@@ -1140,11 +1140,11 @@ img { display: block; }
     gap: 4px;
   }
   .app-header-actions { gap: 3px; }
-  .app-header-action { width: 38px; min-width: 38px; height: 38px; min-height: 38px; border-radius: 8px; }
+  .app-header-action { width: 44px; min-width: 44px; height: 44px; min-height: 44px; border-radius: 9px; }
   .app-header-action img { width: 19px; height: 19px; }
   .app-header-title small { font-size: 6px; }
   .app-header-title b { font-size: 9px; }
-  .vn-case-pill { min-height: 38px; padding: 3px 5px 3px 7px; }
+  .vn-case-pill { min-height: 44px; padding: 3px 5px 3px 7px; }
   .vn-case-pill > i { display: none; }
 }
 
@@ -1181,4 +1181,66 @@ img { display: block; }
   .volume-row { padding: 8px 9px; gap: 6px; }
   .setting-toggle { min-height: 48px; padding: 7px 8px; }
   .audio-preview-actions button { min-height: 40px; }
+}
+
+
+/* ANM-016E compact context navigation */
+.settings-navigation,
+.vn-config-navigation {
+  margin-top: 16px;
+  padding-top: 12px;
+  display: grid;
+  gap: 7px;
+  border-top: 1px solid #d9c9aa;
+}
+.settings-navigation > small,
+.vn-config-navigation > small {
+  color: #927b55;
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: .14em;
+}
+.settings-navigation button,
+.vn-config-navigation button {
+  min-height: 48px;
+  padding: 8px 11px;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  border: 1px solid #cbbd9f;
+  border-radius: 10px;
+  background: #f8f2e5;
+  color: #27364d;
+  text-align: left;
+}
+.settings-navigation button img,
+.vn-config-navigation button img {
+  width: 22px;
+  height: 22px;
+  margin: auto;
+  opacity: .8;
+}
+.settings-navigation button span,
+.vn-config-navigation button span {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.settings-navigation button b,
+.vn-config-navigation button b { font-size: 11px; }
+.settings-navigation button em,
+.vn-config-navigation button em {
+  color: #837868;
+  font-size: 8px;
+  font-style: normal;
+  line-height: 1.25;
+}
+.settings-navigation button:active,
+.vn-config-navigation button:active { background: #eee4d1; }
+.config-card .vn-config-navigation { margin: 14px 14px 0; }
+
+@media (max-height: 650px), (max-width: 340px) {
+  .settings-navigation, .vn-config-navigation { margin-top: 10px; padding-top: 9px; }
+  .settings-navigation button, .vn-config-navigation button { min-height: 44px; padding: 6px 9px; }
 }

@@ -26,7 +26,7 @@ Unified high-contrast header/navigation contract on top of the accepted ANM-016B
 - project scope diff vs ANM-016B R6 restricted to app UI/CSS/tests/version/docs
 - workflows / validator / narrative / screenplay / levels / rigs / Match3 / CampaignStore / assets: expected BYTE-EXACT (rechecked before packing)
 - package-lock dependency graph: UNCHANGED; only root version metadata changed
-- pre-pack ZIP validator: PASS (215 entries; 9,779,935 bytes uncompressed)
+- pre-pack ZIP validator: PASS (215 entries; 9,780,737 bytes uncompressed)
 
 ## npm environment
 
