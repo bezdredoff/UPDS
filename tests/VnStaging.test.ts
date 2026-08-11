@@ -3,7 +3,7 @@ import { actorForStorySpeaker, resolveVnStaging } from '../src/ui/vnStaging';
 
 const line = (id: string, speaker: string) => ({ id, speaker, emotion: 'нейтрально', text: 'Тест.' });
 
-describe('ANM-016A VN character staging', () => {
+describe('VN character staging', () => {
   it('maps production and placeholder speakers without changing art assets', () => {
     expect(actorForStorySpeaker('МИКУ')).toBe('miku');
     expect(actorForStorySpeaker('МИКУ (МЫСЛИ)')).toBe('miku');

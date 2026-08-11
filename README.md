@@ -2,9 +2,9 @@
 
 Mobile-first visual novel × match-3 vertical slice.
 
-Current build: ANM-017 · Playtest & Distribution Foundation (`0.17.0-anm017`), adding local playtest telemetry/export and installable offline PWA distribution while retaining ANM-016E compact navigation and the completed ANM-016 presentation polish stack.
+Current build: **ANM-018 · Repository & Maintenance Refactor (`0.18.0-anm018`)**.
 
-## Local
+## Quick start
 
 ```bash
 npm install
@@ -12,26 +12,21 @@ npm run dev
 npm run check
 ```
 
-## Phone-first GitHub workflow
+## Documentation
 
-See [`docs/GITHUB_PHONE_PIPELINE_RU.md`](docs/GITHUB_PHONE_PIPELINE_RU.md).
+Start with [`docs/README.md`](docs/README.md).
 
-## Implemented pre-release layers
+Key documents:
 
-- ANM-011 infrastructure: [`docs/ANM011_INFRASTRUCTURE_RU.md`](docs/ANM011_INFRASTRUCTURE_RU.md)
-- ANM-012 mobile UX: [`docs/ANM012_MOBILE_UX_RU.md`](docs/ANM012_MOBILE_UX_RU.md)
-- ANM-013 VN pre-release UX: [`docs/ANM013_VN_PRE_RELEASE_UX_RU.md`](docs/ANM013_VN_PRE_RELEASE_UX_RU.md)
-- ANM-014 match-3 UX: [`docs/ANM014_MATCH3_PRE_RELEASE_UX_RU.md`](docs/ANM014_MATCH3_PRE_RELEASE_UX_RU.md)
-- ANM-015 audio & haptics: [`docs/ANM015_AUDIO_HAPTICS_RU.md`](docs/ANM015_AUDIO_HAPTICS_RU.md)
-- ANM-016 visual + motion polish: [`docs/ANM016_VISUAL_MOTION_RU.md`](docs/ANM016_VISUAL_MOTION_RU.md)
-- ANM-016A VN character staging: [`docs/ANM016A_VN_STAGING_RU.md`](docs/ANM016A_VN_STAGING_RU.md)
-- ANM-016B dialogue fit + paging: [`docs/ANM016B_DIALOGUE_PAGING_RU.md`](docs/ANM016B_DIALOGUE_PAGING_RU.md)
-- ANM-016C R2 stage/dialogue seam + nameplate layering: [`docs/ANM016C_NAMEPLATE_LAYERING_RU.md`](docs/ANM016C_NAMEPLATE_LAYERING_RU.md)
-- ANM-016B R3 render-measured localisation-safe paging: [`docs/ANM016B_R3_RENDER_MEASURED_PAGING_RU.md`](docs/ANM016B_R3_RENDER_MEASURED_PAGING_RU.md)
-- ANM-016B R4 stable measurement viewport: [`docs/ANM016B_R4_STABLE_MEASUREMENT_RU.md`](docs/ANM016B_R4_STABLE_MEASUREMENT_RU.md)
-- ANM-016B R6 two-line balanced dialogue paging: [`docs/ANM016B_R6_TWO_LINE_BALANCED_PAGING_RU.md`](docs/ANM016B_R6_TWO_LINE_BALANCED_PAGING_RU.md)
-- ANM-016D unified header/navigation + contrast: [`docs/ANM016D_HEADER_NAVIGATION_RU.md`](docs/ANM016D_HEADER_NAVIGATION_RU.md)
-- ANM-016E compact context navigation: [`docs/ANM016E_COMPACT_NAVIGATION_RU.md`](docs/ANM016E_COMPACT_NAVIGATION_RU.md)
-- ANM-017 playtest + PWA distribution foundation: [`docs/ANM017_PLAYTEST_DISTRIBUTION_RU.md`](docs/ANM017_PLAYTEST_DISTRIBUTION_RU.md)
+- current architecture: [`docs/architecture/ARCHITECTURE_RU.md`](docs/architecture/ARCHITECTURE_RU.md)
+- immutable project contracts: [`docs/architecture/PROJECT_CONTRACTS_RU.md`](docs/architecture/PROJECT_CONTRACTS_RU.md)
+- AI/developer workflow: [`docs/process/AI_DEVELOPMENT_RU.md`](docs/process/AI_DEVELOPMENT_RU.md)
+- testing strategy: [`docs/process/TESTING_RU.md`](docs/process/TESTING_RU.md)
+- iPhone/GitHub pipeline: [`docs/process/GITHUB_PHONE_PIPELINE_RU.md`](docs/process/GITHUB_PHONE_PIPELINE_RU.md)
+- current roadmap: [`docs/ROADMAP_RU.md`](docs/ROADMAP_RU.md)
 
-Protected project contracts remain unchanged: canon, stable VN line IDs, save key `seiran-detectives-anm009-v1`, approved art direction, and the `base + face overlay` production rig.
+Historical feature notes, validation reports and manual QA snapshots live under [`docs/archive/`](docs/archive/) and are **not** current implementation contracts.
+
+## Protected contracts
+
+Do not change without explicit product approval: canon, stable `VN...` line IDs, `CHOICE_00` semantics, save key `seiran-detectives-anm009-v1`, approved 2000s anime art direction, or the `base-neutral + face overlay` production rig structure.

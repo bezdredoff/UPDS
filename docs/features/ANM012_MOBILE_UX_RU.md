@@ -1,6 +1,6 @@
 # ANM-012 — Mobile UX Foundation
 
-Версия: `0.12.0-anm012`.
+Origin build: `0.12.0-anm012`; current repository version is defined by `src/appVersion.ts`.
 
 ## Scope
 

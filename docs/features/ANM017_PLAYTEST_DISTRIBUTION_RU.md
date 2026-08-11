@@ -131,3 +131,8 @@ Worker сообщает `CACHE_READY` только после завершени
 - character rig contract;
 - production assets under `public/assets/**`;
 - GitHub workflow/validator files.
+
+
+## Maintenance note
+
+Repository organization and test/documentation policy are defined by ANM-018; see `docs/README.md` and `docs/process/AI_DEVELOPMENT_RU.md`.

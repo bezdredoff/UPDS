@@ -23,7 +23,7 @@ describe('runtime asset contract', () => {
 
 
 
-  it('contains every asset registered for ANM-011 runtime preloading', () => {
+  it('contains every asset registered for runtime preloading', () => {
     for (const asset of runtimeAssetCatalog) expect(existsSync(localPath(asset)), asset).toBe(true);
   });
 

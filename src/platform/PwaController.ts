@@ -1,4 +1,4 @@
-import { APP_VERSION, BUILD_ID } from '../appVersion';
+import { APP_VERSION } from '../appVersion';
 import type { ErrorLog } from './ErrorLog';
 import type { PlaytestTelemetry } from './PlaytestTelemetry';
 

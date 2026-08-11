@@ -1,15 +1,16 @@
 {
   "name": "seiran-detectives-four-full-levels",
   "private": true,
-  "version": "0.17.0-anm017",
+  "version": "0.18.0-anm018",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "build": "tsc && vite build",
     "check": "npm run test && npm run build",
-    "preview": "vite preview",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "preview": "vite preview"
   },
   "devDependencies": {
     "typescript": "5.5.4",

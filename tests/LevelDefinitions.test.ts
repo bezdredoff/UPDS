@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { levels, validateLevelDefinitions } from '../src/data/levels';
 
-describe('ANM-009 level definitions', () => {
+describe('level definitions', () => {
   it('contains four valid and distinct levels', () => {
     expect(levels).toHaveLength(4);
     expect(new Set(levels.map((level) => level.id)).size).toBe(4);
