@@ -1,4 +1,4 @@
-/** Owns the single-screen DOM shell and disposable UI timers. */
+/** Owns the shared viewport DOM shell and disposable UI timers. */
 export class AppShell {
   private timers: number[] = [];
 
@@ -9,7 +9,7 @@ export class AppShell {
 
   render(content: string): void {
     this.clearTimers();
-    this.root.innerHTML = `<main class="phone">${content}</main>`;
+    this.root.innerHTML = `<div class="viewport-shell" data-viewport-shell="physical"><main class="phone game-viewport" data-game-viewport="compat-edge-to-edge">${content}</main></div>`;
     this.afterRender();
   }
 

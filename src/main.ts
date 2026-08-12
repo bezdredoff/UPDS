@@ -1,4 +1,5 @@
 import './style.css';
+import './viewport.css';
 import { AnimeDetectiveApp } from './ui/AnimeDetectiveApp';
 import { installImageFallbackHandler } from './platform/AssetHealth';
 import { scheduleImagePreload } from './platform/AssetPreloader';
