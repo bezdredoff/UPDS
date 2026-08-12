@@ -1,5 +1,6 @@
 import './style.css';
 import './buildIdentity.css';
+import './viewport.css';
 import { BUILD_ID } from './appVersion';
 import { AnimeDetectiveApp } from './ui/AnimeDetectiveApp';
 import { installImageFallbackHandler } from './platform/AssetHealth';

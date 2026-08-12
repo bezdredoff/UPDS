@@ -1,0 +1,33 @@
+:root {
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --game-viewport-max-width: 430px;
+  --game-viewport-max-height: 932px;
+}
+
+/*
+ * ANM-024B compatibility shell.
+ *
+ * The outer layer owns the physical viewport now; the existing .phone layout
+ * remains edge-to-edge until ANM-024C migrates component-level safe-area rules
+ * to the shared tokens above. This avoids double-applying notch/home-indicator
+ * insets during the transition.
+ */
+.viewport-shell {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.game-viewport {
+  --scene-inline-size: 100%;
+  --scene-block-size: 100%;
+}
