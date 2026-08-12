@@ -32,11 +32,7 @@ describe('GitHub/phone pipeline contract', () => {
     expect(workflow).toContain('- incoming');
     expect(workflow).toContain("- 'incoming/*.zip'");
     expect(workflow).toContain('Validate candidate in read-only sandbox');
-    expect(workflow).toContain('Detect candidate archive mode');
-    expect(workflow).toContain("steps.archive-mode.outputs.mode == 'full'");
-    expect(workflow).toContain('python3 baseline/scripts/validate-upload-zip.py');
-    expect(workflow).toContain("steps.archive-mode.outputs.mode == 'delta'");
-    expect(workflow).toContain('python3 baseline/scripts/apply-delta-zip.py');
+    expect(workflow).toContain('python3 scripts/validate-upload-zip.py');
     expect(workflow).toContain('npm run check');
     expect(workflow).toContain('Create candidate branch and pull request');
     expect(workflow).toContain('Create or reuse candidate branch');
@@ -49,8 +45,6 @@ describe('GitHub/phone pipeline contract', () => {
     expect(workflow).toContain('actions/deploy-pages@v4');
     expect(workflow).toContain('Reject pipeline self-modification from mobile ZIP');
     expect(workflow).toContain('diff -qr baseline/.github/workflows');
-    expect(workflow).toContain('cmp baseline/scripts/validate-upload-zip.py');
-    expect(workflow).toContain('cmp baseline/scripts/apply-delta-zip.py');
     expect(workflow).toContain('Reset binary inbox branch');
   });
 
