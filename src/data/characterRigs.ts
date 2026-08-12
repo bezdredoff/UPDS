@@ -2,6 +2,19 @@ export type CharacterKey = 'miku' | 'onoe' | 'ayuki';
 export type RuntimeExpression = 'neutral' | 'smile' | 'serious' | 'surprised' | 'embarrassed';
 export type PlaceholderKey = 'emi' | 'kentaro' | 'norihiro' | 'mayu';
 
+export type CharacterStaging = Readonly<{
+  scale: number;
+  yPercent: number;
+}>;
+
+export const characterStaging: Record<CharacterKey, CharacterStaging> = {
+  // R5 baseline: existing Golden Sample characters share one camera distance.
+  // Their authored relative body proportions remain encoded inside the common 1024×1536 canvas.
+  miku: { scale: 1, yPercent: 0 },
+  onoe: { scale: 1, yPercent: 0 },
+  ayuki: { scale: 1, yPercent: 0 },
+};
+
 export type CharacterRig = Readonly<{
   displayName: string;
   shortName: string;

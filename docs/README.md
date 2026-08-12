@@ -53,3 +53,5 @@ This directory is the documentation source of truth for the current repository.
 - [`art/CHARACTER_USAGE_MANIFEST.json`](art/CHARACTER_USAGE_MANIFEST.json) — usage manifest.
 - [`features/ANM021A_CHARACTER_PRODUCTION_PLANNING_RU.md`](features/ANM021A_CHARACTER_PRODUCTION_PLANNING_RU.md)
 - [`features/ANM021B_R4_EXPRESSION_PIPELINE_RESET_RU.md`](features/ANM021B_R4_EXPRESSION_PIPELINE_RESET_RU.md)
+
+- [`features/ANM021B_R5_VN_CHARACTER_SCALE_STAGING_RU.md`](features/ANM021B_R5_VN_CHARACTER_SCALE_STAGING_RU.md)
