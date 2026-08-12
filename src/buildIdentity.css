@@ -1,0 +1,19 @@
+html[data-upds-lane='preview']::before {
+  content: 'PREVIEW · ' attr(data-upds-build);
+  position: fixed;
+  z-index: 2147483000;
+  top: calc(env(safe-area-inset-top, 0px) + 6px);
+  right: calc(env(safe-area-inset-right, 0px) + 6px);
+  max-width: calc(100vw - 12px);
+  padding: 4px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  background: rgba(34, 20, 48, 0.9);
+  color: #fff;
+  font: 700 10px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0.03em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
