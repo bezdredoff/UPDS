@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical package baseline: `0.22.0-anm022e-r1`.
-Active production foundation: **ANM-024 Display / Viewport / Safe-Area Foundation complete**; next production focus is **ANM-025 Match-3 Production Framework**.
+Active production foundation: **ANM-024 Display / Viewport / Safe-Area Foundation complete**; **ANM-025 Match-3 Production Framework is in progress (025A Golden Sample parity candidate)**.
 
 Package semver не используется как единственный источник feature status. Текущий фактический baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap.
 
@@ -72,7 +72,7 @@ After ANM-024:
 - balance and readability validation.
 
 Suggested split:
-- 025A Golden Sample parity;
+- 025A Golden Sample parity — candidate, complete on merge;
 - 025B Narrative Level Context contract;
 - 025C Tile presentation/variation expansion;
 - 025D Tutorial framework;

@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { MATCH_MOTION_MS, matchMotionDuration } from '../src/ui/matchMotion';
 
 const style = readFileSync(new URL('../src/style.css', import.meta.url), 'utf8');
+const productionStyle = readFileSync(new URL('../src/match3Production.css', import.meta.url), 'utf8');
 const matchSource = readFileSync(new URL('../src/features/match3/Match3Controller.ts', import.meta.url), 'utf8');
 
 describe('current Match-3 presentation contract', () => {
@@ -27,13 +28,29 @@ describe('current Match-3 presentation contract', () => {
     expect(style).toContain('@media (prefers-reduced-motion: reduce)');
   });
 
-  it('keeps the approved cream/green board presentation vocabulary', () => {
-    expect(style).toContain('--case-green:');
-    expect(style).toContain('--case-cream:');
+  it('keeps the approved Golden Sample case-file hierarchy around the playable board', () => {
+    expect(productionStyle).toContain('.level-intro, .match-screen');
+    expect(productionStyle).toContain('--case-green:');
+    expect(productionStyle).toContain('--case-cream:');
+    expect(productionStyle).toContain('--case-navy:');
+    expect(productionStyle).toContain('--case-socket:');
     expect(style).toContain('.match-case-hud');
     expect(style).toContain('.objective-board');
     expect(style).toContain('.stage-board');
+    expect(productionStyle).toContain('.board {');
     expect(style).toContain('.match-tooltray');
     expect(style).toContain('.detective-strip');
+    expect(matchSource).toContain('class="board" role="grid"');
+  });
+
+  it('keeps Golden Sample parity presentation-only and responsive', () => {
+    expect(productionStyle).toContain('background: var(--case-green);');
+    expect(productionStyle).toContain('background: linear-gradient(145deg, var(--case-socket), #293550 74%);');
+    expect(productionStyle).toContain('.board { width: min(calc(100% - 16px), 358px); }');
+    expect(productionStyle).toContain('.board { width: min(56dvh, 318px); }');
+    expect(matchSource).toContain('getHintMove()');
+    expect(matchSource).toContain('new Match3Game(level, level.seed + attempt * 101)');
+    const main = readFileSync(new URL('../src/main.ts', import.meta.url), 'utf8');
+    expect(main.indexOf("import './match3Production.css';")).toBeGreaterThan(main.indexOf("import './viewport.css';"));
   });
 });

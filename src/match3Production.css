@@ -1,0 +1,105 @@
+/* ANM-025A+ Match-3 production presentation layer.
+ * Imported after legacy presentation and viewport contracts so future Match-3
+ * production work has one narrow visual owner without growing style.css.
+ */
+.level-intro, .match-screen {
+  --case-green: #326349;
+  --case-green-dark: #244d39;
+  --case-cream: #f6edcf;
+  --case-cream-deep: #e8d9ad;
+  --case-outline: #53694f;
+  --case-navy: #152946;
+  --case-navy-deep: #0e1c33;
+  --case-socket: #352a46;
+}
+
+/* Case-file continuity from level intro into play. */
+.level-card {
+  border: 2px solid var(--case-outline);
+  background: linear-gradient(180deg, #fff9e7f7, #f4e9c9f5);
+  box-shadow: inset 0 0 0 1px #fff9df, 0 14px 34px #0d11226b;
+}
+.level-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 22px;
+  width: 92px;
+  height: 7px;
+  border-radius: 0 0 6px 6px;
+  background: var(--case-green);
+}
+.level-card .eyebrow { color: var(--case-green); font-weight: 950; letter-spacing: .12em; }
+.level-card h2 { color: var(--case-navy); }
+.level-card > p:not(.eyebrow) { color: #665a48; }
+.moves-chip b { color: var(--case-green-dark); font-size: 30px; }
+.moves-chip span { color: #665a48; font-weight: 800; }
+.level-card > button.primary {
+  border: 1px solid #183b2b !important;
+  background: var(--case-green) !important;
+  color: #fff8df !important;
+  box-shadow: inset 0 1px #ffffff38 !important;
+}
+.level-card > button.primary:hover { background: var(--case-green-dark) !important; }
+
+.match-background { filter: brightness(.73) saturate(.76) contrast(.94); }
+.match-shade { background: linear-gradient(180deg, #fff4cf24 0%, #e9dec018 42%, #111e3859 100%); }
+.objective-board, .stage-board {
+  background: linear-gradient(180deg, #fff9e7, var(--case-cream));
+  box-shadow: inset 0 0 0 1px #fff9dd, 0 3px 8px #20263a2d;
+}
+
+/* Golden Sample playfield: the existing grid becomes the self-contained navy case board. */
+.board {
+  width: calc(100% - 12px);
+  max-width: 424px;
+  padding: 8px;
+  border: 2px solid var(--case-outline);
+  border-radius: 16px;
+  background: linear-gradient(180deg, var(--case-navy), var(--case-navy-deep));
+  box-shadow: inset 0 0 0 3px var(--case-cream-deep), inset 0 0 20px #0814269e, 0 7px 16px #1c223940;
+}
+.board-cell {
+  border-color: #f0dfae47;
+  border-radius: 6px;
+  background: linear-gradient(145deg, var(--case-socket), #293550 74%);
+  box-shadow: inset 0 0 0 1px #ffffff12, inset 0 -1px #11182b75;
+}
+.tile-socket {
+  inset: 2px;
+  border-color: #f3e8d22e;
+  border-radius: 5px;
+  background: linear-gradient(155deg, #3a2a49a8, #202d48a8);
+}
+.tile { padding: 1px; filter: drop-shadow(0 2px 1px #10172d75); }
+.special { padding: 4px; opacity: .96; filter: drop-shadow(0 0 5px #fff0a8); }
+
+.match-tooltray {
+  background: linear-gradient(180deg, #fff9e7, var(--case-cream));
+  box-shadow: inset 0 0 0 1px #fff9dd, 0 3px 9px #20263a29;
+}
+.hint-button {
+  padding-right: 9px;
+  gap: 5px;
+  border-color: #193d2c;
+  background: var(--case-green);
+  color: #fff8df;
+  box-shadow: inset 0 1px #ffffff30;
+}
+.hint-button:hover { background: var(--case-green-dark); }
+.hint-button img { filter: drop-shadow(0 2px 2px #17241c70); }
+.hint-button small { color: #dbe6c8; }
+.match-hint { color: #26343b; font-size: 9px; font-weight: 800; }
+
+@media (max-height: 760px) {
+  .board { width: min(calc(100% - 16px), 358px); }
+}
+
+@media (max-height: 650px), (max-width: 340px) {
+  .board { width: min(calc(100% - 10px), 312px); padding: 6px; gap: 2px; }
+  .level-card > button.primary { min-height: 44px; }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .board { width: min(56dvh, 318px); }
+}
