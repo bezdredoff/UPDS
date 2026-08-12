@@ -44,3 +44,12 @@ This directory is the documentation source of truth for the current repository.
 
 - [`features/ANM019F_COMPLETE_SCREENPLAY_LOCALIZATION_RU.md`](features/ANM019F_COMPLETE_SCREENPLAY_LOCALIZATION_RU.md)
 - [`features/ANM020_LOCALIZATION_COMPLETION_AUDIT_RU.md`](features/ANM020_LOCALIZATION_COMPLETION_AUDIT_RU.md)
+
+
+## Character production
+
+- [`art/CHARACTER_PRODUCTION_CONTRACT_RU.md`](art/CHARACTER_PRODUCTION_CONTRACT_RU.md) — постоянный production-контракт character rigs.
+- [`art/CHARACTER_BRIEFS_RU.md`](art/CHARACTER_BRIEFS_RU.md) — briefs оставшихся production-персонажей.
+- [`art/CHARACTER_USAGE_MANIFEST.json`](art/CHARACTER_USAGE_MANIFEST.json) — machine-readable usage manifest ANM-021.
+- [`features/ANM021A_CHARACTER_PRODUCTION_PLANNING_RU.md`](features/ANM021A_CHARACTER_PRODUCTION_PLANNING_RU.md)
+- [`features/ANM021B_EMI_PRODUCTION_RIG_RU.md`](features/ANM021B_EMI_PRODUCTION_RIG_RU.md)

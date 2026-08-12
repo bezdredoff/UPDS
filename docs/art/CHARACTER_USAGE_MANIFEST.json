@@ -1,0 +1,172 @@
+{
+  "feature": "ANM-021A",
+  "baseline": {
+    "productionCharacters": [
+      "miku",
+      "onoe",
+      "ayuki"
+    ],
+    "placeholderCharacters": [
+      "emi",
+      "kentaro",
+      "norihiro",
+      "mayu"
+    ],
+    "canvas": {
+      "poseA": [
+        1024,
+        1536
+      ],
+      "face": [
+        512,
+        512
+      ],
+      "medallion": [
+        256,
+        256
+      ]
+    },
+    "runtimeExpressions": [
+      "neutral",
+      "smile",
+      "serious",
+      "surprised",
+      "embarrassed",
+      "speaking",
+      "blink"
+    ]
+  },
+  "characters": {
+    "emi": {
+      "displayName": "Эми Такахаси",
+      "age": 19,
+      "role": "участница легкоатлетического клуба; первая пострадавшая",
+      "storyScenes": [
+        "VN_SCENE_00_PROLOGUE",
+        "VN_SCENE_01_E0_PRE",
+        "VN_SCENE_02_E0_POST"
+      ],
+      "authoredEmotionCoverage": [
+        "surprised",
+        "embarrassed",
+        "serious",
+        "neutral",
+        "smile"
+      ],
+      "highValueMoments": [
+        "VN0022",
+        "VN0024",
+        "VN0026",
+        "VN0032",
+        "VN0042A",
+        "VN0045C",
+        "VN0050",
+        "VN0064",
+        "VN0066",
+        "VN0072",
+        "VN0077"
+      ],
+      "poseBFile": "pose_b_guarded_athlete.png",
+      "poseBIntent": "защитная, но не беспомощная стойка; подчёркивает границы и агентность Эми",
+      "priority": "highest"
+    },
+    "kentaro": {
+      "displayName": "Кэнтаро Фудзита",
+      "age": 20,
+      "role": "фотограф студенческого новостного канала; первый ложный подозреваемый",
+      "storyScenes": [
+        "VN_SCENE_03_E1_PRE",
+        "VN_SCENE_04_E1_POST"
+      ],
+      "authoredEmotionCoverage": [
+        "neutral",
+        "serious",
+        "embarrassed",
+        "smile",
+        "surprised"
+      ],
+      "highValueMoments": [
+        "VN0086",
+        "VN0088",
+        "VN0090",
+        "VN0092",
+        "VN0098",
+        "VN0100",
+        "VN0101",
+        "VN0105",
+        "VN0115",
+        "VN0122",
+        "VN0124",
+        "VN0129",
+        "VN0133",
+        "VN0140"
+      ],
+      "poseBFile": "pose_b_camera_explaining.png",
+      "poseBIntent": "камера/карта памяти в руке; неловко пытается объяснить очевидно подозрительную ситуацию",
+      "priority": "high"
+    },
+    "norihiro": {
+      "displayName": "Норихиро Сэнда",
+      "age": 21,
+      "role": "менеджер клуба плавания; второй ложный подозреваемый",
+      "storyScenes": [
+        "VN_SCENE_05_E2_PRE",
+        "VN_SCENE_06_E2_POST",
+        "VN_SCENE_07_E3_PRE",
+        "VN_SCENE_08_E3_POST"
+      ],
+      "authoredEmotionCoverage": [
+        "neutral",
+        "serious",
+        "smile",
+        "surprised"
+      ],
+      "highValueMoments": [
+        "VN0150",
+        "VN0154",
+        "VN0156",
+        "VN0160",
+        "VN0165",
+        "VN0172",
+        "VN0177",
+        "VN0183",
+        "VN0185",
+        "VN0194",
+        "VN0196",
+        "VN0200",
+        "VN0204",
+        "VN0206",
+        "VN0208",
+        "VN0213",
+        "VN0220",
+        "VN0222",
+        "VN0232",
+        "VN0235"
+      ],
+      "poseBFile": "pose_b_tablet_keys.png",
+      "poseBIntent": "планшет/ключи менеджера; спокойная компетентность без злодейского кодирования",
+      "priority": "high"
+    },
+    "mayu": {
+      "displayName": "Маю Хаясака",
+      "age": 22,
+      "role": "казначей студсовета; посредник администрации",
+      "storyScenes": [
+        "VN_SCENE_01_E0_PRE"
+      ],
+      "branchConstraint": "только CHOICE_00 вариант C в текущем vertical slice",
+      "authoredEmotionCoverage": [
+        "neutral",
+        "serious"
+      ],
+      "highValueMoments": [
+        "VN0044C",
+        "VN0046C"
+      ],
+      "poseBFile": "pose_b_phone_documents.png",
+      "poseBIntent": "телефон/папка с документами; вежливая институциональная напряжённость",
+      "priority": "medium-now/high-future"
+    }
+  },
+  "productionRule": "Несмотря на разный authored emotion coverage, каждый герой получает полный 9-file runtime set для совместимости с текущим CharacterRig; usage coverage определяет QA-приоритет и характер выражений, а не удаление обязательных файлов."
+}
