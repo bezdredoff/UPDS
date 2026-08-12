@@ -34,4 +34,13 @@ describe('ANM-022D special shape taxonomy', () => {
     expect(docs).toContain('ANM-022E');
     expect(docs).toContain('special-special');
   });
+  it('resolves a creation-only 2x2 Lead by consuming the square and preserving the Lead cell', async () => {
+    const source = await readFile(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
+    expect(source).toContain('consumed?: readonly number[]');
+    expect(source).toContain("kind: 'lead', consumed: square");
+    expect(source).toContain('cascade === 0 && playerCreations.length > 0');
+    expect(source).toContain('creationConsumed');
+    expect(source).toContain('clear.delete(creation)');
+  });
+
 });

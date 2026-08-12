@@ -1,6 +1,6 @@
 # ANM-022D R1 — Narrative Special Taxonomy
 
-Build: `0.22.0-anm022d-r1.2`.
+Build: `0.22.0-anm022d-r1.3`.
 
 ## Production vocabulary
 
@@ -44,3 +44,20 @@ SVG геометрические и не зависят от image-generation pi
 
 Discarded pre-R1 ANM-022E package must not be imported.
 ANM-022E is to be rebuilt on this narrative taxonomy.
+
+
+## R1.3 — 2×2 resolution fix
+
+Manual iPhone QA found that a valid 2×2 Lead move was accepted but the square did not resolve.
+
+Root cause:
+- a 2×2 has no normal match-3 group;
+- the resolve loop previously required a normal match or activated special;
+- the Lead creation stored only its destination cell, not the four consumed square cells.
+
+R1.3 contract:
+- a creation-only first resolution is valid;
+- the full 2×2 square participates in the clear;
+- the destination cell is removed from the clear and remains as the new `Lead`;
+- the other three cells are cleared, then normal settle/spawn continues;
+- the move still costs exactly one move and reports COMBO.

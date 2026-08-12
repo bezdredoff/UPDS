@@ -57,7 +57,7 @@ export type HintMove = Readonly<{
   score: number;
 }>;
 
-type SpecialCreation = Readonly<{ index: number; kind: SpecialKind }>;
+type SpecialCreation = Readonly<{ index: number; kind: SpecialKind; consumed?: readonly number[] }>;
 
 type SwapEvaluation = Readonly<{
   valid: boolean;
@@ -347,14 +347,19 @@ export class Match3Game {
     let groups = [...initialGroups];
     let specialActivations = [...activatedSpecials];
 
-    for (let cascade = 0; cascade < 24 && (groups.length > 0 || specialActivations.length > 0); cascade += 1) {
+    for (
+      let cascade = 0;
+      cascade < 24 && (groups.length > 0 || specialActivations.length > 0 || (cascade === 0 && playerCreations.length > 0));
+      cascade += 1
+    ) {
       totals.cascades += 1;
       const matched = new Set(groups.flatMap((group) => [...group.indices]));
       const creations = totals.cascades === 1
-        ? new Map(playerCreations.map((creation) => [creation.index, creation.kind] as const))
-        : new Map<number, SpecialKind>();
+        ? new Map(playerCreations.map((creation) => [creation.index, creation] as const))
+        : new Map<number, SpecialCreation>();
 
-      const clear = new Set<number>([...matched, ...specialActivations]);
+      const creationConsumed = [...creations.values()].flatMap((creation) => [...(creation.consumed ?? [])]);
+      const clear = new Set<number>([...matched, ...specialActivations, ...creationConsumed]);
       this.expandSpecialEffects(clear);
       for (const creation of creations.keys()) {
         if (!specialActivations.includes(creation)) clear.delete(creation);
@@ -380,10 +385,10 @@ export class Match3Game {
       totals.cleared += clearedThisCascade;
       totals.blockersCleared += this.damageBlockers(clear);
 
-      for (const [index, special] of creations) {
+      for (const [index, creation] of creations) {
         const cell = this.cells[index];
         if (!cell.tile || clear.has(index)) continue;
-        cell.special = special;
+        cell.special = creation.kind;
         totals.specialsCreated += 1;
       }
 
@@ -446,7 +451,8 @@ export class Match3Game {
             indexOf(top + 1, left + 1),
           ];
           if (square.every((index) => this.cells[index]?.tile === tile)) {
-            candidates.push({ index: square.includes(second) ? second : anchor, kind: 'lead' });
+            const index = square.includes(second) ? second : anchor;
+            candidates.push({ index, kind: 'lead', consumed: square });
           }
         }
       }
@@ -462,9 +468,9 @@ export class Match3Game {
   }
 
   private uniqueCreations(creations: readonly SpecialCreation[]): readonly SpecialCreation[] {
-    const byIndex = new Map<number, SpecialKind>();
-    for (const creation of creations) if (!byIndex.has(creation.index)) byIndex.set(creation.index, creation.kind);
-    return [...byIndex].map(([index, kind]) => ({ index, kind }));
+    const byIndex = new Map<number, SpecialCreation>();
+    for (const creation of creations) if (!byIndex.has(creation.index)) byIndex.set(creation.index, creation);
+    return [...byIndex.values()];
   }
 
   private classifyPlayerMove(
