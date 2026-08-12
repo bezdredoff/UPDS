@@ -277,3 +277,61 @@
 @media (orientation: landscape) and (max-height: 500px) {
   .board { width: min(55dvh, 310px); }
 }
+
+/* ANM-025B narrative level context: page environment and local board material are independent. */
+.match-screen[data-m3-profile='locker-search'] .match-shade {
+  background: linear-gradient(180deg, #0b243078 0%, #102d3591 42%, #071328e8 100%);
+}
+.match-screen[data-m3-profile='photo-alibi'] .match-shade {
+  background: linear-gradient(180deg, #291b3166 0%, #251d3994 44%, #0b1730e8 100%);
+}
+.match-screen[data-m3-profile='pool-laundry'] .match-shade {
+  background: linear-gradient(180deg, #0b344170 0%, #1035449c 44%, #071e31e8 100%);
+}
+.match-screen[data-m3-profile='ordered-inspection'] .match-shade {
+  background: linear-gradient(180deg, #32251d73 0%, #2b263598 44%, #10162ae8 100%);
+}
+
+.match-screen[data-m3-board-surface='locker-bench'] .board {
+  background:
+    repeating-linear-gradient(90deg, #ffffff08 0 2px, transparent 2px 47px),
+    linear-gradient(180deg, #183b49, #0b2639 52%, #0a1d35);
+}
+.match-screen[data-m3-board-surface='photo-contact-sheet'] .board {
+  background:
+    linear-gradient(90deg, transparent 0 48%, #e8d6a910 48% 52%, transparent 52%),
+    linear-gradient(0deg, transparent 0 48%, #e8d6a910 48% 52%, transparent 52%),
+    linear-gradient(155deg, #392c48, #142747 58%, #0a1b35);
+}
+.match-screen[data-m3-board-surface='pool-service-tile'] .board {
+  background:
+    repeating-linear-gradient(0deg, #b9e6dc0d 0 1px, transparent 1px 24px),
+    repeating-linear-gradient(90deg, #b9e6dc0d 0 1px, transparent 1px 24px),
+    linear-gradient(160deg, #17505a, #12364a 48%, #0a2139);
+}
+.match-screen[data-m3-board-surface='ordered-cabinet'] .board {
+  background:
+    repeating-linear-gradient(90deg, #d8b2750b 0 1px, transparent 1px 52px),
+    linear-gradient(165deg, #493a38, #27324a 48%, #101c32);
+}
+
+.match-screen[data-m3-board-frame='photo-file'] .board {
+  border-color: #ead9b7;
+  outline-color: #3b2948;
+  box-shadow: 0 0 0 2px #c49b6d, 0 9px 20px #050b1ea8;
+}
+.match-screen[data-m3-board-frame='wet-service'] .board {
+  border-color: #d9efe0;
+  outline-color: #164754;
+  box-shadow: 0 0 0 2px #78b5a4, 0 9px 20px #03121da8;
+}
+.match-screen[data-m3-board-frame='precision-file'] .board {
+  border-color: #efe1c4;
+  outline-color: #342d39;
+  box-shadow: 0 0 0 2px #a88b5d, 0 9px 20px #080b16a8;
+}
+.match-screen[data-m3-board-frame='evidence-file'] .board {
+  border-color: var(--m3-paper);
+  outline-color: var(--m3-navy);
+  box-shadow: 0 0 0 2px var(--m3-gold), 0 9px 20px #050b1ea8;
+}

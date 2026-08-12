@@ -1,4 +1,4 @@
-import type { BackgroundKey } from './narrative';
+import type { Match3LevelContext } from './match3Context';
 
 export const BOARD_SIZE = 8;
 
@@ -20,7 +20,7 @@ export type LevelDefinition = Readonly<{
   shortId: string;
   title: string;
   storyAction: string;
-  background: BackgroundKey;
+  context: Match3LevelContext;
   moves: number;
   objectives: readonly LevelObjective[];
   blocker: BlockerKey;
@@ -79,7 +79,15 @@ export const levels: readonly LevelDefinition[] = [
     shortId: 'M3_00',
     title: 'Шкафчик Эми',
     storyAction: 'Зафиксировать содержимое шкафчика и найти связь с прачечной.',
-    background: 'lockerAthletics',
+    context: {
+      sourceSceneId: 'VN_SCENE_01_E0_PRE',
+      pageBackground: 'lockerAthletics',
+      boardSurface: 'locker-bench',
+      boardFrame: 'evidence-file',
+      narrativeProfile: 'locker-search',
+      participants: ['miku', 'onoe', 'ayuki', 'emi'],
+      narrativeTags: ['locker-room', 'laundry', 'missing-underwear', 'evidence-sort'],
+    },
     moves: 24,
     objectives: [
       { kind: 'collect', tile: 'camisole', target: 8, label: 'Ткань' },
@@ -104,7 +112,15 @@ export const levels: readonly LevelDefinition[] = [
     shortId: 'M3_01',
     title: 'Фотореквизит Кэнтаро',
     storyAction: 'Разобрать реквизит по номерам и найти карту памяти с таймкодами.',
-    background: 'kentaroApartment',
+    context: {
+      sourceSceneId: 'VN_SCENE_03_E1_PRE',
+      pageBackground: 'kentaroApartment',
+      boardSurface: 'photo-contact-sheet',
+      boardFrame: 'photo-file',
+      narrativeProfile: 'photo-alibi',
+      participants: ['miku', 'onoe', 'ayuki', 'kentaro'],
+      narrativeTags: ['apartment', 'photo-props', 'timeline', 'alibi'],
+    },
     moves: 26,
     objectives: [
       { kind: 'clearBlockers', target: 10, label: 'Коробки' },
@@ -127,7 +143,15 @@ export const levels: readonly LevelDefinition[] = [
     shortId: 'M3_02',
     title: 'Мокрые показания',
     storyAction: 'Восстановить партию стирки, очистить пену и открыть сервисный шкаф.',
-    background: 'poolLocker',
+    context: {
+      sourceSceneId: 'VN_SCENE_05_E2_PRE',
+      pageBackground: 'poolLocker',
+      boardSurface: 'pool-service-tile',
+      boardFrame: 'wet-service',
+      narrativeProfile: 'pool-laundry',
+      participants: ['miku', 'onoe', 'ayuki', 'norihiro'],
+      narrativeTags: ['pool-locker', 'laundry', 'foam', 'service-access'],
+    },
     moves: 25,
     objectives: [
       { kind: 'clearBlockers', target: 18, label: 'Пена' },
@@ -150,7 +174,15 @@ export const levels: readonly LevelDefinition[] = [
     shortId: 'M3_03',
     title: 'Идеальный порядок',
     storyAction: 'Проверить возвращённый мешок и найти предмет с новым повреждением.',
-    background: 'norihiroApartment',
+    context: {
+      sourceSceneId: 'VN_SCENE_07_E3_PRE',
+      pageBackground: 'norihiroApartment',
+      boardSurface: 'ordered-cabinet',
+      boardFrame: 'precision-file',
+      narrativeProfile: 'ordered-inspection',
+      participants: ['miku', 'onoe', 'ayuki', 'norihiro'],
+      narrativeTags: ['apartment', 'ordered-storage', 'returned-laundry', 'tampering'],
+    },
     moves: 27,
     objectives: [
       { kind: 'clearBlockers', target: 8, label: 'Секции' },
@@ -186,6 +218,10 @@ export function validateLevelDefinitions(definitions: readonly LevelDefinition[]
     ids.add(level.id);
     if (level.moves <= 0) errors.push(`${level.id}: moves must be positive`);
     if (level.objectives.length === 0) errors.push(`${level.id}: no objectives`);
+    if (level.context.participants.length === 0) errors.push(`${level.id}: no narrative participants`);
+    if (new Set(level.context.participants).size !== level.context.participants.length) errors.push(`${level.id}: duplicate narrative participant`);
+    if (level.context.narrativeTags.length === 0) errors.push(`${level.id}: no narrative tags`);
+    if (new Set(level.context.narrativeTags).size !== level.context.narrativeTags.length) errors.push(`${level.id}: duplicate narrative tag`);
     if (level.blockers.some(({ index }) => index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: blocker outside board`);
     if (new Set(level.blockers.map(({ index }) => index)).size !== level.blockers.length) errors.push(`${level.id}: duplicate blocker cell`);
     if (level.ingredients.some(({ index }) => index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: ingredient outside board`);

@@ -36,6 +36,10 @@ export class Match3Controller {
   private characterName(key: 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro'): string { return this.t(`character.${key}`); }
   private bark(key: string, speaker: 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro', params?: Readonly<Record<string, string | number>>): Bark { return { speaker: this.characterName(speaker), text: this.t(`match3.bark.${key}`, params) }; }
   private levelBark(level: LevelDefinition, kind: 'start' | 'win'): Bark { return { speaker: this.t(`match3.level.${level.id}.${kind}Bark.speaker`), text: this.t(`match3.level.${level.id}.${kind}Bark.text`) }; }
+  private contextAttrs(level: LevelDefinition): string {
+    const context = level.context;
+    return `data-m3-page="${escapeHtml(context.pageBackground)}" data-m3-board-surface="${escapeHtml(context.boardSurface)}" data-m3-board-frame="${escapeHtml(context.boardFrame)}" data-m3-profile="${escapeHtml(context.narrativeProfile)}"`;
+  }
 
   private activeMatch: Match3Game | null = null;
   private activeLevelIndex = 0;
@@ -113,7 +117,7 @@ export class Match3Controller {
   private preloadMatchAssets(level: LevelDefinition): void {
     if (typeof Image === 'undefined') return;
     const assets = [
-      backgroundAssets[level.background],
+      backgroundAssets[level.context.pageBackground],
       blockerPresentation[level.blocker].asset,
       specialAsset,
       ...Object.values(specialAssets),
@@ -132,8 +136,8 @@ export class Match3Controller {
     this.preloadMatchAssets(level);
     this.activeLevelIndex = levelIndex;
     this.activeMatch = null;
-    this.shell.render(`<section class="level-intro">
-      <img class="level-intro-background" src="${backgroundAssets[level.background]}" alt="">
+    this.shell.render(`<section class="level-intro" ${this.contextAttrs(level)}>
+      <img class="level-intro-background" src="${backgroundAssets[level.context.pageBackground]}" alt="">
       <div class="level-intro-shade"></div>
       <header class="app-header match-topbar intro-topbar">
         ${headerActionMarkup('back', 'back', this.t('common.back'), undefined, 'app-header-back')}
@@ -166,7 +170,7 @@ export class Match3Controller {
     this.activeLevelIndex = levelIndex;
     this.activeMatch = new Match3Game(level, level.seed + attempt * 101);
     this.matchAttemptStartedAt = Date.now();
-    this.services.telemetry.track('match_start', { levelId: level.id, levelIndex, attempt, moveBudget: level.moves });
+    this.services.telemetry.track('match_start', { levelId: level.id, levelIndex, attempt, moveBudget: level.moves, narrativeProfile: level.context.narrativeProfile, pageBackground: level.context.pageBackground, boardSurface: level.context.boardSurface });
     this.selectedCell = null;
     this.matchInputLocked = false;
     this.activePointer = null;
@@ -221,8 +225,8 @@ export class Match3Controller {
     const level = game.level;
     const blocker = blockerPresentation[level.blocker];
 
-    this.shell.render(`<section class="match-screen">
-      <img class="match-background" src="${backgroundAssets[level.background]}" alt="">
+    this.shell.render(`<section class="match-screen" ${this.contextAttrs(level)}>
+      <img class="match-background" src="${backgroundAssets[level.context.pageBackground]}" alt="">
       <div class="match-shade"></div>
       <header class="app-header match-topbar">
         ${headerActionMarkup('quit', 'back', this.t('match3.backToInvestigation'), undefined, 'app-header-back')}
@@ -742,8 +746,8 @@ export class Match3Controller {
     this.services.telemetry.trackScreen('evidence', level.id);
     this.services.audio.play('clue');
     const clue = cluePresentation[level.clueId];
-    this.shell.render(`<section class="evidence-transition">
-      <img class="evidence-background" src="${backgroundAssets[level.background]}" alt="">
+    this.shell.render(`<section class="evidence-transition" ${this.contextAttrs(level)}>
+      <img class="evidence-background" src="${backgroundAssets[level.context.pageBackground]}" alt="">
       <div class="evidence-panel">
         <p class="eyebrow">${escapeHtml(this.t('match3.evidenceFound'))}</p>
         <img src="${clue.asset}" alt="${escapeHtml(this.t(`match3.clue.${level.clueId}`))}">
