@@ -51,10 +51,10 @@ Target для первого UPDS pass: принять Raven-like правило
 UPDS: swap с special активирует участвующие specials; recursive line effects есть, но bespoke pair semantics отсутствуют.
 
 Target staged implementation:
-- row/column + row/column → cross;
-- line + area → expanded cross;
-- area + area → larger area;
-- insight + normal → clear selected tile type.
+- Flash + Flash → cross;
+- Flash + Evidence → expanded cross;
+- Evidence + Evidence → larger area;
+- Insight + normal → clear selected tile type.
 Unsupported pairs должны иметь явный deterministic fallback.
 
 ### 4. Available-move consistency
@@ -114,7 +114,7 @@ No move-budget changes.
 Add area/prism-style special kinds and player-resolution-only creation priority.
 No special-special combos yet.
 
-### ANM-022E — Special Combination Matrix
+### ANM-022E — Special Combination Matrix ✅
 Implement a small explicit combo matrix and deterministic unsupported fallback.
 
 ### ANM-022F — Interaction Guidance

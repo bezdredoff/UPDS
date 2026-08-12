@@ -9,6 +9,16 @@ import {
 export type SpecialKind = 'flash-row' | 'flash-column' | 'evidence' | 'lead' | 'insight';
 export type MatchFeedbackKind = 'match' | 'combo' | 'chain' | 'special';
 
+export type DirectSpecialCombo =
+  | 'flash-flash'
+  | 'flash-evidence'
+  | 'evidence-evidence'
+  | 'lead-flash'
+  | 'lead-evidence'
+  | 'insight-normal'
+  | 'insight-special'
+  | 'fallback';
+
 export type BoardCell = Readonly<{
   tile: TileKey | null;
   ingredient: IngredientKey | null;
@@ -65,6 +75,7 @@ type SwapEvaluation = Readonly<{
   groups: readonly MatchGroup[];
   activatedSpecials: readonly number[];
   creations: readonly SpecialCreation[];
+  directCombo: DirectSpecialCombo | null;
 }>;
 
 export type MoveResult = Readonly<{
@@ -194,6 +205,7 @@ export class Match3Game {
     const groups = [...evaluation.groups];
     const activatedSpecials = [...evaluation.activatedSpecials];
     const creations = [...evaluation.creations];
+    const directCombo = evaluation.directCombo;
 
     const frames: Match3Frame[] = [{
       phase: 'swap',
@@ -203,7 +215,7 @@ export class Match3Game {
     }];
 
     this.movesLeft -= 1;
-    const totals = this.resolve(groups, activatedSpecials, creations, frames, primaryFeedback);
+    const totals = this.resolve(groups, activatedSpecials, creations, directCombo, first, second, frames, primaryFeedback);
     let reshuffled = false;
     if (!this.won && !this.lost && !this.hasAvailableMove()) {
       this.shuffle();
@@ -300,6 +312,7 @@ export class Match3Game {
       groups: [],
       activatedSpecials: [],
       creations: [],
+      directCombo: null,
     });
     if (first === second) return empty('same-cell');
     if (!this.areAdjacent(first, second)) return empty('not-adjacent');
@@ -307,6 +320,10 @@ export class Match3Game {
     if (this.isLockedCell(first) || this.isLockedCell(second)) return empty('blocked');
 
     const sameTile = this.cells[first].tile === this.cells[second].tile;
+    const firstSpecial = this.cells[first].special;
+    const secondSpecial = this.cells[second].special;
+    const directCombo = this.getDirectSpecialCombo(firstSpecial, secondSpecial);
+
     this.swapContents(first, second);
     const activatedSpecials = [first, second].filter((index) => this.cells[index].special !== null);
     const groups = this.findMatchGroups();
@@ -315,8 +332,8 @@ export class Match3Game {
       : this.findPlayerSpecialCreations(groups, first, second);
     this.swapContents(first, second);
 
-    if (groups.length === 0 && activatedSpecials.length === 0 && creations.length === 0) return empty('no-match');
-    return { valid: true, groups, activatedSpecials, creations };
+    if (groups.length === 0 && activatedSpecials.length === 0 && creations.length === 0 && directCombo === null) return empty('no-match');
+    return { valid: true, groups, activatedSpecials, creations, directCombo };
   }
 
   private fillInitialTiles(): void {
@@ -340,6 +357,9 @@ export class Match3Game {
     initialGroups: readonly MatchGroup[],
     activatedSpecials: readonly number[],
     playerCreations: readonly SpecialCreation[],
+    directCombo: DirectSpecialCombo | null,
+    first: number,
+    second: number,
     frames: Match3Frame[],
     primaryFeedback: MatchFeedbackKind,
   ): ResolutionTotals {
@@ -360,6 +380,7 @@ export class Match3Game {
 
       const creationConsumed = [...creations.values()].flatMap((creation) => [...(creation.consumed ?? [])]);
       const clear = new Set<number>([...matched, ...specialActivations, ...creationConsumed]);
+      if (totals.cascades === 1 && directCombo) this.expandDirectSpecialCombo(clear, directCombo, first, second);
       this.expandSpecialEffects(clear);
       for (const creation of creations.keys()) {
         if (!specialActivations.includes(creation)) clear.delete(creation);
@@ -541,6 +562,103 @@ export class Match3Game {
     }
 
     return score;
+  }
+
+  private getDirectSpecialCombo(
+    first: SpecialKind | null,
+    second: SpecialKind | null,
+  ): DirectSpecialCombo | null {
+    const isFlash = (kind: SpecialKind | null): boolean => kind === 'flash-row' || kind === 'flash-column';
+    if (!first && !second) return null;
+    if ((first === 'insight' && !second) || (second === 'insight' && !first)) return 'insight-normal';
+    if (first === 'insight' || second === 'insight') return 'insight-special';
+    if (isFlash(first) && isFlash(second)) return 'flash-flash';
+    if ((isFlash(first) && second === 'evidence') || (first === 'evidence' && isFlash(second))) return 'flash-evidence';
+    if (first === 'evidence' && second === 'evidence') return 'evidence-evidence';
+    if ((first === 'lead' && isFlash(second)) || (isFlash(first) && second === 'lead')) return 'lead-flash';
+    if ((first === 'lead' && second === 'evidence') || (first === 'evidence' && second === 'lead')) return 'lead-evidence';
+    if (first || second) return 'fallback';
+    return null;
+  }
+
+  private expandDirectSpecialCombo(
+    clear: Set<number>,
+    combo: DirectSpecialCombo,
+    first: number,
+    second: number,
+  ): void {
+    const centre = second;
+    const addRow = (row: number): void => {
+      for (let column = 0; column < BOARD_SIZE; column += 1) clear.add(indexOf(row, column));
+    };
+    const addColumn = (column: number): void => {
+      for (let row = 0; row < BOARD_SIZE; row += 1) clear.add(indexOf(row, column));
+    };
+    const addArea = (radius: number): void => {
+      for (let row = Math.max(0, rowOf(centre) - radius); row <= Math.min(BOARD_SIZE - 1, rowOf(centre) + radius); row += 1) {
+        for (let column = Math.max(0, colOf(centre) - radius); column <= Math.min(BOARD_SIZE - 1, colOf(centre) + radius); column += 1) {
+          clear.add(indexOf(row, column));
+        }
+      }
+    };
+
+    if (combo === 'flash-flash') {
+      addRow(rowOf(centre));
+      addColumn(colOf(centre));
+      return;
+    }
+    if (combo === 'flash-evidence') {
+      for (const row of [rowOf(centre) - 1, rowOf(centre), rowOf(centre) + 1]) {
+        if (row >= 0 && row < BOARD_SIZE) addRow(row);
+      }
+      for (const column of [colOf(centre) - 1, colOf(centre), colOf(centre) + 1]) {
+        if (column >= 0 && column < BOARD_SIZE) addColumn(column);
+      }
+      return;
+    }
+    if (combo === 'evidence-evidence') {
+      addArea(2);
+      return;
+    }
+    if (combo === 'lead-flash') {
+      addRow(rowOf(centre));
+      addColumn(colOf(centre));
+      for (const target of this.leadTargets(centre)) clear.add(target);
+      return;
+    }
+    if (combo === 'lead-evidence') {
+      addArea(2);
+      for (const target of this.leadTargets(centre)) clear.add(target);
+      return;
+    }
+    if (combo === 'insight-normal') {
+      const insightIndex = this.cells[first]?.special === 'insight' ? first : second;
+      const normalIndex = insightIndex === first ? second : first;
+      const tile = this.cells[normalIndex]?.tile;
+      if (tile) {
+        this.cells.forEach((cell, index) => {
+          if (cell.tile === tile) clear.add(index);
+        });
+      }
+      clear.add(insightIndex);
+      return;
+    }
+    if (combo === 'insight-special') {
+      const insightIndex = this.cells[first]?.special === 'insight' ? first : second;
+      const partnerIndex = insightIndex === first ? second : first;
+      const tile = this.cells[partnerIndex]?.tile;
+      if (tile) {
+        this.cells.forEach((cell, index) => {
+          if (cell.tile === tile) clear.add(index);
+        });
+      }
+      clear.add(insightIndex);
+      clear.add(partnerIndex);
+      return;
+    }
+
+    clear.add(first);
+    clear.add(second);
   }
 
   private expandSpecialEffects(clear: Set<number>): void {
