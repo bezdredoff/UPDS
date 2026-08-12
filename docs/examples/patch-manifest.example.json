@@ -1,0 +1,10 @@
+{
+  "format": "upds-delta-v1",
+  "feature": "ANM-022F",
+  "baseSha": "REPLACE_WITH_CURRENT_MAIN_SHA",
+  "files": [
+    "src/features/match3/Match3Controller.ts",
+    "tests/Match3InteractionGuidance.test.ts"
+  ],
+  "delete": []
+}
