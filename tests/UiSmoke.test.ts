@@ -80,7 +80,6 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).not.toContain('id="config"');
 
     const placeholderCases = [
-      { scene: 1, speaker: 'ЭМИ', label: 'Эми', choice: 'A' as ChoiceId },
       { scene: 1, speaker: 'МАЮ', label: 'Маю', choice: 'C' as ChoiceId },
       { scene: 3, speaker: 'КЭНТАРО', label: 'Кэнтаро', choice: 'A' as ChoiceId },
       { scene: 5, speaker: 'НОРИХИРО', label: 'Норихиро', choice: 'A' as ChoiceId },

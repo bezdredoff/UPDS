@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { characterRigs, characterForSpeaker, placeholderForSpeaker } from '../src/data/characterRigs';
 import { runtimeAssetCatalog } from '../src/platform/RuntimeAssets';
 
-const production = ['miku', 'onoe', 'ayuki'] as const;
+const production = ['miku', 'onoe', 'ayuki', 'emi'] as const;
 
 describe('ANM-021B R4 expression frame contract', () => {
   it('uses five precomposed expression frames per production character', () => {
@@ -15,10 +15,6 @@ describe('ANM-021B R4 expression frame contract', () => {
     }
   });
 
-  it('keeps rejected Emi on placeholder until a new master is approved', () => {
-    expect(characterForSpeaker('ЭМИ')).toBeNull();
-    expect(placeholderForSpeaker('ЭМИ')).toBe('emi');
-  });
 
   it('renders one expression image and no face overlay animation', async () => {
     const source = await readFile(new URL('../src/features/vn/VnController.ts', import.meta.url), 'utf8');

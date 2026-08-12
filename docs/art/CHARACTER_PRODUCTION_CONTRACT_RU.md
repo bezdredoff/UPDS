@@ -83,3 +83,7 @@ Runtime contract:
 
 Разница роста должна быть художественно заложена в согласованный 1024×1536 master canvas либо отдельно утверждена
 в staging metadata. Нельзя «подгонять голову» случайным zoom на отдельной сцене.
+
+
+## ANM-021B R6
+Новый Emi master approved и интегрирован по precomposed-frame/R5 staging contract.

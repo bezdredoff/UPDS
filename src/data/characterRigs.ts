@@ -1,6 +1,6 @@
-export type CharacterKey = 'miku' | 'onoe' | 'ayuki';
+export type CharacterKey = 'miku' | 'onoe' | 'ayuki' | 'emi';
 export type RuntimeExpression = 'neutral' | 'smile' | 'serious' | 'surprised' | 'embarrassed';
-export type PlaceholderKey = 'emi' | 'kentaro' | 'norihiro' | 'mayu';
+export type PlaceholderKey = 'kentaro' | 'norihiro' | 'mayu';
 
 export type CharacterStaging = Readonly<{
   scale: number;
@@ -13,6 +13,7 @@ export const characterStaging: Record<CharacterKey, CharacterStaging> = {
   miku: { scale: 1, yPercent: 0 },
   onoe: { scale: 1, yPercent: 0 },
   ayuki: { scale: 1, yPercent: 0 },
+  emi: { scale: 1, yPercent: 0 },
 };
 
 export type CharacterRig = Readonly<{
@@ -44,6 +45,10 @@ export const characterRigs: Record<CharacterKey, CharacterRig> = {
   miku: rig('miku', 'Мику Араи', 'Мику', 'pose_b_pointing_sketchbook.png'),
   onoe: rig('onoe', 'Сацуки Оноэ', 'Оноэ', 'pose_b_evidence_bag.png'),
   ayuki: rig('ayuki', 'Аюки Момосэ', 'Аюки', 'pose_b_phone_theory.png'),
+  emi: {
+    ...rig('emi', 'Эми Такахаси', 'Эми', 'pose_b_arms_crossed.png'),
+    medallion: './assets/characters/emi/medallions/portrait_neutral_512.png',
+  },
 };
 
 export const placeholderCharacters: Record<PlaceholderKey, Readonly<{
@@ -51,7 +56,6 @@ export const placeholderCharacters: Record<PlaceholderKey, Readonly<{
   initials: string;
   accent: string;
 }>> = {
-  emi: { displayName: 'Эми', initials: 'Э', accent: '#d8667d' },
   kentaro: { displayName: 'Кэнтаро', initials: 'К', accent: '#6588b0' },
   norihiro: { displayName: 'Норихиро', initials: 'Н', accent: '#4a9a8b' },
   mayu: { displayName: 'Маю', initials: 'М', accent: '#a970a5' },
@@ -61,11 +65,11 @@ export function characterForSpeaker(speaker: string): CharacterKey | null {
   if (speaker.startsWith('МИКУ')) return 'miku';
   if (speaker === 'ОНОЭ') return 'onoe';
   if (speaker === 'АЮКИ') return 'ayuki';
+  if (speaker === 'ЭМИ') return 'emi';
   return null;
 }
 
 export function placeholderForSpeaker(speaker: string): PlaceholderKey | null {
-  if (speaker === 'ЭМИ') return 'emi';
   if (speaker === 'КЭНТАРО') return 'kentaro';
   if (speaker === 'НОРИХИРО') return 'norihiro';
   if (speaker === 'МАЮ') return 'mayu';
