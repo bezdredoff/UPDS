@@ -72,5 +72,12 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-      - name: Force-sync incoming branch
-        run: git push --force origin HEAD:incoming
+      - name: Force-sync incoming through a clean skip-CI commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          clean_tree="$(git rev-parse 'HEAD^{tree}')"
+          sync_commit="$(printf '%s\n' 'Sync incoming inbox to stable main [skip ci]' | git commit-tree "$clean_tree" -p HEAD)"
+          git push --force origin "$sync_commit:incoming"
