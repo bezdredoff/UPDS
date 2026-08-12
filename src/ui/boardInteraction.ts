@@ -7,13 +7,8 @@ export const DRAG_COMMIT_RATIO = 0.24;
 export const DRAG_TARGET_REACTION_RATIO = 0.035;
 export const DRAG_VISUAL_LIMIT_RATIO = 0.94;
 
-export const MOBILE_REGRESSION_VIEWPORTS = [
-  { width: 320, height: 568 },
-  { width: 375, height: 667 },
-  { width: 390, height: 844 },
-  { width: 393, height: 852 },
-  { width: 430, height: 932 },
-] as const;
+// Compatibility re-export. Viewport support belongs to the platform contract, not Match-3 input.
+export { MOBILE_REGRESSION_VIEWPORTS } from '../platform/ViewportContract';
 
 export type SwipeDirection = 'left' | 'right' | 'up' | 'down';
 
