@@ -1,6 +1,6 @@
 # ANM-024C — Shared Safe-Area Ownership
 
-Статус: candidate.
+Статус: complete; legacy fallback removed by ANM-024D.
 
 ## Цель
 
@@ -21,13 +21,13 @@ Menu, shared header, VN controls/overlay/status, level intro, Match-3, result, p
 
 Preview badge также использует общие токены.
 
-## Почему `style.css` пока сохраняет старые `env(...)`
+## Переходный слой 024C
 
 `style.css` сейчас около 52 KB. Для 024C мы намеренно не делаем большой механический rewrite этого файла в одном feature cut.
 
 Поскольку `viewport.css` импортируется после legacy presentation CSS, его правила являются эффективными runtime-значениями. Старые декларации остаются только fallback-слоем.
 
-Физическое удаление legacy `env(...)` — ANM-024D после regression matrix на:
+ANM-024D затем физически удаляет legacy `env(...)` после regression matrix на:
 
 - 320×568;
 - 375×667;
