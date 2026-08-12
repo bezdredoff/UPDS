@@ -418,7 +418,8 @@ export class VnController {
     const face = faceAsset(character, expression);
     return `<div class="portrait portrait-${side} character-rig" data-character="${character}">
       <img class="portrait-base" src="${rig.base}" alt="${rig.displayName}">
-      <img class="portrait-face ${face ? '' : 'is-hidden'}" src="${face ?? rig.faces.speaking}" alt="">
+      <img class="portrait-face portrait-expression ${face ? '' : 'is-hidden'}" src="${face ?? rig.faces.smile}" alt="">
+      <img class="portrait-face portrait-animation is-hidden" src="${rig.faces.speaking}" alt="">
     </div>`;
   }
 
@@ -440,31 +441,40 @@ export class VnController {
   }
 
   private animatePortrait(character: CharacterKey, baseExpression: RuntimeExpression): void {
-    const face = this.root.querySelector<HTMLImageElement>('.portrait-face');
-    if (!face) return;
+    const animation = this.root.querySelector<HTMLImageElement>('.portrait-animation');
+    if (!animation) return;
+
+    // Authored emotional expressions are immutable while the line is on screen.
+    // Legacy speaking/blink frames are now small animation patches and are used
+    // only on neutral lines, so animation can never replace smile/serious/etc.
+    if (baseExpression !== 'neutral') {
+      animation.classList.add('is-hidden');
+      return;
+    }
+
+    const rig = characterRigs[character];
     const startedAt = performance.now();
     let speaking = false;
-    const setFace = (expression: RuntimeExpression): void => {
-      const asset = faceAsset(character, expression);
-      face.classList.toggle('is-hidden', !asset);
-      if (asset) face.src = asset;
+    const showAnimation = (asset: string | null): void => {
+      animation.classList.toggle('is-hidden', !asset);
+      if (asset) animation.src = asset;
     };
 
     const talk = (): void => {
       if (performance.now() - startedAt > 1750) {
-        setFace(baseExpression);
+        showAnimation(null);
         return;
       }
       speaking = !speaking;
-      setFace(speaking ? 'speaking' : baseExpression);
+      showAnimation(speaking ? rig.faces.speaking : null);
       this.shell.schedule(talk, 120 + Math.round(Math.random() * 60));
     };
     this.shell.schedule(talk, 180);
 
     const blink = (): void => {
-      setFace('blink');
+      showAnimation(rig.faces.blink);
       this.shell.schedule(() => {
-        setFace(baseExpression);
+        showAnimation(null);
         this.shell.schedule(blink, 3400 + Math.round(Math.random() * 2800));
       }, 170);
     };

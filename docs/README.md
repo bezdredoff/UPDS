@@ -53,3 +53,5 @@ This directory is the documentation source of truth for the current repository.
 - [`art/CHARACTER_USAGE_MANIFEST.json`](art/CHARACTER_USAGE_MANIFEST.json) — machine-readable usage manifest ANM-021.
 - [`features/ANM021A_CHARACTER_PRODUCTION_PLANNING_RU.md`](features/ANM021A_CHARACTER_PRODUCTION_PLANNING_RU.md)
 - [`features/ANM021B_EMI_PRODUCTION_RIG_RU.md`](features/ANM021B_EMI_PRODUCTION_RIG_RU.md)
+
+- [`features/ANM021B_R3_FACE_RIG_QUALITY_PASS_RU.md`](features/ANM021B_R3_FACE_RIG_QUALITY_PASS_RU.md)
