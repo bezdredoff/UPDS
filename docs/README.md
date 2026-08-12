@@ -59,3 +59,4 @@ This directory is the documentation source of truth for the current repository.
 - [`design/MATCH3_MECHANICS_TARGET_RU.md`](design/MATCH3_MECHANICS_TARGET_RU.md) — целевой mechanics/feedback contract после ANM-022A.
 - [`features/ANM022A_MATCH3_MECHANICS_FEEDBACK_AUDIT_RU.md`](features/ANM022A_MATCH3_MECHANICS_FEEDBACK_AUDIT_RU.md)
 \n- [`features/ANM022B_SHARED_MOVE_LEGALITY_RU.md`](features/ANM022B_SHARED_MOVE_LEGALITY_RU.md)\n\n- [`features/ANM022C_FEEDBACK_SEMANTICS_RU.md`](features/ANM022C_FEEDBACK_SEMANTICS_RU.md)\n\n- [`features/ANM022D_SPECIAL_SHAPE_TAXONOMY_RU.md`](features/ANM022D_SPECIAL_SHAPE_TAXONOMY_RU.md)\n
+- [`features/ANM022E_NARRATIVE_SPECIAL_COMBINATIONS_RU.md`](features/ANM022E_NARRATIVE_SPECIAL_COMBINATIONS_RU.md)

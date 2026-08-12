@@ -38,7 +38,7 @@ Next atomic features:
 - ANM-022B shared move-legality/simulation contract — complete;
 - ANM-022C MATCH / COMBO / CHAIN / SPECIAL feedback semantics — complete;
 - ANM-022D expanded special shape taxonomy — complete;
-- ANM-022E explicit special-combination matrix;
+- ANM-022E explicit narrative special-combination matrix — complete;
 - ANM-022F inactivity hint/direct-special interaction polish.
 
 See `docs/design/MATCH3_MECHANICS_TARGET_RU.md`.
