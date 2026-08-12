@@ -8,6 +8,7 @@ describe('ANM-021B R5 VN character staging contract', () => {
       miku: { scale: 1, yPercent: 0 },
       onoe: { scale: 1, yPercent: 0 },
       ayuki: { scale: 1, yPercent: 0 },
+      emi: { scale: 1, yPercent: 0 },
     });
   });
 
