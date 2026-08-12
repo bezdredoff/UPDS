@@ -23,6 +23,10 @@ import { matchMotionDuration } from '../../ui/matchMotion';
 import { escapeHtml, headerActionMarkup } from '../../ui/viewMarkup';
 
 export type MatchOutcome = 'win' | 'loss' | 'abandon';
+export type MatchInteractionSource = 'tap' | 'drag' | 'double-tap';
+export type MatchHintSource = 'manual' | 'inactivity';
+export const MATCH_AUTO_HINT_DELAY_MS = 5000;
+export const SPECIAL_DOUBLE_TAP_WINDOW_MS = 360;
 type Bark = Readonly<{ speaker: string; text: string }>;
 
 export class Match3Controller {
@@ -43,6 +47,8 @@ export class Match3Controller {
   private suppressBoardClickUntil = 0;
   private hintedCells = new Set<number>();
   private matchAttemptStartedAt: number | null = null;
+  private autoHintTimer: number | null = null;
+  private lastTappedSpecial: { index: number; at: number } | null = null;
 
   constructor(
     private readonly root: HTMLElement,
@@ -56,10 +62,34 @@ export class Match3Controller {
   get hasActiveMatch(): boolean { return this.activeMatch !== null; }
 
   clearActiveMatch(): void {
+    this.clearAutoHintTimer();
     this.activeMatch = null;
     this.selectedCell = null;
     this.activePointer = null;
+    this.lastTappedSpecial = null;
     this.matchInputLocked = false;
+  }
+
+  private clearAutoHintTimer(): void {
+    if (this.autoHintTimer === null) return;
+    window.clearTimeout(this.autoHintTimer);
+    this.autoHintTimer = null;
+  }
+
+  private armAutoHint(): void {
+    this.clearAutoHintTimer();
+    const game = this.activeMatch;
+    if (!game || this.matchInputLocked || game.won || game.lost) return;
+    this.autoHintTimer = window.setTimeout(() => {
+      this.autoHintTimer = null;
+      this.showObjectiveHint('inactivity');
+    }, MATCH_AUTO_HINT_DELAY_MS);
+  }
+
+  private noteMatchActivity(): void {
+    this.hintedCells.clear();
+    this.root.querySelectorAll<HTMLElement>('.board-cell.hinted').forEach((cell) => cell.classList.remove('hinted'));
+    this.armAutoHint();
   }
 
   endActiveAttempt(outcome: MatchOutcome, reason = ''): void {
@@ -94,6 +124,8 @@ export class Match3Controller {
   }
 
   renderMatchIntro(levelIndex: number): void {
+    this.clearAutoHintTimer();
+    this.lastTappedSpecial = null;
     this.services.audio.setScene('match');
     this.services.telemetry.trackScreen('match-intro', levels[levelIndex]?.id ?? String(levelIndex));
     const level = levels[levelIndex];
@@ -141,7 +173,9 @@ export class Match3Controller {
     this.hintedCells.clear();
     this.triggeredBarks = new Set(['start']);
     this.matchBark = this.levelBark(level, 'start');
+    this.lastTappedSpecial = null;
     this.renderMatch();
+    this.armAutoHint();
   }
 
   private boardCellsMarkup(
@@ -228,27 +262,33 @@ export class Match3Controller {
 
     this.root.querySelector('#quit')?.addEventListener('click', () => {
       if (this.matchInputLocked) return;
+      this.clearAutoHintTimer();
       this.endActiveAttempt('abandon', 'back-to-intro');
       this.activeMatch = null;
       this.renderMatchIntro(this.activeLevelIndex);
     });
     this.root.querySelector('#dossier')?.addEventListener('click', () => {
       if (this.matchInputLocked) return;
-      this.navigation.showDossier(() => this.renderMatch());
+      this.clearAutoHintTimer();
+      this.navigation.showDossier(() => { this.renderMatch(); this.armAutoHint(); });
     });
     this.root.querySelector('#header-settings')?.addEventListener('click', () => {
       if (this.matchInputLocked) return;
-      this.navigation.showSettings(() => this.renderMatch(), true);
+      this.clearAutoHintTimer();
+      this.navigation.showSettings(() => { this.renderMatch(); this.armAutoHint(); }, true);
     });
-    this.root.querySelector('#hint')?.addEventListener('click', () => this.showObjectiveHint());
+    this.root.querySelector('#hint')?.addEventListener('click', () => {
+      this.noteMatchActivity();
+      this.showObjectiveHint('manual');
+    });
     this.installBoardInput();
   }
 
-  private showObjectiveHint(): void {
+  private showObjectiveHint(source: MatchHintSource): void {
     const game = this.activeMatch;
     if (!game || this.matchInputLocked) return;
     const hint = game.getHintMove();
-    this.services.telemetry.track('match_hint', { levelId: game.level.id, levelIndex: this.activeLevelIndex, movesLeft: game.movesLeft, available: Boolean(hint) });
+    this.services.telemetry.track('match_hint', { levelId: game.level.id, levelIndex: this.activeLevelIndex, movesLeft: game.movesLeft, available: Boolean(hint), source });
     this.selectedCell = null;
     this.hintedCells.clear();
     if (!hint) {
@@ -359,7 +399,7 @@ export class Match3Controller {
     }
   }
 
-  private async playMoveFrames(result: MoveResult, first: number, second: number): Promise<void> {
+  private async playMoveFrames(result: MoveResult, first: number, second: number, animateSwap = true): Promise<void> {
     const reduced = this.prefersReducedMatchMotion();
     this.clearDragPreview();
 
@@ -388,8 +428,10 @@ export class Match3Controller {
       return;
     }
 
-    this.services.audio.play('swap');
-    await this.animateSwapStacks(first, second, !reduced);
+    if (animateSwap) {
+      this.services.audio.play('swap');
+      await this.animateSwapStacks(first, second, !reduced);
+    }
 
     if (reduced) {
       const finalFrame = [...result.frames].reverse().find((frame) => frame.phase === 'settle' || frame.phase === 'reshuffle') ?? result.frames[result.frames.length - 1];
@@ -436,10 +478,12 @@ export class Match3Controller {
     this.root.querySelectorAll<HTMLElement>('[data-cell]').forEach((cell) => {
       cell.addEventListener('click', () => {
         if (performance.now() < this.suppressBoardClickUntil) return;
+        this.noteMatchActivity();
         this.handleCell(Number(cell.dataset.cell));
       });
       cell.addEventListener('pointerdown', (event) => {
         if (this.matchInputLocked || event.button !== 0) return;
+        this.noteMatchActivity();
         const startIndex = Number(cell.dataset.cell);
         this.activePointer = { id: event.pointerId, startIndex, startX: event.clientX, startY: event.clientY };
         this.hintedCells.clear();
@@ -505,13 +549,14 @@ export class Match3Controller {
       this.suppressBoardClickUntil = performance.now() + 500;
       this.hintedCells.clear();
       this.selectedCell = null;
+      this.lastTappedSpecial = null;
       if (targetIndex === null) {
         this.selectedCell = null;
         this.matchBark = this.bark('edge', 'miku');
         this.renderMatch();
         return;
       }
-      this.attemptMatchSwap(pointer.startIndex, targetIndex);
+      this.attemptMatchSwap(pointer.startIndex, targetIndex, false, 'drag');
     });
   }
 
@@ -519,32 +564,93 @@ export class Match3Controller {
     const game = this.activeMatch;
     if (!game || this.matchInputLocked) return;
     this.hintedCells.clear();
+    const now = performance.now();
+    const isSpecial = Boolean(game.board[index]?.special);
+
+    if (
+      isSpecial
+      && this.selectedCell === index
+      && this.lastTappedSpecial?.index === index
+      && now - this.lastTappedSpecial.at <= SPECIAL_DOUBLE_TAP_WINDOW_MS
+    ) {
+      this.selectedCell = null;
+      this.lastTappedSpecial = null;
+      this.attemptSpecialActivation(index);
+      return;
+    }
+
     if (this.selectedCell === null) {
       this.selectedCell = index;
+      this.lastTappedSpecial = isSpecial ? { index, at: now } : null;
       this.renderMatch();
       return;
     }
     if (this.selectedCell === index) {
       this.selectedCell = null;
+      this.lastTappedSpecial = null;
       this.renderMatch();
       return;
     }
 
     const first = this.selectedCell;
     this.selectedCell = null;
-    this.attemptMatchSwap(first, index, true);
+    this.lastTappedSpecial = null;
+    this.attemptMatchSwap(first, index, true, 'tap');
   }
 
-  private async attemptMatchSwap(first: number, second: number, selectSecondWhenNonAdjacent = false): Promise<void> {
+  private async attemptSpecialActivation(index: number): Promise<void> {
     const game = this.activeMatch;
     if (!game || this.matchInputLocked) return;
     this.matchInputLocked = true;
+    this.clearAutoHintTimer();
     this.hintedCells.clear();
+    try {
+      const result = game.attemptSpecialActivation(index);
+      this.services.telemetry.track('match_move', {
+        levelId: game.level.id, levelIndex: this.activeLevelIndex, valid: result.valid, reason: result.valid ? 'ok' : result.reason,
+        source: 'double-tap', activation: 'direct', movesLeft: game.movesLeft, cascades: result.cascades, specialsCreated: result.specialsCreated,
+        reshuffled: result.reshuffled, won: result.won, lost: result.lost,
+      });
+      if (!result.valid) {
+        this.renderMatch();
+        return;
+      }
+
+      this.updateBark(result);
+      await this.playMoveFrames(result, index, index, false);
+      if (result.won) {
+        this.completeLevel();
+        return;
+      }
+      if (result.lost) {
+        this.renderLoss();
+        return;
+      }
+      this.renderMatch();
+    } finally {
+      this.matchInputLocked = false;
+      this.armAutoHint();
+    }
+  }
+
+  private async attemptMatchSwap(
+    first: number,
+    second: number,
+    selectSecondWhenNonAdjacent = false,
+    source: MatchInteractionSource = 'tap',
+  ): Promise<void> {
+    const game = this.activeMatch;
+    if (!game || this.matchInputLocked) return;
+    this.matchInputLocked = true;
+    this.clearAutoHintTimer();
+    this.hintedCells.clear();
+    this.lastTappedSpecial = null;
     try {
       const result = game.attemptSwap(first, second);
       this.services.telemetry.track('match_move', {
         levelId: game.level.id, levelIndex: this.activeLevelIndex, valid: result.valid, reason: result.valid ? 'ok' : result.reason,
-        movesLeft: game.movesLeft, cascades: result.cascades, specialsCreated: result.specialsCreated, reshuffled: result.reshuffled, won: result.won, lost: result.lost,
+        source, activation: 'swap', movesLeft: game.movesLeft, cascades: result.cascades, specialsCreated: result.specialsCreated,
+        reshuffled: result.reshuffled, won: result.won, lost: result.lost,
       });
       if (!result.valid) {
         if (result.reason === 'not-adjacent' && selectSecondWhenNonAdjacent) {
@@ -573,6 +679,7 @@ export class Match3Controller {
       this.renderMatch();
     } finally {
       this.matchInputLocked = false;
+      this.armAutoHint();
     }
   }
 
@@ -616,6 +723,7 @@ export class Match3Controller {
   }
 
   private completeLevel(): void {
+    this.clearAutoHintTimer();
     this.endActiveAttempt('win');
     const levelIndex = this.activeLevelIndex;
     const level = levels[levelIndex];
@@ -650,6 +758,7 @@ export class Match3Controller {
   }
 
   private renderLoss(): void {
+    this.clearAutoHintTimer();
     this.services.audio.setScene('match');
     this.services.telemetry.trackScreen('loss', levels[this.activeLevelIndex]?.id ?? String(this.activeLevelIndex));
     const level = levels[this.activeLevelIndex];

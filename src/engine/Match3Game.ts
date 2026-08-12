@@ -80,7 +80,7 @@ type SwapEvaluation = Readonly<{
 
 export type MoveResult = Readonly<{
   valid: boolean;
-  reason?: 'same-cell' | 'not-adjacent' | 'ingredient' | 'blocked' | 'no-match' | 'finished';
+  reason?: 'same-cell' | 'not-adjacent' | 'ingredient' | 'blocked' | 'no-match' | 'no-special' | 'finished';
   cleared: number;
   cascades: number;
   specialsCreated: number;
@@ -232,6 +232,40 @@ export class Match3Game {
       valid: true,
       ...totals,
       primaryFeedback,
+      reshuffled,
+      frames,
+      won: this.won,
+      lost: this.lost,
+    };
+  }
+
+  attemptSpecialActivation(index: number): MoveResult {
+    if (this.won || this.lost) return emptyMoveResult('finished', this.won, this.lost);
+
+    const cell = this.cells[index];
+    if (!cell?.tile) return emptyMoveResult('ingredient', this.won, this.lost);
+    if (this.isLockedCell(index)) return emptyMoveResult('blocked', this.won, this.lost);
+    if (!cell.special) return emptyMoveResult('no-special', this.won, this.lost);
+
+    const frames: Match3Frame[] = [];
+    this.movesLeft -= 1;
+    const totals = this.resolve([], [index], [], null, index, index, frames, 'special');
+    let reshuffled = false;
+    if (!this.won && !this.lost && !this.hasAvailableMove()) {
+      this.shuffle();
+      reshuffled = true;
+      frames.push({
+        phase: 'reshuffle',
+        cascade: totals.cascades,
+        board: this.snapshotBoard(),
+        specialsActivated: 0,
+      });
+    }
+
+    return {
+      valid: true,
+      ...totals,
+      primaryFeedback: 'special',
       reshuffled,
       frames,
       won: this.won,
