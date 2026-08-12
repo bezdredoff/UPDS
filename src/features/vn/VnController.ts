@@ -435,6 +435,7 @@ export class VnController {
     const value = direction.toLocaleUpperCase('ru-RU');
     if (character === 'miku') return /С БЛОКНОТОМ|УКАЗЫВАЕТ НА/.test(value);
     if (character === 'onoe') return /КРУЖЕВНЫМ ПАКЕТОМ|БЕР[ЕЁ]Т ПИНЦЕТ/.test(value);
+    if (character === 'emi') return /СУМКОЙ|ЗАЩИТН|СКРЕЩИВАЕТ РУКИ/.test(value);
     return /С ТЕЛЕФОНОМ|ПОКАЗЫВАЕТ ТЕЛЕФОН|С ДОСКОЙ НА ТЕЛЕФОНЕ/.test(value);
   }
 
