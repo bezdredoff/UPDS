@@ -2,7 +2,7 @@ import {
   characterForSpeaker,
   characterRigs,
   expressionForDirection,
-  faceAsset,
+  expressionAsset,
   placeholderCharacters,
   placeholderForSpeaker,
   type CharacterKey,
@@ -156,9 +156,7 @@ export class VnController {
     const clueToast = this.pendingClue ? this.clueToastMarkup(this.pendingClue) : '';
     const skipAvailable = this.session.save.readLines.includes(entry.id);
     if (character && !this.usesPoseB(character, entry.emotion)) {
-      const rig = characterRigs[character];
-      const currentFace = faceAsset(character, expression);
-      void preloadImageAssets([rig.base, rig.faces.speaking, rig.faces.blink, ...(currentFace ? [currentFace] : [])], this.services.assetHealth);
+      void preloadImageAssets([expressionAsset(character, expression)], this.services.assetHealth);
     }
 
     this.shell.render(`<section class="vn-screen text-${this.textScale}">
@@ -241,7 +239,6 @@ export class VnController {
       this.session.persist();
       this.openScene(this.session.save.scene, this.session.save.line);
     });
-    if (character && !this.usesPoseB(character, entry.emotion)) this.animatePortrait(character, expression);
     if (this.autoMode) this.shell.schedule(() => this.nextLine(), autoDelayForLine(dialoguePage, this.autoSpeed));
   }
 
@@ -319,12 +316,7 @@ export class VnController {
       if (character) {
         const rig = characterRigs[character];
         const poseB = this.usesPoseB(character, next.emotion);
-        assets.push(poseB ? rig.poseB : rig.base);
-        if (!poseB) {
-          assets.push(rig.faces.speaking, rig.faces.blink);
-          const face = faceAsset(character, expressionForDirection(next.emotion));
-          if (face) assets.push(face);
-        }
+        assets.push(poseB ? rig.poseB : expressionAsset(character, expressionForDirection(next.emotion)));
       }
     }
     void preloadImageAssets(assets, this.services.assetHealth);
@@ -415,11 +407,8 @@ export class VnController {
     if (this.usesPoseB(character, direction)) {
       return `<div class="portrait portrait-${side} portrait-static-wrap"><img class="portrait-static" src="${rig.poseB}" alt="${rig.displayName}"></div>`;
     }
-    const face = faceAsset(character, expression);
-    return `<div class="portrait portrait-${side} character-rig" data-character="${character}">
-      <img class="portrait-base" src="${rig.base}" alt="${rig.displayName}">
-      <img class="portrait-face portrait-expression ${face ? '' : 'is-hidden'}" src="${face ?? rig.faces.smile}" alt="">
-      <img class="portrait-face portrait-animation is-hidden" src="${rig.faces.speaking}" alt="">
+    return `<div class="portrait portrait-${side} character-rig" data-character="${character}" data-expression="${expression}">
+      <img class="portrait-frame" src="${expressionAsset(character, expression)}" alt="${rig.displayName}">
     </div>`;
   }
 
@@ -436,50 +425,9 @@ export class VnController {
     const value = direction.toLocaleUpperCase('ru-RU');
     if (character === 'miku') return /С БЛОКНОТОМ|УКАЗЫВАЕТ НА/.test(value);
     if (character === 'onoe') return /КРУЖЕВНЫМ ПАКЕТОМ|БЕР[ЕЁ]Т ПИНЦЕТ/.test(value);
-    if (character === 'emi') return /СУМКОЙ|ЗАЩИТН|СКРЕЩИВАЕТ РУКИ/.test(value);
     return /С ТЕЛЕФОНОМ|ПОКАЗЫВАЕТ ТЕЛЕФОН|С ДОСКОЙ НА ТЕЛЕФОНЕ/.test(value);
   }
 
-  private animatePortrait(character: CharacterKey, baseExpression: RuntimeExpression): void {
-    const animation = this.root.querySelector<HTMLImageElement>('.portrait-animation');
-    if (!animation) return;
-
-    // Authored emotional expressions are immutable while the line is on screen.
-    // Legacy speaking/blink frames are now small animation patches and are used
-    // only on neutral lines, so animation can never replace smile/serious/etc.
-    if (baseExpression !== 'neutral') {
-      animation.classList.add('is-hidden');
-      return;
-    }
-
-    const rig = characterRigs[character];
-    const startedAt = performance.now();
-    let speaking = false;
-    const showAnimation = (asset: string | null): void => {
-      animation.classList.toggle('is-hidden', !asset);
-      if (asset) animation.src = asset;
-    };
-
-    const talk = (): void => {
-      if (performance.now() - startedAt > 1750) {
-        showAnimation(null);
-        return;
-      }
-      speaking = !speaking;
-      showAnimation(speaking ? rig.faces.speaking : null);
-      this.shell.schedule(talk, 120 + Math.round(Math.random() * 60));
-    };
-    this.shell.schedule(talk, 180);
-
-    const blink = (): void => {
-      showAnimation(rig.faces.blink);
-      this.shell.schedule(() => {
-        showAnimation(null);
-        this.shell.schedule(blink, 3400 + Math.round(Math.random() * 2800));
-      }, 170);
-    };
-    this.shell.schedule(blink, 3600 + Math.round(Math.random() * 2200));
-  }
 
   nextLine(): void {
     this.services.audio.play('vnAdvance');

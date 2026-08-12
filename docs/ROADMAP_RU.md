@@ -1,4 +1,4 @@
-# UPDS — актуальный roadmap после ANM-021B
+# UPDS — актуальный roadmap после ANM-021B R4
 
 ## Completed foundation
 
@@ -17,8 +17,6 @@
 ## Next recommended work
 
 ### ANM-021 — Production character completion
-
-ANM-021A planning contract и ANM-021B Emi production rig завершены. Далее: ANM-021C Kentaro → ANM-021D Norihiro → ANM-021E Mayu.
 
 Replace remaining portrait placeholders (Emi, Mayu, Kentaro, Norihiro) using the existing `base-neutral + face overlay` production contract.
 

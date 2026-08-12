@@ -60,14 +60,15 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('Настройки');
   });
 
-  it('renders finished rigs and the remaining approved portrait placeholders', () => {
+  it('renders a precomposed finished rig and every approved portrait placeholder', () => {
     const { root, app } = create();
     const mikuLine = getScene(0).findIndex((line) => line.speaker.startsWith('МИКУ'));
     app.openScene(0, mikuLine);
     expect(root.innerHTML).toContain('character-rig');
     expect(root.innerHTML).toMatch(/data-stage-side="(left|right|center)"/);
     expect(root.innerHTML).toMatch(/portrait-(left|right|center)/);
-    expect(root.innerHTML).toContain('base-neutral.png');
+    expect(root.innerHTML).toContain('frame-neutral.png');
+    expect(root.innerHTML).toContain('portrait-frame');
     expect(root.innerHTML).toContain('vn-controls');
     expect(root.innerHTML).toContain('vn-background-fill');
     expect(root.innerHTML).toContain('vn-background-fit');
@@ -78,14 +79,8 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).not.toContain('aria-label="Главное меню"');
     expect(root.innerHTML).not.toContain('id="config"');
 
-    const emiLine = getScene(1, 'A').findIndex((entry) => entry.speaker === 'ЭМИ');
-    expect(emiLine).toBeGreaterThanOrEqual(0);
-    app.openScene(1, emiLine);
-    expect(root.innerHTML).toContain('data-character="emi"');
-    expect(root.innerHTML).toContain('assets/characters/emi/rig/pose_a/base-neutral.png');
-    expect(root.innerHTML).not.toContain('PORTRAIT PLACEHOLDER');
-
     const placeholderCases = [
+      { scene: 1, speaker: 'ЭМИ', label: 'Эми', choice: 'A' as ChoiceId },
       { scene: 1, speaker: 'МАЮ', label: 'Маю', choice: 'C' as ChoiceId },
       { scene: 3, speaker: 'КЭНТАРО', label: 'Кэнтаро', choice: 'A' as ChoiceId },
       { scene: 5, speaker: 'НОРИХИРО', label: 'Норихиро', choice: 'A' as ChoiceId },

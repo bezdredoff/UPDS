@@ -11,7 +11,7 @@ const uiAssets = [
 
 export const runtimeAssetCatalog = uniqueAssetList([
   ...Object.values(backgroundAssets),
-  ...Object.values(characterRigs).flatMap((rig) => [rig.base, ...Object.values(rig.faces), rig.poseB, rig.medallion]),
+  ...Object.values(characterRigs).flatMap((rig) => [...Object.values(rig.frames), rig.poseB, rig.medallion]),
   ...Object.values(tilePresentation).map((item) => item.asset),
   ...Object.values(ingredientPresentation).map((item) => item.asset),
   ...Object.values(blockerPresentation).map((item) => item.asset),

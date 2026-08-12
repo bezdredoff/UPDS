@@ -48,10 +48,8 @@ This directory is the documentation source of truth for the current repository.
 
 ## Character production
 
-- [`art/CHARACTER_PRODUCTION_CONTRACT_RU.md`](art/CHARACTER_PRODUCTION_CONTRACT_RU.md) — постоянный production-контракт character rigs.
-- [`art/CHARACTER_BRIEFS_RU.md`](art/CHARACTER_BRIEFS_RU.md) — briefs оставшихся production-персонажей.
-- [`art/CHARACTER_USAGE_MANIFEST.json`](art/CHARACTER_USAGE_MANIFEST.json) — machine-readable usage manifest ANM-021.
+- [`art/CHARACTER_PRODUCTION_CONTRACT_RU.md`](art/CHARACTER_PRODUCTION_CONTRACT_RU.md) — R4 precomposed expression contract.
+- [`art/CHARACTER_BRIEFS_RU.md`](art/CHARACTER_BRIEFS_RU.md) — production briefs.
+- [`art/CHARACTER_USAGE_MANIFEST.json`](art/CHARACTER_USAGE_MANIFEST.json) — usage manifest.
 - [`features/ANM021A_CHARACTER_PRODUCTION_PLANNING_RU.md`](features/ANM021A_CHARACTER_PRODUCTION_PLANNING_RU.md)
-- [`features/ANM021B_EMI_PRODUCTION_RIG_RU.md`](features/ANM021B_EMI_PRODUCTION_RIG_RU.md)
-
-- [`features/ANM021B_R3_FACE_RIG_QUALITY_PASS_RU.md`](features/ANM021B_R3_FACE_RIG_QUALITY_PASS_RU.md)
+- [`features/ANM021B_R4_EXPRESSION_PIPELINE_RESET_RU.md`](features/ANM021B_R4_EXPRESSION_PIPELINE_RESET_RU.md)
