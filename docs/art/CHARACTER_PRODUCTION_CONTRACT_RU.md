@@ -102,3 +102,27 @@ Pose B:
 - `mayu`
 
 Runtime filenames — ASCII, lowercase для character folders, kebab-case для pose B.
+
+## 8. Face Rig Fidelity Contract (ANM-021B R3)
+
+Pose A является immutable master. Любая authored emotion обязана сохранять неизменными:
+- размер, позицию и угол головы;
+- волосы, уши, шею, воротник и одежду;
+- направление и интенсивность света;
+- границы cel-shadow вне изменяемой мимики;
+- skin tone, hair color, saturation, contrast и highlights;
+- камеру, масштаб и anchor.
+
+`smile`, `serious`, `surprised`, `embarrassed` должны быть семантически различимыми и не могут быть копиями `speaking`.
+
+`speaking` и `blink` — animation patches, а не самостоятельные эмоциональные лица:
+- speaking меняет только область рта;
+- blink меняет только область глаз;
+- они не имеют права заменять authored emotional expression;
+- runtime применяет их только к neutral expression до появления dedicated per-expression animation deltas.
+
+Любое заметное изменение всей головы/тона/освещения при переключении считается FAIL, даже если PNG формально имеет правильный размер.
+
+Обязательный visual QA:
+`neutral → smile → serious → surprised → embarrassed → neutral`,
+а затем отдельная neutral speaking/blink проверка на отсутствие flicker.
