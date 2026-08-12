@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
+import { MOBILE_REGRESSION_VIEWPORTS } from '../src/platform/ViewportContract';
 import {
   DRAG_COMMIT_RATIO,
   DRAG_TARGET_REACTION_RATIO,
   DRAG_VISUAL_LIMIT_RATIO,
   MIN_TOUCH_TARGET_PX,
-  MOBILE_REGRESSION_VIEWPORTS,
   getDragPreview,
   getSwipeDecision,
 } from '../src/ui/boardInteraction';
