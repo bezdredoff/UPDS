@@ -24,6 +24,9 @@ const collectBakFiles = (relativeRoot: string): string[] => collectFiles(relativ
 const featureTsFiles = collectFiles('src/features', (path) => path.endsWith('.ts'));
 const srcTsFiles = collectFiles('src', (path) => path.endsWith('.ts'));
 const sourceFor = (path: string): string => readFileSync(resolve(repositoryRoot, path), 'utf8');
+const featureControllerNames = featureTsFiles.flatMap((file) =>
+  [...sourceFor(file).matchAll(/export\s+class\s+([A-Z][A-Za-z0-9]*Controller)\b/g)].map((match) => match[1]),
+);
 
 describe('repository maintenance contract', () => {
   it('keeps runtime version metadata dynamic and the stable campaign save key unchanged', () => {
@@ -86,8 +89,10 @@ describe('UI architecture boundaries', () => {
   });
 
   it('keeps feature-controller construction in the composition root only', () => {
+    expect(featureControllerNames.length).toBeGreaterThan(0);
+    const featureControllerConstruction = new RegExp(`new\\s+(?:${featureControllerNames.join('|')})\\s*\\(`);
     const constructionSites = srcTsFiles
-      .filter((file) => /new\s+[A-Z][A-Za-z0-9]*Controller\s*\(/.test(sourceFor(file)))
+      .filter((file) => featureControllerConstruction.test(sourceFor(file)))
       .sort();
     expect(constructionSites).toEqual(['src/ui/AnimeDetectiveApp.ts']);
   });
