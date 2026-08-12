@@ -338,8 +338,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PR_URL: ${{ needs.open-pr.outputs.pr_url }}
           PREVIEW_URL: ${{ needs.deploy-preview.outputs.preview_url }}
+        shell: bash
         run: |
-          gh pr comment "$PR_URL" --body "📱 **GitHub Pages candidate preview:** $PREVIEW_URL\n\nThe Pages root remains the current `main`; `/preview/` is this candidate. Test it on the phone before merge."
+          body="$(printf '📱 **GitHub Pages candidate preview:** %s\n\nThe Pages root remains the current `main`; `/preview/` is this candidate. Test it on the phone before merge.' "$PREVIEW_URL")"
+          gh pr comment "$PR_URL" --body "$body"
 
   cleanup-incoming:
     name: Reset binary inbox branch
