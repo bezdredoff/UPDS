@@ -1,4 +1,4 @@
-import { APP_VERSION } from '../appVersion';
+import { BUILD_ID } from '../appVersion';
 import type { ErrorLog } from './ErrorLog';
 import type { PlaytestTelemetry } from './PlaytestTelemetry';
 
@@ -41,7 +41,7 @@ export class PwaController {
   private updateAvailable = false;
   private started = false;
   private reloadOnControllerChange = false;
-  private cacheBuild = APP_VERSION;
+  private cacheBuild = BUILD_ID;
   private cacheFailed = 0;
 
   constructor(private readonly errorLog: ErrorLog, private readonly telemetry: PlaytestTelemetry) {}
@@ -94,7 +94,7 @@ export class PwaController {
       return;
     }
     try {
-      const version = encodeURIComponent(APP_VERSION);
+      const version = encodeURIComponent(BUILD_ID);
       const registration = await navigator.serviceWorker.register(`./sw.js?v=${version}`, { scope: './' });
       this.registrationHandle = registration;
       this.telemetry.track('pwa_registered', { scope: registration.scope, lane: laneForPath(globalThis.location?.pathname ?? '') });
@@ -164,7 +164,7 @@ export class PwaController {
       ? performance.getEntriesByType('resource').map((entry) => entry.name).filter((url) => url.startsWith(globalThis.location?.origin ?? ''))
       : [];
     const urls = [...new Set(['./', './index.html', './manifest.webmanifest', './icons/icon-180.png', './icons/icon-192.png', './icons/icon-512.png', ...assetUrls, ...resources])];
-    worker.postMessage({ type: 'CACHE_URLS', urls, build: APP_VERSION });
+    worker.postMessage({ type: 'CACHE_URLS', urls, build: BUILD_ID });
   }
 
   private onMessage(event: MessageEvent): void {
