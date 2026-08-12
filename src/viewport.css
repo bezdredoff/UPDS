@@ -8,12 +8,12 @@
 }
 
 /*
- * ANM-024B compatibility shell.
+ * ANM-024B/024C viewport shell.
  *
- * The outer layer owns the physical viewport now; the existing .phone layout
- * remains edge-to-edge until ANM-024C migrates component-level safe-area rules
- * to the shared tokens above. This avoids double-applying notch/home-indicator
- * insets during the transition.
+ * The outer layer owns the physical viewport. ANM-024C makes the shared
+ * --safe-area-* tokens the effective source for all current screen chrome.
+ * Legacy env(...) declarations in style.css remain as pre-cutover fallback
+ * declarations until ANM-024D removes them after portrait/landscape matrix QA.
  */
 .viewport-shell {
   position: relative;
@@ -30,4 +30,93 @@
 .game-viewport {
   --scene-inline-size: 100%;
   --scene-block-size: 100%;
+}
+
+/* ANM-024C: shared safe-area ownership, geometry-preserving overrides. */
+.menu-content {
+  padding: max(42px, var(--safe-area-top)) 28px max(24px, var(--safe-area-bottom));
+}
+
+.app-header {
+  min-height: max(58px, calc(48px + var(--safe-area-top)));
+  padding: max(7px, var(--safe-area-top)) 9px 7px;
+}
+
+.vn-topbar {
+  min-height: max(58px, calc(48px + var(--safe-area-top)));
+}
+
+.vn-controls {
+  padding: 6px 10px max(6px, var(--safe-area-bottom));
+}
+
+.vn-status {
+  bottom: calc(max(72px, 10dvh) + var(--safe-area-bottom));
+}
+
+.vn-overlay {
+  padding: max(16px, var(--safe-area-top)) 12px max(16px, var(--safe-area-bottom));
+}
+
+.level-card {
+  bottom: max(22px, var(--safe-area-bottom));
+}
+
+.match-screen {
+  padding-bottom: max(6px, var(--safe-area-bottom));
+}
+
+.result-content {
+  height: calc(100% - max(58px, calc(48px + var(--safe-area-top))));
+  padding: 24px 28px max(28px, var(--safe-area-bottom));
+}
+
+.panel {
+  padding: max(20px, var(--safe-area-top)) 20px max(30px, var(--safe-area-bottom));
+}
+
+.support-panel {
+  padding-bottom: max(34px, var(--safe-area-bottom));
+}
+
+.panel-nav {
+  top: calc(-1 * max(20px, var(--safe-area-top)));
+  margin: calc(-1 * max(20px, var(--safe-area-top))) -20px 14px;
+}
+
+.settings-panel {
+  padding-bottom: max(36px, var(--safe-area-bottom));
+}
+
+.pwa-update-banner {
+  bottom: max(10px, var(--safe-area-bottom));
+}
+
+@media (max-height: 650px), (max-width: 340px) {
+  .menu-content {
+    padding: max(18px, var(--safe-area-top)) 18px max(12px, var(--safe-area-bottom));
+  }
+
+  .app-header {
+    min-height: max(50px, calc(42px + var(--safe-area-top)));
+    padding: max(5px, var(--safe-area-top)) 6px 5px;
+  }
+
+  .vn-controls {
+    padding: 4px 6px max(4px, var(--safe-area-bottom));
+  }
+
+  .level-card {
+    bottom: max(8px, var(--safe-area-bottom));
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .menu-content {
+    padding-top: max(8px, var(--safe-area-top));
+  }
+
+  .match-hint {
+    padding-bottom: max(8px, var(--safe-area-bottom));
+  }
 }

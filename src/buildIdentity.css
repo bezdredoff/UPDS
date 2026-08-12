@@ -2,8 +2,8 @@ html[data-upds-lane='preview']::before {
   content: 'PREVIEW · ' attr(data-upds-build);
   position: fixed;
   z-index: 2147483000;
-  top: calc(env(safe-area-inset-top, 0px) + 6px);
-  right: calc(env(safe-area-inset-right, 0px) + 6px);
+  top: calc(var(--safe-area-top) + 6px);
+  right: calc(var(--safe-area-right) + 6px);
   max-width: calc(100vw - 12px);
   padding: 4px 7px;
   border: 1px solid rgba(255, 255, 255, 0.72);
