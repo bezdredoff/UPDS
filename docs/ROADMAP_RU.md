@@ -1,29 +1,35 @@
-# UPDS — Production Roadmap Rebaseline
+# UPDS — Production Roadmap
 
-Build baseline: `0.22.0-anm022g`.
+Technical package baseline: `0.22.0-anm022e-r1`.
+Active production foundation: **ANM-023 complete**; runtime already includes **ANM-022F Interaction Guidance**.
 
-This roadmap replaces the previous vertical-slice-oriented ordering with a production-oriented sequence.
+Package semver не используется как единственный источник feature status. Текущий фактический baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap.
 
 ## Current state
 
 ### Completed / stable foundations
 
 - mobile ZIP → GitHub candidate → CI → preview → merge pipeline;
+- ChatGPT direct GitHub branch/PR path для небольших technical changes;
+- H1 Delta ZIP Import Foundation с exact `baseSha`, stale-patch rejection и protected pipeline paths;
+- failed/rejected ZIP cleanup без noisy zero-ZIP importer rerun;
 - save/progression foundation;
 - VN shell, dialogue paging, staging and localization foundation;
 - PWA/offline/update foundation;
 - telemetry foundation;
-- Match-3 legality, feedback semantics and narrative special taxonomy;
+- Match-3 shared move legality, feedback semantics and narrative special taxonomy;
+- ANM-022E Narrative Special Combination Matrix;
+- ANM-022F Interaction Guidance: inactivity hint, drag/tap source telemetry и direct special double-tap activation;
 - Emi production integration through ANM-021B R6.1;
 - character runtime uses precomposed 1024×1536 expression frames; retired transparent face-overlay composition must not return;
-- ANM-022B shared move-legality contract keeps swap validation, hints and dead-board detection consistent;
-- 2×2 Lead creation/resolution fixed in ANM-022D R1.3.
+- ANM-023 Architecture & Test Health Pass: repository hygiene, test-health cleanup, architecture boundary audit and pipeline failure hygiene.
 
-### In progress / pending validation
+### Useful manual regression still pending
 
-- ANM-022E — Narrative Special Combination Matrix;
-- full manual QA of direct special combinations;
-- ANM-022F — Interaction Guidance.
+- полный ручной QA всех direct special combinations на телефоне;
+- при следующем намеренно rejected/stale ZIP полезно подтвердить live failure-cleanup path: run остаётся красным, а `incoming` очищается без второго zero-ZIP run.
+
+Эти проверки не блокируют переход к следующему production foundation, потому что automated contracts уже зелёные и соответствующие механики не меняются в ANM-024.
 
 ### Deferred, not cancelled
 
@@ -31,46 +37,7 @@ This roadmap replaces the previous vertical-slice-oriented ordering with a produ
 - large-scale character animation production;
 - full multilingual content production.
 
-## Rebaselined production backlog
-
-### ANM-022H — Mobile/GitHub Development Flow v2 [P0 infrastructure]
-
-Goal: reduce phone transfer cost while preserving the GitHub CI/preview/manual-QA gates.
-
-- 022H1 Delta ZIP Import Foundation:
-  `PATCH.zip → main + delta → candidate → full CI → preview → PR`;
-- keep FULL_PROJECT ZIP as recovery/binary/art path;
-- exact `baseSha` stale-patch protection in delta v1;
-- protected workflow/validator paths cannot be modified by delta;
-- GitHub plugin direct-write remains an optional future fast path until connector write routing is stable;
-- later improvements: per-PR preview, candidate update/re-upload and better reporting.
-
-022H should land before the next long sequence of code/content iterations because it reduces the cost of every later atomic feature.
-
-### ANM-023 — Architecture & Test Health Pass [P0]
-
-Do this before major new layout/content/tooling expansion.
-
-Goals:
-- audit feature boundaries and remove stale architectural leftovers;
-- reduce coupling between scene orchestration, VN, Match-3, content and presentation;
-- identify large/high-churn source files and split only where ownership boundaries are clear;
-- remove dead code, legacy contracts and unused assets;
-- consolidate duplicate utility logic;
-- classify tests into behavior / contract / source-audit / smoke;
-- replace brittle source-string tests with behavior tests where feasible;
-- archive or delete stale tests that guard retired implementation details;
-- ensure every current production contract has one authoritative test, not several overlapping copies;
-- update architecture docs to match runtime reality;
-- keep GitHub CI as the authoritative gate.
-
-Exit criteria:
-- no known retired face-overlay/runtime contracts remain in active code/tests/docs;
-- no duplicated Match-3 legality/special semantics;
-- no stale localization/asset paths;
-- test suite categories documented;
-- all tests green before and after refactor;
-- no intentional gameplay/visual changes.
+## Production backlog
 
 ### ANM-024 — Display, Viewport & Safe-Area Foundation [P0]
 
@@ -85,9 +52,15 @@ Includes:
 - portrait viewport matrix regression tests;
 - architecture must not hardcode portrait-only assumptions that block later landscape support.
 
+Recommended split:
+- 024A viewport/safe-area contract + audit;
+- 024B shared game viewport shell;
+- 024C menu/VN/Match-3 migration;
+- 024D device-matrix regression + iPhone visual QA.
+
 ### ANM-025 — Match-3 Production Framework [P0]
 
-After ANM-022F:
+After ANM-024:
 - Golden Sample presentation parity;
 - narrative-driven level context;
 - background / board skin / board shape;
@@ -217,21 +190,17 @@ Do not consume core production capacity before base release.
 
 ## Recommended immediate sequence
 
-1. finish/validate ANM-022E;
-2. ANM-022H1 Delta ZIP Import Foundation;
-3. ANM-022F Interaction Guidance;
-4. ANM-023 Architecture & Test Health Pass;
-5. ANM-024 Display / Safe Area / Viewport Foundation;
-6. ANM-025A–D Match-3 production framework;
-7. ANM-026 Level Lab early;
-8. ANM-025E–F balance + narrative reactions;
-9. ANM-027 full story;
-10. ANM-028 character pipeline 2.0;
-11. ANM-029 localization;
-12. ANM-030 mass art/content;
-13. ANM-031 landscape;
-14. ANM-032 music;
-15. ANM-033 release hardening.
+1. **ANM-024A–D Display / Safe Area / Viewport Foundation**;
+2. ANM-025A–D Match-3 production framework;
+3. ANM-026 Level Lab early;
+4. ANM-025E–F balance + narrative reactions;
+5. ANM-027 full story;
+6. ANM-028 character pipeline 2.0;
+7. ANM-029 localization;
+8. ANM-030 mass art/content;
+9. ANM-031 landscape;
+10. ANM-032 music;
+11. ANM-033 release hardening.
 
 ## Backlog principle
 
