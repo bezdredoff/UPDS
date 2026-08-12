@@ -55,3 +55,6 @@ This directory is the documentation source of truth for the current repository.
 - [`features/ANM021B_R4_EXPRESSION_PIPELINE_RESET_RU.md`](features/ANM021B_R4_EXPRESSION_PIPELINE_RESET_RU.md)
 
 - [`features/ANM021B_R5_VN_CHARACTER_SCALE_STAGING_RU.md`](features/ANM021B_R5_VN_CHARACTER_SCALE_STAGING_RU.md)
+
+- [`design/MATCH3_MECHANICS_TARGET_RU.md`](design/MATCH3_MECHANICS_TARGET_RU.md) — целевой mechanics/feedback contract после ANM-022A.
+- [`features/ANM022A_MATCH3_MECHANICS_FEEDBACK_AUDIT_RU.md`](features/ANM022A_MATCH3_MECHANICS_FEEDBACK_AUDIT_RU.md)
