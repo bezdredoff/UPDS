@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { APP_VERSION, BUILD_LABEL } from '../src/appVersion';
 import { LOCALE_SETTINGS_KEY } from '../src/localization/LocaleSettingsStore';
+import { ruCatalog } from '../src/localization/catalogs/ru';
 import { getScene, type ChoiceId } from '../src/data/narrative';
 import { AnimeDetectiveApp } from '../src/ui/AnimeDetectiveApp';
 
@@ -162,7 +163,7 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain(APP_VERSION);
   });
 
-  it('renders a complete 8x8 board with runtime images', () => {
+  it('renders a complete 8x8 board with localized runtime chrome', () => {
     const { root, app } = create();
     app.startMatch(0);
     expect(root.innerHTML).toContain('match-screen');
@@ -172,9 +173,8 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('goal_receipt.png');
     expect(root.innerHTML).toContain('match-case-hud');
     expect(root.innerHTML).toContain('detective-strip');
-    expect(root.innerHTML).toContain('ПОДСКАЗКА');
-    expect(root.innerHTML).toContain('Перетащите фишку');
-    expect(root.innerHTML).toContain('подсказка учитывает цели');
+    expect(root.innerHTML).toContain(ruCatalog['match3.hint']);
+    expect(root.innerHTML).toContain(ruCatalog['match3.inputHint']);
     expect(root.innerHTML).toContain('tile-stack');
   });
   it('pages compact VN dialogue before advancing the authored line', () => {
