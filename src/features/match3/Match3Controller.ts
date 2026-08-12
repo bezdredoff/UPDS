@@ -25,6 +25,13 @@ export type MatchOutcome = 'win' | 'loss' | 'abandon';
 type Bark = Readonly<{ speaker: string; text: string }>;
 
 export class Match3Controller {
+  private t(key: string, params?: Readonly<Record<string, string | number>>): string { return this.services.localization.t(key, params); }
+  private levelText(level: LevelDefinition, field: 'title' | 'storyAction' | 'clueTitle'): string { return this.t(`match3.level.${level.id}.${field}`); }
+  private objectiveText(level: LevelDefinition, index: number): string { return this.t(`match3.level.${level.id}.objective.${index}`); }
+  private characterName(key: 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro'): string { return this.t(`character.${key}`); }
+  private bark(key: string, speaker: 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro', params?: Readonly<Record<string, string | number>>): Bark { return { speaker: this.characterName(speaker), text: this.t(`match3.bark.${key}`, params) }; }
+  private levelBark(level: LevelDefinition, kind: 'start' | 'win'): Bark { return { speaker: this.t(`match3.level.${level.id}.${kind}Bark.speaker`), text: this.t(`match3.level.${level.id}.${kind}Bark.text`) }; }
+
   private activeMatch: Match3Game | null = null;
   private activeLevelIndex = 0;
   private selectedCell: number | null = null;
@@ -95,20 +102,20 @@ export class Match3Controller {
       <img class="level-intro-background" src="${backgroundAssets[level.background]}" alt="">
       <div class="level-intro-shade"></div>
       <header class="app-header match-topbar intro-topbar">
-        ${headerActionMarkup('back', 'back', 'Назад', undefined, 'app-header-back')}
-        <div class="app-header-title"><small>РАССЛЕДОВАНИЕ ${levelIndex + 1}/4</small><b>${escapeHtml(level.title)}</b></div>
-        <nav class="app-header-actions" aria-label="Навигация расследования">
-          ${headerActionMarkup('dossier', 'dossier', 'Досье', this.session.save.clues.length)}
-          ${headerActionMarkup('header-settings', 'settings', 'Настройки')}
+        ${headerActionMarkup('back', 'back', this.t('common.back'), undefined, 'app-header-back')}
+        <div class="app-header-title"><small>${escapeHtml(this.t('match3.investigation', { current: levelIndex + 1, total: 4 }))}</small><b>${escapeHtml(this.levelText(level, 'title'))}</b></div>
+        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('match3.investigationNavigation'))}">
+          ${headerActionMarkup('dossier', 'dossier', this.t('dossier.title'), this.session.save.clues.length)}
+          ${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
         </nav>
       </header>
       <div class="level-card">
         <p class="eyebrow">${escapeHtml(level.id)}</p>
-        <h2>${escapeHtml(level.title)}</h2>
-        <p>${escapeHtml(level.storyAction)}</p>
-        <div class="intro-objectives">${level.objectives.map((objective) => this.objectiveMarkup(level, objective, 0, false)).join('')}</div>
-        <div class="moves-chip"><b>${level.moves}</b><span>ходов</span></div>
-        <button id="start" class="primary">Начать поиск</button>
+        <h2>${escapeHtml(this.levelText(level, 'title'))}</h2>
+        <p>${escapeHtml(this.levelText(level, 'storyAction'))}</p>
+        <div class="intro-objectives">${level.objectives.map((objective, index) => this.objectiveMarkup(level, objective, index, 0, false)).join('')}</div>
+        <div class="moves-chip"><b>${level.moves}</b><span>${escapeHtml(this.t('match3.moves'))}</span></div>
+        <button id="start" class="primary">${escapeHtml(this.t('match3.start'))}</button>
       </div>
     </section>`);
     this.root.querySelector('#back')?.addEventListener('click', () => this.navigation.openScene(this.session.save.scene, Math.max(0, getScene(this.session.save.scene, this.session.save.choice).length - 1)));
@@ -131,7 +138,7 @@ export class Match3Controller {
     this.activePointer = null;
     this.hintedCells.clear();
     this.triggeredBarks = new Set(['start']);
-    this.matchBark = level.startBark;
+    this.matchBark = this.levelBark(level, 'start');
     this.renderMatch();
   }
 
@@ -149,7 +156,7 @@ export class Match3Controller {
       const motionStyle = motion ? ` style="--settle-rows:${motion.rows}"` : '';
       const tile = cell.tile ? tilePresentation[cell.tile] : null;
       const ingredient = cell.ingredient ? ingredientPresentation[cell.ingredient] : null;
-      const cellLabel = ingredient?.label ?? tile?.label ?? 'Пустая клетка';
+      const cellLabel = cell.ingredient ? this.t(`match3.ingredient.${cell.ingredient}`) : cell.tile ? this.t(`match3.tile.${cell.tile}`) : this.t('match3.emptyCell');
       return `<button class="board-cell${selected}${hinted}${clearing}${motionClass}" data-cell="${index}" role="gridcell" aria-label="${escapeHtml(cellLabel)}"${motionStyle}>
         <span class="tile-socket"></span>
         <span class="tile-stack">
@@ -164,9 +171,9 @@ export class Match3Controller {
 
   private barkMedallion(): string {
     const speaker = this.matchBark?.speaker ?? '';
-    if (speaker.includes('Мику')) return characterRigs.miku.medallion;
-    if (speaker.includes('Оноэ')) return characterRigs.onoe.medallion;
-    if (speaker.includes('Аюки')) return characterRigs.ayuki.medallion;
+    if (speaker === this.characterName('miku')) return characterRigs.miku.medallion;
+    if (speaker === this.characterName('onoe')) return characterRigs.onoe.medallion;
+    if (speaker === this.characterName('ayuki')) return characterRigs.ayuki.medallion;
     return characterRigs.miku.medallion;
   }
 
@@ -182,39 +189,39 @@ export class Match3Controller {
       <img class="match-background" src="${backgroundAssets[level.background]}" alt="">
       <div class="match-shade"></div>
       <header class="app-header match-topbar">
-        ${headerActionMarkup('quit', 'back', 'Назад к расследованию', undefined, 'app-header-back')}
-        <div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>${escapeHtml(level.title)}</b></div>
-        <nav class="app-header-actions" aria-label="Навигация расследования">
-          ${headerActionMarkup('dossier', 'dossier', 'Досье', this.session.save.clues.length)}
-          ${headerActionMarkup('header-settings', 'settings', 'Настройки')}
+        ${headerActionMarkup('quit', 'back', this.t('match3.backToInvestigation'), undefined, 'app-header-back')}
+        <div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>${escapeHtml(this.levelText(level, 'title'))}</b></div>
+        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('match3.investigationNavigation'))}">
+          ${headerActionMarkup('dossier', 'dossier', this.t('dossier.title'), this.session.save.clues.length)}
+          ${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
         </nav>
       </header>
 
       <div class="match-case-hud">
-        <section class="objective-board" aria-label="Цели расследования">
-          <span class="case-tab">ЦЕЛЬ</span>
-          <div class="objectives">${level.objectives.map((objective, index) => this.objectiveMarkup(level, objective, game.objectiveValue(index), true)).join('')}</div>
+        <section class="objective-board" aria-label="${escapeHtml(this.t('match3.objectivesAria'))}">
+          <span class="case-tab">${escapeHtml(this.t('match3.objective'))}</span>
+          <div class="objectives">${level.objectives.map((objective, index) => this.objectiveMarkup(level, objective, index, game.objectiveValue(index), true)).join('')}</div>
         </section>
-        <section class="stage-board" aria-label="Ходы и этап">
-          <span class="case-tab">ХОДЫ</span>
+        <section class="stage-board" aria-label="${escapeHtml(this.t('match3.movesStageAria'))}">
+          <span class="case-tab">${escapeHtml(this.t('match3.movesUpper'))}</span>
           <div class="moves-left"><b>${game.movesLeft}</b></div>
-          <div class="stage-meta"><small>ЭТАП ${this.activeLevelIndex + 1}/4</small><b>${escapeHtml(level.shortId)}</b></div>
+          <div class="stage-meta"><small>${escapeHtml(this.t('match3.stage', { current: this.activeLevelIndex + 1, total: 4 }))}</small><b>${escapeHtml(level.shortId)}</b></div>
         </section>
       </div>
 
       ${this.matchBark ? `<div class="field-bark"><img src="${this.barkMedallion()}" alt=""><div><b>${escapeHtml(this.matchBark.speaker)}</b><span>${escapeHtml(this.matchBark.text)}</span></div></div>` : ''}
       <div id="match-feedback" class="match-feedback" aria-live="polite"></div>
-      <div class="board" role="grid" aria-label="Поле 8 на 8">${this.boardCellsMarkup(game.board, blocker.asset)}</div>
+      <div class="board" role="grid" aria-label="${escapeHtml(this.t('match3.boardAria'))}">${this.boardCellsMarkup(game.board, blocker.asset)}</div>
 
       <div class="match-tooltray">
-        <div class="detective-strip" aria-label="Команда расследования">
-          ${(['miku', 'onoe', 'ayuki'] as const).map((key) => `<span><img src="${characterRigs[key].medallion}" alt="${characterRigs[key].displayName}"><b>${escapeHtml(characterRigs[key].displayName)}</b></span>`).join('')}
+        <div class="detective-strip" aria-label="${escapeHtml(this.t('match3.teamAria'))}">
+          ${(['miku', 'onoe', 'ayuki'] as const).map((key) => `<span><img src="${characterRigs[key].medallion}" alt="${escapeHtml(this.characterName(key))}"><b>${escapeHtml(this.characterName(key))}</b></span>`).join('')}
         </div>
         <button id="hint" class="hint-button">
-          <img src="${specialAsset}" alt=""><span><b>ПОДСКАЗКА</b><small>Лучший ход</small></span>
+          <img src="${specialAsset}" alt=""><span><b>${escapeHtml(this.t('match3.hint'))}</b><small>${escapeHtml(this.t('match3.bestMove'))}</small></span>
         </button>
       </div>
-      <p class="match-hint">Перетащите фишку, свайпните или выберите две соседние · подсказка учитывает цели.</p>
+      <p class="match-hint">${escapeHtml(this.t('match3.inputHint'))}</p>
     </section>`);
 
     this.root.querySelector('#quit')?.addEventListener('click', () => {
@@ -243,14 +250,14 @@ export class Match3Controller {
     this.selectedCell = null;
     this.hintedCells.clear();
     if (!hint) {
-      this.matchBark = { speaker: 'Оноэ', text: 'Поле не даёт корректного обмена. Нужна перестановка.' };
+      this.matchBark = this.bark('noHint', 'onoe');
       this.renderMatch();
       return;
     }
     this.hintedCells.add(hint.first);
     this.hintedCells.add(hint.second);
     this.services.audio.play('hint');
-    this.matchBark = { speaker: 'Мику', text: 'Этот обмен лучше всего продвигает текущие цели расследования.' };
+    this.matchBark = this.bark('hintFound', 'miku');
     this.renderMatch();
   }
 
@@ -282,12 +289,12 @@ export class Match3Controller {
     board.innerHTML = this.boardCellsMarkup(frame.board, blocker.asset, { clearing, motions });
     board.className = `board phase-${frame.phase}`;
     if (frame.phase === 'clear') {
-      if (frame.specialsActivated > 0) { this.services.audio.play('special'); this.setMatchFeedback('НАБЛЮДЕНИЕ!', 'special-feedback'); }
-      else if (frame.cascade >= 2) { this.services.audio.play('cascade'); this.setMatchFeedback(`ЦЕПОЧКА ×${frame.cascade}`, 'combo-feedback'); }
-      else { this.services.audio.play('match'); this.setMatchFeedback('СОВПАДЕНИЕ', 'match-feedback-good'); }
+      if (frame.specialsActivated > 0) { this.services.audio.play('special'); this.setMatchFeedback(this.t('match3.feedback.special'), 'special-feedback'); }
+      else if (frame.cascade >= 2) { this.services.audio.play('cascade'); this.setMatchFeedback(this.t('match3.feedback.chain', { count: frame.cascade }), 'combo-feedback'); }
+      else { this.services.audio.play('match'); this.setMatchFeedback(this.t('match3.feedback.match'), 'match-feedback-good'); }
     } else if (frame.phase === 'reshuffle') {
       this.services.audio.play('reshuffle');
-      this.setMatchFeedback('ПОЛЕ ПЕРЕМЕШАНО', 'reshuffle-feedback');
+      this.setMatchFeedback(this.t('match3.feedback.reshuffled'), 'reshuffle-feedback');
     } else if (frame.phase !== 'settle') {
       this.setMatchFeedback('');
     }
@@ -351,7 +358,7 @@ export class Match3Controller {
       const noMatch = result.reason === 'no-match';
       if (noMatch) await this.animateSwapStacks(first, second, !reduced);
       cells.forEach((cell) => cell.classList.add('swap-rejected'));
-      this.setMatchFeedback(noMatch ? 'НЕТ СОВПАДЕНИЯ' : 'ОБМЕН НЕДОСТУПЕН', 'reject-feedback');
+      this.setMatchFeedback(noMatch ? this.t('match3.feedback.noMatch') : this.t('match3.feedback.swapUnavailable'), 'reject-feedback');
       await this.matchDelay(matchMotionDuration('invalidHold', reduced));
       cells.forEach((cell) => cell.classList.remove('swap-rejected'));
       if (noMatch && !reduced) {
@@ -395,16 +402,16 @@ export class Match3Controller {
     }
 
     if (result.cascades >= 2) {
-      this.setMatchFeedback(`ЦЕПОЧКА ×${result.cascades}`, 'combo-feedback');
+      this.setMatchFeedback(this.t('match3.feedback.chain', { count: result.cascades }), 'combo-feedback');
       await this.matchDelay(matchMotionDuration('feedbackHold', false));
     }
     if (result.won) {
       this.services.audio.play('win');
-      this.setMatchFeedback('УЛИКА СОБРАНА', 'win-feedback');
+      this.setMatchFeedback(this.t('match3.feedback.clueCollected'), 'win-feedback');
       await this.matchDelay(matchMotionDuration('feedbackHold', false));
     } else if (result.lost) {
       this.services.audio.play('lose');
-      this.setMatchFeedback('ХОДЫ ЗАКОНЧИЛИСЬ', 'loss-feedback');
+      this.setMatchFeedback(this.t('match3.feedback.outOfMoves'), 'loss-feedback');
       await this.matchDelay(matchMotionDuration('feedbackHold', false));
     }
   }
@@ -487,7 +494,7 @@ export class Match3Controller {
       this.selectedCell = null;
       if (targetIndex === null) {
         this.selectedCell = null;
-        this.matchBark = { speaker: 'Мику', text: 'За краем поля обмена нет. Попробуем соседнюю клетку.' };
+        this.matchBark = this.bark('edge', 'miku');
         this.renderMatch();
         return;
       }
@@ -532,9 +539,9 @@ export class Match3Controller {
           this.renderMatch();
           return;
         }
-        if (result.reason === 'ingredient') this.matchBark = { speaker: 'Мику', text: 'Сюжетный объект нужно опустить вниз совпадениями под ним.' };
-        else if (result.reason === 'blocked') this.matchBark = { speaker: 'Оноэ', text: 'Эта секция заперта. Сначала соберём совпадение рядом.' };
-        else if (result.reason === 'no-match') this.matchBark = { speaker: 'Оноэ', text: 'Этот обмен не образует ряд. Проверим соседние категории.' };
+        if (result.reason === 'ingredient') this.matchBark = this.bark('ingredientInvalid', 'miku');
+        else if (result.reason === 'blocked') this.matchBark = this.bark('blockedInvalid', 'onoe');
+        else if (result.reason === 'no-match') this.matchBark = this.bark('noMatchInvalid', 'onoe');
         await this.playMoveFrames(result, first, second);
         this.renderMatch();
         return;
@@ -565,27 +572,21 @@ export class Match3Controller {
     if (game.movesLeft === 5 && !this.triggeredBarks.has('fiveMoves')) {
       this.triggeredBarks.add('fiveMoves');
       const texts: Bark[] = [
-        { speaker: 'Мику', text: 'Ещё немного. Нам нужна связь с прачечной.' },
-        { speaker: 'Кэнтаро', text: 'Если вы её снова потеряете, это будет уже коллективное алиби.' },
-        { speaker: 'Мику', text: 'Нужен шкаф. Там журнал возврата.' },
-        { speaker: 'Оноэ', text: 'Нужны оба объекта. Без чека версия не закрыта.' },
+        this.bark('fiveMoves.0', 'miku'), this.bark('fiveMoves.1', 'kentaro'), this.bark('fiveMoves.2', 'miku'), this.bark('fiveMoves.3', 'onoe'),
       ];
       this.matchBark = texts[index];
       return;
     }
     if (result.specialsCreated > 0 && !this.triggeredBarks.has('special')) {
       this.triggeredBarks.add('special');
-      this.matchBark = { speaker: 'Мику', text: 'Если посмотреть на всё сразу, беспорядок превращается в узор.' };
+      this.matchBark = this.bark('special', 'miku');
       return;
     }
     const blockerThresholds = [3, 1, 6, 4];
     if (progress.blockersCleared >= blockerThresholds[index] && !this.triggeredBarks.has('blockers')) {
       this.triggeredBarks.add('blockers');
       const texts: Bark[] = [
-        { speaker: 'Аюки', text: 'Улика U-1 освобождена. Нет, я не дала ей имя.' },
-        { speaker: 'Оноэ', text: 'Упаковка плотная. Один удар откроет, второй освободит содержимое.' },
-        { speaker: 'Мику', text: 'Под пеной вещи из разных секций. Их смешали ещё до шкафчиков.' },
-        { speaker: 'Аюки', text: 'Ни тайника, ни сообщницы. У этой квартиры нет чувства драмы.' },
+        this.bark('blockers.0', 'ayuki'), this.bark('blockers.1', 'onoe'), this.bark('blockers.2', 'miku'), this.bark('blockers.3', 'ayuki'),
       ];
       this.matchBark = texts[index];
       return;
@@ -593,15 +594,12 @@ export class Match3Controller {
     if (moveNumber === 1 && !this.triggeredBarks.has('ingredient')) {
       this.triggeredBarks.add('ingredient');
       const texts: Bark[] = [
-        { speaker: 'Оноэ', text: 'Документ в верхней секции. Освободи путь к нижнему краю.' },
-        { speaker: 'Аюки', text: 'Маленькая чёрная карта, огромный шанс на драму.' },
-        { speaker: 'Аюки', text: 'Ключ всплыл. Метафорически. Буквально он движется вниз.' },
-        { speaker: 'Мику', text: 'Ищем оба документа: чек и полотенце с изменённым краем.' },
+        this.bark('ingredient.0', 'onoe'), this.bark('ingredient.1', 'ayuki'), this.bark('ingredient.2', 'ayuki'), this.bark('ingredient.3', 'miku'),
       ];
       this.matchBark = texts[index];
       return;
     }
-    if (result.cascades >= 2) this.matchBark = { speaker: 'Аюки', text: `Цепочка наблюдений: ${result.cascades}. Это уже почти дедукция.` };
+    if (result.cascades >= 2) this.matchBark = this.bark('cascade', 'ayuki', { count: result.cascades });
   }
 
   private completeLevel(): void {
@@ -626,11 +624,11 @@ export class Match3Controller {
     this.shell.render(`<section class="evidence-transition">
       <img class="evidence-background" src="${backgroundAssets[level.background]}" alt="">
       <div class="evidence-panel">
-        <p class="eyebrow">УЛИКА НАЙДЕНА</p>
-        <img src="${clue.asset}" alt="${escapeHtml(clue.label)}">
-        <h2>${escapeHtml(level.clueTitle)}</h2>
-        <p><b>${escapeHtml(level.winBark.speaker)}:</b> ${escapeHtml(level.winBark.text)}</p>
-        <button id="continue-story" class="primary">Продолжить сцену</button>
+        <p class="eyebrow">${escapeHtml(this.t('match3.evidenceFound'))}</p>
+        <img src="${clue.asset}" alt="${escapeHtml(this.t(`match3.clue.${level.clueId}`))}">
+        <h2>${escapeHtml(this.levelText(level, 'clueTitle'))}</h2>
+        <p><b>${escapeHtml(this.levelBark(level, 'win').speaker)}:</b> ${escapeHtml(this.levelBark(level, 'win').text)}</p>
+        <button id="continue-story" class="primary">${escapeHtml(this.t('match3.continueStory'))}</button>
       </div>
     </section>`);
     const continueStory = (): void => this.navigation.openScene(this.session.save.scene, this.session.save.line);
@@ -646,18 +644,18 @@ export class Match3Controller {
     this.activeMatch = null;
     this.shell.render(`<section class="result-screen loss">
       <header class="app-header result-topbar">
-        ${headerActionMarkup('back', 'back', 'Назад к расследованию', undefined, 'app-header-back')}
-        <div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>Результат</b></div>
-        <nav class="app-header-actions" aria-label="Навигация">
-          ${headerActionMarkup('header-settings', 'settings', 'Настройки')}
+        ${headerActionMarkup('back', 'back', this.t('match3.backToInvestigation'), undefined, 'app-header-back')}
+        <div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>${escapeHtml(this.t('match3.result'))}</b></div>
+        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('common.navigation'))}">
+          ${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
         </nav>
       </header>
       <div class="result-content">
         <div class="result-mark">↻</div>
-        <p class="eyebrow">ХОДЫ ЗАКОНЧИЛИСЬ</p>
-        <h2>Версия требует повторной проверки</h2>
+        <p class="eyebrow">${escapeHtml(this.t('match3.feedback.outOfMoves'))}</p>
+        <h2>${escapeHtml(this.t('match3.lossHeading'))}</h2>
         <blockquote><b>${escapeHtml(level.loseBark.speaker)}</b>${escapeHtml(level.loseBark.text)}</blockquote>
-        <button class="primary" id="retry">Повторить уровень</button>
+        <button class="primary" id="retry">${escapeHtml(this.t('match3.retry'))}</button>
       </div>
     </section>`);
     this.root.querySelector('#retry')?.addEventListener('click', () => this.startMatch(this.activeLevelIndex));
@@ -665,14 +663,14 @@ export class Match3Controller {
     this.root.querySelector('#header-settings')?.addEventListener('click', () => this.navigation.showSettings(() => this.renderLoss(), true));
   }
 
-  private objectiveMarkup(level: LevelDefinition, objective: LevelDefinition['objectives'][number], value: number, showProgress: boolean): string {
+  private objectiveMarkup(level: LevelDefinition, objective: LevelDefinition['objectives'][number], objectiveIndex: number, value: number, showProgress: boolean): string {
     let asset: string;
     if (objective.kind === 'collect') asset = tilePresentation[objective.tile].asset;
     else if (objective.kind === 'drop') asset = ingredientPresentation[objective.ingredient].asset;
     else asset = blockerPresentation[level.blocker].asset;
     const current = Math.min(value, objective.target);
     return `<div class="objective ${showProgress && current >= objective.target ? 'done' : ''}">
-      <img src="${asset}" alt=""><span>${escapeHtml(objective.label)}</span>
+      <img src="${asset}" alt=""><span>${escapeHtml(this.objectiveText(level, objectiveIndex))}</span>
       <b>${showProgress ? `${current}/` : ''}${objective.target}</b>
     </div>`;
   }
