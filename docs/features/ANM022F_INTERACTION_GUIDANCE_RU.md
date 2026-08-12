@@ -1,12 +1,12 @@
 # ANM-022F — Interaction Guidance
 
-Status: R1 candidate.
+Status: ✅ implemented and merged.
 
 ## Цель
 
 Сделать уже существующий Match-3 input более читаемым и удобным без изменения balance, level data или special taxonomy.
 
-## Контракт
+## Реализованный контракт
 
 - после 5 секунд бездействия на активном поле автоматически показывается текущий objective-aware best move;
 - любое новое взаимодействие с полем сбрасывает inactivity timer;
@@ -14,10 +14,12 @@ Status: R1 candidate.
 - special можно активировать напрямую двойным тапом по той же клетке;
 - прямое special activation тратит ровно один move и использует существующий deterministic special effect/resolution pipeline;
 - drag/swipe special в соседнюю клетку продолжает активировать special через shared swap legality;
-- обычный double-tap по normal tile не активирует ничего и сохраняет tap-selection fallback;
+- обычный double-tap по normal tile не активирует special effect и сохраняет tap-selection fallback;
 - telemetry различает `match_hint.source = manual | inactivity`;
 - telemetry `match_move` различает `source = tap | drag | double-tap` и `activation = swap | direct`;
 - reduced-motion path остаётся функциональным.
+
+ANM-022F был импортирован минимальным patch после stale-base защиты и затем прошёл authoritative GitHub CI. Version/package metadata намеренно не переименовывались отдельным semver-cut; фактический production baseline отслеживается через `BUILD_LABEL` и `docs/ROADMAP_RU.md`.
 
 ## Non-goals
 
@@ -27,11 +29,11 @@ Status: R1 candidate.
 - никаких изменений save schema;
 - никаких новых tutorial screens.
 
-## Manual QA
+## Manual QA contract
 
-На iPhone preview проверить:
+Для regression QA на телефоне сохраняются проверки:
 
-1. ничего не трогать 5 секунд — подсветка двух клеток появляется автоматически;
+1. ничего не трогать 5 секунд — objective-aware подсветка двух клеток появляется автоматически;
 2. коснуться/потянуть поле до 5 секунд — timer начинается заново;
 3. кнопка Hint по-прежнему работает;
 4. создать special и дважды быстро тапнуть по нему — special активируется на месте и списывает один ход;
