@@ -61,6 +61,8 @@ Completed split:
 
 ### ANM-025 — Match-3 Production Framework [P0]
 
+Current slice: **025A Golden Sample parity R2 candidate** (R1 rejected by iPhone QA as visually too subtle).
+
 After ANM-024:
 - Golden Sample presentation parity;
 - narrative-driven level context;
