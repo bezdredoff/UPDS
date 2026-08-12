@@ -975,6 +975,7 @@ export const enCatalog = {
   'match3.retry': 'Retry Level',
   'match3.feedback.special': 'OBSERVATION!',
   'match3.feedback.chain': 'CHAIN ×{count}',
+  'match3.feedback.combo': 'COMBO!',
   'match3.feedback.match': 'MATCH',
   'match3.feedback.reshuffled': 'BOARD SHUFFLED',
   'match3.feedback.noMatch': 'NO MATCH',

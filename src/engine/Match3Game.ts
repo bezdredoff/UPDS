@@ -7,6 +7,7 @@ import {
 } from '../data/levels';
 
 export type SpecialKind = 'row' | 'column';
+export type MatchFeedbackKind = 'match' | 'combo' | 'chain' | 'special';
 
 export type BoardCell = Readonly<{
   tile: TileKey | null;
@@ -42,6 +43,7 @@ export type SettleMotion = Readonly<{
 
 export type Match3Frame = Readonly<{
   phase: 'swap' | 'clear' | 'settle' | 'reshuffle';
+  feedback?: MatchFeedbackKind;
   cascade: number;
   board: readonly BoardCell[];
   specialsActivated: number;
@@ -68,6 +70,7 @@ export type MoveResult = Readonly<{
   cleared: number;
   cascades: number;
   specialsCreated: number;
+  primaryFeedback: MatchFeedbackKind | null;
   blockersCleared: number;
   ingredientsDropped: number;
   reshuffled: boolean;
@@ -105,6 +108,7 @@ const emptyMoveResult = (reason: MoveResult['reason'], won: boolean, lost: boole
   cleared: 0,
   cascades: 0,
   specialsCreated: 0,
+  primaryFeedback: null,
   blockersCleared: 0,
   ingredientsDropped: 0,
   reshuffled: false,
@@ -182,6 +186,7 @@ export class Match3Game {
     const evaluation = this.evaluateSwap(first, second);
     if (!evaluation.valid) return emptyMoveResult(evaluation.reason ?? 'no-match', this.won, this.lost);
 
+    const primaryFeedback = this.classifyPlayerMove(evaluation.groups, evaluation.activatedSpecials);
     this.swapContents(first, second);
     const groups = [...evaluation.groups];
     const activatedSpecials = [...evaluation.activatedSpecials];
@@ -194,7 +199,7 @@ export class Match3Game {
     }];
 
     this.movesLeft -= 1;
-    const totals = this.resolve(groups, activatedSpecials, second, frames);
+    const totals = this.resolve(groups, activatedSpecials, second, frames, primaryFeedback);
     let reshuffled = false;
     if (!this.won && !this.lost && !this.hasAvailableMove()) {
       this.shuffle();
@@ -210,6 +215,7 @@ export class Match3Game {
     return {
       valid: true,
       ...totals,
+      primaryFeedback,
       reshuffled,
       frames,
       won: this.won,
@@ -322,6 +328,7 @@ export class Match3Game {
     activatedSpecials: readonly number[],
     preferredSpecialCell: number,
     frames: Match3Frame[],
+    primaryFeedback: MatchFeedbackKind,
   ): ResolutionTotals {
     const totals: ResolutionTotals = { cleared: 0, cascades: 0, specialsCreated: 0, blockersCleared: 0, ingredientsDropped: 0 };
     let groups = [...initialGroups];
@@ -348,8 +355,14 @@ export class Match3Game {
 
       const activatedCount = specialActivations.length;
       const visibleClear = [...clear].filter((index) => Boolean(this.cells[index]?.tile) && !this.isLockedCell(index));
+      const feedback: MatchFeedbackKind = activatedCount > 0
+        ? 'special'
+        : totals.cascades >= 2
+          ? 'chain'
+          : primaryFeedback;
       frames.push({
         phase: 'clear',
+        feedback,
         cascade: totals.cascades,
         board: this.snapshotBoard(),
         specialsActivated: activatedCount,
@@ -381,6 +394,23 @@ export class Match3Game {
     }
 
     return totals;
+  }
+
+  private classifyPlayerMove(
+    groups: readonly MatchGroup[],
+    activatedSpecials: readonly number[],
+  ): MatchFeedbackKind {
+    if (activatedSpecials.length > 0) return 'special';
+    if (groups.some((group) => group.indices.length >= 4)) return 'combo';
+
+    const seen = new Set<number>();
+    for (const group of groups) {
+      for (const index of group.indices) {
+        if (seen.has(index)) return 'combo';
+        seen.add(index);
+      }
+    }
+    return 'match';
   }
 
   private snapshotBoard(): readonly BoardCell[] {

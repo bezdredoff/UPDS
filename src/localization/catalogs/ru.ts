@@ -975,6 +975,7 @@ export const ruCatalog = {
   'match3.retry': 'Повторить уровень',
   'match3.feedback.special': 'НАБЛЮДЕНИЕ!',
   'match3.feedback.chain': 'ЦЕПОЧКА ×{count}',
+  'match3.feedback.combo': 'КОМБО!',
   'match3.feedback.match': 'СОВПАДЕНИЕ',
   'match3.feedback.reshuffled': 'ПОЛЕ ПЕРЕМЕШАНО',
   'match3.feedback.noMatch': 'НЕТ СОВПАДЕНИЯ',
