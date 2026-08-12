@@ -30,10 +30,10 @@ UPDS: только `row | column`; любой line >=4 создаёт line speci
 Нет отдельной награды за line-5, T/L и 2×2.
 
 RavenManor reference:
-- line-4 → Rocket;
-- T/L → area Bomb/Rune;
-- 2×2 → Raven;
-- line-5+ → Prism;
+- line-4 → Flash (RavenManor reference used only mechanically);
+- T/L → Evidence-style area special;
+- 2×2 → Lead;
+- line-5+ → Insight;
 - shape priority is explicit.
 
 Цель UPDS: расширять special taxonomy отдельной фичей, не смешивая с balance pass.
@@ -54,7 +54,7 @@ Target staged implementation:
 - row/column + row/column → cross;
 - line + area → expanded cross;
 - area + area → larger area;
-- prism + normal → clear selected tile type.
+- insight + normal → clear selected tile type.
 Unsupported pairs должны иметь явный deterministic fallback.
 
 ### 4. Available-move consistency

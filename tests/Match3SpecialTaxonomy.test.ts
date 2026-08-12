@@ -2,13 +2,13 @@ import { describe, expect, it } from 'vitest';
 import { readFile } from 'node:fs/promises';
 
 describe('ANM-022D special shape taxonomy', () => {
-  it('defines five production special kinds and explicit creation priority', async () => {
+  it('defines five narrative production special kinds and explicit creation priority', async () => {
     const source = await readFile(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
-    expect(source).toContain("export type SpecialKind = 'row' | 'column' | 'area' | 'raven' | 'prism'");
-    const prism = source.indexOf("kind: 'prism'");
-    const area = source.indexOf("kind: 'area'");
-    const raven = source.indexOf("kind: 'raven'");
-    const rocket = source.indexOf("kind: group.orientation");
+    expect(source).toContain("export type SpecialKind = 'flash-row' | 'flash-column' | 'evidence' | 'lead' | 'insight'");
+    const prism = source.indexOf("kind: 'insight'");
+    const area = source.indexOf("kind: 'evidence'");
+    const raven = source.indexOf("kind: 'lead'");
+    const rocket = source.indexOf("kind: group.orientation === 'row' ? 'flash-row' : 'flash-column'");
     expect(prism).toBeGreaterThan(0);
     expect(prism).toBeLessThan(area);
     expect(area).toBeLessThan(raven);
@@ -23,9 +23,9 @@ describe('ANM-022D special shape taxonomy', () => {
 
   it('gives area, raven and prism their own deterministic activation effects', async () => {
     const source = await readFile(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
-    expect(source).toContain("special === 'area'");
-    expect(source).toContain("special === 'raven'");
-    expect(source).toContain('this.ravenTargets(index)');
+    expect(source).toContain("special === 'evidence'");
+    expect(source).toContain("special === 'lead'");
+    expect(source).toContain('this.leadTargets(index)');
     expect(source).toContain('cell.tile === tile');
   });
 

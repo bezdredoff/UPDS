@@ -6,7 +6,7 @@ import {
   tileKeys,
 } from '../data/levels';
 
-export type SpecialKind = 'row' | 'column' | 'area' | 'raven' | 'prism';
+export type SpecialKind = 'flash-row' | 'flash-column' | 'evidence' | 'lead' | 'insight';
 export type MatchFeedbackKind = 'match' | 'combo' | 'chain' | 'special';
 
 export type BoardCell = Readonly<{
@@ -414,7 +414,7 @@ export class Match3Game {
     for (const group of groups) {
       if (group.indices.length < 5 || !group.indices.some((index) => swapped.has(index))) continue;
       const index = group.indices.includes(second) ? second : first;
-      candidates.push({ index, kind: 'prism' });
+      candidates.push({ index, kind: 'insight' });
     }
     if (candidates.length > 0) return this.uniqueCreations(candidates);
 
@@ -426,7 +426,7 @@ export class Match3Game {
         if (intersection === undefined) continue;
         const shape = new Set([...rowGroup.indices, ...columnGroup.indices]);
         if (![...swapped].some((index) => shape.has(index))) continue;
-        candidates.push({ index: intersection, kind: 'area' });
+        candidates.push({ index: intersection, kind: 'evidence' });
       }
     }
     if (candidates.length > 0) return this.uniqueCreations(candidates);
@@ -446,7 +446,7 @@ export class Match3Game {
             indexOf(top + 1, left + 1),
           ];
           if (square.every((index) => this.cells[index]?.tile === tile)) {
-            candidates.push({ index: square.includes(second) ? second : anchor, kind: 'raven' });
+            candidates.push({ index: square.includes(second) ? second : anchor, kind: 'lead' });
           }
         }
       }
@@ -456,7 +456,7 @@ export class Match3Game {
     for (const group of groups) {
       if (group.indices.length !== 4 || !group.indices.some((index) => swapped.has(index))) continue;
       const index = group.indices.includes(second) ? second : first;
-      candidates.push({ index, kind: group.orientation });
+      candidates.push({ index, kind: group.orientation === 'row' ? 'flash-row' : 'flash-column' });
     }
     return this.uniqueCreations(candidates);
   }
@@ -547,19 +547,19 @@ export class Match3Game {
       const special = this.cells[index]?.special;
       if (!special) continue;
       let additions: number[];
-      if (special === 'row') {
+      if (special === 'flash-row') {
         additions = Array.from({ length: BOARD_SIZE }, (_, column) => indexOf(rowOf(index), column));
-      } else if (special === 'column') {
+      } else if (special === 'flash-column') {
         additions = Array.from({ length: BOARD_SIZE }, (_, row) => indexOf(row, colOf(index)));
-      } else if (special === 'area') {
+      } else if (special === 'evidence') {
         additions = [];
         for (let row = Math.max(0, rowOf(index) - 1); row <= Math.min(BOARD_SIZE - 1, rowOf(index) + 1); row += 1) {
           for (let column = Math.max(0, colOf(index) - 1); column <= Math.min(BOARD_SIZE - 1, colOf(index) + 1); column += 1) {
             additions.push(indexOf(row, column));
           }
         }
-      } else if (special === 'raven') {
-        additions = this.ravenTargets(index);
+      } else if (special === 'lead') {
+        additions = this.leadTargets(index);
       } else {
         const tile = this.cells[index]?.tile;
         additions = tile ? this.cells.flatMap((cell, cellIndex) => cell.tile === tile ? [cellIndex] : []) : [];
@@ -573,7 +573,7 @@ export class Match3Game {
     }
   }
 
-  private ravenTargets(index: number): number[] {
+  private leadTargets(index: number): number[] {
     const row = rowOf(index);
     const column = colOf(index);
     const local = [
