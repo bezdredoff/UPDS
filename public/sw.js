@@ -66,7 +66,7 @@ self.addEventListener('fetch', (event) => {
   if (request.mode === 'navigate') {
     event.respondWith((async () => {
       try {
-        const response = await fetch(request);
+        const response = await fetch(request, isPreview ? { cache: 'reload' } : undefined);
         if (response.ok) {
           const cache = await caches.open(cacheName);
           await cache.put(new URL('./index.html', self.registration.scope).href, response.clone());
@@ -88,7 +88,7 @@ self.addEventListener('fetch', (event) => {
     const cached = await cache.match(request);
     if (isPreview) {
       try {
-        const response = await fetch(request);
+        const response = await fetch(request, { cache: 'reload' });
         if (response.ok) await cache.put(request, response.clone());
         return response;
       } catch {

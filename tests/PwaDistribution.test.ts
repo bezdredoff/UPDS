@@ -24,17 +24,21 @@ describe('PWA distribution contract', () => {
     expect(worker).toContain('const isStablePreviewRequest');
     expect(worker).toContain('if (!sameOrigin(url) || isStablePreviewRequest(url)) return;');
     expect(worker).toContain('if (isPreview) {');
+    expect(worker).toContain("fetch(request, isPreview ? { cache: 'reload' } : undefined)");
+    expect(worker).toContain("fetch(request, { cache: 'reload' })");
     expect(worker).toContain("data.type === 'SKIP_WAITING'");
     expect(worker).toContain("data.type !== 'CACHE_URLS'");
     expect(worker).toContain("type: 'CACHE_READY'");
   });
 
-  it('registers the worker at relative scope and warms runtime assets without blocking startup', () => {
+  it('versions the worker by deployment build id and warms runtime assets without blocking startup', () => {
     const controller = read('src/platform/PwaController.ts');
+    expect(controller).toContain("import { BUILD_ID } from '../appVersion'");
+    expect(controller).toContain('const version = encodeURIComponent(BUILD_ID)');
     expect(controller).toContain("navigator.serviceWorker.register(`./sw.js?v=${version}`, { scope: './' })");
     expect(controller).toContain("'./manifest.webmanifest', './icons/icon-180.png', './icons/icon-192.png', './icons/icon-512.png'");
     expect(controller).toContain("performance.getEntriesByType('resource')");
-    expect(controller).toContain("worker.postMessage({ type: 'CACHE_URLS'");
+    expect(controller).toContain("worker.postMessage({ type: 'CACHE_URLS', urls, build: BUILD_ID })");
     expect(controller).toContain("waiting.postMessage({ type: 'SKIP_WAITING' })");
   });
 });
