@@ -41,3 +41,5 @@ This directory is the documentation source of truth for the current repository.
 ## Archive
 
 `archive/` contains historical implementation notes, old feature README files, validation reports and manual QA snapshots. They are retained for traceability only. If an archived document conflicts with `architecture/`, `process/` or `features/`, the active document wins.
+
+- [`features/ANM019F_COMPLETE_SCREENPLAY_LOCALIZATION_RU.md`](features/ANM019F_COMPLETE_SCREENPLAY_LOCALIZATION_RU.md)
