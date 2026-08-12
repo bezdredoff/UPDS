@@ -1,5 +1,5 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { APP_VERSION, BUILD_LABEL } from '../src/appVersion';
 import { ANM009_SAVE_KEY } from '../src/engine/CampaignStore';
@@ -9,16 +9,21 @@ const tsconfig = JSON.parse(readFileSync(new URL('../tsconfig.json', import.meta
 const repositoryRoot = process.cwd();
 const activeRoots = ['.github', 'tests', 'src', 'docs', 'scripts'];
 
-const collectBakFiles = (relative: string): string[] => {
-  const absolute = resolve(repositoryRoot, relative);
+const collectFiles = (relativeRoot: string, predicate: (path: string) => boolean): string[] => {
+  const absolute = resolve(repositoryRoot, relativeRoot);
   if (!existsSync(absolute)) return [];
 
   return readdirSync(absolute, { withFileTypes: true }).flatMap((entry) => {
-    const child = join(relative, entry.name);
-    if (entry.isDirectory()) return collectBakFiles(child);
-    return child.endsWith('.bak') ? [child] : [];
+    const child = join(relativeRoot, entry.name);
+    if (entry.isDirectory()) return collectFiles(child, predicate);
+    return predicate(child) ? [child.replace(/\\/g, '/')] : [];
   });
 };
+
+const collectBakFiles = (relativeRoot: string): string[] => collectFiles(relativeRoot, (path) => path.endsWith('.bak'));
+const featureTsFiles = collectFiles('src/features', (path) => path.endsWith('.ts'));
+const srcTsFiles = collectFiles('src', (path) => path.endsWith('.ts'));
+const sourceFor = (path: string): string => readFileSync(resolve(repositoryRoot, path), 'utf8');
 
 describe('repository maintenance contract', () => {
   it('keeps runtime version metadata dynamic and the stable campaign save key unchanged', () => {
@@ -54,9 +59,7 @@ describe('repository maintenance contract', () => {
   });
 });
 
-const animeAppSource = readFileSync(new URL('../src/ui/AnimeDetectiveApp.ts', import.meta.url), 'utf8');
-const vnControllerSource = readFileSync(new URL('../src/features/vn/VnController.ts', import.meta.url), 'utf8');
-const matchControllerSource = readFileSync(new URL('../src/features/match3/Match3Controller.ts', import.meta.url), 'utf8');
+const animeAppSource = sourceFor('src/ui/AnimeDetectiveApp.ts');
 
 describe('UI architecture boundaries', () => {
   it('keeps AnimeDetectiveApp as a small composition root', () => {
@@ -66,16 +69,33 @@ describe('UI architecture boundaries', () => {
     expect(animeAppSource).toContain('const navigation: AppNavigation');
   });
 
-  it('keeps VN and Match-3 feature controllers independent from each other', () => {
-    expect(vnControllerSource).not.toContain("features/match3");
-    expect(vnControllerSource).not.toContain('Match3Controller');
-    expect(matchControllerSource).not.toContain("features/vn");
-    expect(matchControllerSource).not.toContain('VnController');
+  it('prevents feature modules from importing sibling feature modules', () => {
+    for (const file of featureTsFiles) {
+      const sourceFeature = file.split('/')[2];
+      const absoluteSource = resolve(repositoryRoot, file);
+      const imports = [...sourceFor(file).matchAll(/from\s+['"]([^'"]+)['"]/g)].map((match) => match[1]);
+
+      for (const specifier of imports) {
+        if (!specifier.startsWith('.')) continue;
+        const target = relative(repositoryRoot, resolve(dirname(absoluteSource), specifier)).replace(/\\/g, '/');
+        if (!target.startsWith('src/features/')) continue;
+        const targetFeature = target.split('/')[2];
+        expect(targetFeature, `${file} imports sibling feature via ${specifier}`).toBe(sourceFeature);
+      }
+    }
   });
 
-  it('keeps campaign persistence centralized behind AppSession rather than recreated by feature controllers', () => {
-    expect(vnControllerSource).not.toContain('new CampaignStore');
-    expect(matchControllerSource).not.toContain('new CampaignStore');
+  it('keeps feature-controller construction in the composition root only', () => {
+    const constructionSites = srcTsFiles
+      .filter((file) => /new\s+[A-Z][A-Za-z0-9]*Controller\s*\(/.test(sourceFor(file)))
+      .sort();
+    expect(constructionSites).toEqual(['src/ui/AnimeDetectiveApp.ts']);
+  });
+
+  it('keeps campaign persistence centralized behind AppSession rather than recreated by features', () => {
+    for (const file of featureTsFiles) {
+      expect(sourceFor(file), `${file} must not construct CampaignStore`).not.toContain('new CampaignStore');
+    }
     expect(animeAppSource).toContain('new AppSession');
   });
 });
