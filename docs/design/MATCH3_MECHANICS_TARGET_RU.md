@@ -106,7 +106,7 @@ Target: adopt only after engine shared-playable-swap contract is stable.
 Create one legality/simulation path used by attempt, hint and dead-board detection.
 No new specials, no balance change.
 
-### ANM-022C — Feedback Semantics
+### ANM-022C — Feedback Semantics ✅
 Separate MATCH / COMBO / CHAIN / SPECIAL semantics using existing mechanics first.
 No move-budget changes.
 

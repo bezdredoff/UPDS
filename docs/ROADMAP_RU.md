@@ -36,7 +36,7 @@ ANM-022A audit/target contract complete.\nANM-022B shared move-legality contract
 
 Next atomic features:
 - ANM-022B shared move-legality/simulation contract — complete;
-- ANM-022C MATCH / COMBO / CHAIN / SPECIAL feedback semantics;
+- ANM-022C MATCH / COMBO / CHAIN / SPECIAL feedback semantics — complete;
 - ANM-022D expanded special shape taxonomy;
 - ANM-022E explicit special-combination matrix;
 - ANM-022F inactivity hint/direct-special interaction polish.

@@ -289,9 +289,20 @@ export class Match3Controller {
     board.innerHTML = this.boardCellsMarkup(frame.board, blocker.asset, { clearing, motions });
     board.className = `board phase-${frame.phase}`;
     if (frame.phase === 'clear') {
-      if (frame.specialsActivated > 0) { this.services.audio.play('special'); this.setMatchFeedback(this.t('match3.feedback.special'), 'special-feedback'); }
-      else if (frame.cascade >= 2) { this.services.audio.play('cascade'); this.setMatchFeedback(this.t('match3.feedback.chain', { count: frame.cascade }), 'combo-feedback'); }
-      else { this.services.audio.play('match'); this.setMatchFeedback(this.t('match3.feedback.match'), 'match-feedback-good'); }
+      const feedback = frame.feedback ?? 'match';
+      if (feedback === 'special') {
+        this.services.audio.play('special');
+        this.setMatchFeedback(this.t('match3.feedback.special'), 'special-feedback');
+      } else if (feedback === 'chain') {
+        this.services.audio.play('cascade');
+        this.setMatchFeedback(this.t('match3.feedback.chain', { count: frame.cascade }), 'chain-feedback');
+      } else if (feedback === 'combo') {
+        this.services.audio.play('special');
+        this.setMatchFeedback(this.t('match3.feedback.combo'), 'combo-feedback');
+      } else {
+        this.services.audio.play('match');
+        this.setMatchFeedback(this.t('match3.feedback.match'), 'match-feedback-good');
+      }
     } else if (frame.phase === 'reshuffle') {
       this.services.audio.play('reshuffle');
       this.setMatchFeedback(this.t('match3.feedback.reshuffled'), 'reshuffle-feedback');
@@ -381,8 +392,8 @@ export class Match3Controller {
     if (reduced) {
       const finalFrame = [...result.frames].reverse().find((frame) => frame.phase === 'settle' || frame.phase === 'reshuffle') ?? result.frames[result.frames.length - 1];
       if (finalFrame) this.renderMatchFrame(finalFrame);
-      if (result.specialsCreated > 0) this.services.audio.play('special');
-      else if (result.cascades >= 2) this.services.audio.play('cascade');
+      if (result.primaryFeedback === 'special' || result.primaryFeedback === 'combo') this.services.audio.play('special');
+      else if (result.primaryFeedback === 'chain') this.services.audio.play('cascade');
       else this.services.audio.play('match');
       if (result.reshuffled) this.services.audio.play('reshuffle');
       if (result.won) this.services.audio.play('win');
@@ -402,7 +413,7 @@ export class Match3Controller {
     }
 
     if (result.cascades >= 2) {
-      this.setMatchFeedback(this.t('match3.feedback.chain', { count: result.cascades }), 'combo-feedback');
+      this.setMatchFeedback(this.t('match3.feedback.chain', { count: result.cascades }), 'chain-feedback');
       await this.matchDelay(matchMotionDuration('feedbackHold', false));
     }
     if (result.won) {
