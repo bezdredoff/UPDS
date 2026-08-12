@@ -27,9 +27,9 @@ describe('runtime asset contract', () => {
     for (const asset of runtimeAssetCatalog) expect(existsSync(localPath(asset)), asset).toBe(true);
   });
 
-  it('contains a base, six face overlays, pose B and medallion for every finished rig', () => {
+  it('contains five precomposed expression frames, pose B and medallion for every finished rig', () => {
     for (const rig of Object.values(characterRigs)) {
-      const assets = [rig.base, ...Object.values(rig.faces), rig.poseB, rig.medallion];
+      const assets = [...Object.values(rig.frames), rig.poseB, rig.medallion];
       for (const asset of assets) expect(existsSync(localPath(asset)), asset).toBe(true);
     }
   });

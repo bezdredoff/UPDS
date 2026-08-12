@@ -82,6 +82,6 @@ describe('platform infrastructure', () => {
     expect(new Set(runtimeAssetCatalog).size).toBe(runtimeAssetCatalog.length);
     expect(runtimeAssetCatalog).toContain('./assets/backgrounds/BG_CLUBROOM_DAY.webp');
     expect(runtimeAssetCatalog).toContain('./assets/ui/icon_log.svg');
-    expect(runtimeAssetCatalog.some((asset) => asset.includes('characters/miku/rig/pose_a/base-neutral.png'))).toBe(true);
+    expect(runtimeAssetCatalog.some((asset) => asset.includes('characters/miku/rig/pose_a/frames/frame-neutral.png'))).toBe(true);
   });
 });
