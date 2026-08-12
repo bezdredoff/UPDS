@@ -1,4 +1,4 @@
-# UPDS — актуальный roadmap после ANM-019F
+# UPDS — актуальный roadmap после ANM-020
 
 ## Completed foundation
 
@@ -16,19 +16,15 @@
 
 ## Next recommended work
 
-### ANM-019 — Localization foundation
-
-Localization core, ru/en Main Menu + Settings, and VN metadata/choices/chrome are complete. Screenplay runtime localization and an English prologue slice are complete. Localization foundation complete through ANM-019F. Next: localization completeness/manual audit, then return to gameplay/content roadmap. Russian remains the source/fallback locale while features migrate.
-
-### Production character completion
+### ANM-021 — Production character completion
 
 Replace remaining portrait placeholders (Emi, Mayu, Kentaro, Norihiro) using the existing `base-neutral + face overlay` production contract.
 
-### Structured playtest + balance pass
+### ANM-022/023/024 — Match-3 mechanics, balance & structured playtest
 
 Distribute the installable build, collect exported playtest JSON, then adjust level move budgets/objectives and UX only from observed data. Keep telemetry schema stable during one comparison cohort where practical.
 
-### Release-candidate hardening
+### ANM-025 — Release-candidate hardening
 
 Feature freeze followed by full mobile/offline/save/audio/accessibility/performance/proofreading regression and final asset optimization.
 
