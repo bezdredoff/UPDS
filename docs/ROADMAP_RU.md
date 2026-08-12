@@ -32,10 +32,10 @@ Character production can resume independently without blocking code/data work.
 
 ### ANM-022 — Match-3 mechanics
 
-ANM-022A audit/target contract complete.
+ANM-022A audit/target contract complete.\nANM-022B shared move-legality contract complete.
 
 Next atomic features:
-- ANM-022B shared move-legality/simulation contract;
+- ANM-022B shared move-legality/simulation contract — complete;
 - ANM-022C MATCH / COMBO / CHAIN / SPECIAL feedback semantics;
 - ANM-022D expanded special shape taxonomy;
 - ANM-022E explicit special-combination matrix;
