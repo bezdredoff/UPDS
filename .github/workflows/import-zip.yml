@@ -345,7 +345,21 @@ jobs:
 
   cleanup-incoming:
     name: Reset binary inbox branch
-    if: ${{ github.event_name == 'push' && needs.validate-candidate.result == 'success' && needs.build-stable.result == 'success' && needs.open-pr.result == 'success' && needs.deploy-preview.result == 'success' && needs.annotate.result == 'success' }}
+    if: >-
+      ${{
+        always() &&
+        github.event_name == 'push' &&
+        (
+          needs.validate-candidate.result == 'failure' ||
+          (
+            needs.validate-candidate.result == 'success' &&
+            needs.build-stable.result == 'success' &&
+            needs.open-pr.result == 'success' &&
+            needs.deploy-preview.result == 'success' &&
+            needs.annotate.result == 'success'
+          )
+        )
+      }}
     needs:
       - validate-candidate
       - build-stable
@@ -357,13 +371,17 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Force-reset incoming to current main
+      - name: Check out current main as clean inbox tree
         uses: actions/checkout@v6
         with:
           ref: main
           fetch-depth: 0
-      - name: Drop uploaded ZIP from reachable incoming history
+      - name: Replace incoming with an unreachable-upload clean commit
         shell: bash
         run: |
           set -euo pipefail
-          git push --force origin HEAD:incoming
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          clean_tree="$(git rev-parse 'HEAD^{tree}')"
+          reset_commit="$(printf '%s\n' 'Reset incoming inbox after mobile import [skip ci]' | git commit-tree "$clean_tree" -p HEAD)"
+          git push --force origin "$reset_commit:incoming"

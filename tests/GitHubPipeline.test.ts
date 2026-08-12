@@ -14,7 +14,7 @@ describe('GitHub/phone pipeline contract', () => {
     expect(workflow).toContain('pull_request:');
   });
 
-  it('deploys stable main through official GitHub Pages actions', () => {
+  it('deploys stable main through official GitHub Pages actions and syncs incoming without retriggering the importer', () => {
     const workflow = read('.github/workflows/pages.yml');
     expect(workflow).toContain('actions/upload-pages-artifact@v5');
     expect(workflow).toContain('actions/deploy-pages@v4');
@@ -24,6 +24,9 @@ describe('GitHub/phone pipeline contract', () => {
     expect(workflow).toContain('Sync mobile inbox branch to stable main');
     expect(workflow.match(/if: github\.ref == 'refs\/heads\/main'/g)).toHaveLength(3);
     expect(workflow).toContain('ref: main');
+    expect(workflow).toContain('git commit-tree "$clean_tree" -p HEAD');
+    expect(workflow).toContain('Sync incoming inbox to stable main [skip ci]');
+    expect(workflow).toContain('git push --force origin "$sync_commit:incoming"');
   });
 
   it('validates mobile ZIPs before write-capable jobs and publishes a Pages preview slot', () => {
@@ -52,6 +55,17 @@ describe('GitHub/phone pipeline contract', () => {
     expect(workflow).toContain('cmp baseline/scripts/validate-upload-zip.py');
     expect(workflow).toContain('cmp baseline/scripts/apply-delta-zip.py');
     expect(workflow).toContain('Reset binary inbox branch');
+  });
+
+  it('cleans rejected mobile ZIPs while preserving the failed import result and avoiding a zero-ZIP follow-up run', () => {
+    const workflow = read('.github/workflows/import-zip.yml');
+    expect(workflow).toContain('always() &&');
+    expect(workflow).toContain("needs.validate-candidate.result == 'failure'");
+    expect(workflow).toContain("needs.validate-candidate.result == 'success'");
+    expect(workflow).toContain('git commit-tree "$clean_tree" -p HEAD');
+    expect(workflow).toContain('Reset incoming inbox after mobile import [skip ci]');
+    expect(workflow).toContain('git push --force origin "$reset_commit:incoming"');
+    expect(workflow).not.toContain('git push --force origin HEAD:incoming');
   });
 
 });
