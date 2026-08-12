@@ -110,7 +110,7 @@ No new specials, no balance change.
 Separate MATCH / COMBO / CHAIN / SPECIAL semantics using existing mechanics first.
 No move-budget changes.
 
-### ANM-022D — Special Shape Taxonomy
+### ANM-022D — Special Shape Taxonomy ✅
 Add area/prism-style special kinds and player-resolution-only creation priority.
 No special-special combos yet.
 

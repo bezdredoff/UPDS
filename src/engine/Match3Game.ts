@@ -6,7 +6,7 @@ import {
   tileKeys,
 } from '../data/levels';
 
-export type SpecialKind = 'row' | 'column';
+export type SpecialKind = 'row' | 'column' | 'area' | 'raven' | 'prism';
 export type MatchFeedbackKind = 'match' | 'combo' | 'chain' | 'special';
 
 export type BoardCell = Readonly<{
@@ -57,11 +57,14 @@ export type HintMove = Readonly<{
   score: number;
 }>;
 
+type SpecialCreation = Readonly<{ index: number; kind: SpecialKind }>;
+
 type SwapEvaluation = Readonly<{
   valid: boolean;
   reason?: Exclude<MoveResult['reason'], 'finished'>;
   groups: readonly MatchGroup[];
   activatedSpecials: readonly number[];
+  creations: readonly SpecialCreation[];
 }>;
 
 export type MoveResult = Readonly<{
@@ -186,10 +189,11 @@ export class Match3Game {
     const evaluation = this.evaluateSwap(first, second);
     if (!evaluation.valid) return emptyMoveResult(evaluation.reason ?? 'no-match', this.won, this.lost);
 
-    const primaryFeedback = this.classifyPlayerMove(evaluation.groups, evaluation.activatedSpecials);
+    const primaryFeedback = this.classifyPlayerMove(evaluation.groups, evaluation.activatedSpecials, evaluation.creations);
     this.swapContents(first, second);
     const groups = [...evaluation.groups];
     const activatedSpecials = [...evaluation.activatedSpecials];
+    const creations = [...evaluation.creations];
 
     const frames: Match3Frame[] = [{
       phase: 'swap',
@@ -199,7 +203,7 @@ export class Match3Game {
     }];
 
     this.movesLeft -= 1;
-    const totals = this.resolve(groups, activatedSpecials, second, frames, primaryFeedback);
+    const totals = this.resolve(groups, activatedSpecials, creations, frames, primaryFeedback);
     let reshuffled = false;
     if (!this.won && !this.lost && !this.hasAvailableMove()) {
       this.shuffle();
@@ -290,20 +294,29 @@ export class Match3Game {
   }
 
   private evaluateSwap(first: number, second: number): SwapEvaluation {
-    if (first === second) return { valid: false, reason: 'same-cell', groups: [], activatedSpecials: [] };
-    if (!this.areAdjacent(first, second)) return { valid: false, reason: 'not-adjacent', groups: [], activatedSpecials: [] };
-    if (!this.cells[first]?.tile || !this.cells[second]?.tile) return { valid: false, reason: 'ingredient', groups: [], activatedSpecials: [] };
-    if (this.isLockedCell(first) || this.isLockedCell(second)) return { valid: false, reason: 'blocked', groups: [], activatedSpecials: [] };
+    const empty = (reason: Exclude<MoveResult['reason'], 'finished'>): SwapEvaluation => ({
+      valid: false,
+      reason,
+      groups: [],
+      activatedSpecials: [],
+      creations: [],
+    });
+    if (first === second) return empty('same-cell');
+    if (!this.areAdjacent(first, second)) return empty('not-adjacent');
+    if (!this.cells[first]?.tile || !this.cells[second]?.tile) return empty('ingredient');
+    if (this.isLockedCell(first) || this.isLockedCell(second)) return empty('blocked');
 
+    const sameTile = this.cells[first].tile === this.cells[second].tile;
     this.swapContents(first, second);
     const activatedSpecials = [first, second].filter((index) => this.cells[index].special !== null);
     const groups = this.findMatchGroups();
+    const creations = sameTile && activatedSpecials.length === 0
+      ? []
+      : this.findPlayerSpecialCreations(groups, first, second);
     this.swapContents(first, second);
 
-    if (groups.length === 0 && activatedSpecials.length === 0) {
-      return { valid: false, reason: 'no-match', groups: [], activatedSpecials: [] };
-    }
-    return { valid: true, groups, activatedSpecials };
+    if (groups.length === 0 && activatedSpecials.length === 0 && creations.length === 0) return empty('no-match');
+    return { valid: true, groups, activatedSpecials, creations };
   }
 
   private fillInitialTiles(): void {
@@ -326,7 +339,7 @@ export class Match3Game {
   private resolve(
     initialGroups: readonly MatchGroup[],
     activatedSpecials: readonly number[],
-    preferredSpecialCell: number,
+    playerCreations: readonly SpecialCreation[],
     frames: Match3Frame[],
     primaryFeedback: MatchFeedbackKind,
   ): ResolutionTotals {
@@ -337,15 +350,9 @@ export class Match3Game {
     for (let cascade = 0; cascade < 24 && (groups.length > 0 || specialActivations.length > 0); cascade += 1) {
       totals.cascades += 1;
       const matched = new Set(groups.flatMap((group) => [...group.indices]));
-      const creations = new Map<number, SpecialKind>();
-
-      for (const group of groups) {
-        if (group.indices.length < 4) continue;
-        const preferred = group.indices.includes(preferredSpecialCell)
-          ? preferredSpecialCell
-          : group.indices[Math.floor(group.indices.length / 2)];
-        if (!creations.has(preferred)) creations.set(preferred, group.orientation);
-      }
+      const creations = totals.cascades === 1
+        ? new Map(playerCreations.map((creation) => [creation.index, creation.kind] as const))
+        : new Map<number, SpecialKind>();
 
       const clear = new Set<number>([...matched, ...specialActivations]);
       this.expandSpecialEffects(clear);
@@ -396,12 +403,77 @@ export class Match3Game {
     return totals;
   }
 
+  private findPlayerSpecialCreations(
+    groups: readonly MatchGroup[],
+    first: number,
+    second: number,
+  ): readonly SpecialCreation[] {
+    const swapped = new Set([first, second]);
+    const candidates: SpecialCreation[] = [];
+
+    for (const group of groups) {
+      if (group.indices.length < 5 || !group.indices.some((index) => swapped.has(index))) continue;
+      const index = group.indices.includes(second) ? second : first;
+      candidates.push({ index, kind: 'prism' });
+    }
+    if (candidates.length > 0) return this.uniqueCreations(candidates);
+
+    const rows = groups.filter((group) => group.orientation === 'row');
+    const columns = groups.filter((group) => group.orientation === 'column');
+    for (const rowGroup of rows) {
+      for (const columnGroup of columns) {
+        const intersection = rowGroup.indices.find((index) => columnGroup.indices.includes(index));
+        if (intersection === undefined) continue;
+        const shape = new Set([...rowGroup.indices, ...columnGroup.indices]);
+        if (![...swapped].some((index) => shape.has(index))) continue;
+        candidates.push({ index: intersection, kind: 'area' });
+      }
+    }
+    if (candidates.length > 0) return this.uniqueCreations(candidates);
+
+    for (const anchor of [first, second]) {
+      const tile = this.cells[anchor]?.tile;
+      if (!tile) continue;
+      const row = rowOf(anchor);
+      const column = colOf(anchor);
+      for (const top of [row - 1, row]) {
+        for (const left of [column - 1, column]) {
+          if (top < 0 || left < 0 || top >= BOARD_SIZE - 1 || left >= BOARD_SIZE - 1) continue;
+          const square = [
+            indexOf(top, left),
+            indexOf(top, left + 1),
+            indexOf(top + 1, left),
+            indexOf(top + 1, left + 1),
+          ];
+          if (square.every((index) => this.cells[index]?.tile === tile)) {
+            candidates.push({ index: square.includes(second) ? second : anchor, kind: 'raven' });
+          }
+        }
+      }
+    }
+    if (candidates.length > 0) return this.uniqueCreations(candidates);
+
+    for (const group of groups) {
+      if (group.indices.length !== 4 || !group.indices.some((index) => swapped.has(index))) continue;
+      const index = group.indices.includes(second) ? second : first;
+      candidates.push({ index, kind: group.orientation });
+    }
+    return this.uniqueCreations(candidates);
+  }
+
+  private uniqueCreations(creations: readonly SpecialCreation[]): readonly SpecialCreation[] {
+    const byIndex = new Map<number, SpecialKind>();
+    for (const creation of creations) if (!byIndex.has(creation.index)) byIndex.set(creation.index, creation.kind);
+    return [...byIndex].map(([index, kind]) => ({ index, kind }));
+  }
+
   private classifyPlayerMove(
     groups: readonly MatchGroup[],
     activatedSpecials: readonly number[],
+    creations: readonly SpecialCreation[],
   ): MatchFeedbackKind {
     if (activatedSpecials.length > 0) return 'special';
-    if (groups.some((group) => group.indices.length >= 4)) return 'combo';
+    if (creations.length > 0 || groups.some((group) => group.indices.length >= 4)) return 'combo';
 
     const seen = new Set<number>();
     for (const group of groups) {
@@ -474,9 +546,24 @@ export class Match3Game {
       expanded.add(index);
       const special = this.cells[index]?.special;
       if (!special) continue;
-      const additions = special === 'row'
-        ? Array.from({ length: BOARD_SIZE }, (_, column) => indexOf(rowOf(index), column))
-        : Array.from({ length: BOARD_SIZE }, (_, row) => indexOf(row, colOf(index)));
+      let additions: number[];
+      if (special === 'row') {
+        additions = Array.from({ length: BOARD_SIZE }, (_, column) => indexOf(rowOf(index), column));
+      } else if (special === 'column') {
+        additions = Array.from({ length: BOARD_SIZE }, (_, row) => indexOf(row, colOf(index)));
+      } else if (special === 'area') {
+        additions = [];
+        for (let row = Math.max(0, rowOf(index) - 1); row <= Math.min(BOARD_SIZE - 1, rowOf(index) + 1); row += 1) {
+          for (let column = Math.max(0, colOf(index) - 1); column <= Math.min(BOARD_SIZE - 1, colOf(index) + 1); column += 1) {
+            additions.push(indexOf(row, column));
+          }
+        }
+      } else if (special === 'raven') {
+        additions = this.ravenTargets(index);
+      } else {
+        const tile = this.cells[index]?.tile;
+        additions = tile ? this.cells.flatMap((cell, cellIndex) => cell.tile === tile ? [cellIndex] : []) : [];
+      }
       for (const addition of additions) {
         if (!clear.has(addition)) {
           clear.add(addition);
@@ -484,6 +571,29 @@ export class Match3Game {
         }
       }
     }
+  }
+
+  private ravenTargets(index: number): number[] {
+    const row = rowOf(index);
+    const column = colOf(index);
+    const local = [
+      index,
+      row > 0 ? indexOf(row - 1, column) : -1,
+      row < BOARD_SIZE - 1 ? indexOf(row + 1, column) : -1,
+      column > 0 ? indexOf(row, column - 1) : -1,
+      column < BOARD_SIZE - 1 ? indexOf(row, column + 1) : -1,
+    ].filter((candidate) => candidate >= 0);
+
+    for (const objective of this.level.objectives) {
+      if (objective.kind !== 'collect') continue;
+      if ((this.collected[objective.tile] ?? 0) >= objective.target) continue;
+      const target = this.cells.findIndex((cell, cellIndex) =>
+        cellIndex !== index && !local.includes(cellIndex) && cell.tile === objective.tile && !this.isLockedCell(cellIndex));
+      if (target >= 0) return [...local, target];
+    }
+    const fallback = this.cells.findIndex((cell, cellIndex) =>
+      cellIndex !== index && !local.includes(cellIndex) && Boolean(cell.tile) && !this.isLockedCell(cellIndex));
+    return fallback >= 0 ? [...local, fallback] : local;
   }
 
   private clearTiles(indices: ReadonlySet<number>): number {
