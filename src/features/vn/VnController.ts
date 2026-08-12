@@ -1,6 +1,7 @@
 import {
   characterForSpeaker,
   characterRigs,
+  characterStaging,
   expressionForDirection,
   expressionAsset,
   placeholderCharacters,
@@ -404,10 +405,12 @@ export class VnController {
 
   private characterMarkup(character: CharacterKey, expression: RuntimeExpression, direction: string, side: VnStageSide): string {
     const rig = characterRigs[character];
+    const staging = characterStaging[character];
+    const style = `--character-scale:${staging.scale};--character-y:${staging.yPercent}%`;
     if (this.usesPoseB(character, direction)) {
-      return `<div class="portrait portrait-${side} portrait-static-wrap"><img class="portrait-static" src="${rig.poseB}" alt="${rig.displayName}"></div>`;
+      return `<div class="portrait portrait-${side} portrait-static-wrap" data-character="${character}" style="${style}"><img class="portrait-static" src="${rig.poseB}" alt="${rig.displayName}"></div>`;
     }
-    return `<div class="portrait portrait-${side} character-rig" data-character="${character}" data-expression="${expression}">
+    return `<div class="portrait portrait-${side} character-rig" data-character="${character}" data-expression="${expression}" style="${style}">
       <img class="portrait-frame" src="${expressionAsset(character, expression)}" alt="${rig.displayName}">
     </div>`;
   }

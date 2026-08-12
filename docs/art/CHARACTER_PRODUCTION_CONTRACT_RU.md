@@ -68,3 +68,18 @@ ANM-021B R2/R3 Emi art отклонён visual QA:
 До новой генерации, которая проходит side-by-side comparison с Miku/Onoe/Ayuki, Эми остаётся placeholder.
 
 Новый Emi master должен сначала пройти standalone art approval; expressions производятся ТОЛЬКО после approval master.
+
+## VN staging / virtual camera
+
+Все production character frames используют общий VN camera viewport.
+PNG никогда не определяет CSS zoom своим intrinsic размером.
+
+Runtime contract:
+- `.portrait-frame` и `.portrait-static`: absolute inset 0, width/height 100%, `object-fit: contain`, `object-position: center bottom`;
+- Pose A и Pose B используют одинаковый camera box;
+- expression switch не меняет scale/y/side;
+- `characterStaging` — единственная допустимая точка character-specific scale/vertical offset;
+- default для production art: `scale: 1`, `yPercent: 0`.
+
+Разница роста должна быть художественно заложена в согласованный 1024×1536 master canvas либо отдельно утверждена
+в staging metadata. Нельзя «подгонять голову» случайным zoom на отдельной сцене.
