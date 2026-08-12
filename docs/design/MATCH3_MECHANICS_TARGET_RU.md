@@ -1,11 +1,11 @@
 # UPDS — Match-3 Mechanics Target Contract
 
-Status: ANM-022A audit baseline.
+Status: ANM-022 mechanics contract; ANM-022B–F implemented.
 
 ## Purpose
 
-Этот документ фиксирует целевой контракт Match-3 перед последующими атомарными изменениями.
-ANM-022A не меняет gameplay/balance/level data.
+Этот документ фиксирует целевой контракт Match-3 механик, сформированный в ANM-022A и реализованный атомарными изменениями ANM-022B–F.
+Он не является production roadmap: дальнейшая нумерация и порядок работ принадлежат `docs/ROADMAP_RU.md`.
 
 ## Что уже хорошо в UPDS и сохраняется
 
@@ -14,55 +14,49 @@ ANM-022A не меняет gameplay/balance/level data.
 - один player move тратится до resolution; cascades не тратят дополнительные moves;
 - engine resolution отделён от DOM animation timing;
 - clear / settle / spawn / reshuffle представлены frame sequence;
-- recursive activation существующих row/column specials;
-- objective-aware manual hint;
+- recursive activation существующих specials;
+- objective-aware hint;
 - deterministic seeded board generation;
 - dead-board reshuffle;
 - blockers и ingredient-drop objectives;
 - reduced-motion fallback;
 - telemetry schema должна оставаться стабильной во время mechanic comparison cohort.
 
-## Найденные gaps
+## Зафиксированные механические решения
 
-### 1. Special taxonomy слишком узкая
+### 1. Special taxonomy
 
-UPDS: только `row | column`; любой line >=4 создаёт line special.
-Нет отдельной награды за line-5, T/L и 2×2.
-
-RavenManor reference:
-- line-4 → Flash (RavenManor reference used only mechanically);
+Целевая taxonomy:
+- line-4 → Flash;
 - T/L → Evidence-style area special;
 - 2×2 → Lead;
 - line-5+ → Insight;
 - shape priority is explicit.
 
-Цель UPDS: расширять special taxonomy отдельной фичей, не смешивая с balance pass.
+Special taxonomy развивается отдельно от balance pass.
 
 ### 2. Special creation during cascades
 
-UPDS текущий `resolve()` создаёт specials на каждой cascade iteration.
-RavenManor deliberately creates specials only from first player-created resolution, while cascades may activate existing specials.
+Новые specials создаются только из первого player-created resolution.
+Cascades могут активировать уже существующие specials, но не создают новые.
 
-Target для первого UPDS pass: принять Raven-like правило `player-resolution only`.
 Причина: меньше runaway generation, читаемее причинно-следственная связь, проще balance.
 
 ### 3. Direct special combinations
 
-UPDS: swap с special активирует участвующие specials; recursive line effects есть, но bespoke pair semantics отсутствуют.
-
-Target staged implementation:
+Явная deterministic combination matrix покрывает поддерживаемые пары, включая:
 - Flash + Flash → cross;
 - Flash + Evidence → expanded cross;
 - Evidence + Evidence → larger area;
-- Insight + normal → clear selected tile type.
-Unsupported pairs должны иметь явный deterministic fallback.
+- Lead combinations → objective-aware Lead target;
+- Insight + normal → clear selected tile type;
+- Insight + special → clear partner base type + activate both swapped cells.
+
+Unsupported special pairs используют deterministic fallback.
 
 ### 4. Available-move consistency
 
-Сейчас `getHintMove()` считает swap, содержащий special, потенциально валидным.
-`hasAvailableMove()` проверяет только обычный resulting match.
-
-Target: один shared `isPlayableSwap` / simulation contract для:
+Один shared legality/simulation contract используется для:
 - actual move;
 - hint;
 - dead-board detection.
@@ -71,67 +65,51 @@ Target: один shared `isPlayableSwap` / simulation contract для:
 
 ### 5. Feedback semantics
 
-Текущий runtime:
-- ordinary first clear → MATCH;
-- cascade 2+ → CHAIN ×N;
-- activated special → special feedback.
-
-Creation of match-4/match-5/strong shape itself does not receive a distinct player-skill message.
-
-Target vocabulary must distinguish:
+Semantic vocabulary различает:
 - **MATCH** — ordinary 3;
 - **COMBO** / special-created feedback — strong player-created shape;
 - **CHAIN ×N** — automatic cascade depth;
-- special activation/combinations — their own feedback.
+- special activation/combinations — собственную special feedback category.
 
 Важно: COMBO и CHAIN — разные concepts. Combo describes the player's strong authored move/combination; Chain describes automatic cascade continuation.
 
-Final naming/localization may be tuned during implementation, but semantic categories are fixed here.
+### 6. Interaction guidance
 
-### 6. Interaction polish
-
-UPDS already has pointer drag preview, commit threshold, invalid return and click accessibility fallback.
-RavenManor additionally proved useful:
+Сохранены pointer drag preview, commit threshold, invalid return и click accessibility fallback.
+Дополнительно реализованы:
 - direct double-tap activation of special;
 - any-special drag activation;
 - automatic objective-aware hint after five seconds;
-- hint timer reset on any board/user activity;
+- hint timer reset on board/user activity;
 - differentiated telemetry source.
 
-Target: adopt only after engine shared-playable-swap contract is stable.
-
-## Proposed atomic implementation order
+## Atomic implementation record
 
 ### ANM-022B — Shared Move Legality ✅
-Create one legality/simulation path used by attempt, hint and dead-board detection.
-No new specials, no balance change.
+Один legality/simulation path для attempt, hint и dead-board detection.
 
 ### ANM-022C — Feedback Semantics ✅
-Separate MATCH / COMBO / CHAIN / SPECIAL semantics using existing mechanics first.
-No move-budget changes.
+Разделены MATCH / COMBO / CHAIN / SPECIAL semantics без balance changes.
 
 ### ANM-022D — Special Shape Taxonomy ✅
-Add area/prism-style special kinds and player-resolution-only creation priority.
-No special-special combos yet.
+Добавлены Flash / Evidence / Lead / Insight и player-resolution-only creation priority.
 
 ### ANM-022E — Special Combination Matrix ✅
-Implement a small explicit combo matrix and deterministic unsupported fallback.
+Добавлена явная combo matrix и deterministic unsupported fallback.
 
-### ANM-022F — Interaction Guidance
-Auto hint after inactivity + direct special activation polish + telemetry source differentiation.
+### ANM-022F — Interaction Guidance ✅
+Добавлены inactivity auto-hint, direct special activation и telemetry source differentiation.
 
-### ANM-023 — Balance
-Only after ANM-022 mechanics settle:
-moves, objectives, difficulty curve, spawn/special frequency.
+## После ANM-022
 
-### ANM-024 — Structured Playtest
-Stable mechanics + stable telemetry cohort; exported JSON comparison and full-slice playthrough.
+Этот документ больше не назначает номера будущим production-фичам. Авторитетный порядок находится в `docs/ROADMAP_RU.md`.
+Дальнейшая работа включает architecture/test health, display/safe-area foundation, Match-3 production framework с отдельным balance pass и Level Lab/campaign tooling.
 
-## Non-goals of ANM-022A
+## Non-goals механического контракта
 
-- no level move/objective tuning;
-- no new art requirement;
-- no save migration;
-- no screenplay/localization content changes;
-- no new booster/meta systems;
-- no animation overhaul.
+- level move/objective tuning;
+- новые art requirements;
+- save migration;
+- screenplay/localization content production;
+- booster/meta systems;
+- animation overhaul.
