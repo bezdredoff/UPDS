@@ -61,6 +61,13 @@ export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; a
 };
 
 export const specialAsset = './assets/match3/special_observation_magnifier.png';
+export const specialAssets = {
+  'flash-row': './assets/match3/specials/flash-row.svg',
+  'flash-column': './assets/match3/specials/flash-column.svg',
+  evidence: './assets/match3/specials/evidence.svg',
+  lead: './assets/match3/specials/lead.svg',
+  insight: './assets/match3/specials/insight.svg',
+} as const;
 
 const positions = (items: readonly (number | readonly [number, 1 | 2])[]): BoardPlacement[] => items.map((item) => (
   typeof item === 'number' ? { index: item, layers: 1 } : { index: item[0], layers: item[1] }

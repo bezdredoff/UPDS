@@ -1,44 +1,46 @@
-# ANM-022D — Special Shape Taxonomy
+# ANM-022D R1 — Narrative Special Taxonomy
 
-Build: `0.22.0-anm022d`.
+Build: `0.22.0-anm022d-r1.2`.
 
-## Creation priority
+## Production vocabulary
 
-Only the first player-authored resolution may create a special.
-Automatic cascades may activate existing specials but do not create new ones.
+RavenManor-derived placeholder vocabulary is retired.
 
-Priority:
-1. line-5+ → `prism`;
-2. T/L overlap → `area`;
-3. player-created 2×2 → `raven`;
-4. line-4 → directional `row` / `column`.
+- line-4 horizontal → `flash-row` / Горизонтальная вспышка;
+- line-4 vertical → `flash-column` / Вертикальная вспышка;
+- T/L → `evidence` / Улика;
+- player-created 2×2 → `lead` / Зацепка;
+- line-5+ → `insight` / Озарение.
 
-A 2×2 involving a swapped tile is a legal player move even without a normal match-3.
-No-op swaps of equal ordinary tiles do not qualify through a pre-existing square.
+Механические правила ANM-022D сохранены:
+- Flash очищает соответствующий ряд/столбец;
+- Evidence очищает 3×3;
+- Lead очищает локальные клетки и находит одну полезную удалённую цель;
+- Insight очищает фишки своего retained base type;
+- specials создаются только на первом player-authored resolution.
 
-## Effects in 022D
+## Production overlays
 
-- row → whole row;
-- column → whole column;
-- area → 3×3;
-- raven → orthogonal neighbours + one deterministic useful remote tile, preferring unfinished collect objectives;
-- prism → all ordinary tiles matching the prism's retained base tile.
+Каждый special имеет отдельный transparent SVG overlay в
+`public/assets/match3/specials/`.
 
-This prism behavior is intentionally standalone. `Prism + normal` as a direct combination belongs to ANM-022E.
+Базовый цветной tile остаётся видимым под overlay: тип фишки и способность кодируются независимо.
 
-## Presentation
+- Flash Row: горизонтальный световой луч + flare;
+- Flash Column: вертикальный световой луч + flare;
+- Evidence: карточка/фотография улики;
+- Lead: лупа + маркер найденной цели;
+- Insight: глаз/объектив с расходящимися связями.
 
-No new image generation is required.
-All specials reuse the existing observation asset and receive distinct CSS classes and accessible localized labels.
-Dedicated production art can replace this presentation later without changing engine semantics.
+SVG геометрические и не зависят от image-generation pipeline.
 
-## Excluded
+## Excluded from ANM-022D R1
 
-- special-special combination matrix;
-- Prism + normal direct combo;
-- balance tuning;
-- move/objective changes;
-- save migration;
-- new boosters.
+- `special-special` combination rules remain out of scope;
+- direct special combination matrix remains ANM-022E;
+- balance, level objectives and move budgets are unchanged.
 
-Next: ANM-022E — Special Combination Matrix.
+## Follow-up
+
+Discarded pre-R1 ANM-022E package must not be imported.
+ANM-022E is to be rebuilt on this narrative taxonomy.

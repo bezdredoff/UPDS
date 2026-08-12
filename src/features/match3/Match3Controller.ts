@@ -5,6 +5,7 @@ import {
   ingredientPresentation,
   levels,
   specialAsset,
+  specialAssets,
   tilePresentation,
   type ClueId,
   type LevelDefinition,
@@ -85,6 +86,7 @@ export class Match3Controller {
       backgroundAssets[level.background],
       blockerPresentation[level.blocker].asset,
       specialAsset,
+      ...Object.values(specialAssets),
       ...Object.values(tilePresentation).map((presentation) => presentation.asset),
       ...Object.values(ingredientPresentation).map((presentation) => presentation.asset),
     ];
@@ -162,7 +164,7 @@ export class Match3Controller {
         <span class="tile-stack">
           ${tile ? `<img class="tile" src="${tile.asset}" alt="" draggable="false">` : ''}
           ${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="" draggable="false">` : ''}
-          ${cell.special ? `<img class="special ${cell.special}" src="${specialAsset}" alt="${escapeHtml(this.t(`match3.special.${cell.special}`))}" draggable="false">` : ''}
+          ${cell.special ? `<img class="special ${cell.special}" src="${specialAssets[cell.special]}" alt="${escapeHtml(this.t(`match3.special.${cell.special}`))}" draggable="false">` : ''}
         </span>
         ${cell.blockerLayers > 0 ? `<span class="blocker"><img src="${blockerAsset}" alt="" draggable="false"><b>${cell.blockerLayers}</b></span>` : ''}
       </button>`;
