@@ -15,6 +15,8 @@ This roadmap replaces the previous vertical-slice-oriented ordering with a produ
 - telemetry foundation;
 - Match-3 legality, feedback semantics and narrative special taxonomy;
 - Emi production integration through ANM-021B R6.1;
+- character runtime uses precomposed 1024×1536 expression frames; retired transparent face-overlay composition must not return;
+- ANM-022B shared move-legality contract keeps swap validation, hints and dead-board detection consistent;
 - 2×2 Lead creation/resolution fixed in ANM-022D R1.3.
 
 ### In progress / pending validation
