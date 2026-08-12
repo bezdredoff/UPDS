@@ -2,13 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { readFile } from 'node:fs/promises';
 
 describe('ANM-022H1 delta ZIP foundation', () => {
-  it('documents delta before architecture work in the production roadmap', async () => {
-    const roadmap = await readFile(new URL('../docs/ROADMAP_RU.md', import.meta.url), 'utf8');
-    const delta = roadmap.indexOf('ANM-022H — Mobile/GitHub Development Flow v2');
-    const architecture = roadmap.indexOf('ANM-023 — Architecture & Test Health Pass');
-    expect(delta).toBeGreaterThan(0);
-    expect(delta).toBeLessThan(architecture);
-    expect(roadmap).toContain('FULL_PROJECT ZIP as recovery/binary/art path');
+  it('keeps FULL_PROJECT as the recovery/binary/art path alongside delta imports', async () => {
+    const setup = await readFile(new URL('../docs/setup/import-zip.delta-v1.yml', import.meta.url), 'utf8');
+    expect(setup).toContain('manifest.format == "upds-delta-v1"');
+    expect(setup).toContain('FULL_PROJECT ZIP stays supported as recovery/binary/art path');
+    expect(setup).toContain('A stale patch FAILS instead of silently rebasing');
   });
 
   it('protects pipeline files and uses exact base SHA in delta v1', async () => {
