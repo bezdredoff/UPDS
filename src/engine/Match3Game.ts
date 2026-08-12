@@ -55,6 +55,13 @@ export type HintMove = Readonly<{
   score: number;
 }>;
 
+type SwapEvaluation = Readonly<{
+  valid: boolean;
+  reason?: Exclude<MoveResult['reason'], 'finished'>;
+  groups: readonly MatchGroup[];
+  activatedSpecials: readonly number[];
+}>;
+
 export type MoveResult = Readonly<{
   valid: boolean;
   reason?: 'same-cell' | 'not-adjacent' | 'ingredient' | 'blocked' | 'no-match' | 'finished';
@@ -171,18 +178,13 @@ export class Match3Game {
 
   attemptSwap(first: number, second: number): MoveResult {
     if (this.won || this.lost) return emptyMoveResult('finished', this.won, this.lost);
-    if (first === second) return emptyMoveResult('same-cell', this.won, this.lost);
-    if (!this.areAdjacent(first, second)) return emptyMoveResult('not-adjacent', this.won, this.lost);
-    if (!this.cells[first]?.tile || !this.cells[second]?.tile) return emptyMoveResult('ingredient', this.won, this.lost);
-    if (this.isLockedCell(first) || this.isLockedCell(second)) return emptyMoveResult('blocked', this.won, this.lost);
+
+    const evaluation = this.evaluateSwap(first, second);
+    if (!evaluation.valid) return emptyMoveResult(evaluation.reason ?? 'no-match', this.won, this.lost);
 
     this.swapContents(first, second);
-    const activatedSpecials = [first, second].filter((index) => this.cells[index].special !== null);
-    const groups = this.findMatchGroups();
-    if (groups.length === 0 && activatedSpecials.length === 0) {
-      this.swapContents(first, second);
-      return emptyMoveResult('no-match', this.won, this.lost);
-    }
+    const groups = [...evaluation.groups];
+    const activatedSpecials = [...evaluation.activatedSpecials];
 
     const frames: Match3Frame[] = [{
       phase: 'swap',
@@ -220,23 +222,16 @@ export class Match3Game {
 
     for (let index = 0; index < this.cells.length; index += 1) {
       for (const candidate of [index + 1, index + BOARD_SIZE]) {
-        if (candidate >= this.cells.length || !this.areAdjacent(index, candidate)) continue;
-        if (!this.cells[index].tile || !this.cells[candidate].tile) continue;
-        if (this.isLockedCell(index) || this.isLockedCell(candidate)) continue;
+        const evaluation = this.evaluateSwap(index, candidate);
+        if (!evaluation.valid) continue;
 
-        this.swapContents(index, candidate);
-        const activatedSpecials = [index, candidate].filter((cellIndex) => this.cells[cellIndex].special !== null);
-        const groups = this.findMatchGroups();
-        if (groups.length > 0 || activatedSpecials.length > 0) {
-          const score = this.scorePotentialMove(groups, activatedSpecials);
-          const move = { first: index, second: candidate, score };
-          if (
-            !best
-            || move.score > best.score
-            || (move.score === best.score && (move.first < best.first || (move.first === best.first && move.second < best.second)))
-          ) best = move;
-        }
-        this.swapContents(index, candidate);
+        const score = this.scorePotentialMove(evaluation.groups, evaluation.activatedSpecials);
+        const move = { first: index, second: candidate, score };
+        if (
+          !best
+          || move.score > best.score
+          || (move.score === best.score && (move.first < best.first || (move.first === best.first && move.second < best.second)))
+        ) best = move;
       }
     }
 
@@ -281,18 +276,28 @@ export class Match3Game {
 
   hasAvailableMove(): boolean {
     for (let index = 0; index < this.cells.length; index += 1) {
-      const candidates = [index + 1, index + BOARD_SIZE];
-      for (const candidate of candidates) {
-        if (candidate >= this.cells.length || !this.areAdjacent(index, candidate)) continue;
-        if (!this.cells[index].tile || !this.cells[candidate].tile) continue;
-        if (this.isLockedCell(index) || this.isLockedCell(candidate)) continue;
-        this.swapContents(index, candidate);
-        const valid = this.findMatchGroups().length > 0;
-        this.swapContents(index, candidate);
-        if (valid) return true;
+      for (const candidate of [index + 1, index + BOARD_SIZE]) {
+        if (this.evaluateSwap(index, candidate).valid) return true;
       }
     }
     return false;
+  }
+
+  private evaluateSwap(first: number, second: number): SwapEvaluation {
+    if (first === second) return { valid: false, reason: 'same-cell', groups: [], activatedSpecials: [] };
+    if (!this.areAdjacent(first, second)) return { valid: false, reason: 'not-adjacent', groups: [], activatedSpecials: [] };
+    if (!this.cells[first]?.tile || !this.cells[second]?.tile) return { valid: false, reason: 'ingredient', groups: [], activatedSpecials: [] };
+    if (this.isLockedCell(first) || this.isLockedCell(second)) return { valid: false, reason: 'blocked', groups: [], activatedSpecials: [] };
+
+    this.swapContents(first, second);
+    const activatedSpecials = [first, second].filter((index) => this.cells[index].special !== null);
+    const groups = this.findMatchGroups();
+    this.swapContents(first, second);
+
+    if (groups.length === 0 && activatedSpecials.length === 0) {
+      return { valid: false, reason: 'no-match', groups: [], activatedSpecials: [] };
+    }
+    return { valid: true, groups, activatedSpecials };
   }
 
   private fillInitialTiles(): void {

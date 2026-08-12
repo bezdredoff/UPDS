@@ -102,7 +102,7 @@ Target: adopt only after engine shared-playable-swap contract is stable.
 
 ## Proposed atomic implementation order
 
-### ANM-022B — Shared Move Legality
+### ANM-022B — Shared Move Legality ✅
 Create one legality/simulation path used by attempt, hint and dead-board detection.
 No new specials, no balance change.
 
