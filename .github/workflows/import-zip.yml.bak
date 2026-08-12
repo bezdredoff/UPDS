@@ -68,65 +68,18 @@ jobs:
           test -n "$slug" || slug="candidate"
           echo "archive_name=$name" >> "$GITHUB_OUTPUT"
           echo "candidate_slug=$slug" >> "$GITHUB_OUTPUT"
-      - name: Detect candidate archive mode
-        id: archive-mode
-        shell: bash
+      - name: Validate ZIP structure before extraction
+        run: python3 scripts/validate-upload-zip.py "$RUNNER_TEMP/candidate.zip"
+      - name: Extract candidate
         run: |
-          set -euo pipefail
-          mode="$(
-            python3 - "$RUNNER_TEMP/candidate.zip" <<'PY'
-          import json
-          import sys
-          import zipfile
-
-          with zipfile.ZipFile(sys.argv[1]) as archive:
-              try:
-                  manifest = json.loads(archive.read("patch-manifest.json"))
-              except KeyError:
-                  print("full")
-              except Exception as exc:
-                  raise SystemExit(f"Invalid patch-manifest.json: {exc}")
-              else:
-                  if manifest.get("format") != "upds-delta-v1":
-                      raise SystemExit(
-                          "patch-manifest.json exists but format is not upds-delta-v1"
-                      )
-                  print("delta")
-          PY
-          )"
-          echo "mode=$mode" >> "$GITHUB_OUTPUT"
-          echo "Candidate archive mode: $mode"
-
-      - name: Validate and extract FULL_PROJECT candidate
-        if: ${{ steps.archive-mode.outputs.mode == 'full' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 baseline/scripts/validate-upload-zip.py "$RUNNER_TEMP/candidate.zip"
           mkdir -p "$RUNNER_TEMP/candidate"
           python3 -m zipfile -e "$RUNNER_TEMP/candidate.zip" "$RUNNER_TEMP/candidate"
-
-      - name: Validate and apply DELTA candidate to current main
-        if: ${{ steps.archive-mode.outputs.mode == 'delta' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf "$RUNNER_TEMP/candidate"
-          mkdir -p "$RUNNER_TEMP/candidate"
-          rsync -a --delete --exclude='.git/' baseline/ "$RUNNER_TEMP/candidate/"
-          current_main_sha="$(git -C baseline rev-parse HEAD)"
-          python3 baseline/scripts/apply-delta-zip.py \
-            "$RUNNER_TEMP/candidate.zip" \
-            "$current_main_sha" \
-            "$RUNNER_TEMP/candidate"
-
       - name: Reject pipeline self-modification from mobile ZIP
         shell: bash
         run: |
           set -euo pipefail
           diff -qr baseline/.github/workflows "$RUNNER_TEMP/candidate/.github/workflows"
           cmp baseline/scripts/validate-upload-zip.py "$RUNNER_TEMP/candidate/scripts/validate-upload-zip.py"
-          cmp baseline/scripts/apply-delta-zip.py "$RUNNER_TEMP/candidate/scripts/apply-delta-zip.py"
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
