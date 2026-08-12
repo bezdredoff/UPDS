@@ -1,10 +1,10 @@
 # UPDS — текущая архитектура
 
-Build: `0.19.2-anm019c`.
+Status: ANM-023D audited baseline.
 
 ## Runtime flow
 
-`content/data + localization → engine → feature controllers → app composition → platform services`
+`content/data + localization → engine/application state → feature controllers → app composition → platform services`
 
 Presentation code may animate engine results, but it must not redefine Match-3 rules, narrative IDs or campaign persistence semantics.
 
@@ -27,9 +27,18 @@ It must not accumulate feature rendering, Match-3 rules, VN paging, content defi
 
 - `AppSession.ts` — one shared mutable campaign state and the only application-level persistence seam;
 - `AppShell.ts` — one-screen DOM shell plus disposable UI timers;
-- `AppNavigation.ts` — small navigation contract used by feature controllers.
+- `AppNavigation.ts` — navigation contract used by feature controllers.
 
-Controllers do not import one another. Cross-feature transitions go through `AppNavigation` or a narrow callback supplied by the composition root.
+Controllers do not import or instantiate one another. Cross-feature transitions go through `AppNavigation` or a narrow callback supplied by the composition root.
+
+ANM-023D intentionally does **not** introduce an event bus or generic flow coordinator. The current awarded-clue handoff from Match-3 to the next VN screen is the only transient cross-feature payload and remains a narrow app-composed callback. If a second independent transient payload appears, that is the trigger to promote such handoffs into a dedicated application-level flow contract instead of accumulating more callbacks.
+
+Repository source-audit tests enforce two structural rules:
+
+1. a module under `src/features/<feature>/` cannot import a sibling `src/features/<other-feature>/` module;
+2. feature controllers are instantiated only in `AnimeDetectiveApp`.
+
+These are deliberate source-audit tests: the invariant is architectural structure rather than runtime output.
 
 ## Feature ownership
 
@@ -44,7 +53,8 @@ Owns VN session UI state and orchestration:
 - rendered measurement/reflow;
 - portrait staging/animation;
 - history/config overlays;
-- `CHOICE_00` presentation.
+- `CHOICE_00` presentation;
+- one-shot presentation of an awarded-clue toast received through the app-composed handoff.
 
 Pure/supporting VN logic remains under `src/ui/` for now:
 
@@ -53,7 +63,7 @@ Pure/supporting VN logic remains under `src/ui/` for now:
 - `vnPlayback.ts`;
 - `vnStaging.ts`.
 
-The VN controller must not import the Match-3 controller.
+The VN controller must not import or instantiate Match-3 feature code.
 
 ### `src/features/match3/Match3Controller.ts`
 
@@ -61,8 +71,8 @@ Owns one active Match-3 presentation/session:
 
 - level intro/start;
 - board interaction and selection state;
-- hints;
-- drag/swipe/tap wiring;
+- hints and inactivity guidance;
+- drag/swipe/tap/direct-special wiring;
 - presentation frames/motion playback;
 - field barks;
 - win/loss/evidence transitions;
@@ -73,7 +83,7 @@ Core rules remain exclusively in `src/engine/Match3Game.ts`. Existing pure input
 - `src/ui/boardInteraction.ts`;
 - `src/ui/matchMotion.ts`.
 
-The Match-3 controller must not import the VN controller. The only current Match-3 → VN transient handoff is an awarded clue ID supplied through an app-level callback.
+The Match-3 controller must not import or instantiate VN feature code. Its awarded-clue callback is composed by the application root and carries only the transient clue ID needed for the next VN presentation.
 
 ### Small screen controllers
 
@@ -83,7 +93,7 @@ The Match-3 controller must not import the VN controller. The only current Match
 - `features/dossier/DossierController.ts` — clue/suspect dossier;
 - `features/ending/EndingController.ts` — vertical-slice completion screen.
 
-These modules may call navigation callbacks but must not directly instantiate other feature controllers.
+These modules may call navigation callbacks but must not directly instantiate or import sibling feature controllers.
 
 ## Shared UI
 
@@ -112,7 +122,7 @@ Authoritative runtime definitions:
 ### `src/engine/`
 
 - `CampaignStore.ts` — save compatibility, manual save, import/export/recovery;
-- `Match3Game.ts` — deterministic Match-3 rules, objectives, hints and presentation frames.
+- `Match3Game.ts` — deterministic Match-3 rules, objectives, hints, specials and presentation frames.
 
 Engine code stays independent from DOM/CSS.
 
@@ -138,7 +148,7 @@ New episodes/levels/characters should primarily extend content/data definitions.
 
 `src/localization/` owns locale resolution, message catalogs, named-parameter formatting and locale persistence. `RuntimeServices` owns one shared `LocalizationService`; feature controllers consume it rather than creating per-feature localization state.
 
-Russian is the current source/fallback locale. Feature text migrates atomically to stable namespaced keys. VN scene display metadata now resolves from stable `VN_SCENE_*` IDs and `CHOICE_00` display text resolves from stable A/B/C choice IDs; authored screenplay text remains Russian until ANM-019D. Internal dialogue paging remains presentation-only after translated text is resolved.
+Russian and English catalogs cover the current vertical slice. Stable namespaced keys are preferred over tests or feature code depending on literal copy. VN scene display metadata resolves from stable `VN_SCENE_*` IDs and `CHOICE_00` display text resolves from stable A/B/C choice IDs. Internal dialogue paging remains presentation-only after translated text is resolved.
 
 ### Save migrations
 
