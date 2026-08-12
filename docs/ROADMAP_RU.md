@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical package baseline: `0.22.0-anm022e-r1`.
-Active production foundation: **ANM-023 complete**; runtime already includes **ANM-022F Interaction Guidance**.
+Active production foundation: **ANM-024 Display / Viewport / Safe-Area Foundation complete**; next production focus is **ANM-025 Match-3 Production Framework**.
 
 Package semver не используется как единственный источник feature status. Текущий фактический baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap.
 
@@ -23,6 +23,7 @@ Package semver не используется как единственный и�
 - Emi production integration through ANM-021B R6.1;
 - character runtime uses precomposed 1024×1536 expression frames; retired transparent face-overlay composition must not return;
 - ANM-023 Architecture & Test Health Pass: repository hygiene, test-health cleanup, architecture boundary audit and pipeline failure hygiene.
+- ANM-024 Display / Viewport / Safe-Area Foundation: shared viewport shell, centralized safe-area ownership, portrait regression matrix and orientation-neutral low-height landscape contract.
 
 ### Useful manual regression still pending
 
@@ -39,7 +40,7 @@ Package semver не используется как единственный и�
 
 ## Production backlog
 
-### ANM-024 — Display, Viewport & Safe-Area Foundation [P0]
+### ANM-024 — Display, Viewport & Safe-Area Foundation [P0] — COMPLETE
 
 Unify:
 `physical screen → safe viewport → game viewport → scene coordinates`
@@ -52,11 +53,11 @@ Includes:
 - portrait viewport matrix regression tests;
 - architecture must not hardcode portrait-only assumptions that block later landscape support.
 
-Recommended split:
+Completed split:
 - 024A viewport/safe-area contract + audit;
 - 024B shared game viewport shell;
-- 024C menu/VN/Match-3 migration;
-- 024D device-matrix regression + iPhone visual QA.
+- 024C shared safe-area ownership migration;
+- 024D legacy safe-area cleanup + portrait/low-height-landscape regression closure + iPhone QA.
 
 ### ANM-025 — Match-3 Production Framework [P0]
 
@@ -190,17 +191,16 @@ Do not consume core production capacity before base release.
 
 ## Recommended immediate sequence
 
-1. **ANM-024A–D Display / Safe Area / Viewport Foundation**;
-2. ANM-025A–D Match-3 production framework;
-3. ANM-026 Level Lab early;
-4. ANM-025E–F balance + narrative reactions;
-5. ANM-027 full story;
-6. ANM-028 character pipeline 2.0;
-7. ANM-029 localization;
-8. ANM-030 mass art/content;
-9. ANM-031 landscape;
-10. ANM-032 music;
-11. ANM-033 release hardening.
+1. **ANM-025A–D Match-3 production framework**;
+2. ANM-026 Level Lab early;
+3. ANM-025E–F balance + narrative reactions;
+4. ANM-027 full story;
+5. ANM-028 character pipeline 2.0;
+6. ANM-029 localization;
+7. ANM-030 mass art/content;
+8. ANM-031 landscape;
+9. ANM-032 music;
+10. ANM-033 release hardening.
 
 ## Backlog principle
 

@@ -1,6 +1,6 @@
 # ANM-024A — Viewport & Safe-Area Contract / Audit
 
-Status: R1 candidate.
+Status: complete; foundation closed by ANM-024D.
 
 Цель: перед визуальной миграцией зафиксировать единый geometry contract:
 `physical viewport → safe viewport → game viewport → scene coordinates`.
