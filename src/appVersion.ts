@@ -1,4 +1,4 @@
 export const APP_VERSION = '0.25.0-dev';
-export const BUILD_LABEL = 'ANM-025F1 · Narrative Reaction Contract';
+export const BUILD_LABEL = 'ANM-025F2 · Narrative Reaction Content';
 export const BUILD_ID = typeof __UPDS_BUILD_ID__ === 'string' ? __UPDS_BUILD_ID__ : 'local';
 export const BUILD_TIMESTAMP = typeof __UPDS_BUILD_TIMESTAMP__ === 'string' ? __UPDS_BUILD_TIMESTAMP__ : 'unknown';
