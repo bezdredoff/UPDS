@@ -116,6 +116,9 @@ const rowOf = (index: number): number => Math.floor(index / BOARD_SIZE);
 const colOf = (index: number): number => index % BOARD_SIZE;
 const indexOf = (row: number, column: number): number => row * BOARD_SIZE + column;
 
+const OBJECTIVE_PROGRESS_HINT_PRIORITY = 10_000;
+const OBJECTIVE_COMPLETION_HINT_BONUS = 2_000;
+
 const emptyMoveResult = (reason: MoveResult['reason'], won: boolean, lost: boolean): MoveResult => ({
   valid: false,
   reason,
@@ -288,7 +291,7 @@ export class Match3Game {
         const evaluation = this.evaluateSwap(index, candidate);
         if (!evaluation.valid) continue;
 
-        const score = this.scorePotentialMove(evaluation.groups, evaluation.activatedSpecials);
+        const score = this.scoreHintEvaluation(index, candidate, evaluation);
         const move = { first: index, second: candidate, score };
         if (
           !best
@@ -299,6 +302,15 @@ export class Match3Game {
     }
 
     return best;
+  }
+
+  private scoreHintEvaluation(first: number, second: number, evaluation: SwapEvaluation): number {
+    this.swapContents(first, second);
+    try {
+      return this.scorePotentialMove(evaluation.groups, evaluation.activatedSpecials);
+    } finally {
+      this.swapContents(first, second);
+    }
   }
 
   findMatchGroups(): MatchGroup[] {
@@ -603,24 +615,34 @@ export class Match3Game {
 
   private scorePotentialMove(groups: readonly MatchGroup[], activatedSpecials: readonly number[]): number {
     const matched = new Set(groups.flatMap((group) => [...group.indices]));
-    let score = 100 + matched.size * 4 + activatedSpecials.length * 90;
+    const projectedClear = new Set<number>([...matched, ...activatedSpecials]);
+    this.expandSpecialEffects(projectedClear);
 
+    let tacticalScore = 100 + matched.size * 4 + activatedSpecials.length * 90;
     for (const group of groups) {
-      if (group.indices.length >= 4) score += 24 + (group.indices.length - 4) * 8;
+      if (group.indices.length >= 4) tacticalScore += 24 + (group.indices.length - 4) * 8;
     }
+
+    let objectiveProgressUnits = 0;
+    let objectiveCompletionBonuses = 0;
 
     for (const objective of this.level.objectives) {
       if (objective.kind === 'collect') {
         const remaining = Math.max(0, objective.target - (this.collected[objective.tile] ?? 0));
         if (remaining <= 0) continue;
-        const useful = [...matched].filter((index) => this.cells[index].tile === objective.tile).length;
-        score += useful * 36;
+        const useful = [...projectedClear].filter((index) =>
+          this.cells[index].tile === objective.tile && !this.isLockedCell(index)).length;
+        const progress = Math.min(remaining, useful);
+        objectiveProgressUnits += progress;
+        if (progress >= remaining) objectiveCompletionBonuses += 1;
         continue;
       }
 
       if (objective.kind === 'clearBlockers') {
+        const remaining = Math.max(0, objective.target - this.blockersCleared);
+        if (remaining <= 0) continue;
         const usefulBlockers = new Set<number>();
-        for (const index of matched) {
+        for (const index of projectedClear) {
           const row = rowOf(index);
           const column = colOf(index);
           for (const neighbour of [index, index - 1, index + 1, index - BOARD_SIZE, index + BOARD_SIZE]) {
@@ -631,7 +653,11 @@ export class Match3Game {
             if (this.cells[neighbour].blockerLayers > 0) usefulBlockers.add(neighbour);
           }
         }
-        score += usefulBlockers.size * 30;
+        const progress = Math.min(remaining, usefulBlockers.size);
+        objectiveProgressUnits += progress;
+        if (progress >= remaining && [...usefulBlockers].every((index) => this.cells[index].blockerLayers === 1)) {
+          objectiveCompletionBonuses += 1;
+        }
         continue;
       }
 
@@ -644,12 +670,32 @@ export class Match3Game {
         if (!ingredient || !ingredientKeys.includes(ingredient)) continue;
         const ingredientColumn = colOf(ingredientIndex);
         const ingredientRow = rowOf(ingredientIndex);
-        const clearsBelow = [...matched].some((index) => colOf(index) === ingredientColumn && rowOf(index) > ingredientRow);
-        if (clearsBelow) score += 34;
+        const clearsBelow = [...projectedClear].filter((index) =>
+          colOf(index) === ingredientColumn
+          && rowOf(index) > ingredientRow
+          && Boolean(this.cells[index].tile)
+          && !this.isLockedCell(index)
+          && !this.hasLockedBarrierBetween(ingredientIndex, index));
+        objectiveProgressUnits += clearsBelow.length;
       }
     }
 
-    return score;
+    // Guidance is intentionally lexicographic: direct progress on an unfinished win objective
+    // outranks a tactically larger but irrelevant match. Tactical strength remains the tie-breaker.
+    return objectiveProgressUnits * OBJECTIVE_PROGRESS_HINT_PRIORITY
+      + objectiveCompletionBonuses * OBJECTIVE_COMPLETION_HINT_BONUS
+      + tacticalScore;
+  }
+
+  private hasLockedBarrierBetween(upperIndex: number, lowerIndex: number): boolean {
+    if (colOf(upperIndex) !== colOf(lowerIndex) || rowOf(lowerIndex) <= rowOf(upperIndex)) return true;
+    const column = colOf(upperIndex);
+    for (let row = rowOf(upperIndex) + 1; row <= rowOf(lowerIndex); row += 1) {
+      const index = indexOf(row, column);
+      if (!this.isActiveCell(index)) continue;
+      if (this.isLockedCell(index)) return true;
+    }
+    return false;
   }
 
   private getDirectSpecialCombo(
