@@ -20,6 +20,7 @@ import { preloadImageAssets } from '../../platform/AssetPreloader';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppSession } from '../../app/AppSession';
+import type { Match3CampaignSession } from '../../app/Match3CampaignSession';
 import type { AppShell } from '../../app/AppShell';
 import { getDragPreview, getSwipeDecision } from '../../ui/boardInteraction';
 import { matchMotionDuration } from '../../ui/matchMotion';
@@ -32,6 +33,8 @@ export const MATCH_AUTO_HINT_DELAY_MS = 5000;
 export const SPECIAL_DOUBLE_TAP_WINDOW_MS = 360;
 type Bark = Readonly<{ speaker: string; text: string }>;
 type LabRun = Readonly<{ levelIndex: number; seed: number; level: LevelDefinition; onExit: () => void }>;
+type CampaignRun = Readonly<{ levelIndex: number; session: Match3CampaignSession; onExit: () => void }>;
+type MatchRunMode = 'story' | 'campaign' | 'lab';
 
 export class Match3Controller {
   private t(key: string, params?: Readonly<Record<string, string | number>>): string { return this.services.localization.t(key, params); }
@@ -64,6 +67,7 @@ export class Match3Controller {
   private tutorialPromptDismissed = false;
   private tutorialRevealEvents = new Set<Match3TutorialRevealEvent>(['level-start']);
   private labRun: LabRun | null = null;
+  private campaignRun: CampaignRun | null = null;
 
   constructor(
     private readonly root: HTMLElement,
@@ -86,6 +90,7 @@ export class Match3Controller {
     this.tutorialPromptDismissed = false;
     this.tutorialRevealEvents = new Set(['level-start']);
     this.labRun = null;
+    this.campaignRun = null;
     this.matchInputLocked = false;
   }
 
@@ -133,6 +138,21 @@ export class Match3Controller {
     return [...new Set<Match3TutorialRevealEvent>([...this.tutorialRevealEvents, ...dynamic])];
   }
 
+  private get runMode(): MatchRunMode {
+    if (this.labRun) return 'lab';
+    if (this.campaignRun) return 'campaign';
+    return 'story';
+  }
+
+  private tutorialProgress(): Match3TutorialConceptId[] {
+    return this.campaignRun ? this.campaignRun.session.save.tutorialsCompleted : this.session.save.tutorialsCompleted;
+  }
+
+  private persistTutorialProgress(): void {
+    if (this.campaignRun) this.campaignRun.session.persist();
+    else this.session.persist();
+  }
+
   private recordTutorialMove(result: MoveResult, directSpecialActivation = false, directSpecialCombo = false): void {
     if (this.labRun) return;
     const level = this.activeMatch?.level;
@@ -140,25 +160,26 @@ export class Match3Controller {
     for (const revealEvent of tutorialRevealEventsForMove(result)) this.tutorialRevealEvents.add(revealEvent);
 
     const events = tutorialCompletionEventsForMove(result, directSpecialActivation, directSpecialCombo);
-    const completedNow = tutorialConceptsCompletedByEvents(level.tutorialConcepts, this.session.save.tutorialsCompleted, events);
+    const tutorialProgress = this.tutorialProgress();
+    const completedNow = tutorialConceptsCompletedByEvents(level.tutorialConcepts, tutorialProgress, events);
     const previousActive = this.activeTutorial;
     for (const concept of completedNow) {
-      this.session.save.tutorialsCompleted.push(concept);
+      tutorialProgress.push(concept);
       this.services.telemetry.track('match_tutorial', {
-        action: 'completed', conceptId: concept, levelId: level.id, prompted: concept === previousActive,
+        action: 'completed', conceptId: concept, levelId: level.id, mode: this.runMode, prompted: concept === previousActive,
       });
     }
-    if (completedNow.length > 0) this.session.persist();
+    if (completedNow.length > 0) this.persistTutorialProgress();
 
     const next = nextPendingMatch3Tutorial(
       level.tutorialConcepts,
-      this.session.save.tutorialsCompleted,
+      tutorialProgress,
       this.currentTutorialRevealEvents(),
     );
     if (next === previousActive) return;
     this.activeTutorial = next;
     this.tutorialPromptDismissed = false;
-    if (next) this.services.telemetry.track('match_tutorial', { action: 'shown', conceptId: next, levelId: level.id });
+    if (next) this.services.telemetry.track('match_tutorial', { action: 'shown', conceptId: next, levelId: level.id, mode: this.runMode });
   }
 
   endActiveAttempt(outcome: MatchOutcome, reason = ''): void {
@@ -168,8 +189,8 @@ export class Match3Controller {
     this.services.telemetry.track('match_end', {
       levelId: level.id,
       levelIndex: this.activeLevelIndex,
-      attempt: this.labRun ? 0 : (this.session.save.attempts[level.id] ?? 0),
-      mode: this.labRun ? 'lab' : 'story',
+      attempt: this.labRun ? 0 : this.campaignRun ? (this.campaignRun.session.save.attempts[level.id] ?? 0) : (this.session.save.attempts[level.id] ?? 0),
+      mode: this.runMode,
       seed: this.labRun?.seed ?? null,
       outcome,
       reason,
@@ -231,6 +252,7 @@ export class Match3Controller {
 
   startMatch(levelIndex: number): void {
     this.labRun = null;
+    this.campaignRun = null;
     const level = levels[levelIndex];
     const attempt = (this.session.save.attempts[level.id] ?? 0) + 1;
     this.session.save.attempts[level.id] = attempt;
@@ -250,13 +272,47 @@ export class Match3Controller {
     this.activeTutorial = nextPendingMatch3Tutorial(level.tutorialConcepts, this.session.save.tutorialsCompleted, this.currentTutorialRevealEvents());
     this.tutorialPromptDismissed = false;
     if (this.activeTutorial) {
-      this.services.telemetry.track('match_tutorial', { action: 'shown', conceptId: this.activeTutorial, levelId: level.id });
+      this.services.telemetry.track('match_tutorial', { action: 'shown', conceptId: this.activeTutorial, levelId: level.id, mode: 'story' });
     }
     this.renderMatch();
     this.armAutoHint();
   }
 
+  startCampaignMatch(levelIndex: number, campaignSession: Match3CampaignSession, onExit: () => void): void {
+    const level = levels[levelIndex];
+    if (!level) return;
+    const unlocked = levelIndex === 0 || campaignSession.save.completed.includes(levels[levelIndex - 1].id);
+    if (!unlocked) return;
+    this.labRun = null;
+    this.campaignRun = { levelIndex, session: campaignSession, onExit };
+    const attempt = (campaignSession.save.attempts[level.id] ?? 0) + 1;
+    campaignSession.save.attempts[level.id] = attempt;
+    campaignSession.persist();
+    this.activeLevelIndex = levelIndex;
+    this.activeMatch = new Match3Game(level, level.seed + attempt * 101);
+    this.matchAttemptStartedAt = Date.now();
+    this.services.telemetry.track('match_start', {
+      levelId: level.id, levelIndex, attempt, mode: 'campaign', moveBudget: level.moves,
+      narrativeProfile: level.context.narrativeProfile, pageBackground: level.context.pageBackground,
+      boardSurface: level.context.boardSurface, tilePresentationProfile: level.context.tilePresentationProfile,
+    });
+    this.selectedCell = null;
+    this.matchInputLocked = false;
+    this.activePointer = null;
+    this.hintedCells.clear();
+    this.triggeredBarks = new Set(['start']);
+    this.matchBark = this.levelBark(level, 'start');
+    this.lastTappedSpecial = null;
+    this.tutorialRevealEvents = new Set(['level-start']);
+    this.activeTutorial = nextPendingMatch3Tutorial(level.tutorialConcepts, campaignSession.save.tutorialsCompleted, this.currentTutorialRevealEvents());
+    this.tutorialPromptDismissed = false;
+    if (this.activeTutorial) this.services.telemetry.track('match_tutorial', { action: 'shown', conceptId: this.activeTutorial, levelId: level.id, mode: 'campaign' });
+    this.renderMatch();
+    this.armAutoHint();
+  }
+
   startLabMatch(levelIndex: number, requestedSeed: number, onExit: () => void, levelOverride?: LevelDefinition): void {
+    this.campaignRun = null;
     const level = levelOverride ?? levels[levelIndex];
     if (!level) return;
     const parsedSeed = Number(requestedSeed);
@@ -325,7 +381,7 @@ export class Match3Controller {
 
   private renderMatch(): void {
     this.services.audio.setScene('match');
-    this.services.telemetry.trackScreen('match', `${levels[this.activeLevelIndex]?.id ?? String(this.activeLevelIndex)}:${this.labRun ? 'lab' : 'story'}`);
+    this.services.telemetry.trackScreen('match', `${levels[this.activeLevelIndex]?.id ?? String(this.activeLevelIndex)}:${this.runMode}`);
     const game = this.activeMatch;
     if (!game) return this.renderMatchIntro(this.activeLevelIndex);
     const level = game.level;
@@ -335,10 +391,10 @@ export class Match3Controller {
       <img class="match-background" src="${backgroundAssets[level.context.pageBackground]}" alt="">
       <div class="match-shade"></div>
       <header class="app-header match-topbar">
-        ${headerActionMarkup('quit', 'back', this.labRun ? this.t('levelLab.backToLab') : this.t('match3.backToInvestigation'), undefined, 'app-header-back')}
+        ${headerActionMarkup('quit', 'back', this.labRun ? this.t('levelLab.backToLab') : this.campaignRun ? this.t('match3Campaign.backToCampaign') : this.t('match3.backToInvestigation'), undefined, 'app-header-back')}
         <div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>${escapeHtml(this.levelText(level, 'title'))}</b></div>
         <nav class="app-header-actions" aria-label="${escapeHtml(this.t('match3.investigationNavigation'))}">
-          ${this.labRun ? '' : headerActionMarkup('dossier', 'dossier', this.t('dossier.title'), this.session.save.clues.length)}
+          ${this.runMode === 'story' ? headerActionMarkup('dossier', 'dossier', this.t('dossier.title'), this.session.save.clues.length) : ''}
           ${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
         </nav>
       </header>
@@ -351,7 +407,7 @@ export class Match3Controller {
         <section class="stage-board" aria-label="${escapeHtml(this.t('match3.movesStageAria'))}">
           <span class="case-tab">${escapeHtml(this.t('match3.movesUpper'))}</span>
           <div class="moves-left"><b>${game.movesLeft}</b></div>
-          <div class="stage-meta"><small>${escapeHtml(this.labRun ? this.t('levelLab.runLabel') : this.t('match3.stage', { current: this.activeLevelIndex + 1, total: 4 }))}</small><b>${escapeHtml(this.labRun ? `SEED ${this.labRun.seed}` : level.shortId)}</b></div>
+          <div class="stage-meta"><small>${escapeHtml(this.labRun ? this.t('levelLab.runLabel') : this.campaignRun ? this.t('match3Campaign.stage', { current: this.activeLevelIndex + 1, total: levels.length }) : this.t('match3.stage', { current: this.activeLevelIndex + 1, total: levels.length }))}</small><b>${escapeHtml(this.labRun ? `SEED ${this.labRun.seed}` : level.shortId)}</b></div>
         </section>
       </div>
 
@@ -374,9 +430,15 @@ export class Match3Controller {
     this.root.querySelector('#quit')?.addEventListener('click', () => {
       if (this.matchInputLocked) return;
       this.clearAutoHintTimer();
-      this.endActiveAttempt('abandon', this.labRun ? 'back-to-level-lab' : 'back-to-intro');
+      this.endActiveAttempt('abandon', this.labRun ? 'back-to-level-lab' : this.campaignRun ? 'back-to-campaign' : 'back-to-intro');
       if (this.labRun) {
         const onExit = this.labRun.onExit;
+        this.clearActiveMatch();
+        onExit();
+        return;
+      }
+      if (this.campaignRun) {
+        const onExit = this.campaignRun.onExit;
         this.clearActiveMatch();
         onExit();
         return;
@@ -400,7 +462,7 @@ export class Match3Controller {
     });
     this.root.querySelector('#tutorial-try')?.addEventListener('click', () => {
       if (!this.activeTutorial) return;
-      this.services.telemetry.track('match_tutorial', { action: 'try', conceptId: this.activeTutorial, levelId: level.id });
+      this.services.telemetry.track('match_tutorial', { action: 'try', conceptId: this.activeTutorial, levelId: level.id, mode: this.runMode });
       this.tutorialPromptDismissed = true;
       this.renderMatch();
       this.armAutoHint();
@@ -856,6 +918,10 @@ export class Match3Controller {
       this.renderLabResult('win');
       return;
     }
+    if (this.campaignRun) {
+      this.renderCampaignResult('win');
+      return;
+    }
     this.endActiveAttempt('win');
     const levelIndex = this.activeLevelIndex;
     const level = levels[levelIndex];
@@ -895,6 +961,10 @@ export class Match3Controller {
       this.renderLabResult('loss');
       return;
     }
+    if (this.campaignRun) {
+      this.renderCampaignResult('loss');
+      return;
+    }
     this.services.audio.setScene('match');
     this.services.telemetry.trackScreen('loss', levels[this.activeLevelIndex]?.id ?? String(this.activeLevelIndex));
     const level = levels[this.activeLevelIndex];
@@ -917,6 +987,46 @@ export class Match3Controller {
     this.root.querySelector('#retry')?.addEventListener('click', () => this.startMatch(this.activeLevelIndex));
     this.root.querySelector('#back')?.addEventListener('click', () => this.renderMatchIntro(this.activeLevelIndex));
     this.root.querySelector('#header-settings')?.addEventListener('click', () => this.navigation.showSettings(() => this.renderLoss(), true));
+  }
+
+  private renderCampaignResult(outcome: 'win' | 'loss'): void {
+    const campaign = this.campaignRun;
+    const game = this.activeMatch;
+    if (!campaign || !game) return;
+    const level = game.level;
+    const movesLeft = game.movesLeft;
+    this.endActiveAttempt(outcome, 'match3-campaign');
+    if (outcome === 'win') {
+      if (!campaign.session.save.completed.includes(level.id)) campaign.session.save.completed.push(level.id);
+      const previousBest = campaign.session.save.bestMovesLeft[level.id];
+      if (previousBest === undefined || movesLeft > previousBest) campaign.session.save.bestMovesLeft[level.id] = movesLeft;
+      campaign.session.persist();
+    }
+    this.activeMatch = null;
+    this.services.audio.setScene('match');
+    this.services.telemetry.trackScreen('match3-campaign-result', `${level.id}:${outcome}`);
+    const hasNext = outcome === 'win' && campaign.levelIndex + 1 < levels.length;
+    this.shell.render(`<section class="result-screen ${outcome === 'win' ? 'win' : 'loss'} match3-campaign-result">
+      <header class="app-header result-topbar">
+        ${headerActionMarkup('back', 'back', this.t('match3Campaign.backToCampaign'), undefined, 'app-header-back')}
+        <div class="app-header-title"><small>${escapeHtml(this.t('match3Campaign.eyebrow'))}</small><b>${escapeHtml(level.shortId)}</b></div>
+        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('common.navigation'))}"></nav>
+      </header>
+      <div class="result-content">
+        <div class="result-mark">${outcome === 'win' ? '✓' : '↻'}</div>
+        <p class="eyebrow">${escapeHtml(this.t(outcome === 'win' ? 'match3Campaign.winEyebrow' : 'match3Campaign.lossEyebrow'))}</p>
+        <h2>${escapeHtml(this.t(outcome === 'win' ? 'match3Campaign.winHeading' : 'match3Campaign.lossHeading'))}</h2>
+        <p>${escapeHtml(this.t('match3Campaign.resultDetail', { movesLeft }))}</p>
+        ${hasNext ? `<button class="primary" id="campaign-next">${escapeHtml(this.t('match3Campaign.nextLevel'))}</button>` : ''}
+        <button class="${hasNext ? '' : 'primary'}" id="campaign-retry">${escapeHtml(this.t('match3Campaign.retry'))}</button>
+        <button id="campaign-hub">${escapeHtml(this.t('match3Campaign.backToCampaign'))}</button>
+      </div>
+    </section>`);
+    this.root.querySelector('#campaign-next')?.addEventListener('click', () => this.startCampaignMatch(campaign.levelIndex + 1, campaign.session, campaign.onExit));
+    this.root.querySelector('#campaign-retry')?.addEventListener('click', () => this.startCampaignMatch(campaign.levelIndex, campaign.session, campaign.onExit));
+    const backToCampaign = (): void => { const onExit = campaign.onExit; this.clearActiveMatch(); onExit(); };
+    this.root.querySelector('#back')?.addEventListener('click', backToCampaign);
+    this.root.querySelector('#campaign-hub')?.addEventListener('click', backToCampaign);
   }
 
   private renderLabResult(outcome: 'win' | 'loss'): void {

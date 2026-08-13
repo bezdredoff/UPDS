@@ -35,6 +35,7 @@ export class MainMenuController {
         <div class="menu-actions">
           <button id="new" class="primary">${t('menu.newGame')}</button>
           <button id="continue" ${hasSave ? '' : 'disabled'}>${t('menu.continue')}</button>
+          <button id="match3-campaign">${t('menu.match3Campaign')}</button>
           <button id="settings">${t('menu.settings')}</button>
           <div class="menu-qa-row">
             <button id="episodes">${t('menu.sceneNavigation')} <small>QA</small></button>
@@ -52,6 +53,7 @@ export class MainMenuController {
       this.navigation.openScene(0, 0);
     });
     this.root.querySelector('#continue')?.addEventListener('click', () => { this.services.audio.play('uiClick'); this.navigation.openScene(this.session.save.scene, this.session.save.line); });
+    this.root.querySelector('#match3-campaign')?.addEventListener('click', () => { this.services.audio.play('uiClick'); this.navigation.showMatch3Campaign(); });
     this.root.querySelector('#settings')?.addEventListener('click', () => { this.services.audio.play('uiClick'); this.navigation.showSettings(); });
     this.root.querySelector('#episodes')?.addEventListener('click', () => this.navigation.showSceneSelect());
     this.root.querySelector('#level-lab')?.addEventListener('click', () => { this.services.audio.play('uiClick'); this.navigation.showLevelLab(); });

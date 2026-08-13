@@ -8,6 +8,7 @@ export interface AppNavigation {
   showSceneSelect(): void;
   showDiagnostics(status?: string): void;
   showLevelLab(): void;
+  showMatch3Campaign(): void;
   showMenu(): void;
   returnToMainMenu(): void;
 }

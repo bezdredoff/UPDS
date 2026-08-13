@@ -1,5 +1,6 @@
 import { AudioManager } from '../audio/AudioManager';
 import { CampaignStore } from '../engine/CampaignStore';
+import { Match3CampaignStore } from '../engine/Match3CampaignStore';
 import { LocalizationService } from '../localization/LocalizationService';
 import { LocaleSettingsStore } from '../localization/LocaleSettingsStore';
 import { appCatalogs } from '../localization/catalogs';
@@ -12,6 +13,7 @@ import { getSafeStorage, type SafeStorageHandle } from './SafeStorage';
 export type RuntimeServices = Readonly<{
   storage: SafeStorageHandle;
   store: CampaignStore;
+  match3CampaignStore: Match3CampaignStore;
   errorLog: ErrorLog;
   assetHealth: AssetHealth;
   audio: AudioManager;
@@ -33,6 +35,7 @@ export const createRuntimeServices = (): RuntimeServices => {
   return {
     storage,
     store: new CampaignStore(storage.storage),
+    match3CampaignStore: new Match3CampaignStore(storage.storage),
     errorLog,
     assetHealth: new AssetHealth(),
     audio: new AudioManager(storage.storage, errorLog),
