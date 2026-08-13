@@ -41,6 +41,8 @@ export type LevelDefinition = Readonly<{
   tutorialConcepts: readonly Match3TutorialConceptId[];
   /** Exactly six concrete match identities available to initial fill, refill and reshuffle. */
   activeTiles: readonly Match3TileId[];
+  /** Optional relative spawn weights for active identities. Missing weights default to 1. */
+  spawnWeights?: Readonly<Partial<Record<Match3TileId, number>>>;
   moves: number;
   objectives: readonly LevelObjective[];
   blocker: BlockerKey;
@@ -281,6 +283,12 @@ export function validateLevelDefinitions(definitions: readonly LevelDefinition[]
     if (new Set(activeAssets).size !== activeAssets.length) errors.push(`${level.id}: different active tile ids share the same asset`);
     const pantiesTypes = activePresentations.filter((presentation) => presentation.category === 'panties').length;
     if (pantiesTypes > MAX_PANTIES_TYPES_PER_LEVEL) errors.push(`${level.id}: more than ${MAX_PANTIES_TYPES_PER_LEVEL} panties match types`);
+    if (level.spawnWeights) {
+      for (const [tile, rawWeight] of Object.entries(level.spawnWeights)) {
+        if (!level.activeTiles.includes(tile as Match3TileId)) errors.push(`${level.id}: spawn weight for inactive tile ${tile}`);
+        if (typeof rawWeight !== 'number' || !Number.isFinite(rawWeight) || rawWeight <= 0) errors.push(`${level.id}: spawn weight for ${tile} must be a finite positive number`);
+      }
+    }
     for (const objective of level.objectives) {
       if (objective.kind === 'collect' && !level.activeTiles.includes(objective.tile)) errors.push(`${level.id}: collect objective tile ${objective.tile} is not active`);
     }
@@ -293,6 +301,11 @@ export function validateLevelDefinitions(definitions: readonly LevelDefinition[]
     for (const ingredient of level.ingredients) {
       const objective = level.objectives.find((candidate) => candidate.kind === 'drop' && candidate.ingredient === ingredient.kind);
       if (!objective) errors.push(`${level.id}: missing objective for ${ingredient.kind}`);
+    }
+    for (const objective of level.objectives) {
+      if (objective.kind !== 'drop') continue;
+      const placementCount = level.ingredients.filter((ingredient) => ingredient.kind === objective.ingredient).length;
+      if (objective.target !== placementCount) errors.push(`${level.id}: drop objective for ${objective.ingredient} does not match placement count`);
     }
   }
   return errors;

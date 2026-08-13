@@ -930,14 +930,43 @@ export class Match3Game {
     [a.special, b.special] = [b.special, a.special];
   }
 
+  private tileSpawnWeight(tile: Match3TileId): number {
+    return this.level.spawnWeights?.[tile] ?? 1;
+  }
+
   private shuffledTileKeys(): Match3TileId[] {
-    return [...this.level.activeTiles].sort(() => this.random() - 0.5);
+    if (!this.level.spawnWeights) return [...this.level.activeTiles].sort(() => this.random() - 0.5);
+
+    const remaining = [...this.level.activeTiles];
+    const ordered: Match3TileId[] = [];
+    while (remaining.length > 0) {
+      const total = remaining.reduce((sum, tile) => sum + this.tileSpawnWeight(tile), 0);
+      let roll = this.random() * total;
+      let selectedIndex = remaining.length - 1;
+      for (let index = 0; index < remaining.length; index += 1) {
+        roll -= this.tileSpawnWeight(remaining[index]);
+        if (roll < 0) { selectedIndex = index; break; }
+      }
+      ordered.push(remaining.splice(selectedIndex, 1)[0]);
+    }
+    return ordered;
   }
 
   private randomTile(): Match3TileId {
     const tiles = this.level.activeTiles;
-    const tile = tiles[Math.floor(this.random() * tiles.length)];
-    if (!tile) throw new Error(`${this.level.id}: active tile set is empty`);
-    return tile;
+    if (tiles.length === 0) throw new Error(`${this.level.id}: active tile set is empty`);
+    if (!this.level.spawnWeights) {
+      const tile = tiles[Math.floor(this.random() * tiles.length)];
+      if (!tile) throw new Error(`${this.level.id}: active tile set is empty`);
+      return tile;
+    }
+
+    const total = tiles.reduce((sum, tile) => sum + this.tileSpawnWeight(tile), 0);
+    let roll = this.random() * total;
+    for (const tile of tiles) {
+      roll -= this.tileSpawnWeight(tile);
+      if (roll < 0) return tile;
+    }
+    return tiles[tiles.length - 1];
   }
 }

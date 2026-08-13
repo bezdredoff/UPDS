@@ -52,8 +52,8 @@ export class AnimeDetectiveApp {
 
     this.vn = new VnController(root, services, this.session, this.shell, navigation);
     this.match3 = new Match3Controller(root, services, this.session, this.shell, navigation, (clueId) => this.vn.setPendingClue(clueId));
-    this.levelLab = new LevelLabController(root, services, this.shell, navigation, (levelIndex, seed) => {
-      this.match3.startLabMatch(levelIndex, seed, () => this.levelLab.render(levelIndex, seed));
+    this.levelLab = new LevelLabController(root, services, this.shell, navigation, (levelIndex, seed, level) => {
+      this.match3.startLabMatch(levelIndex, seed, () => this.levelLab.render(levelIndex, seed), level);
     });
     this.menu = new MainMenuController(root, services, this.session, this.shell, navigation);
     this.settings = new SettingsController(root, services, this.shell, navigation, () => this.match3.hasActiveMatch);
