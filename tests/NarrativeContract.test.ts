@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getBackgroundForLine, getScene, parsedLineCount, sceneMeta, type ChoiceId } from '../src/data/narrative';
-import { isPreMatchScene, levelForPreMatchScene, postSceneForLevel } from '../src/engine/CampaignStore';
+import { storyMatch3RouteForLegacyScene } from '../src/data/storyGraph';
 
 const starts = ['VN0001', 'VN0023', 'VN0058', 'VN0085', 'VN0114', 'VN0143', 'VN0167', 'VN0192', 'VN0217'];
 const ends = ['VN0022', 'VN0057', 'VN0084', 'VN0113', 'VN0142', 'VN0166', 'VN0191', 'VN0216', 'VN0249'];
@@ -32,13 +32,15 @@ describe('narrative integration contract', () => {
     expect(scene.every((line) => !line.speaker.startsWith('{IF'))).toBe(true);
   });
 
-  it('keeps the four VN → match → VN transitions mapped to the intended scene pairs', () => {
-    for (const preScene of [1, 3, 5, 7]) {
-      expect(isPreMatchScene(preScene)).toBe(true);
-      const level = levelForPreMatchScene(preScene);
-      expect(level).toBe(Math.floor(preScene / 2));
-      expect(postSceneForLevel(level)).toBe(preScene + 1);
-    }
+  it('keeps the four VN → match → VN transitions mapped through the canonical story graph', () => {
+    const routes = [1, 3, 5, 7].map((preScene) => storyMatch3RouteForLegacyScene(preScene));
+    expect(routes.map((route) => route?.levelId)).toEqual([
+      'M3_00_LOCKER_TUTORIAL',
+      'M3_01_PHOTO_PROPS',
+      'M3_02_POOL_LAUNDRY',
+      'M3_03_ORDERED_APARTMENT',
+    ]);
+    expect(routes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8]);
   });
 
   it.each(['A', 'B', 'C'] as ChoiceId[])('switches the mixed-location scene background exactly at VN0048 for branch %s', (choice) => {

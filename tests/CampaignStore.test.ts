@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { freshSave, levelForPreMatchScene, normalizeSave, postSceneForLevel } from '../src/engine/CampaignStore';
+import { freshSave, normalizeSave } from '../src/engine/CampaignStore';
 
 describe('campaign state', () => {
   it('normalizes corrupt or future-facing data safely', () => {
@@ -24,8 +24,4 @@ describe('campaign state', () => {
     expect(normalized.tutorialsCompleted).toEqual(['basic-swap', 'clear-blocker', 'drop-ingredient']);
   });
 
-  it('maps every pre-scene to its level and post-scene', () => {
-    expect([1, 3, 5, 7].map(levelForPreMatchScene)).toEqual([0, 1, 2, 3]);
-    expect([0, 1, 2, 3].map(postSceneForLevel)).toEqual([2, 4, 6, 8]);
-  });
 });

@@ -21,7 +21,7 @@ import {
   type ChoiceId,
   type StoryLine,
 } from '../../data/narrative';
-import { isPreMatchScene, levelForPreMatchScene } from '../../engine/CampaignStore';
+import { legacySceneIndexFromStoryId, storyMatch3RouteForLegacyScene, storyTransitionForLegacyScene } from '../../data/storyGraph';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
@@ -496,17 +496,26 @@ export class VnController {
   }
 
   private advanceScene(): void {
-    if (isPreMatchScene(this.session.save.scene)) {
+    const transition = storyTransitionForLegacyScene(this.session.save.scene);
+    if (!transition) throw new Error(`Missing story transition for legacy scene ${this.session.save.scene}`);
+
+    if (transition.kind === 'match3') {
+      const route = storyMatch3RouteForLegacyScene(this.session.save.scene);
+      if (!route || route.levelIndex < 0) throw new Error(`Invalid Match-3 story route from ${this.session.save.scene}`);
       this.session.save.line = this.story.length;
       this.session.persist();
-      this.navigation.showMatchIntro(levelForPreMatchScene(this.session.save.scene));
+      this.navigation.showMatchIntro(route.levelIndex);
       return;
     }
-    if (this.session.save.scene === sceneMeta.length - 1) {
+
+    if (transition.kind === 'ending') {
       this.navigation.showEnding();
       return;
     }
-    this.openScene(this.session.save.scene + 1, 0);
+
+    const nextScene = legacySceneIndexFromStoryId(transition.targetSceneId);
+    if (nextScene < 0) throw new Error(`Unknown story scene ${transition.targetSceneId}`);
+    this.openScene(nextScene, 0);
   }
 
 }

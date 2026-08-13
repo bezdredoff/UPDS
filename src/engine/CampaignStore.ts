@@ -184,6 +184,3 @@ export class CampaignStore {
   }
 }
 
-export const isPreMatchScene = (scene: number): boolean => scene === 1 || scene === 3 || scene === 5 || scene === 7;
-export const levelForPreMatchScene = (scene: number): number => Math.floor(scene / 2);
-export const postSceneForLevel = (level: number): number => level * 2 + 2;
