@@ -1,5 +1,10 @@
 # ANM-021A — Production Character Planning
 
+> Historical planning note. The 512×512 face-overlay details below document the original ANM-021A
+> proposal and are retired by ANM-021B R4 and ANM-028A. Current production/runtime authority is
+> `src/data/characterProduction.ts` plus `docs/art/CHARACTER_PRODUCTION_CONTRACT_RU.md`; do not use
+> this note to reintroduce layered runtime faces or fake asset paths.
+
 ## Цель
 
 Зафиксировать единый production-контракт для замены оставшихся VN placeholders: Emi, Kentaro, Norihiro, Mayu.

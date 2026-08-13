@@ -1,88 +1,160 @@
 # UPDS — инструкция для AI/разработчика
 
+Status: active workflow aligned with ANM-028A R2.
+
 ## Before editing
 
-1. Read `docs/architecture/PROJECT_CONTRACTS_RU.md`.
-2. Read `docs/architecture/ARCHITECTURE_RU.md`.
-3. Read the active feature document relevant to the task.
-4. Use current repository `main` as baseline whenever possible.
-5. Treat `docs/archive/` as history only.
+1. Resolve the exact current GitHub `main` SHA; do not trust an old ZIP/handoff.
+2. Read:
+   - `docs/architecture/PROJECT_CONTRACTS_RU.md`;
+   - `docs/ROADMAP_RU.md`;
+   - `docs/architecture/ARCHITECTURE_RU.md`;
+   - the narrow current contract/feature document for the task.
+3. Identify the machine-readable source of truth before editing prose.
+4. Treat `docs/archive/` and older feature notes as history, not current requirements.
+5. Check for an open PR or concurrent candidate before publishing a branch.
+
+If personal/chat context conflicts with GitHub `main`, GitHub wins until an explicit new product
+decision is authored and merged.
+
+## Authority map
+
+### Status and build identity
+
+- feature state and next sequence: `docs/ROADMAP_RU.md`;
+- product/build identity: `src/appVersion.ts`;
+- package metadata: `package.json.version` (not a feature-status source).
+
+Do not copy a “current build” string into multiple READMEs.
+
+### Narrative
+
+1. Explicitly supplied/approved Story Bible and episode plan;
+2. repository-authored screenplay sources;
+3. `upds-story-content-v1` manifests and `upds-story-graph-v1`;
+4. canonical runtime import/tests.
+
+The only authored repository source at the current baseline is
+`src/content/ANM-003_Vertical_Slice_Screenplay.md`. Do not invent the missing post-slice screenplay
+inside a technical feature or claim it exists because an old handoff mentions a plan.
+
+### Character art
+
+Technical/runtime authority:
+
+1. `src/data/characterProduction.ts`;
+2. `docs/art/CHARACTER_PRODUCTION_CONTRACT_RU.md`;
+3. CI-checked documentation mirror and runtime catalog.
+
+Visual identity authority:
+
+1. approved model sheets/lineup;
+2. approved Golden Samples and Art Bible;
+3. existing approved production masters.
+
+Technical status/path metadata never overrides visual approval, and a visual reference never creates
+a production asset path by itself.
 
 ## Work in the smallest feature boundary
 
-After ANM-018A, do not start by loading/editing `AnimeDetectiveApp.ts` for a feature-specific task unless composition/navigation itself changes.
+`AnimeDetectiveApp.ts` is the composition root, not the default editing surface.
 
 Typical ownership:
 
-- VN text/AUTO/SKIP/staging → `src/features/vn/` plus relevant `src/ui/vn*` helper;
-- Match-3 interaction/motion/session presentation → `src/features/match3/` plus `boardInteraction.ts` / `matchMotion.ts`;
-- Match-3 rules/balance mechanics → `src/engine/Match3Game.ts` and `src/data/levels.ts` as appropriate;
-- settings → `src/features/settings/`;
-- diagnostics/playtest export/QA scene navigation → `src/features/diagnostics/`;
-- dossier → `src/features/dossier/`;
-- ending → `src/features/ending/`;
-- cross-feature navigation/composition only → `src/ui/AnimeDetectiveApp.ts`, `src/app/`.
+- VN progression/paging/staging → `src/features/vn/` plus VN helpers;
+- story import/routing → `src/content/`, `src/data/storyGraph.ts`, `src/data/narrative.ts`;
+- Match-3 presentation/session → `src/features/match3/` plus UI helpers;
+- Match-3 rules → `src/engine/Match3Game.ts`;
+- production levels → `src/data/levels.ts`;
+- Level Lab → `src/features/levelLab/`;
+- direct Match-3 campaign → `src/features/match3Campaign/`, session/store;
+- character production metadata → `src/data/characterProduction.ts`;
+- settings/diagnostics/dossier/ending → their dedicated feature controller;
+- cross-feature composition/navigation only → `src/ui/AnimeDetectiveApp.ts`, `src/app/`.
 
-Do not make VN import Match-3 or Match-3 import VN. Add a narrow navigation/callback seam through the composition root instead.
+Feature controllers must not import or construct sibling controllers. Add a narrow
+navigation/callback seam through the composition root.
 
-## Source hierarchy
+## Story/content production rules
 
-Narrative authority:
+- Stable content IDs are independent from localized display text.
+- New authored content enters through screenplay → content manifest/audit → story graph → runtime.
+- Do not add scene-range tables or a second screenplay parser to `narrative.ts`.
+- Explicitly declare deferred source lines; unassigned content must fail closed.
+- Match-3 story handoffs use stable level IDs and explicit graph transitions.
+- Episode-specific behavior belongs in data/contracts, not controller `switch` statements.
+- Dialogue internal pages are runtime presentation state and never authored/save IDs.
+- Add content in reviewable episode packages before mass localization/art production.
 
-1. Story Bible;
-2. 22-episode plot;
-3. vertical-slice screenplay;
-4. current runtime parser/tests.
+## Character production rules
 
-Art authority:
+- Generate/export one standalone character asset at a time; do not bake multiple actors into one
+  runtime PNG.
+- First approve a neutral 1024×1536 master in a shared-baseline lineup.
+- Encode relative height in the master canvas; do not repair it with runtime CSS scale.
+- Produce the four additional expression frames from the approved master while preserving body,
+  camera, silhouette and alpha bounds.
+- Production-time masks/compositing are allowed; runtime receives finished precomposed frames only.
+- Required set: five Pose A expressions + Pose B + medallion.
+- `blink`/`speaking` remain deferred until the ANM-028 safe-motion proof.
+- Keep a character `planned` until the complete set and manual visual approval exist.
+- All depicted/student characters in the production manifest are explicitly adult.
 
-1. approved model sheets;
-2. golden samples;
-3. current Art Bible;
-4. existing production assets.
+## Delivery lanes
 
-Raven Manor may be used as an **engineering donor/reference** for architecture, Match-3 interaction, storage, audio, PWA, diagnostics and QA patterns. Do not copy its gothic content, narrative, characters, room meta, asset names or save keys into UPDS.
+The exact contract is in `GITHUB_PHONE_PIPELINE_RU.md`.
 
-## Safe implementation workflow
+### Mobile ZIP path
 
-- Keep one feature/subfeature narrow enough to validate independently.
-- Do not modify `.github/workflows/*` or `scripts/validate-upload-zip.py` in ordinary mobile feature ZIPs.
-- Do not change protected narrative/rig contracts unless the task explicitly requires it.
-- Prefer pure helpers for rules/decisions; keep DOM/API boundaries thin.
-- Feature state belongs to the feature controller, not a generic giant `AppContext`.
-- `AnimeDetectiveApp` is a composition root, not a screen implementation file.
+- `PATCH.zip` / `upds-delta-v1`: preferred for code/docs/data deltas; exact current `baseSha`;
+- `FULL_PROJECT.zip`: binary/art/recovery fallback;
+- both go through `incoming → read-only validation → candidate PR → /preview/ → PR CI → manual merge`.
+
+Delta patches never auto-rebase. A stale `baseSha` must fail.
+
+### Direct connector PR
+
+May be used for a narrow docs/tests/non-visual technical change when the connector can create an
+explicit branch and PR safely. It still requires GitHub Quality gate, changed-file review and manual
+merge. Current workflows do not create the mobile `/preview/` slot for a direct PR, so visual/runtime
+changes must use the mobile ZIP path.
+
+### Preflight branch
+
+`preflight/chatgpt` is reusable technical staging, not a delivery source. Reset it to exact current
+`main` before each use. Its green push CI does not replace candidate PR CI or preview.
+
+## Protected pipeline files
+
+Ordinary feature archives/PRs must not modify:
+
+- `.github/workflows/**`;
+- `scripts/validate-upload-zip.py`;
+- `scripts/apply-delta-zip.py`.
+
+Pipeline changes require a separate maintenance PR and explicit review.
+
+## Implementation and test rules
+
+- Prefer pure helpers for decisions/rules and thin DOM/platform boundaries.
 - Browser-only code must tolerate missing APIs in headless tests.
-- Do not pin tests to a historical app version; compare against `APP_VERSION` / `package.json` when version matters.
-- Do not write tests that merely require a historical implementation string if observable behavior can be tested directly.
-- CSS/source-string assertions are acceptable only for a small number of presentation/architecture invariants that cannot be exercised in the current headless environment.
-
-## Future content/localization rules
-
-- Keep stable content IDs independent from localized display text.
-- Do not use Russian UI strings as save/telemetry/control identifiers.
-- New authored content should not require controller `switch` statements when existing data/content contracts can express the sequence.
-- Dialogue internal pages are runtime presentation state and must never become authored/save IDs.
-
-## Mobile archive rules
-
-- Full project ZIP must have `package.json` at archive root.
-- Do not include `.git`, `node_modules` or `dist`.
-- Use a new filename (`R2`, `R3`, etc.) after any failed/cached upload.
-- Ensure only one candidate ZIP is present under `incoming/`.
-- Protected pipeline files must remain byte-for-byte identical to current `main`.
-
-## PWA warning
-
-Never broaden stable service-worker behavior into `/preview/`. Candidate QA must not be contaminated by stable caches.
+- Do not pin tests to historical app versions or prose that is not a protected contract.
+- Use source-string assertions only for structural invariants that cannot be tested behaviorally.
+- Update active docs in the same PR when ownership, contracts or workflow changes.
+- Add a documentation traceability assertion when a stale contradiction could silently return.
 
 ## Completion definition
 
-A change is ready for preview when:
+A change is ready for review when:
 
-- strict TypeScript + unused-code checks pass;
-- relevant unit/contracts pass;
-- feature architecture boundaries remain intact;
-- protected files are unchanged unless explicitly in scope;
-- archive validator passes;
-- GitHub importer completes clean `npm ci` + `npm run check`;
-- manual iPhone preview verifies the feature.
+- exact baseline/scope is recorded;
+- strict TypeScript and relevant tests/build pass locally when available;
+- protected contracts and machine-readable sources agree;
+- archive/branch contains only intended files;
+- GitHub `Quality gate` passes;
+- changed files have been reviewed;
+- relevant manual QA is complete;
+- merge remains manual.
+
+For docs/tests-only changes, visual iPhone QA is not required. For any visible/runtime or asset
+change, use the candidate preview and check the affected critical path on the phone.
