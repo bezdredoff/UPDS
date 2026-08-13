@@ -1,0 +1,24 @@
+{
+  "format": "upds-story-content-v1",
+  "sourceId": "ANM003_VERTICAL_SLICE",
+  "episodeId": "EP001_CASE_001",
+  "sourcePath": "src/content/ANM-003_Vertical_Slice_Screenplay.md",
+  "expectedBaseRange": {
+    "startLineId": "VN0001",
+    "endLineId": "VN0250"
+  },
+  "branchVariants": [
+    {
+      "startLineId": "VN0041",
+      "endLineId": "VN0046",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "deferredLineIds": [
+    "VN0250"
+  ]
+}
