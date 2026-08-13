@@ -6,12 +6,13 @@ version ledger.
 ## Authority order
 
 1. [`ROADMAP_RU.md`](ROADMAP_RU.md) — current completed/in-progress/deferred feature state.
-2. [`architecture/PROJECT_CONTRACTS_RU.md`](architecture/PROJECT_CONTRACTS_RU.md) — protected product/runtime decisions.
-3. [`architecture/ARCHITECTURE_RU.md`](architecture/ARCHITECTURE_RU.md) — current ownership and data flow.
-4. Machine-readable runtime/data contracts in `src/`, especially story and character manifests.
-5. [`process/`](process/) — delivery, AI-development and validation workflow.
-6. Feature documents — implementation traceability for a particular slice; later contracts may supersede them.
-7. [`archive/`](archive/) — historical evidence only.
+2. [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md) — approved full-game content scope, reuse budgets and authoring sequence.
+3. [`architecture/PROJECT_CONTRACTS_RU.md`](architecture/PROJECT_CONTRACTS_RU.md) — protected product/runtime decisions.
+4. [`architecture/ARCHITECTURE_RU.md`](architecture/ARCHITECTURE_RU.md) — current ownership and data flow.
+5. Machine-readable runtime/data contracts in `src/`, especially story and character manifests.
+6. [`process/`](process/) — delivery, AI-development and validation workflow.
+7. Feature documents — implementation traceability for a particular slice; later contracts may supersede them.
+8. [`archive/`](archive/) — historical evidence only.
 
 If two active documents conflict, prefer the narrower current machine-readable contract and
 `ROADMAP_RU.md`, then repair the conflicting prose in the same change.
@@ -20,6 +21,7 @@ If two active documents conflict, prefer the narrower current machine-readable c
 
 - [`architecture/PROJECT_CONTRACTS_RU.md`](architecture/PROJECT_CONTRACTS_RU.md)
 - [`ROADMAP_RU.md`](ROADMAP_RU.md)
+- [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md)
 - [`architecture/ARCHITECTURE_RU.md`](architecture/ARCHITECTURE_RU.md)
 - [`process/AI_DEVELOPMENT_RU.md`](process/AI_DEVELOPMENT_RU.md)
 - [`process/TESTING_RU.md`](process/TESTING_RU.md)
@@ -28,14 +30,17 @@ If two active documents conflict, prefer the narrower current machine-readable c
 
 ### Story and content
 
+- [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md) — full 22-slot scope, tier/reuse budgets, macro lock and three-episode delivery batches
+- [`content/ANM-001_Story_Bible.md`](content/ANM-001_Story_Bible.md) — active narrative canon v0.2
+- [`content/ANM-002_22_Episode_Plot.md`](content/ANM-002_22_Episode_Plot.md) — active `0–21` plot input v0.1; its §8 asset counts are superseded by ANM-027E
 - [`features/ANM027A_STORY_GRAPH_CONTRACT_RU.md`](features/ANM027A_STORY_GRAPH_CONTRACT_RU.md)
 - [`features/ANM027B_RUNTIME_ROUTING_MIGRATION_RU.md`](features/ANM027B_RUNTIME_ROUTING_MIGRATION_RU.md)
 - [`features/ANM027C_STORY_IMPORT_COMPLETENESS_RU.md`](features/ANM027C_STORY_IMPORT_COMPLETENESS_RU.md)
 - [`features/ANM027D_FULL_STORY_IMPORT_RU.md`](features/ANM027D_FULL_STORY_IMPORT_RU.md)
 
-The repository currently contains the authored ANM-003 vertical slice only. The ANM-027
-architecture/import pipeline is production-ready, but the screenplay beyond that slice is not yet
-present and must not be described as complete.
+The repository currently contains the authored ANM-003 vertical slice only. The ANM-027 pipeline
+and ANM-027E lean production contract are ready. The screenplay beyond that slice is not yet
+present, the full macro lock is also pending, and neither must be described as complete.
 
 ### Character production
 

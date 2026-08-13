@@ -10,6 +10,17 @@ Machine-readable source of truth: `src/data/characterProduction.ts` (`upds-chara
 взрослые college-age пропорции и отсутствие современного glossy-gacha рендера.
 Все персонажи, входящие в production manifest, явно маркируются как взрослые; для новых персонажей с известным возрастом возраст должен быть 18+.
 
+## Scope boundary
+
+Этот строгий контракт относится только к полноценным stage-персонажам, которых VN может ставить в
+solo/two-shot/trio сцену как самостоятельные full-body assets. Product budget и правила выбора
+stage/guest/extras зафиксированы в `docs/content/CONTENT_PRODUCTION_STRATEGY_RU.md`.
+
+Планируемый guest/witness package (один bust/half-body master, две эмоции и neutral medallion) —
+отдельный presentation/asset class. До появления его schema, renderer и validator такие персонажи
+не добавляются в `upds-character-production-v2`, а отсутствующие full-stage assets не заменяются
+фиктивными paths.
+
 ## Runtime asset set
 
 Production runtime использует только готовые precomposed изображения. Layered face overlays не являются production runtime contract и не должны возвращаться.
@@ -66,6 +77,20 @@ Vertical offset (`yPercent`) служит staging-композиции и не �
 В пределах одной Pose A внешний силуэт, тело, одежда, волосы, свет и alpha-края должны оставаться стабильными; менять следует только необходимую для выражения область.
 
 Цель — отсутствие halo/flicker и скачков масштаба при смене expression frame.
+
+Стандартная taxonomy закрыта этими пятью выражениями. Новый обязательный expression name нельзя
+добавлять ради одного эпизода. Отдельный climax frame возможен только после явного budget approval и
+не становится скрытым восьмым обязательным asset.
+
+## Offline expression production
+
+Утверждённый neutral full-body master является неподвижной основой. Для каждой эмоции разрешено
+редактировать одну ограниченную face ROI, сохранить production layers/mask и выполнить
+offline-композит на неизменённый master. До экспорта следует проверить неизменность pixels за
+пределами разрешённого region, canvas 1024×1536 и alpha-height с допуском 1 px.
+
+Production layers и face parts не являются runtime assets. Runtime получает только готовые
+precomposed RGBA frames и никогда не собирает лицо overlay-слоями.
 
 ## Animation policy
 

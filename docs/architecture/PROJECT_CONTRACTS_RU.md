@@ -1,6 +1,6 @@
 # UPDS — защищённые проектные контракты
 
-Status: active protected contract aligned with the ANM-028A R2 repository baseline.
+Status: active protected contract aligned with ANM-027E and the ANM-028A R2 repository baseline.
 
 Эти правила считаются стабильными до отдельного продуктового решения. Реализация, тест или
 удобство production pipeline не могут молча переопределить их.
@@ -17,10 +17,20 @@ Status: active protected contract aligned with the ANM-028A R2 repository baseli
 - Source содержит 262 authored lines; 261 назначена playable graph; `VN0250` остаётся explicit deferred teaser.
 - Полный screenplay после текущего vertical slice в репозитории отсутствует. Его нельзя считать
   созданным, локализованным или art-locked до отдельного authored/imported content pass.
+- Full-game scope сохраняет 22 planned content slots `0–21`: общую ветку `0–18` и три возможных
+  финальных слота `19`/`20`/`21`. Production optimization не может молча удалить слот или финал.
+- Canonical production-budget/authoring contract:
+  `docs/content/CONTENT_PRODUCTION_STRATEGY_RU.md`. Он сокращает one-off assets через tiers/reuse,
+  native evidence UI и общие Match-3 archetypes, а не через сокращение утверждённого сюжета.
 
-Story Bible/episode plan остаются продуктовой authority, когда они явно предоставлены и
-идентифицированы. Отсутствующий документ нельзя реконструировать из памяти и выдавать за canonical
-repository source.
+Repository planning inputs: `docs/content/ANM-001_Story_Bible.md` v0.2 и
+`docs/content/ANM-002_22_Episode_Plot.md` v0.1 от 10 августа 2026. Исторический `UPDS.pptx` от 21 октября 2016
+сохраняет beat/level structure, но не переопределяет текущие adult/tone/mystery guardrails.
+Отсутствующий документ нельзя реконструировать из памяти и выдавать за canonical repository source.
+
+ANM-027E supersedes production-volume estimates ANM-002 §8 (expression/background/clue counts), но
+не его narrative beats, clue chain или ending logic. Точная таблица расхождений находится в
+`docs/content/CONTENT_PRODUCTION_STRATEGY_RU.md`.
 
 ## Save compatibility
 
@@ -57,6 +67,11 @@ Current production characters: Miku, Onoe, Ayuki, Emi.
 
 Current planned/placeholders: Kentaro, Norihiro, Mayu. Planned characters must not claim fake asset
 paths and require side-by-side lineup/proportion approval before promotion to production.
+
+The seven-asset manifest applies only to full-stage characters. A future guest/witness bust package
+is a separate presentation/asset class and must not enter `upds-character-production-v2` until its
+own schema, renderer and validator exist. Offline face-ROI layers/compositing are allowed as source
+material, but runtime still receives only finished precomposed frames.
 
 The retired transparent face-overlay composition is not a runtime contract. `blink` and `speaking`
 remain deferred until an ANM-028 replacement/delta approach proves that it preserves the authored
