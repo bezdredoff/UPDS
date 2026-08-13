@@ -72,6 +72,11 @@ describe('active documentation traceability', () => {
     }
     expect(strategy).toContain('22 planned content slots: `0–21`');
     expect(strategy).toContain('Сюжетный объём не сокращается');
+    expect(strategy).toContain('`ANM-001_Story_Bible.md`, v0.2');
+    expect(strategy).toContain('`ANM-002_22_Episode_Plot.md`, v0.1');
+    expect(strategy).toContain('исторический beat source на 115 слайдов');
+    expect(strategy).toContain('ANM-027E supersedes **только production-volume estimates**');
+    expect(strategy).toContain('8–10 эмоций и 2 позы');
     expect(strategy).toContain('8–10 master-локаций');
     expect(strategy).toContain('5–7 hero clue close-ups');
     expect(strategy).toContain('пакетами по три последовательных эпизода');
@@ -81,6 +86,7 @@ describe('active documentation traceability', () => {
     expect(characterContract).toContain('Runtime получает только готовые');
     expect(protectedContracts).toContain('22 planned content slots `0–21`');
     expect(protectedContracts).toContain('future guest/witness bust package');
+    expect(protectedContracts).toContain('ANM-002 §8');
     expect(aiWorkflow).toContain('first post-slice package is `4–6`');
   });
 

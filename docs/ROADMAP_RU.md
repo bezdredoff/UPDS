@@ -122,7 +122,7 @@ The missing full screenplay does not block ANM-028 Character Production Pipeline
 
 Content-production split:
 - **027E Lean Content Production Contract — COMPLETE** — [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md) preserves slots `0–21` while capping one-off production through full-stage/guest/extras tiers, eight staging presets, 8–10 location masters, 5–7 hero clue close-ups and 5–6 Match-3 layout archetypes;
-- **027F Full Story Macro Lock — NEXT AFTER 028B1** — reconcile Story Bible and the original scenario presentation into a `0–21` beat/location/cast/clue/Match-3/transition/asset-trigger map before detailed writing;
+- **027F Full Story Macro Lock — NEXT AFTER 028B1** — reconcile `ANM-001 Story Bible v0.2`, `ANM-002 22-Episode Plot v0.1` and the historical 115-slide `UPDS.pptx` into a `0–21` beat/location/cast/clue/Match-3/transition/asset-trigger map before detailed writing; use ANM-027E budgets instead of ANM-002 §8 production estimates;
 - **027G Episode Batch Production & Canonical Import — PENDING 027F** — author/import three sequential episodes per reviewable package, starting with `4–6`, using the existing manifest/audit/graph/runtime pipeline.
 
 ### ANM-028 — Character Production Pipeline 2.0 [P0/P1] — IN PROGRESS

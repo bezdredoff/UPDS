@@ -23,9 +23,14 @@ Status: active protected contract aligned with ANM-027E and the ANM-028A R2 repo
   `docs/content/CONTENT_PRODUCTION_STRATEGY_RU.md`. Он сокращает one-off assets через tiers/reuse,
   native evidence UI и общие Match-3 archetypes, а не через сокращение утверждённого сюжета.
 
-Story Bible/episode plan остаются продуктовой authority, когда они явно предоставлены и
-идентифицированы. Отсутствующий документ нельзя реконструировать из памяти и выдавать за canonical
-repository source.
+Идентифицированные planning inputs: `ANM-001_Story_Bible.md` v0.2 и
+`ANM-002_22_Episode_Plot.md` v0.1 от 10 августа 2026. Исторический `UPDS.pptx` от 21 октября 2016
+сохраняет beat/level structure, но не переопределяет текущие adult/tone/mystery guardrails.
+Отсутствующий документ нельзя реконструировать из памяти и выдавать за canonical repository source.
+
+ANM-027E supersedes production-volume estimates ANM-002 §8 (expression/background/clue counts), но
+не его narrative beats, clue chain или ending logic. Точная таблица расхождений находится в
+`docs/content/CONTENT_PRODUCTION_STRATEGY_RU.md`.
 
 ## Save compatibility
 

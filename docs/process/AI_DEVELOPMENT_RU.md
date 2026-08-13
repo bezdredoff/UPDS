@@ -43,6 +43,12 @@ Full-game scope, asset-trigger budgets and authoring sequence:
 `docs/content/CONTENT_PRODUCTION_STRATEGY_RU.md`. It preserves content slots `0–21`; a technical
 optimization must not silently remove an episode, ending or canonical story beat.
 
+External planning inputs currently identified for 027F are `ANM-001_Story_Bible.md` v0.2,
+`ANM-002_22_Episode_Plot.md` v0.1 and the historical 115-slide `UPDS.pptx`. Use the deck only through
+the source-reconciliation table in the strategy: preserve its level/beat DNA, never revive its
+school-age setting, old culprits, non-consensual searches, stereotype-based jokes or sexualized
+camera. ANM-027E replaces ANM-002 §8 art-volume estimates; it does not replace the modern plot.
+
 ### Character art
 
 Technical/runtime authority:
