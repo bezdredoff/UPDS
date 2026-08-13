@@ -21,9 +21,9 @@ Status: active product/production decision, ANM-027E.
 
 Входы для ANM-027F идентифицированы явно:
 
-- `ANM-001_Story_Bible.md`, v0.2 от 10 августа 2026 — текущий narrative canon: колледж Сэйран,
+- [`ANM-001_Story_Bible.md`](ANM-001_Story_Bible.md), v0.2 от 10 августа 2026 — текущий narrative canon: колледж Сэйран,
   совершеннолетние персонажи, POV Мику, `Second Skin`, Рина и Куросэ;
-- `ANM-002_22_Episode_Plot.md`, v0.1 от 10 августа 2026 — современный каркас слотов `0–21`,
+- [`ANM-002_22_Episode_Plot.md`](ANM-002_22_Episode_Plot.md), v0.1 от 10 августа 2026 — современный каркас слотов `0–21`,
   созданный на основе Story Bible и исходной презентации;
 - `UPDS.pptx`, исходный файл от 21 октября 2016 — исторический beat source на 115 слайдов;
 - `src/content/ANM-003_Vertical_Slice_Screenplay.md` — единственный текущий repository-authored

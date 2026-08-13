@@ -48,6 +48,9 @@ External planning inputs currently identified for 027F are `ANM-001_Story_Bible.
 the source-reconciliation table in the strategy: preserve its level/beat DNA, never revive its
 school-age setting, old culprits, non-consensual searches, stereotype-based jokes or sexualized
 camera. ANM-027E replaces ANM-002 §8 art-volume estimates; it does not replace the modern plot.
+The repository copies are `docs/content/ANM-001_Story_Bible.md` and
+`docs/content/ANM-002_22_Episode_Plot.md`; read those copies for content work instead of relying on
+chat memory or an unavailable external attachment.
 
 ### Character art
 
