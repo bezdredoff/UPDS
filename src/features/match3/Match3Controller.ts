@@ -6,12 +6,13 @@ import {
   levels,
   specialAsset,
   specialAssets,
+  BOARD_SIZE,
   type ClueId,
   type LevelDefinition,
 } from '../../data/levels';
 import { backgroundAssets, getScene } from '../../data/narrative';
 import { resolveMatch3TilePresentation, tilePresentationAssetsForActiveSet } from '../../data/match3TilePresentation';
-import { nextPendingMatch3Tutorial, tutorialCompletionEventsForMove, tutorialConceptsCompletedByEvents, tutorialRevealEventsForMove, type Match3TutorialConceptId, type Match3TutorialRevealEvent } from '../../data/match3Tutorials';
+import { nextPendingMatch3Tutorial, tutorialCompletionEventsForMove, tutorialConceptsCompletedByEvents, tutorialRevealEventsForBoard, tutorialRevealEventsForMove, type Match3TutorialConceptId, type Match3TutorialRevealEvent } from '../../data/match3Tutorials';
 import { postSceneForLevel } from '../../engine/CampaignStore';
 import { Match3Game, type BoardCell, type Match3Frame, type MoveResult } from '../../engine/Match3Game';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
@@ -120,12 +121,17 @@ export class Match3Controller {
     </div>`;
   }
 
-  private recordTutorialMove(result: MoveResult, directSpecialActivation = false): void {
+  private currentTutorialRevealEvents(): Match3TutorialRevealEvent[] {
+    const dynamic = this.activeMatch ? tutorialRevealEventsForBoard(this.activeMatch.board, BOARD_SIZE) : [];
+    return [...new Set<Match3TutorialRevealEvent>([...this.tutorialRevealEvents, ...dynamic])];
+  }
+
+  private recordTutorialMove(result: MoveResult, directSpecialActivation = false, directSpecialCombo = false): void {
     const level = this.activeMatch?.level;
     if (!level || !result.valid) return;
     for (const revealEvent of tutorialRevealEventsForMove(result)) this.tutorialRevealEvents.add(revealEvent);
 
-    const events = tutorialCompletionEventsForMove(result, directSpecialActivation);
+    const events = tutorialCompletionEventsForMove(result, directSpecialActivation, directSpecialCombo);
     const completedNow = tutorialConceptsCompletedByEvents(level.tutorialConcepts, this.session.save.tutorialsCompleted, events);
     const previousActive = this.activeTutorial;
     for (const concept of completedNow) {
@@ -139,7 +145,7 @@ export class Match3Controller {
     const next = nextPendingMatch3Tutorial(
       level.tutorialConcepts,
       this.session.save.tutorialsCompleted,
-      [...this.tutorialRevealEvents],
+      this.currentTutorialRevealEvents(),
     );
     if (next === previousActive) return;
     this.activeTutorial = next;
@@ -230,7 +236,7 @@ export class Match3Controller {
     this.matchBark = this.levelBark(level, 'start');
     this.lastTappedSpecial = null;
     this.tutorialRevealEvents = new Set(['level-start']);
-    this.activeTutorial = nextPendingMatch3Tutorial(level.tutorialConcepts, this.session.save.tutorialsCompleted, [...this.tutorialRevealEvents]);
+    this.activeTutorial = nextPendingMatch3Tutorial(level.tutorialConcepts, this.session.save.tutorialsCompleted, this.currentTutorialRevealEvents());
     this.tutorialPromptDismissed = false;
     if (this.activeTutorial) {
       this.services.telemetry.track('match_tutorial', { action: 'shown', conceptId: this.activeTutorial, levelId: level.id });
@@ -717,6 +723,7 @@ export class Match3Controller {
     this.hintedCells.clear();
     this.lastTappedSpecial = null;
     try {
+      const directSpecialCombo = Boolean(game.board[first]?.special && game.board[second]?.special);
       const result = game.attemptSwap(first, second);
       this.services.telemetry.track('match_move', {
         levelId: game.level.id, levelIndex: this.activeLevelIndex, valid: result.valid, reason: result.valid ? 'ok' : result.reason,
@@ -737,7 +744,7 @@ export class Match3Controller {
         return;
       }
 
-      this.recordTutorialMove(result);
+      this.recordTutorialMove(result, false, directSpecialCombo);
       this.updateBark(result);
       await this.playMoveFrames(result, first, second);
       if (result.won) {

@@ -124,7 +124,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'emi'],
       narrativeTags: ['locker-room', 'laundry', 'missing-underwear', 'evidence-sort'],
     },
-    tutorialConcepts: ['basic-swap', 'clear-blocker', 'drop-ingredient', 'activate-special'],
+    tutorialConcepts: ['basic-swap', 'clear-blocker', 'drop-ingredient', 'activate-special', 'combine-specials'],
     activeTiles: ['pantiesSportWhite', 'pantiesLacePink', 'pantiesHighWaistBlack', 'pantiesBoyshortBlue', 'sportsBra', 'laundryTag'],
     moves: 24,
     objectives: [
@@ -160,7 +160,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'kentaro'],
       narrativeTags: ['apartment', 'photo-props', 'timeline', 'alibi'],
     },
-    tutorialConcepts: ['activate-special'],
+    tutorialConcepts: ['activate-special', 'combine-specials'],
     activeTiles: ['pantiesLacePink', 'pantiesHighWaistBlack', 'panties', 'camisole', 'sportsBra', 'laundryTag'],
     moves: 26,
     objectives: [
@@ -194,7 +194,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'norihiro'],
       narrativeTags: ['pool-locker', 'laundry', 'foam', 'service-access'],
     },
-    tutorialConcepts: ['activate-special'],
+    tutorialConcepts: ['activate-special', 'combine-specials'],
     activeTiles: ['pantiesSportWhite', 'pantiesBoyshortBlue', 'sportsBra', 'towel', 'laundryTag', 'socks'],
     moves: 25,
     objectives: [
@@ -228,7 +228,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'norihiro'],
       narrativeTags: ['apartment', 'ordered-storage', 'returned-laundry', 'tampering'],
     },
-    tutorialConcepts: ['activate-special'],
+    tutorialConcepts: ['activate-special', 'combine-specials'],
     activeTiles: ['pantiesSportWhite', 'pantiesHighWaistBlack', 'pantiesBoyshortBlue', 'camisole', 'socks', 'laundryTag'],
     moves: 27,
     objectives: [
