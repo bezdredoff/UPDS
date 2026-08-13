@@ -202,6 +202,43 @@ export const legacySceneIndexFromStoryId = (sceneId: StorySceneId): number =>
 export const storyTransitionForLegacyScene = (legacyIndex: number): StoryTransition | null =>
   storySceneFromLegacyIndex(legacyIndex)?.transition ?? null;
 
+export type StoryMatch3Route = Readonly<{
+  sourceSceneId: StorySceneId;
+  sourceLegacyIndex: number;
+  levelId: string;
+  levelIndex: number;
+  onWinSceneId: StorySceneId;
+  onWinLegacyIndex: number;
+}>;
+
+const match3RouteFromScene = (scene: StorySceneDefinition): StoryMatch3Route | null => {
+  const transition = scene.transition;
+  if (transition.kind !== 'match3') return null;
+  return {
+    sourceSceneId: scene.id,
+    sourceLegacyIndex: scene.legacyIndex,
+    levelId: transition.levelId,
+    levelIndex: levels.findIndex((level) => level.id === transition.levelId),
+    onWinSceneId: transition.onWinSceneId,
+    onWinLegacyIndex: legacySceneIndexFromStoryId(transition.onWinSceneId),
+  };
+};
+
+export const storyMatch3RouteForLegacyScene = (legacyIndex: number): StoryMatch3Route | null => {
+  const scene = storySceneFromLegacyIndex(legacyIndex);
+  return scene ? match3RouteFromScene(scene) : null;
+};
+
+export const storyMatch3RouteForLevelId = (levelId: string): StoryMatch3Route | null => {
+  const scene = storyGraph.scenes.find(
+    (candidate) => candidate.transition.kind === 'match3' && candidate.transition.levelId === levelId,
+  );
+  return scene ? match3RouteFromScene(scene) : null;
+};
+
+export const storyWinSceneIndexForLevelId = (levelId: string): number =>
+  storyMatch3RouteForLevelId(levelId)?.onWinLegacyIndex ?? -1;
+
 export function validateStoryGraph(graph: StoryGraph = storyGraph): readonly StoryGraphIssue[] {
   const issues: StoryGraphIssue[] = [];
   const seenIds = new Set<string>();
