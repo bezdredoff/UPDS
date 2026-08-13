@@ -1,89 +1,117 @@
-# UPDS — Production Character Contract
+# UPDS — Character Production Contract 2.0
 
 ## Source of truth
 
-Новые персонажи должны совпадать с утверждённым `2000s Hybrid` и существующими Miku/Onoe/Ayuki:
+Machine-readable source of truth: `src/data/characterProduction.ts` (`upds-character-production-v2`).
+`docs/art/CHARACTER_USAGE_MANIFEST.json` — человекочитаемое зеркало для production planning и обязано совпадать с canonical manifest через CI.
+
+Новые персонажи должны совпадать с утверждённым `2000s Hybrid` и существующими Miku/Onoe/Ayuki/Emi:
 чистый контур, простые формы, почти плоский cel shading, минимум бликов/градиентов/мелких деталей,
 взрослые college-age пропорции и отсутствие современного glossy-gacha рендера.
+Все персонажи, входящие в production manifest, явно маркируются как взрослые; для новых персонажей с известным возрастом возраст должен быть 18+.
 
-## R4: precomposed expression frames
+## Runtime asset set
 
-Layered face overlays больше НЕ являются production runtime contract.
+Production runtime использует только готовые precomposed изображения. Layered face overlays не являются production runtime contract и не должны возвращаться.
 
-Pose A строится из одного immutable master и пяти готовых full-frame кадров:
-- `frame-neutral.png`
-- `frame-smile.png`
-- `frame-serious.png`
-- `frame-surprised.png`
-- `frame-embarrassed.png`
+Каждый production-персонаж получает ровно семь обязательных runtime assets:
 
-Каждый файл:
-- 1024×1536 RGBA;
-- одинаковый pivot `(0.5, 1.0)`;
-- идентичные camera/scale/head/neck/collar/hair silhouette/body;
-- одинаковые lighting, cel-shadow, skin tone, hair color, saturation, contrast и highlights;
-- различаются только пиксели, необходимые для мимики.
+1. `frame-neutral.png`
+2. `frame-smile.png`
+3. `frame-serious.png`
+4. `frame-surprised.png`
+5. `frame-embarrassed.png`
+6. один утверждённый Pose B PNG
+7. один neutral medallion PNG
 
-Runtime показывает ровно ОДИН expression frame. Никакое второе лицо не накладывается поверх него.
+Пять Pose A expression frames и Pose B:
+- 1024×1536 RGBA PNG;
+- общий pivot `(0.5, 1.0)`;
+- одинаковый virtual camera contract;
+- expression switch не меняет body/camera/scale/y.
+
+Medallion — квадратный PNG. Допустимый production source сейчас 256×256 или 512×512; UI-size задаётся layout, а не intrinsic resolution.
+
+## Canonical character height / proportions
+
+Общий canvas **не означает одинаковый рост**. Рост и пропорции персонажа должны быть художественно зашиты в его master внутри общего 1024×1536 canvas; production runtime не должен выравнивать разных персонажей случайным CSS zoom.
+
+Canonical measurement для Pose A: высота непрозрачного subject alpha-bounds в `frame-neutral.png` до runtime staging.
+
+Текущий утверждённый visual-height baseline:
+- Miku: 1375 px;
+- Onoe: 1484 px — reference 100%;
+- Ayuki: 1462 px;
+- Emi: 1444 px.
+
+Относительно Onoe это примерно:
+- Miku 92.7%;
+- Ayuki 98.5%;
+- Emi 97.3%.
+
+Эти значения не объявляются физическим ростом в сантиметрах: это **production visual-height canon** утверждённых masters. Если позже story/art bible задаст рост в сантиметрах, он может быть добавлен как semantic metadata, но итоговая экранная пропорция всё равно должна пройти общий lineup QA.
+
+Правила:
+- production `staging.scale` по умолчанию равен `1`;
+- нельзя исправлять неправильно нарисованный рост персонажа runtime zoom-ом;
+- все пять expression frames сохраняют canonical visual height с допуском 1 px;
+- новый персонаж не может перейти из `planned` в `production`, пока neutral master не утверждён в side-by-side lineup с production cast и его canonical alpha-bounds/visual height не внесены в manifest;
+- 028B Character/Scene Studio должен иметь lineup/proportion preview с общей baseline/camera.
+
+Vertical offset (`yPercent`) служит staging-композиции и не меняет канонический рост персонажа.
+
+## Expression fidelity
+
+`neutral`, `smile`, `serious`, `surprised`, `embarrassed` должны читаться как разные authored эмоции.
+В пределах одной Pose A внешний силуэт, тело, одежда, волосы, свет и alpha-края должны оставаться стабильными; менять следует только необходимую для выражения область.
+
+Цель — отсутствие halo/flicker и скачков масштаба при смене expression frame.
 
 ## Animation policy
 
-Автоматические `speaking` mouth-flap и `blink` временно исключены из production contract.
-Причина: один generic overlay не может корректно удалить уже нарисованный рот/глаза и вызывает double-mouth,
-halo и потерю authored emotion.
+Текущий production mode: `precomposed-static`.
 
-Возврат lip/blink animation допускается только отдельной feature с replacement/delta masks,
-которые доказанно сохраняют текущую authored expression.
+`blink` и `speaking` НЕ входят в обязательный runtime expression set и имеют статус `deferred`.
+Их можно вернуть только отдельным ANM-028 slice через replacement/delta-mask или иной подход, который доказанно:
+- не рисует второе лицо поверх authored frame;
+- не создаёт double-mouth/double-eyes;
+- не меняет силуэт и scale;
+- сохраняет исходную authored emotion;
+- корректно работает с reduced motion.
 
-## Semantic uniqueness
+До такого proof старые `face-*`, `base-neutral`, `speaking` и `blink` файлы могут существовать в репозитории как legacy baggage, но runtime и production manifest не имеют права на них ссылаться.
 
-`smile`, `serious`, `surprised`, `embarrassed` обязаны визуально читаться как разные эмоции.
-Формально разные PNG с практически одинаковым лицом — FAIL.
+## Production status
 
-## Pixel fidelity gate
+На baseline ANM-028A:
+- production: Miku, Onoe, Ayuki, Emi;
+- planned: Kentaro, Norihiro, Mayu.
 
-Вне утверждённой facial-change region кадры одного Pose A должны быть пиксельно идентичны neutral master.
-Нельзя менять:
-- форму/масштаб/наклон головы;
-- волосы и их внешний силуэт;
-- уши, шею, воротник, одежду;
-- тени и освещение;
-- цвета кожи/волос/одежды;
-- alpha по границе головы или тела.
-
-Это предотвращает halo/flicker при смене выражения.
-
-## Additional files
-
-На персонажа также:
-- `poses/<pose-b>.png` — 1024×1536 RGBA;
-- `medallions/portrait_neutral_256.png` — 256×256 RGBA.
-
-Минимальный production runtime set теперь: 5 Pose A frames + Pose B + medallion = 7 PNG.
-
-## Emi rejection / regeneration gate
-
-ANM-021B R2/R3 Emi art отклонён visual QA:
-слишком современный дизайн, сложная причёска, избыток деталей/теней/бликов и несовпадающая палитра.
-До новой генерации, которая проходит side-by-side comparison с Miku/Onoe/Ayuki, Эми остаётся placeholder.
-
-Новый Emi master должен сначала пройти standalone art approval; expressions производятся ТОЛЬКО после approval master.
+`planned` означает «asset set ещё не произведён». Для planned-персонажа запрещено объявлять несуществующие runtime asset paths ради прохождения интерфейса. Placeholder остаётся допустим до отдельного production integration slice.
 
 ## VN staging / virtual camera
 
-Все production character frames используют общий VN camera viewport.
-PNG никогда не определяет CSS zoom своим intrinsic размером.
+Все production frames используют общий VN camera viewport.
 
 Runtime contract:
-- `.portrait-frame` и `.portrait-static`: absolute inset 0, width/height 100%, `object-fit: contain`, `object-position: center bottom`;
-- Pose A и Pose B используют одинаковый camera box;
-- expression switch не меняет scale/y/side;
-- `characterStaging` — единственная допустимая точка character-specific scale/vertical offset;
-- default для production art: `scale: 1`, `yPercent: 0`.
+- `.portrait-frame` и `.portrait-static`: один contain/bottom camera box;
+- `characterStaging` — единственная допустимая точка character-specific scale/y correction;
+- production default: `scale: 1`, `yPercent: 0`;
+- рост и пропорции в первую очередь закладываются в согласованный 1024×1536 master canvas;
+- нельзя подгонять отдельные expression frames или сцены случайным CSS zoom.
 
-Разница роста должна быть художественно заложена в согласованный 1024×1536 master canvas либо отдельно утверждена
-в staging metadata. Нельзя «подгонять голову» случайным zoom на отдельной сцене.
+Будущий Character/Scene Studio должен редактировать/показывать эти же staging metadata, а не создавать параллельную систему координат.
 
+## Production gate
 
-## ANM-021B R6
-Новый Emi master approved и интегрирован по precomposed-frame/R5 staging contract.
+Перед переводом персонажа из `planned` в `production` CI должен подтвердить:
+- полный 7-asset set;
+- пять уникальных expression paths;
+- существование всех runtime assets;
+- 1024×1536 для frames/Pose B;
+- квадратный medallion 256 или 512;
+- asset root `./assets/characters/<character>/`;
+- explicit adult guardrail;
+- отсутствие runtime-ссылок на legacy face-overlay animation.
+
+Visual approval остаётся ручным gate: автоматическая проверка не может доказать совпадение стиля, анатомию или художественную уникальность эмоций.

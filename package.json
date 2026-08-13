@@ -9,6 +9,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "story:audit": "vitest run tests/StoryContentAudit.test.ts",
+    "character:audit": "vitest run tests/CharacterProductionManifest.test.ts",
     "build": "tsc && vite build",
     "check": "npm run test && npm run build",
     "preview": "vite preview"
