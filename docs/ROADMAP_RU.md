@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.0-dev`.
-Active production foundation: **ANM-025D1 Tutorial State + Base Interaction complete**; current production focus is **ANM-025D2 Objective Mechanics Tutorials**.
+Active production foundation: **ANM-025D1–D2 tutorial foundations complete**; current production focus is **ANM-025D3 Special Activation Tutorial**.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -61,7 +61,7 @@ Completed split:
 
 ### ANM-025 — Match-3 Production Framework [P0]
 
-Current slice: **025D2 Objective Mechanics Tutorials**. 025A–C и 025D1 complete. D2 расширяет тот же persistent concept framework на blockers и falling ingredients; следующий D-срез добавит обучение specials/activation без отдельной tutorial-системы.
+Current slice: **025D3 Special Activation Tutorial**. 025A–C и 025D1–D2 complete. D3 вводит reveal-on-event для special creation и подтверждение direct double-tap activation; special-to-special combinations остаются отдельным следующим tutorial cut.
 
 After ANM-024:
 - Golden Sample presentation parity;
