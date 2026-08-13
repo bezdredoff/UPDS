@@ -12,6 +12,7 @@ describe('campaign state', () => {
       completed: [0, 0, 9],
       attempts: { M3_00: -2, M3_01: 3.8 },
       readLines: ['VN0001', 'bad'],
+      tutorialsCompleted: ['basic-swap', 'bad', 'basic-swap'],
     });
     expect(normalized.scene).toBe(8);
     expect(normalized.line).toBe(0);
@@ -20,6 +21,7 @@ describe('campaign state', () => {
     expect(normalized.completed).toEqual([0]);
     expect(normalized.attempts).toEqual({ M3_00: 0, M3_01: 3 });
     expect(normalized.readLines).toEqual(['VN0001']);
+    expect(normalized.tutorialsCompleted).toEqual(['basic-swap']);
   });
 
   it('maps every pre-scene to its level and post-scene', () => {

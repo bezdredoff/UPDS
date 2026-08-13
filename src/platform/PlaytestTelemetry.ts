@@ -9,7 +9,7 @@ export type PlaytestEventName =
   | 'session_start' | 'session_end' | 'screen_view'
   | 'vn_line' | 'vn_paging' | 'vn_skip' | 'vn_auto' | 'vn_log_open'
   | 'choice_selected'
-  | 'match_start' | 'match_move' | 'match_hint' | 'match_end'
+  | 'match_start' | 'match_move' | 'match_hint' | 'match_tutorial' | 'match_end'
   | 'vertical_slice_complete'
   | 'pwa_registered' | 'pwa_offline_ready' | 'pwa_update_available' | 'pwa_update_applied' | 'pwa_installed' | 'connectivity_changed';
 

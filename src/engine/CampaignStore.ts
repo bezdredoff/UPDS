@@ -1,6 +1,7 @@
 import { APP_VERSION } from '../appVersion';
 import type { ChoiceId } from '../data/narrative';
 import type { ClueId } from '../data/levels';
+import { match3TutorialConceptIds, type Match3TutorialConceptId } from '../data/match3Tutorials';
 import type { StorageLike } from '../platform/SafeStorage';
 
 export type CampaignSave = {
@@ -11,6 +12,7 @@ export type CampaignSave = {
   completed: number[];
   attempts: Record<string, number>;
   readLines: string[];
+  tutorialsCompleted: Match3TutorialConceptId[];
 };
 
 export type PersistedSaveMetadata = Readonly<{ schemaVersion: number; savedAt: string; appVersion: string }>;
@@ -27,16 +29,16 @@ export type SaveLoadReport = Readonly<{ status: 'fresh' | 'loaded' | 'recovered-
 export type SaveImportResult = Readonly<{ ok: true; state: CampaignSave }> | Readonly<{ ok: false; error: string }>;
 
 export const ANM009_SAVE_KEY = 'seiran-detectives-anm009-v1';
-export const SAVE_SCHEMA_VERSION = 1;
+export const SAVE_SCHEMA_VERSION = 2;
 export const SAVE_RECOVERY_KEY = `${ANM009_SAVE_KEY}:recovery-v1`;
 export const MANUAL_SAVE_KEY = `${ANM009_SAVE_KEY}:manual-v1`;
 
-export const freshSave = (): CampaignSave => ({ scene: 0, line: 0, choice: 'A', clues: [], completed: [], attempts: {}, readLines: [] });
+export const freshSave = (): CampaignSave => ({ scene: 0, line: 0, choice: 'A', clues: [], completed: [], attempts: {}, readLines: [], tutorialsCompleted: [] });
 
 const isChoice = (value: unknown): value is ChoiceId => value === 'A' || value === 'B' || value === 'C';
 const clueIds: readonly ClueId[] = ['CUE_001', 'CUE_002', 'CUE_003', 'CUE_004'];
 const isRecord = (value: unknown): value is Record<string, unknown> => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
-const campaignFields = ['scene', 'line', 'choice', 'clues', 'completed', 'attempts', 'readLines'] as const;
+const campaignFields = ['scene', 'line', 'choice', 'clues', 'completed', 'attempts', 'readLines', 'tutorialsCompleted'] as const;
 const looksLikeCampaignSave = (value: Record<string, unknown>): boolean => campaignFields.some((field) => field in value);
 
 export function normalizeSave(value: unknown): CampaignSave {
@@ -56,6 +58,9 @@ export function normalizeSave(value: unknown): CampaignSave {
     completed: Array.isArray(candidate.completed) ? [...new Set(candidate.completed.map(Number).filter((index) => Number.isInteger(index) && index >= 0 && index < 4))] : [],
     attempts,
     readLines: Array.isArray(candidate.readLines) ? [...new Set(candidate.readLines.filter((lineId): lineId is string => typeof lineId === 'string' && /^VN\d{4}[ABC]?$/.test(lineId)))] : [],
+    tutorialsCompleted: Array.isArray(candidate.tutorialsCompleted)
+      ? [...new Set(candidate.tutorialsCompleted.filter((concept): concept is Match3TutorialConceptId => match3TutorialConceptIds.includes(concept as Match3TutorialConceptId)))]
+      : [],
   };
 }
 
