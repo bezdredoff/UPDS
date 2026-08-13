@@ -7,6 +7,7 @@ export interface AppNavigation {
   showEnding(): void;
   showSceneSelect(): void;
   showDiagnostics(status?: string): void;
+  showLevelLab(): void;
   showMenu(): void;
   returnToMainMenu(): void;
 }

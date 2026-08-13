@@ -10,6 +10,7 @@ import { DossierController } from '../features/dossier/DossierController';
 import { EndingController } from '../features/ending/EndingController';
 import { VnController } from '../features/vn/VnController';
 import { Match3Controller } from '../features/match3/Match3Controller';
+import { LevelLabController } from '../features/levelLab/LevelLabController';
 
 /**
  * Composition root for the UI application.
@@ -28,6 +29,7 @@ export class AnimeDetectiveApp {
   private readonly ending: EndingController;
   private readonly vn: VnController;
   private readonly match3: Match3Controller;
+  private readonly levelLab: LevelLabController;
 
   constructor(private readonly root: HTMLElement, services: RuntimeServices = createRuntimeServices()) {
     this.services = services;
@@ -43,12 +45,16 @@ export class AnimeDetectiveApp {
       showEnding: () => this.ending.render(),
       showSceneSelect: () => this.diagnostics.renderSceneSelect(),
       showDiagnostics: (status = '') => this.diagnostics.render(status),
+      showLevelLab: () => this.levelLab.render(),
       showMenu: () => this.renderMenu(),
       returnToMainMenu: () => this.returnToMainMenu(),
     };
 
     this.vn = new VnController(root, services, this.session, this.shell, navigation);
     this.match3 = new Match3Controller(root, services, this.session, this.shell, navigation, (clueId) => this.vn.setPendingClue(clueId));
+    this.levelLab = new LevelLabController(root, services, this.shell, navigation, (levelIndex, seed) => {
+      this.match3.startLabMatch(levelIndex, seed, () => this.levelLab.render(levelIndex, seed));
+    });
     this.menu = new MainMenuController(root, services, this.session, this.shell, navigation);
     this.settings = new SettingsController(root, services, this.shell, navigation, () => this.match3.hasActiveMatch);
     this.diagnostics = new DiagnosticsController(root, services, this.session, this.shell, navigation);
@@ -107,6 +113,8 @@ export class AnimeDetectiveApp {
   startMatch(level: number): void { this.match3.startMatch(level); }
   renderSupport(status = ''): void { this.diagnostics.render(status); }
   renderSettings(): void { this.settings.render(); }
+  renderLevelLab(): void { this.levelLab.render(); }
+  startLabMatch(level: number, seed: number): void { this.match3.startLabMatch(level, seed, () => this.levelLab.render(level, seed)); }
   nextLine(): void { this.vn.nextLine(); }
 
   get save(): CampaignSave { return this.session.save; }
