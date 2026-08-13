@@ -208,6 +208,12 @@
 .board-cell:nth-child(even) {
   background: linear-gradient(145deg, #3d3352, #243b58 72%);
 }
+.board-cell.board-hole {
+  border-color: transparent;
+  background: #0713288c;
+  box-shadow: inset 0 0 0 1px #d8ba7520;
+  pointer-events: none;
+}
 .tile-socket {
   inset: 3px;
   border: 0;

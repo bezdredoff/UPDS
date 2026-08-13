@@ -2,6 +2,7 @@ import {
   BOARD_SIZE,
   blockerPresentation,
   ingredientPresentation,
+  isLevelBoardCellActive,
   levels,
   tileKeys,
   validateLevelDefinitions,
@@ -9,6 +10,7 @@ import {
   type BoardPlacement,
   type IngredientKey,
   type IngredientPlacement,
+  type InitialTilePlacement,
   type LevelDefinition,
   type LevelObjective,
   type Match3TileId,
@@ -30,6 +32,8 @@ export type LevelLabDraft = Readonly<{
   objectives: readonly LevelObjective[];
   activeTiles: readonly Match3TileId[];
   spawnWeights: Readonly<Partial<Record<Match3TileId, number>>>;
+  boardHoles: readonly number[];
+  initialTiles: readonly InitialTilePlacement[];
 }>;
 
 export function normalizeLevelLabSeed(value: unknown, fallback: number): number {
@@ -49,6 +53,8 @@ export function createLevelLabDraft(level: LevelDefinition): LevelLabDraft {
     objectives: level.objectives.map((objective) => ({ ...objective })),
     activeTiles: [...level.activeTiles],
     spawnWeights,
+    boardHoles: [...(level.boardHoles ?? [])],
+    initialTiles: (level.initialTiles ?? []).map((placement) => ({ ...placement })),
   };
 }
 
@@ -74,21 +80,33 @@ export function applyLevelLabDraft(base: LevelDefinition, draft: LevelLabDraft):
     objectives: draft.objectives,
     activeTiles: draft.activeTiles,
     ...(spawnWeights ? { spawnWeights } : { spawnWeights: undefined }),
+    ...(draft.boardHoles.length > 0 ? { boardHoles: [...draft.boardHoles] } : { boardHoles: undefined }),
+    ...(draft.initialTiles.length > 0 ? { initialTiles: draft.initialTiles.map((placement) => ({ ...placement })) } : { initialTiles: undefined }),
   };
 }
 
 export function validateLevelLabDraft(base: LevelDefinition, draft: LevelLabDraft): string[] {
-  return validateLevelDefinitions([applyLevelLabDraft(base, draft)]);
+  const level = applyLevelLabDraft(base, draft);
+  const errors = validateLevelDefinitions([level]);
+  if (errors.length > 0) return errors;
+  try {
+    new Match3Game(level, level.seed);
+  } catch (error) {
+    errors.push(error instanceof Error ? error.message : `${level.id}: initial board generation failed`);
+  }
+  return errors;
 }
 
 export function exportLevelLabDraft(base: LevelDefinition, draft: LevelLabDraft): string {
   const spawnWeights = canonicalSpawnWeights(draft);
   return JSON.stringify({
-    format: 'upds-level-lab-v1',
+    format: 'upds-level-lab-v2',
     levelId: base.id,
     moves: draft.moves,
     activeTiles: draft.activeTiles,
     ...(spawnWeights ? { spawnWeights } : {}),
+    ...(draft.boardHoles.length > 0 ? { boardHoles: draft.boardHoles } : {}),
+    ...(draft.initialTiles.length > 0 ? { initialTiles: draft.initialTiles } : {}),
     blocker: draft.blocker,
     blockers: draft.blockers,
     ingredients: draft.ingredients,
@@ -98,7 +116,9 @@ export function exportLevelLabDraft(base: LevelDefinition, draft: LevelLabDraft)
 
 export function levelLabBoardSignature(level: LevelDefinition, seed: number): string {
   const game = new Match3Game(level, normalizeLevelLabSeed(seed, level.seed));
-  return game.board.map((cell) => `${cell.tile ?? '-'}:${cell.ingredient ?? '-'}:${cell.blockerLayers}:${cell.special ?? '-'}`).join('|');
+  return game.board.map((cell, index) => isLevelBoardCellActive(level, index)
+    ? `${cell.tile ?? '-'}:${cell.ingredient ?? '-'}:${cell.blockerLayers}:${cell.special ?? '-'}`
+    : '#').join('|');
 }
 
 const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -110,6 +130,35 @@ function parseJsonArray(raw: string, label: string): { value: unknown[]; errors:
   } catch (error) {
     return { value: [], errors: [`${label}: ${error instanceof Error ? error.message : 'invalid JSON'}`] };
   }
+}
+
+function parseBoardHoles(raw: string): { value: number[]; errors: string[] } {
+  const parsed = parseJsonArray(raw, 'boardHoles');
+  const errors = [...parsed.errors];
+  const value: number[] = [];
+  parsed.value.forEach((item, index) => {
+    if (typeof item !== 'number' || !Number.isInteger(item)) {
+      errors.push(`boardHoles[${index}]: expected integer index`);
+      return;
+    }
+    value.push(item);
+  });
+  return { value, errors };
+}
+
+function parseInitialTiles(raw: string): { value: InitialTilePlacement[]; errors: string[] } {
+  const parsed = parseJsonArray(raw, 'initialTiles');
+  const errors = [...parsed.errors];
+  const value: InitialTilePlacement[] = [];
+  const validTiles = new Set(tileKeys);
+  parsed.value.forEach((item, index) => {
+    if (!isRecord(item) || typeof item.index !== 'number' || !Number.isInteger(item.index) || typeof item.tile !== 'string' || !validTiles.has(item.tile as Match3TileId)) {
+      errors.push(`initialTiles[${index}]: expected { index: integer, tile: active Match3TileId }`);
+      return;
+    }
+    value.push({ index: Number(item.index), tile: item.tile as Match3TileId });
+  });
+  return { value, errors };
 }
 
 function parseBlockers(raw: string): { value: BoardPlacement[]; errors: string[] } {
@@ -187,7 +236,14 @@ export class LevelLabController {
     const level = applyLevelLabDraft(baseLevel, draft);
     const seed = normalizeLevelLabSeed(requestedSeed ?? level.seed, level.seed);
     const validationErrors = validateLevelLabDraft(baseLevel, draft);
-    const game = validationErrors.length === 0 ? new Match3Game(level, seed) : null;
+    let game: Match3Game | null = null;
+    if (validationErrors.length === 0) {
+      try {
+        game = new Match3Game(level, seed);
+      } catch (error) {
+        validationErrors.push(error instanceof Error ? error.message : `${level.id}: initial board generation failed`);
+      }
+    }
     const exported = exportLevelLabDraft(baseLevel, draft);
     const t = (key: string, params: Readonly<Record<string, string | number | boolean>> = {}) => escapeHtml(this.services.localization.t(key, params));
 
@@ -229,6 +285,8 @@ export class LevelLabController {
             return `<label class="level-lab-tile-edit${checked ? ' selected' : ''}"><input class="lab-tile-toggle" data-tile="${tile}" type="checkbox"${checked ? ' checked' : ''}><img src="${presentation.asset}" alt=""><span>${t(`match3.tile.${tile}`)}</span><input class="lab-weight" data-weight-tile="${tile}" type="number" min="0.01" step="0.1" value="${weight}"></label>`;
           }).join('')}</div>
         </div>
+        <label class="level-lab-json-field"><span>${t('levelLab.boardHoles')}</span><textarea id="lab-holes-json" rows="3" spellcheck="false">${escapeHtml(JSON.stringify(draft.boardHoles, null, 2))}</textarea></label>
+        <label class="level-lab-json-field"><span>${t('levelLab.initialTiles')}</span><textarea id="lab-initial-tiles-json" rows="5" spellcheck="false">${escapeHtml(JSON.stringify(draft.initialTiles, null, 2))}</textarea></label>
         <label class="level-lab-json-field"><span>${t('levelLab.blockerPlacements')}</span><textarea id="lab-blockers-json" rows="4" spellcheck="false">${escapeHtml(JSON.stringify(draft.blockers, null, 2))}</textarea></label>
         <label class="level-lab-json-field"><span>${t('levelLab.ingredientPlacements')}</span><textarea id="lab-ingredients-json" rows="4" spellcheck="false">${escapeHtml(JSON.stringify(draft.ingredients, null, 2))}</textarea></label>
         <label class="level-lab-json-field"><span>${t('levelLab.objectiveEditor')}</span><textarea id="lab-objectives-json" rows="7" spellcheck="false">${escapeHtml(JSON.stringify(draft.objectives, null, 2))}</textarea></label>
@@ -242,6 +300,7 @@ export class LevelLabController {
 
       <div class="level-lab-config-grid">
         <article><small>${t('levelLab.moves')}</small><b>${level.moves}</b><span>${escapeHtml(level.id)}</span></article>
+        <article><small>${t('levelLab.boardShape')}</small><b>${BOARD_SIZE * BOARD_SIZE - (level.boardHoles?.length ?? 0)}</b><span>${t('levelLab.activeCells')} · ${(level.boardHoles?.length ?? 0)} ${t('levelLab.holes')}</span></article>
         <article><small>${t('levelLab.blockers')}</small><b>${level.blockers.length}</b><span>${t(`levelLab.blocker.${level.blocker}`)} · ${level.blockers.reduce((sum, blocker) => sum + blocker.layers, 0)} ${t('levelLab.layers')}</span></article>
         <article><small>${t('levelLab.ingredients')}</small><b>${level.ingredients.length}</b><span>${level.ingredients.map((item) => `${t(`match3.ingredient.${item.kind}`)} @${item.index}`).join(' · ')}</span></article>
         <article><small>${t('levelLab.objectives')}</small><b>${level.objectives.length}</b><span>${level.objectives.map((objective) => `${escapeHtml(objective.label)} ×${objective.target}`).join(' · ')}</span></article>
@@ -300,13 +359,15 @@ export class LevelLabController {
       else spawnWeights[tile] = weight;
     }
 
+    const boardHoles = parseBoardHoles(this.root.querySelector<HTMLTextAreaElement>('#lab-holes-json')?.value ?? '[]');
+    const initialTiles = parseInitialTiles(this.root.querySelector<HTMLTextAreaElement>('#lab-initial-tiles-json')?.value ?? '[]');
     const blockers = parseBlockers(this.root.querySelector<HTMLTextAreaElement>('#lab-blockers-json')?.value ?? '[]');
     const ingredients = parseIngredients(this.root.querySelector<HTMLTextAreaElement>('#lab-ingredients-json')?.value ?? '[]');
     const objectives = parseObjectives(this.root.querySelector<HTMLTextAreaElement>('#lab-objectives-json')?.value ?? '[]');
-    errors.push(...blockers.errors, ...ingredients.errors, ...objectives.errors);
+    errors.push(...boardHoles.errors, ...initialTiles.errors, ...blockers.errors, ...ingredients.errors, ...objectives.errors);
 
     if (errors.length === 0) {
-      const draft: LevelLabDraft = { moves, blocker, blockers: blockers.value, ingredients: ingredients.value, objectives: objectives.value, activeTiles, spawnWeights };
+      const draft: LevelLabDraft = { moves, blocker, boardHoles: boardHoles.value, initialTiles: initialTiles.value, blockers: blockers.value, ingredients: ingredients.value, objectives: objectives.value, activeTiles, spawnWeights };
       errors.push(...validateLevelLabDraft(base, draft));
       if (errors.length === 0) {
         this.drafts.set(levelIndex, draft);
@@ -340,6 +401,7 @@ export class LevelLabController {
   private boardMarkup(level: LevelDefinition, board: readonly BoardCell[]): string {
     const blockerAsset = blockerPresentation[level.blocker].asset;
     return board.map((cell, index) => {
+      if (!isLevelBoardCellActive(level, index)) return `<span class="level-lab-cell is-hole" data-lab-cell="${index}" aria-hidden="true"></span>`;
       const tile = cell.tile ? resolveMatch3TilePresentation(level.context.tilePresentationProfile, cell.tile) : null;
       const ingredient = cell.ingredient ? ingredientPresentation[cell.ingredient] : null;
       return `<span class="level-lab-cell" data-lab-cell="${index}">

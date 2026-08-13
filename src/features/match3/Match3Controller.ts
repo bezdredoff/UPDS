@@ -3,6 +3,7 @@ import {
   blockerPresentation,
   cluePresentation,
   ingredientPresentation,
+  isLevelBoardCellActive,
   levels,
   specialAsset,
   specialAssets,
@@ -290,6 +291,9 @@ export class Match3Controller {
     options: Readonly<{ clearing?: ReadonlySet<number>; motions?: ReadonlyMap<number, Readonly<{ kind: 'fall' | 'spawn'; rows: number }>> }> = {},
   ): string {
     return board.map((cell, index) => {
+      if (!isLevelBoardCellActive(level, index)) {
+        return `<span class="board-cell board-hole" role="gridcell" aria-label="${escapeHtml(this.t('match3.holeCell'))}" aria-disabled="true"></span>`;
+      }
       const selected = this.selectedCell === index ? ' selected' : '';
       const hinted = this.hintedCells.has(index) ? ' hinted' : '';
       const clearing = options.clearing?.has(index) ? ' is-clearing' : '';
@@ -670,7 +674,8 @@ export class Match3Controller {
       this.hintedCells.clear();
       this.selectedCell = null;
       this.lastTappedSpecial = null;
-      if (targetIndex === null) {
+      const activeLevel = this.activeMatch?.level;
+      if (targetIndex === null || !activeLevel || !isLevelBoardCellActive(activeLevel, targetIndex)) {
         this.selectedCell = null;
         this.matchBark = this.bark('edge', 'miku');
         this.renderMatch();
