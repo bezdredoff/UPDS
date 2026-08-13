@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.0-dev`.
-Active production foundation: **ANM-025A–D Match-3 production framework complete**; current production focus is **ANM-026B2 Board Shape & Start Layout**.
+Active production foundation: **ANM-025A–D + ANM-026 Match-3 production/tooling framework complete**; current production focus is **ANM-025E Balance Pass**.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -78,10 +78,10 @@ Suggested split:
 - 025B Narrative Level Context contract;
 - 025C Tile presentation/variation expansion;
 - 025D Tutorial framework;
-- 025E Balance pass;
+- **025E Balance pass — IN PROGRESS** — starts with E1 objective simplification/HUD contract, then ingredient-aware guidance and quantitative tuning;
 - 025F Narrative reactions during Match-3.
 
-### ANM-026 — Level Lab & Match-3 Campaign [P1] — IN PROGRESS
+### ANM-026 — Level Lab & Match-3 Campaign [P1] — COMPLETE
 
 Build tooling before mass level production.
 
@@ -89,8 +89,8 @@ Current split:
 - **026A Level Lab Foundation — COMPLETE** — main-menu QA entry, level selector, exact uint32 seed, deterministic initial-board preview, production config summary/validation, play/retry same seed, Lab run-mode with zero Story save/tutorial/clue side effects;
 - **026B1 Editable Balance Config — COMPLETE** — moves, blocker type/placements, ingredients, objectives, active tiles/spawn weights, production validation, deterministic draft preview/play and JSON export;
 - **026B2 Board Shape & Start Layout — COMPLETE** — explicit board holes, deterministic prefilled start tiles, shaped-board gravity/input rules, Level Lab validation/preview/play and v2 export;
-- **026C Match-3 Campaign Mode — IN PROGRESS** — direct player-facing Match-3 hub, sequential unlocks, replay/best result, dedicated attempts/tutorial progress and save key separate from Story campaign;
-- 026D Lab/Playtest integration — rapid rerun matrix and balance-oriented export/reporting if still needed after 026B/C.
+- **026C Match-3 Campaign Mode — COMPLETE** — direct player-facing Match-3 hub, sequential unlocks, replay/best result, dedicated attempts/tutorial progress and save key separate from Story campaign;
+- **026D Lab/Playtest integration — NOT REQUIRED AS A SEPARATE CUT** — reproducible seeds, editable config/export and campaign replay already provide the required 025E playtest loop; extend later only if production data proves a concrete reporting need.
 
 Includes:
 - direct Match-3 mode from main menu;

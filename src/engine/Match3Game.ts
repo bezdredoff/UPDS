@@ -1,5 +1,6 @@
 import {
   BOARD_SIZE,
+  objectiveIngredientKeys,
   type IngredientKey,
   type LevelDefinition,
   type Match3TileId,
@@ -183,7 +184,8 @@ export class Match3Game {
     return this.level.objectives.every((objective) => {
       if (objective.kind === 'collect') return (this.collected[objective.tile] ?? 0) >= objective.target;
       if (objective.kind === 'clearBlockers') return this.blockersCleared >= objective.target;
-      return (this.ingredientsDropped[objective.ingredient] ?? 0) >= objective.target;
+      const dropped = objectiveIngredientKeys(objective).reduce((total, ingredient) => total + (this.ingredientsDropped[ingredient] ?? 0), 0);
+      return dropped >= objective.target;
     });
   }
 
@@ -196,7 +198,7 @@ export class Match3Game {
     if (!objective) return 0;
     if (objective.kind === 'collect') return this.collected[objective.tile] ?? 0;
     if (objective.kind === 'clearBlockers') return this.blockersCleared;
-    return this.ingredientsDropped[objective.ingredient] ?? 0;
+    return objectiveIngredientKeys(objective).reduce((total, ingredient) => total + (this.ingredientsDropped[ingredient] ?? 0), 0);
   }
 
   attemptSwap(first: number, second: number): MoveResult {
@@ -633,10 +635,13 @@ export class Match3Game {
         continue;
       }
 
-      const remaining = Math.max(0, objective.target - (this.ingredientsDropped[objective.ingredient] ?? 0));
+      const ingredientKeys = objectiveIngredientKeys(objective);
+      const dropped = ingredientKeys.reduce((total, ingredient) => total + (this.ingredientsDropped[ingredient] ?? 0), 0);
+      const remaining = Math.max(0, objective.target - dropped);
       if (remaining <= 0) continue;
       for (let ingredientIndex = 0; ingredientIndex < this.cells.length; ingredientIndex += 1) {
-        if (this.cells[ingredientIndex].ingredient !== objective.ingredient) continue;
+        const ingredient = this.cells[ingredientIndex].ingredient;
+        if (!ingredient || !ingredientKeys.includes(ingredient)) continue;
         const ingredientColumn = colOf(ingredientIndex);
         const ingredientRow = rowOf(ingredientIndex);
         const clearsBelow = [...matched].some((index) => colOf(index) === ingredientColumn && rowOf(index) > ingredientRow);

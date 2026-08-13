@@ -8,9 +8,10 @@ describe('level definitions', () => {
     expect(validateLevelDefinitions()).toEqual([]);
   });
 
-  it('preserves the screenplay move budgets and core objective families', () => {
+  it('preserves the move budgets while simplifying each production level to a focused objective pair', () => {
     expect(levels.map((level) => level.moves)).toEqual([24, 26, 25, 27]);
-    expect(levels[0].objectives.map((objective) => objective.kind)).toEqual(['collect', 'collect', 'collect', 'clearBlockers', 'drop']);
+    expect(levels.map((level) => level.objectives.length)).toEqual([2, 2, 2, 2]);
+    expect(levels[0].objectives.map((objective) => objective.kind)).toEqual(['clearBlockers', 'drop']);
     expect(levels[1].blockers.some((blocker) => blocker.layers === 2)).toBe(true);
     expect(levels[2].blockers).toHaveLength(18);
     expect(levels[3].ingredients).toHaveLength(2);

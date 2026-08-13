@@ -1061,13 +1061,15 @@ export class Match3Controller {
   }
 
   private objectiveMarkup(level: LevelDefinition, objective: LevelDefinition['objectives'][number], objectiveIndex: number, value: number, showProgress: boolean): string {
-    let asset: string;
-    if (objective.kind === 'collect') asset = resolveMatch3TilePresentation(level.context.tilePresentationProfile, objective.tile).asset;
-    else if (objective.kind === 'drop') asset = ingredientPresentation[objective.ingredient].asset;
-    else asset = blockerPresentation[level.blocker].asset;
+    let assets: readonly string[];
+    if (objective.kind === 'collect') assets = [resolveMatch3TilePresentation(level.context.tilePresentationProfile, objective.tile).asset];
+    else if (objective.kind === 'drop') assets = [ingredientPresentation[objective.ingredient].asset];
+    else if (objective.kind === 'dropGroup') assets = objective.ingredients.map((ingredient) => ingredientPresentation[ingredient].asset);
+    else assets = [blockerPresentation[level.blocker].asset];
     const current = Math.min(value, objective.target);
+    const icons = assets.map((asset) => `<img src="${asset}" alt="">`).join('');
     return `<div class="objective ${showProgress && current >= objective.target ? 'done' : ''}">
-      <img src="${asset}" alt=""><span>${escapeHtml(this.objectiveText(level, objectiveIndex))}</span>
+      <div class="objective-icons ${assets.length > 1 ? 'multi' : ''}">${icons}</div><span>${escapeHtml(this.objectiveText(level, objectiveIndex))}</span>
       <b>${showProgress ? `${current}/` : ''}${objective.target}</b>
     </div>`;
   }

@@ -19,6 +19,7 @@ export type TileKey = Match3TileId;
 export type Match3TileCategory = 'panties' | 'bra' | 'camisole' | 'socks' | 'towel' | 'tag';
 export const ACTIVE_TILE_TYPE_LIMIT = 6;
 export const MAX_PANTIES_TYPES_PER_LEVEL = 4;
+export const MAX_OBJECTIVES_PER_LEVEL = 3;
 export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel';
 export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet';
 export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004';
@@ -30,7 +31,14 @@ export type InitialTilePlacement = Readonly<{ index: number; tile: Match3TileId 
 export type LevelObjective =
   | Readonly<{ kind: 'collect'; tile: Match3TileId; target: number; label: string }>
   | Readonly<{ kind: 'clearBlockers'; target: number; label: string }>
-  | Readonly<{ kind: 'drop'; ingredient: IngredientKey; target: number; label: string }>;
+  | Readonly<{ kind: 'drop'; ingredient: IngredientKey; target: number; label: string }>
+  | Readonly<{ kind: 'dropGroup'; ingredients: readonly IngredientKey[]; target: number; label: string }>;
+
+export function objectiveIngredientKeys(objective: LevelObjective): readonly IngredientKey[] {
+  if (objective.kind === 'drop') return [objective.ingredient];
+  if (objective.kind === 'dropGroup') return objective.ingredients;
+  return [];
+}
 
 export type LevelDefinition = Readonly<{
   id: string;
@@ -140,9 +148,6 @@ export const levels: readonly LevelDefinition[] = [
     activeTiles: ['pantiesSportWhite', 'pantiesLacePink', 'pantiesHighWaistBlack', 'pantiesBoyshortBlue', 'sportsBra', 'laundryTag'],
     moves: 24,
     objectives: [
-      { kind: 'collect', tile: 'pantiesSportWhite', target: 8, label: 'Белые' },
-      { kind: 'collect', tile: 'laundryTag', target: 8, label: 'Бирки' },
-      { kind: 'collect', tile: 'pantiesLacePink', target: 8, label: 'Розовые' },
       { kind: 'clearBlockers', target: 6, label: 'Клетки' },
       { kind: 'drop', ingredient: 'receipt', target: 1, label: 'Квитанция' },
     ],
@@ -177,7 +182,6 @@ export const levels: readonly LevelDefinition[] = [
     moves: 26,
     objectives: [
       { kind: 'clearBlockers', target: 10, label: 'Коробки' },
-      { kind: 'collect', tile: 'laundryTag', target: 12, label: 'Бирки' },
       { kind: 'drop', ingredient: 'memoryCard', target: 1, label: 'Карта' },
     ],
     blocker: 'propBox',
@@ -211,7 +215,6 @@ export const levels: readonly LevelDefinition[] = [
     moves: 25,
     objectives: [
       { kind: 'clearBlockers', target: 18, label: 'Пена' },
-      { kind: 'collect', tile: 'laundryTag', target: 4, label: 'Бирки' },
       { kind: 'drop', ingredient: 'serviceKey', target: 1, label: 'Ключ' },
     ],
     blocker: 'foam',
@@ -245,9 +248,7 @@ export const levels: readonly LevelDefinition[] = [
     moves: 27,
     objectives: [
       { kind: 'clearBlockers', target: 8, label: 'Секции' },
-      { kind: 'collect', tile: 'socks', target: 12, label: 'Пары' },
-      { kind: 'drop', ingredient: 'receipt', target: 1, label: 'Чек' },
-      { kind: 'drop', ingredient: 'damagedTowel', target: 1, label: 'Полотенце' },
+      { kind: 'dropGroup', ingredients: ['receipt', 'damagedTowel'], target: 2, label: 'Улики' },
     ],
     blocker: 'cabinet',
     blockers: positions([17, 18, 21, 22, 33, 34, 37, 38]),
@@ -277,6 +278,7 @@ export function validateLevelDefinitions(definitions: readonly LevelDefinition[]
     ids.add(level.id);
     if (level.moves <= 0) errors.push(`${level.id}: moves must be positive`);
     if (level.objectives.length === 0) errors.push(`${level.id}: no objectives`);
+    if (level.objectives.length > MAX_OBJECTIVES_PER_LEVEL) errors.push(`${level.id}: more than ${MAX_OBJECTIVES_PER_LEVEL} objectives`);
     if (level.context.participants.length === 0) errors.push(`${level.id}: no narrative participants`);
     if (new Set(level.context.participants).size !== level.context.participants.length) errors.push(`${level.id}: duplicate narrative participant`);
     if (level.context.narrativeTags.length === 0) errors.push(`${level.id}: no narrative tags`);
@@ -310,7 +312,12 @@ export function validateLevelDefinitions(definitions: readonly LevelDefinition[]
     if (initialTiles.some(({ index }) => inactive.has(index))) errors.push(`${level.id}: initial tile placed in board hole`);
     if (initialTiles.some(({ tile }) => !level.activeTiles.includes(tile))) errors.push(`${level.id}: initial tile uses inactive match type`);
     for (const objective of level.objectives) {
+      if (!Number.isInteger(objective.target) || objective.target <= 0) errors.push(`${level.id}: objective target must be a positive integer`);
       if (objective.kind === 'collect' && !level.activeTiles.includes(objective.tile)) errors.push(`${level.id}: collect objective tile ${objective.tile} is not active`);
+      if (objective.kind === 'dropGroup') {
+        if (objective.ingredients.length < 2) errors.push(`${level.id}: dropGroup must contain at least two ingredient types`);
+        if (new Set(objective.ingredients).size !== objective.ingredients.length) errors.push(`${level.id}: duplicate ingredient type in dropGroup`);
+      }
     }
     if (level.blockers.some(({ index }) => index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: blocker outside board`);
     if (level.blockers.some(({ index }) => inactive.has(index))) errors.push(`${level.id}: blocker placed in board hole`);
@@ -320,15 +327,21 @@ export function validateLevelDefinitions(definitions: readonly LevelDefinition[]
     if (initialTiles.some(({ index }) => level.ingredients.some((ingredient) => ingredient.index === index))) errors.push(`${level.id}: initial tile overlaps ingredient`);
     if (level.ingredients.some(({ index }) => level.blockers.some((blocker) => blocker.index === index))) errors.push(`${level.id}: ingredient overlaps blocker`);
     const blockerGoal = level.objectives.find((objective) => objective.kind === 'clearBlockers');
-    if (blockerGoal?.target !== level.blockers.length) errors.push(`${level.id}: blocker objective does not match placement count`);
+    if (blockerGoal && blockerGoal.target !== level.blockers.length) errors.push(`${level.id}: blocker objective does not match placement count`);
+    if (!blockerGoal && level.blockers.length > 0) errors.push(`${level.id}: blockers require a clearBlockers objective`);
     for (const ingredient of level.ingredients) {
-      const objective = level.objectives.find((candidate) => candidate.kind === 'drop' && candidate.ingredient === ingredient.kind);
-      if (!objective) errors.push(`${level.id}: missing objective for ${ingredient.kind}`);
+      const coverage = level.objectives.filter((objective) => objectiveIngredientKeys(objective).includes(ingredient.kind));
+      if (coverage.length === 0) errors.push(`${level.id}: missing objective for ${ingredient.kind}`);
+      if (coverage.length > 1) errors.push(`${level.id}: ingredient ${ingredient.kind} covered by multiple objectives`);
     }
     for (const objective of level.objectives) {
-      if (objective.kind !== 'drop') continue;
-      const placementCount = level.ingredients.filter((ingredient) => ingredient.kind === objective.ingredient).length;
-      if (objective.target !== placementCount) errors.push(`${level.id}: drop objective for ${objective.ingredient} does not match placement count`);
+      const ingredientKeys = objectiveIngredientKeys(objective);
+      if (ingredientKeys.length === 0) continue;
+      for (const ingredient of ingredientKeys) {
+        if (!level.ingredients.some((placement) => placement.kind === ingredient)) errors.push(`${level.id}: objective includes unplaced ingredient ${ingredient}`);
+      }
+      const placementCount = level.ingredients.filter((placement) => ingredientKeys.includes(placement.kind)).length;
+      if (objective.target !== placementCount) errors.push(`${level.id}: ingredient objective does not match placement count`);
     }
   }
   return errors;

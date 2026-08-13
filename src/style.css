@@ -690,7 +690,11 @@ img { display: block; }
   background: #fff9e7b8;
   color: #342718;
 }
-.objective img { grid-row: 1 / 3; width: 30px; height: 30px; object-fit: contain; }
+.objective-icons { grid-row: 1 / 3; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; }
+.objective-icons img { width: 30px; height: 30px; object-fit: contain; }
+.objective-icons.multi { gap: 0; }
+.objective-icons.multi img { width: 20px; height: 20px; margin-right: -7px; }
+.objective-icons.multi img:last-child { margin-right: 0; }
 .objective span { align-self: end; overflow: hidden; color: #6d604d; font-size: 7px; font-weight: 750; text-overflow: ellipsis; white-space: nowrap; }
 .objective b { align-self: start; color: var(--case-green-dark); font-size: 11px; }
 .objective.done { border-color: #4d8267; background: #d9edcf; }
@@ -1056,7 +1060,9 @@ img { display: block; }
   .stage-meta small { font-size: 6px; }
   .stage-meta b { font-size: 9px; }
   .objective { min-width: 50px; height: 33px; grid-template-columns: 24px 1fr; }
-  .objective img { width: 23px; height: 23px; }
+  .objective-icons { width: 23px; height: 23px; }
+  .objective-icons img { width: 23px; height: 23px; }
+  .objective-icons.multi img { width: 16px; height: 16px; margin-right: -6px; }
   .objective span { font-size: 6px; }
   .objective b { font-size: 9px; }
   .field-bark { min-height: 32px; margin: 0 7px 3px; padding: 3px 6px 3px 3px; grid-template-columns: 28px 1fr; gap: 5px; }
