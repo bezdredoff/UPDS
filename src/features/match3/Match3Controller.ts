@@ -11,6 +11,7 @@ import {
 } from '../../data/levels';
 import { backgroundAssets, getScene } from '../../data/narrative';
 import { resolveMatch3TilePresentation, tilePresentationAssetsForActiveSet } from '../../data/match3TilePresentation';
+import { nextPendingMatch3Tutorial, tutorialCompletesOn, type Match3TutorialCompletionEvent, type Match3TutorialConceptId } from '../../data/match3Tutorials';
 import { postSceneForLevel } from '../../engine/CampaignStore';
 import { Match3Game, type BoardCell, type Match3Frame, type MoveResult } from '../../engine/Match3Game';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
@@ -53,6 +54,8 @@ export class Match3Controller {
   private matchAttemptStartedAt: number | null = null;
   private autoHintTimer: number | null = null;
   private lastTappedSpecial: { index: number; at: number } | null = null;
+  private activeTutorial: Match3TutorialConceptId | null = null;
+  private tutorialPromptDismissed = false;
 
   constructor(
     private readonly root: HTMLElement,
@@ -71,6 +74,8 @@ export class Match3Controller {
     this.selectedCell = null;
     this.activePointer = null;
     this.lastTappedSpecial = null;
+    this.activeTutorial = null;
+    this.tutorialPromptDismissed = false;
     this.matchInputLocked = false;
   }
 
@@ -83,7 +88,7 @@ export class Match3Controller {
   private armAutoHint(): void {
     this.clearAutoHintTimer();
     const game = this.activeMatch;
-    if (!game || this.matchInputLocked || game.won || game.lost) return;
+    if (!game || this.matchInputLocked || game.won || game.lost || this.tutorialPromptVisible) return;
     this.autoHintTimer = window.setTimeout(() => {
       this.autoHintTimer = null;
       this.showObjectiveHint('inactivity');
@@ -94,6 +99,37 @@ export class Match3Controller {
     this.hintedCells.clear();
     this.root.querySelectorAll<HTMLElement>('.board-cell.hinted').forEach((cell) => cell.classList.remove('hinted'));
     this.armAutoHint();
+  }
+
+  private get tutorialPromptVisible(): boolean {
+    return this.activeTutorial !== null && !this.tutorialPromptDismissed;
+  }
+
+  private tutorialMarkup(): string {
+    const concept = this.activeTutorial;
+    if (!concept || this.tutorialPromptDismissed) return '';
+    return `<div class="match-tutorial-overlay" role="dialog" aria-modal="true" aria-labelledby="match-tutorial-title">
+      <div class="match-tutorial-card" data-tutorial-concept="${escapeHtml(concept)}">
+        <span class="case-tab">${escapeHtml(this.t('match3.tutorial.label'))}</span>
+        <h2 id="match-tutorial-title">${escapeHtml(this.t(`match3.tutorial.${concept}.title`))}</h2>
+        <p>${escapeHtml(this.t(`match3.tutorial.${concept}.body`))}</p>
+        <button id="tutorial-try" class="primary">${escapeHtml(this.t('match3.tutorial.try'))}</button>
+      </div>
+    </div>`;
+  }
+
+  private completeTutorialOn(event: Match3TutorialCompletionEvent): void {
+    const concept = this.activeTutorial;
+    if (!concept || !tutorialCompletesOn(concept, event)) return;
+    if (!this.session.save.tutorialsCompleted.includes(concept)) {
+      this.session.save.tutorialsCompleted.push(concept);
+      this.session.persist();
+    }
+    this.services.telemetry.track('match_tutorial', {
+      action: 'completed', conceptId: concept, levelId: this.activeMatch?.level.id ?? levels[this.activeLevelIndex]?.id ?? 'unknown',
+    });
+    this.activeTutorial = null;
+    this.tutorialPromptDismissed = false;
   }
 
   endActiveAttempt(outcome: MatchOutcome, reason = ''): void {
@@ -178,6 +214,11 @@ export class Match3Controller {
     this.triggeredBarks = new Set(['start']);
     this.matchBark = this.levelBark(level, 'start');
     this.lastTappedSpecial = null;
+    this.activeTutorial = nextPendingMatch3Tutorial(level.tutorialConcepts, this.session.save.tutorialsCompleted);
+    this.tutorialPromptDismissed = false;
+    if (this.activeTutorial) {
+      this.services.telemetry.track('match_tutorial', { action: 'shown', conceptId: this.activeTutorial, levelId: level.id });
+    }
     this.renderMatch();
     this.armAutoHint();
   }
@@ -226,7 +267,7 @@ export class Match3Controller {
     const level = game.level;
     const blocker = blockerPresentation[level.blocker];
 
-    this.shell.render(`<section class="match-screen" ${this.contextAttrs(level)}>
+    this.shell.render(`<section class="match-screen${this.tutorialPromptVisible ? ' tutorial-active' : ''}" ${this.contextAttrs(level)}>
       <img class="match-background" src="${backgroundAssets[level.context.pageBackground]}" alt="">
       <div class="match-shade"></div>
       <header class="app-header match-topbar">
@@ -263,6 +304,7 @@ export class Match3Controller {
         </button>
       </div>
       <p class="match-hint">${escapeHtml(this.t('match3.inputHint'))}</p>
+      ${this.tutorialMarkup()}
     </section>`);
 
     this.root.querySelector('#quit')?.addEventListener('click', () => {
@@ -285,6 +327,13 @@ export class Match3Controller {
     this.root.querySelector('#hint')?.addEventListener('click', () => {
       this.noteMatchActivity();
       this.showObjectiveHint('manual');
+    });
+    this.root.querySelector('#tutorial-try')?.addEventListener('click', () => {
+      if (!this.activeTutorial) return;
+      this.services.telemetry.track('match_tutorial', { action: 'try', conceptId: this.activeTutorial, levelId: level.id });
+      this.tutorialPromptDismissed = true;
+      this.renderMatch();
+      this.armAutoHint();
     });
     this.installBoardInput();
   }
@@ -671,6 +720,7 @@ export class Match3Controller {
         return;
       }
 
+      this.completeTutorialOn('valid-swap');
       this.updateBark(result);
       await this.playMoveFrames(result, first, second);
       if (result.won) {

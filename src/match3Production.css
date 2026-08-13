@@ -335,3 +335,44 @@
   outline-color: var(--m3-navy);
   box-shadow: 0 0 0 2px var(--m3-gold), 0 9px 20px #050b1ea8;
 }
+
+
+/* ANM-025D1 — reusable Match-3 tutorial coachmark. */
+.match-tutorial-overlay {
+  position: absolute;
+  z-index: 40;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px 14px max(18px, var(--safe-area-bottom));
+  background: #0714279e;
+  backdrop-filter: blur(1px);
+}
+.match-tutorial-card {
+  position: relative;
+  width: min(100%, 350px);
+  padding: 30px 20px 18px;
+  border: 3px solid var(--m3-gold);
+  border-left: 8px solid var(--m3-green);
+  border-radius: 7px;
+  background: linear-gradient(180deg, var(--m3-paper-light), var(--m3-paper));
+  box-shadow: 0 0 0 3px var(--m3-navy), 0 18px 44px #020914c7;
+  color: var(--m3-navy);
+}
+.match-tutorial-card .case-tab { top: 0; }
+.match-tutorial-card h2 { margin: 7px 0 8px; font: 850 24px/1.05 Georgia, serif; }
+.match-tutorial-card p { margin: 0 0 15px; color: #5c513e; font-size: 13px; font-weight: 700; line-height: 1.4; }
+.match-tutorial-card button.primary {
+  width: 100%;
+  min-height: 48px;
+  border: 2px solid var(--m3-gold);
+  border-radius: 5px;
+  background: var(--m3-green);
+  color: #fff7dc;
+  font-weight: 950;
+}
+@media (max-height: 650px) {
+  .match-tutorial-card { padding: 24px 16px 14px; }
+  .match-tutorial-card h2 { font-size: 20px; }
+  .match-tutorial-card p { font-size: 11px; }
+}

@@ -33,6 +33,20 @@ describe('platform infrastructure', () => {
     expect(normalizeSave(persisted)).toMatchObject({ scene: 4, line: 7, completed: [0, 1] });
   });
 
+  it('migrates schema-1 campaign saves to tutorial-aware schema-2 state without changing the save key', () => {
+    const storage = new MemoryStorage();
+    storage.setItem(ANM009_SAVE_KEY, JSON.stringify({
+      scene: 3, line: 2, choice: 'B', clues: ['CUE_001'], completed: [0], attempts: { M3_00: 2 }, readLines: ['VN0001'],
+      schemaVersion: 1, savedAt: '2026-08-12T00:00:00.000Z', appVersion: '0.25.0-dev',
+    }));
+    const store = new CampaignStore(storage);
+    const loaded = store.load();
+    expect(loaded).toMatchObject({ scene: 3, line: 2, choice: 'B', completed: [0], tutorialsCompleted: [] });
+    expect(store.getLastLoadReport()).toEqual({ status: 'loaded', detail: 'schema-1' });
+    expect(store.save(loaded)).toBe(true);
+    expect(JSON.parse(storage.getItem(ANM009_SAVE_KEY)!).schemaVersion).toBe(2);
+  });
+
   it('keeps an ANM-013 manual VN save slot separate from the stable campaign save key', () => {
     const storage = new MemoryStorage();
     const store = new CampaignStore(storage);

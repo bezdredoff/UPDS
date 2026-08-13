@@ -1,4 +1,5 @@
 import type { Match3LevelContext } from './match3Context';
+import { match3TutorialConceptIds, type Match3TutorialConceptId } from './match3Tutorials';
 
 export const BOARD_SIZE = 8;
 
@@ -36,6 +37,8 @@ export type LevelDefinition = Readonly<{
   title: string;
   storyAction: string;
   context: Match3LevelContext;
+  /** Tutorial concepts this level is allowed to introduce. */
+  tutorialConcepts: readonly Match3TutorialConceptId[];
   /** Exactly six concrete match identities available to initial fill, refill and reshuffle. */
   activeTiles: readonly Match3TileId[];
   moves: number;
@@ -121,6 +124,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'emi'],
       narrativeTags: ['locker-room', 'laundry', 'missing-underwear', 'evidence-sort'],
     },
+    tutorialConcepts: ['basic-swap'],
     activeTiles: ['pantiesSportWhite', 'pantiesLacePink', 'pantiesHighWaistBlack', 'pantiesBoyshortBlue', 'sportsBra', 'laundryTag'],
     moves: 24,
     objectives: [
@@ -156,6 +160,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'kentaro'],
       narrativeTags: ['apartment', 'photo-props', 'timeline', 'alibi'],
     },
+    tutorialConcepts: [],
     activeTiles: ['pantiesLacePink', 'pantiesHighWaistBlack', 'panties', 'camisole', 'sportsBra', 'laundryTag'],
     moves: 26,
     objectives: [
@@ -189,6 +194,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'norihiro'],
       narrativeTags: ['pool-locker', 'laundry', 'foam', 'service-access'],
     },
+    tutorialConcepts: [],
     activeTiles: ['pantiesSportWhite', 'pantiesBoyshortBlue', 'sportsBra', 'towel', 'laundryTag', 'socks'],
     moves: 25,
     objectives: [
@@ -222,6 +228,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'norihiro'],
       narrativeTags: ['apartment', 'ordered-storage', 'returned-laundry', 'tampering'],
     },
+    tutorialConcepts: [],
     activeTiles: ['pantiesSportWhite', 'pantiesHighWaistBlack', 'pantiesBoyshortBlue', 'camisole', 'socks', 'laundryTag'],
     moves: 27,
     objectives: [
@@ -262,6 +269,9 @@ export function validateLevelDefinitions(definitions: readonly LevelDefinition[]
     if (new Set(level.context.participants).size !== level.context.participants.length) errors.push(`${level.id}: duplicate narrative participant`);
     if (level.context.narrativeTags.length === 0) errors.push(`${level.id}: no narrative tags`);
     if (new Set(level.context.narrativeTags).size !== level.context.narrativeTags.length) errors.push(`${level.id}: duplicate narrative tag`);
+    if (new Set(level.tutorialConcepts).size !== level.tutorialConcepts.length) errors.push(`${level.id}: duplicate tutorial concept`);
+    const unknownTutorialConcepts = level.tutorialConcepts.filter((concept) => !match3TutorialConceptIds.includes(concept));
+    if (unknownTutorialConcepts.length > 0) errors.push(`${level.id}: unknown tutorial concept ${unknownTutorialConcepts.join(',')}`);
     if (level.activeTiles.length !== ACTIVE_TILE_TYPE_LIMIT) errors.push(`${level.id}: active tile set must contain exactly ${ACTIVE_TILE_TYPE_LIMIT} types`);
     if (new Set(level.activeTiles).size !== level.activeTiles.length) errors.push(`${level.id}: duplicate active tile id`);
     const unknownActiveTiles = level.activeTiles.filter((tile) => !tilePresentation[tile]);

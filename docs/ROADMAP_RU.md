@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.0-dev`.
-Active production foundation: **ANM-025C Tile Presentation / Variation Expansion complete through C2C**; next production focus is **ANM-025D Tutorial Framework**.
+Active production foundation: **ANM-025C Tile Presentation / Variation Expansion complete**; current production focus is **ANM-025D1 Tutorial State + Base Interaction**.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -61,7 +61,7 @@ Completed split:
 
 ### ANM-025 — Match-3 Production Framework [P0]
 
-Current baseline: **025C complete through C2C Campaign Tile Set Rollout**. M3_00 использует четыре визуально и механически разные panties match-types, а M3_01–M3_03 повторно используют общий tile catalog с narrative-specific составами. Next slice: **025D Tutorial Framework**.
+Current slice: **025D1 Tutorial State + Base Interaction**. 025A–C complete. D1 вводит data-driven tutorial concepts, persistent completion state и первый базовый урок swap/match в M3_00; следующие D-срезы расширят тот же framework на blockers, ingredients и specials.
 
 After ANM-024:
 - Golden Sample presentation parity;
