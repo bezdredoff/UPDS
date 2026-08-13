@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.0-dev`.
-Active production foundation: **ANM-025D1–D3 tutorial foundations complete**; current production focus is **ANM-025D4 Special Combo Tutorial**.
+Active production foundation: **ANM-025A–D Match-3 production framework complete**; current production focus is **ANM-026A Level Lab Foundation**.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -30,7 +30,7 @@ Active production foundation: **ANM-025D1–D3 tutorial foundations complete**; 
 - полный ручной QA всех direct special combinations на телефоне;
 - при следующем намеренно rejected/stale ZIP полезно подтвердить live failure-cleanup path: run остаётся красным, а `incoming` очищается без второго zero-ZIP run.
 
-Эти проверки не блокируют ANM-025D: gameplay mechanics и tile-set contracts уже имеют automated coverage, а следующий slice строит tutorial framework поверх стабильной механики.
+Эти проверки не блокируют ANM-026: gameplay mechanics, tutorial framework и tile-set contracts уже имеют automated coverage, а следующий slice строит production tooling поверх стабильной механики.
 
 ### Deferred, not cancelled
 
@@ -59,9 +59,9 @@ Completed split:
 - 024C shared safe-area ownership migration;
 - 024D legacy safe-area cleanup + portrait/low-height-landscape regression closure + iPhone QA.
 
-### ANM-025 — Match-3 Production Framework [P0]
+### ANM-025 — Match-3 Production Framework [P0] — FRAMEWORK COMPLETE
 
-Current slice: **025D4 Special Combo Tutorial**. 025A–C и 025D1–D3 complete. D4 добавляет динамический board-state reveal для соседней пары specials и подтверждение обучения только после успешного special-to-special swap; engine combination matrix не меняется.
+025A–D complete: Golden Sample presentation, narrative level context, production tile identities/rollout и persistent context-aware tutorial framework от basic swap до special combinations. Финальные 025E balance и 025F narrative reactions выполняются после раннего ANM-026 Level Lab.
 
 After ANM-024:
 - Golden Sample presentation parity;
@@ -81,9 +81,15 @@ Suggested split:
 - 025E Balance pass;
 - 025F Narrative reactions during Match-3.
 
-### ANM-026 — Level Lab & Match-3 Campaign [P1]
+### ANM-026 — Level Lab & Match-3 Campaign [P1] — IN PROGRESS
 
 Build tooling before mass level production.
+
+Current split:
+- **026A Level Lab Foundation** — main-menu QA entry, level selector, exact uint32 seed, deterministic initial-board preview, production config summary/validation, play/retry same seed, Lab run-mode with zero Story save/tutorial/clue side effects;
+- 026B Editable Level Config — board shape, blockers, start layout, objectives, moves, active tiles/spawn weights, validation and export;
+- 026C Match-3 Campaign Mode — direct player-facing Match-3 mode, sequential progression/save separate from Story campaign, level selector/unlocks;
+- 026D Lab/Playtest integration — rapid rerun matrix and balance-oriented export/reporting if still needed after 026B/C.
 
 Includes:
 - direct Match-3 mode from main menu;
@@ -93,7 +99,7 @@ Includes:
 - instant play/restart/preview;
 - export validated level config.
 
-Level Lab should land before the final balance pass if practical.
+Level Lab lands before the final 025E balance pass.
 
 ### ANM-027 — Full Story Content Architecture & Import [P0]
 

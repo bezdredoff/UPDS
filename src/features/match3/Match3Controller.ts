@@ -30,6 +30,7 @@ export type MatchHintSource = 'manual' | 'inactivity';
 export const MATCH_AUTO_HINT_DELAY_MS = 5000;
 export const SPECIAL_DOUBLE_TAP_WINDOW_MS = 360;
 type Bark = Readonly<{ speaker: string; text: string }>;
+type LabRun = Readonly<{ levelIndex: number; seed: number; onExit: () => void }>;
 
 export class Match3Controller {
   private t(key: string, params?: Readonly<Record<string, string | number>>): string { return this.services.localization.t(key, params); }
@@ -58,6 +59,7 @@ export class Match3Controller {
   private activeTutorial: Match3TutorialConceptId | null = null;
   private tutorialPromptDismissed = false;
   private tutorialRevealEvents = new Set<Match3TutorialRevealEvent>(['level-start']);
+  private labRun: LabRun | null = null;
 
   constructor(
     private readonly root: HTMLElement,
@@ -79,6 +81,7 @@ export class Match3Controller {
     this.activeTutorial = null;
     this.tutorialPromptDismissed = false;
     this.tutorialRevealEvents = new Set(['level-start']);
+    this.labRun = null;
     this.matchInputLocked = false;
   }
 
@@ -127,6 +130,7 @@ export class Match3Controller {
   }
 
   private recordTutorialMove(result: MoveResult, directSpecialActivation = false, directSpecialCombo = false): void {
+    if (this.labRun) return;
     const level = this.activeMatch?.level;
     if (!level || !result.valid) return;
     for (const revealEvent of tutorialRevealEventsForMove(result)) this.tutorialRevealEvents.add(revealEvent);
@@ -160,7 +164,9 @@ export class Match3Controller {
     this.services.telemetry.track('match_end', {
       levelId: level.id,
       levelIndex: this.activeLevelIndex,
-      attempt: this.session.save.attempts[level.id] ?? 0,
+      attempt: this.labRun ? 0 : (this.session.save.attempts[level.id] ?? 0),
+      mode: this.labRun ? 'lab' : 'story',
+      seed: this.labRun?.seed ?? null,
       outcome,
       reason,
       durationMs: Math.max(0, Date.now() - this.matchAttemptStartedAt),
@@ -220,6 +226,7 @@ export class Match3Controller {
   }
 
   startMatch(levelIndex: number): void {
+    this.labRun = null;
     const level = levels[levelIndex];
     const attempt = (this.session.save.attempts[level.id] ?? 0) + 1;
     this.session.save.attempts[level.id] = attempt;
@@ -241,6 +248,34 @@ export class Match3Controller {
     if (this.activeTutorial) {
       this.services.telemetry.track('match_tutorial', { action: 'shown', conceptId: this.activeTutorial, levelId: level.id });
     }
+    this.renderMatch();
+    this.armAutoHint();
+  }
+
+  startLabMatch(levelIndex: number, requestedSeed: number, onExit: () => void): void {
+    const level = levels[levelIndex];
+    if (!level) return;
+    const parsedSeed = Number(requestedSeed);
+    const seed = (Number.isFinite(parsedSeed) ? Math.max(0, Math.min(0xffffffff, Math.trunc(parsedSeed))) : level.seed) >>> 0;
+    this.labRun = { levelIndex, seed, onExit };
+    this.activeLevelIndex = levelIndex;
+    this.activeMatch = new Match3Game(level, seed);
+    this.matchAttemptStartedAt = Date.now();
+    this.services.telemetry.track('match_start', {
+      levelId: level.id, levelIndex, attempt: 0, mode: 'lab', seed, moveBudget: level.moves,
+      narrativeProfile: level.context.narrativeProfile, pageBackground: level.context.pageBackground,
+      boardSurface: level.context.boardSurface, tilePresentationProfile: level.context.tilePresentationProfile,
+    });
+    this.selectedCell = null;
+    this.matchInputLocked = false;
+    this.activePointer = null;
+    this.hintedCells.clear();
+    this.triggeredBarks = new Set(['start']);
+    this.matchBark = this.levelBark(level, 'start');
+    this.lastTappedSpecial = null;
+    this.tutorialRevealEvents = new Set(['level-start']);
+    this.activeTutorial = null;
+    this.tutorialPromptDismissed = true;
     this.renderMatch();
     this.armAutoHint();
   }
@@ -283,7 +318,7 @@ export class Match3Controller {
 
   private renderMatch(): void {
     this.services.audio.setScene('match');
-    this.services.telemetry.trackScreen('match', levels[this.activeLevelIndex]?.id ?? String(this.activeLevelIndex));
+    this.services.telemetry.trackScreen('match', `${levels[this.activeLevelIndex]?.id ?? String(this.activeLevelIndex)}:${this.labRun ? 'lab' : 'story'}`);
     const game = this.activeMatch;
     if (!game) return this.renderMatchIntro(this.activeLevelIndex);
     const level = game.level;
@@ -293,10 +328,10 @@ export class Match3Controller {
       <img class="match-background" src="${backgroundAssets[level.context.pageBackground]}" alt="">
       <div class="match-shade"></div>
       <header class="app-header match-topbar">
-        ${headerActionMarkup('quit', 'back', this.t('match3.backToInvestigation'), undefined, 'app-header-back')}
+        ${headerActionMarkup('quit', 'back', this.labRun ? this.t('levelLab.backToLab') : this.t('match3.backToInvestigation'), undefined, 'app-header-back')}
         <div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>${escapeHtml(this.levelText(level, 'title'))}</b></div>
         <nav class="app-header-actions" aria-label="${escapeHtml(this.t('match3.investigationNavigation'))}">
-          ${headerActionMarkup('dossier', 'dossier', this.t('dossier.title'), this.session.save.clues.length)}
+          ${this.labRun ? '' : headerActionMarkup('dossier', 'dossier', this.t('dossier.title'), this.session.save.clues.length)}
           ${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
         </nav>
       </header>
@@ -309,7 +344,7 @@ export class Match3Controller {
         <section class="stage-board" aria-label="${escapeHtml(this.t('match3.movesStageAria'))}">
           <span class="case-tab">${escapeHtml(this.t('match3.movesUpper'))}</span>
           <div class="moves-left"><b>${game.movesLeft}</b></div>
-          <div class="stage-meta"><small>${escapeHtml(this.t('match3.stage', { current: this.activeLevelIndex + 1, total: 4 }))}</small><b>${escapeHtml(level.shortId)}</b></div>
+          <div class="stage-meta"><small>${escapeHtml(this.labRun ? this.t('levelLab.runLabel') : this.t('match3.stage', { current: this.activeLevelIndex + 1, total: 4 }))}</small><b>${escapeHtml(this.labRun ? `SEED ${this.labRun.seed}` : level.shortId)}</b></div>
         </section>
       </div>
 
@@ -332,7 +367,13 @@ export class Match3Controller {
     this.root.querySelector('#quit')?.addEventListener('click', () => {
       if (this.matchInputLocked) return;
       this.clearAutoHintTimer();
-      this.endActiveAttempt('abandon', 'back-to-intro');
+      this.endActiveAttempt('abandon', this.labRun ? 'back-to-level-lab' : 'back-to-intro');
+      if (this.labRun) {
+        const onExit = this.labRun.onExit;
+        this.clearActiveMatch();
+        onExit();
+        return;
+      }
       this.activeMatch = null;
       this.renderMatchIntro(this.activeLevelIndex);
     });
@@ -803,6 +844,10 @@ export class Match3Controller {
 
   private completeLevel(): void {
     this.clearAutoHintTimer();
+    if (this.labRun) {
+      this.renderLabResult('win');
+      return;
+    }
     this.endActiveAttempt('win');
     const levelIndex = this.activeLevelIndex;
     const level = levels[levelIndex];
@@ -838,6 +883,10 @@ export class Match3Controller {
 
   private renderLoss(): void {
     this.clearAutoHintTimer();
+    if (this.labRun) {
+      this.renderLabResult('loss');
+      return;
+    }
     this.services.audio.setScene('match');
     this.services.telemetry.trackScreen('loss', levels[this.activeLevelIndex]?.id ?? String(this.activeLevelIndex));
     const level = levels[this.activeLevelIndex];
@@ -847,9 +896,7 @@ export class Match3Controller {
       <header class="app-header result-topbar">
         ${headerActionMarkup('back', 'back', this.t('match3.backToInvestigation'), undefined, 'app-header-back')}
         <div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>${escapeHtml(this.t('match3.result'))}</b></div>
-        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('common.navigation'))}">
-          ${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
-        </nav>
+        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('common.navigation'))}"></nav>
       </header>
       <div class="result-content">
         <div class="result-mark">↻</div>
@@ -862,6 +909,37 @@ export class Match3Controller {
     this.root.querySelector('#retry')?.addEventListener('click', () => this.startMatch(this.activeLevelIndex));
     this.root.querySelector('#back')?.addEventListener('click', () => this.renderMatchIntro(this.activeLevelIndex));
     this.root.querySelector('#header-settings')?.addEventListener('click', () => this.navigation.showSettings(() => this.renderLoss(), true));
+  }
+
+  private renderLabResult(outcome: 'win' | 'loss'): void {
+    const lab = this.labRun;
+    const game = this.activeMatch;
+    if (!lab || !game) return;
+    const level = game.level;
+    const movesLeft = game.movesLeft;
+    this.endActiveAttempt(outcome, 'level-lab');
+    this.activeMatch = null;
+    this.services.audio.setScene('match');
+    this.services.telemetry.trackScreen('level-lab-result', `${level.id}:${lab.seed}:${outcome}`);
+    this.shell.render(`<section class="result-screen ${outcome === 'win' ? 'win' : 'loss'} level-lab-result">
+      <header class="app-header result-topbar">
+        ${headerActionMarkup('back', 'back', this.t('levelLab.backToLab'), undefined, 'app-header-back')}
+        <div class="app-header-title"><small>${escapeHtml(this.t('levelLab.runLabel'))}</small><b>${escapeHtml(level.shortId)} · SEED ${lab.seed}</b></div>
+        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('common.navigation'))}"></nav>
+      </header>
+      <div class="result-content">
+        <div class="result-mark">${outcome === 'win' ? '✓' : '↻'}</div>
+        <p class="eyebrow">${escapeHtml(this.t('levelLab.resultEyebrow'))}</p>
+        <h2>${escapeHtml(this.t(outcome === 'win' ? 'levelLab.resultWin' : 'levelLab.resultLoss'))}</h2>
+        <p>${escapeHtml(this.t('levelLab.resultDetail', { seed: lab.seed, movesLeft }))}</p>
+        <button class="primary" id="lab-retry">${escapeHtml(this.t('levelLab.retrySameSeed'))}</button>
+        <button id="lab-back">${escapeHtml(this.t('levelLab.backToLab'))}</button>
+      </div>
+    </section>`);
+    this.root.querySelector('#lab-retry')?.addEventListener('click', () => this.startLabMatch(lab.levelIndex, lab.seed, lab.onExit));
+    const backToLab = (): void => { const onExit = lab.onExit; this.clearActiveMatch(); onExit(); };
+    this.root.querySelector('#back')?.addEventListener('click', backToLab);
+    this.root.querySelector('#lab-back')?.addEventListener('click', backToLab);
   }
 
   private objectiveMarkup(level: LevelDefinition, objective: LevelDefinition['objectives'][number], objectiveIndex: number, value: number, showProgress: boolean): string {
