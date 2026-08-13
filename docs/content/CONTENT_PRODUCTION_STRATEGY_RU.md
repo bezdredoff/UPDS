@@ -226,9 +226,9 @@ Macro lock опирается на утверждённый Story Bible и ис�
 
 ## Immediate execution order
 
-1. **ANM-027E** — этот lean production contract и traceability gate.
-2. **ANM-028B1** — reusable staging preset/data contract и Scene Studio preview без нового mass art.
-3. **ANM-027F** — macro lock `0–21` и asset-trigger map на основе Story Bible и исходной презентации.
+1. **ANM-027E — COMPLETE** — этот lean production contract и traceability gate.
+2. **ANM-028B1 — COMPLETE** — reusable `upds-scene-staging-v1` contract и Scene Studio preview без нового mass art.
+3. **ANM-027F — NEXT** — macro lock `0–21` и asset-trigger map на основе Story Bible и исходной презентации; staging назначается только из утверждённых 028B1 preset IDs.
 4. Завершить 028B Studio/lineup/guest preview; выполнить ограниченный 028C safe-motion proof и 028D
    production integration в порядке, утверждённом roadmap.
 5. **ANM-027G** — screenplay/import пакетами по три эпизода, начиная с `4–6`, с параллельным

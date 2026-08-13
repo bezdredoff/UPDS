@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: audited active architecture at the ANM-028A R2 repository baseline.
+Status: audited active architecture at the ANM-028B1 repository candidate.
 
 ## Runtime flow
 
@@ -21,8 +21,8 @@ The small composition root owns only:
 - global PWA update presentation;
 - global return-to-menu lifecycle.
 
-It constructs VN, Match-3, Level Lab, player-facing Match-3 Campaign, menu, settings, diagnostics,
-dossier and ending controllers. It must not accumulate feature rendering, game rules, story content,
+It constructs VN, Match-3, Level Lab, Scene Studio, player-facing Match-3 Campaign, menu, settings,
+diagnostics, dossier and ending controllers. It must not accumulate feature rendering, game rules, story content,
 level definitions or feature-owned state. Repository tests keep it at no more than 200 lines and
 prevent controller construction elsewhere.
 
@@ -71,6 +71,12 @@ Owns the QA authoring surface for deterministic seeds, validated editable level 
 shape/start layout preview, exact-seed play/retry and JSON export. Lab runs must produce no Story
 save, campaign progression, clue or persistent tutorial side effects.
 
+### `src/features/sceneStudio/SceneStudioController.ts`
+
+Owns the read-only ANM-028B1 composition QA surface: preset/background switching, existing-character
+preview, safe-box guides, native evidence/guest shells and scene-budget display. It consumes the
+shared resolver and does not write screenplay, save, character manifests or production assets.
+
 ### `src/features/match3Campaign/Match3CampaignController.ts`
 
 Owns the direct player-facing Match-3 hub: sequential unlocks, replay/best result and campaign
@@ -111,6 +117,8 @@ switch statements.
 
 - `src/data/characterProduction.ts` — canonical `upds-character-production-v2` manifest, production/planned status, assets, expression set, proportions and validator;
 - `src/data/characterRigs.ts` — runtime rigs, staging and placeholders derived from that manifest;
+- `src/data/sceneStaging.ts` — canonical `upds-scene-staging-v1` registry/validator for eight reusable scene compositions;
+- `src/ui/sceneStaging.ts` — pure actor-assignment resolver that keeps canonical character scale separate from preset shot scale;
 - `docs/art/CHARACTER_USAGE_MANIFEST.json` — CI-checked documentation mirror;
 - `src/platform/RuntimeAssets.ts` — preload/health catalog.
 
@@ -119,8 +127,10 @@ seven-asset production set. Legacy `base-neutral`, `face-*`, blink and speaking 
 unreferenced baggage, but they are not runtime architecture.
 
 Relative visual height is encoded in the shared 1024×1536 master canvas and validated from alpha
-bounds. Scene-specific CSS zoom must not become a parallel proportion system. ANM-028B Studio must
-preview the same runtime staging/camera coordinates.
+bounds. Scene-specific CSS zoom must not become a parallel proportion system. ANM-028B1 Scene
+Studio previews normalized runtime coordinates with separate nested shot/canonical scale layers.
+Authored VN adoption and its multi-character rendering remain a bounded ANM-028B2 migration, not
+hidden episode-specific conditions in `VnController`.
 
 ## Match-3 data and engine
 

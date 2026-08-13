@@ -13,6 +13,7 @@ import { Match3Controller } from '../features/match3/Match3Controller';
 import { LevelLabController } from '../features/levelLab/LevelLabController';
 import { Match3CampaignController } from '../features/match3Campaign/Match3CampaignController';
 import { Match3CampaignSession } from '../app/Match3CampaignSession';
+import { SceneStudioController } from '../features/sceneStudio/SceneStudioController';
 
 /**
  * Composition root for the UI application.
@@ -32,6 +33,7 @@ export class AnimeDetectiveApp {
   private readonly vn: VnController;
   private readonly match3: Match3Controller;
   private readonly levelLab: LevelLabController;
+  private readonly sceneStudio: SceneStudioController;
   private readonly match3CampaignSession: Match3CampaignSession;
   private readonly match3Campaign: Match3CampaignController;
 
@@ -50,6 +52,7 @@ export class AnimeDetectiveApp {
       showSceneSelect: () => this.diagnostics.renderSceneSelect(),
       showDiagnostics: (status = '') => this.diagnostics.render(status),
       showLevelLab: () => this.levelLab.render(),
+      showSceneStudio: () => this.sceneStudio.render(),
       showMatch3Campaign: () => this.match3Campaign.render(),
       showMenu: () => this.renderMenu(),
       returnToMainMenu: () => this.returnToMainMenu(),
@@ -60,6 +63,7 @@ export class AnimeDetectiveApp {
     this.levelLab = new LevelLabController(root, services, this.shell, navigation, (levelIndex, seed, level) => {
       this.match3.startLabMatch(levelIndex, seed, () => this.levelLab.render(levelIndex, seed), level);
     });
+    this.sceneStudio = new SceneStudioController(root, services, this.shell, navigation);
     this.match3CampaignSession = new Match3CampaignSession(services.match3CampaignStore, services);
     this.match3Campaign = new Match3CampaignController(root, services, this.match3CampaignSession, this.shell, navigation, (levelIndex) => {
       this.match3.startCampaignMatch(levelIndex, this.match3CampaignSession, () => this.match3Campaign.render());
@@ -123,6 +127,7 @@ export class AnimeDetectiveApp {
   renderSupport(status = ''): void { this.diagnostics.render(status); }
   renderSettings(): void { this.settings.render(); }
   renderLevelLab(): void { this.levelLab.render(); }
+  renderSceneStudio(): void { this.sceneStudio.render(); }
   renderMatch3Campaign(): void { this.match3Campaign.render(); }
   startCampaignMatch(level: number): void { this.match3.startCampaignMatch(level, this.match3CampaignSession, () => this.match3Campaign.render()); }
   startLabMatch(level: number, seed: number): void { this.match3.startLabMatch(level, seed, () => this.levelLab.render(level, seed)); }

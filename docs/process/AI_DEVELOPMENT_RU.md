@@ -1,6 +1,6 @@
 # UPDS — инструкция для AI/разработчика
 
-Status: active workflow aligned with ANM-027E and ANM-028A R2.
+Status: active workflow aligned with ANM-027E and ANM-028B1.
 
 ## Before editing
 
@@ -83,6 +83,8 @@ Typical ownership:
 - Level Lab → `src/features/levelLab/`;
 - direct Match-3 campaign → `src/features/match3Campaign/`, session/store;
 - character production metadata → `src/data/characterProduction.ts`;
+- reusable scene composition → `src/data/sceneStaging.ts`, `src/ui/sceneStaging.ts` and
+  `src/features/sceneStudio/`;
 - settings/diagnostics/dossier/ending → their dedicated feature controller;
 - cross-feature composition/navigation only → `src/ui/AnimeDetectiveApp.ts`, `src/app/`.
 
@@ -133,11 +135,15 @@ navigation/callback seam through the composition root.
 
 ## Scene, background and evidence production rules
 
-- Build scenes from the approved reusable staging presets: solo close/medium, conflict/alliance
-  two-shots, central-speaker/reaction trios, evidence cutaway and guest testimony card.
+- Build scenes only from the approved `upds-scene-staging-v1` IDs in `src/data/sceneStaging.ts`:
+  `solo-close`, `solo-medium`, `two-shot-conflict`, `two-shot-alliance`,
+  `trio-central-speaker`, `trio-reaction`, `evidence-cutaway`, `guest-testimony-card`.
 - Presets own shot, actor slots, active/listening/background roles, speaker focus, entry/exit and
   safe-area/non-overlap constraints. Runtime still composes standalone character assets; never bake
   a group into one PNG.
+- Do not add episode-specific coordinates or silently treat the current single-active-speaker VN
+  renderer as multi-character. Authored preset assignment/migration belongs to 028B2 and must use
+  the shared resolver. Guest assets remain 028B3; the 028B1 guest shell never grants an asset path.
 - Target 8–10 master location families for the base game. Derive crop, dressing and lighting/grade
   variants offline and route them through shared data, not episode-specific controller mappings.
 - Never bake localizable text into backgrounds or ordinary evidence art. Prefer native UI for

@@ -1,6 +1,6 @@
 # UPDS — validation and test workflow
 
-Status: active at the ANM-028A R2 repository baseline.
+Status: active at the ANM-028B1 repository candidate.
 
 ## Authoritative gate
 
@@ -19,11 +19,13 @@ are useful feedback but do not replace the GitHub **Quality gate**.
 ```bash
 npm run story:audit
 npm run character:audit
+npm run scene:audit
 npm run docs:audit
 ```
 
 - `story:audit` — screenplay/manifest/graph completeness.
 - `character:audit` — character production manifest, PNG dimensions/alpha bounds and runtime paths.
+- `scene:audit` — exact eight-preset registry, normalized resolver, safe-area/non-overlap budgets and Scene Studio smoke.
 - `docs:audit` — active documentation/source-of-truth traceability and retired-contract guards.
 
 Focused gates accelerate iteration; `npm run check` remains required before merge.
@@ -92,6 +94,16 @@ lines and explicit deferred `VN0250`.
 They preserve the seven-asset precomposed contract, production/planned status, PNG dimensions,
 alpha-height proportions and absence of runtime face-overlay references. Visual style/anatomy still
 requires manual approval.
+
+### Reusable scene staging
+
+- `SceneStagingContract.test.ts`;
+- `SceneStudioFoundation.test.ts`;
+- localization parity/completion audit.
+
+They preserve the exact eight-preset `upds-scene-staging-v1` registry, safe non-overlapping boxes,
+canonical/shot scale separation, exact actor assignment, zero-new-art budgets and an asset-free guest
+shell. Actual composition/readability still requires `/preview/` phone QA.
 
 ### Match-3
 
