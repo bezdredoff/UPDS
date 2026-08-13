@@ -1,6 +1,6 @@
 # UPDS — инструкция для AI/разработчика
 
-Status: active workflow aligned with ANM-028A R2.
+Status: active workflow aligned with ANM-027E and ANM-028A R2.
 
 ## Before editing
 
@@ -8,6 +8,7 @@ Status: active workflow aligned with ANM-028A R2.
 2. Read:
    - `docs/architecture/PROJECT_CONTRACTS_RU.md`;
    - `docs/ROADMAP_RU.md`;
+   - `docs/content/CONTENT_PRODUCTION_STRATEGY_RU.md` for story/art/content work;
    - `docs/architecture/ARCHITECTURE_RU.md`;
    - the narrow current contract/feature document for the task.
 3. Identify the machine-readable source of truth before editing prose.
@@ -37,6 +38,10 @@ Do not copy a “current build” string into multiple READMEs.
 The only authored repository source at the current baseline is
 `src/content/ANM-003_Vertical_Slice_Screenplay.md`. Do not invent the missing post-slice screenplay
 inside a technical feature or claim it exists because an old handoff mentions a plan.
+
+Full-game scope, asset-trigger budgets and authoring sequence:
+`docs/content/CONTENT_PRODUCTION_STRATEGY_RU.md`. It preserves content slots `0–21`; a technical
+optimization must not silently remove an episode, ending or canonical story beat.
 
 ### Character art
 
@@ -84,7 +89,14 @@ navigation/callback seam through the composition root.
 - Match-3 story handoffs use stable level IDs and explicit graph transitions.
 - Episode-specific behavior belongs in data/contracts, not controller `switch` statements.
 - Dialogue internal pages are runtime presentation state and never authored/save IDs.
-- Add content in reviewable episode packages before mass localization/art production.
+- Before detailed post-slice screenplay, lock a `0–21` macro table with case/emotional beat,
+  location family, cast tier, evidence treatment, Match-3 archetype, transition and asset triggers.
+- Add detailed content in reviewable packages of three sequential episodes before mass
+  localization/art production; the first post-slice package is `4–6`.
+- Apply the strategy asset-trigger budget while writing. Prefer recurring cast, guest testimony,
+  native dossier/phone/document UI and existing location families over one-off production assets.
+- A budget exception must state the dramatic purpose, why reuse is insufficient and every added
+  art/localization/runtime obligation.
 
 ## Character production rules
 
@@ -94,11 +106,43 @@ navigation/callback seam through the composition root.
 - Encode relative height in the master canvas; do not repair it with runtime CSS scale.
 - Produce the four additional expression frames from the approved master while preserving body,
   camera, silhouette and alpha bounds.
-- Production-time masks/compositing are allowed; runtime receives finished precomposed frames only.
-- Required set: five Pose A expressions + Pose B + medallion.
+- Use a small face ROI and edit one expression at a time. Offline masks/layers/compositing are
+  allowed; verify unchanged pixels outside the permitted ROI and stable alpha height, then export a
+  finished precomposed frame.
+- Runtime receives finished precomposed frames only. Never restore runtime face overlays.
+- The full-stage required set remains exactly five Pose A expressions + Pose B + medallion; do not
+  expand the standard expression taxonomy.
+- Only full-stage characters use `upds-character-production-v2`. The planned guest/witness package
+  is a separate presentation/asset class; never satisfy the full-stage validator with fake guest
+  paths or incomplete sets.
+- Assign full-stage production only when the character appears in at least three episodes,
+  participates in the resolution or carries a substantial emotional scene. Pose B is full-stage
+  only; a special climax frame requires explicit budget approval.
 - `blink`/`speaking` remain deferred until the ANM-028 safe-motion proof.
 - Keep a character `planned` until the complete set and manual visual approval exist.
 - All depicted/student characters in the production manifest are explicitly adult.
+
+## Scene, background and evidence production rules
+
+- Build scenes from the approved reusable staging presets: solo close/medium, conflict/alliance
+  two-shots, central-speaker/reaction trios, evidence cutaway and guest testimony card.
+- Presets own shot, actor slots, active/listening/background roles, speaker focus, entry/exit and
+  safe-area/non-overlap constraints. Runtime still composes standalone character assets; never bake
+  a group into one PNG.
+- Target 8–10 master location families for the base game. Derive crop, dressing and lighting/grade
+  variants offline and route them through shared data, not episode-specific controller mappings.
+- Never bake localizable text into backgrounds or ordinary evidence art. Prefer native UI for
+  documents, forms, tables, messages, serials and manifests.
+- Reserve separate art for 5–7 hero clue close-ups across the base game, not one bespoke clue image
+  per scene.
+
+## Match-3 content production rules
+
+- Reuse ANM-025/026 data contracts, Level Lab and the common tile catalog.
+- Vary 5–6 shared board/layout archetypes through shape, start layout, weights, objectives,
+  blockers, context and reactions instead of creating unique mechanics/art per episode.
+- Add a new mechanic only when at least four levels reuse it and its tutorial, validation and Level
+  Lab authoring path are included.
 
 ## Delivery lanes
 
@@ -150,6 +194,7 @@ A change is ready for review when:
 - exact baseline/scope is recorded;
 - strict TypeScript and relevant tests/build pass locally when available;
 - protected contracts and machine-readable sources agree;
+- story/content changes preserve the `0–21` macro scope and pass the asset-trigger budget;
 - archive/branch contains only intended files;
 - GitHub `Quality gate` passes;
 - changed files have been reviewed;

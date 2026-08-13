@@ -59,6 +59,31 @@ describe('active documentation traceability', () => {
     expect(index).toContain('screenplay beyond that slice is not yet');
   });
 
+  it('locks the lean full-content scope and keeps guest/offline production boundaries explicit', () => {
+    const strategy = read('docs/content/CONTENT_PRODUCTION_STRATEGY_RU.md');
+    const roadmap = read('docs/ROADMAP_RU.md');
+    const index = read('docs/README.md');
+    const aiWorkflow = read('docs/process/AI_DEVELOPMENT_RU.md');
+    const characterContract = read('docs/art/CHARACTER_PRODUCTION_CONTRACT_RU.md');
+    const protectedContracts = read('docs/architecture/PROJECT_CONTRACTS_RU.md');
+
+    for (const source of [roadmap, index, aiWorkflow, protectedContracts]) {
+      expect(source).toContain('CONTENT_PRODUCTION_STRATEGY_RU.md');
+    }
+    expect(strategy).toContain('22 planned content slots: `0–21`');
+    expect(strategy).toContain('Сюжетный объём не сокращается');
+    expect(strategy).toContain('8–10 master-локаций');
+    expect(strategy).toContain('5–7 hero clue close-ups');
+    expect(strategy).toContain('пакетами по три последовательных эпизода');
+    expect(strategy).toContain('runtime face overlay');
+    expect(strategy).toContain('нельзя добавлять в `upds-character-production-v2`');
+    expect(characterContract).toContain('только к полноценным stage-персонажам');
+    expect(characterContract).toContain('Runtime получает только готовые');
+    expect(protectedContracts).toContain('22 planned content slots `0–21`');
+    expect(protectedContracts).toContain('future guest/witness bust package');
+    expect(aiWorkflow).toContain('first post-slice package is `4–6`');
+  });
+
   it('describes every supported delivery lane without granting direct PRs a mobile preview', () => {
     const pipeline = read('docs/process/GITHUB_PHONE_PIPELINE_RU.md');
     const preflight = read('docs/process/CHATGPT_PREFLIGHT_RU.md');
