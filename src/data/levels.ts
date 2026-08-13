@@ -124,7 +124,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'emi'],
       narrativeTags: ['locker-room', 'laundry', 'missing-underwear', 'evidence-sort'],
     },
-    tutorialConcepts: ['basic-swap'],
+    tutorialConcepts: ['basic-swap', 'clear-blocker', 'drop-ingredient'],
     activeTiles: ['pantiesSportWhite', 'pantiesLacePink', 'pantiesHighWaistBlack', 'pantiesBoyshortBlue', 'sportsBra', 'laundryTag'],
     moves: 24,
     objectives: [

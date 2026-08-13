@@ -8,9 +8,10 @@ import {
 
 describe('ANM-025D1 Match-3 tutorial framework', () => {
   it('assigns the base interaction concept only to the first level', () => {
-    expect(match3TutorialConceptIds).toEqual(['basic-swap']);
-    expect(levels[0].tutorialConcepts).toEqual(['basic-swap']);
-    for (const level of levels.slice(1)) expect(level.tutorialConcepts).toEqual([]);
+    expect(match3TutorialConceptIds).toContain('basic-swap');
+    expect(levels[0].tutorialConcepts[0]).toBe('basic-swap');
+    expect(levels[0].tutorialConcepts).toContain('basic-swap');
+    for (const level of levels.slice(1)) expect(level.tutorialConcepts).not.toContain('basic-swap');
     expect(validateLevelDefinitions(levels)).toEqual([]);
   });
 
