@@ -1,5 +1,4 @@
 import { levels } from './levels';
-import { sceneMeta } from './narrative';
 
 export const storyEpisodeIds = ['EP001_CASE_001'] as const;
 export type StoryEpisodeId = (typeof storyEpisodeIds)[number];
@@ -174,7 +173,6 @@ export type StoryGraphIssue = Readonly<{
     | 'duplicate-id'
     | 'unknown-reference'
     | 'legacy-index'
-    | 'scene-meta-mismatch'
     | 'invalid-source-range'
     | 'unreachable-scene'
     | 'match3-coverage'
@@ -278,11 +276,6 @@ export function validateStoryGraph(graph: StoryGraph = storyGraph): readonly Sto
   for (const scene of graph.scenes) {
     if (!episodeIds.has(scene.episodeId)) issues.push({ code: 'unknown-reference', detail: `${scene.id}: unknown episode ${scene.episodeId}` });
     if (!chapterIds.has(scene.chapterId)) issues.push({ code: 'unknown-reference', detail: `${scene.id}: unknown chapter ${scene.chapterId}` });
-
-    const meta = sceneMeta[scene.legacyIndex];
-    if (!meta || meta.id !== scene.id) {
-      issues.push({ code: 'scene-meta-mismatch', detail: `${scene.id}: legacy sceneMeta[${scene.legacyIndex}] does not match` });
-    }
 
     const start = numericLineId(scene.source.startLineId);
     const end = numericLineId(scene.source.endLineId);

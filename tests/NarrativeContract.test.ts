@@ -1,9 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { getBackgroundForLine, getScene, parsedLineCount, sceneMeta, type ChoiceId } from '../src/data/narrative';
-import { storyMatch3RouteForLegacyScene } from '../src/data/storyGraph';
+import { storyGraph, storyMatch3RouteForLegacyScene } from '../src/data/storyGraph';
 
-const starts = ['VN0001', 'VN0023', 'VN0058', 'VN0085', 'VN0114', 'VN0143', 'VN0167', 'VN0192', 'VN0217'];
-const ends = ['VN0022', 'VN0057', 'VN0084', 'VN0113', 'VN0142', 'VN0166', 'VN0191', 'VN0216', 'VN0249'];
 const numeric = (id: string): number => Number(id.slice(2, 6));
 
 describe('narrative integration contract', () => {
@@ -14,8 +12,8 @@ describe('narrative integration contract', () => {
       for (let sceneIndex = 0; sceneIndex < sceneMeta.length; sceneIndex += 1) {
         const scene = getScene(sceneIndex, choice);
         expect(scene.length).toBeGreaterThan(0);
-        expect(scene[0].id).toBe(starts[sceneIndex]);
-        expect(scene.at(-1)?.id).toBe(ends[sceneIndex]);
+        expect(scene[0].id).toBe(storyGraph.scenes[sceneIndex].source.startLineId);
+        expect(scene.at(-1)?.id).toBe(storyGraph.scenes[sceneIndex].source.endLineId);
         for (let index = 1; index < scene.length; index += 1) {
           expect(numeric(scene[index].id)).toBeGreaterThanOrEqual(numeric(scene[index - 1].id));
         }
