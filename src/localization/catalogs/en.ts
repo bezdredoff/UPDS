@@ -977,6 +977,8 @@ export const enCatalog = {
   'match3.tutorial.drop-ingredient.body': 'Story items cannot be swapped. Clear cells below them so they fall, and guide each item to the bottom edge of the board.',
   'match3.tutorial.activate-special.title': 'Activate a special tile',
   'match3.tutorial.activate-special.body': 'Longer or shaped matches create special investigation tools. When one appears, double-tap it to activate its effect immediately. Special tiles can also be swapped, and later tutorials will cover combining them.',
+  'match3.tutorial.combine-specials.title': 'Combine special tiles',
+  'match3.tutorial.combine-specials.body': 'When two special tiles are next to each other, swap them together. Their effects combine into a stronger investigation move, and different special pairs can behave differently.',
   'match3.tutorial.try': 'TRY IT',
   'match3.evidenceFound': 'CLUE FOUND',
   'match3.continueStory': 'Continue Scene',
