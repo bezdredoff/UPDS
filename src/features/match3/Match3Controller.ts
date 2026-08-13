@@ -10,7 +10,7 @@ import {
   type LevelDefinition,
 } from '../../data/levels';
 import { backgroundAssets, getScene } from '../../data/narrative';
-import { resolveMatch3TilePresentation, tilePresentationAssetsForProfile } from '../../data/match3TilePresentation';
+import { resolveMatch3TilePresentation, tilePresentationAssetsForActiveSet } from '../../data/match3TilePresentation';
 import { postSceneForLevel } from '../../engine/CampaignStore';
 import { Match3Game, type BoardCell, type Match3Frame, type MoveResult } from '../../engine/Match3Game';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
@@ -121,7 +121,7 @@ export class Match3Controller {
       blockerPresentation[level.blocker].asset,
       specialAsset,
       ...Object.values(specialAssets),
-      ...tilePresentationAssetsForProfile(level.context.tilePresentationProfile),
+      ...tilePresentationAssetsForActiveSet(level.context.tilePresentationProfile, level.activeTiles),
       ...Object.values(ingredientPresentation).map((presentation) => presentation.asset),
     ];
     void preloadImageAssets(assets, this.services.assetHealth);

@@ -2,8 +2,7 @@ import {
   BOARD_SIZE,
   type IngredientKey,
   type LevelDefinition,
-  type TileKey,
-  tileKeys,
+  type Match3TileId,
 } from '../data/levels';
 
 export type SpecialKind = 'flash-row' | 'flash-column' | 'evidence' | 'lead' | 'insight';
@@ -20,21 +19,21 @@ export type DirectSpecialCombo =
   | 'fallback';
 
 export type BoardCell = Readonly<{
-  tile: TileKey | null;
+  tile: Match3TileId | null;
   ingredient: IngredientKey | null;
   blockerLayers: number;
   special: SpecialKind | null;
 }>;
 
 type MutableCell = {
-  tile: TileKey | null;
+  tile: Match3TileId | null;
   ingredient: IngredientKey | null;
   blockerLayers: number;
   special: SpecialKind | null;
 };
 
 export type Match3Progress = Readonly<{
-  collected: Readonly<Partial<Record<TileKey, number>>>;
+  collected: Readonly<Partial<Record<Match3TileId, number>>>;
   blockersCleared: number;
   ingredientsDropped: Readonly<Partial<Record<IngredientKey, number>>>;
 }>;
@@ -136,7 +135,7 @@ export class Match3Game {
   movesLeft: number;
   private readonly cells: MutableCell[];
   private readonly random: () => number;
-  private readonly collected: Partial<Record<TileKey, number>> = {};
+  private readonly collected: Partial<Record<Match3TileId, number>> = {};
   private readonly ingredientsDropped: Partial<Record<IngredientKey, number>> = {};
   private blockersCleared = 0;
 
@@ -931,11 +930,14 @@ export class Match3Game {
     [a.special, b.special] = [b.special, a.special];
   }
 
-  private shuffledTileKeys(): TileKey[] {
-    return [...tileKeys].sort(() => this.random() - 0.5);
+  private shuffledTileKeys(): Match3TileId[] {
+    return [...this.level.activeTiles].sort(() => this.random() - 0.5);
   }
 
-  private randomTile(): TileKey {
-    return tileKeys[Math.floor(this.random() * tileKeys.length)];
+  private randomTile(): Match3TileId {
+    const tiles = this.level.activeTiles;
+    const tile = tiles[Math.floor(this.random() * tiles.length)];
+    if (!tile) throw new Error(`${this.level.id}: active tile set is empty`);
+    return tile;
   }
 }
