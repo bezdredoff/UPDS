@@ -1,4 +1,11 @@
-# ANM-021A — Character briefs после разбора сюжета
+# UPDS — character narrative and visual briefs
+
+Status: active narrative/visual intent at ANM-028A R2.
+
+Этот документ определяет роль, character intent и недопустимое визуальное кодирование. Technical
+production status, точные runtime paths, expression set, canvas, proportions и asset count принадлежат
+`src/data/characterProduction.ts` и `CHARACTER_PRODUCTION_CONTRACT_RU.md`. Если старое имя файла в
+brief расходится с manifest, manifest является source of truth и brief должен быть исправлен.
 
 ## Эми Такахаси
 
@@ -10,7 +17,7 @@
 
 **Ключевые эмоции.** surprised → embarrassed → serious → neutral → smile. Smile должен быть прежде всего облегчением/доверием, а serious — защитой собственных границ.
 
-**Pose B.** `pose_b_guarded_athlete.png`: руки ближе к корпусу или одна рука удерживает спортивную сумку/телефон; взгляд прямой. Поза говорит «я контролирую, что вы можете делать с моей историей».
+**Pose B.** `pose_b_arms_crossed.png`: руки скрещены или собраны близко к корпусу, взгляд прямой. Поза говорит «я контролирую, что вы можете делать с моей историей», не превращая защитную реакцию в робость или сексуализированную уязвимость.
 
 ---
 

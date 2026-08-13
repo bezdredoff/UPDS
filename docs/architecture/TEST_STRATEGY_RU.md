@@ -1,6 +1,6 @@
 # UPDS — Test Strategy
 
-Статус: active production contract, ANM-023.
+Статус: active production test-policy contract, reconciled at ANM-028A R2.
 
 GitHub CI и `npm run check` остаются authoritative automated gate. Локальный запуск полезен для быстрой обратной связи, но не заменяет GitHub CI.
 
@@ -28,6 +28,10 @@ GitHub CI и `npm run check` остаются authoritative automated gate. Ло
 
 Source-audit — исключение, а не основной стиль тестирования. Его нельзя использовать для проверки UI copy, layout или gameplay behavior, если это можно проверить через behavior/contract test.
 
+Documentation traceability относится к source-audit только для high-risk authority links:
+roadmap/status ownership, protected rig contract, story/character machine-readable sources и
+delivery-lane limits. Не закреплять тестом каждую формулировку или историческую feature note.
+
 ## Правила ANM-023
 
 - При изменении behavior сначала искать/создавать behavior test, а не `toContain()` по исходному коду.
@@ -36,6 +40,8 @@ Source-audit — исключение, а не основной стиль те�
 - `.bak`, временные копии и альтернативные active workflow/test files не хранятся в production tree.
 - При разделении большого файла тесты должны продолжать защищать внешнее поведение, а не прежнее расположение методов.
 - Visual/mobile QA остаётся обязательным для визуальных/runtime изменений, но pipeline/docs-only PR не требует нерелевантного visual QA.
+- Focused `story:audit`, `character:audit` и `docs:audit` ускоряют проверку, но не заменяют полный
+  `npm run check` и GitHub Quality gate.
 
 ## Приоритет при рефакторинге
 

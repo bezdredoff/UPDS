@@ -10,7 +10,7 @@ Active production foundation: **ANM-025 Match-3 production framework + ANM-026 t
 ### Completed / stable foundations
 
 - mobile ZIP → GitHub candidate → CI → preview → merge pipeline;
-- ChatGPT direct GitHub branch/PR path для небольших technical changes;
+- ChatGPT direct GitHub branch/PR path для небольших docs/tests/non-visual technical changes; runtime/visual/art changes still use mobile candidate preview;
 - H1 Delta ZIP Import Foundation с exact `baseSha`, stale-patch rejection и protected pipeline paths;
 - failed/rejected ZIP cleanup без noisy zero-ZIP importer rerun;
 - save/progression foundation;
@@ -27,6 +27,7 @@ Active production foundation: **ANM-025 Match-3 production framework + ANM-026 t
 - ANM-025E quantitative balance baseline through E3; E4 remains optional only if later human playtest data shows a concrete need.
 - ANM-025F Match-3 Narrative Reactions complete through F1 resolver contract, F2 content and F3 presentation/anti-spam.
 - ANM-027A–D story production pipeline: graph contract, graph-driven runtime routing, import/completeness audit and canonical runtime import/transition QA for the currently authored ANM-003 screenplay.
+- documentation/traceability authority aligned with ANM-028A R2 and protected by a focused docs drift gate.
 
 ### Useful manual regression still pending
 
@@ -64,7 +65,7 @@ Completed split:
 
 ### ANM-025 — Match-3 Production Framework [P0] — FRAMEWORK COMPLETE
 
-025A–D complete: Golden Sample presentation, narrative level context, production tile identities/rollout и persistent context-aware tutorial framework от basic swap до special combinations. Финальные 025E balance и 025F narrative reactions выполняются после раннего ANM-026 Level Lab.
+025A–D complete: Golden Sample presentation, narrative level context, production tile identities/rollout и persistent context-aware tutorial framework от basic swap до special combinations. 025E balance baseline и 025F narrative reactions также завершены после раннего ANM-026 Level Lab.
 
 After ANM-024:
 - Golden Sample presentation parity;
@@ -104,7 +105,7 @@ Includes:
 - instant play/restart/preview;
 - export validated level config.
 
-Level Lab lands before the final 025E balance pass.
+Level Lab был введён до финального 025E quantitative balance pass и остаётся production authoring/QA surface.
 
 ### ANM-027 — Story Content Architecture & Import [P0] — PIPELINE COMPLETE / FULL CANON CONTENT PENDING
 
@@ -120,10 +121,10 @@ The missing full screenplay does not block ANM-028 Character Production Pipeline
 
 ### ANM-028 — Character Production Pipeline 2.0 [P0/P1] — IN PROGRESS
 
-Do not resume mass character production before this contract is stable.
+Do not resume mass character production before the 028B shared Studio/lineup contract is stable.
 
 Current split:
-- **028A Character Production Manifest & Validator Foundation — COMPLETE WHEN MERGED** — canonical `upds-character-production-v2`, production/planned status, 7-asset precomposed runtime set, adult guardrail, proportional-height/alpha-bounds gate, PNG dimension/runtime-catalog audit and stale ANM-021 manifest cleanup;
+- **028A Character Production Manifest & Validator Foundation — COMPLETE** — canonical `upds-character-production-v2`, production/planned status, 7-asset precomposed runtime set, adult guardrail, proportional-height/alpha-bounds gate, PNG dimension/runtime-catalog audit and stale ANM-021 manifest cleanup;
 - **028B Character/Scene Studio 2.0** — background/shot/actor-position/expression/Pose B/staging preview plus shared-baseline lineup/proportion ruler using the same runtime coordinates;
 - **028C Safe Character Motion** — lightweight breathing/blink/speaking only after a replacement/delta approach proves no double-face, halo or authored-expression loss;
 - **028D Remaining Character Production Integration** — Kentaro → Norihiro → Mayu through the 028A manifest gate and manual side-by-side visual QA.
@@ -216,7 +217,7 @@ Do not consume core production capacity before base release.
 2. ANM-026 Level Lab early;
 3. **ANM-025E–F balance + narrative reactions — COMPLETE**;
 4. **ANM-027A–D story architecture/import pipeline — COMPLETE for currently authored canon**; author/import the remaining canonical screenplay before production localization;
-5. ANM-028 character pipeline 2.0;
+5. **ANM-028A COMPLETE; next ANM-028B Character/Scene Studio 2.0**, then 028C safe motion proof and 028D remaining character integration;
 6. ANM-029 localization only after the full canonical screenplay exists;
 7. ANM-030 mass art/content;
 8. ANM-031 landscape;

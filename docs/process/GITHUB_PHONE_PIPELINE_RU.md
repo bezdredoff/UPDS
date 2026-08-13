@@ -1,84 +1,163 @@
-# ANM-010 — GitHub / iPhone pipeline
+# UPDS — GitHub / iPhone delivery pipeline
+
+Status: active ANM-010 + ANM-022H1 delivery contract.
 
 ## Цель
 
-После одноразовой настройки репозитория обычная кодовая итерация не требует компьютера:
+Обычная итерация не требует компьютера и никогда не пишет прямо в `main`:
 
-`ChatGPT ZIP → GitHub incoming → read-only validation → candidate branch + PR → GitHub Pages /preview/ → ручная проверка на iPhone → approve CI → merge → stable Pages`.
+`candidate source → validation → PR → GitHub Quality gate → relevant QA → manual merge → stable Pages`.
 
-StackBlitz не используется.
+GitHub CI — authoritative automated gate. Локальный npm или preflight полезен, но не является
+production acceptance.
 
-## Почему Pages устроен как stable + preview
+## Stable and preview Pages
 
-У одного репозитория GitHub Pages один активный Pages deployment. Поэтому ANM-010 использует два пути внутри одного сайта:
+- `/` — stable build текущего `main`;
+- `/preview/` — единственный mobile-import candidate preview slot.
 
-- `/` — production build текущего `main`;
-- `/preview/` — последний успешно провалидированный ZIP-кандидат.
+Stable service worker не перехватывает `/preview/*`; stable/preview используют разные build/cache
+identities. После merge `pages.yml` публикует новый чистый `main`.
 
-После merge workflow `pages.yml` снова публикует чистый `main`; старый `/preview/` исчезает как уже ненужный.
+## Supported delivery lanes
 
-## Одноразовая настройка GitHub
+| Lane | Use | Preview | Merge |
+|---|---|---|---|
+| `PATCH.zip` / `upds-delta-v1` | preferred code/docs/data delta from an exact `main` SHA | `/preview/` | manual |
+| `FULL_PROJECT.zip` | binary/art payloads, recovery or complete replacement | `/preview/` | manual |
+| direct connector branch/PR | narrow docs/tests/non-visual technical maintenance | no importer preview | manual |
+| `preflight/chatgpt` | optional technical CI before packaging | none | never merge as delivery |
 
-1. Создать репозиторий UPDS и положить ANM-010 в `main`.
-2. Settings → Pages → Build and deployment → Source: **GitHub Actions**.
-3. Settings → Actions → General → Workflow permissions:
-   - оставить минимальные default permissions;
-   - включить **Allow GitHub Actions to create and approve pull requests**. Workflow создаёт PR, но сам его не approve/merge.
-4. Создать ветку `incoming` как копию `main`. Ветка не должна быть protected: workflow после каждого успешного импорта и каждого deploy `main` force-sync'ит её обратно на `main`, удаляя ZIP из достижимой истории.
-5. Settings → Environments → `github-pages` → Deployment branches and tags → **Selected branches and tags**. Разрешить только:
-   - `main`;
-   - `incoming`.
-   Не добавлять `candidate/*`: candidate не должен самостоятельно деплоить Pages. Preview публикуется из `incoming` workflow как `/preview/`.
-6. Защитить `main` ruleset/branch protection:
-   - Require a pull request before merging;
-   - Require status checks to pass;
-   - required check: **Quality gate**;
-   - block force pushes;
-   - block deletions.
-7. После первого запуска `pages.yml` сохранить две ссылки в Safari:
-   - stable: `https://<owner>.github.io/<repo>/`;
-   - preview: `https://<owner>.github.io/<repo>/preview/`.
-8. По желанию сохранить прямую страницу GitHub Upload для `incoming/incoming/` как bookmark на Home Screen.
+Visual/runtime and art changes use a mobile ZIP lane so the iPhone preview remains part of
+acceptance. Direct connector PR is not a shortcut around visual QA.
 
-## Каждая следующая итерация с iPhone
+## Lane A — Delta PATCH.zip
 
-1. Получить от ChatGPT полный ZIP проекта без `node_modules` и `dist`.
-2. Открыть ветку `incoming`, каталог `incoming/` → Add file → Upload files.
-3. Выбрать **ровно один** ZIP и commit в `incoming`.
-4. `Import mobile ZIP candidate` автоматически:
-   - проверяет безопасную структуру ZIP;
-   - запрещает `.git`, `node_modules`, `dist`, symlinks и path traversal;
-   - запрещает ZIP-кандидату менять `.github/workflows` или сам ZIP-validator; такие инфраструктурные изменения делаются отдельным ручным PR;
-   - запускает `npm ci --ignore-scripts` и `npm run check` в read-only job;
-   - отдельно проверяет/собирает текущий `main`;
-   - создаёт `candidate/*` branch;
-   - создаёт PR в `main`;
-   - публикует `main` на `/` и candidate на `/preview/`;
-   - пишет preview link в PR;
-   - force-reset ветки `incoming` на текущий `main`, чтобы ZIP не накапливались в её достижимой истории и inbox всегда сохранял рабочие workflows.
-5. Открыть `/preview/` на iPhone и пройти критический путь задачи.
-6. Открыть PR. PR, созданный `GITHUB_TOKEN`, запускает независимый `pull_request` CI в approval-required состоянии; нажать **Approve workflows to run**.
-7. Дождаться зелёного **Quality gate**.
-8. Проверить Files changed и merge вручную.
-9. Push в `main` автоматически запускает `pages.yml`; `/` становится новой стабильной версией.
+Preferred for ordinary source, data, tests and documentation changes.
 
-## Rerun и ручной fallback
+Manifest format: `upds-delta-v1`.
 
-`Import mobile ZIP candidate` имеет `workflow_dispatch`. Его можно запустить из Actions для ZIP, который уже лежит в выбранной ветке/commit, передав `archive_path` и необязательный `candidate_label`.
+Required properties:
 
-ANM-010A делает повторный запуск одного и того же import-run идемпотентным:
+- exact `baseSha` of current `main`;
+- explicit changed/deleted paths;
+- no path traversal, symlinks, `.git`, `node_modules` or `dist`;
+- no protected pipeline files;
+- deterministic application over the exact baseline.
 
-- имя candidate-ветки остаётся детерминированным и содержит `GITHUB_RUN_ID`;
-- если ветка уже существует и её tree совпадает с повторно провалидированным candidate, workflow переиспользует её;
-- если ветка с тем же именем содержит другое дерево, workflow останавливается и не перезаписывает её;
-- если открытый PR для candidate уже существует, workflow переиспользует его;
-- closed/merged PR с тем же head не создаётся повторно автоматически.
+A stale `baseSha` must fail. The importer does not auto-rebase or guess how to merge an old patch.
+Regenerate the patch from the new `main` instead.
 
-`pages.yml` можно запускать вручную как recovery только на `main`. Если `workflow_dispatch` случайно запустить на `candidate/*` или другой ветке, все stable Pages jobs будут пропущены main-only guard'ом.
+## Lane B — FULL_PROJECT.zip
 
-## Ограничения ANM-010
+Use when delta is impractical:
 
-- Browser upload GitHub рассчитан на файлы до 25 MiB; validator использует тот же предел для ZIP.
-- Одновременно существует один публичный Pages preview slot `/preview/`; новая кандидатура заменяет предыдущую.
-- Этот pipeline не делает auto-merge и не должен делать его в следующих итерациях без отдельного решения владельца проекта.
-- Первый bootstrap репозитория — одноразовая операция; после него обычный цикл рассчитан на телефон.
+- production PNG/audio/binary payloads;
+- large art integration;
+- recovery from uncertain local state;
+- deliberate whole-project replacement.
+
+Archive rules:
+
+- `package.json` at archive root;
+- no `.git`, `node_modules`, `dist`, symlinks or traversal;
+- protected workflow/validator files byte-identical to current `main`;
+- use a new filename/revision after a failed or cached upload.
+
+## Mobile upload/import flow
+
+1. Resolve current `main` and build the appropriate ZIP.
+2. In branch `incoming`, upload exactly one ZIP under `incoming/`.
+3. `Import mobile ZIP candidate` performs a write-separated read-only validation:
+   - validates archive safety/mode;
+   - checks exact delta baseline when applicable;
+   - applies the candidate in a sandbox;
+   - runs `npm ci --ignore-scripts` and `npm run check`;
+   - validates current `main` independently;
+   - rejects protected pipeline modification.
+4. Only after validation, the write-capable job:
+   - creates/reuses a deterministic `candidate/*` branch;
+   - creates/reuses a PR into `main`;
+   - publishes stable `main` plus candidate `/preview/`;
+   - posts the preview link;
+   - resets `incoming` to a clean `[skip ci]` commit based on `main`.
+5. Approve the independent PR workflow when GitHub requests it.
+6. Wait for green **Quality gate**.
+7. Review Files changed and verify protected contracts.
+8. Run relevant iPhone QA on `/preview/`.
+9. Merge manually.
+10. Confirm the stable root after `pages.yml`.
+
+No workflow in this path may auto-approve or auto-merge the candidate.
+
+## Rejected and stale uploads
+
+On validation failure:
+
+- the import run remains failed/red;
+- the rejected ZIP is removed from reachable `incoming` history;
+- cleanup uses `[skip ci]` and must not trigger a noisy second zero-ZIP run;
+- no candidate branch/PR is created from an unvalidated tree.
+
+Use a new archive revision after fixing the source.
+
+## Lane C — Direct connector branch/PR
+
+Allowed only for a small, auditable docs/tests/non-visual technical change when connector routing is
+stable.
+
+Required flow:
+
+1. read exact current `main` and confirm no competing PR;
+2. create a new task-specific branch from that SHA;
+3. create an intentional commit containing only the agreed scope;
+4. open a draft PR into `main`;
+5. run/approve GitHub Quality gate;
+6. review changed files;
+7. merge manually.
+
+Current workflows do not publish `/preview/` for a plain direct PR. If the change needs visual,
+runtime, PWA, mobile-layout or asset QA, stop and use a ZIP lane.
+
+Direct connector work must not repurpose the reusable `preflight/chatgpt` branch and must not update
+`main` directly.
+
+## Optional ChatGPT preflight
+
+`preflight/chatgpt` may run the normal read-only Quality gate before packaging a mobile ZIP.
+
+Rules:
+
+- reset/sync it to exact current `main` before each task;
+- push only the intended feature diff;
+- package the same diff only after green preflight;
+- never treat the branch as a long-lived integration branch;
+- never merge it as the production delivery;
+- importer candidate PR, preview and independent PR CI remain the acceptance route.
+
+See `CHATGPT_PREFLIGHT_RU.md`.
+
+## One-time repository settings
+
+- Pages source: GitHub Actions.
+- `main` protected: PR required, **Quality gate** required, force-push/deletion blocked.
+- Actions may create PRs but not auto-approve/merge.
+- `incoming` remains resettable by the importer/pages workflows.
+- `github-pages` environment allows only the workflow’s intended `main`/`incoming` sources.
+
+## Rerun/recovery
+
+`Import mobile ZIP candidate` supports `workflow_dispatch` for a ZIP already present at a selected
+branch/commit. Candidate branch reuse is allowed only when its tree exactly matches the newly
+validated tree. A closed/merged PR with the same head is not silently recreated.
+
+`pages.yml` recovery dispatch remains `main`-only.
+
+## Limits
+
+- GitHub browser upload/validator ZIP limit: 25 MiB.
+- Only one public `/preview/` slot exists at a time.
+- Candidate preview is not permanent evidence; PR/commit/tests and explicit QA notes provide
+  traceability.
+- Art archives may require FULL_PROJECT even when code-only work normally uses delta.
+- Infrastructure changes remain separate maintenance PRs.

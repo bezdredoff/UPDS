@@ -1,60 +1,126 @@
-# UPDS — test strategy
+# UPDS — validation and test workflow
 
-## Gate
+Status: active at the ANM-028A R2 repository baseline.
 
-Authoritative CI command:
+## Authoritative gate
+
+GitHub CI runs:
 
 ```bash
 npm ci --ignore-scripts
 npm run check
 ```
 
-`npm run check` runs tests and production build.
+`npm run check` runs the full Vitest suite and the strict TypeScript production build. Local runs
+are useful feedback but do not replace the GitHub **Quality gate**.
+
+## Focused gates
+
+```bash
+npm run story:audit
+npm run character:audit
+npm run docs:audit
+```
+
+- `story:audit` — screenplay/manifest/graph completeness.
+- `character:audit` — character production manifest, PNG dimensions/alpha bounds and runtime paths.
+- `docs:audit` — active documentation/source-of-truth traceability and retired-contract guards.
+
+Focused gates accelerate iteration; `npm run check` remains required before merge.
 
 ## Test categories
 
-### Behavioral unit tests
+### Behavioral unit/contract tests
 
-Preferred. Test pure/data/engine functions directly:
+Preferred. Exercise public pure/data/engine/controller behavior:
 
-- narrative parsing/branching;
-- CampaignStore normalization/import/export;
-- Match3Game rules/hints/frames;
-- gesture decisions;
+- story parsing, branching, graph routing and canonical import;
+- Story/Match-3 campaign stores and compatibility;
+- Match3Game rules, deterministic boards, objectives, hints and specials;
+- Level Lab validation/export and mode side-effect isolation;
+- gesture, motion, tutorial and narrative-reaction decisions;
 - VN paging/staging/playback;
-- telemetry aggregation;
-- audio settings/cues;
-- platform safety.
+- localization, telemetry, audio and platform safety.
 
 ### Render smoke
 
-`UiSmoke.test.ts` verifies that major screens can render with a lightweight test root and missing browser capabilities without crashing.
+`UiSmoke.test.ts` verifies that major screens render with a lightweight test root and missing
+browser capabilities without crashing. Smoke does not replace detailed behavior tests or visual QA.
 
 ### Presentation contracts
 
-A small number of tests read CSS/UI source because no full browser layout runner is included. They protect only stable visual invariants such as:
+A small number of tests read CSS/UI source to protect invariants not available in the headless test
+environment:
 
-- VN stage/dialogue geometry;
-- two-line dialogue viewport;
-- compact header presence;
-- Match-3 feedback classes.
+- shared viewport/safe-area ownership;
+- VN stage/dialogue geometry and paging;
+- stable Match-3 board/bark slots;
+- reduced-motion paths.
 
-Do **not** add a new source-string test for every feature implementation detail. That caused brittle failures during ANM-016B refactors.
+Do not add a source-string test for every visual implementation detail.
 
-### Repository/pipeline contracts
+### Repository/pipeline/source-audit contracts
 
-- GitHub workflows remain read-only/write-separated as designed;
-- repository root stays clean;
-- version metadata stays consistent;
-- protected save key remains unchanged.
+Used only for structural safety:
+
+- GitHub workflows remain read/write-separated;
+- delta exact-base/protected-path rules remain intact;
+- repository root/archive hygiene;
+- feature ownership boundaries;
+- save keys and build identity shape;
+- retired face-overlay runtime does not return;
+- active documentation points to current machine-readable sources.
+
+## Current automated production contracts
+
+### Story
+
+- `StoryGraphContract.test.ts`;
+- `StoryContentAudit.test.ts`;
+- `StoryCanonicalRuntimeImport.test.ts`;
+- narrative/runtime transition regressions.
+
+They preserve the current nine-scene/four-level authored path, 262 parsed source lines, 261 playable
+lines and explicit deferred `VN0250`.
+
+### Character production
+
+- `CharacterProductionManifest.test.ts`;
+- `ExpressionFrameContract.test.ts`;
+- runtime asset and staging tests.
+
+They preserve the seven-asset precomposed contract, production/planned status, PNG dimensions,
+alpha-height proportions and absence of runtime face-overlay references. Visual style/anatomy still
+requires manual approval.
+
+### Match-3
+
+Contracts cover shared legality, narrative special taxonomy, production tile identities, tutorials,
+Level Lab drafts/board shapes, campaign progression, deterministic quantitative balance and
+narrative reaction resolver/presentation.
+
+### Documentation
+
+`DocumentationTraceability.test.ts` protects only high-risk authority relationships. It should not
+pin every sentence or historical feature note.
 
 ## TypeScript hygiene
 
-`strict`, `noUnusedLocals` and `noUnusedParameters` are enabled. Dead imports/parameters fail the build.
+`strict`, `noUnusedLocals` and `noUnusedParameters` are enabled. Dead code/imports/parameters fail
+the build.
 
-## Manual regression matrix
+## Manual QA by change type
 
-Minimum phone viewports:
+### Docs/tests-only
+
+- review rendered Markdown/links and changed-file list;
+- confirm no runtime/assets/workflows changed;
+- GitHub Quality gate;
+- no unrelated phone visual QA required.
+
+### Runtime visual/mobile
+
+Use the mobile candidate `/preview/` and check affected viewports/flows. Minimum portrait matrix:
 
 - 320×568
 - 375×667
@@ -62,17 +128,26 @@ Minimum phone viewports:
 - 393×852
 - 430×932
 
-Critical manual flows:
+Also check low-height landscape does not break the shared viewport shell when relevant.
 
-- new game / continue / save/load;
-- all VN scenes + A/B/C choice;
-- two-line paging / Large Text / AUTO / SKIP / LOG;
-- all 4 Match-3 levels, drag/swipe/tap, invalid swap, hint, win/loss;
-- Settings return-to-caller;
-- audio foreground/background;
-- telemetry export/clear;
-- PWA stable/preview isolation and offline startup.
+### Character assets
 
-## Historical reports
+- standalone transparency/canvas/pivot;
+- shared-baseline lineup and authored proportions;
+- all five expression frames side by side and during switching;
+- Pose B/medallion;
+- multi-character staging in the actual runtime camera;
+- no overlap baked into source assets, halo, double face, crop or scale jump.
 
-Past validation and manual QA files are under `docs/archive/reports/`. They show what was tested at the time, not what the current implementation is required to look like.
+### Match-3/content
+
+- relevant Story → Match-3 → Story transition;
+- Story, Match-3 Campaign and Level Lab mode isolation;
+- direct/tap/drag/swipe input as affected;
+- objective/tutorial/reaction presentation;
+- deterministic seed reproduction for balance defects.
+
+## Historical evidence
+
+Past validation/manual QA snapshots live under `docs/archive/reports/`. They document what was
+checked at that commit; they do not define the current implementation.
