@@ -42,7 +42,7 @@ describe('ANM-026B1 editable Level Lab config', () => {
     const base = levels[1];
     const draft = { ...createLevelLabDraft(base), moves: 29 };
     const exported = JSON.parse(exportLevelLabDraft(base, draft)) as Record<string, unknown>;
-    expect(exported.format).toBe('upds-level-lab-v1');
+    expect(exported.format).toBe('upds-level-lab-v2');
     expect(exported.levelId).toBe(base.id);
     expect(exported.moves).toBe(29);
     expect(exported).not.toHaveProperty('clueId');

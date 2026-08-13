@@ -25,6 +25,7 @@ export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004';
 
 export type BoardPlacement = Readonly<{ index: number; layers: 1 | 2 }>;
 export type IngredientPlacement = Readonly<{ index: number; kind: IngredientKey }>;
+export type InitialTilePlacement = Readonly<{ index: number; tile: Match3TileId }>;
 
 export type LevelObjective =
   | Readonly<{ kind: 'collect'; tile: Match3TileId; target: number; label: string }>
@@ -43,6 +44,10 @@ export type LevelDefinition = Readonly<{
   activeTiles: readonly Match3TileId[];
   /** Optional relative spawn weights for active identities. Missing weights default to 1. */
   spawnWeights?: Readonly<Partial<Record<Match3TileId, number>>>;
+  /** Optional inactive board indices. Omitted means the legacy full 8×8 board. */
+  boardHoles?: readonly number[];
+  /** Optional deterministic tile placements applied before seeded fill. */
+  initialTiles?: readonly InitialTilePlacement[];
   moves: number;
   objectives: readonly LevelObjective[];
   blocker: BlockerKey;
@@ -56,6 +61,11 @@ export type LevelDefinition = Readonly<{
   winBark: Readonly<{ speaker: string; text: string }>;
   loseBark: Readonly<{ speaker: string; text: string }>;
 }>;
+
+
+export function isLevelBoardCellActive(level: Pick<LevelDefinition, 'boardHoles'>, index: number): boolean {
+  return Number.isInteger(index) && index >= 0 && index < BOARD_SIZE * BOARD_SIZE && !(level.boardHoles?.includes(index) ?? false);
+}
 
 export const tileKeys: readonly Match3TileId[] = [
   'camisole',
@@ -289,12 +299,25 @@ export function validateLevelDefinitions(definitions: readonly LevelDefinition[]
         if (typeof rawWeight !== 'number' || !Number.isFinite(rawWeight) || rawWeight <= 0) errors.push(`${level.id}: spawn weight for ${tile} must be a finite positive number`);
       }
     }
+    const boardHoles = level.boardHoles ?? [];
+    if (boardHoles.some((index) => !Number.isInteger(index) || index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: board hole outside board`);
+    if (new Set(boardHoles).size !== boardHoles.length) errors.push(`${level.id}: duplicate board hole`);
+    if (boardHoles.length >= BOARD_SIZE * BOARD_SIZE - 2) errors.push(`${level.id}: board shape needs at least three active cells`);
+    const inactive = new Set(boardHoles);
+    const initialTiles = level.initialTiles ?? [];
+    if (initialTiles.some(({ index }) => !Number.isInteger(index) || index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: initial tile outside board`);
+    if (new Set(initialTiles.map(({ index }) => index)).size !== initialTiles.length) errors.push(`${level.id}: duplicate initial tile cell`);
+    if (initialTiles.some(({ index }) => inactive.has(index))) errors.push(`${level.id}: initial tile placed in board hole`);
+    if (initialTiles.some(({ tile }) => !level.activeTiles.includes(tile))) errors.push(`${level.id}: initial tile uses inactive match type`);
     for (const objective of level.objectives) {
       if (objective.kind === 'collect' && !level.activeTiles.includes(objective.tile)) errors.push(`${level.id}: collect objective tile ${objective.tile} is not active`);
     }
     if (level.blockers.some(({ index }) => index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: blocker outside board`);
+    if (level.blockers.some(({ index }) => inactive.has(index))) errors.push(`${level.id}: blocker placed in board hole`);
     if (new Set(level.blockers.map(({ index }) => index)).size !== level.blockers.length) errors.push(`${level.id}: duplicate blocker cell`);
     if (level.ingredients.some(({ index }) => index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: ingredient outside board`);
+    if (level.ingredients.some(({ index }) => inactive.has(index))) errors.push(`${level.id}: ingredient placed in board hole`);
+    if (initialTiles.some(({ index }) => level.ingredients.some((ingredient) => ingredient.index === index))) errors.push(`${level.id}: initial tile overlaps ingredient`);
     if (level.ingredients.some(({ index }) => level.blockers.some((blocker) => blocker.index === index))) errors.push(`${level.id}: ingredient overlaps blocker`);
     const blockerGoal = level.objectives.find((objective) => objective.kind === 'clearBlockers');
     if (blockerGoal?.target !== level.blockers.length) errors.push(`${level.id}: blocker objective does not match placement count`);

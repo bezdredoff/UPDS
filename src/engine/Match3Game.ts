@@ -135,6 +135,7 @@ export class Match3Game {
   movesLeft: number;
   private readonly cells: MutableCell[];
   private readonly random: () => number;
+  private readonly boardHoles: ReadonlySet<number>;
   private readonly collected: Partial<Record<Match3TileId, number>> = {};
   private readonly ingredientsDropped: Partial<Record<IngredientKey, number>> = {};
   private blockersCleared = 0;
@@ -143,6 +144,7 @@ export class Match3Game {
     this.level = level;
     this.movesLeft = level.moves;
     this.random = makeRng(seed);
+    this.boardHoles = new Set(level.boardHoles ?? []);
     this.cells = Array.from({ length: BOARD_SIZE * BOARD_SIZE }, () => ({
       tile: null,
       ingredient: null,
@@ -151,14 +153,18 @@ export class Match3Game {
     }));
 
     for (const blocker of level.blockers) this.cells[blocker.index].blockerLayers = blocker.layers;
-    this.fillInitialTiles();
-    for (const ingredient of level.ingredients) {
-      const cell = this.cells[ingredient.index];
-      cell.tile = null;
-      cell.special = null;
-      cell.ingredient = ingredient.kind;
+    if (this.hasConfiguredInitialBoard()) {
+      this.initializeConfiguredBoard();
+    } else {
+      this.fillInitialTiles();
+      for (const ingredient of level.ingredients) {
+        const cell = this.cells[ingredient.index];
+        cell.tile = null;
+        cell.special = null;
+        cell.ingredient = ingredient.kind;
+      }
+      this.ensurePlayable();
     }
-    this.ensurePlayable();
   }
 
   get board(): readonly BoardCell[] {
@@ -367,6 +373,50 @@ export class Match3Game {
 
     if (groups.length === 0 && activatedSpecials.length === 0 && creations.length === 0 && directCombo === null) return empty('no-match');
     return { valid: true, groups, activatedSpecials, creations, directCombo };
+  }
+
+  private hasConfiguredInitialBoard(): boolean {
+    return this.boardHoles.size > 0 || (this.level.initialTiles?.length ?? 0) > 0;
+  }
+
+  private isActiveCell(index: number): boolean {
+    return index >= 0 && index < this.cells.length && !this.boardHoles.has(index);
+  }
+
+  private initializeConfiguredBoard(): void {
+    for (let attempt = 0; attempt < 100; attempt += 1) {
+      for (let index = 0; index < this.cells.length; index += 1) {
+        const cell = this.cells[index];
+        cell.tile = null;
+        cell.ingredient = null;
+        cell.special = null;
+      }
+      for (const placement of this.level.initialTiles ?? []) this.cells[placement.index].tile = placement.tile;
+      for (const ingredient of this.level.ingredients) this.cells[ingredient.index].ingredient = ingredient.kind;
+      this.fillConfiguredTiles();
+      if (!this.hasImmediateMatches() && this.hasAvailableMove()) return;
+    }
+    throw new Error(`${this.level.id}: unable to generate playable board from boardHoles/initialTiles`);
+  }
+
+  private fillConfiguredTiles(): void {
+    for (let index = 0; index < this.cells.length; index += 1) {
+      if (!this.isActiveCell(index)) continue;
+      const cell = this.cells[index];
+      if (cell.tile || cell.ingredient) continue;
+      const candidates = this.shuffledTileKeys().filter((tile) => {
+        const row = rowOf(index);
+        const column = colOf(index);
+        const horizontalMatch = column >= 2
+          && this.cells[index - 1].tile === tile
+          && this.cells[index - 2].tile === tile;
+        const verticalMatch = row >= 2
+          && this.cells[index - BOARD_SIZE].tile === tile
+          && this.cells[index - BOARD_SIZE * 2].tile === tile;
+        return !horizontalMatch && !verticalMatch;
+      });
+      cell.tile = candidates[0] ?? this.randomTile();
+    }
   }
 
   private fillInitialTiles(): void {
@@ -803,7 +853,7 @@ export class Match3Game {
 
     for (let index = 0; index < this.cells.length; index += 1) {
       const cell = this.cells[index];
-      if (!cell.tile && !cell.ingredient) {
+      if (this.isActiveCell(index) && !cell.tile && !cell.ingredient) {
         cell.tile = this.randomTile();
         origins[index] = null;
       }
@@ -827,14 +877,53 @@ export class Match3Game {
   }
 
   private compactColumns(origins: Array<number | null>): void {
-    for (let column = 0; column < BOARD_SIZE; column += 1) {
-      let segmentBottom = BOARD_SIZE - 1;
-      for (let row = BOARD_SIZE - 1; row >= -1; row -= 1) {
-        const barrier = row >= 0 && this.isLockedCell(indexOf(row, column));
-        if (row >= 0 && !barrier) continue;
-        this.compactSegment(column, row + 1, segmentBottom, origins);
-        segmentBottom = row - 1;
+    if (this.boardHoles.size === 0) {
+      for (let column = 0; column < BOARD_SIZE; column += 1) {
+        let segmentBottom = BOARD_SIZE - 1;
+        for (let row = BOARD_SIZE - 1; row >= -1; row -= 1) {
+          const barrier = row >= 0 && this.isLockedCell(indexOf(row, column));
+          if (row >= 0 && !barrier) continue;
+          this.compactSegment(column, row + 1, segmentBottom, origins);
+          segmentBottom = row - 1;
+        }
       }
+      return;
+    }
+
+    for (let column = 0; column < BOARD_SIZE; column += 1) {
+      let segment: number[] = [];
+      const flush = (): void => {
+        if (segment.length > 0) this.compactActiveSegment(segment, origins);
+        segment = [];
+      };
+      for (let row = 0; row < BOARD_SIZE; row += 1) {
+        const index = indexOf(row, column);
+        if (!this.isActiveCell(index)) continue;
+        if (this.isLockedCell(index)) {
+          flush();
+          continue;
+        }
+        segment.push(index);
+      }
+      flush();
+    }
+  }
+
+  private compactActiveSegment(indices: readonly number[], origins: Array<number | null>): void {
+    const contents: Array<Pick<MutableCell, 'tile' | 'ingredient' | 'special'> & { origin: number | null }> = [];
+    for (let offset = indices.length - 1; offset >= 0; offset -= 1) {
+      const index = indices[offset];
+      const cell = this.cells[index];
+      if (cell.tile || cell.ingredient) contents.push({ tile: cell.tile, ingredient: cell.ingredient, special: cell.special, origin: origins[index] });
+    }
+    for (let offset = indices.length - 1, contentIndex = 0; offset >= 0; offset -= 1, contentIndex += 1) {
+      const index = indices[offset];
+      const cell = this.cells[index];
+      const content = contents[contentIndex];
+      cell.tile = content?.tile ?? null;
+      cell.ingredient = content?.ingredient ?? null;
+      cell.special = content?.special ?? null;
+      origins[index] = content?.origin ?? null;
     }
   }
 
@@ -860,7 +949,13 @@ export class Match3Game {
   private collectBottomIngredients(origins?: Array<number | null>): number {
     let dropped = 0;
     for (let column = 0; column < BOARD_SIZE; column += 1) {
-      const index = indexOf(BOARD_SIZE - 1, column);
+      let index = indexOf(BOARD_SIZE - 1, column);
+      if (this.boardHoles.size > 0) {
+        let row = BOARD_SIZE - 1;
+        while (row >= 0 && !this.isActiveCell(indexOf(row, column))) row -= 1;
+        if (row < 0) continue;
+        index = indexOf(row, column);
+      }
       const cell = this.cells[index];
       if (!cell.ingredient) continue;
       const ingredient = cell.ingredient;
@@ -876,10 +971,20 @@ export class Match3Game {
 
   private segmentTopFor(index: number): number {
     const column = colOf(index);
-    for (let row = rowOf(index) - 1; row >= 0; row -= 1) {
-      if (this.isLockedCell(indexOf(row, column))) return row + 1;
+    if (this.boardHoles.size === 0) {
+      for (let row = rowOf(index) - 1; row >= 0; row -= 1) {
+        if (this.isLockedCell(indexOf(row, column))) return row + 1;
+      }
+      return 0;
     }
-    return 0;
+    let top = rowOf(index);
+    for (let row = rowOf(index) - 1; row >= 0; row -= 1) {
+      const candidate = indexOf(row, column);
+      if (!this.isActiveCell(candidate)) continue;
+      if (this.isLockedCell(candidate)) return top;
+      top = row;
+    }
+    return top;
   }
 
   private ensurePlayable(): void {
@@ -913,7 +1018,7 @@ export class Match3Game {
   }
 
   private areAdjacent(first: number, second: number): boolean {
-    if (first < 0 || second < 0 || first >= this.cells.length || second >= this.cells.length) return false;
+    if (!this.isActiveCell(first) || !this.isActiveCell(second)) return false;
     const rowDistance = Math.abs(rowOf(first) - rowOf(second));
     const columnDistance = Math.abs(colOf(first) - colOf(second));
     return rowDistance + columnDistance === 1;
