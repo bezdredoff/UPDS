@@ -88,8 +88,8 @@ Build tooling before mass level production.
 Current split:
 - **026A Level Lab Foundation — COMPLETE** — main-menu QA entry, level selector, exact uint32 seed, deterministic initial-board preview, production config summary/validation, play/retry same seed, Lab run-mode with zero Story save/tutorial/clue side effects;
 - **026B1 Editable Balance Config — COMPLETE** — moves, blocker type/placements, ingredients, objectives, active tiles/spawn weights, production validation, deterministic draft preview/play and JSON export;
-- **026B2 Board Shape & Start Layout — IN PROGRESS** — explicit board holes, deterministic prefilled start tiles, shaped-board gravity/input rules, Level Lab validation/preview/play and v2 export;
-- 026C Match-3 Campaign Mode — direct player-facing Match-3 mode, sequential progression/save separate from Story campaign, level selector/unlocks;
+- **026B2 Board Shape & Start Layout — COMPLETE** — explicit board holes, deterministic prefilled start tiles, shaped-board gravity/input rules, Level Lab validation/preview/play and v2 export;
+- **026C Match-3 Campaign Mode — IN PROGRESS** — direct player-facing Match-3 hub, sequential unlocks, replay/best result, dedicated attempts/tutorial progress and save key separate from Story campaign;
 - 026D Lab/Playtest integration — rapid rerun matrix and balance-oriented export/reporting if still needed after 026B/C.
 
 Includes:
