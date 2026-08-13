@@ -213,6 +213,10 @@ function parseObjectives(raw: string): { value: LevelObjective[]; errors: string
       value.push({ kind: 'drop', ingredient: item.ingredient as IngredientKey, target: Number(item.target), label: item.label });
       return;
     }
+    if (item.kind === 'dropGroup' && Array.isArray(item.ingredients) && item.ingredients.length >= 2 && item.ingredients.every((ingredient) => typeof ingredient === 'string' && ingredientKinds.has(ingredient))) {
+      value.push({ kind: 'dropGroup', ingredients: item.ingredients as IngredientKey[], target: Number(item.target), label: item.label });
+      return;
+    }
     errors.push(`objectives[${index}]: unsupported objective shape`);
   });
   return { value, errors };

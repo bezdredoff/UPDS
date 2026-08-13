@@ -38,10 +38,9 @@ describe('ANM-025C2B locker panties production pack', () => {
     }
   });
 
-  it('targets exact panties identities rather than the broad category in collection goals', () => {
+  it('keeps all four panties identities in the board composition without forcing them into tutorial win conditions', () => {
     const collectTiles = locker.objectives.filter((objective) => objective.kind === 'collect').map((objective) => objective.tile);
-    expect(collectTiles).toContain('pantiesSportWhite');
-    expect(collectTiles).toContain('pantiesLacePink');
-    expect(collectTiles).not.toContain('panties');
+    expect(collectTiles).toEqual([]);
+    expect(locker.activeTiles).toEqual([...pantiesIds, 'sportsBra', 'laundryTag']);
   });
 });
