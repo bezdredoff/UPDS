@@ -70,7 +70,7 @@ describe('ANM-026B2 board shape and deterministic start layout', () => {
   it('rejects placements in holes and exports shape/start-layout through Level Lab v2', () => {
     const base = levels[0];
     expect(validateLevelDefinitions([{ ...base, boardHoles: [18] }])).toContain(`${base.id}: blocker placed in board hole`);
-    expect(validateLevelDefinitions([{ ...base, initialTiles: [{ index: 3, tile: 'pantiesSportWhite' }] }])).toContain(`${base.id}: initial tile overlaps ingredient`);
+    expect(validateLevelDefinitions([{ ...base, initialTiles: [{ index: base.ingredients[0].index, tile: 'pantiesSportWhite' }] }])).toContain(`${base.id}: initial tile overlaps ingredient`);
 
     const draft = {
       ...createLevelLabDraft(base),
