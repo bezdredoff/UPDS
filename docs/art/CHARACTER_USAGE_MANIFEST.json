@@ -1,79 +1,66 @@
 {
-  "feature": "ANM-021A",
-  "baseline": {
-    "productionCharacters": [
-      "miku",
-      "onoe",
-      "ayuki"
+  "format": "upds-character-production-v2-doc-mirror",
+  "sourceOfTruth": "src/data/characterProduction.ts",
+  "productionCharacters": [
+    "miku",
+    "onoe",
+    "ayuki",
+    "emi"
+  ],
+  "plannedCharacters": [
+    "kentaro",
+    "norihiro",
+    "mayu"
+  ],
+  "runtimeContract": {
+    "poseCanvas": [
+      1024,
+      1536
     ],
-    "placeholderCharacters": [
-      "emi",
-      "kentaro",
-      "norihiro",
-      "mayu"
+    "pivot": [
+      0.5,
+      1.0
     ],
-    "canvas": {
-      "poseA": [
-        1024,
-        1536
-      ],
-      "face": [
-        512,
-        512
-      ],
-      "medallion": [
-        256,
-        256
-      ]
-    },
     "runtimeExpressions": [
       "neutral",
       "smile",
       "serious",
       "surprised",
-      "embarrassed",
-      "speaking",
-      "blink"
-    ]
+      "embarrassed"
+    ],
+    "requiredRuntimeAssetsPerProductionCharacter": 7,
+    "medallionAcceptedSourceSizes": [
+      256,
+      512
+    ],
+    "animationMode": "precomposed-static",
+    "blink": "deferred",
+    "speaking": "deferred"
   },
   "characters": {
+    "miku": {
+      "status": "production",
+      "adultCharacter": true
+    },
+    "onoe": {
+      "status": "production",
+      "adultCharacter": true
+    },
+    "ayuki": {
+      "status": "production",
+      "adultCharacter": true
+    },
     "emi": {
-      "displayName": "Эми Такахаси",
+      "status": "production",
+      "adultCharacter": true,
       "age": 19,
-      "role": "участница легкоатлетического клуба; первая пострадавшая",
-      "storyScenes": [
-        "VN_SCENE_00_PROLOGUE",
-        "VN_SCENE_01_E0_PRE",
-        "VN_SCENE_02_E0_POST"
-      ],
-      "authoredEmotionCoverage": [
-        "surprised",
-        "embarrassed",
-        "serious",
-        "neutral",
-        "smile"
-      ],
-      "highValueMoments": [
-        "VN0022",
-        "VN0024",
-        "VN0026",
-        "VN0032",
-        "VN0042A",
-        "VN0045C",
-        "VN0050",
-        "VN0064",
-        "VN0066",
-        "VN0072",
-        "VN0077"
-      ],
-      "poseBFile": "pose_b_guarded_athlete.png",
-      "poseBIntent": "защитная, но не беспомощная стойка; подчёркивает границы и агентность Эми",
-      "priority": "highest"
+      "poseBFile": "pose_b_arms_crossed.png",
+      "medallionFile": "portrait_neutral_512.png"
     },
     "kentaro": {
-      "displayName": "Кэнтаро Фудзита",
+      "status": "planned",
+      "adultCharacter": true,
       "age": 20,
-      "role": "фотограф студенческого новостного канала; первый ложный подозреваемый",
       "storyScenes": [
         "VN_SCENE_03_E1_PRE",
         "VN_SCENE_04_E1_POST"
@@ -85,30 +72,14 @@
         "smile",
         "surprised"
       ],
-      "highValueMoments": [
-        "VN0086",
-        "VN0088",
-        "VN0090",
-        "VN0092",
-        "VN0098",
-        "VN0100",
-        "VN0101",
-        "VN0105",
-        "VN0115",
-        "VN0122",
-        "VN0124",
-        "VN0129",
-        "VN0133",
-        "VN0140"
-      ],
-      "poseBFile": "pose_b_camera_explaining.png",
-      "poseBIntent": "камера/карта памяти в руке; неловко пытается объяснить очевидно подозрительную ситуацию",
-      "priority": "high"
+      "plannedPoseBFile": "pose_b_camera_explaining.png",
+      "priority": "high",
+      "proportionApproval": "required-before-production"
     },
     "norihiro": {
-      "displayName": "Норихиро Сэнда",
+      "status": "planned",
+      "adultCharacter": true,
       "age": 21,
-      "role": "менеджер клуба плавания; второй ложный подозреваемый",
       "storyScenes": [
         "VN_SCENE_05_E2_PRE",
         "VN_SCENE_06_E2_POST",
@@ -121,52 +92,45 @@
         "smile",
         "surprised"
       ],
-      "highValueMoments": [
-        "VN0150",
-        "VN0154",
-        "VN0156",
-        "VN0160",
-        "VN0165",
-        "VN0172",
-        "VN0177",
-        "VN0183",
-        "VN0185",
-        "VN0194",
-        "VN0196",
-        "VN0200",
-        "VN0204",
-        "VN0206",
-        "VN0208",
-        "VN0213",
-        "VN0220",
-        "VN0222",
-        "VN0232",
-        "VN0235"
-      ],
-      "poseBFile": "pose_b_tablet_keys.png",
-      "poseBIntent": "планшет/ключи менеджера; спокойная компетентность без злодейского кодирования",
-      "priority": "high"
+      "plannedPoseBFile": "pose_b_tablet_keys.png",
+      "priority": "high",
+      "proportionApproval": "required-before-production"
     },
     "mayu": {
-      "displayName": "Маю Хаясака",
+      "status": "planned",
+      "adultCharacter": true,
       "age": 22,
-      "role": "казначей студсовета; посредник администрации",
       "storyScenes": [
         "VN_SCENE_01_E0_PRE"
       ],
-      "branchConstraint": "только CHOICE_00 вариант C в текущем vertical slice",
+      "branchConstraint": "CHOICE_00 variant C in the current vertical slice",
       "authoredEmotionCoverage": [
         "neutral",
         "serious"
       ],
-      "highValueMoments": [
-        "VN0044C",
-        "VN0046C"
-      ],
-      "poseBFile": "pose_b_phone_documents.png",
-      "poseBIntent": "телефон/папка с документами; вежливая институциональная напряжённость",
-      "priority": "medium-now/high-future"
+      "plannedPoseBFile": "pose_b_phone_documents.png",
+      "priority": "medium",
+      "proportionApproval": "required-before-production"
     }
   },
-  "productionRule": "Несмотря на разный authored emotion coverage, каждый герой получает полный 9-file runtime set для совместимости с текущим CharacterRig; usage coverage определяет QA-приоритет и характер выражений, а не удаление обязательных файлов."
+  "proportionContract": {
+    "measurement": "neutral-alpha-bounds",
+    "referenceCharacter": "onoe",
+    "encodeHeightInMasterCanvas": true,
+    "productionScaleDefault": 1,
+    "expressionHeightTolerancePx": 1,
+    "approvedVisualHeightPx": {
+      "miku": 1375,
+      "onoe": 1484,
+      "ayuki": 1462,
+      "emi": 1444
+    },
+    "relativeToOnoe": {
+      "miku": 0.9265,
+      "onoe": 1.0,
+      "ayuki": 0.9852,
+      "emi": 0.973
+    },
+    "newCharacterApproval": "lineup-required-before-production"
+  }
 }

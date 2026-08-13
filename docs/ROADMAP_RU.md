@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.0-dev`.
-Active production foundation: **ANM-025 Match-3 production framework + ANM-026 tooling + ANM-027 story architecture/import pipeline complete for currently authored canon**. Full screenplay production beyond the ANM-003 vertical slice remains pending before ANM-029/release.
+Active production foundation: **ANM-025 Match-3 production framework + ANM-026 tooling + ANM-027 story architecture/import pipeline complete for currently authored canon**. Current production focus: **ANM-028 Character Production Pipeline 2.0**. Full screenplay production beyond the ANM-003 vertical slice remains pending before ANM-029/release.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -33,7 +33,7 @@ Active production foundation: **ANM-025 Match-3 production framework + ANM-026 t
 - полный ручной QA всех direct special combinations на телефоне;
 - при следующем намеренно rejected/stale ZIP полезно подтвердить live failure-cleanup path: run остаётся красным, а `incoming` очищается без второго zero-ZIP run.
 
-Эти проверки не блокируют ANM-026: gameplay mechanics, tutorial framework и tile-set contracts уже имеют automated coverage, а следующий slice строит production tooling поверх стабильной механики.
+Эти проверки не блокируют ANM-028: Match-3 и story foundations уже имеют automated coverage, а character pipeline строится поверх стабильного VN runtime.
 
 ### Deferred, not cancelled
 
@@ -118,16 +118,21 @@ Current authored canon in the repository is `ANM-003_Vertical_Slice_Screenplay.m
 
 The missing full screenplay does not block ANM-028 Character Production Pipeline 2.0 tooling, but mass localization/art production must not pretend the story is complete.
 
-### ANM-028 — Character Production Pipeline 2.0 [P0/P1]
+### ANM-028 — Character Production Pipeline 2.0 [P0/P1] — IN PROGRESS
 
 Do not resume mass character production before this contract is stable.
 
-Needs:
+Current split:
+- **028A Character Production Manifest & Validator Foundation — COMPLETE WHEN MERGED** — canonical `upds-character-production-v2`, production/planned status, 7-asset precomposed runtime set, adult guardrail, proportional-height/alpha-bounds gate, PNG dimension/runtime-catalog audit and stale ANM-021 manifest cleanup;
+- **028B Character/Scene Studio 2.0** — background/shot/actor-position/expression/Pose B/staging preview plus shared-baseline lineup/proportion ruler using the same runtime coordinates;
+- **028C Safe Character Motion** — lightweight breathing/blink/speaking only after a replacement/delta approach proves no double-face, halo or authored-expression loss;
+- **028D Remaining Character Production Integration** — Kentaro → Norihiro → Mayu through the 028A manifest gate and manual side-by-side visual QA.
+
+Needs across the full feature:
 - unified adult young-adult visual age and proportions;
 - multi-character staging;
 - character/background scale calibration;
 - pose/expression/body contract;
-- lightweight breathing/blink/speaking animation without flicker/halo;
 - runtime asset-size/load budget;
 - support for several characters in one frame;
 - more varied poses, comedy/falls and tasteful ecchi framing;

@@ -1,20 +1,16 @@
-export type CharacterKey = 'miku' | 'onoe' | 'ayuki' | 'emi';
-export type RuntimeExpression = 'neutral' | 'smile' | 'serious' | 'surprised' | 'embarrassed';
-export type PlaceholderKey = 'kentaro' | 'norihiro' | 'mayu';
+import {
+  characterProductionManifest,
+  plannedCharacterKeys,
+  productionCharacterKeys,
+  type CharacterStaging,
+  type PlannedCharacterKey,
+  type ProductionCharacterKey,
+  type RuntimeExpression,
+} from './characterProduction';
 
-export type CharacterStaging = Readonly<{
-  scale: number;
-  yPercent: number;
-}>;
-
-export const characterStaging: Record<CharacterKey, CharacterStaging> = {
-  // R5 baseline: existing Golden Sample characters share one camera distance.
-  // Their authored relative body proportions remain encoded inside the common 1024×1536 canvas.
-  miku: { scale: 1, yPercent: 0 },
-  onoe: { scale: 1, yPercent: 0 },
-  ayuki: { scale: 1, yPercent: 0 },
-  emi: { scale: 1, yPercent: 0 },
-};
+export type CharacterKey = ProductionCharacterKey;
+export type PlaceholderKey = PlannedCharacterKey;
+export type { CharacterStaging, RuntimeExpression } from './characterProduction';
 
 export type CharacterRig = Readonly<{
   displayName: string;
@@ -24,55 +20,59 @@ export type CharacterRig = Readonly<{
   medallion: string;
 }>;
 
-const rig = (key: CharacterKey, displayName: string, shortName: string, poseBFile: string): CharacterRig => {
-  const root = `./assets/characters/${key}`;
-  return {
-    displayName,
-    shortName,
-    frames: {
-      neutral: `${root}/rig/pose_a/frames/frame-neutral.png`,
-      smile: `${root}/rig/pose_a/frames/frame-smile.png`,
-      serious: `${root}/rig/pose_a/frames/frame-serious.png`,
-      surprised: `${root}/rig/pose_a/frames/frame-surprised.png`,
-      embarrassed: `${root}/rig/pose_a/frames/frame-embarrassed.png`,
-    },
-    poseB: `${root}/poses/${poseBFile}`,
-    medallion: `${root}/medallions/portrait_neutral_256.png`,
-  };
-};
+export const characterStaging = Object.fromEntries(
+  productionCharacterKeys.map((key) => {
+    const definition = characterProductionManifest.characters[key];
+    return [key, definition.staging];
+  }),
+) as Record<CharacterKey, CharacterStaging>;
 
-export const characterRigs: Record<CharacterKey, CharacterRig> = {
-  miku: rig('miku', 'Мику Араи', 'Мику', 'pose_b_pointing_sketchbook.png'),
-  onoe: rig('onoe', 'Сацуки Оноэ', 'Оноэ', 'pose_b_evidence_bag.png'),
-  ayuki: rig('ayuki', 'Аюки Момосэ', 'Аюки', 'pose_b_phone_theory.png'),
-  emi: {
-    ...rig('emi', 'Эми Такахаси', 'Эми', 'pose_b_arms_crossed.png'),
-    medallion: './assets/characters/emi/medallions/portrait_neutral_512.png',
-  },
-};
+export const characterRigs = Object.fromEntries(
+  productionCharacterKeys.map((key) => {
+    const definition = characterProductionManifest.characters[key];
+    const rig: CharacterRig = {
+      displayName: definition.displayName,
+      shortName: definition.shortName,
+      frames: definition.assets.frames,
+      poseB: definition.assets.poseB,
+      medallion: definition.assets.medallion,
+    };
+    return [key, rig];
+  }),
+) as Record<CharacterKey, CharacterRig>;
 
-export const placeholderCharacters: Record<PlaceholderKey, Readonly<{
+export const placeholderCharacters = Object.fromEntries(
+  plannedCharacterKeys.map((key) => {
+    const definition = characterProductionManifest.characters[key];
+    return [key, {
+      displayName: definition.shortName,
+      initials: definition.placeholder.initials,
+      accent: definition.placeholder.accent,
+    }];
+  }),
+) as Record<PlaceholderKey, Readonly<{
   displayName: string;
   initials: string;
   accent: string;
-}>> = {
-  kentaro: { displayName: 'Кэнтаро', initials: 'К', accent: '#6588b0' },
-  norihiro: { displayName: 'Норихиро', initials: 'Н', accent: '#4a9a8b' },
-  mayu: { displayName: 'Маю', initials: 'М', accent: '#a970a5' },
-};
+}>>;
+
+function speakerMatches(speaker: string, token: string, match: 'exact' | 'prefix'): boolean {
+  return match === 'prefix' ? speaker.startsWith(token) : speaker === token;
+}
 
 export function characterForSpeaker(speaker: string): CharacterKey | null {
-  if (speaker.startsWith('МИКУ')) return 'miku';
-  if (speaker === 'ОНОЭ') return 'onoe';
-  if (speaker === 'АЮКИ') return 'ayuki';
-  if (speaker === 'ЭМИ') return 'emi';
+  for (const key of productionCharacterKeys) {
+    const definition = characterProductionManifest.characters[key];
+    if (speakerMatches(speaker, definition.speakerToken, definition.speakerMatch)) return key;
+  }
   return null;
 }
 
 export function placeholderForSpeaker(speaker: string): PlaceholderKey | null {
-  if (speaker === 'КЭНТАРО') return 'kentaro';
-  if (speaker === 'НОРИХИРО') return 'norihiro';
-  if (speaker === 'МАЮ') return 'mayu';
+  for (const key of plannedCharacterKeys) {
+    const definition = characterProductionManifest.characters[key];
+    if (speakerMatches(speaker, definition.speakerToken, definition.speakerMatch)) return key;
+  }
   return null;
 }
 
