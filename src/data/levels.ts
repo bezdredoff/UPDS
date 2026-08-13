@@ -2,7 +2,17 @@ import type { Match3LevelContext } from './match3Context';
 
 export const BOARD_SIZE = 8;
 
-export type Match3TileId = 'camisole' | 'laundryTag' | 'panties' | 'towel' | 'socks' | 'sportsBra';
+export type Match3TileId =
+  | 'camisole'
+  | 'laundryTag'
+  | 'panties'
+  | 'pantiesSportWhite'
+  | 'pantiesLacePink'
+  | 'pantiesHighWaistBlack'
+  | 'pantiesBoyshortBlue'
+  | 'towel'
+  | 'socks'
+  | 'sportsBra';
 /** Compatibility alias while older tests/tools migrate to concrete match identities. */
 export type TileKey = Match3TileId;
 export type Match3TileCategory = 'panties' | 'bra' | 'camisole' | 'socks' | 'towel' | 'tag';
@@ -42,12 +52,27 @@ export type LevelDefinition = Readonly<{
   loseBark: Readonly<{ speaker: string; text: string }>;
 }>;
 
-export const tileKeys: readonly Match3TileId[] = ['camisole', 'laundryTag', 'panties', 'towel', 'socks', 'sportsBra'];
+export const tileKeys: readonly Match3TileId[] = [
+  'camisole',
+  'laundryTag',
+  'panties',
+  'pantiesSportWhite',
+  'pantiesLacePink',
+  'pantiesHighWaistBlack',
+  'pantiesBoyshortBlue',
+  'towel',
+  'socks',
+  'sportsBra',
+];
 
 export const tilePresentation: Record<Match3TileId, Readonly<{ label: string; asset: string; color: string; category: Match3TileCategory }>> = {
   camisole: { label: 'Ткань', asset: './assets/match3/tile_camisole_purple.png', color: '#7466ae', category: 'camisole' },
   laundryTag: { label: 'Бирка', asset: './assets/match3/tile_laundry_tag_gold.png', color: '#d8a347', category: 'tag' },
   panties: { label: 'Комплект', asset: './assets/match3/tile_panties_coral.png', color: '#df7181', category: 'panties' },
+  pantiesSportWhite: { label: 'Белые спорт.', asset: './assets/match3/tile_panties_sport_white.png', color: '#dfe7f3', category: 'panties' },
+  pantiesLacePink: { label: 'Розовые', asset: './assets/match3/tile_panties_lace_pink.png', color: '#f2a2bc', category: 'panties' },
+  pantiesHighWaistBlack: { label: 'Чёрные', asset: './assets/match3/tile_panties_highwaist_black.png', color: '#45424b', category: 'panties' },
+  pantiesBoyshortBlue: { label: 'Голубые', asset: './assets/match3/tile_panties_boyshort_blue.png', color: '#83bdf0', category: 'panties' },
   towel: { label: 'Полотенце', asset: './assets/match3/tile_rolled_towel_blue.png', color: '#6da9cf', category: 'towel' },
   socks: { label: 'Пара', asset: './assets/match3/tile_socks_cream.png', color: '#d8c7a8', category: 'socks' },
   sportsBra: { label: 'Спорт', asset: './assets/match3/tile_sports_bra_teal.png', color: '#45a6a3', category: 'bra' },
@@ -96,12 +121,12 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'emi'],
       narrativeTags: ['locker-room', 'laundry', 'missing-underwear', 'evidence-sort'],
     },
-    activeTiles: ['camisole', 'laundryTag', 'panties', 'towel', 'socks', 'sportsBra'],
+    activeTiles: ['pantiesSportWhite', 'pantiesLacePink', 'pantiesHighWaistBlack', 'pantiesBoyshortBlue', 'sportsBra', 'laundryTag'],
     moves: 24,
     objectives: [
-      { kind: 'collect', tile: 'camisole', target: 8, label: 'Ткань' },
+      { kind: 'collect', tile: 'pantiesSportWhite', target: 8, label: 'Белые' },
       { kind: 'collect', tile: 'laundryTag', target: 8, label: 'Бирки' },
-      { kind: 'collect', tile: 'panties', target: 8, label: 'Комплекты' },
+      { kind: 'collect', tile: 'pantiesLacePink', target: 8, label: 'Розовые' },
       { kind: 'clearBlockers', target: 6, label: 'Клетки' },
       { kind: 'drop', ingredient: 'receipt', target: 1, label: 'Квитанция' },
     ],

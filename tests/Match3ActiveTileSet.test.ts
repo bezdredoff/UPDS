@@ -21,14 +21,14 @@ type MutableCell = {
 };
 
 describe('ANM-025C2A active tile set contract', () => {
-  it('keeps six active match identities per level and preserves the pre-cutover order for current content', () => {
+  it('keeps six active match identities per level while allowing production levels to replace the legacy set', () => {
     expect(ACTIVE_TILE_TYPE_LIMIT).toBe(6);
     expect(MAX_PANTIES_TYPES_PER_LEVEL).toBe(4);
     for (const level of levels) {
-      expect(level.activeTiles).toEqual(legacyOrder);
       expect(new Set(level.activeTiles).size).toBe(ACTIVE_TILE_TYPE_LIMIT);
       expect(level.activeTiles.every((tile) => tileKeys.includes(tile))).toBe(true);
     }
+    for (const level of levels.slice(1)) expect(level.activeTiles).toEqual(legacyOrder);
   });
 
   it('makes the engine source initial fill, refill and reshuffle from level.activeTiles rather than the global catalog', () => {
@@ -57,11 +57,13 @@ describe('ANM-025C2A active tile set contract', () => {
   it('matches exact tile ids, not broad categories', () => {
     const game = new Match3Game(levels[0], 16001);
     const cells = (game as unknown as { cells: MutableCell[] }).cells;
-    cells[0].tile = 'panties';
-    cells[1].tile = 'panties';
-    cells[2].tile = 'towel';
+    cells[0].tile = 'pantiesSportWhite';
+    cells[1].tile = 'pantiesSportWhite';
+    cells[2].tile = 'pantiesLacePink';
+    expect(tilePresentation[cells[0].tile].category).toBe('panties');
+    expect(tilePresentation[cells[2].tile].category).toBe('panties');
     expect(game.findMatchGroups().some((group) => group.indices.includes(0) && group.indices.includes(1) && group.indices.includes(2))).toBe(false);
-    cells[2].tile = 'panties';
+    cells[2].tile = 'pantiesSportWhite';
     expect(game.findMatchGroups().some((group) => group.indices.includes(0) && group.indices.includes(1) && group.indices.includes(2))).toBe(true);
   });
 

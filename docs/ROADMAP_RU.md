@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.0-dev`.
-Active production foundation: **ANM-025C1 Tile Presentation Profile Contract complete**; current production focus is **ANM-025C2A Active Tile Set Contract**.
+Active production foundation: **ANM-025C2A Active Tile Set Contract complete**; current production focus is **ANM-025C2B Locker Panties Production Pack**.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -30,7 +30,7 @@ Active production foundation: **ANM-025C1 Tile Presentation Profile Contract com
 - полный ручной QA всех direct special combinations на телефоне;
 - при следующем намеренно rejected/stale ZIP полезно подтвердить live failure-cleanup path: run остаётся красным, а `incoming` очищается без второго zero-ZIP run.
 
-Эти проверки не блокируют ANM-025C2A, потому что соответствующие gameplay mechanics имеют automated contracts, а C2A меняет только источник допустимых match identities.
+Эти проверки не блокируют ANM-025C2B: gameplay mechanics уже имеют automated contracts, а C2B меняет production tile catalog и состав первого уровня без изменения special rules.
 
 ### Deferred, not cancelled
 
@@ -61,7 +61,7 @@ Completed split:
 
 ### ANM-025 — Match-3 Production Framework [P0]
 
-Current slice: **025C2A Active Tile Set Contract**. 025A, 025B and 025C1 are complete. C2A делает tile composition level-driven; C2B после него добавляет production art и первый уровень с несколькими разными panties match-types.
+Current slice: **025C2B Locker Panties Production Pack**. 025A, 025B, 025C1 и 025C2A complete. C2B добавляет первый production art set: M3_00 использует четыре визуально и механически разные panties match-types плюс два support types.
 
 After ANM-024:
 - Golden Sample presentation parity;
