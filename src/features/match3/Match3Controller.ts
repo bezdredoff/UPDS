@@ -25,13 +25,19 @@ import type { Match3CampaignSession } from '../../app/Match3CampaignSession';
 import type { AppShell } from '../../app/AppShell';
 import { getDragPreview, getSwipeDecision } from '../../ui/boardInteraction';
 import { matchMotionDuration } from '../../ui/matchMotion';
+import { resolveMatch3ReactionPresentation, type Match3ReactionEmphasis } from '../../ui/match3ReactionPresentation';
 import { escapeHtml, headerActionMarkup } from '../../ui/viewMarkup';
+import '../../match3ReactionPresentation.css';
 export type MatchOutcome = 'win' | 'loss' | 'abandon';
 export type MatchInteractionSource = 'tap' | 'drag' | 'double-tap';
 export type MatchHintSource = 'manual' | 'inactivity';
 export const MATCH_AUTO_HINT_DELAY_MS = 5000;
 export const SPECIAL_DOUBLE_TAP_WINDOW_MS = 360;
-type Bark = Readonly<{ speaker: string; text: string }>;
+type Bark = Readonly<{
+speaker: string;
+text: string;
+reaction?: Readonly<{ id: Match3ReactionId; durationMs: number; emphasis: Match3ReactionEmphasis }>;
+}>;
 type LabRun = Readonly<{ levelIndex: number; seed: number; level: LevelDefinition; onExit: () => void }>;
 type CampaignRun = Readonly<{ levelIndex: number; session: Match3CampaignSession; onExit: () => void }>;
 export class Match3Controller {
@@ -53,6 +59,8 @@ private activeLevelIndex = 0;
 private selectedCell: number | null = null;
 private matchBark: Bark | null = null;
 private triggeredReactions = new Set<Match3ReactionId>();
+private reactionPresentedAt = new Map<Match3ReactionId, number>();
+private reactionPresentationTimer: number | null = null;
 private matchInputLocked = false;
 private activePointer: { id: number; startIndex: number; startX: number; startY: number } | null = null;
 private suppressBoardClickUntil = 0;
@@ -76,6 +84,7 @@ private readonly onClueAwarded: (clueId: ClueId) => void,
 get hasActiveMatch(): boolean { return this.activeMatch !== null; }
 clearActiveMatch(): void {
 this.clearAutoHintTimer();
+this.resetReactionPresentation();
 this.activeMatch = null;
 this.selectedCell = null;
 this.activePointer = null;
@@ -92,6 +101,29 @@ private clearAutoHintTimer(): void {
 if (this.autoHintTimer === null) return;
 window.clearTimeout(this.autoHintTimer);
 this.autoHintTimer = null;
+}
+private clearReactionPresentationTimer(): void {
+if (this.reactionPresentationTimer === null) return;
+window.clearTimeout(this.reactionPresentationTimer);
+this.reactionPresentationTimer = null;
+}
+private resetReactionPresentation(): void {
+this.clearReactionPresentationTimer();
+this.reactionPresentedAt = new Map();
+}
+private armReactionPresentationTimer(): void {
+const reaction = this.matchBark?.reaction;
+if (!reaction || this.reactionPresentationTimer !== null) return;
+const reactionId = reaction.id;
+this.reactionPresentationTimer = window.setTimeout(() => {
+this.reactionPresentationTimer = null;
+if (this.matchBark?.reaction?.id !== reactionId) return;
+this.matchBark = null;
+const barkElement = this.root.querySelector<HTMLElement>(`.field-bark.reaction-bark[data-reaction-id="${reactionId}"]`);
+if (!barkElement) return;
+barkElement.classList.add('is-dismissing');
+window.setTimeout(() => barkElement.remove(), 180);
+}, reaction.durationMs);
 }
 private armAutoHint(): void {
 this.clearAutoHintTimer();
@@ -165,6 +197,7 @@ this.tutorialPromptDismissed = false;
 if (next) this.services.telemetry.track('match_tutorial', { action: 'shown', conceptId: next, levelId: level.id, mode: this.runMode });
 }
 endActiveAttempt(outcome: MatchOutcome, reason = ''): void {
+this.clearReactionPresentationTimer();
 const game = this.activeMatch;
 if (!game || this.matchAttemptStartedAt === null) return;
 const level = game.level;
@@ -245,6 +278,7 @@ this.matchInputLocked = false;
 this.activePointer = null;
 this.hintedCells.clear();
 this.triggeredReactions = new Set();
+this.resetReactionPresentation();
 this.matchBark = this.levelBark(level, 'start');
 this.lastTappedSpecial = null;
 this.tutorialRevealEvents = new Set(['level-start']);
@@ -279,6 +313,7 @@ this.matchInputLocked = false;
 this.activePointer = null;
 this.hintedCells.clear();
 this.triggeredReactions = new Set();
+this.resetReactionPresentation();
 this.matchBark = this.levelBark(level, 'start');
 this.lastTappedSpecial = null;
 this.tutorialRevealEvents = new Set(['level-start']);
@@ -308,6 +343,7 @@ this.matchInputLocked = false;
 this.activePointer = null;
 this.hintedCells.clear();
 this.triggeredReactions = new Set();
+this.resetReactionPresentation();
 this.matchBark = this.levelBark(level, 'start');
 this.lastTappedSpecial = null;
 this.tutorialRevealEvents = new Set(['level-start']);
@@ -382,7 +418,7 @@ ${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
 <div class="stage-meta"><small>${escapeHtml(this.labRun ? this.t('levelLab.runLabel') : this.campaignRun ? this.t('match3Campaign.stage', { current: this.activeLevelIndex + 1, total: levels.length }) : this.t('match3.stage', { current: this.activeLevelIndex + 1, total: levels.length }))}</small><b>${escapeHtml(this.labRun ? `SEED ${this.labRun.seed}` : level.shortId)}</b></div>
 </section>
 </div>
-${this.matchBark ? `<div class="field-bark"><img src="${this.barkMedallion()}" alt=""><div><b>${escapeHtml(this.matchBark.speaker)}</b><span>${escapeHtml(this.matchBark.text)}</span></div></div>` : ''}
+<div class="field-bark-slot" aria-live="polite">${this.matchBark ? `<div class="field-bark${this.matchBark.reaction ? ` reaction-bark${this.reactionPresentationTimer === null ? ' is-entering' : ''}` : ''}"${this.matchBark.reaction ? ` data-reaction-id="${escapeHtml(this.matchBark.reaction.id)}" data-emphasis="${escapeHtml(this.matchBark.reaction.emphasis)}" data-duration-ms="${this.matchBark.reaction.durationMs}"` : ''}><img src="${this.barkMedallion()}" alt=""><div><b>${escapeHtml(this.matchBark.speaker)}</b><span>${escapeHtml(this.matchBark.text)}</span></div></div>` : ''}</div>
 <div id="match-feedback" class="match-feedback" aria-live="polite"></div>
 <div class="board" role="grid" aria-label="${escapeHtml(this.t('match3.boardAria'))}">${this.boardCellsMarkup(level, game.board, blocker.asset)}</div>
 <div class="match-tooltray">
@@ -396,6 +432,7 @@ ${(['miku', 'onoe', 'ayuki'] as const).map((key) => `<span><img src="${character
 <p class="match-hint">${escapeHtml(this.t('match3.inputHint'))}</p>
 ${this.tutorialMarkup()}
 </section>`);
+this.armReactionPresentationTimer();
 this.root.querySelector('#quit')?.addEventListener('click', () => {
 if (this.matchInputLocked) return;
 this.clearAutoHintTimer();
@@ -836,12 +873,9 @@ lost: result.lost,
 triggered: this.triggeredReactions,
 });
 if (!reaction) return;
-if (reaction.repeat === 'once-per-attempt') this.triggeredReactions.add(reaction.id);
-this.matchBark = {
-speaker: this.characterName(reaction.speaker),
-text: this.t(reaction.messageKey, reaction.params),
-};
-this.services.telemetry.track('match_reaction', {
+const now = Date.now();
+const presentation = resolveMatch3ReactionPresentation(reaction, now, this.reactionPresentedAt.get(reaction.id));
+const telemetryBase = {
 reactionId: reaction.id,
 levelId: game.level.id,
 mode: this.runMode,
@@ -851,6 +885,29 @@ objectivesCompleted,
 objectiveUnitsRemaining,
 specialActivated,
 directSpecialCombo,
+};
+if (!presentation.show) {
+this.services.telemetry.track('match_reaction', {
+...telemetryBase,
+action: 'suppressed',
+suppressionReason: presentation.reason,
+cooldownMs: presentation.policy.cooldownMs,
+});
+return;
+}
+if (reaction.repeat === 'once-per-attempt') this.triggeredReactions.add(reaction.id);
+this.reactionPresentedAt.set(reaction.id, now);
+this.clearReactionPresentationTimer();
+this.matchBark = {
+speaker: this.characterName(reaction.speaker),
+text: this.t(reaction.messageKey, reaction.params),
+reaction: { id: reaction.id, durationMs: presentation.policy.durationMs, emphasis: presentation.policy.emphasis },
+};
+this.services.telemetry.track('match_reaction', {
+...telemetryBase,
+action: 'shown',
+durationMs: presentation.policy.durationMs,
+cooldownMs: presentation.policy.cooldownMs,
 });
 }
 private completeLevel(): void {
