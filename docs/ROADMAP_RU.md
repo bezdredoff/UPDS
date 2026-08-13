@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.0-dev`.
-Active production foundation: **ANM-025A–D Match-3 production framework complete**; current production focus is **ANM-026A Level Lab Foundation**.
+Active production foundation: **ANM-025A–D Match-3 production framework complete**; current production focus is **ANM-026B Editable Level Config**.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -86,8 +86,9 @@ Suggested split:
 Build tooling before mass level production.
 
 Current split:
-- **026A Level Lab Foundation** — main-menu QA entry, level selector, exact uint32 seed, deterministic initial-board preview, production config summary/validation, play/retry same seed, Lab run-mode with zero Story save/tutorial/clue side effects;
-- 026B Editable Level Config — board shape, blockers, start layout, objectives, moves, active tiles/spawn weights, validation and export;
+- **026A Level Lab Foundation — COMPLETE** — main-menu QA entry, level selector, exact uint32 seed, deterministic initial-board preview, production config summary/validation, play/retry same seed, Lab run-mode with zero Story save/tutorial/clue side effects;
+- **026B1 Editable Balance Config** — moves, blocker type/placements, ingredients, objectives, active tiles/spawn weights, production validation, deterministic draft preview/play and JSON export;
+- 026B2 Board Shape & Start Layout — explicit playable-cell mask/holes and deterministic prefilled start layout as a separate engine/data contract;
 - 026C Match-3 Campaign Mode — direct player-facing Match-3 mode, sequential progression/save separate from Story campaign, level selector/unlocks;
 - 026D Lab/Playtest integration — rapid rerun matrix and balance-oriented export/reporting if still needed after 026B/C.
 
@@ -95,7 +96,8 @@ Includes:
 - direct Match-3 mode from main menu;
 - sequential Match-3 progression/save separate from Story campaign progression;
 - level selector;
-- Level Lab for board shape, blockers, start layout, objectives, moves, spawn weights;
+- Level Lab for balance config, blockers, ingredients, objectives, moves and spawn weights;
+- explicit board-shape/start-layout contract in 026B2;
 - instant play/restart/preview;
 - export validated level config.
 

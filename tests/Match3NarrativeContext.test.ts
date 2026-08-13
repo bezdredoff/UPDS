@@ -42,9 +42,9 @@ describe('ANM-025B narrative Match-3 level context', () => {
     expect(controllerSource).toContain('narrativeProfile: level.context.narrativeProfile');
   });
 
-  it('keeps spawn/balance logic untouched while rendering distinct local board surfaces', () => {
+  it('keeps narrative context out of engine while rendering distinct local board surfaces', () => {
     expect(engineSource).not.toContain('Match3LevelContext');
-    expect(engineSource).not.toContain('spawnWeights');
+    expect(engineSource).toContain('this.level.spawnWeights');
     for (const surface of ['locker-bench', 'photo-contact-sheet', 'pool-service-tile', 'ordered-cabinet']) {
       expect(productionCss).toContain(`data-m3-board-surface='${surface}'`);
     }

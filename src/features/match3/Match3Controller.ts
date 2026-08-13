@@ -30,12 +30,15 @@ export type MatchHintSource = 'manual' | 'inactivity';
 export const MATCH_AUTO_HINT_DELAY_MS = 5000;
 export const SPECIAL_DOUBLE_TAP_WINDOW_MS = 360;
 type Bark = Readonly<{ speaker: string; text: string }>;
-type LabRun = Readonly<{ levelIndex: number; seed: number; onExit: () => void }>;
+type LabRun = Readonly<{ levelIndex: number; seed: number; level: LevelDefinition; onExit: () => void }>;
 
 export class Match3Controller {
   private t(key: string, params?: Readonly<Record<string, string | number>>): string { return this.services.localization.t(key, params); }
   private levelText(level: LevelDefinition, field: 'title' | 'storyAction' | 'clueTitle'): string { return this.t(`match3.level.${level.id}.${field}`); }
-  private objectiveText(level: LevelDefinition, index: number): string { return this.t(`match3.level.${level.id}.objective.${index}`); }
+  private objectiveText(level: LevelDefinition, index: number): string {
+    if (this.labRun) return level.objectives[index]?.label ?? this.t(`match3.level.${level.id}.objective.${index}`);
+    return this.t(`match3.level.${level.id}.objective.${index}`);
+  }
   private characterName(key: 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro'): string { return this.t(`character.${key}`); }
   private bark(key: string, speaker: 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro', params?: Readonly<Record<string, string | number>>): Bark { return { speaker: this.characterName(speaker), text: this.t(`match3.bark.${key}`, params) }; }
   private levelBark(level: LevelDefinition, kind: 'start' | 'win'): Bark { return { speaker: this.t(`match3.level.${level.id}.${kind}Bark.speaker`), text: this.t(`match3.level.${level.id}.${kind}Bark.text`) }; }
@@ -252,12 +255,12 @@ export class Match3Controller {
     this.armAutoHint();
   }
 
-  startLabMatch(levelIndex: number, requestedSeed: number, onExit: () => void): void {
-    const level = levels[levelIndex];
+  startLabMatch(levelIndex: number, requestedSeed: number, onExit: () => void, levelOverride?: LevelDefinition): void {
+    const level = levelOverride ?? levels[levelIndex];
     if (!level) return;
     const parsedSeed = Number(requestedSeed);
     const seed = (Number.isFinite(parsedSeed) ? Math.max(0, Math.min(0xffffffff, Math.trunc(parsedSeed))) : level.seed) >>> 0;
-    this.labRun = { levelIndex, seed, onExit };
+    this.labRun = { levelIndex, seed, level, onExit };
     this.activeLevelIndex = levelIndex;
     this.activeMatch = new Match3Game(level, seed);
     this.matchAttemptStartedAt = Date.now();
@@ -936,7 +939,7 @@ export class Match3Controller {
         <button id="lab-back">${escapeHtml(this.t('levelLab.backToLab'))}</button>
       </div>
     </section>`);
-    this.root.querySelector('#lab-retry')?.addEventListener('click', () => this.startLabMatch(lab.levelIndex, lab.seed, lab.onExit));
+    this.root.querySelector('#lab-retry')?.addEventListener('click', () => this.startLabMatch(lab.levelIndex, lab.seed, lab.onExit, lab.level));
     const backToLab = (): void => { const onExit = lab.onExit; this.clearActiveMatch(); onExit(); };
     this.root.querySelector('#back')?.addEventListener('click', backToLab);
     this.root.querySelector('#lab-back')?.addEventListener('click', backToLab);
