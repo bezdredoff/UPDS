@@ -11,7 +11,7 @@ import {
 } from '../../data/levels';
 import { backgroundAssets, getScene } from '../../data/narrative';
 import { resolveMatch3TilePresentation, tilePresentationAssetsForActiveSet } from '../../data/match3TilePresentation';
-import { nextPendingMatch3Tutorial, tutorialCompletesOn, type Match3TutorialCompletionEvent, type Match3TutorialConceptId } from '../../data/match3Tutorials';
+import { nextPendingMatch3Tutorial, tutorialCompletionEventsForMove, tutorialConceptsCompletedByEvents, type Match3TutorialConceptId } from '../../data/match3Tutorials';
 import { postSceneForLevel } from '../../engine/CampaignStore';
 import { Match3Game, type BoardCell, type Match3Frame, type MoveResult } from '../../engine/Match3Game';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
@@ -118,18 +118,27 @@ export class Match3Controller {
     </div>`;
   }
 
-  private completeTutorialOn(event: Match3TutorialCompletionEvent): void {
-    const concept = this.activeTutorial;
-    if (!concept || !tutorialCompletesOn(concept, event)) return;
-    if (!this.session.save.tutorialsCompleted.includes(concept)) {
+  private recordTutorialMove(result: MoveResult): void {
+    const level = this.activeMatch?.level;
+    if (!level) return;
+    const events = tutorialCompletionEventsForMove(result);
+    const completedNow = tutorialConceptsCompletedByEvents(level.tutorialConcepts, this.session.save.tutorialsCompleted, events);
+    if (completedNow.length === 0) return;
+
+    const previousActive = this.activeTutorial;
+    for (const concept of completedNow) {
       this.session.save.tutorialsCompleted.push(concept);
-      this.session.persist();
+      this.services.telemetry.track('match_tutorial', {
+        action: 'completed', conceptId: concept, levelId: level.id, prompted: concept === previousActive,
+      });
     }
-    this.services.telemetry.track('match_tutorial', {
-      action: 'completed', conceptId: concept, levelId: this.activeMatch?.level.id ?? levels[this.activeLevelIndex]?.id ?? 'unknown',
-    });
-    this.activeTutorial = null;
+    this.session.persist();
+
+    const next = nextPendingMatch3Tutorial(level.tutorialConcepts, this.session.save.tutorialsCompleted);
+    if (next === previousActive) return;
+    this.activeTutorial = next;
     this.tutorialPromptDismissed = false;
+    if (next) this.services.telemetry.track('match_tutorial', { action: 'shown', conceptId: next, levelId: level.id });
   }
 
   endActiveAttempt(outcome: MatchOutcome, reason = ''): void {
@@ -720,7 +729,7 @@ export class Match3Controller {
         return;
       }
 
-      this.completeTutorialOn('valid-swap');
+      this.recordTutorialMove(result);
       this.updateBark(result);
       await this.playMoveFrames(result, first, second);
       if (result.won) {
