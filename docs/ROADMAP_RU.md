@@ -78,7 +78,7 @@ Suggested split:
 - 025B Narrative Level Context contract;
 - 025C Tile presentation/variation expansion;
 - 025D Tutorial framework;
-- **025E Balance pass — IN PROGRESS** — E1 objective simplification/HUD contract COMPLETE; E2 objective-aware guidance is the current slice; E3 performs quantitative tuning of moves, placements and spawn weights;
+- **025E Balance pass — IN PROGRESS** — E1 objective simplification/HUD contract COMPLETE; E2 objective-aware guidance COMPLETE; E3 quantitative balance is the current slice and tunes production level data using deterministic simulation before E4/manual calibration if needed;
 - 025F Narrative reactions during Match-3.
 
 ### ANM-026 — Level Lab & Match-3 Campaign [P1] — COMPLETE
