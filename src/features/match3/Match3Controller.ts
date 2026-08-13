@@ -792,7 +792,7 @@ this.renderMatch();
 return;
 }
 this.recordTutorialMove(result, false, directSpecialCombo);
-this.updateNarrativeReaction(result);
+this.updateNarrativeReaction(result, directSpecialCombo);
 await this.playMoveFrames(result, first, second);
 if (result.won) {
 this.completeLevel();
@@ -808,9 +808,16 @@ this.matchInputLocked = false;
 this.armAutoHint();
 }
 }
-private updateNarrativeReaction(result: MoveResult): void {
+private updateNarrativeReaction(result: MoveResult, directSpecialCombo = false): void {
 const game = this.activeMatch;
 if (!game) return;
+const objectiveState = game.level.objectives.map((objective, index) => ({
+value: game.objectiveValue(index),
+target: objective.target,
+}));
+const objectivesCompleted = objectiveState.filter(({ value, target }) => value >= target).length;
+const objectiveUnitsRemaining = objectiveState.reduce((total, { value, target }) => total + Math.max(0, target - value), 0);
+const specialActivated = result.primaryFeedback === 'special';
 const reaction = resolveMatch3Reaction({
 levelId: game.level.id,
 narrativeProfile: game.level.context.narrativeProfile,
@@ -820,6 +827,12 @@ moveNumber: game.level.moves - game.movesLeft,
 blockersCleared: game.progress.blockersCleared,
 specialsCreated: result.specialsCreated,
 cascades: result.cascades,
+specialActivated,
+directSpecialCombo,
+objectivesCompleted,
+objectiveUnitsRemaining,
+won: result.won,
+lost: result.lost,
 triggered: this.triggeredReactions,
 });
 if (!reaction) return;
@@ -834,6 +847,10 @@ levelId: game.level.id,
 mode: this.runMode,
 speaker: reaction.speaker,
 movesLeft: game.movesLeft,
+objectivesCompleted,
+objectiveUnitsRemaining,
+specialActivated,
+directSpecialCombo,
 });
 }
 private completeLevel(): void {

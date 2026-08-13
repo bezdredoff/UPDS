@@ -19,14 +19,31 @@ const context = (overrides: Partial<Match3ReactionContext> = {}): Match3Reaction
   blockersCleared: 0,
   specialsCreated: 0,
   cascades: 1,
+  specialActivated: false,
+  directSpecialCombo: false,
+  objectivesCompleted: 0,
+  objectiveUnitsRemaining: 7,
+  won: false,
+  lost: false,
   triggered: new Set<Match3ReactionId>(),
   ...overrides,
 });
 
+const f1Ids = new Set<Match3ReactionId>([
+  'low-moves',
+  'special-created',
+  'blocker-progress',
+  'ingredient-context',
+  'cascade',
+]);
+
 describe('ANM-025F1 Match-3 narrative reaction contract', () => {
-  it('keys production reactions by stable level id and preserves the migrated level-specific rules', () => {
+  it('keys production reactions by stable level id and preserves the migrated F1 rules', () => {
     expect(Object.keys(match3ReactionRulesByLevel).sort()).toEqual(levels.map((level) => level.id).sort());
-    expect(match3ReactionRulesByLevel.M3_00_LOCKER_TUTORIAL.map((rule) => [rule.id, rule.speaker, rule.messageKey, rule.trigger])).toEqual([
+    const migrated = match3ReactionRulesByLevel.M3_00_LOCKER_TUTORIAL
+      .filter((rule) => f1Ids.has(rule.id))
+      .map((rule) => [rule.id, rule.speaker, rule.messageKey, rule.trigger]);
+    expect(migrated).toEqual([
       ['low-moves', 'miku', 'match3.bark.fiveMoves.0', { kind: 'moves-left', equals: 5 }],
       ['special-created', 'miku', 'match3.bark.special', { kind: 'specials-created', min: 1 }],
       ['blocker-progress', 'ayuki', 'match3.bark.blockers.0', { kind: 'blockers-cleared', min: 3 }],
@@ -38,7 +55,7 @@ describe('ANM-025F1 Match-3 narrative reaction contract', () => {
     expect(match3ReactionRulesByLevel.M3_03_ORDERED_APARTMENT.find((rule) => rule.id === 'blocker-progress')?.trigger).toEqual({ kind: 'blockers-cleared', min: 4 });
   });
 
-  it('uses explicit deterministic priority and once-per-attempt suppression', () => {
+  it('keeps F1 priority deterministic when F2 signals are not eligible', () => {
     const allEligible = context({ movesLeft: 5, moveNumber: 1, blockersCleared: 6, specialsCreated: 1, cascades: 3 });
     expect(resolveMatch3Reaction(allEligible)?.id).toBe('low-moves');
     expect(resolveMatch3Reaction({ ...allEligible, triggered: new Set<Match3ReactionId>(['low-moves']) })?.id).toBe('special-created');
