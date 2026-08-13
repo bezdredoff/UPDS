@@ -24,6 +24,14 @@ export const match3NarrativeProfileKeys = [
 ] as const;
 export type Match3NarrativeProfileKey = typeof match3NarrativeProfileKeys[number];
 
+export const match3TilePresentationProfileKeys = [
+  'locker-laundry',
+  'photo-props',
+  'pool-service',
+  'ordered-return',
+] as const;
+export type Match3TilePresentationProfileKey = typeof match3TilePresentationProfileKeys[number];
+
 export type Match3CharacterKey = 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro';
 export type Match3SourceSceneId =
   | 'VN_SCENE_01_E0_PRE'
@@ -42,6 +50,8 @@ export type Match3LevelContext = Readonly<{
   boardFrame: Match3BoardFrameKey;
   /** Stable key used later by contextual hints/reactions. */
   narrativeProfile: Match3NarrativeProfileKey;
+  /** Art-only tile skin profile. It must never change matching semantics or spawn odds. */
+  tilePresentationProfile: Match3TilePresentationProfileKey;
   /** Characters narratively present/relevant to this investigation. */
   participants: readonly Match3CharacterKey[];
   /** Tooling-friendly semantic tags; not player-facing copy. */

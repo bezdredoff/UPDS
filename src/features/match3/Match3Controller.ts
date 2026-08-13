@@ -6,11 +6,11 @@ import {
   levels,
   specialAsset,
   specialAssets,
-  tilePresentation,
   type ClueId,
   type LevelDefinition,
 } from '../../data/levels';
 import { backgroundAssets, getScene } from '../../data/narrative';
+import { resolveMatch3TilePresentation, tilePresentationAssetsForProfile } from '../../data/match3TilePresentation';
 import { postSceneForLevel } from '../../engine/CampaignStore';
 import { Match3Game, type BoardCell, type Match3Frame, type MoveResult } from '../../engine/Match3Game';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
@@ -38,7 +38,7 @@ export class Match3Controller {
   private levelBark(level: LevelDefinition, kind: 'start' | 'win'): Bark { return { speaker: this.t(`match3.level.${level.id}.${kind}Bark.speaker`), text: this.t(`match3.level.${level.id}.${kind}Bark.text`) }; }
   private contextAttrs(level: LevelDefinition): string {
     const context = level.context;
-    return `data-m3-page="${escapeHtml(context.pageBackground)}" data-m3-board-surface="${escapeHtml(context.boardSurface)}" data-m3-board-frame="${escapeHtml(context.boardFrame)}" data-m3-profile="${escapeHtml(context.narrativeProfile)}"`;
+    return `data-m3-page="${escapeHtml(context.pageBackground)}" data-m3-board-surface="${escapeHtml(context.boardSurface)}" data-m3-board-frame="${escapeHtml(context.boardFrame)}" data-m3-profile="${escapeHtml(context.narrativeProfile)}" data-m3-tile-profile="${escapeHtml(context.tilePresentationProfile)}"`;
   }
 
   private activeMatch: Match3Game | null = null;
@@ -121,7 +121,7 @@ export class Match3Controller {
       blockerPresentation[level.blocker].asset,
       specialAsset,
       ...Object.values(specialAssets),
-      ...Object.values(tilePresentation).map((presentation) => presentation.asset),
+      ...tilePresentationAssetsForProfile(level.context.tilePresentationProfile),
       ...Object.values(ingredientPresentation).map((presentation) => presentation.asset),
     ];
     void preloadImageAssets(assets, this.services.assetHealth);
@@ -170,7 +170,7 @@ export class Match3Controller {
     this.activeLevelIndex = levelIndex;
     this.activeMatch = new Match3Game(level, level.seed + attempt * 101);
     this.matchAttemptStartedAt = Date.now();
-    this.services.telemetry.track('match_start', { levelId: level.id, levelIndex, attempt, moveBudget: level.moves, narrativeProfile: level.context.narrativeProfile, pageBackground: level.context.pageBackground, boardSurface: level.context.boardSurface });
+    this.services.telemetry.track('match_start', { levelId: level.id, levelIndex, attempt, moveBudget: level.moves, narrativeProfile: level.context.narrativeProfile, pageBackground: level.context.pageBackground, boardSurface: level.context.boardSurface, tilePresentationProfile: level.context.tilePresentationProfile });
     this.selectedCell = null;
     this.matchInputLocked = false;
     this.activePointer = null;
@@ -183,6 +183,7 @@ export class Match3Controller {
   }
 
   private boardCellsMarkup(
+    level: LevelDefinition,
     board: readonly BoardCell[],
     blockerAsset: string,
     options: Readonly<{ clearing?: ReadonlySet<number>; motions?: ReadonlyMap<number, Readonly<{ kind: 'fall' | 'spawn'; rows: number }>> }> = {},
@@ -194,13 +195,13 @@ export class Match3Controller {
       const motion = options.motions?.get(index);
       const motionClass = motion ? ` settle-${motion.kind}` : '';
       const motionStyle = motion ? ` style="--settle-rows:${motion.rows}"` : '';
-      const tile = cell.tile ? tilePresentation[cell.tile] : null;
+      const tile = cell.tile ? resolveMatch3TilePresentation(level.context.tilePresentationProfile, cell.tile) : null;
       const ingredient = cell.ingredient ? ingredientPresentation[cell.ingredient] : null;
       const cellLabel = cell.ingredient ? this.t(`match3.ingredient.${cell.ingredient}`) : cell.tile ? this.t(`match3.tile.${cell.tile}`) : this.t('match3.emptyCell');
       return `<button class="board-cell${selected}${hinted}${clearing}${motionClass}" data-cell="${index}" role="gridcell" aria-label="${escapeHtml(cellLabel)}"${motionStyle}>
         <span class="tile-socket"></span>
         <span class="tile-stack">
-          ${tile ? `<img class="tile" src="${tile.asset}" alt="" draggable="false">` : ''}
+          ${tile ? `<img class="tile" src="${tile.asset}" data-tile-variant="${escapeHtml(tile.variantId)}" alt="" draggable="false">` : ''}
           ${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="" draggable="false">` : ''}
           ${cell.special ? `<img class="special ${cell.special}" src="${specialAssets[cell.special]}" alt="${escapeHtml(this.t(`match3.special.${cell.special}`))}" draggable="false">` : ''}
         </span>
@@ -251,7 +252,7 @@ export class Match3Controller {
 
       ${this.matchBark ? `<div class="field-bark"><img src="${this.barkMedallion()}" alt=""><div><b>${escapeHtml(this.matchBark.speaker)}</b><span>${escapeHtml(this.matchBark.text)}</span></div></div>` : ''}
       <div id="match-feedback" class="match-feedback" aria-live="polite"></div>
-      <div class="board" role="grid" aria-label="${escapeHtml(this.t('match3.boardAria'))}">${this.boardCellsMarkup(game.board, blocker.asset)}</div>
+      <div class="board" role="grid" aria-label="${escapeHtml(this.t('match3.boardAria'))}">${this.boardCellsMarkup(level, game.board, blocker.asset)}</div>
 
       <div class="match-tooltray">
         <div class="detective-strip" aria-label="${escapeHtml(this.t('match3.teamAria'))}">
@@ -332,7 +333,7 @@ export class Match3Controller {
     const motions = frame.motions
       ? new Map(frame.motions.map((motion) => [motion.index, { kind: motion.kind, rows: motion.rows }] as const))
       : undefined;
-    board.innerHTML = this.boardCellsMarkup(frame.board, blocker.asset, { clearing, motions });
+    board.innerHTML = this.boardCellsMarkup(game.level, frame.board, blocker.asset, { clearing, motions });
     board.className = `board phase-${frame.phase}`;
     if (frame.phase === 'clear') {
       const feedback = frame.feedback ?? 'match';
@@ -791,7 +792,7 @@ export class Match3Controller {
 
   private objectiveMarkup(level: LevelDefinition, objective: LevelDefinition['objectives'][number], objectiveIndex: number, value: number, showProgress: boolean): string {
     let asset: string;
-    if (objective.kind === 'collect') asset = tilePresentation[objective.tile].asset;
+    if (objective.kind === 'collect') asset = resolveMatch3TilePresentation(level.context.tilePresentationProfile, objective.tile).asset;
     else if (objective.kind === 'drop') asset = ingredientPresentation[objective.ingredient].asset;
     else asset = blockerPresentation[level.blocker].asset;
     const current = Math.min(value, objective.target);
