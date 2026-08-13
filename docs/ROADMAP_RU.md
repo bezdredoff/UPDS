@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.0-dev`.
-Active production foundation: **ANM-025A–D + ANM-026 Match-3 production/tooling framework complete**; current production focus is **ANM-025E Balance Pass**.
+Active production foundation: **ANM-025 Match-3 production framework + ANM-026 tooling + ANM-027 story architecture/import pipeline complete for currently authored canon**. Full screenplay production beyond the ANM-003 vertical slice remains pending before ANM-029/release.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -24,6 +24,9 @@ Active production foundation: **ANM-025A–D + ANM-026 Match-3 production/toolin
 - character runtime uses precomposed 1024×1536 expression frames; retired transparent face-overlay composition must not return;
 - ANM-023 Architecture & Test Health Pass: repository hygiene, test-health cleanup, architecture boundary audit and pipeline failure hygiene.
 - ANM-024 Display / Viewport / Safe-Area Foundation: shared viewport shell, centralized safe-area ownership, portrait regression matrix and orientation-neutral low-height landscape contract.
+- ANM-025E quantitative balance baseline through E3; E4 remains optional only if later human playtest data shows a concrete need.
+- ANM-025F Match-3 Narrative Reactions complete through F1 resolver contract, F2 content and F3 presentation/anti-spam.
+- ANM-027A–D story production pipeline: graph contract, graph-driven runtime routing, import/completeness audit and canonical runtime import/transition QA for the currently authored ANM-003 screenplay.
 
 ### Useful manual regression still pending
 
@@ -78,8 +81,8 @@ Suggested split:
 - 025B Narrative Level Context contract;
 - 025C Tile presentation/variation expansion;
 - 025D Tutorial framework;
-- **025E Balance pass — IN PROGRESS** — E1 objective simplification/HUD contract COMPLETE; E2 objective-aware guidance COMPLETE; E3 quantitative balance is the current slice and tunes production level data using deterministic simulation before E4/manual calibration if needed;
-- 025F Narrative reactions during Match-3.
+- **025E Balance pass — BASELINE COMPLETE THROUGH E3** — E1 objective simplification/HUD contract COMPLETE; E2 objective-aware guidance COMPLETE; E3 deterministic quantitative balance COMPLETE; E4 is optional and should only run when later manual playtest evidence identifies a concrete calibration issue;
+- **025F Narrative reactions during Match-3 — COMPLETE** — F1 resolver contract, F2 reaction content, F3 timing/presentation/anti-spam.
 
 ### ANM-026 — Level Lab & Match-3 Campaign [P1] — COMPLETE
 
@@ -103,14 +106,17 @@ Includes:
 
 Level Lab lands before the final 025E balance pass.
 
-### ANM-027 — Full Story Content Architecture & Import [P0]
+### ANM-027 — Story Content Architecture & Import [P0] — PIPELINE COMPLETE / FULL CANON CONTENT PENDING
 
-- canonical data-driven episode/chapter/scene structure;
-- import all planned story content;
-- validate VN → Match-3 → VN transitions;
-- content completeness validator;
-- no hardcoded one-off scene routing;
-- preserve campaign save compatibility.
+Completed technical split:
+- **027A Story Graph Contract & Validator — COMPLETE** — stable episode/chapter/scene IDs, explicit transitions and legacy save-index adapters;
+- **027B Runtime Routing Migration — COMPLETE** — VN/Match-3/ending routing reads the graph instead of numeric scene arithmetic;
+- **027C Story Import Format & Completeness Tooling — COMPLETE** — `upds-story-content-v1`, authored-line/branch/deferred-content audit and focused CI command;
+- **027D Canonical Story Runtime Import & Transition QA — COMPLETE** — runtime consumes the same audited content pipeline and graph ranges; full playable VN → Match-3 → VN → ending path is automatically validated.
+
+Current authored canon in the repository is `ANM-003_Vertical_Slice_Screenplay.md` (current vertical slice, including explicit deferred `VN0250`). A separate full screenplay for the remaining planned episodes is **not present in the repository** and must be authored/imported through this pipeline before ANM-029 Full Localization Production and release-content lock.
+
+The missing full screenplay does not block ANM-028 Character Production Pipeline 2.0 tooling, but mass localization/art production must not pretend the story is complete.
 
 ### ANM-028 — Character Production Pipeline 2.0 [P0/P1]
 
@@ -203,10 +209,10 @@ Do not consume core production capacity before base release.
 
 1. **ANM-025A–D Match-3 production framework**;
 2. ANM-026 Level Lab early;
-3. ANM-025E–F balance + narrative reactions;
-4. ANM-027 full story;
+3. **ANM-025E–F balance + narrative reactions — COMPLETE**;
+4. **ANM-027A–D story architecture/import pipeline — COMPLETE for currently authored canon**; author/import the remaining canonical screenplay before production localization;
 5. ANM-028 character pipeline 2.0;
-6. ANM-029 localization;
+6. ANM-029 localization only after the full canonical screenplay exists;
 7. ANM-030 mass art/content;
 8. ANM-031 landscape;
 9. ANM-032 music;

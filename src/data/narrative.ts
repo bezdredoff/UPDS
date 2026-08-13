@@ -1,4 +1,5 @@
-import screenplay from '../content/ANM-003_Vertical_Slice_Screenplay.md?raw';
+import { canonicalStoryLineCount, canonicalStoryLines } from '../content/storyRuntime';
+import { storySceneFromLegacyIndex } from './storyGraph';
 
 export type StoryLine = Readonly<{
   id: string;
@@ -30,20 +31,9 @@ export type BackgroundKey =
   | 'poolLocker'
   | 'norihiroApartment';
 
-const sceneStarts = ['VN0001', 'VN0023', 'VN0058', 'VN0085', 'VN0114', 'VN0143', 'VN0167', 'VN0192', 'VN0217'];
-const sceneEnds = ['VN0022', 'VN0057', 'VN0084', 'VN0113', 'VN0142', 'VN0166', 'VN0191', 'VN0216', 'VN0249'];
-const linePattern = /`\[(VN\d{4}[ABC]?)\]\s*([^|]+)\|\s*([^|]+)\|\s*([^`]+)`/g;
 const conditionalSpeakerPattern = /^\{IF\s+([^}]+)\}\s*/;
 
-const parsedLines: StoryLine[] = [];
-for (const match of screenplay.matchAll(linePattern)) {
-  parsedLines.push({
-    id: match[1],
-    speaker: match[2].trim(),
-    emotion: match[3].trim(),
-    text: match[4].trim(),
-  });
-}
+const parsedLines: readonly StoryLine[] = canonicalStoryLines;
 
 const numberOf = (id: string): number => Number(id.slice(2, 6));
 
@@ -91,8 +81,10 @@ const lineForChoice = (line: StoryLine, choice: ChoiceId): StoryLine | null => {
 };
 
 export function getScene(index: number, choice: ChoiceId = 'A'): StoryLine[] {
-  const start = numberOf(sceneStarts[index]);
-  const end = numberOf(sceneEnds[index]);
+  const scene = storySceneFromLegacyIndex(index);
+  if (!scene) return [];
+  const start = numberOf(scene.source.startLineId);
+  const end = numberOf(scene.source.endLineId);
 
   return parsedLines.flatMap((line) => {
     const number = numberOf(line.id);
@@ -145,4 +137,4 @@ export function getBackgroundForLine(sceneIndex: number, lineIndex: number, stor
 }
 
 export const isDirection = (line: StoryLine): boolean => line.speaker === 'РЕЖИССУРА' || line.speaker === 'СИСТЕМА';
-export const parsedLineCount = parsedLines.length;
+export const parsedLineCount = canonicalStoryLineCount;
