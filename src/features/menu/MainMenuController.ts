@@ -39,7 +39,7 @@ export class MainMenuController {
           <button id="episodes">${t('menu.sceneNavigation')} <small>QA</small></button>
           <button id="support">${t('menu.saveDiagnostics')} <small>QA</small></button>
         </div>
-        <footer>${BUILD_LABEL}<br><span>${APP_VERSION} · ${t('menu.scriptLines', { count: parsedLineCount })}</span></footer>
+        <footer>${BUILD_LABEL}<br><span>v${APP_VERSION} · ${t('menu.scriptLines', { count: parsedLineCount })}</span></footer>
       </div>
     </section>`);
 

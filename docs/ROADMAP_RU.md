@@ -1,9 +1,9 @@
 # UPDS — Production Roadmap
 
-Technical package baseline: `0.22.0-anm022e-r1`.
-Active production foundation: **ANM-024 Display / Viewport / Safe-Area Foundation complete**; next production focus is **ANM-025 Match-3 Production Framework**.
+Technical product version: `0.25.0-dev`.
+Active production foundation: **ANM-025B Narrative Level Context complete**; next production focus is **ANM-025C Match-3 presentation variation**.
 
-Package semver не используется как единственный источник feature status. Текущий фактический baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap.
+`APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
 ## Current state
 
@@ -30,7 +30,7 @@ Package semver не используется как единственный и�
 - полный ручной QA всех direct special combinations на телефоне;
 - при следующем намеренно rejected/stale ZIP полезно подтвердить live failure-cleanup path: run остаётся красным, а `incoming` очищается без второго zero-ZIP run.
 
-Эти проверки не блокируют переход к следующему production foundation, потому что automated contracts уже зелёные и соответствующие механики не меняются в ANM-024.
+Эти проверки не блокируют переход к ANM-025C, потому что automated contracts уже зелёные и 025A–B не меняли соответствующие gameplay mechanics.
 
 ### Deferred, not cancelled
 
@@ -61,7 +61,7 @@ Completed split:
 
 ### ANM-025 — Match-3 Production Framework [P0]
 
-Current slice: **025A Golden Sample parity R2 candidate** (R1 rejected by iPhone QA as visually too subtle).
+Current slice: **025B Narrative Level Context merged**. 025A Golden Sample parity R2 and 025B narrative context are complete; next is **025C Tile presentation/variation expansion**.
 
 After ANM-024:
 - Golden Sample presentation parity;

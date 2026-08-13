@@ -36,7 +36,8 @@ export class DiagnosticsController {
       <p class="panel-copy">Сервисные инструменты для мобильного плейтеста. Они не меняют канон, VN IDs или игровые правила.</p>
       ${status ? `<div class="support-status">${escapeHtml(status)}</div>` : ''}
       <div class="diagnostic-grid">
-        <article><small>BUILD</small><b>${escapeHtml(APP_VERSION)}</b><span>${escapeHtml(BUILD_ID)}</span></article>
+        <article><small>VERSION</small><b>${escapeHtml(APP_VERSION)}</b><span>${escapeHtml(BUILD_LABEL)}</span></article>
+        <article><small>BUILD</small><b>${escapeHtml(BUILD_ID)}</b><span>${escapeHtml(BUILD_TIMESTAMP)}</span></article>
         <article><small>SAVE SCHEMA</small><b>v1</b><span>${escapeHtml(loadReport.status)} · ${escapeHtml(loadReport.detail)}</span></article>
         <article><small>STORAGE</small><b>${this.services.storage.mode === 'persistent' ? 'OK' : 'FALLBACK'}</b><span>${escapeHtml(storageLabel)}</span></article>
         <article><small>RUNTIME</small><b>${errors.length} errors</b><span>${assetHealth.failures.length} asset failures</span></article>
@@ -55,8 +56,6 @@ export class DiagnosticsController {
         ${recovery ? `<button id="export-recovery">${icon('log')}<span><b>Экспорт recovery backup</b><small>Сохранён источник повреждённого или заменённого save</small></span></button>` : ''}
       </div>
       <div class="support-meta">
-        <b>${escapeHtml(BUILD_LABEL)}</b>
-        <span>Build time: ${escapeHtml(BUILD_TIMESTAMP)}</span>
         <span>Preload: ${assetHealth.preloadLoaded}/${assetHealth.preloadRequested}; failed: ${assetHealth.preloadFailed}</span>
         <span>Recovery backup: ${recovery ? 'есть' : 'нет'}</span>
         <span>Playtest session: ${escapeHtml(playtest.sessionId)}</span>
