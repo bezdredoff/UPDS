@@ -975,6 +975,8 @@ export const enCatalog = {
   'match3.tutorial.clear-blocker.body': 'Matches on or next to an obstacle remove a layer. Some obstacles take several hits, so keep making matches nearby.',
   'match3.tutorial.drop-ingredient.title': 'Drop story items',
   'match3.tutorial.drop-ingredient.body': 'Story items cannot be swapped. Clear cells below them so they fall, and guide each item to the bottom edge of the board.',
+  'match3.tutorial.activate-special.title': 'Activate a special tile',
+  'match3.tutorial.activate-special.body': 'Longer or shaped matches create special investigation tools. When one appears, double-tap it to activate its effect immediately. Special tiles can also be swapped, and later tutorials will cover combining them.',
   'match3.tutorial.try': 'TRY IT',
   'match3.evidenceFound': 'CLUE FOUND',
   'match3.continueStory': 'Continue Scene',

@@ -11,7 +11,7 @@ import {
 } from '../../data/levels';
 import { backgroundAssets, getScene } from '../../data/narrative';
 import { resolveMatch3TilePresentation, tilePresentationAssetsForActiveSet } from '../../data/match3TilePresentation';
-import { nextPendingMatch3Tutorial, tutorialCompletionEventsForMove, tutorialConceptsCompletedByEvents, type Match3TutorialConceptId } from '../../data/match3Tutorials';
+import { nextPendingMatch3Tutorial, tutorialCompletionEventsForMove, tutorialConceptsCompletedByEvents, tutorialRevealEventsForMove, type Match3TutorialConceptId, type Match3TutorialRevealEvent } from '../../data/match3Tutorials';
 import { postSceneForLevel } from '../../engine/CampaignStore';
 import { Match3Game, type BoardCell, type Match3Frame, type MoveResult } from '../../engine/Match3Game';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
@@ -56,6 +56,7 @@ export class Match3Controller {
   private lastTappedSpecial: { index: number; at: number } | null = null;
   private activeTutorial: Match3TutorialConceptId | null = null;
   private tutorialPromptDismissed = false;
+  private tutorialRevealEvents = new Set<Match3TutorialRevealEvent>(['level-start']);
 
   constructor(
     private readonly root: HTMLElement,
@@ -76,6 +77,7 @@ export class Match3Controller {
     this.lastTappedSpecial = null;
     this.activeTutorial = null;
     this.tutorialPromptDismissed = false;
+    this.tutorialRevealEvents = new Set(['level-start']);
     this.matchInputLocked = false;
   }
 
@@ -118,13 +120,13 @@ export class Match3Controller {
     </div>`;
   }
 
-  private recordTutorialMove(result: MoveResult): void {
+  private recordTutorialMove(result: MoveResult, directSpecialActivation = false): void {
     const level = this.activeMatch?.level;
-    if (!level) return;
-    const events = tutorialCompletionEventsForMove(result);
-    const completedNow = tutorialConceptsCompletedByEvents(level.tutorialConcepts, this.session.save.tutorialsCompleted, events);
-    if (completedNow.length === 0) return;
+    if (!level || !result.valid) return;
+    for (const revealEvent of tutorialRevealEventsForMove(result)) this.tutorialRevealEvents.add(revealEvent);
 
+    const events = tutorialCompletionEventsForMove(result, directSpecialActivation);
+    const completedNow = tutorialConceptsCompletedByEvents(level.tutorialConcepts, this.session.save.tutorialsCompleted, events);
     const previousActive = this.activeTutorial;
     for (const concept of completedNow) {
       this.session.save.tutorialsCompleted.push(concept);
@@ -132,9 +134,13 @@ export class Match3Controller {
         action: 'completed', conceptId: concept, levelId: level.id, prompted: concept === previousActive,
       });
     }
-    this.session.persist();
+    if (completedNow.length > 0) this.session.persist();
 
-    const next = nextPendingMatch3Tutorial(level.tutorialConcepts, this.session.save.tutorialsCompleted);
+    const next = nextPendingMatch3Tutorial(
+      level.tutorialConcepts,
+      this.session.save.tutorialsCompleted,
+      [...this.tutorialRevealEvents],
+    );
     if (next === previousActive) return;
     this.activeTutorial = next;
     this.tutorialPromptDismissed = false;
@@ -223,7 +229,8 @@ export class Match3Controller {
     this.triggeredBarks = new Set(['start']);
     this.matchBark = this.levelBark(level, 'start');
     this.lastTappedSpecial = null;
-    this.activeTutorial = nextPendingMatch3Tutorial(level.tutorialConcepts, this.session.save.tutorialsCompleted);
+    this.tutorialRevealEvents = new Set(['level-start']);
+    this.activeTutorial = nextPendingMatch3Tutorial(level.tutorialConcepts, this.session.save.tutorialsCompleted, [...this.tutorialRevealEvents]);
     this.tutorialPromptDismissed = false;
     if (this.activeTutorial) {
       this.services.telemetry.track('match_tutorial', { action: 'shown', conceptId: this.activeTutorial, levelId: level.id });
@@ -679,6 +686,7 @@ export class Match3Controller {
         return;
       }
 
+      this.recordTutorialMove(result, true);
       this.updateBark(result);
       await this.playMoveFrames(result, index, index, false);
       if (result.won) {
