@@ -156,7 +156,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'kentaro'],
       narrativeTags: ['apartment', 'photo-props', 'timeline', 'alibi'],
     },
-    activeTiles: ['camisole', 'laundryTag', 'panties', 'towel', 'socks', 'sportsBra'],
+    activeTiles: ['pantiesLacePink', 'pantiesHighWaistBlack', 'panties', 'camisole', 'sportsBra', 'laundryTag'],
     moves: 26,
     objectives: [
       { kind: 'clearBlockers', target: 10, label: 'Коробки' },
@@ -189,7 +189,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'norihiro'],
       narrativeTags: ['pool-locker', 'laundry', 'foam', 'service-access'],
     },
-    activeTiles: ['camisole', 'laundryTag', 'panties', 'towel', 'socks', 'sportsBra'],
+    activeTiles: ['pantiesSportWhite', 'pantiesBoyshortBlue', 'sportsBra', 'towel', 'laundryTag', 'socks'],
     moves: 25,
     objectives: [
       { kind: 'clearBlockers', target: 18, label: 'Пена' },
@@ -222,7 +222,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'norihiro'],
       narrativeTags: ['apartment', 'ordered-storage', 'returned-laundry', 'tampering'],
     },
-    activeTiles: ['camisole', 'laundryTag', 'panties', 'towel', 'socks', 'sportsBra'],
+    activeTiles: ['pantiesSportWhite', 'pantiesHighWaistBlack', 'pantiesBoyshortBlue', 'camisole', 'socks', 'laundryTag'],
     moves: 27,
     objectives: [
       { kind: 'clearBlockers', target: 8, label: 'Секции' },

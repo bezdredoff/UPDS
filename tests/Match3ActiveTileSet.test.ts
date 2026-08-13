@@ -11,8 +11,6 @@ import {
 import { Match3Game } from '../src/engine/Match3Game';
 
 const engineSource = readFileSync(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
-const legacyOrder: readonly Match3TileId[] = ['camisole', 'laundryTag', 'panties', 'towel', 'socks', 'sportsBra'];
-
 type MutableCell = {
   tile: Match3TileId | null;
   ingredient: unknown;
@@ -21,14 +19,13 @@ type MutableCell = {
 };
 
 describe('ANM-025C2A active tile set contract', () => {
-  it('keeps six active match identities per level while allowing production levels to replace the legacy set', () => {
+  it('keeps six active match identities per level while allowing narrative-specific production sets', () => {
     expect(ACTIVE_TILE_TYPE_LIMIT).toBe(6);
     expect(MAX_PANTIES_TYPES_PER_LEVEL).toBe(4);
     for (const level of levels) {
       expect(new Set(level.activeTiles).size).toBe(ACTIVE_TILE_TYPE_LIMIT);
       expect(level.activeTiles.every((tile) => tileKeys.includes(tile))).toBe(true);
     }
-    for (const level of levels.slice(1)) expect(level.activeTiles).toEqual(legacyOrder);
   });
 
   it('makes the engine source initial fill, refill and reshuffle from level.activeTiles rather than the global catalog', () => {

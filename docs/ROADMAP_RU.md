@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.0-dev`.
-Active production foundation: **ANM-025C2A Active Tile Set Contract complete**; current production focus is **ANM-025C2B Locker Panties Production Pack**.
+Active production foundation: **ANM-025C Tile Presentation / Variation Expansion complete through C2C**; next production focus is **ANM-025D Tutorial Framework**.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -30,7 +30,7 @@ Active production foundation: **ANM-025C2A Active Tile Set Contract complete**; 
 - полный ручной QA всех direct special combinations на телефоне;
 - при следующем намеренно rejected/stale ZIP полезно подтвердить live failure-cleanup path: run остаётся красным, а `incoming` очищается без второго zero-ZIP run.
 
-Эти проверки не блокируют ANM-025C2B: gameplay mechanics уже имеют automated contracts, а C2B меняет production tile catalog и состав первого уровня без изменения special rules.
+Эти проверки не блокируют ANM-025D: gameplay mechanics и tile-set contracts уже имеют automated coverage, а следующий slice строит tutorial framework поверх стабильной механики.
 
 ### Deferred, not cancelled
 
@@ -61,7 +61,7 @@ Completed split:
 
 ### ANM-025 — Match-3 Production Framework [P0]
 
-Current slice: **025C2B Locker Panties Production Pack**. 025A, 025B, 025C1 и 025C2A complete. C2B добавляет первый production art set: M3_00 использует четыре визуально и механически разные panties match-types плюс два support types.
+Current baseline: **025C complete through C2C Campaign Tile Set Rollout**. M3_00 использует четыре визуально и механически разные panties match-types, а M3_01–M3_03 повторно используют общий tile catalog с narrative-specific составами. Next slice: **025D Tutorial Framework**.
 
 After ANM-024:
 - Golden Sample presentation parity;
