@@ -2,7 +2,12 @@ import type { Match3LevelContext } from './match3Context';
 
 export const BOARD_SIZE = 8;
 
-export type TileKey = 'camisole' | 'laundryTag' | 'panties' | 'towel' | 'socks' | 'sportsBra';
+export type Match3TileId = 'camisole' | 'laundryTag' | 'panties' | 'towel' | 'socks' | 'sportsBra';
+/** Compatibility alias while older tests/tools migrate to concrete match identities. */
+export type TileKey = Match3TileId;
+export type Match3TileCategory = 'panties' | 'bra' | 'camisole' | 'socks' | 'towel' | 'tag';
+export const ACTIVE_TILE_TYPE_LIMIT = 6;
+export const MAX_PANTIES_TYPES_PER_LEVEL = 4;
 export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel';
 export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet';
 export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004';
@@ -11,7 +16,7 @@ export type BoardPlacement = Readonly<{ index: number; layers: 1 | 2 }>;
 export type IngredientPlacement = Readonly<{ index: number; kind: IngredientKey }>;
 
 export type LevelObjective =
-  | Readonly<{ kind: 'collect'; tile: TileKey; target: number; label: string }>
+  | Readonly<{ kind: 'collect'; tile: Match3TileId; target: number; label: string }>
   | Readonly<{ kind: 'clearBlockers'; target: number; label: string }>
   | Readonly<{ kind: 'drop'; ingredient: IngredientKey; target: number; label: string }>;
 
@@ -21,6 +26,8 @@ export type LevelDefinition = Readonly<{
   title: string;
   storyAction: string;
   context: Match3LevelContext;
+  /** Exactly six concrete match identities available to initial fill, refill and reshuffle. */
+  activeTiles: readonly Match3TileId[];
   moves: number;
   objectives: readonly LevelObjective[];
   blocker: BlockerKey;
@@ -35,15 +42,15 @@ export type LevelDefinition = Readonly<{
   loseBark: Readonly<{ speaker: string; text: string }>;
 }>;
 
-export const tileKeys: readonly TileKey[] = ['camisole', 'laundryTag', 'panties', 'towel', 'socks', 'sportsBra'];
+export const tileKeys: readonly Match3TileId[] = ['camisole', 'laundryTag', 'panties', 'towel', 'socks', 'sportsBra'];
 
-export const tilePresentation: Record<TileKey, Readonly<{ label: string; asset: string; color: string }>> = {
-  camisole: { label: 'Ткань', asset: './assets/match3/tile_camisole_purple.png', color: '#7466ae' },
-  laundryTag: { label: 'Бирка', asset: './assets/match3/tile_laundry_tag_gold.png', color: '#d8a347' },
-  panties: { label: 'Комплект', asset: './assets/match3/tile_panties_coral.png', color: '#df7181' },
-  towel: { label: 'Полотенце', asset: './assets/match3/tile_rolled_towel_blue.png', color: '#6da9cf' },
-  socks: { label: 'Пара', asset: './assets/match3/tile_socks_cream.png', color: '#d8c7a8' },
-  sportsBra: { label: 'Спорт', asset: './assets/match3/tile_sports_bra_teal.png', color: '#45a6a3' },
+export const tilePresentation: Record<Match3TileId, Readonly<{ label: string; asset: string; color: string; category: Match3TileCategory }>> = {
+  camisole: { label: 'Ткань', asset: './assets/match3/tile_camisole_purple.png', color: '#7466ae', category: 'camisole' },
+  laundryTag: { label: 'Бирка', asset: './assets/match3/tile_laundry_tag_gold.png', color: '#d8a347', category: 'tag' },
+  panties: { label: 'Комплект', asset: './assets/match3/tile_panties_coral.png', color: '#df7181', category: 'panties' },
+  towel: { label: 'Полотенце', asset: './assets/match3/tile_rolled_towel_blue.png', color: '#6da9cf', category: 'towel' },
+  socks: { label: 'Пара', asset: './assets/match3/tile_socks_cream.png', color: '#d8c7a8', category: 'socks' },
+  sportsBra: { label: 'Спорт', asset: './assets/match3/tile_sports_bra_teal.png', color: '#45a6a3', category: 'bra' },
 };
 
 export const ingredientPresentation: Record<IngredientKey, Readonly<{ label: string; asset: string }>> = {
@@ -89,6 +96,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'emi'],
       narrativeTags: ['locker-room', 'laundry', 'missing-underwear', 'evidence-sort'],
     },
+    activeTiles: ['camisole', 'laundryTag', 'panties', 'towel', 'socks', 'sportsBra'],
     moves: 24,
     objectives: [
       { kind: 'collect', tile: 'camisole', target: 8, label: 'Ткань' },
@@ -123,6 +131,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'kentaro'],
       narrativeTags: ['apartment', 'photo-props', 'timeline', 'alibi'],
     },
+    activeTiles: ['camisole', 'laundryTag', 'panties', 'towel', 'socks', 'sportsBra'],
     moves: 26,
     objectives: [
       { kind: 'clearBlockers', target: 10, label: 'Коробки' },
@@ -155,6 +164,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'norihiro'],
       narrativeTags: ['pool-locker', 'laundry', 'foam', 'service-access'],
     },
+    activeTiles: ['camisole', 'laundryTag', 'panties', 'towel', 'socks', 'sportsBra'],
     moves: 25,
     objectives: [
       { kind: 'clearBlockers', target: 18, label: 'Пена' },
@@ -187,6 +197,7 @@ export const levels: readonly LevelDefinition[] = [
       participants: ['miku', 'onoe', 'ayuki', 'norihiro'],
       narrativeTags: ['apartment', 'ordered-storage', 'returned-laundry', 'tampering'],
     },
+    activeTiles: ['camisole', 'laundryTag', 'panties', 'towel', 'socks', 'sportsBra'],
     moves: 27,
     objectives: [
       { kind: 'clearBlockers', target: 8, label: 'Секции' },
@@ -226,6 +237,18 @@ export function validateLevelDefinitions(definitions: readonly LevelDefinition[]
     if (new Set(level.context.participants).size !== level.context.participants.length) errors.push(`${level.id}: duplicate narrative participant`);
     if (level.context.narrativeTags.length === 0) errors.push(`${level.id}: no narrative tags`);
     if (new Set(level.context.narrativeTags).size !== level.context.narrativeTags.length) errors.push(`${level.id}: duplicate narrative tag`);
+    if (level.activeTiles.length !== ACTIVE_TILE_TYPE_LIMIT) errors.push(`${level.id}: active tile set must contain exactly ${ACTIVE_TILE_TYPE_LIMIT} types`);
+    if (new Set(level.activeTiles).size !== level.activeTiles.length) errors.push(`${level.id}: duplicate active tile id`);
+    const unknownActiveTiles = level.activeTiles.filter((tile) => !tilePresentation[tile]);
+    if (unknownActiveTiles.length > 0) errors.push(`${level.id}: unknown active tile id ${unknownActiveTiles.join(',')}`);
+    const activePresentations = level.activeTiles.map((tile) => tilePresentation[tile]).filter(Boolean);
+    const activeAssets = activePresentations.map((presentation) => presentation.asset);
+    if (new Set(activeAssets).size !== activeAssets.length) errors.push(`${level.id}: different active tile ids share the same asset`);
+    const pantiesTypes = activePresentations.filter((presentation) => presentation.category === 'panties').length;
+    if (pantiesTypes > MAX_PANTIES_TYPES_PER_LEVEL) errors.push(`${level.id}: more than ${MAX_PANTIES_TYPES_PER_LEVEL} panties match types`);
+    for (const objective of level.objectives) {
+      if (objective.kind === 'collect' && !level.activeTiles.includes(objective.tile)) errors.push(`${level.id}: collect objective tile ${objective.tile} is not active`);
+    }
     if (level.blockers.some(({ index }) => index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: blocker outside board`);
     if (new Set(level.blockers.map(({ index }) => index)).size !== level.blockers.length) errors.push(`${level.id}: duplicate blocker cell`);
     if (level.ingredients.some(({ index }) => index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: ingredient outside board`);

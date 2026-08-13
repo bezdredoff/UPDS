@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.0-dev`.
-Active production foundation: **ANM-025B Narrative Level Context complete**; next production focus is **ANM-025C Match-3 presentation variation**.
+Active production foundation: **ANM-025C1 Tile Presentation Profile Contract complete**; current production focus is **ANM-025C2A Active Tile Set Contract**.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -30,7 +30,7 @@ Active production foundation: **ANM-025B Narrative Level Context complete**; nex
 - полный ручной QA всех direct special combinations на телефоне;
 - при следующем намеренно rejected/stale ZIP полезно подтвердить live failure-cleanup path: run остаётся красным, а `incoming` очищается без второго zero-ZIP run.
 
-Эти проверки не блокируют переход к ANM-025C, потому что automated contracts уже зелёные и 025A–B не меняли соответствующие gameplay mechanics.
+Эти проверки не блокируют ANM-025C2A, потому что соответствующие gameplay mechanics имеют automated contracts, а C2A меняет только источник допустимых match identities.
 
 ### Deferred, not cancelled
 
@@ -61,7 +61,7 @@ Completed split:
 
 ### ANM-025 — Match-3 Production Framework [P0]
 
-Current slice: **025B Narrative Level Context merged**. 025A Golden Sample parity R2 and 025B narrative context are complete; next is **025C Tile presentation/variation expansion**.
+Current slice: **025C2A Active Tile Set Contract**. 025A, 025B and 025C1 are complete. C2A делает tile composition level-driven; C2B после него добавляет production art и первый уровень с несколькими разными panties match-types.
 
 After ANM-024:
 - Golden Sample presentation parity;
