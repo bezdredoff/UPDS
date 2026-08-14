@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { characterProductionManifest } from '../src/data/characterProduction';
 import {
   SCENE_STAGING_FORMAT,
   sceneStagingManifest,
@@ -10,7 +11,9 @@ import { resolveSceneStagingPreset } from '../src/ui/sceneStaging';
 import {
   VN_RUNTIME_PORTRAIT_BOTTOM_PERCENT,
   VN_RUNTIME_PORTRAIT_HEIGHT_PERCENT,
+  SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT,
   resolveVnPortraitCamera,
+  resolveVnPortraitEyeLineCamera,
 } from '../src/ui/vnPortraitGeometry';
 import {
   SCENE_STUDIO_CALIBRATION_FORMAT,
@@ -53,24 +56,60 @@ describe('ANM-028B1 reusable scene staging contract', () => {
     expect(resolution.actors.map((actor) => actor.shotScale)).toEqual([0.84, 0.84]);
     expect(resolution.actors.map((actor) => actor.effectiveScale)).toEqual([0.84, 0.84]);
     expect(resolution.actors.map((actor) => actor.portraitHeightPercent)).toEqual([149.52, 149.52]);
-    expect(resolution.actors.map((actor) => actor.portraitBottomPercent)).toEqual([-49.52, -49.52]);
+    expect(resolution.actors.map((actor) => actor.verticalAnchor)).toEqual([
+      'background-focal-eye-line',
+      'background-focal-eye-line',
+    ]);
+    expect(resolution.actors.every((actor) => actor.resolvedEyeLinePercent === SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT)).toBe(true);
     expect(resolution.actors[0].safeBox.rightPercent).toBeLessThan(resolution.actors[1].safeBox.leftPercent);
   });
 
-  it('derives every actor shot from the accepted runtime crop while keeping the canvas top fixed', () => {
+  it('preserves the accepted runtime crop and keeps only solo shots top-anchored', () => {
     expect(resolveVnPortraitCamera()).toEqual({
       shotScale: 1,
       heightPercent: VN_RUNTIME_PORTRAIT_HEIGHT_PERCENT,
+      topPercent: 0,
       bottomPercent: VN_RUNTIME_PORTRAIT_BOTTOM_PERCENT,
     });
     for (const preset of Object.values(sceneStagingManifest.presets)) {
+      const actorSlots = preset.slots.filter((slot) => slot.kind === 'actor');
       for (const slot of preset.slots) {
         if (slot.kind !== 'actor') continue;
         const camera = resolveVnPortraitCamera(slot.shotScale);
         expect(camera.heightPercent + camera.bottomPercent, `${preset.id}:${slot.id}`).toBeCloseTo(100, 8);
         expect(camera.heightPercent, `${preset.id}:${slot.id}`).toBeGreaterThan(120);
+        expect(slot.verticalAnchor, `${preset.id}:${slot.id}`).toBe(
+          actorSlots.length > 1 ? 'background-focal-eye-line' : 'runtime-top',
+        );
       }
     }
+  });
+
+  it('anchors duo and trio eyes to the focal line instead of shrinking full masters from a fixed top edge', () => {
+    const duo = resolveSceneStagingPreset('two-shot-alliance', [
+      { character: 'onoe', expression: 'smile' },
+      { character: 'ayuki', expression: 'smile' },
+    ]);
+    const trio = resolveSceneStagingPreset('trio-central-speaker', [
+      { character: 'miku', expression: 'serious' },
+      { character: 'onoe', expression: 'neutral' },
+      { character: 'ayuki', expression: 'smile' },
+    ]);
+    expect(duo.actors).toHaveLength(2);
+    expect(trio.actors).toHaveLength(3);
+    for (const actor of [...duo.actors, ...trio.actors]) {
+      expect(actor.verticalAnchor).toBe('background-focal-eye-line');
+      expect(actor.resolvedEyeLinePercent).toBeCloseTo(SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT, 4);
+      expect(actor.portraitTopPercent).toBeGreaterThan(20);
+      expect(actor.headTopPercent).toBeGreaterThan(20);
+      expect(actor.portraitBottomPercent).toBeLessThan(-60);
+      expect(actor.guideGeometrySource).toBe('expression-frame');
+      expect(actor.frameAlphaBounds).toEqual(
+        characterProductionManifest.characters[actor.character].proportion.frameGeometry[actor.expression].alphaBounds,
+      );
+    }
+    expect(resolveVnPortraitEyeLineCamera(0.72, 158).resolvedEyeLinePercent)
+      .toBe(SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT);
   });
 
   it('requires exact actor assignments instead of silently dropping a counterpart', () => {
@@ -117,6 +156,12 @@ describe('ANM-028B1 reusable scene staging contract', () => {
       severity: 'warning',
       code: 'bottom-pivot',
       subject: 'miku',
+    }));
+    expect(metrics.find((metric) => metric.character === 'emi')?.visualApproval).toBe('rebuild-required');
+    expect(validateSceneStudioCalibration()).toContainEqual(expect.objectContaining({
+      severity: 'warning',
+      code: 'master-rebuild',
+      subject: 'emi',
     }));
   });
 });

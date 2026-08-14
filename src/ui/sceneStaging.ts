@@ -13,7 +13,12 @@ import {
   type CharacterStaging,
   type RuntimeExpression,
 } from '../data/characterRigs';
-import { resolveVnPortraitCamera } from './vnPortraitGeometry';
+import {
+  characterProductionManifest,
+  type CharacterAlphaBounds,
+  type CharacterVisualApproval,
+} from '../data/characterProduction';
+import { resolveVnPortraitCamera, resolveVnPortraitEyeLineCamera } from './vnPortraitGeometry';
 
 export type SceneStagingActorInput = Readonly<{
   character: CharacterKey;
@@ -29,12 +34,21 @@ export type ResolvedSceneActor = Readonly<{
   pose: 'pose-a' | 'pose-b';
   anchorXPercent: number;
   anchorYPercent: number;
+  verticalAnchor: SceneStagingActorSlot['verticalAnchor'];
   shotScale: number;
   canonicalCharacterScale: number;
   canonicalCharacterYPercent: number;
   effectiveScale: number;
   portraitHeightPercent: number;
+  portraitTopPercent: number;
   portraitBottomPercent: number;
+  frameAlphaBounds: CharacterAlphaBounds;
+  eyeLineYPx: number;
+  eyeLineRatio: number;
+  resolvedEyeLinePercent: number;
+  headTopPercent: number;
+  guideGeometrySource: 'expression-frame' | 'neutral-pose-b-fallback';
+  visualApproval: CharacterVisualApproval;
   safeBox: SceneStagingActorSlot['safeBox'];
   zIndex: number;
 }>;
@@ -62,21 +76,42 @@ export function resolveSceneStagingPreset(
     actors: actorSlots.map((slot, index) => {
       const input = actors[index];
       const staging = canonicalStaging[input.character];
-      const camera = resolveVnPortraitCamera(slot.shotScale);
+      const definition = characterProductionManifest.characters[input.character];
+      const pose = input.pose ?? 'pose-a';
+      const geometry = pose === 'pose-a'
+        ? definition.proportion.frameGeometry[input.expression]
+        : definition.proportion.frameGeometry.neutral;
+      const eyeLineYPx = geometry.eyeLineYPx;
+      const camera = slot.verticalAnchor === 'background-focal-eye-line'
+        ? resolveVnPortraitEyeLineCamera(slot.shotScale, eyeLineYPx)
+        : resolveVnPortraitCamera(slot.shotScale);
+      const resolvedEyeLinePercent = camera.resolvedEyeLinePercent ??
+        camera.topPercent + camera.heightPercent * eyeLineYPx / characterProductionManifest.frameCanvas.height;
+      const headTopPercent = camera.topPercent + camera.heightPercent * geometry.alphaBounds.top /
+        characterProductionManifest.frameCanvas.height;
       return {
         slotId: slot.id,
         role: slot.role,
         character: input.character,
         expression: input.expression,
-        pose: input.pose ?? 'pose-a',
+        pose,
         anchorXPercent: slot.anchorXPercent,
         anchorYPercent: slot.anchorYPercent,
+        verticalAnchor: slot.verticalAnchor,
         shotScale: slot.shotScale,
         canonicalCharacterScale: staging.scale,
         canonicalCharacterYPercent: staging.yPercent,
         effectiveScale: staging.scale * slot.shotScale,
         portraitHeightPercent: camera.heightPercent,
+        portraitTopPercent: camera.topPercent,
         portraitBottomPercent: camera.bottomPercent,
+        frameAlphaBounds: geometry.alphaBounds,
+        eyeLineYPx,
+        eyeLineRatio: eyeLineYPx / characterProductionManifest.frameCanvas.height,
+        resolvedEyeLinePercent,
+        headTopPercent,
+        guideGeometrySource: pose === 'pose-a' ? 'expression-frame' : 'neutral-pose-b-fallback',
+        visualApproval: definition.visualApproval,
         safeBox: slot.safeBox,
         zIndex: slot.zIndex,
       };
