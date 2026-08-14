@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story with ANM-029A localization production foundation in QA.
+Status: active architecture through completed ANM-027G `0–21` canonical story and merged ANM-029A localization production foundation; ANM-029B1 Belarusian player shell is in QA.
 
 ## Runtime flow
 
@@ -200,6 +200,8 @@ between translation targets and runtime-selectable locales. `CatalogAudit.ts` ow
 completeness/placeholder checks; `LocalizationGlossary.ts` owns stable translator terminology.
 A locale remains `translation-pending` and absent from the selector until its full production catalog
 passes the readiness contract.
+
+ANM-029B builds pending locale catalogs in bounded review scopes. `src/localization/catalogs/be.ts` may therefore exist as an intentionally partial production draft while `be` remains absent from `appCatalogs`/`supportedLocales`; structural scope audits must not be confused with full-locale readiness.
 
 RU and EN currently cover the complete authored slots `0–21` and active Match-3 systems and are the
 only runtime-selectable locales. VN IDs, level IDs, reaction IDs and telemetry remain locale-independent.
