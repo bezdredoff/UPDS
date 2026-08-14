@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.3-dev`.
-Active production foundation: **ANM-025 Match-3 production framework + ANM-026 tooling + ANM-027 story architecture/import pipeline for currently authored canon + ANM-027E lean content production contract + accepted ANM-028B1 R4.1 Scene Studio geometry + approved ANM-028D0 neutral, ANM-028D1 smile and ANM-028D2 serious**. Current candidate focus: **ANM-028D3 R1 Emi surprised multi-ROI QA**. By explicit production decision, the remaining Emi expression family is completed one asset at a time before returning to **ANM-027F full-story macro lock**. Full screenplay production beyond the ANM-003 vertical slice remains pending before ANM-029/release.
+Active production foundation: **ANM-025/026 Match-3 production + tooling, ANM-027A–F story pipeline/lean contract/full macro lock, accepted ANM-028B1 R4.1 Scene Studio geometry and ANM-028D3A Emi approved-frame runtime transition**. Current candidate focus: **ANM-028B2 R1 bounded authored VN shot adoption**. Remaining character-art generation is paused for an external Stable Diffusion workflow; the next content blocker after B2 is **ANM-028B3 guest/witness presentation**, then **ANM-027G batch `4–6`**.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -40,11 +40,10 @@ Active production foundation: **ANM-025 Match-3 production framework + ANM-026 t
 
 ### Current candidate / manual acceptance required
 
-- **ANM-028D3 R1 Emi Surprised Candidate — IN QA** — the third expression is derived from the
-  approved neutral through three bounded eye/brow/mouth ROIs. It preserves alpha bounds
-  `330,80,737,1508`, `y=244` eye line and `28 px` bottom padding. Scene Studio defaults to surprised
-  and retains explicit runtime/approved-neutral/approved-smile/approved-serious controls; no runtime
-  asset is replaced.
+- **ANM-028B2 R1 Authored VN Shot Adoption — IN QA** — five stable ANM-003 line IDs use the accepted
+  `upds-scene-staging-v1` resolver directly in playable VN, covering trio, duo and one real Pose B
+  shot while every unlisted line retains the stable legacy staging fallback. Scene Studio can preview
+  the same authored declarations. No new art is introduced.
 - R1/PR #92 passed automated gates but did not pass final visual acceptance because it lacked real
   VN chrome/occlusion and exposed unresolved character/background inconsistencies. It is evidence,
   not a completed roadmap item.
@@ -150,8 +149,8 @@ The missing full screenplay does not block ANM-028 Character Production Pipeline
 
 Content-production split:
 - **027E Lean Content Production Contract — COMPLETE** — [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md) preserves slots `0–21` while capping one-off production through full-stage/guest/extras tiers, eight staging presets, 8–10 location masters, 5–7 hero clue close-ups and 5–6 Match-3 layout archetypes;
-- **027F Full Story Macro Lock — NEXT AFTER 028B1 R4.1 AND EMI NEUTRAL BASELINE** — reconcile `ANM-001 Story Bible v0.2`, `ANM-002 22-Episode Plot v0.1` and the historical 115-slide `UPDS.pptx` into a `0–21` beat/location/cast/clue/Match-3/transition/asset-trigger map before detailed writing; use ANM-027E budgets instead of ANM-002 §8 production estimates and only the preset IDs frozen by accepted 028B1 R4.1;
-- **027G Episode Batch Production & Canonical Import — PENDING 027F** — author/import three sequential episodes per reviewable package, starting with `4–6`, using the existing manifest/audit/graph/runtime pipeline.
+- **027F Full Story Macro Lock — COMPLETE** — slots `0–21`, endings `19–21`, eight location families, six reusable Match-3 archetypes, six hero clue close-ups, full-stage/guest tiers and asset triggers are locked in `src/content/story/ANM027F.full-story-macro.json`; slots `0–3` remain authored and `4–21` remain macro-only until 027G;
+- **027G Episode Batch Production & Canonical Import — PENDING 028B2/028B3** — author/import three sequential episodes per reviewable package, starting with `4–6`, using the existing manifest/audit/graph/runtime pipeline after authored shot and guest/witness presentation contracts are ready.
 
 ### ANM-028 — Character Production Pipeline 2.0 [P0/P1] — IN PROGRESS
 
@@ -159,13 +158,13 @@ Do not resume mass character production before the 028B shared Studio/lineup con
 
 Current split:
 - **028A Character Production Manifest & Validator Foundation — COMPLETE** — canonical `upds-character-production-v2`, production/planned status, 7-asset precomposed runtime set, adult guardrail, proportional-height/alpha-bounds gate, PNG dimension/runtime-catalog audit and stale ANM-021 manifest cleanup;
-- **028B Character/Scene Studio 2.0 — IN PROGRESS; 028B1 R4.1 COMPLETE** — reusable preset registry, focal-eye-line duo/trio, selected-frame guides, viewport, lineup and background-calibration QA are accepted; background/shot/actor-position/expression/Pose B authoring remains 028B2 and guest presentation remains 028B3;
+- **028B Character/Scene Studio 2.0 — IN PROGRESS; 028B1 R4.1 COMPLETE / 028B2 R1 IN QA** — reusable preset geometry is accepted; B2 connects stable authored line IDs to background/preset/actor/expression/Pose B declarations in playable VN; guest presentation remains 028B3;
 - **028C Safe Character Motion** — lightweight breathing/blink/speaking only after a replacement/delta approach proves no double-face, halo or authored-expression loss;
-- **028D Character Production / Normalization — IN PROGRESS** — **028D0 R1 Emi neutral master and ANM-028D1 smile/ANM-028D2 serious are approved**. Complete surprised/embarrassed, Pose B and medallion before the atomic runtime replacement. Then integrate Kentaro → Norihiro → Mayu through the same gate; Rina/Kurose remain pending 027F.
+- **028D Character Production / Normalization — ART GENERATION PAUSED** — Emi D0 neutral, D1 smile, D2 serious and D3 surprised are approved; D3A exposes those four frames in runtime through an explicit override while legacy embarrassed/Pose B/medallion remain fallback. Remaining character art moves through the external Stable Diffusion workflow; ANM-027F has now locked Rina/Kurose as recurring-stage budget entries, not runtime assets.
 
 Delivery order inside 028B:
 - **028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE** — canonical `upds-scene-staging-v1` registry/resolver plus shared playable VN chrome, eye-line-anchored duo/trio camera, selected-expression alpha/eye guides, ANM-024 viewport matrix, contain-over-fill/background guides, visual-status lineup, diagnostics and read-only QA report; no new art; authored VN adoption remains 028B2;
-- **028B2 Shared Lineup & Shot Authoring — PENDING 027F** — production-baseline ruler plus background, shot, actor-role, expression and Pose B controls against the same resolver, followed by bounded authored multi-character VN adoption;
+- **028B2 Shared Lineup & Shot Authoring — R1 IN QA** — `upds-authored-vn-shots-v1` binds stable authored line IDs to background, preset, actor-role/order, expression and Pose B metadata; R1 adopts five ANM-003 Golden Sample shots while leaving every unlisted line on the legacy fallback;
 - **028B3 Guest/Witness Presentation Contract** — separate bust/two-expression/medallion schema, renderer and validator; it must not weaken or fake the strict 7-asset full-stage manifest.
 
 Needs across the full feature:
@@ -253,21 +252,17 @@ Do not consume core production capacity before base release.
 
 ## Recommended immediate sequence
 
-1. **ANM-025/026 and ANM-027A–D — COMPLETE foundations**;
-2. **ANM-027E Lean Content Production Contract — COMPLETE**;
-3. **ANM-028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE**; accepted through candidate CI + iPhone visual QA and merged in PR #96;
-4. **ANM-028D0 R1 Emi Neutral Master Rebuild — COMPLETE** — approved on iPhone in lineup/solo/two-shot/trio and merged in PR #97;
-5. **ANM-028D1 R1 Emi Smile — COMPLETE** — approved on iPhone and merged in PR #98;
-6. **ANM-028D2 R1 Emi Serious — COMPLETE** — approved on iPhone and merged in PR #99;
-7. **ANM-028D3 R1 Emi Surprised — IN QA** — validate the three-ROI expression, then produce embarrassed, Pose B and medallion one at a time;
-8. **ANM-027F Full Story Macro Lock** from the approved Story Bible and original scenario presentation, preserving all slots `0–21` and three endings and assigning only approved staging preset IDs;
-9. finish 028B2/028B3, run the bounded 028C safe-motion proof and complete Kentaro/Norihiro/Mayu production through 028D as their batches require them;
-10. **ANM-027G** detailed screenplay/import in three-episode packages from `4–6` through the complete canonical content lock;
-11. ANM-029 localization only after the full canonical screenplay exists;
-12. ANM-030 budgeted mass art/content;
-13. ANM-031 landscape;
-14. ANM-032 music;
-15. ANM-033 release hardening.
+1. **ANM-025/026 and ANM-027A–F — COMPLETE foundations + full macro lock**;
+2. **ANM-028B1 R4.1 — COMPLETE** and **ANM-028D3A — COMPLETE**;
+3. **ANM-028B2 R1 — CURRENT QA** — bounded authored multi-character VN adoption;
+4. **ANM-028B3 — NEXT** — guest/witness presentation contract required by Hinata in slots 5–6;
+5. **ANM-027G** detailed screenplay/import in packages `4–6`, `7–9`, `10–12`, `13–15`, `16–18`, `19–21`;
+6. resume approved external character/background asset integration only when a content batch triggers it;
+7. ANM-029 localization after the full canonical screenplay exists;
+8. ANM-030 budgeted mass art/content;
+9. ANM-031 landscape;
+10. ANM-032 music;
+11. ANM-033 release hardening.
 
 ## Backlog principle
 

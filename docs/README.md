@@ -37,10 +37,11 @@ If two active documents conflict, prefer the narrower current machine-readable c
 - [`features/ANM027B_RUNTIME_ROUTING_MIGRATION_RU.md`](features/ANM027B_RUNTIME_ROUTING_MIGRATION_RU.md)
 - [`features/ANM027C_STORY_IMPORT_COMPLETENESS_RU.md`](features/ANM027C_STORY_IMPORT_COMPLETENESS_RU.md)
 - [`features/ANM027D_FULL_STORY_IMPORT_RU.md`](features/ANM027D_FULL_STORY_IMPORT_RU.md)
+- [`features/ANM027F_FULL_STORY_MACRO_LOCK_RU.md`](features/ANM027F_FULL_STORY_MACRO_LOCK_RU.md) — completed `0–21` beat/location/cast/clue/Match-3/asset-trigger lock
 
-The repository currently contains the authored ANM-003 vertical slice only. The ANM-027 pipeline
-and ANM-027E lean production contract are ready. The screenplay beyond that slice is not yet
-present, the full macro lock is also pending, and neither must be described as complete.
+The repository currently contains detailed authored screenplay only for the ANM-003 vertical slice.
+ANM-027F full macro lock is complete for all slots `0–21`, but the screenplay beyond that slice is not yet
+present; slots `4–21` remain macro-only until ANM-027G imports them in three-episode batches.
 
 ### Character production
 
@@ -49,25 +50,26 @@ present, the full macro lock is also pending, and neither must be described as c
 - [`art/CHARACTER_USAGE_MANIFEST.json`](art/CHARACTER_USAGE_MANIFEST.json) — documentation mirror
 - [`features/ANM028A_CHARACTER_PRODUCTION_MANIFEST_RU.md`](features/ANM028A_CHARACTER_PRODUCTION_MANIFEST_RU.md)
 - [`features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md`](features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md) — accepted R4.1 foundation: eight reusable presets using the playable VN frame, focal-eye-line duo/trio staging, selected-expression alpha/eye guides, ANM-024 viewport/background calibration, visual-approval-aware lineup, diagnostics and zero-new-art budget preview
+- [`features/ANM028B2_AUTHORED_VN_SHOT_ADOPTION_RU.md`](features/ANM028B2_AUTHORED_VN_SHOT_ADOPTION_RU.md) — bounded playable-VN adoption of stable authored background/preset/actor/expression/Pose B declarations
 - [`features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md`](features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md) — approved Emi neutral R1 master and its completed lineup/solo/duo/trio gate
 - [`features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md`](features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md) — first bounded face-ROI expression candidate with neutral/smile/runtime comparison
 - [`features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md`](features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md) — serious expression from three bounded face ROIs with approved-reference/runtime comparison
-- [`features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md`](features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md) — surprised expression from three bounded face ROIs with approved-reference/runtime comparison
+- [`features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md`](features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md) — approved surprised expression from three bounded face ROIs
+- [`features/ANM028D3A_EMI_RUNTIME_ADOPTION_RU.md`](features/ANM028D3A_EMI_RUNTIME_ADOPTION_RU.md) — explicit hybrid runtime adoption of approved Emi D0–D3 frames while embarrassed/Pose B/medallion remain legacy fallback
 - [`art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md`](art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md) — ChatGPT Work prompt and technical export provenance
 - [`art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md`](art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md) — exact smile prompt and deterministic ROI provenance
 - [`art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md`](art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md) — exact serious prompt and deterministic multi-ROI provenance
 - [`art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md`](art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md) — exact surprised prompt and deterministic multi-ROI provenance
 
-Machine-readable sources of truth: `src/data/characterProduction.ts` for runtime full-stage assets/proportions,
-`src/data/characterCandidates.ts` (`upds-character-candidate-v1`) for isolated manual-QA candidates,
-`src/data/sceneStaging.ts` (`upds-scene-staging-v1`) for reusable composition coordinates and
-`src/data/sceneStudioCalibration.ts` (`upds-scene-studio-calibration-v1`) for read-only viewport,
-background and measurable lineup QA, and `src/ui/vnPortraitGeometry.ts` for runtime-top and
-multi-actor eye-line-anchored shot derivation. Per-expression guide geometry lives in the character
-manifest. Technical integration and visual approval are separate; Emi's existing set is
-runtime-integrated but marked `rebuild-required`. ANM-028D0 neutral is the approved authoring
-master, ANM-028D1 smile and ANM-028D2 serious are approved expressions, and ANM-028D3 surprised
-remains Studio-only until its expression QA.
+Machine-readable sources of truth: `src/data/characterProduction.ts` for the strict seven-asset full-stage
+fallback package, `src/data/characterRuntimeOverrides.ts` for the explicit temporary Emi D0–D3 runtime adoption,
+`src/data/characterCandidates.ts` (`upds-character-candidate-v1`) for production provenance/manual-QA sources,
+`src/data/sceneStaging.ts` (`upds-scene-staging-v1`) for reusable composition coordinates,
+`src/data/authoredVnShots.ts` (`upds-authored-vn-shots-v1`) for bounded stable-line shot declarations and
+`src/data/sceneStudioCalibration.ts` (`upds-scene-studio-calibration-v1`) for viewport/background/lineup QA.
+`src/ui/vnPortraitGeometry.ts` owns runtime-top and multi-actor eye-line camera derivation. Technical integration
+and whole-rig visual approval remain separate: approved Emi neutral/smile/serious/surprised are playable through
+D3A overrides, while legacy embarrassed/Pose B/medallion remain fallback until replacement art is supplied.
 
 ### Match-3 production and tooling
 

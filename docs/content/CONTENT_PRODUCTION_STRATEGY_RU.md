@@ -81,13 +81,13 @@ offline-композит выражений и библиотека staging pres
 | Episode Guest / Witness | например Hinata, Gen, Aoi, Kubo; окончательный список определяет macro lock | отдельный guest/witness package: один bust/half-body master, две читаемые эмоции и neutral medallion | короткая свидетельская или функциональная роль |
 | Extras | четыре повторно используемых взрослых архетипа | силуэт/полуфигура и precomposed варианты одежды/цвета | фоновые роли без отдельной драматической арки |
 
-Provisional production ceiling — не более девяти full-stage персонажей: три Stage Core и до шести
-Recurring Stage. Это **бюджет**, а не runtime status. На текущем baseline production manifest
-содержит runtime-production Miku/Onoe/Ayuki/Emi и planned Kentaro/Norihiro/Mayu; manual visual
-approval при этом отдельный. Старый Emi set всё ещё `rebuild-required`; ANM-028D0 neutral уже
-утверждён как authoring master, но полный старый runtime set остаётся fallback до завершения и
-атомарной интеграции всей replacement family.
-Rina/Kurose и гости не получают вымышленные paths до отдельного утверждённого integration slice.
+Production ceiling зафиксирован ANM-027F на **девяти full-stage персонажах**: Miku, Onoe,
+Ayuki, Emi, Kentaro, Norihiro, Mayu, Rina и Kurose. Это **бюджет**, а не текущий runtime status.
+Production manifest по-прежнему содержит runtime-production Miku/Onoe/Ayuki/Emi и planned
+Kentaro/Norihiro/Mayu; Rina/Kurose получают реальные manifest entries только при своём integration
+slice. После ANM-028D3A playable runtime осознанно использует approved Emi D0–D3 overrides для
+`neutral/smile/serious/surprised`, а legacy `embarrassed`, Pose B и medallion остаются временным
+fallback до внешнего Stable Diffusion replacement pass. Гости не получают вымышленные paths.
 
 Guest/witness package является планируемым отдельным presentation/asset contract. Пока его schema и
 runtime renderer не реализованы, гостя нельзя добавлять в `upds-character-production-v2` как якобы
@@ -238,20 +238,19 @@ Macro lock опирается на утверждённый Story Bible и ис�
 
 ## Immediate execution order
 
-1. **ANM-027E — COMPLETE** — этот lean production contract и traceability gate.
-2. **ANM-028B1 R4.1 — COMPLETE** — reusable `upds-scene-staging-v1`, shared playable VN frame,
-   focal-eye-line duo/trio crop, frame-accurate guides, viewport/background calibration,
-   visual-status lineup и read-only QA brief без нового art; R4.1 passed iPhone QA and merged as PR #96.
-3. **ANM-028D0 R1 — COMPLETE** — Emi neutral прошёл lineup/solo/two-shot/trio approval и является
-   approved authoring master, но остаётся вне runtime до полного семиассетного set.
-4. **ANM-028D1 R1 — COMPLETE** — smile прошёл iPhone QA и остаётся approved expression вне runtime.
-5. **ANM-028D2 R1 — COMPLETE** — serious прошёл iPhone QA и остаётся approved expression вне runtime.
-6. **ANM-028D3 R1 — IN QA** — surprised производится через три bounded face ROI; embarrassed,
-   Pose B и medallion следуют по одному, без массовой генерации и частичной runtime-подмены.
-7. **ANM-027F — NEXT AFTER EMI SET** — macro lock `0–21` и asset-trigger map на основе Story
-   Bible и исходной презентации; staging назначается только из замороженных после visual QA preset IDs.
-8. Завершить 028B Studio/lineup/guest preview; выполнить ограниченный 028C safe-motion proof и 028D
-   production integration в порядке, утверждённом roadmap.
-9. **ANM-027G** — screenplay/import пакетами по три эпизода, начиная с `4–6`, с параллельным
-   производством только тех assets, которые прошли trigger budget.
-10. ANM-029 mass localization и ANM-030 mass art — только после полного canonical content lock.
+1. **ANM-027E — COMPLETE** — lean production contract.
+2. **ANM-028B1 R4.1 — COMPLETE** — accepted shared preset/camera/guide geometry.
+3. **ANM-028D0–D3 + D3A — COMPLETE FOR CURRENT RUNTIME TRANSITION** — approved
+   `neutral/smile/serious/surprised` are live through a bounded override; remaining character-art
+   production is paused and moves to the external Stable Diffusion workflow.
+4. **ANM-027F — COMPLETE** — all slots `0–21`, three endings, eight location families, six Match-3
+   archetypes, six hero clue close-ups and the nine-character full-stage ceiling are macro-locked.
+5. **ANM-028B2 — CURRENT** — adopt authored background/preset/actor/expression/Pose B declarations
+   in playable VN through the accepted resolver, beginning with a bounded ANM-003 Golden Sample.
+6. **ANM-028B3 — NEXT** — implement the separate guest/witness schema, renderer and validator
+   required by Hinata in the first post-slice batch; no fake full-stage paths.
+7. **ANM-027G** — screenplay/import packages of three episodes, starting with `4–6`, with only
+   macro-approved asset triggers.
+8. Run the bounded 028C safe-motion proof when it no longer competes with content blockers; resume
+   full-stage character production from external approved art as batches require it.
+9. ANM-029 mass localization and ANM-030 mass art only after complete canonical content lock.
