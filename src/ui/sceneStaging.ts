@@ -16,6 +16,7 @@ import {
 import {
   characterProductionManifest,
   type CharacterAlphaBounds,
+  type CharacterPortraitFrameGeometry,
   type CharacterVisualApproval,
 } from '../data/characterProduction';
 import { resolveVnPortraitCamera, resolveVnPortraitEyeLineCamera } from './vnPortraitGeometry';
@@ -59,6 +60,31 @@ export type ResolvedSceneStaging = Readonly<{
   guestSlots: readonly SceneStagingGuestSlot[];
   nativeSlots: readonly SceneStagingNativeSlot[];
 }>;
+
+export function overrideResolvedActorFrameGeometry(
+  actor: ResolvedSceneActor,
+  geometry: CharacterPortraitFrameGeometry,
+): ResolvedSceneActor {
+  const camera = actor.verticalAnchor === 'background-focal-eye-line'
+    ? resolveVnPortraitEyeLineCamera(actor.shotScale, geometry.eyeLineYPx)
+    : resolveVnPortraitCamera(actor.shotScale);
+  const resolvedEyeLinePercent = camera.resolvedEyeLinePercent ??
+    camera.topPercent + camera.heightPercent * geometry.eyeLineYPx / characterProductionManifest.frameCanvas.height;
+  const headTopPercent = camera.topPercent + camera.heightPercent * geometry.alphaBounds.top /
+    characterProductionManifest.frameCanvas.height;
+  return {
+    ...actor,
+    portraitHeightPercent: camera.heightPercent,
+    portraitTopPercent: camera.topPercent,
+    portraitBottomPercent: camera.bottomPercent,
+    frameAlphaBounds: geometry.alphaBounds,
+    eyeLineYPx: geometry.eyeLineYPx,
+    eyeLineRatio: geometry.eyeLineYPx / characterProductionManifest.frameCanvas.height,
+    resolvedEyeLinePercent,
+    headTopPercent,
+    guideGeometrySource: 'expression-frame',
+  };
+}
 
 export function resolveSceneStagingPreset(
   presetId: SceneStagingPresetId,

@@ -134,16 +134,20 @@ describe('active documentation traceability', () => {
     expect(architecture).not.toContain('Status: ANM-023D audited baseline');
   });
 
-  it('makes the R4.1 multi-actor eye-line/frame-guide contract and its 028B boundaries traceable', () => {
+  it('keeps accepted R4.1 staging and the isolated ANM-028D0 neutral candidate traceable', () => {
     const roadmap = read('docs/ROADMAP_RU.md');
     const index = read('docs/README.md');
     const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
     const protectedContracts = read('docs/architecture/PROJECT_CONTRACTS_RU.md');
     const feature = read('docs/features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
+    const candidateFeature = read('docs/features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
+    const candidatePrompt = read('docs/art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md');
 
-    expect(roadmap).toContain('028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — IN QA');
-    expect(roadmap).toContain('028D0 Emi Neutral Master Rebuild');
+    expect(roadmap).toContain('028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE');
+    expect(roadmap).toContain('ANM-028D0 R1 Emi Neutral Candidate — IN QA');
     expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
+    expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
+    expect(index).toContain('ANM028D0_EMI_NEUTRAL_R1_PROMPT.md');
     expect(architecture).toContain('src/data/sceneStaging.ts');
     expect(architecture).toContain('src/data/sceneStudioCalibration.ts');
     expect(architecture).toContain('src/ui/vnFrameMarkup.ts');
@@ -155,6 +159,8 @@ describe('active documentation traceability', () => {
     expect(protectedContracts).toContain('background-focal-eye-line');
     expect(protectedContracts).toContain('Emi is `rebuild-required`');
     expect(protectedContracts).toContain('manual Golden Sample gates');
+    expect(protectedContracts).toContain('upds-character-candidate-v1');
+    expect(protectedContracts).toContain('runtimeEligible: false');
     expect(protectedContracts).toContain('ANM-028B2');
     expect(protectedContracts).toContain('ANM-028B3');
     expect(feature).toContain('## Восемь пресетов');
@@ -167,6 +173,12 @@ describe('active documentation traceability', () => {
     expect(feature).toContain('upds-scene-studio-qa-v1');
     expect(feature).toContain('guest-testimony-card');
     expect(feature).toContain('не входят');
+    expect(candidateFeature).toContain('330,80,737,1508');
+    expect(candidateFeature).toContain('runtimeEligible: false');
+    expect(candidateFeature).toContain('lineup/solo/duo/trio');
+    expect(candidateFeature).toContain('c224df25c35c610eb6f83e675f8d95f48b92a3c8');
+    expect(candidatePrompt).toContain('built-in ChatGPT Work `imagegen`');
+    expect(candidatePrompt).toContain('chroma-key green RGB #00FF00');
   });
 
   it('keeps mobile archive names short while preserving manifest authority', () => {

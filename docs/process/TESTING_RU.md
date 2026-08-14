@@ -1,6 +1,6 @@
 # UPDS — validation and test workflow
 
-Status: active at the ANM-028B1 R4.1 repository candidate.
+Status: active at accepted ANM-028B1 R4.1 plus ANM-028D0 R1 candidate QA.
 
 ## Authoritative gate
 
@@ -24,8 +24,8 @@ npm run docs:audit
 ```
 
 - `story:audit` — screenplay/manifest/graph completeness.
-- `character:audit` — character production manifest, PNG dimensions, selected-expression alpha
-  bounds/eye-line landmarks, visual-approval status and runtime paths.
+- `character:audit` — character production manifest, isolated candidate status, PNG dimensions,
+  selected-expression/candidate alpha bounds and eye-line landmarks, visual-approval status and runtime paths.
 - `scene:audit` — exact eight-preset registry/resolver, face-critical lanes, runtime-top and
   focal-eye-line camera derivation, duo/trio headroom, frame-accurate actor guides, ANM-024
   viewport/background calibration, contain geometry, measurable lineup/visual-status warnings,
@@ -96,8 +96,8 @@ lines and explicit deferred `VN0250`.
 - runtime asset and staging tests.
 
 They preserve the seven-asset precomposed contract, production/planned status, PNG dimensions,
-alpha-height proportions and absence of runtime face-overlay references. Visual style/anatomy still
-requires manual approval.
+alpha-height proportions, isolated `runtimeEligible: false` candidate geometry and absence of
+runtime face-overlay/candidate preload references. Visual style/anatomy still requires manual approval.
 
 ### Reusable scene staging
 
@@ -108,7 +108,8 @@ requires manual approval.
 They preserve the exact eight-preset `upds-scene-staging-v1` registry, safe non-overlapping boxes,
 canonical/shot scale separation, exact actor assignment, zero-new-art budgets, the
 `upds-scene-studio-calibration-v1` viewport/background contract, runtime contain fit, shared
-playable/QA VN frame, neutral lineup metrics, read-only QA report and an asset-free guest shell.
+playable/QA VN frame, runtime/candidate selector, exact candidate guides, neutral lineup metrics,
+read-only QA report and an asset-free guest shell.
 Style, anatomy, adult visual age, lighting, perspective and final composition/readability still
 require `/preview/` phone QA against the approved Golden Sample.
 
@@ -152,6 +153,8 @@ Also check low-height landscape does not break the shared viewport shell when re
 ### Character assets
 
 - standalone transparency/canvas/pivot;
+- for a candidate, assert RGBA/alpha bounds/eye line and verify it is absent from runtime rig/preload;
+- inspect extracted edges on both light and dark backgrounds;
 - shared-baseline lineup and authored proportions;
 - all five expression frames side by side and during switching;
 - Pose B/medallion;

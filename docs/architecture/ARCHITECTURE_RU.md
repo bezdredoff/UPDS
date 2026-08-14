@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: audited active architecture at the ANM-028B1 R4.1 repository candidate.
+Status: audited active architecture at accepted ANM-028B1 R4.1 plus the ANM-028D0 R1 Studio-only candidate.
 
 ## Runtime flow
 
@@ -75,12 +75,12 @@ save, campaign progression, clue or persistent tutorial side effects.
 
 ### `src/features/sceneStudio/SceneStudioController.ts`
 
-Owns the read-only ANM-028B1 R4.1 composition/calibration QA surface: preset/background/authored-line,
+Owns the read-only ANM-028B1 R4.1 composition/calibration and ANM-028D0 candidate QA surface: art-source/preset/background/authored-line,
 text-scale and ANM-024 viewport switching; the same shared VN frame as playable runtime; safe-area,
 playable portrait crop/occlusion; measured duo/trio eye-line alignment to the rendered background
 focal eye-line; distinct background-calibration, preset face-lane and selected-expression
 alpha/eye guides;
-canonical neutral lineup; separated
+canonical/candidate neutral lineup; separated
 automatic/warning/manual diagnostics; native evidence/guest shells; scene budget and structured QA
 report. It consumes shared resolvers/contracts and does not write screenplay, save, calibration
 approval, character manifests or production assets.
@@ -124,6 +124,8 @@ switch statements.
 ## Character production architecture
 
 - `src/data/characterProduction.ts` — canonical `upds-character-production-v2` manifest, runtime production/planned status, separate visual-approval status, assets, expression set, proportions and per-expression alpha/eye guide geometry with validator;
+- `src/data/characterCandidates.ts` — isolated `upds-character-candidate-v1` metadata for manual-QA
+  masters; candidates are explicitly non-runtime and may override only Studio asset/guide geometry;
 - `src/data/characterRigs.ts` — runtime rigs, staging and placeholders derived from that manifest;
 - `src/data/sceneStaging.ts` — canonical `upds-scene-staging-v1` registry/validator for eight reusable scene compositions;
 - `src/data/sceneStudioCalibration.ts` — read-only `upds-scene-studio-calibration-v1` viewport,
@@ -149,6 +151,8 @@ labelled non-overlapping face-critical lanes. Shoulder/lower-body overlap is all
 alone exposes the complete canvas and bottom-pivot/alpha drift.
 Runtime integration does not imply visual approval: Emi remains playable as a temporary fallback
 while `visualApproval: rebuild-required` prevents it from being treated as an approved style master.
+ANM-028D0 R1 is selected through an explicit Scene Studio `artSource`; its measured alpha/eye
+geometry replaces guides only in that read-only preview and it is absent from runtime preload/rig data.
 Authored VN adoption and its multi-character rendering remain a bounded ANM-028B2 migration, not
 hidden episode-specific conditions in `VnController`.
 

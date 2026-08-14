@@ -11,6 +11,11 @@ import {
 } from '../src/data/characterProduction';
 import { characterRigs, characterStaging, placeholderCharacters } from '../src/data/characterRigs';
 import { runtimeAssetCatalog } from '../src/platform/RuntimeAssets';
+import {
+  CHARACTER_CANDIDATE_FORMAT,
+  emiNeutralCandidate,
+  validateEmiNeutralCandidate,
+} from '../src/data/characterCandidates';
 
 
 type AlphaBounds = Readonly<{ left: number; top: number; right: number; bottom: number }>;
@@ -220,6 +225,19 @@ describe('ANM-028A character production manifest', () => {
     for (const key of plannedCharacterKeys) {
       expect(characterProductionManifest.characters[key].proportionApproval).toBe('required-before-production');
     }
+  });
+
+  it('ships Emi neutral R1 as a measured Studio-only RGBA candidate', async () => {
+    expect(validateEmiNeutralCandidate()).toEqual([]);
+    expect(emiNeutralCandidate.format).toBe(CHARACTER_CANDIDATE_FORMAT);
+    expect(emiNeutralCandidate.status).toBe('manual-qa');
+    expect(emiNeutralCandidate.runtimeEligible).toBe(false);
+    expect(runtimeAssetCatalog).not.toContain(emiNeutralCandidate.asset);
+    expect(await pngSize(emiNeutralCandidate.asset)).toEqual([1024, 1536]);
+    expect(await pngAlphaBounds(emiNeutralCandidate.asset)).toEqual(emiNeutralCandidate.geometry.alphaBounds);
+    expect(emiNeutralCandidate.visualHeightPx).toBe(1428);
+    expect(emiNeutralCandidate.bottomPaddingPx).toBe(28);
+    expect(emiNeutralCandidate.geometry.eyeLineYPx).toBe(244);
   });
 
   it('keeps the documentation mirror aligned with production/planned status and v2 runtime counts', async () => {
