@@ -53,8 +53,8 @@ describe('ANM-027F full-story macro lock', () => {
     expect(macro.status).toBe('locked-for-screenplay-authoring');
     expect(macro.baseline).toBe('f2a5f10fa232c0da0bb00f4f22803550b770641c');
     expect(macro.slots.map((slot) => slot.slot)).toEqual(Array.from({ length: 22 }, (_, index) => index));
-    expect(macro.slots.filter((slot) => slot.contentStatus === 'authored').map((slot) => slot.slot)).toEqual([0, 1, 2, 3, 4, 5, 6]);
-    expect(macro.slots.filter((slot) => slot.contentStatus === 'macro-locked').map((slot) => slot.slot)).toEqual(Array.from({ length: 15 }, (_, index) => index + 7));
+    expect(macro.slots.filter((slot) => slot.contentStatus === 'authored').map((slot) => slot.slot)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(macro.slots.filter((slot) => slot.contentStatus === 'macro-locked').map((slot) => slot.slot)).toEqual(Array.from({ length: 12 }, (_, index) => index + 10));
     expect(macro.endingPivotSlot).toBe(18);
     expect(macro.endingSlots).toEqual([19, 20, 21]);
     expect(macro.slots[18].transition).toEqual({ kind: 'ending-choice', targets: [19, 20, 21] });
@@ -118,8 +118,8 @@ describe('ANM-027F full-story macro lock', () => {
       { id: '16-18', slots: [16, 17, 18] },
       { id: '19-21', slots: [19, 20, 21] },
     ]);
-    expect(macro.slots.slice(0, 7).every((slot) => slot.match3.status === 'production-configured')).toBe(true);
-    expect(macro.slots.slice(7).every((slot) => slot.match3.status === 'planned-config')).toBe(true);
+    expect(macro.slots.slice(0, 10).every((slot) => slot.match3.status === 'production-configured')).toBe(true);
+    expect(macro.slots.slice(10).every((slot) => slot.match3.status === 'planned-config')).toBe(true);
     expect(macro.slots.slice(4, 7).flatMap((slot) => slot.assetTriggers.newMasterFamilies)).toEqual([]);
   });
 });

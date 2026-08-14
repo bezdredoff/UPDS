@@ -32,7 +32,10 @@ export type BackgroundKey =
   | 'norihiroApartment'
   | 'studentCouncilAuditorium'
   | 'basketballLocker'
-  | 'textileWorkshop';
+  | 'textileWorkshop'
+  | 'asterionLab'
+  | 'lostFoundWarehouse'
+  | 'maintenanceRoom';
 
 const conditionalSpeakerPattern = /^\{IF\s+([^}]+)\}\s*/;
 
@@ -122,6 +125,12 @@ export const sceneMeta: readonly SceneMeta[] = [
   { id: 'VN_SCENE_12_E5_POST', title: 'Сервисная строчка', location: 'Баскетбольная раздевалка', defaultBackground: 'basketballLocker' },
   { id: 'VN_SCENE_13_E6_PRE', title: 'Мастерская подозрительного размера', location: 'Текстильная мастерская Хинаты', defaultBackground: 'textileWorkshop' },
   { id: 'VN_SCENE_14_E6_POST', title: 'Шов после ремонта', location: 'Текстильная мастерская Хинаты', defaultBackground: 'textileWorkshop' },
+  { id: 'VN_SCENE_15_E7_PRE', title: 'Человек, у которого есть объяснение', location: 'Лаборатория Asterion Sports Lab', defaultBackground: 'asterionLab' },
+  { id: 'VN_SCENE_16_E7_POST', title: 'Нить Asterion', location: 'Лаборатория Asterion Sports Lab', defaultBackground: 'asterionLab' },
+  { id: 'VN_SCENE_17_E8_PRE', title: 'Восемьдесят семь пакетов', location: 'Центральный склад lost-and-found', defaultBackground: 'lostFoundWarehouse' },
+  { id: 'VN_SCENE_18_E8_POST', title: 'Пропуски в журнале', location: 'Центральный склад lost-and-found', defaultBackground: 'lostFoundWarehouse' },
+  { id: 'VN_SCENE_19_E9_PRE', title: 'Король потерянных носков', location: 'Хозяйственная комната', defaultBackground: 'maintenanceRoom' },
+  { id: 'VN_SCENE_20_E9_POST', title: 'Ночные контейнеры', location: 'Хозяйственная комната', defaultBackground: 'maintenanceRoom' },
 ] as const;
 
 export const backgroundAssets: Record<BackgroundKey, string> = {
@@ -133,13 +142,20 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   studentCouncilAuditorium: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
   basketballLocker: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
   textileWorkshop: './assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp',
+  // ANM-027G 7–9 semantic variants: no fake/new binaries; replace mappings when external masters arrive.
+  asterionLab: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
+  lostFoundWarehouse: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
+  maintenanceRoom: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
 };
 
 export function getBackgroundForLine(sceneIndex: number, lineIndex: number, story: readonly StoryLine[]): BackgroundKey {
   let background = sceneMeta[sceneIndex]?.defaultBackground ?? 'clubroom';
   for (let index = 0; index <= lineIndex && index < story.length; index += 1) {
     const direction = `${story[index].emotion} ${story[index].text}`;
-    if (direction.includes('BG_STUDENT_COUNCIL_AUDITORIUM')) background = 'studentCouncilAuditorium';
+    if (direction.includes('BG_ASTERION_LAB')) background = 'asterionLab';
+    else if (direction.includes('BG_LOST_FOUND_WAREHOUSE')) background = 'lostFoundWarehouse';
+    else if (direction.includes('BG_MAINTENANCE_ROOM')) background = 'maintenanceRoom';
+    else if (direction.includes('BG_STUDENT_COUNCIL_AUDITORIUM')) background = 'studentCouncilAuditorium';
     else if (direction.includes('BG_BASKETBALL_LOCKER')) background = 'basketballLocker';
     else if (direction.includes('BG_TEXTILE_WORKSHOP')) background = 'textileWorkshop';
     else if (direction.includes('BG_LOCKER_ATHLETICS')) background = 'lockerAthletics';

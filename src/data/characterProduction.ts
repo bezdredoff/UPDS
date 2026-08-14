@@ -6,7 +6,7 @@ export type RuntimeExpression = typeof runtimeExpressionOrder[number];
 export const productionCharacterKeys = ['miku', 'onoe', 'ayuki', 'emi'] as const;
 export type ProductionCharacterKey = typeof productionCharacterKeys[number];
 
-export const plannedCharacterKeys = ['kentaro', 'norihiro', 'mayu'] as const;
+export const plannedCharacterKeys = ['kentaro', 'norihiro', 'mayu', 'rina', 'kurose'] as const;
 export type PlannedCharacterKey = typeof plannedCharacterKeys[number];
 export type CharacterProductionKey = ProductionCharacterKey | PlannedCharacterKey;
 
@@ -242,6 +242,34 @@ export const characterProductionManifest: CharacterProductionManifest = {
       authoredEmotionCoverage: ['neutral', 'serious'],
       plannedPoseBFile: 'pose_b_phone_documents.png',
       productionPriority: 'medium',
+      proportionApproval: 'required-before-production',
+    },
+    rina: {
+      status: 'planned',
+      displayName: 'Рина Сираиси',
+      shortName: 'Рина',
+      adultCharacter: true,
+      age: 20,
+      speakerToken: 'РИНА',
+      speakerMatch: 'exact',
+      placeholder: { initials: 'Р', accent: '#667a86' },
+      authoredEmotionCoverage: ['neutral', 'serious', 'surprised'],
+      plannedPoseBFile: 'pose_b_ledger_package.png',
+      productionPriority: 'high',
+      proportionApproval: 'required-before-production',
+    },
+    kurose: {
+      status: 'planned',
+      displayName: 'Рэйдзи Куросэ',
+      shortName: 'Куросэ',
+      adultCharacter: true,
+      age: 34,
+      speakerToken: 'КУРОСЭ',
+      speakerMatch: 'exact',
+      placeholder: { initials: 'РК', accent: '#536a78' },
+      authoredEmotionCoverage: ['neutral', 'serious', 'smile', 'surprised'],
+      plannedPoseBFile: 'pose_b_lab_tablet.png',
+      productionPriority: 'high',
       proportionApproval: 'required-before-production',
     },
   },

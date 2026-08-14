@@ -1,6 +1,6 @@
 # ANM-027F R1 — Full Story Macro Lock
 
-Status: **COMPLETE**. The original R1 macro contract is now being consumed by ANM-027G; slots `4–6` are promoted to authored/production-configured by that later batch while `7–21` remain macro-only.
+Status: **COMPLETE**. The original R1 macro contract is being consumed incrementally by ANM-027G; slots `4–9` are now authored/production-configured while `10–21` remain macro-only.
 
 ## Цель
 
@@ -107,7 +107,7 @@ Slot 18 обязан показывать три явно различимые �
 `tests/StoryMacroLock.test.ts` проверяет:
 
 1. ровно 22 последовательных slots `0–21` и terminal endings `19/20/21`;
-2. contiguous authored prefix versus remaining macro-locked slots (after ANM-027G `4–6`: authored `0–6`, macro-locked `7–21`);
+2. contiguous authored prefix versus remaining macro-locked slots (after ANM-027G `7–9`: authored `0–9`, macro-locked `10–21`);
 3. 8 location families и ровно 4 новых master triggers;
 4. 5–6 reusable Match-3 archetypes, только существующие objective kinds и отсутствие new mechanic;
 5. только замороженные `upds-scene-staging-v1` preset IDs;
@@ -122,4 +122,4 @@ Slot 18 обязан показывать три явно различимые �
 - ни один утверждённый beat/финал из ANM-001/002 не потерян;
 - Rina/Kurose/guest tiers выглядят разумно;
 - четыре новых master-family и шесть hero close-ups соответствуют ожидаемому art budget;
-- пакет `4–6` действительно является следующим detailed screenplay batch.
+- packages `4–6` and `7–9` are the first two implemented detailed screenplay batches; `10–12` is next.

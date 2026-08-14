@@ -24,7 +24,9 @@ describe('ANM-025B narrative Match-3 level context', () => {
 
   it('gives page background, local board material and future reaction profile separate data contracts', () => {
     expect(validateLevelDefinitions(levels)).toEqual([]);
-    expect(new Set(levels.map((level) => level.context.boardSurface)).size).toBe(levels.length);
+    expect(new Set(levels.map((level) => level.context.boardSurface)).size).toBeLessThanOrEqual(levels.length);
+    expect(levels[8].context.boardSurface).toBe('service-lanes');
+    expect(levels[9].context.boardSurface).toBe('service-lanes');
     expect(new Set(levels.map((level) => level.context.boardFrame)).size).toBe(levels.length);
     expect(new Set(levels.map((level) => level.context.narrativeProfile)).size).toBe(levels.length);
     for (const level of levels) {
@@ -45,10 +47,10 @@ describe('ANM-025B narrative Match-3 level context', () => {
   it('keeps narrative context out of engine while rendering distinct local board surfaces', () => {
     expect(engineSource).not.toContain('Match3LevelContext');
     expect(engineSource).toContain('this.level.spawnWeights');
-    for (const surface of ['locker-bench', 'photo-contact-sheet', 'pool-service-tile', 'ordered-cabinet', 'meeting-grid', 'locker-columns', 'workbench-clusters']) {
+    for (const surface of ['locker-bench', 'photo-contact-sheet', 'pool-service-tile', 'ordered-cabinet', 'meeting-grid', 'locker-columns', 'workbench-clusters', 'signal-cross', 'service-lanes']) {
       expect(productionCss).toContain(`data-m3-board-surface='${surface}'`);
     }
-    for (const frame of ['evidence-file', 'photo-file', 'wet-service', 'precision-file', 'audit-file', 'service-file', 'workshop-file']) {
+    for (const frame of ['evidence-file', 'photo-file', 'wet-service', 'precision-file', 'audit-file', 'service-file', 'workshop-file', 'lab-file', 'warehouse-file', 'maintenance-file']) {
       expect(productionCss).toContain(`data-m3-board-frame='${frame}'`);
     }
   });

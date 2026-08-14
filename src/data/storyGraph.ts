@@ -4,19 +4,46 @@ export const storyEpisodeIds = ['EP001_CASE_001'] as const;
 export type StoryEpisodeId = (typeof storyEpisodeIds)[number];
 
 export const storyChapterIds = [
-  'CH001_PROLOGUE', 'CH002_LOCKER_SEARCH', 'CH003_PHOTO_ALIBI', 'CH004_POOL_LAUNDRY',
-  'CH005_ORDERED_INSPECTION', 'CH006_EMERGENCY_MEETING', 'CH007_BASKETBALL_SCREEN', 'CH008_TEXTILE_WORKSHOP',
+  'CH001_PROLOGUE',
+  'CH002_LOCKER_SEARCH',
+  'CH003_PHOTO_ALIBI',
+  'CH004_POOL_LAUNDRY',
+  'CH005_ORDERED_INSPECTION',
+  'CH006_EMERGENCY_MEETING',
+  'CH007_BASKETBALL_SCREEN',
+  'CH008_TEXTILE_WORKSHOP',
+  'CH009_ASTERION_EXPLANATION',
+  'CH010_LOST_FOUND',
+  'CH011_MAINTENANCE_KEYS',
 ] as const;
 export type StoryChapterId = (typeof storyChapterIds)[number];
 
 export const storySceneIds = [
-  'VN_SCENE_00_PROLOGUE', 'VN_SCENE_01_E0_PRE', 'VN_SCENE_02_E0_POST', 'VN_SCENE_03_E1_PRE', 'VN_SCENE_04_E1_POST',
-  'VN_SCENE_05_E2_PRE', 'VN_SCENE_06_E2_POST', 'VN_SCENE_07_E3_PRE', 'VN_SCENE_08_E3_POST',
-  'VN_SCENE_09_E4_PRE', 'VN_SCENE_10_E4_POST', 'VN_SCENE_11_E5_PRE', 'VN_SCENE_12_E5_POST', 'VN_SCENE_13_E6_PRE', 'VN_SCENE_14_E6_POST',
+  'VN_SCENE_00_PROLOGUE',
+  'VN_SCENE_01_E0_PRE',
+  'VN_SCENE_02_E0_POST',
+  'VN_SCENE_03_E1_PRE',
+  'VN_SCENE_04_E1_POST',
+  'VN_SCENE_05_E2_PRE',
+  'VN_SCENE_06_E2_POST',
+  'VN_SCENE_07_E3_PRE',
+  'VN_SCENE_08_E3_POST',
+  'VN_SCENE_09_E4_PRE',
+  'VN_SCENE_10_E4_POST',
+  'VN_SCENE_11_E5_PRE',
+  'VN_SCENE_12_E5_POST',
+  'VN_SCENE_13_E6_PRE',
+  'VN_SCENE_14_E6_POST',
+  'VN_SCENE_15_E7_PRE',
+  'VN_SCENE_16_E7_POST',
+  'VN_SCENE_17_E8_PRE',
+  'VN_SCENE_18_E8_POST',
+  'VN_SCENE_19_E9_PRE',
+  'VN_SCENE_20_E9_POST',
 ] as const;
 export type StorySceneId = (typeof storySceneIds)[number];
 
-export const storyEndingIds = ['ENDING_AUTHORED_FRONTIER_06'] as const;
+export const storyEndingIds = ['ENDING_AUTHORED_FRONTIER_09'] as const;
 export type StoryEndingId = (typeof storyEndingIds)[number];
 
 export type StorySourceRange = Readonly<{ format: 'screenplay-range-v1'; startLineId: string; endLineId: string }>;
@@ -42,6 +69,9 @@ export const storyGraph: StoryGraph = {
     { id: 'CH006_EMERGENCY_MEETING', episodeId: 'EP001_CASE_001', order: 5, sceneIds: ['VN_SCENE_09_E4_PRE','VN_SCENE_10_E4_POST'] },
     { id: 'CH007_BASKETBALL_SCREEN', episodeId: 'EP001_CASE_001', order: 6, sceneIds: ['VN_SCENE_11_E5_PRE','VN_SCENE_12_E5_POST'] },
     { id: 'CH008_TEXTILE_WORKSHOP', episodeId: 'EP001_CASE_001', order: 7, sceneIds: ['VN_SCENE_13_E6_PRE','VN_SCENE_14_E6_POST'] },
+    { id: 'CH009_ASTERION_EXPLANATION', episodeId: 'EP001_CASE_001', order: 8, sceneIds: ['VN_SCENE_15_E7_PRE','VN_SCENE_16_E7_POST'] },
+    { id: 'CH010_LOST_FOUND', episodeId: 'EP001_CASE_001', order: 9, sceneIds: ['VN_SCENE_17_E8_PRE','VN_SCENE_18_E8_POST'] },
+    { id: 'CH011_MAINTENANCE_KEYS', episodeId: 'EP001_CASE_001', order: 10, sceneIds: ['VN_SCENE_19_E9_PRE','VN_SCENE_20_E9_POST'] },
   ],
   scenes: [
     { id:'VN_SCENE_00_PROLOGUE', episodeId:'EP001_CASE_001', chapterId:'CH001_PROLOGUE', legacyIndex:0, source:{format:'screenplay-range-v1',startLineId:'VN0001',endLineId:'VN0022'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_01_E0_PRE'} },
@@ -58,7 +88,13 @@ export const storyGraph: StoryGraph = {
     { id:'VN_SCENE_11_E5_PRE', episodeId:'EP001_CASE_001', chapterId:'CH007_BASKETBALL_SCREEN', legacyIndex:11, source:{format:'screenplay-range-v1',startLineId:'VN0289',endLineId:'VN0308'}, transition:{kind:'match3',levelId:'M3_05_BASKETBALL_LOCKERS',onWinSceneId:'VN_SCENE_12_E5_POST'} },
     { id:'VN_SCENE_12_E5_POST', episodeId:'EP001_CASE_001', chapterId:'CH007_BASKETBALL_SCREEN', legacyIndex:12, source:{format:'screenplay-range-v1',startLineId:'VN0309',endLineId:'VN0326'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_13_E6_PRE'} },
     { id:'VN_SCENE_13_E6_PRE', episodeId:'EP001_CASE_001', chapterId:'CH008_TEXTILE_WORKSHOP', legacyIndex:13, source:{format:'screenplay-range-v1',startLineId:'VN0327',endLineId:'VN0347'}, transition:{kind:'match3',levelId:'M3_06_TEXTILE_WORKSHOP',onWinSceneId:'VN_SCENE_14_E6_POST'} },
-    { id:'VN_SCENE_14_E6_POST', episodeId:'EP001_CASE_001', chapterId:'CH008_TEXTILE_WORKSHOP', legacyIndex:14, source:{format:'screenplay-range-v1',startLineId:'VN0348',endLineId:'VN0369'}, transition:{kind:'ending',endingId:'ENDING_AUTHORED_FRONTIER_06'} },
+    { id:'VN_SCENE_14_E6_POST', episodeId:'EP001_CASE_001', chapterId:'CH008_TEXTILE_WORKSHOP', legacyIndex:14, source:{format:'screenplay-range-v1',startLineId:'VN0348',endLineId:'VN0369'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_15_E7_PRE'} },
+    { id:'VN_SCENE_15_E7_PRE', episodeId:'EP001_CASE_001', chapterId:'CH009_ASTERION_EXPLANATION', legacyIndex:15, source:{format:'screenplay-range-v1',startLineId:'VN0370',endLineId:'VN0390'}, transition:{kind:'match3',levelId:'M3_07_ASTERION_THREAD',onWinSceneId:'VN_SCENE_16_E7_POST'} },
+    { id:'VN_SCENE_16_E7_POST', episodeId:'EP001_CASE_001', chapterId:'CH009_ASTERION_EXPLANATION', legacyIndex:16, source:{format:'screenplay-range-v1',startLineId:'VN0391',endLineId:'VN0409'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_17_E8_PRE'} },
+    { id:'VN_SCENE_17_E8_PRE', episodeId:'EP001_CASE_001', chapterId:'CH010_LOST_FOUND', legacyIndex:17, source:{format:'screenplay-range-v1',startLineId:'VN0410',endLineId:'VN0429'}, transition:{kind:'match3',levelId:'M3_08_LOST_FOUND_LEDGER',onWinSceneId:'VN_SCENE_18_E8_POST'} },
+    { id:'VN_SCENE_18_E8_POST', episodeId:'EP001_CASE_001', chapterId:'CH010_LOST_FOUND', legacyIndex:18, source:{format:'screenplay-range-v1',startLineId:'VN0430',endLineId:'VN0448'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_19_E9_PRE'} },
+    { id:'VN_SCENE_19_E9_PRE', episodeId:'EP001_CASE_001', chapterId:'CH011_MAINTENANCE_KEYS', legacyIndex:19, source:{format:'screenplay-range-v1',startLineId:'VN0449',endLineId:'VN0469'}, transition:{kind:'match3',levelId:'M3_09_MAINTENANCE_KEYS',onWinSceneId:'VN_SCENE_20_E9_POST'} },
+    { id:'VN_SCENE_20_E9_POST', episodeId:'EP001_CASE_001', chapterId:'CH011_MAINTENANCE_KEYS', legacyIndex:20, source:{format:'screenplay-range-v1',startLineId:'VN0470',endLineId:'VN0488'}, transition:{kind:'ending',endingId:'ENDING_AUTHORED_FRONTIER_09'} },
   ],
 };
 

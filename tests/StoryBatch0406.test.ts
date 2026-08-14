@@ -31,11 +31,11 @@ describe('ANM-027G episodes 4–6 canonical production batch', () => {
   });
 
   it('promotes only macro slots 4–6 and ships exactly their three production Match-3 configs', () => {
-    expect(macro.slots.filter((slot) => slot.contentStatus === 'authored').map((slot) => slot.slot)).toEqual([0,1,2,3,4,5,6]);
+    expect(macro.slots.slice(4, 7).every((slot) => slot.contentStatus === 'authored')).toBe(true);
     expect(macro.slots.slice(4, 7).every((slot) => slot.match3.status === 'production-configured')).toBe(true);
-    expect(levels.slice(4).map((level) => level.id)).toEqual(batchLevelIds);
-    expect(levels.slice(4).every((level) => level.objectives.length <= 3)).toBe(true);
-    expect(levels.slice(4).every((level) => level.tutorialConcepts.every((concept) => concept === 'activate-special' || concept === 'combine-specials'))).toBe(true);
+    expect(levels.slice(4, 7).map((level) => level.id)).toEqual(batchLevelIds);
+    expect(levels.slice(4, 7).every((level) => level.objectives.length <= 3)).toBe(true);
+    expect(levels.slice(4, 7).every((level) => level.tutorialConcepts.every((concept) => concept === 'activate-special' || concept === 'combine-specials'))).toBe(true);
   });
 
   it('uses semantic background variants without adding new master binaries', () => {
@@ -49,6 +49,7 @@ describe('ANM-027G episodes 4–6 canonical production batch', () => {
     expect(storyChoiceGates.map((gate) => [gate.id, gate.checkpointLineId])).toEqual([
       ['meeting-tone', 'VN0262'],
       ['apology-to-hinata', 'VN0356'],
+      ['protect-gen-source', 'VN0480'],
     ]);
     expect(storyChoiceGates.every((gate) => gate.options.join('') === 'ABC')).toBe(true);
   });

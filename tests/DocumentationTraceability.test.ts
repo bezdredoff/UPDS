@@ -36,7 +36,7 @@ describe('active documentation traceability', () => {
     expect(protectedContracts).toContain('src/data/characterProduction.ts');
     expect(protectedContracts).toContain('precomposed 1024×1536 expression frames');
     expect(protectedContracts).toContain('Miku, Onoe, Ayuki, Emi');
-    expect(protectedContracts).toContain('Kentaro, Norihiro, Mayu');
+    expect(protectedContracts).toContain('Kentaro, Norihiro, Mayu, Rina, Kurose');
     expect(productionContract).toContain('upds-character-production-v2');
     expect(productionContract).toContain('ровно семь обязательных runtime assets');
     for (const source of activeEntryPoints) {
@@ -54,10 +54,10 @@ describe('active documentation traceability', () => {
       expect(source).toContain('src/data/storyGraph.ts');
     }
     expect(architecture).toContain('src/content/storyRuntime.ts');
-    expect(protectedContracts).toContain('381 authored lines');
+    expect(protectedContracts).toContain('500 authored lines');
     expect(protectedContracts).toContain('VN0250` является canonical bridge');
-    expect(index).toContain('slots `0–6`');
-    expect(index).toContain('Slots `7–21` remain macro-only');
+    expect(index).toContain('slots `0–9`');
+    expect(index).toContain('Slots `10–21` remain macro-only');
   });
 
   it('locks the lean full-content scope and keeps guest/offline production boundaries explicit', () => {
@@ -88,8 +88,8 @@ describe('active documentation traceability', () => {
     expect(protectedContracts).toContain('22 planned content slots `0–21`');
     expect(protectedContracts).toContain('upds-guest-witness-production-v1');
     expect(protectedContracts).toContain('ANM-002 §8');
-    expect(aiWorkflow).toContain('`4–6` is the first implemented package');
-    expect(aiWorkflow).toContain('`7–9` is the next package');
+    expect(aiWorkflow).toContain('`4–6` and `7–9` are implemented packages');
+    expect(aiWorkflow).toContain('`10–12` is the next package');
 
     const storyBible = read('docs/content/ANM-001_Story_Bible.md');
     const episodePlot = read('docs/content/ANM-002_22_Episode_Plot.md');

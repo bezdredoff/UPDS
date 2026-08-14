@@ -20,9 +20,9 @@ export type Match3TileCategory = 'panties' | 'bra' | 'camisole' | 'socks' | 'tow
 export const ACTIVE_TILE_TYPE_LIMIT = 6;
 export const MAX_PANTIES_TYPES_PER_LEVEL = 4;
 export const MAX_OBJECTIVES_PER_LEVEL = 3;
-export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel' | 'laundryCalendar' | 'repairLog' | 'warrantyCard' | 'silverSpool';
-export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet' | 'rumorCard' | 'lockerLock' | 'garmentBag';
-export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004' | 'CUE_005' | 'CUE_006' | 'CUE_007';
+export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel' | 'laundryCalendar' | 'repairLog' | 'warrantyCard' | 'silverSpool' | 'asterionSpec' | 'missingNumberSheet' | 'handoffSlip';
+export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet' | 'rumorCard' | 'lockerLock' | 'garmentBag' | 'labCover' | 'sealedPackage' | 'supplyCrate';
+export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004' | 'CUE_005' | 'CUE_006' | 'CUE_007' | 'CUE_008' | 'CUE_009' | 'CUE_010';
 
 export type BoardPlacement = Readonly<{ index: number; layers: 1 | 2 }>;
 export type IngredientPlacement = Readonly<{ index: number; kind: IngredientKey }>;
@@ -110,6 +110,9 @@ export const ingredientPresentation: Record<IngredientKey, Readonly<{ label: str
   repairLog: { label: 'Журнал ремонта', asset: './assets/match3/goal_memory_card.png' },
   warrantyCard: { label: 'Гарантийная карта', asset: './assets/match3/goal_receipt.png' },
   silverSpool: { label: 'Серебристая катушка', asset: './assets/clues/clue_towel_conductive_seam.png' },
+  asterionSpec: { label: 'Спецификация Asterion', asset: './assets/match3/goal_receipt.png' },
+  missingNumberSheet: { label: 'Лист пропущенных номеров', asset: './assets/match3/goal_memory_card.png' },
+  handoffSlip: { label: 'Транспортная накладная', asset: './assets/match3/goal_receipt.png' },
 };
 
 export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; asset: string }>> = {
@@ -120,6 +123,9 @@ export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; a
   rumorCard: { label: 'Карточка слуха', asset: './assets/match3/obstacle_prop_box_2layer.png' },
   lockerLock: { label: 'Замок шкафчика', asset: './assets/match3/obstacle_locked_cell.png' },
   garmentBag: { label: 'Чехол с заказом', asset: './assets/match3/obstacle_service_cabinet.png' },
+  labCover: { label: 'Защитная крышка', asset: './assets/match3/obstacle_locked_cell.png' },
+  sealedPackage: { label: 'Запечатанный пакет', asset: './assets/match3/obstacle_prop_box_2layer.png' },
+  supplyCrate: { label: 'Хозяйственная коробка', asset: './assets/match3/obstacle_service_cabinet.png' },
 };
 
 export const specialAsset = './assets/match3/special_observation_magnifier.png';
@@ -346,6 +352,84 @@ export const levels: readonly LevelDefinition[] = [
     winBark: { speaker: 'Мику', text: 'Хината исключена. Шов появился после её мастерской — на маршруте прачечной.' },
     loseBark: { speaker: 'Хината', text: 'Вы смешали заказы и образцы. В мастерской это хуже плохой гипотезы.' },
   },
+  {
+    id: 'M3_07_ASTERION_THREAD',
+    shortId: 'M3_07',
+    title: 'Образцы Asterion',
+    storyAction: 'Сопоставить серебристую нить, лабораторные карточки и официальную спецификацию.',
+    context: {
+      sourceSceneId: 'VN_SCENE_15_E7_PRE', pageBackground: 'asterionLab',
+      boardSurface: 'signal-cross', boardFrame: 'lab-file', narrativeProfile: 'asterion-thread', tilePresentationProfile: 'asterion-lab',
+      participants: ['miku', 'onoe', 'ayuki', 'kurose'], narrativeTags: ['asterion-lab', 'conductive-thread', 'serial-code', 'assignment-registry'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'towel', 'socks', 'pantiesSportWhite'],
+    moves: 28,
+    objectives: [
+      { kind: 'clearBlockers', target: 8, label: 'Крышки' },
+      { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Образцы' },
+      { kind: 'drop', ingredient: 'asterionSpec', target: 1, label: 'Спецификация' },
+    ],
+    blocker: 'labCover', blockers: positions([9, 12, 18, 21, 42, 45, 50, 53]),
+    ingredients: [{ index: 27, kind: 'asterionSpec' }], seed: 9008,
+    clueId: 'CUE_008', clueTitle: 'Нить Asterion',
+    clueSummary: 'Серебристая нить принадлежит Asterion, но открытый реестр не содержит назначений на личные вещи студентов.',
+    startBark: { speaker: 'Куросэ', text: 'Состав, шаг шва, код партии. Если образец наш — прибор это покажет.' },
+    winBark: { speaker: 'Мику', text: 'Нить совпала. А официального назначения на личные вещи всё равно нет.' },
+    loseBark: { speaker: 'Оноэ', text: 'Мы смешали техническое совпадение и административную запись. Разделим их.' },
+  },
+  {
+    id: 'M3_08_LOST_FOUND_LEDGER',
+    shortId: 'M3_08',
+    title: 'Восемьдесят семь пакетов',
+    storyAction: 'Восстановить сервисные ряды склада и последовательность пропущенных номеров.',
+    context: {
+      sourceSceneId: 'VN_SCENE_17_E8_PRE', pageBackground: 'lostFoundWarehouse',
+      boardSurface: 'service-lanes', boardFrame: 'warehouse-file', narrativeProfile: 'missing-package-ranges', tilePresentationProfile: 'lost-found',
+      participants: ['miku', 'onoe', 'ayuki', 'rina', 'mayu'], narrativeTags: ['lost-found', 'sealed-packages', 'service-codes', 'missing-ranges'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'pantiesSportWhite', 'pantiesHighWaistBlack', 'sportsBra', 'socks', 'towel'],
+    moves: 30,
+    objectives: [
+      { kind: 'clearBlockers', target: 10, label: 'Пакеты' },
+      { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Сервисные коды' },
+      { kind: 'drop', ingredient: 'missingNumberSheet', target: 1, label: 'Пропуски' },
+    ],
+    blocker: 'sealedPackage', blockers: positions([[8,2], 14, [16,2], 19, 42, [43,2], 48, 51, 56, 59]),
+    ingredients: [{ index: 28, kind: 'missingNumberSheet' }], seed: 9009,
+    clueId: 'CUE_009', clueTitle: 'Пропуски в журнале',
+    clueSummary: 'Спорные пакеты удалены из обычной последовательности целыми диапазонами, совпадающими с датами подтверждённых пропаж.',
+    startBark: { speaker: 'Рина', text: 'Номера важнее содержимого. Если последовательность сломана, сначала найдите место разрыва.' },
+    winBark: { speaker: 'Оноэ', text: 'Это не случайные потери. Из журнала вырезаны диапазоны одной сервисной цепочки.' },
+    loseBark: { speaker: 'Рина', text: 'Вы смешали секции и статусы. Склад прощает это хуже, чем музей.' },
+  },
+  {
+    id: 'M3_09_MAINTENANCE_KEYS',
+    shortId: 'M3_09',
+    title: 'Журнал универсального ключа',
+    storyAction: 'Разобрать хозяйственный склад, восстановить передачу ключа и транспортную накладную.',
+    context: {
+      sourceSceneId: 'VN_SCENE_19_E9_PRE', pageBackground: 'maintenanceRoom',
+      boardSurface: 'service-lanes', boardFrame: 'maintenance-file', narrativeProfile: 'night-containers', tilePresentationProfile: 'maintenance-service',
+      participants: ['miku', 'onoe', 'ayuki', 'gen'], narrativeTags: ['maintenance-room', 'master-key', 'lost-socks', 'asterion-containers'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['socks', 'laundryTag', 'towel', 'sportsBra', 'camisole', 'pantiesSportWhite'],
+    moves: 29,
+    objectives: [
+      { kind: 'clearBlockers', target: 8, label: 'Коробки' },
+      { kind: 'collect', tile: 'socks', target: 14, label: 'Пары носков' },
+      { kind: 'dropGroup', ingredients: ['serviceKey', 'handoffSlip'], target: 2, label: 'Ключ и накладная' },
+    ],
+    blocker: 'supplyCrate', blockers: positions([10, 13, 18, 21, 42, 45, 50, 53]),
+    ingredients: [{ index: 26, kind: 'serviceKey' }, { index: 29, kind: 'handoffSlip' }], seed: 9010,
+    clueId: 'CUE_010', clueTitle: 'Ночные контейнеры',
+    clueSummary: 'После закрытия прачечной контейнеры Asterion входят в тот же физический маршрут; накладная связывает ночную передачу с лабораторным префиксом Куросэ.',
+    startBark: { speaker: 'Гэн', text: 'Ключи слева, возвраты справа. Носки — отдельная система и прошу её уважать.' },
+    winBark: { speaker: 'Мику', text: 'Гэн не сходится по времени. А контейнер Asterion сходится с маршрутом слишком хорошо.' },
+    loseBark: { speaker: 'Аюки', text: 'Я проиграла стенду носков. Он требует реванш по форме U.' },
+  },
 ] as const;
 
 export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: string }>> = {
@@ -356,6 +440,9 @@ export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: s
   CUE_005: { asset: './assets/clues/clue_laundry_receipt.png', label: 'Ритм прачечной' },
   CUE_006: { asset: './assets/clues/clue_service_key.png', label: 'Сервисная строчка' },
   CUE_007: { asset: './assets/clues/clue_towel_conductive_seam.png', label: 'Шов после ремонта' },
+  CUE_008: { asset: './assets/clues/clue_towel_conductive_seam.png', label: 'Нить Asterion' },
+  CUE_009: { asset: './assets/clues/clue_laundry_receipt.png', label: 'Пропуски в журнале' },
+  CUE_010: { asset: './assets/clues/clue_service_key.png', label: 'Ночные контейнеры' },
 };
 
 export function validateLevelDefinitions(definitions: readonly LevelDefinition[] = levels): string[] {

@@ -111,6 +111,9 @@ export const sceneStudioCalibrationManifest: SceneStudioCalibrationManifest = {
     studentCouncilAuditorium: background('studentCouncilAuditorium', 9, 49, 42, 43, 87),
     basketballLocker: background('basketballLocker', 11, 50, 41, 40, 90),
     textileWorkshop: background('textileWorkshop', 13, 50, 40, 39, 89),
+    asterionLab: background('asterionLab', 15, 50, 39, 38, 87),
+    lostFoundWarehouse: background('lostFoundWarehouse', 17, 50, 41, 40, 90),
+    maintenanceRoom: background('maintenanceRoom', 19, 50, 41, 40, 90),
   },
 };
 

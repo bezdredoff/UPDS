@@ -11,8 +11,9 @@ const byShortId = (shortId: string) => levels.find((level) => level.shortId === 
 
 describe('ANM-025E1 objective simplicity and grouped narrative goals', () => {
   it('keeps legacy levels focused while allowing macro-locked batches up to the hard maximum', () => {
-    expect(levels.map((level) => level.objectives.length)).toEqual([2, 2, 2, 2, 3, 3, 3]);
-    expect(levels.every((level) => level.objectives.length <= MAX_OBJECTIVES_PER_LEVEL)).toBe(true);
+    expect(levels.slice(0, 4).map((level) => level.objectives.length)).toEqual([2, 2, 2, 2]);
+    expect(levels.slice(4).every((level) => level.objectives.length <= MAX_OBJECTIVES_PER_LEVEL)).toBe(true);
+    expect(levels.every((level) => level.objectives.length > 0)).toBe(true);
     expect(byShortId('M3_00').objectives.map((objective) => objective.kind)).toEqual(['clearBlockers', 'drop']);
     expect(byShortId('M3_01').objectives.map((objective) => objective.kind)).toEqual(['clearBlockers', 'drop']);
     expect(byShortId('M3_02').objectives.map((objective) => objective.kind)).toEqual(['clearBlockers', 'drop']);

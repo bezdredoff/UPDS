@@ -5,9 +5,9 @@ import { storyGraph, storyMatch3RouteForLegacyScene } from '../src/data/storyGra
 const numeric = (id: string): number => Number(id.slice(2, 6));
 
 describe('narrative integration contract', () => {
-  it('parses both canonical sources into fifteen non-empty ordered scenes', () => {
-    expect(parsedLineCount).toBe(381);
-    expect(sceneMeta).toHaveLength(15);
+  it('parses all canonical sources into twenty-one non-empty ordered scenes', () => {
+    expect(parsedLineCount).toBe(500);
+    expect(sceneMeta).toHaveLength(21);
     for (const choice of ['A', 'B', 'C'] as ChoiceId[]) {
       for (let sceneIndex = 0; sceneIndex < sceneMeta.length; sceneIndex += 1) {
         const scene = getScene(sceneIndex, choice);
@@ -31,7 +31,7 @@ describe('narrative integration contract', () => {
   });
 
   it('keeps all VN → match → VN transitions mapped through the canonical story graph', () => {
-    const routes = [1, 3, 5, 7, 9, 11, 13].map((preScene) => storyMatch3RouteForLegacyScene(preScene));
+    const routes = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19].map((preScene) => storyMatch3RouteForLegacyScene(preScene));
     expect(routes.map((route) => route?.levelId)).toEqual([
       'M3_00_LOCKER_TUTORIAL',
       'M3_01_PHOTO_PROPS',
@@ -40,8 +40,11 @@ describe('narrative integration contract', () => {
       'M3_04_EMERGENCY_MEETING',
       'M3_05_BASKETBALL_LOCKERS',
       'M3_06_TEXTILE_WORKSHOP',
+      'M3_07_ASTERION_THREAD',
+      'M3_08_LOST_FOUND_LEDGER',
+      'M3_09_MAINTENANCE_KEYS',
     ]);
-    expect(routes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14]);
+    expect(routes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 18, 20]);
   });
 
   it.each(['A', 'B', 'C'] as ChoiceId[])('switches the mixed-location scene background exactly at VN0048 for branch %s', (choice) => {
@@ -52,10 +55,10 @@ describe('narrative integration contract', () => {
     expect(getBackgroundForLine(1, transition, scene)).toBe('lockerAthletics');
   });
 
-  it('promotes VN0250 to the bridge and reaches the current authored frontier at VN0369', () => {
+  it('preserves the VN0250 bridge and reaches the current authored frontier at VN0488', () => {
     const bridge = getScene(8, 'A');
     expect(bridge.at(-1)?.id).toBe('VN0250');
-    const frontier = getScene(14, 'A');
-    expect(frontier.at(-1)?.id).toBe('VN0369');
+    const frontier = getScene(20, 'A');
+    expect(frontier.at(-1)?.id).toBe('VN0488');
   });
 });
