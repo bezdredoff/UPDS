@@ -1,6 +1,6 @@
 # UPDS — Test Strategy
 
-Статус: active production test-policy contract, reconciled at accepted ANM-028B1 R4.1/ANM-028D0 and ANM-028D1 R1 candidate QA.
+Статус: active production test-policy contract, reconciled at accepted ANM-028B1 R4.1/ANM-028D0/D1 and ANM-028D2 R1 candidate QA.
 
 GitHub CI и `npm run check` остаются authoritative automated gate. Локальный запуск полезен для быстрой обратной связи, но не заменяет GitHub CI.
 

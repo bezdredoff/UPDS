@@ -1,6 +1,6 @@
 # UPDS — validation and test workflow
 
-Status: active at accepted ANM-028B1 R4.1/ANM-028D0 plus ANM-028D1 R1 candidate QA.
+Status: active at accepted ANM-028B1 R4.1/ANM-028D0/D1 plus ANM-028D2 R1 candidate QA.
 
 ## Authoritative gate
 

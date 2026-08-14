@@ -3,15 +3,21 @@ import type { CharacterPortraitFrameGeometry } from './characterProduction';
 export const CHARACTER_CANDIDATE_FORMAT = 'upds-character-candidate-v1' as const;
 export const EMI_NEUTRAL_CANDIDATE_ID = 'anm028d0-r1' as const;
 export const EMI_SMILE_CANDIDATE_ID = 'anm028d1-r1' as const;
+export const EMI_SERIOUS_CANDIDATE_ID = 'anm028d2-r1' as const;
 
-export const sceneStudioArtSources = ['runtime', EMI_NEUTRAL_CANDIDATE_ID, EMI_SMILE_CANDIDATE_ID] as const;
+export const sceneStudioArtSources = [
+  'runtime',
+  EMI_NEUTRAL_CANDIDATE_ID,
+  EMI_SMILE_CANDIDATE_ID,
+  EMI_SERIOUS_CANDIDATE_ID,
+] as const;
 export type SceneStudioArtSource = typeof sceneStudioArtSources[number];
 
 export type CharacterFrameCandidate = Readonly<{
   format: typeof CHARACTER_CANDIDATE_FORMAT;
-  id: typeof EMI_NEUTRAL_CANDIDATE_ID | typeof EMI_SMILE_CANDIDATE_ID;
+  id: typeof EMI_NEUTRAL_CANDIDATE_ID | typeof EMI_SMILE_CANDIDATE_ID | typeof EMI_SERIOUS_CANDIDATE_ID;
   character: 'emi';
-  expression: 'neutral' | 'smile';
+  expression: 'neutral' | 'smile' | 'serious';
   asset: string;
   canvas: Readonly<{ width: 1024; height: 1536 }>;
   pivot: Readonly<{ x: 0.5; y: 1 }>;
@@ -19,7 +25,7 @@ export type CharacterFrameCandidate = Readonly<{
   visualHeightPx: number;
   bottomPaddingPx: number;
   alphaCenterOffsetPx: number;
-  status: 'approved-master' | 'manual-qa';
+  status: 'approved-master' | 'approved-expression' | 'manual-qa';
   runtimeEligible: false;
   source: 'gpt-work-chroma-matte' | 'gpt-work-face-roi';
 }>;
@@ -34,6 +40,13 @@ export type CharacterNeutralCandidate = CharacterFrameCandidate & Readonly<{
 export type CharacterSmileCandidate = CharacterFrameCandidate & Readonly<{
   id: typeof EMI_SMILE_CANDIDATE_ID;
   expression: 'smile';
+  status: 'approved-expression';
+  source: 'gpt-work-face-roi';
+}>;
+
+export type CharacterSeriousCandidate = CharacterFrameCandidate & Readonly<{
+  id: typeof EMI_SERIOUS_CANDIDATE_ID;
+  expression: 'serious';
   status: 'manual-qa';
   source: 'gpt-work-face-roi';
 }>;
@@ -62,13 +75,34 @@ export const emiNeutralCandidate: CharacterNeutralCandidate = Object.freeze({
   source: 'gpt-work-chroma-matte',
 } as const);
 
-/** Studio-only smile candidate derived from the approved neutral via a bounded face ROI. */
+/** Approved smile expression derived from the neutral master via a bounded face ROI. */
 export const emiSmileCandidate: CharacterSmileCandidate = Object.freeze({
   format: CHARACTER_CANDIDATE_FORMAT,
   id: EMI_SMILE_CANDIDATE_ID,
   character: 'emi',
   expression: 'smile',
   asset: './assets/characters/emi/candidates/anm028d1/frame-smile-r1.png',
+  canvas: { width: 1024, height: 1536 },
+  pivot: { x: 0.5, y: 1 },
+  geometry: {
+    alphaBounds: { left: 330, top: 80, right: 737, bottom: 1508 },
+    eyeLineYPx: 244,
+  },
+  visualHeightPx: 1428,
+  bottomPaddingPx: 28,
+  alphaCenterOffsetPx: 21.5,
+  status: 'approved-expression',
+  runtimeEligible: false,
+  source: 'gpt-work-face-roi',
+} as const);
+
+/** Studio-only serious candidate derived from the approved neutral via three bounded face ROIs. */
+export const emiSeriousCandidate: CharacterSeriousCandidate = Object.freeze({
+  format: CHARACTER_CANDIDATE_FORMAT,
+  id: EMI_SERIOUS_CANDIDATE_ID,
+  character: 'emi',
+  expression: 'serious',
+  asset: './assets/characters/emi/candidates/anm028d2/frame-serious-r1.png',
   canvas: { width: 1024, height: 1536 },
   pivot: { x: 0.5, y: 1 },
   geometry: {
@@ -88,6 +122,7 @@ export function emiCandidateForArtSource(
 ): CharacterFrameCandidate | null {
   if (source === EMI_NEUTRAL_CANDIDATE_ID) return emiNeutralCandidate;
   if (source === EMI_SMILE_CANDIDATE_ID) return emiSmileCandidate;
+  if (source === EMI_SERIOUS_CANDIDATE_ID) return emiSeriousCandidate;
   return null;
 }
 
@@ -112,7 +147,8 @@ export function validateEmiFrameCandidate(
     issues.push('candidate eye line must cross the visible subject');
   }
   if (candidate.runtimeEligible !== false) issues.push('candidate must remain outside runtime until integration');
-  if (candidate.status !== 'approved-master' && candidate.status !== 'manual-qa') issues.push('unsupported candidate status');
+  if (candidate.status !== 'approved-master' && candidate.status !== 'approved-expression' &&
+      candidate.status !== 'manual-qa') issues.push('unsupported candidate status');
   return issues;
 }
 
@@ -123,4 +159,8 @@ export function validateEmiNeutralCandidate(): readonly string[] {
 
 export function validateEmiSmileCandidate(): readonly string[] {
   return validateEmiFrameCandidate(emiSmileCandidate);
+}
+
+export function validateEmiSeriousCandidate(): readonly string[] {
+  return validateEmiFrameCandidate(emiSeriousCandidate);
 }

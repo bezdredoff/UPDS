@@ -20,6 +20,7 @@ import {
 } from '../../data/sceneStudioCalibration';
 import {
   EMI_NEUTRAL_CANDIDATE_ID,
+  EMI_SERIOUS_CANDIDATE_ID,
   EMI_SMILE_CANDIDATE_ID,
   emiCandidateForArtSource,
   sceneStudioArtSources,
@@ -134,6 +135,31 @@ export const sceneStudioEmiSmileCandidateSamples: Readonly<Record<SceneStagingPr
   'guest-testimony-card': [],
 };
 
+export const sceneStudioEmiSeriousCandidateSamples: Readonly<Record<SceneStagingPresetId, readonly SceneStagingActorInput[]>> = {
+  'solo-close': [{ character: 'emi', expression: 'serious' }],
+  'solo-medium': [{ character: 'emi', expression: 'serious' }],
+  'two-shot-conflict': [
+    { character: 'miku', expression: 'serious' },
+    { character: 'emi', expression: 'serious' },
+  ],
+  'two-shot-alliance': [
+    { character: 'onoe', expression: 'neutral' },
+    { character: 'emi', expression: 'serious' },
+  ],
+  'trio-central-speaker': [
+    { character: 'emi', expression: 'serious' },
+    { character: 'miku', expression: 'neutral' },
+    { character: 'ayuki', expression: 'neutral' },
+  ],
+  'trio-reaction': [
+    { character: 'ayuki', expression: 'surprised' },
+    { character: 'miku', expression: 'neutral' },
+    { character: 'emi', expression: 'serious' },
+  ],
+  'evidence-cutaway': [],
+  'guest-testimony-card': [],
+};
+
 const defaultLineForPreset: Readonly<Record<SceneStagingPresetId, SceneStudioDialogueLineId>> = {
   'solo-close': 'VN0002',
   'solo-medium': 'VN0004',
@@ -153,7 +179,7 @@ const DEFAULT_STATE: SceneStudioState = {
   lineId: 'VN0024',
   textScale: 'normal',
   showGuides: true,
-  artSource: EMI_SMILE_CANDIDATE_ID,
+  artSource: EMI_SERIOUS_CANDIDATE_ID,
 };
 
 const safeBoxStyle = (safeBox: SceneStagingSafeBox): string => [
@@ -179,7 +205,9 @@ export class SceneStudioController {
       ? sceneStudioEmiCandidateSamples
       : state.artSource === EMI_SMILE_CANDIDATE_ID
         ? sceneStudioEmiSmileCandidateSamples
-        : sceneStudioSamples;
+        : state.artSource === EMI_SERIOUS_CANDIDATE_ID
+          ? sceneStudioEmiSeriousCandidateSamples
+          : sceneStudioSamples;
     const runtimeResolution = resolveSceneStagingPreset(state.presetId, sampleSet[state.presetId]);
     const resolution = this.applyArtSource(runtimeResolution, state.artSource);
     const viewportProfile = sceneStudioCalibrationManifest.viewports[state.viewportId];
@@ -442,8 +470,8 @@ export class SceneStudioController {
             code: 'visual-style',
             subject: candidate.id,
             detail: candidate.status === 'manual-qa'
-              ? 'Emi smile R1 is a Studio-only face-ROI candidate awaiting lineup, solo, duo and trio approval; runtime assets remain unchanged.'
-              : 'Emi neutral R1 is the approved master reference; runtime assets remain unchanged until the complete expression family is accepted.',
+              ? 'Emi serious R1 is a Studio-only multi-ROI candidate awaiting lineup, solo, duo and trio approval; runtime assets remain unchanged.'
+              : `Emi ${candidate.expression} R1 is an approved authoring reference; runtime assets remain unchanged until the complete expression family is accepted.`,
           },
         ]
       : [];
@@ -542,7 +570,7 @@ export class SceneStudioController {
     bottomPaddingPx: number;
     alphaCenterOffsetPx: number;
     neutralEyeLineYPx: number;
-    visualApproval: 'approved' | 'approved-master' | 'rebuild-required' | 'manual-qa';
+    visualApproval: 'approved' | 'approved-master' | 'approved-expression' | 'rebuild-required' | 'manual-qa';
     asset: string;
     candidate: boolean;
   }>[] {
