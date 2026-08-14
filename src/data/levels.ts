@@ -20,9 +20,9 @@ export type Match3TileCategory = 'panties' | 'bra' | 'camisole' | 'socks' | 'tow
 export const ACTIVE_TILE_TYPE_LIMIT = 6;
 export const MAX_PANTIES_TYPES_PER_LEVEL = 4;
 export const MAX_OBJECTIVES_PER_LEVEL = 3;
-export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel' | 'laundryCalendar' | 'repairLog' | 'warrantyCard' | 'silverSpool' | 'asterionSpec' | 'missingNumberSheet' | 'handoffSlip' | 'stitchedWristband' | 'transferSeal' | 'routeCard' | 'transferManifest' | 'secondSkinTag' | 'pilotList' | 'familyReceipt' | 'atelierLedger' | 'markedPackage' | 'serviceKeyCard' | 'handheldScanner' | 'rinaCatalog' | 'recentMarkedItem';
-export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet' | 'rumorCard' | 'lockerLock' | 'garmentBag' | 'labCover' | 'sealedPackage' | 'supplyCrate' | 'signalNoise' | 'armorRack' | 'fabricStack' | 'debris' | 'ribbonTangle' | 'archiveSeal' | 'falseConclusion';
-export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004' | 'CUE_005' | 'CUE_006' | 'CUE_007' | 'CUE_008' | 'CUE_009' | 'CUE_010' | 'CUE_011' | 'CUE_012' | 'CUE_013' | 'CUE_014' | 'CUE_015' | 'CUE_016' | 'CUE_017' | 'CUE_018' | 'CUE_019';
+export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel' | 'laundryCalendar' | 'repairLog' | 'warrantyCard' | 'silverSpool' | 'asterionSpec' | 'missingNumberSheet' | 'handoffSlip' | 'stitchedWristband' | 'transferSeal' | 'routeCard' | 'transferManifest' | 'secondSkinTag' | 'pilotList' | 'familyReceipt' | 'atelierLedger' | 'markedPackage' | 'serviceKeyCard' | 'handheldScanner' | 'rinaCatalog' | 'recentMarkedItem' | 'returnConfirmation' | 'backupDrive' | 'finalSlide';
+export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet' | 'rumorCard' | 'lockerLock' | 'garmentBag' | 'labCover' | 'sealedPackage' | 'supplyCrate' | 'signalNoise' | 'armorRack' | 'fabricStack' | 'debris' | 'ribbonTangle' | 'archiveSeal' | 'falseConclusion' | 'serverGate';
+export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004' | 'CUE_005' | 'CUE_006' | 'CUE_007' | 'CUE_008' | 'CUE_009' | 'CUE_010' | 'CUE_011' | 'CUE_012' | 'CUE_013' | 'CUE_014' | 'CUE_015' | 'CUE_016' | 'CUE_017' | 'CUE_018' | 'CUE_019' | 'CUE_020' | 'CUE_021' | 'CUE_022';
 
 export type BoardPlacement = Readonly<{ index: number; layers: 1 | 2 }>;
 export type IngredientPlacement = Readonly<{ index: number; kind: IngredientKey }>;
@@ -126,6 +126,9 @@ export const ingredientPresentation: Record<IngredientKey, Readonly<{ label: str
   handheldScanner: { label: 'Ручной сканер', asset: './assets/match3/goal_memory_card.png' },
   rinaCatalog: { label: 'Каталог Рины', asset: './assets/match3/goal_receipt.png' },
   recentMarkedItem: { label: 'Новый помеченный предмет', asset: './assets/clues/clue_towel_conductive_seam.png' },
+  returnConfirmation: { label: 'Подтверждение возврата', asset: './assets/match3/goal_receipt.png' },
+  backupDrive: { label: 'Резервный накопитель', asset: './assets/match3/goal_memory_card.png' },
+  finalSlide: { label: 'Финальный слайд', asset: './assets/match3/goal_memory_card.png' },
 };
 
 export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; asset: string }>> = {
@@ -146,6 +149,7 @@ export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; a
   ribbonTangle: { label: 'Ленточный узел', asset: './assets/match3/obstacle_soap_foam.png' },
   archiveSeal: { label: 'Архивная пломба', asset: './assets/match3/obstacle_locked_cell.png' },
   falseConclusion: { label: 'Ложный вывод', asset: './assets/match3/obstacle_prop_box_2layer.png' },
+  serverGate: { label: 'Серверный шлюз', asset: './assets/match3/obstacle_locked_cell.png' },
 };
 
 export const specialAsset = './assets/match3/special_observation_magnifier.png';
@@ -669,6 +673,78 @@ export const levels: readonly LevelDefinition[] = [
     winBark: { speaker: 'Мику', text: 'Линия сходится. Рина — похититель, но Second Skin продолжился независимо от неё.' },
     loseBark: { speaker: 'Оноэ', text: 'Мы смешали доказанные действия и гипотезу об организаторе. Пересобираем временную линию.' },
   },
+  {
+    id: 'M3_19_PRIVATE_RETURN', shortId: 'M3_19', title: 'Приватный возврат',
+    storyAction: 'Вернуть пакеты правильным владельцам по анонимным кодам, не раскрывая чужие данные.',
+    context: {
+      sourceSceneId: 'VN_SCENE_39_E19_PRE', pageBackground: 'anonymousReturnCounter',
+      boardSurface: 'archive-rows', boardFrame: 'warehouse-file', narrativeProfile: 'private-return', tilePresentationProfile: 'private-return',
+      participants: ['miku', 'onoe', 'ayuki', 'rina', 'emi'], narrativeTags: ['anonymous-return', 'privacy', 'case-closed', 'rina'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesHighWaistBlack', 'pantiesSportWhite'],
+    moves: 30,
+    objectives: [
+      { kind: 'clearBlockers', target: 10, label: 'Возвратные пломбы' },
+      { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Анонимные коды' },
+      { kind: 'drop', ingredient: 'returnConfirmation', target: 1, label: 'Подтверждение' },
+    ],
+    blocker: 'archiveSeal', blockers: positions([8, 14, 16, 19, 42, 43, 48, 51, 56, 59]),
+    ingredients: [{ index: 28, kind: 'returnConfirmation' }], seed: 9020,
+    clueId: 'CUE_020', clueTitle: 'Формально закрыто',
+    clueSummary: 'Все украденные вещи возвращены приватно, а администрация закрывает серию краж на Рине, не объясняя продолжающийся Second Skin.',
+    startBark: { speaker: 'Эми', text: 'Коды — отдельно от имён. Никто не должен платить приватностью за возврат своей вещи.' },
+    winBark: { speaker: 'Оноэ', text: 'Выдача сходится. Кражи Рины закрыты доказательно и без раскрытия владельцев.' },
+    loseBark: { speaker: 'Мику', text: 'Мы смешали коды выдачи. Повторяем — здесь ошибка сама станет новым нарушением.' },
+  },
+  {
+    id: 'M3_20_SERVER_CONSENT_LOGS', shortId: 'M3_20', title: 'Карта согласий',
+    storyAction: 'Сохранить серверные журналы Second Skin до удаления и вывести резервный накопитель из сервисной зоны.',
+    context: {
+      sourceSceneId: 'VN_SCENE_41_E20_PRE', pageBackground: 'serviceTunnel',
+      boardSurface: 'service-lanes', boardFrame: 'lab-file', narrativeProfile: 'server-consent-logs', tilePresentationProfile: 'server-logs',
+      participants: ['miku', 'onoe', 'ayuki', 'rina', 'emi', 'kurose', 'mayu'], narrativeTags: ['service-tunnel', 'server-room', 'consent', 'second-skin'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesLacePink', 'pantiesSportWhite'],
+    moves: 31,
+    objectives: [
+      { kind: 'clearBlockers', target: 10, label: 'Серверные шлюзы' },
+      { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Журналы согласия' },
+      { kind: 'drop', ingredient: 'backupDrive', target: 1, label: 'Резервная копия' },
+    ],
+    blocker: 'serverGate', blockers: positions([10, 13, 18, 21, 42, 45, 50, 53, 58, 61]),
+    ingredients: [{ index: 26, kind: 'backupDrive' }], seed: 9021,
+    clueId: 'CUE_021', clueTitle: 'Логи согласия',
+    clueSummary: 'Серверные логи доказывают скрытую маркировку личных вещей, подмену области согласия и продолжение пилота после первых сигналов риска.',
+    startBark: { speaker: 'Мику', text: 'Только журнал согласий и резервная копия. Мы расследуем нарушение, а не выгружаем чужую жизнь.' },
+    winBark: { speaker: 'Эми', text: 'Вот оно. Согласие на форму превратили в разрешение на личные вещи уже после подписи.' },
+    loseBark: { speaker: 'Оноэ', text: 'Удаление обгоняет копирование. Повторяем и приоритизируем журнал согласий.' },
+  },
+  {
+    id: 'M3_21_CONVENIENT_CASE', shortId: 'M3_21', title: 'Идеальный подозреваемый',
+    storyAction: 'Собрать удобные совпадения, убрать противоречащие карточки и подготовить эффектный, но ложный финальный слайд.',
+    context: {
+      sourceSceneId: 'VN_SCENE_43_E21_PRE', pageBackground: 'disciplinaryAssembly',
+      boardSurface: 'ordered-grid', boardFrame: 'audit-file', narrativeProfile: 'convenient-case', tilePresentationProfile: 'convenient-presentation',
+      participants: ['miku', 'onoe', 'ayuki', 'mayu', 'kurose'], narrativeTags: ['assembly', 'false-case', 'presentation', 'discarded-contradictions'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesBoyshortBlue', 'pantiesSportWhite'],
+    moves: 29,
+    objectives: [
+      { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Удобные совпадения' },
+      { kind: 'clearBlockers', target: 10, label: 'Возражения' },
+      { kind: 'drop', ingredient: 'finalSlide', target: 1, label: 'Финальный слайд' },
+    ],
+    blocker: 'falseConclusion', blockers: positions([10, 15, 18, 21, 42, 45, 50, 53, 58, 61]),
+    ingredients: [{ index: 27, kind: 'finalSlide' }], seed: 9022,
+    clueId: 'CUE_022', clueTitle: 'Удалённые противоречия',
+    clueSummary: 'Публичная версия выглядит убедительно только после сознательного удаления фактов, которые оправдывают удобного подозреваемого и указывают на Second Skin.',
+    startBark: { speaker: 'Оноэ', text: 'Я отмечу каждое возражение, которое мы сейчас убираем. Хотя бы между собой не будем называть это доказательством.' },
+    winBark: { speaker: 'Аюки', text: 'Слайд идеальный. И теперь я очень хорошо вижу, почему идеальная история может быть неправильной.' },
+    loseBark: { speaker: 'Мику', text: 'Даже ложная версия развалилась. Пересобираем и смотрим, какие факты приходится скрывать.' },
+  },
 ] as const;
 
 export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: string }>> = {
@@ -691,6 +767,9 @@ export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: s
   CUE_017: { asset: './assets/match3/goal_memory_card.png', label: 'Активация после Рины' },
   CUE_018: { asset: './assets/match3/goal_receipt.png', label: 'Каталог Рины' },
   CUE_019: { asset: './assets/clues/clue_towel_conductive_seam.png', label: 'Продолжение Second Skin' },
+  CUE_020: { asset: './assets/match3/goal_receipt.png', label: 'Формально закрыто' },
+  CUE_021: { asset: './assets/match3/goal_memory_card.png', label: 'Логи согласия' },
+  CUE_022: { asset: './assets/match3/goal_receipt.png', label: 'Удалённые противоречия' },
 };
 
 export function validateLevelDefinitions(definitions: readonly LevelDefinition[] = levels): string[] {

@@ -48,7 +48,7 @@ export class AnimeDetectiveApp {
       showDossier: (back) => this.dossier.render(back),
       showSettings: (back, showMainMenu = false) => this.settings.render(back, showMainMenu),
       showChoice: () => this.vn.renderChoice(),
-      showEnding: () => this.ending.render(),
+      showEnding: (endingId) => this.ending.render(endingId),
       showSceneSelect: () => this.diagnostics.renderSceneSelect(),
       showDiagnostics: (status = '') => this.diagnostics.render(status),
       showLevelLab: () => this.levelLab.render(),

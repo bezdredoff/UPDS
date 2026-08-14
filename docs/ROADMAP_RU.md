@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.3-dev`.
-Active production foundation: **ANM-025/026 Match-3 production + tooling, ANM-027A–F story pipeline/lean contract/full macro lock, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation and ANM-028D3A Emi approved-frame runtime transition**. Current candidate focus: **ANM-027G `16–18` R1 canonical production batch**. Remaining character-art generation is paused for an external Stable Diffusion workflow; after this batch the next content package is **ANM-027G `19–21`**.
+Active production foundation: **ANM-025/026 Match-3 production + tooling, ANM-027A–F story pipeline/lean contract/full macro lock, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation and ANM-028D3A Emi approved-frame runtime transition**. Current candidate focus: **ANM-027G `19–21` R1 canonical ending batch**. Remaining character-art generation is paused for an external Stable Diffusion workflow; after this batch the full `0–21` screenplay is authored and the next content phase is **ANM-029 Full Localization Production**.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -143,14 +143,14 @@ Completed technical split:
 - **027C Story Import Format & Completeness Tooling — COMPLETE** — `upds-story-content-v1`, authored-line/branch/deferred-content audit and focused CI command;
 - **027D Canonical Story Runtime Import & Transition QA — COMPLETE** — runtime consumes the same audited content pipeline and graph ranges; full playable VN → Match-3 → VN → ending path is automatically validated.
 
-Current authored canon is incremental: `ANM-003_Vertical_Slice_Screenplay.md` covers slots `0–3`, and sequential ANM-027G sources add `4–6`, `7–9`, `10–12`, `13–15`, and `16–18`. `VN0250` remains the canonical bridge into sequential ANM-027G sources. Slots `19–21` remain macro-locked ending branches and must be authored/imported through the same pipeline before ANM-029 Full Localization Production and release-content lock.
+Current authored canon is complete: `ANM-003_Vertical_Slice_Screenplay.md` covers slots `0–3`, sequential ANM-027G sources cover `4–18`, and `ANM-027G_Episodes_19_21_Screenplay.md` authors the three mutually exclusive ending slots. `VN0250` remains the canonical bridge into the sequential ANM-027G source chain.
 
-The remaining screenplay does not block bounded tooling, but mass localization/art production must not pretend ending slots `19–21` are authored.
+All 22 planned story slots are now authored; ANM-029 may consume the complete canonical screenplay, while art production remains independently gated by the external asset workflow.
 
 Content-production split:
 - **027E Lean Content Production Contract — COMPLETE** — [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md) preserves slots `0–21` while capping one-off production through full-stage/guest/extras tiers, eight staging presets, 8–10 location masters, 5–7 hero clue close-ups and 5–6 Match-3 layout archetypes;
-- **027F Full Story Macro Lock — COMPLETE** — slots `0–21`, endings `19–21`, eight location families, six reusable Match-3 archetypes, six hero clue close-ups, full-stage/guest tiers and asset triggers are locked in `src/content/story/ANM027F.full-story-macro.json`; slots `0–18` are now authored while ending slots `19–21` remain macro-only;
-- **027G Episode Batch Production & Canonical Import — IN PROGRESS; `4–6` R1.1 COMPLETE / `7–9` R1.2 COMPLETE / `10–12` R1.1 COMPLETE / `13–15` R1 COMPLETE / `16–18` R1 IN QA** — the fifth package extends canonical runtime to 857 authored lines / 39 VN scenes / 19 Match-3 routes, adds Vincent scanner verification, the Rina archive/confession sequence, two additive choice gates and the common-route final-strategy pivot. Next package after acceptance is the ending batch `19–21`.
+- **027F Full Story Macro Lock — COMPLETE** — slots `0–21`, endings `19–21`, eight location families, six reusable Match-3 archetypes, six hero clue close-ups, full-stage/guest tiers and asset triggers are locked in `src/content/story/ANM027F.full-story-macro.json`; all slots `0–21` are now authored/production-configured;
+- **027G Episode Batch Production & Canonical Import — IN PROGRESS; `4–6` R1.1 COMPLETE / `7–9` R1.2 COMPLETE / `10–12` R1.1 COMPLETE / `13–15` R1 COMPLETE / `16–18` R1 COMPLETE / `19–21` R1 IN QA** — the final package completes the canonical runtime at 976 authored lines / 45 VN scenes / 22 Match-3 routes, adds three data-driven ending branches and the gated full-truth outcome. After acceptance ANM-027G is complete and ANM-029 becomes the next content phase.
 
 ### ANM-028 — Character Production Pipeline 2.0 [P0/P1] — IN PROGRESS
 
@@ -256,7 +256,7 @@ Do not consume core production capacity before base release.
 2. **ANM-028B1 R4.1 — COMPLETE** and **ANM-028D3A — COMPLETE**;
 3. **ANM-028B2 R1.1 — COMPLETE** — bounded authored multi-character VN adoption;
 4. **ANM-028B3 R1.1 — COMPLETE** — separate guest/witness contract and asset-free Hinata presentation are available to slots 5–6;
-5. **ANM-027G `4–6` — COMPLETE; `7–9` — COMPLETE; `10–12` — COMPLETE; `13–15` — COMPLETE; `16–18` — CURRENT QA**; after acceptance finish `19–21`;
+5. **ANM-027G `4–6` — COMPLETE; `7–9` — COMPLETE; `10–12` — COMPLETE; `13–15` — COMPLETE; `16–18` — COMPLETE; `19–21` — CURRENT QA**; after acceptance canonical screenplay production is complete;
 6. resume approved external character/background asset integration only when a content batch triggers it;
 7. ANM-029 localization after the full canonical screenplay exists;
 8. ANM-030 budgeted mass art/content;

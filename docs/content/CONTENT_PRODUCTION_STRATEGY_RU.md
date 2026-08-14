@@ -14,8 +14,7 @@ Status: active product/production decision, ANM-027E.
 - Сохраняются утверждённые канон, главная троица, расследование Second Skin, Рина/Куросэ и POV Мику.
 - Сюжетный объём не сокращается ради art/token budget. Экономия достигается повторным
   использованием постановки, персонажей, локаций, UI-улик и Match-3 framework.
-- Репозиторий пока содержит подробный authored screenplay только для слотов `0–3`. Слоты `4–21`
-  должны пройти macro lock и затем импортироваться reviewable-пакетами через ANM-027 pipeline.
+- Репозиторий теперь содержит подробный authored screenplay для всех `0–21`: ANM-003 покрывает `0–3`, а шесть reviewable ANM-027G packages покрывают `4–21`, включая три взаимоисключающих финала.
 
 ## Source reconciliation и supersession
 
@@ -26,11 +25,9 @@ Status: active product/production decision, ANM-027E.
 - [`ANM-002_22_Episode_Plot.md`](ANM-002_22_Episode_Plot.md), v0.1 от 10 августа 2026 — современный каркас слотов `0–21`,
   созданный на основе Story Bible и исходной презентации;
 - `UPDS.pptx`, исходный файл от 21 октября 2016 — исторический beat source на 115 слайдов;
-- `src/content/ANM-003_Vertical_Slice_Screenplay.md` — единственный текущий repository-authored
-  detailed screenplay и runtime source (`0–3`).
+- `src/content/ANM-003_Vertical_Slice_Screenplay.md` + последовательные `ANM-027G_Episodes_*_Screenplay.md` — полный repository-authored detailed screenplay и runtime source для `0–21`.
 
-`ANM-001/002` являются продуктовым input для ещё не выполненного macro lock, но не доказывают, что
-screenplay `4–21` уже написан. `UPDS.pptx` сохраняет структурную ДНК, а не текущий канон. При
+`ANM-001/002` остаются продуктовым source для уже выполненного macro lock; authored ANM-003/027G sources теперь отдельно доказывают, что screenplay `0–21` действительно существует в repository. `UPDS.pptx` сохраняет структурную ДНК, а не текущий канон. При
 конфликте deck уступает Story Bible, ANM-002 и утверждённому repository screenplay.
 
 ### Что сохраняется из исходной презентации
@@ -248,7 +245,7 @@ Macro lock опирается на утверждённый Story Bible и ис�
 6. **ANM-028B3 R1.1 — COMPLETE** — `upds-guest-witness-production-v1` provides the separate
    guest/witness schema, validator and shared `guest-testimony-card` renderer required by Hinata; all six
    macro-locked guests remain asset-free until external art is supplied and never become fake full-stage paths.
-7. **ANM-027G `4–6` / `7–9` / `10–12` — COMPLETE; `13–15` — CURRENT QA** — sequential screenplay/import packages consume only macro-approved asset triggers; after acceptance continue with `16–18`, `19–21`.
+7. **ANM-027G `4–6` / `7–9` / `10–12` / `13–15` / `16–18` — COMPLETE; `19–21` — CURRENT QA** — the final ending package completes the authored `0–21` screenplay while consuming only macro-approved asset triggers.
 8. Run the bounded 028C safe-motion proof when it no longer competes with content blockers; resume
    full-stage character production from external approved art as batches require it.
 9. ANM-029 mass localization and ANM-030 mass art only after complete canonical content lock.

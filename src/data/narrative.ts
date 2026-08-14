@@ -44,7 +44,11 @@ export type BackgroundKey =
   | 'abandonedLaundry'
   | 'gymnasticsCostume'
   | 'oldArchive'
-  | 'clubroomNight';
+  | 'clubroomNight'
+  | 'anonymousReturnCounter'
+  | 'serviceTunnel'
+  | 'serverRoom'
+  | 'disciplinaryAssembly';
 
 const conditionalSpeakerPattern = /^\{IF\s+([^}]+)\}\s*/;
 
@@ -158,6 +162,12 @@ export const sceneMeta: readonly SceneMeta[] = [
   { id: 'VN_SCENE_36_E17_POST', title: 'Каталог Рины', location: 'Старый архив прачечной', defaultBackground: 'oldArchive' },
   { id: 'VN_SCENE_37_E18_PRE', title: 'Вор, который пытался остановить кражу', location: 'Старый архив → клуб', defaultBackground: 'oldArchive' },
   { id: 'VN_SCENE_38_E18_POST', title: 'Три стратегии', location: 'Комната детективного клуба ночью', defaultBackground: 'clubroomNight' },
+  { id: 'VN_SCENE_39_E19_PRE', title: 'Вор пойман', location: 'Пункт анонимного возврата', defaultBackground: 'anonymousReturnCounter' },
+  { id: 'VN_SCENE_40_E19_POST', title: 'Формально закрыто', location: 'Комната детективного клуба', defaultBackground: 'clubroom' },
+  { id: 'VN_SCENE_41_E20_PRE', title: 'Под прачечной', location: 'Сервисный тоннель → серверная Asterion', defaultBackground: 'serviceTunnel' },
+  { id: 'VN_SCENE_42_E20_POST', title: 'Вся правда', location: 'Дисциплинарное слушание', defaultBackground: 'disciplinaryAssembly' },
+  { id: 'VN_SCENE_43_E21_PRE', title: 'Идеальный подозреваемый', location: 'Актовый зал', defaultBackground: 'disciplinaryAssembly' },
+  { id: 'VN_SCENE_44_E21_POST', title: 'Известность вместо истины', location: 'Комната детективного клуба', defaultBackground: 'clubroom' },
 ] as const;
 
 export const backgroundAssets: Record<BackgroundKey, string> = {
@@ -185,13 +195,22 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   gymnasticsCostume: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
   oldArchive: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
   clubroomNight: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
+  // ANM-027G 19–21 ending variants. Semantic aliases pending external production masters.
+  anonymousReturnCounter: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
+  serviceTunnel: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
+  serverRoom: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
+  disciplinaryAssembly: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
 };
 
 export function getBackgroundForLine(sceneIndex: number, lineIndex: number, story: readonly StoryLine[]): BackgroundKey {
   let background = sceneMeta[sceneIndex]?.defaultBackground ?? 'clubroom';
   for (let index = 0; index <= lineIndex && index < story.length; index += 1) {
     const direction = `${story[index].emotion} ${story[index].text}`;
-    if (direction.includes('BG_CLUBROOM_NIGHT')) background = 'clubroomNight';
+    if (direction.includes('BG_DISCIPLINARY_ASSEMBLY')) background = 'disciplinaryAssembly';
+    else if (direction.includes('BG_SERVER_ROOM')) background = 'serverRoom';
+    else if (direction.includes('BG_SERVICE_TUNNEL')) background = 'serviceTunnel';
+    else if (direction.includes('BG_ANONYMOUS_RETURN_COUNTER')) background = 'anonymousReturnCounter';
+    else if (direction.includes('BG_CLUBROOM_NIGHT')) background = 'clubroomNight';
     else if (direction.includes('BG_OLD_ARCHIVE')) background = 'oldArchive';
     else if (direction.includes('BG_GYMNASTICS_COSTUME')) background = 'gymnasticsCostume';
     else if (direction.includes('BG_ABANDONED_LAUNDRY')) background = 'abandonedLaundry';

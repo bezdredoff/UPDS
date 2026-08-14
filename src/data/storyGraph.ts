@@ -1,4 +1,5 @@
 import { levels } from './levels';
+import type { StoryChoiceGateId, StoryChoiceOptionId, StoryChoiceSelections } from './storyChoices';
 
 export const storyEpisodeIds = ['EP001_CASE_001'] as const;
 export type StoryEpisodeId = (typeof storyEpisodeIds)[number];
@@ -24,6 +25,9 @@ export const storyChapterIds = [
   'CH018_GYMNASTICS_SCAN',
   'CH019_RINA_ARCHIVE',
   'CH020_FINAL_STRATEGY',
+  'CH021_ENDING_B_CASE_CLOSED',
+  'CH022_ENDING_A_FULL_TRUTH',
+  'CH023_ENDING_C_PERFECT_SUSPECT',
 ] as const;
 export type StoryChapterId = (typeof storyChapterIds)[number];
 
@@ -67,17 +71,25 @@ export const storySceneIds = [
   'VN_SCENE_36_E17_POST',
   'VN_SCENE_37_E18_PRE',
   'VN_SCENE_38_E18_POST',
+  'VN_SCENE_39_E19_PRE',
+  'VN_SCENE_40_E19_POST',
+  'VN_SCENE_41_E20_PRE',
+  'VN_SCENE_42_E20_POST',
+  'VN_SCENE_43_E21_PRE',
+  'VN_SCENE_44_E21_POST',
 ] as const;
 export type StorySceneId = (typeof storySceneIds)[number];
 
-export const storyEndingIds = ['ENDING_AUTHORED_FRONTIER_18'] as const;
+export const storyEndingIds = ['ENDING_A_FULL_TRUTH', 'ENDING_B_CASE_CLOSED', 'ENDING_C_PERFECT_SUSPECT'] as const;
 export type StoryEndingId = (typeof storyEndingIds)[number];
 
+export type StoryEndingRequirement = Readonly<{ evidence: number; teamTrust: number; sourceTrust: number }>;
 export type StorySourceRange = Readonly<{ format: 'screenplay-range-v1'; startLineId: string; endLineId: string }>;
 export type StoryTransition =
   | Readonly<{ kind: 'scene'; targetSceneId: StorySceneId }>
   | Readonly<{ kind: 'match3'; levelId: string; onWinSceneId: StorySceneId }>
-  | Readonly<{ kind: 'ending'; endingId: StoryEndingId }>;
+  | Readonly<{ kind: 'branch'; gateId: StoryChoiceGateId; routes: Readonly<Record<StoryChoiceOptionId, StorySceneId>> }>
+  | Readonly<{ kind: 'ending'; endingId: StoryEndingId; fallbackEndingId?: StoryEndingId; successRequirement?: StoryEndingRequirement }>;
 export type StorySceneDefinition = Readonly<{ id: StorySceneId; episodeId: StoryEpisodeId; chapterId: StoryChapterId; legacyIndex: number; source: StorySourceRange; transition: StoryTransition }>;
 export type StoryChapterDefinition = Readonly<{ id: StoryChapterId; episodeId: StoryEpisodeId; order: number; sceneIds: readonly StorySceneId[] }>;
 export type StoryEpisodeDefinition = Readonly<{ id: StoryEpisodeId; order: number; chapterIds: readonly StoryChapterId[] }>;
@@ -108,6 +120,9 @@ export const storyGraph: StoryGraph = {
     { id: 'CH018_GYMNASTICS_SCAN', episodeId: 'EP001_CASE_001', order: 17, sceneIds: ['VN_SCENE_33_E16_PRE','VN_SCENE_34_E16_POST'] },
     { id: 'CH019_RINA_ARCHIVE', episodeId: 'EP001_CASE_001', order: 18, sceneIds: ['VN_SCENE_35_E17_PRE','VN_SCENE_36_E17_POST'] },
     { id: 'CH020_FINAL_STRATEGY', episodeId: 'EP001_CASE_001', order: 19, sceneIds: ['VN_SCENE_37_E18_PRE','VN_SCENE_38_E18_POST'] },
+    { id: 'CH021_ENDING_B_CASE_CLOSED', episodeId: 'EP001_CASE_001', order: 20, sceneIds: ['VN_SCENE_39_E19_PRE','VN_SCENE_40_E19_POST'] },
+    { id: 'CH022_ENDING_A_FULL_TRUTH', episodeId: 'EP001_CASE_001', order: 21, sceneIds: ['VN_SCENE_41_E20_PRE','VN_SCENE_42_E20_POST'] },
+    { id: 'CH023_ENDING_C_PERFECT_SUSPECT', episodeId: 'EP001_CASE_001', order: 22, sceneIds: ['VN_SCENE_43_E21_PRE','VN_SCENE_44_E21_POST'] },
   ],
   scenes: [
     { id:'VN_SCENE_00_PROLOGUE', episodeId:'EP001_CASE_001', chapterId:'CH001_PROLOGUE', legacyIndex:0, source:{format:'screenplay-range-v1',startLineId:'VN0001',endLineId:'VN0022'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_01_E0_PRE'} },
@@ -148,7 +163,13 @@ export const storyGraph: StoryGraph = {
     { id:'VN_SCENE_35_E17_PRE', episodeId:'EP001_CASE_001', chapterId:'CH019_RINA_ARCHIVE', legacyIndex:35, source:{format:'screenplay-range-v1',startLineId:'VN0766',endLineId:'VN0785'}, transition:{kind:'match3',levelId:'M3_17_RINA_ARCHIVE_CATALOG',onWinSceneId:'VN_SCENE_36_E17_POST'} },
     { id:'VN_SCENE_36_E17_POST', episodeId:'EP001_CASE_001', chapterId:'CH019_RINA_ARCHIVE', legacyIndex:36, source:{format:'screenplay-range-v1',startLineId:'VN0786',endLineId:'VN0805'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_37_E18_PRE'} },
     { id:'VN_SCENE_37_E18_PRE', episodeId:'EP001_CASE_001', chapterId:'CH020_FINAL_STRATEGY', legacyIndex:37, source:{format:'screenplay-range-v1',startLineId:'VN0806',endLineId:'VN0826'}, transition:{kind:'match3',levelId:'M3_18_FULL_TIMELINE_PROOF',onWinSceneId:'VN_SCENE_38_E18_POST'} },
-    { id:'VN_SCENE_38_E18_POST', episodeId:'EP001_CASE_001', chapterId:'CH020_FINAL_STRATEGY', legacyIndex:38, source:{format:'screenplay-range-v1',startLineId:'VN0827',endLineId:'VN0845'}, transition:{kind:'ending',endingId:'ENDING_AUTHORED_FRONTIER_18'} },
+    { id:'VN_SCENE_38_E18_POST', episodeId:'EP001_CASE_001', chapterId:'CH020_FINAL_STRATEGY', legacyIndex:38, source:{format:'screenplay-range-v1',startLineId:'VN0827',endLineId:'VN0845'}, transition:{kind:'branch',gateId:'final-strategy',routes:{A:'VN_SCENE_39_E19_PRE',B:'VN_SCENE_41_E20_PRE',C:'VN_SCENE_43_E21_PRE'}} },
+    { id:'VN_SCENE_39_E19_PRE', episodeId:'EP001_CASE_001', chapterId:'CH021_ENDING_B_CASE_CLOSED', legacyIndex:39, source:{format:'screenplay-range-v1',startLineId:'VN0846',endLineId:'VN0865'}, transition:{kind:'match3',levelId:'M3_19_PRIVATE_RETURN',onWinSceneId:'VN_SCENE_40_E19_POST'} },
+    { id:'VN_SCENE_40_E19_POST', episodeId:'EP001_CASE_001', chapterId:'CH021_ENDING_B_CASE_CLOSED', legacyIndex:40, source:{format:'screenplay-range-v1',startLineId:'VN0866',endLineId:'VN0884'}, transition:{kind:'ending',endingId:'ENDING_B_CASE_CLOSED'} },
+    { id:'VN_SCENE_41_E20_PRE', episodeId:'EP001_CASE_001', chapterId:'CH022_ENDING_A_FULL_TRUTH', legacyIndex:41, source:{format:'screenplay-range-v1',startLineId:'VN0885',endLineId:'VN0904'}, transition:{kind:'match3',levelId:'M3_20_SERVER_CONSENT_LOGS',onWinSceneId:'VN_SCENE_42_E20_POST'} },
+    { id:'VN_SCENE_42_E20_POST', episodeId:'EP001_CASE_001', chapterId:'CH022_ENDING_A_FULL_TRUTH', legacyIndex:42, source:{format:'screenplay-range-v1',startLineId:'VN0905',endLineId:'VN0924'}, transition:{kind:'ending',endingId:'ENDING_A_FULL_TRUTH',fallbackEndingId:'ENDING_B_CASE_CLOSED',successRequirement:{evidence:7,teamTrust:2,sourceTrust:2}} },
+    { id:'VN_SCENE_43_E21_PRE', episodeId:'EP001_CASE_001', chapterId:'CH023_ENDING_C_PERFECT_SUSPECT', legacyIndex:43, source:{format:'screenplay-range-v1',startLineId:'VN0925',endLineId:'VN0944'}, transition:{kind:'match3',levelId:'M3_21_CONVENIENT_CASE',onWinSceneId:'VN_SCENE_44_E21_POST'} },
+    { id:'VN_SCENE_44_E21_POST', episodeId:'EP001_CASE_001', chapterId:'CH023_ENDING_C_PERFECT_SUSPECT', legacyIndex:44, source:{format:'screenplay-range-v1',startLineId:'VN0945',endLineId:'VN0964'}, transition:{kind:'ending',endingId:'ENDING_C_PERFECT_SUSPECT'} },
   ],
 };
 
@@ -183,6 +204,13 @@ export const legacySceneIndexFromStoryId = (sceneId: StorySceneId): number =>
 
 export const storyTransitionForLegacyScene = (legacyIndex: number): StoryTransition | null =>
   storySceneFromLegacyIndex(legacyIndex)?.transition ?? null;
+
+export const storyBranchTargetForLegacyScene = (legacyIndex: number, storyChoices: StoryChoiceSelections): StorySceneId | null => {
+  const transition = storyTransitionForLegacyScene(legacyIndex);
+  if (!transition || transition.kind !== 'branch') return null;
+  const option = storyChoices[transition.gateId];
+  return option ? transition.routes[option] : null;
+};
 
 export type StoryMatch3Route = Readonly<{
   sourceSceneId: StorySceneId;
@@ -279,6 +307,17 @@ export function validateStoryGraph(graph: StoryGraph = storyGraph): readonly Sto
         issues.push({ code: 'unknown-reference', detail: `${scene.id}: unknown Match-3 win scene ${transition.onWinSceneId}` });
       }
     }
+    if (transition.kind === 'branch') {
+      for (const [option, targetSceneId] of Object.entries(transition.routes)) {
+        if (!sceneIds.has(targetSceneId as StorySceneId)) {
+          issues.push({ code: 'unknown-reference', detail: `${scene.id}: unknown branch ${option} scene ${targetSceneId}` });
+        }
+      }
+    }
+    if (transition.kind === 'ending') {
+      if (!storyEndingIds.includes(transition.endingId)) issues.push({ code: 'unknown-reference', detail: `${scene.id}: unknown ending ${transition.endingId}` });
+      if (transition.fallbackEndingId && !storyEndingIds.includes(transition.fallbackEndingId)) issues.push({ code: 'unknown-reference', detail: `${scene.id}: unknown fallback ending ${transition.fallbackEndingId}` });
+    }
   }
 
   const sortedScenes = [...graph.scenes].sort((left, right) => left.legacyIndex - right.legacyIndex);
@@ -294,16 +333,17 @@ export function validateStoryGraph(graph: StoryGraph = storyGraph): readonly Sto
   }
 
   const reachable = new Set<StorySceneId>();
-  let cursor: StorySceneId | null = graph.entrySceneId;
-  while (cursor && !reachable.has(cursor)) {
+  const queue: StorySceneId[] = [graph.entrySceneId];
+  while (queue.length > 0) {
+    const cursor = queue.shift()!;
+    if (reachable.has(cursor)) continue;
     reachable.add(cursor);
     const scene = graph.scenes.find((candidate) => candidate.id === cursor);
-    if (!scene) break;
-    cursor = scene.transition.kind === 'scene'
-      ? scene.transition.targetSceneId
-      : scene.transition.kind === 'match3'
-        ? scene.transition.onWinSceneId
-        : null;
+    if (!scene) continue;
+    const transition = scene.transition;
+    if (transition.kind === 'scene') queue.push(transition.targetSceneId);
+    else if (transition.kind === 'match3') queue.push(transition.onWinSceneId);
+    else if (transition.kind === 'branch') queue.push(...Object.values(transition.routes));
   }
   for (const scene of graph.scenes) {
     if (!reachable.has(scene.id)) issues.push({ code: 'unreachable-scene', detail: `${scene.id}: unreachable from ${graph.entrySceneId}` });
@@ -318,8 +358,14 @@ export function validateStoryGraph(graph: StoryGraph = storyGraph): readonly Sto
     issues.push({ code: 'match3-coverage', detail: `story Match-3 routes=${routedLevelIds.join(',')} production=${expectedLevelIds.join(',')}` });
   }
 
-  const terminalCount = graph.scenes.filter((scene) => scene.transition.kind === 'ending').length;
-  if (terminalCount !== 1) issues.push({ code: 'terminal-count', detail: `expected exactly one ending transition, got ${terminalCount}` });
+  const endingTransitions = graph.scenes.filter((scene) => scene.transition.kind === 'ending');
+  if (endingTransitions.length !== storyEndingIds.length) {
+    issues.push({ code: 'terminal-count', detail: `expected ${storyEndingIds.length} ending transitions, got ${endingTransitions.length}` });
+  }
+  const terminalEndingIds = new Set(endingTransitions.map((scene) => scene.transition.kind === 'ending' ? scene.transition.endingId : null));
+  for (const endingId of storyEndingIds) {
+    if (!terminalEndingIds.has(endingId)) issues.push({ code: 'terminal-count', detail: `missing terminal ending ${endingId}` });
+  }
 
   return issues;
 }

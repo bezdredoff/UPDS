@@ -43,8 +43,9 @@ If two active documents conflict, prefer the narrower current machine-readable c
 - [`features/ANM027G_EPISODES_10_12_PRODUCTION_RU.md`](features/ANM027G_EPISODES_10_12_PRODUCTION_RU.md) — third canonical production batch: slots `10–12`, Aoi guest route, Asterion transfer chain, Second Skin reveal and three more Match-3 levels
 - [`features/ANM027G_EPISODES_13_15_PRODUCTION_RU.md`](features/ANM027G_EPISODES_13_15_PRODUCTION_RU.md) — fourth canonical production batch: slots `13–15`, Kubo guest route, family atelier chronology, abandoned-laundry consent route and three more Match-3 levels
 - [`features/ANM027G_EPISODES_16_18_PRODUCTION_RU.md`](features/ANM027G_EPISODES_16_18_PRODUCTION_RU.md) — fifth canonical production batch: slots `16–18`, Vincent scanner route, Rina archive confession, common-route strategy pivot and three more Match-3 levels
+- [`features/ANM027G_EPISODES_19_21_PRODUCTION_RU.md`](features/ANM027G_EPISODES_19_21_PRODUCTION_RU.md) — final canonical ending batch: three mutually exclusive slots `19–21`, final-strategy routing, gated full-truth outcome and three ending Match-3 levels
 
-The repository now contains detailed authored screenplay for slots `0–18`: ANM-003 covers `0–3`, and sequential ANM-027G sources cover `4–6`, `7–9`, `10–12`, `13–15`, and `16–18`. Slots `19–21` remain macro-only ending branches and must enter through the final ANM-027G batch.
+The repository now contains the complete detailed authored screenplay for all 22 slots `0–21`: ANM-003 covers `0–3`, sequential ANM-027G sources cover `4–18`, and the final `19–21` source contains the three mutually exclusive authored ending routes.
 
 ### Character production
 

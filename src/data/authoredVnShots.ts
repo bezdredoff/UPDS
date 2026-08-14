@@ -163,6 +163,21 @@ export const authoredVnShotManifest: AuthoredVnShotManifest = {
       actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'serious' }, { character: 'ayuki', expression: 'neutral' }],
       note: 'Episode 18 strategy pivot: the core trio separates the physical thief from the continuing Second Skin system.',
     },
+    {
+      lineId: 'VN0878', background: 'clubroom', presetId: 'two-shot-conflict',
+      actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'serious' }],
+      note: 'Ending B core conflict: the thefts are closed formally while Miku keeps the unresolved Second Skin distinction visible.',
+    },
+    {
+      lineId: 'VN0913', background: 'disciplinaryAssembly', presetId: 'trio-central-speaker',
+      actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'serious' }, { character: 'ayuki', expression: 'neutral' }],
+      note: 'Ending A hearing: Miku separates Rina’s thefts from Kurose’s consent violations in front of the commission.',
+    },
+    {
+      lineId: 'VN0957', background: 'clubroom', presetId: 'trio-reaction',
+      actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'neutral' }, { character: 'ayuki', expression: 'embarrassed' }],
+      note: 'Ending C aftermath: the larger clubroom cannot hide the cost of the consciously convenient accusation.',
+    },
   ],
 };
 

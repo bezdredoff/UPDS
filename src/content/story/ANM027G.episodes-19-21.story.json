@@ -1,0 +1,20 @@
+{
+  "format": "upds-story-content-v1",
+  "sourceId": "ANM027G_EPISODES_19_21",
+  "episodeId": "EP001_CASE_001",
+  "sourcePath": "src/content/ANM-027G_Episodes_19_21_Screenplay.md",
+  "expectedBaseRange": {
+    "startLineId": "VN0846",
+    "endLineId": "VN0964"
+  },
+  "sceneIds": [
+    "VN_SCENE_39_E19_PRE",
+    "VN_SCENE_40_E19_POST",
+    "VN_SCENE_41_E20_PRE",
+    "VN_SCENE_42_E20_POST",
+    "VN_SCENE_43_E21_PRE",
+    "VN_SCENE_44_E21_POST"
+  ],
+  "branchVariants": [],
+  "deferredLineIds": []
+}

@@ -22,3 +22,9 @@ export const storyChoiceGates: readonly StoryChoiceGate[] = [
 
 export const storyChoiceGateForLine = (lineId: string): StoryChoiceGate | null =>
   storyChoiceGates.find((gate) => gate.checkpointLineId === lineId) ?? null;
+
+export const storyChoiceGateById = (id: StoryChoiceGateId): StoryChoiceGate => {
+  const gate = storyChoiceGates.find((candidate) => candidate.id === id);
+  if (!gate) throw new Error(`Unknown story choice gate ${id}`);
+  return gate;
+};

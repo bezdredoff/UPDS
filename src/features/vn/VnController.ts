@@ -25,8 +25,9 @@ import {
   type ChoiceId,
   type StoryLine,
 } from '../../data/narrative';
-import { legacySceneIndexFromStoryId, storyMatch3RouteForLegacyScene, storyTransitionForLegacyScene } from '../../data/storyGraph';
-import { storyChoiceGateForLine, type StoryChoiceGate, type StoryChoiceOptionId } from '../../data/storyChoices';
+import { legacySceneIndexFromStoryId, storyBranchTargetForLegacyScene, storyMatch3RouteForLegacyScene, storyTransitionForLegacyScene } from '../../data/storyGraph';
+import { storyChoiceGateById, storyChoiceGateForLine, type StoryChoiceGate, type StoryChoiceOptionId } from '../../data/storyChoices';
+import { meetsStoryEndingRequirement, storyOutcomeMetrics } from '../../data/storyOutcome';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
@@ -563,8 +564,25 @@ export class VnController {
       return;
     }
 
+    if (transition.kind === 'branch') {
+      const targetSceneId = storyBranchTargetForLegacyScene(this.session.save.scene, this.session.save.storyChoices);
+      if (!targetSceneId) {
+        this.renderStoryChoice(storyChoiceGateById(transition.gateId));
+        return;
+      }
+      const nextScene = legacySceneIndexFromStoryId(targetSceneId);
+      if (nextScene < 0) throw new Error(`Unknown branch story scene ${targetSceneId}`);
+      this.openScene(nextScene, 0);
+      return;
+    }
+
     if (transition.kind === 'ending') {
-      this.navigation.showEnding();
+      const metrics = storyOutcomeMetrics(this.session.save);
+      const endingId = transition.successRequirement && transition.fallbackEndingId
+        && !meetsStoryEndingRequirement(metrics, transition.successRequirement)
+        ? transition.fallbackEndingId
+        : transition.endingId;
+      this.navigation.showEnding(endingId);
       return;
     }
 

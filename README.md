@@ -11,10 +11,7 @@ Do not maintain an independent build number in this README:
 - protected product/runtime contracts: [`docs/architecture/PROJECT_CONTRACTS_RU.md`](docs/architecture/PROJECT_CONTRACTS_RU.md);
 - machine-readable character production status: [`src/data/characterProduction.ts`](src/data/characterProduction.ts).
 
-At the current repository baseline, ANM-025 Match-3 production, ANM-026 tooling and the
-ANM-027 story import/runtime pipeline are complete for the authored vertical slice. The active
-production phase is ANM-028 Character Production Pipeline 2.0; the roadmap remains the
-authoritative feature-status source.
+At the current repository baseline, ANM-025 Match-3 production, ANM-026 tooling and the ANM-027 story import/runtime pipeline support the complete authored `0–21` case, including three final branches. Character art remains on the separate ANM-028/external production track; the roadmap remains the authoritative feature-status source.
 
 ## Quick start
 
