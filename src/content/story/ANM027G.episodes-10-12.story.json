@@ -1,0 +1,20 @@
+{
+  "format": "upds-story-content-v1",
+  "sourceId": "ANM027G_EPISODES_10_12",
+  "episodeId": "EP001_CASE_001",
+  "sourcePath": "src/content/ANM-027G_Episodes_10_12_Screenplay.md",
+  "expectedBaseRange": {
+    "startLineId": "VN0489",
+    "endLineId": "VN0607"
+  },
+  "sceneIds": [
+    "VN_SCENE_21_E10_PRE",
+    "VN_SCENE_22_E10_POST",
+    "VN_SCENE_23_E11_PRE",
+    "VN_SCENE_24_E11_POST",
+    "VN_SCENE_25_E12_PRE",
+    "VN_SCENE_26_E12_POST"
+  ],
+  "branchVariants": [],
+  "deferredLineIds": []
+}

@@ -38,6 +38,9 @@ export const match3NarrativeProfileKeys = [
   'asterion-thread',
   'missing-package-ranges',
   'night-containers',
+  'control-sample-gear',
+  'lab-transfer-chain',
+  'second-skin-tag',
 ] as const;
 export type Match3NarrativeProfileKey = typeof match3NarrativeProfileKeys[number];
 
@@ -52,10 +55,13 @@ export const match3TilePresentationProfileKeys = [
   'asterion-lab',
   'lost-found',
   'maintenance-service',
+  'karate-control',
+  'asterion-transfer',
+  'second-skin-signal',
 ] as const;
 export type Match3TilePresentationProfileKey = typeof match3TilePresentationProfileKeys[number];
 
-export type Match3CharacterKey = 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro' | 'mayu' | 'hinata' | 'rina' | 'kurose' | 'gen';
+export type Match3CharacterKey = 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro' | 'mayu' | 'hinata' | 'rina' | 'kurose' | 'gen' | 'aoi';
 export type Match3SourceSceneId =
   | 'VN_SCENE_01_E0_PRE'
   | 'VN_SCENE_03_E1_PRE'
@@ -66,7 +72,10 @@ export type Match3SourceSceneId =
   | 'VN_SCENE_13_E6_PRE'
   | 'VN_SCENE_15_E7_PRE'
   | 'VN_SCENE_17_E8_PRE'
-  | 'VN_SCENE_19_E9_PRE';
+  | 'VN_SCENE_19_E9_PRE'
+  | 'VN_SCENE_21_E10_PRE'
+  | 'VN_SCENE_23_E11_PRE'
+  | 'VN_SCENE_25_E12_PRE';
 
 export type Match3LevelContext = Readonly<{
   /** VN scene that directly hands off into this Match-3 level. */

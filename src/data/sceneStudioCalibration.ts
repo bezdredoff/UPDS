@@ -114,6 +114,10 @@ export const sceneStudioCalibrationManifest: SceneStudioCalibrationManifest = {
     asterionLab: background('asterionLab', 15, 50, 39, 38, 87),
     lostFoundWarehouse: background('lostFoundWarehouse', 17, 50, 41, 40, 90),
     maintenanceRoom: background('maintenanceRoom', 19, 50, 41, 40, 90),
+    combatClubHall: background('combatClubHall', 21, 50, 41, 40, 90),
+    serviceYard: background('serviceYard', 23, 49, 42, 43, 87),
+    asterionTransferPoint: background('asterionTransferPoint', 24, 50, 39, 38, 87),
+    oldGymNight: background('oldGymNight', 25, 53, 43, 42, 90),
   },
 };
 

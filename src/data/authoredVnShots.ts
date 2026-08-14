@@ -117,6 +117,22 @@ export const authoredVnShotManifest: AuthoredVnShotManifest = {
       actors: [{ character: 'onoe', expression: 'serious' }, { character: 'miku', expression: 'neutral' }],
       note: 'Episode 9 report decision aftermath; Gen remains on the dedicated B3 guest-testimony-card path.',
     },
+
+    {
+      lineId: 'VN0505', background: 'combatClubHall', presetId: 'trio-central-speaker',
+      actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'neutral' }, { character: 'ayuki', expression: 'neutral' }],
+      note: 'Episode 10 control-sample task framing; Aoi remains on the B3 guest path and Kentaro uses his planned-stage placeholder on his own lines.',
+    },
+    {
+      lineId: 'VN0535', background: 'serviceYard', presetId: 'trio-reaction',
+      actors: [{ character: 'miku', expression: 'neutral' }, { character: 'onoe', expression: 'serious' }, { character: 'ayuki', expression: 'smile' }],
+      note: 'Episode 11 conspicuous control-bag reaction before the team follows the container route.',
+    },
+    {
+      lineId: 'VN0594', background: 'oldGymNight', presetId: 'trio-central-speaker',
+      actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'serious' }, { character: 'ayuki', expression: 'surprised' }],
+      note: 'Episode 12 technical reveal after the occult bait resolves into a Second Skin radio tag.',
+    },
   ],
 };
 

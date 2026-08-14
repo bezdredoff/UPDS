@@ -29,7 +29,7 @@ describe('ANM-025E3 quantitative Match-3 balance', () => {
       [50, 53],
     ]);
     expect(levels.every((level) => level.spawnWeights === undefined)).toBe(true);
-    expect(levels.slice(4).map((level) => level.moves)).toEqual([28, 27, 29, 28, 30, 29]);
+    expect(levels.slice(4, 10).map((level) => level.moves)).toEqual([28, 27, 29, 28, 30, 29]);
   });
 
   it('maintains a deterministic hint-following lower-bound envelope across the established four-level balance baseline', () => {

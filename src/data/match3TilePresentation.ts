@@ -23,6 +23,9 @@ export const match3TilePresentationProfiles: Readonly<Record<Match3TilePresentat
   'asterion-lab': { artDirectionTags: ['asterion-lab', 'sensor-thread', 'specification'] },
   'lost-found': { artDirectionTags: ['lost-found', 'sealed-packages', 'service-ledger'] },
   'maintenance-service': { artDirectionTags: ['maintenance-room', 'master-key', 'night-logistics'] },
+  'karate-control': { artDirectionTags: ['karate-club', 'control-sample', 'service-stitch'] },
+  'asterion-transfer': { artDirectionTags: ['service-yard', 'asterion-container', 'transfer-chain'] },
+  'second-skin-signal': { artDirectionTags: ['old-gym-night', 'radio-signal', 'second-skin'] },
 };
 
 export type ResolvedMatch3TilePresentation = Readonly<{

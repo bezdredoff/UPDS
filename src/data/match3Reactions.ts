@@ -11,7 +11,7 @@ export type Match3ReactionId =
   | 'character-beat'
   | 'cascade';
 
-export type Match3ReactionSpeaker = 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro' | 'mayu' | 'hinata' | 'rina' | 'kurose' | 'gen';
+export type Match3ReactionSpeaker = 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro' | 'mayu' | 'hinata' | 'rina' | 'kurose' | 'gen' | 'aoi';
 export type Match3ReactionRepeat = 'once-per-attempt' | 'repeatable';
 export type Match3RunMode = 'story' | 'campaign' | 'lab';
 
@@ -169,6 +169,24 @@ export const match3ReactionRulesByLevel: Readonly<Record<string, readonly Match3
     { id: 'low-moves', priority: 500, repeat: 'once-per-attempt', speaker: 'gen', messageKey: 'match3.bark.fiveMoves.9', trigger: { kind: 'moves-left', equals: 5 } }, commonSpecialCreatedRule(),
     { id: 'blocker-progress', priority: 300, repeat: 'once-per-attempt', speaker: 'ayuki', messageKey: 'match3.bark.blockers.9', trigger: { kind: 'blockers-cleared', min: 4 } },
     { id: 'ingredient-context', priority: 200, repeat: 'once-per-attempt', speaker: 'onoe', messageKey: 'match3.bark.ingredient.9', trigger: { kind: 'move-number', equals: 1 } }, commonCascadeRule(),
+  ],
+  M3_10_CONTROL_SAMPLE_GEAR: [
+    ...f2Rules(10, { objective: 'onoe', special: 'miku', combo: 'ayuki', nearWin: 'aoi', danger: 'onoe', beat: 'aoi' }),
+    { id: 'low-moves', priority: 500, repeat: 'once-per-attempt', speaker: 'aoi', messageKey: 'match3.bark.fiveMoves.10', trigger: { kind: 'moves-left', equals: 5 } }, commonSpecialCreatedRule(),
+    { id: 'blocker-progress', priority: 300, repeat: 'once-per-attempt', speaker: 'onoe', messageKey: 'match3.bark.blockers.10', trigger: { kind: 'blockers-cleared', min: 5 } },
+    { id: 'ingredient-context', priority: 200, repeat: 'once-per-attempt', speaker: 'miku', messageKey: 'match3.bark.ingredient.10', trigger: { kind: 'move-number', equals: 1 } }, commonCascadeRule(),
+  ],
+  M3_11_ASTERION_TRANSFER: [
+    ...f2Rules(11, { objective: 'onoe', special: 'kentaro', combo: 'ayuki', nearWin: 'miku', danger: 'onoe', beat: 'kentaro' }),
+    { id: 'low-moves', priority: 500, repeat: 'once-per-attempt', speaker: 'kentaro', messageKey: 'match3.bark.fiveMoves.11', trigger: { kind: 'moves-left', equals: 5 } }, commonSpecialCreatedRule(),
+    { id: 'blocker-progress', priority: 300, repeat: 'once-per-attempt', speaker: 'miku', messageKey: 'match3.bark.blockers.11', trigger: { kind: 'blockers-cleared', min: 4 } },
+    { id: 'ingredient-context', priority: 200, repeat: 'once-per-attempt', speaker: 'onoe', messageKey: 'match3.bark.ingredient.11', trigger: { kind: 'move-number', equals: 1 } }, commonCascadeRule(),
+  ],
+  M3_12_SECOND_SKIN_SIGNAL: [
+    ...f2Rules(12, { objective: 'onoe', special: 'miku', combo: 'ayuki', nearWin: 'miku', danger: 'onoe', beat: 'ayuki' }),
+    { id: 'low-moves', priority: 500, repeat: 'once-per-attempt', speaker: 'ayuki', messageKey: 'match3.bark.fiveMoves.12', trigger: { kind: 'moves-left', equals: 5 } }, commonSpecialCreatedRule(),
+    { id: 'blocker-progress', priority: 300, repeat: 'once-per-attempt', speaker: 'onoe', messageKey: 'match3.bark.blockers.12', trigger: { kind: 'blockers-cleared', min: 5 } },
+    { id: 'ingredient-context', priority: 200, repeat: 'once-per-attempt', speaker: 'miku', messageKey: 'match3.bark.ingredient.12', trigger: { kind: 'move-number', equals: 1 } }, commonCascadeRule(),
   ],
 };
 

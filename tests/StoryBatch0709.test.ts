@@ -8,6 +8,7 @@ import { backgroundAssets } from '../src/data/narrative';
 import { levels } from '../src/data/levels';
 import { SAVE_SCHEMA_VERSION } from '../src/engine/CampaignStore';
 import { storyChoiceGates } from '../src/data/storyChoices';
+import { authoredVnShotManifest } from '../src/data/authoredVnShots';
 import type { StoryContentManifest } from '../src/content/storyContentFormat';
 
 const manifest = batchManifestJson as StoryContentManifest;
@@ -25,6 +26,11 @@ describe('ANM-027G episodes 7–9 canonical production batch', () => {
       'VN_SCENE_19_E9_PRE', 'VN_SCENE_20_E9_POST',
     ]);
     expect(manifest.deferredLineIds).toEqual([]);
+    expect(
+      authoredVnShotManifest.shots
+        .map((shot) => shot.lineId)
+        .filter((lineId) => lineId >= 'VN0370' && lineId <= 'VN0488'),
+    ).toEqual(['VN0389', 'VN0427', 'VN0482']);
   });
 
   it('promotes macro slots 7–9 and ships exactly their three production Match-3 configs', () => {
@@ -56,7 +62,7 @@ describe('ANM-027G episodes 7–9 canonical production batch', () => {
 
   it('adds the Gen source-protection choice without changing save schema', () => {
     expect(SAVE_SCHEMA_VERSION).toBe(2);
-    expect(storyChoiceGates.map((gate) => [gate.id, gate.checkpointLineId])).toEqual([
+    expect(storyChoiceGates.slice(0, 3).map((gate) => [gate.id, gate.checkpointLineId])).toEqual([
       ['meeting-tone', 'VN0262'],
       ['apology-to-hinata', 'VN0356'],
       ['protect-gen-source', 'VN0480'],

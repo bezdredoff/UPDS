@@ -1017,7 +1017,7 @@
       "act": "III",
       "tone": "E4/C4",
       "branch": "common",
-      "contentStatus": "macro-locked",
+      "contentStatus": "authored",
       "beat": "Та же серебристая система обнаруживается на форме и аксессуарах; бельё оказывается основной, но не единственной выборкой.",
       "transition": {
         "kind": "next",
@@ -1063,7 +1063,7 @@
         "presentation": "native-ui"
       },
       "match3": {
-        "status": "planned-config",
+        "status": "production-configured",
         "archetype": "locker-columns",
         "objectiveKinds": [
           "clearBlockers",
@@ -1090,7 +1090,7 @@
       "act": "III",
       "tone": "E3/C4",
       "branch": "common",
-      "contentStatus": "macro-locked",
+      "contentStatus": "authored",
       "beat": "Фото Кэнтаро восстанавливают путь контейнеров из прачечной в Asterion и обратно без отдельной отметки.",
       "transition": {
         "kind": "next",
@@ -1140,7 +1140,7 @@
         "presentation": "hero-closeup"
       },
       "match3": {
-        "status": "planned-config",
+        "status": "production-configured",
         "archetype": "service-lanes",
         "objectiveKinds": [
           "clearBlockers",
@@ -1169,7 +1169,7 @@
       "act": "III",
       "tone": "E5/C5",
       "branch": "common",
-      "contentStatus": "macro-locked",
+      "contentStatus": "authored",
       "beat": "Оккультная приманка разоблачает не демона, а активную метку и внутреннее имя протокола Second Skin.",
       "transition": {
         "kind": "next",
@@ -1210,7 +1210,7 @@
         "presentation": "hero-closeup"
       },
       "match3": {
-        "status": "planned-config",
+        "status": "production-configured",
         "archetype": "signal-cross",
         "objectiveKinds": [
           "clearBlockers",

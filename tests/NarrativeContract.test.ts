@@ -5,9 +5,9 @@ import { storyGraph, storyMatch3RouteForLegacyScene } from '../src/data/storyGra
 const numeric = (id: string): number => Number(id.slice(2, 6));
 
 describe('narrative integration contract', () => {
-  it('parses all canonical sources into twenty-one non-empty ordered scenes', () => {
-    expect(parsedLineCount).toBe(500);
-    expect(sceneMeta).toHaveLength(21);
+  it('parses all canonical sources into twenty-seven non-empty ordered scenes', () => {
+    expect(parsedLineCount).toBe(619);
+    expect(sceneMeta).toHaveLength(27);
     for (const choice of ['A', 'B', 'C'] as ChoiceId[]) {
       for (let sceneIndex = 0; sceneIndex < sceneMeta.length; sceneIndex += 1) {
         const scene = getScene(sceneIndex, choice);
@@ -31,7 +31,7 @@ describe('narrative integration contract', () => {
   });
 
   it('keeps all VN → match → VN transitions mapped through the canonical story graph', () => {
-    const routes = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19].map((preScene) => storyMatch3RouteForLegacyScene(preScene));
+    const routes = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25].map((preScene) => storyMatch3RouteForLegacyScene(preScene));
     expect(routes.map((route) => route?.levelId)).toEqual([
       'M3_00_LOCKER_TUTORIAL',
       'M3_01_PHOTO_PROPS',
@@ -43,8 +43,11 @@ describe('narrative integration contract', () => {
       'M3_07_ASTERION_THREAD',
       'M3_08_LOST_FOUND_LEDGER',
       'M3_09_MAINTENANCE_KEYS',
+      'M3_10_CONTROL_SAMPLE_GEAR',
+      'M3_11_ASTERION_TRANSFER',
+      'M3_12_SECOND_SKIN_SIGNAL',
     ]);
-    expect(routes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 18, 20]);
+    expect(routes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26]);
   });
 
   it.each(['A', 'B', 'C'] as ChoiceId[])('switches the mixed-location scene background exactly at VN0048 for branch %s', (choice) => {
@@ -55,10 +58,10 @@ describe('narrative integration contract', () => {
     expect(getBackgroundForLine(1, transition, scene)).toBe('lockerAthletics');
   });
 
-  it('preserves the VN0250 bridge and reaches the current authored frontier at VN0488', () => {
+  it('preserves the VN0250 bridge and reaches the current authored frontier at VN0607', () => {
     const bridge = getScene(8, 'A');
     expect(bridge.at(-1)?.id).toBe('VN0250');
-    const frontier = getScene(20, 'A');
-    expect(frontier.at(-1)?.id).toBe('VN0488');
+    const frontier = getScene(26, 'A');
+    expect(frontier.at(-1)?.id).toBe('VN0607');
   });
 });

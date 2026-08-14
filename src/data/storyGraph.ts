@@ -15,6 +15,9 @@ export const storyChapterIds = [
   'CH009_ASTERION_EXPLANATION',
   'CH010_LOST_FOUND',
   'CH011_MAINTENANCE_KEYS',
+  'CH012_CONTROL_SAMPLE_GEAR',
+  'CH013_ASTERION_TRANSFER',
+  'CH014_SECOND_SKIN_SIGNAL',
 ] as const;
 export type StoryChapterId = (typeof storyChapterIds)[number];
 
@@ -40,10 +43,16 @@ export const storySceneIds = [
   'VN_SCENE_18_E8_POST',
   'VN_SCENE_19_E9_PRE',
   'VN_SCENE_20_E9_POST',
+  'VN_SCENE_21_E10_PRE',
+  'VN_SCENE_22_E10_POST',
+  'VN_SCENE_23_E11_PRE',
+  'VN_SCENE_24_E11_POST',
+  'VN_SCENE_25_E12_PRE',
+  'VN_SCENE_26_E12_POST',
 ] as const;
 export type StorySceneId = (typeof storySceneIds)[number];
 
-export const storyEndingIds = ['ENDING_AUTHORED_FRONTIER_09'] as const;
+export const storyEndingIds = ['ENDING_AUTHORED_FRONTIER_12'] as const;
 export type StoryEndingId = (typeof storyEndingIds)[number];
 
 export type StorySourceRange = Readonly<{ format: 'screenplay-range-v1'; startLineId: string; endLineId: string }>;
@@ -72,6 +81,9 @@ export const storyGraph: StoryGraph = {
     { id: 'CH009_ASTERION_EXPLANATION', episodeId: 'EP001_CASE_001', order: 8, sceneIds: ['VN_SCENE_15_E7_PRE','VN_SCENE_16_E7_POST'] },
     { id: 'CH010_LOST_FOUND', episodeId: 'EP001_CASE_001', order: 9, sceneIds: ['VN_SCENE_17_E8_PRE','VN_SCENE_18_E8_POST'] },
     { id: 'CH011_MAINTENANCE_KEYS', episodeId: 'EP001_CASE_001', order: 10, sceneIds: ['VN_SCENE_19_E9_PRE','VN_SCENE_20_E9_POST'] },
+    { id: 'CH012_CONTROL_SAMPLE_GEAR', episodeId: 'EP001_CASE_001', order: 11, sceneIds: ['VN_SCENE_21_E10_PRE','VN_SCENE_22_E10_POST'] },
+    { id: 'CH013_ASTERION_TRANSFER', episodeId: 'EP001_CASE_001', order: 12, sceneIds: ['VN_SCENE_23_E11_PRE','VN_SCENE_24_E11_POST'] },
+    { id: 'CH014_SECOND_SKIN_SIGNAL', episodeId: 'EP001_CASE_001', order: 13, sceneIds: ['VN_SCENE_25_E12_PRE','VN_SCENE_26_E12_POST'] },
   ],
   scenes: [
     { id:'VN_SCENE_00_PROLOGUE', episodeId:'EP001_CASE_001', chapterId:'CH001_PROLOGUE', legacyIndex:0, source:{format:'screenplay-range-v1',startLineId:'VN0001',endLineId:'VN0022'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_01_E0_PRE'} },
@@ -94,7 +106,13 @@ export const storyGraph: StoryGraph = {
     { id:'VN_SCENE_17_E8_PRE', episodeId:'EP001_CASE_001', chapterId:'CH010_LOST_FOUND', legacyIndex:17, source:{format:'screenplay-range-v1',startLineId:'VN0410',endLineId:'VN0429'}, transition:{kind:'match3',levelId:'M3_08_LOST_FOUND_LEDGER',onWinSceneId:'VN_SCENE_18_E8_POST'} },
     { id:'VN_SCENE_18_E8_POST', episodeId:'EP001_CASE_001', chapterId:'CH010_LOST_FOUND', legacyIndex:18, source:{format:'screenplay-range-v1',startLineId:'VN0430',endLineId:'VN0448'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_19_E9_PRE'} },
     { id:'VN_SCENE_19_E9_PRE', episodeId:'EP001_CASE_001', chapterId:'CH011_MAINTENANCE_KEYS', legacyIndex:19, source:{format:'screenplay-range-v1',startLineId:'VN0449',endLineId:'VN0469'}, transition:{kind:'match3',levelId:'M3_09_MAINTENANCE_KEYS',onWinSceneId:'VN_SCENE_20_E9_POST'} },
-    { id:'VN_SCENE_20_E9_POST', episodeId:'EP001_CASE_001', chapterId:'CH011_MAINTENANCE_KEYS', legacyIndex:20, source:{format:'screenplay-range-v1',startLineId:'VN0470',endLineId:'VN0488'}, transition:{kind:'ending',endingId:'ENDING_AUTHORED_FRONTIER_09'} },
+    { id:'VN_SCENE_20_E9_POST', episodeId:'EP001_CASE_001', chapterId:'CH011_MAINTENANCE_KEYS', legacyIndex:20, source:{format:'screenplay-range-v1',startLineId:'VN0470',endLineId:'VN0488'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_21_E10_PRE'} },
+    { id:'VN_SCENE_21_E10_PRE', episodeId:'EP001_CASE_001', chapterId:'CH012_CONTROL_SAMPLE_GEAR', legacyIndex:21, source:{format:'screenplay-range-v1',startLineId:'VN0489',endLineId:'VN0508'}, transition:{kind:'match3',levelId:'M3_10_CONTROL_SAMPLE_GEAR',onWinSceneId:'VN_SCENE_22_E10_POST'} },
+    { id:'VN_SCENE_22_E10_POST', episodeId:'EP001_CASE_001', chapterId:'CH012_CONTROL_SAMPLE_GEAR', legacyIndex:22, source:{format:'screenplay-range-v1',startLineId:'VN0509',endLineId:'VN0527'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_23_E11_PRE'} },
+    { id:'VN_SCENE_23_E11_PRE', episodeId:'EP001_CASE_001', chapterId:'CH013_ASTERION_TRANSFER', legacyIndex:23, source:{format:'screenplay-range-v1',startLineId:'VN0528',endLineId:'VN0547'}, transition:{kind:'match3',levelId:'M3_11_ASTERION_TRANSFER',onWinSceneId:'VN_SCENE_24_E11_POST'} },
+    { id:'VN_SCENE_24_E11_POST', episodeId:'EP001_CASE_001', chapterId:'CH013_ASTERION_TRANSFER', legacyIndex:24, source:{format:'screenplay-range-v1',startLineId:'VN0548',endLineId:'VN0567'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_25_E12_PRE'} },
+    { id:'VN_SCENE_25_E12_PRE', episodeId:'EP001_CASE_001', chapterId:'CH014_SECOND_SKIN_SIGNAL', legacyIndex:25, source:{format:'screenplay-range-v1',startLineId:'VN0568',endLineId:'VN0588'}, transition:{kind:'match3',levelId:'M3_12_SECOND_SKIN_SIGNAL',onWinSceneId:'VN_SCENE_26_E12_POST'} },
+    { id:'VN_SCENE_26_E12_POST', episodeId:'EP001_CASE_001', chapterId:'CH014_SECOND_SKIN_SIGNAL', legacyIndex:26, source:{format:'screenplay-range-v1',startLineId:'VN0589',endLineId:'VN0607'}, transition:{kind:'ending',endingId:'ENDING_AUTHORED_FRONTIER_12'} },
   ],
 };
 
