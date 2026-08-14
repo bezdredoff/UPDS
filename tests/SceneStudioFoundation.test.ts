@@ -183,7 +183,7 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d1/frame-smile-r1.png');
   });
 
-  it('keeps the rejected runtime Emi available for explicit comparison without promoting the candidate', () => {
+  it('uses the explicitly adopted runtime Emi frame and its measured geometry while retaining legacy fallback assets', () => {
     const root = new FakeRoot();
     const services = createRuntimeServices();
     const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
@@ -191,11 +191,10 @@ describe('ANM-028B1 Scene Studio foundation', () => {
 
     studio.render({ presetId: 'two-shot-conflict', artSource: 'runtime' });
     expect(root.innerHTML).toContain('data-art-source="runtime"');
-    expect(root.innerHTML).toContain('data-alpha-bounds="172,92,851,1536"');
-    expect(root.innerHTML).toContain('data-visual-approval="rebuild-required"');
-    expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d0/neutral-r1.png');
-    expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d1/frame-smile-r1.png');
-    expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d2/frame-serious-r1.png');
-    expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d3/frame-surprised-r1.png');
+    expect(root.innerHTML).toContain('./assets/characters/emi/candidates/anm028d2/frame-serious-r1.png');
+    expect(root.innerHTML).toContain('data-alpha-bounds="330,80,737,1508"');
+    expect(root.innerHTML).toContain('data-eye-line-y="244"');
+    expect(root.innerHTML).toContain('data-visual-approval="approved"');
+    expect(root.innerHTML).not.toContain('./assets/characters/emi/rig/pose_a/frames/frame-serious.png');
   });
 });
