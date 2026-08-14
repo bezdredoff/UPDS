@@ -1,6 +1,6 @@
 # UPDS — инструкция для AI/разработчика
 
-Status: active workflow aligned with ANM-027E, accepted ANM-028B1 R4.1/ANM-028D0/D1 and ANM-028D2 R1 candidate QA.
+Status: active workflow aligned with ANM-027E, accepted ANM-028B1 R4.1/ANM-028D0/D1/D2 and ANM-028D3 R1 candidate QA.
 
 ## Before editing
 

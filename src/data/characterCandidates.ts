@@ -4,20 +4,23 @@ export const CHARACTER_CANDIDATE_FORMAT = 'upds-character-candidate-v1' as const
 export const EMI_NEUTRAL_CANDIDATE_ID = 'anm028d0-r1' as const;
 export const EMI_SMILE_CANDIDATE_ID = 'anm028d1-r1' as const;
 export const EMI_SERIOUS_CANDIDATE_ID = 'anm028d2-r1' as const;
+export const EMI_SURPRISED_CANDIDATE_ID = 'anm028d3-r1' as const;
 
 export const sceneStudioArtSources = [
   'runtime',
   EMI_NEUTRAL_CANDIDATE_ID,
   EMI_SMILE_CANDIDATE_ID,
   EMI_SERIOUS_CANDIDATE_ID,
+  EMI_SURPRISED_CANDIDATE_ID,
 ] as const;
 export type SceneStudioArtSource = typeof sceneStudioArtSources[number];
 
 export type CharacterFrameCandidate = Readonly<{
   format: typeof CHARACTER_CANDIDATE_FORMAT;
-  id: typeof EMI_NEUTRAL_CANDIDATE_ID | typeof EMI_SMILE_CANDIDATE_ID | typeof EMI_SERIOUS_CANDIDATE_ID;
+  id: typeof EMI_NEUTRAL_CANDIDATE_ID | typeof EMI_SMILE_CANDIDATE_ID |
+    typeof EMI_SERIOUS_CANDIDATE_ID | typeof EMI_SURPRISED_CANDIDATE_ID;
   character: 'emi';
-  expression: 'neutral' | 'smile' | 'serious';
+  expression: 'neutral' | 'smile' | 'serious' | 'surprised';
   asset: string;
   canvas: Readonly<{ width: 1024; height: 1536 }>;
   pivot: Readonly<{ x: 0.5; y: 1 }>;
@@ -47,6 +50,13 @@ export type CharacterSmileCandidate = CharacterFrameCandidate & Readonly<{
 export type CharacterSeriousCandidate = CharacterFrameCandidate & Readonly<{
   id: typeof EMI_SERIOUS_CANDIDATE_ID;
   expression: 'serious';
+  status: 'approved-expression';
+  source: 'gpt-work-face-roi';
+}>;
+
+export type CharacterSurprisedCandidate = CharacterFrameCandidate & Readonly<{
+  id: typeof EMI_SURPRISED_CANDIDATE_ID;
+  expression: 'surprised';
   status: 'manual-qa';
   source: 'gpt-work-face-roi';
 }>;
@@ -96,13 +106,34 @@ export const emiSmileCandidate: CharacterSmileCandidate = Object.freeze({
   source: 'gpt-work-face-roi',
 } as const);
 
-/** Studio-only serious candidate derived from the approved neutral via three bounded face ROIs. */
+/** Approved serious expression derived from the neutral master via three bounded face ROIs. */
 export const emiSeriousCandidate: CharacterSeriousCandidate = Object.freeze({
   format: CHARACTER_CANDIDATE_FORMAT,
   id: EMI_SERIOUS_CANDIDATE_ID,
   character: 'emi',
   expression: 'serious',
   asset: './assets/characters/emi/candidates/anm028d2/frame-serious-r1.png',
+  canvas: { width: 1024, height: 1536 },
+  pivot: { x: 0.5, y: 1 },
+  geometry: {
+    alphaBounds: { left: 330, top: 80, right: 737, bottom: 1508 },
+    eyeLineYPx: 244,
+  },
+  visualHeightPx: 1428,
+  bottomPaddingPx: 28,
+  alphaCenterOffsetPx: 21.5,
+  status: 'approved-expression',
+  runtimeEligible: false,
+  source: 'gpt-work-face-roi',
+} as const);
+
+/** Studio-only surprised candidate derived from the approved neutral via three bounded face ROIs. */
+export const emiSurprisedCandidate: CharacterSurprisedCandidate = Object.freeze({
+  format: CHARACTER_CANDIDATE_FORMAT,
+  id: EMI_SURPRISED_CANDIDATE_ID,
+  character: 'emi',
+  expression: 'surprised',
+  asset: './assets/characters/emi/candidates/anm028d3/frame-surprised-r1.png',
   canvas: { width: 1024, height: 1536 },
   pivot: { x: 0.5, y: 1 },
   geometry: {
@@ -123,6 +154,7 @@ export function emiCandidateForArtSource(
   if (source === EMI_NEUTRAL_CANDIDATE_ID) return emiNeutralCandidate;
   if (source === EMI_SMILE_CANDIDATE_ID) return emiSmileCandidate;
   if (source === EMI_SERIOUS_CANDIDATE_ID) return emiSeriousCandidate;
+  if (source === EMI_SURPRISED_CANDIDATE_ID) return emiSurprisedCandidate;
   return null;
 }
 
@@ -163,4 +195,8 @@ export function validateEmiSmileCandidate(): readonly string[] {
 
 export function validateEmiSeriousCandidate(): readonly string[] {
   return validateEmiFrameCandidate(emiSeriousCandidate);
+}
+
+export function validateEmiSurprisedCandidate(): readonly string[] {
+  return validateEmiFrameCandidate(emiSurprisedCandidate);
 }

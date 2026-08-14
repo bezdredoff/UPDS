@@ -22,6 +22,7 @@ import {
   EMI_NEUTRAL_CANDIDATE_ID,
   EMI_SERIOUS_CANDIDATE_ID,
   EMI_SMILE_CANDIDATE_ID,
+  EMI_SURPRISED_CANDIDATE_ID,
   emiCandidateForArtSource,
   sceneStudioArtSources,
   validateEmiFrameCandidate,
@@ -160,6 +161,31 @@ export const sceneStudioEmiSeriousCandidateSamples: Readonly<Record<SceneStaging
   'guest-testimony-card': [],
 };
 
+export const sceneStudioEmiSurprisedCandidateSamples: Readonly<Record<SceneStagingPresetId, readonly SceneStagingActorInput[]>> = {
+  'solo-close': [{ character: 'emi', expression: 'surprised' }],
+  'solo-medium': [{ character: 'emi', expression: 'surprised' }],
+  'two-shot-conflict': [
+    { character: 'miku', expression: 'serious' },
+    { character: 'emi', expression: 'surprised' },
+  ],
+  'two-shot-alliance': [
+    { character: 'onoe', expression: 'neutral' },
+    { character: 'emi', expression: 'surprised' },
+  ],
+  'trio-central-speaker': [
+    { character: 'emi', expression: 'surprised' },
+    { character: 'miku', expression: 'neutral' },
+    { character: 'ayuki', expression: 'neutral' },
+  ],
+  'trio-reaction': [
+    { character: 'ayuki', expression: 'surprised' },
+    { character: 'miku', expression: 'neutral' },
+    { character: 'emi', expression: 'surprised' },
+  ],
+  'evidence-cutaway': [],
+  'guest-testimony-card': [],
+};
+
 const defaultLineForPreset: Readonly<Record<SceneStagingPresetId, SceneStudioDialogueLineId>> = {
   'solo-close': 'VN0002',
   'solo-medium': 'VN0004',
@@ -179,7 +205,7 @@ const DEFAULT_STATE: SceneStudioState = {
   lineId: 'VN0024',
   textScale: 'normal',
   showGuides: true,
-  artSource: EMI_SERIOUS_CANDIDATE_ID,
+  artSource: EMI_SURPRISED_CANDIDATE_ID,
 };
 
 const safeBoxStyle = (safeBox: SceneStagingSafeBox): string => [
@@ -207,7 +233,9 @@ export class SceneStudioController {
         ? sceneStudioEmiSmileCandidateSamples
         : state.artSource === EMI_SERIOUS_CANDIDATE_ID
           ? sceneStudioEmiSeriousCandidateSamples
-          : sceneStudioSamples;
+          : state.artSource === EMI_SURPRISED_CANDIDATE_ID
+            ? sceneStudioEmiSurprisedCandidateSamples
+            : sceneStudioSamples;
     const runtimeResolution = resolveSceneStagingPreset(state.presetId, sampleSet[state.presetId]);
     const resolution = this.applyArtSource(runtimeResolution, state.artSource);
     const viewportProfile = sceneStudioCalibrationManifest.viewports[state.viewportId];
@@ -470,7 +498,7 @@ export class SceneStudioController {
             code: 'visual-style',
             subject: candidate.id,
             detail: candidate.status === 'manual-qa'
-              ? 'Emi serious R1 is a Studio-only multi-ROI candidate awaiting lineup, solo, duo and trio approval; runtime assets remain unchanged.'
+              ? `Emi ${candidate.expression} R1 is a Studio-only multi-ROI candidate awaiting lineup, solo, duo and trio approval; runtime assets remain unchanged.`
               : `Emi ${candidate.expression} R1 is an approved authoring reference; runtime assets remain unchanged until the complete expression family is accepted.`,
           },
         ]

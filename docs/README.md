@@ -52,9 +52,11 @@ present, the full macro lock is also pending, and neither must be described as c
 - [`features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md`](features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md) — approved Emi neutral R1 master and its completed lineup/solo/duo/trio gate
 - [`features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md`](features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md) — first bounded face-ROI expression candidate with neutral/smile/runtime comparison
 - [`features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md`](features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md) — serious expression from three bounded face ROIs with approved-reference/runtime comparison
+- [`features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md`](features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md) — surprised expression from three bounded face ROIs with approved-reference/runtime comparison
 - [`art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md`](art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md) — ChatGPT Work prompt and technical export provenance
 - [`art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md`](art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md) — exact smile prompt and deterministic ROI provenance
 - [`art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md`](art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md) — exact serious prompt and deterministic multi-ROI provenance
+- [`art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md`](art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md) — exact surprised prompt and deterministic multi-ROI provenance
 
 Machine-readable sources of truth: `src/data/characterProduction.ts` for runtime full-stage assets/proportions,
 `src/data/characterCandidates.ts` (`upds-character-candidate-v1`) for isolated manual-QA candidates,
@@ -63,9 +65,9 @@ Machine-readable sources of truth: `src/data/characterProduction.ts` for runtime
 background and measurable lineup QA, and `src/ui/vnPortraitGeometry.ts` for runtime-top and
 multi-actor eye-line-anchored shot derivation. Per-expression guide geometry lives in the character
 manifest. Technical integration and visual approval are separate; Emi's existing set is
-runtime-integrated but marked `rebuild-required`. ANM-028D0 neutral is now the approved authoring
-master, ANM-028D1 smile is an approved expression, and ANM-028D2 serious remains Studio-only until
-its expression QA.
+runtime-integrated but marked `rebuild-required`. ANM-028D0 neutral is the approved authoring
+master, ANM-028D1 smile and ANM-028D2 serious are approved expressions, and ANM-028D3 surprised
+remains Studio-only until its expression QA.
 
 ### Match-3 production and tooling
 

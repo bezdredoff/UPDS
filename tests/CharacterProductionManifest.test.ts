@@ -16,9 +16,11 @@ import {
   emiNeutralCandidate,
   emiSeriousCandidate,
   emiSmileCandidate,
+  emiSurprisedCandidate,
   validateEmiNeutralCandidate,
   validateEmiSeriousCandidate,
   validateEmiSmileCandidate,
+  validateEmiSurprisedCandidate,
 } from '../src/data/characterCandidates';
 
 
@@ -259,11 +261,11 @@ describe('ANM-028A character production manifest', () => {
     expect(emiSmileCandidate.bottomPaddingPx).toBe(28);
   });
 
-  it('ships Emi serious R1 as a geometry-identical Studio-only multi-ROI candidate', async () => {
+  it('keeps approved Emi serious R1 as a geometry-identical non-runtime expression', async () => {
     expect(validateEmiSeriousCandidate()).toEqual([]);
     expect(emiSeriousCandidate.format).toBe(CHARACTER_CANDIDATE_FORMAT);
     expect(emiSeriousCandidate.expression).toBe('serious');
-    expect(emiSeriousCandidate.status).toBe('manual-qa');
+    expect(emiSeriousCandidate.status).toBe('approved-expression');
     expect(emiSeriousCandidate.source).toBe('gpt-work-face-roi');
     expect(emiSeriousCandidate.runtimeEligible).toBe(false);
     expect(runtimeAssetCatalog).not.toContain(emiSeriousCandidate.asset);
@@ -272,6 +274,21 @@ describe('ANM-028A character production manifest', () => {
     expect(emiSeriousCandidate.geometry).toEqual(emiNeutralCandidate.geometry);
     expect(emiSeriousCandidate.visualHeightPx).toBe(1428);
     expect(emiSeriousCandidate.bottomPaddingPx).toBe(28);
+  });
+
+  it('ships Emi surprised R1 as a geometry-identical Studio-only multi-ROI candidate', async () => {
+    expect(validateEmiSurprisedCandidate()).toEqual([]);
+    expect(emiSurprisedCandidate.format).toBe(CHARACTER_CANDIDATE_FORMAT);
+    expect(emiSurprisedCandidate.expression).toBe('surprised');
+    expect(emiSurprisedCandidate.status).toBe('manual-qa');
+    expect(emiSurprisedCandidate.source).toBe('gpt-work-face-roi');
+    expect(emiSurprisedCandidate.runtimeEligible).toBe(false);
+    expect(runtimeAssetCatalog).not.toContain(emiSurprisedCandidate.asset);
+    expect(await pngSize(emiSurprisedCandidate.asset)).toEqual([1024, 1536]);
+    expect(await pngAlphaBounds(emiSurprisedCandidate.asset)).toEqual(emiNeutralCandidate.geometry.alphaBounds);
+    expect(emiSurprisedCandidate.geometry).toEqual(emiNeutralCandidate.geometry);
+    expect(emiSurprisedCandidate.visualHeightPx).toBe(1428);
+    expect(emiSurprisedCandidate.bottomPaddingPx).toBe(28);
   });
 
   it('keeps the documentation mirror aligned with production/planned status and v2 runtime counts', async () => {

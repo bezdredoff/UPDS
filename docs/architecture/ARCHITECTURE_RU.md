@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: audited active architecture at accepted ANM-028B1 R4.1/ANM-028D0/D1 plus the ANM-028D2 R1 Studio-only candidate.
+Status: audited active architecture at accepted ANM-028B1 R4.1/ANM-028D0/D1/D2 plus the ANM-028D3 R1 Studio-only candidate.
 
 ## Runtime flow
 
@@ -75,7 +75,7 @@ save, campaign progression, clue or persistent tutorial side effects.
 
 ### `src/features/sceneStudio/SceneStudioController.ts`
 
-Owns the read-only ANM-028B1 R4.1 composition/calibration and ANM-028D0/D1/D2 candidate QA surface: art-source/preset/background/authored-line,
+Owns the read-only ANM-028B1 R4.1 composition/calibration and ANM-028D0/D1/D2/D3 candidate QA surface: art-source/preset/background/authored-line,
 text-scale and ANM-024 viewport switching; the same shared VN frame as playable runtime; safe-area,
 playable portrait crop/occlusion; measured duo/trio eye-line alignment to the rendered background
 focal eye-line; distinct background-calibration, preset face-lane and selected-expression
@@ -152,9 +152,9 @@ labelled non-overlapping face-critical lanes. Shoulder/lower-body overlap is all
 alone exposes the complete canvas and bottom-pivot/alpha drift.
 Runtime integration does not imply visual approval: Emi remains playable as a temporary fallback
 while `visualApproval: rebuild-required` prevents it from being treated as an approved style master.
-ANM-028D0 neutral, ANM-028D1 smile and ANM-028D2 serious are selected through explicit Scene Studio
+ANM-028D0 neutral, ANM-028D1 smile, ANM-028D2 serious and ANM-028D3 surprised are selected through explicit Scene Studio
 `artSource` values; their measured alpha/eye geometry replaces guides only in that read-only preview
-and all are absent from runtime preload/rig data. D1/D2 inherit D0 canvas/alpha outside bounded ROIs.
+and all are absent from runtime preload/rig data. D1/D2/D3 inherit D0 canvas/alpha outside bounded ROIs.
 Authored VN adoption and its multi-character rendering remain a bounded ANM-028B2 migration, not
 hidden episode-specific conditions in `VnController`.
 
