@@ -81,10 +81,12 @@ requires manual QA of the complete seven-asset family and a separate atomic prod
 Current planned/placeholders: Kentaro, Norihiro, Mayu. Planned characters must not claim fake asset
 paths and require side-by-side lineup/proportion approval before promotion to production.
 
-The seven-asset manifest applies only to full-stage characters. A future guest/witness bust package
-is a separate presentation/asset class and must not enter `upds-character-production-v2` until its
-own schema, renderer and validator exist. Offline face-ROI layers/compositing are allowed as source
-material, but runtime still receives only finished precomposed frames.
+The seven-asset manifest applies only to full-stage characters. Episode guests use the separate
+`src/data/guestWitnesses.ts` contract (`upds-guest-witness-production-v1`): neutral bust/half-body
+master + two character-specific expression variants + neutral medallion, rendered only through
+`guest-testimony-card`. Planned guests remain asset-free; production requires all four assets under
+`./assets/guests/<id>/`. Guest IDs never enter `upds-character-production-v2`. Offline face-ROI
+layers/compositing are allowed as source material, but runtime still receives only finished frames.
 
 The retired transparent face-overlay composition is not a runtime contract. `blink` and `speaking`
 remain deferred until an ANM-028 replacement/delta approach proves that it preserves the authored
@@ -109,13 +111,14 @@ without manual visual QA.
   incorrect master canvas;
 - the preset budget itself creates zero new runtime art, background masters or hero clue close-ups;
 - evidence/testimony cards are localized native UI;
-- `guest-testimony-card` remains an asset-free shell until ANM-028B3 supplies its own schema,
-  renderer and validator; it cannot create fake `upds-character-production-v2` paths;
+- `guest-testimony-card` is owned by ANM-028B3: `upds-guest-witness-production-v1` supplies the
+  separate schema/validator and `src/ui/guestWitnessMarkup.ts` supplies the shared renderer; current
+  planned guests are asset-free and cannot create fake `upds-character-production-v2` paths;
 - ANM-028B2 authored adoption source is `src/data/authoredVnShots.ts` (`upds-authored-vn-shots-v1`).
   It binds stable VN line IDs to background, preset, ordered actor assignments, expressions and optional Pose B.
   R1 is deliberately bounded to a Golden Sample set; unlisted lines retain the existing single-active-speaker
   `resolveVnStaging()` fallback. Authored actor-only shots must use the shared resolver; guest/native presets are
-  not smuggled into B2 and remain ANM-028B3 scope.
+  not smuggled into B2; B3 owns guest/native presentation as a separate runtime path.
 - `src/ui/vnFrameMarkup.ts` owns the shared four-row production DOM frame used by playable VN and
   read-only Studio. This sharing is presentation parity, not permission for Studio to own runtime
   behavior or for 028B1 to migrate authored lines.

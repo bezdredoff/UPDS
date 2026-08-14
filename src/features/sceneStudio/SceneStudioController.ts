@@ -45,6 +45,7 @@ import type { TextScale } from '../../ui/vnPlayback';
 import { vnFrameMarkup } from '../../ui/vnFrameMarkup';
 import { SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT } from '../../ui/vnPortraitGeometry';
 import { resolveAuthoredVnShot } from '../../ui/vnAuthoredShots';
+import { guestWitnessStageMarkup } from '../../ui/guestWitnessMarkup';
 import { escapeHtml, panelHeaderMarkup } from '../../ui/viewMarkup';
 
 export const sceneStudioBackgroundKeys = Object.keys(backgroundAssets) as BackgroundKey[];
@@ -528,19 +529,22 @@ export class SceneStudioController {
     artSource: SceneStudioArtSource,
     t: (key: string, params?: Readonly<Record<string, string | number | boolean>>) => string,
   ): string {
+    const guestWitnessMarkup = resolution.preset.id === 'guest-testimony-card'
+      ? guestWitnessStageMarkup('hinata', t('sceneStudio.testimony.emotion'), t('sceneStudio.testimony.status'), 'scene-studio')
+      : '';
     return [
       ...resolution.actors.map((actor) => this.actorMarkup(actor, showGuides, artSource, t)),
-      ...resolution.guestSlots.map((slot) => `<div class="scene-studio-guest-shell" data-slot="${slot.id}" style="${safeBoxStyle(slot.safeBox)};z-index:${slot.zIndex}">
+      ...(guestWitnessMarkup ? [guestWitnessMarkup] : resolution.guestSlots.map((slot) => `<div class="scene-studio-guest-shell" data-slot="${slot.id}" style="${safeBoxStyle(slot.safeBox)};z-index:${slot.zIndex}">
         <span>G</span><b>${t('sceneStudio.guestShell.title')}</b><small>${t('sceneStudio.guestShell.label')}</small>
-      </div>`),
-      ...resolution.nativeSlots.map((slot) => slot.kind === 'native-evidence'
+      </div>`)),
+      ...(guestWitnessMarkup ? [] : resolution.nativeSlots.map((slot) => slot.kind === 'native-evidence'
         ? `<article class="scene-studio-native-card scene-studio-evidence-card" data-slot="${slot.id}" style="${safeBoxStyle(slot.safeBox)};z-index:${slot.zIndex}">
             <small>${t('sceneStudio.evidence.label')}</small><h3>${t('sceneStudio.evidence.title')}</h3><p>${t('sceneStudio.evidence.body')}</p>
             <div><span><b>0.18 mm</b><em>${t('sceneStudio.evidence.metricWidth')}</em></span><span><b>Cu/Ag</b><em>${t('sceneStudio.evidence.metricMaterial')}</em></span></div>
           </article>`
         : `<article class="scene-studio-native-card scene-studio-testimony-card" data-slot="${slot.id}" style="${safeBoxStyle(slot.safeBox)};z-index:${slot.zIndex}">
             <small>${t('sceneStudio.testimony.label')}</small><h3>${t('sceneStudio.testimony.title')}</h3><p>${t('sceneStudio.testimony.body')}</p><strong>${t('sceneStudio.testimony.status')}</strong>
-          </article>`),
+          </article>`)),
       ...(showGuides ? resolution.preset.slots.map((slot) => `<span class="scene-studio-safe-box scene-studio-safe-box-${slot.kind}" data-guide="${slot.kind === 'actor' ? 'face-lane' : 'slot-safe-box'}" style="${safeBoxStyle(slot.safeBox)};z-index:${slot.zIndex + 10}" aria-hidden="true"><b>${t(`sceneStudio.slot.${slot.kind}`)}</b></span>`) : []),
     ].join('');
   }

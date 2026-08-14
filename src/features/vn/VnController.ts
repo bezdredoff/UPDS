@@ -9,6 +9,10 @@ import {
   type CharacterKey,
   type RuntimeExpression,
 } from '../../data/characterRigs';
+import {
+  guestWitnessAssetForDirection,
+  guestWitnessForSpeaker,
+} from '../../data/guestWitnesses';
 import { cluePresentation, levels, type ClueId } from '../../data/levels';
 import {
   backgroundAssets,
@@ -29,6 +33,7 @@ import type { AppSession } from '../../app/AppSession';
 import type { AppShell } from '../../app/AppShell';
 import { resolveVnStaging, type VnStageSide } from '../../ui/vnStaging';
 import { authoredVnShotAssets, resolveAuthoredVnShot, vnAuthoredShotMarkup } from '../../ui/vnAuthoredShots';
+import { guestWitnessStageMarkup } from '../../ui/guestWitnessMarkup';
 import {
   currentDialogueProfile,
   dialogueContinuationText,
@@ -155,6 +160,7 @@ export class VnController {
     const background = authoredShot?.shot.background ?? getBackgroundForLine(this.session.save.scene, this.session.save.line, this.story);
     const character = direction ? null : characterForSpeaker(entry.speaker);
     const placeholder = direction ? null : placeholderForSpeaker(entry.speaker);
+    const guestWitness = direction || authoredShot || character || placeholder ? null : guestWitnessForSpeaker(entry.speaker);
     const expression = expressionForDirection(entry.emotion);
     const staging = direction || authoredShot ? null : resolveVnStaging(this.story, this.session.save.line);
     const clueToast = this.pendingClue ? this.clueToastMarkup(this.pendingClue) : '';
@@ -163,12 +169,16 @@ export class VnController {
       void preloadImageAssets(authoredVnShotAssets(authoredShot), this.services.assetHealth);
     } else if (character && !this.usesPoseB(character, entry.emotion)) {
       void preloadImageAssets([expressionAsset(character, expression)], this.services.assetHealth);
+    } else if (guestWitness) {
+      const guestAsset = guestWitnessAssetForDirection(guestWitness, entry.emotion);
+      if (guestAsset) void preloadImageAssets([guestAsset], this.services.assetHealth);
     }
 
     const stageMarkup = [
       authoredShot ? vnAuthoredShotMarkup(authoredShot, character) : '',
       !authoredShot && character ? this.characterMarkup(character, expression, entry.emotion, staging?.side ?? 'center') : '',
       !authoredShot && placeholder ? this.placeholderMarkup(placeholder, staging?.side ?? 'center') : '',
+      guestWitness ? guestWitnessStageMarkup(guestWitness, entry.emotion, this.lineEmotion(entry)) : '',
       direction ? `<div class="direction-card"><span>${escapeHtml(this.t('vn.chrome.direction'))}</span><b>${escapeHtml(this.lineEmotion(entry))}</b></div>` : '',
       clueToast,
     ].join('');
@@ -180,7 +190,7 @@ export class VnController {
       caseLabel: `CASE 001 · SCENE ${String(this.session.save.scene).padStart(2, '0')}`,
       sceneTitle: this.sceneText('title'),
       clueCount: this.session.save.clues.length,
-      stageSide: authoredShot ? `authored-${authoredShot.staging.preset.id}` : staging?.side ?? 'empty',
+      stageSide: authoredShot ? `authored-${authoredShot.staging.preset.id}` : guestWitness ? 'guest-testimony-card' : staging?.side ?? 'empty',
       stageMarkup,
       direction,
       speaker: direction ? this.t('vn.chrome.direction') : this.lineSpeaker(entry),
@@ -322,6 +332,10 @@ export class VnController {
         const rig = characterRigs[character];
         const poseB = this.usesPoseB(character, next.emotion);
         assets.push(poseB ? rig.poseB : expressionAsset(character, expressionForDirection(next.emotion)));
+      } else {
+        const guestWitness = guestWitnessForSpeaker(next.speaker);
+        const guestAsset = guestWitness ? guestWitnessAssetForDirection(guestWitness, next.emotion) : null;
+        if (guestAsset) assets.push(guestAsset);
       }
     }
     void preloadImageAssets(assets, this.services.assetHealth);

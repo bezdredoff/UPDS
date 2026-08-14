@@ -18,9 +18,11 @@ Machine-readable source of truth: `src/data/characterProduction.ts` (`upds-chara
 solo/two-shot/trio сцену как самостоятельные full-body assets. Product budget и правила выбора
 stage/guest/extras зафиксированы в `docs/content/CONTENT_PRODUCTION_STRATEGY_RU.md`.
 
-Планируемый guest/witness package (один bust/half-body master, две эмоции и neutral medallion) —
-отдельный presentation/asset class. До появления его schema, renderer и validator такие персонажи
-не добавляются в `upds-character-production-v2`, а отсутствующие full-stage assets не заменяются
+Guest/witness package (neutral bust/half-body master, две character-specific expression variants и
+neutral medallion) — отдельный presentation/asset class, формализованный ANM-028B3 в
+`src/data/guestWitnesses.ts` (`upds-guest-witness-production-v1`). Planned packages остаются
+asset-free; production допускается только полным четырёхassetным пакетом. Такие персонажи не
+добавляются в `upds-character-production-v2`, а отсутствующие full-stage assets не заменяются
 фиктивными paths.
 
 ## Runtime asset set

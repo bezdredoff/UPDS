@@ -144,7 +144,7 @@ navigation/callback seam through the composition root.
 - Runtime receives finished precomposed frames only. Never restore runtime face overlays.
 - The full-stage required set remains exactly five Pose A expressions + Pose B + medallion; do not
   expand the standard expression taxonomy.
-- Only full-stage characters use `upds-character-production-v2`. The planned guest/witness package
+- Only full-stage characters use `upds-character-production-v2`. The ANM-028B3 guest/witness package
   is a separate presentation/asset class; never satisfy the full-stage validator with fake guest
   paths or incomplete sets.
 - Assign full-stage production only when the character appears in at least three episodes,
@@ -164,7 +164,9 @@ navigation/callback seam through the composition root.
   a group into one PNG.
 - Do not add episode-specific coordinates or silently treat the current single-active-speaker VN
   renderer as multi-character. Authored preset assignment/migration belongs to 028B2 and must use
-  the shared resolver. Guest assets remain 028B3; the 028B1 guest shell never grants an asset path.
+  the shared resolver. Guest/witness content uses `upds-guest-witness-production-v1` plus the shared
+  B3 `guest-testimony-card` renderer; planned guests remain asset-free until a complete external art
+  package is explicitly promoted.
 - Preview composition through the shared `vnFrameMarkup` contract. A separate fake Studio header,
   dialogue card or bottom-control layout is prohibited because it hides real occlusion/crop defects.
 - Scene-mode actors must use the playable `.portrait` primitive and

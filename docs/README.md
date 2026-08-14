@@ -51,6 +51,7 @@ present; slots `4–21` remain macro-only until ANM-027G imports them in three-e
 - [`features/ANM028A_CHARACTER_PRODUCTION_MANIFEST_RU.md`](features/ANM028A_CHARACTER_PRODUCTION_MANIFEST_RU.md)
 - [`features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md`](features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md) — accepted R4.1 foundation: eight reusable presets using the playable VN frame, focal-eye-line duo/trio staging, selected-expression alpha/eye guides, ANM-024 viewport/background calibration, visual-approval-aware lineup, diagnostics and zero-new-art budget preview
 - [`features/ANM028B2_AUTHORED_VN_SHOT_ADOPTION_RU.md`](features/ANM028B2_AUTHORED_VN_SHOT_ADOPTION_RU.md) — bounded playable-VN adoption of stable authored background/preset/actor/expression/Pose B declarations
+- [`features/ANM028B3_GUEST_WITNESS_PRESENTATION_RU.md`](features/ANM028B3_GUEST_WITNESS_PRESENTATION_RU.md) — separate six-guest schema/validator and shared asset-free/production `guest-testimony-card` renderer
 - [`features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md`](features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md) — approved Emi neutral R1 master and its completed lineup/solo/duo/trio gate
 - [`features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md`](features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md) — first bounded face-ROI expression candidate with neutral/smile/runtime comparison
 - [`features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md`](features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md) — serious expression from three bounded face ROIs with approved-reference/runtime comparison
@@ -65,8 +66,9 @@ Machine-readable sources of truth: `src/data/characterProduction.ts` for the str
 fallback package, `src/data/characterRuntimeOverrides.ts` for the explicit temporary Emi D0–D3 runtime adoption,
 `src/data/characterCandidates.ts` (`upds-character-candidate-v1`) for production provenance/manual-QA sources,
 `src/data/sceneStaging.ts` (`upds-scene-staging-v1`) for reusable composition coordinates,
-`src/data/authoredVnShots.ts` (`upds-authored-vn-shots-v1`) for bounded stable-line shot declarations and
-`src/data/sceneStudioCalibration.ts` (`upds-scene-studio-calibration-v1`) for viewport/background/lineup QA.
+`src/data/authoredVnShots.ts` (`upds-authored-vn-shots-v1`) for bounded stable-line shot declarations,
+`src/data/guestWitnesses.ts` (`upds-guest-witness-production-v1`) plus `src/ui/guestWitnessMarkup.ts` for
+the separate episode-guest tier, and `src/data/sceneStudioCalibration.ts` (`upds-scene-studio-calibration-v1`) for viewport/background/lineup QA.
 `src/ui/vnPortraitGeometry.ts` owns runtime-top and multi-actor eye-line camera derivation. Technical integration
 and whole-rig visual approval remain separate: approved Emi neutral/smile/serious/surprised are playable through
 D3A overrides, while legacy embarrassed/Pose B/medallion remain fallback until replacement art is supplied.

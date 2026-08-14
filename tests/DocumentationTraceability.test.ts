@@ -85,7 +85,7 @@ describe('active documentation traceability', () => {
     expect(characterContract).toContain('только к полноценным stage-персонажам');
     expect(characterContract).toContain('Runtime получает только готовые');
     expect(protectedContracts).toContain('22 planned content slots `0–21`');
-    expect(protectedContracts).toContain('future guest/witness bust package');
+    expect(protectedContracts).toContain('upds-guest-witness-production-v1');
     expect(protectedContracts).toContain('ANM-002 §8');
     expect(aiWorkflow).toContain('first post-slice package is `4–6`');
 
@@ -134,7 +134,7 @@ describe('active documentation traceability', () => {
     expect(architecture).not.toContain('Status: ANM-023D audited baseline');
   });
 
-  it('keeps approved Emi sources, D3A runtime transition and the current B2 staging phase traceable', () => {
+  it('keeps approved Emi sources, B2 adoption and the current B3 guest phase traceable', () => {
     const roadmap = read('docs/ROADMAP_RU.md');
     const index = read('docs/README.md');
     const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
@@ -153,7 +153,8 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('ANM-028D0 R1 Emi neutral master accepted');
     expect(roadmap).toContain('ANM-028D1 R1 Emi smile accepted');
     expect(roadmap).toContain('ANM-028D2 R1 Emi serious accepted');
-    expect(roadmap).toContain('ANM-028B2 R1 Authored VN Shot Adoption — IN QA');
+    expect(roadmap).toContain('ANM-028B2 R1.1 Authored VN Shot Adoption — COMPLETE');
+    expect(roadmap).toContain('028B3 Guest/Witness Presentation Contract — R1.1 IN QA');
     expect(roadmap).toContain('028D Character Production / Normalization — ART GENERATION PAUSED');
     expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
@@ -179,6 +180,8 @@ describe('active documentation traceability', () => {
     expect(protectedContracts).toContain('runtimeEligible: false');
     expect(protectedContracts).toContain('ANM-028B2');
     expect(protectedContracts).toContain('ANM-028B3');
+    expect(protectedContracts).toContain('src/data/guestWitnesses.ts');
+    expect(protectedContracts).toContain('src/ui/guestWitnessMarkup.ts');
     expect(feature).toContain('## Восемь пресетов');
     expect(feature).toContain('## Shared runtime frame');
     expect(feature).toContain('runtime camera `178 / -78`');
