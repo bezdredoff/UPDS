@@ -49,8 +49,10 @@ present, the full macro lock is also pending, and neither must be described as c
 - [`art/CHARACTER_USAGE_MANIFEST.json`](art/CHARACTER_USAGE_MANIFEST.json) — documentation mirror
 - [`features/ANM028A_CHARACTER_PRODUCTION_MANIFEST_RU.md`](features/ANM028A_CHARACTER_PRODUCTION_MANIFEST_RU.md)
 - [`features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md`](features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md) — accepted R4.1 foundation: eight reusable presets using the playable VN frame, focal-eye-line duo/trio staging, selected-expression alpha/eye guides, ANM-024 viewport/background calibration, visual-approval-aware lineup, diagnostics and zero-new-art budget preview
-- [`features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md`](features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md) — Studio-only Emi neutral R1, measured candidate geometry and lineup/solo/duo/trio manual gate
+- [`features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md`](features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md) — approved Emi neutral R1 master and its completed lineup/solo/duo/trio gate
+- [`features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md`](features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md) — first bounded face-ROI expression candidate with neutral/smile/runtime comparison
 - [`art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md`](art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md) — ChatGPT Work prompt and technical export provenance
+- [`art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md`](art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md) — exact smile prompt and deterministic ROI provenance
 
 Machine-readable sources of truth: `src/data/characterProduction.ts` for runtime full-stage assets/proportions,
 `src/data/characterCandidates.ts` (`upds-character-candidate-v1`) for isolated manual-QA candidates,
@@ -59,8 +61,8 @@ Machine-readable sources of truth: `src/data/characterProduction.ts` for runtime
 background and measurable lineup QA, and `src/ui/vnPortraitGeometry.ts` for runtime-top and
 multi-actor eye-line-anchored shot derivation. Per-expression guide geometry lives in the character
 manifest. Technical integration and visual approval are separate; Emi's existing set is
-runtime-integrated but marked `rebuild-required`, while ANM-028D0 R1 remains Studio-only until its
-lineup/solo/duo/trio visual approval.
+runtime-integrated but marked `rebuild-required`. ANM-028D0 neutral is now the approved authoring
+master, while ANM-028D1 smile remains Studio-only until its expression QA.
 
 ### Match-3 production and tooling
 

@@ -122,27 +122,28 @@ precomposed RGBA frames и никогда не собирает лицо overlay
 
 ## Production status
 
-На baseline ANM-028D0 R1:
+На baseline ANM-028D1 R1:
 - runtime production: Miku, Onoe, Ayuki, Emi;
 - visual approved: Miku, Onoe, Ayuki;
 - visual rebuild required: Emi;
-- Studio-only neutral candidate: Emi `anm028d0-r1`, `manual-qa`, `runtimeEligible: false`;
+- approved neutral authoring master: Emi `anm028d0-r1`, `approved-master`, `runtimeEligible: false`;
+- Studio-only smile candidate: Emi `anm028d1-r1`, `manual-qa`, `runtimeEligible: false`;
 - planned: Kentaro, Norihiro, Mayu.
 
 `planned` означает «asset set ещё не произведён». Для planned-персонажа запрещено объявлять несуществующие runtime asset paths ради прохождения интерфейса. Placeholder остаётся допустим до отдельного production integration slice.
 
 ## Candidate isolation
 
-Новый neutral до ручного approval хранится вне runtime rig в
+Новый master/expression до полного integration gate хранится вне runtime rig в
 `public/assets/characters/<character>/candidates/<slice>/` и описывается отдельным
 `upds-character-candidate-v1`. Candidate не добавляется в `RuntimeAssets`, семь обязательных runtime
 paths или `upds-character-production-v2`. Studio обязан явно показывать выбранный `artSource`,
 использовать точные candidate alpha bounds/eye line и сохранять доступ к прежнему runtime fallback
 для A/B. Только отдельный approved integration slice может перенести master в canonical rig.
 
-ANM-028D0 Emi R1: `330,80,737,1508`, height `1428 px`, bottom padding `28 px`, eye line `244 px`,
-status `manual-qa`. Эти числа являются candidate QA metadata, а не молчаливой заменой текущих Emi
-runtime proportions.
+ANM-028D0 Emi neutral R1: `330,80,737,1508`, height `1428 px`, bottom padding `28 px`, eye line
+`244 px`, status `approved-master`. ANM-028D1 smile наследует эту геометрию и меняет только bounded
+face ROI, status `manual-qa`. Оба файла остаются вне runtime до готовности полного семиассетного set.
 
 ## VN staging / virtual camera
 

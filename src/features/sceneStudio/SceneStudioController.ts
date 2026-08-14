@@ -20,9 +20,10 @@ import {
 } from '../../data/sceneStudioCalibration';
 import {
   EMI_NEUTRAL_CANDIDATE_ID,
-  emiNeutralCandidate,
+  EMI_SMILE_CANDIDATE_ID,
+  emiCandidateForArtSource,
   sceneStudioArtSources,
-  validateEmiNeutralCandidate,
+  validateEmiFrameCandidate,
   type SceneStudioArtSource,
 } from '../../data/characterCandidates';
 import { characterRigs, expressionAsset } from '../../data/characterRigs';
@@ -108,6 +109,31 @@ export const sceneStudioEmiCandidateSamples: Readonly<Record<SceneStagingPresetI
   'guest-testimony-card': [],
 };
 
+export const sceneStudioEmiSmileCandidateSamples: Readonly<Record<SceneStagingPresetId, readonly SceneStagingActorInput[]>> = {
+  'solo-close': [{ character: 'emi', expression: 'smile' }],
+  'solo-medium': [{ character: 'emi', expression: 'smile' }],
+  'two-shot-conflict': [
+    { character: 'miku', expression: 'serious' },
+    { character: 'emi', expression: 'smile' },
+  ],
+  'two-shot-alliance': [
+    { character: 'onoe', expression: 'neutral' },
+    { character: 'emi', expression: 'smile' },
+  ],
+  'trio-central-speaker': [
+    { character: 'emi', expression: 'smile' },
+    { character: 'miku', expression: 'neutral' },
+    { character: 'ayuki', expression: 'neutral' },
+  ],
+  'trio-reaction': [
+    { character: 'ayuki', expression: 'surprised' },
+    { character: 'miku', expression: 'neutral' },
+    { character: 'emi', expression: 'smile' },
+  ],
+  'evidence-cutaway': [],
+  'guest-testimony-card': [],
+};
+
 const defaultLineForPreset: Readonly<Record<SceneStagingPresetId, SceneStudioDialogueLineId>> = {
   'solo-close': 'VN0002',
   'solo-medium': 'VN0004',
@@ -127,7 +153,7 @@ const DEFAULT_STATE: SceneStudioState = {
   lineId: 'VN0024',
   textScale: 'normal',
   showGuides: true,
-  artSource: EMI_NEUTRAL_CANDIDATE_ID,
+  artSource: EMI_SMILE_CANDIDATE_ID,
 };
 
 const safeBoxStyle = (safeBox: SceneStagingSafeBox): string => [
@@ -151,7 +177,9 @@ export class SceneStudioController {
     const state = this.normalizeState(requested);
     const sampleSet = state.artSource === EMI_NEUTRAL_CANDIDATE_ID
       ? sceneStudioEmiCandidateSamples
-      : sceneStudioSamples;
+      : state.artSource === EMI_SMILE_CANDIDATE_ID
+        ? sceneStudioEmiSmileCandidateSamples
+        : sceneStudioSamples;
     const runtimeResolution = resolveSceneStagingPreset(state.presetId, sampleSet[state.presetId]);
     const resolution = this.applyArtSource(runtimeResolution, state.artSource);
     const viewportProfile = sceneStudioCalibrationManifest.viewports[state.viewportId];
@@ -311,7 +339,7 @@ export class SceneStudioController {
       const artSource = (event.currentTarget as HTMLSelectElement).value as SceneStudioArtSource;
       rerender({
         artSource,
-        lineId: artSource === EMI_NEUTRAL_CANDIDATE_ID ? 'VN0024' : defaultLineForPreset[state.presetId],
+        lineId: artSource === 'runtime' ? defaultLineForPreset[state.presetId] : 'VN0024',
       });
     });
     this.root.querySelector<HTMLSelectElement>('#scene-studio-viewport')?.addEventListener('change', (event) => {
@@ -357,11 +385,12 @@ export class SceneStudioController {
     resolution: ResolvedSceneStaging,
     artSource: SceneStudioArtSource,
   ): ResolvedSceneStaging {
-    if (artSource !== EMI_NEUTRAL_CANDIDATE_ID) return resolution;
+    const candidate = emiCandidateForArtSource(artSource);
+    if (!candidate) return resolution;
     return {
       ...resolution,
-      actors: resolution.actors.map((actor) => actor.character === emiNeutralCandidate.character
-        ? overrideResolvedActorFrameGeometry(actor, emiNeutralCandidate.geometry)
+      actors: resolution.actors.map((actor) => actor.character === candidate.character
+        ? overrideResolvedActorFrameGeometry(actor, candidate.geometry)
         : actor),
     };
   }
@@ -399,19 +428,22 @@ export class SceneStudioController {
       }
       return issues;
     });
-    const candidateIssues: SceneStudioCalibrationIssue[] = artSource === EMI_NEUTRAL_CANDIDATE_ID
+    const candidate = emiCandidateForArtSource(artSource);
+    const candidateIssues: SceneStudioCalibrationIssue[] = candidate
       ? [
-          ...validateEmiNeutralCandidate().map((detail) => ({
+          ...validateEmiFrameCandidate(candidate).map((detail) => ({
             severity: 'error' as const,
             code: 'staging-contract' as const,
-            subject: emiNeutralCandidate.id,
+            subject: candidate.id,
             detail,
           })),
           {
             severity: 'manual',
             code: 'visual-style',
-            subject: emiNeutralCandidate.id,
-            detail: 'Emi neutral R1 is a Studio-only candidate awaiting lineup, solo, duo and trio approval; runtime assets remain unchanged.',
+            subject: candidate.id,
+            detail: candidate.status === 'manual-qa'
+              ? 'Emi smile R1 is a Studio-only face-ROI candidate awaiting lineup, solo, duo and trio approval; runtime assets remain unchanged.'
+              : 'Emi neutral R1 is the approved master reference; runtime assets remain unchanged until the complete expression family is accepted.',
           },
         ]
       : [];
@@ -454,10 +486,11 @@ export class SceneStudioController {
     t: (key: string, params?: Readonly<Record<string, string | number | boolean>>) => string,
   ): string {
     const rig = characterRigs[actor.character];
-    const usesCandidate = artSource === EMI_NEUTRAL_CANDIDATE_ID &&
-      actor.character === emiNeutralCandidate.character && actor.pose === 'pose-a';
+    const candidate = emiCandidateForArtSource(artSource);
+    const usesCandidate = candidate !== null && actor.character === candidate.character &&
+      actor.pose === 'pose-a' && actor.expression === candidate.expression;
     const asset = usesCandidate
-      ? emiNeutralCandidate.asset
+      ? candidate.asset
       : actor.pose === 'pose-b' ? rig.poseB : expressionAsset(actor.character, actor.expression);
     const bounds = actor.frameAlphaBounds;
     const canvas = characterProductionManifest.frameCanvas;
@@ -478,10 +511,10 @@ export class SceneStudioController {
       `--character-scale:${actor.canonicalCharacterScale}`,
       `--character-y:${actor.canonicalCharacterYPercent}%`,
     ].join(';');
-    const approval = usesCandidate ? emiNeutralCandidate.status : actor.visualApproval;
-    const source = usesCandidate ? emiNeutralCandidate.id : 'runtime';
+    const approval = usesCandidate ? candidate.status : actor.visualApproval;
+    const source = usesCandidate ? candidate.id : 'runtime';
     return `<div class="scene-studio-actor-slot" data-slot="${actor.slotId}" data-character="${actor.character}" data-role="${actor.role}" data-visual-approval="${approval}" data-art-source="${source}" style="${style}">
-      <div class="portrait portrait-static-wrap scene-studio-runtime-portrait" data-shot-scale="${actor.shotScale}" data-runtime-crop="true" data-vertical-anchor="${actor.verticalAnchor}" data-guide-geometry="${actor.guideGeometrySource}" data-eye-line-y="${actor.eyeLineYPx}" data-eye-line-ratio="${actor.eyeLineRatio}" data-alpha-bounds="${bounds.left},${bounds.top},${bounds.right},${bounds.bottom}"><img class="portrait-static" src="${asset}" alt="${t(`character.${actor.character}`)}">${showGuides ? `<i class="scene-studio-actor-alpha-box" aria-hidden="true"><b>${t(`character.${actor.character}`)}</b><small>${t('sceneStudio.guide.frameAlpha')} · ${usesCandidate ? emiNeutralCandidate.id : guideFrameLabel}</small></i><i class="scene-studio-actor-eye-marker" aria-hidden="true"><b>${t('sceneStudio.guide.eyes')} · y=${actor.eyeLineYPx}</b></i>` : ''}</div>
+      <div class="portrait portrait-static-wrap scene-studio-runtime-portrait" data-shot-scale="${actor.shotScale}" data-runtime-crop="true" data-vertical-anchor="${actor.verticalAnchor}" data-guide-geometry="${actor.guideGeometrySource}" data-eye-line-y="${actor.eyeLineYPx}" data-eye-line-ratio="${actor.eyeLineRatio}" data-alpha-bounds="${bounds.left},${bounds.top},${bounds.right},${bounds.bottom}"><img class="portrait-static" src="${asset}" alt="${t(`character.${actor.character}`)}">${showGuides ? `<i class="scene-studio-actor-alpha-box" aria-hidden="true"><b>${t(`character.${actor.character}`)}</b><small>${t('sceneStudio.guide.frameAlpha')} · ${usesCandidate ? candidate.id : guideFrameLabel}</small></i><i class="scene-studio-actor-eye-marker" aria-hidden="true"><b>${t('sceneStudio.guide.eyes')} · y=${actor.eyeLineYPx}</b></i>` : ''}</div>
     </div>`;
   }
 
@@ -509,23 +542,24 @@ export class SceneStudioController {
     bottomPaddingPx: number;
     alphaCenterOffsetPx: number;
     neutralEyeLineYPx: number;
-    visualApproval: 'approved' | 'rebuild-required' | 'manual-qa';
+    visualApproval: 'approved' | 'approved-master' | 'rebuild-required' | 'manual-qa';
     asset: string;
     candidate: boolean;
   }>[] {
     const referenceHeight = characterProductionManifest.characters.onoe.proportion.visualHeightPx;
+    const selectedCandidate = emiCandidateForArtSource(artSource);
     return sceneStudioLineupMetrics().map((metric) => {
-      const candidate = artSource === EMI_NEUTRAL_CANDIDATE_ID && metric.character === emiNeutralCandidate.character;
+      const candidate = selectedCandidate !== null && metric.character === selectedCandidate.character;
       return candidate
         ? {
             ...metric,
-            visualHeightPx: emiNeutralCandidate.visualHeightPx,
-            heightVsReference: emiNeutralCandidate.visualHeightPx / referenceHeight,
-            bottomPaddingPx: emiNeutralCandidate.bottomPaddingPx,
-            alphaCenterOffsetPx: emiNeutralCandidate.alphaCenterOffsetPx,
-            neutralEyeLineYPx: emiNeutralCandidate.geometry.eyeLineYPx,
-            visualApproval: emiNeutralCandidate.status,
-            asset: emiNeutralCandidate.asset,
+            visualHeightPx: selectedCandidate.visualHeightPx,
+            heightVsReference: selectedCandidate.visualHeightPx / referenceHeight,
+            bottomPaddingPx: selectedCandidate.bottomPaddingPx,
+            alphaCenterOffsetPx: selectedCandidate.alphaCenterOffsetPx,
+            neutralEyeLineYPx: selectedCandidate.geometry.eyeLineYPx,
+            visualApproval: selectedCandidate.status,
+            asset: selectedCandidate.asset,
             candidate: true,
           }
         : {
@@ -541,7 +575,7 @@ export class SceneStudioController {
     artSource: SceneStudioArtSource,
   ): string {
     const metrics = this.lineupEntries(artSource);
-    const source = artSource === EMI_NEUTRAL_CANDIDATE_ID
+    const source = emiCandidateForArtSource(artSource)
       ? 'upds-character-production-v2+upds-character-candidate-v1'
       : 'upds-character-production-v2';
     return `<div class="scene-studio-lineup" data-lineup-source="${source}" data-art-source="${artSource}">
@@ -606,10 +640,11 @@ export class SceneStudioController {
       viewport: sceneStudioCalibrationManifest.viewports[state.viewportId],
       dialoguePages,
       backgroundCalibration: sceneStudioCalibrationManifest.backgrounds[state.background],
-      candidate: state.artSource === EMI_NEUTRAL_CANDIDATE_ID ? emiNeutralCandidate : null,
+      candidate: emiCandidateForArtSource(state.artSource),
       actors: resolution.actors.map((actor) => {
-        const usesCandidate = state.artSource === EMI_NEUTRAL_CANDIDATE_ID &&
-          actor.character === emiNeutralCandidate.character && actor.pose === 'pose-a';
+        const candidate = emiCandidateForArtSource(state.artSource);
+        const usesCandidate = candidate !== null && actor.character === candidate.character &&
+          actor.pose === 'pose-a' && actor.expression === candidate.expression;
         return {
         slotId: actor.slotId,
         character: actor.character,
@@ -630,9 +665,9 @@ export class SceneStudioController {
         resolvedEyeLinePercent: actor.resolvedEyeLinePercent,
         headTopPercent: actor.headTopPercent,
         guideGeometrySource: actor.guideGeometrySource,
-        visualApproval: usesCandidate ? emiNeutralCandidate.status : actor.visualApproval,
-        artSource: usesCandidate ? emiNeutralCandidate.id : 'runtime',
-        asset: usesCandidate ? emiNeutralCandidate.asset : undefined,
+        visualApproval: usesCandidate ? candidate.status : actor.visualApproval,
+        artSource: usesCandidate ? candidate.id : 'runtime',
+        asset: usesCandidate ? candidate.asset : undefined,
       };
       }),
       lineup: this.lineupEntries(state.artSource),

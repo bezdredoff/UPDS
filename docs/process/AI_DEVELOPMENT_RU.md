@@ -1,6 +1,6 @@
 # UPDS — инструкция для AI/разработчика
 
-Status: active workflow aligned with ANM-027E, accepted ANM-028B1 R4.1 and the ANM-028D0 R1 candidate.
+Status: active workflow aligned with ANM-027E, accepted ANM-028B1 R4.1/ANM-028D0 and ANM-028D1 R1 candidate QA.
 
 ## Before editing
 
@@ -67,7 +67,8 @@ Visual identity authority:
 3. existing masters whose explicit `visualApproval` is `approved`.
 
 Runtime `production` status proves asset completeness/routing, not visual quality. Emi is currently
-`rebuild-required`; do not use it as a style, scale, anatomy or full-body reference.
+`rebuild-required`; do not use that runtime set as a style, scale, anatomy or full-body reference.
+Use `anm028d0-r1` as Emi's approved authoring master until the complete replacement set is integrated.
 
 Technical status/path metadata never overrides visual approval, and a visual reference never creates
 a production asset path by itself.
@@ -128,8 +129,9 @@ navigation/callback seam through the composition root.
   against the displayed PNG before using it in duo/trio focal alignment.
 - A complete runtime set may remain available with `visualApproval: rebuild-required`, but it must
   not seed expressions, poses or new-character prompts until a replacement neutral is approved.
-- Store a pre-approval neutral under `characters/<key>/candidates/<slice>/` with explicit
-  `runtimeEligible: false`; never overwrite the rig or preload catalog just to obtain a preview.
+- Store a pre-approval neutral or expression under `characters/<key>/candidates/<slice>/` with
+  explicit `runtimeEligible: false`; an approved authoring master also remains outside the rig until
+  its complete required family passes QA. Never overwrite the rig or preload catalog just to obtain a preview.
 - If Work produces a visually accepted RGB image but fails true alpha, regenerate one solid
   chroma-key source and perform only deterministic matte/de-spill/canvas normalization. Validate
   `1024×1536` RGBA, alpha bounds and edges on both light and dark backgrounds; record the final Work

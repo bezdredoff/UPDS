@@ -134,7 +134,7 @@ describe('active documentation traceability', () => {
     expect(architecture).not.toContain('Status: ANM-023D audited baseline');
   });
 
-  it('keeps accepted R4.1 staging and the isolated ANM-028D0 neutral candidate traceable', () => {
+  it('keeps accepted neutral and the isolated ANM-028D1 smile candidate traceable', () => {
     const roadmap = read('docs/ROADMAP_RU.md');
     const index = read('docs/README.md');
     const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
@@ -142,12 +142,17 @@ describe('active documentation traceability', () => {
     const feature = read('docs/features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
     const candidateFeature = read('docs/features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
     const candidatePrompt = read('docs/art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md');
+    const smileFeature = read('docs/features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md');
+    const smilePrompt = read('docs/art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md');
 
     expect(roadmap).toContain('028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE');
-    expect(roadmap).toContain('ANM-028D0 R1 Emi Neutral Candidate — IN QA');
+    expect(roadmap).toContain('ANM-028D0 R1 Emi Neutral Master Rebuild — COMPLETE');
+    expect(roadmap).toContain('ANM-028D1 R1 Emi Smile Candidate — IN QA');
     expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_R1_PROMPT.md');
+    expect(index).toContain('ANM028D1_EMI_SMILE_CANDIDATE_RU.md');
+    expect(index).toContain('ANM028D1_EMI_SMILE_R1_PROMPT.md');
     expect(architecture).toContain('src/data/sceneStaging.ts');
     expect(architecture).toContain('src/data/sceneStudioCalibration.ts');
     expect(architecture).toContain('src/ui/vnFrameMarkup.ts');
@@ -177,8 +182,14 @@ describe('active documentation traceability', () => {
     expect(candidateFeature).toContain('runtimeEligible: false');
     expect(candidateFeature).toContain('lineup/solo/duo/trio');
     expect(candidateFeature).toContain('c224df25c35c610eb6f83e675f8d95f48b92a3c8');
+    expect(candidateFeature).toContain('approved-master');
     expect(candidatePrompt).toContain('built-in ChatGPT Work `imagegen`');
     expect(candidatePrompt).toContain('chroma-key green RGB #00FF00');
+    expect(smileFeature).toContain('977ab2d98f33ae3cdf922d0b92685e6ce2e0f25b');
+    expect(smileFeature).toContain('88×42 px');
+    expect(smileFeature).toContain('runtimeEligible: false');
+    expect(smilePrompt).toContain('built-in ChatGPT Work `imagegen`');
+    expect(smilePrompt).toContain('gpt-work-face-roi');
   });
 
   it('keeps mobile archive names short while preserving manifest authority', () => {

@@ -14,7 +14,9 @@ import { runtimeAssetCatalog } from '../src/platform/RuntimeAssets';
 import {
   CHARACTER_CANDIDATE_FORMAT,
   emiNeutralCandidate,
+  emiSmileCandidate,
   validateEmiNeutralCandidate,
+  validateEmiSmileCandidate,
 } from '../src/data/characterCandidates';
 
 
@@ -227,10 +229,10 @@ describe('ANM-028A character production manifest', () => {
     }
   });
 
-  it('ships Emi neutral R1 as a measured Studio-only RGBA candidate', async () => {
+  it('keeps approved Emi neutral R1 outside runtime while the expression family is incomplete', async () => {
     expect(validateEmiNeutralCandidate()).toEqual([]);
     expect(emiNeutralCandidate.format).toBe(CHARACTER_CANDIDATE_FORMAT);
-    expect(emiNeutralCandidate.status).toBe('manual-qa');
+    expect(emiNeutralCandidate.status).toBe('approved-master');
     expect(emiNeutralCandidate.runtimeEligible).toBe(false);
     expect(runtimeAssetCatalog).not.toContain(emiNeutralCandidate.asset);
     expect(await pngSize(emiNeutralCandidate.asset)).toEqual([1024, 1536]);
@@ -238,6 +240,21 @@ describe('ANM-028A character production manifest', () => {
     expect(emiNeutralCandidate.visualHeightPx).toBe(1428);
     expect(emiNeutralCandidate.bottomPaddingPx).toBe(28);
     expect(emiNeutralCandidate.geometry.eyeLineYPx).toBe(244);
+  });
+
+  it('ships Emi smile R1 as a geometry-identical Studio-only face-ROI candidate', async () => {
+    expect(validateEmiSmileCandidate()).toEqual([]);
+    expect(emiSmileCandidate.format).toBe(CHARACTER_CANDIDATE_FORMAT);
+    expect(emiSmileCandidate.expression).toBe('smile');
+    expect(emiSmileCandidate.status).toBe('manual-qa');
+    expect(emiSmileCandidate.source).toBe('gpt-work-face-roi');
+    expect(emiSmileCandidate.runtimeEligible).toBe(false);
+    expect(runtimeAssetCatalog).not.toContain(emiSmileCandidate.asset);
+    expect(await pngSize(emiSmileCandidate.asset)).toEqual([1024, 1536]);
+    expect(await pngAlphaBounds(emiSmileCandidate.asset)).toEqual(emiNeutralCandidate.geometry.alphaBounds);
+    expect(emiSmileCandidate.geometry).toEqual(emiNeutralCandidate.geometry);
+    expect(emiSmileCandidate.visualHeightPx).toBe(1428);
+    expect(emiSmileCandidate.bottomPaddingPx).toBe(28);
   });
 
   it('keeps the documentation mirror aligned with production/planned status and v2 runtime counts', async () => {
