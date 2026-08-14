@@ -56,10 +56,11 @@ describe('ANM-027G episodes 10–12 canonical production batch', () => {
 
   it('adds photo-permission and publish-tag choices without changing save schema', () => {
     expect(SAVE_SCHEMA_VERSION).toBe(2);
-    expect(storyChoiceGates.map((gate) => [gate.id, gate.checkpointLineId])).toEqual([
-      ['meeting-tone', 'VN0262'],
-      ['apology-to-hinata', 'VN0356'],
-      ['protect-gen-source', 'VN0480'],
+    expect(
+      storyChoiceGates
+        .filter((gate) => gate.id === 'photo-permission' || gate.id === 'publish-tag')
+        .map((gate) => [gate.id, gate.checkpointLineId]),
+    ).toEqual([
       ['photo-permission', 'VN0560'],
       ['publish-tag', 'VN0601'],
     ]);

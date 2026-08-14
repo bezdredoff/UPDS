@@ -1237,7 +1237,7 @@
       "act": "III",
       "tone": "E4/C4",
       "branch": "common",
-      "contentStatus": "macro-locked",
+      "contentStatus": "authored",
       "beat": "Закрытый список пилота связывает всех подтверждённых владельцев; Кубо оказывается посредником Рины, а не вором.",
       "transition": {
         "kind": "next",
@@ -1283,7 +1283,7 @@
         "presentation": "native-ui"
       },
       "match3": {
-        "status": "planned-config",
+        "status": "production-configured",
         "archetype": "locker-columns",
         "objectiveKinds": [
           "clearBlockers",
@@ -1310,7 +1310,7 @@
       "act": "III",
       "tone": "E5/C5",
       "branch": "common",
-      "contentStatus": "macro-locked",
+      "contentStatus": "authored",
       "beat": "Семейное ателье оправдывает Кубо и впервые доказывает, что Рина искала серебристые швы ещё до публичных краж.",
       "transition": {
         "kind": "next",
@@ -1358,7 +1358,7 @@
         "presentation": "native-ui"
       },
       "match3": {
-        "status": "planned-config",
+        "status": "production-configured",
         "archetype": "workbench-clusters",
         "objectiveKinds": [
           "clearBlockers",
@@ -1385,7 +1385,7 @@
       "act": "III",
       "tone": "E3/C4",
       "branch": "common",
-      "contentStatus": "macro-locked",
+      "contentStatus": "authored",
       "beat": "Рэй приводит команду к заброшенной прачечной и анонимной подсказке о согласии, переводя расследование к тайному маршруту Рины.",
       "transition": {
         "kind": "next",
@@ -1432,7 +1432,7 @@
         "presentation": "native-ui"
       },
       "match3": {
-        "status": "planned-config",
+        "status": "production-configured",
         "archetype": "service-lanes",
         "objectiveKinds": [
           "clearBlockers",

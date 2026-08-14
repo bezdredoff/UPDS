@@ -41,8 +41,9 @@ If two active documents conflict, prefer the narrower current machine-readable c
 - [`features/ANM027G_EPISODES_04_06_PRODUCTION_RU.md`](features/ANM027G_EPISODES_04_06_PRODUCTION_RU.md) — first post-slice canonical production batch: slots `4–6`, six VN scenes, three Match-3 levels and two story-choice gates
 - [`features/ANM027G_EPISODES_07_09_PRODUCTION_RU.md`](features/ANM027G_EPISODES_07_09_PRODUCTION_RU.md) — second canonical production batch: slots `7–9`, Asterion/laundry-service semantic variants, Rina/Kurose planned-stage triggers, Gen guest tier and three more Match-3 levels
 - [`features/ANM027G_EPISODES_10_12_PRODUCTION_RU.md`](features/ANM027G_EPISODES_10_12_PRODUCTION_RU.md) — third canonical production batch: slots `10–12`, Aoi guest route, Asterion transfer chain, Second Skin reveal and three more Match-3 levels
+- [`features/ANM027G_EPISODES_13_15_PRODUCTION_RU.md`](features/ANM027G_EPISODES_13_15_PRODUCTION_RU.md) — fourth canonical production batch: slots `13–15`, Kubo guest route, family atelier chronology, abandoned-laundry consent route and three more Match-3 levels
 
-The repository now contains detailed authored screenplay for slots `0–12`: ANM-003 covers `0–3`, `ANM-027G_Episodes_04_06_Screenplay.md` covers `4–6`, `ANM-027G_Episodes_07_09_Screenplay.md` covers `7–9`, and `ANM-027G_Episodes_10_12_Screenplay.md` covers `10–12`. Slots `13–21` remain macro-only and must enter through later three-episode ANM-027G batches.
+The repository now contains detailed authored screenplay for slots `0–15`: ANM-003 covers `0–3`, and sequential ANM-027G sources cover `4–6`, `7–9`, `10–12`, and `13–15`. Slots `16–21` remain macro-only and must enter through later three-episode ANM-027G batches.
 
 ### Character production
 

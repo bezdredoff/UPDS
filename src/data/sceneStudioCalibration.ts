@@ -118,6 +118,8 @@ export const sceneStudioCalibrationManifest: SceneStudioCalibrationManifest = {
     serviceYard: background('serviceYard', 23, 49, 42, 43, 87),
     asterionTransferPoint: background('asterionTransferPoint', 24, 50, 39, 38, 87),
     oldGymNight: background('oldGymNight', 25, 53, 43, 42, 90),
+    campusPath: background('campusPath', 31, 49, 42, 43, 87),
+    abandonedLaundry: background('abandonedLaundry', 32, 53, 43, 42, 90),
   },
 };
 

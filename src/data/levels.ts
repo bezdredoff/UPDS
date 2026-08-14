@@ -20,9 +20,9 @@ export type Match3TileCategory = 'panties' | 'bra' | 'camisole' | 'socks' | 'tow
 export const ACTIVE_TILE_TYPE_LIMIT = 6;
 export const MAX_PANTIES_TYPES_PER_LEVEL = 4;
 export const MAX_OBJECTIVES_PER_LEVEL = 3;
-export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel' | 'laundryCalendar' | 'repairLog' | 'warrantyCard' | 'silverSpool' | 'asterionSpec' | 'missingNumberSheet' | 'handoffSlip' | 'stitchedWristband' | 'transferSeal' | 'routeCard' | 'transferManifest' | 'secondSkinTag';
-export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet' | 'rumorCard' | 'lockerLock' | 'garmentBag' | 'labCover' | 'sealedPackage' | 'supplyCrate' | 'signalNoise';
-export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004' | 'CUE_005' | 'CUE_006' | 'CUE_007' | 'CUE_008' | 'CUE_009' | 'CUE_010' | 'CUE_011' | 'CUE_012' | 'CUE_013';
+export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel' | 'laundryCalendar' | 'repairLog' | 'warrantyCard' | 'silverSpool' | 'asterionSpec' | 'missingNumberSheet' | 'handoffSlip' | 'stitchedWristband' | 'transferSeal' | 'routeCard' | 'transferManifest' | 'secondSkinTag' | 'pilotList' | 'familyReceipt' | 'atelierLedger' | 'markedPackage' | 'serviceKeyCard';
+export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet' | 'rumorCard' | 'lockerLock' | 'garmentBag' | 'labCover' | 'sealedPackage' | 'supplyCrate' | 'signalNoise' | 'armorRack' | 'fabricStack' | 'debris';
+export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004' | 'CUE_005' | 'CUE_006' | 'CUE_007' | 'CUE_008' | 'CUE_009' | 'CUE_010' | 'CUE_011' | 'CUE_012' | 'CUE_013' | 'CUE_014' | 'CUE_015' | 'CUE_016';
 
 export type BoardPlacement = Readonly<{ index: number; layers: 1 | 2 }>;
 export type IngredientPlacement = Readonly<{ index: number; kind: IngredientKey }>;
@@ -118,6 +118,11 @@ export const ingredientPresentation: Record<IngredientKey, Readonly<{ label: str
   routeCard: { label: 'Маршрутная карточка', asset: './assets/match3/goal_receipt.png' },
   transferManifest: { label: 'Транспортный манифест', asset: './assets/match3/goal_receipt.png' },
   secondSkinTag: { label: 'Активная метка Second Skin', asset: './assets/clues/clue_towel_conductive_seam.png' },
+  pilotList: { label: 'Закрытый список пилота', asset: './assets/match3/goal_memory_card.png' },
+  familyReceipt: { label: 'Квитанция ателье', asset: './assets/match3/goal_receipt.png' },
+  atelierLedger: { label: 'Книга заказов', asset: './assets/match3/goal_memory_card.png' },
+  markedPackage: { label: 'Помеченный пакет', asset: './assets/clues/clue_towel_conductive_seam.png' },
+  serviceKeyCard: { label: 'Служебная ключ-карта', asset: './assets/clues/clue_service_key.png' },
 };
 
 export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; asset: string }>> = {
@@ -132,6 +137,9 @@ export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; a
   sealedPackage: { label: 'Запечатанный пакет', asset: './assets/match3/obstacle_prop_box_2layer.png' },
   supplyCrate: { label: 'Хозяйственная коробка', asset: './assets/match3/obstacle_service_cabinet.png' },
   signalNoise: { label: 'Радиопомеха', asset: './assets/match3/obstacle_soap_foam.png' },
+  armorRack: { label: 'Стойка с бронёй', asset: './assets/match3/obstacle_service_cabinet.png' },
+  fabricStack: { label: 'Стопка ткани', asset: './assets/match3/obstacle_prop_box_2layer.png' },
+  debris: { label: 'Строительный мусор', asset: './assets/match3/obstacle_soap_foam.png' },
 };
 
 export const specialAsset = './assets/match3/special_observation_magnifier.png';
@@ -509,6 +517,79 @@ export const levels: readonly LevelDefinition[] = [
     winBark: { speaker: 'Мику', text: 'Не демон. Активная метка, радиопакет и имя Second Skin.' },
     loseBark: { speaker: 'Оноэ', text: 'Шум победил измерение. Повторяем с разделёнными частотами.' },
   },
+
+  {
+    id: 'M3_13_KENDO_PILOT_LIST', shortId: 'M3_13', title: 'Под бронёй',
+    storyAction: 'Расчистить стойки кэндо и сопоставить сервисные коды с закрытым списком участников пилота.',
+    context: {
+      sourceSceneId: 'VN_SCENE_27_E13_PRE', pageBackground: 'combatClubHall',
+      boardSurface: 'locker-columns', boardFrame: 'service-file', narrativeProfile: 'pilot-participant-codes', tilePresentationProfile: 'kendo-pilot',
+      participants: ['miku', 'onoe', 'ayuki', 'kubo'], narrativeTags: ['kendo-hall', 'armor', 'pilot-list', 'second-skin'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'sportsBra', 'socks', 'pantiesSportWhite', 'camisole', 'towel'],
+    moves: 30,
+    objectives: [
+      { kind: 'clearBlockers', target: 10, label: 'Стойки с бронёй' },
+      { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Коды участников' },
+      { kind: 'drop', ingredient: 'pilotList', target: 1, label: 'Список пилота' },
+    ],
+    blocker: 'armorRack', blockers: positions([9, 12, 18, 21, 42, 45, 50, 53, 58, 61]),
+    ingredients: [{ index: 27, kind: 'pilotList' }], seed: 9014,
+    clueId: 'CUE_014', clueTitle: 'Закрытый список пилота',
+    clueSummary: 'Все подтверждённые владельцы пропавших вещей входят в закрытый список участников Second Skin.',
+    startBark: { speaker: 'Кубо', text: 'Прошу отделить мои перемещения мешков от того, что было внутри них.' },
+    winBark: { speaker: 'Мику', text: 'Совпало всё. Пропажи следуют списку участников пилота.' },
+    loseBark: { speaker: 'Оноэ', text: 'Список не восстановлен. Повторяем без выводов о посреднике.' },
+  },
+  {
+    id: 'M3_14_KUBO_ATELIER_LEDGER', shortId: 'M3_14', title: 'Книга семейного ателье',
+    storyAction: 'Сопоставить квитанции, изделия и книгу заказов, не смешивая записи посторонних клиентов.',
+    context: {
+      sourceSceneId: 'VN_SCENE_29_E14_PRE', pageBackground: 'textileWorkshop',
+      boardSurface: 'workbench-clusters', boardFrame: 'workshop-file', narrativeProfile: 'rina-pretheft-search', tilePresentationProfile: 'kubo-atelier',
+      participants: ['miku', 'onoe', 'ayuki', 'kubo', 'kubo-mother'], narrativeTags: ['family-atelier', 'order-ledger', 'pretheft', 'silver-seam'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'pantiesLacePink', 'pantiesSportWhite', 'towel'],
+    moves: 29,
+    objectives: [
+      { kind: 'clearBlockers', target: 8, label: 'Стопки ткани' },
+      { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Коды заказов' },
+      { kind: 'dropGroup', ingredients: ['familyReceipt', 'atelierLedger'], target: 2, label: 'Квитанция + книга' },
+    ],
+    blocker: 'fabricStack', blockers: positions([[10,2], 13, 18, 21, 42, [45,2], 50, 53]),
+    ingredients: [{ index: 26, kind: 'familyReceipt' }, { index: 29, kind: 'atelierLedger' }], seed: 9015,
+    clueId: 'CUE_015', clueTitle: 'Рина знала заранее',
+    clueSummary: 'Книга заказов доказывает: Рина искала серебристые швы и записывала коды ещё до первых публичных краж.',
+    startBark: { speaker: 'Мать Кубо', text: 'Сначала даты и изделия. Чужие имена в расследование не входят автоматически.' },
+    winBark: { speaker: 'Оноэ', text: 'Хронология готова. Рина искала метки до начала публичных пропаж.' },
+    loseBark: { speaker: 'Кубо', text: 'Семейная книга заслуживает более аккуратного второго прохода.' },
+  },
+  {
+    id: 'M3_15_ABANDONED_LAUNDRY_ROUTE', shortId: 'M3_15', title: 'Старый сервисный маршрут',
+    storyAction: 'Расчистить заброшенную прачечную, собрать следы нити и вывести помеченный пакет с действующей ключ-картой.',
+    context: {
+      sourceSceneId: 'VN_SCENE_31_E15_PRE', pageBackground: 'abandonedLaundry',
+      boardSurface: 'service-lanes', boardFrame: 'maintenance-file', narrativeProfile: 'consent-note-route', tilePresentationProfile: 'abandoned-laundry',
+      participants: ['miku', 'onoe', 'ayuki'], narrativeTags: ['abandoned-laundry', 'service-route', 'anonymous-note', 'consent'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'towel', 'socks', 'camisole', 'pantiesLacePink', 'pantiesSportWhite'],
+    moves: 30,
+    objectives: [
+      { kind: 'clearBlockers', target: 10, label: 'Мусор' },
+      { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Следы нити' },
+      { kind: 'dropGroup', ingredients: ['markedPackage', 'serviceKeyCard'], target: 2, label: 'Пакет + ключ-карта' },
+    ],
+    blocker: 'debris', blockers: positions([8, 11, 16, 19, 24, 27, 40, 43, 48, 51]),
+    ingredients: [{ index: 28, kind: 'markedPackage' }, { index: 31, kind: 'serviceKeyCard' }], seed: 9016,
+    clueId: 'CUE_016', clueTitle: 'Маршрут согласия',
+    clueSummary: 'Старый корпус остаётся действующим служебным маршрутом; анонимный источник знает о согласиях участников и ведёт клуб по следу Рины.',
+    startBark: { speaker: 'Аюки', text: 'Если кот сейчас ещё и откроет шкаф, я внесу его в штат.' },
+    winBark: { speaker: 'Мику', text: 'Маршрут действующий. И записка переводит дело от краж к вопросу согласия.' },
+    loseBark: { speaker: 'Оноэ', text: 'Мусор скрыл цепочку. Повторяем и держим пакет отдельно от версии.' },
+  },
 ] as const;
 
 export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: string }>> = {
@@ -525,6 +606,9 @@ export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: s
   CUE_011: { asset: './assets/clues/clue_towel_conductive_seam.png', label: 'Контрольная выборка' },
   CUE_012: { asset: './assets/match3/goal_memory_card.png', label: 'Цепочка передачи Asterion' },
   CUE_013: { asset: './assets/clues/clue_towel_conductive_seam.png', label: 'Метка Second Skin' },
+  CUE_014: { asset: './assets/match3/goal_memory_card.png', label: 'Закрытый список пилота' },
+  CUE_015: { asset: './assets/match3/goal_receipt.png', label: 'Рина знала заранее' },
+  CUE_016: { asset: './assets/clues/clue_service_key.png', label: 'Маршрут согласия' },
 };
 
 export function validateLevelDefinitions(definitions: readonly LevelDefinition[] = levels): string[] {

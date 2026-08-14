@@ -248,7 +248,7 @@ Macro lock опирается на утверждённый Story Bible и ис�
 6. **ANM-028B3 R1.1 — COMPLETE** — `upds-guest-witness-production-v1` provides the separate
    guest/witness schema, validator and shared `guest-testimony-card` renderer required by Hinata; all six
    macro-locked guests remain asset-free until external art is supplied and never become fake full-stage paths.
-7. **ANM-027G `4–6` / `7–9` — COMPLETE; `10–12` — CURRENT QA** — sequential screenplay/import packages consume only macro-approved asset triggers; after acceptance continue with `13–15`, `16–18`, `19–21`.
+7. **ANM-027G `4–6` / `7–9` / `10–12` — COMPLETE; `13–15` — CURRENT QA** — sequential screenplay/import packages consume only macro-approved asset triggers; after acceptance continue with `16–18`, `19–21`.
 8. Run the bounded 028C safe-motion proof when it no longer competes with content blockers; resume
    full-stage character production from external approved art as batches require it.
 9. ANM-029 mass localization and ANM-030 mass art only after complete canonical content lock.

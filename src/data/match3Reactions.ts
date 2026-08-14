@@ -11,7 +11,7 @@ export type Match3ReactionId =
   | 'character-beat'
   | 'cascade';
 
-export type Match3ReactionSpeaker = 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro' | 'mayu' | 'hinata' | 'rina' | 'kurose' | 'gen' | 'aoi';
+export type Match3ReactionSpeaker = 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro' | 'mayu' | 'hinata' | 'rina' | 'kurose' | 'gen' | 'aoi' | 'kubo' | 'kubo-mother';
 export type Match3ReactionRepeat = 'once-per-attempt' | 'repeatable';
 export type Match3RunMode = 'story' | 'campaign' | 'lab';
 
@@ -187,6 +187,25 @@ export const match3ReactionRulesByLevel: Readonly<Record<string, readonly Match3
     { id: 'low-moves', priority: 500, repeat: 'once-per-attempt', speaker: 'ayuki', messageKey: 'match3.bark.fiveMoves.12', trigger: { kind: 'moves-left', equals: 5 } }, commonSpecialCreatedRule(),
     { id: 'blocker-progress', priority: 300, repeat: 'once-per-attempt', speaker: 'onoe', messageKey: 'match3.bark.blockers.12', trigger: { kind: 'blockers-cleared', min: 5 } },
     { id: 'ingredient-context', priority: 200, repeat: 'once-per-attempt', speaker: 'miku', messageKey: 'match3.bark.ingredient.12', trigger: { kind: 'move-number', equals: 1 } }, commonCascadeRule(),
+  ],
+
+  M3_13_KENDO_PILOT_LIST: [
+    ...f2Rules(13, { objective: 'onoe', special: 'miku', combo: 'ayuki', nearWin: 'kubo', danger: 'onoe', beat: 'kubo' }),
+    { id: 'low-moves', priority: 500, repeat: 'once-per-attempt', speaker: 'kubo', messageKey: 'match3.bark.fiveMoves.13', trigger: { kind: 'moves-left', equals: 5 } }, commonSpecialCreatedRule(),
+    { id: 'blocker-progress', priority: 300, repeat: 'once-per-attempt', speaker: 'ayuki', messageKey: 'match3.bark.blockers.13', trigger: { kind: 'blockers-cleared', min: 5 } },
+    { id: 'ingredient-context', priority: 200, repeat: 'once-per-attempt', speaker: 'miku', messageKey: 'match3.bark.ingredient.13', trigger: { kind: 'move-number', equals: 1 } }, commonCascadeRule(),
+  ],
+  M3_14_KUBO_ATELIER_LEDGER: [
+    ...f2Rules(14, { objective: 'kubo-mother', special: 'onoe', combo: 'ayuki', nearWin: 'miku', danger: 'kubo-mother', beat: 'kubo-mother' }),
+    { id: 'low-moves', priority: 500, repeat: 'once-per-attempt', speaker: 'kubo-mother', messageKey: 'match3.bark.fiveMoves.14', trigger: { kind: 'moves-left', equals: 5 } }, commonSpecialCreatedRule(),
+    { id: 'blocker-progress', priority: 300, repeat: 'once-per-attempt', speaker: 'onoe', messageKey: 'match3.bark.blockers.14', trigger: { kind: 'blockers-cleared', min: 4 } },
+    { id: 'ingredient-context', priority: 200, repeat: 'once-per-attempt', speaker: 'kubo', messageKey: 'match3.bark.ingredient.14', trigger: { kind: 'move-number', equals: 1 } }, commonCascadeRule(),
+  ],
+  M3_15_ABANDONED_LAUNDRY_ROUTE: [
+    ...f2Rules(15, { objective: 'onoe', special: 'miku', combo: 'ayuki', nearWin: 'miku', danger: 'onoe', beat: 'ayuki' }),
+    { id: 'low-moves', priority: 500, repeat: 'once-per-attempt', speaker: 'miku', messageKey: 'match3.bark.fiveMoves.15', trigger: { kind: 'moves-left', equals: 5 } }, commonSpecialCreatedRule(),
+    { id: 'blocker-progress', priority: 300, repeat: 'once-per-attempt', speaker: 'ayuki', messageKey: 'match3.bark.blockers.15', trigger: { kind: 'blockers-cleared', min: 5 } },
+    { id: 'ingredient-context', priority: 200, repeat: 'once-per-attempt', speaker: 'onoe', messageKey: 'match3.bark.ingredient.15', trigger: { kind: 'move-number', equals: 1 } }, commonCascadeRule(),
   ],
 };
 

@@ -18,6 +18,9 @@ export const storyChapterIds = [
   'CH012_CONTROL_SAMPLE_GEAR',
   'CH013_ASTERION_TRANSFER',
   'CH014_SECOND_SKIN_SIGNAL',
+  'CH015_KENDO_PILOT_LIST',
+  'CH016_KUBO_ATELIER',
+  'CH017_ABANDONED_LAUNDRY',
 ] as const;
 export type StoryChapterId = (typeof storyChapterIds)[number];
 
@@ -49,10 +52,16 @@ export const storySceneIds = [
   'VN_SCENE_24_E11_POST',
   'VN_SCENE_25_E12_PRE',
   'VN_SCENE_26_E12_POST',
+  'VN_SCENE_27_E13_PRE',
+  'VN_SCENE_28_E13_POST',
+  'VN_SCENE_29_E14_PRE',
+  'VN_SCENE_30_E14_POST',
+  'VN_SCENE_31_E15_PRE',
+  'VN_SCENE_32_E15_POST',
 ] as const;
 export type StorySceneId = (typeof storySceneIds)[number];
 
-export const storyEndingIds = ['ENDING_AUTHORED_FRONTIER_12'] as const;
+export const storyEndingIds = ['ENDING_AUTHORED_FRONTIER_15'] as const;
 export type StoryEndingId = (typeof storyEndingIds)[number];
 
 export type StorySourceRange = Readonly<{ format: 'screenplay-range-v1'; startLineId: string; endLineId: string }>;
@@ -84,6 +93,9 @@ export const storyGraph: StoryGraph = {
     { id: 'CH012_CONTROL_SAMPLE_GEAR', episodeId: 'EP001_CASE_001', order: 11, sceneIds: ['VN_SCENE_21_E10_PRE','VN_SCENE_22_E10_POST'] },
     { id: 'CH013_ASTERION_TRANSFER', episodeId: 'EP001_CASE_001', order: 12, sceneIds: ['VN_SCENE_23_E11_PRE','VN_SCENE_24_E11_POST'] },
     { id: 'CH014_SECOND_SKIN_SIGNAL', episodeId: 'EP001_CASE_001', order: 13, sceneIds: ['VN_SCENE_25_E12_PRE','VN_SCENE_26_E12_POST'] },
+    { id: 'CH015_KENDO_PILOT_LIST', episodeId: 'EP001_CASE_001', order: 14, sceneIds: ['VN_SCENE_27_E13_PRE','VN_SCENE_28_E13_POST'] },
+    { id: 'CH016_KUBO_ATELIER', episodeId: 'EP001_CASE_001', order: 15, sceneIds: ['VN_SCENE_29_E14_PRE','VN_SCENE_30_E14_POST'] },
+    { id: 'CH017_ABANDONED_LAUNDRY', episodeId: 'EP001_CASE_001', order: 16, sceneIds: ['VN_SCENE_31_E15_PRE','VN_SCENE_32_E15_POST'] },
   ],
   scenes: [
     { id:'VN_SCENE_00_PROLOGUE', episodeId:'EP001_CASE_001', chapterId:'CH001_PROLOGUE', legacyIndex:0, source:{format:'screenplay-range-v1',startLineId:'VN0001',endLineId:'VN0022'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_01_E0_PRE'} },
@@ -112,7 +124,13 @@ export const storyGraph: StoryGraph = {
     { id:'VN_SCENE_23_E11_PRE', episodeId:'EP001_CASE_001', chapterId:'CH013_ASTERION_TRANSFER', legacyIndex:23, source:{format:'screenplay-range-v1',startLineId:'VN0528',endLineId:'VN0547'}, transition:{kind:'match3',levelId:'M3_11_ASTERION_TRANSFER',onWinSceneId:'VN_SCENE_24_E11_POST'} },
     { id:'VN_SCENE_24_E11_POST', episodeId:'EP001_CASE_001', chapterId:'CH013_ASTERION_TRANSFER', legacyIndex:24, source:{format:'screenplay-range-v1',startLineId:'VN0548',endLineId:'VN0567'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_25_E12_PRE'} },
     { id:'VN_SCENE_25_E12_PRE', episodeId:'EP001_CASE_001', chapterId:'CH014_SECOND_SKIN_SIGNAL', legacyIndex:25, source:{format:'screenplay-range-v1',startLineId:'VN0568',endLineId:'VN0588'}, transition:{kind:'match3',levelId:'M3_12_SECOND_SKIN_SIGNAL',onWinSceneId:'VN_SCENE_26_E12_POST'} },
-    { id:'VN_SCENE_26_E12_POST', episodeId:'EP001_CASE_001', chapterId:'CH014_SECOND_SKIN_SIGNAL', legacyIndex:26, source:{format:'screenplay-range-v1',startLineId:'VN0589',endLineId:'VN0607'}, transition:{kind:'ending',endingId:'ENDING_AUTHORED_FRONTIER_12'} },
+    { id:'VN_SCENE_26_E12_POST', episodeId:'EP001_CASE_001', chapterId:'CH014_SECOND_SKIN_SIGNAL', legacyIndex:26, source:{format:'screenplay-range-v1',startLineId:'VN0589',endLineId:'VN0607'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_27_E13_PRE'} },
+    { id:'VN_SCENE_27_E13_PRE', episodeId:'EP001_CASE_001', chapterId:'CH015_KENDO_PILOT_LIST', legacyIndex:27, source:{format:'screenplay-range-v1',startLineId:'VN0608',endLineId:'VN0627'}, transition:{kind:'match3',levelId:'M3_13_KENDO_PILOT_LIST',onWinSceneId:'VN_SCENE_28_E13_POST'} },
+    { id:'VN_SCENE_28_E13_POST', episodeId:'EP001_CASE_001', chapterId:'CH015_KENDO_PILOT_LIST', legacyIndex:28, source:{format:'screenplay-range-v1',startLineId:'VN0628',endLineId:'VN0646'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_29_E14_PRE'} },
+    { id:'VN_SCENE_29_E14_PRE', episodeId:'EP001_CASE_001', chapterId:'CH016_KUBO_ATELIER', legacyIndex:29, source:{format:'screenplay-range-v1',startLineId:'VN0647',endLineId:'VN0666'}, transition:{kind:'match3',levelId:'M3_14_KUBO_ATELIER_LEDGER',onWinSceneId:'VN_SCENE_30_E14_POST'} },
+    { id:'VN_SCENE_30_E14_POST', episodeId:'EP001_CASE_001', chapterId:'CH016_KUBO_ATELIER', legacyIndex:30, source:{format:'screenplay-range-v1',startLineId:'VN0667',endLineId:'VN0686'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_31_E15_PRE'} },
+    { id:'VN_SCENE_31_E15_PRE', episodeId:'EP001_CASE_001', chapterId:'CH017_ABANDONED_LAUNDRY', legacyIndex:31, source:{format:'screenplay-range-v1',startLineId:'VN0687',endLineId:'VN0707'}, transition:{kind:'match3',levelId:'M3_15_ABANDONED_LAUNDRY_ROUTE',onWinSceneId:'VN_SCENE_32_E15_POST'} },
+    { id:'VN_SCENE_32_E15_POST', episodeId:'EP001_CASE_001', chapterId:'CH017_ABANDONED_LAUNDRY', legacyIndex:32, source:{format:'screenplay-range-v1',startLineId:'VN0708',endLineId:'VN0726'}, transition:{kind:'ending',endingId:'ENDING_AUTHORED_FRONTIER_15'} },
   ],
 };
 

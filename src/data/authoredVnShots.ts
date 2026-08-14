@@ -133,6 +133,21 @@ export const authoredVnShotManifest: AuthoredVnShotManifest = {
       actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'serious' }, { character: 'ayuki', expression: 'surprised' }],
       note: 'Episode 12 technical reveal after the occult bait resolves into a Second Skin radio tag.',
     },
+    {
+      lineId: 'VN0625', background: 'combatClubHall', presetId: 'trio-central-speaker',
+      actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'serious' }, { character: 'ayuki', expression: 'neutral' }],
+      note: 'Episode 13 task framing while Kubo remains on the B3 guest testimony path.',
+    },
+    {
+      lineId: 'VN0663', background: 'textileWorkshop', presetId: 'trio-central-speaker',
+      actors: [{ character: 'onoe', expression: 'serious' }, { character: 'miku', expression: 'neutral' }, { character: 'ayuki', expression: 'embarrassed' }],
+      note: 'Episode 14 ledger reconstruction; Kubo and his mother stay on B3 guest presentation.',
+    },
+    {
+      lineId: 'VN0721', background: 'abandonedLaundry', presetId: 'trio-central-speaker',
+      actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'serious' }, { character: 'ayuki', expression: 'neutral' }],
+      note: 'Episode 15 core-trio restraint after Rina appears across the anonymous-lead timeline.',
+    },
   ],
 };
 
