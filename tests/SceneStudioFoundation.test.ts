@@ -47,6 +47,10 @@ describe('ANM-028B1 Scene Studio foundation', () => {
 
     app.renderSceneStudio();
     expect(root.innerHTML).toContain('data-scene-preset="solo-close"');
+    expect(root.innerHTML).toContain('data-art-source="anm028d0-r1"');
+    expect(root.innerHTML).toContain('./assets/characters/emi/candidates/anm028d0/neutral-r1.png');
+    expect(root.innerHTML).toContain('data-alpha-bounds="330,80,737,1508"');
+    expect(root.innerHTML).toContain('data-eye-line-y="244"');
     expect(root.innerHTML).toContain('upds-scene-staging-v1');
     expect(root.innerHTML).toContain('portrait portrait-static-wrap scene-studio-runtime-portrait');
     expect(root.innerHTML).toContain('data-runtime-crop="true"');
@@ -79,7 +83,9 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML.match(/data-guide-geometry="expression-frame"/g)).toHaveLength(2);
     expect(root.innerHTML.match(/scene-studio-actor-alpha-box/g)).toHaveLength(2);
     expect(root.innerHTML.match(/scene-studio-actor-eye-marker/g)).toHaveLength(2);
-    expect(root.innerHTML).toContain('data-alpha-bounds="172,92,851,1536"');
+    expect(root.innerHTML).toContain('data-alpha-bounds="330,80,737,1508"');
+    expect(root.innerHTML).toContain('data-guide-geometry="expression-frame"');
+    expect(root.innerHTML).toContain('SELECTED FRAME ALPHA · anm028d0-r1');
     expect(root.innerHTML).toContain('data-guide="face-lane"');
 
     studio.render({ presetId: 'trio-central-speaker', background: 'clubroom', showGuides: true });
@@ -101,6 +107,7 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML.match(/data-character=/g)).toHaveLength(2);
     expect(root.innerHTML).toContain('data-character="miku"');
     expect(root.innerHTML).toContain('data-character="emi"');
+    expect(root.innerHTML).toContain('data-art-source="anm028d0-r1"');
     expect(root.innerHTML.match(/data-runtime-crop="true"/g)).toHaveLength(2);
     expect(root.innerHTML).toContain('data-shot-scale="0.84"');
     expect(root.innerHTML).not.toContain('scene-studio-character-shot');
@@ -122,13 +129,30 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
 
     studio.render({ viewMode: 'lineup', viewportId: '320x568', textScale: 'large' });
-    expect(root.innerHTML).toContain('data-lineup-source="upds-character-production-v2"');
+    expect(root.innerHTML).toContain('data-lineup-source="upds-character-production-v2+upds-character-candidate-v1"');
     expect(root.innerHTML.match(/class="scene-studio-lineup-character"/g)).toHaveLength(4);
     expect(root.innerHTML).toContain('data-bottom-padding="118"');
+    expect(root.innerHTML).toContain('data-bottom-padding="28"');
+    expect(root.innerHTML).toContain('data-visual-height="1428"');
+    expect(root.innerHTML).toContain('data-eye-line-y="244"');
+    expect(root.innerHTML).toContain('data-candidate="true"');
     expect(root.innerHTML).toContain('bottom-pivot:miku');
     expect(root.innerHTML).toContain('master-rebuild:emi');
-    expect(root.innerHTML).toContain('data-visual-approval="rebuild-required"');
+    expect(root.innerHTML).toContain('data-visual-approval="manual-qa"');
     expect(root.innerHTML).toContain('data-scene-viewport="320x568"');
     expect(root.innerHTML).toContain('text-large');
+  });
+
+  it('keeps the rejected runtime Emi available for explicit comparison without promoting the candidate', () => {
+    const root = new FakeRoot();
+    const services = createRuntimeServices();
+    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
+    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
+
+    studio.render({ presetId: 'two-shot-conflict', artSource: 'runtime' });
+    expect(root.innerHTML).toContain('data-art-source="runtime"');
+    expect(root.innerHTML).toContain('data-alpha-bounds="172,92,851,1536"');
+    expect(root.innerHTML).toContain('data-visual-approval="rebuild-required"');
+    expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d0/neutral-r1.png');
   });
 });

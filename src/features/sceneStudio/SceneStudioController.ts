@@ -18,13 +18,25 @@ import {
   type SceneStudioViewMode,
   type SceneStudioViewportId,
 } from '../../data/sceneStudioCalibration';
+import {
+  EMI_NEUTRAL_CANDIDATE_ID,
+  emiNeutralCandidate,
+  sceneStudioArtSources,
+  validateEmiNeutralCandidate,
+  type SceneStudioArtSource,
+} from '../../data/characterCandidates';
 import { characterRigs, expressionAsset } from '../../data/characterRigs';
 import { characterProductionManifest } from '../../data/characterProduction';
 import { backgroundAssets, sceneMeta, type BackgroundKey } from '../../data/narrative';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppShell } from '../../app/AppShell';
-import { resolveSceneStagingPreset, type SceneStagingActorInput } from '../../ui/sceneStaging';
+import {
+  overrideResolvedActorFrameGeometry,
+  resolveSceneStagingPreset,
+  type ResolvedSceneStaging,
+  type SceneStagingActorInput,
+} from '../../ui/sceneStaging';
 import { dialogueContinuationText, paginateDialogueText } from '../../ui/vnDialoguePaging';
 import type { TextScale } from '../../ui/vnPlayback';
 import { vnFrameMarkup } from '../../ui/vnFrameMarkup';
@@ -32,7 +44,7 @@ import { SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT } from '../../ui/vnPortraitGeomet
 import { escapeHtml, panelHeaderMarkup } from '../../ui/viewMarkup';
 
 export const sceneStudioBackgroundKeys = Object.keys(backgroundAssets) as BackgroundKey[];
-export const sceneStudioDialogueLineIds = ['VN0002', 'VN0004', 'VN0022', 'VN0038'] as const;
+export const sceneStudioDialogueLineIds = ['VN0002', 'VN0004', 'VN0022', 'VN0024', 'VN0038'] as const;
 export type SceneStudioDialogueLineId = typeof sceneStudioDialogueLineIds[number];
 
 export type SceneStudioState = Readonly<{
@@ -43,6 +55,7 @@ export type SceneStudioState = Readonly<{
   lineId: SceneStudioDialogueLineId;
   textScale: TextScale;
   showGuides: boolean;
+  artSource: SceneStudioArtSource;
 }>;
 
 export const sceneStudioSamples: Readonly<Record<SceneStagingPresetId, readonly SceneStagingActorInput[]>> = {
@@ -70,6 +83,31 @@ export const sceneStudioSamples: Readonly<Record<SceneStagingPresetId, readonly 
   'guest-testimony-card': [],
 };
 
+export const sceneStudioEmiCandidateSamples: Readonly<Record<SceneStagingPresetId, readonly SceneStagingActorInput[]>> = {
+  'solo-close': [{ character: 'emi', expression: 'neutral' }],
+  'solo-medium': [{ character: 'emi', expression: 'neutral' }],
+  'two-shot-conflict': [
+    { character: 'miku', expression: 'serious' },
+    { character: 'emi', expression: 'neutral' },
+  ],
+  'two-shot-alliance': [
+    { character: 'onoe', expression: 'neutral' },
+    { character: 'emi', expression: 'neutral' },
+  ],
+  'trio-central-speaker': [
+    { character: 'emi', expression: 'neutral' },
+    { character: 'miku', expression: 'neutral' },
+    { character: 'ayuki', expression: 'neutral' },
+  ],
+  'trio-reaction': [
+    { character: 'ayuki', expression: 'surprised' },
+    { character: 'miku', expression: 'neutral' },
+    { character: 'emi', expression: 'neutral' },
+  ],
+  'evidence-cutaway': [],
+  'guest-testimony-card': [],
+};
+
 const defaultLineForPreset: Readonly<Record<SceneStagingPresetId, SceneStudioDialogueLineId>> = {
   'solo-close': 'VN0002',
   'solo-medium': 'VN0004',
@@ -86,9 +124,10 @@ const DEFAULT_STATE: SceneStudioState = {
   background: 'clubroom',
   viewportId: '390x844',
   viewMode: 'scene',
-  lineId: 'VN0002',
+  lineId: 'VN0024',
   textScale: 'normal',
   showGuides: true,
+  artSource: EMI_NEUTRAL_CANDIDATE_ID,
 };
 
 const safeBoxStyle = (safeBox: SceneStagingSafeBox): string => [
@@ -110,7 +149,11 @@ export class SceneStudioController {
 
   render(requested: Partial<SceneStudioState> = {}): void {
     const state = this.normalizeState(requested);
-    const resolution = resolveSceneStagingPreset(state.presetId, sceneStudioSamples[state.presetId]);
+    const sampleSet = state.artSource === EMI_NEUTRAL_CANDIDATE_ID
+      ? sceneStudioEmiCandidateSamples
+      : sceneStudioSamples;
+    const runtimeResolution = resolveSceneStagingPreset(state.presetId, sampleSet[state.presetId]);
+    const resolution = this.applyArtSource(runtimeResolution, state.artSource);
     const viewportProfile = sceneStudioCalibrationManifest.viewports[state.viewportId];
     const backgroundProfile = sceneStudioCalibrationManifest.backgrounds[state.background];
     const presetIndex = sceneStagingPresetIds.indexOf(state.presetId);
@@ -128,10 +171,10 @@ export class SceneStudioController {
       height: viewportProfile.viewport.height,
       textScale: state.textScale,
     });
-    const diagnostics = this.diagnostics(state.background, resolution);
+    const diagnostics = this.diagnostics(state.background, resolution, state.artSource);
     const stageMarkup = state.viewMode === 'lineup'
-      ? this.lineupMarkup(t)
-      : this.sceneMarkup(resolution, state.showGuides, t);
+      ? this.lineupMarkup(t, state.artSource)
+      : this.sceneMarkup(resolution, state.showGuides, state.artSource, t);
     const frame = vnFrameMarkup({
       idPrefix: 'scene-studio-runtime-',
       frameContext: 'scene-studio',
@@ -195,6 +238,9 @@ export class SceneStudioController {
           <option value="scene"${state.viewMode === 'scene' ? ' selected' : ''}>${t('sceneStudio.mode.scene')}</option>
           <option value="lineup"${state.viewMode === 'lineup' ? ' selected' : ''}>${t('sceneStudio.mode.lineup')}</option>
         </select></label>
+        <label><span>${t('sceneStudio.artSource')}</span><select id="scene-studio-art-source">
+          ${sceneStudioArtSources.map((source) => `<option value="${source}"${source === state.artSource ? ' selected' : ''}>${t(`sceneStudio.artSource.${source}`)}</option>`).join('')}
+        </select></label>
         <label><span>${t('sceneStudio.viewport')}</span><select id="scene-studio-viewport">
           ${sceneStudioViewportIds.map((id) => `<option value="${id}"${id === state.viewportId ? ' selected' : ''}>${id}</option>`).join('')}
         </select></label>
@@ -219,13 +265,13 @@ export class SceneStudioController {
       </div>
 
       <div class="scene-studio-device-scroll">
-        <section class="scene-studio-device-shell" data-scene-preset="${state.presetId}" data-scene-viewport="${state.viewportId}" data-compact="${viewportProfile.compact}" aria-label="${t('sceneStudio.previewAria')}" style="${deviceStyle}">
+        <section class="scene-studio-device-shell" data-scene-preset="${state.presetId}" data-scene-viewport="${state.viewportId}" data-art-source="${state.artSource}" data-compact="${viewportProfile.compact}" aria-label="${t('sceneStudio.previewAria')}" style="${deviceStyle}">
           ${frame}
         </section>
       </div>
 
       <p class="scene-studio-summary">${t(`sceneStudio.preset.${state.presetId}.summary`)}</p>
-      ${state.viewMode === 'lineup' ? this.lineupMetricsMarkup(t) : ''}
+      ${state.viewMode === 'lineup' ? this.lineupMetricsMarkup(t, state.artSource) : ''}
       <div class="scene-studio-status ${errorCount ? 'invalid' : warningCount || manualCount ? 'review' : 'valid'}">
         <b>${t(errorCount ? 'sceneStudio.validation.invalid' : warningCount || manualCount ? 'sceneStudio.validation.review' : 'sceneStudio.validation.valid')}</b>
         <span>${t('sceneStudio.validation.counts', { errors: errorCount, warnings: warningCount, manual: manualCount })}</span>
@@ -261,6 +307,13 @@ export class SceneStudioController {
     this.root.querySelector<HTMLSelectElement>('#scene-studio-mode')?.addEventListener('change', (event) => {
       rerender({ viewMode: (event.currentTarget as HTMLSelectElement).value as SceneStudioViewMode });
     });
+    this.root.querySelector<HTMLSelectElement>('#scene-studio-art-source')?.addEventListener('change', (event) => {
+      const artSource = (event.currentTarget as HTMLSelectElement).value as SceneStudioArtSource;
+      rerender({
+        artSource,
+        lineId: artSource === EMI_NEUTRAL_CANDIDATE_ID ? 'VN0024' : defaultLineForPreset[state.presetId],
+      });
+    });
     this.root.querySelector<HTMLSelectElement>('#scene-studio-viewport')?.addEventListener('change', (event) => {
       rerender({ viewportId: (event.currentTarget as HTMLSelectElement).value as SceneStudioViewportId });
     });
@@ -294,12 +347,29 @@ export class SceneStudioController {
       lineId: requested.lineId && sceneStudioDialogueLineIds.includes(requested.lineId) ? requested.lineId : DEFAULT_STATE.lineId,
       textScale: requested.textScale === 'large' ? 'large' : 'normal',
       showGuides: requested.showGuides ?? DEFAULT_STATE.showGuides,
+      artSource: requested.artSource && sceneStudioArtSources.includes(requested.artSource)
+        ? requested.artSource
+        : DEFAULT_STATE.artSource,
+    };
+  }
+
+  private applyArtSource(
+    resolution: ResolvedSceneStaging,
+    artSource: SceneStudioArtSource,
+  ): ResolvedSceneStaging {
+    if (artSource !== EMI_NEUTRAL_CANDIDATE_ID) return resolution;
+    return {
+      ...resolution,
+      actors: resolution.actors.map((actor) => actor.character === emiNeutralCandidate.character
+        ? overrideResolvedActorFrameGeometry(actor, emiNeutralCandidate.geometry)
+        : actor),
     };
   }
 
   private diagnostics(
     background: BackgroundKey,
     resolution: ReturnType<typeof resolveSceneStagingPreset>,
+    artSource: SceneStudioArtSource,
   ): readonly SceneStudioCalibrationIssue[] {
     const stagingIssues: SceneStudioCalibrationIssue[] = validateSceneStagingManifest().map((issue) => ({
       severity: 'error',
@@ -329,16 +399,39 @@ export class SceneStudioController {
       }
       return issues;
     });
-    return [...stagingIssues, ...cameraIssues, ...validateSceneStudioCalibration(), ...sceneStudioManualReviewIssues(background)];
+    const candidateIssues: SceneStudioCalibrationIssue[] = artSource === EMI_NEUTRAL_CANDIDATE_ID
+      ? [
+          ...validateEmiNeutralCandidate().map((detail) => ({
+            severity: 'error' as const,
+            code: 'staging-contract' as const,
+            subject: emiNeutralCandidate.id,
+            detail,
+          })),
+          {
+            severity: 'manual',
+            code: 'visual-style',
+            subject: emiNeutralCandidate.id,
+            detail: 'Emi neutral R1 is a Studio-only candidate awaiting lineup, solo, duo and trio approval; runtime assets remain unchanged.',
+          },
+        ]
+      : [];
+    return [
+      ...stagingIssues,
+      ...cameraIssues,
+      ...candidateIssues,
+      ...validateSceneStudioCalibration(),
+      ...sceneStudioManualReviewIssues(background),
+    ];
   }
 
   private sceneMarkup(
     resolution: ReturnType<typeof resolveSceneStagingPreset>,
     showGuides: boolean,
+    artSource: SceneStudioArtSource,
     t: (key: string, params?: Readonly<Record<string, string | number | boolean>>) => string,
   ): string {
     return [
-      ...resolution.actors.map((actor) => this.actorMarkup(actor, showGuides, t)),
+      ...resolution.actors.map((actor) => this.actorMarkup(actor, showGuides, artSource, t)),
       ...resolution.guestSlots.map((slot) => `<div class="scene-studio-guest-shell" data-slot="${slot.id}" style="${safeBoxStyle(slot.safeBox)};z-index:${slot.zIndex}">
         <span>G</span><b>${t('sceneStudio.guestShell.title')}</b><small>${t('sceneStudio.guestShell.label')}</small>
       </div>`),
@@ -357,10 +450,15 @@ export class SceneStudioController {
   private actorMarkup(
     actor: ReturnType<typeof resolveSceneStagingPreset>['actors'][number],
     showGuides: boolean,
+    artSource: SceneStudioArtSource,
     t: (key: string, params?: Readonly<Record<string, string | number | boolean>>) => string,
   ): string {
     const rig = characterRigs[actor.character];
-    const asset = actor.pose === 'pose-b' ? rig.poseB : expressionAsset(actor.character, actor.expression);
+    const usesCandidate = artSource === EMI_NEUTRAL_CANDIDATE_ID &&
+      actor.character === emiNeutralCandidate.character && actor.pose === 'pose-a';
+    const asset = usesCandidate
+      ? emiNeutralCandidate.asset
+      : actor.pose === 'pose-b' ? rig.poseB : expressionAsset(actor.character, actor.expression);
     const bounds = actor.frameAlphaBounds;
     const canvas = characterProductionManifest.frameCanvas;
     const guideFrameLabel = actor.guideGeometrySource === 'expression-frame'
@@ -380,8 +478,10 @@ export class SceneStudioController {
       `--character-scale:${actor.canonicalCharacterScale}`,
       `--character-y:${actor.canonicalCharacterYPercent}%`,
     ].join(';');
-    return `<div class="scene-studio-actor-slot" data-slot="${actor.slotId}" data-character="${actor.character}" data-role="${actor.role}" data-visual-approval="${actor.visualApproval}" style="${style}">
-      <div class="portrait portrait-static-wrap scene-studio-runtime-portrait" data-shot-scale="${actor.shotScale}" data-runtime-crop="true" data-vertical-anchor="${actor.verticalAnchor}" data-guide-geometry="${actor.guideGeometrySource}" data-eye-line-y="${actor.eyeLineYPx}" data-eye-line-ratio="${actor.eyeLineRatio}" data-alpha-bounds="${bounds.left},${bounds.top},${bounds.right},${bounds.bottom}"><img class="portrait-static" src="${asset}" alt="${t(`character.${actor.character}`)}">${showGuides ? `<i class="scene-studio-actor-alpha-box" aria-hidden="true"><b>${t(`character.${actor.character}`)}</b><small>${t('sceneStudio.guide.frameAlpha')} · ${guideFrameLabel}</small></i><i class="scene-studio-actor-eye-marker" aria-hidden="true"><b>${t('sceneStudio.guide.eyes')} · y=${actor.eyeLineYPx}</b></i>` : ''}</div>
+    const approval = usesCandidate ? emiNeutralCandidate.status : actor.visualApproval;
+    const source = usesCandidate ? emiNeutralCandidate.id : 'runtime';
+    return `<div class="scene-studio-actor-slot" data-slot="${actor.slotId}" data-character="${actor.character}" data-role="${actor.role}" data-visual-approval="${approval}" data-art-source="${source}" style="${style}">
+      <div class="portrait portrait-static-wrap scene-studio-runtime-portrait" data-shot-scale="${actor.shotScale}" data-runtime-crop="true" data-vertical-anchor="${actor.verticalAnchor}" data-guide-geometry="${actor.guideGeometrySource}" data-eye-line-y="${actor.eyeLineYPx}" data-eye-line-ratio="${actor.eyeLineRatio}" data-alpha-bounds="${bounds.left},${bounds.top},${bounds.right},${bounds.bottom}"><img class="portrait-static" src="${asset}" alt="${t(`character.${actor.character}`)}">${showGuides ? `<i class="scene-studio-actor-alpha-box" aria-hidden="true"><b>${t(`character.${actor.character}`)}</b><small>${t('sceneStudio.guide.frameAlpha')} · ${usesCandidate ? emiNeutralCandidate.id : guideFrameLabel}</small></i><i class="scene-studio-actor-eye-marker" aria-hidden="true"><b>${t('sceneStudio.guide.eyes')} · y=${actor.eyeLineYPx}</b></i>` : ''}</div>
     </div>`;
   }
 
@@ -402,14 +502,52 @@ export class SceneStudioController {
     }
   }
 
+  private lineupEntries(artSource: SceneStudioArtSource): readonly Readonly<{
+    character: 'miku' | 'onoe' | 'ayuki' | 'emi';
+    visualHeightPx: number;
+    heightVsReference: number;
+    bottomPaddingPx: number;
+    alphaCenterOffsetPx: number;
+    neutralEyeLineYPx: number;
+    visualApproval: 'approved' | 'rebuild-required' | 'manual-qa';
+    asset: string;
+    candidate: boolean;
+  }>[] {
+    const referenceHeight = characterProductionManifest.characters.onoe.proportion.visualHeightPx;
+    return sceneStudioLineupMetrics().map((metric) => {
+      const candidate = artSource === EMI_NEUTRAL_CANDIDATE_ID && metric.character === emiNeutralCandidate.character;
+      return candidate
+        ? {
+            ...metric,
+            visualHeightPx: emiNeutralCandidate.visualHeightPx,
+            heightVsReference: emiNeutralCandidate.visualHeightPx / referenceHeight,
+            bottomPaddingPx: emiNeutralCandidate.bottomPaddingPx,
+            alphaCenterOffsetPx: emiNeutralCandidate.alphaCenterOffsetPx,
+            neutralEyeLineYPx: emiNeutralCandidate.geometry.eyeLineYPx,
+            visualApproval: emiNeutralCandidate.status,
+            asset: emiNeutralCandidate.asset,
+            candidate: true,
+          }
+        : {
+            ...metric,
+            asset: characterRigs[metric.character].frames.neutral,
+            candidate: false,
+          };
+    });
+  }
+
   private lineupMarkup(
     t: (key: string, params?: Readonly<Record<string, string | number | boolean>>) => string,
+    artSource: SceneStudioArtSource,
   ): string {
-    const metrics = sceneStudioLineupMetrics();
-    return `<div class="scene-studio-lineup" data-lineup-source="upds-character-production-v2">
+    const metrics = this.lineupEntries(artSource);
+    const source = artSource === EMI_NEUTRAL_CANDIDATE_ID
+      ? 'upds-character-production-v2+upds-character-candidate-v1'
+      : 'upds-character-production-v2';
+    return `<div class="scene-studio-lineup" data-lineup-source="${source}" data-art-source="${artSource}">
       <div class="scene-studio-lineup-ruler" aria-hidden="true"><i style="bottom:90%">100%</i><i style="bottom:67.5%">75%</i><i style="bottom:45%">50%</i><i style="bottom:22.5%">25%</i></div>
-      ${metrics.map((metric) => `<div class="scene-studio-lineup-character" data-character="${metric.character}" data-visual-height="${metric.visualHeightPx}" data-bottom-padding="${metric.bottomPaddingPx}" data-eye-line-y="${metric.neutralEyeLineYPx}" data-visual-approval="${metric.visualApproval}">
-        <img src="${characterRigs[metric.character].frames.neutral}" alt="${t(`character.${metric.character}`)}">
+      ${metrics.map((metric) => `<div class="scene-studio-lineup-character" data-character="${metric.character}" data-candidate="${metric.candidate}" data-visual-height="${metric.visualHeightPx}" data-bottom-padding="${metric.bottomPaddingPx}" data-eye-line-y="${metric.neutralEyeLineYPx}" data-visual-approval="${metric.visualApproval}">
+        <img src="${metric.asset}" alt="${t(`character.${metric.character}`)}">
         <span><b>${t(`character.${metric.character}`)}</b><small>${metric.visualHeightPx}px · ${(metric.heightVsReference * 100).toFixed(1)}% · ${metric.visualApproval}</small></span>
       </div>`).join('')}
     </div>`;
@@ -417,10 +555,11 @@ export class SceneStudioController {
 
   private lineupMetricsMarkup(
     t: (key: string, params?: Readonly<Record<string, string | number | boolean>>) => string,
+    artSource: SceneStudioArtSource,
   ): string {
     return `<section class="scene-studio-lineup-metrics">
       <div class="scene-studio-section-title"><div><small>${t('sceneStudio.lineup.eyebrow')}</small><b>${t('sceneStudio.lineup.title')}</b></div><code>1024×1536</code></div>
-      <div>${sceneStudioLineupMetrics().map((metric) => `<article><b>${t(`character.${metric.character}`)}</b><span>${metric.visualHeightPx}px</span><small>${t('sceneStudio.lineup.metric', { ratio: (metric.heightVsReference * 100).toFixed(1), bottom: metric.bottomPaddingPx, center: metric.alphaCenterOffsetPx.toFixed(1) })}</small></article>`).join('')}</div>
+      <div>${this.lineupEntries(artSource).map((metric) => `<article data-candidate="${metric.candidate}"><b>${t(`character.${metric.character}`)}</b><span>${metric.visualHeightPx}px</span><small>${t('sceneStudio.lineup.metric', { ratio: (metric.heightVsReference * 100).toFixed(1), bottom: metric.bottomPaddingPx, center: metric.alphaCenterOffsetPx.toFixed(1) })}</small></article>`).join('')}</div>
       <p>${t('sceneStudio.lineup.note')}</p>
     </section>`;
   }
@@ -467,7 +606,11 @@ export class SceneStudioController {
       viewport: sceneStudioCalibrationManifest.viewports[state.viewportId],
       dialoguePages,
       backgroundCalibration: sceneStudioCalibrationManifest.backgrounds[state.background],
-      actors: resolution.actors.map((actor) => ({
+      candidate: state.artSource === EMI_NEUTRAL_CANDIDATE_ID ? emiNeutralCandidate : null,
+      actors: resolution.actors.map((actor) => {
+        const usesCandidate = state.artSource === EMI_NEUTRAL_CANDIDATE_ID &&
+          actor.character === emiNeutralCandidate.character && actor.pose === 'pose-a';
+        return {
         slotId: actor.slotId,
         character: actor.character,
         expression: actor.expression,
@@ -487,9 +630,12 @@ export class SceneStudioController {
         resolvedEyeLinePercent: actor.resolvedEyeLinePercent,
         headTopPercent: actor.headTopPercent,
         guideGeometrySource: actor.guideGeometrySource,
-        visualApproval: actor.visualApproval,
-      })),
-      lineup: sceneStudioLineupMetrics(),
+        visualApproval: usesCandidate ? emiNeutralCandidate.status : actor.visualApproval,
+        artSource: usesCandidate ? emiNeutralCandidate.id : 'runtime',
+        asset: usesCandidate ? emiNeutralCandidate.asset : undefined,
+      };
+      }),
+      lineup: this.lineupEntries(state.artSource),
       diagnostics,
       acceptance: {
         automaticErrorsMustBeZero: true,

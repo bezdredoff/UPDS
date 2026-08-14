@@ -1,9 +1,9 @@
 # ANM-028B1 R4.1 — Multi-Actor Eye-Line & Frame-Accurate Guides
 
-Status: R4.1 replacement candidate / manual QA required. COMPLETE only after candidate PR CI, `/preview/`
-iPhone QA and manual merge.
+Status: **COMPLETE**. R4.1 passed candidate CI and iPhone visual QA, then merged through PR #96 as
+`c224df25c35c610eb6f83e675f8d95f48b92a3c8`.
 
-Baseline: `main` merge commit `ec0a7247160c256049a5b18c8b5657f0ecd7b7de`
+Implementation baseline was `ec0a7247160c256049a5b18c8b5657f0ecd7b7de`
 (R3 / PR #94). PR #92 contains superseded R1; PR #93 contains rejected R2. R3 was merged as a
 diagnostic baseline, but subsequent iPhone QA rejected its trio framing and invalidated Emi as a
 visual style/full-body reference. R4 / PR #95 corrected trio framing, but its visual QA found two
@@ -242,6 +242,5 @@ detail. Поэтому Emi остаётся runtime fallback, но имеет `v
 14. Playable VN regression: новая shared markup функция не изменила progression, AUTO/SKIP,
     history/settings/save/load behavior.
 
-Только после green candidate CI, Files changed review, этой ручной проверки и merge roadmap может
-считать ANM-028B1 закрытым. Следующий visual slice — ANM-028D0 Emi neutral master; затем production
-focus возвращается к ANM-027F.
+Green candidate CI, Files changed review, iPhone QA and merge are complete; ANM-028B1 is closed.
+Следующий visual slice — ANM-028D0 Emi neutral master; затем production focus возвращается к ANM-027F.

@@ -237,12 +237,12 @@ Macro lock опирается на утверждённый Story Bible и ис�
 ## Immediate execution order
 
 1. **ANM-027E — COMPLETE** — этот lean production contract и traceability gate.
-2. **ANM-028B1 R4.1 — IN QA** — reusable `upds-scene-staging-v1`, shared playable VN frame,
+2. **ANM-028B1 R4.1 — COMPLETE** — reusable `upds-scene-staging-v1`, shared playable VN frame,
    focal-eye-line duo/trio crop, frame-accurate guides, viewport/background calibration,
-   visual-status lineup и read-only QA brief без нового art. R4/PR #95 corrected trio but proved
-   that duo top-lock and stale slot/neutral guides were still invalid.
-3. **ANM-028D0 — NEXT AFTER R4.1 ACCEPTANCE** — один новый Emi neutral full-body master; expressions,
-   Pose B и medallion производятся только после lineup/solo/two-shot/trio approval.
+   visual-status lineup и read-only QA brief без нового art; R4.1 passed iPhone QA and merged as PR #96.
+3. **ANM-028D0 R1 — IN QA** — один isolated Emi neutral full-body candidate with
+   `runtimeEligible: false`; expressions, Pose B и medallion производятся только после
+   lineup/solo/two-shot/trio approval.
 4. **ANM-027F — NEXT AFTER EMI NEUTRAL APPROVAL** — macro lock `0–21` и asset-trigger map на основе Story
    Bible и исходной презентации; staging назначается только из замороженных после visual QA preset IDs.
 5. Завершить 028B Studio/lineup/guest preview; выполнить ограниченный 028C safe-motion proof и 028D

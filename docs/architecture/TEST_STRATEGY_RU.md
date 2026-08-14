@@ -1,6 +1,6 @@
 # UPDS — Test Strategy
 
-Статус: active production test-policy contract, reconciled at ANM-028B1 R4.1.
+Статус: active production test-policy contract, reconciled at accepted ANM-028B1 R4.1 and ANM-028D0 R1 candidate QA.
 
 GitHub CI и `npm run check` остаются authoritative automated gate. Локальный запуск полезен для быстрой обратной связи, но не заменяет GitHub CI.
 
@@ -51,6 +51,9 @@ delivery-lane limits. Не закреплять тестом каждую фор
 - Asset completeness tests cannot assert visual approval. Runtime-integrated masters expose an
   explicit visual status; `rebuild-required` must remain visible in Studio/report/docs until a
   replacement neutral passes manual lineup QA.
+- Candidate tests validate format, real RGBA, measured alpha bounds/eye line, Studio rendering and
+  absence from runtime preload/rig. They cannot promote `manual-qa` to `approved`; that remains the
+  iPhone lineup/solo/duo/trio gate.
 - Focused `story:audit`, `character:audit`, `scene:audit` и `docs:audit` ускоряют проверку, но не заменяют полный
   `npm run check` и GitHub Quality gate.
 

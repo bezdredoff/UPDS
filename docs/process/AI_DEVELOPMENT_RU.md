@@ -1,6 +1,6 @@
 # UPDS — инструкция для AI/разработчика
 
-Status: active workflow aligned with ANM-027E and the ANM-028B1 R4.1 candidate.
+Status: active workflow aligned with ANM-027E, accepted ANM-028B1 R4.1 and the ANM-028D0 R1 candidate.
 
 ## Before editing
 
@@ -128,6 +128,12 @@ navigation/callback seam through the composition root.
   against the displayed PNG before using it in duo/trio focal alignment.
 - A complete runtime set may remain available with `visualApproval: rebuild-required`, but it must
   not seed expressions, poses or new-character prompts until a replacement neutral is approved.
+- Store a pre-approval neutral under `characters/<key>/candidates/<slice>/` with explicit
+  `runtimeEligible: false`; never overwrite the rig or preload catalog just to obtain a preview.
+- If Work produces a visually accepted RGB image but fails true alpha, regenerate one solid
+  chroma-key source and perform only deterministic matte/de-spill/canvas normalization. Validate
+  `1024×1536` RGBA, alpha bounds and edges on both light and dark backgrounds; record the final Work
+  prompt and extraction provenance beside the candidate feature doc.
 - Produce the four additional expression frames from the approved master while preserving body,
   camera, silhouette and alpha bounds.
 - Use a small face ROI and edit one expression at a time. Offline masks/layers/compositing are
