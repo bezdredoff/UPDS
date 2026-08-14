@@ -1,6 +1,7 @@
 # ANM-028D1 R1 — Emi Smile Candidate QA
 
-Status: **manual iPhone QA required**.  
+Status: **approved expression** after manual iPhone QA; merged in PR #98 at
+`1f41ec3bcc7892bd75d09b704e38afe323a3a32e`.  
 Baseline: `main` commit `977ab2d98f33ae3cdf922d0b92685e6ce2e0f25b` (ANM-028D0 R1 / PR #97).
 
 ## Решение
@@ -16,12 +17,13 @@ Neutral R1 прошёл ручной lineup/solo/duo/trio QA и имеет ст�
 - metadata: `src/data/characterCandidates.ts` (`upds-character-candidate-v1`);
 - id: `anm028d1-r1`;
 - expression: `smile`;
-- status: `manual-qa`;
+- status: `approved-expression`;
 - `runtimeEligible: false`;
 - файл отсутствует в `RuntimeAssets` и `characterProductionManifest`.
 
-Scene Studio по умолчанию открывает smile R1. Selector сохраняет три честных источника:
-`runtime`, утверждённый `anm028d0-r1` и проверяемый `anm028d1-r1`.
+Smile R1 остаётся доступным как approved reference. Scene Studio по умолчанию открывает текущий
+serious candidate; selector сохраняет `runtime`, утверждённые `anm028d0-r1`/`anm028d1-r1` и
+текущий expression candidate.
 
 ## Face-ROI contract
 
@@ -54,7 +56,7 @@ Scene Studio по умолчанию открывает smile R1. Selector со�
 Lineup показывает smile рядом с approved Miku/Onoe/Ayuki; переключение на neutral позволяет оценить
 только изменение эмоции, а `runtime` остаётся контролем старого набора.
 
-## Ручной gate
+## Пройденный ручной gate
 
 На `/preview/` проверить `390×844`, затем `320×568` и `430×932`:
 
@@ -65,8 +67,9 @@ Lineup показывает smile рядом с approved Miku/Onoe/Ayuki; пер
 4. Во всех сценах сохраняются focal eye-line, headroom, occlusion диалогом и порядок слоёв.
 5. Guides показывают `330,80,737,1508` и `y=244`; alpha/footline совпадают с neutral.
 
-После approval smile получает статус `approved-expression`, но остаётся вне runtime до атомарной
-замены полного семиассетного Emi set. Следующая эмоция производится отдельным slice.
+Ручной approval подтверждён пользователем после проверки candidate preview. Smile имеет статус
+`approved-expression`, но остаётся вне runtime до атомарной замены полного семиассетного Emi set.
+Следующая эмоция производится отдельным slice.
 
 ## Provenance
 

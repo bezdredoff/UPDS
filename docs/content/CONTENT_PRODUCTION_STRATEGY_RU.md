@@ -244,12 +244,13 @@ Macro lock опирается на утверждённый Story Bible и ис�
    visual-status lineup и read-only QA brief без нового art; R4.1 passed iPhone QA and merged as PR #96.
 3. **ANM-028D0 R1 — COMPLETE** — Emi neutral прошёл lineup/solo/two-shot/trio approval и является
    approved authoring master, но остаётся вне runtime до полного семиассетного set.
-4. **ANM-028D1 R1 — IN QA** — smile производится первым bounded face-ROI slice; остальные эмоции,
-   Pose B и medallion следуют по одному, без массовой генерации и без частичной runtime-подмены.
-5. **ANM-027F — NEXT AFTER EMI SET** — macro lock `0–21` и asset-trigger map на основе Story
+4. **ANM-028D1 R1 — COMPLETE** — smile прошёл iPhone QA и остаётся approved expression вне runtime.
+5. **ANM-028D2 R1 — IN QA** — serious производится через три bounded face ROI; surprised,
+   embarrassed, Pose B и medallion следуют по одному, без массовой генерации и частичной runtime-подмены.
+6. **ANM-027F — NEXT AFTER EMI SET** — macro lock `0–21` и asset-trigger map на основе Story
    Bible и исходной презентации; staging назначается только из замороженных после visual QA preset IDs.
-6. Завершить 028B Studio/lineup/guest preview; выполнить ограниченный 028C safe-motion proof и 028D
+7. Завершить 028B Studio/lineup/guest preview; выполнить ограниченный 028C safe-motion proof и 028D
    production integration в порядке, утверждённом roadmap.
-7. **ANM-027G** — screenplay/import пакетами по три эпизода, начиная с `4–6`, с параллельным
+8. **ANM-027G** — screenplay/import пакетами по три эпизода, начиная с `4–6`, с параллельным
    производством только тех assets, которые прошли trigger budget.
-8. ANM-029 mass localization и ANM-030 mass art — только после полного canonical content lock.
+9. ANM-029 mass localization и ANM-030 mass art — только после полного canonical content lock.

@@ -122,12 +122,13 @@ precomposed RGBA frames и никогда не собирает лицо overlay
 
 ## Production status
 
-На baseline ANM-028D1 R1:
+На baseline ANM-028D2 R1:
 - runtime production: Miku, Onoe, Ayuki, Emi;
 - visual approved: Miku, Onoe, Ayuki;
 - visual rebuild required: Emi;
 - approved neutral authoring master: Emi `anm028d0-r1`, `approved-master`, `runtimeEligible: false`;
-- Studio-only smile candidate: Emi `anm028d1-r1`, `manual-qa`, `runtimeEligible: false`;
+- approved smile expression: Emi `anm028d1-r1`, `approved-expression`, `runtimeEligible: false`;
+- Studio-only serious candidate: Emi `anm028d2-r1`, `manual-qa`, `runtimeEligible: false`;
 - planned: Kentaro, Norihiro, Mayu.
 
 `planned` означает «asset set ещё не произведён». Для planned-персонажа запрещено объявлять несуществующие runtime asset paths ради прохождения интерфейса. Placeholder остаётся допустим до отдельного production integration slice.
@@ -142,8 +143,9 @@ paths или `upds-character-production-v2`. Studio обязан явно пок
 для A/B. Только отдельный approved integration slice может перенести master в canonical rig.
 
 ANM-028D0 Emi neutral R1: `330,80,737,1508`, height `1428 px`, bottom padding `28 px`, eye line
-`244 px`, status `approved-master`. ANM-028D1 smile наследует эту геометрию и меняет только bounded
-face ROI, status `manual-qa`. Оба файла остаются вне runtime до готовности полного семиассетного set.
+`244 px`, status `approved-master`. ANM-028D1 smile наследует эту геометрию и меняет один bounded
+face ROI, status `approved-expression`. ANM-028D2 serious меняет три bounded ROI, status `manual-qa`.
+Все файлы остаются вне runtime до готовности полного семиассетного set.
 
 ## VN staging / virtual camera
 

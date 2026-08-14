@@ -47,8 +47,8 @@ describe('ANM-028B1 Scene Studio foundation', () => {
 
     app.renderSceneStudio();
     expect(root.innerHTML).toContain('data-scene-preset="solo-close"');
-    expect(root.innerHTML).toContain('data-art-source="anm028d1-r1"');
-    expect(root.innerHTML).toContain('./assets/characters/emi/candidates/anm028d1/frame-smile-r1.png');
+    expect(root.innerHTML).toContain('data-art-source="anm028d2-r1"');
+    expect(root.innerHTML).toContain('./assets/characters/emi/candidates/anm028d2/frame-serious-r1.png');
     expect(root.innerHTML).toContain('data-alpha-bounds="330,80,737,1508"');
     expect(root.innerHTML).toContain('data-eye-line-y="244"');
     expect(root.innerHTML).toContain('upds-scene-staging-v1');
@@ -85,7 +85,7 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML.match(/scene-studio-actor-eye-marker/g)).toHaveLength(2);
     expect(root.innerHTML).toContain('data-alpha-bounds="330,80,737,1508"');
     expect(root.innerHTML).toContain('data-guide-geometry="expression-frame"');
-    expect(root.innerHTML).toContain('SELECTED FRAME ALPHA · anm028d1-r1');
+    expect(root.innerHTML).toContain('SELECTED FRAME ALPHA · anm028d2-r1');
     expect(root.innerHTML).toContain('data-guide="face-lane"');
 
     studio.render({ presetId: 'trio-central-speaker', background: 'clubroom', showGuides: true });
@@ -107,7 +107,7 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML.match(/data-character=/g)).toHaveLength(2);
     expect(root.innerHTML).toContain('data-character="miku"');
     expect(root.innerHTML).toContain('data-character="emi"');
-    expect(root.innerHTML).toContain('data-art-source="anm028d1-r1"');
+    expect(root.innerHTML).toContain('data-art-source="anm028d2-r1"');
     expect(root.innerHTML.match(/data-runtime-crop="true"/g)).toHaveLength(2);
     expect(root.innerHTML).toContain('data-shot-scale="0.84"');
     expect(root.innerHTML).not.toContain('scene-studio-character-shot');
@@ -122,7 +122,7 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML).not.toContain('/characters/guest/');
   });
 
-  it('renders the smile candidate lineup and measured warnings without changing production scale', () => {
+  it('renders the serious candidate lineup and measured warnings without changing production scale', () => {
     const root = new FakeRoot();
     const services = createRuntimeServices();
     const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
@@ -141,6 +141,19 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML).toContain('data-visual-approval="manual-qa"');
     expect(root.innerHTML).toContain('data-scene-viewport="320x568"');
     expect(root.innerHTML).toContain('text-large');
+  });
+
+  it('keeps the approved smile expression available beside the neutral anchor', () => {
+    const root = new FakeRoot();
+    const services = createRuntimeServices();
+    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
+    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
+
+    studio.render({ presetId: 'solo-close', artSource: 'anm028d1-r1' });
+    expect(root.innerHTML).toContain('data-art-source="anm028d1-r1"');
+    expect(root.innerHTML).toContain('./assets/characters/emi/candidates/anm028d1/frame-smile-r1.png');
+    expect(root.innerHTML).toContain('data-visual-approval="approved-expression"');
+    expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d2/frame-serious-r1.png');
   });
 
   it('keeps the approved neutral master available as the expression anchor', () => {
@@ -168,5 +181,6 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML).toContain('data-visual-approval="rebuild-required"');
     expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d0/neutral-r1.png');
     expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d1/frame-smile-r1.png');
+    expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d2/frame-serious-r1.png');
   });
 });
