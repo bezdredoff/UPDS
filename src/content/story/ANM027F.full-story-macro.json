@@ -1,0 +1,1940 @@
+{
+  "format": "upds-story-macro-lock-v1",
+  "feature": "ANM-027F",
+  "status": "locked-for-screenplay-authoring",
+  "baseline": "f2a5f10fa232c0da0bb00f4f22803550b770641c",
+  "authorityOrder": [
+    "ANM-001 Story Bible v0.2",
+    "ANM-002 22-Episode Plot v0.1",
+    "ANM-003 authored screenplay for slots 0-3",
+    "UPDS.pptx historical structural DNA"
+  ],
+  "slotRange": [
+    0,
+    21
+  ],
+  "commonSlots": [
+    0,
+    18
+  ],
+  "endingPivotSlot": 18,
+  "endingSlots": [
+    19,
+    20,
+    21
+  ],
+  "screenplayBatches": [
+    {
+      "id": "4-6",
+      "slots": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "7-9",
+      "slots": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "10-12",
+      "slots": [
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "id": "13-15",
+      "slots": [
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "id": "16-18",
+      "slots": [
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "id": "19-21",
+      "slots": [
+        19,
+        20,
+        21
+      ]
+    }
+  ],
+  "castTiers": {
+    "stageCore": [
+      "miku",
+      "onoe",
+      "ayuki"
+    ],
+    "recurringStage": [
+      "emi",
+      "kentaro",
+      "norihiro",
+      "mayu",
+      "rina",
+      "kurose"
+    ],
+    "episodeGuest": [
+      "hinata",
+      "gen",
+      "aoi",
+      "kubo",
+      "kubo-mother",
+      "vincent"
+    ],
+    "extrasArchetypes": [
+      "club-representatives",
+      "club-athlete",
+      "club-captain",
+      "occult-members",
+      "service-worker",
+      "students",
+      "gymnast"
+    ]
+  },
+  "locationFamilies": [
+    {
+      "id": "club-admin",
+      "status": "existing-master-family",
+      "firstSlot": 0,
+      "existingAssets": [
+        "BG_CLUBROOM_DAY"
+      ],
+      "requiredVariants": [
+        "clubroom-day",
+        "clubroom-night",
+        "student-council-auditorium",
+        "disciplinary-assembly"
+      ]
+    },
+    {
+      "id": "sports-locker",
+      "status": "existing-master-family",
+      "firstSlot": 0,
+      "existingAssets": [
+        "BG_LOCKER_ATHLETICS_DAY"
+      ],
+      "requiredVariants": [
+        "athletics-locker",
+        "basketball-locker",
+        "combat-club-hall",
+        "old-gym-night",
+        "gymnastics-costume"
+      ]
+    },
+    {
+      "id": "pool",
+      "status": "existing-master-family",
+      "firstSlot": 2,
+      "existingAssets": [
+        "BG_POOL_LOCKER_EVENING"
+      ],
+      "requiredVariants": [
+        "pool-locker-evening"
+      ]
+    },
+    {
+      "id": "apartment-workshop",
+      "status": "existing-master-family",
+      "firstSlot": 1,
+      "existingAssets": [
+        "BG_KENTARO_APARTMENT_EVENING",
+        "BG_NORIHIRO_APARTMENT_NIGHT"
+      ],
+      "requiredVariants": [
+        "kentaro-apartment",
+        "norihiro-apartment",
+        "textile-workshop"
+      ]
+    },
+    {
+      "id": "lab-asterion",
+      "status": "new-master-required",
+      "firstSlot": 7,
+      "existingAssets": [],
+      "requiredVariants": [
+        "smart-textile-lab",
+        "transfer-point",
+        "server-room"
+      ]
+    },
+    {
+      "id": "laundry-service",
+      "status": "new-master-required",
+      "firstSlot": 8,
+      "existingAssets": [],
+      "requiredVariants": [
+        "central-laundry",
+        "lost-found-warehouse",
+        "maintenance-room",
+        "anonymous-return-counter"
+      ]
+    },
+    {
+      "id": "campus-exterior",
+      "status": "new-master-required",
+      "firstSlot": 11,
+      "existingAssets": [],
+      "requiredVariants": [
+        "service-yard",
+        "campus-path",
+        "campus-street"
+      ]
+    },
+    {
+      "id": "old-building-finale",
+      "status": "new-master-required",
+      "firstSlot": 15,
+      "existingAssets": [],
+      "requiredVariants": [
+        "abandoned-laundry",
+        "old-archive",
+        "service-tunnel"
+      ]
+    }
+  ],
+  "match3Archetypes": [
+    {
+      "id": "locker-columns",
+      "description": "Вертикальные секции/шкафчики, многослойные блокеры и один ключевой drop.",
+      "objectiveKinds": [
+        "clearBlockers",
+        "collect",
+        "drop"
+      ]
+    },
+    {
+      "id": "workbench-clusters",
+      "description": "Кластерные стопки/коробки вокруг рабочей зоны, сортировка и связанный dropGroup.",
+      "objectiveKinds": [
+        "clearBlockers",
+        "collect",
+        "dropGroup"
+      ]
+    },
+    {
+      "id": "service-lanes",
+      "description": "Маршрутные полосы, контейнеры/ключи и продвижение ингредиента через сервисную цепочку.",
+      "objectiveKinds": [
+        "clearBlockers",
+        "drop",
+        "dropGroup"
+      ]
+    },
+    {
+      "id": "ordered-grid",
+      "description": "Восстановление порядка/таймлайна на преимущественно открытой сетке.",
+      "objectiveKinds": [
+        "collect",
+        "clearBlockers",
+        "drop"
+      ]
+    },
+    {
+      "id": "signal-cross",
+      "description": "Центральная зона сигнала с помехами/защитными слоями вокруг неё.",
+      "objectiveKinds": [
+        "clearBlockers",
+        "collect",
+        "drop"
+      ]
+    },
+    {
+      "id": "archive-rows",
+      "description": "Горизонтальные ряды пломб/пакетов/записей с последовательным раскрытием.",
+      "objectiveKinds": [
+        "clearBlockers",
+        "collect",
+        "drop"
+      ]
+    }
+  ],
+  "allowedMatch3Mechanics": [
+    "collect",
+    "clearBlockers",
+    "drop",
+    "dropGroup",
+    "multi-layer-blockers",
+    "board-holes",
+    "spawn-weights",
+    "initial-layout",
+    "special-combos"
+  ],
+  "heroClueCloseups": [
+    {
+      "id": "conductive-seam",
+      "slot": 3,
+      "subject": "серебристый проводящий шов"
+    },
+    {
+      "id": "asterion-transfer-chain",
+      "slot": 11,
+      "subject": "контейнер Asterion и цепочка передачи"
+    },
+    {
+      "id": "second-skin-tag",
+      "slot": 12,
+      "subject": "активная метка Second Skin"
+    },
+    {
+      "id": "rina-catalog",
+      "slot": 17,
+      "subject": "каталог Рины"
+    },
+    {
+      "id": "post-rina-active-tag",
+      "slot": 18,
+      "subject": "новая метка после отстранения Рины"
+    },
+    {
+      "id": "server-evidence",
+      "slot": 20,
+      "subject": "серверные логи и доказательство подмены согласия"
+    }
+  ],
+  "slots": [
+    {
+      "slot": 0,
+      "title": "Дело класса U",
+      "act": "I",
+      "tone": "E4/C5",
+      "branch": "common",
+      "contentStatus": "authored",
+      "beat": "Знакомство с клубом и Эми; выборочная пропажа выводит к центральной прачечной.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 1
+      },
+      "locations": [
+        {
+          "family": "club-admin",
+          "variant": "clubroom-day"
+        },
+        {
+          "family": "sports-locker",
+          "variant": "athletics-locker"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "emi",
+          "tier": "recurring-stage"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "trio-central-speaker",
+        "two-shot-alliance",
+        "two-shot-conflict",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "selective-missing",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "production-configured",
+        "archetype": "locker-columns",
+        "objectiveKinds": [
+          "clearBlockers",
+          "drop"
+        ]
+      },
+      "choiceGate": "CHOICE_00",
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [
+          "mayu"
+        ],
+        "guestPackages": [],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 1,
+      "title": "Чужая коллекция",
+      "act": "I",
+      "tone": "E5/C5",
+      "branch": "common",
+      "contentStatus": "authored",
+      "beat": "Кэнтаро выглядит виновным, но проверяемые таймкоды превращают коллекцию в реквизит и оставляют сервисную тележку общей связью.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 2
+      },
+      "locations": [
+        {
+          "family": "apartment-workshop",
+          "variant": "kentaro-apartment"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "kentaro",
+          "tier": "recurring-stage"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "guest-testimony-card",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "kentaro-alibi",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "production-configured",
+        "archetype": "workbench-clusters",
+        "objectiveKinds": [
+          "clearBlockers",
+          "drop"
+        ]
+      },
+      "choiceGate": null,
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [
+          "kentaro"
+        ],
+        "guestPackages": [],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 2,
+      "title": "Мокрые показания",
+      "act": "I",
+      "tone": "E4/C5",
+      "branch": "common",
+      "contentStatus": "authored",
+      "beat": "Смешанные мужские и женские пропажи ломают гипотезу о вкусе вора; сервисный доступ становится важнее владельца.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 3
+      },
+      "locations": [
+        {
+          "family": "pool",
+          "variant": "pool-locker-evening"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "norihiro",
+          "tier": "recurring-stage"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "two-shot-alliance",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "mixed-targets",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "production-configured",
+        "archetype": "service-lanes",
+        "objectiveKinds": [
+          "clearBlockers",
+          "drop"
+        ]
+      },
+      "choiceGate": null,
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [
+          "norihiro"
+        ],
+        "guestPackages": [],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 3,
+      "title": "Розовые тапочки",
+      "act": "I",
+      "tone": "E5/C5",
+      "branch": "common",
+      "contentStatus": "authored",
+      "beat": "Норихиро оправдан; новый повреждённый шов впервые связывает бытовую пропажу с технической системой.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 4
+      },
+      "locations": [
+        {
+          "family": "apartment-workshop",
+          "variant": "norihiro-apartment"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "norihiro",
+          "tier": "recurring-stage"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "two-shot-alliance",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "conductive-seam",
+        "presentation": "hero-closeup"
+      },
+      "match3": {
+        "status": "production-configured",
+        "archetype": "ordered-grid",
+        "objectiveKinds": [
+          "collect",
+          "clearBlockers",
+          "drop"
+        ]
+      },
+      "choiceGate": null,
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [],
+        "heroClueCloseups": [
+          "conductive-seam"
+        ],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 4,
+      "title": "Чрезвычайное бельевое совещание",
+      "act": "II",
+      "tone": "E4/C5",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Семь клубов превращают слух в системное дело; календарь стирки показывает общий ритм пропаж.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 5
+      },
+      "locations": [
+        {
+          "family": "club-admin",
+          "variant": "student-council-auditorium"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "mayu",
+          "tier": "recurring-stage"
+        },
+        {
+          "id": "club-representatives",
+          "tier": "extras"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "trio-central-speaker",
+        "trio-reaction",
+        "guest-testimony-card",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "laundry-cadence",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "ordered-grid",
+        "objectiveKinds": [
+          "collect",
+          "clearBlockers",
+          "drop"
+        ]
+      },
+      "choiceGate": "meeting-tone",
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 5,
+      "title": "Заслон для вора",
+      "act": "II",
+      "tone": "E4/C4",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Баскетбольная партия окончательно ломает корреляцию с размером, стилем и гендером; сервисная строчка ведёт к ремонту.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 6
+      },
+      "locations": [
+        {
+          "family": "sports-locker",
+          "variant": "basketball-locker"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "hinata",
+          "tier": "episode-guest"
+        },
+        {
+          "id": "club-athlete",
+          "tier": "extras"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "guest-testimony-card",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "service-stitch",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "locker-columns",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "drop"
+        ]
+      },
+      "choiceGate": null,
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [
+          "hinata"
+        ],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 6,
+      "title": "Мастерская подозрительного размера",
+      "act": "II",
+      "tone": "E5/C5",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Профессиональная мастерская оправдывает Хинату и доказывает, что серебристый шов появился после ремонта, в прачечной.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 7
+      },
+      "locations": [
+        {
+          "family": "apartment-workshop",
+          "variant": "textile-workshop"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "hinata",
+          "tier": "episode-guest"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "guest-testimony-card",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "post-repair-seam",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "workbench-clusters",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "dropGroup"
+        ]
+      },
+      "choiceGate": "apology-to-hinata",
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 7,
+      "title": "Человек, у которого есть объяснение",
+      "act": "II",
+      "tone": "E3/C4",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Куросэ правдоподобно объясняет нить, но официальный реестр не содержит назначений на личные вещи.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 8
+      },
+      "locations": [
+        {
+          "family": "lab-asterion",
+          "variant": "smart-textile-lab"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "kurose",
+          "tier": "recurring-stage"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "two-shot-alliance",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "asterion-thread",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "signal-cross",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "drop"
+        ]
+      },
+      "choiceGate": null,
+      "assetTriggers": {
+        "newMasterFamilies": [
+          "lab-asterion"
+        ],
+        "fullStageProduction": [
+          "kurose"
+        ],
+        "guestPackages": [],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 8,
+      "title": "Восемьдесят семь пакетов",
+      "act": "II",
+      "tone": "E4/C5",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Lost-and-found показывает масштаб; Рина вводится как точный хранитель системы, а целые диапазоны пакетов исчезают из журнала.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 9
+      },
+      "locations": [
+        {
+          "family": "laundry-service",
+          "variant": "lost-found-warehouse"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "rina",
+          "tier": "recurring-stage"
+        },
+        {
+          "id": "mayu",
+          "tier": "recurring-stage"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "trio-central-speaker",
+        "two-shot-alliance",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "missing-package-ranges",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "service-lanes",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "drop"
+        ]
+      },
+      "choiceGate": null,
+      "assetTriggers": {
+        "newMasterFamilies": [
+          "laundry-service"
+        ],
+        "fullStageProduction": [
+          "rina"
+        ],
+        "guestPackages": [],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 9,
+      "title": "Король потерянных носков",
+      "act": "II",
+      "tone": "E4/C5",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Универсальный ключ оправдывает Гэна, но ночные контейнеры Asterion и срочная передача тележки Рине дают физический маршрут.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 10
+      },
+      "locations": [
+        {
+          "family": "laundry-service",
+          "variant": "maintenance-room"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "gen",
+          "tier": "episode-guest"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "guest-testimony-card",
+        "two-shot-conflict",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "night-containers",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "service-lanes",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "dropGroup"
+        ]
+      },
+      "choiceGate": "protect-gen-source",
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [
+          "gen"
+        ],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 10,
+      "title": "Чёрный пояс, белые трусы",
+      "act": "III",
+      "tone": "E4/C4",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Та же серебристая система обнаруживается на форме и аксессуарах; бельё оказывается основной, но не единственной выборкой.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 11
+      },
+      "locations": [
+        {
+          "family": "sports-locker",
+          "variant": "combat-club-hall"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "aoi",
+          "tier": "episode-guest"
+        },
+        {
+          "id": "kentaro",
+          "tier": "recurring-stage"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "guest-testimony-card",
+        "trio-reaction",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "control-sample-gear",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "locker-columns",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "drop"
+        ]
+      },
+      "choiceGate": null,
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [
+          "aoi"
+        ],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 11,
+      "title": "Самый заметный тайный груз",
+      "act": "III",
+      "tone": "E3/C4",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Фото Кэнтаро восстанавливают путь контейнеров из прачечной в Asterion и обратно без отдельной отметки.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 12
+      },
+      "locations": [
+        {
+          "family": "campus-exterior",
+          "variant": "service-yard"
+        },
+        {
+          "family": "lab-asterion",
+          "variant": "transfer-point"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "kentaro",
+          "tier": "recurring-stage"
+        },
+        {
+          "id": "service-worker",
+          "tier": "extras"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "two-shot-alliance",
+        "guest-testimony-card",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "lab-transfer-chain",
+        "presentation": "hero-closeup"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "service-lanes",
+        "objectiveKinds": [
+          "clearBlockers",
+          "dropGroup",
+          "drop"
+        ]
+      },
+      "choiceGate": "photo-permission",
+      "assetTriggers": {
+        "newMasterFamilies": [
+          "campus-exterior"
+        ],
+        "fullStageProduction": [],
+        "guestPackages": [],
+        "heroClueCloseups": [
+          "asterion-transfer-chain"
+        ],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 12,
+      "title": "ПанцуИтер существует?!",
+      "act": "III",
+      "tone": "E5/C5",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Оккультная приманка разоблачает не демона, а активную метку и внутреннее имя протокола Second Skin.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 13
+      },
+      "locations": [
+        {
+          "family": "sports-locker",
+          "variant": "old-gym-night"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "occult-members",
+          "tier": "extras"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "trio-reaction",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "second-skin-tag",
+        "presentation": "hero-closeup"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "signal-cross",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "drop"
+        ]
+      },
+      "choiceGate": "publish-tag",
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [],
+        "heroClueCloseups": [
+          "second-skin-tag"
+        ],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 13,
+      "title": "Под бронёй",
+      "act": "III",
+      "tone": "E4/C4",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Закрытый список пилота связывает всех подтверждённых владельцев; Кубо оказывается посредником Рины, а не вором.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 14
+      },
+      "locations": [
+        {
+          "family": "sports-locker",
+          "variant": "combat-club-hall"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "kubo",
+          "tier": "episode-guest"
+        },
+        {
+          "id": "club-captain",
+          "tier": "extras"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "guest-testimony-card",
+        "two-shot-conflict",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "pilot-participant-codes",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "locker-columns",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "drop"
+        ]
+      },
+      "choiceGate": null,
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [
+          "kubo"
+        ],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 14,
+      "title": "Дом, где бельё ни при чём",
+      "act": "III",
+      "tone": "E5/C5",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Семейное ателье оправдывает Кубо и впервые доказывает, что Рина искала серебристые швы ещё до публичных краж.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 15
+      },
+      "locations": [
+        {
+          "family": "apartment-workshop",
+          "variant": "textile-workshop"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "kubo",
+          "tier": "episode-guest"
+        },
+        {
+          "id": "kubo-mother",
+          "tier": "episode-guest"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [
+        "ray-cat"
+      ],
+      "stagingPresets": [
+        "guest-testimony-card",
+        "two-shot-conflict",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "rina-pretheft-search",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "workbench-clusters",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "dropGroup"
+        ]
+      },
+      "choiceGate": "family-ledger-permission",
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [
+          "kubo-mother"
+        ],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 15,
+      "title": "Кот с вещественным доказательством",
+      "act": "III",
+      "tone": "E3/C4",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Рэй приводит команду к заброшенной прачечной и анонимной подсказке о согласии, переводя расследование к тайному маршруту Рины.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 16
+      },
+      "locations": [
+        {
+          "family": "campus-exterior",
+          "variant": "campus-path"
+        },
+        {
+          "family": "old-building-finale",
+          "variant": "abandoned-laundry"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "students",
+          "tier": "extras"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [
+        "ray-cat"
+      ],
+      "stagingPresets": [
+        "trio-reaction",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "consent-note-route",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "service-lanes",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "dropGroup"
+        ]
+      },
+      "choiceGate": null,
+      "assetTriggers": {
+        "newMasterFamilies": [
+          "old-building-finale"
+        ],
+        "fullStageProduction": [],
+        "guestPackages": [],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 16,
+      "title": "Розовые ленты не лгут",
+      "act": "III",
+      "tone": "E5/C5",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Сканер подтверждает Second Skin и показывает новую активацию после ухода Рины; её записка открывает путь к архиву.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 17
+      },
+      "locations": [
+        {
+          "family": "sports-locker",
+          "variant": "gymnastics-costume"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "vincent",
+          "tier": "episode-guest"
+        },
+        {
+          "id": "gymnast",
+          "tier": "extras"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "guest-testimony-card",
+        "trio-reaction",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "post-rina-activation",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "signal-cross",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "drop"
+        ]
+      },
+      "choiceGate": "trust-vincent",
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [
+          "vincent"
+        ],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 17,
+      "title": "Самый аккуратный преступник",
+      "act": "IV",
+      "tone": "E2/C3",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Архив раскрывает Рину как физического похитителя; запечатанное хранение показывает сохранение доказательств, не отменяя вреда.",
+      "transition": {
+        "kind": "next",
+        "targetSlot": 18
+      },
+      "locations": [
+        {
+          "family": "old-building-finale",
+          "variant": "old-archive"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "rina",
+          "tier": "recurring-stage"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "solo-close",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "rina-catalog",
+        "presentation": "hero-closeup"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "archive-rows",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "drop"
+        ]
+      },
+      "choiceGate": null,
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [],
+        "heroClueCloseups": [
+          "rina-catalog"
+        ],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 18,
+      "title": "Вор, который пытался остановить кражу",
+      "act": "IV",
+      "tone": "E2/C2",
+      "branch": "common",
+      "contentStatus": "macro-locked",
+      "beat": "Признание Рины и восстановленная временная линия доказывают, что Куросэ продолжил Second Skin независимо от неё; Мику формулирует три стратегии финала.",
+      "transition": {
+        "kind": "ending-choice",
+        "targets": [
+          19,
+          20,
+          21
+        ]
+      },
+      "locations": [
+        {
+          "family": "old-building-finale",
+          "variant": "old-archive"
+        },
+        {
+          "family": "club-admin",
+          "variant": "clubroom-night"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "rina",
+          "tier": "recurring-stage"
+        },
+        {
+          "id": "emi",
+          "tier": "recurring-stage"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "trio-central-speaker",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "continued-project-proof",
+        "presentation": "hero-closeup"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "ordered-grid",
+        "objectiveKinds": [
+          "collect",
+          "clearBlockers",
+          "drop"
+        ]
+      },
+      "choiceGate": "final-strategy",
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [],
+        "heroClueCloseups": [
+          "post-rina-active-tag"
+        ],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 19,
+      "title": "Вор пойман",
+      "act": "ENDING",
+      "tone": "E3/C3",
+      "branch": "ending-B",
+      "contentStatus": "macro-locked",
+      "beat": "Команда сообщает только доказанные кражи Рины, возвращает вещи приватно и получает удобное закрытие дела, пока система остаётся.",
+      "transition": {
+        "kind": "ending",
+        "endingId": "B"
+      },
+      "locations": [
+        {
+          "family": "laundry-service",
+          "variant": "anonymous-return-counter"
+        },
+        {
+          "family": "club-admin",
+          "variant": "clubroom-day"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "rina",
+          "tier": "recurring-stage"
+        },
+        {
+          "id": "emi",
+          "tier": "recurring-stage"
+        },
+        {
+          "id": "mayu",
+          "tier": "recurring-stage"
+        },
+        {
+          "id": "kurose",
+          "tier": "recurring-stage"
+        }
+      ],
+      "conditionalCast": [],
+      "supportElements": [],
+      "stagingPresets": [
+        "trio-central-speaker",
+        "two-shot-conflict",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "case-closed-stitch",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "archive-rows",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "drop"
+        ]
+      },
+      "choiceGate": null,
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 20,
+      "title": "Под прачечной",
+      "act": "ENDING",
+      "tone": "E2/C3",
+      "branch": "ending-A",
+      "contentStatus": "macro-locked",
+      "beat": "Сервисный тоннель и серверные логи доказывают скрытую маркировку, подмену согласий и продолжение пилота; лучшая концовка требует накопленного доверия и доказательств.",
+      "transition": {
+        "kind": "ending",
+        "endingId": "A",
+        "successRequirement": {
+          "evidence": 7,
+          "teamTrust": 2,
+          "sourceTrust": 2
+        }
+      },
+      "locations": [
+        {
+          "family": "old-building-finale",
+          "variant": "service-tunnel"
+        },
+        {
+          "family": "lab-asterion",
+          "variant": "server-room"
+        },
+        {
+          "family": "club-admin",
+          "variant": "disciplinary-assembly"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "kurose",
+          "tier": "recurring-stage"
+        },
+        {
+          "id": "rina",
+          "tier": "recurring-stage"
+        },
+        {
+          "id": "emi",
+          "tier": "recurring-stage"
+        },
+        {
+          "id": "mayu",
+          "tier": "recurring-stage"
+        }
+      ],
+      "conditionalCast": [
+        "kentaro",
+        "kubo",
+        "vincent"
+      ],
+      "supportElements": [],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "trio-central-speaker",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "server-logs-consent",
+        "presentation": "hero-closeup"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "service-lanes",
+        "objectiveKinds": [
+          "clearBlockers",
+          "collect",
+          "drop"
+        ]
+      },
+      "choiceGate": null,
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [],
+        "heroClueCloseups": [
+          "server-evidence"
+        ],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    },
+    {
+      "slot": 21,
+      "title": "Идеальный подозреваемый",
+      "act": "ENDING",
+      "tone": "E4/C5",
+      "branch": "ending-C",
+      "contentStatus": "macro-locked",
+      "beat": "Клуб сознательно строит убедительную ложную презентацию, удаляя противоречия; получает известность ценой чужой репутации и истины.",
+      "transition": {
+        "kind": "ending",
+        "endingId": "C"
+      },
+      "locations": [
+        {
+          "family": "club-admin",
+          "variant": "disciplinary-assembly"
+        },
+        {
+          "family": "club-admin",
+          "variant": "clubroom-day"
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core"
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core"
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core"
+        },
+        {
+          "id": "mayu",
+          "tier": "recurring-stage"
+        },
+        {
+          "id": "kurose",
+          "tier": "recurring-stage"
+        }
+      ],
+      "conditionalCast": [
+        "kentaro",
+        "norihiro",
+        "gen"
+      ],
+      "supportElements": [],
+      "stagingPresets": [
+        "trio-reaction",
+        "guest-testimony-card",
+        "evidence-cutaway"
+      ],
+      "evidence": {
+        "id": "discarded-contradictions",
+        "presentation": "native-ui"
+      },
+      "match3": {
+        "status": "planned-config",
+        "archetype": "ordered-grid",
+        "objectiveKinds": [
+          "collect",
+          "clearBlockers",
+          "drop"
+        ]
+      },
+      "choiceGate": null,
+      "assetTriggers": {
+        "newMasterFamilies": [],
+        "fullStageProduction": [],
+        "guestPackages": [],
+        "heroClueCloseups": [],
+        "uniqueCg": null,
+        "newMechanic": null,
+        "budgetException": null
+      }
+    }
+  ]
+}
