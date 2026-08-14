@@ -29,6 +29,9 @@ export const match3TilePresentationProfiles: Readonly<Record<Match3TilePresentat
   'kendo-pilot': { artDirectionTags: ['kendo-hall', 'armor-racks', 'pilot-codes'] },
   'kubo-atelier': { artDirectionTags: ['family-atelier', 'order-ledger', 'silver-seam'] },
   'abandoned-laundry': { artDirectionTags: ['old-laundry', 'service-route', 'consent-note'] },
+  'gymnastics-scanner': { artDirectionTags: ['gymnastics', 'pink-ribbons', 'handheld-scanner'] },
+  'rina-archive': { artDirectionTags: ['old-archive', 'sealed-evidence', 'catalog'] },
+  'final-timeline': { artDirectionTags: ['clubroom-night', 'timeline', 'strategy-pivot'] },
 };
 
 export type ResolvedMatch3TilePresentation = Readonly<{

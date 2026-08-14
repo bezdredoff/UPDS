@@ -41,7 +41,10 @@ export type BackgroundKey =
   | 'asterionTransferPoint'
   | 'oldGymNight'
   | 'campusPath'
-  | 'abandonedLaundry';
+  | 'abandonedLaundry'
+  | 'gymnasticsCostume'
+  | 'oldArchive'
+  | 'clubroomNight';
 
 const conditionalSpeakerPattern = /^\{IF\s+([^}]+)\}\s*/;
 
@@ -149,6 +152,12 @@ export const sceneMeta: readonly SceneMeta[] = [
   { id: 'VN_SCENE_30_E14_POST', title: 'Рина знала раньше', location: 'Семейное ателье Кубо', defaultBackground: 'textileWorkshop' },
   { id: 'VN_SCENE_31_E15_PRE', title: 'Кот с вещественным доказательством', location: 'Кампус → заброшенная прачечная', defaultBackground: 'campusPath' },
   { id: 'VN_SCENE_32_E15_POST', title: 'Маршрут согласия', location: 'Заброшенная прачечная', defaultBackground: 'abandonedLaundry' },
+  { id: 'VN_SCENE_33_E16_PRE', title: 'Розовые ленты не лгут', location: 'Зал художественной гимнастики', defaultBackground: 'gymnasticsCostume' },
+  { id: 'VN_SCENE_34_E16_POST', title: 'Новая активация', location: 'Костюмерная гимнастического зала', defaultBackground: 'gymnasticsCostume' },
+  { id: 'VN_SCENE_35_E17_PRE', title: 'Самый аккуратный преступник', location: 'Старый архив прачечной', defaultBackground: 'oldArchive' },
+  { id: 'VN_SCENE_36_E17_POST', title: 'Каталог Рины', location: 'Старый архив прачечной', defaultBackground: 'oldArchive' },
+  { id: 'VN_SCENE_37_E18_PRE', title: 'Вор, который пытался остановить кражу', location: 'Старый архив → клуб', defaultBackground: 'oldArchive' },
+  { id: 'VN_SCENE_38_E18_POST', title: 'Три стратегии', location: 'Комната детективного клуба ночью', defaultBackground: 'clubroomNight' },
 ] as const;
 
 export const backgroundAssets: Record<BackgroundKey, string> = {
@@ -172,13 +181,20 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   // ANM-027G 13–15 semantic variants. External masters replace only these mappings.
   campusPath: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
   abandonedLaundry: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
+  // ANM-027G 16–18 semantic variants. No new binaries until external background production.
+  gymnasticsCostume: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
+  oldArchive: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
+  clubroomNight: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
 };
 
 export function getBackgroundForLine(sceneIndex: number, lineIndex: number, story: readonly StoryLine[]): BackgroundKey {
   let background = sceneMeta[sceneIndex]?.defaultBackground ?? 'clubroom';
   for (let index = 0; index <= lineIndex && index < story.length; index += 1) {
     const direction = `${story[index].emotion} ${story[index].text}`;
-    if (direction.includes('BG_ABANDONED_LAUNDRY')) background = 'abandonedLaundry';
+    if (direction.includes('BG_CLUBROOM_NIGHT')) background = 'clubroomNight';
+    else if (direction.includes('BG_OLD_ARCHIVE')) background = 'oldArchive';
+    else if (direction.includes('BG_GYMNASTICS_COSTUME')) background = 'gymnasticsCostume';
+    else if (direction.includes('BG_ABANDONED_LAUNDRY')) background = 'abandonedLaundry';
     else if (direction.includes('BG_CAMPUS_PATH')) background = 'campusPath';
     else if (direction.includes('BG_ASTERION_TRANSFER_POINT')) background = 'asterionTransferPoint';
     else if (direction.includes('BG_SERVICE_YARD')) background = 'serviceYard';

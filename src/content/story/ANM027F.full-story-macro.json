@@ -1459,7 +1459,7 @@
       "act": "III",
       "tone": "E5/C5",
       "branch": "common",
-      "contentStatus": "macro-locked",
+      "contentStatus": "authored",
       "beat": "Сканер подтверждает Second Skin и показывает новую активацию после ухода Рины; её записка открывает путь к архиву.",
       "transition": {
         "kind": "next",
@@ -1505,7 +1505,7 @@
         "presentation": "native-ui"
       },
       "match3": {
-        "status": "planned-config",
+        "status": "production-configured",
         "archetype": "signal-cross",
         "objectiveKinds": [
           "clearBlockers",
@@ -1532,7 +1532,7 @@
       "act": "IV",
       "tone": "E2/C3",
       "branch": "common",
-      "contentStatus": "macro-locked",
+      "contentStatus": "authored",
       "beat": "Архив раскрывает Рину как физического похитителя; запечатанное хранение показывает сохранение доказательств, не отменяя вреда.",
       "transition": {
         "kind": "next",
@@ -1574,7 +1574,7 @@
         "presentation": "hero-closeup"
       },
       "match3": {
-        "status": "planned-config",
+        "status": "production-configured",
         "archetype": "archive-rows",
         "objectiveKinds": [
           "clearBlockers",
@@ -1601,7 +1601,7 @@
       "act": "IV",
       "tone": "E2/C2",
       "branch": "common",
-      "contentStatus": "macro-locked",
+      "contentStatus": "authored",
       "beat": "Признание Рины и восстановленная временная линия доказывают, что Куросэ продолжил Second Skin независимо от неё; Мику формулирует три стратегии финала.",
       "transition": {
         "kind": "ending-choice",
@@ -1655,7 +1655,7 @@
         "presentation": "hero-closeup"
       },
       "match3": {
-        "status": "planned-config",
+        "status": "production-configured",
         "archetype": "ordered-grid",
         "objectiveKinds": [
           "collect",

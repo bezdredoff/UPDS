@@ -5,9 +5,9 @@ import { storyGraph, storyMatch3RouteForLegacyScene } from '../src/data/storyGra
 const numeric = (id: string): number => Number(id.slice(2, 6));
 
 describe('narrative integration contract', () => {
-  it('parses all canonical sources into thirty-three non-empty ordered scenes', () => {
-    expect(parsedLineCount).toBe(738);
-    expect(sceneMeta).toHaveLength(33);
+  it('parses all canonical sources into thirty-nine non-empty ordered scenes', () => {
+    expect(parsedLineCount).toBe(857);
+    expect(sceneMeta).toHaveLength(39);
     for (const choice of ['A', 'B', 'C'] as ChoiceId[]) {
       for (let sceneIndex = 0; sceneIndex < sceneMeta.length; sceneIndex += 1) {
         const scene = getScene(sceneIndex, choice);
@@ -31,7 +31,7 @@ describe('narrative integration contract', () => {
   });
 
   it('keeps all VN → match → VN transitions mapped through the canonical story graph', () => {
-    const routes = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31].map((preScene) => storyMatch3RouteForLegacyScene(preScene));
+    const routes = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37].map((preScene) => storyMatch3RouteForLegacyScene(preScene));
     expect(routes.map((route) => route?.levelId)).toEqual([
       'M3_00_LOCKER_TUTORIAL',
       'M3_01_PHOTO_PROPS',
@@ -49,8 +49,11 @@ describe('narrative integration contract', () => {
       'M3_13_KENDO_PILOT_LIST',
       'M3_14_KUBO_ATELIER_LEDGER',
       'M3_15_ABANDONED_LAUNDRY_ROUTE',
+      'M3_16_PINK_RIBBON_SCANNER',
+      'M3_17_RINA_ARCHIVE_CATALOG',
+      'M3_18_FULL_TIMELINE_PROOF',
     ]);
-    expect(routes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32]);
+    expect(routes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38]);
   });
 
   it.each(['A', 'B', 'C'] as ChoiceId[])('switches the mixed-location scene background exactly at VN0048 for branch %s', (choice) => {
@@ -61,10 +64,10 @@ describe('narrative integration contract', () => {
     expect(getBackgroundForLine(1, transition, scene)).toBe('lockerAthletics');
   });
 
-  it('preserves the VN0250 bridge and reaches the current authored frontier at VN0726', () => {
+  it('preserves the VN0250 bridge and reaches the current authored frontier at VN0845', () => {
     const bridge = getScene(8, 'A');
     expect(bridge.at(-1)?.id).toBe('VN0250');
-    const frontier = getScene(32, 'A');
-    expect(frontier.at(-1)?.id).toBe('VN0726');
+    const frontier = getScene(38, 'A');
+    expect(frontier.at(-1)?.id).toBe('VN0845');
   });
 });

@@ -10,6 +10,8 @@ export const match3BoardSurfaceKeys = [
   'workbench-clusters',
   'signal-cross',
   'service-lanes',
+  'archive-rows',
+  'ordered-grid',
 ] as const;
 export type Match3BoardSurfaceKey = typeof match3BoardSurfaceKeys[number];
 
@@ -44,6 +46,9 @@ export const match3NarrativeProfileKeys = [
   'pilot-participant-codes',
   'rina-pretheft-search',
   'consent-note-route',
+  'post-rina-activation',
+  'rina-catalog',
+  'continued-project-proof',
 ] as const;
 export type Match3NarrativeProfileKey = typeof match3NarrativeProfileKeys[number];
 
@@ -64,10 +69,13 @@ export const match3TilePresentationProfileKeys = [
   'kendo-pilot',
   'kubo-atelier',
   'abandoned-laundry',
+  'gymnastics-scanner',
+  'rina-archive',
+  'final-timeline',
 ] as const;
 export type Match3TilePresentationProfileKey = typeof match3TilePresentationProfileKeys[number];
 
-export type Match3CharacterKey = 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro' | 'mayu' | 'hinata' | 'rina' | 'kurose' | 'gen' | 'aoi' | 'kubo' | 'kubo-mother';
+export type Match3CharacterKey = 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro' | 'mayu' | 'hinata' | 'rina' | 'kurose' | 'gen' | 'aoi' | 'kubo' | 'kubo-mother' | 'vincent';
 export type Match3SourceSceneId =
   | 'VN_SCENE_01_E0_PRE'
   | 'VN_SCENE_03_E1_PRE'
@@ -84,7 +92,10 @@ export type Match3SourceSceneId =
   | 'VN_SCENE_25_E12_PRE'
   | 'VN_SCENE_27_E13_PRE'
   | 'VN_SCENE_29_E14_PRE'
-  | 'VN_SCENE_31_E15_PRE';
+  | 'VN_SCENE_31_E15_PRE'
+  | 'VN_SCENE_33_E16_PRE'
+  | 'VN_SCENE_35_E17_PRE'
+  | 'VN_SCENE_37_E18_PRE';
 
 export type Match3LevelContext = Readonly<{
   /** VN scene that directly hands off into this Match-3 level. */

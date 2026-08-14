@@ -120,6 +120,9 @@ export const sceneStudioCalibrationManifest: SceneStudioCalibrationManifest = {
     oldGymNight: background('oldGymNight', 25, 53, 43, 42, 90),
     campusPath: background('campusPath', 31, 49, 42, 43, 87),
     abandonedLaundry: background('abandonedLaundry', 32, 53, 43, 42, 90),
+    gymnasticsCostume: background('gymnasticsCostume', 33, 50, 41, 40, 90),
+    oldArchive: background('oldArchive', 35, 53, 43, 42, 90),
+    clubroomNight: background('clubroomNight', 38, 49, 42, 43, 87),
   },
 };
 
