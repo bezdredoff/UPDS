@@ -114,7 +114,7 @@ describe('ANM-027F full-story macro lock', () => {
     expect(macro.allowedMatch3Mechanics).toContain('board-holes');
   });
 
-  it('locks the six downstream screenplay batches without pretending future content already exists', () => {
+  it('keeps the six screenplay batch plan aligned with the now-complete authored macro', () => {
     expect(macro.screenplayBatches).toEqual([
       { id: '4-6', slots: [4, 5, 6] },
       { id: '7-9', slots: [7, 8, 9] },

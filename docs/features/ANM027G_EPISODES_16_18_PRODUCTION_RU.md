@@ -1,6 +1,6 @@
 # ANM-027G — Episodes 16–18 Canonical Production Batch
 
-Status: **R1 IN QA**. Base: merged `ANM-027G 13–15 R1`.
+Status: **R1 COMPLETE**. Base: merged `ANM-027G 13–15 R1`.
 
 ## Scope
 

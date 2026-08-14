@@ -32,6 +32,9 @@ export const match3TilePresentationProfiles: Readonly<Record<Match3TilePresentat
   'gymnastics-scanner': { artDirectionTags: ['gymnastics', 'pink-ribbons', 'handheld-scanner'] },
   'rina-archive': { artDirectionTags: ['old-archive', 'sealed-evidence', 'catalog'] },
   'final-timeline': { artDirectionTags: ['clubroom-night', 'timeline', 'strategy-pivot'] },
+  'private-return': { artDirectionTags: ['anonymous-return', 'privacy-codes', 'sealed-lockers'] },
+  'server-logs': { artDirectionTags: ['service-tunnel', 'server-room', 'consent-logs'] },
+  'convenient-presentation': { artDirectionTags: ['assembly', 'presentation', 'discarded-contradictions'] },
 };
 
 export type ResolvedMatch3TilePresentation = Readonly<{

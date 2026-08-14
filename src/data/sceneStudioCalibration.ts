@@ -123,6 +123,10 @@ export const sceneStudioCalibrationManifest: SceneStudioCalibrationManifest = {
     gymnasticsCostume: background('gymnasticsCostume', 33, 50, 41, 40, 90),
     oldArchive: background('oldArchive', 35, 53, 43, 42, 90),
     clubroomNight: background('clubroomNight', 38, 49, 42, 43, 87),
+    anonymousReturnCounter: background('anonymousReturnCounter', 39, 50, 41, 40, 90),
+    serviceTunnel: background('serviceTunnel', 41, 53, 43, 42, 90),
+    serverRoom: background('serverRoom', 42, 50, 39, 38, 87),
+    disciplinaryAssembly: background('disciplinaryAssembly', 44, 49, 42, 43, 87),
   },
 };
 

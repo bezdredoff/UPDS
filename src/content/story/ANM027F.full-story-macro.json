@@ -1682,7 +1682,7 @@
       "act": "ENDING",
       "tone": "E3/C3",
       "branch": "ending-B",
-      "contentStatus": "macro-locked",
+      "contentStatus": "authored",
       "beat": "Команда сообщает только доказанные кражи Рины, возвращает вещи приватно и получает удобное закрытие дела, пока система остаётся.",
       "transition": {
         "kind": "ending",
@@ -1740,7 +1740,7 @@
         "presentation": "native-ui"
       },
       "match3": {
-        "status": "planned-config",
+        "status": "production-configured",
         "archetype": "archive-rows",
         "objectiveKinds": [
           "clearBlockers",
@@ -1765,7 +1765,7 @@
       "act": "ENDING",
       "tone": "E2/C3",
       "branch": "ending-A",
-      "contentStatus": "macro-locked",
+      "contentStatus": "authored",
       "beat": "Сервисный тоннель и серверные логи доказывают скрытую маркировку, подмену согласий и продолжение пилота; лучшая концовка требует накопленного доверия и доказательств.",
       "transition": {
         "kind": "ending",
@@ -1836,7 +1836,7 @@
         "presentation": "hero-closeup"
       },
       "match3": {
-        "status": "planned-config",
+        "status": "production-configured",
         "archetype": "service-lanes",
         "objectiveKinds": [
           "clearBlockers",
@@ -1863,7 +1863,7 @@
       "act": "ENDING",
       "tone": "E4/C5",
       "branch": "ending-C",
-      "contentStatus": "macro-locked",
+      "contentStatus": "authored",
       "beat": "Клуб сознательно строит убедительную ложную презентацию, удаляя противоречия; получает известность ценой чужой репутации и истины.",
       "transition": {
         "kind": "ending",
@@ -1917,7 +1917,7 @@
         "presentation": "native-ui"
       },
       "match3": {
-        "status": "planned-config",
+        "status": "production-configured",
         "archetype": "ordered-grid",
         "objectiveKinds": [
           "collect",

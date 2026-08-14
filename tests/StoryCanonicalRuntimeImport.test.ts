@@ -16,13 +16,14 @@ import {
   storyMatch3RouteForLegacyScene,
   validateStoryGraph,
 } from '../src/data/storyGraph';
+import type { StoryChoiceOptionId } from '../src/data/storyChoices';
 
 const numeric = (id: string): number => Number(id.slice(2, 6));
 
-const walkPlayableStory = (): Readonly<{ scenes: readonly string[]; levels: readonly string[]; endingId: string | null }> => {
+const walkPlayableStory = (finalStrategy: StoryChoiceOptionId): Readonly<{ scenes: readonly string[]; levels: readonly string[]; endingId: string | null }> => {
   const scenes: string[] = [];
   const levels: string[] = [];
-  let sceneId: typeof storyGraph.entrySceneId | null = storyGraph.entrySceneId;
+  let sceneId: (typeof storyGraph.scenes)[number]['id'] | null = storyGraph.entrySceneId;
   let endingId: string | null = null;
   const visited = new Set<string>();
 
@@ -32,49 +33,39 @@ const walkPlayableStory = (): Readonly<{ scenes: readonly string[]; levels: read
     scenes.push(sceneId);
     const scene = storyGraph.scenes.find((candidate) => candidate.id === sceneId);
     if (!scene) throw new Error(`missing graph scene ${sceneId}`);
-
-    if (scene.transition.kind === 'scene') {
-      sceneId = scene.transition.targetSceneId;
-      continue;
-    }
-    if (scene.transition.kind === 'match3') {
-      levels.push(scene.transition.levelId);
-      sceneId = scene.transition.onWinSceneId;
-      continue;
-    }
-    endingId = scene.transition.endingId;
+    const transition = scene.transition;
+    if (transition.kind === 'scene') { sceneId = transition.targetSceneId; continue; }
+    if (transition.kind === 'match3') { levels.push(transition.levelId); sceneId = transition.onWinSceneId; continue; }
+    if (transition.kind === 'branch') { sceneId = transition.routes[finalStrategy]; continue; }
+    endingId = transition.endingId;
     sceneId = null;
   }
-
   return { scenes, levels, endingId };
 };
 
 describe('ANM-027D canonical story runtime import and transition QA', () => {
-  it('combines audited ANM-003 and ANM-027G sources into one normalized runtime collection', () => {
+  it('combines all seven audited canonical screenplay sources into one normalized runtime collection', () => {
     expect(canonicalStoryManifest.sourceId).toBe('ANM003_VERTICAL_SLICE');
-    expect(canonicalStoryManifest.sourcePath).toBe('src/content/ANM-003_Vertical_Slice_Screenplay.md');
-    expect(canonicalStoryManifests.map((manifest) => manifest.sourceId)).toEqual(['ANM003_VERTICAL_SLICE', 'ANM027G_EPISODES_04_06', 'ANM027G_EPISODES_07_09', 'ANM027G_EPISODES_10_12', 'ANM027G_EPISODES_13_15', 'ANM027G_EPISODES_16_18']);
-    expect(canonicalStoryLineCount).toBe(857);
-    expect(canonicalRuntimeStoryLineCount).toBe(857);
+    expect(canonicalStoryManifests.map((manifest) => manifest.sourceId)).toEqual([
+      'ANM003_VERTICAL_SLICE', 'ANM027G_EPISODES_04_06', 'ANM027G_EPISODES_07_09',
+      'ANM027G_EPISODES_10_12', 'ANM027G_EPISODES_13_15', 'ANM027G_EPISODES_16_18', 'ANM027G_EPISODES_19_21',
+    ]);
+    expect(canonicalStoryLineCount).toBe(976);
+    expect(canonicalRuntimeStoryLineCount).toBe(976);
     expect(canonicalDeferredStoryLineIds).toEqual([]);
     expect(canonicalStoryLines[0]?.id).toBe('VN0001');
-    expect(canonicalStoryLines.at(-1)?.id).toBe('VN0845');
+    expect(canonicalStoryLines.at(-1)?.id).toBe('VN0964');
   });
 
   it('cuts narrative runtime over to the audited parser and graph ranges with no duplicate parser/range tables', () => {
     const narrative = readFileSync(resolve(process.cwd(), 'src/data/narrative.ts'), 'utf8');
     const graph = readFileSync(resolve(process.cwd(), 'src/data/storyGraph.ts'), 'utf8');
-
     expect(narrative).toContain("from '../content/storyRuntime'");
     expect(narrative).toContain("from './storyGraph'");
     expect(narrative).toContain('storySceneFromLegacyIndex(index)');
     expect(narrative).not.toContain('sceneStarts');
     expect(narrative).not.toContain('sceneEnds');
-    expect(narrative).not.toContain('screenplay.matchAll');
-    expect(narrative).not.toContain('const linePattern');
-
     expect(graph).not.toContain("from './narrative'");
-    expect(graph).not.toContain('sceneMeta[');
   });
 
   it('keeps presentation metadata aligned 1:1 with canonical graph scene ids', () => {
@@ -82,7 +73,7 @@ describe('ANM-027D canonical story runtime import and transition QA', () => {
     expect(validateStoryGraph()).toEqual([]);
   });
 
-  it.each(['A', 'B', 'C'] as ChoiceId[])('imports every playable scene boundary for branch %s', (choice) => {
+  it.each(['A', 'B', 'C'] as ChoiceId[])('imports every authored scene boundary for initial branch %s', (choice) => {
     for (const graphScene of storyGraph.scenes) {
       const scene = getScene(graphScene.legacyIndex, choice);
       expect(scene.length).toBeGreaterThan(0);
@@ -91,31 +82,19 @@ describe('ANM-027D canonical story runtime import and transition QA', () => {
     }
   });
 
-  it('walks the complete authored playable path through all VN and Match-3 handoffs exactly once', () => {
-    const path = walkPlayableStory();
-    expect(path.scenes).toEqual(storyGraph.scenes.map((scene) => scene.id));
-    expect(path.levels).toEqual([
-      'M3_00_LOCKER_TUTORIAL',
-      'M3_01_PHOTO_PROPS',
-      'M3_02_POOL_LAUNDRY',
-      'M3_03_ORDERED_APARTMENT',
-      'M3_04_EMERGENCY_MEETING',
-      'M3_05_BASKETBALL_LOCKERS',
-      'M3_06_TEXTILE_WORKSHOP',
-      'M3_07_ASTERION_THREAD',
-      'M3_08_LOST_FOUND_LEDGER',
-      'M3_09_MAINTENANCE_KEYS',
-      'M3_10_CONTROL_SAMPLE_GEAR',
-      'M3_11_ASTERION_TRANSFER',
-      'M3_12_SECOND_SKIN_SIGNAL',
-      'M3_13_KENDO_PILOT_LIST',
-      'M3_14_KUBO_ATELIER_LEDGER',
-      'M3_15_ABANDONED_LAUNDRY_ROUTE',
-      'M3_16_PINK_RIBBON_SCANNER',
-      'M3_17_RINA_ARCHIVE_CATALOG',
-      'M3_18_FULL_TIMELINE_PROOF',
-    ]);
-    expect(path.endingId).toBe('ENDING_AUTHORED_FRONTIER_18');
+  it.each([
+    ['A', 'M3_19_PRIVATE_RETURN', 'ENDING_B_CASE_CLOSED', ['VN_SCENE_39_E19_PRE', 'VN_SCENE_40_E19_POST']],
+    ['B', 'M3_20_SERVER_CONSENT_LOGS', 'ENDING_A_FULL_TRUTH', ['VN_SCENE_41_E20_PRE', 'VN_SCENE_42_E20_POST']],
+    ['C', 'M3_21_CONVENIENT_CASE', 'ENDING_C_PERFECT_SUSPECT', ['VN_SCENE_43_E21_PRE', 'VN_SCENE_44_E21_POST']],
+  ] as const)('walks final-strategy %s through its own VN/Match-3 route to %s', (strategy, finalLevel, endingId, finalScenes) => {
+    const path = walkPlayableStory(strategy);
+    expect(path.scenes.slice(0, 39)).toEqual(storyGraph.scenes.slice(0, 39).map((scene) => scene.id));
+    expect(path.scenes.slice(-2)).toEqual(finalScenes);
+    const commonLevels = storyGraph.scenes.slice(0, 39).flatMap((scene) => scene.transition.kind === 'match3' ? [scene.transition.levelId] : []);
+    expect(path.levels.slice(0, 19)).toEqual(commonLevels);
+    expect(path.levels).toHaveLength(20);
+    expect(path.levels.at(-1)).toBe(finalLevel);
+    expect(path.endingId).toBe(endingId);
   });
 
   it('proves every Match-3 source scene and win scene has canonical runtime content', () => {

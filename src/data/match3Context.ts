@@ -49,6 +49,9 @@ export const match3NarrativeProfileKeys = [
   'post-rina-activation',
   'rina-catalog',
   'continued-project-proof',
+  'private-return',
+  'server-consent-logs',
+  'convenient-case',
 ] as const;
 export type Match3NarrativeProfileKey = typeof match3NarrativeProfileKeys[number];
 
@@ -72,6 +75,9 @@ export const match3TilePresentationProfileKeys = [
   'gymnastics-scanner',
   'rina-archive',
   'final-timeline',
+  'private-return',
+  'server-logs',
+  'convenient-presentation',
 ] as const;
 export type Match3TilePresentationProfileKey = typeof match3TilePresentationProfileKeys[number];
 
@@ -95,7 +101,10 @@ export type Match3SourceSceneId =
   | 'VN_SCENE_31_E15_PRE'
   | 'VN_SCENE_33_E16_PRE'
   | 'VN_SCENE_35_E17_PRE'
-  | 'VN_SCENE_37_E18_PRE';
+  | 'VN_SCENE_37_E18_PRE'
+  | 'VN_SCENE_39_E19_PRE'
+  | 'VN_SCENE_41_E20_PRE'
+  | 'VN_SCENE_43_E21_PRE';
 
 export type Match3LevelContext = Readonly<{
   /** VN scene that directly hands off into this Match-3 level. */

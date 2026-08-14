@@ -44,7 +44,7 @@ describe('active documentation traceability', () => {
     }
   });
 
-  it('documents the canonical story import and current missing-content boundary', () => {
+  it('documents the complete canonical story import and final ending boundary', () => {
     const protectedContracts = read('docs/architecture/PROJECT_CONTRACTS_RU.md');
     const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
     const index = read('docs/README.md');
@@ -54,10 +54,10 @@ describe('active documentation traceability', () => {
       expect(source).toContain('src/data/storyGraph.ts');
     }
     expect(architecture).toContain('src/content/storyRuntime.ts');
-    expect(protectedContracts).toContain('857 authored lines');
+    expect(protectedContracts).toContain('976 authored lines');
     expect(protectedContracts).toContain('VN0250` является canonical bridge');
-    expect(index).toContain('slots `0–18`');
-    expect(index).toContain('Slots `19–21` remain macro-only');
+    expect(index).toContain('all 22 slots `0–21`');
+    expect(index).toContain('three mutually exclusive authored ending routes');
   });
 
   it('locks the lean full-content scope and keeps guest/offline production boundaries explicit', () => {
@@ -88,8 +88,8 @@ describe('active documentation traceability', () => {
     expect(protectedContracts).toContain('22 planned content slots `0–21`');
     expect(protectedContracts).toContain('upds-guest-witness-production-v1');
     expect(protectedContracts).toContain('ANM-002 §8');
-    expect(aiWorkflow).toContain('`4–6`, `7–9`, `10–12`, `13–15` and `16–18` are implemented packages');
-    expect(aiWorkflow).toContain('`19–21` is the next package');
+    expect(aiWorkflow).toContain('`4–6`, `7–9`, `10–12`, `13–15`, `16–18` and `19–21` are implemented packages');
+    expect(aiWorkflow).toContain('canonical `0–21` screenplay is complete');
 
     const storyBible = read('docs/content/ANM-001_Story_Bible.md');
     const episodePlot = read('docs/content/ANM-002_22_Episode_Plot.md');
