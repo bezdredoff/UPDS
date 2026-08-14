@@ -17,6 +17,16 @@ export type CatalogAudit = Readonly<{
 
 const placeholderPattern = /\{([a-zA-Z0-9_.-]+)\}/g;
 
+export const selectMessageCatalogByPrefixes = (
+  catalog: MessageCatalog,
+  prefixes: readonly string[],
+): MessageCatalog => {
+  const prefixSet = new Set(prefixes);
+  return Object.fromEntries(
+    Object.entries(catalog).filter(([key]) => prefixSet.has(key.split('.')[0])),
+  );
+};
+
 const placeholders = (value: string): string[] =>
   Array.from(value.matchAll(placeholderPattern), (match) => match[1]).sort();
 

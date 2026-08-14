@@ -51,6 +51,7 @@ The repository now contains the complete detailed authored screenplay for all 22
 ### Localization production
 
 - [`features/ANM029A_LOCALIZATION_PRODUCTION_FOUNDATION_RU.md`](features/ANM029A_LOCALIZATION_PRODUCTION_FOUNDATION_RU.md) — seven-locale production registry, pending/ready selector boundary, structural catalog audit, glossary contract and shared CJK readiness metadata
+- [`features/ANM029B1_BELARUSIAN_PLAYER_SHELL_RU.md`](features/ANM029B1_BELARUSIAN_PLAYER_SHELL_RU.md) — first bounded Belarusian production scope: 61 player-shell keys with structural audit while `be` remains hidden until the full catalog is complete
 
 ### Character production
 
