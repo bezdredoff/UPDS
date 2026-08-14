@@ -1,6 +1,6 @@
 # ANM-027F R1 — Full Story Macro Lock
 
-Status: **COMPLETE**. The original R1 macro contract is being consumed incrementally by ANM-027G; slots `4–15` are now authored/production-configured while `16–21` remain macro-only.
+Status: **COMPLETE**. The original R1 macro contract is being consumed incrementally by ANM-027G; slots `4–18` are now authored/production-configured while ending slots `19–21` remain macro-only.
 
 ## Цель
 
@@ -107,7 +107,7 @@ Slot 18 обязан показывать три явно различимые �
 `tests/StoryMacroLock.test.ts` проверяет:
 
 1. ровно 22 последовательных slots `0–21` и terminal endings `19/20/21`;
-2. contiguous authored prefix versus remaining macro-locked slots (after ANM-027G `13–15`: authored `0–15`, macro-locked `16–21`);
+2. contiguous authored prefix versus remaining macro-locked slots (after ANM-027G `16–18`: authored `0–18`, macro-locked endings `19–21`);
 3. 8 location families и ровно 4 новых master triggers;
 4. 5–6 reusable Match-3 archetypes, только существующие objective kinds и отсутствие new mechanic;
 5. только замороженные `upds-scene-staging-v1` preset IDs;

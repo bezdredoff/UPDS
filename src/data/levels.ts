@@ -20,9 +20,9 @@ export type Match3TileCategory = 'panties' | 'bra' | 'camisole' | 'socks' | 'tow
 export const ACTIVE_TILE_TYPE_LIMIT = 6;
 export const MAX_PANTIES_TYPES_PER_LEVEL = 4;
 export const MAX_OBJECTIVES_PER_LEVEL = 3;
-export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel' | 'laundryCalendar' | 'repairLog' | 'warrantyCard' | 'silverSpool' | 'asterionSpec' | 'missingNumberSheet' | 'handoffSlip' | 'stitchedWristband' | 'transferSeal' | 'routeCard' | 'transferManifest' | 'secondSkinTag' | 'pilotList' | 'familyReceipt' | 'atelierLedger' | 'markedPackage' | 'serviceKeyCard';
-export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet' | 'rumorCard' | 'lockerLock' | 'garmentBag' | 'labCover' | 'sealedPackage' | 'supplyCrate' | 'signalNoise' | 'armorRack' | 'fabricStack' | 'debris';
-export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004' | 'CUE_005' | 'CUE_006' | 'CUE_007' | 'CUE_008' | 'CUE_009' | 'CUE_010' | 'CUE_011' | 'CUE_012' | 'CUE_013' | 'CUE_014' | 'CUE_015' | 'CUE_016';
+export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel' | 'laundryCalendar' | 'repairLog' | 'warrantyCard' | 'silverSpool' | 'asterionSpec' | 'missingNumberSheet' | 'handoffSlip' | 'stitchedWristband' | 'transferSeal' | 'routeCard' | 'transferManifest' | 'secondSkinTag' | 'pilotList' | 'familyReceipt' | 'atelierLedger' | 'markedPackage' | 'serviceKeyCard' | 'handheldScanner' | 'rinaCatalog' | 'recentMarkedItem';
+export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet' | 'rumorCard' | 'lockerLock' | 'garmentBag' | 'labCover' | 'sealedPackage' | 'supplyCrate' | 'signalNoise' | 'armorRack' | 'fabricStack' | 'debris' | 'ribbonTangle' | 'archiveSeal' | 'falseConclusion';
+export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004' | 'CUE_005' | 'CUE_006' | 'CUE_007' | 'CUE_008' | 'CUE_009' | 'CUE_010' | 'CUE_011' | 'CUE_012' | 'CUE_013' | 'CUE_014' | 'CUE_015' | 'CUE_016' | 'CUE_017' | 'CUE_018' | 'CUE_019';
 
 export type BoardPlacement = Readonly<{ index: number; layers: 1 | 2 }>;
 export type IngredientPlacement = Readonly<{ index: number; kind: IngredientKey }>;
@@ -123,6 +123,9 @@ export const ingredientPresentation: Record<IngredientKey, Readonly<{ label: str
   atelierLedger: { label: 'Книга заказов', asset: './assets/match3/goal_memory_card.png' },
   markedPackage: { label: 'Помеченный пакет', asset: './assets/clues/clue_towel_conductive_seam.png' },
   serviceKeyCard: { label: 'Служебная ключ-карта', asset: './assets/clues/clue_service_key.png' },
+  handheldScanner: { label: 'Ручной сканер', asset: './assets/match3/goal_memory_card.png' },
+  rinaCatalog: { label: 'Каталог Рины', asset: './assets/match3/goal_receipt.png' },
+  recentMarkedItem: { label: 'Новый помеченный предмет', asset: './assets/clues/clue_towel_conductive_seam.png' },
 };
 
 export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; asset: string }>> = {
@@ -140,6 +143,9 @@ export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; a
   armorRack: { label: 'Стойка с бронёй', asset: './assets/match3/obstacle_service_cabinet.png' },
   fabricStack: { label: 'Стопка ткани', asset: './assets/match3/obstacle_prop_box_2layer.png' },
   debris: { label: 'Строительный мусор', asset: './assets/match3/obstacle_soap_foam.png' },
+  ribbonTangle: { label: 'Ленточный узел', asset: './assets/match3/obstacle_soap_foam.png' },
+  archiveSeal: { label: 'Архивная пломба', asset: './assets/match3/obstacle_locked_cell.png' },
+  falseConclusion: { label: 'Ложный вывод', asset: './assets/match3/obstacle_prop_box_2layer.png' },
 };
 
 export const specialAsset = './assets/match3/special_observation_magnifier.png';
@@ -590,6 +596,79 @@ export const levels: readonly LevelDefinition[] = [
     winBark: { speaker: 'Мику', text: 'Маршрут действующий. И записка переводит дело от краж к вопросу согласия.' },
     loseBark: { speaker: 'Оноэ', text: 'Мусор скрыл цепочку. Повторяем и держим пакет отдельно от версии.' },
   },
+
+  {
+    id: 'M3_16_PINK_RIBBON_SCANNER', shortId: 'M3_16', title: 'Розовые ленты не лгут',
+    storyAction: 'Распутать ленты, восстановить сервисные коды и подтвердить свежую активацию Second Skin ручным сканером.',
+    context: {
+      sourceSceneId: 'VN_SCENE_33_E16_PRE', pageBackground: 'gymnasticsCostume',
+      boardSurface: 'signal-cross', boardFrame: 'evidence-file', narrativeProfile: 'post-rina-activation', tilePresentationProfile: 'gymnastics-scanner',
+      participants: ['miku', 'onoe', 'ayuki', 'vincent'], narrativeTags: ['gymnastics', 'pink-ribbons', 'scanner', 'post-rina-activation'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesLacePink', 'pantiesSportWhite'],
+    moves: 29,
+    objectives: [
+      { kind: 'clearBlockers', target: 10, label: 'Ленточные узлы' },
+      { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Коды меток' },
+      { kind: 'drop', ingredient: 'handheldScanner', target: 1, label: 'Сканер' },
+    ],
+    blocker: 'ribbonTangle', blockers: positions([11, 12, 18, 21, 42, 45, 50, 53, 58, 61]),
+    ingredients: [{ index: 27, kind: 'handheldScanner' }], seed: 9017,
+    clueId: 'CUE_017', clueTitle: 'Активация после Рины',
+    clueSummary: 'Новая метка Second Skin активировалась после ухода Рины, а SS-EDGE ответил через действующий кампусный ретранслятор.',
+    startBark: { speaker: 'Винсент', text: 'Ленты отдельно, сервисные ярлыки отдельно. Сканер не любит, когда ему помогают догадками.' },
+    winBark: { speaker: 'Мику', text: 'Новая активация позже доступа Рины. Second Skin продолжает работать без неё.' },
+    loseBark: { speaker: 'Оноэ', text: 'Мы потеряли время активации в шуме. Повторяем и сохраняем порядок кодов.' },
+  },
+  {
+    id: 'M3_17_RINA_ARCHIVE_CATALOG', shortId: 'M3_17', title: 'Каталог Рины',
+    storyAction: 'Открыть архивные ряды, отделить реальные цели от контрольных предметов и сверить каталог с подтверждёнными пропажами.',
+    context: {
+      sourceSceneId: 'VN_SCENE_35_E17_PRE', pageBackground: 'oldArchive',
+      boardSurface: 'archive-rows', boardFrame: 'warehouse-file', narrativeProfile: 'rina-catalog', tilePresentationProfile: 'rina-archive',
+      participants: ['miku', 'onoe', 'ayuki', 'rina'], narrativeTags: ['old-archive', 'sealed-evidence', 'rina-catalog', 'physical-theft'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesHighWaistBlack', 'pantiesSportWhite'],
+    moves: 30,
+    objectives: [
+      { kind: 'clearBlockers', target: 10, label: 'Архивные пломбы' },
+      { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Коды целей' },
+      { kind: 'drop', ingredient: 'rinaCatalog', target: 1, label: 'Каталог' },
+    ],
+    blocker: 'archiveSeal', blockers: positions([[8,2], 14, [16,2], 19, 42, [43,2], 48, 51, 56, 59]),
+    ingredients: [{ index: 28, kind: 'rinaCatalog' }], seed: 9018,
+    clueId: 'CUE_018', clueTitle: 'Каталог Рины',
+    clueSummary: 'Запечатанный каталог полностью совпадает с подтверждёнными кражами и отделяет реальные цели Second Skin от случайной маскирующей выборки.',
+    startBark: { speaker: 'Рина', text: 'Сначала коды и пломбы. Мотив не станет точнее, если вы перепутаете контрольную полку с целями.' },
+    winBark: { speaker: 'Оноэ', text: 'Совпадение полное. Рина физически забирала вещи и каталогизировала каждую цель.' },
+    loseBark: { speaker: 'Рина', text: 'Вы смешали цели и статистический шум. Архив требует более строгого второго прохода.' },
+  },
+  {
+    id: 'M3_18_FULL_TIMELINE_PROOF', shortId: 'M3_18', title: 'Полная временная линия',
+    storyAction: 'Убрать опровергнутые версии, свести ключевые улики по датам и доказать продолжение Second Skin после отзыва доступа Рины.',
+    context: {
+      sourceSceneId: 'VN_SCENE_37_E18_PRE', pageBackground: 'clubroomNight',
+      boardSurface: 'ordered-grid', boardFrame: 'audit-file', narrativeProfile: 'continued-project-proof', tilePresentationProfile: 'final-timeline',
+      participants: ['miku', 'onoe', 'ayuki', 'rina', 'emi'], narrativeTags: ['final-timeline', 'continued-project', 'kurose', 'strategy-pivot'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesLacePink', 'pantiesSportWhite'],
+    moves: 31,
+    objectives: [
+      { kind: 'clearBlockers', target: 10, label: 'Ложные выводы' },
+      { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Ключевые коды' },
+      { kind: 'drop', ingredient: 'recentMarkedItem', target: 1, label: 'Новый предмет' },
+    ],
+    blocker: 'falseConclusion', blockers: positions([10, 15, 18, 21, 42, 45, 50, 53, 58, 61]),
+    ingredients: [{ index: 26, kind: 'recentMarkedItem' }], seed: 9019,
+    clueId: 'CUE_019', clueTitle: 'Продолжение Second Skin',
+    clueSummary: 'Новая маркировка и SS-EDGE продолжаются после отзыва доступа Рины; её кражи и скрытый эксперимент Куросэ являются разными доказанными нарушениями.',
+    startBark: { speaker: 'Эми', text: 'Отмечайте отдельно всё, что проект и Рина решили за владельцев. Не смешивайте вред.' },
+    winBark: { speaker: 'Мику', text: 'Линия сходится. Рина — похититель, но Second Skin продолжился независимо от неё.' },
+    loseBark: { speaker: 'Оноэ', text: 'Мы смешали доказанные действия и гипотезу об организаторе. Пересобираем временную линию.' },
+  },
 ] as const;
 
 export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: string }>> = {
@@ -609,6 +688,9 @@ export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: s
   CUE_014: { asset: './assets/match3/goal_memory_card.png', label: 'Закрытый список пилота' },
   CUE_015: { asset: './assets/match3/goal_receipt.png', label: 'Рина знала заранее' },
   CUE_016: { asset: './assets/clues/clue_service_key.png', label: 'Маршрут согласия' },
+  CUE_017: { asset: './assets/match3/goal_memory_card.png', label: 'Активация после Рины' },
+  CUE_018: { asset: './assets/match3/goal_receipt.png', label: 'Каталог Рины' },
+  CUE_019: { asset: './assets/clues/clue_towel_conductive_seam.png', label: 'Продолжение Second Skin' },
 };
 
 export function validateLevelDefinitions(definitions: readonly LevelDefinition[] = levels): string[] {

@@ -148,6 +148,21 @@ export const authoredVnShotManifest: AuthoredVnShotManifest = {
       actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'serious' }, { character: 'ayuki', expression: 'neutral' }],
       note: 'Episode 15 core-trio restraint after Rina appears across the anonymous-lead timeline.',
     },
+    {
+      lineId: 'VN0753', background: 'gymnasticsCostume', presetId: 'trio-central-speaker',
+      actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'serious' }, { character: 'ayuki', expression: 'neutral' }],
+      note: 'Episode 16 core-trio technical conclusion while Vincent remains on the B3 guest testimony path.',
+    },
+    {
+      lineId: 'VN0795', background: 'oldArchive', presetId: 'two-shot-conflict',
+      actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'serious' }],
+      note: 'Episode 17 evidence-restraint beat in the old archive while Rina remains on her recurring-stage path.',
+    },
+    {
+      lineId: 'VN0833', background: 'clubroomNight', presetId: 'trio-central-speaker',
+      actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'serious' }, { character: 'ayuki', expression: 'neutral' }],
+      note: 'Episode 18 strategy pivot: the core trio separates the physical thief from the continuing Second Skin system.',
+    },
   ],
 };
 

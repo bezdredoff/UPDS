@@ -1,4 +1,4 @@
-export const storyChoiceGateIds = ['meeting-tone', 'apology-to-hinata', 'protect-gen-source', 'photo-permission', 'publish-tag', 'family-ledger-permission'] as const;
+export const storyChoiceGateIds = ['meeting-tone', 'apology-to-hinata', 'protect-gen-source', 'photo-permission', 'publish-tag', 'family-ledger-permission', 'trust-vincent', 'final-strategy'] as const;
 export type StoryChoiceGateId = typeof storyChoiceGateIds[number];
 export type StoryChoiceOptionId = 'A' | 'B' | 'C';
 export type StoryChoiceSelections = Partial<Record<StoryChoiceGateId, StoryChoiceOptionId>>;
@@ -16,6 +16,8 @@ export const storyChoiceGates: readonly StoryChoiceGate[] = [
   { id: 'photo-permission', checkpointLineId: 'VN0560', options: ['A', 'B', 'C'] },
   { id: 'publish-tag', checkpointLineId: 'VN0601', options: ['A', 'B', 'C'] },
   { id: 'family-ledger-permission', checkpointLineId: 'VN0678', options: ['A', 'B', 'C'] },
+  { id: 'trust-vincent', checkpointLineId: 'VN0756', options: ['A', 'B', 'C'] },
+  { id: 'final-strategy', checkpointLineId: 'VN0841', options: ['A', 'B', 'C'] },
 ];
 
 export const storyChoiceGateForLine = (lineId: string): StoryChoiceGate | null =>

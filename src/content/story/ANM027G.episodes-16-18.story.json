@@ -1,0 +1,20 @@
+{
+  "format": "upds-story-content-v1",
+  "sourceId": "ANM027G_EPISODES_16_18",
+  "episodeId": "EP001_CASE_001",
+  "sourcePath": "src/content/ANM-027G_Episodes_16_18_Screenplay.md",
+  "expectedBaseRange": {
+    "startLineId": "VN0727",
+    "endLineId": "VN0845"
+  },
+  "sceneIds": [
+    "VN_SCENE_33_E16_PRE",
+    "VN_SCENE_34_E16_POST",
+    "VN_SCENE_35_E17_PRE",
+    "VN_SCENE_36_E17_POST",
+    "VN_SCENE_37_E18_PRE",
+    "VN_SCENE_38_E18_POST"
+  ],
+  "branchVariants": [],
+  "deferredLineIds": []
+}

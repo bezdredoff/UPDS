@@ -86,7 +86,7 @@ Used only for structural safety:
 - `StoryCanonicalRuntimeImport.test.ts`;
 - narrative/runtime transition regressions.
 
-They preserve the current thirty-three-scene/sixteen-level authored path, the five scoped canonical screenplay sources, 738 parsed/runtime lines, zero deferred IDs and the continuous `VN0250` bridge into sequential ANM-027G batches.
+They preserve the current thirty-nine-scene/nineteen-level authored path, the six scoped canonical screenplay sources, 857 parsed/runtime lines, zero deferred IDs and the continuous `VN0250` bridge into sequential ANM-027G batches.
 
 ### Character production
 
@@ -131,7 +131,7 @@ pin every sentence or historical feature note.
 - HUD/count assertions получают текущее число уровней/сцен из source-of-truth коллекции (`levels.length`, `storySceneIds.length`), а не хардкодят `7`, `10`, `14`, `20` и т. п.;
 - save normalization проверяется относительно текущей последней валидной scene/level и одновременно отбрасывает значение за этой границей;
 - общие production limits (например `MAX_OBJECTIVES_PER_LEVEL`) проверяются для всей коллекции без перечисления длины каждого будущего level;
-- exact counts остаются допустимыми в **milestone/content audit** тестах, когда цель теста — доказать completeness конкретного batch (`M3_13–15`, authored slots `0–15`, 738 canonical lines), либо для намеренно frozen contract (например восемь staging presets);
+- exact counts остаются допустимыми в **milestone/content audit** тестах, когда цель теста — доказать completeness конкретного batch (`M3_16–18`, authored slots `0–18`, 857 canonical lines), либо для намеренно frozen contract (например восемь staging presets);
 - дизайн конкретного уже выпущенного уровня можно фиксировать exact assertion отдельно от expandable collection invariant.
 
 Если добавление следующего canonical batch ломает общий тест только из-за нового размера коллекции, сначала проверить, не является ли это stale snapshot. Не заменять старое число новым автоматически: по возможности переписать assertion на source-derived invariant.

@@ -18,11 +18,12 @@ describe('ANM-027B graph-driven story runtime routing', () => {
     expect(storyTransitionForLegacyScene(14)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_15_E7_PRE' });
     expect(storyTransitionForLegacyScene(20)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_21_E10_PRE' });
     expect(storyTransitionForLegacyScene(26)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_27_E13_PRE' });
-    expect(storyTransitionForLegacyScene(32)).toEqual({ kind: 'ending', endingId: 'ENDING_AUTHORED_FRONTIER_15' });
+    expect(storyTransitionForLegacyScene(32)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_33_E16_PRE' });
+    expect(storyTransitionForLegacyScene(38)).toEqual({ kind: 'ending', endingId: 'ENDING_AUTHORED_FRONTIER_18' });
 
-    const matchRoutes = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31].map((legacyIndex) => storyMatch3RouteForLegacyScene(legacyIndex));
-    expect(matchRoutes.map((route) => route?.levelIndex)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-    expect(matchRoutes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32]);
+    const matchRoutes = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37].map((legacyIndex) => storyMatch3RouteForLegacyScene(legacyIndex));
+    expect(matchRoutes.map((route) => route?.levelIndex)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]);
+    expect(matchRoutes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38]);
 
     for (const scene of storyGraph.scenes) {
       if (scene.transition.kind !== 'scene') continue;
@@ -53,6 +54,9 @@ describe('ANM-027B graph-driven story runtime routing', () => {
     expect(storyWinSceneIndexForLevelId('M3_13_KENDO_PILOT_LIST')).toBe(28);
     expect(storyWinSceneIndexForLevelId('M3_14_KUBO_ATELIER_LEDGER')).toBe(30);
     expect(storyWinSceneIndexForLevelId('M3_15_ABANDONED_LAUNDRY_ROUTE')).toBe(32);
+    expect(storyWinSceneIndexForLevelId('M3_16_PINK_RIBBON_SCANNER')).toBe(34);
+    expect(storyWinSceneIndexForLevelId('M3_17_RINA_ARCHIVE_CATALOG')).toBe(36);
+    expect(storyWinSceneIndexForLevelId('M3_18_FULL_TIMELINE_PROOF')).toBe(38);
     expect(storyWinSceneIndexForLevelId('UNKNOWN')).toBe(-1);
   });
 

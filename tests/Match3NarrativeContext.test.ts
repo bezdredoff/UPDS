@@ -50,7 +50,7 @@ describe('ANM-025B narrative Match-3 level context', () => {
   it('keeps narrative context out of engine while rendering distinct local board surfaces', () => {
     expect(engineSource).not.toContain('Match3LevelContext');
     expect(engineSource).toContain('this.level.spawnWeights');
-    for (const surface of ['locker-bench', 'photo-contact-sheet', 'pool-service-tile', 'ordered-cabinet', 'meeting-grid', 'locker-columns', 'workbench-clusters', 'signal-cross', 'service-lanes']) {
+    for (const surface of ['locker-bench', 'photo-contact-sheet', 'pool-service-tile', 'ordered-cabinet', 'meeting-grid', 'locker-columns', 'workbench-clusters', 'signal-cross', 'service-lanes', 'archive-rows']) {
       expect(productionCss).toContain(`data-m3-board-surface='${surface}'`);
     }
     for (const frame of ['evidence-file', 'photo-file', 'wet-service', 'precision-file', 'audit-file', 'service-file', 'workshop-file', 'lab-file', 'warehouse-file', 'maintenance-file']) {
