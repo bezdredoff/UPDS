@@ -48,8 +48,13 @@ present, the full macro lock is also pending, and neither must be described as c
 - [`art/CHARACTER_BRIEFS_RU.md`](art/CHARACTER_BRIEFS_RU.md)
 - [`art/CHARACTER_USAGE_MANIFEST.json`](art/CHARACTER_USAGE_MANIFEST.json) — documentation mirror
 - [`features/ANM028A_CHARACTER_PRODUCTION_MANIFEST_RU.md`](features/ANM028A_CHARACTER_PRODUCTION_MANIFEST_RU.md)
+- [`features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md`](features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md) — R3 candidate: eight reusable presets using the playable VN frame and portrait crop, ANM-024 viewport/background calibration, face-safe lanes, neutral lineup, diagnostics and zero-new-art budget preview
 
-Machine-readable source of truth: `src/data/characterProduction.ts`.
+Machine-readable sources of truth: `src/data/characterProduction.ts` for full-stage assets/proportions,
+`src/data/sceneStaging.ts` (`upds-scene-staging-v1`) for reusable composition coordinates and
+`src/data/sceneStudioCalibration.ts` (`upds-scene-studio-calibration-v1`) for read-only viewport,
+background and measurable lineup QA, and `src/ui/vnPortraitGeometry.ts` for shot derivation from the
+accepted playable-VN portrait camera. Visual approval remains external/manual.
 
 ### Match-3 production and tooling
 

@@ -1,6 +1,6 @@
 # UPDS — Test Strategy
 
-Статус: active production test-policy contract, reconciled at ANM-028A R2.
+Статус: active production test-policy contract, reconciled at ANM-028B1 R3.
 
 GitHub CI и `npm run check` остаются authoritative automated gate. Локальный запуск полезен для быстрой обратной связи, но не заменяет GitHub CI.
 
@@ -40,7 +40,13 @@ delivery-lane limits. Не закреплять тестом каждую фор
 - `.bak`, временные копии и альтернативные active workflow/test files не хранятся в production tree.
 - При разделении большого файла тесты должны продолжать защищать внешнее поведение, а не прежнее расположение методов.
 - Visual/mobile QA остаётся обязательным для визуальных/runtime изменений, но pipeline/docs-only PR не требует нерелевантного visual QA.
-- Focused `story:audit`, `character:audit` и `docs:audit` ускоряют проверку, но не заменяют полный
+- Scene Studio may automate viewport/schema/alpha/pivot/containment coordinates, but visual style,
+  anatomy, adult visual age, palette, lighting and perspective are intentionally manual Golden
+  Sample gates. A green test cannot convert those judgments into an approval.
+- Scene Studio regression tests must prove that scene actors use the playable `.portrait` crop,
+  face-critical safe lanes and dialogue occlusion. A separate full-body stage renderer or actor
+  shot scale below the contracted floor must fail before mobile QA.
+- Focused `story:audit`, `character:audit`, `scene:audit` и `docs:audit` ускоряют проверку, но не заменяют полный
   `npm run check` и GitHub Quality gate.
 
 ## Приоритет при рефакторинге

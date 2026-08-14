@@ -6,7 +6,7 @@ const read = (path: string): string => readFileSync(new URL(`../${path}`, import
 
 describe('product version and build identity', () => {
   it('keeps the product dev line independent from ANM feature labels', () => {
-    expect(APP_VERSION).toBe('0.25.0-dev');
+    expect(APP_VERSION).toBe('0.25.1-dev');
     expect(APP_VERSION).not.toContain('anm');
     expect(APP_VERSION).not.toBe(JSON.parse(read('package.json')).version);
   });

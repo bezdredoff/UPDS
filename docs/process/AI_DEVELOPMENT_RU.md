@@ -1,6 +1,6 @@
 # UPDS — инструкция для AI/разработчика
 
-Status: active workflow aligned with ANM-027E and ANM-028A R2.
+Status: active workflow aligned with ANM-027E and the ANM-028B1 R3 candidate.
 
 ## Before editing
 
@@ -83,6 +83,10 @@ Typical ownership:
 - Level Lab → `src/features/levelLab/`;
 - direct Match-3 campaign → `src/features/match3Campaign/`, session/store;
 - character production metadata → `src/data/characterProduction.ts`;
+- reusable scene composition → `src/data/sceneStaging.ts`, `src/ui/sceneStaging.ts` and
+  `src/features/sceneStudio/`;
+- Scene Studio calibration/reporting → `src/data/sceneStudioCalibration.ts`; shared playable/QA VN
+  DOM frame → `src/ui/vnFrameMarkup.ts`;
 - settings/diagnostics/dossier/ending → their dedicated feature controller;
 - cross-feature composition/navigation only → `src/ui/AnimeDetectiveApp.ts`, `src/app/`.
 
@@ -112,6 +116,9 @@ navigation/callback seam through the composition root.
 - Generate/export one standalone character asset at a time; do not bake multiple actors into one
   runtime PNG.
 - First approve a neutral 1024×1536 master in a shared-baseline lineup.
+- Review that neutral master inside Scene Studio lineup and at least solo/two-shot presets with the
+  real VN header/dialogue/controls on the ANM-024 viewport matrix. Do not proceed while automatic
+  errors or unexplained measurable pivot/alpha warnings remain.
 - Encode relative height in the master canvas; do not repair it with runtime CSS scale.
 - Produce the four additional expression frames from the approved master while preserving body,
   camera, silhouette and alpha bounds.
@@ -133,11 +140,34 @@ navigation/callback seam through the composition root.
 
 ## Scene, background and evidence production rules
 
-- Build scenes from the approved reusable staging presets: solo close/medium, conflict/alliance
-  two-shots, central-speaker/reaction trios, evidence cutaway and guest testimony card.
+- After 028B1 R3 visual acceptance, build scenes only from the frozen `upds-scene-staging-v1` IDs in `src/data/sceneStaging.ts`:
+  `solo-close`, `solo-medium`, `two-shot-conflict`, `two-shot-alliance`,
+  `trio-central-speaker`, `trio-reaction`, `evidence-cutaway`, `guest-testimony-card`.
 - Presets own shot, actor slots, active/listening/background roles, speaker focus, entry/exit and
   safe-area/non-overlap constraints. Runtime still composes standalone character assets; never bake
   a group into one PNG.
+- Do not add episode-specific coordinates or silently treat the current single-active-speaker VN
+  renderer as multi-character. Authored preset assignment/migration belongs to 028B2 and must use
+  the shared resolver. Guest assets remain 028B3; the 028B1 guest shell never grants an asset path.
+- Preview composition through the shared `vnFrameMarkup` contract. A separate fake Studio header,
+  dialogue card or bottom-control layout is prohibited because it hides real occlusion/crop defects.
+- Scene-mode actors must use the playable `.portrait` primitive and
+  `src/ui/vnPortraitGeometry.ts`: top-aligned large crop, lower canvas behind dialogue, actor
+  `shotScale >= 0.68`. Never fit the whole `1024×1536` canvas into the stage or add a Studio-only
+  full-body renderer. Full master canvases are shown only in neutral lineup QA.
+- Treat actor safe boxes as non-overlapping face/identity lanes. Do not shrink shoulders and bodies
+  merely to keep their transparent PNG bounds separate; intentional body overlap is part of a VN
+  two-shot/trio while the dialogue row supplies lower occlusion.
+- Use `upds-scene-studio-calibration-v1` for viewport/background guides. Estimated focal point,
+  horizon, footline and actor zone require explicit manual approval; AI must not relabel estimates as
+  accepted data.
+- Separate checks: dimensions/alpha/pivot/containment/coordinates may be automated; style, anatomy,
+  adult visual age, palette, light direction and background perspective remain manual Golden Sample
+  gates. Never claim that an automatic validator approved visual style.
+- `upds-scene-studio-qa-v1` is a read-only AI/art handoff. It may seed a correction brief but never
+  writes screenplay, manifests, calibration approvals or production asset paths.
+- Fix character/background source masters when calibration fails. Free-form drag/scale,
+  per-character runtime compensation and episode-specific CSS are prohibited repair shortcuts.
 - Target 8–10 master location families for the base game. Derive crop, dressing and lighting/grade
   variants offline and route them through shared data, not episode-specific controller mappings.
 - Never bake localizable text into backgrounds or ordinary evidence art. Prefer native UI for
