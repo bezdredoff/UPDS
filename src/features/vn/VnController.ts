@@ -37,6 +37,7 @@ import {
 } from '../../ui/vnDialoguePaging';
 import { createDialogueRenderedFit } from '../../ui/dialogueMeasurement';
 import { autoDelayForLine, nextUnreadIndex, type AutoSpeed, type TextScale } from '../../ui/vnPlayback';
+import { vnFrameMarkup } from '../../ui/vnFrameMarkup';
 import { escapeHtml, headerActionMarkup, iconMarkup as icon } from '../../ui/viewMarkup';
 import { audioSettingsMarkup, bindAudioSettingsControls } from '../../ui/systemControls';
 
@@ -160,45 +161,39 @@ export class VnController {
       void preloadImageAssets([expressionAsset(character, expression)], this.services.assetHealth);
     }
 
-    this.shell.render(`<section class="vn-screen text-${this.textScale}">
-      <div class="vn-background-stack" aria-hidden="true">
-        <img class="vn-background vn-background-fill" src="${backgroundAssets[background]}" alt="">
-        <img class="vn-background vn-background-fit" src="${backgroundAssets[background]}" alt="">
-      </div>
-      <span class="visually-hidden">${escapeHtml(this.sceneText('location'))}</span>
-      <div class="vn-vignette"></div>
-      <header class="app-header vn-topbar">
-        <button id="dossier" class="vn-case-pill" aria-label="${escapeHtml(this.t('vn.chrome.openDossier'))}">
-          <span><small>CASE 001 · SCENE ${String(this.session.save.scene).padStart(2, '0')}</small><b>${escapeHtml(this.sceneText('title'))}</b></span>
-          <i>${icon('dossier')}<em>${this.session.save.clues.length}</em></i>
-        </button>
-        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('vn.chrome.navigation'))}">
-          ${headerActionMarkup('history', 'log', this.t('vn.chrome.history'))}
-          ${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
-        </nav>
-      </header>
-      <div class="stage ${staging ? `stage-${staging.side}` : 'stage-empty'}" data-stage-side="${staging?.side ?? 'none'}">
-        ${character ? this.characterMarkup(character, expression, entry.emotion, staging?.side ?? 'center') : ''}
-        ${placeholder ? this.placeholderMarkup(placeholder, staging?.side ?? 'center') : ''}
-        ${direction ? `<div class="direction-card"><span>${escapeHtml(this.t('vn.chrome.direction'))}</span><b>${escapeHtml(this.lineEmotion(entry))}</b></div>` : ''}
-        ${clueToast}
-      </div>
-      <div class="dialogue-shell ${direction ? 'direction' : ''}">
-        <span class="dialogue-nameplate">${direction ? escapeHtml(this.t('vn.chrome.direction')) : escapeHtml(this.lineSpeaker(entry))}<em>${escapeHtml(this.lineEmotion(entry))}</em></span>
-        <button class="dialogue ${direction ? 'direction' : ''}" id="next">
-          <span class="dialogue-text" data-dialogue-page="${this.dialoguePageIndex + 1}" data-dialogue-pages="${dialoguePages.length}">${escapeHtml(dialogueContinuationText(dialoguePage, this.dialoguePageIndex < dialoguePages.length - 1))}</span>
-          <span class="line-id">${entry.id}${dialoguePages.length > 1 ? ` · ${this.dialoguePageIndex + 1}/${dialoguePages.length}` : ''}</span>
-          <span class="dialogue-progress" aria-hidden="true">${dialoguePages.map((_, page) => `<i class="${page <= this.dialoguePageIndex ? 'is-active' : ''}"></i>`).join('')}<b>▼</b></span>
-        </button>
-      </div>
-      <nav class="vn-controls" aria-label="${escapeHtml(this.t('vn.chrome.controls'))}">
-        <button id="skip" ${skipAvailable ? '' : 'disabled'}>${icon('skip')}<span>SKIP</span></button>
-        <button id="auto" class="${this.autoMode ? 'is-active' : ''}">${icon('auto')}<span>AUTO</span></button>
-        <button id="save-vn">${icon('save')}<span>SAVE</span></button>
-        <button id="load-vn">${icon('load')}<span>LOAD</span></button>
-      </nav>
-      <div id="vn-status" class="vn-status" hidden></div>
-    </section>`);
+    const stageMarkup = [
+      character ? this.characterMarkup(character, expression, entry.emotion, staging?.side ?? 'center') : '',
+      placeholder ? this.placeholderMarkup(placeholder, staging?.side ?? 'center') : '',
+      direction ? `<div class="direction-card"><span>${escapeHtml(this.t('vn.chrome.direction'))}</span><b>${escapeHtml(this.lineEmotion(entry))}</b></div>` : '',
+      clueToast,
+    ].join('');
+    this.shell.render(vnFrameMarkup({
+      frameContext: 'runtime',
+      textScale: this.textScale,
+      backgroundAsset: backgroundAssets[background],
+      location: this.sceneText('location'),
+      caseLabel: `CASE 001 · SCENE ${String(this.session.save.scene).padStart(2, '0')}`,
+      sceneTitle: this.sceneText('title'),
+      clueCount: this.session.save.clues.length,
+      stageSide: staging?.side ?? 'empty',
+      stageMarkup,
+      direction,
+      speaker: direction ? this.t('vn.chrome.direction') : this.lineSpeaker(entry),
+      emotion: this.lineEmotion(entry),
+      dialogueText: dialogueContinuationText(dialoguePage, this.dialoguePageIndex < dialoguePages.length - 1),
+      dialoguePageIndex: this.dialoguePageIndex,
+      dialoguePageCount: dialoguePages.length,
+      lineId: entry.id,
+      skipAvailable,
+      autoMode: this.autoMode,
+      labels: {
+        openDossier: this.t('vn.chrome.openDossier'),
+        navigation: this.t('vn.chrome.navigation'),
+        history: this.t('vn.chrome.history'),
+        settings: this.t('common.settings'),
+        controls: this.t('vn.chrome.controls'),
+      },
+    }));
 
     dialoguePages = this.measureAndApplyDialoguePages(entry.id, localizedText, fallbackDialoguePages);
     dialoguePage = dialoguePages[this.dialoguePageIndex] ?? localizedText;

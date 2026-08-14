@@ -134,6 +134,14 @@ Preset задаёт shot size (`wide`/`medium`/`close`), actor slots, роль
 entry/exit transitions. Небольшой camera push и общая reaction motion могут быть metadata, но
 реальное движение включается только в рамках safe-motion contract.
 
+Геометрия preset считается замороженной только после ANM-028B1 R3 QA внутри общего playable VN
+frame: с реальными header/dialogue/controls, ANM-024 viewport matrix, playable `.portrait` crop и
+runtime `contain-over-fill`. Actor safe lanes защищают лица, а не полный прозрачный PNG; нижняя
+часть персонажа намеренно уходит под dialogue card. Neutral full-master lineup и background
+horizon/footline/actor-zone calibration являются обязательными acceptance inputs. Runtime scale
+или episode-specific CSS нельзя использовать для маскировки неправильного character master или
+background perspective.
+
 Runtime всегда композитит самостоятельные character assets. Несколько актёров нельзя запекать в
 один runtime PNG: разнообразие создаётся сочетанием слотов, ролей, выражений, планов и порядка входа.
 
@@ -226,9 +234,12 @@ Macro lock опирается на утверждённый Story Bible и ис�
 
 ## Immediate execution order
 
-1. **ANM-027E** — этот lean production contract и traceability gate.
-2. **ANM-028B1** — reusable staging preset/data contract и Scene Studio preview без нового mass art.
-3. **ANM-027F** — macro lock `0–21` и asset-trigger map на основе Story Bible и исходной презентации.
+1. **ANM-027E — COMPLETE** — этот lean production contract и traceability gate.
+2. **ANM-028B1 R3 — IN QA** — reusable `upds-scene-staging-v1`, shared playable VN frame and
+   portrait crop, viewport/background calibration, neutral lineup и read-only QA brief без нового
+   mass art. R2/PR #93 rejected by visual QA because actors were small floating full-body figures.
+3. **ANM-027F — NEXT AFTER R3 ACCEPTANCE** — macro lock `0–21` и asset-trigger map на основе Story
+   Bible и исходной презентации; staging назначается только из замороженных после visual QA preset IDs.
 4. Завершить 028B Studio/lineup/guest preview; выполнить ограниченный 028C safe-motion proof и 028D
    production integration в порядке, утверждённом roadmap.
 5. **ANM-027G** — screenplay/import пакетами по три эпизода, начиная с `4–6`, с параллельным

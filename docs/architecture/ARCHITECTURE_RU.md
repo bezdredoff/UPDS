@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: audited active architecture at the ANM-028A R2 repository baseline.
+Status: audited active architecture at the ANM-028B1 R3 repository candidate.
 
 ## Runtime flow
 
@@ -21,8 +21,8 @@ The small composition root owns only:
 - global PWA update presentation;
 - global return-to-menu lifecycle.
 
-It constructs VN, Match-3, Level Lab, player-facing Match-3 Campaign, menu, settings, diagnostics,
-dossier and ending controllers. It must not accumulate feature rendering, game rules, story content,
+It constructs VN, Match-3, Level Lab, Scene Studio, player-facing Match-3 Campaign, menu, settings,
+diagnostics, dossier and ending controllers. It must not accumulate feature rendering, game rules, story content,
 level definitions or feature-owned state. Repository tests keep it at no more than 200 lines and
 prevent controller construction elsewhere.
 
@@ -51,6 +51,8 @@ Owns VN UI/session orchestration:
 - choice and awarded-clue presentation.
 
 It consumes narrative/character data and must not import or instantiate Match-3 feature code.
+The production four-row DOM frame is composed by the pure `src/ui/vnFrameMarkup.ts`; VN controller
+still owns all behavior, measurement, session and navigation bindings.
 
 ### `src/features/match3/Match3Controller.ts`
 
@@ -70,6 +72,16 @@ controller through explicit mode seams; the controller must not invent per-mode 
 Owns the QA authoring surface for deterministic seeds, validated editable level config, board
 shape/start layout preview, exact-seed play/retry and JSON export. Lab runs must produce no Story
 save, campaign progression, clue or persistent tutorial side effects.
+
+### `src/features/sceneStudio/SceneStudioController.ts`
+
+Owns the read-only ANM-028B1 R3 composition/calibration QA surface: preset/background/authored-line,
+text-scale and ANM-024 viewport switching; the same shared VN frame as playable runtime; safe-area,
+playable portrait crop/occlusion; contain/focal/horizon/footline/actor-zone and face-lane guides;
+canonical neutral lineup; separated
+automatic/warning/manual diagnostics; native evidence/guest shells; scene budget and structured QA
+report. It consumes shared resolvers/contracts and does not write screenplay, save, calibration
+approval, character manifests or production assets.
 
 ### `src/features/match3Campaign/Match3CampaignController.ts`
 
@@ -111,6 +123,13 @@ switch statements.
 
 - `src/data/characterProduction.ts` — canonical `upds-character-production-v2` manifest, production/planned status, assets, expression set, proportions and validator;
 - `src/data/characterRigs.ts` — runtime rigs, staging and placeholders derived from that manifest;
+- `src/data/sceneStaging.ts` — canonical `upds-scene-staging-v1` registry/validator for eight reusable scene compositions;
+- `src/data/sceneStudioCalibration.ts` — read-only `upds-scene-studio-calibration-v1` viewport,
+  background and measurable lineup QA contract plus `upds-scene-studio-qa-v1` report identity;
+- `src/ui/sceneStaging.ts` — pure actor-assignment resolver that keeps canonical character scale separate from preset shot scale;
+- `src/ui/vnFrameMarkup.ts` — shared production VN DOM/chrome used by both playable VN and Scene Studio;
+- `src/ui/vnPortraitGeometry.ts` — derives group-shot height/bottom from the accepted playable-VN
+  `178% / -78%` camera while keeping the portrait canvas top fixed;
 - `docs/art/CHARACTER_USAGE_MANIFEST.json` — CI-checked documentation mirror;
 - `src/platform/RuntimeAssets.ts` — preload/health catalog.
 
@@ -119,8 +138,13 @@ seven-asset production set. Legacy `base-neutral`, `face-*`, blink and speaking 
 unreferenced baggage, but they are not runtime architecture.
 
 Relative visual height is encoded in the shared 1024×1536 master canvas and validated from alpha
-bounds. Scene-specific CSS zoom must not become a parallel proportion system. ANM-028B Studio must
-preview the same runtime staging/camera coordinates.
+bounds. Scene-specific CSS zoom must not become a parallel proportion system. ANM-028B1 R3 Scene
+Studio uses the same `.portrait` primitive and dialogue occlusion as playable VN. Preset shot scale
+derives camera height/bottom from that baseline; it does not shrink the full canvas into the stage.
+Actor safe boxes protect non-overlapping face-critical lanes while shoulder/lower-body overlap is
+allowed. Neutral lineup alone exposes the complete canvas and bottom-pivot/alpha drift.
+Authored VN adoption and its multi-character rendering remain a bounded ANM-028B2 migration, not
+hidden episode-specific conditions in `VnController`.
 
 ## Match-3 data and engine
 
