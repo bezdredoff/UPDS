@@ -96,6 +96,22 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML).toContain('scene-studio-calibration-overlay is-visible');
   });
 
+  it('previews bounded authored VN shots through the same preset resolver', () => {
+    const root = new FakeRoot();
+    const services = createRuntimeServices();
+    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
+    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
+
+    studio.render({ lineId: 'VN0008', presetId: 'solo-close', background: 'poolLocker', artSource: 'anm028d3-r1' });
+    expect(root.innerHTML).toContain('data-scene-preset="trio-central-speaker"');
+    expect(root.innerHTML).toContain('data-art-source="runtime"');
+    expect(root.innerHTML.match(/data-character=/g)).toHaveLength(3);
+    expect(root.innerHTML).toContain('data-character="miku"');
+    expect(root.innerHTML).toContain('data-character="onoe"');
+    expect(root.innerHTML).toContain('data-character="ayuki"');
+    expect(root.innerHTML.match(/data-vertical-anchor="background-focal-eye-line"/g)).toHaveLength(3);
+  });
+
   it('previews two real actors, native evidence, and the asset-free guest shell', () => {
     const root = new FakeRoot();
     const services = createRuntimeServices();

@@ -44,10 +44,11 @@ import { dialogueContinuationText, paginateDialogueText } from '../../ui/vnDialo
 import type { TextScale } from '../../ui/vnPlayback';
 import { vnFrameMarkup } from '../../ui/vnFrameMarkup';
 import { SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT } from '../../ui/vnPortraitGeometry';
+import { resolveAuthoredVnShot } from '../../ui/vnAuthoredShots';
 import { escapeHtml, panelHeaderMarkup } from '../../ui/viewMarkup';
 
 export const sceneStudioBackgroundKeys = Object.keys(backgroundAssets) as BackgroundKey[];
-export const sceneStudioDialogueLineIds = ['VN0002', 'VN0004', 'VN0022', 'VN0024', 'VN0038'] as const;
+export const sceneStudioDialogueLineIds = ['VN0002', 'VN0004', 'VN0008', 'VN0013', 'VN0022', 'VN0024', 'VN0026', 'VN0034', 'VN0038'] as const;
 export type SceneStudioDialogueLineId = typeof sceneStudioDialogueLineIds[number];
 
 export type SceneStudioState = Readonly<{
@@ -226,7 +227,16 @@ export class SceneStudioController {
   ) {}
 
   render(requested: Partial<SceneStudioState> = {}): void {
-    const state = this.normalizeState(requested);
+    let state = this.normalizeState(requested);
+    const authoredShot = resolveAuthoredVnShot(state.lineId);
+    if (authoredShot) {
+      state = {
+        ...state,
+        presetId: authoredShot.shot.presetId,
+        background: authoredShot.shot.background,
+        artSource: 'runtime',
+      };
+    }
     const sampleSet = state.artSource === EMI_NEUTRAL_CANDIDATE_ID
       ? sceneStudioEmiCandidateSamples
       : state.artSource === EMI_SMILE_CANDIDATE_ID
@@ -236,7 +246,7 @@ export class SceneStudioController {
           : state.artSource === EMI_SURPRISED_CANDIDATE_ID
             ? sceneStudioEmiSurprisedCandidateSamples
             : sceneStudioSamples;
-    const runtimeResolution = resolveSceneStagingPreset(state.presetId, sampleSet[state.presetId]);
+    const runtimeResolution = authoredShot?.staging ?? resolveSceneStagingPreset(state.presetId, sampleSet[state.presetId]);
     const resolution = this.applyArtSource(runtimeResolution, state.artSource);
     const viewportProfile = sceneStudioCalibrationManifest.viewports[state.viewportId];
     const backgroundProfile = sceneStudioCalibrationManifest.backgrounds[state.background];

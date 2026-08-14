@@ -329,6 +329,25 @@ img { display: block; }
 .portrait-placeholder span { font: 700 80px Georgia, serif; opacity: .42; }
 .portrait-placeholder b { font-size: 16px; }
 .portrait-placeholder small { margin-top: 7px; font-size: 8px; letter-spacing: .15em; opacity: .72; }
+
+/* ANM-028B2 bounded authored runtime shots reuse the accepted Scene Studio resolver. */
+.vn-authored-shot,
+.vn-authored-actor-slot {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.vn-authored-shot { z-index: 2; }
+.vn-authored-actor-slot { z-index: var(--scene-z); }
+.vn-authored-runtime-portrait {
+  left: var(--scene-x);
+  z-index: var(--scene-z);
+}
+.vn-authored-runtime-portrait[data-vertical-anchor="background-focal-eye-line"] {
+  top: var(--portrait-top);
+  bottom: auto;
+}
+.vn-authored-actor-slot[data-speaking="true"] { z-index: calc(var(--scene-z) + 1); }
 .direction-card {
   position: absolute;
   left: 50%;

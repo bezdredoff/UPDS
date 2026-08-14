@@ -124,14 +124,15 @@ switch statements.
 ## Character production architecture
 
 - `src/data/characterProduction.ts` — canonical `upds-character-production-v2` manifest, runtime production/planned status, separate visual-approval status, assets, expression set, proportions and per-expression alpha/eye guide geometry with validator;
-- `src/data/characterCandidates.ts` — isolated `upds-character-candidate-v1` metadata for approved
-  authoring masters and manual-QA expressions; candidates are explicitly non-runtime and may
-  override only Studio asset/guide geometry;
-- `src/data/characterRigs.ts` — runtime rigs, staging and placeholders derived from that manifest;
+- `src/data/characterCandidates.ts` — `upds-character-candidate-v1` provenance/manual-QA metadata; candidate metadata remains `runtimeEligible: false` even when an approved file is deliberately referenced by a separate transition override;
+- `src/data/characterRuntimeOverrides.ts` — explicit `upds-character-runtime-override-v1` transition layer currently exposing approved Emi D0–D3 expression files without pretending the incomplete replacement family is a new seven-asset rig;
+- `src/data/characterRigs.ts` — canonical runtime rigs/staging/placeholders plus expression lookup through the transition override;
 - `src/data/sceneStaging.ts` — canonical `upds-scene-staging-v1` registry/validator for eight reusable scene compositions;
+- `src/data/authoredVnShots.ts` — bounded `upds-authored-vn-shots-v1` stable-line background/preset/actor/expression/Pose B declarations;
 - `src/data/sceneStudioCalibration.ts` — read-only `upds-scene-studio-calibration-v1` viewport,
   background and measurable lineup QA contract plus `upds-scene-studio-qa-v1` report identity;
 - `src/ui/sceneStaging.ts` — pure actor-assignment resolver that keeps canonical character scale separate from preset shot scale;
+- `src/ui/vnAuthoredShots.ts` — resolves bounded authored shot declarations through that same preset resolver and renders their actor assets in playable VN;
 - `src/ui/vnFrameMarkup.ts` — shared production VN DOM/chrome used by both playable VN and Scene Studio;
 - `src/ui/vnPortraitGeometry.ts` — preserves the accepted playable-VN `178% / -78%` runtime-top
   camera and derives an eye-line-anchored variant for duo/trio staging;
@@ -150,13 +151,16 @@ resolves vertical position against the actual focal-point element after viewport
 guides are derived from the selected Pose A PNG geometry, while actor safe boxes remain separately
 labelled non-overlapping face-critical lanes. Shoulder/lower-body overlap is allowed. Neutral lineup
 alone exposes the complete canvas and bottom-pivot/alpha drift.
-Runtime integration does not imply visual approval: Emi remains playable as a temporary fallback
-while `visualApproval: rebuild-required` prevents it from being treated as an approved style master.
-ANM-028D0 neutral, ANM-028D1 smile, ANM-028D2 serious and ANM-028D3 surprised are selected through explicit Scene Studio
-`artSource` values; their measured alpha/eye geometry replaces guides only in that read-only preview
-and all are absent from runtime preload/rig data. D1/D2/D3 inherit D0 canvas/alpha outside bounded ROIs.
-Authored VN adoption and its multi-character rendering remain a bounded ANM-028B2 migration, not
-hidden episode-specific conditions in `VnController`.
+Runtime integration does not imply whole-rig visual approval: Emi's strict seven-asset manifest remains
+`visualApproval: rebuild-required`, but ANM-028D3A explicitly exposes approved D0 neutral, D1 smile,
+D2 serious and D3 surprised through `upds-character-runtime-override-v1`. Their measured alpha/eye
+geometry drives both playable rendering and Scene Studio runtime guides. Their candidate metadata
+stays `runtimeEligible: false` and the files remain outside `RuntimeAssets` until the strict seven-asset
+replacement is promoted atomically; legacy embarrassed/Pose B/medallion remain fallback. The override
+is explicit and removable rather than a fake complete rig.
+ANM-028B2 adds bounded authored multi-character rendering through `upds-authored-vn-shots-v1` and the
+shared resolver; unlisted lines still use `resolveVnStaging()` and no line-ID condition is hidden in
+`VnController`.
 
 ## Match-3 data and engine
 

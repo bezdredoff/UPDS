@@ -67,14 +67,16 @@ Production character contract:
 
 Current runtime-integrated production characters: Miku, Onoe, Ayuki, Emi. Runtime availability and
 manual visual approval are separate fields. Miku/Onoe/Ayuki are the current approved comparison
-set; Emi is `rebuild-required` after R3 lineup QA and remains only a temporary runtime fallback.
+set; the strict seven-asset Emi rig is `rebuild-required`. ANM-028D3A deliberately overlays approved
+D0–D3 expression files at runtime while legacy embarrassed/Pose B/medallion remain fallback.
 
 Pre-integration masters/expressions use `src/data/characterCandidates.ts` (`upds-character-candidate-v1`) and a
-`characters/<key>/candidates/<slice>/` asset path. They must declare `runtimeEligible: false`, remain
-absent from `RuntimeAssets`/the seven-asset rig, and be selected explicitly by Scene Studio. Exact
-candidate alpha bounds and eye line drive both the displayed PNG and its guides. An individual
-frame may become an approved authoring source without becoming runtime-eligible; runtime promotion
-requires manual QA of the complete seven-asset family and a separate production-integration change.
+`characters/<key>/candidates/<slice>/` asset path. Candidate metadata must declare `runtimeEligible: false`;
+it does not silently mutate into the strict seven-asset rig. Exact candidate alpha bounds and eye line drive
+preview guides. ANM-028D3A is an explicit transition path: an approved candidate file may be referenced by
+`src/data/characterRuntimeOverrides.ts` (`upds-character-runtime-override-v1`) while still remaining outside
+`RuntimeAssets` and the strict seven-asset rig. This is documented and reversible. Full-rig promotion still
+requires manual QA of the complete seven-asset family and a separate atomic production-integration change.
 
 Current planned/placeholders: Kentaro, Norihiro, Mayu. Planned characters must not claim fake asset
 paths and require side-by-side lineup/proportion approval before promotion to production.
@@ -109,8 +111,11 @@ without manual visual QA.
 - evidence/testimony cards are localized native UI;
 - `guest-testimony-card` remains an asset-free shell until ANM-028B3 supplies its own schema,
   renderer and validator; it cannot create fake `upds-character-production-v2` paths;
-- ANM-028B1 does not silently migrate authored VN lines or change their current single-active-speaker
-  presentation. Multi-actor authored adoption belongs to ANM-028B2 and must use this resolver.
+- ANM-028B2 authored adoption source is `src/data/authoredVnShots.ts` (`upds-authored-vn-shots-v1`).
+  It binds stable VN line IDs to background, preset, ordered actor assignments, expressions and optional Pose B.
+  R1 is deliberately bounded to a Golden Sample set; unlisted lines retain the existing single-active-speaker
+  `resolveVnStaging()` fallback. Authored actor-only shots must use the shared resolver; guest/native presets are
+  not smuggled into B2 and remain ANM-028B3 scope.
 - `src/ui/vnFrameMarkup.ts` owns the shared four-row production DOM frame used by playable VN and
   read-only Studio. This sharing is presentation parity, not permission for Studio to own runtime
   behavior or for 028B1 to migrate authored lines.

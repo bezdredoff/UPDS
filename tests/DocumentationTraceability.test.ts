@@ -134,7 +134,7 @@ describe('active documentation traceability', () => {
     expect(architecture).not.toContain('Status: ANM-023D audited baseline');
   });
 
-  it('keeps approved neutral/smile/serious and the isolated ANM-028D3 surprised candidate traceable', () => {
+  it('keeps approved Emi sources, D3A runtime transition and the current B2 staging phase traceable', () => {
     const roadmap = read('docs/ROADMAP_RU.md');
     const index = read('docs/README.md');
     const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
@@ -150,10 +150,11 @@ describe('active documentation traceability', () => {
     const surprisedPrompt = read('docs/art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md');
 
     expect(roadmap).toContain('028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE');
-    expect(roadmap).toContain('ANM-028D0 R1 Emi Neutral Master Rebuild — COMPLETE');
-    expect(roadmap).toContain('ANM-028D1 R1 Emi Smile — COMPLETE');
-    expect(roadmap).toContain('ANM-028D2 R1 Emi Serious — COMPLETE');
-    expect(roadmap).toContain('ANM-028D3 R1 Emi Surprised Candidate — IN QA');
+    expect(roadmap).toContain('ANM-028D0 R1 Emi neutral master accepted');
+    expect(roadmap).toContain('ANM-028D1 R1 Emi smile accepted');
+    expect(roadmap).toContain('ANM-028D2 R1 Emi serious accepted');
+    expect(roadmap).toContain('ANM-028B2 R1 Authored VN Shot Adoption — IN QA');
+    expect(roadmap).toContain('028D Character Production / Normalization — ART GENERATION PAUSED');
     expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_R1_PROMPT.md');
@@ -172,7 +173,7 @@ describe('active documentation traceability', () => {
     expect(protectedContracts).toContain('upds-scene-studio-calibration-v1');
     expect(protectedContracts).toContain('face-critical-lane');
     expect(protectedContracts).toContain('background-focal-eye-line');
-    expect(protectedContracts).toContain('Emi is `rebuild-required`');
+    expect(protectedContracts).toContain('strict seven-asset Emi rig is `rebuild-required`');
     expect(protectedContracts).toContain('manual Golden Sample gates');
     expect(protectedContracts).toContain('upds-character-candidate-v1');
     expect(protectedContracts).toContain('runtimeEligible: false');

@@ -17,6 +17,14 @@ describe('current VN presentation contract', () => {
     expect(style).toContain('.stage { position: relative; z-index: 2; min-height: 0; overflow: visible; }');
   });
 
+  it('supports bounded authored multi-character shots without removing the legacy lane fallback', () => {
+    expect(vnSource).toContain('resolveAuthoredVnShot(entry.id)');
+    expect(vnSource).toContain('vnAuthoredShotMarkup(authoredShot, character)');
+    expect(vnSource).toContain("resolveVnStaging(this.story, this.session.save.line)");
+    expect(style).toContain('.vn-authored-actor-slot {');
+    expect(style).toContain('.vn-authored-runtime-portrait[data-vertical-anchor="background-focal-eye-line"]');
+  });
+
   it('keeps the nameplate above the stage/dialogue seam and the lower portrait behind the dialogue card', () => {
     expect(frameSource).toContain('<span class="dialogue-nameplate">');
     expect(vnSource).toContain("frameContext: 'runtime'");

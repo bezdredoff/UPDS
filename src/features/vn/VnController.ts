@@ -28,6 +28,7 @@ import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppSession } from '../../app/AppSession';
 import type { AppShell } from '../../app/AppShell';
 import { resolveVnStaging, type VnStageSide } from '../../ui/vnStaging';
+import { authoredVnShotAssets, resolveAuthoredVnShot, vnAuthoredShotMarkup } from '../../ui/vnAuthoredShots';
 import {
   currentDialogueProfile,
   dialogueContinuationText,
@@ -150,20 +151,24 @@ export class VnController {
     this.dialoguePageIndex = Math.min(this.dialoguePageIndex, dialoguePages.length - 1);
     let dialoguePage = dialoguePages[this.dialoguePageIndex] ?? localizedText;
     const direction = isDirection(entry);
-    const background = getBackgroundForLine(this.session.save.scene, this.session.save.line, this.story);
+    const authoredShot = direction ? null : resolveAuthoredVnShot(entry.id);
+    const background = authoredShot?.shot.background ?? getBackgroundForLine(this.session.save.scene, this.session.save.line, this.story);
     const character = direction ? null : characterForSpeaker(entry.speaker);
     const placeholder = direction ? null : placeholderForSpeaker(entry.speaker);
     const expression = expressionForDirection(entry.emotion);
-    const staging = direction ? null : resolveVnStaging(this.story, this.session.save.line);
+    const staging = direction || authoredShot ? null : resolveVnStaging(this.story, this.session.save.line);
     const clueToast = this.pendingClue ? this.clueToastMarkup(this.pendingClue) : '';
     const skipAvailable = this.session.save.readLines.includes(entry.id);
-    if (character && !this.usesPoseB(character, entry.emotion)) {
+    if (authoredShot) {
+      void preloadImageAssets(authoredVnShotAssets(authoredShot), this.services.assetHealth);
+    } else if (character && !this.usesPoseB(character, entry.emotion)) {
       void preloadImageAssets([expressionAsset(character, expression)], this.services.assetHealth);
     }
 
     const stageMarkup = [
-      character ? this.characterMarkup(character, expression, entry.emotion, staging?.side ?? 'center') : '',
-      placeholder ? this.placeholderMarkup(placeholder, staging?.side ?? 'center') : '',
+      authoredShot ? vnAuthoredShotMarkup(authoredShot, character) : '',
+      !authoredShot && character ? this.characterMarkup(character, expression, entry.emotion, staging?.side ?? 'center') : '',
+      !authoredShot && placeholder ? this.placeholderMarkup(placeholder, staging?.side ?? 'center') : '',
       direction ? `<div class="direction-card"><span>${escapeHtml(this.t('vn.chrome.direction'))}</span><b>${escapeHtml(this.lineEmotion(entry))}</b></div>` : '',
       clueToast,
     ].join('');
@@ -175,7 +180,7 @@ export class VnController {
       caseLabel: `CASE 001 · SCENE ${String(this.session.save.scene).padStart(2, '0')}`,
       sceneTitle: this.sceneText('title'),
       clueCount: this.session.save.clues.length,
-      stageSide: staging?.side ?? 'empty',
+      stageSide: authoredShot ? `authored-${authoredShot.staging.preset.id}` : staging?.side ?? 'empty',
       stageMarkup,
       direction,
       speaker: direction ? this.t('vn.chrome.direction') : this.lineSpeaker(entry),
@@ -306,8 +311,12 @@ export class VnController {
     const nextIndex = Math.min(this.story.length - 1, this.session.save.line + 1);
     const next = this.story[nextIndex];
     if (!next) return;
-    const assets = [backgroundAssets[getBackgroundForLine(this.session.save.scene, nextIndex, this.story)]];
-    if (!isDirection(next)) {
+    const authoredShot = isDirection(next) ? null : resolveAuthoredVnShot(next.id);
+    const nextBackground = authoredShot?.shot.background ?? getBackgroundForLine(this.session.save.scene, nextIndex, this.story);
+    const assets = [backgroundAssets[nextBackground]];
+    if (authoredShot) {
+      assets.push(...authoredVnShotAssets(authoredShot));
+    } else if (!isDirection(next)) {
       const character = characterForSpeaker(next.speaker);
       if (character) {
         const rig = characterRigs[character];
