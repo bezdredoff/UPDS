@@ -15,9 +15,11 @@ describe('ANM-028B2 bounded authored VN shot adoption', () => {
     expect(AUTHORED_VN_SHOTS_FORMAT).toBe('upds-authored-vn-shots-v1');
     expect(validateAuthoredVnShotManifest()).toEqual([]);
     expect(authoredVnShotManifest.adoption).toBe('bounded-runtime');
-    expect(authoredVnShotManifest.shots.map((shot) => shot.lineId)).toEqual([
-      'VN0008', 'VN0013', 'VN0026', 'VN0034', 'VN0038', 'VN0254', 'VN0273', 'VN0341', 'VN0389', 'VN0427', 'VN0482',
-    ]);
+    const shotLineIds = authoredVnShotManifest.shots.map((shot) => shot.lineId);
+    expect(shotLineIds.slice(0, 5)).toEqual(['VN0008', 'VN0013', 'VN0026', 'VN0034', 'VN0038']);
+    expect(new Set(shotLineIds).size).toBe(shotLineIds.length);
+    expect(shotLineIds).toEqual([...shotLineIds].sort((left, right) => left.localeCompare(right)));
+    expect(shotLineIds.length).toBeLessThan(canonicalStoryLines.length);
 
     for (const shot of authoredVnShotManifest.shots) {
       const line = storyById.get(shot.lineId);

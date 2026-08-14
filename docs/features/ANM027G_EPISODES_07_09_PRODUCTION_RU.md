@@ -4,7 +4,7 @@ R1.2 не меняет screenplay, runtime, Match-3 configs или localization.
 
 # ANM-027G — Episodes 07–09 Production Batch
 
-Status: **R1.1 IN QA**. Base: merged ANM-027G `4–6` R1.1 (`976b4056528856760994c5eb8b1e755e2dc86c94`).
+Status: **R1.2 COMPLETE**. Base: merged ANM-027G `4–6` R1.1 (`976b4056528856760994c5eb8b1e755e2dc86c94`).
 
 ## R1.1 CI-contract correction
 
@@ -105,4 +105,4 @@ Manual iPhone QA:
 - E9: Gen guest testimony card, `protect-gen-source`, M3_09 и authored frontier работают;
 - Match-3 Campaign показывает 10 последовательных levels.
 
-Следующий package после merge: **ANM-027G `10–12`**.
+Следующий package: **ANM-027G `10–12`** (current R1 QA).

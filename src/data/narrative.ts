@@ -35,7 +35,11 @@ export type BackgroundKey =
   | 'textileWorkshop'
   | 'asterionLab'
   | 'lostFoundWarehouse'
-  | 'maintenanceRoom';
+  | 'maintenanceRoom'
+  | 'combatClubHall'
+  | 'serviceYard'
+  | 'asterionTransferPoint'
+  | 'oldGymNight';
 
 const conditionalSpeakerPattern = /^\{IF\s+([^}]+)\}\s*/;
 
@@ -131,6 +135,12 @@ export const sceneMeta: readonly SceneMeta[] = [
   { id: 'VN_SCENE_18_E8_POST', title: 'Пропуски в журнале', location: 'Центральный склад lost-and-found', defaultBackground: 'lostFoundWarehouse' },
   { id: 'VN_SCENE_19_E9_PRE', title: 'Король потерянных носков', location: 'Хозяйственная комната', defaultBackground: 'maintenanceRoom' },
   { id: 'VN_SCENE_20_E9_POST', title: 'Ночные контейнеры', location: 'Хозяйственная комната', defaultBackground: 'maintenanceRoom' },
+  { id: 'VN_SCENE_21_E10_PRE', title: 'Чёрный пояс, белые трусы', location: 'Зал клуба карате', defaultBackground: 'combatClubHall' },
+  { id: 'VN_SCENE_22_E10_POST', title: 'Контрольная выборка', location: 'Зал клуба карате', defaultBackground: 'combatClubHall' },
+  { id: 'VN_SCENE_23_E11_PRE', title: 'Самый заметный тайный груз', location: 'Служебный двор → перегрузочный пункт Asterion', defaultBackground: 'serviceYard' },
+  { id: 'VN_SCENE_24_E11_POST', title: 'Цепочка передачи', location: 'Перегрузочный пункт Asterion', defaultBackground: 'asterionTransferPoint' },
+  { id: 'VN_SCENE_25_E12_PRE', title: 'ПанцуИтер существует?!', location: 'Старый спортивный зал ночью', defaultBackground: 'oldGymNight' },
+  { id: 'VN_SCENE_26_E12_POST', title: 'Second Skin', location: 'Старый спортивный зал ночью', defaultBackground: 'oldGymNight' },
 ] as const;
 
 export const backgroundAssets: Record<BackgroundKey, string> = {
@@ -146,13 +156,22 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   asterionLab: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
   lostFoundWarehouse: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
   maintenanceRoom: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
+  // ANM-027G 10–12 semantic variants. External masters replace only these mappings.
+  combatClubHall: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
+  serviceYard: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
+  asterionTransferPoint: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
+  oldGymNight: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
 };
 
 export function getBackgroundForLine(sceneIndex: number, lineIndex: number, story: readonly StoryLine[]): BackgroundKey {
   let background = sceneMeta[sceneIndex]?.defaultBackground ?? 'clubroom';
   for (let index = 0; index <= lineIndex && index < story.length; index += 1) {
     const direction = `${story[index].emotion} ${story[index].text}`;
-    if (direction.includes('BG_ASTERION_LAB')) background = 'asterionLab';
+    if (direction.includes('BG_ASTERION_TRANSFER_POINT')) background = 'asterionTransferPoint';
+    else if (direction.includes('BG_SERVICE_YARD')) background = 'serviceYard';
+    else if (direction.includes('BG_COMBAT_CLUB_HALL')) background = 'combatClubHall';
+    else if (direction.includes('BG_OLD_GYM_NIGHT')) background = 'oldGymNight';
+    else if (direction.includes('BG_ASTERION_LAB')) background = 'asterionLab';
     else if (direction.includes('BG_LOST_FOUND_WAREHOUSE')) background = 'lostFoundWarehouse';
     else if (direction.includes('BG_MAINTENANCE_ROOM')) background = 'maintenanceRoom';
     else if (direction.includes('BG_STUDENT_COUNCIL_AUDITORIUM')) background = 'studentCouncilAuditorium';

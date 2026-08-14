@@ -1,6 +1,6 @@
 # UPDS — защищённые проектные контракты
 
-Status: active protected contract aligned through merged ANM-027G `4–6` R1.1 with ANM-027G `7–9` canonical batch in QA.
+Status: active protected contract aligned through merged ANM-027G `7–9` R1.2 with ANM-027G `10–12` canonical batch in QA.
 
 Эти правила считаются стабильными до отдельного продуктового решения. Реализация, тест или
 удобство production pipeline не могут молча переопределить их.
@@ -11,11 +11,11 @@ Status: active protected contract aligned through merged ANM-027G `4–6` R1.1 w
 - Каждый source имеет собственный `upds-story-content-v1` manifest: `src/content/story/ANM003.vertical-slice.story.json` и `src/content/story/ANM027G.episodes-04-06.story.json`.
 - Runtime routing source: `src/data/storyGraph.ts` (`upds-story-graph-v1`).
 - Audited data flow: `screenplay sources + scoped manifests + storyGraph → per-source auditStoryContent → combined canonicalStoryLines → VN runtime`.
-- Стабильные `VN....` IDs не перенумеровываются и не переиспользуются; `VN0250` является canonical bridge между ANM-003 и последовательными ANM-027G sources; граница `4–6 → 7–9` продолжается без повторного использования IDs.
+- Стабильные `VN....` IDs не перенумеровываются и не переиспользуются; `VN0250` является canonical bridge между ANM-003 и последовательными ANM-027G sources; границы `4–6 → 7–9 → 10–12` продолжаются без повторного использования IDs.
 - `CHOICE_00` сохраняет A/B/C variants и checkpoint/resume semantics; новые post-slice gates используют `src/data/storyChoices.ts` и additive `CampaignSave.storyChoices` без смены save schema/key.
-- Текущий playable authored scope: slots `0–9`, 21 VN scene, 10 story Match-3 routes и terminal authored frontier `ENDING_AUTHORED_FRONTIER_09`.
-- Canonical sources содержат **500 authored lines**: 262 в ANM-003 (`VN0001–VN0250`, включая branch suffixes), 119 в batch `4–6` (`VN0251–VN0369`) и 119 в batch `7–9` (`VN0370–VN0488`); explicit deferred lines сейчас отсутствуют.
-- Slots `10–21` остаются macro-locked only. Их нельзя считать созданными, локализованными или art-locked до следующих authored/imported ANM-027G passes.
+- Текущий playable authored scope: slots `0–12`, 27 VN scenes, 13 story Match-3 routes и terminal authored frontier `ENDING_AUTHORED_FRONTIER_12`.
+- Canonical sources содержат **619 authored lines**: 262 в ANM-003 (`VN0001–VN0250`, включая branch suffixes), 119 в batch `4–6` (`VN0251–VN0369`), 119 в batch `7–9` (`VN0370–VN0488`) и 119 в batch `10–12` (`VN0489–VN0607`); explicit deferred lines сейчас отсутствуют.
+- Slots `13–21` остаются macro-locked only. Их нельзя считать созданными, локализованными или art-locked до следующих authored/imported ANM-027G passes.
 - Full-game scope сохраняет 22 planned content slots `0–21`: общую ветку `0–18` и три возможных
   финальных слота `19`/`20`/`21`. Production optimization не может молча удалить слот или финал.
 - Canonical production-budget/authoring contract:

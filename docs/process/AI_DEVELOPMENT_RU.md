@@ -35,7 +35,7 @@ Do not copy a “current build” string into multiple READMEs.
 3. `upds-story-content-v1` manifests and `upds-story-graph-v1`;
 4. canonical runtime import/tests.
 
-Authored repository sources are incremental: ANM-003 owns slots `0–3`, `src/content/ANM-027G_Episodes_04_06_Screenplay.md` owns slots `4–6`, and `src/content/ANM-027G_Episodes_07_09_Screenplay.md` owns slots `7–9`. Do not invent slots `10–21` inside a technical feature or claim they exist because an old handoff mentions a plan.
+Authored repository sources are incremental: ANM-003 owns slots `0–3`, `src/content/ANM-027G_Episodes_04_06_Screenplay.md` owns slots `4–6`, `src/content/ANM-027G_Episodes_07_09_Screenplay.md` owns slots `7–9`, and `src/content/ANM-027G_Episodes_10_12_Screenplay.md` owns slots `10–12`. Do not invent slots `13–21` inside a technical feature or claim they exist because an old handoff mentions a plan.
 
 Full-game scope, asset-trigger budgets and authoring sequence:
 `docs/content/CONTENT_PRODUCTION_STRATEGY_RU.md`. It preserves content slots `0–21`; a technical
@@ -106,7 +106,7 @@ navigation/callback seam through the composition root.
 - Dialogue internal pages are runtime presentation state and never authored/save IDs.
 - Before detailed post-slice screenplay, lock a `0–21` macro table with case/emotional beat,
   location family, cast tier, evidence treatment, Match-3 archetype, transition and asset triggers.
-- Add detailed content in reviewable packages of three sequential episodes before mass localization/art production; `4–6` and `7–9` are implemented packages and `10–12` is the next package after acceptance.
+- Add detailed content in reviewable packages of three sequential episodes before mass localization/art production; `4–6`, `7–9` and `10–12` are implemented packages; `13–15` is the next package after acceptance.
 - Apply the strategy asset-trigger budget while writing. Prefer recurring cast, guest testimony,
   native dossier/phone/document UI and existing location families over one-off production assets.
 - A budget exception must state the dramatic purpose, why reuse is insufficient and every added

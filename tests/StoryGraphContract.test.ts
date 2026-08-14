@@ -17,8 +17,8 @@ describe('ANM-027A story graph contract', () => {
     expect(storyGraph.format).toBe('upds-story-graph-v1');
     expect(storyGraph.entrySceneId).toBe('VN_SCENE_00_PROLOGUE');
     expect(storyGraph.episodes).toHaveLength(1);
-    expect(storyGraph.chapters).toHaveLength(11);
-    expect(storyGraph.scenes).toHaveLength(21);
+    expect(storyGraph.chapters).toHaveLength(14);
+    expect(storyGraph.scenes).toHaveLength(27);
     expect(validateStoryGraph()).toEqual([]);
   });
 
@@ -53,6 +53,9 @@ describe('ANM-027A story graph contract', () => {
       ['M3_07_ASTERION_THREAD', 'VN_SCENE_16_E7_POST'],
       ['M3_08_LOST_FOUND_LEDGER', 'VN_SCENE_18_E8_POST'],
       ['M3_09_MAINTENANCE_KEYS', 'VN_SCENE_20_E9_POST'],
+      ['M3_10_CONTROL_SAMPLE_GEAR', 'VN_SCENE_22_E10_POST'],
+      ['M3_11_ASTERION_TRANSFER', 'VN_SCENE_24_E11_POST'],
+      ['M3_12_SECOND_SKIN_SIGNAL', 'VN_SCENE_26_E12_POST'],
     ]);
     expect(routes.map(([levelId]) => levelId)).toEqual(levels.map((level) => level.id));
   });
@@ -74,6 +77,9 @@ describe('ANM-027A story graph contract', () => {
       ['VN0370', 'VN0390'], ['VN0391', 'VN0409'],
       ['VN0410', 'VN0429'], ['VN0430', 'VN0448'],
       ['VN0449', 'VN0469'], ['VN0470', 'VN0488'],
+      ['VN0489', 'VN0508'], ['VN0509', 'VN0527'],
+      ['VN0528', 'VN0547'], ['VN0548', 'VN0567'],
+      ['VN0568', 'VN0588'], ['VN0589', 'VN0607'],
     ]);
     expect(storyTransitionForLegacyScene(1)).toEqual({
       kind: 'match3',
@@ -82,7 +88,8 @@ describe('ANM-027A story graph contract', () => {
     });
     expect(storyTransitionForLegacyScene(8)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_09_E4_PRE' });
     expect(storyTransitionForLegacyScene(14)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_15_E7_PRE' });
-    expect(storyTransitionForLegacyScene(20)).toEqual({ kind: 'ending', endingId: 'ENDING_AUTHORED_FRONTIER_09' });
+    expect(storyTransitionForLegacyScene(20)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_21_E10_PRE' });
+    expect(storyTransitionForLegacyScene(26)).toEqual({ kind: 'ending', endingId: 'ENDING_AUTHORED_FRONTIER_12' });
   });
 
   it('is pure data/validation and does not pull runtime controllers or storage into the contract', () => {

@@ -20,9 +20,9 @@ export type Match3TileCategory = 'panties' | 'bra' | 'camisole' | 'socks' | 'tow
 export const ACTIVE_TILE_TYPE_LIMIT = 6;
 export const MAX_PANTIES_TYPES_PER_LEVEL = 4;
 export const MAX_OBJECTIVES_PER_LEVEL = 3;
-export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel' | 'laundryCalendar' | 'repairLog' | 'warrantyCard' | 'silverSpool' | 'asterionSpec' | 'missingNumberSheet' | 'handoffSlip';
-export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet' | 'rumorCard' | 'lockerLock' | 'garmentBag' | 'labCover' | 'sealedPackage' | 'supplyCrate';
-export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004' | 'CUE_005' | 'CUE_006' | 'CUE_007' | 'CUE_008' | 'CUE_009' | 'CUE_010';
+export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel' | 'laundryCalendar' | 'repairLog' | 'warrantyCard' | 'silverSpool' | 'asterionSpec' | 'missingNumberSheet' | 'handoffSlip' | 'stitchedWristband' | 'transferSeal' | 'routeCard' | 'transferManifest' | 'secondSkinTag';
+export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet' | 'rumorCard' | 'lockerLock' | 'garmentBag' | 'labCover' | 'sealedPackage' | 'supplyCrate' | 'signalNoise';
+export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004' | 'CUE_005' | 'CUE_006' | 'CUE_007' | 'CUE_008' | 'CUE_009' | 'CUE_010' | 'CUE_011' | 'CUE_012' | 'CUE_013';
 
 export type BoardPlacement = Readonly<{ index: number; layers: 1 | 2 }>;
 export type IngredientPlacement = Readonly<{ index: number; kind: IngredientKey }>;
@@ -113,6 +113,11 @@ export const ingredientPresentation: Record<IngredientKey, Readonly<{ label: str
   asterionSpec: { label: 'Спецификация Asterion', asset: './assets/match3/goal_receipt.png' },
   missingNumberSheet: { label: 'Лист пропущенных номеров', asset: './assets/match3/goal_memory_card.png' },
   handoffSlip: { label: 'Транспортная накладная', asset: './assets/match3/goal_receipt.png' },
+  stitchedWristband: { label: 'Напульсник со швом', asset: './assets/clues/clue_towel_conductive_seam.png' },
+  transferSeal: { label: 'Пломба контейнера', asset: './assets/match3/goal_memory_card.png' },
+  routeCard: { label: 'Маршрутная карточка', asset: './assets/match3/goal_receipt.png' },
+  transferManifest: { label: 'Транспортный манифест', asset: './assets/match3/goal_receipt.png' },
+  secondSkinTag: { label: 'Активная метка Second Skin', asset: './assets/clues/clue_towel_conductive_seam.png' },
 };
 
 export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; asset: string }>> = {
@@ -126,6 +131,7 @@ export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; a
   labCover: { label: 'Защитная крышка', asset: './assets/match3/obstacle_locked_cell.png' },
   sealedPackage: { label: 'Запечатанный пакет', asset: './assets/match3/obstacle_prop_box_2layer.png' },
   supplyCrate: { label: 'Хозяйственная коробка', asset: './assets/match3/obstacle_service_cabinet.png' },
+  signalNoise: { label: 'Радиопомеха', asset: './assets/match3/obstacle_soap_foam.png' },
 };
 
 export const specialAsset = './assets/match3/special_observation_magnifier.png';
@@ -430,6 +436,79 @@ export const levels: readonly LevelDefinition[] = [
     winBark: { speaker: 'Мику', text: 'Гэн не сходится по времени. А контейнер Asterion сходится с маршрутом слишком хорошо.' },
     loseBark: { speaker: 'Аюки', text: 'Я проиграла стенду носков. Он требует реванш по форме U.' },
   },
+
+  {
+    id: 'M3_10_CONTROL_SAMPLE_GEAR', shortId: 'M3_10', title: 'Контрольная экипировка',
+    storyAction: 'Открыть секции клуба карате, отделить перемещённую экипировку и проверить повторяющийся серебристый шов.',
+    context: {
+      sourceSceneId: 'VN_SCENE_21_E10_PRE', pageBackground: 'combatClubHall',
+      boardSurface: 'locker-columns', boardFrame: 'service-file', narrativeProfile: 'control-sample-gear', tilePresentationProfile: 'karate-control',
+      participants: ['miku', 'onoe', 'ayuki', 'aoi', 'kentaro'], narrativeTags: ['karate-club', 'control-sample', 'sports-monitoring', 'silver-stitch'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'sportsBra', 'socks', 'towel', 'pantiesSportWhite', 'pantiesHighWaistBlack'],
+    moves: 28,
+    objectives: [
+      { kind: 'clearBlockers', target: 10, label: 'Замки' },
+      { kind: 'collect', tile: 'laundryTag', target: 12, label: 'Сервисные ярлыки' },
+      { kind: 'drop', ingredient: 'stitchedWristband', target: 1, label: 'Напульсник со швом' },
+    ],
+    blocker: 'lockerLock', blockers: positions([5, 6, 10, 13, 26, 29, 42, 45, 50, 53]),
+    ingredients: [{ index: 46, kind: 'stitchedWristband' }], seed: 9011,
+    clueId: 'CUE_011', clueTitle: 'Контрольная выборка',
+    clueSummary: 'Серебристая система встречается на белье и внешней экипировке участников мониторинга: бельё — основная выборка, но не единственная.',
+    startBark: { speaker: 'Аой', text: 'Открываем секции по порядку. Честь клуба переживёт контрольную выборку.' },
+    winBark: { speaker: 'Мику', text: 'Шов повторяется на внешней экипировке. Значит, критерий технический, а не личный.' },
+    loseBark: { speaker: 'Оноэ', text: 'Мы смешали перемещение и пропажу. Разделим выборку и повторим.' },
+  },
+  {
+    id: 'M3_11_ASTERION_TRANSFER', shortId: 'M3_11', title: 'Цепочка контейнера',
+    storyAction: 'Сопоставить пломбы, маршрут и манифест между прачечной, перегрузочным пунктом и лабораторией Asterion.',
+    context: {
+      sourceSceneId: 'VN_SCENE_23_E11_PRE', pageBackground: 'asterionTransferPoint',
+      boardSurface: 'service-lanes', boardFrame: 'lab-file', narrativeProfile: 'lab-transfer-chain', tilePresentationProfile: 'asterion-transfer',
+      participants: ['miku', 'onoe', 'ayuki', 'kentaro'], narrativeTags: ['service-yard', 'asterion-transfer', 'container-seals', 'photo-chain'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'socks', 'towel', 'sportsBra', 'camisole', 'pantiesSportWhite'],
+    moves: 29,
+    objectives: [
+      { kind: 'clearBlockers', target: 8, label: 'Упаковка' },
+      { kind: 'dropGroup', ingredients: ['transferSeal', 'routeCard'], target: 2, label: 'Пломба и маршрут' },
+      { kind: 'drop', ingredient: 'transferManifest', target: 1, label: 'Манифест' },
+    ],
+    blocker: 'sealedPackage', blockers: positions([8, 15, 24, 31, 32, 39, 48, 55]),
+    ingredients: [{ index: 4, kind: 'transferSeal' }, { index: 7, kind: 'routeCard' }, { index: 12, kind: 'transferManifest' }], seed: 9012,
+    clueId: 'CUE_012', clueTitle: 'Цепочка передачи Asterion',
+    clueSummary: 'Фотографии, пломбы и манифест доказывают маршрут спорных вещей из прачечной в лабораторный контур Asterion и обратно.',
+    startBark: { speaker: 'Кэнтаро', text: 'Номер контейнера есть в оригинале. Теперь докажем весь путь, а не только красивый кадр.' },
+    winBark: { speaker: 'Оноэ', text: 'Цепочка непрерывна. Лаборатория входит в физический маршрут вещей.' },
+    loseBark: { speaker: 'Мику', text: 'У нас есть части маршрута, но нет непрерывной цепочки. Соберём её заново.' },
+  },
+  {
+    id: 'M3_12_SECOND_SKIN_SIGNAL', shortId: 'M3_12', title: 'Сигнал Second Skin',
+    storyAction: 'Отделить радиопомехи от повторяющегося сигнала и извлечь активную микрометку из сервисной бирки.',
+    context: {
+      sourceSceneId: 'VN_SCENE_25_E12_PRE', pageBackground: 'oldGymNight',
+      boardSurface: 'signal-cross', boardFrame: 'evidence-file', narrativeProfile: 'second-skin-tag', tilePresentationProfile: 'second-skin-signal',
+      participants: ['miku', 'onoe', 'ayuki'], narrativeTags: ['old-gym-night', 'occult-bait', 'radio-signal', 'second-skin'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesLacePink', 'pantiesSportWhite'],
+    moves: 28,
+    objectives: [
+      { kind: 'clearBlockers', target: 10, label: 'Помехи' },
+      { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Сигнальные узлы' },
+      { kind: 'drop', ingredient: 'secondSkinTag', target: 1, label: 'Микрометка' },
+    ],
+    blocker: 'signalNoise', blockers: positions([11, 19, 25, 26, 27, 28, 29, 30, 35, 43]),
+    ingredients: [{ index: 20, kind: 'secondSkinTag' }], seed: 9013,
+    clueId: 'CUE_013', clueTitle: 'Метка Second Skin',
+    clueSummary: 'Активная микрометка передаёт данные под внутренним именем Second Skin и объясняет технический критерий выбора вещей.',
+    startBark: { speaker: 'Аюки', text: 'Если ПанцуИтер настоящий, сейчас у него будет очень плохая ночь.' },
+    winBark: { speaker: 'Мику', text: 'Не демон. Активная метка, радиопакет и имя Second Skin.' },
+    loseBark: { speaker: 'Оноэ', text: 'Шум победил измерение. Повторяем с разделёнными частотами.' },
+  },
 ] as const;
 
 export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: string }>> = {
@@ -443,6 +522,9 @@ export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: s
   CUE_008: { asset: './assets/clues/clue_towel_conductive_seam.png', label: 'Нить Asterion' },
   CUE_009: { asset: './assets/clues/clue_laundry_receipt.png', label: 'Пропуски в журнале' },
   CUE_010: { asset: './assets/clues/clue_service_key.png', label: 'Ночные контейнеры' },
+  CUE_011: { asset: './assets/clues/clue_towel_conductive_seam.png', label: 'Контрольная выборка' },
+  CUE_012: { asset: './assets/match3/goal_memory_card.png', label: 'Цепочка передачи Asterion' },
+  CUE_013: { asset: './assets/clues/clue_towel_conductive_seam.png', label: 'Метка Second Skin' },
 };
 
 export function validateLevelDefinitions(definitions: readonly LevelDefinition[] = levels): string[] {

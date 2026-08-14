@@ -27,7 +27,10 @@ describe('ANM-025B narrative Match-3 level context', () => {
     expect(new Set(levels.map((level) => level.context.boardSurface)).size).toBeLessThanOrEqual(levels.length);
     expect(levels[8].context.boardSurface).toBe('service-lanes');
     expect(levels[9].context.boardSurface).toBe('service-lanes');
-    expect(new Set(levels.map((level) => level.context.boardFrame)).size).toBe(levels.length);
+    expect(new Set(levels.map((level) => level.context.boardFrame)).size).toBeLessThanOrEqual(levels.length);
+    expect(levels[10].context.boardFrame).toBe('service-file');
+    expect(levels[11].context.boardFrame).toBe('lab-file');
+    expect(levels[12].context.boardFrame).toBe('evidence-file');
     expect(new Set(levels.map((level) => level.context.narrativeProfile)).size).toBe(levels.length);
     for (const level of levels) {
       expect(level.context.participants.length).toBeGreaterThan(0);

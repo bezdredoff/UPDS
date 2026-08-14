@@ -5,6 +5,7 @@ import { backgroundAssets } from '../src/data/narrative';
 import { levels } from '../src/data/levels';
 import { SAVE_SCHEMA_VERSION } from '../src/engine/CampaignStore';
 import { storyChoiceGates } from '../src/data/storyChoices';
+import { authoredVnShotManifest } from '../src/data/authoredVnShots';
 import type { StoryContentManifest } from '../src/content/storyContentFormat';
 
 const manifest = batchManifestJson as StoryContentManifest;
@@ -28,6 +29,11 @@ describe('ANM-027G episodes 4–6 canonical production batch', () => {
       'VN_SCENE_13_E6_PRE', 'VN_SCENE_14_E6_POST',
     ]);
     expect(manifest.deferredLineIds).toEqual([]);
+    expect(
+      authoredVnShotManifest.shots
+        .map((shot) => shot.lineId)
+        .filter((lineId) => lineId >= 'VN0251' && lineId <= 'VN0369'),
+    ).toEqual(['VN0254', 'VN0273', 'VN0341']);
   });
 
   it('promotes only macro slots 4–6 and ships exactly their three production Match-3 configs', () => {
@@ -46,10 +52,9 @@ describe('ANM-027G episodes 4–6 canonical production batch', () => {
 
   it('adds two additive stable choice gates without changing the Story save schema', () => {
     expect(SAVE_SCHEMA_VERSION).toBe(2);
-    expect(storyChoiceGates.map((gate) => [gate.id, gate.checkpointLineId])).toEqual([
+    expect(storyChoiceGates.slice(0, 2).map((gate) => [gate.id, gate.checkpointLineId])).toEqual([
       ['meeting-tone', 'VN0262'],
       ['apology-to-hinata', 'VN0356'],
-      ['protect-gen-source', 'VN0480'],
     ]);
     expect(storyChoiceGates.every((gate) => gate.options.join('') === 'ABC')).toBe(true);
   });
