@@ -54,7 +54,8 @@ delivery-lane limits. Не закреплять тестом каждую фор
 - Candidate tests validate format, real RGBA, measured alpha bounds/eye line, approved-master
   geometry inheritance, Studio rendering and absence from runtime preload/rig. They cannot promote
   `manual-qa` to an approved expression; that remains the iPhone lineup/solo/duo/trio gate.
-- Focused `story:audit`, `character:audit`, `scene:audit` и `docs:audit` ускоряют проверку, но не заменяют полный
+- Localization production tests distinguish structural completeness from linguistic/visual approval: key/placeholder parity can be automated, but translation quality and CJK overflow remain content/mobile QA gates. Translation-pending locales must not be exposed in runtime merely because fallback copy exists.
+- Focused `story:audit`, `character:audit`, `scene:audit`, `localization:audit` и `docs:audit` ускоряют проверку, но не заменяют полный
   `npm run check` и GitHub Quality gate.
 
 ## Приоритет при рефакторинге

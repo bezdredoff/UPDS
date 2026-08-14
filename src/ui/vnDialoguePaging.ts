@@ -1,3 +1,4 @@
+import { isCjkLocaleTag } from '../localization/LocalizationProduction';
 export type DialogueTextScale = 'normal' | 'large';
 
 export type DialoguePageProfile = Readonly<{
@@ -84,10 +85,6 @@ type SegmentEntry = Readonly<{ segment: string }>;
 type SegmenterLike = Readonly<{ segment(input: string): Iterable<SegmentEntry> }>;
 type SegmenterConstructor = new (locale?: string | string[], options?: { granularity?: SegmenterGranularity }) => SegmenterLike;
 
-function usesCjkLocale(locale: string): boolean {
-  return /^(?:ja|zh|ko)(?:-|$)/iu.test(locale);
-}
-
 const segmenterConstructor = (): SegmenterConstructor | null => {
   if (typeof Intl === 'undefined') return null;
   const intlWithSegmenter = Intl as typeof Intl & { Segmenter?: SegmenterConstructor };
@@ -111,7 +108,7 @@ const segmentWords = (text: string, locale: string): string[] => {
   // byte-for-byte (apart from collapsed inter-token whitespace). This avoids
   // Intl word segmentation inventing spaces inside things like quoted words,
   // variable expressions or German compounds.
-  if (!usesCjkLocale(locale)) {
+  if (!isCjkLocaleTag(locale)) {
     const words = text.trim().split(/\s+/u).filter(Boolean);
     return words.length > 0 ? words : [text];
   }
@@ -176,11 +173,11 @@ const cjkGraphemeCount = (text: string, locale: string): number => segmentGraphe
   .filter((segment) => /[\p{L}\p{N}\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u.test(segment))
   .length;
 
-const meaningfulUnitCount = (text: string, locale: string, forceGrapheme = false): number => forceGrapheme || usesCjkLocale(locale)
+const meaningfulUnitCount = (text: string, locale: string, forceGrapheme = false): number => forceGrapheme || isCjkLocaleTag(locale)
   ? cjkGraphemeCount(text, locale)
   : visibleWordCount(text);
 
-const minimumContinuationUnits = (locale: string, preferred: boolean, forceGrapheme = false): number => forceGrapheme || usesCjkLocale(locale)
+const minimumContinuationUnits = (locale: string, preferred: boolean, forceGrapheme = false): number => forceGrapheme || isCjkLocaleTag(locale)
   ? (preferred ? PREFERRED_CONTINUATION_CJK_GRAPHEMES : MIN_CONTINUATION_CJK_GRAPHEMES)
   : (preferred ? PREFERRED_CONTINUATION_WORDS : MIN_CONTINUATION_WORDS);
 
@@ -190,7 +187,7 @@ const hasHealthyContinuation = (remaining: string, locale: string, preferred: bo
 };
 
 const hasHealthyPageBody = (candidate: string, locale: string, forceGrapheme = false): boolean => {
-  const minimum = forceGrapheme || usesCjkLocale(locale) ? 4 : 3;
+  const minimum = forceGrapheme || isCjkLocaleTag(locale) ? 4 : 3;
   return meaningfulUnitCount(candidate, locale, forceGrapheme) >= minimum;
 };
 
@@ -249,7 +246,7 @@ const splitAtPreferredBoundary = (
   // Grapheme splitting is a last resort for CJK or a genuinely unbreakable
   // single word/identifier. Do not use it to manufacture one-word tails in
   // normal whitespace-separated dialogue.
-  if (!usesCjkLocale(locale) && visibleWordCount(remaining) > 1) return null;
+  if (!isCjkLocaleTag(locale) && visibleWordCount(remaining) > 1) return null;
   const graphemes = segmentGraphemes(remaining, locale);
   const graphemeJoin = (parts: readonly string[]): string => parts.join('');
   return largestHealthyBoundary(graphemes, fits, locale, { allowSmallHead: true, preferredTail: false, forceGrapheme: true, join: graphemeJoin });
@@ -259,7 +256,7 @@ const rebalanceContinuationTails = (pages: readonly string[], fits: DialogueFitP
   const balanced = [...pages];
   if (balanced.length < 2) return balanced;
 
-  if (usesCjkLocale(locale)) {
+  if (isCjkLocaleTag(locale)) {
     for (let index = balanced.length - 1; index >= 1; index -= 1) {
       while (cjkGraphemeCount(balanced[index], locale) < MIN_CONTINUATION_CJK_GRAPHEMES) {
         const previous = segmentGraphemes(balanced[index - 1], locale);

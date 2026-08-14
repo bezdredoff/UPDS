@@ -1,6 +1,6 @@
 # UPDS — validation and test workflow
 
-Status: active. Current content frontier: ANM-027G `13–15` R1 candidate.
+Status: active. Canonical story `0–21` is complete; current candidate: ANM-029A R1.1 localization production foundation.
 
 ## Authoritative gate
 
@@ -20,12 +20,14 @@ are useful feedback but do not replace the GitHub **Quality gate**.
 npm run story:audit
 npm run character:audit
 npm run scene:audit
+npm run localization:audit
 npm run docs:audit
 ```
 
 - `story:audit` — screenplay/manifest/graph completeness.
 - `character:audit` — character production manifest, isolated candidate status, PNG dimensions,
   selected-expression/candidate alpha bounds and eye-line landmarks, visual-approval status and runtime paths.
+- `localization:audit` — production-locale registry/readiness, RU/EN catalog structure, full screenplay coverage, placeholder signatures and localized Match-3 surfaces.
 - `scene:audit` — exact eight-preset registry/resolver, face-critical lanes, runtime-top and
   focal-eye-line camera derivation, duo/trio headroom, frame-accurate actor guides, ANM-024
   viewport/background calibration, contain geometry, measurable lineup/visual-status warnings,
