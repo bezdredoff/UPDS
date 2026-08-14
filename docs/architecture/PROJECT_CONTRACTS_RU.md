@@ -1,6 +1,6 @@
 # UPDS — защищённые проектные контракты
 
-Status: active protected contract aligned with ANM-027E, accepted ANM-028B1 R4.1 and ANM-028D0 R1 candidate QA.
+Status: active protected contract aligned with ANM-027E, accepted ANM-028B1 R4.1/ANM-028D0 and ANM-028D1 R1 candidate QA.
 
 Эти правила считаются стабильными до отдельного продуктового решения. Реализация, тест или
 удобство production pipeline не могут молча переопределить их.
@@ -69,11 +69,12 @@ Current runtime-integrated production characters: Miku, Onoe, Ayuki, Emi. Runtim
 manual visual approval are separate fields. Miku/Onoe/Ayuki are the current approved comparison
 set; Emi is `rebuild-required` after R3 lineup QA and remains only a temporary runtime fallback.
 
-Pre-approval masters use `src/data/characterCandidates.ts` (`upds-character-candidate-v1`) and a
+Pre-integration masters/expressions use `src/data/characterCandidates.ts` (`upds-character-candidate-v1`) and a
 `characters/<key>/candidates/<slice>/` asset path. They must declare `runtimeEligible: false`, remain
 absent from `RuntimeAssets`/the seven-asset rig, and be selected explicitly by Scene Studio. Exact
-candidate alpha bounds and eye line drive both the displayed PNG and its guides. Promotion requires
-a separate manual lineup/solo/duo/trio approval and production-integration change.
+candidate alpha bounds and eye line drive both the displayed PNG and its guides. An individual
+frame may become an approved authoring source without becoming runtime-eligible; runtime promotion
+requires manual QA of the complete seven-asset family and a separate production-integration change.
 
 Current planned/placeholders: Kentaro, Norihiro, Mayu. Planned characters must not claim fake asset
 paths and require side-by-side lineup/proportion approval before promotion to production.

@@ -84,7 +84,9 @@ offline-композит выражений и библиотека staging pres
 Provisional production ceiling — не более девяти full-stage персонажей: три Stage Core и до шести
 Recurring Stage. Это **бюджет**, а не runtime status. На текущем baseline production manifest
 содержит runtime-production Miku/Onoe/Ayuki/Emi и planned Kentaro/Norihiro/Mayu; manual visual
-approval при этом отдельный: Emi сейчас `rebuild-required` и остаётся fallback до ANM-028D0.
+approval при этом отдельный. Старый Emi set всё ещё `rebuild-required`; ANM-028D0 neutral уже
+утверждён как authoring master, но полный старый runtime set остаётся fallback до завершения и
+атомарной интеграции всей replacement family.
 Rina/Kurose и гости не получают вымышленные paths до отдельного утверждённого integration slice.
 
 Guest/witness package является планируемым отдельным presentation/asset contract. Пока его schema и
@@ -240,13 +242,14 @@ Macro lock опирается на утверждённый Story Bible и ис�
 2. **ANM-028B1 R4.1 — COMPLETE** — reusable `upds-scene-staging-v1`, shared playable VN frame,
    focal-eye-line duo/trio crop, frame-accurate guides, viewport/background calibration,
    visual-status lineup и read-only QA brief без нового art; R4.1 passed iPhone QA and merged as PR #96.
-3. **ANM-028D0 R1 — IN QA** — один isolated Emi neutral full-body candidate with
-   `runtimeEligible: false`; expressions, Pose B и medallion производятся только после
-   lineup/solo/two-shot/trio approval.
-4. **ANM-027F — NEXT AFTER EMI NEUTRAL APPROVAL** — macro lock `0–21` и asset-trigger map на основе Story
+3. **ANM-028D0 R1 — COMPLETE** — Emi neutral прошёл lineup/solo/two-shot/trio approval и является
+   approved authoring master, но остаётся вне runtime до полного семиассетного set.
+4. **ANM-028D1 R1 — IN QA** — smile производится первым bounded face-ROI slice; остальные эмоции,
+   Pose B и medallion следуют по одному, без массовой генерации и без частичной runtime-подмены.
+5. **ANM-027F — NEXT AFTER EMI SET** — macro lock `0–21` и asset-trigger map на основе Story
    Bible и исходной презентации; staging назначается только из замороженных после visual QA preset IDs.
-5. Завершить 028B Studio/lineup/guest preview; выполнить ограниченный 028C safe-motion proof и 028D
+6. Завершить 028B Studio/lineup/guest preview; выполнить ограниченный 028C safe-motion proof и 028D
    production integration в порядке, утверждённом roadmap.
-6. **ANM-027G** — screenplay/import пакетами по три эпизода, начиная с `4–6`, с параллельным
+7. **ANM-027G** — screenplay/import пакетами по три эпизода, начиная с `4–6`, с параллельным
    производством только тех assets, которые прошли trigger budget.
-6. ANM-029 mass localization и ANM-030 mass art — только после полного canonical content lock.
+8. ANM-029 mass localization и ANM-030 mass art — только после полного canonical content lock.

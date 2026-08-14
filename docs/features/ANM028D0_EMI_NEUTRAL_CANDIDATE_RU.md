@@ -1,23 +1,26 @@
 # ANM-028D0 R1 — Emi Neutral Candidate QA
 
-Status: **manual iPhone QA required**.  
+Status: **approved master** after manual iPhone QA; merged in PR #97 at
+`977ab2d98f33ae3cdf922d0b92685e6ce2e0f25b`.  
 Baseline: `main` commit `c224df25c35c610eb6f83e675f8d95f48b92a3c8` (ANM-028B1 R4.1 / PR #96).
 
 ## Решение
 
 ANM-028B1 R4.1 прошёл iPhone visual QA и был смержен. Следующий ограниченный art slice создаёт
 только один новый neutral Pose A master Эми. Expressions, Pose B, medallion и замена runtime assets
-запрещены до отдельного ручного approval этого neutral в lineup/solo/duo/trio.
+были запрещены до отдельного ручного approval этого neutral в lineup/solo/duo/trio. Approval
+получен; ANM-028D1 начинает expression family по одному кадру.
 
 ## Изоляция candidate
 
 - PNG: `public/assets/characters/emi/candidates/anm028d0/neutral-r1.png`;
 - metadata: `src/data/characterCandidates.ts` (`upds-character-candidate-v1`);
-- status: `manual-qa`;
+- status: `approved-master`;
 - `runtimeEligible: false`;
 - файл отсутствует в `RuntimeAssets` и `characterProductionManifest`;
 - текущий обрезанный Emi set остаётся runtime fallback с `visualApproval: rebuild-required`;
-- Studio selector позволяет сравнивать `runtime` и `anm028d0-r1` без скрытой подмены игры.
+- Studio selector позволяет сравнивать `runtime`, `anm028d0-r1` и текущий expression candidate без
+  скрытой подмены игры.
 
 ## Измеренная геометрия
 
@@ -48,7 +51,7 @@ Candidate alpha bounds и `eyeLineYPx=244` используются и изоб�
 заменяет только карточку Эми; Miku/Onoe/Ayuki остаются canonical approved references. Read-only
 `upds-scene-studio-qa-v1` report сохраняет `artSource`, candidate metadata и фактическую actor geometry.
 
-## Ручной gate
+## Пройденный ручной gate
 
 На `/preview/` проверить минимум `390×844`, затем крайние `320×568` и `430×932`:
 
@@ -61,12 +64,12 @@ Candidate alpha bounds и `eyeLineYPx=244` используются и изоб�
 5. Guides: `SELECTED FRAME ALPHA` соответствует PNG `330,80,737,1508`, eye marker проходит через глаза.
 6. Переключатель `Runtime fallback` возвращает старую Эми и её старую геометрию для честного A/B.
 
-Только после ручного approval следующий slice может продвигать neutral в production baseline и
-начинать по одному четыре face-ROI expression edits. R1 сам по себе не закрывает ANM-028D.
+Ручной approval подтверждён пользователем после проверки candidate preview. Neutral R1 теперь
+является production authoring baseline; четыре face-ROI expression edits выполняются по одному.
+R1 сам по себе не закрывает ANM-028D и не заменяет runtime до полного семиассетного набора.
 
 ## Generation provenance
 
 Built-in ChatGPT Work `imagegen`; approved design was regenerated on chroma-key, затем прошёл
 детерминированный matte/de-spill и canvas translation. Финальный prompt и роли references:
 [`../art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md`](../art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md).
-

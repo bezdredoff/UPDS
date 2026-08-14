@@ -1,6 +1,6 @@
 # UPDS — validation and test workflow
 
-Status: active at accepted ANM-028B1 R4.1 plus ANM-028D0 R1 candidate QA.
+Status: active at accepted ANM-028B1 R4.1/ANM-028D0 plus ANM-028D1 R1 candidate QA.
 
 ## Authoritative gate
 
@@ -96,8 +96,9 @@ lines and explicit deferred `VN0250`.
 - runtime asset and staging tests.
 
 They preserve the seven-asset precomposed contract, production/planned status, PNG dimensions,
-alpha-height proportions, isolated `runtimeEligible: false` candidate geometry and absence of
-runtime face-overlay/candidate preload references. Visual style/anatomy still requires manual approval.
+alpha-height proportions, isolated `runtimeEligible: false` candidate geometry, bounded expression
+ROI inheritance and absence of runtime face-overlay/candidate preload references. Visual style,
+identity and expression readability still require manual approval.
 
 ### Reusable scene staging
 
@@ -108,7 +109,7 @@ runtime face-overlay/candidate preload references. Visual style/anatomy still re
 They preserve the exact eight-preset `upds-scene-staging-v1` registry, safe non-overlapping boxes,
 canonical/shot scale separation, exact actor assignment, zero-new-art budgets, the
 `upds-scene-studio-calibration-v1` viewport/background contract, runtime contain fit, shared
-playable/QA VN frame, runtime/candidate selector, exact candidate guides, neutral lineup metrics,
+playable/QA VN frame, runtime/approved-master/current-candidate selector, exact candidate guides, lineup metrics,
 read-only QA report and an asset-free guest shell.
 Style, anatomy, adult visual age, lighting, perspective and final composition/readability still
 require `/preview/` phone QA against the approved Golden Sample.

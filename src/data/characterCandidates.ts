@@ -2,15 +2,16 @@ import type { CharacterPortraitFrameGeometry } from './characterProduction';
 
 export const CHARACTER_CANDIDATE_FORMAT = 'upds-character-candidate-v1' as const;
 export const EMI_NEUTRAL_CANDIDATE_ID = 'anm028d0-r1' as const;
+export const EMI_SMILE_CANDIDATE_ID = 'anm028d1-r1' as const;
 
-export const sceneStudioArtSources = ['runtime', EMI_NEUTRAL_CANDIDATE_ID] as const;
+export const sceneStudioArtSources = ['runtime', EMI_NEUTRAL_CANDIDATE_ID, EMI_SMILE_CANDIDATE_ID] as const;
 export type SceneStudioArtSource = typeof sceneStudioArtSources[number];
 
-export type CharacterNeutralCandidate = Readonly<{
+export type CharacterFrameCandidate = Readonly<{
   format: typeof CHARACTER_CANDIDATE_FORMAT;
-  id: typeof EMI_NEUTRAL_CANDIDATE_ID;
+  id: typeof EMI_NEUTRAL_CANDIDATE_ID | typeof EMI_SMILE_CANDIDATE_ID;
   character: 'emi';
-  expression: 'neutral';
+  expression: 'neutral' | 'smile';
   asset: string;
   canvas: Readonly<{ width: 1024; height: 1536 }>;
   pivot: Readonly<{ x: 0.5; y: 1 }>;
@@ -18,14 +19,28 @@ export type CharacterNeutralCandidate = Readonly<{
   visualHeightPx: number;
   bottomPaddingPx: number;
   alphaCenterOffsetPx: number;
-  status: 'manual-qa';
+  status: 'approved-master' | 'manual-qa';
   runtimeEligible: false;
+  source: 'gpt-work-chroma-matte' | 'gpt-work-face-roi';
+}>;
+
+export type CharacterNeutralCandidate = CharacterFrameCandidate & Readonly<{
+  id: typeof EMI_NEUTRAL_CANDIDATE_ID;
+  expression: 'neutral';
+  status: 'approved-master';
   source: 'gpt-work-chroma-matte';
 }>;
 
+export type CharacterSmileCandidate = CharacterFrameCandidate & Readonly<{
+  id: typeof EMI_SMILE_CANDIDATE_ID;
+  expression: 'smile';
+  status: 'manual-qa';
+  source: 'gpt-work-face-roi';
+}>;
+
 /**
- * Studio-only neutral candidate. It must not replace Emi's runtime rig or
- * canonical production manifest until lineup and scene QA are approved.
+ * Approved neutral master. It remains outside the runtime rig while the
+ * expression family is produced and approved one frame at a time.
  */
 export const emiNeutralCandidate: CharacterNeutralCandidate = Object.freeze({
   format: CHARACTER_CANDIDATE_FORMAT,
@@ -42,13 +57,42 @@ export const emiNeutralCandidate: CharacterNeutralCandidate = Object.freeze({
   visualHeightPx: 1428,
   bottomPaddingPx: 28,
   alphaCenterOffsetPx: 21.5,
-  status: 'manual-qa',
+  status: 'approved-master',
   runtimeEligible: false,
   source: 'gpt-work-chroma-matte',
 } as const);
 
-export function validateEmiNeutralCandidate(
-  candidate: CharacterNeutralCandidate = emiNeutralCandidate,
+/** Studio-only smile candidate derived from the approved neutral via a bounded face ROI. */
+export const emiSmileCandidate: CharacterSmileCandidate = Object.freeze({
+  format: CHARACTER_CANDIDATE_FORMAT,
+  id: EMI_SMILE_CANDIDATE_ID,
+  character: 'emi',
+  expression: 'smile',
+  asset: './assets/characters/emi/candidates/anm028d1/frame-smile-r1.png',
+  canvas: { width: 1024, height: 1536 },
+  pivot: { x: 0.5, y: 1 },
+  geometry: {
+    alphaBounds: { left: 330, top: 80, right: 737, bottom: 1508 },
+    eyeLineYPx: 244,
+  },
+  visualHeightPx: 1428,
+  bottomPaddingPx: 28,
+  alphaCenterOffsetPx: 21.5,
+  status: 'manual-qa',
+  runtimeEligible: false,
+  source: 'gpt-work-face-roi',
+} as const);
+
+export function emiCandidateForArtSource(
+  source: SceneStudioArtSource,
+): CharacterFrameCandidate | null {
+  if (source === EMI_NEUTRAL_CANDIDATE_ID) return emiNeutralCandidate;
+  if (source === EMI_SMILE_CANDIDATE_ID) return emiSmileCandidate;
+  return null;
+}
+
+export function validateEmiFrameCandidate(
+  candidate: CharacterFrameCandidate,
 ): readonly string[] {
   const issues: string[] = [];
   const bounds = candidate.geometry.alphaBounds;
@@ -67,8 +111,16 @@ export function validateEmiNeutralCandidate(
   if (candidate.geometry.eyeLineYPx <= bounds.top || candidate.geometry.eyeLineYPx >= bounds.bottom) {
     issues.push('candidate eye line must cross the visible subject');
   }
-  if (candidate.runtimeEligible !== false || candidate.status !== 'manual-qa') {
-    issues.push('candidate must remain Studio-only before manual approval');
-  }
+  if (candidate.runtimeEligible !== false) issues.push('candidate must remain outside runtime until integration');
+  if (candidate.status !== 'approved-master' && candidate.status !== 'manual-qa') issues.push('unsupported candidate status');
   return issues;
+}
+
+
+export function validateEmiNeutralCandidate(): readonly string[] {
+  return validateEmiFrameCandidate(emiNeutralCandidate);
+}
+
+export function validateEmiSmileCandidate(): readonly string[] {
+  return validateEmiFrameCandidate(emiSmileCandidate);
 }
