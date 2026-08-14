@@ -382,3 +382,18 @@
   .match-tutorial-card h2 { font-size: 20px; }
   .match-tutorial-card p { font-size: 11px; }
 }
+
+
+/* ANM-027G semantic board variants reuse approved material families until dedicated art exists. */
+.match-screen[data-m3-board-surface='meeting-grid'] .board {
+  background: linear-gradient(180deg, rgba(34, 44, 65, 0.96), rgba(20, 27, 43, 0.98));
+}
+.match-screen[data-m3-board-surface='locker-columns'] .board {
+  background: linear-gradient(180deg, rgba(39, 57, 69, 0.97), rgba(22, 35, 43, 0.98));
+}
+.match-screen[data-m3-board-surface='workbench-clusters'] .board {
+  background: linear-gradient(180deg, rgba(65, 49, 43, 0.97), rgba(38, 29, 27, 0.98));
+}
+.match-screen[data-m3-board-frame='audit-file'] .board { box-shadow: inset 0 0 0 2px rgba(215, 197, 149, 0.28), 0 18px 46px rgba(0,0,0,.28); }
+.match-screen[data-m3-board-frame='service-file'] .board { box-shadow: inset 0 0 0 2px rgba(139, 190, 198, 0.28), 0 18px 46px rgba(0,0,0,.28); }
+.match-screen[data-m3-board-frame='workshop-file'] .board { box-shadow: inset 0 0 0 2px rgba(210, 164, 139, 0.28), 0 18px 46px rgba(0,0,0,.28); }

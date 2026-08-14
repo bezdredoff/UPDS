@@ -108,6 +108,9 @@ export const sceneStudioCalibrationManifest: SceneStudioCalibrationManifest = {
     kentaroApartment: background('kentaroApartment', 3, 50, 40, 39, 89),
     poolLocker: background('poolLocker', 5, 53, 43, 42, 90),
     norihiroApartment: background('norihiroApartment', 7, 50, 39, 38, 87),
+    studentCouncilAuditorium: background('studentCouncilAuditorium', 9, 49, 42, 43, 87),
+    basketballLocker: background('basketballLocker', 11, 50, 41, 40, 90),
+    textileWorkshop: background('textileWorkshop', 13, 50, 40, 39, 89),
   },
 };
 

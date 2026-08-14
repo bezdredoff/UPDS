@@ -14,11 +14,12 @@ import { SAVE_SCHEMA_VERSION } from '../src/engine/CampaignStore';
 describe('ANM-027B graph-driven story runtime routing', () => {
   it('resolves every existing scene transition without numeric routing arithmetic', () => {
     expect(storyTransitionForLegacyScene(0)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_01_E0_PRE' });
-    expect(storyTransitionForLegacyScene(8)).toEqual({ kind: 'ending', endingId: 'ENDING_CASE_001' });
+    expect(storyTransitionForLegacyScene(8)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_09_E4_PRE' });
+    expect(storyTransitionForLegacyScene(14)).toEqual({ kind: 'ending', endingId: 'ENDING_AUTHORED_FRONTIER_06' });
 
-    const matchRoutes = [1, 3, 5, 7].map((legacyIndex) => storyMatch3RouteForLegacyScene(legacyIndex));
-    expect(matchRoutes.map((route) => route?.levelIndex)).toEqual([0, 1, 2, 3]);
-    expect(matchRoutes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8]);
+    const matchRoutes = [1, 3, 5, 7, 9, 11, 13].map((legacyIndex) => storyMatch3RouteForLegacyScene(legacyIndex));
+    expect(matchRoutes.map((route) => route?.levelIndex)).toEqual([0, 1, 2, 3, 4, 5, 6]);
+    expect(matchRoutes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14]);
 
     for (const scene of storyGraph.scenes) {
       if (scene.transition.kind !== 'scene') continue;
@@ -36,6 +37,9 @@ describe('ANM-027B graph-driven story runtime routing', () => {
     expect(storyWinSceneIndexForLevelId('M3_01_PHOTO_PROPS')).toBe(4);
     expect(storyWinSceneIndexForLevelId('M3_02_POOL_LAUNDRY')).toBe(6);
     expect(storyWinSceneIndexForLevelId('M3_03_ORDERED_APARTMENT')).toBe(8);
+    expect(storyWinSceneIndexForLevelId('M3_04_EMERGENCY_MEETING')).toBe(10);
+    expect(storyWinSceneIndexForLevelId('M3_05_BASKETBALL_LOCKERS')).toBe(12);
+    expect(storyWinSceneIndexForLevelId('M3_06_TEXTILE_WORKSHOP')).toBe(14);
     expect(storyWinSceneIndexForLevelId('UNKNOWN')).toBe(-1);
   });
 

@@ -20,7 +20,7 @@ export type AuthoredVnShotDefinition = Readonly<{
 
 export type AuthoredVnShotManifest = Readonly<{
   format: typeof AUTHORED_VN_SHOTS_FORMAT;
-  sourceStory: 'ANM-003';
+  sourceStory: 'ANM-003+ANM-027G';
   adoption: 'bounded-runtime';
   shots: readonly AuthoredVnShotDefinition[];
 }>;
@@ -32,7 +32,7 @@ export type AuthoredVnShotManifest = Readonly<{
  */
 export const authoredVnShotManifest: AuthoredVnShotManifest = {
   format: AUTHORED_VN_SHOTS_FORMAT,
-  sourceStory: 'ANM-003',
+  sourceStory: 'ANM-003+ANM-027G',
   adoption: 'bounded-runtime',
   shots: [
     {
@@ -86,6 +86,21 @@ export const authoredVnShotManifest: AuthoredVnShotManifest = {
         { character: 'emi', expression: 'embarrassed' },
       ],
       note: 'Pose B proof: Ayuki proposes the anonymous warning while Emi listens.',
+    },
+    {
+      lineId: 'VN0254', background: 'studentCouncilAuditorium', presetId: 'trio-central-speaker',
+      actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'neutral' }, { character: 'ayuki', expression: 'smile' }],
+      note: 'Episode 4 Golden Sample: Miku takes control of the emergency meeting while the core trio remains readable.',
+    },
+    {
+      lineId: 'VN0273', background: 'studentCouncilAuditorium', presetId: 'trio-reaction',
+      actors: [{ character: 'ayuki', expression: 'surprised' }, { character: 'miku', expression: 'neutral' }, { character: 'onoe', expression: 'serious' }],
+      note: 'Episode 4 reaction shot after the laundry cadence becomes visible.',
+    },
+    {
+      lineId: 'VN0341', background: 'textileWorkshop', presetId: 'trio-central-speaker',
+      actors: [{ character: 'miku', expression: 'neutral' }, { character: 'onoe', expression: 'serious' }, { character: 'ayuki', expression: 'smile' }],
+      note: 'Episode 6 core-trio workshop shot; Hinata remains on the separate B3 guest path on her own lines.',
     },
   ],
 };

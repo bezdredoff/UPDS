@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getScene } from '../src/data/narrative';
+import { getScene, sceneMeta } from '../src/data/narrative';
 import { isUsableDialogueViewport } from '../src/ui/dialogueMeasurement';
 import {
   dialogueContinuationText,
@@ -14,7 +14,7 @@ const normalize = (value: string): string => value.replace(/\s+/g, ' ').trim();
 describe('VN dialogue paging', () => {
   it('keeps the deterministic headless fallback lossless for every authored branch', () => {
     for (const choice of ['A', 'B', 'C'] as const) {
-      for (let scene = 0; scene < 9; scene += 1) {
+      for (let scene = 0; scene < sceneMeta.length; scene += 1) {
         for (const line of getScene(scene, choice)) {
           const pages = paginateDialogueText(line.text, compactProfile);
           expect(pages.length, `${choice} ${line.id}`).toBeGreaterThan(0);

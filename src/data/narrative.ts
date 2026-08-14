@@ -29,7 +29,10 @@ export type BackgroundKey =
   | 'lockerAthletics'
   | 'kentaroApartment'
   | 'poolLocker'
-  | 'norihiroApartment';
+  | 'norihiroApartment'
+  | 'studentCouncilAuditorium'
+  | 'basketballLocker'
+  | 'textileWorkshop';
 
 const conditionalSpeakerPattern = /^\{IF\s+([^}]+)\}\s*/;
 
@@ -113,6 +116,12 @@ export const sceneMeta: readonly SceneMeta[] = [
   { id: 'VN_SCENE_06_E2_POST', title: 'Таблица без вкуса', location: 'Раздевалка клуба плавания', defaultBackground: 'poolLocker' },
   { id: 'VN_SCENE_07_E3_PRE', title: 'Розовое признание', location: 'Квартира Норихиро', defaultBackground: 'norihiroApartment' },
   { id: 'VN_SCENE_08_E3_POST', title: 'Это не ткань', location: 'Квартира Норихиро', defaultBackground: 'norihiroApartment' },
+  { id: 'VN_SCENE_09_E4_PRE', title: 'Чрезвычайное бельевое совещание', location: 'Аудитория студсовета', defaultBackground: 'studentCouncilAuditorium' },
+  { id: 'VN_SCENE_10_E4_POST', title: 'Ритм прачечной', location: 'Аудитория студсовета', defaultBackground: 'studentCouncilAuditorium' },
+  { id: 'VN_SCENE_11_E5_PRE', title: 'Заслон для вора', location: 'Баскетбольная раздевалка', defaultBackground: 'basketballLocker' },
+  { id: 'VN_SCENE_12_E5_POST', title: 'Сервисная строчка', location: 'Баскетбольная раздевалка', defaultBackground: 'basketballLocker' },
+  { id: 'VN_SCENE_13_E6_PRE', title: 'Мастерская подозрительного размера', location: 'Текстильная мастерская Хинаты', defaultBackground: 'textileWorkshop' },
+  { id: 'VN_SCENE_14_E6_POST', title: 'Шов после ремонта', location: 'Текстильная мастерская Хинаты', defaultBackground: 'textileWorkshop' },
 ] as const;
 
 export const backgroundAssets: Record<BackgroundKey, string> = {
@@ -121,13 +130,19 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   kentaroApartment: './assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp',
   poolLocker: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
   norihiroApartment: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
+  studentCouncilAuditorium: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
+  basketballLocker: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
+  textileWorkshop: './assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp',
 };
 
 export function getBackgroundForLine(sceneIndex: number, lineIndex: number, story: readonly StoryLine[]): BackgroundKey {
   let background = sceneMeta[sceneIndex]?.defaultBackground ?? 'clubroom';
   for (let index = 0; index <= lineIndex && index < story.length; index += 1) {
     const direction = `${story[index].emotion} ${story[index].text}`;
-    if (direction.includes('BG_LOCKER_ATHLETICS')) background = 'lockerAthletics';
+    if (direction.includes('BG_STUDENT_COUNCIL_AUDITORIUM')) background = 'studentCouncilAuditorium';
+    else if (direction.includes('BG_BASKETBALL_LOCKER')) background = 'basketballLocker';
+    else if (direction.includes('BG_TEXTILE_WORKSHOP')) background = 'textileWorkshop';
+    else if (direction.includes('BG_LOCKER_ATHLETICS')) background = 'lockerAthletics';
     else if (direction.includes('BG_KENTARO_APARTMENT')) background = 'kentaroApartment';
     else if (direction.includes('BG_POOL_LOCKER')) background = 'poolLocker';
     else if (direction.includes('BG_NORIHIRO_APARTMENT')) background = 'norihiroApartment';

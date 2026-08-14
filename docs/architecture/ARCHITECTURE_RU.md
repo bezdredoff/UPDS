@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: audited active architecture at accepted ANM-028B1 R4.1/ANM-028D0/D1/D2 plus the ANM-028D3 R1 Studio-only candidate.
+Status: active architecture through merged ANM-028B3 R1.1 with ANM-027G `4–6` canonical batch in QA.
 
 ## Runtime flow
 
@@ -104,22 +104,19 @@ attempt flow. Its persistence is isolated in `Match3CampaignStore`/`Match3Campai
 
 Current canonical repository flow:
 
-`ANM-003 Markdown + ANM003.vertical-slice.story.json + storyGraph → auditStoryContent → canonicalStoryLines → narrative facade → VN`
+`multiple screenplay Markdown sources + one upds-story-content-v1 manifest each + storyGraph → auditStoryContent per source → combined canonicalStoryLines → narrative facade → VN`
 
-- `src/content/ANM-003_Vertical_Slice_Screenplay.md` — current authored source;
-- `src/content/story/ANM003.vertical-slice.story.json` — `upds-story-content-v1` completeness manifest;
-- `src/content/storyContentFormat.ts` — pure parser/auditor;
-- `src/content/storyRuntime.ts` — fail-closed canonical import;
+- `src/content/ANM-003_Vertical_Slice_Screenplay.md` + `src/content/story/ANM003.vertical-slice.story.json` — slots `0–3` and bridge `VN0250`;
+- `src/content/ANM-027G_Episodes_04_06_Screenplay.md` + `src/content/story/ANM027G.episodes-04-06.story.json` — slots `4–6`, `VN0251–VN0369`;
+- `src/content/storyContentFormat.ts` — pure parser/auditor with optional manifest-owned scene scope for incremental sources;
+- `src/content/storyRuntime.ts` — fail-closed multi-source canonical import;
 - `src/data/storyGraph.ts` — stable episode/chapter/scene IDs and explicit scene/Match-3/ending transitions;
-- `src/data/narrative.ts` — presentation facade: scene lines, choices, metadata/background/history.
+- `src/data/storyChoices.ts` — additive stable choice gates for post-slice batches;
+- `src/data/narrative.ts` — presentation facade: scene lines, legacy CHOICE_00, metadata/background/history.
 
-`narrative.ts` no longer owns a second screenplay parser or parallel scene-range tables. Story graph
-routing no longer derives transitions from numeric-scene arithmetic. The legacy numeric save field
-is isolated behind graph adapters until an explicit save migration is approved.
+`narrative.ts` owns no second screenplay parser or parallel scene-range tables. Story graph routing does not derive transitions from numeric-scene arithmetic. The legacy numeric save field remains isolated behind graph adapters; additive ANM-027G choice selections live in `CampaignSave.storyChoices` without changing save schema/key.
 
-The current graph covers only the authored vertical slice. Adding full story content primarily
-extends authored sources, manifests and graph data; it must not add episode-specific controller
-switch statements.
+The current graph covers authored slots `0–6` (15 VN scenes and seven story Match-3 routes). Later batches extend sources/manifests/graph data; they must not add episode-specific controller switch statements.
 
 ## Character production architecture
 
@@ -192,7 +189,7 @@ data/validation, not controller arrays or hardcoded level-index branches.
 `src/localization/` owns locale resolution, stable message catalogs, formatting and persistence.
 `RuntimeServices` constructs one shared `LocalizationService`; controllers consume it.
 
-RU and EN cover the current authored vertical slice and active Match-3 systems. VN IDs, level IDs,
+RU and EN cover the currently authored slots `0–6` and active Match-3 systems. VN IDs, level IDs,
 reaction IDs and telemetry remain locale-independent. Internal dialogue paging runs after localized
 text resolution and never creates authored IDs.
 

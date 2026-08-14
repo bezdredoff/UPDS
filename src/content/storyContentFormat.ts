@@ -9,6 +9,7 @@ export type StoryContentManifest = Readonly<{
   episodeId: string;
   sourcePath: string;
   expectedBaseRange: Readonly<{ startLineId: string; endLineId: string }>;
+  sceneIds?: readonly string[];
   branchVariants: readonly Readonly<{
     startLineId: string;
     endLineId: string;
@@ -140,7 +141,11 @@ export function auditStoryContent(
     }
   }
 
-  for (const scene of graph.scenes) {
+  const sourceScenes = manifest.sceneIds?.length
+    ? graph.scenes.filter((scene) => manifest.sceneIds!.includes(scene.id))
+    : graph.scenes;
+
+  for (const scene of sourceScenes) {
     const sceneLines = lines.filter((line) => sceneContainsLine(scene, line.id));
     if (sceneLines.length === 0) {
       issues.push({ code: 'scene-range', detail: `${scene.id} has no content lines` });
@@ -161,14 +166,14 @@ export function auditStoryContent(
   const deferred = new Set(manifest.deferredLineIds);
   for (const lineId of deferred) {
     if (!lineIds.has(lineId)) issues.push({ code: 'deferred-line', detail: `deferred line ${lineId} does not exist` });
-    if (graph.scenes.some((scene) => sceneContainsLine(scene, lineId))) {
+    if (sourceScenes.some((scene) => sceneContainsLine(scene, lineId))) {
       issues.push({ code: 'deferred-line', detail: `deferred line ${lineId} is already assigned to a runtime scene` });
     }
   }
 
   const assigned = new Set(
     lines
-      .filter((line) => graph.scenes.some((scene) => sceneContainsLine(scene, line.id)))
+      .filter((line) => sourceScenes.some((scene) => sceneContainsLine(scene, line.id)))
       .map((line) => line.id),
   );
 

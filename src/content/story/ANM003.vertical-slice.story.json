@@ -18,7 +18,16 @@
       ]
     }
   ],
-  "deferredLineIds": [
-    "VN0250"
+  "deferredLineIds": [],
+  "sceneIds": [
+    "VN_SCENE_00_PROLOGUE",
+    "VN_SCENE_01_E0_PRE",
+    "VN_SCENE_02_E0_POST",
+    "VN_SCENE_03_E1_PRE",
+    "VN_SCENE_04_E1_POST",
+    "VN_SCENE_05_E2_PRE",
+    "VN_SCENE_06_E2_POST",
+    "VN_SCENE_07_E3_PRE",
+    "VN_SCENE_08_E3_POST"
   ]
 }

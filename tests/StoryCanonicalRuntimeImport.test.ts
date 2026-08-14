@@ -7,6 +7,7 @@ import {
   canonicalStoryLineCount,
   canonicalStoryLines,
   canonicalStoryManifest,
+  canonicalStoryManifests,
 } from '../src/content/storyRuntime';
 import { getScene, sceneMeta, type ChoiceId } from '../src/data/narrative';
 import {
@@ -49,14 +50,15 @@ const walkPlayableStory = (): Readonly<{ scenes: readonly string[]; levels: read
 };
 
 describe('ANM-027D canonical story runtime import and transition QA', () => {
-  it('makes the audited ANM-003 source the single normalized line collection used by runtime', () => {
+  it('combines audited ANM-003 and ANM-027G sources into one normalized runtime collection', () => {
     expect(canonicalStoryManifest.sourceId).toBe('ANM003_VERTICAL_SLICE');
     expect(canonicalStoryManifest.sourcePath).toBe('src/content/ANM-003_Vertical_Slice_Screenplay.md');
-    expect(canonicalStoryLineCount).toBe(262);
-    expect(canonicalRuntimeStoryLineCount).toBe(261);
-    expect(canonicalDeferredStoryLineIds).toEqual(['VN0250']);
+    expect(canonicalStoryManifests.map((manifest) => manifest.sourceId)).toEqual(['ANM003_VERTICAL_SLICE', 'ANM027G_EPISODES_04_06']);
+    expect(canonicalStoryLineCount).toBe(381);
+    expect(canonicalRuntimeStoryLineCount).toBe(381);
+    expect(canonicalDeferredStoryLineIds).toEqual([]);
     expect(canonicalStoryLines[0]?.id).toBe('VN0001');
-    expect(canonicalStoryLines.at(-1)?.id).toBe('VN0250');
+    expect(canonicalStoryLines.at(-1)?.id).toBe('VN0369');
   });
 
   it('cuts narrative runtime over to the audited parser and graph ranges with no duplicate parser/range tables', () => {
@@ -97,8 +99,11 @@ describe('ANM-027D canonical story runtime import and transition QA', () => {
       'M3_01_PHOTO_PROPS',
       'M3_02_POOL_LAUNDRY',
       'M3_03_ORDERED_APARTMENT',
+      'M3_04_EMERGENCY_MEETING',
+      'M3_05_BASKETBALL_LOCKERS',
+      'M3_06_TEXTILE_WORKSHOP',
     ]);
-    expect(path.endingId).toBe('ENDING_CASE_001');
+    expect(path.endingId).toBe('ENDING_AUTHORED_FRONTIER_06');
   });
 
   it('proves every Match-3 source scene and win scene has canonical runtime content', () => {

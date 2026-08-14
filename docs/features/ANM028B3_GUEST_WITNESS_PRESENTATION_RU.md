@@ -1,5 +1,7 @@
 # ANM-028B3 R1.1 — Guest / Witness Presentation Contract
 
+Status: **COMPLETE / merged through PR #104**.
+
 ## Цель
 
 Закрыть production blocker перед ANM-027G `4–6`: эпизодические свидетели должны существовать в VN

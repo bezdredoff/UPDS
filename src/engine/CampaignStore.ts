@@ -1,6 +1,8 @@
 import { APP_VERSION } from '../appVersion';
 import type { ChoiceId } from '../data/narrative';
-import type { ClueId } from '../data/levels';
+import { levels, type ClueId } from '../data/levels';
+import { storySceneIds } from '../data/storyGraph';
+import { storyChoiceGateIds, type StoryChoiceGateId, type StoryChoiceSelections } from '../data/storyChoices';
 import { match3TutorialConceptIds, type Match3TutorialConceptId } from '../data/match3Tutorials';
 import type { StorageLike } from '../platform/SafeStorage';
 
@@ -13,6 +15,7 @@ export type CampaignSave = {
   attempts: Record<string, number>;
   readLines: string[];
   tutorialsCompleted: Match3TutorialConceptId[];
+  storyChoices: StoryChoiceSelections;
 };
 
 export type PersistedSaveMetadata = Readonly<{ schemaVersion: number; savedAt: string; appVersion: string }>;
@@ -33,12 +36,12 @@ export const SAVE_SCHEMA_VERSION = 2;
 export const SAVE_RECOVERY_KEY = `${ANM009_SAVE_KEY}:recovery-v1`;
 export const MANUAL_SAVE_KEY = `${ANM009_SAVE_KEY}:manual-v1`;
 
-export const freshSave = (): CampaignSave => ({ scene: 0, line: 0, choice: 'A', clues: [], completed: [], attempts: {}, readLines: [], tutorialsCompleted: [] });
+export const freshSave = (): CampaignSave => ({ scene: 0, line: 0, choice: 'A', clues: [], completed: [], attempts: {}, readLines: [], tutorialsCompleted: [], storyChoices: {} });
 
 const isChoice = (value: unknown): value is ChoiceId => value === 'A' || value === 'B' || value === 'C';
-const clueIds: readonly ClueId[] = ['CUE_001', 'CUE_002', 'CUE_003', 'CUE_004'];
+const clueIds: readonly ClueId[] = levels.map((level) => level.clueId);
 const isRecord = (value: unknown): value is Record<string, unknown> => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
-const campaignFields = ['scene', 'line', 'choice', 'clues', 'completed', 'attempts', 'readLines', 'tutorialsCompleted'] as const;
+const campaignFields = ['scene', 'line', 'choice', 'clues', 'completed', 'attempts', 'readLines', 'tutorialsCompleted', 'storyChoices'] as const;
 const looksLikeCampaignSave = (value: Record<string, unknown>): boolean => campaignFields.some((field) => field in value);
 
 export function normalizeSave(value: unknown): CampaignSave {
@@ -50,17 +53,23 @@ export function normalizeSave(value: unknown): CampaignSave {
     ? Object.fromEntries(Object.entries(candidate.attempts).map(([key, count]) => [key, Math.max(0, Math.floor(Number(count) || 0))]))
     : {};
 
+  const storyChoices: StoryChoiceSelections = isRecord(candidate.storyChoices)
+    ? Object.fromEntries(Object.entries(candidate.storyChoices).filter(([gate, option]) =>
+        storyChoiceGateIds.includes(gate as StoryChoiceGateId) && (option === 'A' || option === 'B' || option === 'C'))) as StoryChoiceSelections
+    : {};
+
   return {
-    scene: Number.isInteger(scene) ? Math.max(0, Math.min(8, scene)) : 0,
+    scene: Number.isInteger(scene) ? Math.max(0, Math.min(storySceneIds.length - 1, scene)) : 0,
     line: Number.isInteger(line) ? Math.max(0, line) : 0,
     choice: isChoice(candidate.choice) ? candidate.choice : 'A',
     clues: Array.isArray(candidate.clues) ? [...new Set(candidate.clues.filter((clue): clue is ClueId => clueIds.includes(clue as ClueId)))] : [],
-    completed: Array.isArray(candidate.completed) ? [...new Set(candidate.completed.map(Number).filter((index) => Number.isInteger(index) && index >= 0 && index < 4))] : [],
+    completed: Array.isArray(candidate.completed) ? [...new Set(candidate.completed.map(Number).filter((index) => Number.isInteger(index) && index >= 0 && index < levels.length))] : [],
     attempts,
     readLines: Array.isArray(candidate.readLines) ? [...new Set(candidate.readLines.filter((lineId): lineId is string => typeof lineId === 'string' && /^VN\d{4}[ABC]?$/.test(lineId)))] : [],
     tutorialsCompleted: Array.isArray(candidate.tutorialsCompleted)
       ? [...new Set(candidate.tutorialsCompleted.filter((concept): concept is Match3TutorialConceptId => match3TutorialConceptIds.includes(concept as Match3TutorialConceptId)))]
       : [],
+    storyChoices,
   };
 }
 

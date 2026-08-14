@@ -13,12 +13,12 @@ import {
 } from '../src/data/storyGraph';
 
 describe('ANM-027A story graph contract', () => {
-  it('describes the current vertical slice as one canonical reachable graph', () => {
+  it('describes the current authored story frontier as one canonical reachable graph', () => {
     expect(storyGraph.format).toBe('upds-story-graph-v1');
     expect(storyGraph.entrySceneId).toBe('VN_SCENE_00_PROLOGUE');
     expect(storyGraph.episodes).toHaveLength(1);
-    expect(storyGraph.chapters).toHaveLength(5);
-    expect(storyGraph.scenes).toHaveLength(9);
+    expect(storyGraph.chapters).toHaveLength(8);
+    expect(storyGraph.scenes).toHaveLength(15);
     expect(validateStoryGraph()).toEqual([]);
   });
 
@@ -47,6 +47,9 @@ describe('ANM-027A story graph contract', () => {
       ['M3_01_PHOTO_PROPS', 'VN_SCENE_04_E1_POST'],
       ['M3_02_POOL_LAUNDRY', 'VN_SCENE_06_E2_POST'],
       ['M3_03_ORDERED_APARTMENT', 'VN_SCENE_08_E3_POST'],
+      ['M3_04_EMERGENCY_MEETING', 'VN_SCENE_10_E4_POST'],
+      ['M3_05_BASKETBALL_LOCKERS', 'VN_SCENE_12_E5_POST'],
+      ['M3_06_TEXTILE_WORKSHOP', 'VN_SCENE_14_E6_POST'],
     ]);
     expect(routes.map(([levelId]) => levelId)).toEqual(levels.map((level) => level.id));
   });
@@ -61,14 +64,18 @@ describe('ANM-027A story graph contract', () => {
       ['VN0143', 'VN0166'],
       ['VN0167', 'VN0191'],
       ['VN0192', 'VN0216'],
-      ['VN0217', 'VN0249'],
+      ['VN0217', 'VN0250'],
+      ['VN0251', 'VN0270'], ['VN0271', 'VN0288'],
+      ['VN0289', 'VN0308'], ['VN0309', 'VN0326'],
+      ['VN0327', 'VN0347'], ['VN0348', 'VN0369'],
     ]);
     expect(storyTransitionForLegacyScene(1)).toEqual({
       kind: 'match3',
       levelId: 'M3_00_LOCKER_TUTORIAL',
       onWinSceneId: 'VN_SCENE_02_E0_POST',
     });
-    expect(storyTransitionForLegacyScene(8)).toEqual({ kind: 'ending', endingId: 'ENDING_CASE_001' });
+    expect(storyTransitionForLegacyScene(8)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_09_E4_PRE' });
+    expect(storyTransitionForLegacyScene(14)).toEqual({ kind: 'ending', endingId: 'ENDING_AUTHORED_FRONTIER_06' });
   });
 
   it('is pure data/validation and does not pull runtime controllers or storage into the contract', () => {

@@ -21,18 +21,19 @@ const hintFollowingWinRate = (levelIndex: number): number => {
 
 describe('ANM-025E3 quantitative Match-3 balance', () => {
   it('keeps the existing move budgets and uses route placement, not spawn-weight inflation, for this pass', () => {
-    expect(levels.map((level) => level.moves)).toEqual([24, 26, 25, 27]);
-    expect(levels.map((level) => level.ingredients.map((ingredient) => ingredient.index))).toEqual([
+    expect(levels.slice(0, 4).map((level) => level.moves)).toEqual([24, 26, 25, 27]);
+    expect(levels.slice(0, 4).map((level) => level.ingredients.map((ingredient) => ingredient.index))).toEqual([
       [51],
       [50],
       [42],
       [50, 53],
     ]);
     expect(levels.every((level) => level.spawnWeights === undefined)).toBe(true);
+    expect(levels.slice(4).map((level) => level.moves)).toEqual([28, 27, 29]);
   });
 
-  it('maintains a deterministic hint-following lower-bound envelope across the four production levels', () => {
-    const rates = levels.map((_, index) => hintFollowingWinRate(index));
+  it('maintains a deterministic hint-following lower-bound envelope across the established four-level balance baseline', () => {
+    const rates = levels.slice(0, 4).map((_, index) => hintFollowingWinRate(index));
 
     expect(rates[0]).toBeGreaterThanOrEqual(0.70);
     expect(rates[1]).toBeGreaterThanOrEqual(0.60);

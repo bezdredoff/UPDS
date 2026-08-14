@@ -14,7 +14,7 @@ describe('campaign state', () => {
       readLines: ['VN0001', 'bad'],
       tutorialsCompleted: ['basic-swap', 'clear-blocker', 'drop-ingredient', 'bad', 'basic-swap'],
     });
-    expect(normalized.scene).toBe(8);
+    expect(normalized.scene).toBe(14);
     expect(normalized.line).toBe(0);
     expect(normalized.choice).toBe('A');
     expect(normalized.clues).toEqual(['CUE_001']);
@@ -22,6 +22,7 @@ describe('campaign state', () => {
     expect(normalized.attempts).toEqual({ M3_00: 0, M3_01: 3 });
     expect(normalized.readLines).toEqual(['VN0001']);
     expect(normalized.tutorialsCompleted).toEqual(['basic-swap', 'clear-blocker', 'drop-ingredient']);
+    expect(normalized.storyChoices).toEqual({});
   });
 
 });

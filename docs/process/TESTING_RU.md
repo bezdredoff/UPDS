@@ -86,8 +86,7 @@ Used only for structural safety:
 - `StoryCanonicalRuntimeImport.test.ts`;
 - narrative/runtime transition regressions.
 
-They preserve the current nine-scene/four-level authored path, 262 parsed source lines, 261 playable
-lines and explicit deferred `VN0250`.
+They preserve the current fifteen-scene/seven-level authored path, the two scoped canonical screenplay sources, 381 parsed/runtime lines, zero deferred IDs and the `VN0250` bridge into ANM-027G `4–6`.
 
 ### Character production
 

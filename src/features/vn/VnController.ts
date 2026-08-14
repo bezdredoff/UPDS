@@ -26,6 +26,7 @@ import {
   type StoryLine,
 } from '../../data/narrative';
 import { legacySceneIndexFromStoryId, storyMatch3RouteForLegacyScene, storyTransitionForLegacyScene } from '../../data/storyGraph';
+import { storyChoiceGateForLine, type StoryChoiceGate, type StoryChoiceOptionId } from '../../data/storyChoices';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
@@ -126,6 +127,11 @@ export class VnController {
     const resumeEntry = this.story[this.session.save.line];
     if (this.session.save.scene === 1 && resumeEntry?.id === 'VN0040' && this.session.save.readLines.includes('VN0040')) {
       this.renderChoice();
+      return;
+    }
+    const resumeGate = resumeEntry ? storyChoiceGateForLine(resumeEntry.id) : null;
+    if (resumeGate && this.session.save.readLines.includes(resumeEntry!.id) && !this.session.save.storyChoices[resumeGate.id]) {
+      this.renderStoryChoice(resumeGate);
       return;
     }
     this.renderVN();
@@ -408,7 +414,9 @@ export class VnController {
     this.session.save.line = target;
     this.session.persist();
     const entry = this.story[this.session.save.line];
+    const gate = entry ? storyChoiceGateForLine(entry.id) : null;
     if (entry?.id === 'VN0040' && this.session.save.readLines.includes('VN0040')) this.renderChoice();
+    else if (gate && this.session.save.readLines.includes(entry!.id) && !this.session.save.storyChoices[gate.id]) this.renderStoryChoice(gate);
     else if (this.session.save.line >= this.story.length) this.advanceScene();
     else this.renderVN();
   }
@@ -468,6 +476,12 @@ export class VnController {
       this.renderChoice();
       return;
     }
+    const storyGate = storyChoiceGateForLine(entry.id);
+    if (storyGate && !this.session.save.storyChoices[storyGate.id]) {
+      this.session.persist();
+      this.renderStoryChoice(storyGate);
+      return;
+    }
     this.session.save.line += 1;
     this.session.persist();
     if (this.session.save.line >= this.story.length) this.advanceScene();
@@ -510,6 +524,29 @@ export class VnController {
       this.session.save.line = Math.max(0, branchIndex);
       this.session.persist();
       this.renderVN();
+    }));
+  }
+
+  private renderStoryChoice(gate: StoryChoiceGate): void {
+    this.services.audio.setScene('vn');
+    this.services.telemetry.trackScreen('choice', gate.id);
+    const background = backgroundAssets[sceneMeta[this.session.save.scene].defaultBackground];
+    this.shell.render(`<section class="choice-screen">
+      <div class="choice-background-stack" aria-hidden="true"><img class="choice-background choice-background-fill" src="${background}" alt=""><img class="choice-background choice-background-fit" src="${background}" alt=""></div>
+      <header class="app-header choice-topbar"><div class="app-header-title"><small>CASE 001 · ${escapeHtml(gate.id.toUpperCase())}</small><b>${escapeHtml(this.t('vn.storyChoice.header'))}</b></div>
+        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('common.navigation'))}">${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}</nav></header>
+      <div class="choice-panel"><p class="eyebrow">${escapeHtml(gate.id.toUpperCase())}</p><h2>${escapeHtml(this.t(`vn.storyChoice.${gate.id}.prompt`))}</h2>
+        ${gate.options.map((id) => `<button data-story-choice="${id}"><i>${id}</i><span><b>${escapeHtml(this.t(`vn.storyChoice.${gate.id}.${id}.title`))}</b><small>${escapeHtml(this.t(`vn.storyChoice.${gate.id}.${id}.effect`))}</small></span></button>`).join('')}
+      </div></section>`);
+    this.root.querySelector('#header-settings')?.addEventListener('click', () => this.navigation.showSettings(() => this.renderStoryChoice(gate), true));
+    this.root.querySelectorAll<HTMLElement>('[data-story-choice]').forEach((button) => button.addEventListener('click', () => {
+      this.services.audio.play('choice');
+      const option = button.dataset.storyChoice as StoryChoiceOptionId;
+      this.session.save.storyChoices[gate.id] = option;
+      this.services.telemetry.track('choice_selected', { gate: gate.id, choice: option });
+      this.session.save.line += 1;
+      this.session.persist();
+      if (this.session.save.line >= this.story.length) this.advanceScene(); else this.renderVN();
     }));
   }
 
