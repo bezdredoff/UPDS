@@ -10,7 +10,9 @@ import { resolveSceneStagingPreset } from '../src/ui/sceneStaging';
 import {
   VN_RUNTIME_PORTRAIT_BOTTOM_PERCENT,
   VN_RUNTIME_PORTRAIT_HEIGHT_PERCENT,
+  SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT,
   resolveVnPortraitCamera,
+  resolveVnPortraitEyeLineCamera,
 } from '../src/ui/vnPortraitGeometry';
 import {
   SCENE_STUDIO_CALIBRATION_FORMAT,
@@ -61,6 +63,7 @@ describe('ANM-028B1 reusable scene staging contract', () => {
     expect(resolveVnPortraitCamera()).toEqual({
       shotScale: 1,
       heightPercent: VN_RUNTIME_PORTRAIT_HEIGHT_PERCENT,
+      topPercent: 0,
       bottomPercent: VN_RUNTIME_PORTRAIT_BOTTOM_PERCENT,
     });
     for (const preset of Object.values(sceneStagingManifest.presets)) {
@@ -71,6 +74,27 @@ describe('ANM-028B1 reusable scene staging contract', () => {
         expect(camera.heightPercent, `${preset.id}:${slot.id}`).toBeGreaterThan(120);
       }
     }
+  });
+
+  it('anchors trio eyes to the focal line instead of shrinking full masters from a fixed top edge', () => {
+    const resolution = resolveSceneStagingPreset('trio-central-speaker', [
+      { character: 'miku', expression: 'serious' },
+      { character: 'onoe', expression: 'neutral' },
+      { character: 'ayuki', expression: 'smile' },
+    ]);
+    expect(resolution.actors.map((actor) => actor.verticalAnchor)).toEqual([
+      'background-focal-eye-line',
+      'background-focal-eye-line',
+      'background-focal-eye-line',
+    ]);
+    for (const actor of resolution.actors) {
+      expect(actor.resolvedEyeLinePercent).toBeCloseTo(SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT, 4);
+      expect(actor.portraitTopPercent).toBeGreaterThan(30);
+      expect(actor.headTopPercent).toBeGreaterThan(32);
+      expect(actor.portraitBottomPercent).toBeLessThan(-60);
+    }
+    expect(resolveVnPortraitEyeLineCamera(0.72, 158).resolvedEyeLinePercent)
+      .toBe(SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT);
   });
 
   it('requires exact actor assignments instead of silently dropping a counterpart', () => {
@@ -117,6 +141,12 @@ describe('ANM-028B1 reusable scene staging contract', () => {
       severity: 'warning',
       code: 'bottom-pivot',
       subject: 'miku',
+    }));
+    expect(metrics.find((metric) => metric.character === 'emi')?.visualApproval).toBe('rebuild-required');
+    expect(validateSceneStudioCalibration()).toContainEqual(expect.objectContaining({
+      severity: 'warning',
+      code: 'master-rebuild',
+      subject: 'emi',
     }));
   });
 });

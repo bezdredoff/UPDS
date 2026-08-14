@@ -1,6 +1,6 @@
 # UPDS — validation and test workflow
 
-Status: active at the ANM-028B1 R3 repository candidate.
+Status: active at the ANM-028B1 R4 repository candidate.
 
 ## Authoritative gate
 
@@ -24,10 +24,11 @@ npm run docs:audit
 ```
 
 - `story:audit` — screenplay/manifest/graph completeness.
-- `character:audit` — character production manifest, PNG dimensions/alpha bounds and runtime paths.
-- `scene:audit` — exact eight-preset registry/resolver, face-critical lanes, derivation from the
-  playable portrait camera, ANM-024 viewport/background calibration, contain geometry, measurable
-  lineup warnings, shared VN frame and Scene Studio smoke.
+- `character:audit` — character production manifest, PNG dimensions/alpha bounds, neutral eye-line
+  landmarks, visual-approval status and runtime paths.
+- `scene:audit` — exact eight-preset registry/resolver, face-critical lanes, runtime-top and
+  focal-eye-line camera derivation, trio headroom, ANM-024 viewport/background calibration, contain
+  geometry, measurable lineup/visual-status warnings, shared VN frame and Scene Studio smoke.
 - `docs:audit` — active documentation/source-of-truth traceability and retired-contract guards.
 
 Focused gates accelerate iteration; `npm run check` remains required before merge.

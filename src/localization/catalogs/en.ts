@@ -105,10 +105,10 @@ export const enCatalog = {
   'levelLab.activeCells': 'active cells',
   'levelLab.holes': 'holes',
 
-  'sceneStudio.eyebrow': 'ANM-028B1 R3 · QA TOOL',
+  'sceneStudio.eyebrow': 'ANM-028B1 R4 · QA TOOL',
   'sceneStudio.title': 'Scene Studio',
   'sceneStudio.heading': 'Runtime frame and calibration',
-  'sceneStudio.copy': 'Review the eight canonical presets with the same large bottom-anchored portrait crop, VN shell, dialogue and background the player sees. Only lineup shows the full master canvas for measurement; it is not a scene composition.',
+  'sceneStudio.copy': 'Review the eight canonical presets in the shared VN shell. Trio compositions bind measured eye lines to the background focal point; only lineup exposes the full master canvas and honest visual-approval status.',
   'sceneStudio.mode': 'QA mode',
   'sceneStudio.mode.scene': 'Composition',
   'sceneStudio.mode.lineup': 'Shared lineup',

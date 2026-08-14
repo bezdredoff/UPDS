@@ -169,7 +169,7 @@ describe('ANM-028A character production manifest', () => {
   });
 
 
-  it('locks proportional visual height to approved neutral masters instead of runtime zoom', async () => {
+  it('locks integrated master geometry and records visual approval separately from runtime availability', async () => {
     expect(characterProductionManifest.proportionContract).toEqual({
       measurement: 'neutral-alpha-bounds',
       referenceCharacter: 'onoe',
@@ -186,11 +186,13 @@ describe('ANM-028A character production manifest', () => {
       ayuki: 1462,
       emi: 1444,
     } as const;
+    const expectedEyeLine = { miku: 196, onoe: 158, ayuki: 242, emi: 397 } as const;
 
     for (const key of productionCharacterKeys) {
       const definition = characterProductionManifest.characters[key];
       expect(definition.staging.scale).toBe(1);
       expect(definition.proportion.visualHeightPx).toBe(expectedHeight[key]);
+      expect(definition.proportion.neutralEyeLineYPx).toBe(expectedEyeLine[key]);
 
       const neutralBounds = await pngAlphaBounds(definition.assets.frames.neutral);
       expect(neutralBounds).toEqual(definition.proportion.neutralAlphaBounds);
@@ -207,6 +209,10 @@ describe('ANM-028A character production manifest', () => {
     expect(characterProductionManifest.characters.miku.proportion.visualHeightPx / reference).toBeCloseTo(0.9265, 3);
     expect(characterProductionManifest.characters.ayuki.proportion.visualHeightPx / reference).toBeCloseTo(0.9852, 3);
     expect(characterProductionManifest.characters.emi.proportion.visualHeightPx / reference).toBeCloseTo(0.9730, 3);
+    expect(characterProductionManifest.characters.miku.visualApproval).toBe('approved');
+    expect(characterProductionManifest.characters.onoe.visualApproval).toBe('approved');
+    expect(characterProductionManifest.characters.ayuki.visualApproval).toBe('approved');
+    expect(characterProductionManifest.characters.emi.visualApproval).toBe('rebuild-required');
 
     for (const key of plannedCharacterKeys) {
       expect(characterProductionManifest.characters[key].proportionApproval).toBe('required-before-production');
@@ -219,10 +225,12 @@ describe('ANM-028A character production manifest', () => {
       sourceOfTruth: string;
       productionCharacters: string[];
       plannedCharacters: string[];
+      characters: Record<string, { visualApproval?: string; neutralEyeLineYPx?: number }>;
       runtimeContract: { runtimeExpressions: string[]; requiredRuntimeAssetsPerProductionCharacter: number };
       proportionContract: {
         referenceCharacter: string;
-        approvedVisualHeightPx: Record<string, number>;
+        integratedVisualHeightPx: Record<string, number>;
+        neutralEyeLineYPx: Record<string, number>;
         newCharacterApproval: string;
       };
     };
@@ -233,12 +241,14 @@ describe('ANM-028A character production manifest', () => {
     expect(mirror.runtimeContract.runtimeExpressions).toEqual(runtimeExpressionOrder);
     expect(mirror.runtimeContract.requiredRuntimeAssetsPerProductionCharacter).toBe(7);
     expect(mirror.proportionContract.referenceCharacter).toBe('onoe');
-    expect(mirror.proportionContract.approvedVisualHeightPx).toEqual({
+    expect(mirror.proportionContract.integratedVisualHeightPx).toEqual({
       miku: 1375,
       onoe: 1484,
       ayuki: 1462,
       emi: 1444,
     });
+    expect(mirror.proportionContract.neutralEyeLineYPx).toEqual({ miku: 196, onoe: 158, ayuki: 242, emi: 397 });
+    expect(mirror.characters.emi.visualApproval).toBe('rebuild-required');
     expect(mirror.proportionContract.newCharacterApproval).toBe('lineup-required-before-production');
   });
 

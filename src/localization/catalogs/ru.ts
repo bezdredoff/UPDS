@@ -105,10 +105,10 @@ export const ruCatalog = {
   'levelLab.activeCells': 'активных клеток',
   'levelLab.holes': 'holes',
 
-  'sceneStudio.eyebrow': 'ANM-028B1 R3 · QA TOOL',
+  'sceneStudio.eyebrow': 'ANM-028B1 R4 · QA TOOL',
   'sceneStudio.title': 'Scene Studio',
   'sceneStudio.heading': 'Runtime-кадр и калибровка',
-  'sceneStudio.copy': 'Проверяйте восемь канонических пресетов с тем же крупным нижне-привязанным portrait crop, VN-оболочкой, репликой и фоном, которые видит игрок. Только lineup показывает полный master-canvas для измерений; он не является сценической композицией.',
+  'sceneStudio.copy': 'Проверяйте восемь канонических пресетов в общей VN-оболочке. Trio-композиции привязывают измеренную линию глаз к focal point фона; только lineup показывает полный master-canvas и честный visual-approval статус.',
   'sceneStudio.mode': 'Режим QA',
   'sceneStudio.mode.scene': 'Композиция',
   'sceneStudio.mode.lineup': 'Общий lineup',

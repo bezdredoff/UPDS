@@ -35,6 +35,7 @@ export type SceneStagingActorSlot = SceneStagingSlotBase & Readonly<{
   kind: 'actor';
   role: SceneStagingActorRole;
   emphasis: 'focus' | 'equal' | 'support';
+  verticalAnchor: 'runtime-top' | 'background-focal-eye-line';
   shotScale: number;
 }>;
 
@@ -88,11 +89,13 @@ const actor = (
   safeBox: SceneStagingSafeBox,
   emphasis: SceneStagingActorSlot['emphasis'],
   zIndex: number,
+  verticalAnchor: SceneStagingActorSlot['verticalAnchor'] = 'runtime-top',
 ): SceneStagingActorSlot => ({
   id,
   kind: 'actor',
   role,
   emphasis,
+  verticalAnchor,
   anchorXPercent,
   anchorYPercent: 28,
   shotScale,
@@ -149,18 +152,18 @@ export const sceneStagingManifest: SceneStagingManifest = {
     'trio-central-speaker': {
       id: 'trio-central-speaker',
       slots: [
-        actor('primary', 'primary', 50, 0.78, box(38, 7, 62, 45), 'focus', 4),
-        actor('secondary', 'secondary', 18, 0.72, box(5, 12, 31, 52), 'support', 2),
-        actor('tertiary', 'tertiary', 82, 0.72, box(69, 12, 95, 52), 'support', 2),
+        actor('primary', 'primary', 50, 0.78, box(38, 7, 62, 45), 'focus', 4, 'background-focal-eye-line'),
+        actor('secondary', 'secondary', 18, 0.72, box(5, 12, 31, 52), 'support', 2, 'background-focal-eye-line'),
+        actor('tertiary', 'tertiary', 82, 0.72, box(69, 12, 95, 52), 'support', 2, 'background-focal-eye-line'),
       ],
       budget: zeroArtBudget(3),
     },
     'trio-reaction': {
       id: 'trio-reaction',
       slots: [
-        actor('primary', 'primary', 19, 0.76, box(5, 8, 33, 48), 'focus', 4),
-        actor('secondary', 'secondary', 51, 0.72, box(38, 12, 64, 52), 'support', 3),
-        actor('tertiary', 'tertiary', 82, 0.7, box(69, 15, 95, 55), 'support', 2),
+        actor('primary', 'primary', 19, 0.76, box(5, 8, 33, 48), 'focus', 4, 'background-focal-eye-line'),
+        actor('secondary', 'secondary', 51, 0.72, box(38, 12, 64, 52), 'support', 3, 'background-focal-eye-line'),
+        actor('tertiary', 'tertiary', 82, 0.7, box(69, 15, 95, 55), 'support', 2, 'background-focal-eye-line'),
       ],
       budget: zeroArtBudget(3),
     },
@@ -203,7 +206,7 @@ export const sceneStagingManifest: SceneStagingManifest = {
 };
 
 export type SceneStagingIssue = Readonly<{
-  code: 'format' | 'preset-set' | 'slot-set' | 'coordinate' | 'safe-area' | 'overlap' | 'shot-scale' | 'budget' | 'guest-boundary';
+  code: 'format' | 'preset-set' | 'slot-set' | 'coordinate' | 'safe-area' | 'overlap' | 'shot-scale' | 'camera-anchor' | 'budget' | 'guest-boundary';
   preset?: SceneStagingPresetId;
   slot?: string;
   detail: string;
@@ -281,6 +284,12 @@ export function validateSceneStagingManifest(
       const minimumShotScale = slot.kind === 'actor' ? 0.68 : 0.3;
       if ('shotScale' in slot && (!finite(slot.shotScale) || slot.shotScale < minimumShotScale || slot.shotScale > 1.2)) {
         issues.push({ code: 'shot-scale', preset: id, slot: slot.id, detail: `${slot.id} shot scale must remain between ${minimumShotScale} and 1.2` });
+      }
+      if (slot.kind === 'actor') {
+        const expectedAnchor = id.startsWith('trio-') ? 'background-focal-eye-line' : 'runtime-top';
+        if (slot.verticalAnchor !== expectedAnchor) {
+          issues.push({ code: 'camera-anchor', preset: id, slot: slot.id, detail: `${slot.id} must use ${expectedAnchor}` });
+        }
       }
 
       for (let otherIndex = index + 1; otherIndex < preset.slots.length; otherIndex += 1) {

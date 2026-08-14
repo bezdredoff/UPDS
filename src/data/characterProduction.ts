@@ -25,7 +25,10 @@ export type CharacterAlphaBounds = Readonly<{
 export type CharacterProportion = Readonly<{
   neutralAlphaBounds: CharacterAlphaBounds;
   visualHeightPx: number;
+  neutralEyeLineYPx: number;
 }>;
+
+export type CharacterVisualApproval = 'approved' | 'rebuild-required';
 
 export type CharacterProductionAssets = Readonly<{
   frames: Readonly<Record<RuntimeExpression, string>>;
@@ -40,6 +43,7 @@ export type ProductionCharacterDefinition = Readonly<{
   adultCharacter: true;
   speakerToken: string;
   speakerMatch: 'exact' | 'prefix';
+  visualApproval: CharacterVisualApproval;
   staging: CharacterStaging;
   proportion: CharacterProportion;
   assets: CharacterProductionAssets;
@@ -106,6 +110,8 @@ const production = (
   poseBFile: string,
   medallionFile: string,
   neutralAlphaBounds: CharacterAlphaBounds,
+  neutralEyeLineYPx: number,
+  visualApproval: CharacterVisualApproval = 'approved',
 ): ProductionCharacterDefinition => {
   const root = `./assets/characters/${key}`;
   return {
@@ -115,10 +121,12 @@ const production = (
     adultCharacter: true,
     speakerToken,
     speakerMatch,
+    visualApproval,
     staging: { scale: 1, yPercent: 0 },
     proportion: {
       neutralAlphaBounds,
       visualHeightPx: neutralAlphaBounds.bottom - neutralAlphaBounds.top,
+      neutralEyeLineYPx,
     },
     assets: {
       frames: frames(key),
@@ -148,21 +156,26 @@ export const characterProductionManifest: CharacterProductionManifest = {
       'miku', 'Мику Араи', 'Мику', 'МИКУ', 'prefix',
       'pose_b_pointing_sketchbook.png', 'portrait_neutral_256.png',
       { left: 359, top: 43, right: 651, bottom: 1418 },
+      196,
     ),
     onoe: production(
       'onoe', 'Сацуки Оноэ', 'Оноэ', 'ОНОЭ', 'exact',
       'pose_b_evidence_bag.png', 'portrait_neutral_256.png',
       { left: 316, top: 26, right: 697, bottom: 1510 },
+      158,
     ),
     ayuki: production(
       'ayuki', 'Аюки Момосэ', 'Аюки', 'АЮКИ', 'exact',
       'pose_b_phone_theory.png', 'portrait_neutral_256.png',
       { left: 304, top: 18, right: 746, bottom: 1480 },
+      242,
     ),
     emi: production(
       'emi', 'Эми Такахаси', 'Эми', 'ЭМИ', 'exact',
       'pose_b_arms_crossed.png', 'portrait_neutral_512.png',
       { left: 194, top: 92, right: 829, bottom: 1536 },
+      397,
+      'rebuild-required',
     ),
     kentaro: {
       status: 'planned',
@@ -210,7 +223,7 @@ export const characterProductionManifest: CharacterProductionManifest = {
 };
 
 export type CharacterProductionIssue = Readonly<{
-  code: 'format' | 'runtime-expression' | 'adult-guardrail' | 'asset-set' | 'asset-path' | 'staging' | 'proportion' | 'planned-assets';
+  code: 'format' | 'runtime-expression' | 'adult-guardrail' | 'asset-set' | 'asset-path' | 'staging' | 'proportion' | 'portrait-landmark' | 'planned-assets';
   character?: CharacterProductionKey;
   detail: string;
 }>;
@@ -272,6 +285,15 @@ export function validateCharacterProductionManifest(
           code: 'proportion',
           character: key,
           detail: `${key} neutral alpha bounds/visual height are invalid for the shared master canvas`,
+        });
+      }
+      const eyeLine = definition.proportion.neutralEyeLineYPx;
+      if (!Number.isInteger(eyeLine) || eyeLine <= bounds.top || eyeLine >= bounds.bottom ||
+          eyeLine > bounds.top + definition.proportion.visualHeightPx * 0.35) {
+        issues.push({
+          code: 'portrait-landmark',
+          character: key,
+          detail: `${key} neutral eye-line landmark must be an integer inside the upper 35% of the neutral subject bounds`,
         });
       }
     } else {

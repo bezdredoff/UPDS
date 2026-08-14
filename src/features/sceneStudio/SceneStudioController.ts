@@ -27,6 +27,7 @@ import { resolveSceneStagingPreset, type SceneStagingActorInput } from '../../ui
 import { dialogueContinuationText, paginateDialogueText } from '../../ui/vnDialoguePaging';
 import type { TextScale } from '../../ui/vnPlayback';
 import { vnFrameMarkup } from '../../ui/vnFrameMarkup';
+import { SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT } from '../../ui/vnPortraitGeometry';
 import { escapeHtml, panelHeaderMarkup } from '../../ui/viewMarkup';
 
 export const sceneStudioBackgroundKeys = Object.keys(backgroundAssets) as BackgroundKey[];
@@ -126,7 +127,7 @@ export class SceneStudioController {
       height: viewportProfile.viewport.height,
       textScale: state.textScale,
     });
-    const diagnostics = this.diagnostics(state.background);
+    const diagnostics = this.diagnostics(state.background, resolution);
     const stageMarkup = state.viewMode === 'lineup'
       ? this.lineupMarkup(t)
       : this.sceneMarkup(resolution, state.showGuides, t);
@@ -142,7 +143,7 @@ export class SceneStudioController {
       clueCount: 3,
       stageSide: state.viewMode,
       stageMarkup,
-      overlayMarkup: state.showGuides ? this.calibrationOverlayMarkup(state.background, state.viewportId, t) : '',
+      overlayMarkup: this.calibrationOverlayMarkup(state.background, state.viewportId, state.showGuides, t),
       direction: false,
       speaker: line.speaker,
       emotion: line.emotion,
@@ -251,6 +252,8 @@ export class SceneStudioController {
       </section>
     </section>`);
 
+    this.alignFocalEyeLineActors();
+
     const rerender = (patch: Partial<SceneStudioState>): void => this.render({ ...state, ...patch });
     this.root.querySelector('#back')?.addEventListener('click', () => this.navigation.showMenu());
     this.root.querySelector('#header-settings')?.addEventListener('click', () => this.navigation.showSettings(() => this.render(state), true));
@@ -293,14 +296,39 @@ export class SceneStudioController {
     };
   }
 
-  private diagnostics(background: BackgroundKey): readonly SceneStudioCalibrationIssue[] {
+  private diagnostics(
+    background: BackgroundKey,
+    resolution: ReturnType<typeof resolveSceneStagingPreset>,
+  ): readonly SceneStudioCalibrationIssue[] {
     const stagingIssues: SceneStudioCalibrationIssue[] = validateSceneStagingManifest().map((issue) => ({
       severity: 'error',
       code: 'staging-contract',
       subject: issue.preset ? `${issue.preset}${issue.slot ? `:${issue.slot}` : ''}` : undefined,
       detail: `${issue.code}: ${issue.detail}`,
     }));
-    return [...stagingIssues, ...validateSceneStudioCalibration(), ...sceneStudioManualReviewIssues(background)];
+    const cameraIssues: SceneStudioCalibrationIssue[] = resolution.actors.flatMap((actor) => {
+      if (actor.verticalAnchor !== 'background-focal-eye-line') return [];
+      const issues: SceneStudioCalibrationIssue[] = [];
+      if (actor.resolvedEyeLinePercent === undefined ||
+          Math.abs(actor.resolvedEyeLinePercent - SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT) > 0.05) {
+        issues.push({
+          severity: 'error',
+          code: 'staging-contract',
+          subject: `${resolution.preset.id}:${actor.slotId}`,
+          detail: `${actor.character} eye-line does not resolve to the focal target.`,
+        });
+      }
+      if (actor.portraitTopPercent <= 0 || actor.headTopPercent < 4) {
+        issues.push({
+          severity: 'error',
+          code: 'staging-contract',
+          subject: `${resolution.preset.id}:${actor.slotId}`,
+          detail: `${actor.character} trio camera lost required headroom or regressed to a fixed canvas top.`,
+        });
+      }
+      return issues;
+    });
+    return [...stagingIssues, ...cameraIssues, ...validateSceneStudioCalibration(), ...sceneStudioManualReviewIssues(background)];
   }
 
   private sceneMarkup(
@@ -337,14 +365,33 @@ export class SceneStudioController {
       `--scene-anchor-y:${actor.anchorYPercent}%`,
       `--scene-z:${actor.zIndex}`,
       `--portrait-height:${actor.portraitHeightPercent}%`,
+      `--portrait-top:${actor.portraitTopPercent}%`,
       `--portrait-bottom:${actor.portraitBottomPercent}%`,
+      `--eye-line-percent:${actor.eyeLineRatio * 100}%`,
       `--character-scale:${actor.canonicalCharacterScale}`,
       `--character-y:${actor.canonicalCharacterYPercent}%`,
     ].join(';');
-    return `<div class="scene-studio-actor-slot" data-slot="${actor.slotId}" data-character="${actor.character}" data-role="${actor.role}" style="${style}">
-      <div class="portrait portrait-static-wrap scene-studio-runtime-portrait" data-shot-scale="${actor.shotScale}" data-runtime-crop="true"><img class="portrait-static" src="${asset}" alt="${t(`character.${actor.character}`)}"></div>
+    return `<div class="scene-studio-actor-slot" data-slot="${actor.slotId}" data-character="${actor.character}" data-role="${actor.role}" data-visual-approval="${actor.visualApproval}" style="${style}">
+      <div class="portrait portrait-static-wrap scene-studio-runtime-portrait" data-shot-scale="${actor.shotScale}" data-runtime-crop="true" data-vertical-anchor="${actor.verticalAnchor}" data-eye-line-ratio="${actor.eyeLineRatio}"><img class="portrait-static" src="${asset}" alt="${t(`character.${actor.character}`)}">${showGuides && actor.verticalAnchor === 'background-focal-eye-line' ? '<i class="scene-studio-actor-eye-marker" aria-hidden="true"></i>' : ''}</div>
       ${showGuides ? `<span><b>${t(`character.${actor.character}`)}</b><small>${t(`sceneStudio.role.${actor.role}`)} · ${actor.shotScale.toFixed(2)}×</small></span>` : ''}
     </div>`;
+  }
+
+  private alignFocalEyeLineActors(): void {
+    const stage = this.root.querySelector<HTMLElement>('[data-frame-context="scene-studio"] .stage');
+    const focal = this.root.querySelector<HTMLElement>('.scene-studio-focal-point');
+    if (!stage || !focal) return;
+    const stageRect = stage.getBoundingClientRect();
+    const focalRect = focal.getBoundingClientRect();
+    if (stageRect.height <= 0) return;
+    const targetEyeLinePx = focalRect.top + focalRect.height / 2 - stageRect.top;
+    for (const portrait of this.root.querySelectorAll<HTMLElement>('[data-vertical-anchor="background-focal-eye-line"]')) {
+      const eyeLineRatio = Number(portrait.dataset.eyeLineRatio);
+      const portraitHeightPx = portrait.getBoundingClientRect().height;
+      if (!Number.isFinite(eyeLineRatio) || eyeLineRatio <= 0 || eyeLineRatio >= 1 || portraitHeightPx <= 0) continue;
+      portrait.style.setProperty('--portrait-top', `${targetEyeLinePx - eyeLineRatio * portraitHeightPx}px`);
+      portrait.dataset.resolvedEyeLinePx = targetEyeLinePx.toFixed(2);
+    }
   }
 
   private lineupMarkup(
@@ -353,9 +400,9 @@ export class SceneStudioController {
     const metrics = sceneStudioLineupMetrics();
     return `<div class="scene-studio-lineup" data-lineup-source="upds-character-production-v2">
       <div class="scene-studio-lineup-ruler" aria-hidden="true"><i style="bottom:90%">100%</i><i style="bottom:67.5%">75%</i><i style="bottom:45%">50%</i><i style="bottom:22.5%">25%</i></div>
-      ${metrics.map((metric) => `<div class="scene-studio-lineup-character" data-character="${metric.character}" data-visual-height="${metric.visualHeightPx}" data-bottom-padding="${metric.bottomPaddingPx}">
+      ${metrics.map((metric) => `<div class="scene-studio-lineup-character" data-character="${metric.character}" data-visual-height="${metric.visualHeightPx}" data-bottom-padding="${metric.bottomPaddingPx}" data-eye-line-y="${metric.neutralEyeLineYPx}" data-visual-approval="${metric.visualApproval}">
         <img src="${characterRigs[metric.character].frames.neutral}" alt="${t(`character.${metric.character}`)}">
-        <span><b>${t(`character.${metric.character}`)}</b><small>${metric.visualHeightPx}px · ${(metric.heightVsReference * 100).toFixed(1)}%</small></span>
+        <span><b>${t(`character.${metric.character}`)}</b><small>${metric.visualHeightPx}px · ${(metric.heightVsReference * 100).toFixed(1)}% · ${metric.visualApproval}</small></span>
       </div>`).join('')}
     </div>`;
   }
@@ -373,6 +420,7 @@ export class SceneStudioController {
   private calibrationOverlayMarkup(
     backgroundKey: BackgroundKey,
     viewportId: SceneStudioViewportId,
+    showGuides: boolean,
     t: (key: string, params?: Readonly<Record<string, string | number | boolean>>) => string,
   ): string {
     const profile = sceneStudioCalibrationManifest.backgrounds[backgroundKey];
@@ -384,7 +432,7 @@ export class SceneStudioController {
     const actorZoneTopLeft = backgroundPointToFramePercent(contain, profile.actorZone.leftPercent, profile.actorZone.topPercent);
     const actorZoneBottomRight = backgroundPointToFramePercent(contain, profile.actorZone.rightPercent, profile.actorZone.bottomPercent);
     const insets = viewportProfile.representativeInsets;
-    return `<div class="scene-studio-calibration-overlay" aria-hidden="true">
+    return `<div class="scene-studio-calibration-overlay ${showGuides ? 'is-visible' : 'is-hidden'}" aria-hidden="true">
       <span class="scene-studio-fit-box" style="left:${contain.leftPercent}%;top:${contain.topPercent}%;width:${contain.widthPercent}%;height:${contain.heightPercent}%"><b>${t('sceneStudio.guide.fit')}</b></span>
       <span class="scene-studio-actor-zone" style="left:${actorZoneTopLeft.xPercent}%;top:${actorZoneTopLeft.yPercent}%;width:${actorZoneBottomRight.xPercent - actorZoneTopLeft.xPercent}%;height:${actorZoneBottomRight.yPercent - actorZoneTopLeft.yPercent}%"><b>${t('sceneStudio.guide.actorZone')}</b></span>
       <span class="scene-studio-horizon" style="top:${horizon.yPercent}%"><b>${t('sceneStudio.guide.horizon')}</b></span>
@@ -418,11 +466,17 @@ export class SceneStudioController {
         role: actor.role,
         anchorXPercent: actor.anchorXPercent,
         anchorYPercent: actor.anchorYPercent,
+        verticalAnchor: actor.verticalAnchor,
         shotScale: actor.shotScale,
         canonicalCharacterScale: actor.canonicalCharacterScale,
         effectiveScale: actor.effectiveScale,
         portraitHeightPercent: actor.portraitHeightPercent,
+        portraitTopPercent: actor.portraitTopPercent,
         portraitBottomPercent: actor.portraitBottomPercent,
+        neutralEyeLineYPx: actor.neutralEyeLineYPx,
+        resolvedEyeLinePercent: actor.resolvedEyeLinePercent,
+        headTopPercent: actor.headTopPercent,
+        visualApproval: actor.visualApproval,
       })),
       lineup: sceneStudioLineupMetrics(),
       diagnostics,

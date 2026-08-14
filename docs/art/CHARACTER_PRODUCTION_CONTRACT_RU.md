@@ -5,7 +5,9 @@
 Machine-readable source of truth: `src/data/characterProduction.ts` (`upds-character-production-v2`).
 `docs/art/CHARACTER_USAGE_MANIFEST.json` — человекочитаемое зеркало для production planning и обязано совпадать с canonical manifest через CI.
 
-Новые персонажи должны совпадать с утверждённым `2000s Hybrid` и существующими Miku/Onoe/Ayuki/Emi:
+Новые персонажи должны совпадать с утверждённым `2000s Hybrid` и текущим одобренным сравнительным
+набором Miku/Onoe/Ayuki. Emi технически интегрирована, но после R3 lineup QA имеет
+`visualApproval: rebuild-required` и не является style/full-body reference:
 чистый контур, простые формы, почти плоский cel shading, минимум бликов/градиентов/мелких деталей,
 взрослые college-age пропорции и отсутствие современного glossy-gacha рендера.
 Все персонажи, входящие в production manifest, явно маркируются как взрослые; для новых персонажей с известным возрастом возраст должен быть 18+.
@@ -47,9 +49,10 @@ Medallion — квадратный PNG. Допустимый production source �
 
 Общий canvas **не означает одинаковый рост**. Рост и пропорции персонажа должны быть художественно зашиты в его master внутри общего 1024×1536 canvas; production runtime не должен выравнивать разных персонажей случайным CSS zoom.
 
-Canonical measurement для Pose A: высота непрозрачного subject alpha-bounds в `frame-neutral.png` до runtime staging.
+Canonical measurements для Pose A: высота непрозрачного subject alpha-bounds и вручную
+зафиксированная `neutralEyeLineYPx` в `frame-neutral.png` до runtime staging.
 
-Текущий утверждённый visual-height baseline:
+Текущий runtime-integrated visual-height baseline:
 - Miku: 1375 px;
 - Onoe: 1484 px — reference 100%;
 - Ayuki: 1462 px;
@@ -60,13 +63,21 @@ Canonical measurement для Pose A: высота непрозрачного sub
 - Ayuki 98.5%;
 - Emi 97.3%.
 
-Эти значения не объявляются физическим ростом в сантиметрах: это **production visual-height canon** утверждённых masters. Если позже story/art bible задаст рост в сантиметрах, он может быть добавлен как semantic metadata, но итоговая экранная пропорция всё равно должна пройти общий lineup QA.
+Эти значения не объявляются физическим ростом в сантиметрах и сами по себе не доказывают полный
+силуэт или visual approval. Emi показывает известный false positive: alpha-height `1444 px`
+измеряет голову до обрезанного нижнего края, хотя фигура заканчивается на бёдрах. Если позже
+story/art bible задаст рост в сантиметрах, итоговая экранная пропорция всё равно должна пройти общий
+lineup QA.
 
 Правила:
 - production `staging.scale` по умолчанию равен `1`;
 - нельзя исправлять неправильно нарисованный рост персонажа runtime zoom-ом;
 - все пять expression frames сохраняют canonical visual height с допуском 1 px;
 - новый персонаж не может перейти из `planned` в `production`, пока neutral master не утверждён в side-by-side lineup с production cast и его canonical alpha-bounds/visual height не внесены в manifest;
+- runtime `production` и manual `visualApproval` — разные оси: `rebuild-required` asset остаётся
+  fallback для совместимости, но не может быть источником стиля или базой новых expressions;
+- `neutralEyeLineYPx` должен проходить через глаза neutral master и используется только для
+  композиционной камеры, а не для изменения canonical роста;
 - 028B Character/Scene Studio должен иметь lineup/proportion preview с общей baseline/camera.
 
 Vertical offset (`yPercent`) служит staging-композиции и не меняет канонический рост персонажа.
@@ -108,8 +119,10 @@ precomposed RGBA frames и никогда не собирает лицо overlay
 
 ## Production status
 
-На baseline ANM-028A:
-- production: Miku, Onoe, Ayuki, Emi;
+На baseline ANM-028B1 R4:
+- runtime production: Miku, Onoe, Ayuki, Emi;
+- visual approved: Miku, Onoe, Ayuki;
+- visual rebuild required: Emi;
 - planned: Kentaro, Norihiro, Mayu.
 
 `planned` означает «asset set ещё не произведён». Для planned-персонажа запрещено объявлять несуществующие runtime asset paths ради прохождения интерфейса. Placeholder остаётся допустим до отдельного production integration slice.

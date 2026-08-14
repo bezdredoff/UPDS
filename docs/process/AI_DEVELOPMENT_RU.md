@@ -1,6 +1,6 @@
 # UPDS — инструкция для AI/разработчика
 
-Status: active workflow aligned with ANM-027E and the ANM-028B1 R3 candidate.
+Status: active workflow aligned with ANM-027E and the ANM-028B1 R4 candidate.
 
 ## Before editing
 
@@ -64,7 +64,10 @@ Visual identity authority:
 
 1. approved model sheets/lineup;
 2. approved Golden Samples and Art Bible;
-3. existing approved production masters.
+3. existing masters whose explicit `visualApproval` is `approved`.
+
+Runtime `production` status proves asset completeness/routing, not visual quality. Emi is currently
+`rebuild-required`; do not use it as a style, scale, anatomy or full-body reference.
 
 Technical status/path metadata never overrides visual approval, and a visual reference never creates
 a production asset path by itself.
@@ -120,6 +123,10 @@ navigation/callback seam through the composition root.
   real VN header/dialogue/controls on the ANM-024 viewport matrix. Do not proceed while automatic
   errors or unexplained measurable pivot/alpha warnings remain.
 - Encode relative height in the master canvas; do not repair it with runtime CSS scale.
+- Record neutral alpha bounds and `neutralEyeLineYPx`; verify that the latter actually crosses the
+  character's eyes before using the asset in trio focal alignment.
+- A complete runtime set may remain available with `visualApproval: rebuild-required`, but it must
+  not seed expressions, poses or new-character prompts until a replacement neutral is approved.
 - Produce the four additional expression frames from the approved master while preserving body,
   camera, silhouette and alpha bounds.
 - Use a small face ROI and edit one expression at a time. Offline masks/layers/compositing are
@@ -140,7 +147,7 @@ navigation/callback seam through the composition root.
 
 ## Scene, background and evidence production rules
 
-- After 028B1 R3 visual acceptance, build scenes only from the frozen `upds-scene-staging-v1` IDs in `src/data/sceneStaging.ts`:
+- After 028B1 R4 visual acceptance, build scenes only from the frozen `upds-scene-staging-v1` IDs in `src/data/sceneStaging.ts`:
   `solo-close`, `solo-medium`, `two-shot-conflict`, `two-shot-alliance`,
   `trio-central-speaker`, `trio-reaction`, `evidence-cutaway`, `guest-testimony-card`.
 - Presets own shot, actor slots, active/listening/background roles, speaker focus, entry/exit and
@@ -152,9 +159,11 @@ navigation/callback seam through the composition root.
 - Preview composition through the shared `vnFrameMarkup` contract. A separate fake Studio header,
   dialogue card or bottom-control layout is prohibited because it hides real occlusion/crop defects.
 - Scene-mode actors must use the playable `.portrait` primitive and
-  `src/ui/vnPortraitGeometry.ts`: top-aligned large crop, lower canvas behind dialogue, actor
-  `shotScale >= 0.68`. Never fit the whole `1024×1536` canvas into the stage or add a Studio-only
-  full-body renderer. Full master canvases are shown only in neutral lineup QA.
+  `src/ui/vnPortraitGeometry.ts`. Solo/two-shot preserve the accepted runtime-top crop. Trio actors
+  must use `background-focal-eye-line`, align the declared eye landmark to the actual rendered focal
+  marker and retain visible headroom; they must not shrink from a fixed canvas top. Lower canvas
+  remains behind dialogue and actor `shotScale >= 0.68`. Never fit the whole `1024×1536` canvas into
+  the stage or add a Studio-only full-body renderer. Full masters are shown only in lineup QA.
 - Treat actor safe boxes as non-overlapping face/identity lanes. Do not shrink shoulders and bodies
   merely to keep their transparent PNG bounds separate; intentional body overlap is part of a VN
   two-shot/trio while the dialogue row supplies lower occlusion.
@@ -192,6 +201,10 @@ The exact contract is in `GITHUB_PHONE_PIPELINE_RU.md`.
 - `PATCH.zip` / `upds-delta-v1`: preferred for code/docs/data deltas; exact current `baseSha`;
 - `FULL_PROJECT.zip`: binary/art/recovery fallback;
 - both go through `incoming → read-only validation → candidate PR → /preview/ → PR CI → manual merge`.
+
+Use short filenames: `ANM-<feature>_R<revision>.zip` for delta and
+`ANM-<feature>_R<revision>_FULL.zip` for a full-project fallback. Keep the verbose feature title in
+the manifest, not in the filename; archive mode is content-detected.
 
 Delta patches never auto-rebase. A stale `baseSha` must fail.
 

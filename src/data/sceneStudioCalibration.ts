@@ -114,7 +114,7 @@ export const sceneStudioCalibrationManifest: SceneStudioCalibrationManifest = {
 export type SceneStudioCalibrationIssue = Readonly<{
   severity: 'error' | 'warning' | 'manual';
   code: 'staging-contract' | 'viewport-matrix' | 'safe-area' | 'background-set' | 'background-coordinate' |
-    'background-review' | 'bottom-pivot' | 'golden-sample' | 'visual-style';
+    'background-review' | 'bottom-pivot' | 'master-rebuild' | 'golden-sample' | 'visual-style';
   subject?: string;
   detail: string;
 }>;
@@ -206,6 +206,14 @@ export function validateSceneStudioCalibration(
         detail: `${key} neutral alpha bottom padding is ${bottomPadding}px versus ${referenceBottomPadding}px for the Onoe reference.`,
       });
     }
+    if (definition.visualApproval === 'rebuild-required') {
+      issues.push({
+        severity: 'warning',
+        code: 'master-rebuild',
+        subject: key,
+        detail: `${key} is runtime-integrated but failed current lineup/style/full-body visual QA and requires a neutral-master rebuild.`,
+      });
+    }
   }
 
   return issues;
@@ -238,6 +246,8 @@ export type SceneStudioLineupMetric = Readonly<{
   heightVsReference: number;
   bottomPaddingPx: number;
   alphaCenterOffsetPx: number;
+  neutralEyeLineYPx: number;
+  visualApproval: 'approved' | 'rebuild-required';
 }>;
 
 export function sceneStudioLineupMetrics(): readonly SceneStudioLineupMetric[] {
@@ -253,6 +263,8 @@ export function sceneStudioLineupMetrics(): readonly SceneStudioLineupMetric[] {
       heightVsReference: definition.proportion.visualHeightPx / referenceHeight,
       bottomPaddingPx: characterProductionManifest.frameCanvas.height - bounds.bottom,
       alphaCenterOffsetPx: (bounds.left + bounds.right) / 2 - canvasCenter,
+      neutralEyeLineYPx: definition.proportion.neutralEyeLineYPx,
+      visualApproval: definition.visualApproval,
     };
   });
 }

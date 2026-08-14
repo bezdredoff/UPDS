@@ -25,6 +25,10 @@ Production:
 - Ayuki
 - Emi
 
+`production` здесь означает наличие полного runtime set и routing, а не автоматическое
+художественное одобрение. R4 добавляет отдельный `visualApproval`: Miku/Onoe/Ayuki — `approved`,
+Emi — `rebuild-required` после lineup QA.
+
 Planned:
 - Kentaro
 - Norihiro
@@ -34,20 +38,27 @@ Planned characters не получают фальшивые asset paths. До pr
 
 ## Medallion resolution
 
-Существующий baseline неоднороден: Miku/Onoe/Ayuki используют 256×256, Emi — 512×512. Это не runtime bug: UI определяет отображаемый размер независимо.
-028A поэтому принимает square source 256 или 512 и не делает бессмысленный re-encode утверждённого Emi asset.
+Существующий baseline неоднороден: Miku/Onoe/Ayuki используют 256×256, Emi — 512×512. Это не
+runtime-size bug: UI определяет отображаемый размер независимо. Однако R3 manual QA отдельно
+отклонил сам Emi master по стилю/full-body framing; допустимый размер medallion не является visual
+approval.
 
 ## Пропорциональный рост
 
 R2 добавляет explicit proportion gate. Одинаковый 1024×1536 canvas сохраняет общую virtual camera, но персонажи не должны становиться одинакового роста.
 
-Approved neutral alpha-height baseline:
+Runtime-integrated neutral alpha-height baseline:
 - Miku — 1375 px;
 - Onoe — 1484 px (reference);
 - Ayuki — 1462 px;
 - Emi — 1444 px.
 
 Manifest хранит alpha-bounds и visual height каждого production master. CI декодирует реальные RGBA PNG, сверяет neutral bounds и проверяет, что expression frames не меняют высоту больше чем на 1 px.
+
+R4 также хранит `neutralEyeLineYPx` (`Miku 196`, `Onoe 158`, `Ayuki 242`, `Emi 397`) и отдельный
+visual-approval status. Eye landmark нужен для focal-eye-line camera и не компенсирует неверный
+master. Существующий Emi alpha-height считается технической метрикой временного fallback, а не
+утверждённым full-body baseline.
 
 Kentaro/Norihiro/Mayu получают `proportionApproval: required-before-production`: сначала standalone master + lineup QA, затем фиксация target/bounds в manifest, и только после этого expressions/assets могут считаться production.
 
@@ -66,4 +77,5 @@ Runtime scale не используется как способ «починит
 
 - 028B — Character/Scene Studio 2.0: background, shot, actor positions, expression/Pose B/staging preview + shared-baseline lineup/proportion ruler;
 - 028C — Safe Character Motion: lightweight breathing/blink/speaking только после replacement/delta proof без overlay artifacts;
-- 028D — Kentaro → Norihiro → Mayu production integration через manifest gate.
+- 028D0 — один новый Emi neutral full-body master и lineup/scene QA до генерации остального set;
+- 028D — после Emi normalization: Kentaro → Norihiro → Mayu production integration через manifest gate.

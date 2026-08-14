@@ -52,6 +52,7 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML).toContain('data-runtime-crop="true"');
     expect(root.innerHTML).toContain('data-shot-scale="1"');
     expect(root.innerHTML).toContain('--portrait-height:178%');
+    expect(root.innerHTML).toContain('--portrait-top:0%');
     expect(root.innerHTML).toContain('--portrait-bottom:-78%');
     expect(root.innerHTML).toContain('--character-scale:1');
     expect(root.innerHTML).toContain('data-vn-frame="shared"');
@@ -61,6 +62,19 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML).toContain('data-scene-viewport="390x844"');
     expect(root.innerHTML).toContain('scene-studio-fit-box');
     expect(root.innerHTML).toContain('upds-scene-studio-qa-v1');
+  });
+
+  it('renders trio portraits with measurable focal eye-line anchors and headroom', () => {
+    const root = new FakeRoot();
+    const services = createRuntimeServices();
+    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
+    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
+
+    studio.render({ presetId: 'trio-central-speaker', background: 'clubroom', showGuides: true });
+    expect(root.innerHTML.match(/data-vertical-anchor="background-focal-eye-line"/g)).toHaveLength(3);
+    expect(root.innerHTML.match(/data-eye-line-ratio=/g)).toHaveLength(3);
+    expect(root.innerHTML.match(/scene-studio-actor-eye-marker/g)).toHaveLength(3);
+    expect(root.innerHTML).toContain('scene-studio-calibration-overlay is-visible');
   });
 
   it('previews two real actors, native evidence, and the asset-free guest shell', () => {
@@ -99,6 +113,8 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML.match(/class="scene-studio-lineup-character"/g)).toHaveLength(4);
     expect(root.innerHTML).toContain('data-bottom-padding="118"');
     expect(root.innerHTML).toContain('bottom-pivot:miku');
+    expect(root.innerHTML).toContain('master-rebuild:emi');
+    expect(root.innerHTML).toContain('data-visual-approval="rebuild-required"');
     expect(root.innerHTML).toContain('data-scene-viewport="320x568"');
     expect(root.innerHTML).toContain('text-large');
   });

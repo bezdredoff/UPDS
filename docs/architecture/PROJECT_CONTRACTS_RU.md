@@ -1,6 +1,6 @@
 # UPDS — защищённые проектные контракты
 
-Status: active protected contract aligned with ANM-027E and the ANM-028B1 R3 repository candidate.
+Status: active protected contract aligned with ANM-027E and the ANM-028B1 R4 repository candidate.
 
 Эти правила считаются стабильными до отдельного продуктового решения. Реализация, тест или
 удобство production pipeline не могут молча переопределить их.
@@ -57,13 +57,16 @@ Production character contract:
 
 - precomposed 1024×1536 expression frames;
 - exactly five Pose A frames: `neutral`, `smile`, `serious`, `surprised`, `embarrassed`;
-- one approved Pose B and one square medallion: seven required runtime assets per character;
+- one runtime-integrated Pose B and one square medallion: seven required runtime assets per character;
 - common canvas and pivot `(0.5, 1.0)`;
 - relative height authored in the master canvas and validated through alpha bounds;
+- neutral eye-line landmark authored in master-canvas pixels for focal alignment;
 - `staging.scale = 1` is the production default; CSS zoom cannot repair incorrect authored height;
 - explicit adult-character guardrail for every production/planned character.
 
-Current production characters: Miku, Onoe, Ayuki, Emi.
+Current runtime-integrated production characters: Miku, Onoe, Ayuki, Emi. Runtime availability and
+manual visual approval are separate fields. Miku/Onoe/Ayuki are the current approved comparison
+set; Emi is `rebuild-required` after R3 lineup QA and remains only a temporary runtime fallback.
 
 Current planned/placeholders: Kentaro, Norihiro, Mayu. Planned characters must not claim fake asset
 paths and require side-by-side lineup/proportion approval before promotion to production.
@@ -103,14 +106,19 @@ without manual visual QA.
 - `src/ui/vnFrameMarkup.ts` owns the shared four-row production DOM frame used by playable VN and
   read-only Studio. This sharing is presentation parity, not permission for Studio to own runtime
   behavior or for 028B1 to migrate authored lines.
-- scene-mode Studio and playable VN both use `.portrait`; `src/ui/vnPortraitGeometry.ts` derives
-  preset crops from the accepted `178% / -78%` camera. A Studio-only full-body renderer or a shot
-  scale below `0.68` is a contract regression. Full canvas belongs only to lineup QA.
-- automatic checks may measure canvas, alpha bounds, bottom pivot, containment and coordinates;
+- scene-mode Studio and playable VN both use `.portrait`; `src/ui/vnPortraitGeometry.ts` preserves
+  the accepted `178% / -78%` runtime camera for solo/two-shot staging. Every trio actor must use
+  `background-focal-eye-line`: its declared neutral eye landmark is aligned to the actual rendered
+  focal-point guide with explicit headroom. A Studio-only full-body renderer, fixed-top trio crop or
+  shot scale below `0.68` is a contract regression. Full canvas belongs only to lineup QA.
+- automatic checks may measure canvas, alpha bounds, eye landmarks, derived eye-line/headroom,
+  bottom pivot, containment and coordinates;
   style, anatomy, adult visual age, palette, lighting and background perspective remain explicit
   manual Golden Sample gates;
 - character/background defects must be corrected in approved source masters/calibration. Per-scene
   runtime scale, free-form drag offsets or episode-specific CSS are not accepted repair systems;
+- technical `production` status cannot be cited as visual approval; `visualApproval` is explicit,
+  and `rebuild-required` assets cannot serve as Golden Samples;
 - neutral master lineup approval precedes production of the remaining expression frames and Pose B;
   `upds-scene-studio-qa-v1` is a read-only handoff report and cannot write production contracts.
 

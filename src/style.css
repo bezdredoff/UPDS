@@ -1393,7 +1393,7 @@ img { display: block; }
 .scene-studio-budget-grid b { color: var(--indigo); font: 850 18px/1 Georgia, serif; }
 .scene-studio-budget > p { margin: 9px 2px 0; color: var(--ink-soft); font-size: 8px; line-height: 1.4; }
 
-/* ANM-028B1 R3 · shared runtime frame, portrait crop and calibration */
+/* ANM-028B1 R4 · shared runtime frame, focal eye-line staging and calibration */
 .scene-studio-controls { grid-template-columns: 1fr 1fr; }
 .scene-studio-control-actions { grid-template-columns: repeat(3, 1fr); }
 .scene-studio-control-actions button.is-active {
@@ -1495,6 +1495,33 @@ img { display: block; }
   left: var(--scene-x);
   z-index: var(--scene-z);
 }
+.scene-studio-runtime-portrait[data-vertical-anchor="background-focal-eye-line"] {
+  top: var(--portrait-top);
+  bottom: auto;
+}
+.scene-studio-actor-eye-marker {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: var(--eye-line-percent, 0%);
+  z-index: 8;
+  height: 0;
+  border-top: 2px solid #ffdd72;
+  filter: drop-shadow(0 0 2px #17213d);
+  pointer-events: none;
+}
+.scene-studio-actor-eye-marker::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -5px;
+  width: 8px;
+  height: 8px;
+  transform: translateX(-50%);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #d96279;
+}
 .scene-studio-actor-slot > span {
   left: var(--scene-x);
   top: var(--scene-anchor-y);
@@ -1507,6 +1534,7 @@ img { display: block; }
   z-index: 7;
   pointer-events: none;
 }
+.scene-studio-calibration-overlay.is-hidden > * { opacity: 0; }
 .scene-studio-fit-box,
 .scene-studio-actor-zone,
 .scene-studio-horizon,
@@ -1592,6 +1620,10 @@ img { display: block; }
   display: flex;
   align-items: end;
   justify-content: center;
+}
+.scene-studio-lineup-character[data-visual-approval="rebuild-required"] {
+  background: linear-gradient(180deg, #6c294255, #1f234033);
+  box-shadow: inset 0 0 0 2px #ff8fa6;
 }
 .scene-studio-lineup-character img {
   width: 100%;

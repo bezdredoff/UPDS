@@ -48,6 +48,17 @@ Required properties:
 A stale `baseSha` must fail. The importer does not auto-rebase or guess how to merge an old patch.
 Regenerate the patch from the new `main` instead.
 
+### Short archive names
+
+The filename is an upload handle, not a prose feature description. Use:
+
+- delta: `ANM-<feature>_R<revision>.zip`, for example `ANM-028B1_R4.zip`;
+- full-project fallback: `ANM-<feature>_R<revision>_FULL.zip`.
+
+Do not repeat `UPDS`, the long feature title or `_PATCH` in the filename. Archive mode is detected
+from contents; the complete title remains in `patch-manifest.json` and the generated PR. After a
+failed/cached upload increment the revision and use a new short filename.
+
 ## Lane B — FULL_PROJECT.zip
 
 Use when delta is impractical:
