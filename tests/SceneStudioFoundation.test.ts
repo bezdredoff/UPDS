@@ -112,7 +112,7 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML.match(/data-vertical-anchor="background-focal-eye-line"/g)).toHaveLength(3);
   });
 
-  it('previews two real actors, native evidence, and the asset-free guest shell', () => {
+  it('previews two real actors, native evidence, and the B3 asset-free Hinata guest package', () => {
     const root = new FakeRoot();
     const services = createRuntimeServices();
     const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
@@ -133,9 +133,12 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML).toContain('Проводящая нить');
 
     studio.render({ presetId: 'guest-testimony-card', background: 'clubroom' });
-    expect(root.innerHTML).toContain('scene-studio-guest-shell');
-    expect(root.innerHTML).toContain('NO FAKE RUNTIME ASSETS');
+    expect(root.innerHTML).toContain('data-guest-witness="hinata"');
+    expect(root.innerHTML).toContain('guest-witness-placeholder');
+    expect(root.innerHTML).toContain('Тихару Хината');
+    expect(root.innerHTML).toContain('PLANNED · ASSET-FREE');
     expect(root.innerHTML).not.toContain('/characters/guest/');
+    expect(root.innerHTML).not.toContain('<img class="guest-witness-image"');
   });
 
   it('renders the surprised candidate lineup and measured warnings without changing production scale', () => {

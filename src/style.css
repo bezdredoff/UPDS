@@ -348,6 +348,91 @@ img { display: block; }
   bottom: auto;
 }
 .vn-authored-actor-slot[data-speaking="true"] { z-index: calc(var(--scene-z) + 1); }
+
+/* ANM-028B3 episode guests use a dedicated testimony-card renderer, never full-stage portrait lanes. */
+.guest-witness-presentation {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.guest-witness-shell {
+  --guest-accent: #786e90;
+  position: absolute;
+  overflow: hidden;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  padding: 8px;
+  border: 2px solid #fff9;
+  border-radius: 44% 44% 14px 14px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--guest-accent) 68%, #5d5671), #242943ee);
+  box-shadow: 0 12px 28px #10132666;
+}
+.guest-witness-shell::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 13%;
+  width: 54%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #f6edf029;
+  box-shadow: 0 48px 0 30px #f6edf01c;
+}
+.guest-witness-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+.guest-witness-placeholder {
+  position: relative;
+  align-self: center;
+  margin-bottom: auto;
+  padding-top: 22%;
+  color: #fff;
+  font: 700 clamp(36px, 11vw, 62px)/1 Georgia, serif;
+  opacity: .42;
+}
+.guest-witness-shell > b {
+  position: relative;
+  z-index: 2;
+  max-width: 100%;
+  padding: 4px 7px;
+  border-radius: 8px;
+  background: #171a33cf;
+  color: #fffaf0;
+  font-size: 9px;
+  text-align: center;
+}
+.guest-witness-testimony {
+  --guest-accent: #786e90;
+  position: absolute;
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  align-content: center;
+  gap: 5px;
+  padding: 14px;
+  border: 2px solid color-mix(in srgb, var(--guest-accent) 58%, #d9bd83);
+  border-radius: 14px;
+  background: #fff8e8ed;
+  color: #27233c;
+  box-shadow: 0 10px 24px #1013264f;
+}
+.guest-witness-testimony > span {
+  align-self: end;
+  color: var(--guest-accent);
+  font: 700 56px/0.7 Georgia, serif;
+  opacity: .52;
+}
+.guest-witness-testimony > b { font: 700 14px/1.1 Georgia, serif; }
+.guest-witness-testimony > small { color: #746d7c; font-size: 8px; font-weight: 800; }
+.guest-witness-scene-studio .guest-witness-shell,
+.guest-witness-scene-studio .guest-witness-testimony { box-shadow: 0 7px 16px #10132652; }
 .direction-card {
   position: absolute;
   left: 50%;

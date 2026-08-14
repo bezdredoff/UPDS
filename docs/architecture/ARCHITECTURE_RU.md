@@ -129,6 +129,8 @@ switch statements.
 - `src/data/characterRigs.ts` — canonical runtime rigs/staging/placeholders plus expression lookup through the transition override;
 - `src/data/sceneStaging.ts` — canonical `upds-scene-staging-v1` registry/validator for eight reusable scene compositions;
 - `src/data/authoredVnShots.ts` — bounded `upds-authored-vn-shots-v1` stable-line background/preset/actor/expression/Pose B declarations;
+- `src/data/guestWitnesses.ts` — separate `upds-guest-witness-production-v1` contract/validator for the six macro-locked episode guests; planned packages are asset-free and production packages contain neutral bust + two expression variants + neutral medallion;
+- `src/ui/guestWitnessMarkup.ts` — shared `guest-testimony-card` renderer used by playable VN and Scene Studio without promoting guests to `CharacterKey`;
 - `src/data/sceneStudioCalibration.ts` — read-only `upds-scene-studio-calibration-v1` viewport,
   background and measurable lineup QA contract plus `upds-scene-studio-qa-v1` report identity;
 - `src/ui/sceneStaging.ts` — pure actor-assignment resolver that keeps canonical character scale separate from preset shot scale;
@@ -160,7 +162,9 @@ replacement is promoted atomically; legacy embarrassed/Pose B/medallion remain f
 is explicit and removable rather than a fake complete rig.
 ANM-028B2 adds bounded authored multi-character rendering through `upds-authored-vn-shots-v1` and the
 shared resolver; unlisted lines still use `resolveVnStaging()` and no line-ID condition is hidden in
-`VnController`.
+`VnController`. ANM-028B3 adds a parallel episode-guest lookup before rendering: guest speaker tokens
+resolve through `upds-guest-witness-production-v1`, use only `guest-testimony-card`, and preload an
+image only after the corresponding package is explicitly promoted from `planned` to `production`.
 
 ## Match-3 data and engine
 

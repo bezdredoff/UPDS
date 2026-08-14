@@ -245,10 +245,11 @@ Macro lock опирается на утверждённый Story Bible и ис�
    production is paused and moves to the external Stable Diffusion workflow.
 4. **ANM-027F — COMPLETE** — all slots `0–21`, three endings, eight location families, six Match-3
    archetypes, six hero clue close-ups and the nine-character full-stage ceiling are macro-locked.
-5. **ANM-028B2 — CURRENT** — adopt authored background/preset/actor/expression/Pose B declarations
-   in playable VN through the accepted resolver, beginning with a bounded ANM-003 Golden Sample.
-6. **ANM-028B3 — NEXT** — implement the separate guest/witness schema, renderer and validator
-   required by Hinata in the first post-slice batch; no fake full-stage paths.
+5. **ANM-028B2 R1.1 — COMPLETE** — authored background/preset/actor/expression/Pose B declarations
+   are adopted in playable VN through the accepted resolver for a bounded ANM-003 Golden Sample.
+6. **ANM-028B3 R1.1 — CURRENT QA** — `upds-guest-witness-production-v1` provides the separate
+   guest/witness schema, validator and shared `guest-testimony-card` renderer required by Hinata; all six
+   macro-locked guests remain asset-free until external art is supplied and never become fake full-stage paths.
 7. **ANM-027G** — screenplay/import packages of three episodes, starting with `4–6`, with only
    macro-approved asset triggers.
 8. Run the bounded 028C safe-motion proof when it no longer competes with content blockers; resume
