@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.3-dev`.
-Active production foundation: **ANM-025 Match-3 production framework + ANM-026 tooling + ANM-027 story architecture/import pipeline for currently authored canon + ANM-027E lean content production contract + accepted ANM-028B1 R4.1 Scene Studio geometry + approved ANM-028D0 neutral and ANM-028D1 smile**. Current candidate focus: **ANM-028D2 R1 Emi serious multi-ROI QA**. By explicit production decision, the remaining Emi expression family is completed one asset at a time before returning to **ANM-027F full-story macro lock**. Full screenplay production beyond the ANM-003 vertical slice remains pending before ANM-029/release.
+Active production foundation: **ANM-025 Match-3 production framework + ANM-026 tooling + ANM-027 story architecture/import pipeline for currently authored canon + ANM-027E lean content production contract + accepted ANM-028B1 R4.1 Scene Studio geometry + approved ANM-028D0 neutral, ANM-028D1 smile and ANM-028D2 serious**. Current candidate focus: **ANM-028D3 R1 Emi surprised multi-ROI QA**. By explicit production decision, the remaining Emi expression family is completed one asset at a time before returning to **ANM-027F full-story macro lock**. Full screenplay production beyond the ANM-003 vertical slice remains pending before ANM-029/release.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -35,13 +35,16 @@ Active production foundation: **ANM-025 Match-3 production framework + ANM-026 t
   (`977ab2d98f33ae3cdf922d0b92685e6ce2e0f25b`); it is the approved expression anchor.
 - ANM-028D1 R1 Emi smile accepted in lineup/solo/duo/trio and merged through PR #98
   (`1f41ec3bcc7892bd75d09b704e38afe323a3a32e`); it remains outside runtime as an approved expression.
+- ANM-028D2 R1 Emi serious accepted in lineup/solo/duo/trio and merged through PR #99
+  (`85ebb2148ba786dfcc5a0fee936617a7a80e67dd`); it remains outside runtime as an approved expression.
 
 ### Current candidate / manual acceptance required
 
-- **ANM-028D2 R1 Emi Serious Candidate — IN QA** — the second expression is derived from the
+- **ANM-028D3 R1 Emi Surprised Candidate — IN QA** — the third expression is derived from the
   approved neutral through three bounded eye/brow/mouth ROIs. It preserves alpha bounds
-  `330,80,737,1508`, `y=244` eye line and `28 px` bottom padding. Scene Studio defaults to serious
-  and retains explicit runtime/approved-neutral/approved-smile controls; no runtime asset is replaced.
+  `330,80,737,1508`, `y=244` eye line and `28 px` bottom padding. Scene Studio defaults to surprised
+  and retains explicit runtime/approved-neutral/approved-smile/approved-serious controls; no runtime
+  asset is replaced.
 - R1/PR #92 passed automated gates but did not pass final visual acceptance because it lacked real
   VN chrome/occlusion and exposed unresolved character/background inconsistencies. It is evidence,
   not a completed roadmap item.
@@ -158,7 +161,7 @@ Current split:
 - **028A Character Production Manifest & Validator Foundation — COMPLETE** — canonical `upds-character-production-v2`, production/planned status, 7-asset precomposed runtime set, adult guardrail, proportional-height/alpha-bounds gate, PNG dimension/runtime-catalog audit and stale ANM-021 manifest cleanup;
 - **028B Character/Scene Studio 2.0 — IN PROGRESS; 028B1 R4.1 COMPLETE** — reusable preset registry, focal-eye-line duo/trio, selected-frame guides, viewport, lineup and background-calibration QA are accepted; background/shot/actor-position/expression/Pose B authoring remains 028B2 and guest presentation remains 028B3;
 - **028C Safe Character Motion** — lightweight breathing/blink/speaking only after a replacement/delta approach proves no double-face, halo or authored-expression loss;
-- **028D Character Production / Normalization — IN PROGRESS** — **028D0 R1 Emi neutral master is approved** and ANM-028D1 smile is the first one-at-a-time expression QA slice. Complete serious/surprised/embarrassed, Pose B and medallion before the atomic runtime replacement. Then integrate Kentaro → Norihiro → Mayu through the same gate; Rina/Kurose remain pending 027F.
+- **028D Character Production / Normalization — IN PROGRESS** — **028D0 R1 Emi neutral master and ANM-028D1 smile/ANM-028D2 serious are approved**. Complete surprised/embarrassed, Pose B and medallion before the atomic runtime replacement. Then integrate Kentaro → Norihiro → Mayu through the same gate; Rina/Kurose remain pending 027F.
 
 Delivery order inside 028B:
 - **028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE** — canonical `upds-scene-staging-v1` registry/resolver plus shared playable VN chrome, eye-line-anchored duo/trio camera, selected-expression alpha/eye guides, ANM-024 viewport matrix, contain-over-fill/background guides, visual-status lineup, diagnostics and read-only QA report; no new art; authored VN adoption remains 028B2;
@@ -255,15 +258,16 @@ Do not consume core production capacity before base release.
 3. **ANM-028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE**; accepted through candidate CI + iPhone visual QA and merged in PR #96;
 4. **ANM-028D0 R1 Emi Neutral Master Rebuild — COMPLETE** — approved on iPhone in lineup/solo/two-shot/trio and merged in PR #97;
 5. **ANM-028D1 R1 Emi Smile — COMPLETE** — approved on iPhone and merged in PR #98;
-6. **ANM-028D2 R1 Emi Serious — IN QA** — validate the three-ROI expression, then produce surprised/embarrassed one at a time, followed by Pose B and medallion;
-7. **ANM-027F Full Story Macro Lock** from the approved Story Bible and original scenario presentation, preserving all slots `0–21` and three endings and assigning only approved staging preset IDs;
-8. finish 028B2/028B3, run the bounded 028C safe-motion proof and complete Kentaro/Norihiro/Mayu production through 028D as their batches require them;
-9. **ANM-027G** detailed screenplay/import in three-episode packages from `4–6` through the complete canonical content lock;
-10. ANM-029 localization only after the full canonical screenplay exists;
-11. ANM-030 budgeted mass art/content;
-12. ANM-031 landscape;
-13. ANM-032 music;
-14. ANM-033 release hardening.
+6. **ANM-028D2 R1 Emi Serious — COMPLETE** — approved on iPhone and merged in PR #99;
+7. **ANM-028D3 R1 Emi Surprised — IN QA** — validate the three-ROI expression, then produce embarrassed, Pose B and medallion one at a time;
+8. **ANM-027F Full Story Macro Lock** from the approved Story Bible and original scenario presentation, preserving all slots `0–21` and three endings and assigning only approved staging preset IDs;
+9. finish 028B2/028B3, run the bounded 028C safe-motion proof and complete Kentaro/Norihiro/Mayu production through 028D as their batches require them;
+10. **ANM-027G** detailed screenplay/import in three-episode packages from `4–6` through the complete canonical content lock;
+11. ANM-029 localization only after the full canonical screenplay exists;
+12. ANM-030 budgeted mass art/content;
+13. ANM-031 landscape;
+14. ANM-032 music;
+15. ANM-033 release hardening.
 
 ## Backlog principle
 

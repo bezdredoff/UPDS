@@ -243,5 +243,5 @@ detail. Поэтому Emi остаётся runtime fallback, но имеет `v
     history/settings/save/load behavior.
 
 Green candidate CI, Files changed review, iPhone QA and merge are complete; ANM-028B1 is closed.
-ANM-028D0 neutral и ANM-028D1 smile прошли visual QA. Текущий visual slice — ANM-028D2 serious multi-ROI;
+ANM-028D0 neutral, ANM-028D1 smile и ANM-028D2 serious прошли visual QA. Текущий visual slice — ANM-028D3 surprised multi-ROI;
 после поштучного завершения Emi set production focus возвращается к ANM-027F.

@@ -1,6 +1,6 @@
 # UPDS — защищённые проектные контракты
 
-Status: active protected contract aligned with ANM-027E, accepted ANM-028B1 R4.1/ANM-028D0/D1 and ANM-028D2 R1 candidate QA.
+Status: active protected contract aligned with ANM-027E, accepted ANM-028B1 R4.1/ANM-028D0/D1/D2 and ANM-028D3 R1 candidate QA.
 
 Эти правила считаются стабильными до отдельного продуктового решения. Реализация, тест или
 удобство production pipeline не могут молча переопределить их.

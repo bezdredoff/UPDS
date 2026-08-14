@@ -1,6 +1,6 @@
 # ANM-028D2 R1 — Emi Serious Candidate QA
 
-Status: **manual iPhone QA required**.  
+Status: **approved expression; merged in PR #99**.  
 Baseline: `main` commit `1f41ec3bcc7892bd75d09b704e38afe323a3a32e` (ANM-028D1 R1 / PR #98).
 
 ## Решение
@@ -17,12 +17,13 @@ Neutral R1 имеет статус `approved-master`, smile R1 прошёл ру
 - metadata: `src/data/characterCandidates.ts` (`upds-character-candidate-v1`);
 - id: `anm028d2-r1`;
 - expression: `serious`;
-- status: `manual-qa`;
+- status: `approved-expression`;
 - `runtimeEligible: false`;
 - файл отсутствует в `RuntimeAssets` и `characterProductionManifest`.
 
-Scene Studio по умолчанию открывает serious R1 и сохраняет четыре источника: `runtime`, approved
-neutral, approved smile и проверяемый serious.
+Serious R1 остаётся доступным как approved reference. Scene Studio по умолчанию открывает текущий
+ANM-028D3 surprised slice и сохраняет `runtime`, approved neutral/smile/serious и текущий expression
+candidate.
 
 ## Multi-ROI contract
 
@@ -64,8 +65,9 @@ Runtime face overlays не возвращаются.
 5. Во всех solo/duo/trio сохраняются focal eye-line, headroom, dialogue occlusion и порядок слоёв.
 6. Guides показывают `330,80,737,1508` и `y=244`; alpha/footline совпадают с neutral.
 
-После approval serious получает статус `approved-expression`, но остаётся вне runtime до атомарной
-замены полного семиассетного Emi set. Следующая эмоция производится отдельным slice.
+Serious получил статус `approved-expression` после iPhone QA и merge PR #99
+(`85ebb2148ba786dfcc5a0fee936617a7a80e67dd`), но остаётся вне runtime до атомарной замены полного
+семиассетного Emi set. Следующая эмоция производится отдельным slice.
 
 ## Provenance
 

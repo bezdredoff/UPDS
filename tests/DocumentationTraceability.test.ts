@@ -134,7 +134,7 @@ describe('active documentation traceability', () => {
     expect(architecture).not.toContain('Status: ANM-023D audited baseline');
   });
 
-  it('keeps approved neutral/smile and the isolated ANM-028D2 serious candidate traceable', () => {
+  it('keeps approved neutral/smile/serious and the isolated ANM-028D3 surprised candidate traceable', () => {
     const roadmap = read('docs/ROADMAP_RU.md');
     const index = read('docs/README.md');
     const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
@@ -146,11 +146,14 @@ describe('active documentation traceability', () => {
     const smilePrompt = read('docs/art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md');
     const seriousFeature = read('docs/features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md');
     const seriousPrompt = read('docs/art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md');
+    const surprisedFeature = read('docs/features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md');
+    const surprisedPrompt = read('docs/art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md');
 
     expect(roadmap).toContain('028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE');
     expect(roadmap).toContain('ANM-028D0 R1 Emi Neutral Master Rebuild — COMPLETE');
     expect(roadmap).toContain('ANM-028D1 R1 Emi Smile — COMPLETE');
-    expect(roadmap).toContain('ANM-028D2 R1 Emi Serious Candidate — IN QA');
+    expect(roadmap).toContain('ANM-028D2 R1 Emi Serious — COMPLETE');
+    expect(roadmap).toContain('ANM-028D3 R1 Emi Surprised Candidate — IN QA');
     expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_R1_PROMPT.md');
@@ -158,6 +161,8 @@ describe('active documentation traceability', () => {
     expect(index).toContain('ANM028D1_EMI_SMILE_R1_PROMPT.md');
     expect(index).toContain('ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md');
     expect(index).toContain('ANM028D2_EMI_SERIOUS_R1_PROMPT.md');
+    expect(index).toContain('ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md');
+    expect(index).toContain('ANM028D3_EMI_SURPRISED_R1_PROMPT.md');
     expect(architecture).toContain('src/data/sceneStaging.ts');
     expect(architecture).toContain('src/data/sceneStudioCalibration.ts');
     expect(architecture).toContain('src/ui/vnFrameMarkup.ts');
@@ -199,8 +204,14 @@ describe('active documentation traceability', () => {
     expect(seriousFeature).toContain('1f41ec3bcc7892bd75d09b704e38afe323a3a32e');
     expect(seriousFeature).toContain('три feathered области');
     expect(seriousFeature).toContain('runtimeEligible: false');
+    expect(seriousFeature).toContain('approved-expression');
     expect(seriousPrompt).toContain('built-in ChatGPT Work `imagegen`');
     expect(seriousPrompt).toContain('единая маска всего лица отклонена');
+    expect(surprisedFeature).toContain('85ebb2148ba786dfcc5a0fee936617a7a80e67dd');
+    expect(surprisedFeature).toContain('три feathered области');
+    expect(surprisedFeature).toContain('runtimeEligible: false');
+    expect(surprisedPrompt).toContain('built-in ChatGPT Work `imagegen`');
+    expect(surprisedPrompt).toContain('более узкая маска из ANM-028D2 отклонена');
   });
 
   it('keeps mobile archive names short while preserving manifest authority', () => {
