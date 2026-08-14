@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
-Technical product version: `0.25.1-dev`.
-Active production foundation: **ANM-025 Match-3 production framework + ANM-026 tooling + ANM-027 story architecture/import pipeline for currently authored canon + ANM-027E lean content production contract**. Current candidate focus: **ANM-028B1 R3 runtime-portrait parity and calibration QA**; after its acceptance the production focus returns to **ANM-027F full-story macro lock**. Full screenplay production beyond the ANM-003 vertical slice remains pending before ANM-029/release.
+Technical product version: `0.25.3-dev`.
+Active production foundation: **ANM-025 Match-3 production framework + ANM-026 tooling + ANM-027 story architecture/import pipeline for currently authored canon + ANM-027E lean content production contract**. Current candidate focus: **ANM-028B1 R4.1 multi-actor focal-eye-line and frame-accurate guide QA**; after its acceptance the next visual slice is **ANM-028D0 Emi neutral-master rebuild**, followed by **ANM-027F full-story macro lock**. Full screenplay production beyond the ANM-003 vertical slice remains pending before ANM-029/release.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -20,7 +20,7 @@ Active production foundation: **ANM-025 Match-3 production framework + ANM-026 t
 - Match-3 shared move legality, feedback semantics and narrative special taxonomy;
 - ANM-022E Narrative Special Combination Matrix;
 - ANM-022F Interaction Guidance: inactivity hint, drag/tap source telemetry и direct special double-tap activation;
-- Emi production integration through ANM-021B R6.1;
+- Emi runtime integration through ANM-021B R6.1; current visual approval is `rebuild-required`, so these assets remain a temporary fallback rather than a production style reference;
 - character runtime uses precomposed 1024×1536 expression frames; retired transparent face-overlay composition must not return;
 - ANM-023 Architecture & Test Health Pass: repository hygiene, test-health cleanup, architecture boundary audit and pipeline failure hygiene.
 - ANM-024 Display / Viewport / Safe-Area Foundation: shared viewport shell, centralized safe-area ownership, portrait regression matrix and orientation-neutral low-height landscape contract.
@@ -32,15 +32,23 @@ Active production foundation: **ANM-025 Match-3 production framework + ANM-026 t
 
 ### Current candidate / manual acceptance required
 
-- **ANM-028B1 R3 Runtime Portrait Parity & Calibration — IN QA** — preserves the eight
-  `upds-scene-staging-v1` IDs and R2 shared VN frame/calibration, replaces Studio-only full-body
-  scaling with the playable `.portrait` crop/occlusion primitive, makes actor safe boxes protect
-  face-critical lanes and keeps full masters only in neutral lineup QA.
+- **ANM-028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — IN QA** — preserves the eight
+  `upds-scene-staging-v1` IDs and shared VN frame, keeps solo runtime framing, aligns both duo and
+  trio eyes to each rendered background focal eye-line, and derives image guides from the selected
+  expression PNG alpha bounds/eye landmark. Lineup still separates runtime integration from manual
+  visual approval.
 - R1/PR #92 passed automated gates but did not pass final visual acceptance because it lacked real
   VN chrome/occlusion and exposed unresolved character/background inconsistencies. It is evidence,
   not a completed roadmap item.
 - R2/PR #93 passed CI but failed iPhone visual acceptance: scene actors were full-body, too small
   relative to backgrounds and appeared to float. It must not be merged.
+- R3/PR #94 passed CI and was merged as a diagnostic baseline, but failed final visual acceptance:
+  trio actors still exposed almost full masters, touched the top edge and did not align their eyes
+  to the focal point. The same lineup proved the existing Emi master stylistically inconsistent,
+  oversized and not full-body. R3 geometry must not be frozen for authored content.
+- R4/PR #95 passed import validation and corrected trio framing, but its preview QA found that duo remained
+  top-locked and preset guides still used stale estimated coordinates rather than the displayed
+  expression images. R4.1 supersedes it and must be tested as a replacement candidate.
 
 ### Useful manual regression still pending
 
@@ -134,7 +142,7 @@ The missing full screenplay does not block ANM-028 Character Production Pipeline
 
 Content-production split:
 - **027E Lean Content Production Contract — COMPLETE** — [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md) preserves slots `0–21` while capping one-off production through full-stage/guest/extras tiers, eight staging presets, 8–10 location masters, 5–7 hero clue close-ups and 5–6 Match-3 layout archetypes;
-- **027F Full Story Macro Lock — NEXT AFTER 028B1 R3 ACCEPTANCE** — reconcile `ANM-001 Story Bible v0.2`, `ANM-002 22-Episode Plot v0.1` and the historical 115-slide `UPDS.pptx` into a `0–21` beat/location/cast/clue/Match-3/transition/asset-trigger map before detailed writing; use ANM-027E budgets instead of ANM-002 §8 production estimates and only the preset IDs frozen by accepted 028B1 R3;
+- **027F Full Story Macro Lock — NEXT AFTER 028B1 R4.1 AND EMI NEUTRAL BASELINE** — reconcile `ANM-001 Story Bible v0.2`, `ANM-002 22-Episode Plot v0.1` and the historical 115-slide `UPDS.pptx` into a `0–21` beat/location/cast/clue/Match-3/transition/asset-trigger map before detailed writing; use ANM-027E budgets instead of ANM-002 §8 production estimates and only the preset IDs frozen by accepted 028B1 R4.1;
 - **027G Episode Batch Production & Canonical Import — PENDING 027F** — author/import three sequential episodes per reviewable package, starting with `4–6`, using the existing manifest/audit/graph/runtime pipeline.
 
 ### ANM-028 — Character Production Pipeline 2.0 [P0/P1] — IN PROGRESS
@@ -143,12 +151,12 @@ Do not resume mass character production before the 028B shared Studio/lineup con
 
 Current split:
 - **028A Character Production Manifest & Validator Foundation — COMPLETE** — canonical `upds-character-production-v2`, production/planned status, 7-asset precomposed runtime set, adult guardrail, proportional-height/alpha-bounds gate, PNG dimension/runtime-catalog audit and stale ANM-021 manifest cleanup;
-- **028B Character/Scene Studio 2.0 — IN PROGRESS; 028B1 R3 IN QA** — reusable preset registry exists, but completion waits for runtime portrait parity, viewport, lineup and background-calibration visual acceptance; background/shot/actor-position/expression/Pose B authoring remains 028B2 and guest presentation remains 028B3;
+- **028B Character/Scene Studio 2.0 — IN PROGRESS; 028B1 R4.1 IN QA** — reusable preset registry exists, but completion waits for focal-eye-line duo/trio, selected-frame guides, viewport, lineup and background-calibration visual acceptance; background/shot/actor-position/expression/Pose B authoring remains 028B2 and guest presentation remains 028B3;
 - **028C Safe Character Motion** — lightweight breathing/blink/speaking only after a replacement/delta approach proves no double-face, halo or authored-expression loss;
-- **028D Remaining Character Production Integration** — Kentaro → Norihiro → Mayu through the 028A manifest gate and manual side-by-side visual QA; Rina/Kurose are considered only after 027F approves their recurring-stage roles and briefs.
+- **028D Character Production / Normalization** — start with **028D0 Emi neutral-master rebuild** because R3 lineup invalidated the current style/full-body baseline; only after neutral lineup/scene approval produce its expressions/Pose B/medallion replacement. Then integrate Kentaro → Norihiro → Mayu through the same gate; Rina/Kurose remain pending 027F.
 
 Delivery order inside 028B:
-- **028B1 R3 Runtime Portrait Parity & Calibration — IN QA** — canonical `upds-scene-staging-v1` registry/resolver plus shared playable VN chrome and `.portrait` camera, ANM-024 viewport matrix, contain-over-fill/background guides, neutral lineup, diagnostics and read-only QA report; no new mass art; authored VN adoption remains 028B2;
+- **028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — IN QA** — canonical `upds-scene-staging-v1` registry/resolver plus shared playable VN chrome, eye-line-anchored duo/trio camera, selected-expression alpha/eye guides, ANM-024 viewport matrix, contain-over-fill/background guides, visual-status lineup, diagnostics and read-only QA report; no new art; authored VN adoption remains 028B2;
 - **028B2 Shared Lineup & Shot Authoring — PENDING 027F** — production-baseline ruler plus background, shot, actor-role, expression and Pose B controls against the same resolver, followed by bounded authored multi-character VN adoption;
 - **028B3 Guest/Witness Presentation Contract** — separate bust/two-expression/medallion schema, renderer and validator; it must not weaken or fake the strict 7-asset full-stage manifest.
 
@@ -239,15 +247,16 @@ Do not consume core production capacity before base release.
 
 1. **ANM-025/026 and ANM-027A–D — COMPLETE foundations**;
 2. **ANM-027E Lean Content Production Contract — COMPLETE**;
-3. **ANM-028B1 R3 Runtime Portrait Parity & Calibration — IN QA**; accept it through candidate CI + iPhone visual QA before freezing preset geometry;
-4. **ANM-027F Full Story Macro Lock — NEXT AFTER R3 ACCEPTANCE** from the approved Story Bible and original scenario presentation, preserving all slots `0–21` and three endings and assigning only approved staging preset IDs;
-5. finish 028B2/028B3, run the bounded 028C safe-motion proof and integrate Kentaro → Norihiro → Mayu through 028D as their batches require them;
-6. **ANM-027G** detailed screenplay/import in three-episode packages from `4–6` through the complete canonical content lock;
-7. ANM-029 localization only after the full canonical screenplay exists;
-8. ANM-030 budgeted mass art/content;
-9. ANM-031 landscape;
-10. ANM-032 music;
-11. ANM-033 release hardening.
+3. **ANM-028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — IN QA**; accept it through candidate CI + iPhone visual QA before freezing preset geometry;
+4. **ANM-028D0 Emi Neutral Master Rebuild** — approve one new full-body 1024×1536 neutral master in lineup/solo/two-shot/trio before generating the remaining set;
+5. **ANM-027F Full Story Macro Lock** from the approved Story Bible and original scenario presentation, preserving all slots `0–21` and three endings and assigning only approved staging preset IDs;
+6. finish 028B2/028B3, run the bounded 028C safe-motion proof and complete Emi/Kentaro/Norihiro/Mayu production through 028D as their batches require them;
+7. **ANM-027G** detailed screenplay/import in three-episode packages from `4–6` through the complete canonical content lock;
+8. ANM-029 localization only after the full canonical screenplay exists;
+9. ANM-030 budgeted mass art/content;
+10. ANM-031 landscape;
+11. ANM-032 music;
+12. ANM-033 release hardening.
 
 ## Backlog principle
 

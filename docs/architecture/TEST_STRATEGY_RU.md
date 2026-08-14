@@ -1,6 +1,6 @@
 # UPDS — Test Strategy
 
-Статус: active production test-policy contract, reconciled at ANM-028B1 R3.
+Статус: active production test-policy contract, reconciled at ANM-028B1 R4.1.
 
 GitHub CI и `npm run check` остаются authoritative automated gate. Локальный запуск полезен для быстрой обратной связи, но не заменяет GitHub CI.
 
@@ -44,8 +44,13 @@ delivery-lane limits. Не закреплять тестом каждую фор
   anatomy, adult visual age, palette, lighting and perspective are intentionally manual Golden
   Sample gates. A green test cannot convert those judgments into an approval.
 - Scene Studio regression tests must prove that scene actors use the playable `.portrait` crop,
-  face-critical safe lanes and dialogue occlusion. A separate full-body stage renderer or actor
-  shot scale below the contracted floor must fail before mobile QA.
+  face-critical safe lanes and dialogue occlusion. Duo/trio tests also verify focal-eye-line camera
+  math, selected-expression alpha/eye geometry and headroom. A separate full-body stage renderer,
+  fixed-top multi-actor camera, stale neutral-only guide or actor shot scale below the contracted
+  floor must fail before mobile QA.
+- Asset completeness tests cannot assert visual approval. Runtime-integrated masters expose an
+  explicit visual status; `rebuild-required` must remain visible in Studio/report/docs until a
+  replacement neutral passes manual lineup QA.
 - Focused `story:audit`, `character:audit`, `scene:audit` и `docs:audit` ускоряют проверку, но не заменяют полный
   `npm run check` и GitHub Quality gate.
 

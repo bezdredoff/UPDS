@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: audited active architecture at the ANM-028B1 R3 repository candidate.
+Status: audited active architecture at the ANM-028B1 R4.1 repository candidate.
 
 ## Runtime flow
 
@@ -75,9 +75,11 @@ save, campaign progression, clue or persistent tutorial side effects.
 
 ### `src/features/sceneStudio/SceneStudioController.ts`
 
-Owns the read-only ANM-028B1 R3 composition/calibration QA surface: preset/background/authored-line,
+Owns the read-only ANM-028B1 R4.1 composition/calibration QA surface: preset/background/authored-line,
 text-scale and ANM-024 viewport switching; the same shared VN frame as playable runtime; safe-area,
-playable portrait crop/occlusion; contain/focal/horizon/footline/actor-zone and face-lane guides;
+playable portrait crop/occlusion; measured duo/trio eye-line alignment to the rendered background
+focal eye-line; distinct background-calibration, preset face-lane and selected-expression
+alpha/eye guides;
 canonical neutral lineup; separated
 automatic/warning/manual diagnostics; native evidence/guest shells; scene budget and structured QA
 report. It consumes shared resolvers/contracts and does not write screenplay, save, calibration
@@ -121,15 +123,15 @@ switch statements.
 
 ## Character production architecture
 
-- `src/data/characterProduction.ts` — canonical `upds-character-production-v2` manifest, production/planned status, assets, expression set, proportions and validator;
+- `src/data/characterProduction.ts` — canonical `upds-character-production-v2` manifest, runtime production/planned status, separate visual-approval status, assets, expression set, proportions and per-expression alpha/eye guide geometry with validator;
 - `src/data/characterRigs.ts` — runtime rigs, staging and placeholders derived from that manifest;
 - `src/data/sceneStaging.ts` — canonical `upds-scene-staging-v1` registry/validator for eight reusable scene compositions;
 - `src/data/sceneStudioCalibration.ts` — read-only `upds-scene-studio-calibration-v1` viewport,
   background and measurable lineup QA contract plus `upds-scene-studio-qa-v1` report identity;
 - `src/ui/sceneStaging.ts` — pure actor-assignment resolver that keeps canonical character scale separate from preset shot scale;
 - `src/ui/vnFrameMarkup.ts` — shared production VN DOM/chrome used by both playable VN and Scene Studio;
-- `src/ui/vnPortraitGeometry.ts` — derives group-shot height/bottom from the accepted playable-VN
-  `178% / -78%` camera while keeping the portrait canvas top fixed;
+- `src/ui/vnPortraitGeometry.ts` — preserves the accepted playable-VN `178% / -78%` runtime-top
+  camera and derives an eye-line-anchored variant for duo/trio staging;
 - `docs/art/CHARACTER_USAGE_MANIFEST.json` — CI-checked documentation mirror;
 - `src/platform/RuntimeAssets.ts` — preload/health catalog.
 
@@ -138,11 +140,15 @@ seven-asset production set. Legacy `base-neutral`, `face-*`, blink and speaking 
 unreferenced baggage, but they are not runtime architecture.
 
 Relative visual height is encoded in the shared 1024×1536 master canvas and validated from alpha
-bounds. Scene-specific CSS zoom must not become a parallel proportion system. ANM-028B1 R3 Scene
-Studio uses the same `.portrait` primitive and dialogue occlusion as playable VN. Preset shot scale
-derives camera height/bottom from that baseline; it does not shrink the full canvas into the stage.
-Actor safe boxes protect non-overlapping face-critical lanes while shoulder/lower-body overlap is
-allowed. Neutral lineup alone exposes the complete canvas and bottom-pivot/alpha drift.
+bounds. Scene-specific CSS zoom must not become a parallel proportion system. ANM-028B1 R4.1 Scene
+Studio uses the same `.portrait` primitive and dialogue occlusion as playable VN. Solo presets
+preserve runtime-top framing; every duo/trio actor uses the selected expression's eye landmark and
+resolves vertical position against the actual focal-point element after viewport layout. Character
+guides are derived from the selected Pose A PNG geometry, while actor safe boxes remain separately
+labelled non-overlapping face-critical lanes. Shoulder/lower-body overlap is allowed. Neutral lineup
+alone exposes the complete canvas and bottom-pivot/alpha drift.
+Runtime integration does not imply visual approval: Emi remains playable as a temporary fallback
+while `visualApproval: rebuild-required` prevents it from being treated as an approved style master.
 Authored VN adoption and its multi-character rendering remain a bounded ANM-028B2 migration, not
 hidden episode-specific conditions in `VnController`.
 

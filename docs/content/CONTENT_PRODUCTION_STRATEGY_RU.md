@@ -83,8 +83,9 @@ offline-композит выражений и библиотека staging pres
 
 Provisional production ceiling — не более девяти full-stage персонажей: три Stage Core и до шести
 Recurring Stage. Это **бюджет**, а не runtime status. На текущем baseline production manifest
-содержит production Miku/Onoe/Ayuki/Emi и planned Kentaro/Norihiro/Mayu; Rina/Kurose и гости не
-получают вымышленные paths до отдельного утверждённого integration slice.
+содержит runtime-production Miku/Onoe/Ayuki/Emi и planned Kentaro/Norihiro/Mayu; manual visual
+approval при этом отдельный: Emi сейчас `rebuild-required` и остаётся fallback до ANM-028D0.
+Rina/Kurose и гости не получают вымышленные paths до отдельного утверждённого integration slice.
 
 Guest/witness package является планируемым отдельным presentation/asset contract. Пока его schema и
 runtime renderer не реализованы, гостя нельзя добавлять в `upds-character-production-v2` как якобы
@@ -134,9 +135,10 @@ Preset задаёт shot size (`wide`/`medium`/`close`), actor slots, роль
 entry/exit transitions. Небольшой camera push и общая reaction motion могут быть metadata, но
 реальное движение включается только в рамках safe-motion contract.
 
-Геометрия preset считается замороженной только после ANM-028B1 R3 QA внутри общего playable VN
-frame: с реальными header/dialogue/controls, ANM-024 viewport matrix, playable `.portrait` crop и
-runtime `contain-over-fill`. Actor safe lanes защищают лица, а не полный прозрачный PNG; нижняя
+Геометрия preset считается замороженной только после ANM-028B1 R4.1 QA внутри общего playable VN
+frame: с реальными header/dialogue/controls, ANM-024 viewport matrix, playable `.portrait` crop,
+duo/trio focal-eye-line alignment, selected-expression alpha/eye guides и runtime
+`contain-over-fill`. Actor safe lanes защищают лица, а не полный прозрачный PNG; нижняя
 часть персонажа намеренно уходит под dialogue card. Neutral full-master lineup и background
 horizon/footline/actor-zone calibration являются обязательными acceptance inputs. Runtime scale
 или episode-specific CSS нельзя использовать для маскировки неправильного character master или
@@ -235,13 +237,16 @@ Macro lock опирается на утверждённый Story Bible и ис�
 ## Immediate execution order
 
 1. **ANM-027E — COMPLETE** — этот lean production contract и traceability gate.
-2. **ANM-028B1 R3 — IN QA** — reusable `upds-scene-staging-v1`, shared playable VN frame and
-   portrait crop, viewport/background calibration, neutral lineup и read-only QA brief без нового
-   mass art. R2/PR #93 rejected by visual QA because actors were small floating full-body figures.
-3. **ANM-027F — NEXT AFTER R3 ACCEPTANCE** — macro lock `0–21` и asset-trigger map на основе Story
+2. **ANM-028B1 R4.1 — IN QA** — reusable `upds-scene-staging-v1`, shared playable VN frame,
+   focal-eye-line duo/trio crop, frame-accurate guides, viewport/background calibration,
+   visual-status lineup и read-only QA brief без нового art. R4/PR #95 corrected trio but proved
+   that duo top-lock and stale slot/neutral guides were still invalid.
+3. **ANM-028D0 — NEXT AFTER R4.1 ACCEPTANCE** — один новый Emi neutral full-body master; expressions,
+   Pose B и medallion производятся только после lineup/solo/two-shot/trio approval.
+4. **ANM-027F — NEXT AFTER EMI NEUTRAL APPROVAL** — macro lock `0–21` и asset-trigger map на основе Story
    Bible и исходной презентации; staging назначается только из замороженных после visual QA preset IDs.
-4. Завершить 028B Studio/lineup/guest preview; выполнить ограниченный 028C safe-motion proof и 028D
+5. Завершить 028B Studio/lineup/guest preview; выполнить ограниченный 028C safe-motion proof и 028D
    production integration в порядке, утверждённом roadmap.
-5. **ANM-027G** — screenplay/import пакетами по три эпизода, начиная с `4–6`, с параллельным
+6. **ANM-027G** — screenplay/import пакетами по три эпизода, начиная с `4–6`, с параллельным
    производством только тех assets, которые прошли trigger budget.
 6. ANM-029 mass localization и ANM-030 mass art — только после полного canonical content lock.

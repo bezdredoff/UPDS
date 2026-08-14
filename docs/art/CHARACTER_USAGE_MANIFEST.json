@@ -13,6 +13,11 @@
     "mayu"
   ],
   "runtimeContract": {
+    "productionStatusMeaning": "runtime-integrated",
+    "visualApprovalValues": [
+      "approved",
+      "rebuild-required"
+    ],
     "poseCanvas": [
       1024,
       1536
@@ -29,6 +34,7 @@
       "embarrassed"
     ],
     "requiredRuntimeAssetsPerProductionCharacter": 7,
+    "sceneGuideGeometry": "selected-expression-alpha-bounds-and-eye-line",
     "medallionAcceptedSourceSizes": [
       256,
       512
@@ -40,19 +46,27 @@
   "characters": {
     "miku": {
       "status": "production",
-      "adultCharacter": true
+      "adultCharacter": true,
+      "visualApproval": "approved",
+      "neutralEyeLineYPx": 196
     },
     "onoe": {
       "status": "production",
-      "adultCharacter": true
+      "adultCharacter": true,
+      "visualApproval": "approved",
+      "neutralEyeLineYPx": 158
     },
     "ayuki": {
       "status": "production",
-      "adultCharacter": true
+      "adultCharacter": true,
+      "visualApproval": "approved",
+      "neutralEyeLineYPx": 242
     },
     "emi": {
       "status": "production",
       "adultCharacter": true,
+      "visualApproval": "rebuild-required",
+      "neutralEyeLineYPx": 397,
       "age": 19,
       "poseBFile": "pose_b_arms_crossed.png",
       "medallionFile": "portrait_neutral_512.png"
@@ -119,11 +133,17 @@
     "encodeHeightInMasterCanvas": true,
     "productionScaleDefault": 1,
     "expressionHeightTolerancePx": 1,
-    "approvedVisualHeightPx": {
+    "integratedVisualHeightPx": {
       "miku": 1375,
       "onoe": 1484,
       "ayuki": 1462,
       "emi": 1444
+    },
+    "neutralEyeLineYPx": {
+      "miku": 196,
+      "onoe": 158,
+      "ayuki": 242,
+      "emi": 397
     },
     "relativeToOnoe": {
       "miku": 0.9265,

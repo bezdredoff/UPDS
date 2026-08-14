@@ -22,10 +22,19 @@ export type CharacterAlphaBounds = Readonly<{
   bottom: number;
 }>;
 
+export type CharacterPortraitFrameGeometry = Readonly<{
+  alphaBounds: CharacterAlphaBounds;
+  eyeLineYPx: number;
+}>;
+
 export type CharacterProportion = Readonly<{
   neutralAlphaBounds: CharacterAlphaBounds;
   visualHeightPx: number;
+  neutralEyeLineYPx: number;
+  frameGeometry: Readonly<Record<RuntimeExpression, CharacterPortraitFrameGeometry>>;
 }>;
+
+export type CharacterVisualApproval = 'approved' | 'rebuild-required';
 
 export type CharacterProductionAssets = Readonly<{
   frames: Readonly<Record<RuntimeExpression, string>>;
@@ -40,6 +49,7 @@ export type ProductionCharacterDefinition = Readonly<{
   adultCharacter: true;
   speakerToken: string;
   speakerMatch: 'exact' | 'prefix';
+  visualApproval: CharacterVisualApproval;
   staging: CharacterStaging;
   proportion: CharacterProportion;
   assets: CharacterProductionAssets;
@@ -97,6 +107,17 @@ const frames = (key: ProductionCharacterKey): Readonly<Record<RuntimeExpression,
   };
 };
 
+const frameGeometry = (
+  neutralAlphaBounds: CharacterAlphaBounds,
+  eyeLineYPx: number,
+  expressionBounds: Partial<Readonly<Record<RuntimeExpression, CharacterAlphaBounds>>> = {},
+): Readonly<Record<RuntimeExpression, CharacterPortraitFrameGeometry>> => Object.freeze(
+  Object.fromEntries(runtimeExpressionOrder.map((expression) => [
+    expression,
+    Object.freeze({ alphaBounds: expressionBounds[expression] ?? neutralAlphaBounds, eyeLineYPx }),
+  ])) as Record<RuntimeExpression, CharacterPortraitFrameGeometry>,
+);
+
 const production = (
   key: ProductionCharacterKey,
   displayName: string,
@@ -106,6 +127,9 @@ const production = (
   poseBFile: string,
   medallionFile: string,
   neutralAlphaBounds: CharacterAlphaBounds,
+  neutralEyeLineYPx: number,
+  visualApproval: CharacterVisualApproval = 'approved',
+  expressionBounds: Partial<Readonly<Record<RuntimeExpression, CharacterAlphaBounds>>> = {},
 ): ProductionCharacterDefinition => {
   const root = `./assets/characters/${key}`;
   return {
@@ -115,10 +139,13 @@ const production = (
     adultCharacter: true,
     speakerToken,
     speakerMatch,
+    visualApproval,
     staging: { scale: 1, yPercent: 0 },
     proportion: {
       neutralAlphaBounds,
       visualHeightPx: neutralAlphaBounds.bottom - neutralAlphaBounds.top,
+      neutralEyeLineYPx,
+      frameGeometry: frameGeometry(neutralAlphaBounds, neutralEyeLineYPx, expressionBounds),
     },
     assets: {
       frames: frames(key),
@@ -148,21 +175,32 @@ export const characterProductionManifest: CharacterProductionManifest = {
       'miku', 'Мику Араи', 'Мику', 'МИКУ', 'prefix',
       'pose_b_pointing_sketchbook.png', 'portrait_neutral_256.png',
       { left: 359, top: 43, right: 651, bottom: 1418 },
+      196,
     ),
     onoe: production(
       'onoe', 'Сацуки Оноэ', 'Оноэ', 'ОНОЭ', 'exact',
       'pose_b_evidence_bag.png', 'portrait_neutral_256.png',
       { left: 316, top: 26, right: 697, bottom: 1510 },
+      158,
     ),
     ayuki: production(
       'ayuki', 'Аюки Момосэ', 'Аюки', 'АЮКИ', 'exact',
       'pose_b_phone_theory.png', 'portrait_neutral_256.png',
       { left: 304, top: 18, right: 746, bottom: 1480 },
+      242,
     ),
     emi: production(
       'emi', 'Эми Такахаси', 'Эми', 'ЭМИ', 'exact',
       'pose_b_arms_crossed.png', 'portrait_neutral_512.png',
       { left: 194, top: 92, right: 829, bottom: 1536 },
+      397,
+      'rebuild-required',
+      {
+        smile: { left: 180, top: 92, right: 852, bottom: 1536 },
+        serious: { left: 172, top: 92, right: 851, bottom: 1536 },
+        surprised: { left: 172, top: 92, right: 851, bottom: 1536 },
+        embarrassed: { left: 193, top: 93, right: 830, bottom: 1536 },
+      },
     ),
     kentaro: {
       status: 'planned',
@@ -210,7 +248,7 @@ export const characterProductionManifest: CharacterProductionManifest = {
 };
 
 export type CharacterProductionIssue = Readonly<{
-  code: 'format' | 'runtime-expression' | 'adult-guardrail' | 'asset-set' | 'asset-path' | 'staging' | 'proportion' | 'planned-assets';
+  code: 'format' | 'runtime-expression' | 'adult-guardrail' | 'asset-set' | 'asset-path' | 'staging' | 'proportion' | 'portrait-landmark' | 'planned-assets';
   character?: CharacterProductionKey;
   detail: string;
 }>;
@@ -261,6 +299,12 @@ export function validateCharacterProductionManifest(
         });
       }
       const bounds = definition.proportion.neutralAlphaBounds;
+      const boundsAreValid = (candidate: CharacterAlphaBounds): boolean =>
+        Number.isInteger(candidate.left) && Number.isInteger(candidate.top) &&
+        Number.isInteger(candidate.right) && Number.isInteger(candidate.bottom) &&
+        candidate.left >= 0 && candidate.top >= 0 &&
+        candidate.right <= manifest.frameCanvas.width && candidate.bottom <= manifest.frameCanvas.height &&
+        candidate.right > candidate.left && candidate.bottom > candidate.top;
       const validBounds =
         Number.isInteger(bounds.left) && Number.isInteger(bounds.top) &&
         Number.isInteger(bounds.right) && Number.isInteger(bounds.bottom) &&
@@ -273,6 +317,38 @@ export function validateCharacterProductionManifest(
           character: key,
           detail: `${key} neutral alpha bounds/visual height are invalid for the shared master canvas`,
         });
+      }
+      const neutralGeometry = definition.proportion.frameGeometry.neutral;
+      if (neutralGeometry.alphaBounds.left !== bounds.left || neutralGeometry.alphaBounds.top !== bounds.top ||
+          neutralGeometry.alphaBounds.right !== bounds.right || neutralGeometry.alphaBounds.bottom !== bounds.bottom ||
+          neutralGeometry.eyeLineYPx !== definition.proportion.neutralEyeLineYPx) {
+        issues.push({
+          code: 'portrait-landmark',
+          character: key,
+          detail: `${key} neutral frame geometry must mirror the canonical neutral proportion fields`,
+        });
+      }
+      for (const expression of runtimeExpressionOrder) {
+        const geometry = definition.proportion.frameGeometry[expression];
+        if (!geometry) {
+          issues.push({
+            code: 'portrait-landmark',
+            character: key,
+            detail: `${key}:${expression} is missing selected-frame guide geometry`,
+          });
+          continue;
+        }
+        const eyeLine = geometry.eyeLineYPx;
+        const frameBounds = geometry.alphaBounds;
+        if (!boundsAreValid(frameBounds) || !Number.isInteger(eyeLine) ||
+            eyeLine <= frameBounds.top || eyeLine >= frameBounds.bottom ||
+            eyeLine > frameBounds.top + (frameBounds.bottom - frameBounds.top) * 0.35) {
+          issues.push({
+            code: 'portrait-landmark',
+            character: key,
+            detail: `${key}:${expression} alpha bounds and eye-line must describe the selected runtime frame`,
+          });
+        }
       }
     } else {
       if (definition.age < 18) {

@@ -134,15 +134,15 @@ describe('active documentation traceability', () => {
     expect(architecture).not.toContain('Status: ANM-023D audited baseline');
   });
 
-  it('makes the R3 runtime-portrait staging/calibration contract and its 028B boundaries traceable', () => {
+  it('makes the R4.1 multi-actor eye-line/frame-guide contract and its 028B boundaries traceable', () => {
     const roadmap = read('docs/ROADMAP_RU.md');
     const index = read('docs/README.md');
     const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
     const protectedContracts = read('docs/architecture/PROJECT_CONTRACTS_RU.md');
     const feature = read('docs/features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
 
-    expect(roadmap).toContain('028B1 R3 Runtime Portrait Parity & Calibration — IN QA');
-    expect(roadmap).toContain('027F Full Story Macro Lock — NEXT AFTER 028B1 R3 ACCEPTANCE');
+    expect(roadmap).toContain('028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — IN QA');
+    expect(roadmap).toContain('028D0 Emi Neutral Master Rebuild');
     expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
     expect(architecture).toContain('src/data/sceneStaging.ts');
     expect(architecture).toContain('src/data/sceneStudioCalibration.ts');
@@ -152,14 +152,29 @@ describe('active documentation traceability', () => {
     expect(protectedContracts).toContain('upds-scene-staging-v1');
     expect(protectedContracts).toContain('upds-scene-studio-calibration-v1');
     expect(protectedContracts).toContain('face-critical-lane');
+    expect(protectedContracts).toContain('background-focal-eye-line');
+    expect(protectedContracts).toContain('Emi is `rebuild-required`');
     expect(protectedContracts).toContain('manual Golden Sample gates');
     expect(protectedContracts).toContain('ANM-028B2');
     expect(protectedContracts).toContain('ANM-028B3');
     expect(feature).toContain('## Восемь пресетов');
     expect(feature).toContain('## Shared runtime frame');
     expect(feature).toContain('runtime camera `178 / -78`');
+    expect(feature).toContain('frameGeometry[expression]');
+    expect(feature).toContain('SELECTED FRAME ALPHA');
+    expect(feature).toContain('каждый duo/trio actor');
+    expect(feature).toContain('visualApproval: rebuild-required');
     expect(feature).toContain('upds-scene-studio-qa-v1');
     expect(feature).toContain('guest-testimony-card');
     expect(feature).toContain('не входят');
+  });
+
+  it('keeps mobile archive names short while preserving manifest authority', () => {
+    const pipeline = read('docs/process/GITHUB_PHONE_PIPELINE_RU.md');
+    const ai = read('docs/process/AI_DEVELOPMENT_RU.md');
+    expect(pipeline).toContain('ANM-<feature>_R<revision>.zip');
+    expect(pipeline).toContain('ANM-028B1_R4.1.zip');
+    expect(pipeline).toContain('complete title remains in `patch-manifest.json`');
+    expect(ai).toContain('ANM-<feature>_R<revision>_FULL.zip');
   });
 });
