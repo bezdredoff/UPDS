@@ -133,4 +133,30 @@ describe('active documentation traceability', () => {
     expect(architecture).toContain('src/features/match3Campaign/Match3CampaignController.ts');
     expect(architecture).not.toContain('Status: ANM-023D audited baseline');
   });
+
+  it('makes the R2 runtime-frame staging/calibration contract and its 028B boundaries traceable', () => {
+    const roadmap = read('docs/ROADMAP_RU.md');
+    const index = read('docs/README.md');
+    const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
+    const protectedContracts = read('docs/architecture/PROJECT_CONTRACTS_RU.md');
+    const feature = read('docs/features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
+
+    expect(roadmap).toContain('028B1 R2 Reusable Staging Presets, Runtime Frame & Calibration — IN QA');
+    expect(roadmap).toContain('027F Full Story Macro Lock — NEXT AFTER 028B1 R2 ACCEPTANCE');
+    expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
+    expect(architecture).toContain('src/data/sceneStaging.ts');
+    expect(architecture).toContain('src/data/sceneStudioCalibration.ts');
+    expect(architecture).toContain('src/ui/vnFrameMarkup.ts');
+    expect(architecture).toContain('src/features/sceneStudio/SceneStudioController.ts');
+    expect(protectedContracts).toContain('upds-scene-staging-v1');
+    expect(protectedContracts).toContain('upds-scene-studio-calibration-v1');
+    expect(protectedContracts).toContain('manual Golden Sample gates');
+    expect(protectedContracts).toContain('ANM-028B2');
+    expect(protectedContracts).toContain('ANM-028B3');
+    expect(feature).toContain('## Восемь пресетов');
+    expect(feature).toContain('## Shared runtime frame');
+    expect(feature).toContain('upds-scene-studio-qa-v1');
+    expect(feature).toContain('guest-testimony-card');
+    expect(feature).toContain('не входят');
+  });
 });

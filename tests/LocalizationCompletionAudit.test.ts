@@ -10,6 +10,7 @@ const runtimeSurfaces = [
   '../src/features/match3/Match3Controller.ts',
   '../src/features/dossier/DossierController.ts',
   '../src/features/ending/EndingController.ts',
+  '../src/features/sceneStudio/SceneStudioController.ts',
 ] as const;
 
 describe('ANM-020 localization completion audit', () => {

@@ -3,10 +3,11 @@ import { describe, expect, it } from 'vitest';
 
 const style = readFileSync(new URL('../src/style.css', import.meta.url), 'utf8');
 const vnSource = readFileSync(new URL('../src/features/vn/VnController.ts', import.meta.url), 'utf8');
+const frameSource = readFileSync(new URL('../src/ui/vnFrameMarkup.ts', import.meta.url), 'utf8');
 
 describe('current VN presentation contract', () => {
   it('keeps a stable four-row shell with contain-over-fill backgrounds and bottom-anchored portraits', () => {
-    expect(style).toContain('grid-template-rows: auto minmax(0, 1fr) clamp(154px, 22dvh, 198px) auto');
+    expect(style).toContain('grid-template-rows: auto minmax(0, 1fr) var(--vn-dialogue-row, clamp(154px, 22dvh, 198px)) auto');
     expect(style).toContain('.vn-background-fit { object-fit: contain');
     expect(style).toContain('.vn-background-fill { object-fit: cover');
     expect(style).toContain('bottom: -78%;\n  height: 178%;');
@@ -17,7 +18,9 @@ describe('current VN presentation contract', () => {
   });
 
   it('keeps the nameplate above the stage/dialogue seam and the lower portrait behind the dialogue card', () => {
-    expect(vnSource).toContain('<span class="dialogue-nameplate">');
+    expect(frameSource).toContain('<span class="dialogue-nameplate">');
+    expect(vnSource).toContain("frameContext: 'runtime'");
+    expect(vnSource).toContain('vnFrameMarkup({');
     expect(style).toContain('.dialogue-shell {\n  position: relative;\n  z-index: 8;');
     expect(style).toContain('.dialogue-nameplate {');
     expect(style).toContain('z-index: 12;');
@@ -35,10 +38,10 @@ describe('current VN presentation contract', () => {
   });
 
   it('keeps compact contextual navigation and no persistent main-menu action in gameplay headers', () => {
-    expect(vnSource).toContain("headerActionMarkup('history', 'log', this.t('vn.chrome.history'))");
-    expect(vnSource).toContain("headerActionMarkup('header-settings', 'settings', this.t('common.settings'))");
-    expect(vnSource).toContain('id="dossier" class="vn-case-pill"');
-    expect(vnSource).not.toContain("headerActionMarkup('menu', 'menu', 'Главное меню')");
+    expect(frameSource).toContain("headerActionMarkup(id('history'), 'log', input.labels.history)");
+    expect(frameSource).toContain("headerActionMarkup(id('header-settings'), 'settings', input.labels.settings)");
+    expect(frameSource).toContain('id="${escapeHtml(id(\'dossier\'))}" class="vn-case-pill"');
+    expect(frameSource).not.toContain("headerActionMarkup(id('menu')");
     expect(vnSource).toContain('id="vn-main-menu"');
     expect(style).toContain('width: 44px;');
     expect(style).toContain('min-height: 44px;');

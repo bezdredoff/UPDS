@@ -40,6 +40,7 @@ export class MainMenuController {
           <div class="menu-qa-row">
             <button id="episodes">${t('menu.sceneNavigation')} <small>QA</small></button>
             <button id="level-lab">${t('menu.levelLab')} <small>QA</small></button>
+            <button id="scene-studio">${t('menu.sceneStudio')} <small>QA</small></button>
           </div>
           <button id="support">${t('menu.saveDiagnostics')} <small>QA</small></button>
         </div>
@@ -57,6 +58,7 @@ export class MainMenuController {
     this.root.querySelector('#settings')?.addEventListener('click', () => { this.services.audio.play('uiClick'); this.navigation.showSettings(); });
     this.root.querySelector('#episodes')?.addEventListener('click', () => this.navigation.showSceneSelect());
     this.root.querySelector('#level-lab')?.addEventListener('click', () => { this.services.audio.play('uiClick'); this.navigation.showLevelLab(); });
+    this.root.querySelector('#scene-studio')?.addEventListener('click', () => { this.services.audio.play('uiClick'); this.navigation.showSceneStudio(); });
     this.root.querySelector('#support')?.addEventListener('click', () => this.navigation.showDiagnostics());
   }
 

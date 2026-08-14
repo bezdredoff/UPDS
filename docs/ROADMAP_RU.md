@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
-Technical product version: `0.25.0-dev`.
-Active production foundation: **ANM-025 Match-3 production framework + ANM-026 tooling + ANM-027 story architecture/import pipeline for currently authored canon + ANM-027E lean content production contract**. Current production focus: **ANM-028B1 reusable staging presets**, followed by the ANM-027F full-story macro lock. Full screenplay production beyond the ANM-003 vertical slice remains pending before ANM-029/release.
+Technical product version: `0.25.1-dev`.
+Active production foundation: **ANM-025 Match-3 production framework + ANM-026 tooling + ANM-027 story architecture/import pipeline for currently authored canon + ANM-027E lean content production contract**. Current candidate focus: **ANM-028B1 R2 runtime-frame Scene Studio and calibration QA**; after its acceptance the production focus returns to **ANM-027F full-story macro lock**. Full screenplay production beyond the ANM-003 vertical slice remains pending before ANM-029/release.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -28,7 +28,17 @@ Active production foundation: **ANM-025 Match-3 production framework + ANM-026 t
 - ANM-025F Match-3 Narrative Reactions complete through F1 resolver contract, F2 content and F3 presentation/anti-spam.
 - ANM-027A–D story production pipeline: graph contract, graph-driven runtime routing, import/completeness audit and canonical runtime import/transition QA for the currently authored ANM-003 screenplay.
 - ANM-027E Lean Content Production Contract: all 22 planned content slots and three endings remain in scope; production cost is constrained through character tiers, staging/background reuse, native evidence UI, Match-3 archetypes and asset-trigger budgets. Canonical contract: [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md).
-- documentation/traceability authority aligned with ANM-028A R2 and protected by a focused docs drift gate.
+- documentation/traceability authority aligned with ANM-027E and protected by a focused docs drift gate.
+
+### Current candidate / manual acceptance required
+
+- **ANM-028B1 R2 Runtime Frame & Calibration — IN QA** — preserves the eight
+  `upds-scene-staging-v1` IDs, moves Scene Studio onto the shared playable VN frame, mirrors the
+  ANM-024 viewport matrix, adds contain-over-fill/background calibration guides, neutral lineup,
+  measurable-vs-manual diagnostics and a read-only `upds-scene-studio-qa-v1` handoff report.
+- R1/PR #92 passed automated gates but did not pass final visual acceptance because it lacked real
+  VN chrome/occlusion and exposed unresolved character/background inconsistencies. It is evidence,
+  not a completed roadmap item.
 
 ### Useful manual regression still pending
 
@@ -122,7 +132,7 @@ The missing full screenplay does not block ANM-028 Character Production Pipeline
 
 Content-production split:
 - **027E Lean Content Production Contract — COMPLETE** — [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md) preserves slots `0–21` while capping one-off production through full-stage/guest/extras tiers, eight staging presets, 8–10 location masters, 5–7 hero clue close-ups and 5–6 Match-3 layout archetypes;
-- **027F Full Story Macro Lock — NEXT AFTER 028B1** — reconcile `ANM-001 Story Bible v0.2`, `ANM-002 22-Episode Plot v0.1` and the historical 115-slide `UPDS.pptx` into a `0–21` beat/location/cast/clue/Match-3/transition/asset-trigger map before detailed writing; use ANM-027E budgets instead of ANM-002 §8 production estimates;
+- **027F Full Story Macro Lock — NEXT AFTER 028B1 R2 ACCEPTANCE** — reconcile `ANM-001 Story Bible v0.2`, `ANM-002 22-Episode Plot v0.1` and the historical 115-slide `UPDS.pptx` into a `0–21` beat/location/cast/clue/Match-3/transition/asset-trigger map before detailed writing; use ANM-027E budgets instead of ANM-002 §8 production estimates and only the preset IDs frozen by accepted 028B1 R2;
 - **027G Episode Batch Production & Canonical Import — PENDING 027F** — author/import three sequential episodes per reviewable package, starting with `4–6`, using the existing manifest/audit/graph/runtime pipeline.
 
 ### ANM-028 — Character Production Pipeline 2.0 [P0/P1] — IN PROGRESS
@@ -131,13 +141,13 @@ Do not resume mass character production before the 028B shared Studio/lineup con
 
 Current split:
 - **028A Character Production Manifest & Validator Foundation — COMPLETE** — canonical `upds-character-production-v2`, production/planned status, 7-asset precomposed runtime set, adult guardrail, proportional-height/alpha-bounds gate, PNG dimension/runtime-catalog audit and stale ANM-021 manifest cleanup;
-- **028B Character/Scene Studio 2.0 — NEXT, START WITH 028B1** — background/shot/actor-position/expression/Pose B/staging preview plus shared-baseline lineup/proportion ruler using the same runtime coordinates;
+- **028B Character/Scene Studio 2.0 — IN PROGRESS; 028B1 R2 IN QA** — reusable preset registry exists, but completion waits for shared-runtime-frame, viewport, lineup and background-calibration visual acceptance; background/shot/actor-position/expression/Pose B authoring remains 028B2 and guest presentation remains 028B3;
 - **028C Safe Character Motion** — lightweight breathing/blink/speaking only after a replacement/delta approach proves no double-face, halo or authored-expression loss;
 - **028D Remaining Character Production Integration** — Kentaro → Norihiro → Mayu through the 028A manifest gate and manual side-by-side visual QA; Rina/Kurose are considered only after 027F approves their recurring-stage roles and briefs.
 
 Delivery order inside 028B:
-- **028B1 Reusable Staging Presets & Scene Budget Preview** — canonical solo/two-shot/trio/evidence/guest-testimony preset registry, runtime-coordinate resolver, safe-area/non-overlap validation and Studio preview; no new mass art;
-- **028B2 Shared Lineup & Shot Authoring** — production-baseline ruler plus background, shot, actor-role, expression and Pose B controls against the same resolver;
+- **028B1 R2 Reusable Staging Presets, Runtime Frame & Calibration — IN QA** — canonical `upds-scene-staging-v1` registry/resolver plus shared playable VN chrome, ANM-024 viewport matrix, contain-over-fill/background guides, neutral lineup, diagnostics and read-only QA report; no new mass art; authored VN adoption remains 028B2;
+- **028B2 Shared Lineup & Shot Authoring — PENDING 027F** — production-baseline ruler plus background, shot, actor-role, expression and Pose B controls against the same resolver, followed by bounded authored multi-character VN adoption;
 - **028B3 Guest/Witness Presentation Contract** — separate bust/two-expression/medallion schema, renderer and validator; it must not weaken or fake the strict 7-asset full-stage manifest.
 
 Needs across the full feature:
@@ -227,8 +237,8 @@ Do not consume core production capacity before base release.
 
 1. **ANM-025/026 and ANM-027A–D — COMPLETE foundations**;
 2. **ANM-027E Lean Content Production Contract — COMPLETE**;
-3. **ANM-028B1 Reusable Staging Presets & Scene Budget Preview — NEXT**;
-4. **ANM-027F Full Story Macro Lock** from the approved Story Bible and original scenario presentation, preserving all slots `0–21` and three endings;
+3. **ANM-028B1 R2 Runtime Frame & Calibration — IN QA**; accept it through candidate CI + iPhone visual QA before freezing preset geometry;
+4. **ANM-027F Full Story Macro Lock — NEXT AFTER R2 ACCEPTANCE** from the approved Story Bible and original scenario presentation, preserving all slots `0–21` and three endings and assigning only approved staging preset IDs;
 5. finish 028B2/028B3, run the bounded 028C safe-motion proof and integrate Kentaro → Norihiro → Mayu through 028D as their batches require them;
 6. **ANM-027G** detailed screenplay/import in three-episode packages from `4–6` through the complete canonical content lock;
 7. ANM-029 localization only after the full canonical screenplay exists;

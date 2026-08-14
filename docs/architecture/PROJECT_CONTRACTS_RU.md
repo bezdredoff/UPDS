@@ -1,6 +1,6 @@
 # UPDS — защищённые проектные контракты
 
-Status: active protected contract aligned with ANM-027E and the ANM-028A R2 repository baseline.
+Status: active protected contract aligned with ANM-027E and the ANM-028B1 R2 repository candidate.
 
 Эти правила считаются стабильными до отдельного продуктового решения. Реализация, тест или
 удобство production pipeline не могут молча переопределить их.
@@ -76,6 +76,38 @@ material, but runtime still receives only finished precomposed frames.
 The retired transparent face-overlay composition is not a runtime contract. `blink` and `speaking`
 remain deferred until an ANM-028 replacement/delta approach proves that it preserves the authored
 expression without double-face, halo, silhouette or scale defects.
+
+Reusable scene composition source: `src/data/sceneStaging.ts` (`upds-scene-staging-v1`). It owns
+exactly eight normalized-percent presets: `solo-close`, `solo-medium`, `two-shot-conflict`,
+`two-shot-alliance`, `trio-central-speaker`, `trio-reaction`, `evidence-cutaway` and
+`guest-testimony-card`.
+
+Scene Studio calibration source: `src/data/sceneStudioCalibration.ts`
+(`upds-scene-studio-calibration-v1`). It mirrors the ANM-024 portrait viewport matrix, representative
+non-zero safe-area insets, runtime `contain-over-fill` background masters and estimated
+focal/horizon/footline/actor-zone metadata. Estimated background values never become approved art
+without manual visual QA.
+
+- every slot stays inside the shared `4..96%` safe frame and its authored safe box must not overlap
+  another slot safe box in the same preset;
+- full-stage `staging.scale` remains canonical character/proportion data; preset `shotScale` is a
+  separate composition value and cannot repair an incorrect master canvas;
+- the preset budget itself creates zero new runtime art, background masters or hero clue close-ups;
+- evidence/testimony cards are localized native UI;
+- `guest-testimony-card` remains an asset-free shell until ANM-028B3 supplies its own schema,
+  renderer and validator; it cannot create fake `upds-character-production-v2` paths;
+- ANM-028B1 does not silently migrate authored VN lines or change their current single-active-speaker
+  presentation. Multi-actor authored adoption belongs to ANM-028B2 and must use this resolver.
+- `src/ui/vnFrameMarkup.ts` owns the shared four-row production DOM frame used by playable VN and
+  read-only Studio. This sharing is presentation parity, not permission for Studio to own runtime
+  behavior or for 028B1 to migrate authored lines.
+- automatic checks may measure canvas, alpha bounds, bottom pivot, containment and coordinates;
+  style, anatomy, adult visual age, palette, lighting and background perspective remain explicit
+  manual Golden Sample gates;
+- character/background defects must be corrected in approved source masters/calibration. Per-scene
+  runtime scale, free-form drag offsets or episode-specific CSS are not accepted repair systems;
+- neutral master lineup approval precedes production of the remaining expression frames and Pose B;
+  `upds-scene-studio-qa-v1` is a read-only handoff report and cannot write production contracts.
 
 Visual direction remains the approved adult-college-age 2000s Hybrid anime style: clean contour,
 simple forms, almost-flat cel shading and no generic modern glossy-gacha render.

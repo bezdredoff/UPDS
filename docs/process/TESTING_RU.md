@@ -1,6 +1,6 @@
 # UPDS — validation and test workflow
 
-Status: active at the ANM-028A R2 repository baseline.
+Status: active at the ANM-028B1 R2 repository candidate.
 
 ## Authoritative gate
 
@@ -19,11 +19,14 @@ are useful feedback but do not replace the GitHub **Quality gate**.
 ```bash
 npm run story:audit
 npm run character:audit
+npm run scene:audit
 npm run docs:audit
 ```
 
 - `story:audit` — screenplay/manifest/graph completeness.
 - `character:audit` — character production manifest, PNG dimensions/alpha bounds and runtime paths.
+- `scene:audit` — exact eight-preset registry/resolver, ANM-024 viewport/background calibration,
+  contain geometry, measurable lineup warnings, shared VN frame and Scene Studio smoke.
 - `docs:audit` — active documentation/source-of-truth traceability and retired-contract guards.
 
 Focused gates accelerate iteration; `npm run check` remains required before merge.
@@ -93,6 +96,19 @@ They preserve the seven-asset precomposed contract, production/planned status, P
 alpha-height proportions and absence of runtime face-overlay references. Visual style/anatomy still
 requires manual approval.
 
+### Reusable scene staging
+
+- `SceneStagingContract.test.ts`;
+- `SceneStudioFoundation.test.ts`;
+- localization parity/completion audit.
+
+They preserve the exact eight-preset `upds-scene-staging-v1` registry, safe non-overlapping boxes,
+canonical/shot scale separation, exact actor assignment, zero-new-art budgets, the
+`upds-scene-studio-calibration-v1` viewport/background contract, runtime contain fit, shared
+playable/QA VN frame, neutral lineup metrics, read-only QA report and an asset-free guest shell.
+Style, anatomy, adult visual age, lighting, perspective and final composition/readability still
+require `/preview/` phone QA against the approved Golden Sample.
+
 ### Match-3
 
 Contracts cover shared legality, narrative special taxonomy, production tile identities, tutorials,
@@ -137,6 +153,9 @@ Also check low-height landscape does not break the shared viewport shell when re
 - all five expression frames side by side and during switching;
 - Pose B/medallion;
 - multi-character staging in the actual runtime camera;
+- real VN header/dialogue/nameplate/controls occlusion across the portrait matrix;
+- background master contain box, estimated horizon/footline/actor zone and manual perspective/light
+  approval;
 - no overlap baked into source assets, halo, double face, crop or scale jump.
 
 ### Match-3/content
