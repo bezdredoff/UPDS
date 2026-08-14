@@ -1,7 +1,6 @@
 # ANM-027F R1 — Full Story Macro Lock
 
-Status: **candidate / content review required**.  
-Baseline: `main` commit `f2a5f10fa232c0da0bb00f4f22803550b770641c` (ANM-028D3A / PR #101).
+Status: **COMPLETE**. The original R1 macro contract is now being consumed by ANM-027G; slots `4–6` are promoted to authored/production-configured by that later batch while `7–21` remain macro-only.
 
 ## Цель
 
@@ -12,7 +11,7 @@ Baseline: `main` commit `f2a5f10fa232c0da0bb00f4f22803550b770641c` (ANM-028D3A /
 ## Зафиксированные production-решения
 
 - story scope остаётся `0–21`: общая линия `0–18`, затем один из финалов `19/20/21`;
-- detailed screenplay по-прежнему считается authored только для `0–3`; `4–21` получают статус `macro-locked`, а не «готовый текст»;
+- at R1 acceptance detailed screenplay was authored only for `0–3`; ANM-027G later promotes each accepted batch without changing the remaining macro-only slots;
 - full-stage ceiling используется полностью: **9 персонажей** = Miku/Onoe/Ayuki + Emi/Kentaro/Norihiro/Mayu/Rina/Kurose;
 - Rina и Kurose теперь однозначно закреплены как **Recurring Stage**; это production requirement, но не утверждение, что их art уже существует;
 - Episode Guest / Witness package закреплён для **Hinata, Gen, Aoi, Kubo, mother Kubo и Vincent**; остальные одноэпизодические фоновые роли остаются extras;
@@ -108,7 +107,7 @@ Slot 18 обязан показывать три явно различимые �
 `tests/StoryMacroLock.test.ts` проверяет:
 
 1. ровно 22 последовательных slots `0–21` и terminal endings `19/20/21`;
-2. boundary authored `0–3` / macro-locked `4–21`;
+2. contiguous authored prefix versus remaining macro-locked slots (after ANM-027G `4–6`: authored `0–6`, macro-locked `7–21`);
 3. 8 location families и ровно 4 новых master triggers;
 4. 5–6 reusable Match-3 archetypes, только существующие objective kinds и отсутствие new mechanic;
 5. только замороженные `upds-scene-staging-v1` preset IDs;

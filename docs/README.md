@@ -38,10 +38,9 @@ If two active documents conflict, prefer the narrower current machine-readable c
 - [`features/ANM027C_STORY_IMPORT_COMPLETENESS_RU.md`](features/ANM027C_STORY_IMPORT_COMPLETENESS_RU.md)
 - [`features/ANM027D_FULL_STORY_IMPORT_RU.md`](features/ANM027D_FULL_STORY_IMPORT_RU.md)
 - [`features/ANM027F_FULL_STORY_MACRO_LOCK_RU.md`](features/ANM027F_FULL_STORY_MACRO_LOCK_RU.md) — completed `0–21` beat/location/cast/clue/Match-3/asset-trigger lock
+- [`features/ANM027G_EPISODES_04_06_PRODUCTION_RU.md`](features/ANM027G_EPISODES_04_06_PRODUCTION_RU.md) — first post-slice canonical production batch: slots `4–6`, six VN scenes, three Match-3 levels and two story-choice gates
 
-The repository currently contains detailed authored screenplay only for the ANM-003 vertical slice.
-ANM-027F full macro lock is complete for all slots `0–21`, but the screenplay beyond that slice is not yet
-present; slots `4–21` remain macro-only until ANM-027G imports them in three-episode batches.
+The repository now contains detailed authored screenplay for slots `0–6`: ANM-003 covers `0–3` and `ANM-027G_Episodes_04_06_Screenplay.md` covers `4–6`. Slots `7–21` remain macro-only and must enter through later three-episode ANM-027G batches.
 
 ### Character production
 

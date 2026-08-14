@@ -1,5 +1,7 @@
-import screenplay from './ANM-003_Vertical_Slice_Screenplay.md?raw';
-import manifestJson from './story/ANM003.vertical-slice.story.json';
+import verticalSliceScreenplay from './ANM-003_Vertical_Slice_Screenplay.md?raw';
+import episodes0406Screenplay from './ANM-027G_Episodes_04_06_Screenplay.md?raw';
+import verticalSliceManifestJson from './story/ANM003.vertical-slice.story.json';
+import episodes0406ManifestJson from './story/ANM027G.episodes-04-06.story.json';
 import { storyGraph } from '../data/storyGraph';
 import {
   auditStoryContent,
@@ -8,28 +10,24 @@ import {
   type StoryContentManifest,
 } from './storyContentFormat';
 
-export const canonicalStoryManifest = manifestJson as StoryContentManifest;
-
-const canonicalStoryAudit: StoryContentAudit = auditStoryContent(
-  screenplay,
+export const canonicalStoryManifest = verticalSliceManifestJson as StoryContentManifest;
+export const canonicalStoryManifests = [
   canonicalStoryManifest,
-  storyGraph,
+  episodes0406ManifestJson as StoryContentManifest,
+] as const;
+
+const sources = [verticalSliceScreenplay, episodes0406Screenplay] as const;
+const canonicalStoryAudits: readonly StoryContentAudit[] = canonicalStoryManifests.map((manifest, index) =>
+  auditStoryContent(sources[index], manifest, storyGraph),
 );
 
-if (canonicalStoryAudit.issues.length > 0) {
-  throw new Error(
-    `Canonical story content failed audit: ${canonicalStoryAudit.issues
-      .map((issue) => `${issue.code}: ${issue.detail}`)
-      .join('; ')}`,
-  );
-}
+const issues = canonicalStoryAudits.flatMap((audit, index) =>
+  audit.issues.map((issue) => `${canonicalStoryManifests[index].sourceId}: ${issue.code}: ${issue.detail}`),
+);
+if (issues.length > 0) throw new Error(`Canonical story content failed audit: ${issues.join('; ')}`);
 
-/**
- * The only normalized screenplay line collection consumed by the VN runtime.
- * Source Markdown, manifest and graph ranges are audited together before export.
- */
-export const canonicalStoryLines: readonly StoryContentLine[] = canonicalStoryAudit.lines;
-
+/** Audited normalized screenplay lines from every canonical production batch. */
+export const canonicalStoryLines: readonly StoryContentLine[] = canonicalStoryAudits.flatMap((audit) => audit.lines);
 export const canonicalStoryLineCount = canonicalStoryLines.length;
-export const canonicalRuntimeStoryLineCount = canonicalStoryAudit.assignedLineIds.size;
-export const canonicalDeferredStoryLineIds = [...canonicalStoryAudit.deferredLineIds] as readonly string[];
+export const canonicalRuntimeStoryLineCount = canonicalStoryAudits.reduce((sum, audit) => sum + audit.assignedLineIds.size, 0);
+export const canonicalDeferredStoryLineIds = canonicalStoryAudits.flatMap((audit) => [...audit.deferredLineIds]) as readonly string[];

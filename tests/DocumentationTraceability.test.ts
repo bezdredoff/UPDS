@@ -54,9 +54,10 @@ describe('active documentation traceability', () => {
       expect(source).toContain('src/data/storyGraph.ts');
     }
     expect(architecture).toContain('src/content/storyRuntime.ts');
-    expect(protectedContracts).toContain('262 authored lines');
-    expect(protectedContracts).toContain('VN0250');
-    expect(index).toContain('screenplay beyond that slice is not yet');
+    expect(protectedContracts).toContain('381 authored lines');
+    expect(protectedContracts).toContain('VN0250` является canonical bridge');
+    expect(index).toContain('slots `0–6`');
+    expect(index).toContain('Slots `7–21` remain macro-only');
   });
 
   it('locks the lean full-content scope and keeps guest/offline production boundaries explicit', () => {
@@ -87,7 +88,8 @@ describe('active documentation traceability', () => {
     expect(protectedContracts).toContain('22 planned content slots `0–21`');
     expect(protectedContracts).toContain('upds-guest-witness-production-v1');
     expect(protectedContracts).toContain('ANM-002 §8');
-    expect(aiWorkflow).toContain('first post-slice package is `4–6`');
+    expect(aiWorkflow).toContain('`4–6` is the first implemented package');
+    expect(aiWorkflow).toContain('`7–9` is the next package');
 
     const storyBible = read('docs/content/ANM-001_Story_Bible.md');
     const episodePlot = read('docs/content/ANM-002_22_Episode_Plot.md');
@@ -134,7 +136,7 @@ describe('active documentation traceability', () => {
     expect(architecture).not.toContain('Status: ANM-023D audited baseline');
   });
 
-  it('keeps approved Emi sources, B2 adoption and the current B3 guest phase traceable', () => {
+  it('keeps approved Emi sources, completed B2/B3 foundations and the current 027G phase traceable', () => {
     const roadmap = read('docs/ROADMAP_RU.md');
     const index = read('docs/README.md');
     const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
@@ -154,7 +156,8 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('ANM-028D1 R1 Emi smile accepted');
     expect(roadmap).toContain('ANM-028D2 R1 Emi serious accepted');
     expect(roadmap).toContain('ANM-028B2 R1.1 Authored VN Shot Adoption — COMPLETE');
-    expect(roadmap).toContain('028B3 Guest/Witness Presentation Contract — R1.1 IN QA');
+    expect(roadmap).toContain('028B3 Guest/Witness Presentation Contract — R1.1 COMPLETE');
+    expect(roadmap).toContain('027G Episode Batch Production & Canonical Import — IN PROGRESS');
     expect(roadmap).toContain('028D Character Production / Normalization — ART GENERATION PAUSED');
     expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');

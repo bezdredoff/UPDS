@@ -4,167 +4,61 @@ export const storyEpisodeIds = ['EP001_CASE_001'] as const;
 export type StoryEpisodeId = (typeof storyEpisodeIds)[number];
 
 export const storyChapterIds = [
-  'CH001_PROLOGUE',
-  'CH002_LOCKER_SEARCH',
-  'CH003_PHOTO_ALIBI',
-  'CH004_POOL_LAUNDRY',
-  'CH005_ORDERED_INSPECTION',
+  'CH001_PROLOGUE', 'CH002_LOCKER_SEARCH', 'CH003_PHOTO_ALIBI', 'CH004_POOL_LAUNDRY',
+  'CH005_ORDERED_INSPECTION', 'CH006_EMERGENCY_MEETING', 'CH007_BASKETBALL_SCREEN', 'CH008_TEXTILE_WORKSHOP',
 ] as const;
 export type StoryChapterId = (typeof storyChapterIds)[number];
 
 export const storySceneIds = [
-  'VN_SCENE_00_PROLOGUE',
-  'VN_SCENE_01_E0_PRE',
-  'VN_SCENE_02_E0_POST',
-  'VN_SCENE_03_E1_PRE',
-  'VN_SCENE_04_E1_POST',
-  'VN_SCENE_05_E2_PRE',
-  'VN_SCENE_06_E2_POST',
-  'VN_SCENE_07_E3_PRE',
-  'VN_SCENE_08_E3_POST',
+  'VN_SCENE_00_PROLOGUE', 'VN_SCENE_01_E0_PRE', 'VN_SCENE_02_E0_POST', 'VN_SCENE_03_E1_PRE', 'VN_SCENE_04_E1_POST',
+  'VN_SCENE_05_E2_PRE', 'VN_SCENE_06_E2_POST', 'VN_SCENE_07_E3_PRE', 'VN_SCENE_08_E3_POST',
+  'VN_SCENE_09_E4_PRE', 'VN_SCENE_10_E4_POST', 'VN_SCENE_11_E5_PRE', 'VN_SCENE_12_E5_POST', 'VN_SCENE_13_E6_PRE', 'VN_SCENE_14_E6_POST',
 ] as const;
 export type StorySceneId = (typeof storySceneIds)[number];
 
-export const storyEndingIds = ['ENDING_CASE_001'] as const;
+export const storyEndingIds = ['ENDING_AUTHORED_FRONTIER_06'] as const;
 export type StoryEndingId = (typeof storyEndingIds)[number];
 
-export type StorySourceRange = Readonly<{
-  format: 'screenplay-range-v1';
-  startLineId: string;
-  endLineId: string;
-}>;
-
+export type StorySourceRange = Readonly<{ format: 'screenplay-range-v1'; startLineId: string; endLineId: string }>;
 export type StoryTransition =
   | Readonly<{ kind: 'scene'; targetSceneId: StorySceneId }>
   | Readonly<{ kind: 'match3'; levelId: string; onWinSceneId: StorySceneId }>
   | Readonly<{ kind: 'ending'; endingId: StoryEndingId }>;
-
-export type StorySceneDefinition = Readonly<{
-  id: StorySceneId;
-  episodeId: StoryEpisodeId;
-  chapterId: StoryChapterId;
-  legacyIndex: number;
-  source: StorySourceRange;
-  transition: StoryTransition;
-}>;
-
-export type StoryChapterDefinition = Readonly<{
-  id: StoryChapterId;
-  episodeId: StoryEpisodeId;
-  order: number;
-  sceneIds: readonly StorySceneId[];
-}>;
-
-export type StoryEpisodeDefinition = Readonly<{
-  id: StoryEpisodeId;
-  order: number;
-  chapterIds: readonly StoryChapterId[];
-}>;
-
-export type StoryGraph = Readonly<{
-  format: 'upds-story-graph-v1';
-  entrySceneId: StorySceneId;
-  episodes: readonly StoryEpisodeDefinition[];
-  chapters: readonly StoryChapterDefinition[];
-  scenes: readonly StorySceneDefinition[];
-}>;
+export type StorySceneDefinition = Readonly<{ id: StorySceneId; episodeId: StoryEpisodeId; chapterId: StoryChapterId; legacyIndex: number; source: StorySourceRange; transition: StoryTransition }>;
+export type StoryChapterDefinition = Readonly<{ id: StoryChapterId; episodeId: StoryEpisodeId; order: number; sceneIds: readonly StorySceneId[] }>;
+export type StoryEpisodeDefinition = Readonly<{ id: StoryEpisodeId; order: number; chapterIds: readonly StoryChapterId[] }>;
+export type StoryGraph = Readonly<{ format: 'upds-story-graph-v1'; entrySceneId: StorySceneId; episodes: readonly StoryEpisodeDefinition[]; chapters: readonly StoryChapterDefinition[]; scenes: readonly StorySceneDefinition[] }>;
 
 export const storyGraph: StoryGraph = {
   format: 'upds-story-graph-v1',
   entrySceneId: 'VN_SCENE_00_PROLOGUE',
-  episodes: [
-    {
-      id: 'EP001_CASE_001',
-      order: 0,
-      chapterIds: [
-        'CH001_PROLOGUE',
-        'CH002_LOCKER_SEARCH',
-        'CH003_PHOTO_ALIBI',
-        'CH004_POOL_LAUNDRY',
-        'CH005_ORDERED_INSPECTION',
-      ],
-    },
-  ],
+  episodes: [{ id: 'EP001_CASE_001', order: 0, chapterIds: [...storyChapterIds] }],
   chapters: [
     { id: 'CH001_PROLOGUE', episodeId: 'EP001_CASE_001', order: 0, sceneIds: ['VN_SCENE_00_PROLOGUE'] },
-    { id: 'CH002_LOCKER_SEARCH', episodeId: 'EP001_CASE_001', order: 1, sceneIds: ['VN_SCENE_01_E0_PRE', 'VN_SCENE_02_E0_POST'] },
-    { id: 'CH003_PHOTO_ALIBI', episodeId: 'EP001_CASE_001', order: 2, sceneIds: ['VN_SCENE_03_E1_PRE', 'VN_SCENE_04_E1_POST'] },
-    { id: 'CH004_POOL_LAUNDRY', episodeId: 'EP001_CASE_001', order: 3, sceneIds: ['VN_SCENE_05_E2_PRE', 'VN_SCENE_06_E2_POST'] },
-    { id: 'CH005_ORDERED_INSPECTION', episodeId: 'EP001_CASE_001', order: 4, sceneIds: ['VN_SCENE_07_E3_PRE', 'VN_SCENE_08_E3_POST'] },
+    { id: 'CH002_LOCKER_SEARCH', episodeId: 'EP001_CASE_001', order: 1, sceneIds: ['VN_SCENE_01_E0_PRE','VN_SCENE_02_E0_POST'] },
+    { id: 'CH003_PHOTO_ALIBI', episodeId: 'EP001_CASE_001', order: 2, sceneIds: ['VN_SCENE_03_E1_PRE','VN_SCENE_04_E1_POST'] },
+    { id: 'CH004_POOL_LAUNDRY', episodeId: 'EP001_CASE_001', order: 3, sceneIds: ['VN_SCENE_05_E2_PRE','VN_SCENE_06_E2_POST'] },
+    { id: 'CH005_ORDERED_INSPECTION', episodeId: 'EP001_CASE_001', order: 4, sceneIds: ['VN_SCENE_07_E3_PRE','VN_SCENE_08_E3_POST'] },
+    { id: 'CH006_EMERGENCY_MEETING', episodeId: 'EP001_CASE_001', order: 5, sceneIds: ['VN_SCENE_09_E4_PRE','VN_SCENE_10_E4_POST'] },
+    { id: 'CH007_BASKETBALL_SCREEN', episodeId: 'EP001_CASE_001', order: 6, sceneIds: ['VN_SCENE_11_E5_PRE','VN_SCENE_12_E5_POST'] },
+    { id: 'CH008_TEXTILE_WORKSHOP', episodeId: 'EP001_CASE_001', order: 7, sceneIds: ['VN_SCENE_13_E6_PRE','VN_SCENE_14_E6_POST'] },
   ],
   scenes: [
-    {
-      id: 'VN_SCENE_00_PROLOGUE',
-      episodeId: 'EP001_CASE_001',
-      chapterId: 'CH001_PROLOGUE',
-      legacyIndex: 0,
-      source: { format: 'screenplay-range-v1', startLineId: 'VN0001', endLineId: 'VN0022' },
-      transition: { kind: 'scene', targetSceneId: 'VN_SCENE_01_E0_PRE' },
-    },
-    {
-      id: 'VN_SCENE_01_E0_PRE',
-      episodeId: 'EP001_CASE_001',
-      chapterId: 'CH002_LOCKER_SEARCH',
-      legacyIndex: 1,
-      source: { format: 'screenplay-range-v1', startLineId: 'VN0023', endLineId: 'VN0057' },
-      transition: { kind: 'match3', levelId: 'M3_00_LOCKER_TUTORIAL', onWinSceneId: 'VN_SCENE_02_E0_POST' },
-    },
-    {
-      id: 'VN_SCENE_02_E0_POST',
-      episodeId: 'EP001_CASE_001',
-      chapterId: 'CH002_LOCKER_SEARCH',
-      legacyIndex: 2,
-      source: { format: 'screenplay-range-v1', startLineId: 'VN0058', endLineId: 'VN0084' },
-      transition: { kind: 'scene', targetSceneId: 'VN_SCENE_03_E1_PRE' },
-    },
-    {
-      id: 'VN_SCENE_03_E1_PRE',
-      episodeId: 'EP001_CASE_001',
-      chapterId: 'CH003_PHOTO_ALIBI',
-      legacyIndex: 3,
-      source: { format: 'screenplay-range-v1', startLineId: 'VN0085', endLineId: 'VN0113' },
-      transition: { kind: 'match3', levelId: 'M3_01_PHOTO_PROPS', onWinSceneId: 'VN_SCENE_04_E1_POST' },
-    },
-    {
-      id: 'VN_SCENE_04_E1_POST',
-      episodeId: 'EP001_CASE_001',
-      chapterId: 'CH003_PHOTO_ALIBI',
-      legacyIndex: 4,
-      source: { format: 'screenplay-range-v1', startLineId: 'VN0114', endLineId: 'VN0142' },
-      transition: { kind: 'scene', targetSceneId: 'VN_SCENE_05_E2_PRE' },
-    },
-    {
-      id: 'VN_SCENE_05_E2_PRE',
-      episodeId: 'EP001_CASE_001',
-      chapterId: 'CH004_POOL_LAUNDRY',
-      legacyIndex: 5,
-      source: { format: 'screenplay-range-v1', startLineId: 'VN0143', endLineId: 'VN0166' },
-      transition: { kind: 'match3', levelId: 'M3_02_POOL_LAUNDRY', onWinSceneId: 'VN_SCENE_06_E2_POST' },
-    },
-    {
-      id: 'VN_SCENE_06_E2_POST',
-      episodeId: 'EP001_CASE_001',
-      chapterId: 'CH004_POOL_LAUNDRY',
-      legacyIndex: 6,
-      source: { format: 'screenplay-range-v1', startLineId: 'VN0167', endLineId: 'VN0191' },
-      transition: { kind: 'scene', targetSceneId: 'VN_SCENE_07_E3_PRE' },
-    },
-    {
-      id: 'VN_SCENE_07_E3_PRE',
-      episodeId: 'EP001_CASE_001',
-      chapterId: 'CH005_ORDERED_INSPECTION',
-      legacyIndex: 7,
-      source: { format: 'screenplay-range-v1', startLineId: 'VN0192', endLineId: 'VN0216' },
-      transition: { kind: 'match3', levelId: 'M3_03_ORDERED_APARTMENT', onWinSceneId: 'VN_SCENE_08_E3_POST' },
-    },
-    {
-      id: 'VN_SCENE_08_E3_POST',
-      episodeId: 'EP001_CASE_001',
-      chapterId: 'CH005_ORDERED_INSPECTION',
-      legacyIndex: 8,
-      source: { format: 'screenplay-range-v1', startLineId: 'VN0217', endLineId: 'VN0249' },
-      transition: { kind: 'ending', endingId: 'ENDING_CASE_001' },
-    },
+    { id:'VN_SCENE_00_PROLOGUE', episodeId:'EP001_CASE_001', chapterId:'CH001_PROLOGUE', legacyIndex:0, source:{format:'screenplay-range-v1',startLineId:'VN0001',endLineId:'VN0022'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_01_E0_PRE'} },
+    { id:'VN_SCENE_01_E0_PRE', episodeId:'EP001_CASE_001', chapterId:'CH002_LOCKER_SEARCH', legacyIndex:1, source:{format:'screenplay-range-v1',startLineId:'VN0023',endLineId:'VN0057'}, transition:{kind:'match3',levelId:'M3_00_LOCKER_TUTORIAL',onWinSceneId:'VN_SCENE_02_E0_POST'} },
+    { id:'VN_SCENE_02_E0_POST', episodeId:'EP001_CASE_001', chapterId:'CH002_LOCKER_SEARCH', legacyIndex:2, source:{format:'screenplay-range-v1',startLineId:'VN0058',endLineId:'VN0084'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_03_E1_PRE'} },
+    { id:'VN_SCENE_03_E1_PRE', episodeId:'EP001_CASE_001', chapterId:'CH003_PHOTO_ALIBI', legacyIndex:3, source:{format:'screenplay-range-v1',startLineId:'VN0085',endLineId:'VN0113'}, transition:{kind:'match3',levelId:'M3_01_PHOTO_PROPS',onWinSceneId:'VN_SCENE_04_E1_POST'} },
+    { id:'VN_SCENE_04_E1_POST', episodeId:'EP001_CASE_001', chapterId:'CH003_PHOTO_ALIBI', legacyIndex:4, source:{format:'screenplay-range-v1',startLineId:'VN0114',endLineId:'VN0142'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_05_E2_PRE'} },
+    { id:'VN_SCENE_05_E2_PRE', episodeId:'EP001_CASE_001', chapterId:'CH004_POOL_LAUNDRY', legacyIndex:5, source:{format:'screenplay-range-v1',startLineId:'VN0143',endLineId:'VN0166'}, transition:{kind:'match3',levelId:'M3_02_POOL_LAUNDRY',onWinSceneId:'VN_SCENE_06_E2_POST'} },
+    { id:'VN_SCENE_06_E2_POST', episodeId:'EP001_CASE_001', chapterId:'CH004_POOL_LAUNDRY', legacyIndex:6, source:{format:'screenplay-range-v1',startLineId:'VN0167',endLineId:'VN0191'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_07_E3_PRE'} },
+    { id:'VN_SCENE_07_E3_PRE', episodeId:'EP001_CASE_001', chapterId:'CH005_ORDERED_INSPECTION', legacyIndex:7, source:{format:'screenplay-range-v1',startLineId:'VN0192',endLineId:'VN0216'}, transition:{kind:'match3',levelId:'M3_03_ORDERED_APARTMENT',onWinSceneId:'VN_SCENE_08_E3_POST'} },
+    { id:'VN_SCENE_08_E3_POST', episodeId:'EP001_CASE_001', chapterId:'CH005_ORDERED_INSPECTION', legacyIndex:8, source:{format:'screenplay-range-v1',startLineId:'VN0217',endLineId:'VN0250'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_09_E4_PRE'} },
+    { id:'VN_SCENE_09_E4_PRE', episodeId:'EP001_CASE_001', chapterId:'CH006_EMERGENCY_MEETING', legacyIndex:9, source:{format:'screenplay-range-v1',startLineId:'VN0251',endLineId:'VN0270'}, transition:{kind:'match3',levelId:'M3_04_EMERGENCY_MEETING',onWinSceneId:'VN_SCENE_10_E4_POST'} },
+    { id:'VN_SCENE_10_E4_POST', episodeId:'EP001_CASE_001', chapterId:'CH006_EMERGENCY_MEETING', legacyIndex:10, source:{format:'screenplay-range-v1',startLineId:'VN0271',endLineId:'VN0288'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_11_E5_PRE'} },
+    { id:'VN_SCENE_11_E5_PRE', episodeId:'EP001_CASE_001', chapterId:'CH007_BASKETBALL_SCREEN', legacyIndex:11, source:{format:'screenplay-range-v1',startLineId:'VN0289',endLineId:'VN0308'}, transition:{kind:'match3',levelId:'M3_05_BASKETBALL_LOCKERS',onWinSceneId:'VN_SCENE_12_E5_POST'} },
+    { id:'VN_SCENE_12_E5_POST', episodeId:'EP001_CASE_001', chapterId:'CH007_BASKETBALL_SCREEN', legacyIndex:12, source:{format:'screenplay-range-v1',startLineId:'VN0309',endLineId:'VN0326'}, transition:{kind:'scene',targetSceneId:'VN_SCENE_13_E6_PRE'} },
+    { id:'VN_SCENE_13_E6_PRE', episodeId:'EP001_CASE_001', chapterId:'CH008_TEXTILE_WORKSHOP', legacyIndex:13, source:{format:'screenplay-range-v1',startLineId:'VN0327',endLineId:'VN0347'}, transition:{kind:'match3',levelId:'M3_06_TEXTILE_WORKSHOP',onWinSceneId:'VN_SCENE_14_E6_POST'} },
+    { id:'VN_SCENE_14_E6_POST', episodeId:'EP001_CASE_001', chapterId:'CH008_TEXTILE_WORKSHOP', legacyIndex:14, source:{format:'screenplay-range-v1',startLineId:'VN0348',endLineId:'VN0369'}, transition:{kind:'ending',endingId:'ENDING_AUTHORED_FRONTIER_06'} },
   ],
 };
 

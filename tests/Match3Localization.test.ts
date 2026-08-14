@@ -7,7 +7,7 @@ describe('ANM-019E2 Match-3 localization', () => {
   it('keeps locale catalogs in parity', () => expect(Object.keys(enCatalog).sort()).toEqual(Object.keys(ruCatalog).sort()));
   it('covers every level presentation, objective and authored bark', () => {
     for (const level of levels) {
-      for (const field of ['title', 'storyAction', 'clueTitle', 'clueSummary', 'startBark.speaker', 'startBark.text', 'winBark.speaker', 'winBark.text']) {
+      for (const field of ['title', 'storyAction', 'clueTitle', 'clueSummary', 'startBark.speaker', 'startBark.text', 'winBark.speaker', 'winBark.text', 'loseBark.speaker', 'loseBark.text']) {
         const key = `match3.level.${level.id}.${field}` as keyof typeof enCatalog;
         expect(enCatalog[key], key).toBeTruthy();
       }

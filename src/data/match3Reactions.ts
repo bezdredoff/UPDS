@@ -134,6 +134,24 @@ export const match3ReactionRulesByLevel: Readonly<Record<string, readonly Match3
     { id: 'ingredient-context', priority: 200, repeat: 'once-per-attempt', speaker: 'miku', messageKey: 'match3.bark.ingredient.3', trigger: { kind: 'move-number', equals: 1 } },
     commonCascadeRule(),
   ],
+  M3_04_EMERGENCY_MEETING: [
+    ...f2Rules(4, { objective: 'onoe', special: 'miku', combo: 'ayuki', nearWin: 'miku', danger: 'onoe', beat: 'ayuki' }),
+    { id: 'low-moves', priority: 500, repeat: 'once-per-attempt', speaker: 'miku', messageKey: 'match3.bark.fiveMoves.4', trigger: { kind: 'moves-left', equals: 5 } }, commonSpecialCreatedRule(),
+    { id: 'blocker-progress', priority: 300, repeat: 'once-per-attempt', speaker: 'ayuki', messageKey: 'match3.bark.blockers.4', trigger: { kind: 'blockers-cleared', min: 4 } },
+    { id: 'ingredient-context', priority: 200, repeat: 'once-per-attempt', speaker: 'onoe', messageKey: 'match3.bark.ingredient.4', trigger: { kind: 'move-number', equals: 1 } }, commonCascadeRule(),
+  ],
+  M3_05_BASKETBALL_LOCKERS: [
+    ...f2Rules(5, { objective: 'onoe', special: 'miku', combo: 'ayuki', nearWin: 'miku', danger: 'onoe', beat: 'ayuki' }),
+    { id: 'low-moves', priority: 500, repeat: 'once-per-attempt', speaker: 'onoe', messageKey: 'match3.bark.fiveMoves.5', trigger: { kind: 'moves-left', equals: 5 } }, commonSpecialCreatedRule(),
+    { id: 'blocker-progress', priority: 300, repeat: 'once-per-attempt', speaker: 'miku', messageKey: 'match3.bark.blockers.5', trigger: { kind: 'blockers-cleared', min: 5 } },
+    { id: 'ingredient-context', priority: 200, repeat: 'once-per-attempt', speaker: 'ayuki', messageKey: 'match3.bark.ingredient.5', trigger: { kind: 'move-number', equals: 1 } }, commonCascadeRule(),
+  ],
+  M3_06_TEXTILE_WORKSHOP: [
+    ...f2Rules(6, { objective: 'miku', special: 'onoe', combo: 'ayuki', nearWin: 'miku', danger: 'onoe', beat: 'ayuki' }),
+    { id: 'low-moves', priority: 500, repeat: 'once-per-attempt', speaker: 'miku', messageKey: 'match3.bark.fiveMoves.6', trigger: { kind: 'moves-left', equals: 5 } }, commonSpecialCreatedRule(),
+    { id: 'blocker-progress', priority: 300, repeat: 'once-per-attempt', speaker: 'onoe', messageKey: 'match3.bark.blockers.6', trigger: { kind: 'blockers-cleared', min: 4 } },
+    { id: 'ingredient-context', priority: 200, repeat: 'once-per-attempt', speaker: 'ayuki', messageKey: 'match3.bark.ingredient.6', trigger: { kind: 'move-number', equals: 1 } }, commonCascadeRule(),
+  ],
 };
 
 const matchesTrigger = (rule: Match3ReactionRule, context: Match3ReactionContext): boolean => {

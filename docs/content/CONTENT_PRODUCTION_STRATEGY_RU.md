@@ -89,9 +89,7 @@ slice. После ANM-028D3A playable runtime осознанно использ�
 `neutral/smile/serious/surprised`, а legacy `embarrassed`, Pose B и medallion остаются временным
 fallback до внешнего Stable Diffusion replacement pass. Гости не получают вымышленные paths.
 
-Guest/witness package является планируемым отдельным presentation/asset contract. Пока его schema и
-runtime renderer не реализованы, гостя нельзя добавлять в `upds-character-production-v2` как якобы
-полноценного stage-персонажа с пустыми или фиктивными путями.
+Guest/witness package реализован ANM-028B3 как отдельный `upds-guest-witness-production-v1` presentation/asset contract. Planned guests остаются asset-free; production требует полный bust + две expression variants + medallion. Гостя нельзя добавлять в `upds-character-production-v2` как якобы полноценного stage-персонажа с пустыми или фиктивными путями.
 
 ## Выражения, позы и генерация
 
@@ -247,11 +245,10 @@ Macro lock опирается на утверждённый Story Bible и ис�
    archetypes, six hero clue close-ups and the nine-character full-stage ceiling are macro-locked.
 5. **ANM-028B2 R1.1 — COMPLETE** — authored background/preset/actor/expression/Pose B declarations
    are adopted in playable VN through the accepted resolver for a bounded ANM-003 Golden Sample.
-6. **ANM-028B3 R1.1 — CURRENT QA** — `upds-guest-witness-production-v1` provides the separate
+6. **ANM-028B3 R1.1 — COMPLETE** — `upds-guest-witness-production-v1` provides the separate
    guest/witness schema, validator and shared `guest-testimony-card` renderer required by Hinata; all six
    macro-locked guests remain asset-free until external art is supplied and never become fake full-stage paths.
-7. **ANM-027G** — screenplay/import packages of three episodes, starting with `4–6`, with only
-   macro-approved asset triggers.
+7. **ANM-027G `4–6` — CURRENT QA** — first three-episode screenplay/import package; after acceptance continue with `7–9` and the remaining sequential batches, using only macro-approved asset triggers.
 8. Run the bounded 028C safe-motion proof when it no longer competes with content blockers; resume
    full-stage character production from external approved art as batches require it.
 9. ANM-029 mass localization and ANM-030 mass art only after complete canonical content lock.

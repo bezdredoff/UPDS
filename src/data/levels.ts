@@ -20,9 +20,9 @@ export type Match3TileCategory = 'panties' | 'bra' | 'camisole' | 'socks' | 'tow
 export const ACTIVE_TILE_TYPE_LIMIT = 6;
 export const MAX_PANTIES_TYPES_PER_LEVEL = 4;
 export const MAX_OBJECTIVES_PER_LEVEL = 3;
-export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel';
-export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet';
-export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004';
+export type IngredientKey = 'receipt' | 'memoryCard' | 'serviceKey' | 'damagedTowel' | 'laundryCalendar' | 'repairLog' | 'warrantyCard' | 'silverSpool';
+export type BlockerKey = 'lockedCell' | 'propBox' | 'foam' | 'cabinet' | 'rumorCard' | 'lockerLock' | 'garmentBag';
+export type ClueId = 'CUE_001' | 'CUE_002' | 'CUE_003' | 'CUE_004' | 'CUE_005' | 'CUE_006' | 'CUE_007';
 
 export type BoardPlacement = Readonly<{ index: number; layers: 1 | 2 }>;
 export type IngredientPlacement = Readonly<{ index: number; kind: IngredientKey }>;
@@ -106,6 +106,10 @@ export const ingredientPresentation: Record<IngredientKey, Readonly<{ label: str
   memoryCard: { label: 'Карта памяти', asset: './assets/match3/goal_memory_card.png' },
   serviceKey: { label: 'Сервисный ключ', asset: './assets/clues/clue_service_key.png' },
   damagedTowel: { label: 'Полотенце со швом', asset: './assets/clues/clue_towel_conductive_seam.png' },
+  laundryCalendar: { label: 'Календарь стирки', asset: './assets/match3/goal_receipt.png' },
+  repairLog: { label: 'Журнал ремонта', asset: './assets/match3/goal_memory_card.png' },
+  warrantyCard: { label: 'Гарантийная карта', asset: './assets/match3/goal_receipt.png' },
+  silverSpool: { label: 'Серебристая катушка', asset: './assets/clues/clue_towel_conductive_seam.png' },
 };
 
 export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; asset: string }>> = {
@@ -113,6 +117,9 @@ export const blockerPresentation: Record<BlockerKey, Readonly<{ label: string; a
   propBox: { label: 'Коробка реквизита', asset: './assets/match3/obstacle_prop_box_2layer.png' },
   foam: { label: 'Пена', asset: './assets/match3/obstacle_soap_foam.png' },
   cabinet: { label: 'Секция шкафа', asset: './assets/match3/obstacle_service_cabinet.png' },
+  rumorCard: { label: 'Карточка слуха', asset: './assets/match3/obstacle_prop_box_2layer.png' },
+  lockerLock: { label: 'Замок шкафчика', asset: './assets/match3/obstacle_locked_cell.png' },
+  garmentBag: { label: 'Чехол с заказом', asset: './assets/match3/obstacle_service_cabinet.png' },
 };
 
 export const specialAsset = './assets/match3/special_observation_magnifier.png';
@@ -261,6 +268,84 @@ export const levels: readonly LevelDefinition[] = [
     winBark: { speaker: 'Мику', text: 'Здесь ничего не украли. Но кое-что добавили.' },
     loseBark: { speaker: 'Норихиро', text: 'Вы проиграли шкафу. Он согласен на повторную проверку.' },
   },
+  {
+    id: 'M3_04_EMERGENCY_MEETING',
+    shortId: 'M3_04',
+    title: 'Семь клубов, один календарь',
+    storyAction: 'Отделить подтверждённые заявления от слухов и восстановить общий календарь стирки.',
+    context: {
+      sourceSceneId: 'VN_SCENE_09_E4_PRE', pageBackground: 'studentCouncilAuditorium',
+      boardSurface: 'meeting-grid', boardFrame: 'audit-file', narrativeProfile: 'laundry-cadence', tilePresentationProfile: 'meeting-reports',
+      participants: ['miku', 'onoe', 'ayuki', 'mayu'], narrativeTags: ['student-council', 'seven-clubs', 'laundry-calendar', 'rumor-control'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'pantiesSportWhite', 'pantiesLacePink', 'sportsBra', 'socks', 'towel'],
+    moves: 28,
+    objectives: [
+      { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Подтверждённые бирки' },
+      { kind: 'clearBlockers', target: 8, label: 'Слухи' },
+      { kind: 'drop', ingredient: 'laundryCalendar', target: 1, label: 'Календарь' },
+    ],
+    blocker: 'rumorCard', blockers: positions([9, 18, 21, 22, 42, 45, 49, 54]),
+    ingredients: [{ index: 27, kind: 'laundryCalendar' }], seed: 9005,
+    clueId: 'CUE_005', clueTitle: 'Ритм прачечной',
+    clueSummary: 'Все подтверждённые случаи проходят через центральную прачечную за 24–48 часов до пропажи.',
+    startBark: { speaker: 'Маю', text: 'Факты отдельно. Слухи отдельно. И никаких скриншотов.' },
+    winBark: { speaker: 'Мику', text: 'Семь клубов, один повторяющийся маршрут. Теперь это система.' },
+    loseBark: { speaker: 'Оноэ', text: 'Мы смешали свидетельства и версии. Пересоберём таблицу.' },
+  },
+  {
+    id: 'M3_05_BASKETBALL_LOCKERS',
+    shortId: 'M3_05',
+    title: 'Высокие шкафчики',
+    storyAction: 'Открыть секции, сверить сервисные бирки и восстановить журнал ремонта.',
+    context: {
+      sourceSceneId: 'VN_SCENE_11_E5_PRE', pageBackground: 'basketballLocker',
+      boardSurface: 'locker-columns', boardFrame: 'service-file', narrativeProfile: 'basketball-repair', tilePresentationProfile: 'basketball-service',
+      participants: ['miku', 'onoe', 'ayuki', 'hinata'], narrativeTags: ['basketball-locker', 'repair-log', 'service-stitch', 'false-suspect'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['laundryTag', 'pantiesSportWhite', 'pantiesHighWaistBlack', 'sportsBra', 'camisole', 'socks'],
+    moves: 27,
+    objectives: [
+      { kind: 'clearBlockers', target: 10, label: 'Замки' },
+      { kind: 'collect', tile: 'laundryTag', target: 12, label: 'Сервисные бирки' },
+      { kind: 'drop', ingredient: 'repairLog', target: 1, label: 'Журнал ремонта' },
+    ],
+    blocker: 'lockerLock', blockers: positions([8, 15, 16, 23, 24, 31, 32, 39, 40, 47]),
+    ingredients: [{ index: 28, kind: 'repairLog' }], seed: 9006,
+    clueId: 'CUE_006', clueTitle: 'Сервисная строчка',
+    clueSummary: 'Размер, стиль и владелец не связаны с пропажами; на спорных вещах повторяется одинаковая сервисная строчка.',
+    startBark: { speaker: 'Хината', text: 'Сначала журнал и ярлыки. Потом можете подозревать кого угодно.' },
+    winBark: { speaker: 'Оноэ', text: 'Корреляции с внешним видом нет. А строчка повторяется.' },
+    loseBark: { speaker: 'Аюки', text: 'Шкафчики выше моей теории. Ещё раз, но теперь по ярлыкам.' },
+  },
+  {
+    id: 'M3_06_TEXTILE_WORKSHOP',
+    shortId: 'M3_06',
+    title: 'Мастерская Хинаты',
+    storyAction: 'Сопоставить заказы, убрать чехлы и найти гарантийную карту вместе с серебристой катушкой.',
+    context: {
+      sourceSceneId: 'VN_SCENE_13_E6_PRE', pageBackground: 'textileWorkshop',
+      boardSurface: 'workbench-clusters', boardFrame: 'workshop-file', narrativeProfile: 'post-repair-seam', tilePresentationProfile: 'textile-workshop',
+      participants: ['miku', 'onoe', 'ayuki', 'hinata'], narrativeTags: ['textile-workshop', 'warranty-card', 'conductive-thread', 'exoneration'],
+    },
+    tutorialConcepts: ['activate-special', 'combine-specials'],
+    activeTiles: ['sportsBra', 'camisole', 'laundryTag', 'pantiesSportWhite', 'pantiesLacePink', 'towel'],
+    moves: 29,
+    objectives: [
+      { kind: 'clearBlockers', target: 8, label: 'Чехлы' },
+      { kind: 'collect', tile: 'sportsBra', target: 12, label: 'Заказы' },
+      { kind: 'dropGroup', ingredients: ['warrantyCard', 'silverSpool'], target: 2, label: 'Проверка машины' },
+    ],
+    blocker: 'garmentBag', blockers: positions([[10,2], 13, [18,2], 21, 42, [45,2], 50, 53]),
+    ingredients: [{ index: 26, kind: 'warrantyCard' }, { index: 29, kind: 'silverSpool' }], seed: 9007,
+    clueId: 'CUE_007', clueTitle: 'Шов после ремонта',
+    clueSummary: 'До центральной прачечной серебристого шва не было; оборудование Хинаты не поддерживает такую проводящую нить.',
+    startBark: { speaker: 'Хината', text: 'Заказы слева, образцы справа. Машину не обвиняйте без спецификации.' },
+    winBark: { speaker: 'Мику', text: 'Хината исключена. Шов появился после её мастерской — на маршруте прачечной.' },
+    loseBark: { speaker: 'Хината', text: 'Вы смешали заказы и образцы. В мастерской это хуже плохой гипотезы.' },
+  },
 ] as const;
 
 export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: string }>> = {
@@ -268,6 +353,9 @@ export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: s
   CUE_002: { asset: './assets/clues/clue_memory_card.png', label: 'Карта памяти' },
   CUE_003: { asset: './assets/clues/clue_service_key.png', label: 'Сервисный ключ' },
   CUE_004: { asset: './assets/clues/clue_towel_conductive_seam.png', label: 'Проводящий шов' },
+  CUE_005: { asset: './assets/clues/clue_laundry_receipt.png', label: 'Ритм прачечной' },
+  CUE_006: { asset: './assets/clues/clue_service_key.png', label: 'Сервисная строчка' },
+  CUE_007: { asset: './assets/clues/clue_towel_conductive_seam.png', label: 'Шов после ремонта' },
 };
 
 export function validateLevelDefinitions(definitions: readonly LevelDefinition[] = levels): string[] {

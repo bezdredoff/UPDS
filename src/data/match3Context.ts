@@ -5,6 +5,9 @@ export const match3BoardSurfaceKeys = [
   'photo-contact-sheet',
   'pool-service-tile',
   'ordered-cabinet',
+  'meeting-grid',
+  'locker-columns',
+  'workbench-clusters',
 ] as const;
 export type Match3BoardSurfaceKey = typeof match3BoardSurfaceKeys[number];
 
@@ -13,6 +16,9 @@ export const match3BoardFrameKeys = [
   'photo-file',
   'wet-service',
   'precision-file',
+  'audit-file',
+  'service-file',
+  'workshop-file',
 ] as const;
 export type Match3BoardFrameKey = typeof match3BoardFrameKeys[number];
 
@@ -21,6 +27,9 @@ export const match3NarrativeProfileKeys = [
   'photo-alibi',
   'pool-laundry',
   'ordered-inspection',
+  'laundry-cadence',
+  'basketball-repair',
+  'post-repair-seam',
 ] as const;
 export type Match3NarrativeProfileKey = typeof match3NarrativeProfileKeys[number];
 
@@ -29,15 +38,21 @@ export const match3TilePresentationProfileKeys = [
   'photo-props',
   'pool-service',
   'ordered-return',
+  'meeting-reports',
+  'basketball-service',
+  'textile-workshop',
 ] as const;
 export type Match3TilePresentationProfileKey = typeof match3TilePresentationProfileKeys[number];
 
-export type Match3CharacterKey = 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro';
+export type Match3CharacterKey = 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro' | 'mayu' | 'hinata';
 export type Match3SourceSceneId =
   | 'VN_SCENE_01_E0_PRE'
   | 'VN_SCENE_03_E1_PRE'
   | 'VN_SCENE_05_E2_PRE'
-  | 'VN_SCENE_07_E3_PRE';
+  | 'VN_SCENE_07_E3_PRE'
+  | 'VN_SCENE_09_E4_PRE'
+  | 'VN_SCENE_11_E5_PRE'
+  | 'VN_SCENE_13_E6_PRE';
 
 export type Match3LevelContext = Readonly<{
   /** VN scene that directly hands off into this Match-3 level. */

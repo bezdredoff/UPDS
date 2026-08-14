@@ -5,9 +5,9 @@ import { storyGraph, storyMatch3RouteForLegacyScene } from '../src/data/storyGra
 const numeric = (id: string): number => Number(id.slice(2, 6));
 
 describe('narrative integration contract', () => {
-  it('parses 262 authored rows into nine non-empty ordered scenes', () => {
-    expect(parsedLineCount).toBe(262);
-    expect(sceneMeta).toHaveLength(9);
+  it('parses both canonical sources into fifteen non-empty ordered scenes', () => {
+    expect(parsedLineCount).toBe(381);
+    expect(sceneMeta).toHaveLength(15);
     for (const choice of ['A', 'B', 'C'] as ChoiceId[]) {
       for (let sceneIndex = 0; sceneIndex < sceneMeta.length; sceneIndex += 1) {
         const scene = getScene(sceneIndex, choice);
@@ -30,15 +30,18 @@ describe('narrative integration contract', () => {
     expect(scene.every((line) => !line.speaker.startsWith('{IF'))).toBe(true);
   });
 
-  it('keeps the four VN → match → VN transitions mapped through the canonical story graph', () => {
-    const routes = [1, 3, 5, 7].map((preScene) => storyMatch3RouteForLegacyScene(preScene));
+  it('keeps all VN → match → VN transitions mapped through the canonical story graph', () => {
+    const routes = [1, 3, 5, 7, 9, 11, 13].map((preScene) => storyMatch3RouteForLegacyScene(preScene));
     expect(routes.map((route) => route?.levelId)).toEqual([
       'M3_00_LOCKER_TUTORIAL',
       'M3_01_PHOTO_PROPS',
       'M3_02_POOL_LAUNDRY',
       'M3_03_ORDERED_APARTMENT',
+      'M3_04_EMERGENCY_MEETING',
+      'M3_05_BASKETBALL_LOCKERS',
+      'M3_06_TEXTILE_WORKSHOP',
     ]);
-    expect(routes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8]);
+    expect(routes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14]);
   });
 
   it.each(['A', 'B', 'C'] as ChoiceId[])('switches the mixed-location scene background exactly at VN0048 for branch %s', (choice) => {
@@ -49,9 +52,10 @@ describe('narrative integration contract', () => {
     expect(getBackgroundForLine(1, transition, scene)).toBe('lockerAthletics');
   });
 
-  it('ends the playable finale at VN0249 and does not runtime-include optional teaser VN0250', () => {
-    const finale = getScene(8, 'A');
-    expect(finale.at(-1)?.id).toBe('VN0249');
-    expect(finale.some((line) => line.id === 'VN0250')).toBe(false);
+  it('promotes VN0250 to the bridge and reaches the current authored frontier at VN0369', () => {
+    const bridge = getScene(8, 'A');
+    expect(bridge.at(-1)?.id).toBe('VN0250');
+    const frontier = getScene(14, 'A');
+    expect(frontier.at(-1)?.id).toBe('VN0369');
   });
 });

@@ -49,7 +49,7 @@ return this.t(`match3.level.${level.id}.objective.${index}`);
 }
 private characterName(key: Match3ReactionSpeaker): string { return this.t(`character.${key}`); }
 private bark(key: string, speaker: Match3ReactionSpeaker, params?: Readonly<Record<string, string | number>>): Bark { return { speaker: this.characterName(speaker), text: this.t(`match3.bark.${key}`, params) }; }
-private levelBark(level: LevelDefinition, kind: 'start' | 'win'): Bark { return { speaker: this.t(`match3.level.${level.id}.${kind}Bark.speaker`), text: this.t(`match3.level.${level.id}.${kind}Bark.text`) }; }
+private levelBark(level: LevelDefinition, kind: 'start' | 'win' | 'lose'): Bark { return { speaker: this.t(`match3.level.${level.id}.${kind}Bark.speaker`), text: this.t(`match3.level.${level.id}.${kind}Bark.text`) }; }
 private contextAttrs(level: LevelDefinition): string {
 const context = level.context;
 return `data-m3-page="${escapeHtml(context.pageBackground)}" data-m3-board-surface="${escapeHtml(context.boardSurface)}" data-m3-board-frame="${escapeHtml(context.boardFrame)}" data-m3-profile="${escapeHtml(context.narrativeProfile)}" data-m3-tile-profile="${escapeHtml(context.tilePresentationProfile)}"`;
@@ -242,7 +242,7 @@ this.shell.render(`<section class="level-intro" ${this.contextAttrs(level)}>
 <div class="level-intro-shade"></div>
 <header class="app-header match-topbar intro-topbar">
 ${headerActionMarkup('back', 'back', this.t('common.back'), undefined, 'app-header-back')}
-<div class="app-header-title"><small>${escapeHtml(this.t('match3.investigation', { current: levelIndex + 1, total: 4 }))}</small><b>${escapeHtml(this.levelText(level, 'title'))}</b></div>
+<div class="app-header-title"><small>${escapeHtml(this.t('match3.investigation', { current: levelIndex + 1, total: levels.length }))}</small><b>${escapeHtml(this.levelText(level, 'title'))}</b></div>
 <nav class="app-header-actions" aria-label="${escapeHtml(this.t('match3.investigationNavigation'))}">
 ${headerActionMarkup('dossier', 'dossier', this.t('dossier.title'), this.session.save.clues.length)}
 ${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
@@ -978,7 +978,7 @@ ${headerActionMarkup('back', 'back', this.t('match3.backToInvestigation'), undef
 <div class="result-mark">↻</div>
 <p class="eyebrow">${escapeHtml(this.t('match3.feedback.outOfMoves'))}</p>
 <h2>${escapeHtml(this.t('match3.lossHeading'))}</h2>
-<blockquote><b>${escapeHtml(level.loseBark.speaker)}</b>${escapeHtml(level.loseBark.text)}</blockquote>
+<blockquote><b>${escapeHtml(this.levelBark(level, 'lose').speaker)}</b>${escapeHtml(this.levelBark(level, 'lose').text)}</blockquote>
 <button class="primary" id="retry">${escapeHtml(this.t('match3.retry'))}</button>
 </div>
 </section>`);
