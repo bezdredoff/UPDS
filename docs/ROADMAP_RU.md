@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.3-dev`.
-Active production foundation: **ANM-025/026 Match-3 production + tooling, ANM-027A–F story pipeline/lean contract/full macro lock, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation and ANM-028D3A Emi approved-frame runtime transition**. Current candidate focus: **ANM-027G `19–21` R1 canonical ending batch**. Remaining character-art generation is paused for an external Stable Diffusion workflow; after this batch the full `0–21` screenplay is authored and the next content phase is **ANM-029 Full Localization Production**.
+Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation and ANM-028D3A Emi approved-frame runtime transition**. Current candidate focus: **ANM-029A R1.1 Localization Production Foundation**. Remaining character-art generation is paused for an external Stable Diffusion workflow; the complete `0–21` screenplay is now a frozen input for localization production.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -150,7 +150,7 @@ All 22 planned story slots are now authored; ANM-029 may consume the complete ca
 Content-production split:
 - **027E Lean Content Production Contract — COMPLETE** — [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md) preserves slots `0–21` while capping one-off production through full-stage/guest/extras tiers, eight staging presets, 8–10 location masters, 5–7 hero clue close-ups and 5–6 Match-3 layout archetypes;
 - **027F Full Story Macro Lock — COMPLETE** — slots `0–21`, endings `19–21`, eight location families, six reusable Match-3 archetypes, six hero clue close-ups, full-stage/guest tiers and asset triggers are locked in `src/content/story/ANM027F.full-story-macro.json`; all slots `0–21` are now authored/production-configured;
-- **027G Episode Batch Production & Canonical Import — IN PROGRESS; `4–6` R1.1 COMPLETE / `7–9` R1.2 COMPLETE / `10–12` R1.1 COMPLETE / `13–15` R1 COMPLETE / `16–18` R1 COMPLETE / `19–21` R1 IN QA** — the final package completes the canonical runtime at 976 authored lines / 45 VN scenes / 22 Match-3 routes, adds three data-driven ending branches and the gated full-truth outcome. After acceptance ANM-027G is complete and ANM-029 becomes the next content phase.
+- **027G Episode Batch Production & Canonical Import — COMPLETE** — all six post-slice packages are merged. Canonical runtime contains 976 authored lines / 45 VN scenes / 22 Match-3 routes, three data-driven ending branches and the gated full-truth outcome. The story is now a frozen input for ANM-029 localization production.
 
 ### ANM-028 — Character Production Pipeline 2.0 [P0/P1] — IN PROGRESS
 
@@ -178,23 +178,25 @@ Needs across the full feature:
 - clear adult-character art-direction guardrail;
 - upgraded Character/Scene Studio for background, shot size, positions, expressions and animation preview.
 
-### ANM-029 — Full Localization Production [P1]
+### ANM-029 — Full Localization Production [P1] — IN PROGRESS
 
-Target:
-- Russian;
-- Belarusian;
-- English;
-- Simplified Chinese;
-- Japanese;
-- Korean;
-- Brazilian Portuguese.
+Target registry is fixed to `ru`, `be`, `en`, `zh-CN`, `ja`, `ko`, `pt-BR`.
 
-Before mass translation:
-- full canonical story must exist;
-- no new hardcoded UI/story strings;
-- locale completeness validator;
-- overflow/CJK typography QA;
-- glossary/character-name consistency.
+Production split:
+- **029A Localization Production Foundation — R1 IN QA** — seven-locale registry, pending/ready separation, catalog key/placeholder audit, glossary contract and centralized CJK readiness metadata; RU/EN remain the only runtime-selectable locales;
+- **029B Belarusian Production — NEXT** — complete full-canon/system catalog, linguistic QA and runtime enablement only after zero-missing-key audit;
+- **029C Simplified Chinese Production** — full catalog plus first real CJK overflow/typography mobile QA;
+- **029D Japanese Production**;
+- **029E Korean Production**;
+- **029F Brazilian Portuguese Production**;
+- **029G All-Locale Release Audit** — glossary/name consistency, placeholder parity, no source fallback, representative overflow matrix and final selector lock.
+
+Rules:
+- no hardcoded UI/story strings may re-enter runtime;
+- a translation-pending locale is never exposed in the player selector;
+- production-ready locale catalogs must match the stable source key set and named-placeholder signatures;
+- CJK typography approval is visual QA and cannot be inferred from catalog completeness;
+- glossary/character-name consistency is a production content contract, not ad-hoc per-scene copy editing.
 
 ### ANM-030 — Full Content / Art Production [P1]
 

@@ -157,7 +157,8 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('ANM-028D2 R1 Emi serious accepted');
     expect(roadmap).toContain('ANM-028B2 R1.1 Authored VN Shot Adoption — COMPLETE');
     expect(roadmap).toContain('028B3 Guest/Witness Presentation Contract — R1.1 COMPLETE');
-    expect(roadmap).toContain('027G Episode Batch Production & Canonical Import — IN PROGRESS');
+    expect(roadmap).toContain('027G Episode Batch Production & Canonical Import — COMPLETE');
+    expect(roadmap).toContain('029A Localization Production Foundation — R1 IN QA');
     expect(roadmap).toContain('028D Character Production / Normalization — ART GENERATION PAUSED');
     expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');

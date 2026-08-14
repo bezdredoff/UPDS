@@ -1,5 +1,6 @@
 import type { RuntimeServices } from '../platform/RuntimeServices';
-import type { Locale } from '../localization/Locale';
+import { isSupportedLocale } from '../localization/Locale';
+import { runtimeSelectableLocaleProfiles } from '../localization/LocalizationProduction';
 import { escapeHtml } from './viewMarkup';
 
 const tx = (services: RuntimeServices, key: string, params: Readonly<Record<string, string | number | boolean>> = {}): string =>
@@ -10,8 +11,7 @@ export function languageSettingsMarkup(services: RuntimeServices): string {
   return `<div class="language-settings" data-language-settings>
     <label class="language-row"><span><b>${tx(services, 'localization.language.label')}</b><em>${tx(services, 'localization.language.help')}</em></span>
       <select data-language-select aria-label="${tx(services, 'localization.language.label')}">
-        <option value="ru" ${locale === 'ru' ? 'selected' : ''}>${tx(services, 'localization.language.ru')}</option>
-        <option value="en" ${locale === 'en' ? 'selected' : ''}>${tx(services, 'localization.language.en')}</option>
+        ${runtimeSelectableLocaleProfiles.map((profile) => `<option value="${profile.locale}" ${locale === profile.locale ? 'selected' : ''}>${escapeHtml(profile.nativeName)}</option>`).join('')}
       </select>
     </label>
   </div>`;
@@ -20,8 +20,8 @@ export function languageSettingsMarkup(services: RuntimeServices): string {
 export function bindLanguageSettingsControls(services: RuntimeServices, scope: ParentNode, rerender: () => void): void {
   const select = scope.querySelector<HTMLSelectElement>('[data-language-select]');
   select?.addEventListener('change', () => {
-    const locale = select.value as Locale;
-    if (locale !== 'ru' && locale !== 'en') return;
+    const locale = select.value;
+    if (!isSupportedLocale(locale)) return;
     services.localization.setLocale(locale);
     if (typeof document !== 'undefined') document.documentElement.lang = locale;
     rerender();

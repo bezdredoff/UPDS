@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through merged ANM-027G `16–18` R1 with ANM-027G `19–21` canonical ending batch in QA.
+Status: active architecture through completed ANM-027G `0–21` canonical story with ANM-029A localization production foundation in QA.
 
 ## Runtime flow
 
@@ -195,9 +195,16 @@ data/validation, not controller arrays or hardcoded level-index branches.
 `src/localization/` owns locale resolution, stable message catalogs, formatting and persistence.
 `RuntimeServices` constructs one shared `LocalizationService`; controllers consume it.
 
-RU and EN cover the complete authored slots `0–21` and active Match-3 systems. VN IDs, level IDs,
-reaction IDs and telemetry remain locale-independent. Internal dialogue paging runs after localized
-text resolution and never creates authored IDs.
+`LocalizationProduction.ts` owns the seven-locale production registry and the strict separation
+between translation targets and runtime-selectable locales. `CatalogAudit.ts` owns structural
+completeness/placeholder checks; `LocalizationGlossary.ts` owns stable translator terminology.
+A locale remains `translation-pending` and absent from the selector until its full production catalog
+passes the readiness contract.
+
+RU and EN currently cover the complete authored slots `0–21` and active Match-3 systems and are the
+only runtime-selectable locales. VN IDs, level IDs, reaction IDs and telemetry remain locale-independent.
+Internal dialogue paging runs after localized text resolution and never creates authored IDs; its CJK
+segmentation classification consumes the shared production-locale metadata rather than a UI-local regex.
 
 ## Shared UI, viewport and platform
 

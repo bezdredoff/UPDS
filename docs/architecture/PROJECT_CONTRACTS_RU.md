@@ -157,8 +157,11 @@ simple forms, almost-flat cel shading and no generic modern glossy-gacha render.
 ## Localization
 
 - Stable IDs/keys, not Russian copy, drive save, routing, telemetry and control flow.
-- Current complete runtime foundation is RU/EN for the authored vertical slice and Match-3 content.
-- Full production locales remain deferred until the full canonical source screenplay exists.
+- Canonical production target set is exactly `ru`, `be`, `en`, `zh-CN`, `ja`, `ko`, `pt-BR`; `src/localization/LocalizationProduction.ts` owns readiness metadata.
+- RU is source/default; RU and EN are currently complete/runtime-selectable. `be`, `zh-CN`, `ja`, `ko`, `pt-BR` remain translation-pending and must not appear in the player selector before their full catalog passes production audit.
+- A production-ready target catalog must have source-key parity, no empty values and identical named-placeholder signatures; runtime fallback is not evidence of translation completeness.
+- `src/localization/LocalizationGlossary.ts` is the terminology/name consistency contract for mass localization; one-off scene translations must not silently rename protected terms.
+- CJK segmentation classification is shared localization metadata; actual CJK overflow/typography approval remains a visual/mobile QA gate.
 - Internal VN dialogue pages are presentation state and never become authored/save IDs.
 
 ## Mobile, viewport and accessibility

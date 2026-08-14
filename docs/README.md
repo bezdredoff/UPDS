@@ -47,6 +47,11 @@ If two active documents conflict, prefer the narrower current machine-readable c
 
 The repository now contains the complete detailed authored screenplay for all 22 slots `0–21`: ANM-003 covers `0–3`, sequential ANM-027G sources cover `4–18`, and the final `19–21` source contains the three mutually exclusive authored ending routes.
 
+
+### Localization production
+
+- [`features/ANM029A_LOCALIZATION_PRODUCTION_FOUNDATION_RU.md`](features/ANM029A_LOCALIZATION_PRODUCTION_FOUNDATION_RU.md) — seven-locale production registry, pending/ready selector boundary, structural catalog audit, glossary contract and shared CJK readiness metadata
+
 ### Character production
 
 - [`art/CHARACTER_PRODUCTION_CONTRACT_RU.md`](art/CHARACTER_PRODUCTION_CONTRACT_RU.md)
