@@ -7,6 +7,7 @@ import {
   type ProductionCharacterKey,
   type RuntimeExpression,
 } from './characterProduction';
+import { runtimeFrameOverride } from './characterRuntimeOverrides';
 
 export type CharacterKey = ProductionCharacterKey;
 export type PlaceholderKey = PlannedCharacterKey;
@@ -86,5 +87,5 @@ export function expressionForDirection(direction: string): RuntimeExpression {
 }
 
 export function expressionAsset(character: CharacterKey, expression: RuntimeExpression): string {
-  return characterRigs[character].frames[expression];
+  return runtimeFrameOverride(character, expression)?.asset ?? characterRigs[character].frames[expression];
 }

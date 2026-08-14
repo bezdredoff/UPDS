@@ -19,6 +19,7 @@ import {
   type CharacterPortraitFrameGeometry,
   type CharacterVisualApproval,
 } from '../data/characterProduction';
+import { runtimeFrameOverride } from '../data/characterRuntimeOverrides';
 import { resolveVnPortraitCamera, resolveVnPortraitEyeLineCamera } from './vnPortraitGeometry';
 
 export type SceneStagingActorInput = Readonly<{
@@ -104,9 +105,10 @@ export function resolveSceneStagingPreset(
       const staging = canonicalStaging[input.character];
       const definition = characterProductionManifest.characters[input.character];
       const pose = input.pose ?? 'pose-a';
-      const geometry = pose === 'pose-a'
+      const runtimeOverride = pose === 'pose-a' ? runtimeFrameOverride(input.character, input.expression) : null;
+      const geometry = runtimeOverride?.geometry ?? (pose === 'pose-a'
         ? definition.proportion.frameGeometry[input.expression]
-        : definition.proportion.frameGeometry.neutral;
+        : definition.proportion.frameGeometry.neutral);
       const eyeLineYPx = geometry.eyeLineYPx;
       const camera = slot.verticalAnchor === 'background-focal-eye-line'
         ? resolveVnPortraitEyeLineCamera(slot.shotScale, eyeLineYPx)
@@ -137,7 +139,7 @@ export function resolveSceneStagingPreset(
         resolvedEyeLinePercent,
         headTopPercent,
         guideGeometrySource: pose === 'pose-a' ? 'expression-frame' : 'neutral-pose-b-fallback',
-        visualApproval: definition.visualApproval,
+        visualApproval: runtimeOverride?.visualApproval ?? definition.visualApproval,
         safeBox: slot.safeBox,
         zIndex: slot.zIndex,
       };
