@@ -39,8 +39,9 @@ If two active documents conflict, prefer the narrower current machine-readable c
 - [`features/ANM027D_FULL_STORY_IMPORT_RU.md`](features/ANM027D_FULL_STORY_IMPORT_RU.md)
 - [`features/ANM027F_FULL_STORY_MACRO_LOCK_RU.md`](features/ANM027F_FULL_STORY_MACRO_LOCK_RU.md) — completed `0–21` beat/location/cast/clue/Match-3/asset-trigger lock
 - [`features/ANM027G_EPISODES_04_06_PRODUCTION_RU.md`](features/ANM027G_EPISODES_04_06_PRODUCTION_RU.md) — first post-slice canonical production batch: slots `4–6`, six VN scenes, three Match-3 levels and two story-choice gates
+- [`features/ANM027G_EPISODES_07_09_PRODUCTION_RU.md`](features/ANM027G_EPISODES_07_09_PRODUCTION_RU.md) — second canonical production batch: slots `7–9`, Asterion/laundry-service semantic variants, Rina/Kurose planned-stage triggers, Gen guest tier and three more Match-3 levels
 
-The repository now contains detailed authored screenplay for slots `0–6`: ANM-003 covers `0–3` and `ANM-027G_Episodes_04_06_Screenplay.md` covers `4–6`. Slots `7–21` remain macro-only and must enter through later three-episode ANM-027G batches.
+The repository now contains detailed authored screenplay for slots `0–9`: ANM-003 covers `0–3`, `ANM-027G_Episodes_04_06_Screenplay.md` covers `4–6`, and `ANM-027G_Episodes_07_09_Screenplay.md` covers `7–9`. Slots `10–21` remain macro-only and must enter through later three-episode ANM-027G batches.
 
 ### Character production
 

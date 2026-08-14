@@ -20,6 +20,9 @@ export const match3TilePresentationProfiles: Readonly<Record<Match3TilePresentat
   'meeting-reports': { artDirectionTags: ['student-council', 'reports', 'laundry-calendar'] },
   'basketball-service': { artDirectionTags: ['basketball-locker', 'service-tags', 'repair-log'] },
   'textile-workshop': { artDirectionTags: ['textile-workshop', 'orders', 'conductive-thread'] },
+  'asterion-lab': { artDirectionTags: ['asterion-lab', 'sensor-thread', 'specification'] },
+  'lost-found': { artDirectionTags: ['lost-found', 'sealed-packages', 'service-ledger'] },
+  'maintenance-service': { artDirectionTags: ['maintenance-room', 'master-key', 'night-logistics'] },
 };
 
 export type ResolvedMatch3TilePresentation = Readonly<{

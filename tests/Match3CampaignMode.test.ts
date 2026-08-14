@@ -102,7 +102,7 @@ describe('ANM-026C standalone Match-3 campaign', () => {
     expect(campaign.attempts[levels[0].id]).toBe(1);
     expect(storage.getItem(ANM009_SAVE_KEY)).toBeNull();
     expect(root.innerHTML).toContain('match-screen');
-    expect(root.innerHTML).toContain('КАМПАНИЯ 1/7');
+    expect(root.innerHTML).toContain(`КАМПАНИЯ 1/${levels.length}`);
     expect(root.innerHTML).not.toContain('aria-label="Досье"');
   });
 });

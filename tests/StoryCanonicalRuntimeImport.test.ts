@@ -53,12 +53,12 @@ describe('ANM-027D canonical story runtime import and transition QA', () => {
   it('combines audited ANM-003 and ANM-027G sources into one normalized runtime collection', () => {
     expect(canonicalStoryManifest.sourceId).toBe('ANM003_VERTICAL_SLICE');
     expect(canonicalStoryManifest.sourcePath).toBe('src/content/ANM-003_Vertical_Slice_Screenplay.md');
-    expect(canonicalStoryManifests.map((manifest) => manifest.sourceId)).toEqual(['ANM003_VERTICAL_SLICE', 'ANM027G_EPISODES_04_06']);
-    expect(canonicalStoryLineCount).toBe(381);
-    expect(canonicalRuntimeStoryLineCount).toBe(381);
+    expect(canonicalStoryManifests.map((manifest) => manifest.sourceId)).toEqual(['ANM003_VERTICAL_SLICE', 'ANM027G_EPISODES_04_06', 'ANM027G_EPISODES_07_09']);
+    expect(canonicalStoryLineCount).toBe(500);
+    expect(canonicalRuntimeStoryLineCount).toBe(500);
     expect(canonicalDeferredStoryLineIds).toEqual([]);
     expect(canonicalStoryLines[0]?.id).toBe('VN0001');
-    expect(canonicalStoryLines.at(-1)?.id).toBe('VN0369');
+    expect(canonicalStoryLines.at(-1)?.id).toBe('VN0488');
   });
 
   it('cuts narrative runtime over to the audited parser and graph ranges with no duplicate parser/range tables', () => {
@@ -102,8 +102,11 @@ describe('ANM-027D canonical story runtime import and transition QA', () => {
       'M3_04_EMERGENCY_MEETING',
       'M3_05_BASKETBALL_LOCKERS',
       'M3_06_TEXTILE_WORKSHOP',
+      'M3_07_ASTERION_THREAD',
+      'M3_08_LOST_FOUND_LEDGER',
+      'M3_09_MAINTENANCE_KEYS',
     ]);
-    expect(path.endingId).toBe('ENDING_AUTHORED_FRONTIER_06');
+    expect(path.endingId).toBe('ENDING_AUTHORED_FRONTIER_09');
   });
 
   it('proves every Match-3 source scene and win scene has canonical runtime content', () => {

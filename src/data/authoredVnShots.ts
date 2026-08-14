@@ -102,6 +102,21 @@ export const authoredVnShotManifest: AuthoredVnShotManifest = {
       actors: [{ character: 'miku', expression: 'neutral' }, { character: 'onoe', expression: 'serious' }, { character: 'ayuki', expression: 'smile' }],
       note: 'Episode 6 core-trio workshop shot; Hinata remains on the separate B3 guest path on her own lines.',
     },
+    {
+      lineId: 'VN0389', background: 'asterionLab', presetId: 'two-shot-alliance',
+      actors: [{ character: 'onoe', expression: 'serious' }, { character: 'miku', expression: 'neutral' }],
+      note: 'Episode 7 technical comparison: Onoe leads while Kurose remains on the planned-character placeholder path on his own lines.',
+    },
+    {
+      lineId: 'VN0427', background: 'lostFoundWarehouse', presetId: 'trio-central-speaker',
+      actors: [{ character: 'onoe', expression: 'serious' }, { character: 'miku', expression: 'neutral' }, { character: 'ayuki', expression: 'neutral' }],
+      note: 'Episode 8 core-trio analysis beat; Rina stays on the planned-character placeholder path until external art exists.',
+    },
+    {
+      lineId: 'VN0482', background: 'maintenanceRoom', presetId: 'two-shot-conflict',
+      actors: [{ character: 'onoe', expression: 'serious' }, { character: 'miku', expression: 'neutral' }],
+      note: 'Episode 9 report decision aftermath; Gen remains on the dedicated B3 guest-testimony-card path.',
+    },
   ],
 };
 

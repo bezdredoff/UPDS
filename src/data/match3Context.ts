@@ -8,6 +8,8 @@ export const match3BoardSurfaceKeys = [
   'meeting-grid',
   'locker-columns',
   'workbench-clusters',
+  'signal-cross',
+  'service-lanes',
 ] as const;
 export type Match3BoardSurfaceKey = typeof match3BoardSurfaceKeys[number];
 
@@ -19,6 +21,9 @@ export const match3BoardFrameKeys = [
   'audit-file',
   'service-file',
   'workshop-file',
+  'lab-file',
+  'warehouse-file',
+  'maintenance-file',
 ] as const;
 export type Match3BoardFrameKey = typeof match3BoardFrameKeys[number];
 
@@ -30,6 +35,9 @@ export const match3NarrativeProfileKeys = [
   'laundry-cadence',
   'basketball-repair',
   'post-repair-seam',
+  'asterion-thread',
+  'missing-package-ranges',
+  'night-containers',
 ] as const;
 export type Match3NarrativeProfileKey = typeof match3NarrativeProfileKeys[number];
 
@@ -41,10 +49,13 @@ export const match3TilePresentationProfileKeys = [
   'meeting-reports',
   'basketball-service',
   'textile-workshop',
+  'asterion-lab',
+  'lost-found',
+  'maintenance-service',
 ] as const;
 export type Match3TilePresentationProfileKey = typeof match3TilePresentationProfileKeys[number];
 
-export type Match3CharacterKey = 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro' | 'mayu' | 'hinata';
+export type Match3CharacterKey = 'miku' | 'onoe' | 'ayuki' | 'emi' | 'kentaro' | 'norihiro' | 'mayu' | 'hinata' | 'rina' | 'kurose' | 'gen';
 export type Match3SourceSceneId =
   | 'VN_SCENE_01_E0_PRE'
   | 'VN_SCENE_03_E1_PRE'
@@ -52,7 +63,10 @@ export type Match3SourceSceneId =
   | 'VN_SCENE_07_E3_PRE'
   | 'VN_SCENE_09_E4_PRE'
   | 'VN_SCENE_11_E5_PRE'
-  | 'VN_SCENE_13_E6_PRE';
+  | 'VN_SCENE_13_E6_PRE'
+  | 'VN_SCENE_15_E7_PRE'
+  | 'VN_SCENE_17_E8_PRE'
+  | 'VN_SCENE_19_E9_PRE';
 
 export type Match3LevelContext = Readonly<{
   /** VN scene that directly hands off into this Match-3 level. */

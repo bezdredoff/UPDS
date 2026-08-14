@@ -15,11 +15,12 @@ describe('ANM-027B graph-driven story runtime routing', () => {
   it('resolves every existing scene transition without numeric routing arithmetic', () => {
     expect(storyTransitionForLegacyScene(0)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_01_E0_PRE' });
     expect(storyTransitionForLegacyScene(8)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_09_E4_PRE' });
-    expect(storyTransitionForLegacyScene(14)).toEqual({ kind: 'ending', endingId: 'ENDING_AUTHORED_FRONTIER_06' });
+    expect(storyTransitionForLegacyScene(14)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_15_E7_PRE' });
+    expect(storyTransitionForLegacyScene(20)).toEqual({ kind: 'ending', endingId: 'ENDING_AUTHORED_FRONTIER_09' });
 
-    const matchRoutes = [1, 3, 5, 7, 9, 11, 13].map((legacyIndex) => storyMatch3RouteForLegacyScene(legacyIndex));
-    expect(matchRoutes.map((route) => route?.levelIndex)).toEqual([0, 1, 2, 3, 4, 5, 6]);
-    expect(matchRoutes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14]);
+    const matchRoutes = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19].map((legacyIndex) => storyMatch3RouteForLegacyScene(legacyIndex));
+    expect(matchRoutes.map((route) => route?.levelIndex)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(matchRoutes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 18, 20]);
 
     for (const scene of storyGraph.scenes) {
       if (scene.transition.kind !== 'scene') continue;
@@ -40,6 +41,9 @@ describe('ANM-027B graph-driven story runtime routing', () => {
     expect(storyWinSceneIndexForLevelId('M3_04_EMERGENCY_MEETING')).toBe(10);
     expect(storyWinSceneIndexForLevelId('M3_05_BASKETBALL_LOCKERS')).toBe(12);
     expect(storyWinSceneIndexForLevelId('M3_06_TEXTILE_WORKSHOP')).toBe(14);
+    expect(storyWinSceneIndexForLevelId('M3_07_ASTERION_THREAD')).toBe(16);
+    expect(storyWinSceneIndexForLevelId('M3_08_LOST_FOUND_LEDGER')).toBe(18);
+    expect(storyWinSceneIndexForLevelId('M3_09_MAINTENANCE_KEYS')).toBe(20);
     expect(storyWinSceneIndexForLevelId('UNKNOWN')).toBe(-1);
   });
 

@@ -10,7 +10,9 @@
   "plannedCharacters": [
     "kentaro",
     "norihiro",
-    "mayu"
+    "mayu",
+    "rina",
+    "kurose"
   ],
   "runtimeContract": {
     "productionStatusMeaning": "runtime-integrated",
@@ -124,6 +126,41 @@
       ],
       "plannedPoseBFile": "pose_b_phone_documents.png",
       "priority": "medium",
+      "proportionApproval": "required-before-production"
+    },
+    "rina": {
+      "status": "planned",
+      "adultCharacter": true,
+      "age": 20,
+      "storyScenes": [
+        "VN_SCENE_17_E8_PRE",
+        "VN_SCENE_18_E8_POST"
+      ],
+      "authoredEmotionCoverage": [
+        "neutral",
+        "serious",
+        "surprised"
+      ],
+      "plannedPoseBFile": "pose_b_ledger_package.png",
+      "priority": "high",
+      "proportionApproval": "required-before-production"
+    },
+    "kurose": {
+      "status": "planned",
+      "adultCharacter": true,
+      "age": 34,
+      "storyScenes": [
+        "VN_SCENE_15_E7_PRE",
+        "VN_SCENE_16_E7_POST"
+      ],
+      "authoredEmotionCoverage": [
+        "neutral",
+        "serious",
+        "smile",
+        "surprised"
+      ],
+      "plannedPoseBFile": "pose_b_lab_tablet.png",
+      "priority": "high",
       "proportionApproval": "required-before-production"
     }
   },

@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through merged ANM-028B3 R1.1 with ANM-027G `4–6` canonical batch in QA.
+Status: active architecture through merged ANM-027G `4–6` R1.1 with ANM-027G `7–9` canonical batch in QA.
 
 ## Runtime flow
 
@@ -108,6 +108,7 @@ Current canonical repository flow:
 
 - `src/content/ANM-003_Vertical_Slice_Screenplay.md` + `src/content/story/ANM003.vertical-slice.story.json` — slots `0–3` and bridge `VN0250`;
 - `src/content/ANM-027G_Episodes_04_06_Screenplay.md` + `src/content/story/ANM027G.episodes-04-06.story.json` — slots `4–6`, `VN0251–VN0369`;
+- `src/content/ANM-027G_Episodes_07_09_Screenplay.md` + `src/content/story/ANM027G.episodes-07-09.story.json` — slots `7–9`, `VN0370–VN0488`;
 - `src/content/storyContentFormat.ts` — pure parser/auditor with optional manifest-owned scene scope for incremental sources;
 - `src/content/storyRuntime.ts` — fail-closed multi-source canonical import;
 - `src/data/storyGraph.ts` — stable episode/chapter/scene IDs and explicit scene/Match-3/ending transitions;
@@ -116,7 +117,7 @@ Current canonical repository flow:
 
 `narrative.ts` owns no second screenplay parser or parallel scene-range tables. Story graph routing does not derive transitions from numeric-scene arithmetic. The legacy numeric save field remains isolated behind graph adapters; additive ANM-027G choice selections live in `CampaignSave.storyChoices` without changing save schema/key.
 
-The current graph covers authored slots `0–6` (15 VN scenes and seven story Match-3 routes). Later batches extend sources/manifests/graph data; they must not add episode-specific controller switch statements.
+The current graph covers authored slots `0–9` (21 VN scenes and ten story Match-3 routes). Later batches extend sources/manifests/graph data; they must not add episode-specific controller switch statements.
 
 ## Character production architecture
 
@@ -189,7 +190,7 @@ data/validation, not controller arrays or hardcoded level-index branches.
 `src/localization/` owns locale resolution, stable message catalogs, formatting and persistence.
 `RuntimeServices` constructs one shared `LocalizationService`; controllers consume it.
 
-RU and EN cover the currently authored slots `0–6` and active Match-3 systems. VN IDs, level IDs,
+RU and EN cover the currently authored slots `0–9` and active Match-3 systems. VN IDs, level IDs,
 reaction IDs and telemetry remain locale-independent. Internal dialogue paging runs after localized
 text resolution and never creates authored IDs.
 

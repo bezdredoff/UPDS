@@ -132,7 +132,7 @@ precomposed RGBA frames и никогда не собирает лицо overlay
 - approved smile expression: Emi `anm028d1-r1`, `approved-expression`, `runtimeEligible: false`;
 - approved serious expression: Emi `anm028d2-r1`, `approved-expression`, `runtimeEligible: false`;
 - Studio-only surprised candidate: Emi `anm028d3-r1`, `manual-qa`, `runtimeEligible: false`;
-- planned: Kentaro, Norihiro, Mayu.
+- planned: Kentaro, Norihiro, Mayu, Rina, Kurose.
 
 `planned` означает «asset set ещё не произведён». Для planned-персонажа запрещено объявлять несуществующие runtime asset paths ради прохождения интерфейса. Placeholder остаётся допустим до отдельного production integration slice.
 
