@@ -17,8 +17,8 @@ describe('ANM-027A story graph contract', () => {
     expect(storyGraph.format).toBe('upds-story-graph-v1');
     expect(storyGraph.entrySceneId).toBe('VN_SCENE_00_PROLOGUE');
     expect(storyGraph.episodes).toHaveLength(1);
-    expect(storyGraph.chapters).toHaveLength(14);
-    expect(storyGraph.scenes).toHaveLength(27);
+    expect(storyGraph.chapters).toHaveLength(17);
+    expect(storyGraph.scenes).toHaveLength(33);
     expect(validateStoryGraph()).toEqual([]);
   });
 
@@ -56,6 +56,9 @@ describe('ANM-027A story graph contract', () => {
       ['M3_10_CONTROL_SAMPLE_GEAR', 'VN_SCENE_22_E10_POST'],
       ['M3_11_ASTERION_TRANSFER', 'VN_SCENE_24_E11_POST'],
       ['M3_12_SECOND_SKIN_SIGNAL', 'VN_SCENE_26_E12_POST'],
+      ['M3_13_KENDO_PILOT_LIST', 'VN_SCENE_28_E13_POST'],
+      ['M3_14_KUBO_ATELIER_LEDGER', 'VN_SCENE_30_E14_POST'],
+      ['M3_15_ABANDONED_LAUNDRY_ROUTE', 'VN_SCENE_32_E15_POST'],
     ]);
     expect(routes.map(([levelId]) => levelId)).toEqual(levels.map((level) => level.id));
   });
@@ -80,6 +83,9 @@ describe('ANM-027A story graph contract', () => {
       ['VN0489', 'VN0508'], ['VN0509', 'VN0527'],
       ['VN0528', 'VN0547'], ['VN0548', 'VN0567'],
       ['VN0568', 'VN0588'], ['VN0589', 'VN0607'],
+      ['VN0608', 'VN0627'], ['VN0628', 'VN0646'],
+      ['VN0647', 'VN0666'], ['VN0667', 'VN0686'],
+      ['VN0687', 'VN0707'], ['VN0708', 'VN0726'],
     ]);
     expect(storyTransitionForLegacyScene(1)).toEqual({
       kind: 'match3',
@@ -89,7 +95,8 @@ describe('ANM-027A story graph contract', () => {
     expect(storyTransitionForLegacyScene(8)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_09_E4_PRE' });
     expect(storyTransitionForLegacyScene(14)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_15_E7_PRE' });
     expect(storyTransitionForLegacyScene(20)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_21_E10_PRE' });
-    expect(storyTransitionForLegacyScene(26)).toEqual({ kind: 'ending', endingId: 'ENDING_AUTHORED_FRONTIER_12' });
+    expect(storyTransitionForLegacyScene(26)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_27_E13_PRE' });
+    expect(storyTransitionForLegacyScene(32)).toEqual({ kind: 'ending', endingId: 'ENDING_AUTHORED_FRONTIER_15' });
   });
 
   it('is pure data/validation and does not pull runtime controllers or storage into the contract', () => {

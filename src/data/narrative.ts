@@ -39,7 +39,9 @@ export type BackgroundKey =
   | 'combatClubHall'
   | 'serviceYard'
   | 'asterionTransferPoint'
-  | 'oldGymNight';
+  | 'oldGymNight'
+  | 'campusPath'
+  | 'abandonedLaundry';
 
 const conditionalSpeakerPattern = /^\{IF\s+([^}]+)\}\s*/;
 
@@ -141,6 +143,12 @@ export const sceneMeta: readonly SceneMeta[] = [
   { id: 'VN_SCENE_24_E11_POST', title: 'Цепочка передачи', location: 'Перегрузочный пункт Asterion', defaultBackground: 'asterionTransferPoint' },
   { id: 'VN_SCENE_25_E12_PRE', title: 'ПанцуИтер существует?!', location: 'Старый спортивный зал ночью', defaultBackground: 'oldGymNight' },
   { id: 'VN_SCENE_26_E12_POST', title: 'Second Skin', location: 'Старый спортивный зал ночью', defaultBackground: 'oldGymNight' },
+  { id: 'VN_SCENE_27_E13_PRE', title: 'Под бронёй', location: 'Зал кэндо', defaultBackground: 'combatClubHall' },
+  { id: 'VN_SCENE_28_E13_POST', title: 'Закрытый список пилота', location: 'Зал кэндо', defaultBackground: 'combatClubHall' },
+  { id: 'VN_SCENE_29_E14_PRE', title: 'Дом, где бельё ни при чём', location: 'Семейное ателье Кубо', defaultBackground: 'textileWorkshop' },
+  { id: 'VN_SCENE_30_E14_POST', title: 'Рина знала раньше', location: 'Семейное ателье Кубо', defaultBackground: 'textileWorkshop' },
+  { id: 'VN_SCENE_31_E15_PRE', title: 'Кот с вещественным доказательством', location: 'Кампус → заброшенная прачечная', defaultBackground: 'campusPath' },
+  { id: 'VN_SCENE_32_E15_POST', title: 'Маршрут согласия', location: 'Заброшенная прачечная', defaultBackground: 'abandonedLaundry' },
 ] as const;
 
 export const backgroundAssets: Record<BackgroundKey, string> = {
@@ -161,13 +169,18 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   serviceYard: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
   asterionTransferPoint: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
   oldGymNight: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
+  // ANM-027G 13–15 semantic variants. External masters replace only these mappings.
+  campusPath: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
+  abandonedLaundry: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
 };
 
 export function getBackgroundForLine(sceneIndex: number, lineIndex: number, story: readonly StoryLine[]): BackgroundKey {
   let background = sceneMeta[sceneIndex]?.defaultBackground ?? 'clubroom';
   for (let index = 0; index <= lineIndex && index < story.length; index += 1) {
     const direction = `${story[index].emotion} ${story[index].text}`;
-    if (direction.includes('BG_ASTERION_TRANSFER_POINT')) background = 'asterionTransferPoint';
+    if (direction.includes('BG_ABANDONED_LAUNDRY')) background = 'abandonedLaundry';
+    else if (direction.includes('BG_CAMPUS_PATH')) background = 'campusPath';
+    else if (direction.includes('BG_ASTERION_TRANSFER_POINT')) background = 'asterionTransferPoint';
     else if (direction.includes('BG_SERVICE_YARD')) background = 'serviceYard';
     else if (direction.includes('BG_COMBAT_CLUB_HALL')) background = 'combatClubHall';
     else if (direction.includes('BG_OLD_GYM_NIGHT')) background = 'oldGymNight';

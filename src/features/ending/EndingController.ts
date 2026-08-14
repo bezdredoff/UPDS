@@ -30,7 +30,7 @@ export class EndingController {
     this.session.persist();
     const latestClue = levels[levels.length - 1].clueId;
     this.shell.render(`<section class="ending-screen">
-      <img class="ending-background" src="${backgroundAssets.oldGymNight}" alt="">
+      <img class="ending-background" src="${backgroundAssets.abandonedLaundry}" alt="">
       <header class="app-header ending-topbar">
         <div class="app-header-title"><small>${escapeHtml(this.t('ending.case'))}</small><b>${escapeHtml(this.t('ending.chapterComplete'))}</b></div>
         <nav class="app-header-actions" aria-label="${escapeHtml(this.t('common.navigation'))}">

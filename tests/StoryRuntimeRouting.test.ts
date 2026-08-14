@@ -17,11 +17,12 @@ describe('ANM-027B graph-driven story runtime routing', () => {
     expect(storyTransitionForLegacyScene(8)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_09_E4_PRE' });
     expect(storyTransitionForLegacyScene(14)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_15_E7_PRE' });
     expect(storyTransitionForLegacyScene(20)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_21_E10_PRE' });
-    expect(storyTransitionForLegacyScene(26)).toEqual({ kind: 'ending', endingId: 'ENDING_AUTHORED_FRONTIER_12' });
+    expect(storyTransitionForLegacyScene(26)).toEqual({ kind: 'scene', targetSceneId: 'VN_SCENE_27_E13_PRE' });
+    expect(storyTransitionForLegacyScene(32)).toEqual({ kind: 'ending', endingId: 'ENDING_AUTHORED_FRONTIER_15' });
 
-    const matchRoutes = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25].map((legacyIndex) => storyMatch3RouteForLegacyScene(legacyIndex));
-    expect(matchRoutes.map((route) => route?.levelIndex)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
-    expect(matchRoutes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26]);
+    const matchRoutes = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31].map((legacyIndex) => storyMatch3RouteForLegacyScene(legacyIndex));
+    expect(matchRoutes.map((route) => route?.levelIndex)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+    expect(matchRoutes.map((route) => route?.onWinLegacyIndex)).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32]);
 
     for (const scene of storyGraph.scenes) {
       if (scene.transition.kind !== 'scene') continue;
@@ -48,6 +49,10 @@ describe('ANM-027B graph-driven story runtime routing', () => {
     expect(storyWinSceneIndexForLevelId('M3_10_CONTROL_SAMPLE_GEAR')).toBe(22);
     expect(storyWinSceneIndexForLevelId('M3_11_ASTERION_TRANSFER')).toBe(24);
     expect(storyWinSceneIndexForLevelId('M3_12_SECOND_SKIN_SIGNAL')).toBe(26);
+    expect(storyMatch3RouteForLevelId('M3_13_KENDO_PILOT_LIST')).toMatchObject({ sourceSceneId: 'VN_SCENE_27_E13_PRE', onWinSceneId: 'VN_SCENE_28_E13_POST' });
+    expect(storyWinSceneIndexForLevelId('M3_13_KENDO_PILOT_LIST')).toBe(28);
+    expect(storyWinSceneIndexForLevelId('M3_14_KUBO_ATELIER_LEDGER')).toBe(30);
+    expect(storyWinSceneIndexForLevelId('M3_15_ABANDONED_LAUNDRY_ROUTE')).toBe(32);
     expect(storyWinSceneIndexForLevelId('UNKNOWN')).toBe(-1);
   });
 

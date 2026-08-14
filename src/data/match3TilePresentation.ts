@@ -26,6 +26,9 @@ export const match3TilePresentationProfiles: Readonly<Record<Match3TilePresentat
   'karate-control': { artDirectionTags: ['karate-club', 'control-sample', 'service-stitch'] },
   'asterion-transfer': { artDirectionTags: ['service-yard', 'asterion-container', 'transfer-chain'] },
   'second-skin-signal': { artDirectionTags: ['old-gym-night', 'radio-signal', 'second-skin'] },
+  'kendo-pilot': { artDirectionTags: ['kendo-hall', 'armor-racks', 'pilot-codes'] },
+  'kubo-atelier': { artDirectionTags: ['family-atelier', 'order-ledger', 'silver-seam'] },
+  'abandoned-laundry': { artDirectionTags: ['old-laundry', 'service-route', 'consent-note'] },
 };
 
 export type ResolvedMatch3TilePresentation = Readonly<{
