@@ -53,6 +53,7 @@ The repository now contains the complete detailed authored screenplay for all 22
 - [`features/ANM029A_LOCALIZATION_PRODUCTION_FOUNDATION_RU.md`](features/ANM029A_LOCALIZATION_PRODUCTION_FOUNDATION_RU.md) — seven-locale production registry, pending/ready selector boundary, structural catalog audit, glossary contract and shared CJK readiness metadata
 - [`features/ANM029B1_BELARUSIAN_PLAYER_SHELL_RU.md`](features/ANM029B1_BELARUSIAN_PLAYER_SHELL_RU.md) — first bounded Belarusian production scope: 61 player-shell keys with structural audit while `be` remains hidden until the full catalog is complete
 - [`features/ANM029B2A_BELARUSIAN_MATCH3_CORE_RU.md`](features/ANM029B2A_BELARUSIAN_MATCH3_CORE_RU.md) — 83-key Belarusian Match-3 core/campaign scope; level narrative and F2 reactions remain deferred
+- [`features/ANM029B2B1_BELARUSIAN_MATCH3_LEVELS_00_06_RU.md`](features/ANM029B2B1_BELARUSIAN_MATCH3_LEVELS_00_06_RU.md) — first level-specific Belarusian Match-3 batch: M3_00–M3_06, evidence labels/items and contextual barks (123 keys)
 
 ### Character production
 
