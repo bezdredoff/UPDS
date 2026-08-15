@@ -1,6 +1,6 @@
 # ANM-029B3H — Belarusian VN Slot 7
 
-Status: R1 candidate / linguistic + CI QA.
+Status: COMPLETE — R1 merged via PR #126 on 2026-08-15.
 
 ## Цель
 
@@ -36,3 +36,7 @@ Canonical `storyGraph` задаёт границы slot 7 как:
 ## QA
 
 `BelarusianVnSlot7Localization.test.ts` проверяет exact 124/124 coverage, zero missing/extra/empty/placeholder drift, canonical `storyGraph` ranges, next-slot boundary `VN0410`, representative Asterion/thread/laundry terminology, exact `{ADD CUE_008}` payload и runtime-hidden status.
+
+## Merge result
+
+PR #126 merged B3H into `main`; post-merge CI is authoritative for the completed slot. Later Belarusian batches may extend `beCatalog` without changing this bounded 124-key contract.
