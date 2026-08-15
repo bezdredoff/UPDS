@@ -126,6 +126,8 @@ describe('active documentation traceability', () => {
 
     expect(roadmap).toContain('028A Character Production Manifest & Validator Foundation — COMPLETE');
     expect(roadmap).not.toContain('COMPLETE WHEN MERGED');
+    expect(roadmap).toContain('B1 R1 player-shell translation is COMPLETE');
+    expect(roadmap).toContain('B2A R1.1 Match-3 core/campaign translation is IN QA');
     expect(index).toContain('ANM028A_CHARACTER_PRODUCTION_MANIFEST_RU.md');
     expect(index).toContain('ANM027D_FULL_STORY_IMPORT_RU.md');
     expect(index).toContain('ANM026C_MATCH3_CAMPAIGN_MODE_RU.md');
