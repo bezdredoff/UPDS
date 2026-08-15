@@ -53,8 +53,8 @@ describe('ANM-029B3A Belarusian VN story slot 0', () => {
     expect(beCatalog['vn.line.VN0069.text']).toBe('{dossier_unlocked=true; ADD CUE_001_SELECTIVE_THEFT}');
   });
 
-  it('does not leak into slot 1 and keeps Belarusian unavailable at runtime', () => {
-    expect('vn.line.VN0085.text' in beCatalog).toBe(false);
+  it('keeps its bounded selector stable while Belarusian remains unavailable at runtime', () => {
+    expect(Object.keys(select(beCatalog))).toHaveLength(B3A_KEY_COUNT);
     expect(getProductionLocaleProfile('be')).toMatchObject({
       status: 'translation-pending',
       runtimeSelectable: false,
