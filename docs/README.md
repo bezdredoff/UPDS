@@ -61,6 +61,7 @@ The repository now contains the complete detailed authored screenplay for all 22
 - [`features/ANM029B3B_BELARUSIAN_VN_SLOT_1_RU.md`](features/ANM029B3B_BELARUSIAN_VN_SLOT_1_RU.md) — Belarusian canonical runtime VN slot 1 (`VN0085–VN0142`, scenes 03–04; 178 keys), rebased on hardened tooling and still runtime-hidden
 - [`features/ANM029B3C_BELARUSIAN_VN_SLOT_2_RU.md`](features/ANM029B3C_BELARUSIAN_VN_SLOT_2_RU.md) — Belarusian canonical runtime VN slot 2 (`VN0143–VN0191`, scenes 05–06; 151 keys), with Norihiro/pool-laundry evidence and still runtime-hidden
 - [`features/ANM029B3D_BELARUSIAN_VN_SLOT_3_RU.md`](features/ANM029B3D_BELARUSIAN_VN_SLOT_3_RU.md) — Belarusian canonical runtime VN slot 3 (`VN0192–VN0250`, scenes 07–08; 181 keys), closing the original vertical-slice chain at the canonical `VN0250` bridge while remaining runtime-hidden
+- [`features/ANM029B3E_BELARUSIAN_VN_SLOT_4_RU.md`](features/ANM029B3E_BELARUSIAN_VN_SLOT_4_RU.md) — Belarusian canonical runtime VN slot 4 (`VN0251–VN0288`, scenes 09–10 + `meeting-tone`; 125 keys), beginning the ANM-027G source chain while remaining runtime-hidden
 
 ### Character production
 
