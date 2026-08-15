@@ -1,6 +1,6 @@
 # ANM-029B3J — Belarusian VN Slot 9
 
-Status: R1 candidate / linguistic + CI QA.
+Status: COMPLETE — R1 merged via PR #128 on 2026-08-15.
 
 ## Цель
 
@@ -36,3 +36,8 @@ Canonical `storyGraph` задаёт границы slot 9 как:
 ## QA
 
 `BelarusianVnSlot9Localization.test.ts` проверяет exact 131/131 coverage, zero missing/extra/empty/placeholder drift, canonical `storyGraph` ranges, `protect-gen-source`, next-slot boundary `VN0489`, representative maintenance-key/Asterion terminology, exact technical payloads и runtime-hidden status.
+
+
+## Merge result
+
+PR #128 merged B3J into `main`; post-merge CI and stable Pages deploy passed. Later Belarusian batches may extend `beCatalog` without changing this bounded 131-key contract.
