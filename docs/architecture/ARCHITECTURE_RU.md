@@ -258,6 +258,14 @@ VN, Match-3 or content contracts.
 
 ## Documentation rule
 
-`docs/ROADMAP_RU.md` owns feature status; `src/appVersion.ts` owns product/build identity; machine
+`docs/ROADMAP_RU.md` owns feature status; `package.json` owns stable product package name + semver, `src/appVersion.ts` imports that semver as `APP_VERSION` and owns `BUILD_LABEL`/build identity; machine
 manifests own production data; architecture/process documents explain current behavior. Feature
 notes and archived reports never override those sources.
+
+
+## Test/tooling identity hardening
+
+- lifecycle states such as `IN QA` are roadmap data, not durable assertions for already merged features; tests lock stable feature/document identities and the current `BUILD_LABEL` linkage instead;
+- `package.json.name = class-u-detectives` and `package.json.version` are stable product metadata; `APP_VERSION` is imported from that version instead of duplicated;
+- `BUILD_LABEL` remains feature/baseline identity and must not be derived from product semver;
+- Biome is pinned exactly and runs before Vitest/build in `npm run check`; the initial ruleset is intentionally conservative and can be widened only after the repository is green.

@@ -5,6 +5,12 @@ import { APP_VERSION, BUILD_LABEL } from '../src/appVersion';
 import { ANM009_SAVE_KEY } from '../src/engine/CampaignStore';
 
 const tsconfig = JSON.parse(readFileSync(new URL('../tsconfig.json', import.meta.url), 'utf8')) as { compilerOptions: Record<string, unknown> };
+const packageMetadata = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as {
+  name: string;
+  version: string;
+  scripts: Record<string, string>;
+  devDependencies: Record<string, string>;
+};
 const repositoryRoot = process.cwd();
 const activeRoots = ['.github', 'tests', 'src', 'docs', 'scripts'];
 
@@ -29,7 +35,9 @@ const featureControllerNames = featureTsFiles.flatMap((file) =>
 
 describe('repository maintenance contract', () => {
   it('keeps runtime identity metadata well-formed and the stable campaign save key unchanged', () => {
-    expect(APP_VERSION).toMatch(/^\d+\.\d+\.\d+-dev$/);
+    expect(packageMetadata.name).toBe('class-u-detectives');
+    expect(APP_VERSION).toBe(packageMetadata.version);
+    expect(APP_VERSION).toMatch(/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/);
     expect(BUILD_LABEL).toMatch(/^ANM-/);
     expect(ANM009_SAVE_KEY).toBe('seiran-detectives-anm009-v1');
   });
@@ -58,6 +66,14 @@ describe('repository maintenance contract', () => {
     expect(tsconfig.compilerOptions.strict).toBe(true);
     expect(tsconfig.compilerOptions.noUnusedLocals).toBe(true);
     expect(tsconfig.compilerOptions.noUnusedParameters).toBe(true);
+  });
+
+  it('keeps Biome in the authoritative check path with an exact tool version', () => {
+    expect(packageMetadata.devDependencies['@biomejs/biome']).toMatch(/^\d+\.\d+\.\d+$/);
+    expect(packageMetadata.scripts.lint).toContain('biome lint');
+    expect(packageMetadata.scripts.check).toContain('npm run lint');
+    expect(packageMetadata.scripts.check).toContain('npm run test');
+    expect(packageMetadata.scripts.check).toContain('npm run build');
   });
 });
 

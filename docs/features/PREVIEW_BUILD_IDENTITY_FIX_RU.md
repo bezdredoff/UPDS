@@ -19,6 +19,6 @@
 - `BUILD_LABEL` — человекочитаемый функциональный baseline (`ANM-025B · ...`);
 - `BUILD_ID` — уникальная конкретная сборка (job + run + source SHA);
 - `BUILD_TIMESTAMP` — время конкретной сборки;
-- npm `package.json.version` — внутреннее package metadata и не используется как пользовательская идентичность билда.
+- npm `package.json.version` — canonical product semver source; `APP_VERSION` импортируется из него. Это по-прежнему не feature/build identity и не заменяет `BUILD_LABEL`/`BUILD_ID`.
 
 PWA cache invalidation по-прежнему использует `BUILD_ID`, а не `APP_VERSION`.
