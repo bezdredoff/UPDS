@@ -1,6 +1,6 @@
 # ANM-029B3K — Belarusian VN Slot 10
 
-Status: R1.1 candidate / linguistic + CI QA.
+Status: COMPLETE — R1.1 merged via PR #129 on 2026-08-15.
 
 ## Цель
 
@@ -35,3 +35,8 @@ Canonical `storyGraph` задаёт границы slot 10 как:
 ## QA
 
 `BelarusianVnSlot10Localization.test.ts` проверяет exact 121/121 coverage, zero missing/extra/empty/placeholder drift, canonical `storyGraph` ranges, next-slot boundary `VN0528`, reviewed control-sample terminology, exact `{ADD CUE_011}` payload и runtime-hidden status.
+
+
+## Merge result
+
+PR #129 merged B3K R1.1 into `main`; post-merge CI and stable Pages are green. Later Belarusian batches may extend `beCatalog` without changing this bounded 121-key contract.

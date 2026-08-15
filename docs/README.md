@@ -68,6 +68,7 @@ The repository now contains the complete detailed authored screenplay for all 22
 - [`features/ANM029B3I_BELARUSIAN_VN_SLOT_8_RU.md`](features/ANM029B3I_BELARUSIAN_VN_SLOT_8_RU.md) — Belarusian canonical runtime VN slot 8 (`VN0410–VN0448`, scenes 17–18; 121 keys), lost-and-found ledger gaps, `CUE_009` and the master-key bridge while still runtime-hidden
 - [`features/ANM029B3J_BELARUSIAN_VN_SLOT_9_RU.md`](features/ANM029B3J_BELARUSIAN_VN_SLOT_9_RU.md) — Belarusian canonical runtime VN slot 9 (`VN0449–VN0488`, scenes 19–20 + `protect-gen-source`; 131 keys), maintenance-key handoff, `CUE_010` and the Asterion night-container route while still runtime-hidden
 - [`features/ANM029B3K_BELARUSIAN_VN_SLOT_10_RU.md`](features/ANM029B3K_BELARUSIAN_VN_SLOT_10_RU.md) — Belarusian canonical runtime VN slot 10 (`VN0489–VN0527`, scenes 21–22; 121 keys), karate-club control sample, `CUE_011` and the old-photo Asterion container while still runtime-hidden
+- [`features/ANM029B3L_BELARUSIAN_VN_SLOT_11_RU.md`](features/ANM029B3L_BELARUSIAN_VN_SLOT_11_RU.md) — Belarusian canonical runtime VN slot 11 (`VN0528–VN0567`, scenes 23–24 + `photo-permission`; 131 keys), Asterion transfer chain, `CUE_012` and the weak-wireless-signal bridge while still runtime-hidden
 
 ### Character production
 
