@@ -1,6 +1,6 @@
 # ANM-029B3F — Belarusian VN Slot 5
 
-Status: R1 candidate / linguistic + CI QA.
+Status: R1 COMPLETE / merged through PR #124.
 
 ## Цель
 
