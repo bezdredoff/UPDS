@@ -1,6 +1,6 @@
 # ANM-029B3A — Belarusian VN Slot 0
 
-Status: R1.1 candidate / linguistic + CI QA; R1 was rejected only by stale product-version/documentation traceability assertions.
+Status: R1.1 COMPLETE; merged through PR #118. R1 was rejected only by stale product-version/documentation traceability assertions.
 
 ## Цель
 
@@ -13,7 +13,7 @@ Status: R1.1 candidate / linguistic + CI QA; R1 was rejected only by stale produ
 - title/location для `VN_SCENE_00_PROLOGUE`, `VN_SCENE_01_E0_PRE`, `VN_SCENE_02_E0_POST`;
 - всего 302 message keys.
 
-Slot 1 начинается с `VN0085` и намеренно не входит в этот пакет.
+Slot 1 начинается с `VN0085` и не входит в bounded selector B3A; последующие VN-пакеты могут добавлять эти ключи в общий `beCatalog` без нарушения завершённого B3A-контракта.
 
 ## Контракты
 
@@ -26,4 +26,4 @@ Slot 1 начинается с `VN0085` и намеренно не входит 
 
 ## QA
 
-`BelarusianVnSlot0Localization.test.ts` проверяет exact 302/302 coverage, empty/extra/missing/placeholder drift, representative terminology, неизменность branch payloads и отсутствие `VN0085` в `beCatalog`.
+`BelarusianVnSlot0Localization.test.ts` проверяет exact 302/302 bounded coverage, empty/extra/missing/placeholder drift, representative terminology, неизменность branch payloads и runtime-hidden статус `be`; тест намеренно не запрещает рост общего `beCatalog` следующими VN-батчами.
