@@ -15,7 +15,8 @@ const SHELL_KEY_COUNT = 61;
 describe('ANM-029B1 Belarusian player-shell localization', () => {
   it('covers the bounded shell scope exactly and preserves named placeholders', () => {
     const sourceShell = selectMessageCatalogByPrefixes(ruCatalog, beCompletedCatalogPrefixes);
-    const audit = auditMessageCatalog(sourceShell, beCatalog);
+    const targetShell = selectMessageCatalogByPrefixes(beCatalog, beCompletedCatalogPrefixes);
+    const audit = auditMessageCatalog(sourceShell, targetShell);
 
     expect(Object.keys(sourceShell)).toHaveLength(SHELL_KEY_COUNT);
     expect(audit.sourceKeyCount).toBe(SHELL_KEY_COUNT);
