@@ -1,6 +1,6 @@
 # ANM-029B3I — Belarusian VN Slot 8
 
-Status: R1 candidate / linguistic + CI QA.
+Status: COMPLETE — R1 merged via PR #127 on 2026-08-15.
 
 ## Цель
 
@@ -36,3 +36,7 @@ Canonical `storyGraph` задаёт границы slot 8 как:
 ## QA
 
 `BelarusianVnSlot8Localization.test.ts` проверяет exact 121/121 coverage, zero missing/extra/empty/placeholder drift, canonical `storyGraph` ranges, next-slot boundary `VN0449`, representative lost-and-found/service-key terminology, exact `{ADD CUE_009}` payload и runtime-hidden status.
+
+## Merge result
+
+PR #127 merged B3I into `main`; post-merge CI is authoritative for the completed slot. Later Belarusian batches may extend `beCatalog` without changing this bounded 121-key contract.
