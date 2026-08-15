@@ -72,6 +72,7 @@ The repository now contains the complete detailed authored screenplay for all 22
 - [`features/ANM029B3M_BELARUSIAN_VN_SLOT_12_RU.md`](features/ANM029B3M_BELARUSIAN_VN_SLOT_12_RU.md) — Belarusian canonical runtime VN slot 12 (`VN0568–VN0607`, scenes 25–26 + `publish-tag`; 131 keys), Panty-Eater signal test, `CUE_013`, Second Skin microtag and Kurose timing link while still runtime-hidden
 - [`features/ANM029B3N_BELARUSIAN_VN_SLOT_13_RU.md`](features/ANM029B3N_BELARUSIAN_VN_SLOT_13_RU.md) — Belarusian canonical runtime VN slot 13 (`VN0608–VN0646`, scenes 27–28; 121 keys), kendo pilot-list verification, `CUE_014`, Kubo testimony and the atelier-receipt bridge while still runtime-hidden
 - [`features/ANM029B3O_BELARUSIAN_VN_SLOT_14_RU.md`](features/ANM029B3O_BELARUSIAN_VN_SLOT_14_RU.md) — Belarusian canonical runtime VN slot 14 (`VN0647–VN0686`, scenes 29–30 + `family-ledger-permission`; 131 keys), Kubo atelier ledger chronology, `CUE_015`, privacy-preserving source handling and the Ray evidence-bag bridge while still runtime-hidden
+- [`features/ANM029B3P_BELARUSIAN_VN_SLOT_15_RU.md`](features/ANM029B3P_BELARUSIAN_VN_SLOT_15_RU.md) — Belarusian canonical runtime VN slot 15 (`VN0687–VN0726`, scenes 31–32; 124 keys), Ray chase, abandoned-laundry consent route, `CUE_016` and the pink-ribbon bridge while still runtime-hidden
 
 ### Character production
 
