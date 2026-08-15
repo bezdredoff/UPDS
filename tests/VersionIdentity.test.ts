@@ -1,14 +1,18 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { APP_VERSION } from '../src/appVersion';
+import { APP_VERSION, BUILD_LABEL } from '../src/appVersion';
 
 const read = (path: string): string => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+const packageMetadata = JSON.parse(read('package.json')) as { name: string; version: string };
 
 describe('product version and build identity', () => {
-  it('keeps the product dev line independent from ANM feature labels', () => {
-    expect(APP_VERSION).toBe('0.25.4-dev');
-    expect(APP_VERSION).not.toContain('anm');
-    expect(APP_VERSION).not.toBe(JSON.parse(read('package.json')).version);
+  it('uses package metadata as the single product-version source without coupling it to ANM feature labels', () => {
+    expect(packageMetadata.name).toBe('class-u-detectives');
+    expect(APP_VERSION).toBe(packageMetadata.version);
+    expect(APP_VERSION).toMatch(/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/);
+    expect(APP_VERSION.toLowerCase()).not.toContain('anm');
+    expect(BUILD_LABEL).toMatch(/^ANM-/);
+    expect(BUILD_LABEL).not.toContain(APP_VERSION);
   });
 
   it('keeps product version, feature baseline and unique build visibly distinct', () => {

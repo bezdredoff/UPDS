@@ -101,6 +101,7 @@ D3A overrides, while legacy embarrassed/Pose B/medallion remain fallback until r
 ### Architecture and viewport foundations
 
 - [`features/ANM023_ARCHITECTURE_TEST_HEALTH_RU.md`](features/ANM023_ARCHITECTURE_TEST_HEALTH_RU.md)
+- [`features/ANM023E_TEST_TOOLING_IDENTITY_HARDENING_RU.md`](features/ANM023E_TEST_TOOLING_IDENTITY_HARDENING_RU.md) — future-proof test/status contracts, Biome gate and unified package/app product-version identity
 - [`features/ANM024A_VIEWPORT_SAFE_AREA_CONTRACT_RU.md`](features/ANM024A_VIEWPORT_SAFE_AREA_CONTRACT_RU.md)
 - [`features/ANM024C_SHARED_SAFE_AREA_OWNERSHIP_RU.md`](features/ANM024C_SHARED_SAFE_AREA_OWNERSHIP_RU.md)
 - [`features/ANM024D_VIEWPORT_REGRESSION_CLOSURE_RU.md`](features/ANM024D_VIEWPORT_REGRESSION_CLOSURE_RU.md)

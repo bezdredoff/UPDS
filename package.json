@@ -1,11 +1,15 @@
 {
-  "name": "seiran-detectives-four-full-levels",
+  "name": "class-u-detectives",
   "private": true,
-  "version": "0.22.0-anm022e-r1",
+  "version": "0.25.4-dev",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "typecheck": "tsc --noEmit",
+    "lint": "biome lint src vite.config.ts && biome lint --only=suspicious/noFocusedTests tests",
+    "format": "biome format --write src tests vite.config.ts",
+    "format:check": "biome format src tests vite.config.ts",
+    "check:fast": "npm run lint && npm run typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
     "story:audit": "vitest run tests/StoryContentAudit.test.ts",
@@ -14,11 +18,13 @@
     "localization:audit": "vitest run tests/LocalizationProductionContract.test.ts tests/BelarusianShellLocalization.test.ts tests/BelarusianMatch3CoreLocalization.test.ts tests/BelarusianMatch3Levels0006Localization.test.ts tests/BelarusianMatch3Levels0713Localization.test.ts tests/BelarusianMatch3Levels1421Localization.test.ts tests/BelarusianMatch3ReactionsLocalization.test.ts tests/BelarusianVnSlot0Localization.test.ts tests/LocalizationCompletionAudit.test.ts tests/ScreenplayLocalizationCompleteness.test.ts tests/Match3Localization.test.ts",
     "localization:be:audit": "vitest run tests/BelarusianShellLocalization.test.ts tests/BelarusianMatch3CoreLocalization.test.ts tests/BelarusianMatch3Levels0006Localization.test.ts tests/BelarusianMatch3Levels0713Localization.test.ts tests/BelarusianMatch3Levels1421Localization.test.ts tests/BelarusianMatch3ReactionsLocalization.test.ts tests/BelarusianVnSlot0Localization.test.ts",
     "docs:audit": "vitest run tests/DocumentationTraceability.test.ts",
+    "tooling:audit": "vitest run tests/ToolingIdentityHardening.test.ts tests/VersionIdentity.test.ts tests/DocumentationTraceability.test.ts tests/RepositoryHygiene.test.ts",
     "build": "tsc && vite build",
-    "check": "npm run test && npm run build",
+    "check": "npm run lint && npm run test && npm run build",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.7",
     "typescript": "5.5.4",
     "vite": "5.4.10",
     "vitest": "3.2.4"

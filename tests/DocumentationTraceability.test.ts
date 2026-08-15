@@ -10,7 +10,7 @@ describe('active documentation traceability', () => {
     const readme = read('README.md');
     const index = read('docs/README.md');
     const roadmap = read('docs/ROADMAP_RU.md');
-    const buildFeature = BUILD_LABEL.match(/^ANM-\d+[A-Z]?/)?.[0];
+    const buildFeature = BUILD_LABEL.split(' · ')[0];
     const tick = String.fromCharCode(96);
 
     expect(readme).toContain('docs/ROADMAP_RU.md');
@@ -18,8 +18,8 @@ describe('active documentation traceability', () => {
     expect(readme).not.toContain('Current build:');
     expect(index).toContain('## Authority order');
     expect(roadmap).toContain('Technical product version: ' + tick + APP_VERSION + tick);
-    expect(buildFeature).toBeDefined();
-    expect(roadmap).toContain(buildFeature!);
+    expect(buildFeature).toMatch(/^ANM-/);
+    expect(roadmap).toContain(`Current candidate focus: **${buildFeature}`);
   });
 
   it('aligns protected character prose with the canonical precomposed v2 manifest', () => {
@@ -142,7 +142,7 @@ describe('active documentation traceability', () => {
     expect(architecture).not.toContain('Status: ANM-023D audited baseline');
   });
 
-  it('keeps approved Emi sources, completed B2/B3 foundations and the current 027G phase traceable', () => {
+  it('keeps durable production foundations and localization feature documents traceable', () => {
     const roadmap = read('docs/ROADMAP_RU.md');
     const index = read('docs/README.md');
     const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
@@ -172,7 +172,8 @@ describe('active documentation traceability', () => {
     expect(index).toContain('ANM029B2B3_BELARUSIAN_MATCH3_LEVELS_14_21_RU.md');
     expect(index).toContain('ANM029B2C_BELARUSIAN_MATCH3_REACTIONS_AUDIT_RU.md');
     expect(index).toContain('ANM029B3A_BELARUSIAN_VN_SLOT_0_RU.md');
-    expect(roadmap).toContain('B3A R1.1 canonical VN slot 0 is IN QA');
+    expect(index).toContain('ANM023E_TEST_TOOLING_IDENTITY_HARDENING_RU.md');
+    expect(roadmap).toContain('B3A R1.1 canonical VN slot 0');
     expect(roadmap).toContain('028D Character Production / Normalization — ART GENERATION PAUSED');
     expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');

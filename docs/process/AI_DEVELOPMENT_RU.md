@@ -24,7 +24,7 @@ decision is authored and merged.
 
 - feature state and next sequence: `docs/ROADMAP_RU.md`;
 - product/build identity: `src/appVersion.ts`;
-- package metadata: `package.json.version` (not a feature-status source).
+- product metadata: `package.json.name` + `package.json.version`; `src/appVersion.ts` imports the version as `APP_VERSION`. Neither value is a feature-status source; feature identity lives in `BUILD_LABEL`.
 
 Do not copy a “current build” string into multiple READMEs.
 
@@ -268,3 +268,8 @@ A change is ready for review when:
 
 For docs/tests-only changes, visual iPhone QA is not required. For any visible/runtime or asset
 change, use the candidate preview and check the affected critical path on the phone.
+
+
+## Static quality gate
+
+`npm run check` runs Biome lint first, then the full Vitest suite and production build. The initial lint gate covers production source/Vite config plus a focused-test guard for Vitest; widen rules only from a green baseline. Do not bypass lint by moving it out of the authoritative check script. Formatter writes are explicit through `npm run format`; CI lint does not rewrite source.
