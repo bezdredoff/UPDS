@@ -1,6 +1,6 @@
 # ANM-029B3M — Belarusian VN Slot 12
 
-Status: R1 candidate / linguistic + CI QA.
+Status: COMPLETE — R1 merged via PR #131 on 2026-08-15.
 
 ## Цель
 
@@ -36,3 +36,7 @@ Canonical `storyGraph` задаёт границы slot 12 как:
 ## QA
 
 `BelarusianVnSlot12Localization.test.ts` проверяет exact 131/131 coverage, zero missing/extra/empty/placeholder drift, canonical `storyGraph` ranges и Match-3 route, `publish-tag`, next-slot boundary `VN0608`, reviewed Second Skin terminology, exact `{ADD CUE_013}` / `{CHOICE publish-tag}` payloads и runtime-hidden status.
+
+## Merge result
+
+R1 прошёл importer/CI и был merged в `main` через PR #131; post-merge CI и stable Pages зелёные.
