@@ -185,6 +185,7 @@ describe('active documentation traceability', () => {
     expect(index).toContain('ANM029B3L_BELARUSIAN_VN_SLOT_11_RU.md');
     expect(index).toContain('ANM029B3M_BELARUSIAN_VN_SLOT_12_RU.md');
     expect(index).toContain('ANM029B3N_BELARUSIAN_VN_SLOT_13_RU.md');
+    expect(index).toContain('ANM029B3O_BELARUSIAN_VN_SLOT_14_RU.md');
     expect(index).toContain('ANM023E_TEST_TOOLING_IDENTITY_HARDENING_RU.md');
     expect(roadmap).toContain('B3A R1.1 canonical VN slot 0');
     expect(roadmap).toContain('B3B R1.1 canonical runtime VN slot 1');
@@ -200,6 +201,7 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('B3L R1 canonical runtime VN slot 11');
     expect(roadmap).toContain('B3M R1 canonical runtime VN slot 12');
     expect(roadmap).toContain('B3N R1 canonical runtime VN slot 13');
+    expect(roadmap).toContain('B3O R1 canonical runtime VN slot 14');
     expect(roadmap).toContain('028D Character Production / Normalization — ART GENERATION PAUSED');
     expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
