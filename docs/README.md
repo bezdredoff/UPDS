@@ -54,6 +54,7 @@ The repository now contains the complete detailed authored screenplay for all 22
 - [`features/ANM029B1_BELARUSIAN_PLAYER_SHELL_RU.md`](features/ANM029B1_BELARUSIAN_PLAYER_SHELL_RU.md) — first bounded Belarusian production scope: 61 player-shell keys with structural audit while `be` remains hidden until the full catalog is complete
 - [`features/ANM029B2A_BELARUSIAN_MATCH3_CORE_RU.md`](features/ANM029B2A_BELARUSIAN_MATCH3_CORE_RU.md) — 83-key Belarusian Match-3 core/campaign scope; level narrative and F2 reactions remain deferred
 - [`features/ANM029B2B1_BELARUSIAN_MATCH3_LEVELS_00_06_RU.md`](features/ANM029B2B1_BELARUSIAN_MATCH3_LEVELS_00_06_RU.md) — first level-specific Belarusian Match-3 batch: M3_00–M3_06, evidence labels/items and contextual barks (123 keys)
+- [`features/ANM029B2B2_BELARUSIAN_MATCH3_LEVELS_07_13_RU.md`](features/ANM029B2B2_BELARUSIAN_MATCH3_LEVELS_07_13_RU.md) — second level-specific Belarusian Match-3 batch: M3_07–M3_13, Asterion/Second Skin evidence, items and contextual barks (128 keys)
 
 ### Character production
 

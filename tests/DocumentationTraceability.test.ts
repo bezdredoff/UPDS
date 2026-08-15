@@ -128,7 +128,8 @@ describe('active documentation traceability', () => {
     expect(roadmap).not.toContain('COMPLETE WHEN MERGED');
     expect(roadmap).toContain('B1 R1 player-shell translation is COMPLETE');
     expect(roadmap).toContain('B2A R1.1 Match-3 core/campaign translation is COMPLETE');
-    expect(roadmap).toContain('B2B1 R1 levels `M3_00–M3_06` is IN QA');
+    expect(roadmap).toContain('B2B1 R1 levels `M3_00–M3_06` is COMPLETE');
+    expect(roadmap).toContain('B2B2 R1 levels `M3_07–M3_13` is IN QA');
     expect(index).toContain('ANM028A_CHARACTER_PRODUCTION_MANIFEST_RU.md');
     expect(index).toContain('ANM027D_FULL_STORY_IMPORT_RU.md');
     expect(index).toContain('ANM026C_MATCH3_CAMPAIGN_MODE_RU.md');
@@ -165,6 +166,7 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('029B Belarusian Production — IN PROGRESS');
     expect(index).toContain('ANM029B1_BELARUSIAN_PLAYER_SHELL_RU.md');
     expect(index).toContain('ANM029B2B1_BELARUSIAN_MATCH3_LEVELS_00_06_RU.md');
+    expect(index).toContain('ANM029B2B2_BELARUSIAN_MATCH3_LEVELS_07_13_RU.md');
     expect(roadmap).toContain('028D Character Production / Normalization — ART GENERATION PAUSED');
     expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
