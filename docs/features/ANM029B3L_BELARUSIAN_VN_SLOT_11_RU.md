@@ -1,6 +1,6 @@
 # ANM-029B3L — Belarusian VN Slot 11
 
-Status: R1 candidate / linguistic + CI QA.
+Status: COMPLETE — R1 merged via PR #130 on 2026-08-15.
 
 ## Цель
 
@@ -36,3 +36,7 @@ Canonical `storyGraph` задаёт границы slot 11 как:
 ## QA
 
 `BelarusianVnSlot11Localization.test.ts` проверяет exact 131/131 coverage, zero missing/extra/empty/placeholder drift, canonical `storyGraph` ranges, `photo-permission`, next-slot boundary `VN0568`, reviewed Asterion transfer-chain terminology, exact `{ADD CUE_012}` payload и runtime-hidden status.
+
+## Merge result
+
+R1 прошёл importer/CI и был merged в `main` через PR #130; post-merge CI и stable Pages зелёные.
