@@ -1,6 +1,6 @@
 # ANM-029B3B — Belarusian VN Slot 1
 
-Status: R1.1 candidate / linguistic + CI QA. R1 translation and its bounded localization test passed in GitHub; the importer was rejected only by a stale transitional documentation assertion. R1.1 rebases the same reviewed 178-key translation onto the merged ANM-023E hardened baseline.
+Status: R1.1 COMPLETE / merged through PR #120. The reviewed 178-key translation was rebased unchanged onto the merged ANM-023E hardened baseline.
 
 ## Цель
 
