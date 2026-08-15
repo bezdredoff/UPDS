@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story and merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A localization production plus merged ANM-023E tooling hardening; ANM-029B3B R1.1 Belarusian canonical runtime VN slot 1 is in QA.
+Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A/B3B localization production and merged ANM-023E tooling hardening; ANM-029B3C R1 Belarusian canonical runtime VN slot 2 is in QA.
 
 ## Runtime flow
 
@@ -202,7 +202,7 @@ A locale remains `translation-pending` and absent from the selector until its fu
 passes the readiness contract.
 
 ANM-029B builds pending locale catalogs in bounded review scopes. `src/localization/catalogs/be.ts` may therefore exist as an intentionally partial production draft while `be` remains absent from `appCatalogs`/`supportedLocales`; structural scope audits must not be confused with full-locale readiness.
-B2A adds generic Match-3/campaign copy. B2B adds level-specific narrative/evidence labels in bounded level ranges (`00–06`, `07–13`, `14–21`), and B2C adds the separate F2 reaction catalog plus the full 612-key Match-3 closure. B3A/B3B then extend the same pending catalog with graph-bounded VN scopes; each completed batch tests only its own stable selector so later batches may grow `beCatalog` without invalidating prior coverage. Partial Belarusian VN coverage must not be treated as locale readiness.
+B2A adds generic Match-3/campaign copy. B2B adds level-specific narrative/evidence labels in bounded level ranges (`00–06`, `07–13`, `14–21`), and B2C adds the separate F2 reaction catalog plus the full 612-key Match-3 closure. B3A/B3B/B3C then extend the same pending catalog with graph-bounded VN scopes; each completed batch tests only its own stable selector so later batches may grow `beCatalog` without invalidating prior coverage. Partial Belarusian VN coverage must not be treated as locale readiness.
 
 RU and EN currently cover the complete authored slots `0–21` and active Match-3 systems and are the
 only runtime-selectable locales. VN IDs, level IDs, reaction IDs and telemetry remain locale-independent.

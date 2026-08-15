@@ -59,6 +59,7 @@ The repository now contains the complete detailed authored screenplay for all 22
 - [`features/ANM029B2C_BELARUSIAN_MATCH3_REACTIONS_AUDIT_RU.md`](features/ANM029B2C_BELARUSIAN_MATCH3_REACTIONS_AUDIT_RU.md) — 132 Belarusian F2 reactions plus full 612-key Match-3 structural closure; locale remains runtime-pending
 - [`features/ANM029B3A_BELARUSIAN_VN_SLOT_0_RU.md`](features/ANM029B3A_BELARUSIAN_VN_SLOT_0_RU.md) — Belarusian canonical VN slot 0 (`VN0001–VN0084`, CHOICE_00, scenes 00–02), still runtime-hidden
 - [`features/ANM029B3B_BELARUSIAN_VN_SLOT_1_RU.md`](features/ANM029B3B_BELARUSIAN_VN_SLOT_1_RU.md) — Belarusian canonical runtime VN slot 1 (`VN0085–VN0142`, scenes 03–04; 178 keys), rebased on hardened tooling and still runtime-hidden
+- [`features/ANM029B3C_BELARUSIAN_VN_SLOT_2_RU.md`](features/ANM029B3C_BELARUSIAN_VN_SLOT_2_RU.md) — Belarusian canonical runtime VN slot 2 (`VN0143–VN0191`, scenes 05–06; 151 keys), with Norihiro/pool-laundry evidence and still runtime-hidden
 
 ### Character production
 
