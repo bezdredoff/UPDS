@@ -131,7 +131,7 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('B2B1 R1 levels `M3_00–M3_06` is COMPLETE');
     expect(roadmap).toContain('B2B2 R1 levels `M3_07–M3_13` is COMPLETE');
     expect(roadmap).toContain('B2B3 R1 levels `M3_14–M3_21` is COMPLETE');
-    expect(roadmap).toContain('B2C R1 F2 reactions/full Match-3 audit is IN QA');
+    expect(roadmap).toContain('B2C R1 F2 reactions/full Match-3 audit is COMPLETE');
     expect(index).toContain('ANM028A_CHARACTER_PRODUCTION_MANIFEST_RU.md');
     expect(index).toContain('ANM027D_FULL_STORY_IMPORT_RU.md');
     expect(index).toContain('ANM026C_MATCH3_CAMPAIGN_MODE_RU.md');
@@ -171,6 +171,8 @@ describe('active documentation traceability', () => {
     expect(index).toContain('ANM029B2B2_BELARUSIAN_MATCH3_LEVELS_07_13_RU.md');
     expect(index).toContain('ANM029B2B3_BELARUSIAN_MATCH3_LEVELS_14_21_RU.md');
     expect(index).toContain('ANM029B2C_BELARUSIAN_MATCH3_REACTIONS_AUDIT_RU.md');
+    expect(index).toContain('ANM029B3A_BELARUSIAN_VN_SLOT_0_RU.md');
+    expect(roadmap).toContain('B3A R1.1 canonical VN slot 0 is IN QA');
     expect(roadmap).toContain('028D Character Production / Normalization — ART GENERATION PAUSED');
     expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
