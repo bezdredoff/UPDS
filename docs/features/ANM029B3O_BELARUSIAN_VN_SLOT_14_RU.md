@@ -1,6 +1,6 @@
 # ANM-029B3O — Belarusian VN Slot 14
 
-Status: R1 candidate / linguistic + CI QA.
+Status: COMPLETE — R1 merged via PR #133 on 2026-08-15.
 
 ## Цель
 
