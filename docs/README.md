@@ -56,6 +56,7 @@ The repository now contains the complete detailed authored screenplay for all 22
 - [`features/ANM029B2B1_BELARUSIAN_MATCH3_LEVELS_00_06_RU.md`](features/ANM029B2B1_BELARUSIAN_MATCH3_LEVELS_00_06_RU.md) — first level-specific Belarusian Match-3 batch: M3_00–M3_06, evidence labels/items and contextual barks (123 keys)
 - [`features/ANM029B2B2_BELARUSIAN_MATCH3_LEVELS_07_13_RU.md`](features/ANM029B2B2_BELARUSIAN_MATCH3_LEVELS_07_13_RU.md) — second level-specific Belarusian Match-3 batch: M3_07–M3_13, Asterion/Second Skin evidence, items and contextual barks (128 keys)
 - [`features/ANM029B2B3_BELARUSIAN_MATCH3_LEVELS_14_21_RU.md`](features/ANM029B2B3_BELARUSIAN_MATCH3_LEVELS_14_21_RU.md) — final level-specific Belarusian Match-3 batch: M3_14–M3_21, consent/privacy evidence, items and contextual barks (146 keys)
+- [`features/ANM029B2C_BELARUSIAN_MATCH3_REACTIONS_AUDIT_RU.md`](features/ANM029B2C_BELARUSIAN_MATCH3_REACTIONS_AUDIT_RU.md) — 132 Belarusian F2 reactions plus full 612-key Match-3 structural closure; locale remains runtime-pending
 
 ### Character production
 
