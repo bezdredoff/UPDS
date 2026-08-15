@@ -64,6 +64,7 @@ The repository now contains the complete detailed authored screenplay for all 22
 - [`features/ANM029B3E_BELARUSIAN_VN_SLOT_4_RU.md`](features/ANM029B3E_BELARUSIAN_VN_SLOT_4_RU.md) — Belarusian canonical runtime VN slot 4 (`VN0251–VN0288`, scenes 09–10 + `meeting-tone`; 125 keys), beginning the ANM-027G source chain while remaining runtime-hidden
 - [`features/ANM029B3F_BELARUSIAN_VN_SLOT_5_RU.md`](features/ANM029B3F_BELARUSIAN_VN_SLOT_5_RU.md) — Belarusian canonical runtime VN slot 5 (`VN0289–VN0326`, scenes 11–12; 118 keys), basketball/service-route evidence with Hinata and still runtime-hidden
 - [`features/ANM029B3G_BELARUSIAN_VN_SLOT_6_RU.md`](features/ANM029B3G_BELARUSIAN_VN_SLOT_6_RU.md) — Belarusian canonical runtime VN slot 6 (`VN0327–VN0369`, scenes 13–14 + `apology-to-hinata`; 140 keys), Hinata exoneration and Asterion bridge while still runtime-hidden
+- [`features/ANM029B3H_BELARUSIAN_VN_SLOT_7_RU.md`](features/ANM029B3H_BELARUSIAN_VN_SLOT_7_RU.md) — Belarusian canonical runtime VN slot 7 (`VN0370–VN0409`, scenes 15–16; 124 keys), Asterion laboratory verification and `CUE_008` while still runtime-hidden
 
 ### Character production
 
