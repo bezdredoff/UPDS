@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.3-dev`.
-Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation and ANM-028D3A Emi approved-frame runtime transition**. Current candidate focus: **ANM-029B2A R1.1 Belarusian Match-3 Core**. Remaining character-art generation is paused for an external Stable Diffusion workflow; the complete `0–21` screenplay is now a frozen input for localization production.
+Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation and ANM-028D3A Emi approved-frame runtime transition**. Current candidate focus: **ANM-029B2B1 R1 Belarusian Match-3 Levels 00–06**. Remaining character-art generation is paused for an external Stable Diffusion workflow; the complete `0–21` screenplay is now a frozen input for localization production.
 
 `APP_VERSION` — продуктовая dev-линия и не используется как источник feature status; npm `package.json.version` остаётся внутренним package metadata. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -184,7 +184,7 @@ Target registry is fixed to `ru`, `be`, `en`, `zh-CN`, `ja`, `ko`, `pt-BR`.
 
 Production split:
 - **029A Localization Production Foundation — R1.1 COMPLETE** — seven-locale registry, pending/ready separation, catalog key/placeholder audit, glossary contract and centralized CJK readiness metadata; RU/EN remain the only runtime-selectable locales;
-- **029B Belarusian Production — IN PROGRESS** — B1 R1 player-shell translation is COMPLETE (61 keys); B2A R1.1 Match-3 core/campaign translation is IN QA (83 keys), followed by B2B level narrative, B2C F2 reactions/full Match-3 audit, then VN/ending batches and runtime enablement only after the full zero-missing-key audit;
+- **029B Belarusian Production — IN PROGRESS** — B1 R1 player-shell translation is COMPLETE (61 keys); B2A R1.1 Match-3 core/campaign translation is COMPLETE (83 keys); B2B1 R1 levels `M3_00–M3_06` is IN QA (123 keys), followed by B2B2 `07–13`, B2B3 `14–21`, B2C F2 reactions/full Match-3 audit, then VN/ending batches and runtime enablement only after the full zero-missing-key audit;
 - **029C Simplified Chinese Production** — full catalog plus first real CJK overflow/typography mobile QA;
 - **029D Japanese Production**;
 - **029E Korean Production**;

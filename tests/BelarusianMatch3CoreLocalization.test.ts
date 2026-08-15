@@ -39,11 +39,11 @@ describe('ANM-029B2A Belarusian Match-3 core localization', () => {
     expect(isCatalogStructurallyComplete(audit)).toBe(true);
   });
 
-  it('keeps level narrative, evidence labels and per-level barks out of B2A', () => {
-    expect(Object.keys(beCatalog).some((key) => key.startsWith('match3.level.'))).toBe(false);
-    expect(Object.keys(beCatalog).some((key) => key.startsWith('match3.clue.'))).toBe(false);
-    expect(Object.keys(beCatalog).some((key) => key.startsWith('match3.ingredient.'))).toBe(false);
-    expect(Object.keys(beCatalog).some((key) => key.startsWith('match3.bark.blockers.'))).toBe(false);
+  it('keeps level narrative, evidence labels and per-level barks outside the B2A selector', () => {
+    expect(isMatch3CoreKey('match3.level.M3_00_LOCKER_TUTORIAL.title')).toBe(false);
+    expect(isMatch3CoreKey('match3.clue.CUE_001')).toBe(false);
+    expect(isMatch3CoreKey('match3.ingredient.receipt')).toBe(false);
+    expect(isMatch3CoreKey('match3.bark.blockers.0')).toBe(false);
   });
 
   it('keeps Belarusian pending and out of runtime until the full catalog is complete', () => {

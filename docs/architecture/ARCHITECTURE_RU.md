@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A foundation and ANM-029B1 Belarusian player shell; ANM-029B2A Match-3 core is in QA.
+Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A localization foundations; ANM-029B2B1 Belarusian Match-3 levels `00–06` are in QA.
 
 ## Runtime flow
 
@@ -202,7 +202,7 @@ A locale remains `translation-pending` and absent from the selector until its fu
 passes the readiness contract.
 
 ANM-029B builds pending locale catalogs in bounded review scopes. `src/localization/catalogs/be.ts` may therefore exist as an intentionally partial production draft while `be` remains absent from `appCatalogs`/`supportedLocales`; structural scope audits must not be confused with full-locale readiness.
-B2A adds only generic Match-3/campaign copy. Level-specific narrative/evidence labels and the separate F2 reaction catalog remain deferred to B2B/B2C, so partial Belarusian Match-3 coverage must not be treated as locale readiness.
+B2A adds generic Match-3/campaign copy. B2B then adds level-specific narrative/evidence labels in bounded level ranges (`00–06`, `07–13`, `14–21`), while the separate F2 reaction catalog remains deferred to B2C. Partial Belarusian Match-3 coverage must not be treated as locale readiness.
 
 RU and EN currently cover the complete authored slots `0–21` and active Match-3 systems and are the
 only runtime-selectable locales. VN IDs, level IDs, reaction IDs and telemetry remain locale-independent.
