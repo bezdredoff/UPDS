@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A localization foundations; ANM-029B2B1 Belarusian Match-3 levels `00–06` are in QA.
+Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1 localization foundations; ANM-029B2B2 Belarusian Match-3 levels `07–13` are in QA.
 
 ## Runtime flow
 

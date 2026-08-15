@@ -184,7 +184,7 @@ Target registry is fixed to `ru`, `be`, `en`, `zh-CN`, `ja`, `ko`, `pt-BR`.
 
 Production split:
 - **029A Localization Production Foundation — R1.1 COMPLETE** — seven-locale registry, pending/ready separation, catalog key/placeholder audit, glossary contract and centralized CJK readiness metadata; RU/EN remain the only runtime-selectable locales;
-- **029B Belarusian Production — IN PROGRESS** — B1 R1 player-shell translation is COMPLETE (61 keys); B2A R1.1 Match-3 core/campaign translation is COMPLETE (83 keys); B2B1 R1 levels `M3_00–M3_06` is IN QA (123 keys), followed by B2B2 `07–13`, B2B3 `14–21`, B2C F2 reactions/full Match-3 audit, then VN/ending batches and runtime enablement only after the full zero-missing-key audit;
+- **029B Belarusian Production — IN PROGRESS** — B1 R1 player-shell translation is COMPLETE (61 keys); B2A R1.1 Match-3 core/campaign translation is COMPLETE (83 keys); B2B1 R1 levels `M3_00–M3_06` is COMPLETE (123 keys); B2B2 R1 levels `M3_07–M3_13` is IN QA (128 keys), followed by B2B3 `14–21`, B2C F2 reactions/full Match-3 audit, then VN/ending batches and runtime enablement only after the full zero-missing-key audit;
 - **029C Simplified Chinese Production** — full catalog plus first real CJK overflow/typography mobile QA;
 - **029D Japanese Production**;
 - **029E Korean Production**;
