@@ -24,8 +24,35 @@
       },
       "suspicious": {
         "noDebugger": "error",
-        "noDuplicateObjectKeys": "error"
+        "noDuplicateObjectKeys": "error",
+        "noFocusedTests": "error",
+        "noDuplicateTestHooks": "error",
+        "noFallthroughSwitchClause": "warn",
+        "noExplicitAny": "warn"
+      },
+      "complexity": {
+        "noUselessCatch": "warn",
+        "noUselessConstructor": "warn"
+      },
+      "performance": {
+        "noAccumulatingSpread": "warn"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": [
+        "tests/**/*.ts"
+      ],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedImports": "warn",
+            "noUnusedVariables": "warn",
+            "noUnusedFunctionParameters": "warn"
+          }
+        }
+      }
+    }
+  ]
 }

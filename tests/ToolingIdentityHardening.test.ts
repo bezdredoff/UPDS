@@ -16,7 +16,16 @@ const lock = JSON.parse(read('package-lock.json')) as {
   packages: Record<string, { name?: string; version?: string; devDependencies?: Record<string, string> }>;
 };
 const biomeConfig = JSON.parse(read('biome.json')) as {
-  linter: { rules: { preset: string; correctness: Record<string, string>; suspicious: Record<string, string> } };
+  overrides: Array<{ includes: string[]; linter: { rules: { correctness: Record<string, string> } } }>;
+  linter: {
+    rules: {
+      preset: string;
+      correctness: Record<string, string>;
+      suspicious: Record<string, string>;
+      complexity: Record<string, string>;
+      performance: Record<string, string>;
+    };
+  };
 };
 
 describe('ANM-023E test, tooling and identity hardening', () => {
@@ -36,8 +45,11 @@ describe('ANM-023E test, tooling and identity hardening', () => {
     expect(biomeVersion).toMatch(/^\d+\.\d+\.\d+$/);
     expect(lock.packages[''].devDependencies?.['@biomejs/biome']).toBe(biomeVersion);
     expect(lock.packages['node_modules/@biomejs/biome'].version).toBe(biomeVersion);
-    expect(packageMetadata.scripts.lint).toContain('biome lint src vite.config.ts');
-    expect(packageMetadata.scripts.lint).toContain('--only=suspicious/noFocusedTests tests');
+    expect(packageMetadata.scripts.lint).toBe('biome lint src tests vite.config.ts');
+    expect(packageMetadata.scripts['lint:fix']).toBe('biome lint --write src tests vite.config.ts');
+    expect(packageMetadata.scripts['quality:fix']).toBe(
+      'biome check --write --formatter-enabled=false src tests vite.config.ts',
+    );
     expect(packageMetadata.scripts.check).toBe('npm run lint && npm run test && npm run build');
     expect(biomeConfig.linter.rules.preset).toBe('none');
     expect(biomeConfig.linter.rules.correctness.noUnusedImports).toBe('error');
@@ -45,6 +57,17 @@ describe('ANM-023E test, tooling and identity hardening', () => {
     expect(biomeConfig.linter.rules.correctness.noUnusedFunctionParameters).toBe('error');
     expect(biomeConfig.linter.rules.suspicious.noDebugger).toBe('error');
     expect(biomeConfig.linter.rules.suspicious.noDuplicateObjectKeys).toBe('error');
+    expect(biomeConfig.linter.rules.suspicious.noFocusedTests).toBe('error');
+    expect(biomeConfig.linter.rules.suspicious.noDuplicateTestHooks).toBe('error');
+    expect(biomeConfig.linter.rules.suspicious.noFallthroughSwitchClause).toBe('warn');
+    expect(biomeConfig.linter.rules.suspicious.noExplicitAny).toBe('warn');
+    expect(biomeConfig.linter.rules.complexity.noUselessCatch).toBe('warn');
+    expect(biomeConfig.linter.rules.complexity.noUselessConstructor).toBe('warn');
+    expect(biomeConfig.linter.rules.performance.noAccumulatingSpread).toBe('warn');
+    const testOverride = biomeConfig.overrides.find((override) => override.includes.includes('tests/**/*.ts'));
+    expect(testOverride?.linter.rules.correctness.noUnusedImports).toBe('warn');
+    expect(testOverride?.linter.rules.correctness.noUnusedVariables).toBe('warn');
+    expect(testOverride?.linter.rules.correctness.noUnusedFunctionParameters).toBe('warn');
   });
 
   it('prevents durable documentation tests from freezing transitional workflow states', () => {

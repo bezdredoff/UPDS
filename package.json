@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "typecheck": "tsc --noEmit",
-    "lint": "biome lint src vite.config.ts && biome lint --only=suspicious/noFocusedTests tests",
+    "lint": "biome lint src tests vite.config.ts",
     "format": "biome format --write src tests vite.config.ts",
     "format:check": "biome format src tests vite.config.ts",
     "check:fast": "npm run lint && npm run typecheck",
@@ -21,7 +21,9 @@
     "tooling:audit": "vitest run tests/ToolingIdentityHardening.test.ts tests/VersionIdentity.test.ts tests/DocumentationTraceability.test.ts tests/RepositoryHygiene.test.ts",
     "build": "tsc && vite build",
     "check": "npm run lint && npm run test && npm run build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint:fix": "biome lint --write src tests vite.config.ts",
+    "quality:fix": "biome check --write --formatter-enabled=false src tests vite.config.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.7",

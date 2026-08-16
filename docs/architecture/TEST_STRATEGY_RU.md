@@ -58,12 +58,12 @@ delivery-lane limits. Не закреплять тестом каждую фор
 - Focused `story:audit`, `character:audit`, `scene:audit`, `localization:audit` и `docs:audit` ускоряют проверку, но не заменяют полный
   `npm run check` и GitHub Quality gate.
 
-## ANM-023F — planned test/tooling simplification
+## ANM-023F — active test/tooling simplification
 
 ANM-029H делает следующий technical maintenance track явным:
 
-- F1 расширяет Biome только через high-signal правила после diagnostic baseline; blanket preset/rule enablement с массовыми suppressions не является целью;
-- F1 должен распространить полезный lint на `tests`, проверить ценность `format:check` как blocking gate и использовать safe fixes/import organization там, где они детерминированы;
+- F1 R1 объединяет lint для `src`, `tests` и `vite.config.ts`; production unused-code checks остаются blocking, существующий test-only unused debt сначала виден как warnings, focused/duplicate test hooks становятся blocking, а fallthrough/explicit-any/useless-catch/useless-constructor/accumulating-spread сначала работают как advisory diagnostics; blanket preset/rule enablement с массовыми suppressions не является целью;
+- F1 добавляет safe-fix команды и repository-debris guard. `format:check` остаётся отдельным до dedicated formatting baseline, чтобы не смешивать static-analysis hardening с массовым style diff;
 - F2 начинает с инвентаризации уникальных contracts в текущих `110` test files, затем объединяет только реально дублирующиеся проверки и общий setup;
 - exact historical roadmap wording не является production contract. Traceability тестирует durable status/authority invariants;
 - уменьшение числа файлов/строк само по себе не является success metric. Поведенческая защита не должна ослабнуть.

@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.4-dev`.
-Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation, ANM-028D3A Emi approved-frame runtime transition and completed ANM-029B4 Belarusian production**. Current candidate focus: **ANM-029H R1 Production Planning Reset**. Additional locale production is paused; the next implementation track is ANM-023F code/test/Biome/performance simplification before high-volume ANM-030 art integration.
+Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation, ANM-028D3A Emi approved-frame runtime transition, completed ANM-029B4 Belarusian production and merged ANM-029H planning reset**. Current candidate focus: **ANM-023F1 R1 Biome Expansion & Repository Hygiene**. Additional locale production is paused; the active production-enabler track is ANM-023F code/test/Biome/performance simplification before high-volume ANM-030 art integration.
 
 `package.json.version` — единственный источник продуктовой semver dev-линии; `src/appVersion.ts` импортирует её как `APP_VERSION`. `BUILD_LABEL` остаётся отдельным feature/baseline identity и не выводится из semver. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -73,14 +73,14 @@ Active production foundation: **ANM-025/026 Match-3 production + tooling, comple
 
 ## Production backlog
 
-### ANM-023F — Codebase, Test & Tooling Simplification [P0/P1] — NEXT AFTER ANM-029H
+### ANM-023F — Codebase, Test & Tooling Simplification [P0/P1] — IN PROGRESS
 
 The post-Belarusian reset intentionally reopens the ANM-023 maintenance line before high-volume art/content integration. This is a bounded simplification track, not an architecture rewrite.
 
-- **023F1 Biome Expansion & Repository Hygiene [P0]** — expand high-signal correctness/suspicious/complexity/performance coverage to production and tests, make formatting verification part of the quality gate where practical, use safe fixes/import organization, and remove tracked repository debris without blanket rule enablement.
-- **023F2 Test Suite Simplification [P0]** — preserve contract coverage while consolidating duplicated localization/lifecycle checks, common helpers and brittle historical wording. Current baseline: 110 `*.test.ts` files.
-- **023F3 Runtime / Controller Simplification [P0/P1]** — behavior-preserving cuts in measured hotspots (`Match3Controller`, `Match3Game`, `SceneStudioController`, `VnController`, `LevelLabController`) so controllers orchestrate and pure/domain/render/store responsibilities are easier to isolate and test.
-- **023F4 Performance & Payload Pass [P1]** — measure JS/CSS/startup/preload/memory and locale payload before optimizing; lazy locale loading is a hypothesis to validate, not a pre-approved rewrite.
+- **023F1 Biome Expansion & Repository Hygiene [P0] — R1 IN QA** — unify Biome lint across `src`, `tests` and Vite config; keep production unused-code checks blocking while existing test-only unused debt is advisory; make focused/duplicate test hooks blocking; expose fallthrough/explicit-any/useless-catch/useless-constructor/accumulating-spread as advisory diagnostics; add safe-fix commands; remove tracked Python bytecode and guard against recurrence. `format:check` remains non-blocking until a dedicated formatting baseline avoids an unrelated mass diff.
+- **023F2 Test Suite Simplification [P0] — NEXT** — preserve contract coverage while consolidating duplicated localization/lifecycle checks, common helpers and brittle historical wording. Current baseline: 110 `*.test.ts` files.
+- **023F3 Runtime / Controller Simplification [P0/P1] — PLANNED** — behavior-preserving cuts in measured hotspots (`Match3Controller`, `Match3Game`, `SceneStudioController`, `VnController`, `LevelLabController`) so controllers orchestrate and pure/domain/render/store responsibilities are easier to isolate and test.
+- **023F4 Performance & Payload Pass [P1] — PLANNED** — measure JS/CSS/startup/preload/memory and locale payload before optimizing; lazy locale loading is a hypothesis to validate, not a pre-approved rewrite.
 
 Success criterion: the next feature requires less code/test surface to understand and modify, while GitHub CI catches more real defects and behavioral coverage does not regress. Runtime-impacting F3/F4 cuts still require mobile preview QA.
 
@@ -271,9 +271,9 @@ Do not consume core production capacity before base release.
 ## Recommended immediate sequence
 
 1. **ANM-029B4 R1.1 — COMPLETE / PR #135** — Belarusian production-ready and runtime-selectable;
-2. **ANM-029H R1 — CURRENT CANDIDATE** — production planning reset and stale-status closure;
-3. **ANM-023F1 [P0]** — Biome expansion + repository hygiene;
-4. **ANM-023F2 [P0]** — test-suite simplification without coverage loss;
+2. **ANM-029H R1 — COMPLETE / PR #136** — production planning reset and stale-status closure;
+3. **ANM-023F1 R1 [P0] — CURRENT CANDIDATE** — Biome expansion + repository hygiene;
+4. **ANM-023F2 [P0] — NEXT** — test-suite simplification without coverage loss;
 5. **ANM-023F3 [P0/P1]** — bounded runtime/controller simplification;
 6. **ANM-023F4 [P1]** — measured performance/payload optimization;
 7. **ANM-030A [P0]** — full game asset gap audit (may be prepared in parallel with 023F);

@@ -1,6 +1,6 @@
 # ANM-029H — Production Planning Reset
 
-Status: R1 candidate / planning-only reset. No gameplay, story, localization catalog, balance, save-schema or visual-art behavior changes.
+Status: COMPLETE — R1 merged via PR #136. Planning-only reset. No gameplay, story, localization catalog, balance, save-schema or visual-art behavior changes.
 
 ## Почему reset нужен сейчас
 
