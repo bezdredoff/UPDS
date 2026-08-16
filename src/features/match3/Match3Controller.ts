@@ -1,4 +1,3 @@
-import { characterRigs } from '../../data/characterRigs';
 import {
 blockerPresentation,
 cluePresentation,
@@ -12,11 +11,11 @@ type ClueId,
 type LevelDefinition,
 } from '../../data/levels';
 import { backgroundAssets, getScene } from '../../data/narrative';
-import { resolveMatch3TilePresentation, tilePresentationAssetsForActiveSet } from '../../data/match3TilePresentation';
+import { tilePresentationAssetsForActiveSet } from '../../data/match3TilePresentation';
 import { resolveMatch3Reaction, type Match3ReactionId, type Match3ReactionSpeaker, type Match3RunMode } from '../../data/match3Reactions';
 import { nextPendingMatch3Tutorial, tutorialCompletionEventsForMove, tutorialConceptsCompletedByEvents, tutorialRevealEventsForBoard, tutorialRevealEventsForMove, type Match3TutorialConceptId, type Match3TutorialRevealEvent } from '../../data/match3Tutorials';
 import { storyWinSceneIndexForLevelId } from '../../data/storyGraph';
-import { Match3Game, type BoardCell, type Match3Frame, type MoveResult } from '../../engine/Match3Game';
+import { Match3Game, type Match3Frame, type MoveResult } from '../../engine/Match3Game';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
@@ -25,19 +24,22 @@ import type { Match3CampaignSession } from '../../app/Match3CampaignSession';
 import type { AppShell } from '../../app/AppShell';
 import { getDragPreview, getSwipeDecision } from '../../ui/boardInteraction';
 import { matchMotionDuration } from '../../ui/matchMotion';
-import { resolveMatch3ReactionPresentation, type Match3ReactionEmphasis } from '../../ui/match3ReactionPresentation';
+import { resolveMatch3ReactionPresentation } from '../../ui/match3ReactionPresentation';
 import { escapeHtml, headerActionMarkup } from '../../ui/viewMarkup';
 import '../../match3ReactionPresentation.css';
+import {
+match3BoardCellsMarkup,
+match3ContextAttrs,
+match3IntroMarkup,
+match3ScreenMarkup,
+type Match3BarkPresentation,
+} from './Match3Presentation';
 export type MatchOutcome = 'win' | 'loss' | 'abandon';
 export type MatchInteractionSource = 'tap' | 'drag' | 'double-tap';
 export type MatchHintSource = 'manual' | 'inactivity';
 export const MATCH_AUTO_HINT_DELAY_MS = 5000;
 export const SPECIAL_DOUBLE_TAP_WINDOW_MS = 360;
-type Bark = Readonly<{
-speaker: string;
-text: string;
-reaction?: Readonly<{ id: Match3ReactionId; durationMs: number; emphasis: Match3ReactionEmphasis }>;
-}>;
+type Bark = Match3BarkPresentation;
 type LabRun = Readonly<{ levelIndex: number; seed: number; level: LevelDefinition; onExit: () => void }>;
 type CampaignRun = Readonly<{ levelIndex: number; session: Match3CampaignSession; onExit: () => void }>;
 export class Match3Controller {
@@ -50,10 +52,6 @@ return this.t(`match3.level.${level.id}.objective.${index}`);
 private characterName(key: Match3ReactionSpeaker): string { return this.t(`character.${key}`); }
 private bark(key: string, speaker: Match3ReactionSpeaker, params?: Readonly<Record<string, string | number>>): Bark { return { speaker: this.characterName(speaker), text: this.t(`match3.bark.${key}`, params) }; }
 private levelBark(level: LevelDefinition, kind: 'start' | 'win' | 'lose'): Bark { return { speaker: this.t(`match3.level.${level.id}.${kind}Bark.speaker`), text: this.t(`match3.level.${level.id}.${kind}Bark.text`) }; }
-private contextAttrs(level: LevelDefinition): string {
-const context = level.context;
-return `data-m3-page="${escapeHtml(context.pageBackground)}" data-m3-board-surface="${escapeHtml(context.boardSurface)}" data-m3-board-frame="${escapeHtml(context.boardFrame)}" data-m3-profile="${escapeHtml(context.narrativeProfile)}" data-m3-tile-profile="${escapeHtml(context.tilePresentationProfile)}"`;
-}
 private activeMatch: Match3Game | null = null;
 private activeLevelIndex = 0;
 private selectedCell: number | null = null;
@@ -142,18 +140,6 @@ this.armAutoHint();
 private get tutorialPromptVisible(): boolean {
 return this.activeTutorial !== null && !this.tutorialPromptDismissed;
 }
-private tutorialMarkup(): string {
-const concept = this.activeTutorial;
-if (!concept || this.tutorialPromptDismissed) return '';
-return `<div class="match-tutorial-overlay" role="dialog" aria-modal="true" aria-labelledby="match-tutorial-title">
-<div class="match-tutorial-card" data-tutorial-concept="${escapeHtml(concept)}">
-<span class="case-tab">${escapeHtml(this.t('match3.tutorial.label'))}</span>
-<h2 id="match-tutorial-title">${escapeHtml(this.t(`match3.tutorial.${concept}.title`))}</h2>
-<p>${escapeHtml(this.t(`match3.tutorial.${concept}.body`))}</p>
-<button id="tutorial-try" class="primary">${escapeHtml(this.t('match3.tutorial.try'))}</button>
-</div>
-</div>`;
-}
 private currentTutorialRevealEvents(): Match3TutorialRevealEvent[] {
 const dynamic = this.activeMatch ? tutorialRevealEventsForBoard(this.activeMatch.board, BOARD_SIZE) : [];
 return [...new Set<Match3TutorialRevealEvent>([...this.tutorialRevealEvents, ...dynamic])];
@@ -237,26 +223,16 @@ const level = levels[levelIndex];
 this.preloadMatchAssets(level);
 this.activeLevelIndex = levelIndex;
 this.activeMatch = null;
-this.shell.render(`<section class="level-intro" ${this.contextAttrs(level)}>
-<img class="level-intro-background" src="${backgroundAssets[level.context.pageBackground]}" alt="">
-<div class="level-intro-shade"></div>
-<header class="app-header match-topbar intro-topbar">
-${headerActionMarkup('back', 'back', this.t('common.back'), undefined, 'app-header-back')}
-<div class="app-header-title"><small>${escapeHtml(this.t('match3.investigation', { current: levelIndex + 1, total: levels.length }))}</small><b>${escapeHtml(this.levelText(level, 'title'))}</b></div>
-<nav class="app-header-actions" aria-label="${escapeHtml(this.t('match3.investigationNavigation'))}">
-${headerActionMarkup('dossier', 'dossier', this.t('dossier.title'), this.session.save.clues.length)}
-${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
-</nav>
-</header>
-<div class="level-card">
-<p class="eyebrow">${escapeHtml(level.id)}</p>
-<h2>${escapeHtml(this.levelText(level, 'title'))}</h2>
-<p>${escapeHtml(this.levelText(level, 'storyAction'))}</p>
-<div class="intro-objectives">${level.objectives.map((objective, index) => this.objectiveMarkup(level, objective, index, 0, false)).join('')}</div>
-<div class="moves-chip"><b>${level.moves}</b><span>${escapeHtml(this.t('match3.moves'))}</span></div>
-<button id="start" class="primary">${escapeHtml(this.t('match3.start'))}</button>
-</div>
-</section>`);
+this.shell.render(match3IntroMarkup({
+level,
+levelIndex,
+totalLevels: levels.length,
+clueCount: this.session.save.clues.length,
+t: (key, params) => this.t(key, params),
+levelTitle: this.levelText(level, 'title'),
+storyAction: this.levelText(level, 'storyAction'),
+objectiveLabels: level.objectives.map((_, index) => this.objectiveText(level, index)),
+}));
 this.root.querySelector('#back')?.addEventListener('click', () => this.navigation.openScene(this.session.save.scene, Math.max(0, getScene(this.session.save.scene, this.session.save.choice).length - 1)));
 this.root.querySelector('#dossier')?.addEventListener('click', () => this.navigation.showDossier(() => this.renderMatchIntro(levelIndex)));
 this.root.querySelector('#header-settings')?.addEventListener('click', () => this.navigation.showSettings(() => this.renderMatchIntro(levelIndex), true));
@@ -352,86 +328,32 @@ this.tutorialPromptDismissed = true;
 this.renderMatch();
 this.armAutoHint();
 }
-private boardCellsMarkup(
-level: LevelDefinition,
-board: readonly BoardCell[],
-blockerAsset: string,
-options: Readonly<{ clearing?: ReadonlySet<number>; motions?: ReadonlyMap<number, Readonly<{ kind: 'fall' | 'spawn'; rows: number }>> }> = {},
-): string {
-return board.map((cell, index) => {
-if (!isLevelBoardCellActive(level, index)) {
-return `<span class="board-cell board-hole" role="gridcell" aria-label="${escapeHtml(this.t('match3.holeCell'))}" aria-disabled="true"></span>`;
-}
-const selected = this.selectedCell === index ? ' selected' : '';
-const hinted = this.hintedCells.has(index) ? ' hinted' : '';
-const clearing = options.clearing?.has(index) ? ' is-clearing' : '';
-const motion = options.motions?.get(index);
-const motionClass = motion ? ` settle-${motion.kind}` : '';
-const motionStyle = motion ? ` style="--settle-rows:${motion.rows}"` : '';
-const tile = cell.tile ? resolveMatch3TilePresentation(level.context.tilePresentationProfile, cell.tile) : null;
-const ingredient = cell.ingredient ? ingredientPresentation[cell.ingredient] : null;
-const cellLabel = cell.ingredient ? this.t(`match3.ingredient.${cell.ingredient}`) : cell.tile ? this.t(`match3.tile.${cell.tile}`) : this.t('match3.emptyCell');
-return `<button class="board-cell${selected}${hinted}${clearing}${motionClass}" data-cell="${index}" role="gridcell" aria-label="${escapeHtml(cellLabel)}"${motionStyle}>
-<span class="tile-socket"></span>
-<span class="tile-stack">
-${tile ? `<img class="tile" src="${tile.asset}" data-tile-variant="${escapeHtml(tile.variantId)}" alt="" draggable="false">` : ''}
-${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="" draggable="false">` : ''}
-${cell.special ? `<img class="special ${cell.special}" src="${specialAssets[cell.special]}" alt="${escapeHtml(this.t(`match3.special.${cell.special}`))}" draggable="false">` : ''}
-</span>
-${cell.blockerLayers > 0 ? `<span class="blocker"><img src="${blockerAsset}" alt="" draggable="false"><b>${cell.blockerLayers}</b></span>` : ''}
-</button>`;
-}).join('');
-}
-private barkMedallion(): string {
-const speaker = this.matchBark?.speaker ?? '';
-if (speaker === this.characterName('miku')) return characterRigs.miku.medallion;
-if (speaker === this.characterName('onoe')) return characterRigs.onoe.medallion;
-if (speaker === this.characterName('ayuki')) return characterRigs.ayuki.medallion;
-return characterRigs.miku.medallion;
-}
 private renderMatch(): void {
 this.services.audio.setScene('match');
 this.services.telemetry.trackScreen('match', `${levels[this.activeLevelIndex]?.id ?? String(this.activeLevelIndex)}:${this.runMode}`);
 const game = this.activeMatch;
 if (!game) return this.renderMatchIntro(this.activeLevelIndex);
 const level = game.level;
-const blocker = blockerPresentation[level.blocker];
-this.shell.render(`<section class="match-screen${this.tutorialPromptVisible ? ' tutorial-active' : ''}" ${this.contextAttrs(level)}>
-<img class="match-background" src="${backgroundAssets[level.context.pageBackground]}" alt="">
-<div class="match-shade"></div>
-<header class="app-header match-topbar">
-${headerActionMarkup('quit', 'back', this.labRun ? this.t('levelLab.backToLab') : this.campaignRun ? this.t('match3Campaign.backToCampaign') : this.t('match3.backToInvestigation'), undefined, 'app-header-back')}
-<div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>${escapeHtml(this.levelText(level, 'title'))}</b></div>
-<nav class="app-header-actions" aria-label="${escapeHtml(this.t('match3.investigationNavigation'))}">
-${this.runMode === 'story' ? headerActionMarkup('dossier', 'dossier', this.t('dossier.title'), this.session.save.clues.length) : ''}
-${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
-</nav>
-</header>
-<div class="match-case-hud">
-<section class="objective-board" aria-label="${escapeHtml(this.t('match3.objectivesAria'))}">
-<span class="case-tab">${escapeHtml(this.t('match3.objective'))}</span>
-<div class="objectives">${level.objectives.map((objective, index) => this.objectiveMarkup(level, objective, index, game.objectiveValue(index), true)).join('')}</div>
-</section>
-<section class="stage-board" aria-label="${escapeHtml(this.t('match3.movesStageAria'))}">
-<span class="case-tab">${escapeHtml(this.t('match3.movesUpper'))}</span>
-<div class="moves-left"><b>${game.movesLeft}</b></div>
-<div class="stage-meta"><small>${escapeHtml(this.labRun ? this.t('levelLab.runLabel') : this.campaignRun ? this.t('match3Campaign.stage', { current: this.activeLevelIndex + 1, total: levels.length }) : this.t('match3.stage', { current: this.activeLevelIndex + 1, total: levels.length }))}</small><b>${escapeHtml(this.labRun ? `SEED ${this.labRun.seed}` : level.shortId)}</b></div>
-</section>
-</div>
-<div class="field-bark-slot" aria-live="polite">${this.matchBark ? `<div class="field-bark${this.matchBark.reaction ? ` reaction-bark${this.reactionPresentationTimer === null ? ' is-entering' : ''}` : ''}"${this.matchBark.reaction ? ` data-reaction-id="${escapeHtml(this.matchBark.reaction.id)}" data-emphasis="${escapeHtml(this.matchBark.reaction.emphasis)}" data-duration-ms="${this.matchBark.reaction.durationMs}"` : ''}><img src="${this.barkMedallion()}" alt=""><div><b>${escapeHtml(this.matchBark.speaker)}</b><span>${escapeHtml(this.matchBark.text)}</span></div></div>` : ''}</div>
-<div id="match-feedback" class="match-feedback" aria-live="polite"></div>
-<div class="board" role="grid" aria-label="${escapeHtml(this.t('match3.boardAria'))}">${this.boardCellsMarkup(level, game.board, blocker.asset)}</div>
-<div class="match-tooltray">
-<div class="detective-strip" aria-label="${escapeHtml(this.t('match3.teamAria'))}">
-${(['miku', 'onoe', 'ayuki'] as const).map((key) => `<span><img src="${characterRigs[key].medallion}" alt="${escapeHtml(this.characterName(key))}"><b>${escapeHtml(this.characterName(key))}</b></span>`).join('')}
-</div>
-<button id="hint" class="hint-button">
-<img src="${specialAsset}" alt=""><span><b>${escapeHtml(this.t('match3.hint'))}</b><small>${escapeHtml(this.t('match3.bestMove'))}</small></span>
-</button>
-</div>
-<p class="match-hint">${escapeHtml(this.t('match3.inputHint'))}</p>
-${this.tutorialMarkup()}
-</section>`);
+this.shell.render(match3ScreenMarkup({
+level,
+board: game.board,
+selectedCell: this.selectedCell,
+hintedCells: this.hintedCells,
+movesLeft: game.movesLeft,
+activeLevelIndex: this.activeLevelIndex,
+totalLevels: levels.length,
+runMode: this.runMode,
+labSeed: this.labRun?.seed ?? null,
+clueCount: this.session.save.clues.length,
+bark: this.matchBark,
+barkEntering: this.matchBark?.reaction ? this.reactionPresentationTimer === null : false,
+tutorialConcept: this.activeTutorial,
+tutorialDismissed: this.tutorialPromptDismissed,
+t: (key, params) => this.t(key, params),
+levelTitle: this.levelText(level, 'title'),
+objectiveLabels: level.objectives.map((_, index) => this.objectiveText(level, index)),
+objectiveValues: level.objectives.map((_, index) => game.objectiveValue(index)),
+}));
 this.armReactionPresentationTimer();
 this.root.querySelector('#quit')?.addEventListener('click', () => {
 if (this.matchInputLocked) return;
@@ -510,12 +432,19 @@ private renderMatchFrame(frame: Match3Frame): void {
 const game = this.activeMatch;
 const board = this.root.querySelector<HTMLElement>('.board');
 if (!game || !board) return;
-const blocker = blockerPresentation[game.level.blocker];
 const clearing = frame.clearedIndices ? new Set(frame.clearedIndices) : undefined;
 const motions = frame.motions
 ? new Map(frame.motions.map((motion) => [motion.index, { kind: motion.kind, rows: motion.rows }] as const))
 : undefined;
-board.innerHTML = this.boardCellsMarkup(game.level, frame.board, blocker.asset, { clearing, motions });
+board.innerHTML = match3BoardCellsMarkup({
+level: game.level,
+board: frame.board,
+selectedCell: this.selectedCell,
+hintedCells: this.hintedCells,
+t: (key, params) => this.t(key, params),
+clearing,
+motions,
+});
 board.className = `board phase-${frame.phase}`;
 if (frame.phase === 'clear') {
 const feedback = frame.feedback ?? 'match';
@@ -939,7 +868,7 @@ this.services.audio.setScene('vn');
 this.services.telemetry.trackScreen('evidence', level.id);
 this.services.audio.play('clue');
 const clue = cluePresentation[level.clueId];
-this.shell.render(`<section class="evidence-transition" ${this.contextAttrs(level)}>
+this.shell.render(`<section class="evidence-transition" ${match3ContextAttrs(level)}>
 <img class="evidence-background" src="${backgroundAssets[level.context.pageBackground]}" alt="">
 <div class="evidence-panel">
 <p class="eyebrow">${escapeHtml(this.t('match3.evidenceFound'))}</p>
@@ -1055,17 +984,5 @@ const backToLab = (): void => { const onExit = lab.onExit; this.clearActiveMatch
 this.root.querySelector('#back')?.addEventListener('click', backToLab);
 this.root.querySelector('#lab-back')?.addEventListener('click', backToLab);
 }
-private objectiveMarkup(level: LevelDefinition, objective: LevelDefinition['objectives'][number], objectiveIndex: number, value: number, showProgress: boolean): string {
-let assets: readonly string[];
-if (objective.kind === 'collect') assets = [resolveMatch3TilePresentation(level.context.tilePresentationProfile, objective.tile).asset];
-else if (objective.kind === 'drop') assets = [ingredientPresentation[objective.ingredient].asset];
-else if (objective.kind === 'dropGroup') assets = objective.ingredients.map((ingredient) => ingredientPresentation[ingredient].asset);
-else assets = [blockerPresentation[level.blocker].asset];
-const current = Math.min(value, objective.target);
-const icons = assets.map((asset) => `<img src="${asset}" alt="">`).join('');
-return `<div class="objective ${showProgress && current >= objective.target ? 'done' : ''}">
-<div class="objective-icons ${assets.length > 1 ? 'multi' : ''}">${icons}</div><span>${escapeHtml(this.objectiveText(level, objectiveIndex))}</span>
-<b>${showProgress ? `${current}/` : ''}${objective.target}</b>
-</div>`;
-}
+
 }

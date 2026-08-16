@@ -45,16 +45,18 @@ describe('ANM-025F3 Match-3 reaction presentation and anti-spam', () => {
 
   it('keeps board geometry stable, supports reduced motion and records shown/suppressed telemetry', () => {
     const controller = readFileSync(resolve(process.cwd(), 'src/features/match3/Match3Controller.ts'), 'utf8');
+    const presentation = readFileSync(resolve(process.cwd(), 'src/features/match3/Match3Presentation.ts'), 'utf8');
     const css = readFileSync(resolve(process.cwd(), 'src/match3ReactionPresentation.css'), 'utf8');
-    expect(controller).toContain('field-bark-slot');
+    expect(presentation).toContain('field-bark-slot');
     expect(controller).toContain("action: 'shown'");
     expect(controller).toContain("action: 'suppressed'");
     expect(controller).toContain('suppressionReason: presentation.reason');
     expect(controller).toContain('this.resetReactionPresentation()');
     expect(controller).toContain('this.clearReactionPresentationTimer()');
     expect(controller).toContain('this.armReactionPresentationTimer()');
-    expect(controller.indexOf('this.armReactionPresentationTimer()')).toBeGreaterThan(controller.indexOf('this.shell.render(`'));
-    expect(controller).toContain("this.reactionPresentationTimer === null ? ' is-entering' : ''");
+    expect(controller.indexOf('this.armReactionPresentationTimer()')).toBeGreaterThan(controller.indexOf('this.shell.render(match3ScreenMarkup({'));
+    expect(controller).toContain('this.reactionPresentationTimer === null');
+    expect(presentation).toContain("barkEntering ? ' is-entering' : ''");
     expect(css).toContain('min-height: 42px');
     expect(css).toContain('@keyframes match3-reaction-bark-enter');
     expect(css).toContain('@media (prefers-reduced-motion: reduce)');

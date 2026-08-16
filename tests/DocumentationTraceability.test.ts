@@ -156,6 +156,7 @@ describe('active documentation traceability', () => {
     const planningReset = read('docs/features/ANM029H_PRODUCTION_PLANNING_RESET_RU.md');
     const biomeHygiene = read('docs/features/ANM023F1_BIOME_REPOSITORY_HYGIENE_RU.md');
     const testSimplification = read('docs/features/ANM023F2_TEST_SUITE_SIMPLIFICATION_RU.md');
+    const match3PresentationExtraction = read('docs/features/ANM023F3A_MATCH3_PRESENTATION_EXTRACTION_RU.md');
 
     expect(roadmap).toContain('028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE');
     expect(roadmap).toContain('ANM-028D0 R1 Emi neutral master accepted');
@@ -191,6 +192,7 @@ describe('active documentation traceability', () => {
     expect(index).toContain('ANM029H_PRODUCTION_PLANNING_RESET_RU.md');
     expect(index).toContain('ANM023F1_BIOME_REPOSITORY_HYGIENE_RU.md');
     expect(index).toContain('ANM023F2_TEST_SUITE_SIMPLIFICATION_RU.md');
+    expect(index).toContain('ANM023F3A_MATCH3_PRESENTATION_EXTRACTION_RU.md');
     expect(roadmap).toContain('ANM-023F — Codebase, Test & Tooling Simplification');
     expect(roadmap).toContain('023F1 Biome Expansion & Repository Hygiene');
     expect(roadmap).toContain('ANM-030A Full Game Asset Gap Audit');
@@ -208,6 +210,10 @@ describe('active documentation traceability', () => {
     expect(testSimplification).toContain('110 → 90 `*.test.ts` files');
     expect(testSimplification).toContain('149 representative copy/payload assertions');
     expect(testSimplification).toContain('noAccumulatingSpread');
+    expect(testSimplification).toContain('PR #138');
+    expect(match3PresentationExtraction).toContain('Match3Presentation.ts');
+    expect(match3PresentationExtraction).toContain('15.7% less controller surface');
+    expect(match3PresentationExtraction).toContain('mobile candidate preview');
     expect(index).toContain('ANM023E_TEST_TOOLING_IDENTITY_HARDENING_RU.md');
     expect(roadmap).toContain('remaining **999** base-catalog keys');
     expect(roadmap).toContain('exact **3870/3870** base-key parity');
