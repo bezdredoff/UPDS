@@ -125,6 +125,7 @@ D3A overrides, while legacy embarrassed/Pose B/medallion remain fallback until r
 - [`features/ANM023F3B_VN_PRESENTATION_EXTRACTION_RU.md`](features/ANM023F3B_VN_PRESENTATION_EXTRACTION_RU.md) — second bounded runtime simplification cut: deterministic VN stage/preload/overlay/choice presentation extracted from controller orchestration with ownership-aware tests
 - [`features/ANM023F3C_MATCH3_RULE_KERNEL_EXTRACTION_RU.md`](features/ANM023F3C_MATCH3_RULE_KERNEL_EXTRACTION_RU.md) — final planned runtime simplification cut: stateless Match-3 rule kernel extracted from mutable engine lifecycle with direct rule contracts
 - [`features/ANM023F4A_LAZY_LOCALE_PAYLOAD_RU.md`](features/ANM023F4A_LAZY_LOCALE_PAYLOAD_RU.md) — measured first payload cut: RU remains eager fallback while BE/EN base catalogs load as on-demand chunks before first render when persisted
+- [`features/ANM023F4B_RUNTIME_ASSET_PRELOAD_MEMORY_RU.md`](features/ANM023F4B_RUNTIME_ASSET_PRELOAD_MEMORY_RU.md) — measured asset-warming pass: full catalog remains for PWA offline caching while browser-image and service-worker warmups are contextual/bounded
 - [`features/ANM024A_VIEWPORT_SAFE_AREA_CONTRACT_RU.md`](features/ANM024A_VIEWPORT_SAFE_AREA_CONTRACT_RU.md)
 - [`features/ANM024C_SHARED_SAFE_AREA_OWNERSHIP_RU.md`](features/ANM024C_SHARED_SAFE_AREA_OWNERSHIP_RU.md)
 - [`features/ANM024D_VIEWPORT_REGRESSION_CLOSURE_RU.md`](features/ANM024D_VIEWPORT_REGRESSION_CLOSURE_RU.md)

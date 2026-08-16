@@ -12,6 +12,34 @@ const previewPath = `${scopePath}preview/`;
 const sameOrigin = (url) => url.origin === self.location.origin;
 const isStablePreviewRequest = (url) => !isPreview && url.pathname.startsWith(previewPath);
 
+const CACHE_WARM_CONCURRENCY = 4;
+
+const cacheOne = async (cache, url) => {
+  try {
+    const response = await fetch(url.href, { cache: 'reload' });
+    if (!(response.ok || response.type === 'opaque')) return false;
+    await cache.put(url.href, response.clone());
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const cacheUrlsWithConcurrency = async (cache, urls) => {
+  let cursor = 0;
+  let cached = 0;
+  const worker = async () => {
+    while (cursor < urls.length) {
+      const url = urls[cursor];
+      cursor += 1;
+      if (await cacheOne(cache, url)) cached += 1;
+    }
+  };
+  const workerCount = Math.min(CACHE_WARM_CONCURRENCY, urls.length);
+  await Promise.all(Array.from({ length: workerCount }, () => worker()));
+  return cached;
+};
+
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(cacheName);
@@ -44,13 +72,7 @@ self.addEventListener('message', (event) => {
     const urls = [...new Set(data.urls)].map((value) => {
       try { return new URL(value, self.registration.scope); } catch { return null; }
     }).filter(Boolean).filter(sameOrigin).filter((url) => !isStablePreviewRequest(url));
-    const results = await Promise.allSettled(urls.map(async (url) => {
-      const response = await fetch(url.href, { cache: 'reload' });
-      if (!(response.ok || response.type === 'opaque')) return false;
-      await cache.put(url.href, response.clone());
-      return true;
-    }));
-    const cached = results.filter((result) => result.status === 'fulfilled' && result.value === true).length;
+    const cached = await cacheUrlsWithConcurrency(cache, urls);
     const failed = Math.max(0, urls.length - cached);
     const clients = await self.clients.matchAll({ includeUncontrolled: true, type: 'window' });
     for (const client of clients) client.postMessage({ type: 'CACHE_READY', build, lane, cached, failed });
