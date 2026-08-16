@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { characterRigs } from '../src/data/characterRigs';
@@ -22,9 +22,15 @@ describe('runtime asset contract', () => {
   });
 
 
-
-  it('contains every asset registered for runtime preloading', () => {
+  it('contains every asset registered for runtime distribution/offline caching', () => {
     for (const asset of runtimeAssetCatalog) expect(existsSync(localPath(asset)), asset).toBe(true);
+  });
+
+  it('keeps the full catalog for offline distribution without globally warming it through Image at bootstrap', () => {
+    const main = readFileSync(resolve(process.cwd(), 'src/main.ts'), 'utf8');
+    expect(main).toContain('services.pwa.start(runtimeAssetCatalog)');
+    expect(main).not.toContain('scheduleImagePreload');
+    expect(main).not.toContain('preloadImageAssets(runtimeAssetCatalog');
   });
 
   it('contains five precomposed expression frames, pose B and medallion for every finished rig', () => {

@@ -1,5 +1,7 @@
 import type { AssetHealth } from './AssetHealth';
 
+export const IMAGE_PRELOAD_CONCURRENCY = 4;
+
 export const uniqueAssetList = (assets: readonly string[]): string[] => [...new Set(assets.filter(Boolean))];
 
 const requestedAssets = new Set<string>();
@@ -14,10 +16,46 @@ const resolveImageConstructor = (): ImageConstructor | null => {
 const preloadOne = (asset: string, health: AssetHealth, ImageCtor: ImageConstructor): Promise<void> => new Promise((resolve) => {
   const image = new ImageCtor();
   image.decoding = 'async';
-  image.onload = () => { health.recordPreloadLoaded(); resolve(); };
-  image.onerror = () => { health.recordFailure(asset, 'preload'); resolve(); };
-  image.src = asset;
+  health.recordPreloadActive(1);
+  let finished = false;
+  const finish = (): void => {
+    if (finished) return;
+    finished = true;
+    health.recordPreloadActive(-1);
+    resolve();
+  };
+  image.onload = () => {
+    health.recordPreloadLoaded();
+    finish();
+  };
+  image.onerror = () => {
+    health.recordFailure(asset, 'preload');
+    finish();
+  };
+  try {
+    image.src = asset;
+  } catch {
+    health.recordFailure(asset, 'preload');
+    finish();
+  }
 });
+
+const preloadWithConcurrency = async (
+  assets: readonly string[],
+  health: AssetHealth,
+  ImageCtor: ImageConstructor,
+): Promise<void> => {
+  let cursor = 0;
+  const worker = async (): Promise<void> => {
+    while (cursor < assets.length) {
+      const asset = assets[cursor];
+      cursor += 1;
+      await preloadOne(asset, health, ImageCtor);
+    }
+  };
+  const workerCount = Math.min(IMAGE_PRELOAD_CONCURRENCY, assets.length);
+  await Promise.all(Array.from({ length: workerCount }, () => worker()));
+};
 
 export const preloadImageAssets = async (assets: readonly string[], health: AssetHealth): Promise<void> => {
   // Vitest/Node and other non-browser environments do not expose the DOM Image constructor.
@@ -30,12 +68,5 @@ export const preloadImageAssets = async (assets: readonly string[], health: Asse
   const uniqueAssets = uniqueAssetList(assets).filter((asset) => !requestedAssets.has(asset));
   for (const asset of uniqueAssets) requestedAssets.add(asset);
   health.recordPreloadStart(uniqueAssets.length);
-  await Promise.all(uniqueAssets.map((asset) => preloadOne(asset, health, ImageCtor)));
-};
-
-export const scheduleImagePreload = (assets: readonly string[], health: AssetHealth): void => {
-  if (typeof window === 'undefined') return;
-  const run = (): void => { void preloadImageAssets(assets, health); };
-  if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(run, { timeout: 1200 });
-  else window.setTimeout(run, 250);
+  await preloadWithConcurrency(uniqueAssets, health, ImageCtor);
 };

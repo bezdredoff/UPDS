@@ -56,7 +56,7 @@ export class DiagnosticsController {
         ${recovery ? `<button id="export-recovery">${icon('log')}<span><b>Экспорт recovery backup</b><small>Сохранён источник повреждённого или заменённого save</small></span></button>` : ''}
       </div>
       <div class="support-meta">
-        <span>Preload: ${assetHealth.preloadLoaded}/${assetHealth.preloadRequested}; failed: ${assetHealth.preloadFailed}</span>
+        <span>Preload: ${assetHealth.preloadLoaded}/${assetHealth.preloadRequested}; active/peak: ${assetHealth.preloadActive}/${assetHealth.preloadPeakActive}; failed: ${assetHealth.preloadFailed}</span>
         <span>Recovery backup: ${recovery ? 'есть' : 'нет'}</span>
         <span>Playtest session: ${escapeHtml(playtest.sessionId)}</span>
         <span>PWA cache: ${escapeHtml(pwa.cacheBuild)} · failures ${pwa.cacheFailed} · ${pwa.scope ? escapeHtml(pwa.scope) : 'no scope'}</span>

@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening, ANM-023F1 repository/Biome hardening and ANM-023F2 test simplification. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F3A/B/C are merged through PR #141 and close the bounded runtime simplification sequence. ANM-023F4A R1 is the current measured lazy-locale payload candidate.
+Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening, ANM-023F1 repository/Biome hardening and ANM-023F2 test simplification. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F3A/B/C are merged through PR #141 and close the bounded runtime simplification sequence. ANM-023F4A R1 is merged via PR #142 with the initial entry reduced to 741.15 kB / 247.14 kB gzip; ANM-023F4B R1 is the current asset-warming candidate.
 
 ## Runtime flow
 
@@ -16,13 +16,17 @@ ANM-029H does not change ownership boundaries. It records the next bounded maint
 - F1 is merged via PR #137: Biome lint is unified across source/tests/config and generated repository debris is removed/guarded;
 - F2 is merged via PR #138: completed localization lifecycle-batch tests are consolidated into domain suites and the clean Biome cohort is blocking;
 - F3 is complete through PR #141: F3A extracted deterministic Match-3 presentation, F3B extracted deterministic VN presentation, and F3C separated stateless Match-3 rules from mutable engine lifecycle;
-- F4 starts from the merged CI payload baseline. F4A keeps RU as the eager fallback catalog and loads BE/EN base catalogs on demand through `LocalizationService.ensureLocale()` / `activateLocale()`; `RuntimeServices.ready` resolves the persisted locale before first player render. F4B remains measurement-first for image preload and memory behavior.
+- F4 starts from the merged CI payload baseline. F4A is merged via PR #142: RU remains eager fallback while BE/EN base catalogs load on demand through `LocalizationService.ensureLocale()` / `activateLocale()` and `RuntimeServices.ready` resolves the persisted locale before first player render. F4B separates complete PWA offline caching from contextual browser-image warming and bounds both warmup paths.
 
 The desired direction remains `controller orchestrates → pure/domain modules calculate → renderer renders → store persists`. Existing public/runtime contracts remain stable unless a later atomic feature explicitly changes them.
 
 ## Localization startup / payload ownership
 
-`src/localization/catalogs/index.ts` owns the runtime loading seam. Russian is the synchronously available source/fallback catalog; production-complete Belarusian and English base catalogs are dynamic imports. `LocalizationService` caches loaded catalogs and deduplicates concurrent locale loads. `RuntimeServices.ready` resolves the persisted locale before `src/main.ts` mounts the UI, preventing a wrong-language startup flash while keeping non-active locale payload out of the initial dependency graph. Match-3 reaction catalogs remain eager in F4A and may be reconsidered only after candidate bundle measurements.
+`src/localization/catalogs/index.ts` owns the runtime loading seam. Russian is the synchronously available source/fallback catalog; production-complete Belarusian and English base catalogs are dynamic imports. `LocalizationService` caches loaded catalogs and deduplicates concurrent locale loads. `RuntimeServices.ready` resolves the persisted locale before `src/main.ts` mounts the UI, preventing a wrong-language startup flash while keeping non-active locale payload out of the initial dependency graph. Match-3 reaction catalogs remain eager after F4A; the measured locale split already reduced the initial entry to 741.15 kB / 247.14 kB gzip, so further code splitting is not assumed necessary without another measured bottleneck.
+
+## Runtime asset warming / offline cache ownership
+
+`src/platform/RuntimeAssets.ts` owns the complete runtime distribution catalog used by the PWA offline cache. `src/main.ts` passes that catalog to `PwaController.start()` but does not create browser `Image()` warmers for the whole set. Browser-image warming belongs to feature transitions: VN warms the current/next line presentation assets and Match-3 warms the active level presentation family. `AssetPreloader` deduplicates already-requested URLs and caps active image warmers at `IMAGE_PRELOAD_CONCURRENCY = 4`; `AssetHealth` exposes current/peak activity for diagnostics. The service worker preserves the complete `CACHE_URLS` contract while limiting background fetch/cache work with `CACHE_WARM_CONCURRENCY = 4`.
 
 
 ## Application composition

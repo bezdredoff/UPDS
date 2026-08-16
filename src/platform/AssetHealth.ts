@@ -5,6 +5,8 @@ export type AssetHealthSnapshot = Readonly<{
   preloadRequested: number;
   preloadLoaded: number;
   preloadFailed: number;
+  preloadActive: number;
+  preloadPeakActive: number;
   failures: readonly AssetFailure[];
 }>;
 const MAX_FAILURES = 30;
@@ -13,17 +15,30 @@ export class AssetHealth {
   private preloadRequested = 0;
   private preloadLoaded = 0;
   private preloadFailed = 0;
+  private preloadActive = 0;
+  private preloadPeakActive = 0;
   private failures: AssetFailure[] = [];
 
   recordPreloadStart(count: number): void { this.preloadRequested += Math.max(0, count); }
   recordPreloadLoaded(): void { this.preloadLoaded += 1; }
+  recordPreloadActive(delta: 1 | -1): void {
+    this.preloadActive = Math.max(0, this.preloadActive + delta);
+    this.preloadPeakActive = Math.max(this.preloadPeakActive, this.preloadActive);
+  }
   recordFailure(asset: string, context: AssetFailure['context']): void {
     if (context === 'preload') this.preloadFailed += 1;
     this.failures.push({ timestamp: new Date().toISOString(), asset, context });
     this.failures = this.failures.slice(-MAX_FAILURES);
   }
   snapshot(): AssetHealthSnapshot {
-    return { preloadRequested: this.preloadRequested, preloadLoaded: this.preloadLoaded, preloadFailed: this.preloadFailed, failures: [...this.failures] };
+    return {
+      preloadRequested: this.preloadRequested,
+      preloadLoaded: this.preloadLoaded,
+      preloadFailed: this.preloadFailed,
+      preloadActive: this.preloadActive,
+      preloadPeakActive: this.preloadPeakActive,
+      failures: [...this.failures],
+    };
   }
 }
 

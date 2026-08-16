@@ -9,6 +9,7 @@ const uiAssets = [
   './assets/ui/icon_skip.svg', './assets/ui/icon_auto.svg',
 ] as const;
 
+/** Full runtime distribution/offline-cache catalog. Contextual Image warming is owned by feature transitions. */
 export const runtimeAssetCatalog = uniqueAssetList([
   ...Object.values(backgroundAssets),
   ...Object.values(characterRigs).flatMap((rig) => [...Object.values(rig.frames), rig.poseB, rig.medallion]),

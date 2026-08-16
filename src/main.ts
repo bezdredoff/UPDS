@@ -5,7 +5,6 @@ import './match3Production.css';
 import { BUILD_ID } from './appVersion';
 import { AnimeDetectiveApp } from './ui/AnimeDetectiveApp';
 import { installImageFallbackHandler } from './platform/AssetHealth';
-import { scheduleImagePreload } from './platform/AssetPreloader';
 import { installGlobalErrorHandlers } from './platform/ErrorLog';
 import { createRuntimeServices } from './platform/RuntimeServices';
 import { runtimeAssetCatalog } from './platform/RuntimeAssets';
@@ -33,7 +32,6 @@ const bootstrap = async (): Promise<void> => {
   services.audio.arm();
   installGlobalErrorHandlers(services.errorLog);
   installImageFallbackHandler(services.errorLog, services.assetHealth);
-  scheduleImagePreload(runtimeAssetCatalog, services.assetHealth);
   void services.pwa.start(runtimeAssetCatalog);
   new AnimeDetectiveApp(root, services).mount();
 };
