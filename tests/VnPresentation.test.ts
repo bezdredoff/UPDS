@@ -1,8 +1,15 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import {
+  resolveVnStagePresentation,
+  usesVnPoseB,
+  vnChoiceScreenMarkup,
+  vnConfigOverlayMarkup,
+} from '../src/features/vn/VnPresentation';
 
 const style = readFileSync(new URL('../src/style.css', import.meta.url), 'utf8');
 const vnSource = readFileSync(new URL('../src/features/vn/VnController.ts', import.meta.url), 'utf8');
+const presentationSource = readFileSync(new URL('../src/features/vn/VnPresentation.ts', import.meta.url), 'utf8');
 const frameSource = readFileSync(new URL('../src/ui/vnFrameMarkup.ts', import.meta.url), 'utf8');
 
 describe('current VN presentation contract', () => {
@@ -18,9 +25,9 @@ describe('current VN presentation contract', () => {
   });
 
   it('supports bounded authored multi-character shots without removing the legacy lane fallback', () => {
-    expect(vnSource).toContain('resolveAuthoredVnShot(entry.id)');
-    expect(vnSource).toContain('vnAuthoredShotMarkup(authoredShot, character)');
-    expect(vnSource).toContain("resolveVnStaging(this.story, this.session.save.line)");
+    expect(presentationSource).toContain('resolveAuthoredVnShot(input.entry.id)');
+    expect(presentationSource).toContain('vnAuthoredShotMarkup(authoredShot, character)');
+    expect(presentationSource).toContain('resolveVnStaging(input.story, input.lineIndex)');
     expect(style).toContain('.vn-authored-actor-slot {');
     expect(style).toContain('.vn-authored-runtime-portrait[data-vertical-anchor="background-focal-eye-line"]');
   });
@@ -50,8 +57,61 @@ describe('current VN presentation contract', () => {
     expect(frameSource).toContain("headerActionMarkup(id('header-settings'), 'settings', input.labels.settings)");
     expect(frameSource).toContain('id="${escapeHtml(id(\'dossier\'))}" class="vn-case-pill"');
     expect(frameSource).not.toContain("headerActionMarkup(id('menu')");
-    expect(vnSource).toContain('id="vn-main-menu"');
+    expect(presentationSource).toContain('id="vn-main-menu"');
     expect(style).toContain('width: 44px;');
     expect(style).toContain('min-height: 44px;');
+  });
+
+  it('resolves legacy character stage markup and pose-B policy from the presentation boundary', () => {
+    const entry = { id: 'TEST0001', speaker: 'МИКУ', emotion: 'нейтрально', text: 'Тест.' } as const;
+    const stage = resolveVnStagePresentation({
+      story: [entry],
+      sceneIndex: 0,
+      lineIndex: 0,
+      entry,
+      localizedEmotion: 'neutral',
+      directionLabel: 'Direction',
+      dossierUpdatedLabel: 'Dossier updated',
+      pendingClue: null,
+    });
+
+    expect(stage.stageSide).toBe('left');
+    expect(stage.stageMarkup).toContain('data-character="miku"');
+    expect(stage.stageMarkup).toContain('portrait-frame');
+    expect(stage.preloadAssets).toHaveLength(1);
+    expect(usesVnPoseB('miku', 'С БЛОКНОТОМ')).toBe(true);
+  });
+
+  it('composes choice/config markup without owning event binding or runtime services', () => {
+    const choice = vnChoiceScreenMarkup({
+      backgroundAsset: '/choice.png',
+      headerLabel: '<header>',
+      prompt: '<prompt>',
+      navigationLabel: 'Navigation',
+      settingsLabel: 'Settings',
+      options: [{ id: 'A', title: '<title>', effect: '<effect>' }],
+    });
+    expect(choice).toContain('class="choice-screen"');
+    expect(choice).toContain('&lt;header&gt;');
+    expect(choice).toContain('&lt;title&gt;');
+
+    const config = vnConfigOverlayMarkup({
+      autoSpeed: 'normal',
+      textScale: 'normal',
+      audioSettingsHtml: '<div data-audio></div>',
+      labels: {
+        ariaLabel: 'Config', title: 'Config', close: 'Close', autoSpeed: 'Auto speed', textSize: 'Text size',
+        audio: 'Audio', navigation: 'Navigation', mainMenu: 'Main menu', saved: 'Saved', note: 'Note',
+        slow: 'Slow', normal: 'Normal', fast: 'Fast', large: 'Large',
+      },
+    });
+    expect(config).toContain('id="vn-main-menu"');
+    expect(config).toContain('<div data-audio></div>');
+
+    for (const forbidden of ['RuntimeServices', 'AppSession', 'AppNavigation', 'document.', 'window.', 'addEventListener', 'querySelector']) {
+      expect(presentationSource).not.toContain(forbidden);
+    }
+    expect(vnSource).toContain('resolveVnStagePresentation({');
+    expect(vnSource).toContain("addEventListener('click'");
   });
 });

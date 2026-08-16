@@ -17,7 +17,7 @@ describe('ANM-021B R4 expression frame contract', () => {
 
 
   it('renders one expression image and no face overlay animation', async () => {
-    const source = await readFile(new URL('../src/features/vn/VnController.ts', import.meta.url), 'utf8');
+    const source = await readFile(new URL('../src/features/vn/VnPresentation.ts', import.meta.url), 'utf8');
     expect(source).toContain('portrait-frame');
     expect(source).not.toContain('portrait-face');
     expect(source).not.toContain('animatePortrait(');

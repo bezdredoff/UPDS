@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening, ANM-023F1 repository/Biome hardening and ANM-023F2 test simplification. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F3A R1 is the current behavior-preserving runtime refactor candidate.
+Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening, ANM-023F1 repository/Biome hardening and ANM-023F2 test simplification. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F3A R1 is merged via PR #139; ANM-023F3B R1 is the current behavior-preserving VN presentation refactor candidate.
 
 ## Runtime flow
 
@@ -15,7 +15,7 @@ ANM-029H does not change ownership boundaries. It records the next bounded maint
 
 - F1 is merged via PR #137: Biome lint is unified across source/tests/config and generated repository debris is removed/guarded;
 - F2 is merged via PR #138: completed localization lifecycle-batch tests are consolidated into domain suites and the clean Biome cohort is blocking;
-- F3 decomposes measured controller/engine hotspots only where a cut reduces coupling and reading scope; F3A starts by extracting deterministic Match-3 presentation from controller orchestration;
+- F3 decomposes measured controller/engine hotspots only where a cut reduces coupling and reading scope; F3A (PR #139) extracted deterministic Match-3 presentation, and F3B applies the same ownership rule to deterministic VN stage/preload/overlay/choice presentation;
 - F4 measures bundle/startup/preload/memory/locale payload before any optimization such as lazy locale loading.
 
 The desired direction remains `controller orchestrates → pure/domain modules calculate → renderer renders → store persists`. Existing public/runtime contracts remain stable unless a later atomic feature explicitly changes them.

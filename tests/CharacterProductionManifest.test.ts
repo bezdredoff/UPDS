@@ -333,7 +333,8 @@ describe('ANM-028A character production manifest', () => {
     const rigSource = await readFile(new URL('../src/data/characterRigs.ts', import.meta.url), 'utf8');
     const runtimeSource = await readFile(new URL('../src/platform/RuntimeAssets.ts', import.meta.url), 'utf8');
     const vnSource = await readFile(new URL('../src/features/vn/VnController.ts', import.meta.url), 'utf8');
-    const activeSource = `${rigSource}\n${runtimeSource}\n${vnSource}`;
+    const vnPresentationSource = await readFile(new URL('../src/features/vn/VnPresentation.ts', import.meta.url), 'utf8');
+    const activeSource = `${rigSource}\n${runtimeSource}\n${vnSource}\n${vnPresentationSource}`;
 
     expect(activeSource).not.toContain('face-speaking');
     expect(activeSource).not.toContain('face-blink');

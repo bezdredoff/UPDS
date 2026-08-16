@@ -1,6 +1,6 @@
 # ANM-023F3A — Match-3 Presentation Extraction
 
-Status: R1 candidate / runtime-touching behavior-preserving refactor. No Match-3 rules, balance, save schema, story, localization content, timing policy or asset contract changes.
+Status: R1 COMPLETE / PR #139 / runtime-touching behavior-preserving refactor. No Match-3 rules, balance, save schema, story, localization content, timing policy or asset contract changes.
 
 ## Goal
 
@@ -81,4 +81,4 @@ Authoritative acceptance remains GitHub CI and mobile candidate preview:
 
 ## Next
 
-After F3A is merged, choose the next F3 cut from measured remaining coupling. Do not automatically split every large controller. F4 performance/payload work remains measurement-first, followed by ANM-030A asset-gap production planning.
+F3A is merged via PR #139. The next measured cut is ANM-023F3B VN Presentation Extraction; broader controller/engine decomposition is still not pre-approved. F4 performance/payload work remains measurement-first, followed by ANM-030A asset-gap production planning.

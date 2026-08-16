@@ -122,6 +122,7 @@ D3A overrides, while legacy embarrassed/Pose B/medallion remain fallback until r
 - [`features/ANM023F1_BIOME_REPOSITORY_HYGIENE_RU.md`](features/ANM023F1_BIOME_REPOSITORY_HYGIENE_RU.md) — unified source/test Biome lint surface, staged high-signal diagnostics, safe-fix commands and tracked Python-cache cleanup
 - [`features/ANM023F2_TEST_SUITE_SIMPLIFICATION_RU.md`](features/ANM023F2_TEST_SUITE_SIMPLIFICATION_RU.md) — consolidates completed Belarusian lifecycle-batch tests into three domain suites, closes the F1 warning baseline and promotes proven high-signal Biome rules to blocking
 - [`features/ANM023F3A_MATCH3_PRESENTATION_EXTRACTION_RU.md`](features/ANM023F3A_MATCH3_PRESENTATION_EXTRACTION_RU.md) — first bounded runtime simplification cut: pure Match-3 intro/board/objective/tutorial/screen renderer extracted from controller orchestration with presentation-boundary tests
+- [`features/ANM023F3B_VN_PRESENTATION_EXTRACTION_RU.md`](features/ANM023F3B_VN_PRESENTATION_EXTRACTION_RU.md) — second bounded runtime simplification cut: deterministic VN stage/preload/overlay/choice presentation extracted from controller orchestration with ownership-aware tests
 - [`features/ANM024A_VIEWPORT_SAFE_AREA_CONTRACT_RU.md`](features/ANM024A_VIEWPORT_SAFE_AREA_CONTRACT_RU.md)
 - [`features/ANM024C_SHARED_SAFE_AREA_OWNERSHIP_RU.md`](features/ANM024C_SHARED_SAFE_AREA_OWNERSHIP_RU.md)
 - [`features/ANM024D_VIEWPORT_REGRESSION_CLOSURE_RU.md`](features/ANM024D_VIEWPORT_REGRESSION_CLOSURE_RU.md)
