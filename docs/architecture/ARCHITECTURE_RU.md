@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening. ANM-029H R1 is a planning-only reset: current runtime architecture is unchanged, additional locales are paused, and ANM-023F becomes the next technical simplification track before high-volume ANM-030 integration.
+Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F1 R1 is the current non-runtime technical candidate and begins the simplification track before high-volume ANM-030 integration.
 
 ## Runtime flow
 
@@ -13,7 +13,7 @@ character production metadata or persistence semantics.
 
 ANM-029H does not change ownership boundaries. It records the next bounded maintenance sequence:
 
-- F1 expands Biome/static-analysis and repository hygiene without blanket rule enablement;
+- F1 unifies Biome lint across source/tests/config, keeps low-noise defects blocking, introduces an advisory diagnostic cohort, and removes/guards generated repository debris without blanket rule enablement;
 - F2 reduces duplicated/brittle test code while preserving behavioral contracts;
 - F3 decomposes measured controller/engine hotspots only where a cut reduces coupling and reading scope;
 - F4 measures bundle/startup/preload/memory/locale payload before any optimization such as lazy locale loading.

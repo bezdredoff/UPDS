@@ -12,6 +12,7 @@ const packageMetadata = JSON.parse(readFileSync(new URL('../package.json', impor
   devDependencies: Record<string, string>;
 };
 const repositoryRoot = process.cwd();
+const gitignore = readFileSync(resolve(repositoryRoot, '.gitignore'), 'utf8');
 const activeRoots = ['.github', 'tests', 'src', 'docs', 'scripts'];
 
 const collectFiles = (relativeRoot: string, predicate: (path: string) => boolean): string[] => {
@@ -26,6 +27,8 @@ const collectFiles = (relativeRoot: string, predicate: (path: string) => boolean
 };
 
 const collectBakFiles = (relativeRoot: string): string[] => collectFiles(relativeRoot, (path) => path.endsWith('.bak'));
+const collectGeneratedDebris = (relativeRoot: string): string[] =>
+  collectFiles(relativeRoot, (path) => /(?:^|\/)__pycache__(?:\/|$)|\.py[co]$|(?:^|\/)\.DS_Store$/.test(path));
 const featureTsFiles = collectFiles('src/features', (path) => path.endsWith('.ts'));
 const srcTsFiles = collectFiles('src', (path) => path.endsWith('.ts'));
 const sourceFor = (path: string): string => readFileSync(resolve(repositoryRoot, path), 'utf8');
@@ -51,8 +54,11 @@ describe('repository maintenance contract', () => {
     expect(rootFiles).not.toContain('CHECK_COMMANDS.txt');
   });
 
-  it('keeps backup copies out of the active production tree', () => {
+  it('keeps backup copies and generated interpreter debris out of the active production tree', () => {
     expect(activeRoots.flatMap(collectBakFiles).sort()).toEqual([]);
+    expect(activeRoots.flatMap(collectGeneratedDebris).sort()).toEqual([]);
+    expect(gitignore).toContain('__pycache__/');
+    expect(gitignore).toContain('*.py[cod]');
   });
 
   it('guards the current precomposed expression-frame runtime contract', () => {
@@ -70,7 +76,9 @@ describe('repository maintenance contract', () => {
 
   it('keeps Biome in the authoritative check path with an exact tool version', () => {
     expect(packageMetadata.devDependencies['@biomejs/biome']).toMatch(/^\d+\.\d+\.\d+$/);
-    expect(packageMetadata.scripts.lint).toContain('biome lint');
+    expect(packageMetadata.scripts.lint).toBe('biome lint src tests vite.config.ts');
+    expect(packageMetadata.scripts['lint:fix']).toBe('biome lint --write src tests vite.config.ts');
+    expect(packageMetadata.scripts['quality:fix']).toContain('biome check --write --formatter-enabled=false');
     expect(packageMetadata.scripts.check).toContain('npm run lint');
     expect(packageMetadata.scripts.check).toContain('npm run test');
     expect(packageMetadata.scripts.check).toContain('npm run build');
