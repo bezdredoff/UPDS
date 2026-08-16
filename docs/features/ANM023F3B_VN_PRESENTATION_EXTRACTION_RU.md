@@ -1,6 +1,6 @@
 # ANM-023F3B — VN Presentation Extraction
 
-Status: R1 candidate / runtime-touching behavior-preserving refactor. Story progression, screenplay content, localization catalogs, save schema, dialogue paging policy, staging presets and asset contracts are unchanged.
+Status: R1 COMPLETE / PR #140 / runtime-touching behavior-preserving refactor. Story progression, screenplay content, localization catalogs, save schema, dialogue paging policy, staging presets and asset contracts are unchanged.
 
 ## Goal
 
@@ -78,4 +78,4 @@ Authoritative acceptance remains GitHub CI plus mobile preview:
 
 ## Next
 
-After F3B is merged, reassess the remaining measured hotspots before choosing another F3 cut. Do not automatically decompose `Match3Game` or every tooling controller. F4 remains measurement-first performance/payload work, followed by ANM-030A asset-gap production planning.
+F3B is merged via PR #140. The measured reassessment selected one final bounded F3 cut: **ANM-023F3C Match-3 Rule Kernel Extraction**. It separates stateless match/special rules from mutable `Match3Game` lifecycle; after F3C, F4 remains measurement-first performance/payload work, followed by ANM-030A asset-gap production planning.
