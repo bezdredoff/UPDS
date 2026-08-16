@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A/B3B/B3C/B3D/B3E/B3F/B3G/B3H/B3I/B3J/B3K/B3L/B3M/B3N/B3O localization production and merged ANM-023E tooling hardening; ANM-029B3P R1 Belarusian canonical runtime VN slot 15 is in QA.
+Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3O localization production and merged ANM-023E tooling hardening; ANM-029B4 R1.1 is the full Belarusian completion/runtime-readiness candidate on merged B3P / PR #134; slot 15 is already part of the baseline and is not repeated in the delta.
 
 ## Runtime flow
 
@@ -201,11 +201,9 @@ completeness/placeholder checks; `LocalizationGlossary.ts` owns stable translato
 A locale remains `translation-pending` and absent from the selector until its full production catalog
 passes the readiness contract.
 
-ANM-029B builds pending locale catalogs in bounded review scopes. `src/localization/catalogs/be.ts` may therefore exist as an intentionally partial production draft while `be` remains absent from `appCatalogs`/`supportedLocales`; structural scope audits must not be confused with full-locale readiness.
-B2A adds generic Match-3/campaign copy. B2B adds level-specific narrative/evidence labels in bounded level ranges (`00–06`, `07–13`, `14–21`), and B2C adds the separate F2 reaction catalog plus the full 612-key Match-3 closure. B3A/B3B/B3C/B3D/B3E/B3F/B3G/B3H/B3I/B3J/B3K/B3L/B3M/B3N/B3O/B3P then extend the same pending catalog with graph-bounded VN scopes; each completed batch tests only its own stable selector so later batches may grow `beCatalog` without invalidating prior coverage. Partial Belarusian VN coverage must not be treated as locale readiness.
+ANM-029B was produced in bounded review scopes through merged B3O. ANM-029B4 then closes the remaining B3P/slots-16–21 chain plus deferred VN/system/tooling/dossier/ending surfaces in one final readiness batch. `beCatalog` must exactly match the stable RU source catalog (3870 base keys), the separate Belarusian F2 reaction catalog must exactly match its 132-key RU source, and runtime `appCatalogs.be` must have no missing-key fallback path before activation.
 
-RU and EN currently cover the complete authored slots `0–21` and active Match-3 systems and are the
-only runtime-selectable locales. VN IDs, level IDs, reaction IDs and telemetry remain locale-independent.
+After B4 acceptance, RU, BE and EN cover the complete authored slots `0–21` and active Match-3 systems and are runtime-selectable. `zh-CN`, `ja`, `ko` and `pt-BR` stay translation-pending and product-paused until the post-Belarusian backlog/roadmap reset. VN IDs, level IDs, reaction IDs and telemetry remain locale-independent.
 Internal dialogue paging runs after localized text resolution and never creates authored IDs; its CJK
 segmentation classification consumes the shared production-locale metadata rather than a UI-local regex.
 

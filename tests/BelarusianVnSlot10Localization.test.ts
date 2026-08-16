@@ -49,7 +49,7 @@ describe('ANM-029B3K Belarusian VN story slot 10', () => {
     expect(scene23?.source).toEqual({ format: 'screenplay-range-v1', startLineId: 'VN0528', endLineId: 'VN0547' });
   });
 
-  it('locks reviewed control-sample terminology, payloads and runtime-hidden status', () => {
+  it('locks reviewed control-sample terminology, payloads and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_21_E10_PRE.title']).toBe('Чорны пояс, белыя трусы');
     expect(beCatalog['vn.scene.VN_SCENE_22_E10_POST.title']).toBe('Кантрольная выбарка');
     expect(beCatalog['vn.line.VN0490.text']).toContain('Аоі Кагава');
@@ -60,10 +60,10 @@ describe('ANM-029B3K Belarusian VN story slot 10', () => {
     expect(beCatalog['vn.line.VN0524.text']).toContain('Asterion');
     expect(Object.keys(select(beCatalog))).toHaveLength(B3K_KEY_COUNT);
     expect(getProductionLocaleProfile('be')).toMatchObject({
-      status: 'translation-pending',
-      runtimeSelectable: false,
+      status: 'production-complete',
+      runtimeSelectable: true,
     });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

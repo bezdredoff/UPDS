@@ -67,10 +67,10 @@ describe('ANM-029B2C Belarusian Match-3 reactions and full coverage', () => {
 
   it('keeps Belarusian pending and unavailable at runtime after Match-3 completion', () => {
     expect(getProductionLocaleProfile('be')).toMatchObject({
-      status: 'translation-pending',
-      runtimeSelectable: false,
+      status: 'production-complete',
+      runtimeSelectable: true,
     });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

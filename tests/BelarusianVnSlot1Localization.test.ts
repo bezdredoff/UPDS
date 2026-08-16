@@ -49,7 +49,7 @@ describe('ANM-029B3B Belarusian VN story slot 1', () => {
     expect(scene05?.source).toEqual({ format: 'screenplay-range-v1', startLineId: 'VN0143', endLineId: 'VN0166' });
   });
 
-  it('locks reviewed terminology, technical payloads and runtime-hidden status', () => {
+  it('locks reviewed terminology, technical payloads and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_03_E1_PRE.title']).toBe('Пакой, які ўсё тлумачыць занадта дрэнна');
     expect(beCatalog['vn.line.VN0093.text']).toContain('Кэнтаро');
     expect(beCatalog['vn.line.VN0101.text']).toContain('эмодзі трусікаў');
@@ -59,10 +59,10 @@ describe('ANM-029B3B Belarusian VN story slot 1', () => {
     expect(beCatalog['vn.line.VN0141.text']).toBe('«Эпізод 2 — Мокрыя паказанні»');
     expect(beCatalog['vn.line.VN0142.text']).toContain('Пустая распранальня');
     expect(getProductionLocaleProfile('be')).toMatchObject({
-      status: 'translation-pending',
-      runtimeSelectable: false,
+      status: 'production-complete',
+      runtimeSelectable: true,
     });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

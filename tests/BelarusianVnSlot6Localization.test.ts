@@ -54,7 +54,7 @@ describe('ANM-029B3G Belarusian VN story slot 6', () => {
     expect(gate).toEqual({ id: 'apology-to-hinata', checkpointLineId: 'VN0356', options: ['A', 'B', 'C'] });
   });
 
-  it('locks reviewed Hinata exoneration, silver-thread/Asterion bridge, payloads and runtime-hidden status', () => {
+  it('locks reviewed Hinata exoneration, silver-thread/Asterion bridge, payloads and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_13_E6_PRE.title']).toBe('Майстэрня падазронага памеру');
     expect(beCatalog['vn.line.VN0343.text']).toContain('сэрвісная строчка');
     expect(beCatalog['vn.line.VN0349.text']).toContain('не падтрымлівае гэтую нітку');
@@ -66,10 +66,10 @@ describe('ANM-029B3G Belarusian VN story slot 6', () => {
     expect(beCatalog['vn.line.VN0369.text']).toBe('{AUTHORED FRONTIER: SLOT_07 / NEXT BATCH 7-9}');
     expect(Object.keys(select(beCatalog))).toHaveLength(B3G_KEY_COUNT);
     expect(getProductionLocaleProfile('be')).toMatchObject({
-      status: 'translation-pending',
-      runtimeSelectable: false,
+      status: 'production-complete',
+      runtimeSelectable: true,
     });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

@@ -48,7 +48,7 @@ describe('ANM-029B3M Belarusian VN story slot 12', () => {
     expect(beCatalog['vn.line.VN0601.text']).toBe('{CHOICE publish-tag}');
   });
 
-  it('locks reviewed Second Skin terminology, choice copy, payloads and runtime-hidden status', () => {
+  it('locks reviewed Second Skin terminology, choice copy, payloads and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_25_E12_PRE.title']).toBe('ПанцуІтэр існуе?!');
     expect(beCatalog['vn.scene.VN_SCENE_26_E12_POST.title']).toBe('Second Skin');
     expect(beCatalog['vn.line.VN0579.text'].toLocaleLowerCase('be')).toContain('сэрвісная бірка');
@@ -61,8 +61,8 @@ describe('ANM-029B3M Belarusian VN story slot 12', () => {
     expect(beCatalog['vn.line.VN0597.text']).toBe('{ADD CUE_013}');
     expect(beCatalog['vn.line.VN0601.text']).toBe('{CHOICE publish-tag}');
     expect(Object.keys(select(beCatalog))).toHaveLength(B3M_KEY_COUNT);
-    expect(getProductionLocaleProfile('be')).toMatchObject({ status: 'translation-pending', runtimeSelectable: false });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(getProductionLocaleProfile('be')).toMatchObject({ status: 'production-complete', runtimeSelectable: true });
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

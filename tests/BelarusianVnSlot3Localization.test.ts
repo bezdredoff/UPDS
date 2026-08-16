@@ -49,7 +49,7 @@ describe('ANM-029B3D Belarusian VN story slot 3', () => {
     expect(scene09?.source).toEqual({ format: 'screenplay-range-v1', startLineId: 'VN0251', endLineId: 'VN0270' });
   });
 
-  it('locks reviewed consent/evidence terminology, dossier payload and runtime-hidden status', () => {
+  it('locks reviewed consent/evidence terminology, dossier payload and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_07_E3_PRE.title']).toBe('Ружовае прызнанне');
     expect(beCatalog['vn.scene.VN_SCENE_08_E3_POST.title']).toBe('Гэта не тканіна');
     expect(beCatalog['vn.line.VN0195.text']).toContain('згоду');
@@ -61,10 +61,10 @@ describe('ANM-029B3D Belarusian VN story slot 3', () => {
     expect(beCatalog['vn.line.VN0249.text']).toBe('«Першая нітка знойдзена»');
     expect(Object.keys(select(beCatalog))).toHaveLength(B3D_KEY_COUNT);
     expect(getProductionLocaleProfile('be')).toMatchObject({
-      status: 'translation-pending',
-      runtimeSelectable: false,
+      status: 'production-complete',
+      runtimeSelectable: true,
     });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

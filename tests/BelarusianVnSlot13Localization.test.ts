@@ -45,7 +45,7 @@ describe('ANM-029B3N Belarusian VN story slot 13', () => {
     expect(scene29?.source).toEqual({ format: 'screenplay-range-v1', startLineId: 'VN0647', endLineId: 'VN0666' });
   });
 
-  it('locks reviewed kendo pilot-list terminology, payloads and runtime-hidden status', () => {
+  it('locks reviewed kendo pilot-list terminology, payloads and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_27_E13_PRE.title']).toBe('Пад даспехамі');
     expect(beCatalog['vn.scene.VN_SCENE_28_E13_POST.title']).toBe('Закрыты спіс пілота');
     expect(beCatalog['vn.line.VN0615.text']).toContain('Рыны Сіраісі');
@@ -56,8 +56,8 @@ describe('ANM-029B3N Belarusian VN story slot 13', () => {
     expect(beCatalog['vn.line.VN0639.text']).toContain('серабрыстае шво');
     expect(beCatalog['vn.line.VN0645.text'].toLocaleLowerCase('be')).toContain('кніга заказаў');
     expect(Object.keys(select(beCatalog))).toHaveLength(B3N_KEY_COUNT);
-    expect(getProductionLocaleProfile('be')).toMatchObject({ status: 'translation-pending', runtimeSelectable: false });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(getProductionLocaleProfile('be')).toMatchObject({ status: 'production-complete', runtimeSelectable: true });
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

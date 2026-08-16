@@ -50,7 +50,7 @@ describe('ANM-029B3I Belarusian VN story slot 8', () => {
     expect(scene19?.source).toEqual({ format: 'screenplay-range-v1', startLineId: 'VN0449', endLineId: 'VN0469' });
   });
 
-  it('locks reviewed lost-and-found terminology, payload and runtime-hidden status', () => {
+  it('locks reviewed lost-and-found terminology, payload and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_17_E8_PRE.title']).toBe('Восемдзесят сем пакетаў');
     expect(beCatalog['vn.scene.VN_SCENE_17_E8_PRE.location']).toBe('Склад знаходак пральні');
     expect(beCatalog['vn.line.VN0412.text']).toContain('Рына Сіраісі');
@@ -62,10 +62,10 @@ describe('ANM-029B3I Belarusian VN story slot 8', () => {
     expect(beCatalog['vn.line.VN0448.text']).toBe('«Эпізод 9 — Кароль згубленых шкарпэтак»');
     expect(Object.keys(select(beCatalog))).toHaveLength(B3I_KEY_COUNT);
     expect(getProductionLocaleProfile('be')).toMatchObject({
-      status: 'translation-pending',
-      runtimeSelectable: false,
+      status: 'production-complete',
+      runtimeSelectable: true,
     });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

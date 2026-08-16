@@ -15,13 +15,13 @@ import { ruCatalog } from '../src/localization/catalogs/ru';
 const expectedTargets = ['ru', 'be', 'en', 'zh-CN', 'ja', 'ko', 'pt-BR'] as const;
 
 describe('ANM-029A localization production foundation', () => {
-  it('locks the seven production targets without exposing translation-pending locales in runtime', () => {
+  it('locks the seven production targets while exposing only production-ready locales in runtime', () => {
     expect(productionLocales).toEqual(expectedTargets);
     expect(productionLocaleProfiles.map((profile) => profile.locale)).toEqual(expectedTargets);
     expect(runtimeSelectableLocaleProfiles.map((profile) => profile.locale)).toEqual([...supportedLocales]);
-    expect(runtimeSelectableLocaleProfiles.map((profile) => profile.locale)).toEqual(['ru', 'en']);
+    expect(runtimeSelectableLocaleProfiles.map((profile) => profile.locale)).toEqual(['ru', 'be', 'en']);
     expect(productionLocaleProfiles.filter((profile) => profile.status === 'translation-pending').map((profile) => profile.locale))
-      .toEqual(['be', 'zh-CN', 'ja', 'ko', 'pt-BR']);
+      .toEqual(['zh-CN', 'ja', 'ko', 'pt-BR']);
     expect(validateLocalizationProductionContract()).toEqual([]);
   });
 

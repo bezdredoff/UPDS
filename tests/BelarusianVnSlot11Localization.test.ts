@@ -52,7 +52,7 @@ describe('ANM-029B3L Belarusian VN story slot 11', () => {
     expect(beCatalog['vn.line.VN0560.text']).toBe('{CHOICE photo-permission}');
   });
 
-  it('locks reviewed transfer-chain terminology, choice copy, payload and runtime-hidden status', () => {
+  it('locks reviewed transfer-chain terminology, choice copy, payload and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_23_E11_PRE.title']).toBe('Самы прыкметны таемны груз');
     expect(beCatalog['vn.scene.VN_SCENE_24_E11_POST.title']).toBe('Ланцужок перадачы');
     expect(beCatalog['vn.line.VN0537.text']).toContain('маніфеста');
@@ -65,10 +65,10 @@ describe('ANM-029B3L Belarusian VN story slot 11', () => {
     expect(beCatalog['vn.line.VN0557.text']).toBe('{ADD CUE_012}');
     expect(Object.keys(select(beCatalog))).toHaveLength(B3L_KEY_COUNT);
     expect(getProductionLocaleProfile('be')).toMatchObject({
-      status: 'translation-pending',
-      runtimeSelectable: false,
+      status: 'production-complete',
+      runtimeSelectable: true,
     });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

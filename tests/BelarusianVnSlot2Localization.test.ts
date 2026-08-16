@@ -49,7 +49,7 @@ describe('ANM-029B3C Belarusian VN story slot 2', () => {
     expect(scene07?.source).toEqual({ format: 'screenplay-range-v1', startLineId: 'VN0192', endLineId: 'VN0216' });
   });
 
-  it('locks reviewed terminology, dossier payload and runtime-hidden status', () => {
+  it('locks reviewed terminology, dossier payload and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_05_E2_PRE.title']).toBe('Мокрыя паказанні');
     expect(beCatalog['vn.scene.VN_SCENE_06_E2_POST.title']).toBe('Табліца без густу');
     expect(beCatalog['vn.line.VN0149.text']).toContain('Норыхіра');
@@ -61,10 +61,10 @@ describe('ANM-029B3C Belarusian VN story slot 2', () => {
     expect(beCatalog['vn.line.VN0190.text']).toContain('Кэнтаро');
     expect(Object.keys(select(beCatalog))).toHaveLength(B3C_KEY_COUNT);
     expect(getProductionLocaleProfile('be')).toMatchObject({
-      status: 'translation-pending',
-      runtimeSelectable: false,
+      status: 'production-complete',
+      runtimeSelectable: true,
     });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

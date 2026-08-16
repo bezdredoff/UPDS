@@ -53,7 +53,7 @@ describe('ANM-029B3E Belarusian VN story slot 4', () => {
     expect(gate).toEqual({ id: 'meeting-tone', checkpointLineId: 'VN0262', options: ['A', 'B', 'C'] });
   });
 
-  it('locks reviewed privacy/evidence terminology, choice copy, payloads and runtime-hidden status', () => {
+  it('locks reviewed privacy/evidence terminology, choice copy, payloads and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_09_E4_PRE.title']).toBe('Надзвычайная бялізнавая нарада');
     expect(beCatalog['vn.scene.VN_SCENE_10_E4_POST.title']).toBe('Рытм пральні');
     expect(beCatalog['vn.line.VN0252.text']).toContain('без імёнаў');
@@ -66,10 +66,10 @@ describe('ANM-029B3E Belarusian VN story slot 4', () => {
     expect(beCatalog['vn.line.VN0288.text']).toBe('«Эпізод 5 — Заслон для злодзея»');
     expect(Object.keys(select(beCatalog))).toHaveLength(B3E_KEY_COUNT);
     expect(getProductionLocaleProfile('be')).toMatchObject({
-      status: 'translation-pending',
-      runtimeSelectable: false,
+      status: 'production-complete',
+      runtimeSelectable: true,
     });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });
