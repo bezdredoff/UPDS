@@ -1,6 +1,6 @@
 # ANM-023F4B — Runtime Asset Preload & Memory Pass
 
-Status: R1 candidate. Second measured ANM-023F4 performance cut; changes asset warming pressure and diagnostics, but does not change art, story/gameplay rules, save state or the full PWA offline asset contract.
+Status: **R1 COMPLETE / PR #144**. Second measured ANM-023F4 performance cut; changes asset warming pressure and diagnostics, but does not change art, story/gameplay rules, save state or the full PWA offline asset contract.
 
 ## Goal
 
@@ -124,6 +124,10 @@ F4B does not:
 - split the eager Match-3 reaction catalog;
 - claim JavaScript bundle reduction as the success metric for this cut.
 
+## Merge result
+
+F4B merged through **PR #144** at main `6c7ced64284ecb30c2cdbc134468304c1a428cb4`. Post-merge **UPDS CI #289** and **stable Pages #137** passed. The production entry remained **741.59 kB / 247.24 kB gzip**, with BE/EN still isolated, so F4B did not regress the F4A code split. The suite remained **90 files / 483 tests**.
+
 ## Next
 
-If F4B merges green and mobile transition QA is clean, **ANM-023F4 can close**: F4A addressed the measured JavaScript payload problem and F4B addresses the measured asset-warming pressure. A further F4C should exist only if new measurements reveal another material startup/runtime bottleneck. Otherwise continue with **ANM-030A — Full Game Asset Gap Audit**.
+**ANM-023F4 and the whole ANM-023F track are complete.** A further F4C should exist only if later measurements reveal a material bottleneck. Current production-enabler work moves to **ANM-030A — Full Game Asset Gap Audit**.

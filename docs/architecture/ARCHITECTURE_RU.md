@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening, ANM-023F1 repository/Biome hardening and ANM-023F2 test simplification. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F3A/B/C are merged through PR #141 and close the bounded runtime simplification sequence. ANM-023F4A R1 is merged via PR #142 with the initial entry reduced to 741.15 kB / 247.14 kB gzip; ANM-023F4B R1 is the current asset-warming candidate.
+Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening, ANM-023F1 repository/Biome hardening and ANM-023F2 test simplification. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F3A/B/C are merged through PR #141 and close the bounded runtime simplification sequence. ANM-023F4A R1 is merged via PR #142 with the initial entry reduced to 741.15 kB / 247.14 kB gzip; ANM-023F4B R1 is merged via PR #144 and closes ANM-023F. ANM-030A R1 is the current derived asset-gap audit candidate.
 
 ## Runtime flow
 
@@ -187,6 +187,16 @@ shared resolver; unlisted lines still use `resolveVnStaging()` and no line-ID co
 `VnController`. ANM-028B3 adds a parallel episode-guest lookup before rendering: guest speaker tokens
 resolve through `upds-guest-witness-production-v1`, use only `guest-testimony-card`, and preload an
 image only after the corresponding package is explicitly promoted from `planned` to `production`.
+
+## Production asset audit ownership
+
+`src/content/art/ANM030A.asset-gap-audit.json` is a **derived planning source**, not a new runtime resolver. It cross-references the canonical story macro, character/guest manifests, `backgroundAssets`, Match-3 level/presentation data and staging manifests to classify current visual coverage as production, fallback, missing/reusable or external-art-blocked.
+
+Authority remains one-way:
+
+`story/content + runtime manifests/resolvers → ANM-030A audit → ANM-030B production backlog`
+
+ANM-030B integration updates the authoritative manifest/resolver first and then refreshes the audit. Runtime code must never import the audit JSON to decide which image to show. This prevents a planning snapshot from becoming a second asset-routing system.
 
 ## Match-3 data and engine
 

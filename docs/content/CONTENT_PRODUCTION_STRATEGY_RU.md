@@ -76,7 +76,7 @@ offline-композит выражений и библиотека staging pres
 | Stage Core | Miku, Onoe, Ayuki | строгий full-stage set из 7 runtime assets | главные героини |
 | Recurring Stage | Emi; затем Kentaro, Norihiro, Mayu; после macro lock — Rina и Kurose | тот же строгий full-stage set | персонаж появляется минимум в 3 эпизодах, участвует в развязке или несёт крупную эмоциональную сцену |
 | Episode Guest / Witness | например Hinata, Gen, Aoi, Kubo; окончательный список определяет macro lock | отдельный guest/witness package: один bust/half-body master, две читаемые эмоции и neutral medallion | короткая свидетельская или функциональная роль |
-| Extras | четыре повторно используемых взрослых архетипа | силуэт/полуфигура и precomposed варианты одежды/цвета | фоновые роли без отдельной драматической арки |
+| Extras | максимум четыре повторно используемых взрослых визуальных архетипа | силуэт/полуфигура и precomposed варианты одежды/цвета | фоновые роли без отдельной драматической арки; семь macro semantic role IDs могут переиспользовать эти ≤4 visual archetypes |
 
 Production ceiling зафиксирован ANM-027F на **девяти full-stage персонажах**: Miku, Onoe,
 Ayuki, Emi, Kentaro, Norihiro, Mayu, Rina и Kurose. Это **бюджет**, а не текущий runtime status.
@@ -178,9 +178,11 @@ Hero close-up не должен содержать запечённый пере
 ANM-025/026 остаются общей системой для всех сюжетных уровней:
 
 - 5–6 повторно используемых layout/board-shape archetypes;
-- активные tiles выбираются из общего production catalog, без нового набора PNG на каждый эпизод;
+- активные base tiles выбираются из общего production catalog, без нового набора PNG на каждый эпизод;
 - вариативность создают board shape, start layout, spawn weights, objectives, blocker combinations,
   narrative context и reactions;
+- существующие пять special mechanics (`flash-row`, `flash-column`, `evidence`, `lead`, `insight`) получают **один общий reusable production visual pack**. Текущие generic SVG overlays допустимы как runtime fallback, но не считаются финальным bonus-tile art;
+- special visual pack не создаёт новую механику и не размножается по эпизодам: одни и те же пять утверждённых bonus identities используются во всех 22 уровнях; camera/flash/viewfinder/evidence motifs допустимы как art direction, если сохраняют mechanic readability;
 - новая одноразовая mechanic запрещена; новая mechanic допустима только если используется минимум в
   четырёх уровнях и имеет tutorial/Level Lab/validation coverage.
 
@@ -245,7 +247,8 @@ Macro lock опирается на утверждённый Story Bible и ис�
 6. **ANM-028B3 R1.1 — COMPLETE** — `upds-guest-witness-production-v1` provides the separate
    guest/witness schema, validator and shared `guest-testimony-card` renderer required by Hinata; all six
    macro-locked guests remain asset-free until external art is supplied and never become fake full-stage paths.
-7. **ANM-027G `4–6` / `7–9` / `10–12` / `13–15` / `16–18` — COMPLETE; `19–21` — CURRENT QA** — the final ending package completes the authored `0–21` screenplay while consuming only macro-approved asset triggers.
-8. Run the bounded 028C safe-motion proof when it no longer competes with content blockers; resume
-   full-stage character production from external approved art as batches require it.
-9. ANM-029 mass localization and ANM-030 mass art only after complete canonical content lock.
+7. **ANM-027G `4–21` — COMPLETE** — all six post-slice batches and three endings are authored/runtime-integrated while consuming only macro-approved asset triggers.
+8. **ANM-023F — COMPLETE THROUGH F4B / PR #144** — repository/test/runtime simplification plus measured payload and bounded asset warming are stable before mass art integration.
+9. **ANM-030A R1.1 — CURRENT CANDIDATE** — derive the exact 22-slot production/fallback/missing/reuse matrix before producing or integrating more art, including the shared five-asset Match-3 special/bonus visual gap.
+10. **ANM-030B0A — PLANNED** — produce/integrate the reusable five-special Match-3 visual pack when external art production resumes; until then the existing SVGs remain fallback.
+11. Resume external full-stage/background/guest/hero-clue production through budgeted ANM-030B0B/B1–B4 waves; run 028C safe-motion when it no longer competes with visual blockers.
