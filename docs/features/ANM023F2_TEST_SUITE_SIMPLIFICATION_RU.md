@@ -1,6 +1,6 @@
 # ANM-023F2 — Test Suite Simplification
 
-Status: R1 candidate / non-runtime technical maintenance. No gameplay, story, localization content, save-schema, balance or asset behavior changes.
+Status: R1 COMPLETE / PR #138 / main `5ff24db25b7a9d865e508a4aa5278d5483926f4b`. No gameplay, story, localization content, save-schema, balance or asset behavior changes.
 
 ## Goal
 
@@ -85,4 +85,4 @@ Authoritative acceptance remains GitHub CI:
 
 ## Next
 
-After F2 merge, ANM-023F3 becomes the active track: bounded runtime/controller simplification in measured hotspots, with behavior-preserving cuts and mobile preview QA for runtime-touching changes.
+ANM-023F2 is merged. ANM-023F3 is now the active track: bounded runtime/controller simplification in measured hotspots, with behavior-preserving cuts and mobile preview QA for runtime-touching changes.

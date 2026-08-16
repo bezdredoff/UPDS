@@ -17,8 +17,14 @@ describe('ANM-019E2 Match-3 localization', () => {
       });
     }
   });
-  it('does not leave Cyrillic user-facing literals in Match3Controller', async () => {
-    const source = await import('node:fs/promises').then((fs) => fs.readFile(new URL('../src/features/match3/Match3Controller.ts', import.meta.url), 'utf8'));
-    expect(source).not.toMatch(/[А-Яа-яЁё]/);
+  it('does not leave Cyrillic user-facing literals in Match-3 runtime presentation', async () => {
+    const fs = await import('node:fs/promises');
+    for (const relative of [
+      '../src/features/match3/Match3Controller.ts',
+      '../src/features/match3/Match3Presentation.ts',
+    ] as const) {
+      const source = await fs.readFile(new URL(relative, import.meta.url), 'utf8');
+      expect(source, relative).not.toMatch(/[А-Яа-яЁё]/);
+    }
   });
 });

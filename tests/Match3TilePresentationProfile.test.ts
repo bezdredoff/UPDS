@@ -9,6 +9,7 @@ import {
 } from '../src/data/match3TilePresentation';
 
 const controllerSource = readFileSync(new URL('../src/features/match3/Match3Controller.ts', import.meta.url), 'utf8');
+const presentationSource = readFileSync(new URL('../src/features/match3/Match3Presentation.ts', import.meta.url), 'utf8');
 const engineSource = readFileSync(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
 
 const publicPathFor = (asset: string): string => resolve(process.cwd(), 'public', asset.replace(/^\.\//, ''));
@@ -47,12 +48,12 @@ describe('ANM-025C tile presentation profile contract', () => {
   });
 
   it('routes board, objective and preload art through the concrete-id resolver and active set', () => {
-    expect(controllerSource).toContain('resolveMatch3TilePresentation(level.context.tilePresentationProfile, cell.tile)');
-    expect(controllerSource).toContain('resolveMatch3TilePresentation(level.context.tilePresentationProfile, objective.tile)');
+    expect(presentationSource).toContain('resolveMatch3TilePresentation(level.context.tilePresentationProfile, cell.tile)');
+    expect(presentationSource).toContain('resolveMatch3TilePresentation(level.context.tilePresentationProfile, objective.tile)');
     expect(controllerSource).toContain('tilePresentationAssetsForActiveSet(level.context.tilePresentationProfile, level.activeTiles)');
-    expect(controllerSource).toContain('data-m3-tile-profile');
-    expect(controllerSource).toContain('data-tile-variant');
-    expect(controllerSource).not.toContain('tilePresentation[cell.tile]');
+    expect(presentationSource).toContain('data-m3-tile-profile');
+    expect(presentationSource).toContain('data-tile-variant');
+    expect(presentationSource).not.toContain('tilePresentation[cell.tile]');
   });
 
   it('keeps presentation profiles out of Match3Game rules', () => {

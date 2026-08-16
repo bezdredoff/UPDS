@@ -4,6 +4,7 @@ import { levels, validateLevelDefinitions } from '../src/data/levels';
 import { backgroundAssets, getBackgroundForLine, getScene, sceneMeta, type ChoiceId } from '../src/data/narrative';
 
 const controllerSource = readFileSync(new URL('../src/features/match3/Match3Controller.ts', import.meta.url), 'utf8');
+const presentationSource = readFileSync(new URL('../src/features/match3/Match3Presentation.ts', import.meta.url), 'utf8');
 const productionCss = readFileSync(new URL('../src/match3Production.css', import.meta.url), 'utf8');
 const engineSource = readFileSync(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
 
@@ -40,10 +41,13 @@ describe('ANM-025B narrative Match-3 level context', () => {
 
   it('uses pageBackground for intro, gameplay and evidence while exposing board/profile selectors', () => {
     expect(controllerSource).not.toContain('level.background');
-    expect(controllerSource.match(/backgroundAssets\[level\.context\.pageBackground\]/g)?.length).toBe(4);
-    expect(controllerSource).toContain('data-m3-board-surface');
-    expect(controllerSource).toContain('data-m3-board-frame');
-    expect(controllerSource).toContain('data-m3-profile');
+    expect(presentationSource).not.toContain('level.background');
+    const presentationBackgrounds = presentationSource.match(/backgroundAssets\[level\.context\.pageBackground\]/g)?.length ?? 0;
+    const controllerBackgrounds = controllerSource.match(/backgroundAssets\[level\.context\.pageBackground\]/g)?.length ?? 0;
+    expect(presentationBackgrounds + controllerBackgrounds).toBe(4);
+    expect(presentationSource).toContain('data-m3-board-surface');
+    expect(presentationSource).toContain('data-m3-board-frame');
+    expect(presentationSource).toContain('data-m3-profile');
     expect(controllerSource).toContain('narrativeProfile: level.context.narrativeProfile');
   });
 

@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening and ANM-023F1 repository/Biome hardening. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F2 R1 is the current non-runtime technical candidate; runtime ownership boundaries remain unchanged.
+Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening, ANM-023F1 repository/Biome hardening and ANM-023F2 test simplification. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F3A R1 is the current behavior-preserving runtime refactor candidate.
 
 ## Runtime flow
 
@@ -14,8 +14,8 @@ character production metadata or persistence semantics.
 ANM-029H does not change ownership boundaries. It records the next bounded maintenance sequence:
 
 - F1 is merged via PR #137: Biome lint is unified across source/tests/config and generated repository debris is removed/guarded;
-- F2 consolidates completed localization lifecycle-batch tests into domain suites, removes duplicated runtime/catalog boilerplate, closes the two F1 warning sources and promotes the proven clean high-signal Biome cohort to blocking;
-- F3 decomposes measured controller/engine hotspots only where a cut reduces coupling and reading scope;
+- F2 is merged via PR #138: completed localization lifecycle-batch tests are consolidated into domain suites and the clean Biome cohort is blocking;
+- F3 decomposes measured controller/engine hotspots only where a cut reduces coupling and reading scope; F3A starts by extracting deterministic Match-3 presentation from controller orchestration;
 - F4 measures bundle/startup/preload/memory/locale payload before any optimization such as lazy locale loading.
 
 The desired direction remains `controller orchestrates → pure/domain modules calculate → renderer renders → store persists`. Existing public/runtime contracts remain stable unless a later atomic feature explicitly changes them.
@@ -67,7 +67,7 @@ still owns all behavior, measurement, session and navigation bindings.
 
 ### `src/features/match3/Match3Controller.ts`
 
-Owns one active Match-3 presentation/session:
+Owns one active Match-3 runtime/session orchestration:
 
 - intro/start and mode-specific completion callbacks;
 - tap/drag/swipe/direct-special input;
@@ -75,8 +75,7 @@ Owns one active Match-3 presentation/session:
 - win/loss/evidence presentation;
 - attempt telemetry.
 
-Rules remain in `src/engine/Match3Game.ts`. Story, Match-3 Campaign and Level Lab enter the same
-controller through explicit mode seams; the controller must not invent per-mode rules or import VN.
+Deterministic intro/board/objective/tutorial/main-screen HTML is composed by pure `src/features/match3/Match3Presentation.ts`; it receives an explicit view model/translator and owns no DOM mutation, timers, telemetry, session or navigation. Rules remain in `src/engine/Match3Game.ts`. Story, Match-3 Campaign and Level Lab enter the same controller through explicit mode seams; the controller must not invent per-mode rules or import VN.
 
 ### `src/features/levelLab/LevelLabController.ts`
 
