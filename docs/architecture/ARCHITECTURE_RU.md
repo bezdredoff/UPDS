@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3O localization production and merged ANM-023E tooling hardening; ANM-029B4 R1.1 is the full Belarusian completion/runtime-readiness candidate on merged B3P / PR #134; slot 15 is already part of the baseline and is not repeated in the delta.
+Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening. ANM-029H R1 is a planning-only reset: current runtime architecture is unchanged, additional locales are paused, and ANM-023F becomes the next technical simplification track before high-volume ANM-030 integration.
 
 ## Runtime flow
 
@@ -8,6 +8,17 @@ Status: active architecture through completed ANM-027G `0–21` canonical story,
 
 Presentation may animate an engine result, but must not redefine Match-3 rules, story IDs,
 character production metadata or persistence semantics.
+
+## Planned simplification track — ANM-023F
+
+ANM-029H does not change ownership boundaries. It records the next bounded maintenance sequence:
+
+- F1 expands Biome/static-analysis and repository hygiene without blanket rule enablement;
+- F2 reduces duplicated/brittle test code while preserving behavioral contracts;
+- F3 decomposes measured controller/engine hotspots only where a cut reduces coupling and reading scope;
+- F4 measures bundle/startup/preload/memory/locale payload before any optimization such as lazy locale loading.
+
+The desired direction remains `controller orchestrates → pure/domain modules calculate → renderer renders → store persists`. Existing public/runtime contracts remain stable unless a later atomic feature explicitly changes them.
 
 ## Application composition
 

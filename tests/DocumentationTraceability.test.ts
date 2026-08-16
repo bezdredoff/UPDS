@@ -126,12 +126,9 @@ describe('active documentation traceability', () => {
 
     expect(roadmap).toContain('028A Character Production Manifest & Validator Foundation — COMPLETE');
     expect(roadmap).not.toContain('COMPLETE WHEN MERGED');
-    expect(roadmap).toContain('B1 R1 player-shell translation is COMPLETE');
-    expect(roadmap).toContain('B2A R1.1 Match-3 core/campaign translation is COMPLETE');
-    expect(roadmap).toContain('B2B1 R1 levels `M3_00–M3_06` is COMPLETE');
-    expect(roadmap).toContain('B2B2 R1 levels `M3_07–M3_13` is COMPLETE');
-    expect(roadmap).toContain('B2B3 R1 levels `M3_14–M3_21` is COMPLETE');
-    expect(roadmap).toContain('B2C R1 F2 reactions/full Match-3 audit is COMPLETE');
+    expect(roadmap).toContain('029B Belarusian Production — COMPLETE (B4 R1.1, PR #135)');
+    expect(roadmap).toContain('exact **3870/3870** base-key parity');
+    expect(roadmap).toContain("supportedLocales = ['ru', 'be', 'en']");
     expect(index).toContain('ANM028A_CHARACTER_PRODUCTION_MANIFEST_RU.md');
     expect(index).toContain('ANM027D_FULL_STORY_IMPORT_RU.md');
     expect(index).toContain('ANM026C_MATCH3_CAMPAIGN_MODE_RU.md');
@@ -156,6 +153,7 @@ describe('active documentation traceability', () => {
     const seriousPrompt = read('docs/art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md');
     const surprisedFeature = read('docs/features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md');
     const surprisedPrompt = read('docs/art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md');
+    const planningReset = read('docs/features/ANM029H_PRODUCTION_PLANNING_RESET_RU.md');
 
     expect(roadmap).toContain('028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE');
     expect(roadmap).toContain('ANM-028D0 R1 Emi neutral master accepted');
@@ -165,7 +163,7 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('028B3 Guest/Witness Presentation Contract — R1.1 COMPLETE');
     expect(roadmap).toContain('027G Episode Batch Production & Canonical Import — COMPLETE');
     expect(roadmap).toContain('029A Localization Production Foundation — R1.1 COMPLETE');
-    expect(roadmap).toContain('029B Belarusian Production — B4 R1.1 COMPLETION CANDIDATE');
+    expect(roadmap).toContain('029B Belarusian Production — COMPLETE (B4 R1.1, PR #135)');
     expect(index).toContain('ANM029B1_BELARUSIAN_PLAYER_SHELL_RU.md');
     expect(index).toContain('ANM029B2B1_BELARUSIAN_MATCH3_LEVELS_00_06_RU.md');
     expect(index).toContain('ANM029B2B2_BELARUSIAN_MATCH3_LEVELS_07_13_RU.md');
@@ -188,6 +186,13 @@ describe('active documentation traceability', () => {
     expect(index).toContain('ANM029B3O_BELARUSIAN_VN_SLOT_14_RU.md');
     expect(index).toContain('ANM029B3P_BELARUSIAN_VN_SLOT_15_RU.md');
     expect(index).toContain('ANM029B4_BELARUSIAN_COMPLETION_RU.md');
+    expect(index).toContain('ANM029H_PRODUCTION_PLANNING_RESET_RU.md');
+    expect(roadmap).toContain('ANM-023F — Codebase, Test & Tooling Simplification');
+    expect(roadmap).toContain('023F1 Biome Expansion & Repository Hygiene');
+    expect(roadmap).toContain('ANM-030A Full Game Asset Gap Audit');
+    expect(planningReset).toContain('`110` Vitest files');
+    expect(planningReset).toContain('do **not** blindly enable every Biome rule');
+    expect(planningReset).toContain('less test code and lower maintenance cost without weaker behavioral protection');
     expect(index).toContain('ANM023E_TEST_TOOLING_IDENTITY_HARDENING_RU.md');
     expect(roadmap).toContain('remaining **999** base-catalog keys');
     expect(roadmap).toContain('exact **3870/3870** base-key parity');

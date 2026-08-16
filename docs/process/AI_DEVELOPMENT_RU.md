@@ -106,7 +106,7 @@ navigation/callback seam through the composition root.
 - Dialogue internal pages are runtime presentation state and never authored/save IDs.
 - Before detailed post-slice screenplay, lock a `0–21` macro table with case/emotional beat,
   location family, cast tier, evidence treatment, Match-3 archetype, transition and asset triggers.
-- Add detailed content in reviewable packages of three sequential episodes before mass localization/art production; `4–6`, `7–9`, `10–12`, `13–15`, `16–18` and `19–21` are implemented packages; the canonical `0–21` screenplay is complete and frozen as localization input.
+- Add detailed content in reviewable packages of three sequential episodes before mass localization/art production; `4–6`, `7–9`, `10–12`, `13–15`, `16–18` and `19–21` are implemented packages; the canonical `0–21` screenplay is complete and frozen as production input. Belarusian production is complete; `zh-CN`, `ja`, `ko` and `pt-BR` remain paused until an explicit product-priority decision.
 - Apply the strategy asset-trigger budget while writing. Prefer recurring cast, guest testimony,
   native dossier/phone/document UI and existing location families over one-off production assets.
 - A budget exception must state the dramatic purpose, why reuse is insufficient and every added
