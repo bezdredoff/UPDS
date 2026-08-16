@@ -1,0 +1,49 @@
+name: UPDS Audits
+
+on:
+  workflow_dispatch:
+    inputs:
+      audit:
+        description: 'Which audit to run: docs, story, character, all'
+        required: true
+        default: 'docs'
+
+permissions:
+  contents: read
+
+jobs:
+  run-audit:
+    name: Run selected audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts
+
+      - name: Run selected audit
+        run: |
+          AUDIT="${{ github.event.inputs.audit }}"
+          echo "Selected audit: $AUDIT"
+          if [ "$AUDIT" = "docs" ]; then
+            npm run docs:audit
+          elif [ "$AUDIT" = "story" ]; then
+            npm run story:audit
+          elif [ "$AUDIT" = "character" ]; then
+            npm run character:audit
+          elif [ "$AUDIT" = "all" ]; then
+            npm run docs:audit && npm run story:audit && npm run character:audit
+          else
+            echo "Unknown audit '$AUDIT' - running docs audit by default"
+            npm run docs:audit
+          fi
