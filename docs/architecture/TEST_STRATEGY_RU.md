@@ -1,6 +1,6 @@
 # UPDS — Test Strategy
 
-Статус: active production test-policy contract, reconciled at accepted ANM-028B1 R4.1/ANM-028D0/D1/D2 and ANM-028D3 R1 candidate QA.
+Статус: active production test-policy contract, reconciled through completed ANM-029B4 and the ANM-029H production planning reset.
 
 GitHub CI и `npm run check` остаются authoritative automated gate. Локальный запуск полезен для быстрой обратной связи, но не заменяет GitHub CI.
 
@@ -57,6 +57,16 @@ delivery-lane limits. Не закреплять тестом каждую фор
 - Localization production tests distinguish structural completeness from linguistic/visual approval: key/placeholder parity can be automated, but translation quality and CJK overflow remain content/mobile QA gates. Translation-pending locales must not be exposed in runtime merely because fallback copy exists.
 - Focused `story:audit`, `character:audit`, `scene:audit`, `localization:audit` и `docs:audit` ускоряют проверку, но не заменяют полный
   `npm run check` и GitHub Quality gate.
+
+## ANM-023F — planned test/tooling simplification
+
+ANM-029H делает следующий technical maintenance track явным:
+
+- F1 расширяет Biome только через high-signal правила после diagnostic baseline; blanket preset/rule enablement с массовыми suppressions не является целью;
+- F1 должен распространить полезный lint на `tests`, проверить ценность `format:check` как blocking gate и использовать safe fixes/import organization там, где они детерминированы;
+- F2 начинает с инвентаризации уникальных contracts в текущих `110` test files, затем объединяет только реально дублирующиеся проверки и общий setup;
+- exact historical roadmap wording не является production contract. Traceability тестирует durable status/authority invariants;
+- уменьшение числа файлов/строк само по себе не является success metric. Поведенческая защита не должна ослабнуть.
 
 ## Приоритет при рефакторинге
 

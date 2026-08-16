@@ -1,6 +1,6 @@
 # ANM-029B4 — Belarusian Production Completion
 
-Status: R1.1 candidate / full-catalog linguistic + CI + runtime QA.
+Status: COMPLETE — R1.1 merged via PR #135 on 2026-08-16; full-catalog linguistic + CI + runtime QA accepted.
 
 ## Цель
 
@@ -40,7 +40,7 @@ Status: R1.1 candidate / full-catalog linguistic + CI + runtime QA.
 
 ## Runtime readiness
 
-После full-catalog gate:
+Accepted runtime state after the full-catalog gate:
 
 - `be` → `status: production-complete`;
 - `be` → `runtimeSelectable: true`;
@@ -75,4 +75,4 @@ Status: R1.1 candidate / full-catalog linguistic + CI + runtime QA.
 
 ## После merge
 
-Другие production-locales (`zh-CN`, `ja`, `ko`, `pt-BR`) не стартуют автоматически. Они ставятся на product-level pause до отдельного backlog/roadmap reset, как согласовано после завершения Belarusian production.
+Другие production-locales (`zh-CN`, `ja`, `ko`, `pt-BR`) не стартуют автоматически. ANM-029H выполняет согласованный backlog/roadmap reset и оставляет их на product-level pause до отдельного решения о возобновлении.

@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.4-dev`.
-Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation and ANM-028D3A Emi approved-frame runtime transition**. Current candidate focus: **ANM-029B4 R1.1 Belarusian Production Completion**. Remaining character-art generation is paused for an external Stable Diffusion workflow; the complete `0–21` screenplay is now a frozen input for localization production.
+Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation, ANM-028D3A Emi approved-frame runtime transition and completed ANM-029B4 Belarusian production**. Current candidate focus: **ANM-029H R1 Production Planning Reset**. Additional locale production is paused; the next implementation track is ANM-023F code/test/Biome/performance simplification before high-volume ANM-030 art integration.
 
 `package.json.version` — единственный источник продуктовой semver dev-линии; `src/appVersion.ts` импортирует её как `APP_VERSION`. `BUILD_LABEL` остаётся отдельным feature/baseline identity и не выводится из semver. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -23,7 +23,7 @@ Active production foundation: **ANM-025/026 Match-3 production + tooling, comple
 - Emi runtime integration through ANM-021B R6.1; current visual approval is `rebuild-required`, so these assets remain a temporary fallback rather than a production style reference;
 - character runtime uses precomposed 1024×1536 expression frames; retired transparent face-overlay composition must not return;
 - ANM-023 Architecture & Test Health Pass: repository hygiene, test-health cleanup, architecture boundary audit and pipeline failure hygiene.
-- **ANM-023E Test, Tooling & Identity Hardening — R1 IN QA**: lifecycle-status assertions are replaced by durable contracts, Biome is added to `npm run check`, and package/app product version metadata has one source of truth.
+- **ANM-023E Test, Tooling & Identity Hardening — R1 COMPLETE**: lifecycle-status assertions are reduced in favor of durable contracts, Biome is added to `npm run check`, and package/app product version metadata has one source of truth.
 - ANM-024 Display / Viewport / Safe-Area Foundation: shared viewport shell, centralized safe-area ownership, portrait regression matrix and orientation-neutral low-height landscape contract.
 - ANM-025E quantitative balance baseline through E3; E4 remains optional only if later human playtest data shows a concrete need.
 - ANM-025F Match-3 Narrative Reactions complete through F1 resolver contract, F2 content and F3 presentation/anti-spam.
@@ -39,7 +39,7 @@ Active production foundation: **ANM-025/026 Match-3 production + tooling, comple
 - ANM-028D2 R1 Emi serious accepted in lineup/solo/duo/trio and merged through PR #99
   (`85ebb2148ba786dfcc5a0fee936617a7a80e67dd`); it remains outside runtime as an approved expression.
 
-### Current candidate / manual acceptance required
+### Historical ANM-028 visual acceptance notes
 
 - **ANM-028B2 R1.1 Authored VN Shot Adoption — COMPLETE** — five stable ANM-003 line IDs use the accepted
   `upds-scene-staging-v1` resolver directly in playable VN, covering trio, duo and one real Pose B
@@ -69,9 +69,20 @@ Active production foundation: **ANM-025/026 Match-3 production + tooling, comple
 
 - Kentaro → Norihiro → Mayu → Rina → Kurose character production, triggered only when external art is ready;
 - large-scale character animation production;
-- full multilingual content production.
+- additional locale production (`zh-CN`, `ja`, `ko`, `pt-BR`) until explicitly resumed after the planning reset.
 
 ## Production backlog
+
+### ANM-023F — Codebase, Test & Tooling Simplification [P0/P1] — NEXT AFTER ANM-029H
+
+The post-Belarusian reset intentionally reopens the ANM-023 maintenance line before high-volume art/content integration. This is a bounded simplification track, not an architecture rewrite.
+
+- **023F1 Biome Expansion & Repository Hygiene [P0]** — expand high-signal correctness/suspicious/complexity/performance coverage to production and tests, make formatting verification part of the quality gate where practical, use safe fixes/import organization, and remove tracked repository debris without blanket rule enablement.
+- **023F2 Test Suite Simplification [P0]** — preserve contract coverage while consolidating duplicated localization/lifecycle checks, common helpers and brittle historical wording. Current baseline: 110 `*.test.ts` files.
+- **023F3 Runtime / Controller Simplification [P0/P1]** — behavior-preserving cuts in measured hotspots (`Match3Controller`, `Match3Game`, `SceneStudioController`, `VnController`, `LevelLabController`) so controllers orchestrate and pure/domain/render/store responsibilities are easier to isolate and test.
+- **023F4 Performance & Payload Pass [P1]** — measure JS/CSS/startup/preload/memory and locale payload before optimizing; lazy locale loading is a hypothesis to validate, not a pre-approved rewrite.
+
+Success criterion: the next feature requires less code/test surface to understand and modify, while GitHub CI catches more real defects and behavioral coverage does not regress. Runtime-impacting F3/F4 cuts still require mobile preview QA.
 
 ### ANM-024 — Display, Viewport & Safe-Area Foundation [P0] — COMPLETE
 
@@ -185,14 +196,14 @@ Target registry remains fixed to `ru`, `be`, `en`, `zh-CN`, `ja`, `ko`, `pt-BR`,
 
 Production split:
 - **029A Localization Production Foundation — R1.1 COMPLETE** — seven-locale registry, pending/ready separation, catalog key/placeholder audit, glossary contract and centralized CJK readiness metadata;
-- **029B Belarusian Production — B4 R1.1 COMPLETION CANDIDATE** — B1 R1 player-shell translation is COMPLETE (61 keys); B2A R1.1 Match-3 core/campaign translation is COMPLETE (83 keys); B2B1 R1 levels `M3_00–M3_06` is COMPLETE (123 keys); B2B2 R1 levels `M3_07–M3_13` is COMPLETE (128 keys); B2B3 R1 levels `M3_14–M3_21` is COMPLETE (146 keys); B2C R1 F2 reactions/full Match-3 audit is COMPLETE (132 reaction keys; 612 total Match-3 keys); B3A R1.1 canonical VN slot 0 is COMPLETE (302 keys, `VN0001–VN0084` + CHOICE_00 + scenes 00–02); B3B R1.1 canonical runtime VN slot 1 is COMPLETE (178 keys, `VN0085–VN0142` + scenes 03–04), rebased unchanged after ANM-023E; B3C R1 canonical runtime VN slot 2 is COMPLETE (151 keys, `VN0143–VN0191` + scenes 05–06); B3D R1 canonical runtime VN slot 3 is COMPLETE (181 keys, `VN0192–VN0250` + scenes 07–08), closing the original vertical-slice source at the canonical `VN0250` bridge; B3E R1 canonical runtime VN slot 4 is COMPLETE (125 keys, `VN0251–VN0288` + scenes 09–10 + `meeting-tone` choice), beginning the ANM-027G source chain; B3F R1 canonical runtime VN slot 5 is COMPLETE (118 keys, `VN0289–VN0326` + scenes 11–12), covering basketball/service-route evidence and Hinata; B3G R1 canonical runtime VN slot 6 is COMPLETE (140 keys, `VN0327–VN0369` + scenes 13–14 + `apology-to-hinata` choice), closing Hinata exoneration and bridging to Asterion; B3H R1 canonical runtime VN slot 7 is COMPLETE (124 keys, `VN0370–VN0409` + scenes 15–16), covering Asterion laboratory verification and `CUE_008`; B3I R1 canonical runtime VN slot 8 is COMPLETE (121 keys, `VN0410–VN0448` + scenes 17–18), covering the lost-and-found ledger, `CUE_009` and the bridge to the master-key route; B3J R1 canonical runtime VN slot 9 is COMPLETE (131 keys, `VN0449–VN0488` + scenes 19–20 + `protect-gen-source` choice), covering the maintenance-key handoff, `CUE_010` and the Asterion night-container route; B3K R1.1 canonical runtime VN slot 10 is COMPLETE (121 keys, `VN0489–VN0527` + scenes 21–22), covering the karate-club control sample, `CUE_011` and the old-photo Asterion container; B3L R1 canonical runtime VN slot 11 is COMPLETE (131 keys, `VN0528–VN0567` + scenes 23–24 + `photo-permission` choice), covering the Asterion transfer chain, `CUE_012` and the weak-wireless-signal bridge; B3M R1 canonical runtime VN slot 12 is COMPLETE (131 keys, `VN0568–VN0607` + scenes 25–26 + `publish-tag` choice), covering the Panty-Eater signal test, `CUE_013`, active `Second Skin` microtag and the Kurose timing link; B3N R1 canonical runtime VN slot 13 is COMPLETE (121 keys, `VN0608–VN0646` + scenes 27–28), covering the kendo pilot-list verification, `CUE_014`, Kubo testimony and the atelier-receipt bridge; B3O R1 canonical runtime VN slot 14 is COMPLETE (131 keys, `VN0647–VN0686` + scenes 29–30 + `family-ledger-permission` choice), covering the Kubo atelier ledger chronology, `CUE_015`, privacy-preserving source handling and the Ray evidence-bag bridge; B3P R1 canonical runtime VN slot 15 is COMPLETE (124 keys, `VN0687–VN0726` + scenes 31–32), covering the Ray chase, abandoned-laundry consent route, `CUE_016`, Rina yard-camera correlation and the pink-ribbon bridge; B4 R1.1 completes the remaining **999** base-catalog keys from the merged B3P baseline: slots `16–21` (`VN0727–VN0964`, scenes 33–44, `CUE_017–019`, `trust-vincent`, `final-strategy`, all three authored endings), remaining VN chrome/config/history/status, Scene Studio, Level Lab, ending UI, character names and dossier. Completion gate is exact **3870/3870** base-key parity plus **132/132** Match-3 reactions, zero missing/extra/empty/placeholder drift and no runtime fallback; after acceptance `be` is `production-complete`, runtime-selectable and `supportedLocales = ['ru', 'be', 'en']`;
-- **029C Simplified Chinese Production — PAUSED** — do not start before the post-Belarusian backlog/roadmap reset; CJK typography/overflow QA remains required whenever this work resumes;
+- **029B Belarusian Production — COMPLETE (B4 R1.1, PR #135)** — B1 R1 player-shell translation is COMPLETE (61 keys); B2A R1.1 Match-3 core/campaign translation is COMPLETE (83 keys); B2B1 R1 levels `M3_00–M3_06` is COMPLETE (123 keys); B2B2 R1 levels `M3_07–M3_13` is COMPLETE (128 keys); B2B3 R1 levels `M3_14–M3_21` is COMPLETE (146 keys); B2C R1 F2 reactions/full Match-3 audit is COMPLETE (132 reaction keys; 612 total Match-3 keys); B3A R1.1 canonical VN slot 0 is COMPLETE (302 keys, `VN0001–VN0084` + CHOICE_00 + scenes 00–02); B3B R1.1 canonical runtime VN slot 1 is COMPLETE (178 keys, `VN0085–VN0142` + scenes 03–04), rebased unchanged after ANM-023E; B3C R1 canonical runtime VN slot 2 is COMPLETE (151 keys, `VN0143–VN0191` + scenes 05–06); B3D R1 canonical runtime VN slot 3 is COMPLETE (181 keys, `VN0192–VN0250` + scenes 07–08), closing the original vertical-slice source at the canonical `VN0250` bridge; B3E R1 canonical runtime VN slot 4 is COMPLETE (125 keys, `VN0251–VN0288` + scenes 09–10 + `meeting-tone` choice), beginning the ANM-027G source chain; B3F R1 canonical runtime VN slot 5 is COMPLETE (118 keys, `VN0289–VN0326` + scenes 11–12), covering basketball/service-route evidence and Hinata; B3G R1 canonical runtime VN slot 6 is COMPLETE (140 keys, `VN0327–VN0369` + scenes 13–14 + `apology-to-hinata` choice), closing Hinata exoneration and bridging to Asterion; B3H R1 canonical runtime VN slot 7 is COMPLETE (124 keys, `VN0370–VN0409` + scenes 15–16), covering Asterion laboratory verification and `CUE_008`; B3I R1 canonical runtime VN slot 8 is COMPLETE (121 keys, `VN0410–VN0448` + scenes 17–18), covering the lost-and-found ledger, `CUE_009` and the bridge to the master-key route; B3J R1 canonical runtime VN slot 9 is COMPLETE (131 keys, `VN0449–VN0488` + scenes 19–20 + `protect-gen-source` choice), covering the maintenance-key handoff, `CUE_010` and the Asterion night-container route; B3K R1.1 canonical runtime VN slot 10 is COMPLETE (121 keys, `VN0489–VN0527` + scenes 21–22), covering the karate-club control sample, `CUE_011` and the old-photo Asterion container; B3L R1 canonical runtime VN slot 11 is COMPLETE (131 keys, `VN0528–VN0567` + scenes 23–24 + `photo-permission` choice), covering the Asterion transfer chain, `CUE_012` and the weak-wireless-signal bridge; B3M R1 canonical runtime VN slot 12 is COMPLETE (131 keys, `VN0568–VN0607` + scenes 25–26 + `publish-tag` choice), covering the Panty-Eater signal test, `CUE_013`, active `Second Skin` microtag and the Kurose timing link; B3N R1 canonical runtime VN slot 13 is COMPLETE (121 keys, `VN0608–VN0646` + scenes 27–28), covering the kendo pilot-list verification, `CUE_014`, Kubo testimony and the atelier-receipt bridge; B3O R1 canonical runtime VN slot 14 is COMPLETE (131 keys, `VN0647–VN0686` + scenes 29–30 + `family-ledger-permission` choice), covering the Kubo atelier ledger chronology, `CUE_015`, privacy-preserving source handling and the Ray evidence-bag bridge; B3P R1 canonical runtime VN slot 15 is COMPLETE (124 keys, `VN0687–VN0726` + scenes 31–32), covering the Ray chase, abandoned-laundry consent route, `CUE_016`, Rina yard-camera correlation and the pink-ribbon bridge; B4 R1.1 completes the remaining **999** base-catalog keys from the merged B3P baseline: slots `16–21` (`VN0727–VN0964`, scenes 33–44, `CUE_017–019`, `trust-vincent`, `final-strategy`, all three authored endings), remaining VN chrome/config/history/status, Scene Studio, Level Lab, ending UI, character names and dossier. Completion gate is exact **3870/3870** base-key parity plus **132/132** Match-3 reactions, zero missing/extra/empty/placeholder drift and no runtime fallback; accepted runtime state is `be: production-complete`, runtime-selectable with `supportedLocales = ['ru', 'be', 'en']`;
+- **029C Simplified Chinese Production — PAUSED** — resume only by explicit product-priority decision after ANM-029H; CJK typography/overflow QA remains required whenever this work resumes;
 - **029D Japanese Production — PAUSED** — pending backlog reprioritization;
 - **029E Korean Production — PAUSED** — pending backlog reprioritization;
 - **029F Brazilian Portuguese Production — PAUSED** — pending backlog reprioritization;
 - **029G All-Locale Release Audit — PAUSED** — resumes only when additional production locales are deliberately restarted. Belarusian has its own full-catalog release gate in B4.
 
-Immediate planning rule after B4 acceptance: **do not start another locale automatically**. First perform a repository-wide backlog/roadmap reset, remove stale assumptions, re-rank P0/P1/P2 and choose the next production path from the actual game state.
+ANM-029H planning decision: **do not start another locale automatically**. `zh-CN`, `ja`, `ko` and `pt-BR` remain paused while ANM-023F1–F4 simplify tooling/tests/runtime and measure payload. Localization resumes only by an explicit product-priority decision.
 
 Rules:
 - no hardcoded UI/story strings may re-enter runtime;
@@ -203,7 +214,9 @@ Rules:
 
 ### ANM-030 — Full Content / Art Production [P1]
 
-Mass production only after frameworks above stabilize and under the budgets in
+Start with **ANM-030A Full Game Asset Gap Audit [P0]**: derive the exact missing/legacy/fallback asset inventory from story graph, staging, runtime manifests and current production status. The audit can be prepared in parallel with ANM-023F, but high-volume runtime integration begins after F1/F2 and the first bounded F3 simplification cuts are stable.
+
+Mass production then follows the budgets in
 [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md):
 - remaining characters;
 - 8–10 reusable master-location families and precomposed variants;
@@ -257,17 +270,17 @@ Do not consume core production capacity before base release.
 
 ## Recommended immediate sequence
 
-1. **ANM-025/026 and ANM-027A–F — COMPLETE foundations + full macro lock**;
-2. **ANM-028B1 R4.1 — COMPLETE** and **ANM-028D3A — COMPLETE**;
-3. **ANM-028B2 R1.1 — COMPLETE** — bounded authored multi-character VN adoption;
-4. **ANM-028B3 R1.1 — COMPLETE** — separate guest/witness contract and asset-free Hinata presentation are available to slots 5–6;
-5. **ANM-027G `4–6` — COMPLETE; `7–9` — COMPLETE; `10–12` — COMPLETE; `13–15` — COMPLETE; `16–18` — COMPLETE; `19–21` — CURRENT QA**; after acceptance canonical screenplay production is complete;
-6. resume approved external character/background asset integration only when a content batch triggers it;
-7. ANM-029 localization after the full canonical screenplay exists;
-8. ANM-030 budgeted mass art/content;
-9. ANM-031 landscape;
-10. ANM-032 music;
-11. ANM-033 release hardening.
+1. **ANM-029B4 R1.1 — COMPLETE / PR #135** — Belarusian production-ready and runtime-selectable;
+2. **ANM-029H R1 — CURRENT CANDIDATE** — production planning reset and stale-status closure;
+3. **ANM-023F1 [P0]** — Biome expansion + repository hygiene;
+4. **ANM-023F2 [P0]** — test-suite simplification without coverage loss;
+5. **ANM-023F3 [P0/P1]** — bounded runtime/controller simplification;
+6. **ANM-023F4 [P1]** — measured performance/payload optimization;
+7. **ANM-030A [P0]** — full game asset gap audit (may be prepared in parallel with 023F);
+8. **ANM-030B+ [P1]** — budgeted mass art/content integration using the external character/background workflow;
+9. **ANM-031 [P2]** — landscape;
+10. **ANM-032 [P2]** — music;
+11. **ANM-033 [P0 before release]** — release hardening.
 
 ## Backlog principle
 
