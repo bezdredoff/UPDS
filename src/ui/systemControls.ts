@@ -22,9 +22,15 @@ export function bindLanguageSettingsControls(services: RuntimeServices, scope: P
   select?.addEventListener('change', () => {
     const locale = select.value;
     if (!isSupportedLocale(locale)) return;
-    services.localization.setLocale(locale);
-    if (typeof document !== 'undefined') document.documentElement.lang = locale;
-    rerender();
+    select.disabled = true;
+    void services.localization.activateLocale(locale).then(() => {
+      if (typeof document !== 'undefined') document.documentElement.lang = locale;
+      rerender();
+    }).catch((error) => {
+      services.errorLog.record('application', `Locale load failed for ${locale}: ${String(error)}`);
+      select.value = services.localization.locale;
+      select.disabled = false;
+    });
   });
 }
 

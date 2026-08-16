@@ -1,6 +1,6 @@
 # ANM-023F3C — Match-3 Rule Kernel Extraction
 
-Status: R1 candidate / final planned ANM-023F3 runtime simplification cut. Behavior-preserving engine refactor; level data, balance, RNG, objectives, save schema, Match-3 presentation and narrative content are unchanged.
+Status: COMPLETE — R1 merged via PR #141; final ANM-023F3 runtime simplification cut. Behavior-preserving engine refactor; level data, balance, RNG, objectives, save schema, Match-3 presentation and narrative content are unchanged.
 
 ## Goal
 
@@ -80,4 +80,4 @@ Authoritative acceptance remains GitHub CI plus a short Match-3 preview smoke:
 
 ## Next
 
-If F3C merges green, close ANM-023F3. The two controller presentation cuts plus one engine rule-kernel cut materially reduce the main runtime reading hotspots without broad architectural churn. Continue with **ANM-023F4 — Performance & Payload Pass**, starting from measurements rather than further speculative decomposition. Scene Studio/Level Lab refactors return only if later production work exposes a concrete coupling or maintenance problem.
+F3C merged green via PR #141; ANM-023F3 is closed. The two controller presentation cuts plus one engine rule-kernel cut materially reduce the main runtime reading hotspots without broad architectural churn. Continue with **ANM-023F4 — Performance & Payload Pass**, starting from measurements rather than further speculative decomposition. Scene Studio/Level Lab refactors return only if later production work exposes a concrete coupling or maintenance problem.
