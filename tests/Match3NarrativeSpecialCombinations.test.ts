@@ -1,38 +1,53 @@
 import { describe, expect, it } from 'vitest';
 import { readFile } from 'node:fs/promises';
+import {
+  directSpecialComboTargets,
+  resolveDirectSpecialCombo,
+  type Match3RuleCell,
+  type SpecialKind,
+} from '../src/engine/Match3Rules';
+
+const emptyBoard = (): Match3RuleCell[] => Array.from({ length: 64 }, () => ({ tile: null, special: null }));
 
 describe('ANM-022E narrative direct special combinations', () => {
-  it('defines only UPDS narrative combo vocabulary', async () => {
-    const source = await readFile(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
-    for (const combo of ['flash-flash', 'flash-evidence', 'evidence-evidence', 'lead-flash', 'lead-evidence', 'insight-normal', 'insight-special', 'fallback']) {
-      expect(source).toContain(`'${combo}'`);
-    }
-    expect(source).not.toContain("'line-line'");
-    expect(source).not.toContain("'raven-line'");
-    expect(source).not.toContain("'prism-normal'");
+  it('defines the complete UPDS direct-combo matrix', () => {
+    const cases: readonly [SpecialKind | null, SpecialKind | null, string | null][] = [
+      ['flash-row', 'flash-column', 'flash-flash'],
+      ['flash-row', 'evidence', 'flash-evidence'],
+      ['evidence', 'evidence', 'evidence-evidence'],
+      ['lead', 'flash-column', 'lead-flash'],
+      ['lead', 'evidence', 'lead-evidence'],
+      ['insight', null, 'insight-normal'],
+      ['insight', 'lead', 'insight-special'],
+      ['lead', 'lead', 'fallback'],
+      [null, null, null],
+    ];
+    for (const [first, second, expected] of cases) expect(resolveDirectSpecialCombo(first, second)).toBe(expected);
   });
 
-  it('keeps the Flash family symmetric', async () => {
-    const source = await readFile(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
-    expect(source).toContain("kind === 'flash-row' || kind === 'flash-column'");
-    expect(source).toContain("return 'flash-flash'");
+  it('keeps the Flash family symmetric', () => {
+    expect(resolveDirectSpecialCombo('flash-row', 'flash-column')).toBe('flash-flash');
+    expect(resolveDirectSpecialCombo('flash-column', 'flash-row')).toBe('flash-flash');
+    expect(resolveDirectSpecialCombo('evidence', 'flash-row')).toBe('flash-evidence');
   });
 
-  it('applies direct combos only on the first resolution', async () => {
-    const source = await readFile(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
-    expect(source).toContain('totals.cascades === 1 && directCombo');
-    expect(source).toContain('expandDirectSpecialCombo');
+  it('applies direct combos only on the first mutable resolution', async () => {
+    const engine = await readFile(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
+    expect(engine).toContain('totals.cascades === 1 && directCombo');
+    expect(engine).toContain('directSpecialComboTargets');
   });
 
-  it('keeps Lead objective-aware targeting in Lead combos', async () => {
-    const source = await readFile(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
-    expect(source).toContain('this.leadTargets(centre)');
+  it('keeps Lead objective-aware targeting delegated from the engine', () => {
+    const board = emptyBoard();
+    board[27] = { tile: 'pantiesLacePink', special: 'lead' };
+    board[28] = { tile: 'pantiesSportWhite', special: 'evidence' };
+    const targets = directSpecialComboTargets(board, 'lead-evidence', 27, 28, () => [63]);
+    expect(targets).toContain(63);
   });
 
-  it('uses deterministic fallback for unsupported special pairs', async () => {
-    const source = await readFile(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
-    expect(source).toContain("return 'fallback'");
-    expect(source).toContain('clear.add(first)');
-    expect(source).toContain('clear.add(second)');
+  it('uses deterministic fallback for unsupported special pairs', () => {
+    const board = emptyBoard();
+    const targets = directSpecialComboTargets(board, 'fallback', 10, 11, () => []);
+    expect(new Set(targets)).toEqual(new Set([10, 11]));
   });
 });

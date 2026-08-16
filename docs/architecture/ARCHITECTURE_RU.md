@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening, ANM-023F1 repository/Biome hardening and ANM-023F2 test simplification. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F3A R1 is merged via PR #139; ANM-023F3B R1 is the current behavior-preserving VN presentation refactor candidate.
+Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening, ANM-023F1 repository/Biome hardening and ANM-023F2 test simplification. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F3A R1 is merged via PR #139 and ANM-023F3B R1 via PR #140; ANM-023F3C R1 is the current final planned F3 behavior-preserving Match-3 rule-kernel extraction candidate.
 
 ## Runtime flow
 
@@ -15,7 +15,7 @@ ANM-029H does not change ownership boundaries. It records the next bounded maint
 
 - F1 is merged via PR #137: Biome lint is unified across source/tests/config and generated repository debris is removed/guarded;
 - F2 is merged via PR #138: completed localization lifecycle-batch tests are consolidated into domain suites and the clean Biome cohort is blocking;
-- F3 decomposes measured controller/engine hotspots only where a cut reduces coupling and reading scope; F3A (PR #139) extracted deterministic Match-3 presentation, and F3B applies the same ownership rule to deterministic VN stage/preload/overlay/choice presentation;
+- F3 decomposes measured controller/engine hotspots only where a cut reduces coupling and reading scope; F3A (PR #139) extracted deterministic Match-3 presentation; F3B (PR #140) extracted deterministic VN stage/preload/overlay/choice presentation; F3C extracts stateless Match-3 match/special rules from mutable engine lifecycle and is intended to close F3 if CI/preview stay green;
 - F4 measures bundle/startup/preload/memory/locale payload before any optimization such as lazy locale loading.
 
 The desired direction remains `controller orchestrates → pure/domain modules calculate → renderer renders → store persists`. Existing public/runtime contracts remain stable unless a later atomic feature explicitly changes them.
@@ -75,7 +75,7 @@ Owns one active Match-3 runtime/session orchestration:
 - win/loss/evidence presentation;
 - attempt telemetry.
 
-Deterministic intro/board/objective/tutorial/main-screen HTML is composed by pure `src/features/match3/Match3Presentation.ts`; it receives an explicit view model/translator and owns no DOM mutation, timers, telemetry, session or navigation. Rules remain in `src/engine/Match3Game.ts`. Story, Match-3 Campaign and Level Lab enter the same controller through explicit mode seams; the controller must not invent per-mode rules or import VN.
+Deterministic intro/board/objective/tutorial/main-screen HTML is composed by pure `src/features/match3/Match3Presentation.ts`; it receives an explicit view model/translator and owns no DOM mutation, timers, telemetry, session or navigation. Stateless match/special calculation lives in `src/engine/Match3Rules.ts`, while mutable board/objective/cascade lifecycle remains in `src/engine/Match3Game.ts`. Story, Match-3 Campaign and Level Lab enter the same controller through explicit mode seams; the controller must not invent per-mode rules or import VN.
 
 ### `src/features/levelLab/LevelLabController.ts`
 
@@ -183,7 +183,8 @@ image only after the corresponding package is explicitly promoted from `planned`
 
 ### `src/engine/`
 
-- `Match3Game.ts` — deterministic rules, legality, objectives, hints, specials and frames;
+- `Match3Rules.ts` — stateless board geometry, match groups, special creation/feedback and special-combo target expansion;
+- `Match3Game.ts` — seeded mutable board lifecycle, legality orchestration, objectives, hints, cascades/settle/refill and frames;
 - `CampaignStore.ts` — Story save compatibility/import/export/recovery;
 - `Match3CampaignStore.ts` — separate direct Match-3 campaign progression.
 

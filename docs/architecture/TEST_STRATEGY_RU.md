@@ -67,6 +67,7 @@ ANM-029H делает следующий technical maintenance track явным:
 - два F1 test-only unused findings удаляются, test warning override исчезает, а доказавший чистый baseline cohort (`noFallthroughSwitchClause`, `noExplicitAny`, `noUselessCatch`, `noUselessConstructor`, `noAccumulatingSpread`) становится blocking;
 - `format:check` остаётся отдельным до dedicated formatting baseline, чтобы не смешивать static-analysis hardening с массовым style diff;
 - exact historical roadmap wording не является production contract. Traceability тестирует durable status/authority invariants;
+- F3A/F3B presentation boundaries and F3C Match-3 rule kernel move tests toward direct behavior/domain contracts; source assertions remain only for ownership/lifecycle invariants that cannot be expressed cleanly through public behavior;
 - уменьшение числа файлов/строк само по себе не является success metric. Поведенческая защита не должна ослабнуть.
 
 ## Приоритет при рефакторинге
