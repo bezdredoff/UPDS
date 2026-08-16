@@ -161,6 +161,7 @@ describe('active documentation traceability', () => {
     const match3RuleKernelExtraction = read('docs/features/ANM023F3C_MATCH3_RULE_KERNEL_EXTRACTION_RU.md');
     const lazyLocalePayload = read('docs/features/ANM023F4A_LAZY_LOCALE_PAYLOAD_RU.md');
     const runtimeAssetPreloadMemory = read('docs/features/ANM023F4B_RUNTIME_ASSET_PRELOAD_MEMORY_RU.md');
+    const assetGapAudit = read('docs/features/ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md');
 
     expect(roadmap).toContain('028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE');
     expect(roadmap).toContain('ANM-028D0 R1 Emi neutral master accepted');
@@ -238,10 +239,21 @@ describe('active documentation traceability', () => {
     expect(runtimeAssetPreloadMemory).toContain('IMAGE_PRELOAD_CONCURRENCY = 4');
     expect(runtimeAssetPreloadMemory).toContain('CACHE_WARM_CONCURRENCY = 4');
     expect(runtimeAssetPreloadMemory).toContain('services.pwa.start(runtimeAssetCatalog)');
+    expect(runtimeAssetPreloadMemory).toContain('PR #144');
+    expect(runtimeAssetPreloadMemory).toContain('UPDS CI #289');
     expect(runtimeAssetPreloadMemory).toContain('ANM-030A');
     expect(architecture).toContain('Runtime asset warming / offline cache ownership');
+    expect(architecture).toContain('Production asset audit ownership');
     expect(roadmap).toContain('ANM-023F4A R1 [P1] — COMPLETE / PR #142');
-    expect(roadmap).toContain('ANM-023F4B R1 [P1] — CURRENT CANDIDATE');
+    expect(roadmap).toContain('ANM-023F4B R1 [P1] — COMPLETE / PR #144');
+    expect(roadmap).toContain('ANM-030A R1.1 [P0] — CURRENT CANDIDATE');
+    expect(roadmap).toContain('ANM-030B0A [P1] — PLANNED');
+    expect(roadmap).toContain('five-asset reusable Match-3 special/bonus visual pack');
+    expect(index).toContain('ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md');
+    expect(assetGapAudit).toContain('upds-asset-gap-audit-v1');
+    expect(assetGapAudit).toContain('5 dedicated production / 24 runtime-used');
+    expect(assetGapAudit).toContain('38 production outputs');
+    expect(assetGapAudit).toContain('1 shared production-art gap: 5 special/bonus visuals');
     expect(match3PresentationExtraction).toContain('mobile candidate preview');
     expect(index).toContain('ANM023E_TEST_TOOLING_IDENTITY_HARDENING_RU.md');
     expect(roadmap).toContain('remaining **999** base-catalog keys');

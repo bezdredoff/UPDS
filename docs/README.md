@@ -44,6 +44,7 @@ If two active documents conflict, prefer the narrower current machine-readable c
 - [`features/ANM027G_EPISODES_13_15_PRODUCTION_RU.md`](features/ANM027G_EPISODES_13_15_PRODUCTION_RU.md) — fourth canonical production batch: slots `13–15`, Kubo guest route, family atelier chronology, abandoned-laundry consent route and three more Match-3 levels
 - [`features/ANM027G_EPISODES_16_18_PRODUCTION_RU.md`](features/ANM027G_EPISODES_16_18_PRODUCTION_RU.md) — fifth canonical production batch: slots `16–18`, Vincent scanner route, Rina archive confession, common-route strategy pivot and three more Match-3 levels
 - [`features/ANM027G_EPISODES_19_21_PRODUCTION_RU.md`](features/ANM027G_EPISODES_19_21_PRODUCTION_RU.md) — final canonical ending batch: three mutually exclusive slots `19–21`, final-strategy routing, gated full-truth outcome and three ending Match-3 levels
+- [`features/ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md`](features/ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md) — current full-game visual production inventory: 22-slot background/cast/guest/hero-clue/Match-3/staging gaps and budgeted ANM-030B waves
 
 The repository now contains the complete detailed authored screenplay for all 22 slots `0–21`: ANM-003 covers `0–3`, sequential ANM-027G sources cover `4–18`, and the final `19–21` source contains the three mutually exclusive authored ending routes.
 
@@ -105,6 +106,7 @@ the separate episode-guest tier, and `src/data/sceneStudioCalibration.ts` (`upds
 `src/ui/vnPortraitGeometry.ts` owns runtime-top and multi-actor eye-line camera derivation. Technical integration
 and whole-rig visual approval remain separate: approved Emi neutral/smile/serious/surprised are playable through
 D3A overrides, while legacy embarrassed/Pose B/medallion remain fallback until replacement art is supplied.
+`src/content/art/ANM030A.asset-gap-audit.json` (`upds-asset-gap-audit-v1`) is the derived machine-readable production-gap matrix; it records current `production`, `runtime-fallback`, `planned-missing`, `reusable` and external-art-blocked status without replacing the authoritative runtime manifests above. R1.1 also records the five existing Match-3 special mechanics as one shared planned production-art pack: current generic SVG overlays stay playable fallback until dedicated bonus visuals are approved.
 
 ### Match-3 production and tooling
 

@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.4-dev`.
-Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation, ANM-028D3A Emi approved-frame runtime transition, completed ANM-029B4 Belarusian production, merged ANM-029H planning reset, ANM-023F1 repository/Biome hardening and ANM-023F2 test-suite simplification**. Merged runtime simplification now includes **ANM-023F3A / PR #139**, **ANM-023F3B / PR #140** and **ANM-023F3C / PR #141**; ANM-023F3 is complete. ANM-023F4A is merged via **PR #142** with a measured initial-JS reduction to **741.15 kB / 247.14 kB gzip**. Current candidate focus: **ANM-023F4B R1 Runtime Asset Preload & Memory Pass**. Additional locale production is paused; the active production-enabler track remains ANM-023F before high-volume ANM-030 art integration.
+Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation, ANM-028D3A Emi approved-frame runtime transition, completed ANM-029B4 Belarusian production and merged ANM-029H planning reset**. The complete **ANM-023F** simplification/performance track is merged through **F4B / PR #144**; F4A reduced initial JS to **741.15 kB / 247.14 kB gzip**, while F4B bounded runtime/PWA asset warming without regressing that split. Current candidate focus: **ANM-030A R1.1 Full Game Asset Gap Audit**. Additional locale production is paused; high-volume art integration begins only from the audited ANM-030B+ backlog.
 
 `package.json.version` — единственный источник продуктовой semver dev-линии; `src/appVersion.ts` импортирует её как `APP_VERSION`. `BUILD_LABEL` остаётся отдельным feature/baseline identity и не выводится из semver. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -73,14 +73,14 @@ Active production foundation: **ANM-025/026 Match-3 production + tooling, comple
 
 ## Production backlog
 
-### ANM-023F — Codebase, Test & Tooling Simplification [P0/P1] — IN PROGRESS
+### ANM-023F — Codebase, Test & Tooling Simplification [P0/P1] — COMPLETE
 
 The post-Belarusian reset intentionally reopens the ANM-023 maintenance line before high-volume art/content integration. This is a bounded simplification track, not an architecture rewrite.
 
 - **023F1 Biome Expansion & Repository Hygiene [P0] — R1 COMPLETE / PR #137** — unified Biome lint across `src`, `tests` and Vite config; focused/duplicate test hooks are blocking; repository debris is removed and guarded; safe-fix commands are available. F1's merged CI baseline exposed only two test-only unused-code warnings and zero findings from the staged high-signal advisory cohort.
 - **023F2 Test Suite Simplification [P0] — R1 COMPLETE / PR #138** — completed Belarusian lifecycle-batch tests are consolidated into three domain suites; repository test-file count is reduced from 110 to 90; F1 warning sources are removed and the proven high-signal Biome cohort is blocking.
 - **023F3 Runtime / Controller Simplification [P0/P1] — COMPLETE THROUGH F3C / PR #141** — three bounded behavior-preserving cuts reduce measured runtime reading hotspots without broad architectural churn: F3A `/ PR #139` extracts Match-3 presentation, F3B `/ PR #140` extracts VN presentation, and F3C `/ PR #141` extracts the stateless Match-3 rule kernel while mutable lifecycle remains in `Match3Game`.
-- **023F4 Performance & Payload Pass [P1] — IN PROGRESS** — F4A is **R1 COMPLETE / PR #142**: the initial entry fell from **1,206.14 / 389.05 kB gzip** to **741.15 / 247.14 kB gzip**, with BE/EN emitted as separate chunks. **F4B R1 CURRENT CANDIDATE** separates complete PWA offline caching from browser-image warming, removes full-catalog bootstrap `Image()` preload, and bounds image/cache warm concurrency at four.
+- **023F4 Performance & Payload Pass [P1] — COMPLETE / PR #144** — F4A **R1 COMPLETE / PR #142** reduced the initial entry from **1,206.14 / 389.05 kB gzip** to **741.15 / 247.14 kB gzip** with BE/EN emitted as separate chunks. F4B **R1 COMPLETE / PR #144** keeps the complete PWA offline catalog but removes full-catalog bootstrap `Image()` warming and bounds browser/service-worker warm concurrency at four; post-merge CI #289 kept the entry at **741.59 / 247.24 kB gzip**.
 
 Success criterion: the next feature requires less code/test surface to understand and modify, while GitHub CI catches more real defects and behavioral coverage does not regress. Runtime-impacting F3/F4 cuts still require mobile preview QA.
 
@@ -214,7 +214,12 @@ Rules:
 
 ### ANM-030 — Full Content / Art Production [P1]
 
-Start with **ANM-030A Full Game Asset Gap Audit [P0]**: derive the exact missing/legacy/fallback asset inventory from story graph, staging, runtime manifests and current production status. The audit can be prepared in parallel with ANM-023F, but high-volume runtime integration begins after F1/F2 and the first bounded F3 simplification cuts are stable.
+Start with **ANM-030A Full Game Asset Gap Audit [P0] — R1.1 CURRENT CANDIDATE**: `src/content/art/ANM030A.asset-gap-audit.json` derives the exact production/fallback/missing/reusable inventory from the completed `0–21` story macro, runtime resolver, character/guest manifests, Match-3 configs and staging. Current measured gaps: **5/24 runtime-used background variants have dedicated production masters (19 aliases), 3/9 full-stage characters are fully production-ready + Emi mixed + 5 planned, 0/6 guest packages, 0/6 dedicated hero close-ups; Match-3 gameplay/configuration is complete, but one shared production-art gap remains: five dedicated special/bonus visuals replacing the current generic SVG overlays. VN staging has zero blocking art gaps**.
+
+Backlog refinement from the audit:
+- **ANM-030B0A [P1] — PLANNED: Match-3 Special/Bonus Visual Pack.** One reusable five-asset pack for the existing `flash-row`, `flash-column`, `evidence`, `lead`, `insight` mechanics. Current SVGs remain runtime fallback until approved production art exists. Camera/flash/viewfinder/evidence motifs are preferred where they improve readability; exact art is deferred to the external production step. No per-level bonus packs.
+- **ANM-030B0B [P1] — PLANNED: Character Closure.** Emi `embarrassed` / Pose B / medallion replacements plus seven extras semantic roles mapped onto ≤4 reusable visual archetypes.
+- **ANM-030B1–B4 [P1] — PLANNED:** vertical story-route production waves for remaining characters, guests, background masters/variants and six hero clues.
 
 Mass production then follows the budgets in
 [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md):
@@ -278,12 +283,14 @@ Do not consume core production capacity before base release.
 6. **ANM-023F3B R1 [P0/P1] — COMPLETE / PR #140** — deterministic VN presentation/asset-resolution extracted from VN orchestration;
 7. **ANM-023F3C R1 [P0/P1] — COMPLETE / PR #141** — stateless Match-3 rule kernel extracted from mutable engine lifecycle;
 8. **ANM-023F4A R1 [P1] — COMPLETE / PR #142** — lazy non-default locale payload; measured initial entry reduced to 741.15 kB / 247.14 kB gzip;
-9. **ANM-023F4B R1 [P1] — CURRENT CANDIDATE** — separate PWA offline cache from contextual browser-image warming and bound both warmup paths;
-10. **ANM-030A [P0]** — full game asset gap audit (may be prepared in parallel with 023F);
-11. **ANM-030B+ [P1]** — budgeted mass art/content integration using the external character/background workflow;
-12. **ANM-031 [P2]** — landscape;
-13. **ANM-032 [P2]** — music;
-14. **ANM-033 [P0 before release]** — release hardening.
+9. **ANM-023F4B R1 [P1] — COMPLETE / PR #144** — separate PWA offline cache from contextual browser-image warming and bound both warmup paths;
+10. **ANM-030A R1.1 [P0] — CURRENT CANDIDATE** — machine-readable full-game asset gap audit + corrected shared Match-3 bonus-art gap;
+11. **ANM-030B0A [P1] — PLANNED** — five-asset reusable Match-3 special/bonus visual pack; no art generation until the production slice starts;
+12. **ANM-030B0B [P1] — PLANNED** — Emi/extras character closure;
+13. **ANM-030B1–B4 [P1] — PLANNED** — budgeted story-route art/content integration using the external character/background workflow;
+14. **ANM-031 [P2]** — landscape;
+15. **ANM-032 [P2]** — music;
+16. **ANM-033 [P0 before release]** — release hardening.
 
 ## Backlog principle
 

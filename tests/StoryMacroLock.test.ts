@@ -47,6 +47,63 @@ type MacroLock = Readonly<{
 
 const macro = JSON.parse(readFileSync(resolve(process.cwd(), 'src/content/story/ANM027F.full-story-macro.json'), 'utf8')) as MacroLock;
 
+type AssetGapAudit = Readonly<{
+  format: string;
+  baseline: Readonly<{ mainSha: string }>;
+  summary: Readonly<{
+    storySlots: number;
+    contractedBackgroundVariants: number;
+    runtimeSemanticBackgroundVariants: number;
+    productionBackgroundVariants: number;
+    runtimeFallbackBackgroundVariants: number;
+    contractOnlyUnusedBackgroundVariants: number;
+    fullStageCharacters: number;
+    productionReadyFullStageCharacters: number;
+    mixedFullStageCharacters: number;
+    plannedFullStageCharacters: number;
+    outstandingFullStageAssets: number;
+    guestPackages: number;
+    productionGuestPackages: number;
+    outstandingGuestAssets: number;
+    extrasSemanticRoles: number;
+    extrasVisualArchetypeBudget: number;
+    heroClueCloseups: number;
+    productionHeroClueCloseups: number;
+    match3Levels: number;
+    match3LayoutArchetypes: number;
+    match3TilePresentationProfiles: number;
+    match3SharedSpecialMechanics: number;
+    productionReadyMatch3SpecialVisuals: number;
+    outstandingMatch3SpecialVisuals: number;
+    match3ProductionArtGaps: number;
+    blockingMatch3ArtGaps: number;
+    sceneStagingPresets: number;
+    authoredGoldenShots: number;
+    legacyOrphanClueBinaries: number;
+  }>;
+  characters: readonly Readonly<{ id: string; outstandingProductionAssetCount: number; auditStatus: readonly string[] }>[];
+  guestWitnesses: readonly Readonly<{ id: string; auditStatus: readonly string[] }>[];
+  heroClueCloseups: readonly Readonly<{ id: string; runtimeFallbackAsset: string; auditStatus: readonly string[] }>[];
+  match3: Readonly<{
+    specialVisuals: Readonly<{
+      outstandingProductionAssets: number;
+      mechanics: readonly Readonly<{ kind: string; runtimeAsset: string; auditStatus: readonly string[] }>[];
+      auditStatus: readonly string[];
+    }>;
+  }>;
+  legacyOrphans: readonly Readonly<{ asset: string }>[];
+  slots: readonly Readonly<{
+    slot: number;
+    backgrounds: readonly Readonly<{ family: string; variant: string; runtimeAsset: string | null; auditStatus: readonly string[] }>[];
+    match3: Readonly<{ archetype: string; auditStatus: readonly string[] }>;
+    evidence: Readonly<{ heroCloseups: readonly string[] }>;
+  }>[];
+}>;
+
+const assetGapAudit = JSON.parse(
+  readFileSync(resolve(process.cwd(), 'src/content/art/ANM030A.asset-gap-audit.json'), 'utf8'),
+) as AssetGapAudit;
+
 describe('ANM-027F full-story macro lock', () => {
   it('locks all 22 slots, the authored boundary and the three endings', () => {
     expect(macro.format).toBe('upds-story-macro-lock-v1');
@@ -130,5 +187,79 @@ describe('ANM-027F full-story macro lock', () => {
     expect(productionConfiguredSlots).toEqual(authoredSlots);
     expect(plannedConfigSlots).toEqual(macroLockedSlots);
     expect(macro.slots.slice(4, 7).flatMap((slot) => slot.assetTriggers.newMasterFamilies)).toEqual([]);
+  });
+
+  it('derives the ANM-030A production-gap matrix from the locked 22-slot story without inflating art scope', () => {
+    expect(assetGapAudit.format).toBe('upds-asset-gap-audit-v1');
+    expect(assetGapAudit.baseline.mainSha).toBe('6c7ced64284ecb30c2cdbc134468304c1a428cb4');
+    expect(assetGapAudit.slots.map((slot) => slot.slot)).toEqual(macro.slots.map((slot) => slot.slot));
+    expect(assetGapAudit.summary).toMatchObject({
+      storySlots: 22,
+      contractedBackgroundVariants: 26,
+      runtimeSemanticBackgroundVariants: 24,
+      productionBackgroundVariants: 5,
+      runtimeFallbackBackgroundVariants: 19,
+      contractOnlyUnusedBackgroundVariants: 2,
+      fullStageCharacters: 9,
+      productionReadyFullStageCharacters: 3,
+      mixedFullStageCharacters: 1,
+      plannedFullStageCharacters: 5,
+      outstandingFullStageAssets: 38,
+      guestPackages: 6,
+      productionGuestPackages: 0,
+      outstandingGuestAssets: 24,
+      extrasSemanticRoles: 7,
+      extrasVisualArchetypeBudget: 4,
+      heroClueCloseups: 6,
+      productionHeroClueCloseups: 0,
+      match3Levels: 22,
+      match3LayoutArchetypes: 6,
+      match3TilePresentationProfiles: 22,
+      match3SharedSpecialMechanics: 5,
+      productionReadyMatch3SpecialVisuals: 0,
+      outstandingMatch3SpecialVisuals: 5,
+      match3ProductionArtGaps: 1,
+      blockingMatch3ArtGaps: 0,
+      sceneStagingPresets: 8,
+      authoredGoldenShots: 23,
+      legacyOrphanClueBinaries: 2,
+    });
+
+    for (const [index, slot] of assetGapAudit.slots.entries()) {
+      const locked = macro.slots[index];
+      expect(slot.backgrounds.map(({ family, variant }) => ({ family, variant }))).toEqual(locked.locations);
+      expect(slot.match3.archetype).toBe(locked.match3.archetype);
+      expect(slot.match3.auditStatus).toEqual(['production', 'reusable']);
+      expect(slot.evidence.heroCloseups).toEqual(locked.assetTriggers.heroClueCloseups);
+      for (const background of slot.backgrounds) {
+        if (!background.runtimeAsset) continue;
+        expect(readFileSync(resolve(process.cwd(), 'public', background.runtimeAsset.replace('./', ''))).byteLength).toBeGreaterThan(0);
+      }
+    }
+
+    expect(assetGapAudit.characters.map((character) => character.id)).toEqual([
+      'miku', 'onoe', 'ayuki', 'emi', 'kentaro', 'norihiro', 'mayu', 'rina', 'kurose',
+    ]);
+    expect(assetGapAudit.characters.reduce((sum, character) => sum + character.outstandingProductionAssetCount, 0)).toBe(38);
+    expect(assetGapAudit.characters.find((character) => character.id === 'emi')?.auditStatus).toContain('rebuild-required');
+    expect(assetGapAudit.guestWitnesses).toHaveLength(6);
+    expect(assetGapAudit.guestWitnesses.every((guest) => guest.auditStatus.includes('planned-missing'))).toBe(true);
+    expect(assetGapAudit.heroClueCloseups).toHaveLength(6);
+    expect(assetGapAudit.heroClueCloseups.every((clue) => clue.auditStatus.includes('external-art-blocked'))).toBe(true);
+    expect(assetGapAudit.match3.specialVisuals.outstandingProductionAssets).toBe(5);
+    expect(assetGapAudit.match3.specialVisuals.mechanics.map((special) => special.kind)).toEqual([
+      'flash-row', 'flash-column', 'evidence', 'lead', 'insight',
+    ]);
+    expect(assetGapAudit.match3.specialVisuals.auditStatus).toEqual(['planned-missing', 'reusable', 'external-art-blocked']);
+    for (const special of assetGapAudit.match3.specialVisuals.mechanics) {
+      expect(special.auditStatus).toEqual(['runtime-fallback', 'rebuild-required']);
+      expect(readFileSync(resolve(process.cwd(), 'public', special.runtimeAsset.replace('./', ''))).byteLength).toBeGreaterThan(0);
+    }
+    for (const clue of assetGapAudit.heroClueCloseups) {
+      expect(readFileSync(resolve(process.cwd(), 'public', clue.runtimeFallbackAsset.replace('./', ''))).byteLength).toBeGreaterThan(0);
+    }
+    for (const orphan of assetGapAudit.legacyOrphans) {
+      expect(readFileSync(resolve(process.cwd(), 'public', orphan.asset.replace('./', ''))).byteLength).toBeGreaterThan(0);
+    }
   });
 });

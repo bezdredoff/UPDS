@@ -1,0 +1,3002 @@
+{
+  "format": "upds-asset-gap-audit-v1",
+  "feature": "ANM-030A",
+  "baseline": {
+    "mainSha": "6c7ced64284ecb30c2cdbc134468304c1a428cb4",
+    "storyMacro": "src/content/story/ANM027F.full-story-macro.json",
+    "characterManifest": "src/data/characterProduction.ts",
+    "guestManifest": "src/data/guestWitnesses.ts",
+    "backgroundResolver": "src/data/narrative.ts",
+    "match3Levels": "src/data/levels.ts",
+    "staging": "src/data/sceneStaging.ts",
+    "authoredShots": "src/data/authoredVnShots.ts"
+  },
+  "statusTags": [
+    "production",
+    "runtime-fallback",
+    "planned-missing",
+    "reusable",
+    "external-art-blocked",
+    "rebuild-required",
+    "legacy-orphan"
+  ],
+  "summary": {
+    "storySlots": 22,
+    "backgroundFamilies": 8,
+    "contractedBackgroundVariants": 26,
+    "runtimeSemanticBackgroundVariants": 24,
+    "productionBackgroundVariants": 5,
+    "runtimeFallbackBackgroundVariants": 19,
+    "contractOnlyUnusedBackgroundVariants": 2,
+    "fullStageCharacters": 9,
+    "productionReadyFullStageCharacters": 3,
+    "mixedFullStageCharacters": 1,
+    "plannedFullStageCharacters": 5,
+    "outstandingFullStageAssets": 38,
+    "guestPackages": 6,
+    "productionGuestPackages": 0,
+    "outstandingGuestAssets": 24,
+    "extrasSemanticRoles": 7,
+    "extrasVisualArchetypeBudget": 4,
+    "heroClueCloseups": 6,
+    "productionHeroClueCloseups": 0,
+    "match3Levels": 22,
+    "match3LayoutArchetypes": 6,
+    "match3TilePresentationProfiles": 22,
+    "blockingMatch3ArtGaps": 0,
+    "sceneStagingPresets": 8,
+    "authoredGoldenShots": 23,
+    "legacyOrphanClueBinaries": 2,
+    "match3SharedSpecialMechanics": 5,
+    "productionReadyMatch3SpecialVisuals": 0,
+    "outstandingMatch3SpecialVisuals": 5,
+    "match3ProductionArtGaps": 1
+  },
+  "backgrounds": {
+    "families": [
+      {
+        "id": "club-admin",
+        "macroStatus": "existing-master-family",
+        "firstSlot": 0,
+        "existingMacroAssets": [
+          "BG_CLUBROOM_DAY"
+        ],
+        "variants": [
+          {
+            "family": "club-admin",
+            "variant": "clubroom-day",
+            "firstUseSlot": 0,
+            "usedByCurrentStory": true,
+            "runtimeKey": "clubroom",
+            "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+            "auditStatus": [
+              "production"
+            ]
+          },
+          {
+            "family": "club-admin",
+            "variant": "clubroom-night",
+            "firstUseSlot": 18,
+            "usedByCurrentStory": true,
+            "runtimeKey": "clubroomNight",
+            "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          },
+          {
+            "family": "club-admin",
+            "variant": "student-council-auditorium",
+            "firstUseSlot": 4,
+            "usedByCurrentStory": true,
+            "runtimeKey": "studentCouncilAuditorium",
+            "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          },
+          {
+            "family": "club-admin",
+            "variant": "disciplinary-assembly",
+            "firstUseSlot": 20,
+            "usedByCurrentStory": true,
+            "runtimeKey": "disciplinaryAssembly",
+            "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          }
+        ],
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      {
+        "id": "sports-locker",
+        "macroStatus": "existing-master-family",
+        "firstSlot": 0,
+        "existingMacroAssets": [
+          "BG_LOCKER_ATHLETICS_DAY"
+        ],
+        "variants": [
+          {
+            "family": "sports-locker",
+            "variant": "athletics-locker",
+            "firstUseSlot": 0,
+            "usedByCurrentStory": true,
+            "runtimeKey": "lockerAthletics",
+            "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+            "auditStatus": [
+              "production"
+            ]
+          },
+          {
+            "family": "sports-locker",
+            "variant": "basketball-locker",
+            "firstUseSlot": 5,
+            "usedByCurrentStory": true,
+            "runtimeKey": "basketballLocker",
+            "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          },
+          {
+            "family": "sports-locker",
+            "variant": "combat-club-hall",
+            "firstUseSlot": 10,
+            "usedByCurrentStory": true,
+            "runtimeKey": "combatClubHall",
+            "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          },
+          {
+            "family": "sports-locker",
+            "variant": "old-gym-night",
+            "firstUseSlot": 12,
+            "usedByCurrentStory": true,
+            "runtimeKey": "oldGymNight",
+            "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          },
+          {
+            "family": "sports-locker",
+            "variant": "gymnastics-costume",
+            "firstUseSlot": 16,
+            "usedByCurrentStory": true,
+            "runtimeKey": "gymnasticsCostume",
+            "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          }
+        ],
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      {
+        "id": "pool",
+        "macroStatus": "existing-master-family",
+        "firstSlot": 2,
+        "existingMacroAssets": [
+          "BG_POOL_LOCKER_EVENING"
+        ],
+        "variants": [
+          {
+            "family": "pool",
+            "variant": "pool-locker-evening",
+            "firstUseSlot": 2,
+            "usedByCurrentStory": true,
+            "runtimeKey": "poolLocker",
+            "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+            "auditStatus": [
+              "production"
+            ]
+          }
+        ],
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      {
+        "id": "apartment-workshop",
+        "macroStatus": "existing-master-family",
+        "firstSlot": 1,
+        "existingMacroAssets": [
+          "BG_KENTARO_APARTMENT_EVENING",
+          "BG_NORIHIRO_APARTMENT_NIGHT"
+        ],
+        "variants": [
+          {
+            "family": "apartment-workshop",
+            "variant": "kentaro-apartment",
+            "firstUseSlot": 1,
+            "usedByCurrentStory": true,
+            "runtimeKey": "kentaroApartment",
+            "runtimeAsset": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+            "auditStatus": [
+              "production"
+            ]
+          },
+          {
+            "family": "apartment-workshop",
+            "variant": "norihiro-apartment",
+            "firstUseSlot": 3,
+            "usedByCurrentStory": true,
+            "runtimeKey": "norihiroApartment",
+            "runtimeAsset": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+            "auditStatus": [
+              "production"
+            ]
+          },
+          {
+            "family": "apartment-workshop",
+            "variant": "textile-workshop",
+            "firstUseSlot": 6,
+            "usedByCurrentStory": true,
+            "runtimeKey": "textileWorkshop",
+            "runtimeAsset": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          }
+        ],
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      {
+        "id": "lab-asterion",
+        "macroStatus": "new-master-required",
+        "firstSlot": 7,
+        "existingMacroAssets": [],
+        "variants": [
+          {
+            "family": "lab-asterion",
+            "variant": "smart-textile-lab",
+            "firstUseSlot": 7,
+            "usedByCurrentStory": true,
+            "runtimeKey": "asterionLab",
+            "runtimeAsset": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          },
+          {
+            "family": "lab-asterion",
+            "variant": "transfer-point",
+            "firstUseSlot": 11,
+            "usedByCurrentStory": true,
+            "runtimeKey": "asterionTransferPoint",
+            "runtimeAsset": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          },
+          {
+            "family": "lab-asterion",
+            "variant": "server-room",
+            "firstUseSlot": 20,
+            "usedByCurrentStory": true,
+            "runtimeKey": "serverRoom",
+            "runtimeAsset": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          }
+        ],
+        "auditStatus": [
+          "planned-missing",
+          "external-art-blocked"
+        ]
+      },
+      {
+        "id": "laundry-service",
+        "macroStatus": "new-master-required",
+        "firstSlot": 8,
+        "existingMacroAssets": [],
+        "variants": [
+          {
+            "family": "laundry-service",
+            "variant": "central-laundry",
+            "firstUseSlot": null,
+            "usedByCurrentStory": false,
+            "runtimeKey": null,
+            "runtimeAsset": null,
+            "auditStatus": [
+              "planned-missing"
+            ]
+          },
+          {
+            "family": "laundry-service",
+            "variant": "lost-found-warehouse",
+            "firstUseSlot": 8,
+            "usedByCurrentStory": true,
+            "runtimeKey": "lostFoundWarehouse",
+            "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          },
+          {
+            "family": "laundry-service",
+            "variant": "maintenance-room",
+            "firstUseSlot": 9,
+            "usedByCurrentStory": true,
+            "runtimeKey": "maintenanceRoom",
+            "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          },
+          {
+            "family": "laundry-service",
+            "variant": "anonymous-return-counter",
+            "firstUseSlot": 19,
+            "usedByCurrentStory": true,
+            "runtimeKey": "anonymousReturnCounter",
+            "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          }
+        ],
+        "auditStatus": [
+          "planned-missing",
+          "external-art-blocked"
+        ]
+      },
+      {
+        "id": "campus-exterior",
+        "macroStatus": "new-master-required",
+        "firstSlot": 11,
+        "existingMacroAssets": [],
+        "variants": [
+          {
+            "family": "campus-exterior",
+            "variant": "service-yard",
+            "firstUseSlot": 11,
+            "usedByCurrentStory": true,
+            "runtimeKey": "serviceYard",
+            "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          },
+          {
+            "family": "campus-exterior",
+            "variant": "campus-path",
+            "firstUseSlot": 15,
+            "usedByCurrentStory": true,
+            "runtimeKey": "campusPath",
+            "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          },
+          {
+            "family": "campus-exterior",
+            "variant": "campus-street",
+            "firstUseSlot": null,
+            "usedByCurrentStory": false,
+            "runtimeKey": null,
+            "runtimeAsset": null,
+            "auditStatus": [
+              "planned-missing"
+            ]
+          }
+        ],
+        "auditStatus": [
+          "planned-missing",
+          "external-art-blocked"
+        ]
+      },
+      {
+        "id": "old-building-finale",
+        "macroStatus": "new-master-required",
+        "firstSlot": 15,
+        "existingMacroAssets": [],
+        "variants": [
+          {
+            "family": "old-building-finale",
+            "variant": "abandoned-laundry",
+            "firstUseSlot": 15,
+            "usedByCurrentStory": true,
+            "runtimeKey": "abandonedLaundry",
+            "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          },
+          {
+            "family": "old-building-finale",
+            "variant": "old-archive",
+            "firstUseSlot": 17,
+            "usedByCurrentStory": true,
+            "runtimeKey": "oldArchive",
+            "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          },
+          {
+            "family": "old-building-finale",
+            "variant": "service-tunnel",
+            "firstUseSlot": 20,
+            "usedByCurrentStory": true,
+            "runtimeKey": "serviceTunnel",
+            "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+            "auditStatus": [
+              "runtime-fallback",
+              "external-art-blocked"
+            ]
+          }
+        ],
+        "auditStatus": [
+          "planned-missing",
+          "external-art-blocked"
+        ]
+      }
+    ],
+    "physicalFiles": [
+      "assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "assets/backgrounds/BG_POOL_LOCKER_EVENING.webp"
+    ]
+  },
+  "characters": [
+    {
+      "id": "miku",
+      "firstCastSlot": 0,
+      "requiredAssetCount": 7,
+      "productionReadyAssetCount": 7,
+      "legacyFallbackAssetCount": 0,
+      "outstandingProductionAssetCount": 0,
+      "auditStatus": [
+        "production"
+      ],
+      "note": "strict seven-asset full-stage package is production-ready"
+    },
+    {
+      "id": "onoe",
+      "firstCastSlot": 0,
+      "requiredAssetCount": 7,
+      "productionReadyAssetCount": 7,
+      "legacyFallbackAssetCount": 0,
+      "outstandingProductionAssetCount": 0,
+      "auditStatus": [
+        "production"
+      ],
+      "note": "strict seven-asset full-stage package is production-ready"
+    },
+    {
+      "id": "ayuki",
+      "firstCastSlot": 0,
+      "requiredAssetCount": 7,
+      "productionReadyAssetCount": 7,
+      "legacyFallbackAssetCount": 0,
+      "outstandingProductionAssetCount": 0,
+      "auditStatus": [
+        "production"
+      ],
+      "note": "strict seven-asset full-stage package is production-ready"
+    },
+    {
+      "id": "emi",
+      "firstCastSlot": 0,
+      "requiredAssetCount": 7,
+      "productionReadyAssetCount": 4,
+      "legacyFallbackAssetCount": 3,
+      "outstandingProductionAssetCount": 3,
+      "auditStatus": [
+        "production",
+        "runtime-fallback",
+        "rebuild-required",
+        "external-art-blocked"
+      ],
+      "note": "approved D0–D3 runtime overrides are live; embarrassed, Pose B and medallion remain legacy fallback"
+    },
+    {
+      "id": "kentaro",
+      "firstCastSlot": 1,
+      "requiredAssetCount": 7,
+      "productionReadyAssetCount": 0,
+      "legacyFallbackAssetCount": 0,
+      "outstandingProductionAssetCount": 7,
+      "auditStatus": [
+        "planned-missing",
+        "runtime-fallback",
+        "external-art-blocked"
+      ],
+      "note": "asset-free planned full-stage definition; runtime uses placeholder presentation"
+    },
+    {
+      "id": "norihiro",
+      "firstCastSlot": 2,
+      "requiredAssetCount": 7,
+      "productionReadyAssetCount": 0,
+      "legacyFallbackAssetCount": 0,
+      "outstandingProductionAssetCount": 7,
+      "auditStatus": [
+        "planned-missing",
+        "runtime-fallback",
+        "external-art-blocked"
+      ],
+      "note": "asset-free planned full-stage definition; runtime uses placeholder presentation"
+    },
+    {
+      "id": "mayu",
+      "firstCastSlot": 4,
+      "requiredAssetCount": 7,
+      "productionReadyAssetCount": 0,
+      "legacyFallbackAssetCount": 0,
+      "outstandingProductionAssetCount": 7,
+      "auditStatus": [
+        "planned-missing",
+        "runtime-fallback",
+        "external-art-blocked"
+      ],
+      "note": "asset-free planned full-stage definition; runtime uses placeholder presentation"
+    },
+    {
+      "id": "rina",
+      "firstCastSlot": 8,
+      "requiredAssetCount": 7,
+      "productionReadyAssetCount": 0,
+      "legacyFallbackAssetCount": 0,
+      "outstandingProductionAssetCount": 7,
+      "auditStatus": [
+        "planned-missing",
+        "runtime-fallback",
+        "external-art-blocked"
+      ],
+      "note": "asset-free planned full-stage definition; runtime uses placeholder presentation"
+    },
+    {
+      "id": "kurose",
+      "firstCastSlot": 7,
+      "requiredAssetCount": 7,
+      "productionReadyAssetCount": 0,
+      "legacyFallbackAssetCount": 0,
+      "outstandingProductionAssetCount": 7,
+      "auditStatus": [
+        "planned-missing",
+        "runtime-fallback",
+        "external-art-blocked"
+      ],
+      "note": "asset-free planned full-stage definition; runtime uses placeholder presentation"
+    }
+  ],
+  "guestWitnesses": [
+    {
+      "id": "hinata",
+      "firstCastSlot": 5,
+      "requiredAssetCount": 4,
+      "productionReadyAssetCount": 0,
+      "auditStatus": [
+        "planned-missing",
+        "runtime-fallback",
+        "external-art-blocked"
+      ],
+      "runtimeFallback": "guest-testimony-card shell"
+    },
+    {
+      "id": "gen",
+      "firstCastSlot": 9,
+      "requiredAssetCount": 4,
+      "productionReadyAssetCount": 0,
+      "auditStatus": [
+        "planned-missing",
+        "runtime-fallback",
+        "external-art-blocked"
+      ],
+      "runtimeFallback": "guest-testimony-card shell"
+    },
+    {
+      "id": "aoi",
+      "firstCastSlot": 10,
+      "requiredAssetCount": 4,
+      "productionReadyAssetCount": 0,
+      "auditStatus": [
+        "planned-missing",
+        "runtime-fallback",
+        "external-art-blocked"
+      ],
+      "runtimeFallback": "guest-testimony-card shell"
+    },
+    {
+      "id": "kubo",
+      "firstCastSlot": 13,
+      "requiredAssetCount": 4,
+      "productionReadyAssetCount": 0,
+      "auditStatus": [
+        "planned-missing",
+        "runtime-fallback",
+        "external-art-blocked"
+      ],
+      "runtimeFallback": "guest-testimony-card shell"
+    },
+    {
+      "id": "kubo-mother",
+      "firstCastSlot": 14,
+      "requiredAssetCount": 4,
+      "productionReadyAssetCount": 0,
+      "auditStatus": [
+        "planned-missing",
+        "runtime-fallback",
+        "external-art-blocked"
+      ],
+      "runtimeFallback": "guest-testimony-card shell"
+    },
+    {
+      "id": "vincent",
+      "firstCastSlot": 16,
+      "requiredAssetCount": 4,
+      "productionReadyAssetCount": 0,
+      "auditStatus": [
+        "planned-missing",
+        "runtime-fallback",
+        "external-art-blocked"
+      ],
+      "runtimeFallback": "guest-testimony-card shell"
+    }
+  ],
+  "extras": {
+    "semanticRoles": [
+      {
+        "semanticRole": "club-representatives",
+        "slots": [
+          4
+        ],
+        "auditStatus": [
+          "reusable"
+        ],
+        "dedicatedFullStageAssetRequired": false
+      },
+      {
+        "semanticRole": "club-athlete",
+        "slots": [
+          5
+        ],
+        "auditStatus": [
+          "reusable"
+        ],
+        "dedicatedFullStageAssetRequired": false
+      },
+      {
+        "semanticRole": "club-captain",
+        "slots": [
+          13
+        ],
+        "auditStatus": [
+          "reusable"
+        ],
+        "dedicatedFullStageAssetRequired": false
+      },
+      {
+        "semanticRole": "occult-members",
+        "slots": [
+          12
+        ],
+        "auditStatus": [
+          "reusable"
+        ],
+        "dedicatedFullStageAssetRequired": false
+      },
+      {
+        "semanticRole": "service-worker",
+        "slots": [
+          11
+        ],
+        "auditStatus": [
+          "reusable"
+        ],
+        "dedicatedFullStageAssetRequired": false
+      },
+      {
+        "semanticRole": "students",
+        "slots": [
+          15
+        ],
+        "auditStatus": [
+          "reusable"
+        ],
+        "dedicatedFullStageAssetRequired": false
+      },
+      {
+        "semanticRole": "gymnast",
+        "slots": [
+          16
+        ],
+        "auditStatus": [
+          "reusable"
+        ],
+        "dedicatedFullStageAssetRequired": false
+      }
+    ],
+    "visualArchetypeBudget": 4,
+    "note": "seven story-semantic extras roles must map onto at most four reusable adult visual archetypes; they do not become seven full-stage rigs"
+  },
+  "heroClueCloseups": [
+    {
+      "id": "conductive-seam",
+      "slot": 3,
+      "subject": "серебристый проводящий шов",
+      "dedicatedProductionAsset": null,
+      "runtimeFallbackAsset": "./assets/clues/clue_towel_conductive_seam.png",
+      "runtimeClueId": "CUE_004",
+      "auditStatus": [
+        "runtime-fallback",
+        "planned-missing",
+        "external-art-blocked"
+      ],
+      "note": "current playable presentation remains native/localizable evidence UI plus shared clue/goal art until dedicated hero close-up is approved"
+    },
+    {
+      "id": "asterion-transfer-chain",
+      "slot": 11,
+      "subject": "контейнер Asterion и цепочка передачи",
+      "dedicatedProductionAsset": null,
+      "runtimeFallbackAsset": "./assets/match3/goal_memory_card.png",
+      "runtimeClueId": "CUE_012",
+      "auditStatus": [
+        "runtime-fallback",
+        "planned-missing",
+        "external-art-blocked"
+      ],
+      "note": "current playable presentation remains native/localizable evidence UI plus shared clue/goal art until dedicated hero close-up is approved"
+    },
+    {
+      "id": "second-skin-tag",
+      "slot": 12,
+      "subject": "активная метка Second Skin",
+      "dedicatedProductionAsset": null,
+      "runtimeFallbackAsset": "./assets/clues/clue_towel_conductive_seam.png",
+      "runtimeClueId": "CUE_013",
+      "auditStatus": [
+        "runtime-fallback",
+        "planned-missing",
+        "external-art-blocked"
+      ],
+      "note": "current playable presentation remains native/localizable evidence UI plus shared clue/goal art until dedicated hero close-up is approved"
+    },
+    {
+      "id": "rina-catalog",
+      "slot": 17,
+      "subject": "каталог Рины",
+      "dedicatedProductionAsset": null,
+      "runtimeFallbackAsset": "./assets/match3/goal_receipt.png",
+      "runtimeClueId": "CUE_018",
+      "auditStatus": [
+        "runtime-fallback",
+        "planned-missing",
+        "external-art-blocked"
+      ],
+      "note": "current playable presentation remains native/localizable evidence UI plus shared clue/goal art until dedicated hero close-up is approved"
+    },
+    {
+      "id": "post-rina-active-tag",
+      "slot": 18,
+      "subject": "новая метка после отстранения Рины",
+      "dedicatedProductionAsset": null,
+      "runtimeFallbackAsset": "./assets/clues/clue_towel_conductive_seam.png",
+      "runtimeClueId": "CUE_019",
+      "auditStatus": [
+        "runtime-fallback",
+        "planned-missing",
+        "external-art-blocked"
+      ],
+      "note": "current playable presentation remains native/localizable evidence UI plus shared clue/goal art until dedicated hero close-up is approved"
+    },
+    {
+      "id": "server-evidence",
+      "slot": 20,
+      "subject": "серверные логи и доказательство подмены согласия",
+      "dedicatedProductionAsset": null,
+      "runtimeFallbackAsset": "./assets/match3/goal_memory_card.png",
+      "runtimeClueId": "CUE_021",
+      "auditStatus": [
+        "runtime-fallback",
+        "planned-missing",
+        "external-art-blocked"
+      ],
+      "note": "current playable presentation remains native/localizable evidence UI plus shared clue/goal art until dedicated hero close-up is approved"
+    }
+  ],
+  "match3": {
+    "layoutArchetypes": [
+      "locker-columns",
+      "workbench-clusters",
+      "service-lanes",
+      "ordered-grid",
+      "signal-cross",
+      "archive-rows"
+    ],
+    "tilePresentationProfiles": [
+      "locker-laundry",
+      "photo-props",
+      "pool-service",
+      "ordered-return",
+      "meeting-reports",
+      "basketball-service",
+      "textile-workshop",
+      "asterion-lab",
+      "lost-found",
+      "maintenance-service",
+      "karate-control",
+      "asterion-transfer",
+      "second-skin-signal",
+      "kendo-pilot",
+      "kubo-atelier",
+      "abandoned-laundry",
+      "gymnastics-scanner",
+      "rina-archive",
+      "final-timeline",
+      "private-return",
+      "server-logs",
+      "convenient-presentation"
+    ],
+    "sharedTileIdentityAssets": 10,
+    "sharedIngredientVisualFamilies": 4,
+    "sharedBlockerVisualFamilies": 4,
+    "specialVisuals": {
+      "packId": "match3-special-bonus-visual-pack",
+      "mechanics": [
+        {
+          "kind": "flash-row",
+          "runtimeAsset": "./assets/match3/specials/flash-row.svg",
+          "auditStatus": [
+            "runtime-fallback",
+            "rebuild-required"
+          ],
+          "note": "horizontal line-clear; dedicated thematic bonus art required"
+        },
+        {
+          "kind": "flash-column",
+          "runtimeAsset": "./assets/match3/specials/flash-column.svg",
+          "auditStatus": [
+            "runtime-fallback",
+            "rebuild-required"
+          ],
+          "note": "vertical line-clear; dedicated thematic bonus art required"
+        },
+        {
+          "kind": "evidence",
+          "runtimeAsset": "./assets/match3/specials/evidence.svg",
+          "auditStatus": [
+            "runtime-fallback",
+            "rebuild-required"
+          ],
+          "note": "area/evidence special; current generic icon is runtime fallback"
+        },
+        {
+          "kind": "lead",
+          "runtimeAsset": "./assets/match3/specials/lead.svg",
+          "auditStatus": [
+            "runtime-fallback",
+            "rebuild-required"
+          ],
+          "note": "objective-aware lead special; current generic icon is runtime fallback"
+        },
+        {
+          "kind": "insight",
+          "runtimeAsset": "./assets/match3/specials/insight.svg",
+          "auditStatus": [
+            "runtime-fallback",
+            "rebuild-required"
+          ],
+          "note": "highest-tier insight special; current generic icon is runtime fallback"
+        }
+      ],
+      "outstandingProductionAssets": 5,
+      "productionDirection": [
+        "one reusable dedicated visual identity per existing special mechanic",
+        "camera/flash/viewfinder/evidence motifs are preferred where they improve immediate readability",
+        "preserve directional readability for flash-row versus flash-column",
+        "do not create per-episode special packs; the same approved pack serves all 22 levels"
+      ],
+      "auditStatus": [
+        "planned-missing",
+        "reusable",
+        "external-art-blocked"
+      ],
+      "note": "current SVG overlays keep gameplay readable but are prototype/runtime fallback; production closure requires dedicated thematic bonus visuals for the five already-existing special mechanics"
+    },
+    "auditStatus": [
+      "production",
+      "reusable",
+      "planned-missing"
+    ],
+    "note": "all 22 levels are production-configured and do not need per-episode tile PNG packs; the remaining shared Match-3 art gap is one five-asset special/bonus visual pack for the existing special mechanics"
+  },
+  "staging": {
+    "presetCount": 8,
+    "authoredGoldenShotCount": 23,
+    "auditStatus": [
+      "production",
+      "reusable"
+    ],
+    "note": "unlisted lines intentionally retain stable runtime staging fallback; lack of per-line authored shot declarations is not an art gap"
+  },
+  "legacyOrphans": [
+    {
+      "asset": "./assets/clues/clue_evidence_bag_coral.png",
+      "auditStatus": [
+        "legacy-orphan"
+      ],
+      "note": "physical file exists but current runtime data does not reference it"
+    },
+    {
+      "asset": "./assets/clues/clue_pink_slippers.png",
+      "auditStatus": [
+        "legacy-orphan"
+      ],
+      "note": "physical file exists but current runtime data does not reference it"
+    }
+  ],
+  "slots": [
+    {
+      "slot": 0,
+      "title": "Дело класса U",
+      "act": "I",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "club-admin",
+          "variant": "clubroom-day",
+          "runtimeKey": "clubroom",
+          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "family": "sports-locker",
+          "variant": "athletics-locker",
+          "runtimeKey": "lockerAthletics",
+          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "auditStatus": [
+            "production"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "emi",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "production",
+            "runtime-fallback",
+            "rebuild-required",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "trio-central-speaker",
+        "two-shot-alliance",
+        "two-shot-conflict",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0008",
+        "VN0013",
+        "VN0026",
+        "VN0034",
+        "VN0038"
+      ],
+      "evidence": {
+        "id": "selective-missing",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 0,
+        "archetype": "locker-columns",
+        "tilePresentationProfile": "locker-laundry",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "cast:emi"
+      ]
+    },
+    {
+      "slot": 1,
+      "title": "Чужая коллекция",
+      "act": "I",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "apartment-workshop",
+          "variant": "kentaro-apartment",
+          "runtimeKey": "kentaroApartment",
+          "runtimeAsset": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+          "auditStatus": [
+            "production"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "kentaro",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "guest-testimony-card",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [],
+      "evidence": {
+        "id": "kentaro-alibi",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 1,
+        "archetype": "workbench-clusters",
+        "tilePresentationProfile": "photo-props",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "cast:kentaro"
+      ]
+    },
+    {
+      "slot": 2,
+      "title": "Мокрые показания",
+      "act": "I",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "pool",
+          "variant": "pool-locker-evening",
+          "runtimeKey": "poolLocker",
+          "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+          "auditStatus": [
+            "production"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "norihiro",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "two-shot-alliance",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [],
+      "evidence": {
+        "id": "mixed-targets",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 2,
+        "archetype": "service-lanes",
+        "tilePresentationProfile": "pool-service",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "cast:norihiro"
+      ]
+    },
+    {
+      "slot": 3,
+      "title": "Розовые тапочки",
+      "act": "I",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "apartment-workshop",
+          "variant": "norihiro-apartment",
+          "runtimeKey": "norihiroApartment",
+          "runtimeAsset": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+          "auditStatus": [
+            "production"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "norihiro",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "two-shot-alliance",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [],
+      "evidence": {
+        "id": "conductive-seam",
+        "presentation": "hero-closeup",
+        "heroCloseups": [
+          "conductive-seam"
+        ]
+      },
+      "match3": {
+        "levelSlot": 3,
+        "archetype": "ordered-grid",
+        "tilePresentationProfile": "ordered-return",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "cast:norihiro",
+        "hero-clue:conductive-seam"
+      ]
+    },
+    {
+      "slot": 4,
+      "title": "Чрезвычайное бельевое совещание",
+      "act": "II",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "club-admin",
+          "variant": "student-council-auditorium",
+          "runtimeKey": "studentCouncilAuditorium",
+          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "mayu",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "club-representatives",
+          "tier": "extras",
+          "auditStatus": [
+            "reusable"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "trio-central-speaker",
+        "trio-reaction",
+        "guest-testimony-card",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0254",
+        "VN0273"
+      ],
+      "evidence": {
+        "id": "laundry-cadence",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 4,
+        "archetype": "ordered-grid",
+        "tilePresentationProfile": "meeting-reports",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:student-council-auditorium",
+        "cast:mayu"
+      ]
+    },
+    {
+      "slot": 5,
+      "title": "Заслон для вора",
+      "act": "II",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "sports-locker",
+          "variant": "basketball-locker",
+          "runtimeKey": "basketballLocker",
+          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "hinata",
+          "tier": "episode-guest",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "club-athlete",
+          "tier": "extras",
+          "auditStatus": [
+            "reusable"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "guest-testimony-card",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [],
+      "evidence": {
+        "id": "service-stitch",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 5,
+        "archetype": "locker-columns",
+        "tilePresentationProfile": "basketball-service",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:basketball-locker",
+        "cast:hinata"
+      ]
+    },
+    {
+      "slot": 6,
+      "title": "Мастерская подозрительного размера",
+      "act": "II",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "apartment-workshop",
+          "variant": "textile-workshop",
+          "runtimeKey": "textileWorkshop",
+          "runtimeAsset": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "hinata",
+          "tier": "episode-guest",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "guest-testimony-card",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0341"
+      ],
+      "evidence": {
+        "id": "post-repair-seam",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 6,
+        "archetype": "workbench-clusters",
+        "tilePresentationProfile": "textile-workshop",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:textile-workshop",
+        "cast:hinata"
+      ]
+    },
+    {
+      "slot": 7,
+      "title": "Человек, у которого есть объяснение",
+      "act": "II",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "lab-asterion",
+          "variant": "smart-textile-lab",
+          "runtimeKey": "asterionLab",
+          "runtimeAsset": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "kurose",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "two-shot-alliance",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0389"
+      ],
+      "evidence": {
+        "id": "asterion-thread",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 7,
+        "archetype": "signal-cross",
+        "tilePresentationProfile": "asterion-lab",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:smart-textile-lab",
+        "cast:kurose"
+      ]
+    },
+    {
+      "slot": 8,
+      "title": "Восемьдесят семь пакетов",
+      "act": "II",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "laundry-service",
+          "variant": "lost-found-warehouse",
+          "runtimeKey": "lostFoundWarehouse",
+          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "rina",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "mayu",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "trio-central-speaker",
+        "two-shot-alliance",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0427"
+      ],
+      "evidence": {
+        "id": "missing-package-ranges",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 8,
+        "archetype": "service-lanes",
+        "tilePresentationProfile": "lost-found",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:lost-found-warehouse",
+        "cast:rina",
+        "cast:mayu"
+      ]
+    },
+    {
+      "slot": 9,
+      "title": "Король потерянных носков",
+      "act": "II",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "laundry-service",
+          "variant": "maintenance-room",
+          "runtimeKey": "maintenanceRoom",
+          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "gen",
+          "tier": "episode-guest",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "guest-testimony-card",
+        "two-shot-conflict",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0482"
+      ],
+      "evidence": {
+        "id": "night-containers",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 9,
+        "archetype": "service-lanes",
+        "tilePresentationProfile": "maintenance-service",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:maintenance-room",
+        "cast:gen"
+      ]
+    },
+    {
+      "slot": 10,
+      "title": "Чёрный пояс, белые трусы",
+      "act": "III",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "sports-locker",
+          "variant": "combat-club-hall",
+          "runtimeKey": "combatClubHall",
+          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "aoi",
+          "tier": "episode-guest",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "kentaro",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "guest-testimony-card",
+        "trio-reaction",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0505"
+      ],
+      "evidence": {
+        "id": "control-sample-gear",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 10,
+        "archetype": "locker-columns",
+        "tilePresentationProfile": "karate-control",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:combat-club-hall",
+        "cast:aoi",
+        "cast:kentaro"
+      ]
+    },
+    {
+      "slot": 11,
+      "title": "Самый заметный тайный груз",
+      "act": "III",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "campus-exterior",
+          "variant": "service-yard",
+          "runtimeKey": "serviceYard",
+          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "family": "lab-asterion",
+          "variant": "transfer-point",
+          "runtimeKey": "asterionTransferPoint",
+          "runtimeAsset": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "kentaro",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "service-worker",
+          "tier": "extras",
+          "auditStatus": [
+            "reusable"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "two-shot-alliance",
+        "guest-testimony-card",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0535"
+      ],
+      "evidence": {
+        "id": "lab-transfer-chain",
+        "presentation": "hero-closeup",
+        "heroCloseups": [
+          "asterion-transfer-chain"
+        ]
+      },
+      "match3": {
+        "levelSlot": 11,
+        "archetype": "service-lanes",
+        "tilePresentationProfile": "asterion-transfer",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:service-yard",
+        "background:transfer-point",
+        "cast:kentaro",
+        "hero-clue:asterion-transfer-chain"
+      ]
+    },
+    {
+      "slot": 12,
+      "title": "ПанцуИтер существует?!",
+      "act": "III",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "sports-locker",
+          "variant": "old-gym-night",
+          "runtimeKey": "oldGymNight",
+          "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "occult-members",
+          "tier": "extras",
+          "auditStatus": [
+            "reusable"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "trio-reaction",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0594"
+      ],
+      "evidence": {
+        "id": "second-skin-tag",
+        "presentation": "hero-closeup",
+        "heroCloseups": [
+          "second-skin-tag"
+        ]
+      },
+      "match3": {
+        "levelSlot": 12,
+        "archetype": "signal-cross",
+        "tilePresentationProfile": "second-skin-signal",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:old-gym-night",
+        "hero-clue:second-skin-tag"
+      ]
+    },
+    {
+      "slot": 13,
+      "title": "Под бронёй",
+      "act": "III",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "sports-locker",
+          "variant": "combat-club-hall",
+          "runtimeKey": "combatClubHall",
+          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "kubo",
+          "tier": "episode-guest",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "club-captain",
+          "tier": "extras",
+          "auditStatus": [
+            "reusable"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "guest-testimony-card",
+        "two-shot-conflict",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0625"
+      ],
+      "evidence": {
+        "id": "pilot-participant-codes",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 13,
+        "archetype": "locker-columns",
+        "tilePresentationProfile": "kendo-pilot",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:combat-club-hall",
+        "cast:kubo"
+      ]
+    },
+    {
+      "slot": 14,
+      "title": "Дом, где бельё ни при чём",
+      "act": "III",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "apartment-workshop",
+          "variant": "textile-workshop",
+          "runtimeKey": "textileWorkshop",
+          "runtimeAsset": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "kubo",
+          "tier": "episode-guest",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "kubo-mother",
+          "tier": "episode-guest",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "guest-testimony-card",
+        "two-shot-conflict",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0663"
+      ],
+      "evidence": {
+        "id": "rina-pretheft-search",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 14,
+        "archetype": "workbench-clusters",
+        "tilePresentationProfile": "kubo-atelier",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:textile-workshop",
+        "cast:kubo",
+        "cast:kubo-mother"
+      ]
+    },
+    {
+      "slot": 15,
+      "title": "Кот с вещественным доказательством",
+      "act": "III",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "campus-exterior",
+          "variant": "campus-path",
+          "runtimeKey": "campusPath",
+          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "family": "old-building-finale",
+          "variant": "abandoned-laundry",
+          "runtimeKey": "abandonedLaundry",
+          "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "students",
+          "tier": "extras",
+          "auditStatus": [
+            "reusable"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "trio-reaction",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0721"
+      ],
+      "evidence": {
+        "id": "consent-note-route",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 15,
+        "archetype": "service-lanes",
+        "tilePresentationProfile": "abandoned-laundry",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:campus-path",
+        "background:abandoned-laundry"
+      ]
+    },
+    {
+      "slot": 16,
+      "title": "Розовые ленты не лгут",
+      "act": "III",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "sports-locker",
+          "variant": "gymnastics-costume",
+          "runtimeKey": "gymnasticsCostume",
+          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "vincent",
+          "tier": "episode-guest",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "gymnast",
+          "tier": "extras",
+          "auditStatus": [
+            "reusable"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "guest-testimony-card",
+        "trio-reaction",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0753"
+      ],
+      "evidence": {
+        "id": "post-rina-activation",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 16,
+        "archetype": "signal-cross",
+        "tilePresentationProfile": "gymnastics-scanner",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:gymnastics-costume",
+        "cast:vincent"
+      ]
+    },
+    {
+      "slot": 17,
+      "title": "Самый аккуратный преступник",
+      "act": "IV",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "old-building-finale",
+          "variant": "old-archive",
+          "runtimeKey": "oldArchive",
+          "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "rina",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "solo-close",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0795"
+      ],
+      "evidence": {
+        "id": "rina-catalog",
+        "presentation": "hero-closeup",
+        "heroCloseups": [
+          "rina-catalog"
+        ]
+      },
+      "match3": {
+        "levelSlot": 17,
+        "archetype": "archive-rows",
+        "tilePresentationProfile": "rina-archive",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:old-archive",
+        "cast:rina",
+        "hero-clue:rina-catalog"
+      ]
+    },
+    {
+      "slot": 18,
+      "title": "Вор, который пытался остановить кражу",
+      "act": "IV",
+      "branch": "common",
+      "backgrounds": [
+        {
+          "family": "old-building-finale",
+          "variant": "old-archive",
+          "runtimeKey": "oldArchive",
+          "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "family": "club-admin",
+          "variant": "clubroom-night",
+          "runtimeKey": "clubroomNight",
+          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "rina",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "emi",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "production",
+            "runtime-fallback",
+            "rebuild-required",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "trio-central-speaker",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0833"
+      ],
+      "evidence": {
+        "id": "continued-project-proof",
+        "presentation": "hero-closeup",
+        "heroCloseups": [
+          "post-rina-active-tag"
+        ]
+      },
+      "match3": {
+        "levelSlot": 18,
+        "archetype": "ordered-grid",
+        "tilePresentationProfile": "final-timeline",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:old-archive",
+        "background:clubroom-night",
+        "cast:rina",
+        "cast:emi",
+        "hero-clue:post-rina-active-tag"
+      ]
+    },
+    {
+      "slot": 19,
+      "title": "Вор пойман",
+      "act": "ENDING",
+      "branch": "ending-B",
+      "backgrounds": [
+        {
+          "family": "laundry-service",
+          "variant": "anonymous-return-counter",
+          "runtimeKey": "anonymousReturnCounter",
+          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "family": "club-admin",
+          "variant": "clubroom-day",
+          "runtimeKey": "clubroom",
+          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "auditStatus": [
+            "production"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "rina",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "emi",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "production",
+            "runtime-fallback",
+            "rebuild-required",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "mayu",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "kurose",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "trio-central-speaker",
+        "two-shot-conflict",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0878"
+      ],
+      "evidence": {
+        "id": "case-closed-stitch",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 19,
+        "archetype": "archive-rows",
+        "tilePresentationProfile": "private-return",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:anonymous-return-counter",
+        "cast:rina",
+        "cast:emi",
+        "cast:mayu",
+        "cast:kurose"
+      ]
+    },
+    {
+      "slot": 20,
+      "title": "Под прачечной",
+      "act": "ENDING",
+      "branch": "ending-A",
+      "backgrounds": [
+        {
+          "family": "old-building-finale",
+          "variant": "service-tunnel",
+          "runtimeKey": "serviceTunnel",
+          "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "family": "lab-asterion",
+          "variant": "server-room",
+          "runtimeKey": "serverRoom",
+          "runtimeAsset": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "family": "club-admin",
+          "variant": "disciplinary-assembly",
+          "runtimeKey": "disciplinaryAssembly",
+          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "kurose",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "rina",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "emi",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "production",
+            "runtime-fallback",
+            "rebuild-required",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "mayu",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "kentaro",
+          "tier": "conditional",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "kubo",
+          "tier": "conditional",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "vincent",
+          "tier": "conditional",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "two-shot-conflict",
+        "trio-central-speaker",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0913"
+      ],
+      "evidence": {
+        "id": "server-logs-consent",
+        "presentation": "hero-closeup",
+        "heroCloseups": [
+          "server-evidence"
+        ]
+      },
+      "match3": {
+        "levelSlot": 20,
+        "archetype": "service-lanes",
+        "tilePresentationProfile": "server-logs",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:service-tunnel",
+        "background:server-room",
+        "background:disciplinary-assembly",
+        "cast:kurose",
+        "cast:rina",
+        "cast:emi",
+        "cast:mayu",
+        "cast:kentaro",
+        "cast:kubo",
+        "cast:vincent",
+        "hero-clue:server-evidence"
+      ]
+    },
+    {
+      "slot": 21,
+      "title": "Идеальный подозреваемый",
+      "act": "ENDING",
+      "branch": "ending-C",
+      "backgrounds": [
+        {
+          "family": "club-admin",
+          "variant": "disciplinary-assembly",
+          "runtimeKey": "disciplinaryAssembly",
+          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "auditStatus": [
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "family": "club-admin",
+          "variant": "clubroom-day",
+          "runtimeKey": "clubroom",
+          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "auditStatus": [
+            "production"
+          ]
+        }
+      ],
+      "cast": [
+        {
+          "id": "miku",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "onoe",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "ayuki",
+          "tier": "stage-core",
+          "auditStatus": [
+            "production"
+          ]
+        },
+        {
+          "id": "mayu",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "kurose",
+          "tier": "recurring-stage",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "kentaro",
+          "tier": "conditional",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "norihiro",
+          "tier": "conditional",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        },
+        {
+          "id": "gen",
+          "tier": "conditional",
+          "auditStatus": [
+            "planned-missing",
+            "runtime-fallback",
+            "external-art-blocked"
+          ]
+        }
+      ],
+      "stagingPresets": [
+        "trio-reaction",
+        "guest-testimony-card",
+        "evidence-cutaway"
+      ],
+      "authoredGoldenShots": [
+        "VN0957"
+      ],
+      "evidence": {
+        "id": "discarded-contradictions",
+        "presentation": "native-ui",
+        "heroCloseups": []
+      },
+      "match3": {
+        "levelSlot": 21,
+        "archetype": "ordered-grid",
+        "tilePresentationProfile": "convenient-presentation",
+        "auditStatus": [
+          "production",
+          "reusable"
+        ]
+      },
+      "productionVisualGaps": [
+        "background:disciplinary-assembly",
+        "cast:mayu",
+        "cast:kurose",
+        "cast:kentaro",
+        "cast:norihiro",
+        "cast:gen"
+      ]
+    }
+  ],
+  "recommendedProductionWaves": [
+    {
+      "id": "030B0A-match3-special-visual-pack",
+      "scope": [
+        "match3-special:flash-row",
+        "match3-special:flash-column",
+        "match3-special:evidence",
+        "match3-special:lead",
+        "match3-special:insight"
+      ],
+      "reason": "high-leverage shared production pack replaces prototype special overlays once and improves all 22 levels without per-episode art inflation"
+    },
+    {
+      "id": "030B0B-character-closure",
+      "scope": [
+        "emi:embarrassed",
+        "emi:pose-b",
+        "emi:medallion",
+        "extras:4-visual-archetype-mapping"
+      ],
+      "reason": "close known mixed/semantic character contracts before large batch integration"
+    },
+    {
+      "id": "030B1-early-0-6",
+      "scope": [
+        "kentaro",
+        "norihiro",
+        "mayu",
+        "guest:hinata",
+        "background-variants:student-council-auditorium,basketball-locker,textile-workshop",
+        "hero-clue:conductive-seam"
+      ],
+      "reason": "makes early/common route visually production-ready without new master families"
+    },
+    {
+      "id": "030B2-system-7-12",
+      "scope": [
+        "kurose",
+        "rina",
+        "guest:gen",
+        "guest:aoi",
+        "master:lab-asterion",
+        "master:laundry-service",
+        "master:campus-exterior",
+        "hero-clue:asterion-transfer-chain",
+        "hero-clue:second-skin-tag"
+      ],
+      "reason": "covers Asterion/Second Skin reveal and first required new master families"
+    },
+    {
+      "id": "030B3-late-13-18",
+      "scope": [
+        "guest:kubo",
+        "guest:kubo-mother",
+        "guest:vincent",
+        "master:old-building-finale",
+        "hero-clue:rina-catalog",
+        "hero-clue:post-rina-active-tag"
+      ],
+      "reason": "covers late common route and archive/finale location family"
+    },
+    {
+      "id": "030B4-endings-19-21",
+      "scope": [
+        "background-variants:anonymous-return-counter,service-tunnel,server-room,disciplinary-assembly",
+        "hero-clue:server-evidence"
+      ],
+      "reason": "finishes all three ending branches after common-route assets are stable"
+    }
+  ]
+}
