@@ -1,23 +1,6 @@
+import { type ClueId } from '../../data/levels';
 import {
-  characterForSpeaker,
-  characterRigs,
-  characterStaging,
-  expressionForDirection,
-  expressionAsset,
-  placeholderCharacters,
-  placeholderForSpeaker,
-  type CharacterKey,
-  type RuntimeExpression,
-} from '../../data/characterRigs';
-import {
-  guestWitnessAssetForDirection,
-  guestWitnessForSpeaker,
-} from '../../data/guestWitnesses';
-import { cluePresentation, levels, type ClueId } from '../../data/levels';
-import {
-  backgroundAssets,
   choices,
-  getBackgroundForLine,
   getReadHistory,
   getScene,
   isDirection,
@@ -25,17 +8,24 @@ import {
   type ChoiceId,
   type StoryLine,
 } from '../../data/narrative';
-import { legacySceneIndexFromStoryId, storyBranchTargetForLegacyScene, storyMatch3RouteForLegacyScene, storyTransitionForLegacyScene } from '../../data/storyGraph';
-import { storyChoiceGateById, storyChoiceGateForLine, type StoryChoiceGate, type StoryChoiceOptionId } from '../../data/storyChoices';
+import {
+  legacySceneIndexFromStoryId,
+  storyBranchTargetForLegacyScene,
+  storyMatch3RouteForLegacyScene,
+  storyTransitionForLegacyScene,
+} from '../../data/storyGraph';
+import {
+  storyChoiceGateById,
+  storyChoiceGateForLine,
+  type StoryChoiceGate,
+  type StoryChoiceOptionId,
+} from '../../data/storyChoices';
 import { meetsStoryEndingRequirement, storyOutcomeMetrics } from '../../data/storyOutcome';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppSession } from '../../app/AppSession';
 import type { AppShell } from '../../app/AppShell';
-import { resolveVnStaging, type VnStageSide } from '../../ui/vnStaging';
-import { authoredVnShotAssets, resolveAuthoredVnShot, vnAuthoredShotMarkup } from '../../ui/vnAuthoredShots';
-import { guestWitnessStageMarkup } from '../../ui/guestWitnessMarkup';
 import {
   currentDialogueProfile,
   dialogueContinuationText,
@@ -46,8 +36,17 @@ import {
 import { createDialogueRenderedFit } from '../../ui/dialogueMeasurement';
 import { autoDelayForLine, nextUnreadIndex, type AutoSpeed, type TextScale } from '../../ui/vnPlayback';
 import { vnFrameMarkup } from '../../ui/vnFrameMarkup';
-import { escapeHtml, headerActionMarkup, iconMarkup as icon } from '../../ui/viewMarkup';
 import { audioSettingsMarkup, bindAudioSettingsControls } from '../../ui/systemControls';
+import {
+  resolveVnStagePresentation,
+  vnChoiceBackgroundAsset,
+  vnChoiceScreenMarkup,
+  vnConfigOverlayMarkup,
+  vnHistoryOverlayMarkup,
+  vnPreloadAssetsForLine,
+  vnStoryChoiceBackgroundAsset,
+  vnStoryChoiceScreenMarkup,
+} from './VnPresentation';
 
 export class VnController {
   private story: StoryLine[] = [];
@@ -162,46 +161,35 @@ export class VnController {
     let dialoguePages = this.dialoguePages.length > 0 ? this.dialoguePages : fallbackDialoguePages;
     this.dialoguePageIndex = Math.min(this.dialoguePageIndex, dialoguePages.length - 1);
     let dialoguePage = dialoguePages[this.dialoguePageIndex] ?? localizedText;
-    const direction = isDirection(entry);
-    const authoredShot = direction ? null : resolveAuthoredVnShot(entry.id);
-    const background = authoredShot?.shot.background ?? getBackgroundForLine(this.session.save.scene, this.session.save.line, this.story);
-    const character = direction ? null : characterForSpeaker(entry.speaker);
-    const placeholder = direction ? null : placeholderForSpeaker(entry.speaker);
-    const guestWitness = direction || authoredShot || character || placeholder ? null : guestWitnessForSpeaker(entry.speaker);
-    const expression = expressionForDirection(entry.emotion);
-    const staging = direction || authoredShot ? null : resolveVnStaging(this.story, this.session.save.line);
-    const clueToast = this.pendingClue ? this.clueToastMarkup(this.pendingClue) : '';
+    const localizedEmotion = this.lineEmotion(entry);
+    const stage = resolveVnStagePresentation({
+      story: this.story,
+      sceneIndex: this.session.save.scene,
+      lineIndex: this.session.save.line,
+      entry,
+      localizedEmotion,
+      directionLabel: this.t('vn.chrome.direction'),
+      dossierUpdatedLabel: this.t('vn.chrome.dossierUpdated'),
+      pendingClue: this.pendingClue,
+    });
+    const direction = stage.direction;
     const skipAvailable = this.session.save.readLines.includes(entry.id);
-    if (authoredShot) {
-      void preloadImageAssets(authoredVnShotAssets(authoredShot), this.services.assetHealth);
-    } else if (character && !this.usesPoseB(character, entry.emotion)) {
-      void preloadImageAssets([expressionAsset(character, expression)], this.services.assetHealth);
-    } else if (guestWitness) {
-      const guestAsset = guestWitnessAssetForDirection(guestWitness, entry.emotion);
-      if (guestAsset) void preloadImageAssets([guestAsset], this.services.assetHealth);
+    if (stage.preloadAssets.length > 0) {
+      void preloadImageAssets(stage.preloadAssets, this.services.assetHealth);
     }
-
-    const stageMarkup = [
-      authoredShot ? vnAuthoredShotMarkup(authoredShot, character) : '',
-      !authoredShot && character ? this.characterMarkup(character, expression, entry.emotion, staging?.side ?? 'center') : '',
-      !authoredShot && placeholder ? this.placeholderMarkup(placeholder, staging?.side ?? 'center') : '',
-      guestWitness ? guestWitnessStageMarkup(guestWitness, entry.emotion, this.lineEmotion(entry)) : '',
-      direction ? `<div class="direction-card"><span>${escapeHtml(this.t('vn.chrome.direction'))}</span><b>${escapeHtml(this.lineEmotion(entry))}</b></div>` : '',
-      clueToast,
-    ].join('');
     this.shell.render(vnFrameMarkup({
       frameContext: 'runtime',
       textScale: this.textScale,
-      backgroundAsset: backgroundAssets[background],
+      backgroundAsset: stage.backgroundAsset,
       location: this.sceneText('location'),
       caseLabel: `CASE 001 · SCENE ${String(this.session.save.scene).padStart(2, '0')}`,
       sceneTitle: this.sceneText('title'),
       clueCount: this.session.save.clues.length,
-      stageSide: authoredShot ? `authored-${authoredShot.staging.preset.id}` : guestWitness ? 'guest-testimony-card' : staging?.side ?? 'empty',
-      stageMarkup,
+      stageSide: stage.stageSide,
+      stageMarkup: stage.stageMarkup,
       direction,
       speaker: direction ? this.t('vn.chrome.direction') : this.lineSpeaker(entry),
-      emotion: this.lineEmotion(entry),
+      emotion: localizedEmotion,
       dialogueText: dialogueContinuationText(dialoguePage, this.dialoguePageIndex < dialoguePages.length - 1),
       dialoguePageIndex: this.dialoguePageIndex,
       dialoguePageCount: dialoguePages.length,
@@ -326,45 +314,29 @@ export class VnController {
   private preloadNextVnAssets(): void {
     if (typeof Image === 'undefined') return;
     const nextIndex = Math.min(this.story.length - 1, this.session.save.line + 1);
-    const next = this.story[nextIndex];
-    if (!next) return;
-    const authoredShot = isDirection(next) ? null : resolveAuthoredVnShot(next.id);
-    const nextBackground = authoredShot?.shot.background ?? getBackgroundForLine(this.session.save.scene, nextIndex, this.story);
-    const assets = [backgroundAssets[nextBackground]];
-    if (authoredShot) {
-      assets.push(...authoredVnShotAssets(authoredShot));
-    } else if (!isDirection(next)) {
-      const character = characterForSpeaker(next.speaker);
-      if (character) {
-        const rig = characterRigs[character];
-        const poseB = this.usesPoseB(character, next.emotion);
-        assets.push(poseB ? rig.poseB : expressionAsset(character, expressionForDirection(next.emotion)));
-      } else {
-        const guestWitness = guestWitnessForSpeaker(next.speaker);
-        const guestAsset = guestWitness ? guestWitnessAssetForDirection(guestWitness, next.emotion) : null;
-        if (guestAsset) assets.push(guestAsset);
-      }
-    }
-    void preloadImageAssets(assets, this.services.assetHealth);
+    const assets = vnPreloadAssetsForLine(this.story, this.session.save.scene, nextIndex);
+    if (assets.length > 0) void preloadImageAssets(assets, this.services.assetHealth);
   }
 
   private renderHistoryOverlay(): void {
     this.shell.clearTimers();
     const current = this.story[this.session.save.line];
     const history = getReadHistory(this.session.save.readLines, this.session.save.choice);
-    const entries = current && !history.some((line) => line.id === current.id) ? [...history, current] : history;
+    const lines = current && !history.some((line) => line.id === current.id) ? [...history, current] : history;
     const phone = this.root.querySelector<HTMLElement>('.phone');
     if (!phone) return;
-    phone.insertAdjacentHTML('beforeend', `<section class="vn-overlay" role="dialog" aria-modal="true" aria-label="${escapeHtml(this.t('vn.history.aria'))}">
-      <div class="vn-overlay-card history-card">
-        <header><div><small>CASE LOG</small><h2>${escapeHtml(this.t('vn.history.title'))}</h2></div><button id="close-overlay" class="overlay-close" aria-label="${escapeHtml(this.t('vn.history.close'))}">${icon('close')}</button></header>
-        <div class="history-list">${entries.length ? entries.map((line) => `
-          <article class="${isDirection(line) ? 'is-direction' : ''}">
-            <div><b>${isDirection(line) ? escapeHtml(this.t('vn.chrome.direction')) : escapeHtml(this.lineSpeaker(line))}</b><small>${line.id}</small></div>
-            <p>${escapeHtml(this.lineText(line))}</p>
-          </article>`).join('') : `<p class="empty-history">${escapeHtml(this.t('vn.history.empty'))}</p>`}</div>
-      </div>
-    </section>`);
+    phone.insertAdjacentHTML('beforeend', vnHistoryOverlayMarkup({
+      ariaLabel: this.t('vn.history.aria'),
+      title: this.t('vn.history.title'),
+      closeLabel: this.t('vn.history.close'),
+      emptyLabel: this.t('vn.history.empty'),
+      entries: lines.map((line) => ({
+        id: line.id,
+        speaker: isDirection(line) ? this.t('vn.chrome.direction') : this.lineSpeaker(line),
+        text: this.lineText(line),
+        direction: isDirection(line),
+      })),
+    }));
     phone.querySelector('#close-overlay')?.addEventListener('click', () => this.renderVN());
   }
 
@@ -372,20 +344,27 @@ export class VnController {
     this.shell.clearTimers();
     const phone = this.root.querySelector<HTMLElement>('.phone');
     if (!phone) return;
-    phone.insertAdjacentHTML('beforeend', `<section class="vn-overlay" role="dialog" aria-modal="true" aria-label="${escapeHtml(this.t('vn.config.aria'))}">
-      <div class="vn-overlay-card config-card">
-        <header><div><small>CONFIG</small><h2>${escapeHtml(this.t('vn.config.title'))}</h2></div><button id="close-overlay" class="overlay-close" aria-label="${escapeHtml(this.t('vn.config.close'))}">${icon('close')}</button></header>
-        <fieldset><legend>${escapeHtml(this.t('vn.config.autoSpeed'))}</legend><div class="segmented">
-          ${(['slow', 'normal', 'fast'] as AutoSpeed[]).map((speed) => `<button data-auto-speed="${speed}" class="${this.autoSpeed === speed ? 'is-selected' : ''}">${speed === 'slow' ? this.t('vn.config.slow') : speed === 'normal' ? this.t('vn.config.normal') : this.t('vn.config.fast')}</button>`).join('')}
-        </div></fieldset>
-        <fieldset><legend>${escapeHtml(this.t('vn.config.textSize'))}</legend><div class="segmented">
-          ${(['normal', 'large'] as TextScale[]).map((scale) => `<button data-text-scale="${scale}" class="${this.textScale === scale ? 'is-selected' : ''}">${scale === 'normal' ? this.t('vn.config.normal') : this.t('vn.config.large')}</button>`).join('')}
-        </div></fieldset>
-        <fieldset><legend>${escapeHtml(this.t('vn.config.audio'))}</legend>${audioSettingsMarkup(this.services)}</fieldset>
-        <div class="vn-config-navigation"><small>${escapeHtml(this.t('vn.config.navigation'))}</small><button id="vn-main-menu">${icon('menu')}<span><b>${escapeHtml(this.t('vn.config.mainMenu'))}</b><em>${escapeHtml(this.t('vn.config.saved'))}</em></span></button></div>
-        <p>${escapeHtml(this.t('vn.config.note'))}</p>
-      </div>
-    </section>`);
+    phone.insertAdjacentHTML('beforeend', vnConfigOverlayMarkup({
+      autoSpeed: this.autoSpeed,
+      textScale: this.textScale,
+      audioSettingsHtml: audioSettingsMarkup(this.services),
+      labels: {
+        ariaLabel: this.t('vn.config.aria'),
+        title: this.t('vn.config.title'),
+        close: this.t('vn.config.close'),
+        autoSpeed: this.t('vn.config.autoSpeed'),
+        textSize: this.t('vn.config.textSize'),
+        audio: this.t('vn.config.audio'),
+        navigation: this.t('vn.config.navigation'),
+        mainMenu: this.t('vn.config.mainMenu'),
+        saved: this.t('vn.config.saved'),
+        note: this.t('vn.config.note'),
+        slow: this.t('vn.config.slow'),
+        normal: this.t('vn.config.normal'),
+        fast: this.t('vn.config.fast'),
+        large: this.t('vn.config.large'),
+      },
+    }));
     phone.querySelector('#close-overlay')?.addEventListener('click', () => this.renderVN());
     phone.querySelector('#vn-main-menu')?.addEventListener('click', () => this.navigation.returnToMainMenu());
     phone.querySelectorAll<HTMLElement>('[data-auto-speed]').forEach((button) => button.addEventListener('click', () => {
@@ -430,35 +409,6 @@ export class VnController {
     this.shell.schedule(() => { status.hidden = true; }, 1500);
   }
 
-  private characterMarkup(character: CharacterKey, expression: RuntimeExpression, direction: string, side: VnStageSide): string {
-    const rig = characterRigs[character];
-    const staging = characterStaging[character];
-    const style = `--character-scale:${staging.scale};--character-y:${staging.yPercent}%`;
-    if (this.usesPoseB(character, direction)) {
-      return `<div class="portrait portrait-${side} portrait-static-wrap" data-character="${character}" style="${style}"><img class="portrait-static" src="${rig.poseB}" alt="${rig.displayName}"></div>`;
-    }
-    return `<div class="portrait portrait-${side} character-rig" data-character="${character}" data-expression="${expression}" style="${style}">
-      <img class="portrait-frame" src="${expressionAsset(character, expression)}" alt="${rig.displayName}">
-    </div>`;
-  }
-
-  private placeholderMarkup(key: keyof typeof placeholderCharacters, side: VnStageSide): string {
-    const character = placeholderCharacters[key];
-    return `<div class="portrait-placeholder portrait-placeholder-${side}" style="--placeholder-accent:${character.accent}">
-      <span>${character.initials}</span>
-      <b>${character.displayName}</b>
-      <small>PORTRAIT PLACEHOLDER</small>
-    </div>`;
-  }
-
-  private usesPoseB(character: CharacterKey, direction: string): boolean {
-    const value = direction.toLocaleUpperCase('ru-RU');
-    if (character === 'miku') return /С БЛОКНОТОМ|УКАЗЫВАЕТ НА/.test(value);
-    if (character === 'onoe') return /КРУЖЕВНЫМ ПАКЕТОМ|БЕР[ЕЁ]Т ПИНЦЕТ/.test(value);
-    return /С ТЕЛЕФОНОМ|ПОКАЗЫВАЕТ ТЕЛЕФОН|С ДОСКОЙ НА ТЕЛЕФОНЕ/.test(value);
-  }
-
-
   nextLine(): void {
     this.services.audio.play('vnAdvance');
     const entry = this.story[this.session.save.line];
@@ -490,31 +440,21 @@ export class VnController {
   }
 
 
-  private clueToastMarkup(clueId: ClueId): string {
-    const level = levels.find((candidate) => candidate.clueId === clueId)!;
-    const clue = cluePresentation[clueId];
-    return `<div class="clue-toast"><img src="${clue.asset}" alt=""><span><small>${escapeHtml(this.t('vn.chrome.dossierUpdated'))}</small><b>${escapeHtml(level.clueTitle)}</b></span></div>`;
-  }
-
   renderChoice(): void {
     this.services.audio.setScene('vn');
     this.services.telemetry.trackScreen('choice', 'CHOICE_00');
-    this.shell.render(`<section class="choice-screen">
-      <div class="choice-background-stack" aria-hidden="true">
-        <img class="choice-background choice-background-fill" src="${backgroundAssets.clubroom}" alt="">
-        <img class="choice-background choice-background-fit" src="${backgroundAssets.clubroom}" alt="">
-      </div>
-      <header class="app-header choice-topbar">
-        <div class="app-header-title"><small>CASE 001 · CHOICE_00</small><b>${escapeHtml(this.t('vn.choice.header'))}</b></div>
-        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('common.navigation'))}">
-          ${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}
-        </nav>
-      </header>
-      <div class="choice-panel">
-        <p class="eyebrow">CHOICE_00</p><h2>${escapeHtml(this.t('vn.choice.prompt'))}</h2>
-        ${(Object.keys(choices) as ChoiceId[]).map((id) => `<button data-choice="${id}"><i>${id}</i><span><b>${escapeHtml(this.choiceText(id, 'title'))}</b><small>${escapeHtml(this.choiceText(id, 'effect'))}</small></span></button>`).join('')}
-      </div>
-    </section>`);
+    this.shell.render(vnChoiceScreenMarkup({
+      backgroundAsset: vnChoiceBackgroundAsset,
+      headerLabel: this.t('vn.choice.header'),
+      prompt: this.t('vn.choice.prompt'),
+      navigationLabel: this.t('common.navigation'),
+      settingsLabel: this.t('common.settings'),
+      options: (Object.keys(choices) as ChoiceId[]).map((id) => ({
+        id,
+        title: this.choiceText(id, 'title'),
+        effect: this.choiceText(id, 'effect'),
+      })),
+    }));
     this.root.querySelector('#header-settings')?.addEventListener('click', () => this.navigation.showSettings(() => this.renderChoice(), true));
     this.root.querySelectorAll<HTMLElement>('[data-choice]').forEach((button) => button.addEventListener('click', () => {
       this.services.audio.play('choice');
@@ -531,14 +471,20 @@ export class VnController {
   private renderStoryChoice(gate: StoryChoiceGate): void {
     this.services.audio.setScene('vn');
     this.services.telemetry.trackScreen('choice', gate.id);
-    const background = backgroundAssets[sceneMeta[this.session.save.scene].defaultBackground];
-    this.shell.render(`<section class="choice-screen">
-      <div class="choice-background-stack" aria-hidden="true"><img class="choice-background choice-background-fill" src="${background}" alt=""><img class="choice-background choice-background-fit" src="${background}" alt=""></div>
-      <header class="app-header choice-topbar"><div class="app-header-title"><small>CASE 001 · ${escapeHtml(gate.id.toUpperCase())}</small><b>${escapeHtml(this.t('vn.storyChoice.header'))}</b></div>
-        <nav class="app-header-actions" aria-label="${escapeHtml(this.t('common.navigation'))}">${headerActionMarkup('header-settings', 'settings', this.t('common.settings'))}</nav></header>
-      <div class="choice-panel"><p class="eyebrow">${escapeHtml(gate.id.toUpperCase())}</p><h2>${escapeHtml(this.t(`vn.storyChoice.${gate.id}.prompt`))}</h2>
-        ${gate.options.map((id) => `<button data-story-choice="${id}"><i>${id}</i><span><b>${escapeHtml(this.t(`vn.storyChoice.${gate.id}.${id}.title`))}</b><small>${escapeHtml(this.t(`vn.storyChoice.${gate.id}.${id}.effect`))}</small></span></button>`).join('')}
-      </div></section>`);
+    const background = vnStoryChoiceBackgroundAsset(sceneMeta[this.session.save.scene].defaultBackground);
+    this.shell.render(vnStoryChoiceScreenMarkup({
+      gate,
+      backgroundAsset: background,
+      headerLabel: this.t('vn.storyChoice.header'),
+      prompt: this.t(`vn.storyChoice.${gate.id}.prompt`),
+      navigationLabel: this.t('common.navigation'),
+      settingsLabel: this.t('common.settings'),
+      options: gate.options.map((id) => ({
+        id,
+        title: this.t(`vn.storyChoice.${gate.id}.${id}.title`),
+        effect: this.t(`vn.storyChoice.${gate.id}.${id}.effect`),
+      })),
+    }));
     this.root.querySelector('#header-settings')?.addEventListener('click', () => this.navigation.showSettings(() => this.renderStoryChoice(gate), true));
     this.root.querySelectorAll<HTMLElement>('[data-story-choice]').forEach((button) => button.addEventListener('click', () => {
       this.services.audio.play('choice');

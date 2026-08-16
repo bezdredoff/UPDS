@@ -30,7 +30,7 @@ describe('ANM-021B R5 VN character staging contract', () => {
   });
 
   it('routes explicit staging variables through both Pose A and Pose B markup', async () => {
-    const source = await readFile(new URL('../src/features/vn/VnController.ts', import.meta.url), 'utf8');
+    const source = await readFile(new URL('../src/features/vn/VnPresentation.ts', import.meta.url), 'utf8');
     expect(source).toContain('characterStaging[character]');
     expect(source).toContain('--character-scale:');
     expect(source).toContain('--character-y:');
