@@ -18,7 +18,7 @@ export type ProductionLocaleProfile = Readonly<{
 
 export const productionLocaleProfiles: readonly ProductionLocaleProfile[] = [
   { locale: 'ru', nativeName: 'Русский', englishName: 'Russian', script: 'cyrillic', cjk: false, status: 'source-complete', runtimeSelectable: true },
-  { locale: 'be', nativeName: 'Беларуская', englishName: 'Belarusian', script: 'cyrillic', cjk: false, status: 'translation-pending', runtimeSelectable: false },
+  { locale: 'be', nativeName: 'Беларуская', englishName: 'Belarusian', script: 'cyrillic', cjk: false, status: 'production-complete', runtimeSelectable: true },
   { locale: 'en', nativeName: 'English', englishName: 'English', script: 'latin', cjk: false, status: 'production-complete', runtimeSelectable: true },
   { locale: 'zh-CN', nativeName: '简体中文', englishName: 'Simplified Chinese', script: 'han', cjk: true, status: 'translation-pending', runtimeSelectable: false },
   { locale: 'ja', nativeName: '日本語', englishName: 'Japanese', script: 'japanese', cjk: true, status: 'translation-pending', runtimeSelectable: false },

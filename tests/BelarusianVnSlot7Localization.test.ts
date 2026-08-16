@@ -50,7 +50,7 @@ describe('ANM-029B3H Belarusian VN story slot 7', () => {
     expect(scene17?.source).toEqual({ format: 'screenplay-range-v1', startLineId: 'VN0410', endLineId: 'VN0429' });
   });
 
-  it('locks reviewed Asterion evidence terminology, payload and runtime-hidden status', () => {
+  it('locks reviewed Asterion evidence terminology, payload and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_15_E7_PRE.title']).toBe('Чалавек, у якога ёсць тлумачэнне');
     expect(beCatalog['vn.line.VN0370.text']).toContain('серабрыстай ніткі');
     expect(beCatalog['vn.line.VN0376.text']).toContain('Asterion');
@@ -61,10 +61,10 @@ describe('ANM-029B3H Belarusian VN story slot 7', () => {
     expect(beCatalog['vn.line.VN0409.text']).toBe('«Эпізод 8 — Восемдзесят сем пакетаў»');
     expect(Object.keys(select(beCatalog))).toHaveLength(B3H_KEY_COUNT);
     expect(getProductionLocaleProfile('be')).toMatchObject({
-      status: 'translation-pending',
-      runtimeSelectable: false,
+      status: 'production-complete',
+      runtimeSelectable: true,
     });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

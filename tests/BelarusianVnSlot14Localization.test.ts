@@ -47,7 +47,7 @@ describe('ANM-029B3O Belarusian VN story slot 14', () => {
     expect(scene31?.source).toEqual({ format: 'screenplay-range-v1', startLineId: 'VN0687', endLineId: 'VN0707' });
   });
 
-  it('locks reviewed atelier-ledger terminology, payloads, privacy choice and runtime-hidden status', () => {
+  it('locks reviewed atelier-ledger terminology, payloads, privacy choice and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_29_E14_PRE.title']).toBe('Дом, дзе бялізна ні пры чым');
     expect(beCatalog['vn.scene.VN_SCENE_30_E14_POST.title']).toBe('Рына ведала раней');
     expect(beCatalog['vn.line.VN0652.text']).toContain('Рыны Сіраісі');
@@ -58,8 +58,8 @@ describe('ANM-029B3O Belarusian VN story slot 14', () => {
     expect(beCatalog['vn.storyChoice.family-ledger-permission.C.title']).toContain('закрыты дадатак');
     expect(beCatalog['vn.line.VN0683.text']).toContain('Рэй');
     expect(Object.keys(select(beCatalog))).toHaveLength(B3O_KEY_COUNT);
-    expect(getProductionLocaleProfile('be')).toMatchObject({ status: 'translation-pending', runtimeSelectable: false });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(getProductionLocaleProfile('be')).toMatchObject({ status: 'production-complete', runtimeSelectable: true });
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

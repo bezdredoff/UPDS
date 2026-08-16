@@ -1,6 +1,6 @@
 # ANM-029B3P — Belarusian VN Slot 15
 
-Status: R1 candidate / linguistic + CI QA.
+Status: COMPLETE — R1 merged via PR #134 on 2026-08-15; post-merge CI and stable Pages are green.
 
 ## Цель
 
@@ -16,7 +16,7 @@ Canonical `storyGraph` задаёт границы slot 15 как:
 - story-choice внутри bounded range отсутствует;
 - всего **124 message key**.
 
-Следующий graph-bounded localization batch начинается с `VN0727` (`VN_SCENE_33_E16_PRE`).
+Следующая canonical граница — `VN0727` (`VN_SCENE_33_E16_PRE`); перевод этой и всех последующих сцен закрывает ANM-029B4.
 
 ## Контракты
 
@@ -29,9 +29,8 @@ Canonical `storyGraph` задаёт границы slot 15 как:
 - B3A–B3O остаются отдельными bounded contracts и не блокируют дальнейший рост `beCatalog`;
 - `package.json.version` остаётся единственным источником `APP_VERSION`; этот batch меняет только `BUILD_LABEL`;
 - Biome gate и hardened `npm run check` не ослабляются;
-- `be` остаётся `translation-pending`, `runtimeSelectable: false`;
-- `supportedLocales` и `appCatalogs` не расширяются.
+- В bounded B3P scope runtime readiness отдельно не объявляется; final activation выполняет ANM-029B4 после полного zero-missing-key gate.
 
 ## QA
 
-`BelarusianVnSlot15Localization.test.ts` проверяет exact 124/124 coverage, zero missing/extra/empty/placeholder drift, canonical `storyGraph` ranges и `M3_15_ABANDONED_LAUNDRY_ROUTE`, next-slot boundary `VN0727`, reviewed abandoned-laundry/consent-route terminology, exact `CUE_016` payload, protected production labels и runtime-hidden status.
+`BelarusianVnSlot15Localization.test.ts` проверяет exact 124/124 coverage, zero missing/extra/empty/placeholder drift, canonical `storyGraph` ranges и `M3_15_ABANDONED_LAUNDRY_ROUTE`, next-slot boundary `VN0727`, reviewed abandoned-laundry/consent-route terminology, exact `CUE_016` payload, protected production labels и bounded terminology/payload contract; runtime activation проверяется global ANM-029B4 gate.

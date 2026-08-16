@@ -1,6 +1,6 @@
 // Runtime-selectable locales. ANM-029 production targets live in LocalizationProduction.ts
 // and are not exposed here until their catalog passes the production readiness gate.
-export const supportedLocales = ['ru', 'en'] as const;
+export const supportedLocales = ['ru', 'be', 'en'] as const;
 
 export type Locale = (typeof supportedLocales)[number];
 

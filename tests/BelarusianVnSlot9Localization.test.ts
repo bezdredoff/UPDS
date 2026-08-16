@@ -52,7 +52,7 @@ describe('ANM-029B3J Belarusian VN story slot 9', () => {
     expect(beCatalog['vn.line.VN0480.text']).toBe('{CHOICE protect-gen-source}');
   });
 
-  it('locks reviewed maintenance-key terminology, choice copy, payload and runtime-hidden status', () => {
+  it('locks reviewed maintenance-key terminology, choice copy, payload and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_19_E9_PRE.title']).toBe('Кароль згубленых шкарпэтак');
     expect(beCatalog['vn.scene.VN_SCENE_20_E9_POST.title']).toBe('Начныя кантэйнеры');
     expect(beCatalog['vn.line.VN0452.text']).toContain('ўніверсальны ключ');
@@ -63,10 +63,10 @@ describe('ANM-029B3J Belarusian VN story slot 9', () => {
     expect(beCatalog['vn.line.VN0485.text']).toBe('{ADD CUE_010}');
     expect(Object.keys(select(beCatalog))).toHaveLength(B3J_KEY_COUNT);
     expect(getProductionLocaleProfile('be')).toMatchObject({
-      status: 'translation-pending',
-      runtimeSelectable: false,
+      status: 'production-complete',
+      runtimeSelectable: true,
     });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

@@ -17,6 +17,7 @@ describe('ANM-019A localization foundation', () => {
     expect(DEFAULT_LOCALE).toBe('ru');
     expect(resolveLocale('ru-RU')).toBe('ru');
     expect(resolveLocale('en_US')).toBe('en');
+    expect(resolveLocale('be_BY')).toBe('be');
     expect(resolveLocale('de-DE')).toBe('ru');
     expect(resolveLocale(null)).toBe('ru');
   });
@@ -29,6 +30,7 @@ describe('ANM-019A localization foundation', () => {
   it('falls back per key and exposes missing keys deterministically', () => {
     const localization = new LocalizationService({
       ru: { greeting: 'Привет, {name}', sourceOnly: 'Только источник' },
+      be: { greeting: 'Прывітанне, {name}' },
       en: { greeting: 'Hello, {name}' },
     }, 'en');
 
@@ -40,7 +42,7 @@ describe('ANM-019A localization foundation', () => {
   });
 
   it('notifies only on actual locale changes', () => {
-    const localization = new LocalizationService({ ru: {}, en: {} });
+    const localization = new LocalizationService({ ru: {}, be: {}, en: {} });
     const listener = vi.fn();
     localization.subscribe(listener);
     localization.setLocale('ru');
@@ -54,13 +56,15 @@ describe('ANM-019A localization foundation', () => {
     const storage = new MemoryStorage();
     const settings = new LocaleSettingsStore(storage);
     expect(settings.load()).toBe('ru');
+    settings.save('be');
+    expect(storage.getItem(LOCALE_SETTINGS_KEY)).toBe('be');
     settings.save('en');
     expect(storage.getItem(LOCALE_SETTINGS_KEY)).toBe('en');
     expect(LOCALE_SETTINGS_KEY).toBe('seiran-detectives-locale-v1');
     expect(new LocaleSettingsStore(storage).load()).toBe('en');
   });
 
-  it('ships complete ru/en catalogs through the ANM-019C VN metadata/choice/chrome slice', async () => {
+  it('ships complete source/runtime catalogs through the localization foundation', async () => {
     const [{ ruCatalog }, { enCatalog }] = await Promise.all([
       import('../src/localization/catalogs/ru'),
       import('../src/localization/catalogs/en'),

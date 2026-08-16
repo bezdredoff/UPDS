@@ -45,7 +45,7 @@ describe('ANM-029B3P Belarusian VN story slot 15', () => {
     expect(scene33?.source).toEqual({ format: 'screenplay-range-v1', startLineId: 'VN0727', endLineId: 'VN0746' });
   });
 
-  it('locks reviewed abandoned-laundry terminology, payloads, production labels and runtime-hidden status', () => {
+  it('locks reviewed abandoned-laundry terminology, payloads, production labels and runtime-enabled status', () => {
     expect(beCatalog['vn.scene.VN_SCENE_31_E15_PRE.title']).toBe('Кот з рэчавым доказам');
     expect(beCatalog['vn.scene.VN_SCENE_32_E15_POST.title']).toBe('Маршрут згоды');
     expect(beCatalog['vn.line.VN0697.text'].toLocaleLowerCase('be')).toContain('серабрыстай ніткі');
@@ -59,8 +59,8 @@ describe('ANM-029B3P Belarusian VN story slot 15', () => {
     expect(beCatalog['vn.line.VN0707.emotion']).toBe('TRANSITION TO MATCH-3');
     expect(beCatalog['vn.line.VN0726.emotion']).toBe('EPISODE CARD / FRONTIER');
     expect(Object.keys(select(beCatalog))).toHaveLength(B3P_KEY_COUNT);
-    expect(getProductionLocaleProfile('be')).toMatchObject({ status: 'translation-pending', runtimeSelectable: false });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(getProductionLocaleProfile('be')).toMatchObject({ status: 'production-complete', runtimeSelectable: true });
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });

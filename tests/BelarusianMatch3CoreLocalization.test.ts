@@ -46,13 +46,13 @@ describe('ANM-029B2A Belarusian Match-3 core localization', () => {
     expect(isMatch3CoreKey('match3.bark.blockers.0')).toBe(false);
   });
 
-  it('keeps Belarusian pending and out of runtime until the full catalog is complete', () => {
+  it('keeps completed Belarusian wired into runtime', () => {
     expect(getProductionLocaleProfile('be')).toMatchObject({
-      status: 'translation-pending',
-      runtimeSelectable: false,
+      status: 'production-complete',
+      runtimeSelectable: true,
     });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 
   it('locks reviewed Match-3 terminology', () => {

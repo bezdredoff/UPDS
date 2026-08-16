@@ -126,6 +126,21 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('<option value="en" selected>English</option>');
   });
 
+  it('renders the production-complete Belarusian menu/settings slice and selector option', () => {
+    const storage = (globalThis.window as unknown as { localStorage: Storage }).localStorage;
+    storage.setItem(LOCALE_SETTINGS_KEY, 'be');
+    const { root, app } = create();
+    app.mount();
+    expect(root.innerHTML).toContain('Новая гульня');
+    expect(root.innerHTML).toContain('Навігацыя па сцэнах');
+    expect(root.innerHTML).not.toContain('Новая игра');
+
+    app.renderSettings();
+    expect(root.innerHTML).toContain('Гук і водгук');
+    expect(root.innerHTML).toContain('data-language-select');
+    expect(root.innerHTML).toContain('<option value="be" selected>Беларуская</option>');
+  });
+
   it('renders the ANM-019C English VN chrome, scene metadata and choices without translating screenplay lines', () => {
     const storage = (globalThis.window as unknown as { localStorage: Storage }).localStorage;
     storage.setItem(LOCALE_SETTINGS_KEY, 'en');

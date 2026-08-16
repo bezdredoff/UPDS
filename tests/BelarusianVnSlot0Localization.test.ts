@@ -56,10 +56,10 @@ describe('ANM-029B3A Belarusian VN story slot 0', () => {
   it('keeps its bounded selector stable while Belarusian remains unavailable at runtime', () => {
     expect(Object.keys(select(beCatalog))).toHaveLength(B3A_KEY_COUNT);
     expect(getProductionLocaleProfile('be')).toMatchObject({
-      status: 'translation-pending',
-      runtimeSelectable: false,
+      status: 'production-complete',
+      runtimeSelectable: true,
     });
-    expect(supportedLocales).toEqual(['ru', 'en']);
-    expect('be' in appCatalogs).toBe(false);
+    expect(supportedLocales).toEqual(['ru', 'be', 'en']);
+    expect('be' in appCatalogs).toBe(true);
   });
 });
