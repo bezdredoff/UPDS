@@ -90,7 +90,7 @@ describe('platform infrastructure', () => {
     expect(log.getEntries()[0].message).toBe('e7');
   });
 
-  it('builds a deduplicated runtime preload catalog from UPDS assets', () => {
+  it('builds a deduplicated runtime distribution catalog from UPDS assets', () => {
     expect(uniqueAssetList(['a', 'a', '', 'b'])).toEqual(['a', 'b']);
     expect(runtimeAssetCatalog.length).toBeGreaterThan(40);
     expect(new Set(runtimeAssetCatalog).size).toBe(runtimeAssetCatalog.length);

@@ -1,22 +1,20 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { AssetHealth } from '../src/platform/AssetHealth';
-import { preloadImageAssets, scheduleImagePreload, uniqueAssetList } from '../src/platform/AssetPreloader';
+import {
+  IMAGE_PRELOAD_CONCURRENCY,
+  preloadImageAssets,
+  uniqueAssetList,
+} from '../src/platform/AssetPreloader';
 
 type ImageConstructor = new () => HTMLImageElement;
 
 const originalImage = (globalThis as typeof globalThis & { Image?: ImageConstructor }).Image;
-const originalWindow = globalThis.window;
 
 afterEach(() => {
   if (originalImage) {
     Object.defineProperty(globalThis, 'Image', { configurable: true, writable: true, value: originalImage });
   } else {
     Reflect.deleteProperty(globalThis, 'Image');
-  }
-  if (originalWindow) {
-    Object.defineProperty(globalThis, 'window', { configurable: true, writable: true, value: originalWindow });
-  } else {
-    Reflect.deleteProperty(globalThis, 'window');
   }
 });
 
@@ -35,15 +33,10 @@ describe('asset preloader platform safety', () => {
       preloadRequested: 0,
       preloadLoaded: 0,
       preloadFailed: 0,
+      preloadActive: 0,
+      preloadPeakActive: 0,
       failures: [],
     });
-  });
-
-  it('does not schedule browser preloading when window is unavailable', () => {
-    Reflect.deleteProperty(globalThis, 'window');
-    const health = new AssetHealth();
-    expect(() => scheduleImagePreload(['/headless-scheduled.png'], health)).not.toThrow();
-    expect(health.snapshot().preloadRequested).toBe(0);
   });
 
   it('records successful preloads when a browser Image implementation exists', async () => {
@@ -68,7 +61,70 @@ describe('asset preloader platform safety', () => {
     });
 
     const health = new AssetHealth();
-    await preloadImageAssets(['/browser-r2.png'], health);
-    expect(health.snapshot()).toMatchObject({ preloadRequested: 1, preloadLoaded: 1, preloadFailed: 0 });
+    await preloadImageAssets(['/browser-f4b-success.png'], health);
+    expect(health.snapshot()).toMatchObject({
+      preloadRequested: 1,
+      preloadLoaded: 1,
+      preloadFailed: 0,
+      preloadActive: 0,
+      preloadPeakActive: 1,
+    });
+  });
+
+  it('bounds concurrent image warming and exposes the measured peak', async () => {
+    class FakeImage {
+      decoding = '';
+      onload: ((this: GlobalEventHandlers, ev: Event) => unknown) | null = null;
+      onerror: OnErrorEventHandler = null;
+
+      set src(_value: string) {
+        queueMicrotask(() => this.onload?.call(this as unknown as GlobalEventHandlers, new Event('load')));
+      }
+    }
+
+    Object.defineProperty(globalThis, 'Image', {
+      configurable: true,
+      writable: true,
+      value: FakeImage as unknown as ImageConstructor,
+    });
+
+    const health = new AssetHealth();
+    const assets = Array.from({ length: IMAGE_PRELOAD_CONCURRENCY * 3 }, (_, index) => `/f4b-bounded-${index}.png`);
+    await preloadImageAssets(assets, health);
+
+    expect(health.snapshot()).toMatchObject({
+      preloadRequested: assets.length,
+      preloadLoaded: assets.length,
+      preloadFailed: 0,
+      preloadActive: 0,
+      preloadPeakActive: IMAGE_PRELOAD_CONCURRENCY,
+    });
+  });
+
+  it('does not re-request an asset that was already warmed by an earlier transition', async () => {
+    let requests = 0;
+    class FakeImage {
+      decoding = '';
+      onload: ((this: GlobalEventHandlers, ev: Event) => unknown) | null = null;
+      onerror: OnErrorEventHandler = null;
+
+      set src(_value: string) {
+        requests += 1;
+        queueMicrotask(() => this.onload?.call(this as unknown as GlobalEventHandlers, new Event('load')));
+      }
+    }
+
+    Object.defineProperty(globalThis, 'Image', {
+      configurable: true,
+      writable: true,
+      value: FakeImage as unknown as ImageConstructor,
+    });
+
+    const health = new AssetHealth();
+    await preloadImageAssets(['/f4b-repeat-transition.png'], health);
+    await preloadImageAssets(['/f4b-repeat-transition.png'], health);
+
+    expect(requests).toBe(1);
+    expect(health.snapshot()).toMatchObject({ preloadRequested: 1, preloadLoaded: 1, preloadPeakActive: 1 });
   });
 });

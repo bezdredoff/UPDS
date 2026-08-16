@@ -160,6 +160,7 @@ describe('active documentation traceability', () => {
     const vnPresentationExtraction = read('docs/features/ANM023F3B_VN_PRESENTATION_EXTRACTION_RU.md');
     const match3RuleKernelExtraction = read('docs/features/ANM023F3C_MATCH3_RULE_KERNEL_EXTRACTION_RU.md');
     const lazyLocalePayload = read('docs/features/ANM023F4A_LAZY_LOCALE_PAYLOAD_RU.md');
+    const runtimeAssetPreloadMemory = read('docs/features/ANM023F4B_RUNTIME_ASSET_PRELOAD_MEMORY_RU.md');
 
     expect(roadmap).toContain('028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE');
     expect(roadmap).toContain('ANM-028D0 R1 Emi neutral master accepted');
@@ -199,6 +200,7 @@ describe('active documentation traceability', () => {
     expect(index).toContain('ANM023F3B_VN_PRESENTATION_EXTRACTION_RU.md');
     expect(index).toContain('ANM023F3C_MATCH3_RULE_KERNEL_EXTRACTION_RU.md');
     expect(index).toContain('ANM023F4A_LAZY_LOCALE_PAYLOAD_RU.md');
+    expect(index).toContain('ANM023F4B_RUNTIME_ASSET_PRELOAD_MEMORY_RU.md');
     expect(roadmap).toContain('ANM-023F — Codebase, Test & Tooling Simplification');
     expect(roadmap).toContain('023F1 Biome Expansion & Repository Hygiene');
     expect(roadmap).toContain('ANM-030A Full Game Asset Gap Audit');
@@ -228,10 +230,18 @@ describe('active documentation traceability', () => {
     expect(match3RuleKernelExtraction).toContain('500 randomized boards');
     expect(match3RuleKernelExtraction).toContain('PR #141');
     expect(lazyLocalePayload).toContain('1,206.14 kB / 389.05 kB gzip');
+    expect(lazyLocalePayload).toContain('741.15 kB / 247.14 kB gzip');
+    expect(lazyLocalePayload).toContain('PR #142');
     expect(lazyLocalePayload).toContain('initialAppCatalogs');
     expect(lazyLocalePayload).toContain('activateLocale()');
     expect(lazyLocalePayload).toContain('ANM-023F4B');
-    expect(roadmap).toContain('F4A R1 CURRENT CANDIDATE');
+    expect(runtimeAssetPreloadMemory).toContain('IMAGE_PRELOAD_CONCURRENCY = 4');
+    expect(runtimeAssetPreloadMemory).toContain('CACHE_WARM_CONCURRENCY = 4');
+    expect(runtimeAssetPreloadMemory).toContain('services.pwa.start(runtimeAssetCatalog)');
+    expect(runtimeAssetPreloadMemory).toContain('ANM-030A');
+    expect(architecture).toContain('Runtime asset warming / offline cache ownership');
+    expect(roadmap).toContain('ANM-023F4A R1 [P1] — COMPLETE / PR #142');
+    expect(roadmap).toContain('ANM-023F4B R1 [P1] — CURRENT CANDIDATE');
     expect(match3PresentationExtraction).toContain('mobile candidate preview');
     expect(index).toContain('ANM023E_TEST_TOOLING_IDENTITY_HARDENING_RU.md');
     expect(roadmap).toContain('remaining **999** base-catalog keys');

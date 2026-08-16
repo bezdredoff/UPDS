@@ -29,6 +29,10 @@ describe('PWA distribution contract', () => {
     expect(worker).toContain("data.type === 'SKIP_WAITING'");
     expect(worker).toContain("data.type !== 'CACHE_URLS'");
     expect(worker).toContain("type: 'CACHE_READY'");
+    expect(worker).toContain('const CACHE_WARM_CONCURRENCY = 4');
+    expect(worker).toContain('cacheUrlsWithConcurrency(cache, urls)');
+    expect(worker).toContain('Math.min(CACHE_WARM_CONCURRENCY, urls.length)');
+    expect(worker).not.toContain('Promise.allSettled(urls.map');
   });
 
   it('versions the worker by deployment build id and warms runtime assets without blocking startup', () => {

@@ -1,6 +1,6 @@
 # ANM-023F4A — Lazy Locale Payload
 
-Status: R1 candidate. First measured ANM-023F4 performance/payload cut; runtime-visible locale loading changes, but localization copy, supported-locale registry, story/gameplay rules and save schema are unchanged.
+Status: R1 COMPLETE / PR #142. First measured ANM-023F4 performance/payload cut; runtime-visible locale loading changes, but localization copy, supported-locale registry, story/gameplay rules and save schema are unchanged.
 
 ## Goal
 
@@ -28,6 +28,16 @@ Source contribution inspection shows the localization catalogs are the dominant 
 - `match3Reactions.ts`: 58,193 bytes.
 
 Before F4A, `src/localization/catalogs/index.ts` statically imports RU, BE and EN, so every selectable base catalog is part of the startup dependency graph regardless of the player's active locale.
+
+## Merged result
+
+F4A merged via **PR #142** on `e56235700ba839dc7c5347acbd374bdc0a9ca806`. GitHub CI #286 and stable Pages #136 are green. The authoritative Vite build emits:
+
+- initial entry: **741.15 kB / 247.14 kB gzip**;
+- Belarusian chunk: **232.63 kB / 79.46 kB gzip**;
+- English chunk: **234.75 kB / 63.81 kB gzip**.
+
+Compared with the 1,206.14 / 389.05 kB F3 baseline, the initial entry dropped by approximately 38.6% raw and 36.5% gzip, comfortably exceeding the 15% acceptance target.
 
 ## R1 decision
 
