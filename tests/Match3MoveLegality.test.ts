@@ -1,15 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { BOARD_SIZE, levels } from '../src/data/levels';
+import { levels } from '../src/data/levels';
 import { Match3Game } from '../src/engine/Match3Game';
-
-const neighbours = (index: number): number[] => {
-  const row = Math.floor(index / BOARD_SIZE);
-  const column = index % BOARD_SIZE;
-  return [
-    column < BOARD_SIZE - 1 ? index + 1 : -1,
-    row < BOARD_SIZE - 1 ? index + BOARD_SIZE : -1,
-  ].filter((candidate) => candidate >= 0);
-};
 
 describe('ANM-022B shared move legality', () => {
   it.each(levels.map((level, index) => [index, level] as const))(

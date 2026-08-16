@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F1 R1 is the current non-runtime technical candidate and begins the simplification track before high-volume ANM-030 integration.
+Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening and ANM-023F1 repository/Biome hardening. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F2 R1 is the current non-runtime technical candidate; runtime ownership boundaries remain unchanged.
 
 ## Runtime flow
 
@@ -13,8 +13,8 @@ character production metadata or persistence semantics.
 
 ANM-029H does not change ownership boundaries. It records the next bounded maintenance sequence:
 
-- F1 unifies Biome lint across source/tests/config, keeps low-noise defects blocking, introduces an advisory diagnostic cohort, and removes/guards generated repository debris without blanket rule enablement;
-- F2 reduces duplicated/brittle test code while preserving behavioral contracts;
+- F1 is merged via PR #137: Biome lint is unified across source/tests/config and generated repository debris is removed/guarded;
+- F2 consolidates completed localization lifecycle-batch tests into domain suites, removes duplicated runtime/catalog boilerplate, closes the two F1 warning sources and promotes the proven clean high-signal Biome cohort to blocking;
 - F3 decomposes measured controller/engine hotspots only where a cut reduces coupling and reading scope;
 - F4 measures bundle/startup/preload/memory/locale payload before any optimization such as lazy locale loading.
 
@@ -212,7 +212,7 @@ completeness/placeholder checks; `LocalizationGlossary.ts` owns stable translato
 A locale remains `translation-pending` and absent from the selector until its full production catalog
 passes the readiness contract.
 
-ANM-029B was produced in bounded review scopes through merged B3O. ANM-029B4 then closes the remaining B3P/slots-16–21 chain plus deferred VN/system/tooling/dossier/ending surfaces in one final readiness batch. `beCatalog` must exactly match the stable RU source catalog (3870 base keys), the separate Belarusian F2 reaction catalog must exactly match its 132-key RU source, and runtime `appCatalogs.be` must have no missing-key fallback path before activation.
+ANM-029B was produced in bounded review scopes through merged B3P. ANM-029B4 then closes slots 16–21 plus the deferred VN/system/tooling/dossier/ending surfaces in one final readiness batch. `beCatalog` must exactly match the stable RU source catalog (3870 base keys), the separate Belarusian F2 reaction catalog must exactly match its 132-key RU source, and runtime `appCatalogs.be` must have no missing-key fallback path before activation.
 
 After B4 acceptance, RU, BE and EN cover the complete authored slots `0–21` and active Match-3 systems and are runtime-selectable. `zh-CN`, `ja`, `ko` and `pt-BR` stay translation-pending and product-paused until the post-Belarusian backlog/roadmap reset. VN IDs, level IDs, reaction IDs and telemetry remain locale-independent.
 Internal dialogue paging runs after localized text resolution and never creates authored IDs; its CJK
@@ -277,4 +277,4 @@ notes and archived reports never override those sources.
 - lifecycle states such as `IN QA` are roadmap data, not durable assertions for already merged features; tests lock stable feature/document identities and the current `BUILD_LABEL` linkage instead;
 - `package.json.name = class-u-detectives` and `package.json.version` are stable product metadata; `APP_VERSION` is imported from that version instead of duplicated;
 - `BUILD_LABEL` remains feature/baseline identity and must not be derived from product semver;
-- Biome is pinned exactly and runs before Vitest/build in `npm run check`; the initial ruleset is intentionally conservative and can be widened only after the repository is green.
+- Biome is pinned exactly and runs before Vitest/build in `npm run check`; F1/F2 use staged promotion: new high-signal rules are introduced against a green baseline and become blocking only after the merged repository shows no findings.

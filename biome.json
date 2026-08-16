@@ -27,32 +27,16 @@
         "noDuplicateObjectKeys": "error",
         "noFocusedTests": "error",
         "noDuplicateTestHooks": "error",
-        "noFallthroughSwitchClause": "warn",
-        "noExplicitAny": "warn"
+        "noFallthroughSwitchClause": "error",
+        "noExplicitAny": "error"
       },
       "complexity": {
-        "noUselessCatch": "warn",
-        "noUselessConstructor": "warn"
+        "noUselessCatch": "error",
+        "noUselessConstructor": "error"
       },
       "performance": {
-        "noAccumulatingSpread": "warn"
+        "noAccumulatingSpread": "error"
       }
     }
-  },
-  "overrides": [
-    {
-      "includes": [
-        "tests/**/*.ts"
-      ],
-      "linter": {
-        "rules": {
-          "correctness": {
-            "noUnusedImports": "warn",
-            "noUnusedVariables": "warn",
-            "noUnusedFunctionParameters": "warn"
-          }
-        }
-      }
-    }
-  ]
+  }
 }

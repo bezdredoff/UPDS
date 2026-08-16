@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { storyGraph } from '../src/data/storyGraph';
-import { auditMessageCatalog, isCatalogStructurallyComplete } from '../src/localization/CatalogAudit';
+import {
+  auditMessageCatalog,
+  isCatalogStructurallyComplete,
+  selectMessageCatalogByPrefixes,
+} from '../src/localization/CatalogAudit';
 import { resolveLocale, supportedLocales } from '../src/localization/Locale';
 import {
   getProductionLocaleProfile,
@@ -8,12 +12,13 @@ import {
   validateLocalizationProductionContract,
 } from '../src/localization/LocalizationProduction';
 import { appCatalogs } from '../src/localization/catalogs';
-import { beCatalog } from '../src/localization/catalogs/be';
+import { beCatalog, beCompletedCatalogPrefixes } from '../src/localization/catalogs/be';
 import { match3ReactionCatalogs } from '../src/localization/catalogs/match3Reactions';
 import { ruCatalog } from '../src/localization/catalogs/ru';
 
 const SOURCE_KEY_COUNT = 3870;
 const REACTION_KEY_COUNT = 132;
+const SHELL_KEY_COUNT = 61;
 const sourceCatalog: Readonly<Record<string, string>> = ruCatalog;
 const targetCatalog: Readonly<Record<string, string>> = beCatalog;
 
@@ -37,6 +42,21 @@ describe('ANM-029B4 Belarusian production completion', () => {
     expect(audit.emptyKeys).toEqual([]);
     expect(audit.placeholderMismatches).toEqual([]);
     expect(isCatalogStructurallyComplete(audit)).toBe(true);
+  });
+
+  it('keeps the reviewed player shell structurally complete and terminology-stable', () => {
+    const sourceShell = selectMessageCatalogByPrefixes(ruCatalog, beCompletedCatalogPrefixes);
+    const targetShell = selectMessageCatalogByPrefixes(beCatalog, beCompletedCatalogPrefixes);
+    const audit = auditMessageCatalog(sourceShell, targetShell);
+
+    expect(audit.sourceKeyCount).toBe(SHELL_KEY_COUNT);
+    expect(audit.targetKeyCount).toBe(SHELL_KEY_COUNT);
+    expect(isCatalogStructurallyComplete(audit)).toBe(true);
+    expect(beCatalog['menu.title']).toBe('Дэтэктывы');
+    expect(beCatalog['menu.titleAccent']).toBe('класа U');
+    expect(beCatalog['localization.language.label']).toBe('Мова');
+    expect(beCatalog['common.settings']).toBe('Налады');
+    expect(beCatalog['settings.installHeading']).toBe('Усталяванне і афлайн');
   });
 
   it('keeps all Match-3 reaction keys complete and exposes a no-fallback runtime catalog', () => {

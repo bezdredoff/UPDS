@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { readFile } from 'node:fs/promises';
-import { characterRigs, characterForSpeaker, placeholderForSpeaker } from '../src/data/characterRigs';
+import { characterRigs } from '../src/data/characterRigs';
 import { runtimeAssetCatalog } from '../src/platform/RuntimeAssets';
 
 const production = ['miku', 'onoe', 'ayuki', 'emi'] as const;

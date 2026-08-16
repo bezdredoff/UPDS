@@ -16,7 +16,7 @@ const lock = JSON.parse(read('package-lock.json')) as {
   packages: Record<string, { name?: string; version?: string; devDependencies?: Record<string, string> }>;
 };
 const biomeConfig = JSON.parse(read('biome.json')) as {
-  overrides: Array<{ includes: string[]; linter: { rules: { correctness: Record<string, string> } } }>;
+  overrides?: Array<{ includes: string[]; linter: { rules: { correctness: Record<string, string> } } }>;
   linter: {
     rules: {
       preset: string;
@@ -59,15 +59,23 @@ describe('ANM-023E test, tooling and identity hardening', () => {
     expect(biomeConfig.linter.rules.suspicious.noDuplicateObjectKeys).toBe('error');
     expect(biomeConfig.linter.rules.suspicious.noFocusedTests).toBe('error');
     expect(biomeConfig.linter.rules.suspicious.noDuplicateTestHooks).toBe('error');
-    expect(biomeConfig.linter.rules.suspicious.noFallthroughSwitchClause).toBe('warn');
-    expect(biomeConfig.linter.rules.suspicious.noExplicitAny).toBe('warn');
-    expect(biomeConfig.linter.rules.complexity.noUselessCatch).toBe('warn');
-    expect(biomeConfig.linter.rules.complexity.noUselessConstructor).toBe('warn');
-    expect(biomeConfig.linter.rules.performance.noAccumulatingSpread).toBe('warn');
-    const testOverride = biomeConfig.overrides.find((override) => override.includes.includes('tests/**/*.ts'));
-    expect(testOverride?.linter.rules.correctness.noUnusedImports).toBe('warn');
-    expect(testOverride?.linter.rules.correctness.noUnusedVariables).toBe('warn');
-    expect(testOverride?.linter.rules.correctness.noUnusedFunctionParameters).toBe('warn');
+    expect(biomeConfig.linter.rules.suspicious.noFallthroughSwitchClause).toBe('error');
+    expect(biomeConfig.linter.rules.suspicious.noExplicitAny).toBe('error');
+    expect(biomeConfig.linter.rules.complexity.noUselessCatch).toBe('error');
+    expect(biomeConfig.linter.rules.complexity.noUselessConstructor).toBe('error');
+    expect(biomeConfig.linter.rules.performance.noAccumulatingSpread).toBe('error');
+    expect(biomeConfig.overrides ?? []).toEqual([]);
+  });
+
+  it('keeps focused Belarusian audits domain-based instead of lifecycle-batch based', () => {
+    expect(packageMetadata.scripts['localization:be:audit']).toBe(
+      'vitest run tests/BelarusianCompletionLocalization.test.ts tests/BelarusianMatch3Localization.test.ts tests/BelarusianVnLocalization.test.ts',
+    );
+    expect(packageMetadata.scripts['localization:audit']).toContain('tests/BelarusianCompletionLocalization.test.ts');
+    expect(packageMetadata.scripts['localization:audit']).toContain('tests/BelarusianMatch3Localization.test.ts');
+    expect(packageMetadata.scripts['localization:audit']).toContain('tests/BelarusianVnLocalization.test.ts');
+    expect(packageMetadata.scripts['localization:audit']).not.toContain('BelarusianVnSlot');
+    expect(packageMetadata.scripts['localization:audit']).not.toContain('BelarusianMatch3Levels');
   });
 
   it('prevents durable documentation tests from freezing transitional workflow states', () => {
