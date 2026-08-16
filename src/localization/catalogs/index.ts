@@ -1,12 +1,30 @@
-import type { LocaleCatalogs } from '../MessageCatalog';
 import type { Locale } from '../Locale';
-import { beCatalog } from './be';
-import { enCatalog } from './en';
+import type { LocaleCatalogs, MessageCatalog } from '../MessageCatalog';
 import { match3ReactionCatalogs } from './match3Reactions';
 import { ruCatalog } from './ru';
 
-export const appCatalogs = {
-  ru: { ...ruCatalog, ...match3ReactionCatalogs.ru },
-  be: { ...beCatalog, ...match3ReactionCatalogs.be },
-  en: { ...enCatalog, ...match3ReactionCatalogs.en },
+const withMatch3Reactions = (catalog: MessageCatalog, reactions: MessageCatalog): MessageCatalog => ({
+  ...catalog,
+  ...reactions,
+});
+
+export const ruRuntimeCatalog = withMatch3Reactions(ruCatalog, match3ReactionCatalogs.ru);
+
+/**
+ * Startup catalogs intentionally contain only the default/fallback locale.
+ * Non-default production locales are loaded on demand so their full VN/Match-3
+ * copy does not inflate the initial player bundle.
+ */
+export const initialAppCatalogs = {
+  ru: ruRuntimeCatalog,
 } as const satisfies LocaleCatalogs<Locale>;
+
+export async function loadRuntimeLocaleCatalog(locale: Locale): Promise<MessageCatalog> {
+  if (locale === 'ru') return ruRuntimeCatalog;
+  if (locale === 'be') {
+    const { beCatalog } = await import('./be');
+    return withMatch3Reactions(beCatalog, match3ReactionCatalogs.be);
+  }
+  const { enCatalog } = await import('./en');
+  return withMatch3Reactions(enCatalog, match3ReactionCatalogs.en);
+}

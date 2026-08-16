@@ -1,9 +1,10 @@
 import { AudioManager } from '../audio/AudioManager';
 import { CampaignStore } from '../engine/CampaignStore';
 import { Match3CampaignStore } from '../engine/Match3CampaignStore';
+import { DEFAULT_LOCALE } from '../localization/Locale';
 import { LocalizationService } from '../localization/LocalizationService';
 import { LocaleSettingsStore } from '../localization/LocaleSettingsStore';
-import { appCatalogs } from '../localization/catalogs';
+import { initialAppCatalogs, loadRuntimeLocaleCatalog } from '../localization/catalogs';
 import { AssetHealth } from './AssetHealth';
 import { ErrorLog } from './ErrorLog';
 import { PlaytestTelemetry } from './PlaytestTelemetry';
@@ -21,6 +22,7 @@ export type RuntimeServices = Readonly<{
   pwa: PwaController;
   localization: LocalizationService;
   localeSettings: LocaleSettingsStore;
+  ready: Promise<void>;
 }>;
 
 export const createRuntimeServices = (): RuntimeServices => {
@@ -29,9 +31,22 @@ export const createRuntimeServices = (): RuntimeServices => {
   const telemetry = new PlaytestTelemetry(storage.storage);
   const pwa = new PwaController(errorLog, telemetry);
   const localeSettings = new LocaleSettingsStore(storage.storage);
-  const localization = new LocalizationService(appCatalogs, localeSettings.load());
-  if (typeof document !== 'undefined') document.documentElement.lang = localization.locale;
+  const localization = new LocalizationService(
+    initialAppCatalogs,
+    DEFAULT_LOCALE,
+    DEFAULT_LOCALE,
+    loadRuntimeLocaleCatalog,
+  );
   localization.subscribe((locale) => localeSettings.save(locale));
+
+  const requestedLocale = localeSettings.load();
+  const ready = localization.activateLocale(requestedLocale).catch((error) => {
+    errorLog.record('application', `Locale load failed for ${requestedLocale}: ${String(error)}`);
+    if (localization.locale !== DEFAULT_LOCALE) localization.setLocale(DEFAULT_LOCALE);
+  }).then(() => {
+    if (typeof document !== 'undefined') document.documentElement.lang = localization.locale;
+  });
+
   return {
     storage,
     store: new CampaignStore(storage.storage),
@@ -43,5 +58,6 @@ export const createRuntimeServices = (): RuntimeServices => {
     pwa,
     localization,
     localeSettings,
+    ready,
   };
 };

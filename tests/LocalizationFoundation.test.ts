@@ -1,7 +1,10 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
-import { DEFAULT_LOCALE, resolveLocale } from '../src/localization/Locale';
+import { DEFAULT_LOCALE, resolveLocale, type Locale } from '../src/localization/Locale';
 import { LocalizationService } from '../src/localization/LocalizationService';
 import { LOCALE_SETTINGS_KEY, LocaleSettingsStore } from '../src/localization/LocaleSettingsStore';
+import { initialAppCatalogs, loadRuntimeLocaleCatalog } from '../src/localization/catalogs';
 import { formatMessage } from '../src/localization/MessageCatalog';
 import type { StorageLike } from '../src/platform/SafeStorage';
 
@@ -50,6 +53,45 @@ describe('ANM-019A localization foundation', () => {
     localization.setLocale('en');
     expect(listener).toHaveBeenCalledTimes(1);
     expect(listener).toHaveBeenCalledWith('en');
+  });
+
+  it('loads non-default runtime catalogs on demand and reuses concurrent loads', async () => {
+    const loader = vi.fn(async (locale: Locale) => ({ greeting: locale }));
+    const localization = new LocalizationService({ ru: { greeting: 'ru' } }, 'ru', 'ru', loader);
+
+    expect(localization.locale).toBe('ru');
+    const [first, second] = await Promise.all([
+      localization.ensureLocale('en'),
+      localization.ensureLocale('en'),
+    ]);
+    expect(first).toBeUndefined();
+    expect(second).toBeUndefined();
+    expect(loader).toHaveBeenCalledTimes(1);
+
+    await localization.activateLocale('en');
+    expect(localization.locale).toBe('en');
+    expect(localization.t('greeting')).toBe('en');
+    expect(loader).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps only Russian in the startup catalog and loads complete BE/EN runtime catalogs dynamically', async () => {
+    expect(Object.keys(initialAppCatalogs)).toEqual(['ru']);
+    const [beRuntime, enRuntime] = await Promise.all([
+      loadRuntimeLocaleCatalog('be'),
+      loadRuntimeLocaleCatalog('en'),
+    ]);
+    expect(beRuntime['menu.newGame']).toBe('Новая гульня');
+    expect(enRuntime['menu.newGame']).toBe('New Game');
+    expect(Object.keys(beRuntime).sort()).toEqual(Object.keys(initialAppCatalogs.ru).sort());
+    expect(Object.keys(enRuntime).sort()).toEqual(Object.keys(initialAppCatalogs.ru).sort());
+  });
+
+  it('keeps non-default locale modules outside the static startup dependency graph', () => {
+    const source = readFileSync(resolve(process.cwd(), 'src/localization/catalogs/index.ts'), 'utf8');
+    expect(source).toContain("await import('./be')");
+    expect(source).toContain("await import('./en')");
+    expect(source).not.toContain("import { beCatalog } from './be'");
+    expect(source).not.toContain("import { enCatalog } from './en'");
   });
 
   it('persists locale independently from campaign and audio settings', () => {

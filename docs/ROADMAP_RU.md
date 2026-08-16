@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.4-dev`.
-Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation, ANM-028D3A Emi approved-frame runtime transition, completed ANM-029B4 Belarusian production, merged ANM-029H planning reset, ANM-023F1 repository/Biome hardening and ANM-023F2 test-suite simplification**. Merged runtime simplification now includes **ANM-023F3A R1 Match-3 Presentation Extraction / PR #139** and **ANM-023F3B R1 VN Presentation Extraction / PR #140**. Current candidate focus: **ANM-023F3C R1 Match-3 Rule Kernel Extraction**. Additional locale production is paused; the active production-enabler track remains ANM-023F before high-volume ANM-030 art integration.
+Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation, ANM-028D3A Emi approved-frame runtime transition, completed ANM-029B4 Belarusian production, merged ANM-029H planning reset, ANM-023F1 repository/Biome hardening and ANM-023F2 test-suite simplification**. Merged runtime simplification now includes **ANM-023F3A / PR #139**, **ANM-023F3B / PR #140** and **ANM-023F3C / PR #141**; ANM-023F3 is complete. Current candidate focus: **ANM-023F4A R1 Lazy Locale Payload**. Additional locale production is paused; the active production-enabler track remains ANM-023F before high-volume ANM-030 art integration.
 
 `package.json.version` — единственный источник продуктовой semver dev-линии; `src/appVersion.ts` импортирует её как `APP_VERSION`. `BUILD_LABEL` остаётся отдельным feature/baseline identity и не выводится из semver. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -79,8 +79,8 @@ The post-Belarusian reset intentionally reopens the ANM-023 maintenance line bef
 
 - **023F1 Biome Expansion & Repository Hygiene [P0] — R1 COMPLETE / PR #137** — unified Biome lint across `src`, `tests` and Vite config; focused/duplicate test hooks are blocking; repository debris is removed and guarded; safe-fix commands are available. F1's merged CI baseline exposed only two test-only unused-code warnings and zero findings from the staged high-signal advisory cohort.
 - **023F2 Test Suite Simplification [P0] — R1 COMPLETE / PR #138** — completed Belarusian lifecycle-batch tests are consolidated into three domain suites; repository test-file count is reduced from 110 to 90; F1 warning sources are removed and the proven high-signal Biome cohort is blocking.
-- **023F3 Runtime / Controller Simplification [P0/P1] — IN PROGRESS** — behavior-preserving cuts in measured hotspots only when a boundary reduces coupling and reading scope. **F3A R1 COMPLETE / PR #139** extracts deterministic Match-3 intro/board/objective/tutorial/screen markup into pure `Match3Presentation.ts`, reducing `Match3Controller.ts` from ~52.6 KB to ~44.3 KB. **F3B R1 COMPLETE / PR #140** extracts deterministic VN stage/preload/overlay/choice presentation into `VnPresentation.ts`, reducing `VnController.ts` from ~30.6 KB to ~23.0 KB while paging/event binding/story routing/session mutation remain controller-owned. **F3C R1 CURRENT CANDIDATE** extracts stateless match detection/special creation/combo expansion into `Match3Rules.ts`, reducing mutable `Match3Game.ts` from ~42.2 KB to ~32.5 KB; if green, F3 closes and F4 begins.
-- **023F4 Performance & Payload Pass [P1] — PLANNED** — measure JS/CSS/startup/preload/memory and locale payload before optimizing; lazy locale loading is a hypothesis to validate, not a pre-approved rewrite.
+- **023F3 Runtime / Controller Simplification [P0/P1] — COMPLETE THROUGH F3C / PR #141** — three bounded behavior-preserving cuts reduce measured runtime reading hotspots without broad architectural churn: F3A `/ PR #139` extracts Match-3 presentation, F3B `/ PR #140` extracts VN presentation, and F3C `/ PR #141` extracts the stateless Match-3 rule kernel while mutable lifecycle remains in `Match3Game`.
+- **023F4 Performance & Payload Pass [P1] — IN PROGRESS** — merged F3 baseline is **1,206.14 kB JS / 389.05 kB gzip** plus **86.18 kB CSS / 17.97 kB gzip**. **F4A R1 CURRENT CANDIDATE** validates the measured locale hypothesis: RU remains eager fallback while BE/EN base catalogs become on-demand chunks loaded before first render when persisted. F4B next measures runtime image preload/memory before changing asset tiers.
 
 Success criterion: the next feature requires less code/test surface to understand and modify, while GitHub CI catches more real defects and behavioral coverage does not regress. Runtime-impacting F3/F4 cuts still require mobile preview QA.
 
@@ -276,13 +276,14 @@ Do not consume core production capacity before base release.
 4. **ANM-023F2 R1 [P0] — COMPLETE / PR #138** — domain-based test-suite simplification without contract loss;
 5. **ANM-023F3A R1 [P0/P1] — COMPLETE / PR #139** — pure Match-3 presentation extracted from controller orchestration;
 6. **ANM-023F3B R1 [P0/P1] — COMPLETE / PR #140** — deterministic VN presentation/asset-resolution extracted from VN orchestration;
-7. **ANM-023F3C R1 [P0/P1] — CURRENT CANDIDATE** — extract stateless Match-3 rule kernel from mutable engine lifecycle;
-8. **ANM-023F4 [P1]** — measured performance/payload optimization;
-9. **ANM-030A [P0]** — full game asset gap audit (may be prepared in parallel with 023F);
-10. **ANM-030B+ [P1]** — budgeted mass art/content integration using the external character/background workflow;
-11. **ANM-031 [P2]** — landscape;
-12. **ANM-032 [P2]** — music;
-13. **ANM-033 [P0 before release]** — release hardening.
+7. **ANM-023F3C R1 [P0/P1] — COMPLETE / PR #141** — stateless Match-3 rule kernel extracted from mutable engine lifecycle;
+8. **ANM-023F4A R1 [P1] — CURRENT CANDIDATE** — lazy non-default locale payload, accepted only if CI proves material initial-entry reduction;
+9. **ANM-023F4B [P1] — NEXT** — runtime asset preload and memory measurement/pass;
+10. **ANM-030A [P0]** — full game asset gap audit (may be prepared in parallel with 023F);
+11. **ANM-030B+ [P1]** — budgeted mass art/content integration using the external character/background workflow;
+12. **ANM-031 [P2]** — landscape;
+13. **ANM-032 [P2]** — music;
+14. **ANM-033 [P0 before release]** — release hardening.
 
 ## Backlog principle
 

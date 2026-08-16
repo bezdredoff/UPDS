@@ -3,6 +3,7 @@ import { APP_VERSION, BUILD_LABEL } from '../src/appVersion';
 import { LOCALE_SETTINGS_KEY } from '../src/localization/LocaleSettingsStore';
 import { ruCatalog } from '../src/localization/catalogs/ru';
 import { getScene, type ChoiceId } from '../src/data/narrative';
+import { createRuntimeServices } from '../src/platform/RuntimeServices';
 import { AnimeDetectiveApp } from '../src/ui/AnimeDetectiveApp';
 
 class MemoryStorage implements Storage {
@@ -49,6 +50,14 @@ describe('AnimeDetectiveApp render smoke', () => {
   const create = (): { root: FakeRoot; app: AnimeDetectiveApp & AppHarness } => {
     const root = new FakeRoot();
     const app = new AnimeDetectiveApp(root as unknown as HTMLElement) as AnimeDetectiveApp & AppHarness;
+    return { root, app };
+  };
+
+  const createReady = async (): Promise<{ root: FakeRoot; app: AnimeDetectiveApp & AppHarness }> => {
+    const root = new FakeRoot();
+    const services = createRuntimeServices();
+    await services.ready;
+    const app = new AnimeDetectiveApp(root as unknown as HTMLElement, services) as AnimeDetectiveApp & AppHarness;
     return { root, app };
   };
 
@@ -108,10 +117,10 @@ describe('AnimeDetectiveApp render smoke', () => {
   });
 
 
-  it('renders the ANM-019B language selector and an English menu/settings vertical slice', () => {
+  it('renders the ANM-019B language selector and an English menu/settings vertical slice', async () => {
     const storage = (globalThis.window as unknown as { localStorage: Storage }).localStorage;
     storage.setItem(LOCALE_SETTINGS_KEY, 'en');
-    const { root, app } = create();
+    const { root, app } = await createReady();
     app.mount();
     expect(root.innerHTML).toContain('New Game');
     expect(root.innerHTML).toContain('Scene Navigation');
@@ -126,10 +135,10 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('<option value="en" selected>English</option>');
   });
 
-  it('renders the production-complete Belarusian menu/settings slice and selector option', () => {
+  it('renders the production-complete Belarusian menu/settings slice and selector option', async () => {
     const storage = (globalThis.window as unknown as { localStorage: Storage }).localStorage;
     storage.setItem(LOCALE_SETTINGS_KEY, 'be');
-    const { root, app } = create();
+    const { root, app } = await createReady();
     app.mount();
     expect(root.innerHTML).toContain('Новая гульня');
     expect(root.innerHTML).toContain('Навігацыя па сцэнах');
@@ -141,10 +150,10 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('<option value="be" selected>Беларуская</option>');
   });
 
-  it('renders the ANM-019C English VN chrome, scene metadata and choices without translating screenplay lines', () => {
+  it('renders the ANM-019C English VN chrome, scene metadata and choices without translating screenplay lines', async () => {
     const storage = (globalThis.window as unknown as { localStorage: Storage }).localStorage;
     storage.setItem(LOCALE_SETTINGS_KEY, 'en');
-    const { root, app } = create();
+    const { root, app } = await createReady();
     app.openScene(0, 0);
     expect(root.innerHTML).toContain('The Club That Barely Exists');
     expect(root.innerHTML).toContain('aria-label="Dialogue history"');

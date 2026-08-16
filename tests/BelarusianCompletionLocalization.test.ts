@@ -11,9 +11,9 @@ import {
   runtimeSelectableLocaleProfiles,
   validateLocalizationProductionContract,
 } from '../src/localization/LocalizationProduction';
-import { appCatalogs } from '../src/localization/catalogs';
 import { beCatalog, beCompletedCatalogPrefixes } from '../src/localization/catalogs/be';
 import { match3ReactionCatalogs } from '../src/localization/catalogs/match3Reactions';
+import { enCatalog } from '../src/localization/catalogs/en';
 import { ruCatalog } from '../src/localization/catalogs/ru';
 
 const SOURCE_KEY_COUNT = 3870;
@@ -21,6 +21,11 @@ const REACTION_KEY_COUNT = 132;
 const SHELL_KEY_COUNT = 61;
 const sourceCatalog: Readonly<Record<string, string>> = ruCatalog;
 const targetCatalog: Readonly<Record<string, string>> = beCatalog;
+const runtimeCatalogs = {
+  ru: { ...ruCatalog, ...match3ReactionCatalogs.ru },
+  be: { ...beCatalog, ...match3ReactionCatalogs.be },
+  en: { ...enCatalog, ...match3ReactionCatalogs.en },
+} as const;
 
 const directiveKeys = Object.keys(sourceCatalog).filter((key) =>
   key.startsWith('vn.line.') && /^\{(?:ADD|CHOICE|SET|JUMP|BRANCH)/u.test(sourceCatalog[key]),
@@ -64,8 +69,8 @@ describe('ANM-029B4 Belarusian production completion', () => {
     expect(reactionAudit.sourceKeyCount).toBe(REACTION_KEY_COUNT);
     expect(reactionAudit.targetKeyCount).toBe(REACTION_KEY_COUNT);
     expect(isCatalogStructurallyComplete(reactionAudit)).toBe(true);
-    expect(Object.keys(appCatalogs.be).sort()).toEqual(Object.keys(appCatalogs.ru).sort());
-    expect(Object.keys(appCatalogs.be).sort()).toEqual(Object.keys(appCatalogs.en).sort());
+    expect(Object.keys(runtimeCatalogs.be).sort()).toEqual(Object.keys(runtimeCatalogs.ru).sort());
+    expect(Object.keys(runtimeCatalogs.be).sort()).toEqual(Object.keys(runtimeCatalogs.en).sort());
   });
 
   it('ships Belarusian as a production-complete runtime locale', () => {

@@ -159,6 +159,7 @@ describe('active documentation traceability', () => {
     const match3PresentationExtraction = read('docs/features/ANM023F3A_MATCH3_PRESENTATION_EXTRACTION_RU.md');
     const vnPresentationExtraction = read('docs/features/ANM023F3B_VN_PRESENTATION_EXTRACTION_RU.md');
     const match3RuleKernelExtraction = read('docs/features/ANM023F3C_MATCH3_RULE_KERNEL_EXTRACTION_RU.md');
+    const lazyLocalePayload = read('docs/features/ANM023F4A_LAZY_LOCALE_PAYLOAD_RU.md');
 
     expect(roadmap).toContain('028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE');
     expect(roadmap).toContain('ANM-028D0 R1 Emi neutral master accepted');
@@ -197,6 +198,7 @@ describe('active documentation traceability', () => {
     expect(index).toContain('ANM023F3A_MATCH3_PRESENTATION_EXTRACTION_RU.md');
     expect(index).toContain('ANM023F3B_VN_PRESENTATION_EXTRACTION_RU.md');
     expect(index).toContain('ANM023F3C_MATCH3_RULE_KERNEL_EXTRACTION_RU.md');
+    expect(index).toContain('ANM023F4A_LAZY_LOCALE_PAYLOAD_RU.md');
     expect(roadmap).toContain('ANM-023F — Codebase, Test & Tooling Simplification');
     expect(roadmap).toContain('023F1 Biome Expansion & Repository Hygiene');
     expect(roadmap).toContain('ANM-030A Full Game Asset Gap Audit');
@@ -224,6 +226,12 @@ describe('active documentation traceability', () => {
     expect(match3RuleKernelExtraction).toContain('Match3Rules.ts');
     expect(match3RuleKernelExtraction).toContain('22.9% less engine-class surface');
     expect(match3RuleKernelExtraction).toContain('500 randomized boards');
+    expect(match3RuleKernelExtraction).toContain('PR #141');
+    expect(lazyLocalePayload).toContain('1,206.14 kB / 389.05 kB gzip');
+    expect(lazyLocalePayload).toContain('initialAppCatalogs');
+    expect(lazyLocalePayload).toContain('activateLocale()');
+    expect(lazyLocalePayload).toContain('ANM-023F4B');
+    expect(roadmap).toContain('F4A R1 CURRENT CANDIDATE');
     expect(match3PresentationExtraction).toContain('mobile candidate preview');
     expect(index).toContain('ANM023E_TEST_TOOLING_IDENTITY_HARDENING_RU.md');
     expect(roadmap).toContain('remaining **999** base-catalog keys');

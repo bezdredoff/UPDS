@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening, ANM-023F1 repository/Biome hardening and ANM-023F2 test simplification. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F3A R1 is merged via PR #139 and ANM-023F3B R1 via PR #140; ANM-023F3C R1 is the current final planned F3 behavior-preserving Match-3 rule-kernel extraction candidate.
+Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening, ANM-023F1 repository/Biome hardening and ANM-023F2 test simplification. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F3A/B/C are merged through PR #141 and close the bounded runtime simplification sequence. ANM-023F4A R1 is the current measured lazy-locale payload candidate.
 
 ## Runtime flow
 
@@ -15,10 +15,15 @@ ANM-029H does not change ownership boundaries. It records the next bounded maint
 
 - F1 is merged via PR #137: Biome lint is unified across source/tests/config and generated repository debris is removed/guarded;
 - F2 is merged via PR #138: completed localization lifecycle-batch tests are consolidated into domain suites and the clean Biome cohort is blocking;
-- F3 decomposes measured controller/engine hotspots only where a cut reduces coupling and reading scope; F3A (PR #139) extracted deterministic Match-3 presentation; F3B (PR #140) extracted deterministic VN stage/preload/overlay/choice presentation; F3C extracts stateless Match-3 match/special rules from mutable engine lifecycle and is intended to close F3 if CI/preview stay green;
-- F4 measures bundle/startup/preload/memory/locale payload before any optimization such as lazy locale loading.
+- F3 is complete through PR #141: F3A extracted deterministic Match-3 presentation, F3B extracted deterministic VN presentation, and F3C separated stateless Match-3 rules from mutable engine lifecycle;
+- F4 starts from the merged CI payload baseline. F4A keeps RU as the eager fallback catalog and loads BE/EN base catalogs on demand through `LocalizationService.ensureLocale()` / `activateLocale()`; `RuntimeServices.ready` resolves the persisted locale before first player render. F4B remains measurement-first for image preload and memory behavior.
 
 The desired direction remains `controller orchestrates → pure/domain modules calculate → renderer renders → store persists`. Existing public/runtime contracts remain stable unless a later atomic feature explicitly changes them.
+
+## Localization startup / payload ownership
+
+`src/localization/catalogs/index.ts` owns the runtime loading seam. Russian is the synchronously available source/fallback catalog; production-complete Belarusian and English base catalogs are dynamic imports. `LocalizationService` caches loaded catalogs and deduplicates concurrent locale loads. `RuntimeServices.ready` resolves the persisted locale before `src/main.ts` mounts the UI, preventing a wrong-language startup flash while keeping non-active locale payload out of the initial dependency graph. Match-3 reaction catalogs remain eager in F4A and may be reconsidered only after candidate bundle measurements.
+
 
 ## Application composition
 
