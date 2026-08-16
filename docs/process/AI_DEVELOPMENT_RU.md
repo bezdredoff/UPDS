@@ -272,4 +272,4 @@ change, use the candidate preview and check the affected critical path on the ph
 
 ## Static quality gate
 
-`npm run check` runs Biome lint first, then the full Vitest suite and production build. The initial lint gate covers production source/Vite config plus a focused-test guard for Vitest; widen rules only from a green baseline. Do not bypass lint by moving it out of the authoritative check script. Formatter writes are explicit through `npm run format`; CI lint does not rewrite source.
+`npm run check` runs Biome lint first, then the full Vitest suite and production build. Biome covers `src`, `tests` and `vite.config.ts` in one invocation. High-signal rules are promoted only from a green merged baseline; after ANM-023F2 unused code, focused/duplicate test hooks, fallthrough, explicit `any`, useless catch/constructor and accumulating-spread findings are blocking. Do not bypass lint by moving it out of the authoritative check script. Formatter writes remain explicit through `npm run format`; CI lint does not rewrite source and `format:check` remains a separate non-blocking baseline until a dedicated formatting pass.

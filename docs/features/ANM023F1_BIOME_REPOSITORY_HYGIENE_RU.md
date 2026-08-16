@@ -1,6 +1,6 @@
 # ANM-023F1 — Biome Expansion & Repository Hygiene
 
-Status: R1 candidate / non-visual technical hardening. No gameplay, story, localization, save-schema, balance or asset behavior changes.
+Status: R1 COMPLETE / merged via PR #137. No gameplay, story, localization, save-schema, balance or asset behavior changes.
 
 ## Goal
 

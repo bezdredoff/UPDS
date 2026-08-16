@@ -62,9 +62,10 @@ delivery-lane limits. Не закреплять тестом каждую фор
 
 ANM-029H делает следующий technical maintenance track явным:
 
-- F1 R1 объединяет lint для `src`, `tests` и `vite.config.ts`; production unused-code checks остаются blocking, существующий test-only unused debt сначала виден как warnings, focused/duplicate test hooks становятся blocking, а fallthrough/explicit-any/useless-catch/useless-constructor/accumulating-spread сначала работают как advisory diagnostics; blanket preset/rule enablement с массовыми suppressions не является целью;
-- F1 добавляет safe-fix команды и repository-debris guard. `format:check` остаётся отдельным до dedicated formatting baseline, чтобы не смешивать static-analysis hardening с массовым style diff;
-- F2 начинает с инвентаризации уникальных contracts в текущих `110` test files, затем объединяет только реально дублирующиеся проверки и общий setup;
+- F1 R1 merged via PR #137 объединяет lint для `src`, `tests` и `vite.config.ts`, добавляет safe-fix команды и repository-debris guard; blanket preset/rule enablement с массовыми suppressions не является целью;
+- F2 R1 заменяет 23 завершённых Belarusian lifecycle-batch test files тремя доменными suites (`Completion`, `Match3`, `VN`) и сокращает общий test-file surface с `110` до `90`, сохраняя unique bounded counts, scene/choice/payload и global readiness contracts;
+- два F1 test-only unused findings удаляются, test warning override исчезает, а доказавший чистый baseline cohort (`noFallthroughSwitchClause`, `noExplicitAny`, `noUselessCatch`, `noUselessConstructor`, `noAccumulatingSpread`) становится blocking;
+- `format:check` остаётся отдельным до dedicated formatting baseline, чтобы не смешивать static-analysis hardening с массовым style diff;
 - exact historical roadmap wording не является production contract. Traceability тестирует durable status/authority invariants;
 - уменьшение числа файлов/строк само по себе не является success metric. Поведенческая защита не должна ослабнуть.
 

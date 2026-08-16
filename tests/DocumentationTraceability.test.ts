@@ -155,6 +155,7 @@ describe('active documentation traceability', () => {
     const surprisedPrompt = read('docs/art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md');
     const planningReset = read('docs/features/ANM029H_PRODUCTION_PLANNING_RESET_RU.md');
     const biomeHygiene = read('docs/features/ANM023F1_BIOME_REPOSITORY_HYGIENE_RU.md');
+    const testSimplification = read('docs/features/ANM023F2_TEST_SUITE_SIMPLIFICATION_RU.md');
 
     expect(roadmap).toContain('028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE');
     expect(roadmap).toContain('ANM-028D0 R1 Emi neutral master accepted');
@@ -189,6 +190,7 @@ describe('active documentation traceability', () => {
     expect(index).toContain('ANM029B4_BELARUSIAN_COMPLETION_RU.md');
     expect(index).toContain('ANM029H_PRODUCTION_PLANNING_RESET_RU.md');
     expect(index).toContain('ANM023F1_BIOME_REPOSITORY_HYGIENE_RU.md');
+    expect(index).toContain('ANM023F2_TEST_SUITE_SIMPLIFICATION_RU.md');
     expect(roadmap).toContain('ANM-023F — Codebase, Test & Tooling Simplification');
     expect(roadmap).toContain('023F1 Biome Expansion & Repository Hygiene');
     expect(roadmap).toContain('ANM-030A Full Game Asset Gap Audit');
@@ -199,6 +201,13 @@ describe('active documentation traceability', () => {
     expect(biomeHygiene).toContain('biome lint src tests vite.config.ts');
     expect(biomeHygiene).toContain('noAccumulatingSpread');
     expect(biomeHygiene).toContain('ANM-023F2 — Test Suite Simplification');
+    expect(biomeHygiene).toContain('merged via PR #137');
+    expect(testSimplification).toContain('BelarusianCompletionLocalization.test.ts');
+    expect(testSimplification).toContain('BelarusianMatch3Localization.test.ts');
+    expect(testSimplification).toContain('BelarusianVnLocalization.test.ts');
+    expect(testSimplification).toContain('110 → 90 `*.test.ts` files');
+    expect(testSimplification).toContain('149 representative copy/payload assertions');
+    expect(testSimplification).toContain('noAccumulatingSpread');
     expect(index).toContain('ANM023E_TEST_TOOLING_IDENTITY_HARDENING_RU.md');
     expect(roadmap).toContain('remaining **999** base-catalog keys');
     expect(roadmap).toContain('exact **3870/3870** base-key parity');
