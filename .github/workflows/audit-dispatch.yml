@@ -4,9 +4,18 @@ on:
   workflow_dispatch:
     inputs:
       audit:
-        description: 'Which audit to run: docs, story, character, all'
+        description: 'Which audit suite to run'
         required: true
         default: 'docs'
+        type: choice
+        options:
+          - docs
+          - story
+          - character
+          - scene
+          - localization
+          - tooling
+          - all
 
 permissions:
   contents: read
@@ -35,15 +44,35 @@ jobs:
         run: |
           AUDIT="${{ github.event.inputs.audit }}"
           echo "Selected audit: $AUDIT"
-          if [ "$AUDIT" = "docs" ]; then
-            npm run docs:audit
-          elif [ "$AUDIT" = "story" ]; then
-            npm run story:audit
-          elif [ "$AUDIT" = "character" ]; then
-            npm run character:audit
-          elif [ "$AUDIT" = "all" ]; then
-            npm run docs:audit && npm run story:audit && npm run character:audit
-          else
-            echo "Unknown audit '$AUDIT' - running docs audit by default"
-            npm run docs:audit
-          fi
+          case "$AUDIT" in
+            docs)
+              npm run docs:audit
+              ;;
+            story)
+              npm run story:audit
+              ;;
+            character)
+              npm run character:audit
+              ;;
+            scene)
+              npm run scene:audit
+              ;;
+            localization)
+              npm run localization:audit
+              ;;
+            tooling)
+              npm run tooling:audit
+              ;;
+            all)
+              npm run docs:audit
+              npm run story:audit
+              npm run character:audit
+              npm run scene:audit
+              npm run localization:audit
+              npm run tooling:audit
+              ;;
+            *)
+              echo "Unknown audit '$AUDIT'"
+              exit 2
+              ;;
+          esac
