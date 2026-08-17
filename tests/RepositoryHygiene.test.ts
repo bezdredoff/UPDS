@@ -13,6 +13,7 @@ const packageMetadata = JSON.parse(readFileSync(new URL('../package.json', impor
 };
 const repositoryRoot = process.cwd();
 const gitignore = readFileSync(resolve(repositoryRoot, '.gitignore'), 'utf8');
+const auditWorkflow = readFileSync(resolve(repositoryRoot, '.github/workflows/audit-dispatch.yml'), 'utf8');
 const activeRoots = ['.github', 'tests', 'src', 'docs', 'scripts'];
 
 const collectFiles = (relativeRoot: string, predicate: (path: string) => boolean): string[] => {
@@ -51,6 +52,7 @@ describe('repository maintenance contract', () => {
       .map((entry) => entry.name);
     expect(rootFiles.some((name) => /^README_ANM/i.test(name))).toBe(false);
     expect(rootFiles.some((name) => /VALIDATION_REPORT|MANUAL_QA/i.test(name))).toBe(false);
+    expect(rootFiles.some((name) => /^(?:REPORT|AUDIT|REVIEW|VALIDATION).*\.md$/i.test(name))).toBe(false);
     expect(rootFiles).not.toContain('CHECK_COMMANDS.txt');
   });
 
@@ -59,6 +61,14 @@ describe('repository maintenance contract', () => {
     expect(activeRoots.flatMap(collectGeneratedDebris).sort()).toEqual([]);
     expect(gitignore).toContain('__pycache__/');
     expect(gitignore).toContain('*.py[cod]');
+  });
+
+  it('keeps the manual audit dispatcher aligned with the targeted npm audit suites', () => {
+    expect(auditWorkflow).toContain('type: choice');
+    for (const script of ['docs:audit', 'story:audit', 'character:audit', 'scene:audit', 'localization:audit', 'tooling:audit']) {
+      expect(packageMetadata.scripts[script], `${script} must exist in package.json`).toBeTruthy();
+      expect(auditWorkflow, `manual audit workflow must expose ${script}`).toContain(`npm run ${script}`);
+    }
   });
 
   it('guards the current precomposed expression-frame runtime contract', () => {
