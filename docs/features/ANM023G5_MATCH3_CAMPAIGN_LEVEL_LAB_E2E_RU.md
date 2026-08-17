@@ -1,6 +1,6 @@
 # ANM-023G5 — Match-3 Campaign + deterministic Level Lab E2E
 
-Статус поставки: **R1 candidate**.
+Статус поставки: **MERGED**.
 
 ## Цель
 
@@ -53,7 +53,7 @@ Blockers и ingredients в draft очищаются, objective заменяет�
 
 Production level definitions не изменяются.
 
-### Seed 424242
+### Seed 7
 
 Swap `10 → 2` создаёт горизонтальную четвёрку `pantiesSportWhite`.
 
@@ -70,11 +70,13 @@ Swap `10 → 2` создаёт горизонтальную четвёрку `pa
 - objective = `6/10`;
 - special исчезает после activation.
 
-### Seed 7
+### Seed 424242
 
-Тот же swap намеренно выбран как deterministic cascade fixture.
+Тот же swap является deterministic cascade fixture.
 
 Первый refill создаёт следующую комбинацию, special вовлекается в cascade, и итоговый objective progress становится `7/10`. Проверяется финальная settled board, а не timeout/animation frame.
+
+Эти две seed semantics были подтверждены первым реальным ANM-023G7A Chromium Browser Gate; исходный G5 документ ошибочно описывал их в обратном порядке.
 
 ## Legal и invalid swaps
 
@@ -96,19 +98,6 @@ Playwright включает `prefers-reduced-motion: reduce`.
 
 ## CI boundary
 
-Как и G1–G4, `match3.pw.ts` пока не запускается root `npm run check`.
+`match3.pw.ts` остаётся вне root `npm run check`.
 
-Root CI проверяет `Match3BrowserE2EContract.test.ts`, который защищает:
-
-- один production `Match3Controller`;
-- Campaign/Lab routing;
-- существующий DOM observation contract;
-- отсутствие engine/controller imports в browser helper;
-- deterministic fixture через видимый Level Lab;
-- representative legal/invalid/cascade/refill/special/objective scenarios.
-
-Исполняемый browser suite станет отдельным gate в ANM-023G7.
-
-## Следующий шаг
-
-ANM-023G6 — Persistence / Localization / Main-Flow Journeys: browser reload/save boundaries, language switch и несколько коротких menu → VN → Match-3 → VN/progression journeys.
+Root CI проверяет `Match3BrowserE2EContract.test.ts`, а executable browser suite запускается отдельным Browser Gate начиная с ANM-023G7A.
