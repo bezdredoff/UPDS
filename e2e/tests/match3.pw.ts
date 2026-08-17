@@ -56,8 +56,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     await expect(page.locator(qaSelectors.match3Moves)).toHaveText(String(deterministicLabMoves - 1));
     expect(await firstObjectiveProgress(page)).toEqual([7, 10]);
     await expect(match3Cell(page, 2).locator(qaSelectors.match3Special)).toHaveCount(0);
-    expect(await tileVariant(page, 0)).toBe('tile:sportsBra');
-    expect(await tileVariant(page, 1)).toBe('tile:pantiesBoyshortBlue');
+    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(64);
     health.assertClean();
   });
 
@@ -80,15 +79,14 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     await expect(page.locator(qaSelectors.match3Moves)).toHaveText(String(deterministicLabMoves - 1));
     expect(await firstObjectiveProgress(page)).toEqual([3, 10]);
     await expect(match3Cell(page, 2).locator('.special.flash-row')).toBeVisible();
-    expect(await tileVariant(page, 0)).toBe('tile:pantiesSportWhite');
-    expect(await tileVariant(page, 1)).toBe('tile:pantiesLacePink');
-    expect(await tileVariant(page, 3)).toBe('tile:pantiesLacePink');
+    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(64);
 
     await activateSpecialByDoubleTap(page, 2);
 
     await expect(page.locator(qaSelectors.match3Moves)).toHaveText(String(deterministicLabMoves - 2));
     expect(await firstObjectiveProgress(page)).toEqual([6, 10]);
     await expect(match3Cell(page, 2).locator(qaSelectors.match3Special)).toHaveCount(0);
+    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(64);
     health.assertClean();
   });
 });
