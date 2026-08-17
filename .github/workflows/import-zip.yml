@@ -314,10 +314,13 @@ jobs:
       - name: Upload combined Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
+          name: github-pages-${{ github.run_attempt }}
           path: ${{ runner.temp }}/site
       - name: Deploy combined stable + preview site
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
       - name: Publish preview URL output
         id: url
         shell: bash
