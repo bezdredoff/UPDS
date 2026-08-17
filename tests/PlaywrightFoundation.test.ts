@@ -25,18 +25,18 @@ describe('ANM-023G1 Playwright foundation', () => {
     expect(e2ePackage.devDependencies['@playwright/test']).toBe('1.62.1');
   });
 
-  it('runs the minimal smoke against a real production build served by Vite preview', () => {
+  it('runs the minimal smoke against a real production build', () => {
     expect(config).toContain("testMatch: /.*\\.pw\\.ts/");
-    expect(config).toContain("baseURL: 'http://127.0.0.1:4173'");
+    expect(config).toContain("const localBaseURL = 'http://127.0.0.1:4173/'");
     expect(config).toContain('npm --prefix .. run build');
-    expect(config).toContain('npm --prefix .. run preview');
+    expect(config).toContain('node ./serve-production.mjs');
     expect(config).toContain("name: 'chromium'");
     expect(config).toContain("trace: 'retain-on-failure'");
     expect(config).toContain("screenshot: 'only-on-failure'");
-    expect(bootSmoke).toContain("page.goto('/')");
+    expect(bootSmoke).toContain("page.goto('./')");
     expect(bootSmoke).toContain("page.locator('.menu-screen')");
     expect(bootSmoke).toContain("page.locator('#new')");
-    expect(bootSmoke).toContain("page.on('pageerror'");
+    expect(bootSmoke).toContain('observeBrowserHealth(page)');
   });
 
   it('keeps generated browser artifacts out of source control', () => {
