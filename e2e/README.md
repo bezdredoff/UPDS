@@ -1,6 +1,6 @@
 # UPDS browser E2E
 
-ANM-023G1–G6 established the isolated Playwright package, production Pages topology smoke, VN navigation coverage, deterministic Match-3 coverage, persistence/localization and short real-player flow journeys. ANM-023G7A turns that accumulated suite into a real GitHub Browser Gate. ANM-023G7B adds a deliberately small mobile WebKit Golden Sample layer on top of the proven browser infrastructure.
+ANM-023G1–G6 established the isolated Playwright package, production Pages topology smoke, VN navigation coverage, deterministic Match-3 coverage, persistence/localization and short real-player flow journeys. ANM-023G7A turns that accumulated suite into a real GitHub Browser Gate. ANM-023G7B adds a deliberately small mobile WebKit Golden Sample layer on top of the proven browser infrastructure. ANM-023G7D hardens the CI runtime by moving both browser lanes onto the version-pinned official Playwright container.
 
 From the repository root:
 
@@ -30,7 +30,7 @@ The Browser Gate runs on pull requests to `main`, pushes to `main`, and manual d
 - **Chromium full E2E** — every `*.pw.ts` functional browser test accumulated in G1–G6;
 - **Mobile WebKit critical E2E** — boot, VN, Match-3, persistence/localization/main-flow coverage and the G7B visual Golden Samples on the Playwright `iPhone 13` device profile.
 
-Each lane installs only the requested browser plus its Linux dependencies. The production Vite bundle is still built by the Playwright web server command and served through the G3 production-topology server.
+Both lanes run inside `mcr.microsoft.com/playwright:v1.62.1-noble`, exactly matching the pinned `@playwright/test` version in `e2e/package.json`. The image already contains the matching Chromium/WebKit browser binaries and Linux browser dependencies, so CI does not run `playwright install --with-deps` or reinstall the large WebKit apt dependency set on every fresh GitHub runner. The isolated E2E npm package is still installed from the repository so the tests remain controlled by project dependencies. The production Vite bundle is still built by the Playwright web server command and served through the G3 production-topology server.
 
 On success or failure, the workflow uploads `playwright-report` and `test-results` for 14 days. Retained-on-failure traces and failure screenshots therefore remain available for diagnosis from GitHub Actions.
 
