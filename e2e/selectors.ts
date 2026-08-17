@@ -2,6 +2,12 @@ export const qaSelectors = {
   appRoot: '#app',
   mainMenu: '.menu-screen',
   newGame: '#new',
+  continueGame: '#continue',
+  settingsButton: '#settings',
+
+  settingsScreen: '.settings-panel',
+  settingsBack: '#back',
+  languageSelect: '[data-language-select]',
 
   sceneNavigationButton: '#episodes',
   sceneNavigationScreen: '.scene-select',
@@ -21,6 +27,10 @@ export const qaSelectors = {
   vnChoiceScreen: '.choice-screen',
   vnChoiceButton: '[data-choice]',
   vnChoiceBackgroundFit: '.choice-background-fit',
+
+  matchIntro: '.level-intro',
+  matchIntroId: '.level-card .eyebrow',
+  matchStart: '#start',
 
   match3CampaignButton: '#match3-campaign',
   match3CampaignScreen: '.match3-campaign-screen',
@@ -54,4 +64,5 @@ export const qaSelectors = {
   match3Special: '.special',
   match3Feedback: '#match-feedback',
   match3Quit: '#quit',
+  match3TutorialTry: '#tutorial-try',
 } as const;
