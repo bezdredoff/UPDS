@@ -14,12 +14,12 @@
 ## Package / build identity
 
 - `package.json.name`: `class-u-detectives`;
-- `package.json.version`: canonical product semver source;
-- `APP_VERSION` импортируется из `package.json.version`, поэтому второго ручного version literal нет;
+- `package.json.version`: внутренняя npm/package metadata; она не является player-facing версией игры;
+- `APP_VERSION` в `src/appVersion.ts`: canonical player-facing product semver dev-line;
 - `BUILD_LABEL` остаётся независимым feature/baseline identity;
 - `BUILD_ID` остаётся уникальной идентичностью конкретной CI-сборки.
 
-Product semver намеренно не выводится из `BUILD_LABEL`: ANM feature number и продуктовая версия имеют разные жизненные циклы.
+Product semver намеренно не выводится ни из `BUILD_LABEL`, ни из npm package metadata: package, ANM feature и player-facing product version имеют разные жизненные циклы. Изменение `APP_VERSION` само по себе не меняет save schema и не требует migration.
 
 ## Biome
 

@@ -29,13 +29,17 @@ const biomeConfig = JSON.parse(read('biome.json')) as {
 };
 
 describe('ANM-023E test, tooling and identity hardening', () => {
-  it('keeps product package identity and runtime APP_VERSION on one source of truth', () => {
+  it('keeps npm package metadata coherent while player-facing APP_VERSION has its own lifecycle', () => {
+    const appVersionSource = read('src/appVersion.ts');
     expect(packageMetadata.name).toBe('class-u-detectives');
-    expect(APP_VERSION).toBe(packageMetadata.version);
+    expect(packageMetadata.version).toMatch(/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/);
     expect(lock.name).toBe(packageMetadata.name);
     expect(lock.version).toBe(packageMetadata.version);
     expect(lock.packages[''].name).toBe(packageMetadata.name);
     expect(lock.packages[''].version).toBe(packageMetadata.version);
+    expect(APP_VERSION).toMatch(/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/);
+    expect(APP_VERSION.toLowerCase()).not.toContain('anm');
+    expect(appVersionSource).not.toContain('../package.json');
     expect(BUILD_LABEL).toMatch(/^ANM-/);
     expect(BUILD_LABEL).not.toContain(APP_VERSION);
   });

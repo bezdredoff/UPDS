@@ -2,6 +2,7 @@ import { APP_VERSION, BUILD_ID, BUILD_LABEL, BUILD_TIMESTAMP } from '../../appVe
 import { sceneMeta } from '../../data/narrative';
 import { createDiagnosticsSnapshot } from '../../platform/Diagnostics';
 import { downloadJson } from '../../platform/Download';
+import { SAVE_SCHEMA_VERSION } from '../../engine/CampaignStore';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppSession } from '../../app/AppSession';
@@ -38,7 +39,7 @@ export class DiagnosticsController {
       <div class="diagnostic-grid">
         <article><small>VERSION</small><b>${escapeHtml(APP_VERSION)}</b><span>${escapeHtml(BUILD_LABEL)}</span></article>
         <article><small>BUILD</small><b>${escapeHtml(BUILD_ID)}</b><span>${escapeHtml(BUILD_TIMESTAMP)}</span></article>
-        <article><small>SAVE SCHEMA</small><b>v1</b><span>${escapeHtml(loadReport.status)} · ${escapeHtml(loadReport.detail)}</span></article>
+        <article><small>SAVE SCHEMA</small><b>v${SAVE_SCHEMA_VERSION}</b><span>${escapeHtml(loadReport.status)} · ${escapeHtml(loadReport.detail)}</span></article>
         <article><small>STORAGE</small><b>${this.services.storage.mode === 'persistent' ? 'OK' : 'FALLBACK'}</b><span>${escapeHtml(storageLabel)}</span></article>
         <article><small>RUNTIME</small><b>${errors.length} errors</b><span>${assetHealth.failures.length} asset failures</span></article>
         <article><small>AUDIO</small><b>${this.services.audio.supported ? 'WEB AUDIO' : 'FALLBACK'}</b><span>music ${Math.round(this.services.audio.settings.musicVolume * 100)}% · sfx ${Math.round(this.services.audio.settings.effectsVolume * 100)}% · ${this.services.audio.settings.muted ? 'muted' : 'active'}</span></article>

@@ -15,10 +15,10 @@
 
 Чтобы product version больше не выглядела как устаревший feature label:
 
-- `APP_VERSION` — продуктовая dev-линия (`0.25.0-dev`) и не обязана меняться на каждой атомарной подфиче;
-- `BUILD_LABEL` — человекочитаемый функциональный baseline (`ANM-025B · ...`);
+- `APP_VERSION` — player-facing продуктовая dev-линия (`0.26.0-dev`) и не обязана меняться на каждой атомарной подфиче;
+- `BUILD_LABEL` — человекочитаемый функциональный baseline (`ANM-... · ...`);
 - `BUILD_ID` — уникальная конкретная сборка (job + run + source SHA);
 - `BUILD_TIMESTAMP` — время конкретной сборки;
-- npm `package.json.version` — canonical product semver source; `APP_VERSION` импортируется из него. Это по-прежнему не feature/build identity и не заменяет `BUILD_LABEL`/`BUILD_ID`.
+- npm `package.json.version` — внутренняя package metadata и имеет отдельный lifecycle; она не определяет `APP_VERSION`, save compatibility или текущий feature baseline.
 
 PWA cache invalidation по-прежнему использует `BUILD_ID`, а не `APP_VERSION`.
