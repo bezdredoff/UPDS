@@ -58,6 +58,10 @@ describe('ANM-023G6 persistence, localization and main-flow browser contract', (
     expect(helper).toContain("advanceToLine(page, 'VN0057', 180)");
     expect(helper).toContain("toHaveText('M3_00_LOCKER_TUTORIAL')");
     expect(helper).toContain('qaSelectors.matchStart');
+    expect(helper).toContain('await expect(start).toBeVisible()');
+    expect(helper).toContain('await expect(start).toBeEnabled()');
+    expect(helper).toContain('start.click({ force: true })');
+    expect(spec).toContain('test.slow()');
     expect(helper).toContain("toHaveText('M3_00')");
     expect(helper).toContain("toHaveText('24')");
 

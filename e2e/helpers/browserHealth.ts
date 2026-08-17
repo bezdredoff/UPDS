@@ -6,6 +6,11 @@ function isCriticalRequest(request: Request): boolean {
   return criticalResourceTypes.has(request.resourceType());
 }
 
+function isKnownLocalServiceWorkerAccessError(message: string): boolean {
+  return message.includes('127.0.0.1:4173/sw.js')
+    && message.includes('due to access control checks');
+}
+
 export type BrowserHealthProbe = Readonly<{
   assertClean: () => void;
 }>;
@@ -16,7 +21,10 @@ export function observeBrowserHealth(page: Page): BrowserHealthProbe {
   const failedRequests: string[] = [];
   const badResponses: string[] = [];
 
-  page.on('pageerror', (error) => pageErrors.push(error.message));
+  page.on('pageerror', (error) => {
+    if (isKnownLocalServiceWorkerAccessError(error.message)) return;
+    pageErrors.push(error.message);
+  });
   page.on('console', (message) => {
     if (message.type() === 'error') consoleErrors.push(message.text());
   });

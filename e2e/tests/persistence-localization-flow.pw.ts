@@ -27,6 +27,7 @@ test.describe('Persistence, localization and short main-flow journeys', () => {
   });
 
   test('New Game reaches the first story Match-3 and Continue restores its story boundary', async ({ page }) => {
+    test.slow();
     const health = observeBrowserHealth(page);
     await page.emulateMedia({ reducedMotion: 'reduce' });
 

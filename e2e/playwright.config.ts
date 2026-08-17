@@ -7,6 +7,13 @@ const baseURL = requestedBaseURL
   ? `${requestedBaseURL.replace(/\/+$/, '')}/`
   : localBaseURL;
 
+const mobileCriticalTestMatch = [
+  /boot\.pw\.ts/,
+  /vn-navigation\.pw\.ts/,
+  /match3\.pw\.ts/,
+  /persistence-localization-flow\.pw\.ts/,
+];
+
 export default defineConfig({
   testDir: './tests',
   testMatch: /.*\.pw\.ts/,
@@ -33,6 +40,11 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'webkit-mobile',
+      testMatch: mobileCriticalTestMatch,
+      use: { ...devices['iPhone 13'] },
     },
   ],
   webServer: requestedBaseURL
