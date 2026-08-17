@@ -52,6 +52,13 @@ describe('ANM-023G7A Browser Gate workflow contract', () => {
     expect(browserWorkflow).toContain('npm --prefix e2e install --ignore-scripts --package-lock=false');
   });
 
+  it('preserves the hosted-runner font set for deterministic Golden Samples', () => {
+    expect(browserWorkflow).toContain('/usr/share/fonts:/usr/local/share/fonts/github-host:ro');
+    expect(browserWorkflow).toContain('fc-cache -f');
+    expect(browserWorkflow).toContain('fc-match Georgia');
+    expect(browserWorkflow).toContain('fc-match Inter');
+  });
+
   it('always publishes browser diagnostics', () => {
     expect(browserWorkflow).toContain('if: always()');
     expect(browserWorkflow).toContain('e2e/playwright-report');
