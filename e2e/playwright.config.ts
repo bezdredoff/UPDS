@@ -12,6 +12,7 @@ const mobileCriticalTestMatch = [
   /vn-navigation\.pw\.ts/,
   /match3\.pw\.ts/,
   /persistence-localization-flow\.pw\.ts/,
+  /visual-regression\.pw\.ts/,
 ];
 
 export default defineConfig({
