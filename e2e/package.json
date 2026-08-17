@@ -6,6 +6,7 @@
   "scripts": {
     "test": "playwright test",
     "test:chromium": "playwright test --project=chromium",
+    "test:webkit-mobile": "playwright test --project=webkit-mobile",
     "test:pages": "playwright test boot.pw.ts pages-smoke.pw.ts --project=chromium",
     "test:vn": "playwright test vn-navigation.pw.ts --project=chromium",
     "test:match3": "playwright test match3.pw.ts --project=chromium",
