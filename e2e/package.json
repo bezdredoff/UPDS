@@ -8,6 +8,7 @@
     "test:chromium": "playwright test --project=chromium",
     "test:pages": "playwright test boot.pw.ts pages-smoke.pw.ts --project=chromium",
     "test:vn": "playwright test vn-navigation.pw.ts --project=chromium",
+    "test:match3": "playwright test match3.pw.ts --project=chromium",
     "test:headed": "playwright test --headed --project=chromium",
     "report": "playwright show-report"
   },

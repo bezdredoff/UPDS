@@ -1,6 +1,6 @@
 # UPDS browser E2E
 
-ANM-023G1 introduced the isolated Playwright browser-test package. ANM-023G2 formalized the existing QA/product surfaces as automation harnesses without adding a second game implementation. ANM-023G3 added production-build and GitHub Pages `/preview/` topology smoke coverage. ANM-023G4 adds real VN browser coverage through QA Scene Navigation. The parallel GitHub Browser Gate is still deferred to ANM-023G7.
+ANM-023G1 introduced the isolated Playwright browser-test package. ANM-023G2 formalized the existing QA/product surfaces as automation harnesses without adding a second game implementation. ANM-023G3 added production-build and GitHub Pages `/preview/` topology smoke coverage. ANM-023G4 added real VN browser coverage through QA Scene Navigation. ANM-023G5 adds production Match-3 coverage through Campaign and deterministic Level Lab. The parallel GitHub Browser Gate is still deferred to ANM-023G7.
 
 From the repository root:
 
@@ -16,21 +16,32 @@ Useful focused commands:
 npm run test:e2e:chromium
 npm --prefix e2e run test:pages
 npm --prefix e2e run test:vn
+npm --prefix e2e run test:match3
 npm run e2e:report
 ```
 
 ## VN automation contract
 
-VN coverage enters through the visible Main Menu → QA Scene Navigation UI. It must not call the VN controller directly, mutate the app save directly, or expose a browser-only scene/line jump API.
+VN coverage enters through the visible Main Menu → QA Scene Navigation UI. It does not call the VN controller directly, mutate the app save directly, or expose a browser-only scene/line jump API.
 
-G4 representative journeys cover:
+## Match-3 automation contract
 
-- Scene 0 / `VN0001`: real direction frame and browser-measured dialogue paging;
-- Scene 0 / `VN0002`: normal production character fallback;
-- Scene 0 / `VN0008`: approved authored `trio-central-speaker` shot with three real production actor assets;
-- Scene 1 / `VN0040`: real `CHOICE_00`, selecting branch B and resuming at `VN0041B`.
+Match-3 coverage uses two existing product surfaces:
 
-The helper advances with the real `#next` control, including all intermediate dialogue pages. This deliberately exercises the production measured-paging path rather than jumping directly to a line.
+- Match-3 Campaign proves that the standalone campaign starts the production level and shared Match-3 board;
+- Level Lab supplies exact seed and draft configuration for deterministic mechanics without mutating production level definitions.
+
+G5's Level Lab fixture is authored entirely through visible editor controls. It defines a full 8×8 `initialTiles` board, removes blockers/ingredients from the draft, and substitutes a collect objective. The fixture deliberately has no immediate match and contains known legal and invalid swaps.
+
+Representative coverage:
+
+- objective-aware `#hint` returns a move that the real tap input accepts and spends exactly one move;
+- seed `7` turns a known four-match into a deterministic cascade/refill case;
+- seed `424242` keeps the created `flash-row` alive after settle, allowing production double-tap activation;
+- an adjacent no-match swap leaves moves, objective progress and the touched cells unchanged;
+- objective progress is observed from the production HUD, not from engine internals.
+
+Reduced-motion media is used so the production controller follows its existing zero-delay animation path; tests do not add sleeps or bypass resolution.
 
 ## Production topology and health
 
