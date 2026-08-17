@@ -20,6 +20,11 @@ jobs:
   browser:
     name: ${{ matrix.name }}
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble
+      options: --user 1001
+      volumes:
+        - /usr/share/fonts:/usr/local/share/fonts/github-host:ro
     timeout-minutes: 25
     strategy:
       fail-fast: false
@@ -43,12 +48,17 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      - name: Refresh deterministic browser font map
+        run: |
+          fc-cache -f
+          echo "Georgia -> $(fc-match Georgia | head -n 1)"
+          echo "Inter -> $(fc-match Inter | head -n 1)"
+          echo "serif -> $(fc-match serif | head -n 1)"
+          echo "sans-serif -> $(fc-match sans-serif | head -n 1)"
       - name: Install production build dependencies
         run: npm ci --ignore-scripts
       - name: Install isolated Playwright package
         run: npm --prefix e2e install --ignore-scripts --package-lock=false
-      - name: Install ${{ matrix.browser }} browser and system dependencies
-        run: npm --prefix e2e exec -- playwright install --with-deps ${{ matrix.browser }}
       - name: Run ${{ matrix.name }}
         run: npm --prefix e2e run ${{ matrix.command }}
       - name: Upload browser diagnostics
