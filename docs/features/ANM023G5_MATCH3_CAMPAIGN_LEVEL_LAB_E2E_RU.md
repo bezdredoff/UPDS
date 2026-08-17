@@ -62,21 +62,24 @@ Swap `10 → 2` создаёт горизонтальную четвёрку `pa
 - тратится ровно один ход;
 - objective = `3/10`;
 - в cell 2 остаётся `flash-row`;
-- refill детерминирован и проверяется по `data-tile-variant`.
+- settled board снова содержит все 64 production tiles.
 
 Затем два обычных DOM click по свежему cell 2 проходят через production click handlers и активируют special:
 
 - тратится ещё один ход;
 - objective = `6/10`;
-- special исчезает после activation.
+- special исчезает после activation;
+- доска снова полностью refilled до 64 tiles.
 
 ### Seed 424242
 
 Тот же swap является deterministic cascade fixture.
 
-Первый refill создаёт следующую комбинацию, special вовлекается в cascade, и итоговый objective progress становится `7/10`. Проверяется финальная settled board, а не timeout/animation frame.
+Первый refill создаёт следующую комбинацию, special вовлекается в cascade, итоговый objective progress становится `7/10`, special в cell 2 исчезает, а settled board снова содержит 64 tiles.
 
 Эти две seed semantics были подтверждены первым реальным ANM-023G7A Chromium Browser Gate; исходный G5 документ ошибочно описывал их в обратном порядке.
+
+Exact identity отдельных refill tiles намеренно не является browser contract: она зависит от количества RNG consumption внутри production settle/cascade implementation и не нужна для доказательства refill. Browser contract фиксирует полностью заполненную settled board и наблюдаемый mechanics outcome.
 
 ## Legal и invalid swaps
 
