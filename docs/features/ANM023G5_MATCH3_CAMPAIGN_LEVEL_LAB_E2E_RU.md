@@ -67,9 +67,11 @@ Swap `10 → 2` создаёт горизонтальную четвёрку `pa
 Затем два обычных DOM click по свежему cell 2 проходят через production click handlers и активируют special:
 
 - тратится ещё один ход;
-- objective = `6/10`;
+- objective progress становится больше, чем до activation;
 - special исчезает после activation;
 - доска снова полностью refilled до 64 tiles.
+
+Точное количество собранных target tiles при activation намеренно не фиксируется как browser contract: оно зависит от фактического состава ряда, который очищает special. Важно, что production special действительно активируется, расходует ход и продвигает objective.
 
 ### Seed 424242
 
