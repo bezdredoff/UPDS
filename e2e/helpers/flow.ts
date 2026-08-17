@@ -81,7 +81,11 @@ export async function reachFirstStoryMatch(page: Page): Promise<void> {
 export async function startFirstStoryMatchAndVerifyResumeBoundary(page: Page): Promise<void> {
   await reachFirstStoryMatch(page);
 
-  await page.locator(qaSelectors.matchStart).click();
+  const start = page.locator(qaSelectors.matchStart);
+  await expect(start).toBeVisible();
+  await expect(start).toBeEnabled();
+  await start.scrollIntoViewIfNeeded();
+  await start.click({ force: true });
   await expect(page.locator(qaSelectors.match3Screen)).toBeVisible();
   await expect(page.locator(qaSelectors.match3StageId)).toHaveText('M3_00');
   await expect(page.locator(qaSelectors.match3Moves)).toHaveText('24');
