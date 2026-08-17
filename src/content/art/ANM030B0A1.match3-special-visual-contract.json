@@ -1,0 +1,116 @@
+{
+  "format": "upds-match3-special-visual-contract-v1",
+  "feature": "ANM-030B0A1",
+  "status": "planning-only",
+  "purpose": "Freeze the production visual contract for the five existing Match-3 special mechanics before external art generation and runtime integration.",
+  "runtimeContract": {
+    "mechanicsFrozen": true,
+    "mechanicIds": [
+      "flash-row",
+      "flash-column",
+      "evidence",
+      "lead",
+      "insight"
+    ],
+    "fallbackSource": "src/data/levels.ts#specialAssets",
+    "fallbackFolder": "public/assets/match3/specials/",
+    "baseTileRemainsReadable": true,
+    "sharedAcrossAllLevels": true,
+    "perLevelSpecialPacks": false,
+    "requiredProductionVisualCount": 5
+  },
+  "delivery": {
+    "runtimeFormat": "png",
+    "runtimeCanvasPx": 256,
+    "runtimeColorMode": "RGBA",
+    "transparentBackground": true,
+    "authoringMasterMinPx": 1024,
+    "authoringMasterStoredInRepo": false,
+    "safePaddingFraction": 0.12,
+    "smallSizeQaCssPx": [
+      48,
+      56,
+      64,
+      72
+    ],
+    "requirements": [
+      "one centered visual identity per asset",
+      "no baked board background or UI frame",
+      "no text or language-dependent markings",
+      "keep enough transparency for the retained base tile identity to remain readable",
+      "horizontal and vertical Flash variants must be distinguishable without relying on animation",
+      "Evidence, Lead and Insight must read as progressively different mechanics at small board scale"
+    ]
+  },
+  "visuals": [
+    {
+      "id": "flash-row",
+      "creationPattern": "line-4-horizontal",
+      "effect": "clear-row",
+      "currentFallback": "./assets/match3/specials/flash-row.svg",
+      "productionAsset": "./assets/match3/specials/flash-row.png",
+      "productionMotif": "camera strobe / horizontal flash rail",
+      "readabilityCue": "strong horizontal light axis",
+      "powerTier": 1
+    },
+    {
+      "id": "flash-column",
+      "creationPattern": "line-4-vertical",
+      "effect": "clear-column",
+      "currentFallback": "./assets/match3/specials/flash-column.svg",
+      "productionAsset": "./assets/match3/specials/flash-column.png",
+      "productionMotif": "camera strobe / vertical flash rail",
+      "readabilityCue": "strong vertical light axis",
+      "powerTier": 1
+    },
+    {
+      "id": "evidence",
+      "creationPattern": "T-or-L",
+      "effect": "clear-3x3",
+      "currentFallback": "./assets/match3/specials/evidence.svg",
+      "productionAsset": "./assets/match3/specials/evidence.png",
+      "productionMotif": "compact camera with a frontal flash burst",
+      "readabilityCue": "central radial flash communicating a local area burst",
+      "powerTier": 2
+    },
+    {
+      "id": "lead",
+      "creationPattern": "player-created-2x2",
+      "effect": "clear-local-cells-and-one-useful-remote-target",
+      "currentFallback": "./assets/match3/specials/lead.svg",
+      "productionAsset": "./assets/match3/specials/lead.png",
+      "productionMotif": "magnifier / focus locator with a marked target",
+      "readabilityCue": "focused target marker distinct from the radial Evidence burst",
+      "powerTier": 2
+    },
+    {
+      "id": "insight",
+      "creationPattern": "line-5-plus",
+      "effect": "clear-retained-base-tile-type",
+      "currentFallback": "./assets/match3/specials/insight.svg",
+      "productionAsset": "./assets/match3/specials/insight.png",
+      "productionMotif": "premium camera lens / viewfinder with radiant focus rings",
+      "readabilityCue": "high-tier lens/rings silhouette with broad radiating energy",
+      "powerTier": 3
+    }
+  ],
+  "optionalActivationFx": [
+    "flash-row beam",
+    "flash-column beam",
+    "evidence camera-flash burst",
+    "lead remote-target pulse",
+    "insight focus-ring / retained-type sweep",
+    "special-special combo burst overlays"
+  ],
+  "outOfScope": [
+    "art generation",
+    "binary asset import",
+    "runtime special mapping changes",
+    "gameplay or balance changes",
+    "special-special combination rule changes",
+    "per-level or per-episode special packs",
+    "mandatory activation/combo VFX"
+  ],
+  "nextFeature": "ANM-030B0A2",
+  "revision": "R1.1"
+}
