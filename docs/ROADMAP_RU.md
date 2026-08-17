@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.25.4-dev`.
-Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation, ANM-028D3A Emi approved-frame runtime transition, completed ANM-029B4 Belarusian production and merged ANM-029H planning reset**. The complete **ANM-023F** simplification/performance track is merged through **F4B / PR #144**; F4A reduced initial JS to **741.15 kB / 247.14 kB gzip**, while F4B bounded runtime/PWA asset warming without regressing that split. ANM-030A R1.1 is merged through **PR #145**, and audit-tooling follow-up ANM-030A2 is merged through **PR #147**. Current candidate focus: **ANM-030B0A1 R1.1 · Match-3 Special/Bonus Visual Contract**. Additional locale production is paused; high-volume art integration begins only from the audited ANM-030B+ backlog.
+Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation, ANM-028D3A Emi approved-frame runtime transition, completed ANM-029B4 Belarusian production and merged ANM-029H planning reset**. The complete **ANM-023F** simplification/performance track is merged through **F4B / PR #144**; F4A reduced initial JS to **741.15 kB / 247.14 kB gzip**, while F4B bounded runtime/PWA asset warming without regressing that split. ANM-030A R1.1 is merged through **PR #145**, audit-tooling follow-up ANM-030A2 through **PR #147**, and the planning-only Match-3 special visual contract ANM-030B0A1 R1.1 through **PR #148**. Current candidate focus: **ANM-030B0A1 R1.1 · Match-3 Special/Bonus Visual Contract — merged functional baseline / PR #148**; current development focus temporarily moves to **ANM-023G Playwright Browser Automation**. Additional locale production and all new graphics/art integration are paused until the Playwright track is complete; after that work resumes from ANM-030B0A2 and the audited ANM-030B+ production backlog.
 
 `package.json.version` — единственный источник продуктовой semver dev-линии; `src/appVersion.ts` импортирует её как `APP_VERSION`. `BUILD_LABEL` остаётся отдельным feature/baseline identity и не выводится из semver. Текущий функциональный baseline отслеживается через `BUILD_LABEL`, feature docs и этот roadmap; уникальная конкретная сборка идентифицируется через `BUILD_ID`.
 
@@ -67,7 +67,8 @@ Active production foundation: **ANM-025/026 Match-3 production + tooling, comple
 
 ### Deferred, not cancelled
 
-- Kentaro → Norihiro → Mayu → Rina → Kurose character production, triggered only when external art is ready;
+- **ANM-030B0A2 / B0B / B1–B4 graphics and art integration** are temporarily paused while ANM-023G establishes Playwright browser coverage; resume from B0A2 after the browser-automation track is complete;
+- Kentaro → Norihiro → Mayu → Rina → Kurose character production, triggered only when external art is ready and ANM-023G is complete;
 - large-scale character animation production;
 - additional locale production (`zh-CN`, `ja`, `ko`, `pt-BR`) until explicitly resumed after the planning reset.
 
@@ -83,6 +84,30 @@ The post-Belarusian reset intentionally reopens the ANM-023 maintenance line bef
 - **023F4 Performance & Payload Pass [P1] — COMPLETE / PR #144** — F4A **R1 COMPLETE / PR #142** reduced the initial entry from **1,206.14 / 389.05 kB gzip** to **741.15 / 247.14 kB gzip** with BE/EN emitted as separate chunks. F4B **R1 COMPLETE / PR #144** keeps the complete PWA offline catalog but removes full-catalog bootstrap `Image()` warming and bounds browser/service-worker warm concurrency at four; post-merge CI #289 kept the entry at **741.59 / 247.24 kB gzip**.
 
 Success criterion: the next feature requires less code/test surface to understand and modify, while GitHub CI catches more real defects and behavioral coverage does not regress. Runtime-impacting F3/F4 cuts still require mobile preview QA.
+
+### ANM-023G — Playwright Browser Automation [P0/P1] — NEXT
+
+Temporarily prioritize browser automation before resuming graphics production. Use **Playwright** as the browser/E2E framework; Selenium is not part of the planned path unless a concrete Playwright incompatibility is discovered.
+
+Core architecture contract:
+- roughly **80–90%** of browser coverage should use the existing QA/product surfaces instead of slow full-story journeys;
+- **QA Scene Navigation** must exercise the real VN runtime/render path rather than a QA-only renderer;
+- **Match-3 Campaign** must exercise production level configs and the same Match-3 controller/game/render path as Story;
+- **Level Lab** is the deterministic mechanics surface for exact seeds, board states and focused Match-3 interactions;
+- add only stable test selectors/reset helpers (`data-testid` and deterministic state setup) where browser automation genuinely needs them;
+- do **not** create a separate QA renderer, QA Match-3 implementation or browser-only game logic;
+- keep only **2–4 main-flow integration journeys** for the real menu → VN → Match-3 → VN/progression boundaries.
+
+Focused implementation split:
+- **023G1 Playwright Foundation [P0] — NEXT** — dependency/config foundation, `e2e` structure, deterministic local commands, trace/screenshot artifacts and one minimal boot smoke without changing gameplay;
+- **023G2 QA Harness & Testability Contract [P0] — PLANNED** — formalize shared production-runtime ownership for QA Scene Navigation, Match-3 Campaign and Level Lab; add stable selectors/reset helpers without duplicating renderers/controllers;
+- **023G3 Boot / Build / Pages Preview Smoke [P0] — PLANNED** — verify app boot and critical navigation against production build semantics, including the mobile candidate `/preview/` base-path contract;
+- **023G4 VN QA Navigation E2E [P0/P1] — PLANNED** — cover representative authored scenes, dialogue paging, actor/background resolution, choices and VN presentation through QA Scene Navigation while using the real VN renderer;
+- **023G5 Match-3 Campaign + Level Lab E2E [P0/P1] — PLANNED** — cover production campaign launch/replay plus deterministic Level Lab mechanics, representative swaps/specials/objectives and reproducible seeds through the real Match-3 runtime;
+- **023G6 Persistence / Localization / Main-Flow Journeys [P1] — PLANNED** — save/restore and locale switching plus only 2–4 high-value end-to-end journeys that cross menu, VN, Match-3 and progression boundaries;
+- **023G7 Visual Regression & Browser Gate CI [P1] — PLANNED** — stable Golden Sample screenshots, full Chromium browser suite and a mobile-critical WebKit subset in a parallel GitHub Actions Browser Gate. Keep the existing `npm run check` quality gate separate rather than folding browser tests into it.
+
+Success criterion: the QA harnesses become reliable automation entry points because they share production runtime behavior, while a small number of real-player journeys still protect integration boundaries. Browser coverage must stay deterministic enough for GitHub CI and must not turn the QA tools into a second implementation of the game.
 
 ### ANM-024 — Display, Viewport & Safe-Area Foundation [P0] — COMPLETE
 
@@ -217,10 +242,10 @@ Rules:
 **ANM-030A Full Game Asset Gap Audit [P0] — R1.1 COMPLETE / PR #145**: `src/content/art/ANM030A.asset-gap-audit.json` derives the exact production/fallback/missing/reusable inventory from the completed `0–21` story macro, runtime resolver, character/guest manifests, Match-3 configs and staging. Current measured gaps: **5/24 runtime-used background variants have dedicated production masters (19 aliases), 3/9 full-stage characters are fully production-ready + Emi mixed + 5 planned, 0/6 guest packages, 0/6 dedicated hero close-ups; Match-3 gameplay/configuration is complete, but one shared production-art gap remains: five dedicated special/bonus visuals replacing the current generic SVG overlays. VN staging has zero blocking art gaps**. **ANM-030A2 Audit Tooling & Repository Hygiene — COMPLETE / PR #147** moved the one-off Copilot report into `docs/audits/`, expanded manual targeted audits and guarded root/report hygiene.
 
 Backlog refinement from the audit:
-- **ANM-030B0A1 R1.1 [P1] — CURRENT CANDIDATE: Match-3 Special/Bonus Visual Contract.** Planning-only docs/data/test contract for the existing `flash-row`, `flash-column`, `evidence`, `lead`, `insight` mechanics. It freezes one shared five-asset pack, current SVG fallback mapping, 256×256 RGBA runtime targets, base-tile readability and optional-vs-blocking FX boundaries. No images and no runtime mapping changes.
-- **ANM-030B0A2 [P1] — PLANNED: Match-3 Special/Bonus Asset Integration.** Import five externally approved production PNGs, switch `specialAssets` from SVG fallback to production assets, preserve preload/offline safety and run playable mobile board QA. No per-level bonus packs.
-- **ANM-030B0B [P1] — PLANNED: Character Closure.** Emi `embarrassed` / Pose B / medallion replacements plus seven extras semantic roles mapped onto ≤4 reusable visual archetypes.
-- **ANM-030B1–B4 [P1] — PLANNED:** vertical story-route production waves for remaining characters, guests, background masters/variants and six hero clues.
+- **ANM-030B0A1 R1.1 [P1] — CURRENT CANDIDATE / COMPLETE PR #148: Match-3 Special/Bonus Visual Contract.** Planning-only docs/data/test contract for the existing `flash-row`, `flash-column`, `evidence`, `lead`, `insight` mechanics. It freezes one shared five-asset pack, current SVG fallback mapping, 256×256 RGBA runtime targets, base-tile readability and optional-vs-blocking FX boundaries. No images and no runtime mapping changes.
+- **ANM-030B0A2 [P1] — PLANNED / PAUSED UNTIL ANM-023G COMPLETE: Match-3 Special/Bonus Asset Integration.** Import five externally approved production PNGs, switch `specialAssets` from SVG fallback to production assets, preserve preload/offline safety and run playable mobile board QA. No per-level bonus packs.
+- **ANM-030B0B [P1] — PLANNED / PAUSED UNTIL ANM-023G COMPLETE: Character Closure.** Emi `embarrassed` / Pose B / medallion replacements plus seven extras semantic roles mapped onto ≤4 reusable visual archetypes.
+- **ANM-030B1–B4 [P1] — PLANNED / PAUSED UNTIL ANM-023G COMPLETE:** vertical story-route production waves for remaining characters, guests, background masters/variants and six hero clues.
 
 Mass production then follows the budgets in
 [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md):
@@ -287,13 +312,20 @@ Do not consume core production capacity before base release.
 9. **ANM-023F4B R1 [P1] — COMPLETE / PR #144** — separate PWA offline cache from contextual browser-image warming and bound both warmup paths;
 10. **ANM-030A R1.1 [P0] — COMPLETE / PR #145** — machine-readable full-game asset gap audit + corrected shared Match-3 bonus-art gap;
 11. **ANM-030A2 [P0] — COMPLETE / PR #147** — audit dispatcher expansion + repository/report hygiene;
-12. **ANM-030B0A1 R1.1 [P1] — CURRENT CANDIDATE** — planning-only five-special visual production contract; no art generation or runtime changes;
-13. **ANM-030B0A2 [P1] — PLANNED** — integrate five externally approved production special/bonus PNGs and perform mobile board QA;
-14. **ANM-030B0B [P1] — PLANNED** — Emi/extras character closure;
-15. **ANM-030B1–B4 [P1] — PLANNED** — budgeted story-route art/content integration using the external character/background workflow;
-16. **ANM-031 [P2]** — landscape;
-17. **ANM-032 [P2]** — music;
-18. **ANM-033 [P0 before release]** — release hardening.
+12. **ANM-030B0A1 R1.1 [P1] — CURRENT CANDIDATE / COMPLETE PR #148** — planning-only five-special visual production contract is merged; this remains the current functional build identity while development temporarily moves to browser automation;
+13. **ANM-023G1 [P0] — NEXT** — Playwright foundation and minimal deterministic browser smoke;
+14. **ANM-023G2 [P0] — PLANNED** — QA harness/testability contract with stable selectors/reset helpers and production-runtime reuse;
+15. **ANM-023G3 [P0] — PLANNED** — app/build/Pages `/preview/` smoke;
+16. **ANM-023G4 [P0/P1] — PLANNED** — VN QA Scene Navigation E2E through the real VN renderer;
+17. **ANM-023G5 [P0/P1] — PLANNED** — Match-3 Campaign + deterministic Level Lab E2E through the real Match-3 runtime;
+18. **ANM-023G6 [P1] — PLANNED** — persistence/localization coverage plus 2–4 main-flow integration journeys;
+19. **ANM-023G7 [P1] — PLANNED** — visual regression and parallel Chromium/WebKit Browser Gate in GitHub Actions;
+20. **ANM-030B0A2 [P1] — PLANNED / RESUME AFTER ANM-023G** — integrate five externally approved production special/bonus PNGs and perform mobile board QA;
+21. **ANM-030B0B [P1] — PLANNED / RESUME AFTER ANM-023G** — Emi/extras character closure;
+22. **ANM-030B1–B4 [P1] — PLANNED / RESUME AFTER ANM-023G** — budgeted story-route art/content integration using the external character/background workflow;
+23. **ANM-031 [P2]** — landscape;
+24. **ANM-032 [P2]** — music;
+25. **ANM-033 [P0 before release]** — release hardening.
 
 ## Backlog principle
 
