@@ -1,6 +1,6 @@
 # UPDS browser E2E
 
-ANM-023G1 introduced the isolated Playwright browser-test package. ANM-023G2 formalized the existing QA/product surfaces as automation harnesses without adding a second game implementation. ANM-023G3 adds production-build and GitHub Pages `/preview/` topology smoke coverage. The parallel GitHub Browser Gate is still deferred to ANM-023G7.
+ANM-023G1 introduced the isolated Playwright browser-test package. ANM-023G2 formalized the existing QA/product surfaces as automation harnesses without adding a second game implementation. ANM-023G3 added production-build and GitHub Pages `/preview/` topology smoke coverage. ANM-023G4 adds real VN browser coverage through QA Scene Navigation. The parallel GitHub Browser Gate is still deferred to ANM-023G7.
 
 From the repository root:
 
@@ -10,50 +10,37 @@ npm run e2e:install:chromium
 npm run test:e2e
 ```
 
-Useful local commands:
+Useful focused commands:
 
 ```bash
 npm run test:e2e:chromium
 npm --prefix e2e run test:pages
+npm --prefix e2e run test:vn
 npm run e2e:report
 ```
 
-## Production topology
+## VN automation contract
 
-Local Playwright runs build the real Vite production bundle and serve the same `dist/` at both:
+VN coverage enters through the visible Main Menu → QA Scene Navigation UI. It must not call the VN controller directly, mutate the app save directly, or expose a browser-only scene/line jump API.
 
-- `/` — stable-root semantics;
-- `/preview/` — mobile candidate preview semantics.
+G4 representative journeys cover:
 
-This intentionally mirrors the relevant GitHub Pages topology rather than relying on a normal `vite preview` server, which does not physically mount the candidate build under `/preview/`.
+- Scene 0 / `VN0001`: real direction frame and browser-measured dialogue paging;
+- Scene 0 / `VN0002`: normal production character fallback;
+- Scene 0 / `VN0008`: approved authored `trio-central-speaker` shot with three real production actor assets;
+- Scene 1 / `VN0040`: real `CHOICE_00`, selecting branch B and resuming at `VN0041B`.
 
-All browser navigation uses baseURL-relative `./` paths. A later CI/manual run can target a real hosted site without changing tests:
+The helper advances with the real `#next` control, including all intermediate dialogue pages. This deliberately exercises the production measured-paging path rather than jumping directly to a line.
 
-```bash
-UPDS_E2E_BASE_URL=https://example.invalid/UPDS/ npm --prefix e2e run test:pages
-```
+## Production topology and health
 
-When `UPDS_E2E_BASE_URL` is set, Playwright does not start the local production topology server.
+Local Playwright runs build the real Vite production bundle and serve the same `dist/` at both `/` and `/preview/`. Browser navigation remains baseURL-relative so the same suite can later target a hosted GitHub Pages project path through `UPDS_E2E_BASE_URL`.
 
-## Health contract
-
-G3 records and rejects:
-
-- uncaught `pageerror`;
-- browser `console.error`;
-- failed document/script/stylesheet/image/font requests;
-- HTTP 4xx/5xx for those critical resource types.
-
-The Pages smoke checks Main Menu plus navigation into QA Scene Navigation, Match-3 Campaign and Level Lab on both lanes.
+Browser suites record and reject uncaught `pageerror`, `console.error`, failed critical resource requests and HTTP errors for document/script/stylesheet/image/font assets.
 
 ## Automation harnesses
 
-Browser tests should prefer the existing production surfaces:
-
-- QA Scene Navigation for targeted VN entry;
-- Match-3 Campaign for production level entry/replay;
-- Level Lab for exact-seed deterministic Match-3 entry;
-- only a small number of main-player journeys for cross-system integration.
+Browser tests should continue to prefer QA Scene Navigation for VN, Match-3 Campaign for production level entry/replay, Level Lab for exact-seed deterministic Match-3 entry, and only a small number of main-player journeys for cross-system integration.
 
 Stable selectors live in `e2e/selectors.ts`. Browser persistence reset lives in `e2e/helpers/runtime.ts`; do not add test-only reset APIs to the game runtime.
 
