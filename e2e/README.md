@@ -32,6 +32,8 @@ The Browser Gate runs on pull requests to `main`, pushes to `main`, and manual d
 
 Both lanes run inside `mcr.microsoft.com/playwright:v1.62.1-noble`, exactly matching the pinned `@playwright/test` version in `e2e/package.json`. The image already contains the matching Chromium/WebKit browser binaries and Linux browser dependencies, so CI does not run `playwright install --with-deps` or reinstall the large WebKit apt dependency set on every fresh GitHub runner. The isolated E2E npm package is still installed from the repository so the tests remain controlled by project dependencies. The production Vite bundle is still built by the Playwright web server command and served through the G3 production-topology server.
 
+The application currently relies on host font fallback stacks (`Inter`, `Georgia`, `system-ui`) rather than shipping repository-owned webfonts. To keep the already-reviewed G7B Ubuntu/WebKit Golden Samples stable while using the Playwright container, the workflow mounts the hosted runner's `/usr/share/fonts` read-only into the container and refreshes fontconfig before tests. The job logs the resolved `Georgia`, `Inter`, `serif` and `sans-serif` mappings so future runner-image font drift is diagnosable without changing snapshots blindly.
+
 On success or failure, the workflow uploads `playwright-report` and `test-results` for 14 days. Retained-on-failure traces and failure screenshots therefore remain available for diagnosis from GitHub Actions.
 
 ## G7B mobile Golden Samples
