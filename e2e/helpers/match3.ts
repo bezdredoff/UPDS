@@ -2,8 +2,8 @@ import { expect, type Locator, type Page } from '@playwright/test';
 import { resetBrowserState } from './runtime';
 import { qaSelectors } from '../selectors';
 
-export const deterministicLabSeed = 424242;
-export const deterministicCascadeSeed = 7;
+export const deterministicLabSeed = 7;
+export const deterministicCascadeSeed = 424242;
 export const deterministicLabMoves = 12;
 export const deterministicInvalidSwap = [4, 5] as const;
 export const deterministicFlashSwap = [10, 2] as const;
