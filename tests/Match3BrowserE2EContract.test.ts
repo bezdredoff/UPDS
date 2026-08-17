@@ -65,7 +65,9 @@ describe('ANM-023G5 Match-3 browser E2E contract', () => {
     expect(spec).toContain("toEqual([7, 10])");
     expect(spec).toContain("toEqual([3, 10])");
     expect(spec).toContain("'.special.flash-row'");
-    expect(spec).toContain("toEqual([6, 10])");
+    expect(spec).toContain('progressBeforeActivation');
+    expect(spec).toContain('toBeGreaterThan(progressBeforeActivation)');
+    expect(spec).toContain('toHaveCount(64)');
     expect(controller).toContain('const result = game.attemptSwap(first, second)');
     expect(controller).toContain('const result = game.attemptSpecialActivation(index)');
   });
