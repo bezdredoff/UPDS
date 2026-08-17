@@ -29,6 +29,8 @@ Browser execution вынесен в `.github/workflows/browser-gate.yml` и за
 
 Это основной функциональный browser gate.
 
+Первый живой Chromium run уже выполнил роль аудита накопленных G1–G6 specs: он обнаружил не production bugs, а слишком жёсткие ожидания G5 по deterministic seed/refill. Browser contract был исправлен до наблюдаемого поведения — moves, objective progression, special lifecycle и полностью settled board — без изменений `src/`.
+
 ## Mobile WebKit lane
 
 `Mobile WebKit critical E2E` использует Playwright device profile `iPhone 13` и запускает критический subset:
@@ -39,6 +41,22 @@ Browser execution вынесен в `.github/workflows/browser-gate.yml` и за
 - `persistence-localization-flow.pw.ts`.
 
 Pages topology smoke не дублируется в WebKit lane: это инфраструктурная проверка base-path/static topology, а не mobile-engine-specific поведение.
+
+### Локальный service-worker diagnostic
+
+Playwright WebKit на локальном `http://127.0.0.1:4173` иногда поднимает `pageerror` вида:
+
+`127.0.0.1:4173/sw.js?... due to access control checks`.
+
+Production `PwaController.start()` уже обрабатывает registration failure своим `try/catch`; это не uncaught gameplay/runtime failure. Поэтому browser-health probe игнорирует только этот узкий local-test pattern — одновременно должны присутствовать `127.0.0.1:4173/sw.js` и `due to access control checks`.
+
+Все остальные `pageerror`, `console.error`, critical request failures и HTTP 4xx/5xx продолжают валить тест.
+
+### Длинный main-flow на iPhone/WebKit
+
+Полный `New Game → VN → CHOICE_00 → M3_00` заметно медленнее в WebKit, чем Chromium, поэтому только этот тест помечен `test.slow()`.
+
+На intro production `#start` сначала явно проверяется как visible + enabled. После этого click выполняется с `force: true`, чтобы не зависеть от WebKit actionability stability для fixed/safe-area mobile layout. Это не test-only game hook: вызывается тот же production DOM click handler.
 
 ## Диагностика
 
@@ -67,7 +85,7 @@ Playwright остаётся изолирован в `e2e/package.json`; workflow
 
 G7A не добавляет Golden screenshot baselines.
 
-Причина: до этого момента executable browser suite вообще не был CI gate. Сначала нужно получить реальный Chromium/WebKit run, исправить возможные false assumptions и добиться устойчивого зелёного browser infrastructure baseline.
+Причина: до этого момента executable browser suite вообще не был CI gate. Сначала нужно получить реальный Chromium/WebKit run, исправить false assumptions и добиться устойчивого зелёного browser infrastructure baseline.
 
 После этого **ANM-023G7B** добавит небольшой набор утверждаемых Golden Samples поверх уже стабильного Browser Gate.
 
@@ -79,4 +97,4 @@ G7A считается готовым, когда одновременно зе�
 2. `Chromium full E2E`;
 3. `Mobile WebKit critical E2E`.
 
-Если browser jobs выявят накопленные ошибки G1–G6, они исправляются на этой же candidate branch до merge.
+Если browser jobs выявляют накопленные ошибки G1–G6, они исправляются на этой же candidate branch до merge.
