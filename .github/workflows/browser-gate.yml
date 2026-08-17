@@ -20,6 +20,9 @@ jobs:
   browser:
     name: ${{ matrix.name }}
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble
+      options: --user 1001
     timeout-minutes: 25
     strategy:
       fail-fast: false
@@ -47,8 +50,6 @@ jobs:
         run: npm ci --ignore-scripts
       - name: Install isolated Playwright package
         run: npm --prefix e2e install --ignore-scripts --package-lock=false
-      - name: Install ${{ matrix.browser }} browser and system dependencies
-        run: npm --prefix e2e exec -- playwright install --with-deps ${{ matrix.browser }}
       - name: Run ${{ matrix.name }}
         run: npm --prefix e2e run ${{ matrix.command }}
       - name: Upload browser diagnostics
