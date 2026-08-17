@@ -50,8 +50,8 @@ describe('ANM-023G5 Match-3 browser E2E contract', () => {
     expect(helper).toContain('levelLabIngredients');
     expect(helper).toContain('levelLabObjectives');
     expect(helper).toContain('levelLabApply');
-    expect(helper).toContain('deterministicLabSeed = 424242');
-    expect(helper).toContain('deterministicCascadeSeed = 7');
+    expect(helper).toContain('deterministicLabSeed = 7');
+    expect(helper).toContain('deterministicCascadeSeed = 424242');
     expect(levelLab).toContain('id="lab-initial-tiles-json"');
     expect(levelLab).toContain('id="lab-objectives-json"');
     expect(levelLab).toContain("this.root.querySelector('#lab-apply')");
