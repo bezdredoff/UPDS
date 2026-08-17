@@ -31,7 +31,6 @@ describe('ANM-023G7A Browser Gate workflow contract', () => {
     expect(browserWorkflow).toContain('name: Mobile WebKit critical E2E');
     expect(browserWorkflow).toContain('browser: webkit');
     expect(browserWorkflow).toContain('command: test:webkit-mobile');
-    expect(browserWorkflow).toContain('playwright install --with-deps ${{ matrix.browser }}');
 
     expect(e2ePackage).toContain('"test:chromium": "playwright test --project=chromium"');
     expect(e2ePackage).toContain('"test:webkit-mobile": "playwright test --project=webkit-mobile"');
@@ -45,9 +44,22 @@ describe('ANM-023G7A Browser Gate workflow contract', () => {
     expect(playwrightConfig).toContain('/persistence-localization-flow\\.pw\\.ts/');
   });
 
-  it('installs isolated browser dependencies and always publishes diagnostics', () => {
+  it('uses the pinned Playwright runtime image instead of reinstalling browser system dependencies', () => {
+    expect(browserWorkflow).toContain('image: mcr.microsoft.com/playwright:v1.62.1-noble');
+    expect(browserWorkflow).toContain('options: --user 1001');
+    expect(browserWorkflow).not.toContain('playwright install --with-deps');
     expect(browserWorkflow).toContain('npm ci --ignore-scripts');
     expect(browserWorkflow).toContain('npm --prefix e2e install --ignore-scripts --package-lock=false');
+  });
+
+  it('preserves the hosted-runner font set for deterministic Golden Samples', () => {
+    expect(browserWorkflow).toContain('/usr/share/fonts:/usr/local/share/fonts/github-host:ro');
+    expect(browserWorkflow).toContain('fc-cache -f');
+    expect(browserWorkflow).toContain('fc-match Georgia');
+    expect(browserWorkflow).toContain('fc-match Inter');
+  });
+
+  it('always publishes browser diagnostics', () => {
     expect(browserWorkflow).toContain('if: always()');
     expect(browserWorkflow).toContain('e2e/playwright-report');
     expect(browserWorkflow).toContain('e2e/test-results');
