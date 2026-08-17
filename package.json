@@ -22,6 +22,11 @@
     "build": "tsc && vite build",
     "check": "npm run lint && npm run test && npm run build",
     "preview": "vite preview",
+    "e2e:install": "npm --prefix e2e install --ignore-scripts --package-lock=false",
+    "e2e:install:chromium": "npm --prefix e2e exec -- playwright install chromium",
+    "test:e2e": "npm --prefix e2e test",
+    "test:e2e:chromium": "npm --prefix e2e run test:chromium",
+    "e2e:report": "npm --prefix e2e run report",
     "lint:fix": "biome lint --write src tests vite.config.ts",
     "quality:fix": "biome check --write --formatter-enabled=false src tests vite.config.ts"
   },
