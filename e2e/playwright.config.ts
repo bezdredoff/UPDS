@@ -1,6 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const isCI = Boolean(process.env.CI);
+const localBaseURL = 'http://127.0.0.1:4173/';
+const requestedBaseURL = process.env.UPDS_E2E_BASE_URL?.trim();
+const baseURL = requestedBaseURL
+  ? `${requestedBaseURL.replace(/\/+$/, '')}/`
+  : localBaseURL;
 
 export default defineConfig({
   testDir: './tests',
@@ -19,7 +24,7 @@ export default defineConfig({
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
   ],
   use: {
-    baseURL: 'http://127.0.0.1:4173',
+    baseURL,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'off',
@@ -30,10 +35,12 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-  webServer: {
-    command: 'npm --prefix .. run build && npm --prefix .. run preview -- --host 127.0.0.1 --port 4173',
-    url: 'http://127.0.0.1:4173',
-    reuseExistingServer: !isCI,
-    timeout: 120_000,
-  },
+  webServer: requestedBaseURL
+    ? undefined
+    : {
+        command: 'npm --prefix .. run build && node ./serve-production.mjs',
+        url: localBaseURL,
+        reuseExistingServer: !isCI,
+        timeout: 120_000,
+      },
 });
