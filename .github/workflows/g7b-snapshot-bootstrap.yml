@@ -35,7 +35,7 @@ jobs:
       - name: Install WebKit and system dependencies
         run: npm --prefix e2e exec -- playwright install --with-deps webkit
       - name: Generate mobile WebKit Golden Samples
-        run: npm --prefix e2e exec -- playwright test visual-regression.pw.ts --project=webkit-mobile --update-snapshots
+        run: npm --prefix e2e run test:webkit-mobile -- visual-regression.pw.ts --update-snapshots
       - name: Commit generated snapshots back to the candidate branch
         run: |
           git config user.name "github-actions[bot]"
