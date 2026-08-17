@@ -1,6 +1,6 @@
 import { APP_VERSION, BUILD_LABEL } from '../../appVersion';
 import { characterRigs } from '../../data/characterRigs';
-import { backgroundAssets, parsedLineCount } from '../../data/narrative';
+import { backgroundAssets } from '../../data/narrative';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppSession } from '../../app/AppSession';
@@ -44,7 +44,7 @@ export class MainMenuController {
           </div>
           <button id="support">${t('menu.saveDiagnostics')} <small>QA</small></button>
         </div>
-        <footer>${BUILD_LABEL}<br><span>v${APP_VERSION} · ${t('menu.scriptLines', { count: parsedLineCount })}</span></footer>
+        <footer>${BUILD_LABEL}<br><span>v${APP_VERSION}</span></footer>
       </div>
     </section>`);
 
