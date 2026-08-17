@@ -11,6 +11,7 @@
     "test:vn": "playwright test vn-navigation.pw.ts --project=chromium",
     "test:match3": "playwright test match3.pw.ts --project=chromium",
     "test:flow": "playwright test persistence-localization-flow.pw.ts --project=chromium",
+    "test:visual": "playwright test visual-regression.pw.ts --project=webkit-mobile",
     "test:headed": "playwright test --headed --project=chromium",
     "report": "playwright show-report"
   },
