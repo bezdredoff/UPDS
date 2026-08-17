@@ -1,0 +1,63 @@
+name: Browser Gate
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: browser-gate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Chromium full E2E
+            browser: chromium
+            command: test:chromium
+            artifact: chromium
+          - name: Mobile WebKit critical E2E
+            browser: webkit
+            command: test:webkit-mobile
+            artifact: webkit-mobile
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install production build dependencies
+        run: npm ci --ignore-scripts
+      - name: Install isolated Playwright package
+        run: npm --prefix e2e install --ignore-scripts --package-lock=false
+      - name: Install ${{ matrix.browser }} browser and system dependencies
+        run: npm --prefix e2e exec -- playwright install --with-deps ${{ matrix.browser }}
+      - name: Run ${{ matrix.name }}
+        run: npm --prefix e2e run ${{ matrix.command }}
+      - name: Upload browser diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-gate-${{ matrix.artifact }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            e2e/playwright-report
+            e2e/test-results
+          if-no-files-found: warn
+          retention-days: 14
