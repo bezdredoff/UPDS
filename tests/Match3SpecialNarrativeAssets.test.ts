@@ -30,4 +30,36 @@ describe('ANM-022D R1 narrative special assets', () => {
     expect(preload).not.toContain('\n  specialAssets,\n');
   });
 
+
+  it('locks the ANM-030B0A1 production visual contract to the five runtime mechanics without importing art', async () => {
+    const contract = JSON.parse(
+      await readFile(new URL('../src/content/art/ANM030B0A1.match3-special-visual-contract.json', import.meta.url), 'utf8'),
+    ) as {
+      format: string;
+      status: string;
+      runtimeContract: {
+        mechanicIds: string[];
+        requiredProductionVisualCount: number;
+        sharedAcrossAllLevels: boolean;
+        perLevelSpecialPacks: boolean;
+        baseTileRemainsReadable: boolean;
+      };
+      delivery: { runtimeFormat: string; runtimeCanvasPx: number; transparentBackground: boolean };
+      visuals: Array<{ id: string; currentFallback: string; productionAsset: string }>;
+      nextFeature: string;
+    };
+
+    expect(contract.format).toBe('upds-match3-special-visual-contract-v1');
+    expect(contract.status).toBe('planning-only');
+    expect(contract.runtimeContract.mechanicIds).toEqual(Object.keys(specialAssets));
+    expect(contract.runtimeContract.requiredProductionVisualCount).toBe(5);
+    expect(contract.runtimeContract.sharedAcrossAllLevels).toBe(true);
+    expect(contract.runtimeContract.perLevelSpecialPacks).toBe(false);
+    expect(contract.runtimeContract.baseTileRemainsReadable).toBe(true);
+    expect(contract.delivery).toMatchObject({ runtimeFormat: 'png', runtimeCanvasPx: 256, transparentBackground: true });
+    expect(contract.visuals.map((visual) => visual.currentFallback)).toEqual(Object.values(specialAssets));
+    expect(contract.visuals.every((visual) => visual.productionAsset.endsWith(`${visual.id}.png`))).toBe(true);
+    expect(contract.nextFeature).toBe('ANM-030B0A2');
+  });
+
 });

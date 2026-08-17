@@ -246,9 +246,11 @@ describe('active documentation traceability', () => {
     expect(architecture).toContain('Production asset audit ownership');
     expect(roadmap).toContain('ANM-023F4A R1 [P1] — COMPLETE / PR #142');
     expect(roadmap).toContain('ANM-023F4B R1 [P1] — COMPLETE / PR #144');
-    expect(roadmap).toContain('ANM-030A R1.1 [P0] — CURRENT CANDIDATE');
-    expect(roadmap).toContain('ANM-030B0A [P1] — PLANNED');
-    expect(roadmap).toContain('five-asset reusable Match-3 special/bonus visual pack');
+    expect(roadmap).toContain('ANM-030A R1.1 [P0] — COMPLETE / PR #145');
+    expect(roadmap).toContain('ANM-030A2 [P0] — COMPLETE / PR #147');
+    expect(roadmap).toContain('ANM-030B0A1 R1.1 [P1] — CURRENT CANDIDATE');
+    expect(roadmap).toContain('ANM-030B0A2 [P1] — PLANNED');
+    expect(roadmap).toContain('one shared five-asset pack');
     expect(index).toContain('ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md');
     expect(assetGapAudit).toContain('upds-asset-gap-audit-v1');
     expect(assetGapAudit).toContain('5 dedicated production / 24 runtime-used');
