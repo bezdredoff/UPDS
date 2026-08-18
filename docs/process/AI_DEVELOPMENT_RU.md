@@ -1,6 +1,6 @@
 # UPDS — инструкция для AI/разработчика
 
-Status: active workflow aligned with ANM-027E, accepted ANM-028B1 R4.1/ANM-028D0/D1/D2 and ANM-028D3 R1 candidate QA.
+Status: active workflow aligned with the complete canonical `0–21` story, merged ANM-023F simplification, merged ANM-023G7C/G7D Browser Gate closeout/hardening, and the current ANM-023G8 Playwright production-flow coverage focus. Art-dependent ANM-030B integration remains paused until externally produced assets are explicitly approved.
 
 ## Before editing
 
@@ -23,8 +23,10 @@ decision is authored and merged.
 ### Status and build identity
 
 - feature state and next sequence: `docs/ROADMAP_RU.md`;
-- product/build identity: `src/appVersion.ts`;
-- product metadata: `package.json.name` + `package.json.version`; `src/appVersion.ts` imports the version as `APP_VERSION`. Neither value is a feature-status source; feature identity lives in `BUILD_LABEL`.
+- player-facing product version and build identity: `src/appVersion.ts`;
+- npm/package metadata: `package.json.name` + `package.json.version`.
+
+`APP_VERSION` is the player-facing product semver and is intentionally independent from `package.json.version`. `BUILD_LABEL` identifies the feature/baseline, `BUILD_ID` identifies a concrete CI build, and save schema versioning has its own lifecycle. Do not infer one of these values from another and do not treat any build/version string as the roadmap status source.
 
 Do not copy a “current build” string into multiple READMEs.
 
@@ -69,7 +71,7 @@ Runtime `production` status proves asset completeness/routing, not visual qualit
 Use `anm028d0-r1` as Emi's approved authoring master until the complete replacement set is integrated.
 
 Technical status/path metadata never overrides visual approval, and a visual reference never creates
-a production asset path by itself.
+a production asset path by itself. Local generator experiments do not create production assets by implication: an image becomes available to ANM-030 only after explicit external production, approval and repository integration.
 
 ## Work in the smallest feature boundary
 
@@ -205,6 +207,15 @@ navigation/callback seam through the composition root.
 - Add a new mechanic only when at least four levels reuse it and its tutorial, validation and Level
   Lab authoring path are included.
 
+## Browser automation rules
+
+- Playwright is the sole browser/E2E framework. Selenium/WebDriver is not part of the UPDS test stack and must not be added as a parallel dependency or workflow without an explicit superseding technical decision.
+- Reuse the existing `e2e` package and Browser Gate. Do not create browser-specific game logic to make a test easier.
+- QA Scene Navigation, Match-3 Campaign and Level Lab may provide deterministic setup, but after entry they must use the same production controllers, VN/Match-3 runtime and render paths as normal play.
+- Use New Game / Continue / Settings for representative player journeys and cross-system persistence/navigation boundaries.
+- Prefer a small set of high-value production-flow journeys plus focused deterministic cases. Do not replay the entire 976-line story in every PR.
+- Golden Samples are changed only after expected/actual/diff review and explicit visual approval; never refresh snapshots merely to make CI green.
+
 ## Delivery lanes
 
 The exact contract is in `GITHUB_PHONE_PIPELINE_RU.md`.
@@ -247,6 +258,7 @@ Pipeline changes require a separate maintenance PR and explicit review.
 
 - Prefer pure helpers for decisions/rules and thin DOM/platform boundaries.
 - Browser-only code must tolerate missing APIs in headless tests.
+- Browser/E2E work extends Playwright; do not introduce Selenium/WebDriver as a second stack.
 - Do not pin tests to historical app versions or prose that is not a protected contract.
 - Use source-string assertions only for structural invariants that cannot be tested behaviorally.
 - Update active docs in the same PR when ownership, contracts or workflow changes.
@@ -262,13 +274,13 @@ A change is ready for review when:
 - story/content changes preserve the `0–21` macro scope and pass the asset-trigger budget;
 - archive/branch contains only intended files;
 - GitHub `Quality gate` passes;
+- Browser Gate passes when the change touches browser/runtime behavior or the gate itself;
 - changed files have been reviewed;
 - relevant manual QA is complete;
 - merge remains manual.
 
 For docs/tests-only changes, visual iPhone QA is not required. For any visible/runtime or asset
 change, use the candidate preview and check the affected critical path on the phone.
-
 
 ## Static quality gate
 

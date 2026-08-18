@@ -1,18 +1,37 @@
 # UPDS — validation and test workflow
 
-Status: active. Canonical story `0–21` is complete; current candidate: ANM-029A R1.1 localization production foundation.
+Status: active. Canonical story `0–21` is complete; ANM-023G7C/G7D are merged, the Browser Gate is stable, and the current engineering focus is ANM-023G8 Playwright Production-Flow Coverage while new art production remains externally blocked.
 
-## Authoritative gate
+## Authoritative gates
 
-GitHub CI runs:
+GitHub Quality Gate runs:
 
 ```bash
 npm ci --ignore-scripts
 npm run check
 ```
 
-`npm run check` runs the full Vitest suite and the strict TypeScript production build. Local runs
-are useful feedback but do not replace the GitHub **Quality gate**.
+`npm run check` runs Biome lint, the full Vitest suite and the strict TypeScript production build. Local runs are useful feedback but do not replace GitHub CI.
+
+Browser/runtime changes are additionally protected by `.github/workflows/browser-gate.yml`:
+
+- **Chromium full E2E** — full Playwright browser suite;
+- **Mobile WebKit critical E2E** — critical player/QA flows plus the reviewed mobile Golden Samples.
+
+The Browser Gate runs in the pinned Playwright container and is a separate authoritative browser gate, not a replacement for the fast Quality Gate.
+
+## Browser automation framework policy
+
+**Playwright is the only browser/E2E automation framework for UPDS. Selenium/WebDriver is not part of the UPDS test stack and is not planned as a parallel CI framework.**
+
+Reasons:
+
+- Playwright already owns Chromium and Mobile WebKit execution, traces, screenshots, retries, device profiles and Golden Samples;
+- a second Selenium stack would duplicate browser provisioning, selectors, fixtures, diagnostics and CI maintenance without adding a distinct production-safety boundary;
+- Playwright can exercise both QA entry points and real player journeys through the same production controllers/renderers;
+- one browser stack keeps failures and visual baselines comparable and keeps CI cost bounded.
+
+Do not introduce Selenium packages, WebDriver binaries or Selenium-specific workflows unless a future explicit product/technical decision supersedes this contract.
 
 ## Focused gates
 
@@ -50,10 +69,29 @@ Preferred. Exercise public pure/data/engine/controller behavior:
 - VN paging/staging/playback;
 - localization, telemetry, audio and platform safety.
 
+### Playwright browser/E2E
+
+Playwright executes the production Vite build in a real browser. Test entry points fall into two classes:
+
+1. **Deterministic QA entry points** — QA Scene Navigation, Match-3 Campaign and Level Lab. They may select a known state/seed quickly, but after entry they must use the same production VN/Match-3/controller/render paths as the game.
+2. **Real player entry points** — New Game, Continue, Settings and normal Story → Match-3 → Story boundaries. These validate persistence, navigation and cross-system behavior that a QA shortcut cannot prove by itself.
+
+QA entry points are not a second implementation of the game. Browser-only game rules, alternate renderers or automation-specific progression logic are prohibited.
+
+Current G1–G7 coverage already includes boot/build/Pages topology, VN paging/staging/choices, deterministic Match-3 mechanics, persistence/localization, a short New Game → VN → choice → Match-3 journey, Chromium/WebKit Browser Gate execution and four reviewed mobile WebKit Golden Samples.
+
+**ANM-023G8** expands production-flow coverage rather than adding another framework:
+
+- audit current tests against real player-flow boundaries and QA-surface parity;
+- expand representative New Game/Continue story journeys beyond the original short boundary;
+- cover Match-3 completion/result/unlock/replay and Story handoff through production progression;
+- keep deterministic QA navigation for focused cases instead of replaying the complete 976-line story in every PR;
+- add tests only where they protect a distinct behavior or production boundary.
+
 ### Render smoke
 
 `UiSmoke.test.ts` verifies that major screens render with a lightweight test root and missing
-browser capabilities without crashing. Smoke does not replace detailed behavior tests or visual QA.
+browser capabilities without crashing. Smoke does not replace detailed behavior tests, Playwright E2E or visual QA.
 
 ### Presentation contracts
 
