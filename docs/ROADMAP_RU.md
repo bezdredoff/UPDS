@@ -144,7 +144,7 @@ Completed split:
 
 ### ANM-025 — Match-3 Production Framework [P0] — FRAMEWORK COMPLETE
 
-025A–D complete: Golden Sample presentation, narrative level context, production tile identities/rollout и persistent context-aware tutorial framework от basic swap до special combinations. 025E balance baseline и 025F narrative reactions также завершены после раннего ANM-026 Level Lab.
+025A–D complete: Golden Sample presentation parity, narrative level context, production tile identities/rollout и persistent context-aware tutorial framework от basic swap до special combinations. 025E balance baseline и 025F narrative reactions также завершены после раннего ANM-026 Level Lab.
 
 After ANM-024:
 - Golden Sample presentation parity;
@@ -186,7 +186,7 @@ Includes:
 
 Level Lab был введён до финального 025E quantitative balance pass и остаётся production authoring/QA surface.
 
-### ANM-027 — Story Content Architecture & Import [P0] — PIPELINE + LEAN CONTRACT COMPLETE / FULL CANON CONTENT PENDING
+### ANM-027 — Story Content Architecture & Import [P0] — COMPLETE
 
 Completed technical split:
 - **027A Story Graph Contract & Validator — COMPLETE** — stable episode/chapter/scene IDs, explicit transitions and legacy save-index adapters;
@@ -205,7 +205,7 @@ Content-production split:
 
 ### ANM-028 — Character Production Pipeline 2.0 [P0/P1] — IN PROGRESS
 
-Do not resume mass character production before the 028B shared Studio/lineup contract is stable.
+The shared 028B Studio/lineup contract is stable; remaining character production is now gated by approved external art availability and explicit product sequencing.
 
 Current split:
 - **028A Character Production Manifest & Validator Foundation — COMPLETE** — canonical `upds-character-production-v2`, production/planned status, 7-asset precomposed runtime set, adult guardrail, proportional-height/alpha-bounds gate, PNG dimension/runtime-catalog audit and stale ANM-021 manifest cleanup;
