@@ -20,7 +20,7 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('Technical product version: ' + tick + APP_VERSION + tick);
     expect(buildFeature).toMatch(/^ANM-/);
     expect(roadmap).toContain(buildFeature);
-    expect(roadmap).toContain('Current engineering focus: **ANM-023G8');
+    expect(roadmap).toContain('ANM-023G Playwright Browser Automation is COMPLETE through G8 closeout');
   });
 
   it('aligns protected character prose with the canonical precomposed v2 manifest', () => {
@@ -327,7 +327,7 @@ describe('active documentation traceability', () => {
     expect(surprisedPrompt).toContain('более узкая маска из ANM-028D2 отклонена');
   });
 
-  it('keeps Playwright as the sole browser automation stack and G8 audit split traceable', () => {
+  it('keeps Playwright as the sole browser automation stack and G8 closeout traceable', () => {
     const roadmap = read('docs/ROADMAP_RU.md');
     const testing = read('docs/process/TESTING_RU.md');
     const ai = read('docs/process/AI_DEVELOPMENT_RU.md');
@@ -337,9 +337,10 @@ describe('active documentation traceability', () => {
 
     expect(roadmap).toContain('023G7C Version / Diagnostics Closeout [P1] — COMPLETE / PR #159');
     expect(roadmap).toContain('023G7D Browser Gate Playwright Container Hardening [P1] — COMPLETE / PR #160');
-    expect(roadmap).toContain('023G8A Coverage Audit & QA/Production Parity Matrix [P1] — R1 CURRENT CANDIDATE / PR #162');
-    expect(roadmap).toContain('023G8C1 Match-3 Browser Interaction Parity [P1] — PLANNED');
-    expect(roadmap).toContain('023G8C2 Match-3 Completion & Progression Flow [P1] — PLANNED');
+    expect(roadmap).toContain('023G8A Coverage Audit & QA/Production Parity Matrix [P1] — COMPLETE / PR #162');
+    expect(roadmap).toContain('023G8C1 Match-3 Browser Interaction Parity [P1] — COMPLETE / PR #166');
+    expect(roadmap).toContain('G8C2 Campaign completion/progression browser E2E is DEFERRED, not required for G8 completion.');
+    expect(roadmap).toContain('023G8E3 Match-3 Render Stability [P1] — COMPLETE / PR #175');
     expect(roadmap).toContain('ANM-030B0A2 [P1] — ART-BLOCKED');
     expect(testing).toContain('Playwright is the only browser/E2E automation framework for UPDS');
     expect(testing).toContain('Selenium/WebDriver is not part of the UPDS test stack');
