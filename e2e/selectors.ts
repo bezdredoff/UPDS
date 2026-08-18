@@ -39,6 +39,11 @@ export const qaSelectors = {
   match3CampaignButton: '#match3-campaign',
   match3CampaignScreen: '.match3-campaign-screen',
   match3CampaignLevelButton: '[data-campaign-level]',
+  match3CampaignLevelCard: '.campaign-level-card',
+  match3CampaignResult: '.match3-campaign-result',
+  match3CampaignNext: '#campaign-next',
+  match3CampaignRetry: '#campaign-retry',
+  match3CampaignHub: '#campaign-hub',
 
   levelLabButton: '#level-lab',
   levelLabScreen: '.level-lab-screen',

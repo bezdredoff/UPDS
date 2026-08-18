@@ -107,7 +107,7 @@ Baseline findings:
 
 - **G8B Story/VN Production-Flow Expansion** — add a bounded real-player completion journey across Story Match-3 win, evidence, post-win VN and persisted Continue; add only a small representative later Story boundary if it protects a distinct persistence/routing risk.
 - **G8C1 Match-3 Browser Interaction Parity** — use real Playwright pointer movement on deterministic Level Lab geometry to cover drag preview/commit and short-drag no-op through the production `pointerdown/pointermove/pointerup` wiring.
-- **G8C2 Match-3 Completion & Progression Flow** — cover production Campaign win result, persisted completion/best, next unlock, next/replay/hub behavior; add loss/retry only if it stays bounded and adds distinct signal.
+- **G8C2 Match-3 Completion & Progression Flow** — implemented by `campaign-completion.pw.ts`: canonical M3_00 production win, persisted completion/best, next unlock, result Next/Hub and completed-level replay. It remains Chromium-only because this boundary is progression/persistence rather than mobile-specific rendering/input.
 
 Chromium remains the full-suite owner. New cases enter Mobile WebKit only when the boundary is mobile-critical and the added CI signal justifies execution cost; G8C1 is the strongest WebKit candidate.
 

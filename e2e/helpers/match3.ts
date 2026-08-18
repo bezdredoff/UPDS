@@ -7,6 +7,28 @@ export const deterministicCascadeSeed = 424242;
 export const deterministicLabMoves = 12;
 export const deterministicInvalidSwap = [4, 5] as const;
 export const deterministicFlashSwap = [10, 2] as const;
+export const firstCampaignLevelId = 'M3_00_LOCKER_TUTORIAL';
+export const secondCampaignLevelId = 'M3_01_PHOTO_PROPS';
+export const firstCampaignWinMovesLeft = 15;
+export const firstCampaignWinSwaps = [
+  [2, 3],
+  [18, 19],
+  [32, 33],
+  [2, 10],
+  [4, 12],
+  [29, 37],
+  [29, 37],
+  [44, 45],
+  [59, 60],
+] as const;
+export const match3CampaignStorageKey = 'seiran-detectives-match3-campaign-v1';
+
+export type Match3CampaignSaveSnapshot = Readonly<{
+  completed: string[];
+  attempts: Record<string, number>;
+  bestMovesLeft: Record<string, number>;
+  schemaVersion?: number;
+}>;
 
 const deterministicInitialTiles = [{"index":0,"tile":"pantiesSportWhite"},{"index":1,"tile":"pantiesSportWhite"},{"index":2,"tile":"pantiesLacePink"},{"index":3,"tile":"pantiesSportWhite"},{"index":4,"tile":"sportsBra"},{"index":5,"tile":"laundryTag"},{"index":6,"tile":"pantiesSportWhite"},{"index":7,"tile":"pantiesLacePink"},{"index":8,"tile":"pantiesHighWaistBlack"},{"index":9,"tile":"pantiesBoyshortBlue"},{"index":10,"tile":"pantiesSportWhite"},{"index":11,"tile":"laundryTag"},{"index":12,"tile":"pantiesSportWhite"},{"index":13,"tile":"pantiesLacePink"},{"index":14,"tile":"pantiesHighWaistBlack"},{"index":15,"tile":"pantiesBoyshortBlue"},{"index":16,"tile":"sportsBra"},{"index":17,"tile":"laundryTag"},{"index":18,"tile":"pantiesSportWhite"},{"index":19,"tile":"pantiesLacePink"},{"index":20,"tile":"pantiesHighWaistBlack"},{"index":21,"tile":"pantiesBoyshortBlue"},{"index":22,"tile":"sportsBra"},{"index":23,"tile":"laundryTag"},{"index":24,"tile":"pantiesSportWhite"},{"index":25,"tile":"pantiesLacePink"},{"index":26,"tile":"pantiesHighWaistBlack"},{"index":27,"tile":"pantiesBoyshortBlue"},{"index":28,"tile":"sportsBra"},{"index":29,"tile":"laundryTag"},{"index":30,"tile":"pantiesSportWhite"},{"index":31,"tile":"pantiesLacePink"},{"index":32,"tile":"pantiesHighWaistBlack"},{"index":33,"tile":"pantiesBoyshortBlue"},{"index":34,"tile":"sportsBra"},{"index":35,"tile":"laundryTag"},{"index":36,"tile":"pantiesSportWhite"},{"index":37,"tile":"pantiesLacePink"},{"index":38,"tile":"pantiesHighWaistBlack"},{"index":39,"tile":"pantiesBoyshortBlue"},{"index":40,"tile":"sportsBra"},{"index":41,"tile":"laundryTag"},{"index":42,"tile":"pantiesSportWhite"},{"index":43,"tile":"pantiesLacePink"},{"index":44,"tile":"pantiesHighWaistBlack"},{"index":45,"tile":"pantiesBoyshortBlue"},{"index":46,"tile":"sportsBra"},{"index":47,"tile":"laundryTag"},{"index":48,"tile":"pantiesSportWhite"},{"index":49,"tile":"pantiesLacePink"},{"index":50,"tile":"pantiesHighWaistBlack"},{"index":51,"tile":"pantiesBoyshortBlue"},{"index":52,"tile":"sportsBra"},{"index":53,"tile":"laundryTag"},{"index":54,"tile":"pantiesSportWhite"},{"index":55,"tile":"pantiesLacePink"},{"index":56,"tile":"pantiesHighWaistBlack"},{"index":57,"tile":"pantiesBoyshortBlue"},{"index":58,"tile":"sportsBra"},{"index":59,"tile":"laundryTag"},{"index":60,"tile":"pantiesSportWhite"},{"index":61,"tile":"pantiesLacePink"},{"index":62,"tile":"pantiesHighWaistBlack"},{"index":63,"tile":"pantiesBoyshortBlue"}];
 
@@ -88,4 +110,44 @@ export async function activateSpecialByDoubleTap(page: Page, index: number): Pro
     document.querySelector<HTMLElement>(`[data-cell="${cellIndex}"]`)?.click();
     document.querySelector<HTMLElement>(`[data-cell="${cellIndex}"]`)?.click();
   }, index);
+}
+
+async function waitForMatchInputCycle(page: Page): Promise<void> {
+  await page.evaluate(() => new Promise<void>((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+  }));
+}
+
+async function dismissVisibleCampaignTutorial(page: Page): Promise<void> {
+  const tutorialTry = page.locator(qaSelectors.match3TutorialTry);
+  if (await tutorialTry.isVisible()) {
+    await tutorialTry.click();
+    await waitForMatchInputCycle(page);
+  }
+}
+
+export async function completeFirstCampaignLevel(page: Page): Promise<void> {
+  await openCampaignFirstLevel(page);
+  await expect(page.locator(qaSelectors.match3StageId)).toHaveText('M3_00');
+  await expect(page.locator(qaSelectors.match3Moves)).toHaveText('24');
+
+  for (let moveIndex = 0; moveIndex < firstCampaignWinSwaps.length; moveIndex += 1) {
+    await dismissVisibleCampaignTutorial(page);
+    const [first, second] = firstCampaignWinSwaps[moveIndex];
+    await tapSwap(page, first, second);
+    if (moveIndex < firstCampaignWinSwaps.length - 1) {
+      await expect(page.locator(qaSelectors.match3Moves)).toHaveText(String(23 - moveIndex));
+      await waitForMatchInputCycle(page);
+    }
+  }
+
+  await expect(page.locator(qaSelectors.match3CampaignResult)).toBeVisible();
+}
+
+export async function readMatch3CampaignSave(page: Page): Promise<Match3CampaignSaveSnapshot> {
+  return page.evaluate((key) => {
+    const raw = window.localStorage.getItem(key);
+    if (!raw) throw new Error(`Missing Match-3 Campaign save at ${key}`);
+    return JSON.parse(raw) as Match3CampaignSaveSnapshot;
+  }, match3CampaignStorageKey);
 }
