@@ -1,0 +1,5 @@
+/* ANM-023G8E2: keep iOS browser text inflation from changing VN viewport geometry. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
