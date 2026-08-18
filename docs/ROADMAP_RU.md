@@ -1,7 +1,7 @@
 # UPDS — Production Roadmap
 
 Technical product version: `0.26.0-dev`.
-Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation, ANM-028D3A Emi approved-frame runtime transition, completed ANM-029B4 Belarusian production and merged ANM-029H planning reset**. The complete **ANM-023F** simplification/performance track is merged through **F4B / PR #144**. ANM-030A R1.1 is merged through **PR #145**, audit-tooling follow-up ANM-030A2 through **PR #147**, and the planning-only Match-3 special visual contract ANM-030B0A1 R1.1 through **PR #148**. **ANM-023G Playwright Browser Automation is complete through G7D / PR #160**: G1–G6 cover production browser flows, G7A adds the parallel Chromium/mobile-WebKit Browser Gate, G7B freezes four reviewed mobile WebKit Golden Samples, G7C / PR #159 closes product/build/save-schema identity drift, and G7D / PR #160 hardens Browser Gate in a pinned Playwright container with deterministic font mapping. Current engineering focus: **ANM-023G8 · Playwright Production-Flow Coverage**. ANM-030B graphics/art integration remains **ART-BLOCKED** until externally produced assets are explicitly approved; no production PNGs are assumed to exist merely because local generator experiments are in progress.
+Active production foundation: **ANM-025/026 Match-3 production + tooling, completed ANM-027A–G canonical story pipeline, accepted ANM-028B1 R4.1 Scene Studio geometry, ANM-028B2 R1.1 authored VN shot adoption, ANM-028B3 R1.1 guest/witness presentation, ANM-028D3A Emi approved-frame runtime transition, completed ANM-029B4 Belarusian production and merged ANM-029H planning reset**. The complete **ANM-023F** simplification/performance track is merged through **F4B / PR #144**. ANM-030A R1.1 is merged through **PR #145**, audit-tooling follow-up ANM-030A2 through **PR #147**, and the planning-only Match-3 special visual contract ANM-030B0A1 R1.1 through **PR #148**. **ANM-023G Playwright Browser Automation is complete through G7D / PR #160**: G1–G6 cover production browser flows, G7A adds the parallel Chromium/mobile-WebKit Browser Gate, G7B freezes four reviewed mobile WebKit Golden Samples, G7C / PR #159 closes product/build/save-schema identity drift, and G7D / PR #160 hardens Browser Gate in a pinned Playwright container with deterministic font mapping. Current engineering focus: **ANM-023G8A · Coverage Audit & QA/Production Parity Matrix / PR #162 candidate**. ANM-030B graphics/art integration remains **ART-BLOCKED** until externally produced assets are explicitly approved; no production PNGs are assumed to exist merely because local generator experiments are in progress.
 
 `APP_VERSION` in `src/appVersion.ts` is the canonical player-facing product semver dev-line. npm `package.json.version` remains internal package metadata with an independent lifecycle. `BUILD_LABEL` remains a separate feature/baseline identity and is not derived from either semver; `BUILD_ID` uniquely identifies a concrete CI build. Product version changes do not imply a save-schema migration.
 
@@ -90,7 +90,7 @@ The post-Belarusian reset intentionally reopens the ANM-023 maintenance line bef
 
 Success criterion: the next feature requires less code/test surface to understand and modify, while GitHub CI catches more real defects and behavioral coverage does not regress. Runtime-impacting F3/F4 cuts still require mobile preview QA.
 
-### ANM-023G — Playwright Browser Automation [P0/P1] — COMPLETE THROUGH G7D / PR #160; G8 NEXT
+### ANM-023G — Playwright Browser Automation [P0/P1] — COMPLETE THROUGH G7D / PR #160; G8 IN PROGRESS
 
 Playwright is the browser/E2E framework. The track reuses production QA/product surfaces rather than creating a second game implementation, and keeps browser CI parallel to the existing `npm run check` quality gate. **Selenium/WebDriver is explicitly not planned as a second automation stack.**
 
@@ -114,12 +114,13 @@ Core architecture result:
 - Browser Gate remains separate from `npm run check`, so unit/static feedback stays fast while browser regressions remain blocking in their own lane;
 - one Playwright stack owns browser automation; Selenium duplication is deliberately avoided.
 
-**023G8 Playwright Production-Flow Coverage [P1] — NEXT / ART-INDEPENDENT** extends the proven Browser Gate while graphics production is blocked. The goal is not “more tests everywhere”, but stronger coverage of real player boundaries and explicit proof that deterministic QA surfaces converge on production runtime paths.
+**023G8 Playwright Production-Flow Coverage [P1] — IN PROGRESS / ART-INDEPENDENT** extends the proven Browser Gate while graphics production is blocked. The goal is not “more tests everywhere”, but stronger coverage of real player boundaries and explicit proof that deterministic QA surfaces converge on production runtime paths.
 
-Planned split:
-- **023G8A Coverage Audit & QA/Production Parity Matrix [P1] — NEXT** — inventory every existing `*.pw.ts` case against the behavior/boundary it proves; map QA Scene Navigation, Match-3 Campaign and Level Lab to their production controller/render/runtime paths; identify true gaps and redundant coverage before adding tests;
-- **023G8B Story/VN Production-Flow Expansion [P1] — PLANNED** — representative later `New Game` / `Continue` journeys across story, choices, save/reload and VN→Match-3 boundaries. Focused VN rendering still uses deterministic QA entry; CI must not click through all 976 lines on every PR;
-- **023G8C Match-3 Completion & Progression Flow [P1] — PLANNED** — production level completion/result, unlock/progression/replay and Story handoff through the real Match-3 campaign/runtime, while Level Lab remains the deterministic mechanics surface.
+Audited split:
+- **023G8A Coverage Audit & QA/Production Parity Matrix [P1] — R1 CURRENT CANDIDATE / PR #162** — inventories all 7 current specs / 20 Chromium cases / 15 Mobile WebKit critical cases, confirms that the QA surfaces converge on the single production VN/Match-3 controllers, keeps all current specs, and identifies three high-value browser gaps: Story win→evidence→post-win VN, Campaign completion/progression, and real pointer drag/swipe wiring;
+- **023G8B Story/VN Production-Flow Expansion [P1] — PLANNED** — bounded real-player Story Match-3 completion journey through evidence, canonical post-win VN and persisted Continue; add only a small representative later Story boundary if it protects distinct save/routing risk;
+- **023G8C1 Match-3 Browser Interaction Parity [P1] — PLANNED** — real Playwright pointer movement through production `pointerdown/pointermove/pointerup`, drag preview/commit and short-drag no-op on a deterministic Level Lab board;
+- **023G8C2 Match-3 Completion & Progression Flow [P1] — PLANNED** — production Campaign win result, persisted completed/best state, next unlock and next/replay/hub behavior; loss/retry remains optional if it adds distinct signal without broadening the slice.
 
 G8 success criterion: important production journeys are covered end-to-end without browser-only game logic, duplicate Selenium infrastructure, excessive full-story runtime or weakening the existing deterministic QA tools.
 
@@ -332,15 +333,16 @@ Do not consume core production capacity before base release.
 15. **ANM-023G7B [P1] — COMPLETE / PR #158** — reviewed mobile WebKit visual Golden Samples;
 16. **ANM-023G7C R1 [P1] — COMPLETE / PR #159** — product-version, diagnostics/save-schema display and roadmap identity closeout;
 17. **ANM-023G7D [P1] — COMPLETE / PR #160** — pinned Playwright container + deterministic hosted-runner font bridge;
-18. **ANM-023G8A [P1] — NEXT** — audit current Playwright coverage and QA/production parity before adding tests;
-19. **ANM-023G8B [P1] — PLANNED** — representative later Story/VN production-flow journeys;
-20. **ANM-023G8C [P1] — PLANNED** — Match-3 completion/result/unlock/replay/Story-handoff production flow;
-21. **ANM-030B0A2 [P1] — ART-BLOCKED** — integrate five externally approved production special/bonus PNGs only after they actually exist and pass approval;
-22. **ANM-030B0B [P1] — ART-BLOCKED** — Emi/extras character closure after approved external art exists;
-23. **ANM-030B1–B4 [P1] — ART-BLOCKED / PRODUCT-GATED** — budgeted story-route art/content integration using the external character/background workflow;
-24. **ANM-031 [P2]** — landscape;
-25. **ANM-032 [P2]** — music;
-26. **ANM-033 [P0 before release]** — release hardening.
+18. **ANM-023G8A R1 [P1] — CURRENT CANDIDATE / PR #162** — current Playwright coverage inventory, QA/production parity matrix and gap prioritization;
+19. **ANM-023G8B [P1] — PLANNED** — Story Match-3 completion → evidence → post-win VN → persisted Continue, with only bounded representative later Story coverage;
+20. **ANM-023G8C1 [P1] — PLANNED** — real browser pointer drag/swipe interaction parity on deterministic production Match-3;
+21. **ANM-023G8C2 [P1] — PLANNED** — Match-3 Campaign completion/result/persistence/unlock/next/replay/hub production flow;
+22. **ANM-030B0A2 [P1] — ART-BLOCKED** — integrate five externally approved production special/bonus PNGs only after they actually exist and pass approval;
+23. **ANM-030B0B [P1] — ART-BLOCKED** — Emi/extras character closure after approved external art exists;
+24. **ANM-030B1–B4 [P1] — ART-BLOCKED / PRODUCT-GATED** — budgeted story-route art/content integration using the external character/background workflow;
+25. **ANM-031 [P2]** — landscape;
+26. **ANM-032 [P2]** — music;
+27. **ANM-033 [P0 before release]** — release hardening.
 
 ## Backlog principle
 

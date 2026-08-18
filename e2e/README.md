@@ -86,15 +86,30 @@ It then reloads and verifies that `Continue` restores the same story Match-3 bou
 
 These surfaces are automation entry points, not alternate game implementations. After a deterministic setup, tests must exercise the same VN/Match-3/controller/render code used by the player.
 
-## ANM-023G8 — Playwright Production-Flow Coverage — NEXT
+## ANM-023G8 — Playwright Production-Flow Coverage
 
 G8 extends the existing Playwright stack now that G7C/G7D are merged and art-dependent ANM-030 work is waiting for externally produced approved graphics.
 
-Planned split:
+### G8A coverage audit
 
-- **G8A Coverage Audit & QA/Production Parity Matrix** — map every current `*.pw.ts` test to the production boundary it proves; verify that QA Scene Navigation, Match-3 Campaign and Level Lab converge on the same runtime/controller/render paths as normal play; identify gaps instead of adding duplicate tests.
-- **G8B Story/VN Production-Flow Expansion** — add a small set of representative New Game/Continue journeys across later story/choice/save boundaries. Do not replay all 976 lines in every PR; use deterministic QA entry for narrow VN rendering cases and real player entry for cross-system behavior.
-- **G8C Match-3 Completion & Progression Flow** — cover production level completion/result, unlock/progression/replay and Story handoff, while retaining Level Lab for deterministic mechanics defects.
+The R1 audit is recorded in [`docs/features/ANM023G8A_PLAYWRIGHT_COVERAGE_AUDIT_RU.md`](../docs/features/ANM023G8A_PLAYWRIGHT_COVERAGE_AUDIT_RU.md).
+
+Baseline findings:
+
+- 7 current spec files / 20 Chromium cases / 15 Mobile WebKit critical cases;
+- no current spec is redundant enough to remove: deployment smoke, harness parity, functional behavior and visual regression intentionally overlap at different layers;
+- QA Scene Navigation shares the one production VN controller/frame;
+- Story, Match-3 Campaign and Level Lab share the one production Match3Controller/Match3Game/render path;
+- the largest browser gaps are Story Match-3 win → evidence → post-win VN, Campaign result/unlock/replay progression and real pointer drag/swipe event wiring;
+- later Story browser coverage should remain representative rather than replaying all 976 lines on every PR.
+
+### Follow-up split
+
+- **G8B Story/VN Production-Flow Expansion** — add a bounded real-player completion journey across Story Match-3 win, evidence, post-win VN and persisted Continue; add only a small representative later Story boundary if it protects a distinct persistence/routing risk.
+- **G8C1 Match-3 Browser Interaction Parity** — use real Playwright pointer movement on deterministic Level Lab geometry to cover drag preview/commit and short-drag no-op through the production `pointerdown/pointermove/pointerup` wiring.
+- **G8C2 Match-3 Completion & Progression Flow** — cover production Campaign win result, persisted completion/best, next unlock, next/replay/hub behavior; add loss/retry only if it stays bounded and adds distinct signal.
+
+Chromium remains the full-suite owner. New cases enter Mobile WebKit only when the boundary is mobile-critical and the added CI signal justifies execution cost; G8C1 is the strongest WebKit candidate.
 
 Success means the Browser Gate protects the important production paths with one Playwright stack, without browser-only game logic, full-story CI bloat or a parallel Selenium implementation.
 
