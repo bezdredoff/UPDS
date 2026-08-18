@@ -409,16 +409,37 @@ export class VnController {
     this.shell.schedule(() => { status.hidden = true; }, 1500);
   }
 
+  private updateDialoguePageInPlace(entry: StoryLine, dialoguePages: string[]): boolean {
+    const textElement = this.root.querySelector<HTMLElement>('.dialogue-text');
+    const lineIdElement = this.root.querySelector<HTMLElement>('.line-id');
+    const progressElement = this.root.querySelector<HTMLElement>('.dialogue-progress');
+    if (!textElement || !lineIdElement || !progressElement) return false;
+
+    const page = dialoguePages[this.dialoguePageIndex] ?? this.lineText(entry);
+    this.shell.clearTimers();
+    textElement.textContent = dialogueContinuationText(page, this.dialoguePageIndex < dialoguePages.length - 1);
+    textElement.dataset.dialoguePage = String(this.dialoguePageIndex + 1);
+    textElement.dataset.dialoguePages = String(dialoguePages.length);
+    lineIdElement.textContent = dialoguePages.length > 1
+      ? `${entry.id} · ${this.dialoguePageIndex + 1}/${dialoguePages.length}`
+      : entry.id;
+    progressElement.innerHTML = `${dialoguePages.map((_, pageIndex) => `<i class="${pageIndex <= this.dialoguePageIndex ? 'is-active' : ''}"></i>`).join('')}<b>▼</b>`;
+
+    if (this.autoMode) this.shell.schedule(() => this.nextLine(), autoDelayForLine(page, this.autoSpeed));
+    return true;
+  }
+
   nextLine(): void {
     this.services.audio.play('vnAdvance');
     const entry = this.story[this.session.save.line];
     if (!entry) return this.advanceScene();
+    const localizedText = this.lineText(entry);
     const dialoguePages = this.dialoguePageLineId === entry.id && this.dialoguePages.length > 0
       ? this.dialoguePages
-      : paginateDialogueText(entry.text, currentDialogueProfile(this.textScale));
+      : paginateDialogueText(localizedText, currentDialogueProfile(this.textScale));
     if (this.dialoguePageLineId === entry.id && this.dialoguePageIndex < dialoguePages.length - 1) {
       this.dialoguePageIndex += 1;
-      this.renderVN();
+      if (!this.updateDialoguePageInPlace(entry, dialoguePages)) this.renderVN();
       return;
     }
     if (!this.session.save.readLines.includes(entry.id)) this.session.save.readLines.push(entry.id);
