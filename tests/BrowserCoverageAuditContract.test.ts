@@ -45,7 +45,8 @@ describe('ANM-023G8A Playwright coverage audit contract', () => {
     expect(flow).toContain('startFirstStoryMatchAndVerifyResumeBoundary');
     expect(match3).toContain('private completeLevel(): void');
     expect(match3).toContain("this.renderCampaignResult('win')");
-    expect(match3).toContain("cell.addEventListener('pointerdown'");
+    expect(match3).toContain("board.addEventListener('pointerdown'");
+    expect(match3).toContain("const cell = target.closest<HTMLElement>('[data-cell]');");
     expect(match3).toContain("board.addEventListener('pointermove'");
     expect(match3).toContain("board.addEventListener('pointerup'");
     expect(match3).toContain("this.attemptMatchSwap(pointer.startIndex, targetIndex, false, 'drag')");

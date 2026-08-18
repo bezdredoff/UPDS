@@ -19,7 +19,8 @@ describe('ANM-023G8C1 Match-3 browser interaction parity contract', () => {
     expect(spec).not.toContain('dispatchEvent(');
     expect(spec).not.toContain('window.__');
 
-    expect(controller).toContain("cell.addEventListener('pointerdown'");
+    expect(controller).toContain("board.addEventListener('pointerdown'");
+    expect(controller).toContain("const cell = target.closest<HTMLElement>('[data-cell]');");
     expect(controller).toContain("board.addEventListener('pointermove'");
     expect(controller).toContain("board.addEventListener('pointerup'");
     expect(controller).toContain("this.attemptMatchSwap(pointer.startIndex, targetIndex, false, 'drag')");

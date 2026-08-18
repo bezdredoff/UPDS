@@ -28,10 +28,12 @@ import { resolveMatch3ReactionPresentation } from '../../ui/match3ReactionPresen
 import { escapeHtml, headerActionMarkup } from '../../ui/viewMarkup';
 import '../../match3ReactionPresentation.css';
 import {
+match3BarkMarkup,
 match3BoardCellsMarkup,
 match3ContextAttrs,
 match3IntroMarkup,
 match3ScreenMarkup,
+match3TutorialMarkup,
 type Match3BarkPresentation,
 } from './Match3Presentation';
 export type MatchOutcome = 'win' | 'loss' | 'abandon';
@@ -389,14 +391,82 @@ this.root.querySelector('#hint')?.addEventListener('click', () => {
 this.noteMatchActivity();
 this.showObjectiveHint('manual');
 });
+this.bindTutorialTry(level);
+this.installBoardInput();
+}
+private bindTutorialTry(level: LevelDefinition): void {
 this.root.querySelector('#tutorial-try')?.addEventListener('click', () => {
 if (!this.activeTutorial) return;
 this.services.telemetry.track('match_tutorial', { action: 'try', conceptId: this.activeTutorial, levelId: level.id, mode: this.runMode });
 this.tutorialPromptDismissed = true;
-this.renderMatch();
+this.syncMatchPresentation();
 this.armAutoHint();
 });
-this.installBoardInput();
+}
+private syncMatchPresentation(): void {
+const game = this.activeMatch;
+const screen = this.root.querySelector<HTMLElement>('.match-screen');
+const board = this.root.querySelector<HTMLElement>('.board');
+const moves = this.root.querySelector<HTMLElement>('.moves-left b');
+const objectives = this.root.querySelector<HTMLElement>('.objectives');
+const barkSlot = this.root.querySelector<HTMLElement>('.field-bark-slot');
+if (!game || !screen || !board || !moves || !objectives || !barkSlot) {
+this.renderMatch();
+return;
+}
+const level = game.level;
+moves.textContent = String(game.movesLeft);
+for (let index = 0; index < level.objectives.length; index += 1) {
+const objective = level.objectives[index];
+const objectiveElement = objectives.querySelector<HTMLElement>(`[data-objective-index="${index}"]`);
+const valueElement = objectiveElement?.querySelector<HTMLElement>('b');
+if (!objectiveElement || !valueElement) {
+this.renderMatch();
+return;
+}
+const current = Math.min(game.objectiveValue(index), objective.target);
+objectiveElement.classList.toggle('done', current >= objective.target);
+valueElement.textContent = `${current}/${objective.target}`;
+}
+board.className = 'board';
+board.querySelectorAll<HTMLElement>('.board-cell.selected').forEach((cell) => cell.classList.remove('selected'));
+board.querySelectorAll<HTMLElement>('.board-cell.hinted').forEach((cell) => cell.classList.remove('hinted'));
+if (this.selectedCell !== null) board.querySelector<HTMLElement>(`[data-cell="${this.selectedCell}"]`)?.classList.add('selected');
+for (const index of this.hintedCells) board.querySelector<HTMLElement>(`[data-cell="${index}"]`)?.classList.add('hinted');
+this.setMatchFeedback('');
+
+const renderedBark = barkSlot.querySelector<HTMLElement>('.field-bark');
+const expectedBark = this.matchBark;
+const barkMatches = expectedBark === null
+? renderedBark === null
+: Boolean(
+renderedBark
+&& renderedBark.querySelector<HTMLElement>('b')?.textContent === expectedBark.speaker
+&& renderedBark.querySelector<HTMLElement>('span')?.textContent === expectedBark.text
+&& (renderedBark.dataset.reactionId ?? null) === (expectedBark.reaction?.id ?? null)
+&& (renderedBark.dataset.emphasis ?? null) === (expectedBark.reaction?.emphasis ?? null)
+&& (renderedBark.dataset.durationMs ?? null) === (expectedBark.reaction ? String(expectedBark.reaction.durationMs) : null),
+);
+if (!barkMatches) {
+barkSlot.innerHTML = match3BarkMarkup(
+expectedBark,
+Boolean(expectedBark?.reaction && this.reactionPresentationTimer === null),
+(key, params) => this.t(key, params),
+);
+}
+this.armReactionPresentationTimer();
+
+const expectedTutorial = this.activeTutorial && !this.tutorialPromptDismissed ? this.activeTutorial : null;
+const tutorialOverlay = screen.querySelector<HTMLElement>('.match-tutorial-overlay');
+const renderedTutorial = tutorialOverlay?.querySelector<HTMLElement>('[data-tutorial-concept]')?.dataset.tutorialConcept ?? null;
+if (renderedTutorial !== expectedTutorial) {
+tutorialOverlay?.remove();
+if (expectedTutorial) {
+screen.insertAdjacentHTML('beforeend', match3TutorialMarkup(expectedTutorial, false, (key, params) => this.t(key, params)));
+this.bindTutorialTry(level);
+}
+}
+screen.classList.toggle('tutorial-active', Boolean(expectedTutorial));
 }
 private showObjectiveHint(source: MatchHintSource): void {
 const game = this.activeMatch;
@@ -407,14 +477,14 @@ this.selectedCell = null;
 this.hintedCells.clear();
 if (!hint) {
 this.matchBark = this.bark('noHint', 'onoe');
-this.renderMatch();
+this.syncMatchPresentation();
 return;
 }
 this.hintedCells.add(hint.first);
 this.hintedCells.add(hint.second);
 this.services.audio.play('hint');
 this.matchBark = this.bark('hintFound', 'miku');
-this.renderMatch();
+this.syncMatchPresentation();
 }
 private prefersReducedMatchMotion(): boolean {
 return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
@@ -579,21 +649,26 @@ await this.matchDelay(matchMotionDuration('feedbackHold', false));
 private installBoardInput(): void {
 const board = this.root.querySelector<HTMLElement>('.board');
 if (!board) return;
-this.root.querySelectorAll<HTMLElement>('[data-cell]').forEach((cell) => {
-cell.addEventListener('click', () => {
-if (performance.now() < this.suppressBoardClickUntil) return;
+const eventCell = (target: EventTarget | null): HTMLElement | null => {
+if (!(target instanceof Element)) return null;
+const cell = target.closest<HTMLElement>('[data-cell]');
+return cell && board.contains(cell) ? cell : null;
+};
+board.addEventListener('click', (event) => {
+const cell = eventCell(event.target);
+if (!cell || performance.now() < this.suppressBoardClickUntil) return;
 this.noteMatchActivity();
 this.handleCell(Number(cell.dataset.cell));
 });
-cell.addEventListener('pointerdown', (event) => {
-if (this.matchInputLocked || event.button !== 0) return;
+board.addEventListener('pointerdown', (event) => {
+const cell = eventCell(event.target);
+if (!cell || this.matchInputLocked || event.button !== 0) return;
 this.noteMatchActivity();
 const startIndex = Number(cell.dataset.cell);
 this.activePointer = { id: event.pointerId, startIndex, startX: event.clientX, startY: event.clientY };
 this.hintedCells.clear();
 cell.classList.add('drag-source');
 cell.setPointerCapture?.(event.pointerId);
-});
 });
 board.addEventListener('pointermove', (event) => {
 const pointer = this.activePointer;
@@ -651,7 +726,7 @@ const activeLevel = this.activeMatch?.level;
 if (targetIndex === null || !activeLevel || !isLevelBoardCellActive(activeLevel, targetIndex)) {
 this.selectedCell = null;
 this.matchBark = this.bark('edge', 'miku');
-this.renderMatch();
+this.syncMatchPresentation();
 return;
 }
 this.attemptMatchSwap(pointer.startIndex, targetIndex, false, 'drag');
@@ -677,13 +752,13 @@ return;
 if (this.selectedCell === null) {
 this.selectedCell = index;
 this.lastTappedSpecial = isSpecial ? { index, at: now } : null;
-this.renderMatch();
+this.syncMatchPresentation();
 return;
 }
 if (this.selectedCell === index) {
 this.selectedCell = null;
 this.lastTappedSpecial = null;
-this.renderMatch();
+this.syncMatchPresentation();
 return;
 }
 const first = this.selectedCell;
@@ -705,7 +780,7 @@ source: 'double-tap', activation: 'direct', movesLeft: game.movesLeft, cascades:
 reshuffled: result.reshuffled, won: result.won, lost: result.lost,
 });
 if (!result.valid) {
-this.renderMatch();
+this.syncMatchPresentation();
 return;
 }
 this.recordTutorialMove(result, true);
@@ -719,7 +794,7 @@ if (result.lost) {
 this.renderLoss();
 return;
 }
-this.renderMatch();
+this.syncMatchPresentation();
 } finally {
 this.matchInputLocked = false;
 this.armAutoHint();
@@ -748,14 +823,14 @@ reshuffled: result.reshuffled, won: result.won, lost: result.lost,
 if (!result.valid) {
 if (result.reason === 'not-adjacent' && selectSecondWhenNonAdjacent) {
 this.selectedCell = second;
-this.renderMatch();
+this.syncMatchPresentation();
 return;
 }
 if (result.reason === 'ingredient') this.matchBark = this.bark('ingredientInvalid', 'miku');
 else if (result.reason === 'blocked') this.matchBark = this.bark('blockedInvalid', 'onoe');
 else if (result.reason === 'no-match') this.matchBark = this.bark('noMatchInvalid', 'onoe');
 await this.playMoveFrames(result, first, second);
-this.renderMatch();
+this.syncMatchPresentation();
 return;
 }
 this.recordTutorialMove(result, false, directSpecialCombo);
@@ -769,7 +844,7 @@ if (result.lost) {
 this.renderLoss();
 return;
 }
-this.renderMatch();
+this.syncMatchPresentation();
 } finally {
 this.matchInputLocked = false;
 this.armAutoHint();

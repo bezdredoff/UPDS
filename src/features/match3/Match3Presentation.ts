@@ -88,6 +88,7 @@ export function match3ObjectiveMarkup(
   label: string,
   value: number,
   showProgress: boolean,
+  objectiveIndex?: number,
 ): string {
   let assets: readonly string[];
   if (objective.kind === 'collect') {
@@ -102,7 +103,8 @@ export function match3ObjectiveMarkup(
 
   const current = Math.min(value, objective.target);
   const icons = assets.map((asset) => `<img src="${asset}" alt="">`).join('');
-  return `<div class="objective ${showProgress && current >= objective.target ? 'done' : ''}">
+  const objectiveIndexAttr = objectiveIndex === undefined ? '' : ` data-objective-index="${objectiveIndex}"`;
+  return `<div class="objective ${showProgress && current >= objective.target ? 'done' : ''}"${objectiveIndexAttr}>
 <div class="objective-icons ${assets.length > 1 ? 'multi' : ''}">${icons}</div><span>${escapeHtml(label)}</span>
 <b>${showProgress ? `${current}/` : ''}${objective.target}</b>
 </div>`;
@@ -169,7 +171,7 @@ function barkMedallion(bark: Match3BarkPresentation, t: Match3Translate): string
   return characterRigs.miku.medallion;
 }
 
-function barkMarkup(
+export function match3BarkMarkup(
   bark: Match3BarkPresentation | null,
   barkEntering: boolean,
   t: Match3Translate,
@@ -210,7 +212,7 @@ ${headerActionMarkup('header-settings', 'settings', t('common.settings'))}
 <p class="eyebrow">${escapeHtml(level.id)}</p>
 <h2>${escapeHtml(levelTitle)}</h2>
 <p>${escapeHtml(storyAction)}</p>
-<div class="intro-objectives">${level.objectives.map((objective, index) => match3ObjectiveMarkup(level, objective, objectiveLabels[index] ?? '', 0, false)).join('')}</div>
+<div class="intro-objectives">${level.objectives.map((objective, index) => match3ObjectiveMarkup(level, objective, objectiveLabels[index] ?? '', 0, false, index)).join('')}</div>
 <div class="moves-chip"><b>${level.moves}</b><span>${escapeHtml(t('match3.moves'))}</span></div>
 <button id="start" class="primary">${escapeHtml(t('match3.start'))}</button>
 </div>
@@ -267,7 +269,7 @@ ${headerActionMarkup('header-settings', 'settings', t('common.settings'))}
 <div class="match-case-hud">
 <section class="objective-board" aria-label="${escapeHtml(t('match3.objectivesAria'))}">
 <span class="case-tab">${escapeHtml(t('match3.objective'))}</span>
-<div class="objectives">${level.objectives.map((objective, index) => match3ObjectiveMarkup(level, objective, objectiveLabels[index] ?? '', objectiveValues[index] ?? 0, true)).join('')}</div>
+<div class="objectives">${level.objectives.map((objective, index) => match3ObjectiveMarkup(level, objective, objectiveLabels[index] ?? '', objectiveValues[index] ?? 0, true, index)).join('')}</div>
 </section>
 <section class="stage-board" aria-label="${escapeHtml(t('match3.movesStageAria'))}">
 <span class="case-tab">${escapeHtml(t('match3.movesUpper'))}</span>
@@ -275,7 +277,7 @@ ${headerActionMarkup('header-settings', 'settings', t('common.settings'))}
 <div class="stage-meta"><small>${escapeHtml(stageLabel)}</small><b>${escapeHtml(stageId)}</b></div>
 </section>
 </div>
-<div class="field-bark-slot" aria-live="polite">${barkMarkup(bark, barkEntering, t)}</div>
+<div class="field-bark-slot" aria-live="polite">${match3BarkMarkup(bark, barkEntering, t)}</div>
 <div id="match-feedback" class="match-feedback" aria-live="polite"></div>
 <div class="board" role="grid" aria-label="${escapeHtml(t('match3.boardAria'))}">${match3BoardCellsMarkup({ level, board, selectedCell, hintedCells, t })}</div>
 <div class="match-tooltray">
