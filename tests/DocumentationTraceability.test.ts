@@ -19,7 +19,8 @@ describe('active documentation traceability', () => {
     expect(index).toContain('## Authority order');
     expect(roadmap).toContain('Technical product version: ' + tick + APP_VERSION + tick);
     expect(buildFeature).toMatch(/^ANM-/);
-    expect(roadmap).toContain(`Current candidate focus: **${buildFeature}`);
+    expect(roadmap).toContain(buildFeature);
+    expect(roadmap).toContain('Current engineering focus: **ANM-023G8');
   });
 
   it('aligns protected character prose with the canonical precomposed v2 manifest', () => {
@@ -248,8 +249,8 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('ANM-023F4B R1 [P1] — COMPLETE / PR #144');
     expect(roadmap).toContain('ANM-030A R1.1 [P0] — COMPLETE / PR #145');
     expect(roadmap).toContain('ANM-030A2 [P0] — COMPLETE / PR #147');
-    expect(roadmap).toContain('ANM-030B0A1 R1.1 [P1] — CURRENT CANDIDATE');
-    expect(roadmap).toContain('ANM-030B0A2 [P1] — PLANNED');
+    expect(roadmap).toContain('ANM-030B0A1 R1.1 [P1] — COMPLETE / PR #148');
+    expect(roadmap).toContain('ANM-030B0A2 [P1] — ART-BLOCKED');
     expect(roadmap).toContain('one shared five-asset pack');
     expect(index).toContain('ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md');
     expect(assetGapAudit).toContain('upds-asset-gap-audit-v1');
@@ -324,6 +325,26 @@ describe('active documentation traceability', () => {
     expect(surprisedFeature).toContain('runtimeEligible: false');
     expect(surprisedPrompt).toContain('built-in ChatGPT Work `imagegen`');
     expect(surprisedPrompt).toContain('более узкая маска из ANM-028D2 отклонена');
+  });
+
+  it('keeps Playwright as the sole browser automation stack and G8 as the next art-independent track', () => {
+    const roadmap = read('docs/ROADMAP_RU.md');
+    const testing = read('docs/process/TESTING_RU.md');
+    const ai = read('docs/process/AI_DEVELOPMENT_RU.md');
+    const e2eReadme = read('e2e/README.md');
+    const rootPackage = read('package.json').toLowerCase();
+    const e2ePackage = read('e2e/package.json').toLowerCase();
+
+    expect(roadmap).toContain('023G7C Version / Diagnostics Closeout [P1] — COMPLETE / PR #159');
+    expect(roadmap).toContain('023G7D Browser Gate Playwright Container Hardening [P1] — COMPLETE / PR #160');
+    expect(roadmap).toContain('023G8A Coverage Audit & QA/Production Parity Matrix [P1] — NEXT');
+    expect(roadmap).toContain('ANM-030B0A2 [P1] — ART-BLOCKED');
+    expect(testing).toContain('Playwright is the only browser/E2E automation framework for UPDS');
+    expect(testing).toContain('Selenium/WebDriver is not part of the UPDS test stack');
+    expect(ai).toContain('Playwright is the sole browser/E2E framework');
+    expect(e2eReadme).toContain('Playwright is the only browser/E2E automation framework for UPDS');
+    expect(rootPackage).not.toContain('selenium');
+    expect(e2ePackage).not.toContain('selenium');
   });
 
   it('keeps mobile archive names short while preserving manifest authority', () => {
