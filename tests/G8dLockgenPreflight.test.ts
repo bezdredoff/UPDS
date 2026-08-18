@@ -10,7 +10,7 @@ describe('ANM-023G8D temporary lock generation preflight', () => {
     console.log(output);
     expect(output).toContain('G8D_AUDIT');
     expect(output).toContain('"total":0');
-    expect(output).toContain('G8D_LOCK_B64_BEGIN');
-    expect(output).toContain('G8D_LOCK_B64_END');
+    expect(output).toContain('G8D_LOCK_GZIP_B64_BEGIN');
+    expect(output).toContain('G8D_LOCK_GZIP_B64_END');
   });
 });
