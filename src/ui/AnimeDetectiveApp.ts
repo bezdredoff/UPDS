@@ -14,6 +14,7 @@ import { LevelLabController } from '../features/levelLab/LevelLabController';
 import { Match3CampaignController } from '../features/match3Campaign/Match3CampaignController';
 import { Match3CampaignSession } from '../app/Match3CampaignSession';
 import { SceneStudioController } from '../features/sceneStudio/SceneStudioController';
+import { STORY_WIN_QA_LEVEL_INDEX, storyWinQaLevel } from '../data/storyFlowQa';
 
 /**
  * Composition root for the UI application.
@@ -70,7 +71,10 @@ export class AnimeDetectiveApp {
     });
     this.menu = new MainMenuController(root, services, this.session, this.shell, navigation);
     this.settings = new SettingsController(root, services, this.shell, navigation, () => this.match3.hasActiveMatch);
-    this.diagnostics = new DiagnosticsController(root, services, this.session, this.shell, navigation);
+    this.diagnostics = new DiagnosticsController(root, services, this.session, this.shell, navigation, () => {
+      this.session.reset();
+      this.match3.startMatch(STORY_WIN_QA_LEVEL_INDEX, storyWinQaLevel);
+    });
     this.dossier = new DossierController(root, services, this.session, this.shell, navigation);
     this.ending = new EndingController(root, services, this.session, this.shell, navigation);
   }

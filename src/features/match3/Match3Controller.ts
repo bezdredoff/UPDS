@@ -238,10 +238,11 @@ this.root.querySelector('#dossier')?.addEventListener('click', () => this.naviga
 this.root.querySelector('#header-settings')?.addEventListener('click', () => this.navigation.showSettings(() => this.renderMatchIntro(levelIndex), true));
 this.root.querySelector('#start')?.addEventListener('click', () => this.startMatch(levelIndex));
 }
-startMatch(levelIndex: number): void {
+startMatch(levelIndex: number, levelOverride?: LevelDefinition): void {
 this.labRun = null;
 this.campaignRun = null;
-const level = levels[levelIndex];
+const level = levelOverride ?? levels[levelIndex];
+if (!level) return;
 const attempt = (this.session.save.attempts[level.id] ?? 0) + 1;
 this.session.save.attempts[level.id] = attempt;
 this.session.persist();
@@ -880,7 +881,6 @@ this.shell.render(`<section class="evidence-transition" ${match3ContextAttrs(lev
 </section>`);
 const continueStory = (): void => this.navigation.openScene(this.session.save.scene, this.session.save.line);
 this.root.querySelector('#continue-story')?.addEventListener('click', continueStory);
-this.shell.schedule(continueStory, 1800);
 }
 private renderLoss(): void {
 this.clearAutoHintTimer();

@@ -4,10 +4,14 @@ export const qaSelectors = {
   newGame: '#new',
   continueGame: '#continue',
   settingsButton: '#settings',
+  supportButton: '#support',
 
   settingsScreen: '.settings-panel',
   settingsBack: '#back',
   languageSelect: '[data-language-select]',
+
+  diagnosticsScreen: '.support-panel',
+  storyWinQaButton: '#story-win-qa',
 
   sceneNavigationButton: '#episodes',
   sceneNavigationScreen: '.scene-select',
@@ -65,4 +69,7 @@ export const qaSelectors = {
   match3Feedback: '#match-feedback',
   match3Quit: '#quit',
   match3TutorialTry: '#tutorial-try',
+
+  evidenceTransition: '.evidence-transition',
+  evidenceContinue: '#continue-story',
 } as const;
