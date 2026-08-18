@@ -37,6 +37,7 @@ export class AnimeDetectiveApp {
   private readonly sceneStudio: SceneStudioController;
   private readonly match3CampaignSession: Match3CampaignSession;
   private readonly match3Campaign: Match3CampaignController;
+  private dismissedPwaBuild: string | null = null;
 
   constructor(private readonly root: HTMLElement, services: RuntimeServices = createRuntimeServices()) {
     this.services = services;
@@ -96,7 +97,7 @@ export class AnimeDetectiveApp {
     if (!phone) return;
     phone.querySelector('.pwa-update-banner')?.remove();
     const pwa = this.services.pwa.snapshot();
-    if (!pwa.updateAvailable) return;
+    if (!pwa.updateAvailable || pwa.publishedBuild === this.dismissedPwaBuild) return;
     phone.insertAdjacentHTML('beforeend', `<aside class="pwa-update-banner" role="status"><div><small>НОВАЯ ВЕРСИЯ</small><b>Доступно обновление игры</b><span>Обновление применится после перезапуска интерфейса.</span></div><button id="pwa-update-now" class="primary">Обновить</button><button id="pwa-update-later">Позже</button></aside>`);
     phone.querySelector('#pwa-update-now')?.addEventListener('click', () => {
       if (this.match3.hasActiveMatch && typeof window.confirm === 'function' && !window.confirm('Обновить игру сейчас? Текущая попытка match-3 будет потеряна.')) return;
@@ -104,9 +105,13 @@ export class AnimeDetectiveApp {
         this.match3.endActiveAttempt('abandon', 'pwa-update');
         this.match3.clearActiveMatch();
       }
+      this.dismissedPwaBuild = null;
       this.services.pwa.applyUpdate();
     });
-    phone.querySelector('#pwa-update-later')?.addEventListener('click', () => phone.querySelector('.pwa-update-banner')?.remove());
+    phone.querySelector('#pwa-update-later')?.addEventListener('click', () => {
+      this.dismissedPwaBuild = pwa.publishedBuild;
+      phone.querySelector('.pwa-update-banner')?.remove();
+    });
   }
 
   private renderMenu(): void {

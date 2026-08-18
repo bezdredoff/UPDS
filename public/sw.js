@@ -8,9 +8,11 @@ const lane = isPreview ? 'preview' : 'stable';
 const cachePrefix = `upds-${lane}-`;
 const cacheName = `${cachePrefix}${build}`;
 const previewPath = `${scopePath}preview/`;
+const buildIdentityPath = new URL('./build.json', self.registration.scope).pathname;
 
 const sameOrigin = (url) => url.origin === self.location.origin;
 const isStablePreviewRequest = (url) => !isPreview && url.pathname.startsWith(previewPath);
+const isBuildIdentityRequest = (url) => url.pathname === buildIdentityPath;
 
 const CACHE_WARM_CONCURRENCY = 4;
 
@@ -71,7 +73,7 @@ self.addEventListener('message', (event) => {
     const cache = await caches.open(cacheName);
     const urls = [...new Set(data.urls)].map((value) => {
       try { return new URL(value, self.registration.scope); } catch { return null; }
-    }).filter(Boolean).filter(sameOrigin).filter((url) => !isStablePreviewRequest(url));
+    }).filter(Boolean).filter(sameOrigin).filter((url) => !isStablePreviewRequest(url) && !isBuildIdentityRequest(url));
     const cached = await cacheUrlsWithConcurrency(cache, urls);
     const failed = Math.max(0, urls.length - cached);
     const clients = await self.clients.matchAll({ includeUncontrolled: true, type: 'window' });
@@ -84,6 +86,11 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
   if (!sameOrigin(url) || isStablePreviewRequest(url)) return;
+
+  if (isBuildIdentityRequest(url)) {
+    event.respondWith(fetch(request, { cache: 'no-store' }));
+    return;
+  }
 
   if (request.mode === 'navigate') {
     event.respondWith((async () => {
