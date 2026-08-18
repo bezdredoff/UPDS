@@ -327,7 +327,7 @@ describe('active documentation traceability', () => {
     expect(surprisedPrompt).toContain('более узкая маска из ANM-028D2 отклонена');
   });
 
-  it('keeps Playwright as the sole browser automation stack and G8 as the next art-independent track', () => {
+  it('keeps Playwright as the sole browser automation stack and G8 audit split traceable', () => {
     const roadmap = read('docs/ROADMAP_RU.md');
     const testing = read('docs/process/TESTING_RU.md');
     const ai = read('docs/process/AI_DEVELOPMENT_RU.md');
@@ -337,7 +337,9 @@ describe('active documentation traceability', () => {
 
     expect(roadmap).toContain('023G7C Version / Diagnostics Closeout [P1] — COMPLETE / PR #159');
     expect(roadmap).toContain('023G7D Browser Gate Playwright Container Hardening [P1] — COMPLETE / PR #160');
-    expect(roadmap).toContain('023G8A Coverage Audit & QA/Production Parity Matrix [P1] — NEXT');
+    expect(roadmap).toContain('023G8A Coverage Audit & QA/Production Parity Matrix [P1] — R1 CURRENT CANDIDATE / PR #162');
+    expect(roadmap).toContain('023G8C1 Match-3 Browser Interaction Parity [P1] — PLANNED');
+    expect(roadmap).toContain('023G8C2 Match-3 Completion & Progression Flow [P1] — PLANNED');
     expect(roadmap).toContain('ANM-030B0A2 [P1] — ART-BLOCKED');
     expect(testing).toContain('Playwright is the only browser/E2E automation framework for UPDS');
     expect(testing).toContain('Selenium/WebDriver is not part of the UPDS test stack');
