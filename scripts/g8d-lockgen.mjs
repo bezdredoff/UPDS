@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 
 const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
@@ -40,6 +40,13 @@ try {
   const total = vulnerabilities.total ?? Object.values(vulnerabilities).reduce((sum, value) => sum + Number(value || 0), 0);
   if (total !== 0) {
     throw new Error(`Generated lock still has vulnerabilities: ${JSON.stringify(vulnerabilities)}`);
+  }
+
+  const outputPath = process.env.G8D_LOCK_OUTPUT?.trim();
+  if (outputPath) {
+    mkdirSync(dirname(outputPath), { recursive: true });
+    writeFileSync(outputPath, lock);
+    console.log(`G8D_LOCK_OUTPUT ${outputPath}`);
   }
 
   console.log(`G8D_RESOLVED vite=${vite} vitest=${vitest} esbuild=${esbuild}`);
