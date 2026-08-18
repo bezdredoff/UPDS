@@ -120,7 +120,8 @@ test.describe('VN through QA Scene Navigation', () => {
     health.assertClean();
   });
 
-  test('keeps Belarusian multi-page dialogue on one stable iOS viewport across the story', async ({ page }) => {
+  test('keeps Belarusian multi-page dialogue on one stable iOS viewport across the story', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'webkit-mobile', 'iOS/WebKit-specific paging corpus');
     test.slow();
     const health = observeBrowserHealth(page);
     const regressionGroups = [
