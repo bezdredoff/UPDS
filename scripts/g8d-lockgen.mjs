@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { gzipSync } from 'node:zlib';
 
 const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 const rootPackage = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
@@ -43,12 +44,12 @@ try {
 
   console.log(`G8D_RESOLVED vite=${vite} vitest=${vitest} esbuild=${esbuild}`);
   console.log(`G8D_AUDIT ${JSON.stringify(vulnerabilities)}`);
-  console.log('G8D_LOCK_B64_BEGIN');
-  const encoded = Buffer.from(lock, 'utf8').toString('base64');
+  console.log('G8D_LOCK_GZIP_B64_BEGIN');
+  const encoded = gzipSync(Buffer.from(lock, 'utf8'), { level: 9 }).toString('base64');
   for (let index = 0; index < encoded.length; index += 120) {
     console.log(encoded.slice(index, index + 120));
   }
-  console.log('G8D_LOCK_B64_END');
+  console.log('G8D_LOCK_GZIP_B64_END');
 } finally {
   rmSync(workdir, { recursive: true, force: true });
 }
