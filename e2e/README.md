@@ -1,6 +1,6 @@
 # UPDS browser E2E
 
-ANM-023G1–G6 established the isolated Playwright package, production Pages topology smoke, VN navigation coverage, deterministic Match-3 coverage, persistence/localization and short real-player flow journeys. ANM-023G7A turns that accumulated suite into a real GitHub Browser Gate. ANM-023G7B adds a deliberately small mobile WebKit Golden Sample layer on top of the proven browser infrastructure. ANM-023G7C closes product/build/save-schema identity drift, and ANM-023G7D hardens the CI runtime by moving both browser lanes onto the version-pinned official Playwright container with deterministic hosted-runner font mapping.
+ANM-023G1–G6 established the isolated Playwright package, production Pages topology smoke, VN navigation coverage, deterministic Match-3 coverage, persistence/localization and short real-player flow journeys. ANM-023G7A turns that accumulated suite into a real GitHub Browser Gate. ANM-023G7B adds a deliberately small mobile WebKit Golden Sample layer on top of the proven browser infrastructure. ANM-023G7C closes product/build/save-schema identity drift, and ANM-023G7D hardens the CI runtime by moving both browser lanes onto the version-pinned official Playwright container with deterministic hosted-runner font mapping. ANM-023G8 is now closed after production-flow expansion plus PWA/VN/Match-3 stability hardening.
 
 ## Framework policy
 
@@ -65,9 +65,7 @@ Campaign persistence uses only visible player behavior:
 
 `New Game → VN0002 → reload → Main Menu → Continue → VN0002`.
 
-Localization uses production Settings and locale persistence:
-
-`Main Menu (RU) → Settings → EN → reload → EN`.
+Localization uses production Settings and locale persistence. G8E2 extends that coverage with RU/BE/EN multi-page VN paging stability so translated text may change page count without changing the physical VN viewport.
 
 ## Short main-flow contract
 
@@ -75,7 +73,7 @@ The representative player flow begins at `#new`, not QA Scene Navigation:
 
 `New Game → Scene 0 → Scene 1 → VN0040 → CHOICE_00 B → VN0057 → M3_00 intro → Start Match`.
 
-It then reloads and verifies that `Continue` restores the same story Match-3 boundary.
+It then reloads and verifies that `Continue` restores the same story Match-3 boundary. G8B separately covers the bounded Story Match-3 completion → evidence → post-win VN → persisted Continue boundary.
 
 ## Existing automation surfaces
 
@@ -86,31 +84,31 @@ It then reloads and verifies that `Continue` restores the same story Match-3 bou
 
 These surfaces are automation entry points, not alternate game implementations. After a deterministic setup, tests must exercise the same VN/Match-3/controller/render code used by the player.
 
-## ANM-023G8 — Playwright Production-Flow Coverage
+## ANM-023G8 closeout
 
-G8 extends the existing Playwright stack now that G7C/G7D are merged and art-dependent ANM-030 work is waiting for externally produced approved graphics.
+G8 is complete. Its purpose was to improve production signal, not maximize browser-test count.
 
-### G8A coverage audit
+Completed cuts:
 
-The R1 audit is recorded in [`docs/features/ANM023G8A_PLAYWRIGHT_COVERAGE_AUDIT_RU.md`](../docs/features/ANM023G8A_PLAYWRIGHT_COVERAGE_AUDIT_RU.md).
+- **G8A — Coverage Audit & QA/Production Parity**: audited the suite and proved QA entry points converge on production controllers/renderers;
+- **G8B — Story/VN Production-Flow Expansion**: bounded Story Match-3 completion → evidence → post-win VN → persisted Continue;
+- **G8C1 — Match-3 Browser Interaction Parity**: real Playwright `pointerdown → pointermove → pointerup`, drag commit and short-drag no-op;
+- **G8D — Dependency Security Closure**: current Vite/Vitest security line plus blocking high-severity npm audit;
+- **G8E1 — PWA Update Reliability**: published build identity and reliable reload/update behavior;
+- **G8E2 — iOS VN Viewport Stability**: iOS text-inflation guard, in-place paging and RU/BE/EN localized paging regressions;
+- **G8E3 — Match-3 Render Stability**: transient hints/reactions/cascades update in place while stable board-level input survives cell replacement.
 
-Baseline findings:
+**G8C2 Campaign completion/progression E2E is intentionally deferred.** A real Campaign win is sensitive to legitimate balance changes, while a tiny automation-only win fixture would narrow the test to a special case and provide weak production signal. Revisit it after balance stabilization or when a concrete Campaign regression justifies browser-level coverage.
 
-- 7 current spec files / 20 Chromium cases / 15 Mobile WebKit critical cases;
-- no current spec is redundant enough to remove: deployment smoke, harness parity, functional behavior and visual regression intentionally overlap at different layers;
-- QA Scene Navigation shares the one production VN controller/frame;
-- Story, Match-3 Campaign and Level Lab share the one production Match3Controller/Match3Game/render path;
-- the largest browser gaps are Story Match-3 win → evidence → post-win VN, Campaign result/unlock/replay progression and real pointer drag/swipe event wiring;
-- later Story browser coverage should remain representative rather than replaying all 976 lines on every PR.
+## Post-G8 automation priorities
 
-### Follow-up split
+Future automation remains one Playwright stack plus focused engine/contract tests. Implement these only as bounded slices when they are the highest-value work:
 
-- **G8B Story/VN Production-Flow Expansion** — add a bounded real-player completion journey across Story Match-3 win, evidence, post-win VN and persisted Continue; add only a small representative later Story boundary if it protects a distinct persistence/routing risk.
-- **G8C1 Match-3 Browser Interaction Parity** — use real Playwright pointer movement on deterministic Level Lab geometry to cover drag preview/commit and short-drag no-op through the production `pointerdown/pointermove/pointerup` wiring.
-- **G8C2 Match-3 Completion & Progression Flow** — cover production Campaign win result, persisted completion/best, next unlock, next/replay/hub behavior; add loss/retry only if it stays bounded and adds distinct signal.
+1. **RU/BE/EN mobile locale × viewport matrix** on real production screens using `320×568`, `375×667`, `390×844`, `393×852`, `430×932`. Prefer geometry/overflow/visibility assertions over multiplying Golden Sample screenshots.
+2. **PWA offline/recovery journey**: online boot/service-worker readiness → real save/locale state → offline reload → usable Continue/Settings → network recovery.
+3. **VN/content asset crawl** through QA Scene Navigation but production VN rendering: every canonical scene opens, required visible content is non-empty, assets decode and browser/runtime health stays clean.
+4. **Quantitative Match-3 regression/reporting** outside Playwright on real production levels and deterministic seed samples, building on ANM-025E3 instead of browser-playing levels to completion.
 
-Chromium remains the full-suite owner. New cases enter Mobile WebKit only when the boundary is mobile-critical and the added CI signal justifies execution cost; G8C1 is the strongest WebKit candidate.
-
-Success means the Browser Gate protects the important production paths with one Playwright stack, without browser-only game logic, full-story CI bloat or a parallel Selenium implementation.
+Closeout authority: [`docs/features/ANM023G8F_CLOSEOUT_RU.md`](../docs/features/ANM023G8F_CLOSEOUT_RU.md).
 
 Playwright files use `*.pw.ts` so root Vitest never collects them.

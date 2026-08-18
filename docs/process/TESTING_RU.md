@@ -1,6 +1,6 @@
 # UPDS — validation and test workflow
 
-Status: active. Canonical story `0–21` is complete; ANM-023G7C/G7D are merged, the Browser Gate is stable, and the current engineering focus is ANM-023G8 Playwright Production-Flow Coverage while new art production remains externally blocked.
+Status: active. Canonical story `0–21` is complete; ANM-023G1–G8 is closed, the Chromium/Mobile-WebKit Browser Gate is stable, and future automation is demand-driven by production signal rather than by a target test count. New art production remains externally blocked.
 
 ## Authoritative gates
 
@@ -78,15 +78,18 @@ Playwright executes the production Vite build in a real browser. Test entry poin
 
 QA entry points are not a second implementation of the game. Browser-only game rules, alternate renderers or automation-specific progression logic are prohibited.
 
-Current G1–G7 coverage already includes boot/build/Pages topology, VN paging/staging/choices, deterministic Match-3 mechanics, persistence/localization, a short New Game → VN → choice → Match-3 journey, Chromium/WebKit Browser Gate execution and four reviewed mobile WebKit Golden Samples.
+ANM-023G1–G8 coverage includes boot/build/Pages topology, VN paging/staging/choices, deterministic Match-3 mechanics, real pointer drag wiring, persistence/localization, bounded real-player Story completion, Chromium/WebKit Browser Gate execution, four reviewed mobile WebKit Golden Samples, PWA update reliability, localized iOS VN viewport stability and Match-3 render stability.
 
-**ANM-023G8** expands production-flow coverage rather than adding another framework:
+**ANM-023G8 is closed.** The closeout decision is to stop before a balance-sensitive Campaign-win E2E that would either be flaky on a real level or overly narrow on an automation-only fixture. `G8C2` is deferred until balance stabilizes or a concrete regression proves that browser-level coverage is worth its maintenance cost.
 
-- audit current tests against real player-flow boundaries and QA-surface parity;
-- expand representative New Game/Continue story journeys beyond the original short boundary;
-- cover Match-3 completion/result/unlock/replay and Story handoff through production progression;
-- keep deterministic QA navigation for focused cases instead of replaying the complete 976-line story in every PR;
-- add tests only where they protect a distinct behavior or production boundary.
+Post-G8 automation priorities are:
+
+1. **RU/BE/EN mobile locale × viewport matrix** over real production screens and the existing portrait QA sizes `320×568`, `375×667`, `390×844`, `393×852`, `430×932`. Assert geometry, overflow, controls and viewport stability rather than multiplying screenshot baselines.
+2. **PWA offline/recovery journey** through the production service worker, real save/locale state, offline reload and network recovery.
+3. **VN/content asset crawl** using QA Scene Navigation only as an entry point into production VN rendering; verify canonical scenes open, required content exists, assets decode and browser health stays clean.
+4. **Quantitative Match-3 regression/reporting** on real production levels and deterministic seed samples outside Playwright, building on ANM-025E3. Prefer comparative envelopes/metrics over browser-playing a full level to completion.
+
+Add any of these only as a bounded feature when its signal exceeds its CI/maintenance cost. Do not treat the post-G8 list as four mandatory immediate PRs.
 
 ### Render smoke
 
