@@ -67,6 +67,7 @@ export const qaSelectors = {
   match3Tile: '.tile[data-tile-variant]',
   match3Special: '.special',
   match3Feedback: '#match-feedback',
+  match3Bark: '.field-bark',
   match3Quit: '#quit',
   match3TutorialTry: '#tutorial-try',
 

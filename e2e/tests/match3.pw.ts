@@ -43,6 +43,22 @@ async function holdPointerDrag(
   );
 }
 
+async function rememberMatch3Dom(page: Page): Promise<void> {
+  await page.evaluate(() => {
+    const host = window as Window & { __updsMatch3Screen?: Element | null; __updsMatch3Board?: Element | null };
+    host.__updsMatch3Screen = document.querySelector('.match-screen');
+    host.__updsMatch3Board = document.querySelector('.board[role="grid"]');
+  });
+}
+
+async function expectMatch3DomStable(page: Page): Promise<void> {
+  expect(await page.evaluate(() => {
+    const host = window as Window & { __updsMatch3Screen?: Element | null; __updsMatch3Board?: Element | null };
+    return host.__updsMatch3Screen === document.querySelector('.match-screen')
+      && host.__updsMatch3Board === document.querySelector('.board[role="grid"]');
+  })).toBe(true);
+}
+
 test.describe('Match-3 through Campaign and Level Lab', () => {
   test('Campaign starts the production first level on the shared board', async ({ page }) => {
     const health = observeBrowserHealth(page);
@@ -51,6 +67,34 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     await expect(page.locator(qaSelectors.match3StageId)).toHaveText('M3_00');
     await expect(page.locator(qaSelectors.match3Moves)).toHaveText('24');
     await expect(page.locator(qaSelectors.match3Cell)).toHaveCount(64);
+    health.assertClean();
+  });
+
+  test('inactivity hint updates the stable Match-3 screen and board in place', async ({ page }) => {
+    const health = observeBrowserHealth(page);
+    await openDeterministicLab(page);
+    await rememberMatch3Dom(page);
+
+    expect(await movesLeft(page)).toBe(deterministicLabMoves);
+    await expect(page.locator(qaSelectors.match3HintedCell)).toHaveCount(2, { timeout: 7_000 });
+    await expect(page.locator(qaSelectors.match3Bark)).toBeVisible();
+    expect(await movesLeft(page)).toBe(deterministicLabMoves);
+    await expectMatch3DomStable(page);
+    health.assertClean();
+  });
+
+  test('reaction bark appears and dismisses without replacing the Match-3 screen or board', async ({ page }) => {
+    const health = observeBrowserHealth(page);
+    await openDeterministicLab(page);
+    await rememberMatch3Dom(page);
+
+    await tapSwap(page, deterministicFlashSwap[0], deterministicFlashSwap[1]);
+
+    const reaction = page.locator(`${qaSelectors.match3Bark}[data-reaction-id="special-created"]`);
+    await expect(reaction).toBeVisible();
+    await expectMatch3DomStable(page);
+    await expect(reaction).toHaveCount(0, { timeout: 4_000 });
+    await expectMatch3DomStable(page);
     health.assertClean();
   });
 
@@ -122,9 +166,11 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
   test('a deterministic cascade uses production clear/settle/refill rules', async ({ page }) => {
     const health = observeBrowserHealth(page);
     await openDeterministicLab(page, deterministicCascadeSeed);
+    await rememberMatch3Dom(page);
 
     await tapSwap(page, deterministicFlashSwap[0], deterministicFlashSwap[1]);
 
+    await expectMatch3DomStable(page);
     await expect(page.locator(qaSelectors.match3Moves)).toHaveText(String(deterministicLabMoves - 1));
     expect(await firstObjectiveProgress(page)).toEqual([7, 10]);
     await expect(match3Cell(page, 2).locator(qaSelectors.match3Special)).toHaveCount(0);
