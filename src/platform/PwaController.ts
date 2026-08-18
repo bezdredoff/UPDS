@@ -13,12 +13,13 @@ export type PwaSnapshot = Readonly<{
   online: boolean;
   scope: string;
   lane: 'stable' | 'preview' | 'local';
+  publishedBuild: string;
   cacheBuild: string;
   cacheFailed: number;
 }>;
 
 type InstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }> };
-
+type PublishedBuildIdentity = Readonly<{ buildId?: unknown; buildTimestamp?: unknown }>;
 type Listener = (snapshot: PwaSnapshot) => void;
 
 const displayMode = (): 'standalone' | 'browser' => {
@@ -33,6 +34,9 @@ const laneForPath = (pathname: string): 'stable' | 'preview' | 'local' => {
   return 'local';
 };
 
+export const hasPublishedBuildUpdate = (publishedBuild: string, currentBuild = BUILD_ID): boolean =>
+  publishedBuild.length > 0 && publishedBuild !== currentBuild;
+
 export class PwaController {
   private registrationHandle: ServiceWorkerRegistration | null = null;
   private installPrompt: InstallPromptEvent | null = null;
@@ -41,6 +45,9 @@ export class PwaController {
   private updateAvailable = false;
   private started = false;
   private reloadOnControllerChange = false;
+  private reloadRequested = false;
+  private publishedBuild = BUILD_ID;
+  private buildCheckSerial = 0;
   private cacheBuild = BUILD_ID;
   private cacheFailed = 0;
 
@@ -55,12 +62,13 @@ export class PwaController {
       installed: displayMode() === 'standalone',
       displayMode: displayMode(),
       registration: registrationState,
-      updateAvailable: this.updateAvailable || Boolean(registration?.waiting),
+      updateAvailable: this.updateAvailable,
       offlineReady: this.offlineReady,
       canPromptInstall: Boolean(this.installPrompt),
       online: typeof navigator === 'undefined' ? true : navigator.onLine,
       scope: registration?.scope ?? '',
       lane: laneForPath(globalThis.location?.pathname ?? ''),
+      publishedBuild: this.publishedBuild,
       cacheBuild: this.cacheBuild,
       cacheFailed: this.cacheFailed,
     };
@@ -86,7 +94,11 @@ export class PwaController {
         this.telemetry.track('pwa_installed');
         this.emit();
       });
-      window.addEventListener('online', () => { this.telemetry.track('connectivity_changed', { online: true }); this.emit(); });
+      window.addEventListener('online', () => {
+        this.telemetry.track('connectivity_changed', { online: true });
+        void this.checkForUpdate();
+        this.emit();
+      });
       window.addEventListener('offline', () => { this.telemetry.track('connectivity_changed', { online: false }); this.emit(); });
     }
     if (typeof navigator === 'undefined' || !('serviceWorker' in navigator) || !/^https?:$/.test(globalThis.location?.protocol ?? '')) {
@@ -102,11 +114,12 @@ export class PwaController {
       navigator.serviceWorker.addEventListener('message', (event) => this.onMessage(event));
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         this.emit();
-        if (this.reloadOnControllerChange && typeof globalThis.location?.reload === 'function') globalThis.location.reload();
+        if (this.reloadOnControllerChange) this.reloadPage();
       });
       await navigator.serviceWorker.ready;
       this.warmCache(assetUrls);
       void registration.update().catch(() => undefined);
+      await this.refreshPublishedBuild();
       this.emit();
     } catch (error) {
       this.errorLog.record('application', `PWA registration failed: ${String(error)}`);
@@ -127,34 +140,70 @@ export class PwaController {
   }
 
   async checkForUpdate(): Promise<void> {
-    try { await this.registrationHandle?.update(); } catch { /* best effort */ }
+    await Promise.allSettled([
+      this.registrationHandle?.update(),
+      this.refreshPublishedBuild(),
+    ]);
   }
 
   applyUpdate(): boolean {
+    if (!this.updateAvailable) return false;
     const waiting = this.registrationHandle?.waiting;
-    if (!waiting) return false;
-    this.telemetry.track('pwa_update_applied', { cacheBuild: this.cacheBuild });
+    this.telemetry.track('pwa_update_applied', {
+      currentBuild: BUILD_ID,
+      publishedBuild: this.publishedBuild,
+      cacheBuild: this.cacheBuild,
+      waitingWorker: Boolean(waiting),
+    });
+    this.updateAvailable = false;
+    this.emit();
+
+    if (!waiting) {
+      this.reloadPage();
+      return true;
+    }
+
     this.reloadOnControllerChange = true;
     waiting.postMessage({ type: 'SKIP_WAITING' });
+    if (typeof window !== 'undefined') window.setTimeout(() => this.reloadPage(), 600);
     return true;
   }
 
   private observeRegistration(registration: ServiceWorkerRegistration): void {
-    if (registration.waiting) this.markUpdateAvailable();
+    if (registration.waiting) void this.refreshPublishedBuild();
     registration.addEventListener('updatefound', () => {
       const installing = registration.installing;
       this.emit();
       installing?.addEventListener('statechange', () => {
-        if (installing.state === 'installed' && navigator.serviceWorker.controller) this.markUpdateAvailable();
+        if (installing.state === 'installed' && navigator.serviceWorker.controller) void this.refreshPublishedBuild();
         this.emit();
       });
     });
   }
 
-  private markUpdateAvailable(): void {
-    if (!this.updateAvailable) this.telemetry.track('pwa_update_available');
-    this.updateAvailable = true;
-    this.emit();
+  private async refreshPublishedBuild(): Promise<void> {
+    if (typeof fetch !== 'function' || !/^https?:$/.test(globalThis.location?.protocol ?? '')) return;
+    try {
+      this.buildCheckSerial += 1;
+      const requestSerial = this.buildCheckSerial;
+      const url = new URL('./build.json', globalThis.location.href);
+      url.searchParams.set('check', `${Date.now()}-${requestSerial}`);
+      const response = await fetch(url.href, { cache: 'no-store' });
+      if (!response.ok || requestSerial !== this.buildCheckSerial) return;
+      const identity = await response.json() as PublishedBuildIdentity;
+      const publishedBuild = typeof identity?.buildId === 'string' ? identity.buildId.trim() : '';
+      if (!publishedBuild) return;
+
+      const wasAvailable = this.updateAvailable;
+      this.publishedBuild = publishedBuild;
+      this.updateAvailable = hasPublishedBuildUpdate(publishedBuild);
+      if (this.updateAvailable && !wasAvailable) {
+        this.telemetry.track('pwa_update_available', { currentBuild: BUILD_ID, publishedBuild });
+      }
+      this.emit();
+    } catch {
+      // Best effort: offline/error state must never manufacture a stale update banner.
+    }
   }
 
   private warmCache(assetUrls: readonly string[]): void {
@@ -177,6 +226,12 @@ export class PwaController {
       else this.errorLog.record('application', `PWA cache warmup incomplete: ${this.cacheFailed} resource(s) failed.`);
       this.emit();
     }
+  }
+
+  private reloadPage(): void {
+    if (this.reloadRequested || typeof globalThis.location?.reload !== 'function') return;
+    this.reloadRequested = true;
+    globalThis.location.reload();
   }
 
   private emit(): void {
