@@ -15,9 +15,9 @@ describe('ANM-023G8A Playwright coverage audit contract', () => {
     expect(specs.length).toBeGreaterThan(0);
     for (const spec of specs) expect(audit).toContain(`\`${spec}\``);
 
-    expect(audit).toContain('20 Chromium cases');
-    expect(audit).toContain('15 cases');
-    expect(audit).toContain('No current spec is recommended for deletion in G8A.');
+    expect(audit).toContain('21 Chromium cases');
+    expect(audit).toContain('15 Mobile WebKit critical cases');
+    expect(audit).toContain('No current spec is recommended for deletion');
     expect(audit).not.toContain('Selenium is recommended');
   });
 
