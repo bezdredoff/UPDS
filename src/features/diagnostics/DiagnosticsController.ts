@@ -17,6 +17,7 @@ export class DiagnosticsController {
     private readonly session: AppSession,
     private readonly shell: AppShell,
     private readonly navigation: AppNavigation,
+    private readonly startStoryWinQa: () => void,
   ) {}
 
   render(status = ''): void {
@@ -48,6 +49,7 @@ export class DiagnosticsController {
       </div>
       ${pwaStatusMarkup(this.services)}
       <div class="support-actions">
+        <button id="story-win-qa">${icon('log')}<span><b>Story win boundary</b><small>M3_00 · нажми Hint и сделай подсвеченный ход → evidence → VN; сбрасывает Story save</small></span></button>
         <button id="export-save">${icon('save')}<span><b>Экспорт сохранения</b><small>JSON для переноса или резервной копии</small></span></button>
         <button id="import-save">${icon('load')}<span><b>Импорт сохранения</b><small>Совместимый UPDS save JSON</small></span></button>
         <input id="save-file" class="visually-hidden" type="file" accept="application/json,.json">
@@ -67,6 +69,11 @@ export class DiagnosticsController {
 
     this.root.querySelector('#back')?.addEventListener('click', () => this.navigation.showMenu());
     this.root.querySelector('#header-settings')?.addEventListener('click', () => this.navigation.showSettings(() => this.render(status), true));
+    this.root.querySelector('#story-win-qa')?.addEventListener('click', () => {
+      if (typeof window.confirm === 'function' && !window.confirm('QA Story win сбросит текущий Story progress. Продолжить?')) return;
+      this.services.audio.play('uiClick');
+      this.startStoryWinQa();
+    });
     this.root.querySelector('#export-save')?.addEventListener('click', () => downloadJson(`UPDS_save_${APP_VERSION}.json`, store.createExportBundle(this.session.save)));
     this.root.querySelector('#export-diagnostics')?.addEventListener('click', () => {
       downloadJson(`UPDS_diagnostics_${APP_VERSION}.json`, createDiagnosticsSnapshot({

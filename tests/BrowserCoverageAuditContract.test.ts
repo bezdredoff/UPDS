@@ -5,18 +5,22 @@ import { describe, expect, it } from 'vitest';
 const root = process.cwd();
 const read = (path: string): string => readFileSync(resolve(root, path), 'utf8');
 const audit = read('docs/features/ANM023G8A_PLAYWRIGHT_COVERAGE_AUDIT_RU.md');
+const g8b = read('docs/features/ANM023G8B_STORY_COMPLETION_FLOW_RU.md');
 
 describe('ANM-023G8A Playwright coverage audit contract', () => {
-  it('inventories every current Playwright spec without creating a second browser stack', () => {
+  it('preserves the completed G8A baseline while tracing post-audit Playwright additions', () => {
     const specs = readdirSync(resolve(root, 'e2e/tests'))
       .filter((name) => name.endsWith('.pw.ts'))
       .sort();
+    const g8aBaseline = specs.filter((name) => name !== 'story-completion.pw.ts');
 
-    expect(specs.length).toBeGreaterThan(0);
-    for (const spec of specs) expect(audit).toContain(`\`${spec}\``);
+    expect(g8aBaseline).toHaveLength(7);
+    for (const spec of g8aBaseline) expect(audit).toContain(`\`${spec}\``);
+    expect(g8b).toContain('`story-completion.pw.ts`');
 
     expect(audit).toContain('20 Chromium cases');
     expect(audit).toContain('15 cases');
+    expect(g8b).toContain('8 specs / 21 Chromium cases / 15 Mobile WebKit critical cases');
     expect(audit).toContain('No current spec is recommended for deletion in G8A.');
     expect(audit).not.toContain('Selenium is recommended');
   });
@@ -33,7 +37,7 @@ describe('ANM-023G8A Playwright coverage audit contract', () => {
     expect(audit).toContain('Match-3 Campaign / Level Lab / Story → production Match-3');
   });
 
-  it('traces the audited browser-only boundaries to the real production code that owns them', () => {
+  it('traces the remaining audited browser-only boundaries to the real production code that owns them', () => {
     const match3 = read('src/features/match3/Match3Controller.ts');
     const flow = read('e2e/helpers/flow.ts');
     const match3Helper = read('e2e/helpers/match3.ts');
@@ -47,7 +51,7 @@ describe('ANM-023G8A Playwright coverage audit contract', () => {
     expect(match3).toContain("this.attemptMatchSwap(pointer.startIndex, targetIndex, false, 'drag')");
     expect(match3Helper).toContain('export async function tapSwap');
 
-    expect(audit).toContain('P0 — Story Match-3 completion → evidence → post-win VN');
+    expect(g8b).toContain('Story Match-3 Completion → Evidence → VN');
     expect(audit).toContain('P0 — Match-3 Campaign completion/progression');
     expect(audit).toContain('P0/P1 — Real pointer drag/swipe input');
   });
