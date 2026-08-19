@@ -13,6 +13,35 @@ export type CharacterRuntimeFrameOverride = Readonly<{
   sourceCandidateId: string;
 }>;
 
+export type CharacterRuntimePoseOverride = Readonly<{
+  asset: string;
+  geometry: CharacterPortraitFrameGeometry;
+  sourceCandidateId: string;
+}>;
+
+export type CharacterRuntimeMedallionOverride = Readonly<{
+  asset: string;
+  sourceCandidateId: string;
+}>;
+
+export type BrowserLocalCharacterAssetRecord = Readonly<{
+  frames?: Readonly<Partial<Record<RuntimeExpression, CharacterRuntimeFrameOverride>>>;
+  poseB?: CharacterRuntimePoseOverride;
+  medallion?: CharacterRuntimeMedallionOverride;
+}>;
+
+export type BrowserLocalCharacterAssetOverrides = Readonly<
+  Partial<Record<ProductionCharacterKey, BrowserLocalCharacterAssetRecord>>
+>;
+
+export type BrowserLocalCharacterSummary = Readonly<{
+  character: ProductionCharacterKey;
+  frameCount: number;
+  poseB: boolean;
+  medallion: boolean;
+  assetCount: number;
+}>;
+
 const emiApprovedGeometry: CharacterPortraitFrameGeometry = Object.freeze({
   alphaBounds: { left: 330, top: 80, right: 737, bottom: 1508 },
   eyeLineYPx: 244,
@@ -40,11 +69,73 @@ export const characterRuntimeFrameOverrides: Readonly<
   ]) as Partial<Record<RuntimeExpression, CharacterRuntimeFrameOverride>>),
 });
 
+let browserLocalCharacterOverrides: BrowserLocalCharacterAssetOverrides = Object.freeze({});
+let browserLocalOverrideUrls: string[] = [];
+
+function revokeBrowserLocalOverrideUrls(): void {
+  if (typeof URL === 'undefined' || typeof URL.revokeObjectURL !== 'function') return;
+  for (const url of browserLocalOverrideUrls) URL.revokeObjectURL(url);
+  browserLocalOverrideUrls = [];
+}
+
+export function applyBrowserLocalCharacterOverrides(overrides: BrowserLocalCharacterAssetOverrides): void {
+  revokeBrowserLocalOverrideUrls();
+  const urls: string[] = [];
+  for (const record of Object.values(overrides)) {
+    if (!record) continue;
+    for (const override of Object.values(record.frames ?? {})) {
+      if (override) urls.push(override.asset);
+    }
+    if (record.poseB) urls.push(record.poseB.asset);
+    if (record.medallion) urls.push(record.medallion.asset);
+  }
+  browserLocalOverrideUrls = urls;
+  browserLocalCharacterOverrides = Object.freeze(overrides);
+}
+
+export function clearBrowserLocalCharacterOverrides(): void {
+  revokeBrowserLocalOverrideUrls();
+  browserLocalCharacterOverrides = Object.freeze({});
+}
+
+export function hasBrowserLocalCharacterOverrides(): boolean {
+  return Object.keys(browserLocalCharacterOverrides).length > 0;
+}
+
+export function browserLocalCharacterOverrideSummaries(): readonly BrowserLocalCharacterSummary[] {
+  return Object.entries(browserLocalCharacterOverrides).flatMap(([character, record]) => {
+    if (!record) return [];
+    const frameCount = Object.keys(record.frames ?? {}).length;
+    return [{
+      character: character as ProductionCharacterKey,
+      frameCount,
+      poseB: Boolean(record.poseB),
+      medallion: Boolean(record.medallion),
+      assetCount: frameCount + (record.poseB ? 1 : 0) + (record.medallion ? 1 : 0),
+    } satisfies BrowserLocalCharacterSummary];
+  });
+}
+
+export function browserLocalExpressionOverride(
+  character: ProductionCharacterKey,
+  expression: RuntimeExpression,
+): CharacterRuntimeFrameOverride | null {
+  return browserLocalCharacterOverrides[character]?.frames?.[expression] ?? null;
+}
+
+export function browserLocalPoseOverride(character: ProductionCharacterKey): CharacterRuntimePoseOverride | null {
+  return browserLocalCharacterOverrides[character]?.poseB ?? null;
+}
+
+export function browserLocalMedallionOverride(character: ProductionCharacterKey): CharacterRuntimeMedallionOverride | null {
+  return browserLocalCharacterOverrides[character]?.medallion ?? null;
+}
+
 export function runtimeFrameOverride(
   character: ProductionCharacterKey,
   expression: RuntimeExpression,
 ): CharacterRuntimeFrameOverride | null {
-  return characterRuntimeFrameOverrides[character]?.[expression] ?? null;
+  return browserLocalExpressionOverride(character, expression) ?? characterRuntimeFrameOverrides[character]?.[expression] ?? null;
 }
 
 export function validateCharacterRuntimeFrameOverrides(): readonly string[] {

@@ -28,7 +28,13 @@ import {
   validateEmiFrameCandidate,
   type SceneStudioArtSource,
 } from '../../data/characterCandidates';
-import { characterRigs, expressionAsset } from '../../data/characterRigs';
+import { characterRigs, expressionAsset, poseAsset } from '../../data/characterRigs';
+import {
+  applyBrowserLocalCharacterOverrides,
+  browserLocalCharacterOverrideSummaries,
+  clearBrowserLocalCharacterOverrides,
+  hasBrowserLocalCharacterOverrides,
+} from '../../data/characterRuntimeOverrides';
 import { characterProductionManifest } from '../../data/characterProduction';
 import { backgroundAssets, sceneMeta, type BackgroundKey } from '../../data/narrative';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
@@ -47,6 +53,8 @@ import { SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT } from '../../ui/vnPortraitGeomet
 import { resolveAuthoredVnShot } from '../../ui/vnAuthoredShots';
 import { guestWitnessStageMarkup } from '../../ui/guestWitnessMarkup';
 import { escapeHtml, panelHeaderMarkup } from '../../ui/viewMarkup';
+import { browserOverrideCopy } from './browserLocalCharacterOverrideCopy';
+import { loadBrowserLocalCharacterOverrideZip, type BrowserLocalCharacterOverrideLoadResult } from './browserLocalCharacterOverrides';
 
 export const sceneStudioBackgroundKeys = Object.keys(backgroundAssets) as BackgroundKey[];
 export const sceneStudioDialogueLineIds = ['VN0002', 'VN0004', 'VN0008', 'VN0013', 'VN0022', 'VN0024', 'VN0026', 'VN0034', 'VN0038'] as const;
@@ -219,7 +227,16 @@ const safeBoxStyle = (safeBox: SceneStagingSafeBox): string => [
 
 const clamp = (value: number, minimum: number, maximum: number): number => Math.min(maximum, Math.max(minimum, value));
 
+type SceneStudioBrowserOverrideStatus = Readonly<{
+  kind: 'idle' | 'loading' | 'ready' | 'error';
+  message: string;
+  detail?: BrowserLocalCharacterOverrideLoadResult;
+}>;
+
 export class SceneStudioController {
+  private state: SceneStudioState = DEFAULT_STATE;
+  private browserOverrideStatus: SceneStudioBrowserOverrideStatus = { kind: 'idle', message: '' };
+
   constructor(
     private readonly root: HTMLElement,
     private readonly services: RuntimeServices,
@@ -229,6 +246,8 @@ export class SceneStudioController {
 
   render(requested: Partial<SceneStudioState> = {}): void {
     let state = this.normalizeState(requested);
+    if (hasBrowserLocalCharacterOverrides() && state.artSource !== 'runtime') state = { ...state, artSource: 'runtime' };
+    this.state = state;
     const authoredShot = resolveAuthoredVnShot(state.lineId);
     if (authoredShot) {
       state = {
@@ -256,6 +275,7 @@ export class SceneStudioController {
     const nextPreset = sceneStagingPresetIds[(presetIndex + 1) % sceneStagingPresetIds.length];
     const rawT = (key: string, params: Readonly<Record<string, string | number | boolean>> = {}): string => this.services.localization.t(key, params);
     const t = (key: string, params: Readonly<Record<string, string | number | boolean>> = {}): string => escapeHtml(rawT(key, params));
+    const localOverrideCopy = browserOverrideCopy(this.services.localization.locale);
     const line = {
       speaker: rawT(`vn.line.${state.lineId}.speaker`),
       emotion: rawT(`vn.line.${state.lineId}.emotion`),
@@ -315,6 +335,14 @@ export class SceneStudioController {
     const errorCount = diagnostics.filter((issue) => issue.severity === 'error').length;
     const warningCount = diagnostics.filter((issue) => issue.severity === 'warning').length;
     const manualCount = diagnostics.filter((issue) => issue.severity === 'manual').length;
+    const browserOverrides = browserLocalCharacterOverrideSummaries();
+    const browserOverrideStatusClass = hasBrowserLocalCharacterOverrides()
+      ? 'scene-studio-browser-overrides-active'
+      : this.browserOverrideStatus.kind === 'error'
+        ? 'scene-studio-browser-overrides-error'
+        : this.browserOverrideStatus.kind === 'loading'
+          ? 'scene-studio-browser-overrides-loading'
+          : 'scene-studio-browser-overrides-idle';
 
     this.services.audio.setScene('menu');
     this.services.telemetry.trackScreen('scene-studio', `${state.presetId}:${state.viewportId}:${state.viewMode}`);
@@ -358,6 +386,22 @@ export class SceneStudioController {
           <button id="scene-studio-next" data-preset="${nextPreset}">${t('sceneStudio.next')}</button>
         </div>
       </div>
+
+      <section class="scene-studio-browser-overrides ${browserOverrideStatusClass}" data-browser-override-state="${this.browserOverrideStatus.kind}">
+        <div class="scene-studio-section-title"><div><small>${escapeHtml(localOverrideCopy.eyebrow)}</small><b>${escapeHtml(localOverrideCopy.title)}</b></div><code>BROWSER LOCAL</code></div>
+        <p>${escapeHtml(localOverrideCopy.copy)}</p>
+        <input id="scene-studio-browser-override-file" type="file" accept=".zip,application/zip" hidden>
+        <div class="scene-studio-browser-override-actions">
+          <button id="scene-studio-browser-override-load" class="primary" ${this.browserOverrideStatus.kind === 'loading' ? 'disabled' : ''}>${escapeHtml(localOverrideCopy.load)}</button>
+          <button id="scene-studio-browser-override-reset" ${hasBrowserLocalCharacterOverrides() ? '' : 'disabled'}>${escapeHtml(localOverrideCopy.reset)}</button>
+        </div>
+        <p class="scene-studio-browser-override-note">${escapeHtml(localOverrideCopy.note)}</p>
+        <div class="scene-studio-browser-override-status">
+          <b>${escapeHtml(this.browserOverrideStatus.message || (hasBrowserLocalCharacterOverrides() ? localOverrideCopy.activeStatus : localOverrideCopy.idleStatus))}</b>
+          ${browserOverrides.length ? `<ul>${browserOverrides.map((summary) => `<li><code>${summary.character}</code><span>${escapeHtml(localOverrideCopy.summary(summary.frameCount, summary.poseB, summary.medallion, summary.assetCount))}</span></li>`).join('')}</ul>` : ''}
+          ${this.browserOverrideStatus.detail?.warnings.length ? `<ul>${this.browserOverrideStatus.detail.warnings.map((warning) => `<li>${escapeHtml(warning)}</li>`).join('')}</ul>` : ''}
+        </div>
+      </section>
 
       <div class="scene-studio-device-scroll">
         <section class="scene-studio-device-shell" data-scene-preset="${state.presetId}" data-scene-viewport="${state.viewportId}" data-art-source="${state.artSource}" data-compact="${viewportProfile.compact}" aria-label="${t('sceneStudio.previewAria')}" style="${deviceStyle}">
@@ -431,6 +475,38 @@ export class SceneStudioController {
     this.root.querySelector('#scene-studio-copy-report')?.addEventListener('click', () => {
       if (typeof navigator !== 'undefined' && navigator.clipboard) void navigator.clipboard.writeText(report);
     });
+    const browserOverrideInput = this.root.querySelector<HTMLInputElement>('#scene-studio-browser-override-file');
+    this.root.querySelector('#scene-studio-browser-override-load')?.addEventListener('click', () => browserOverrideInput?.click());
+    this.root.querySelector('#scene-studio-browser-override-reset')?.addEventListener('click', () => {
+      clearBrowserLocalCharacterOverrides();
+      this.browserOverrideStatus = { kind: 'idle', message: localOverrideCopy.resetStatus };
+      this.render({ ...state, artSource: 'runtime' });
+    });
+    browserOverrideInput?.addEventListener('change', () => {
+      const file = browserOverrideInput.files?.[0];
+      if (file) void this.loadBrowserOverrideZip(file);
+      browserOverrideInput.value = '';
+    });
+  }
+
+  private async loadBrowserOverrideZip(file: File): Promise<void> {
+    const copy = browserOverrideCopy(this.services.localization.locale);
+    this.browserOverrideStatus = { kind: 'loading', message: copy.loading(file.name) };
+    this.render(this.state);
+    try {
+      const loaded = await loadBrowserLocalCharacterOverrideZip(file);
+      applyBrowserLocalCharacterOverrides(loaded.overrides);
+      this.browserOverrideStatus = {
+        kind: 'ready',
+        message: copy.loaded(file.name, loaded.result.activeAssetCount),
+        detail: loaded.result,
+      };
+      this.render({ ...this.state, artSource: 'runtime' });
+    } catch (error) {
+      clearBrowserLocalCharacterOverrides();
+      this.browserOverrideStatus = { kind: 'error', message: copy.failed(String(error)) };
+      this.render(this.state);
+    }
   }
 
   private normalizeState(requested: Partial<SceneStudioState>): SceneStudioState {
@@ -555,13 +631,12 @@ export class SceneStudioController {
     artSource: SceneStudioArtSource,
     t: (key: string, params?: Readonly<Record<string, string | number | boolean>>) => string,
   ): string {
-    const rig = characterRigs[actor.character];
     const candidate = emiCandidateForArtSource(artSource);
     const usesCandidate = candidate !== null && actor.character === candidate.character &&
       actor.pose === 'pose-a' && actor.expression === candidate.expression;
     const asset = usesCandidate
       ? candidate.asset
-      : actor.pose === 'pose-b' ? rig.poseB : expressionAsset(actor.character, actor.expression);
+      : actor.pose === 'pose-b' ? poseAsset(actor.character) : expressionAsset(actor.character, actor.expression);
     const bounds = actor.frameAlphaBounds;
     const canvas = characterProductionManifest.frameCanvas;
     const guideFrameLabel = actor.guideGeometrySource === 'expression-frame'

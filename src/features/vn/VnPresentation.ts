@@ -2,6 +2,7 @@ import {
   characterForSpeaker,
   characterRigs,
   characterStaging,
+  poseAsset,
   expressionAsset,
   expressionForDirection,
   placeholderCharacters,
@@ -69,7 +70,7 @@ const characterStageMarkup = (
   const staging = characterStaging[character];
   const style = `--character-scale:${staging.scale};--character-y:${staging.yPercent}%`;
   if (usesVnPoseB(character, direction)) {
-    return `<div class="portrait portrait-${side} portrait-static-wrap" data-character="${character}" style="${style}"><img class="portrait-static" src="${rig.poseB}" alt="${rig.displayName}"></div>`;
+    return `<div class="portrait portrait-${side} portrait-static-wrap" data-character="${character}" style="${style}"><img class="portrait-static" src="${poseAsset(character)}" alt="${rig.displayName}"></div>`;
   }
   return `<div class="portrait portrait-${side} character-rig" data-character="${character}" data-expression="${expression}" style="${style}">
       <img class="portrait-frame" src="${expressionAsset(character, expression)}" alt="${rig.displayName}">
@@ -175,10 +176,9 @@ export function vnPreloadAssetsForLine(
 
   const character = characterForSpeaker(entry.speaker);
   if (character) {
-    const rig = characterRigs[character];
     assets.push(
       usesVnPoseB(character, entry.emotion)
-        ? rig.poseB
+        ? poseAsset(character)
         : expressionAsset(character, expressionForDirection(entry.emotion)),
     );
     return assets;
