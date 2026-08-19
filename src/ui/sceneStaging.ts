@@ -19,7 +19,7 @@ import {
   type CharacterPortraitFrameGeometry,
   type CharacterVisualApproval,
 } from '../data/characterProduction';
-import { browserLocalCharacterStaging, browserLocalPoseOverride, runtimeFrameOverride } from '../data/characterRuntimeOverrides';
+import { browserLocalCharacterStaging, browserLocalCharacterXPercent, browserLocalPoseOverride, runtimeFrameOverride } from '../data/characterRuntimeOverrides';
 import { resolveVnPortraitCamera, resolveVnPortraitEyeLineCamera } from './vnPortraitGeometry';
 
 export type SceneStagingActorInput = Readonly<{
@@ -102,11 +102,12 @@ export function resolveSceneStagingPreset(
     preset,
     actors: actorSlots.map((slot, index) => {
       const input = actors[index];
-      const staging = browserLocalCharacterStaging(input.character, canonicalStaging[input.character]);
+      const staging = browserLocalCharacterStaging(input.character, canonicalStaging[input.character], presetId);
+      const xPercent = browserLocalCharacterXPercent(input.character, presetId);
       const definition = characterProductionManifest.characters[input.character];
       const pose = input.pose ?? 'pose-a';
-      const runtimeOverride = pose === 'pose-a' ? runtimeFrameOverride(input.character, input.expression) : null;
-      const poseOverride = pose === 'pose-b' ? browserLocalPoseOverride(input.character) : null;
+      const runtimeOverride = pose === 'pose-a' ? runtimeFrameOverride(input.character, input.expression, presetId) : null;
+      const poseOverride = pose === 'pose-b' ? browserLocalPoseOverride(input.character, presetId) : null;
       const geometry = runtimeOverride?.geometry ?? poseOverride?.geometry ?? (pose === 'pose-a'
         ? definition.proportion.frameGeometry[input.expression]
         : definition.proportion.frameGeometry.neutral);
@@ -124,7 +125,7 @@ export function resolveSceneStagingPreset(
         character: input.character,
         expression: input.expression,
         pose,
-        anchorXPercent: slot.anchorXPercent,
+        anchorXPercent: slot.anchorXPercent + xPercent,
         anchorYPercent: slot.anchorYPercent,
         verticalAnchor: slot.verticalAnchor,
         shotScale: slot.shotScale,

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { AppShell } from '../src/app/AppShell';
-import { applyBrowserLocalCharacterOverrides, clearBrowserLocalCharacterOverrides } from '../src/data/characterRuntimeOverrides';
+import { applyBrowserLocalCharacterCalibration, applyBrowserLocalCharacterOverrides, clearBrowserLocalCharacterOverrides } from '../src/data/characterRuntimeOverrides';
 import type { AppNavigation } from '../src/app/AppNavigation';
 import { SceneStudioController } from '../src/features/sceneStudio/SceneStudioController';
 import { createRuntimeServices } from '../src/platform/RuntimeServices';
@@ -223,12 +223,12 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML).not.toContain('./assets/characters/emi/rig/pose_a/frames/frame-serious.png');
   });
 
-  it('renders browser-local calibration controls and a JSON snapshot once local overrides are loaded', () => {
+  it('renders browser-local scale/X/Y on the actual preview portrait and exposes global/per-plan calibration with a v2 JSON snapshot', () => {
     applyBrowserLocalCharacterOverrides({
       miku: {
         frames: {
-          smile: {
-            asset: 'blob:miku-smile',
+          serious: {
+            asset: 'blob:miku-serious',
             geometry: { alphaBounds: { left: 310, top: 48, right: 700, bottom: 1496 }, eyeLineYPx: 212 },
             visualApproval: 'approved',
             sourceCandidateId: 'browser-local:test',
@@ -241,18 +241,28 @@ describe('ANM-028B1 Scene Studio foundation', () => {
         },
       },
     });
+    applyBrowserLocalCharacterCalibration('miku', { scale: 1.1, xPercent: 2, yPercent: 3 });
+    applyBrowserLocalCharacterCalibration('miku', { scale: 1.2, xPercent: -5, yPercent: 6 }, 'solo-close');
 
     const root = new FakeRoot();
     const services = createRuntimeServices();
     const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
     const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
+    (studio as unknown as { browserCalibrationScope: 'global' | 'plan' }).browserCalibrationScope = 'plan';
 
-    studio.render({ artSource: 'runtime' });
+    studio.render({ presetId: 'solo-close', artSource: 'runtime' });
     expect(root.innerHTML).toContain('Ручная калибровка');
+    expect(root.innerHTML).toContain('Текущий план · solo-close');
+    expect(root.innerHTML).toContain('data-calibration-scope="plan"');
+    expect(root.innerHTML).toContain('data-plan-override="true"');
+    expect(root.innerHTML).toContain('data-browser-override-field="xPercent"');
+    expect(root.innerHTML).toContain('--scene-x:45%');
+    expect(root.innerHTML).toContain('scene-studio-runtime-portrait');
+    expect(root.innerHTML).toContain('style="--character-scale:1.2;--character-y:6%"');
     expect(root.innerHTML).toContain('JSON-слепок');
-    expect(root.innerHTML).toContain('data-calibration-character="miku"');
-    expect(root.innerHTML).toContain('data-browser-override-field="eyeLineOffsetPx"');
     expect(root.innerHTML).toContain('scene-studio-browser-override-json');
-    expect(root.innerHTML).toContain('upds-browser-local-character-export-v1');
+    expect(root.innerHTML).toContain('upds-browser-local-character-export-v2');
+    expect(root.innerHTML).toContain('&quot;solo-close&quot;');
   });
+
 });

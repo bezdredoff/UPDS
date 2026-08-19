@@ -33,10 +33,11 @@ const actorMarkup = (actor: ResolvedSceneActor, speakingCharacter: CharacterKey 
     `--character-scale:${actor.canonicalCharacterScale}`,
     `--character-y:${actor.canonicalCharacterYPercent}%`,
   ].join(';');
+  const portraitStyle = `--character-scale:${actor.canonicalCharacterScale};--character-y:${actor.canonicalCharacterYPercent}%`;
   const imageClass = actor.pose === 'pose-b' ? 'portrait-static' : 'portrait-frame';
   const wrapClass = actor.pose === 'pose-b' ? 'portrait-static-wrap' : 'character-rig';
   return `<div class="vn-authored-actor-slot" data-slot="${escapeHtml(actor.slotId)}" data-character="${actor.character}" data-role="${actor.role}" data-speaking="${actor.character === speakingCharacter}" data-visual-approval="${actor.visualApproval}" style="${style}">
-    <div class="portrait ${wrapClass} vn-authored-runtime-portrait" data-shot-scale="${actor.shotScale}" data-vertical-anchor="${actor.verticalAnchor}" data-eye-line-y="${actor.eyeLineYPx}">
+    <div class="portrait ${wrapClass} vn-authored-runtime-portrait" data-shot-scale="${actor.shotScale}" data-vertical-anchor="${actor.verticalAnchor}" data-eye-line-y="${actor.eyeLineYPx}" style="${portraitStyle}">
       <img class="${imageClass}" src="${escapeHtml(asset)}" alt="${escapeHtml(rig.displayName)}">
     </div>
   </div>`;

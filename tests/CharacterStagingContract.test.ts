@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { readFile } from 'node:fs/promises';
-import { characterRigs, characterStaging, resolvedCharacterStaging } from '../src/data/characterRigs';
+import { characterRigs, characterStaging, resolvedCharacterStaging, resolvedCharacterXPercent } from '../src/data/characterRigs';
 
 describe('ANM-021B R5 VN character staging contract', () => {
   it('uses one canonical camera distance for the approved production trio', () => {
@@ -34,8 +34,11 @@ describe('ANM-021B R5 VN character staging contract', () => {
     const rigSource = await readFile(new URL('../src/data/characterRigs.ts', import.meta.url), 'utf8');
     expect(source).toContain('resolvedCharacterStaging(character)');
     expect(rigSource).toContain('browserLocalCharacterStaging(character, characterStaging[character])');
+    expect(rigSource).toContain('browserLocalCharacterXPercent(character)');
     expect(resolvedCharacterStaging('miku')).toEqual(characterStaging.miku);
+    expect(resolvedCharacterXPercent('miku')).toBe(0);
     expect(source).toContain('--character-scale:');
+    expect(source).toContain('--character-x:');
     expect(source).toContain('--character-y:');
     expect(source).toContain('portrait-frame');
     expect(source).toContain('portrait-static');

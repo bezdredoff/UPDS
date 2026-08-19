@@ -10,6 +10,14 @@ export type BrowserOverrideCopy = Readonly<{
   resetStatus: string;
   controlsTitle: string;
   controlsCopy: string;
+  scope: string;
+  globalScope: string;
+  currentPlanScope: (plan: string) => string;
+  planOverrideActive: string;
+  planUsesGlobal: string;
+  copyGlobalToPlan: string;
+  resetGlobal: string;
+  resetPlan: string;
   exportTitle: string;
   exportCopy: string;
   copyJson: string;
@@ -17,8 +25,8 @@ export type BrowserOverrideCopy = Readonly<{
   eyeLine: string;
   bottomPivot: string;
   scale: string;
+  frameX: string;
   frameY: string;
-  resetCharacter: string;
   loading: (file: string) => string;
   loaded: (file: string, count: number) => string;
   failed: (error: string) => string;
@@ -37,16 +45,24 @@ export const browserOverrideCopy = (locale: string): BrowserOverrideCopy => loca
       activeStatus: 'Лакальныя browser-overrides актыўныя.',
       resetStatus: 'Лакальныя падмены ачышчаны.',
       controlsTitle: 'Ручная каліброўка',
-      controlsCopy: 'Наладжвайце eye-line, bottom pivot, маштаб па вышыні і вертыкальнае пазіцыянаванне без паўторнага імпарту ZIP.',
+      controlsCopy: 'Наладжвайце eye-line, bottom pivot, маштаб і X/Y-пазіцыю глабальна або асобна для бягучага плана.',
+      scope: 'Вобласць',
+      globalScope: 'Глабальна для персанажа',
+      currentPlanScope: (plan) => `Бягучы план · ${plan}`,
+      planOverrideActive: 'Для гэтага плана ёсць асобная каліброўка.',
+      planUsesGlobal: 'Гэты план пакуль выкарыстоўвае глабальную каліброўку.',
+      copyGlobalToPlan: 'Скапіраваць global → plan',
+      resetGlobal: 'Скінуць global',
+      resetPlan: 'Скінуць гэты plan',
       exportTitle: 'JSON-здымак',
-      exportCopy: 'Экспарт паказвае канчатковую geometry і staging, каб пазней перанесці абраны варыянт у production override без паўторнай ручной калиброўкі.',
+      exportCopy: 'Экспарт захоўвае global і per-plan geometry/staging, каб пазней перанесці абраны варыянт у production без паўторнай калиброўкі.',
       copyJson: 'Скапіяваць JSON',
       downloadJson: 'Спампаваць JSON',
       eyeLine: 'Eye-line',
       bottomPivot: 'Bottom pivot',
       scale: 'Маштаб',
+      frameX: 'Пазіцыя X',
       frameY: 'Пазіцыя Y',
-      resetCharacter: 'Скінуць персанажа',
       loading: (file) => `Загрузка ${file}…`,
       loaded: (file, count) => `Загружана ${count} лакальных override-асэтаў з ${file}.`,
       failed: (error) => `Не ўдалося загрузіць лакальныя падмены: ${error}`,
@@ -64,16 +80,24 @@ export const browserOverrideCopy = (locale: string): BrowserOverrideCopy => loca
         activeStatus: 'Local browser overrides are active.',
         resetStatus: 'Local overrides cleared.',
         controlsTitle: 'Manual calibration',
-        controlsCopy: 'Tune eye-line, bottom pivot, height scale and vertical framing without re-importing the ZIP.',
+        controlsCopy: 'Tune eye-line, bottom pivot, scale and X/Y framing globally or independently for the current shot plan.',
+        scope: 'Scope',
+        globalScope: 'Global for character',
+        currentPlanScope: (plan) => `Current plan · ${plan}`,
+        planOverrideActive: 'This plan has its own calibration.',
+        planUsesGlobal: 'This plan currently inherits the global calibration.',
+        copyGlobalToPlan: 'Copy global → plan',
+        resetGlobal: 'Reset global',
+        resetPlan: 'Reset this plan',
         exportTitle: 'JSON snapshot',
-        exportCopy: 'The export captures the final geometry and staging so the winning local override can be transferred into production without recalibrating it again.',
+        exportCopy: 'The export stores global and per-plan geometry/staging so the winning local override can be transferred into production without recalibrating it again.',
         copyJson: 'Copy JSON',
         downloadJson: 'Download JSON',
         eyeLine: 'Eye line',
         bottomPivot: 'Bottom pivot',
         scale: 'Scale',
+        frameX: 'Frame X',
         frameY: 'Frame Y',
-        resetCharacter: 'Reset character',
         loading: (file) => `Loading ${file}…`,
         loaded: (file, count) => `Loaded ${count} local override assets from ${file}.`,
         failed: (error) => `Local override load failed: ${error}`,
@@ -90,16 +114,24 @@ export const browserOverrideCopy = (locale: string): BrowserOverrideCopy => loca
         activeStatus: 'Локальные browser-overrides активны.',
         resetStatus: 'Локальные подмены очищены.',
         controlsTitle: 'Ручная калибровка',
-        controlsCopy: 'Настраивайте eye-line, bottom pivot, масштаб по высоте и вертикальное положение без повторного импорта ZIP.',
+        controlsCopy: 'Настраивайте eye-line, bottom pivot, масштаб и X/Y-положение глобально или отдельно для текущего плана.',
+        scope: 'Область',
+        globalScope: 'Глобально для персонажа',
+        currentPlanScope: (plan) => `Текущий план · ${plan}`,
+        planOverrideActive: 'Для этого плана есть отдельная калибровка.',
+        planUsesGlobal: 'Этот план пока наследует глобальную калибровку.',
+        copyGlobalToPlan: 'Скопировать global → plan',
+        resetGlobal: 'Сбросить global',
+        resetPlan: 'Сбросить этот plan',
         exportTitle: 'JSON-слепок',
-        exportCopy: 'Экспорт сохраняет итоговую geometry и staging, чтобы потом перенести выбранный локальный override в production без повторной ручной калибровки.',
+        exportCopy: 'Экспорт сохраняет global и per-plan geometry/staging, чтобы потом перенести выбранный локальный override в production без повторной ручной калибровки.',
         copyJson: 'Скопировать JSON',
         downloadJson: 'Скачать JSON',
         eyeLine: 'Eye-line',
         bottomPivot: 'Bottom pivot',
         scale: 'Масштаб',
+        frameX: 'Позиция X',
         frameY: 'Позиция Y',
-        resetCharacter: 'Сбросить персонажа',
         loading: (file) => `Загрузка ${file}…`,
         loaded: (file, count) => `Загружено ${count} локальных override-ассетов из ${file}.`,
         failed: (error) => `Не удалось загрузить локальные подмены: ${error}`,
