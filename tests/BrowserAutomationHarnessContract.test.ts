@@ -85,6 +85,10 @@ describe('ANM-023G2 browser automation harness contract', () => {
     expect(resetHelper).not.toContain('Match3Game');
 
     expect(harness).toContain('QA Scene Navigation opens the shared production VN frame');
+    expect(harness).toContain('Scene Studio Composition supports direct mouse drag on the shared production stage');
+    expect(harness).toContain('sceneStudioDraggablePortrait');
+    expect(harness).toContain('page.mouse.down()');
+    expect(harness).toContain('data-slot-override');
     expect(harness).toContain('Match-3 Campaign opens the shared production Match-3 board');
     expect(harness).toContain('Level Lab launches an exact seed through the shared production Match-3 board');
     expect(harness).toContain("fill('424242')");

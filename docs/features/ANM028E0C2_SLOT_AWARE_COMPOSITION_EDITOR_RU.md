@@ -101,3 +101,24 @@ E0C2 заменяет старые per-plan calibration contracts на slot-awar
 - Eye-line/Bottom-pivot отсутствуют в основном editor UX;
 - JSON export использует v3 + compositionAssignments + slotOverrides;
 - Story QA остаётся без editable Composition controls.
+
+
+## ANM-028E0C2A — pointer interaction correction
+
+Первоначальный E0C2 правильно добавил Pointer Events на portrait, но общий `vnFrameMarkup()`
+продолжал получать `interactive: false`. Исторический Scene Studio contract превращал это в
+HTML `inert` на всём VN frame, поэтому браузер не доставлял pointer events внутрь stage.
+
+E0C2A разделяет эти понятия:
+
+- Story QA и lineup остаются полностью inert;
+- Composition scene оставляет VN chrome inert, но разрешает pointer input внутри stage;
+- PNG получают `draggable=false` и CSS user-drag protection;
+- Browser Gate реально перетаскивает portrait мышью и проверяет появление slot override и изменение X/Y.
+
+## E0C2A — pointer drag regression
+
+Composition preview intentionally keeps the shared VN chrome inert while exposing only the stage to pointer input.
+The regression is covered inside the existing `e2e/tests/harness.pw.ts` QA-harness spec rather than by adding a ninth
+Playwright spec file. This preserves the completed G8A spec-inventory baseline while still exercising a real mouse drag
+against the production Scene Studio DOM in Browser Gate.

@@ -33,6 +33,7 @@ export type VnFrameMarkupInput = Readonly<{
   autoMode: boolean;
   labels: VnFrameLabels;
   interactive?: boolean;
+  stageInteractive?: boolean;
 }>;
 
 /**
@@ -44,12 +45,15 @@ export type VnFrameMarkupInput = Readonly<{
 export function vnFrameMarkup(input: VnFrameMarkupInput): string {
   const prefix = input.idPrefix ?? '';
   const id = (value: string): string => `${prefix}${value}`;
+  const stageInteractive = input.stageInteractive === true;
+  const frameInert = input.interactive === false && !stageInteractive;
+  const chromeInert = input.interactive === false && stageInteractive ? ' inert' : '';
   const inertControl = input.interactive === false ? ' tabindex="-1"' : '';
   const pageCount = Math.max(1, input.dialoguePageCount);
   const pageIndex = Math.max(0, Math.min(input.dialoguePageIndex, pageCount - 1));
   const screenClasses = ['vn-screen', `text-${input.textScale}`, input.screenClass ?? ''].filter(Boolean).join(' ');
 
-  return `<section class="${escapeHtml(screenClasses)}" data-vn-frame="shared" data-frame-context="${input.frameContext}"${input.interactive === false ? ' inert' : ''}>
+  return `<section class="${escapeHtml(screenClasses)}" data-vn-frame="shared" data-frame-context="${input.frameContext}" data-stage-interactive="${stageInteractive}"${frameInert ? ' inert' : ''}>
     <div class="vn-background-stack" aria-hidden="true">
       <img class="vn-background vn-background-fill" src="${escapeHtml(input.backgroundAsset)}" alt="">
       <img class="vn-background vn-background-fit" src="${escapeHtml(input.backgroundAsset)}" alt="">
@@ -57,7 +61,7 @@ export function vnFrameMarkup(input: VnFrameMarkupInput): string {
     <span class="visually-hidden">${escapeHtml(input.location)}</span>
     <div class="vn-vignette"></div>
     ${input.overlayMarkup ?? ''}
-    <header class="app-header vn-topbar">
+    <header class="app-header vn-topbar"${chromeInert}>
       <button id="${escapeHtml(id('dossier'))}" class="vn-case-pill" aria-label="${escapeHtml(input.labels.openDossier)}"${inertControl}>
         <span><small>${escapeHtml(input.caseLabel)}</small><b>${escapeHtml(input.sceneTitle)}</b></span>
         <i>${icon('dossier')}<em>${input.clueCount}</em></i>
@@ -70,7 +74,7 @@ export function vnFrameMarkup(input: VnFrameMarkupInput): string {
     <div class="stage stage-${escapeHtml(input.stageSide)}" data-stage-side="${escapeHtml(input.stageSide)}">
       ${input.stageMarkup}
     </div>
-    <div class="dialogue-shell ${input.direction ? 'direction' : ''}">
+    <div class="dialogue-shell ${input.direction ? 'direction' : ''}"${chromeInert}>
       <span class="dialogue-nameplate">${escapeHtml(input.speaker)}<em>${escapeHtml(input.emotion)}</em></span>
       <button class="dialogue ${input.direction ? 'direction' : ''}" id="${escapeHtml(id('next'))}"${inertControl}>
         <span class="dialogue-text" data-dialogue-page="${pageIndex + 1}" data-dialogue-pages="${pageCount}">${escapeHtml(input.dialogueText)}</span>
@@ -78,7 +82,7 @@ export function vnFrameMarkup(input: VnFrameMarkupInput): string {
         <span class="dialogue-progress" aria-hidden="true">${Array.from({ length: pageCount }, (_, page) => `<i class="${page <= pageIndex ? 'is-active' : ''}"></i>`).join('')}<b>▼</b></span>
       </button>
     </div>
-    <nav class="vn-controls" aria-label="${escapeHtml(input.labels.controls)}">
+    <nav class="vn-controls" aria-label="${escapeHtml(input.labels.controls)}"${chromeInert}>
       <button id="${escapeHtml(id('skip'))}" ${input.skipAvailable ? '' : 'disabled'}${inertControl}>${icon('skip')}<span>SKIP</span></button>
       <button id="${escapeHtml(id('auto'))}" class="${input.autoMode ? 'is-active' : ''}"${inertControl}>${icon('auto')}<span>AUTO</span></button>
       <button id="${escapeHtml(id('save-vn'))}"${inertControl}>${icon('save')}<span>SAVE</span></button>

@@ -231,6 +231,7 @@ export class SceneStudioController {
       skipAvailable: false,
       autoMode: false,
       interactive: false,
+      stageInteractive: state.workspaceMode === 'composition' && state.viewMode === 'scene',
       labels: {
         openDossier: rawT('vn.chrome.openDossier'),
         navigation: rawT('vn.chrome.navigation'),
@@ -899,7 +900,7 @@ export class SceneStudioController {
     ].join(';');
     const portraitStyle = `--character-scale:${actor.canonicalCharacterScale};--character-y:${actor.canonicalCharacterYPercent}%`;
     return `<div class="scene-studio-actor-slot${editorInteractive && actor.slotId === this.selectedCompositionSlotId ? ' is-editor-selected' : ''}" data-slot="${actor.slotId}" data-character="${actor.character}" data-role="${actor.role}" data-visual-approval="${actor.visualApproval}" data-art-source="runtime" data-editor-draggable="${editorInteractive}" style="${style}">
-      <div class="portrait portrait-static-wrap scene-studio-runtime-portrait" data-shot-scale="${actor.shotScale}" data-runtime-crop="true" data-vertical-anchor="${actor.verticalAnchor}" data-guide-geometry="${actor.guideGeometrySource}" data-eye-line-y="${actor.eyeLineYPx}" data-eye-line-ratio="${actor.eyeLineRatio}" data-alpha-bounds="${bounds.left},${bounds.top},${bounds.right},${bounds.bottom}" style="${portraitStyle}"><img class="portrait-static" src="${asset}" alt="${t(`character.${actor.character}`)}">${showGuides ? `<i class="scene-studio-actor-alpha-box" aria-hidden="true"><b>${t(`character.${actor.character}`)}</b><small>${t('sceneStudio.guide.frameAlpha')} · ${guideFrameLabel}</small></i><i class="scene-studio-actor-eye-marker" aria-hidden="true"><b>${t('sceneStudio.guide.eyes')} · y=${actor.eyeLineYPx}</b></i>` : ''}</div>
+      <div class="portrait portrait-static-wrap scene-studio-runtime-portrait" data-shot-scale="${actor.shotScale}" data-runtime-crop="true" data-vertical-anchor="${actor.verticalAnchor}" data-guide-geometry="${actor.guideGeometrySource}" data-eye-line-y="${actor.eyeLineYPx}" data-eye-line-ratio="${actor.eyeLineRatio}" data-alpha-bounds="${bounds.left},${bounds.top},${bounds.right},${bounds.bottom}" style="${portraitStyle}"><img class="portrait-static" src="${asset}" alt="${t(`character.${actor.character}`)}" draggable="false">${showGuides ? `<i class="scene-studio-actor-alpha-box" aria-hidden="true"><b>${t(`character.${actor.character}`)}</b><small>${t('sceneStudio.guide.frameAlpha')} · ${guideFrameLabel}</small></i><i class="scene-studio-actor-eye-marker" aria-hidden="true"><b>${t('sceneStudio.guide.eyes')} · y=${actor.eyeLineYPx}</b></i>` : ''}</div>
     </div>`;
   }
 

@@ -1651,6 +1651,13 @@ img { display: block; }
   pointer-events: auto;
   touch-action: none;
   cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.scene-studio-actor-slot[data-editor-draggable="true"] .scene-studio-runtime-portrait .portrait-static {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 .scene-studio-actor-slot[data-editor-draggable="true"] .scene-studio-runtime-portrait:active { cursor: grabbing; }
 .scene-studio-actor-slot.is-editor-selected .scene-studio-runtime-portrait { filter: drop-shadow(0 0 7px #79d8cf) drop-shadow(0 12px 12px #10162b59); }
