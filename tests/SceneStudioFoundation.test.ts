@@ -24,7 +24,13 @@ class FakeRoot {
 
 const originalWindow = globalThis.window;
 
-describe('ANM-028B1 Scene Studio foundation', () => {
+const createStudio = (root: FakeRoot): SceneStudioController => {
+  const services = createRuntimeServices();
+  const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
+  return new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
+};
+
+describe('ANM-028E0C1 Scene Studio workspace separation', () => {
   beforeEach(() => {
     Object.defineProperty(globalThis, 'window', {
       configurable: true,
@@ -41,60 +47,89 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     Object.defineProperty(globalThis, 'window', { configurable: true, value: originalWindow });
   });
 
-  it('adds a localized QA entry and renders the shared runtime portrait crop', () => {
+  it('opens in Composition with runtime/browser-local art and no legacy Emi Art Source control', () => {
     const root = new FakeRoot();
     const app = new AnimeDetectiveApp(root as unknown as HTMLElement);
     app.mount();
     expect(root.innerHTML).toContain('Студия сцен');
 
     app.renderSceneStudio();
+    expect(root.innerHTML).toContain('data-scene-studio-workspace="composition"');
     expect(root.innerHTML).toContain('data-scene-preset="solo-close"');
-    expect(root.innerHTML).toContain('data-art-source="anm028d3-r1"');
-    expect(root.innerHTML).toContain('./assets/characters/emi/candidates/anm028d3/frame-surprised-r1.png');
-    expect(root.innerHTML).toContain('data-alpha-bounds="330,80,737,1508"');
-    expect(root.innerHTML).toContain('data-eye-line-y="244"');
-    expect(root.innerHTML).toContain('upds-scene-staging-v1');
-    expect(root.innerHTML).toContain('portrait portrait-static-wrap scene-studio-runtime-portrait');
-    expect(root.innerHTML).toContain('data-runtime-crop="true"');
-    expect(root.innerHTML).toContain('data-shot-scale="1"');
-    expect(root.innerHTML).toContain('--portrait-height:178%');
-    expect(root.innerHTML).toContain('--portrait-top:0%');
-    expect(root.innerHTML).toContain('--portrait-bottom:-78%');
-    expect(root.innerHTML).toContain('--character-scale:1');
-    expect(root.innerHTML).toContain('data-vn-frame="shared"');
-    expect(root.innerHTML).toContain('data-frame-context="scene-studio"');
-    expect(root.innerHTML).toContain('class="dialogue-shell');
-    expect(root.innerHTML).toContain('class="vn-controls"');
-    expect(root.innerHTML).toContain('data-scene-viewport="390x844"');
-    expect(root.innerHTML).toContain('scene-studio-fit-box');
-    expect(root.innerHTML).toContain('scene-studio-focal-eye-line');
-    expect(root.innerHTML).toContain('data-guide-geometry="expression-frame"');
-    expect(root.innerHTML).toContain('scene-studio-actor-alpha-box');
-    expect(root.innerHTML).toContain('scene-studio-actor-eye-marker');
-    expect(root.innerHTML).toContain('upds-scene-studio-qa-v1');
+    expect(root.innerHTML).toContain('data-art-source="runtime"');
+    expect(root.innerHTML).toContain('data-character="miku"');
+    expect(root.innerHTML).toContain('./assets/characters/miku/rig/pose_a/frames/frame-serious.png');
+    expect(root.innerHTML).toContain('id="scene-studio-workspace"');
+    expect(root.innerHTML).toContain('id="scene-studio-preset"');
+    expect(root.innerHTML).not.toContain('id="scene-studio-art-source"');
+    expect(root.innerHTML).not.toContain('value="anm028d0-r1"');
+    expect(root.innerHTML).not.toContain('value="anm028d1-r1"');
+    expect(root.innerHTML).not.toContain('value="anm028d2-r1"');
+    expect(root.innerHTML).not.toContain('value="anm028d3-r1"');
     expect(root.innerHTML).toContain('Локальные подмены персонажей');
-    expect(root.innerHTML).toContain('Загрузить ZIP');
-    expect(root.innerHTML).toContain('Локальные подмены не загружены.');
     expect(root.innerHTML).toContain('BROWSER LOCAL');
   });
 
-  it('renders duo and trio portraits with measurable focal eye-line anchors and selected-frame guides', () => {
+  it('keeps Composition trio-reaction independent from any authored VN line', () => {
     const root = new FakeRoot();
-    const services = createRuntimeServices();
-    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
-    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
+    const studio = createStudio(root);
 
-    studio.render({ presetId: 'two-shot-conflict', background: 'clubroom', showGuides: true });
+    studio.render({ workspaceMode: 'composition', presetId: 'trio-reaction', lineId: 'VN0038', background: 'clubroom' });
+    expect(root.innerHTML).toContain('data-scene-studio-workspace="composition"');
+    expect(root.innerHTML).toContain('data-scene-preset="trio-reaction"');
+    expect(root.innerHTML.match(/data-character=/g)).toHaveLength(3);
+    expect(root.innerHTML).toContain('data-character="ayuki"');
+    expect(root.innerHTML).toContain('data-character="miku"');
+    expect(root.innerHTML).toContain('data-character="onoe"');
+    expect(root.innerHTML).not.toContain('data-character="emi"');
+    expect(root.innerHTML).not.toContain('id="scene-studio-line"');
+    expect(root.innerHTML).toContain('composition-preview');
+  });
+
+  it('renders Story QA from the authored shot and makes production plan/background read-only', () => {
+    const root = new FakeRoot();
+    const studio = createStudio(root);
+
+    studio.render({ workspaceMode: 'story', lineId: 'VN0008', presetId: 'solo-close', background: 'poolLocker', viewMode: 'lineup' });
+    expect(root.innerHTML).toContain('data-scene-studio-workspace="story"');
+    expect(root.innerHTML).toContain('data-scene-preset="trio-central-speaker"');
+    expect(root.innerHTML).toContain('data-story-derived="preset"');
+    expect(root.innerHTML).toContain('data-story-derived="background"');
+    expect(root.innerHTML).toContain('id="scene-studio-line"');
+    expect(root.innerHTML).toContain('value="VN0957"');
+    expect(root.innerHTML).not.toContain('id="scene-studio-preset"');
+    expect(root.innerHTML).not.toContain('id="scene-studio-background"');
+    expect(root.innerHTML).not.toContain('id="scene-studio-mode"');
+    expect(root.innerHTML.match(/data-character=/g)).toHaveLength(3);
+    expect(root.innerHTML).toContain('data-character="miku"');
+    expect(root.innerHTML).toContain('data-character="onoe"');
+    expect(root.innerHTML).toContain('data-character="ayuki"');
+  });
+
+  it('shows VN0038 honestly as its real two-shot-alliance Ayuki + Emi authored shot', () => {
+    const root = new FakeRoot();
+    const studio = createStudio(root);
+
+    studio.render({ workspaceMode: 'story', lineId: 'VN0038' });
+    expect(root.innerHTML).toContain('data-scene-preset="two-shot-alliance"');
+    expect(root.innerHTML.match(/data-character=/g)).toHaveLength(2);
+    expect(root.innerHTML).toContain('data-character="ayuki"');
+    expect(root.innerHTML).toContain('data-character="emi"');
+    expect(root.innerHTML).toContain('./assets/characters/ayuki/poses/pose_b_phone_theory.png');
+  });
+
+  it('keeps duo/trio focal-eye guides on runtime expression geometry', () => {
+    const root = new FakeRoot();
+    const studio = createStudio(root);
+
+    studio.render({ workspaceMode: 'composition', presetId: 'two-shot-conflict', background: 'clubroom', showGuides: true });
     expect(root.innerHTML.match(/data-vertical-anchor="background-focal-eye-line"/g)).toHaveLength(2);
     expect(root.innerHTML.match(/data-guide-geometry="expression-frame"/g)).toHaveLength(2);
     expect(root.innerHTML.match(/scene-studio-actor-alpha-box/g)).toHaveLength(2);
     expect(root.innerHTML.match(/scene-studio-actor-eye-marker/g)).toHaveLength(2);
-    expect(root.innerHTML).toContain('data-alpha-bounds="330,80,737,1508"');
-    expect(root.innerHTML).toContain('data-guide-geometry="expression-frame"');
-    expect(root.innerHTML).toContain('SELECTED FRAME ALPHA · anm028d3-r1');
     expect(root.innerHTML).toContain('data-guide="face-lane"');
 
-    studio.render({ presetId: 'trio-central-speaker', background: 'clubroom', showGuides: true });
+    studio.render({ workspaceMode: 'composition', presetId: 'trio-central-speaker', background: 'clubroom', showGuides: true });
     expect(root.innerHTML.match(/data-vertical-anchor="background-focal-eye-line"/g)).toHaveLength(3);
     expect(root.innerHTML.match(/data-eye-line-ratio=/g)).toHaveLength(3);
     expect(root.innerHTML.match(/scene-studio-actor-alpha-box/g)).toHaveLength(3);
@@ -102,128 +137,43 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML).toContain('scene-studio-calibration-overlay is-visible');
   });
 
-  it('previews bounded authored VN shots through the same preset resolver', () => {
+  it('keeps evidence, guest testimony, and runtime Emi presentation available in Composition', () => {
     const root = new FakeRoot();
-    const services = createRuntimeServices();
-    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
-    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
+    const studio = createStudio(root);
 
-    studio.render({ lineId: 'VN0008', presetId: 'solo-close', background: 'poolLocker', artSource: 'anm028d3-r1' });
-    expect(root.innerHTML).toContain('data-scene-preset="trio-central-speaker"');
-    expect(root.innerHTML).toContain('data-art-source="runtime"');
-    expect(root.innerHTML.match(/data-character=/g)).toHaveLength(3);
-    expect(root.innerHTML).toContain('data-character="miku"');
-    expect(root.innerHTML).toContain('data-character="onoe"');
-    expect(root.innerHTML).toContain('data-character="ayuki"');
-    expect(root.innerHTML.match(/data-vertical-anchor="background-focal-eye-line"/g)).toHaveLength(3);
-  });
-
-  it('previews two real actors, native evidence, and the B3 asset-free Hinata guest package', () => {
-    const root = new FakeRoot();
-    const services = createRuntimeServices();
-    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
-    const navigation = {} as AppNavigation;
-    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, navigation);
-
-    studio.render({ presetId: 'two-shot-conflict', background: 'lockerAthletics' });
+    studio.render({ workspaceMode: 'composition', presetId: 'two-shot-conflict', background: 'lockerAthletics' });
     expect(root.innerHTML.match(/data-character=/g)).toHaveLength(2);
     expect(root.innerHTML).toContain('data-character="miku"');
     expect(root.innerHTML).toContain('data-character="emi"');
-    expect(root.innerHTML).toContain('data-art-source="anm028d3-r1"');
-    expect(root.innerHTML.match(/data-runtime-crop="true"/g)).toHaveLength(2);
-    expect(root.innerHTML).toContain('data-shot-scale="0.84"');
-    expect(root.innerHTML).not.toContain('scene-studio-character-shot');
+    expect(root.innerHTML).toContain('data-art-source="runtime"');
+    expect(root.innerHTML).toContain('./assets/characters/emi/candidates/anm028d2/frame-serious-r1.png');
+    expect(root.innerHTML).toContain('data-visual-approval="approved"');
 
-    studio.render({ presetId: 'evidence-cutaway', background: 'clubroom' });
+    studio.render({ workspaceMode: 'composition', presetId: 'evidence-cutaway', background: 'clubroom' });
     expect(root.innerHTML).toContain('scene-studio-evidence-card');
     expect(root.innerHTML).toContain('Проводящая нить');
 
-    studio.render({ presetId: 'guest-testimony-card', background: 'clubroom' });
+    studio.render({ workspaceMode: 'composition', presetId: 'guest-testimony-card', background: 'clubroom' });
     expect(root.innerHTML).toContain('data-guest-witness="hinata"');
     expect(root.innerHTML).toContain('guest-witness-placeholder');
     expect(root.innerHTML).toContain('Тихару Хината');
     expect(root.innerHTML).toContain('PLANNED · ASSET-FREE');
     expect(root.innerHTML).not.toContain('/characters/guest/');
-    expect(root.innerHTML).not.toContain('<img class="guest-witness-image"');
   });
 
-  it('renders the surprised candidate lineup and measured warnings without changing production scale', () => {
+  it('keeps lineup as a runtime-only Composition diagnostic instead of an Emi candidate selector', () => {
     const root = new FakeRoot();
-    const services = createRuntimeServices();
-    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
-    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
+    const studio = createStudio(root);
 
-    studio.render({ viewMode: 'lineup', viewportId: '320x568', textScale: 'large' });
-    expect(root.innerHTML).toContain('data-lineup-source="upds-character-production-v2+upds-character-candidate-v1"');
+    studio.render({ workspaceMode: 'composition', viewMode: 'lineup', viewportId: '320x568', textScale: 'large' });
+    expect(root.innerHTML).toContain('data-lineup-source="upds-character-production-v2"');
     expect(root.innerHTML.match(/class="scene-studio-lineup-character"/g)).toHaveLength(4);
-    expect(root.innerHTML).toContain('data-bottom-padding="118"');
-    expect(root.innerHTML).toContain('data-bottom-padding="28"');
-    expect(root.innerHTML).toContain('data-visual-height="1428"');
-    expect(root.innerHTML).toContain('data-eye-line-y="244"');
-    expect(root.innerHTML).toContain('data-candidate="true"');
-    expect(root.innerHTML).toContain('bottom-pivot:miku');
-    expect(root.innerHTML).toContain('master-rebuild:emi');
-    expect(root.innerHTML).toContain('data-visual-approval="manual-qa"');
+    expect(root.innerHTML).not.toContain('data-candidate="true"');
     expect(root.innerHTML).toContain('data-scene-viewport="320x568"');
     expect(root.innerHTML).toContain('text-large');
   });
 
-  it('keeps the approved smile expression available beside the neutral anchor', () => {
-    const root = new FakeRoot();
-    const services = createRuntimeServices();
-    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
-    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
-
-    studio.render({ presetId: 'solo-close', artSource: 'anm028d1-r1' });
-    expect(root.innerHTML).toContain('data-art-source="anm028d1-r1"');
-    expect(root.innerHTML).toContain('./assets/characters/emi/candidates/anm028d1/frame-smile-r1.png');
-    expect(root.innerHTML).toContain('data-visual-approval="approved-expression"');
-    expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d2/frame-serious-r1.png');
-    expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d3/frame-surprised-r1.png');
-  });
-
-  it('keeps the approved serious expression available beside the earlier references', () => {
-    const root = new FakeRoot();
-    const services = createRuntimeServices();
-    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
-    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
-
-    studio.render({ presetId: 'solo-close', artSource: 'anm028d2-r1' });
-    expect(root.innerHTML).toContain('data-art-source="anm028d2-r1"');
-    expect(root.innerHTML).toContain('./assets/characters/emi/candidates/anm028d2/frame-serious-r1.png');
-    expect(root.innerHTML).toContain('data-visual-approval="approved-expression"');
-    expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d3/frame-surprised-r1.png');
-  });
-
-  it('keeps the approved neutral master available as the expression anchor', () => {
-    const root = new FakeRoot();
-    const services = createRuntimeServices();
-    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
-    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
-
-    studio.render({ presetId: 'solo-close', artSource: 'anm028d0-r1' });
-    expect(root.innerHTML).toContain('data-art-source="anm028d0-r1"');
-    expect(root.innerHTML).toContain('./assets/characters/emi/candidates/anm028d0/neutral-r1.png');
-    expect(root.innerHTML).toContain('data-visual-approval="approved-master"');
-    expect(root.innerHTML).not.toContain('./assets/characters/emi/candidates/anm028d1/frame-smile-r1.png');
-  });
-
-  it('uses the explicitly adopted runtime Emi frame and its measured geometry while retaining legacy fallback assets', () => {
-    const root = new FakeRoot();
-    const services = createRuntimeServices();
-    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
-    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
-
-    studio.render({ presetId: 'two-shot-conflict', artSource: 'runtime' });
-    expect(root.innerHTML).toContain('data-art-source="runtime"');
-    expect(root.innerHTML).toContain('./assets/characters/emi/candidates/anm028d2/frame-serious-r1.png');
-    expect(root.innerHTML).toContain('data-alpha-bounds="330,80,737,1508"');
-    expect(root.innerHTML).toContain('data-eye-line-y="244"');
-    expect(root.innerHTML).toContain('data-visual-approval="approved"');
-    expect(root.innerHTML).not.toContain('./assets/characters/emi/rig/pose_a/frames/frame-serious.png');
-  });
-
-  it('renders browser-local scale/X/Y on the actual preview portrait and exposes global/per-plan calibration with a v2 JSON snapshot', () => {
+  it('keeps browser-local calibration editable in Composition and read-only in Story QA', () => {
     applyBrowserLocalCharacterOverrides({
       miku: {
         frames: {
@@ -245,24 +195,21 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     applyBrowserLocalCharacterCalibration('miku', { scale: 1.2, xPercent: -5, yPercent: 6 }, 'solo-close');
 
     const root = new FakeRoot();
-    const services = createRuntimeServices();
-    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
-    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
+    const studio = createStudio(root);
     (studio as unknown as { browserCalibrationScope: 'global' | 'plan' }).browserCalibrationScope = 'plan';
 
-    studio.render({ presetId: 'solo-close', artSource: 'runtime' });
+    studio.render({ workspaceMode: 'composition', presetId: 'solo-close' });
     expect(root.innerHTML).toContain('Ручная калибровка');
     expect(root.innerHTML).toContain('Текущий план · solo-close');
     expect(root.innerHTML).toContain('data-calibration-scope="plan"');
     expect(root.innerHTML).toContain('data-plan-override="true"');
-    expect(root.innerHTML).toContain('data-browser-override-field="xPercent"');
     expect(root.innerHTML).toContain('--scene-x:45%');
-    expect(root.innerHTML).toContain('scene-studio-runtime-portrait');
     expect(root.innerHTML).toContain('style="--character-scale:1.2;--character-y:6%"');
-    expect(root.innerHTML).toContain('JSON-слепок');
-    expect(root.innerHTML).toContain('scene-studio-browser-override-json');
     expect(root.innerHTML).toContain('upds-browser-local-character-export-v2');
-    expect(root.innerHTML).toContain('&quot;solo-close&quot;');
-  });
 
+    studio.render({ workspaceMode: 'story', lineId: 'VN0008' });
+    expect(root.innerHTML).toContain('Локальные browser-overrides активны.');
+    expect(root.innerHTML).not.toContain('Ручная калибровка');
+    expect(root.innerHTML).not.toContain('scene-studio-browser-override-json');
+  });
 });

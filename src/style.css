@@ -2019,3 +2019,10 @@ img { display: block; }
   .campaign-level-card > p { font-size: 9px; }
   .campaign-level-card button { min-height: 42px; }
 }
+
+/* ANM-028E0C1 — make Composition vs Story QA an explicit Scene Studio workspace boundary. */
+.scene-studio-workspace-switch { margin: 14px 0 10px; padding: 10px; border: 1px solid #d8ced7; border-radius: 12px; background: #f8f3f6; display: grid; gap: 7px; }
+.scene-studio-workspace-switch label { display: grid; gap: 5px; color: var(--ink-soft); font-size: 9px; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; }
+.scene-studio-workspace-switch select { width: 100%; min-height: 44px; padding: 8px 9px; border: 1px solid #cfc4cd; border-radius: 8px; background: #fffdf8; color: var(--indigo); font: 850 12px/1.2 inherit; }
+.scene-studio-workspace-switch p { margin: 0; color: var(--ink-soft); font-size: 9px; line-height: 1.45; }
+.scene-studio-controls [data-story-derived] select:disabled { opacity: 1; cursor: default; background: #f2edf0; color: var(--ink-soft); border-style: dashed; }
