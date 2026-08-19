@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { readFile } from 'node:fs/promises';
-import { characterRigs, characterStaging } from '../src/data/characterRigs';
+import { characterRigs, characterStaging, resolvedCharacterStaging } from '../src/data/characterRigs';
 
 describe('ANM-021B R5 VN character staging contract', () => {
   it('uses one canonical camera distance for the approved production trio', () => {
@@ -29,9 +29,12 @@ describe('ANM-021B R5 VN character staging contract', () => {
     expect(css).not.toContain('.portrait-base, .portrait-static {');
   });
 
-  it('routes explicit staging variables through both Pose A and Pose B markup', async () => {
+  it('routes explicit staging variables through the browser-aware resolver for both Pose A and Pose B markup', async () => {
     const source = await readFile(new URL('../src/features/vn/VnPresentation.ts', import.meta.url), 'utf8');
-    expect(source).toContain('characterStaging[character]');
+    const rigSource = await readFile(new URL('../src/data/characterRigs.ts', import.meta.url), 'utf8');
+    expect(source).toContain('resolvedCharacterStaging(character)');
+    expect(rigSource).toContain('browserLocalCharacterStaging(character, characterStaging[character])');
+    expect(resolvedCharacterStaging('miku')).toEqual(characterStaging.miku);
     expect(source).toContain('--character-scale:');
     expect(source).toContain('--character-y:');
     expect(source).toContain('portrait-frame');

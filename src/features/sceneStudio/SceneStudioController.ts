@@ -30,10 +30,14 @@ import {
 } from '../../data/characterCandidates';
 import { characterRigs, expressionAsset, poseAsset } from '../../data/characterRigs';
 import {
+  applyBrowserLocalCharacterCalibration,
   applyBrowserLocalCharacterOverrides,
+  browserLocalCharacterCalibration,
+  browserLocalCharacterExportSnapshot,
   browserLocalCharacterOverrideSummaries,
   clearBrowserLocalCharacterOverrides,
   hasBrowserLocalCharacterOverrides,
+  resetBrowserLocalCharacterCalibration,
 } from '../../data/characterRuntimeOverrides';
 import { characterProductionManifest } from '../../data/characterProduction';
 import { backgroundAssets, sceneMeta, type BackgroundKey } from '../../data/narrative';
@@ -343,6 +347,9 @@ export class SceneStudioController {
         : this.browserOverrideStatus.kind === 'loading'
           ? 'scene-studio-browser-overrides-loading'
           : 'scene-studio-browser-overrides-idle';
+    const browserOverrideSnapshotJson = hasBrowserLocalCharacterOverrides()
+      ? JSON.stringify(browserLocalCharacterExportSnapshot(this.browserOverrideStatus.detail?.packageLabel ?? null), null, 2)
+      : '';
 
     this.services.audio.setScene('menu');
     this.services.telemetry.trackScreen('scene-studio', `${state.presetId}:${state.viewportId}:${state.viewMode}`);
@@ -401,6 +408,8 @@ export class SceneStudioController {
           ${browserOverrides.length ? `<ul>${browserOverrides.map((summary) => `<li><code>${summary.character}</code><span>${escapeHtml(localOverrideCopy.summary(summary.frameCount, summary.poseB, summary.medallion, summary.assetCount))}</span></li>`).join('')}</ul>` : ''}
           ${this.browserOverrideStatus.detail?.warnings.length ? `<ul>${this.browserOverrideStatus.detail.warnings.map((warning) => `<li>${escapeHtml(warning)}</li>`).join('')}</ul>` : ''}
         </div>
+        ${hasBrowserLocalCharacterOverrides() ? this.browserOverrideCalibrationMarkup(localOverrideCopy) : ''}
+        ${hasBrowserLocalCharacterOverrides() ? this.browserOverrideExportMarkup(localOverrideCopy, browserOverrideSnapshotJson) : ''}
       </section>
 
       <div class="scene-studio-device-scroll">
@@ -487,6 +496,89 @@ export class SceneStudioController {
       if (file) void this.loadBrowserOverrideZip(file);
       browserOverrideInput.value = '';
     });
+    for (const slider of this.root.querySelectorAll<HTMLInputElement>('[data-browser-override-character][data-browser-override-field]')) {
+      const updateOutput = (): void => {
+        const output = slider.parentElement?.querySelector('output');
+        if (!output) return;
+        const field = slider.dataset.browserOverrideField;
+        output.textContent = field === 'scale' ? `${slider.value}%` : field === 'yPercent' ? `${slider.value}%` : `${slider.value}px`;
+      };
+      slider.addEventListener('input', updateOutput);
+      slider.addEventListener('change', () => {
+        const character = slider.dataset.browserOverrideCharacter as keyof typeof characterProductionManifest.characters | undefined;
+        const field = slider.dataset.browserOverrideField as 'eyeLineOffsetPx' | 'bottomOffsetPx' | 'scale' | 'yPercent' | undefined;
+        if (!character || !field) return;
+        const numericValue = Number(slider.value);
+        applyBrowserLocalCharacterCalibration(character as never, field === 'scale' ? { scale: numericValue / 100 } : { [field]: numericValue });
+        this.render(state);
+      });
+    }
+    for (const button of this.root.querySelectorAll<HTMLElement>('[data-browser-override-reset-character]')) {
+      button.addEventListener('click', () => {
+        const character = button.dataset.browserOverrideResetCharacter as keyof typeof characterProductionManifest.characters | undefined;
+        if (!character) return;
+        resetBrowserLocalCharacterCalibration(character as never);
+        this.render(state);
+      });
+    }
+    this.root.querySelector('#scene-studio-browser-override-copy-json')?.addEventListener('click', () => {
+      if (typeof navigator !== 'undefined' && navigator.clipboard && browserOverrideSnapshotJson) void navigator.clipboard.writeText(browserOverrideSnapshotJson);
+    });
+    this.root.querySelector('#scene-studio-browser-override-download-json')?.addEventListener('click', () => {
+      if (!browserOverrideSnapshotJson || typeof document === 'undefined' || typeof URL === 'undefined') return;
+      const blob = new Blob([browserOverrideSnapshotJson], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'browser-local-character-overrides.json';
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  private browserOverrideCalibrationMarkup(copy: ReturnType<typeof browserOverrideCopy>): string {
+    const summaries = browserLocalCharacterOverrideSummaries();
+    return `<section class="scene-studio-browser-calibration">
+      <div class="scene-studio-section-title"><div><small>${escapeHtml(copy.eyebrow)}</small><b>${escapeHtml(copy.controlsTitle)}</b></div><code>TUNING</code></div>
+      <p>${escapeHtml(copy.controlsCopy)}</p>
+      <div class="scene-studio-browser-calibration-grid">${summaries.map((summary) => {
+        const calibration = browserLocalCharacterCalibration(summary.character);
+        const displayName = characterProductionManifest.characters[summary.character].shortName;
+        return `<article class="scene-studio-browser-calibration-card" data-calibration-character="${summary.character}">
+          <header><b>${escapeHtml(displayName)}</b><code>${summary.character}</code></header>
+          ${this.browserOverrideRangeControlMarkup(summary.character, 'eyeLineOffsetPx', copy.eyeLine, calibration.eyeLineOffsetPx, -180, 180, 1, `${calibration.eyeLineOffsetPx}px`)}
+          ${this.browserOverrideRangeControlMarkup(summary.character, 'bottomOffsetPx', copy.bottomPivot, calibration.bottomOffsetPx, -180, 180, 1, `${calibration.bottomOffsetPx}px`)}
+          ${this.browserOverrideRangeControlMarkup(summary.character, 'scale', copy.scale, Math.round(calibration.scale * 100), 70, 130, 1, `${Math.round(calibration.scale * 100)}%`)}
+          ${this.browserOverrideRangeControlMarkup(summary.character, 'yPercent', copy.frameY, calibration.yPercent, -18, 18, 0.5, `${calibration.yPercent}%`)}
+          <button data-browser-override-reset-character="${summary.character}">${escapeHtml(copy.resetCharacter)}</button>
+        </article>`;
+      }).join('')}</div>
+    </section>`;
+  }
+
+  private browserOverrideRangeControlMarkup(
+    character: string,
+    field: 'eyeLineOffsetPx' | 'bottomOffsetPx' | 'scale' | 'yPercent',
+    label: string,
+    value: number,
+    minimum: number,
+    maximum: number,
+    step: number,
+    output: string,
+  ): string {
+    return `<label class="scene-studio-browser-calibration-control"><span>${escapeHtml(label)}</span><input type="range" min="${minimum}" max="${maximum}" step="${step}" value="${value}" data-browser-override-character="${character}" data-browser-override-field="${field}"><output>${escapeHtml(output)}</output></label>`;
+  }
+
+  private browserOverrideExportMarkup(copy: ReturnType<typeof browserOverrideCopy>, snapshotJson: string): string {
+    return `<section class="scene-studio-browser-export">
+      <div class="scene-studio-section-title"><div><small>${escapeHtml(copy.eyebrow)}</small><b>${escapeHtml(copy.exportTitle)}</b></div><code>JSON</code></div>
+      <p>${escapeHtml(copy.exportCopy)}</p>
+      <div class="scene-studio-browser-override-actions">
+        <button id="scene-studio-browser-override-copy-json">${escapeHtml(copy.copyJson)}</button>
+        <button id="scene-studio-browser-override-download-json">${escapeHtml(copy.downloadJson)}</button>
+      </div>
+      <textarea id="scene-studio-browser-override-json" readonly spellcheck="false">${escapeHtml(snapshotJson)}</textarea>
+    </section>`;
   }
 
   private async loadBrowserOverrideZip(file: File): Promise<void> {

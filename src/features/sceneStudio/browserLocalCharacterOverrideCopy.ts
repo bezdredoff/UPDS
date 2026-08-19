@@ -8,6 +8,17 @@ export type BrowserOverrideCopy = Readonly<{
   idleStatus: string;
   activeStatus: string;
   resetStatus: string;
+  controlsTitle: string;
+  controlsCopy: string;
+  exportTitle: string;
+  exportCopy: string;
+  copyJson: string;
+  downloadJson: string;
+  eyeLine: string;
+  bottomPivot: string;
+  scale: string;
+  frameY: string;
+  resetCharacter: string;
   loading: (file: string) => string;
   loaded: (file: string, count: number) => string;
   failed: (error: string) => string;
@@ -25,6 +36,17 @@ export const browserOverrideCopy = (locale: string): BrowserOverrideCopy => loca
       idleStatus: 'Лакальныя падмены не загружаныя.',
       activeStatus: 'Лакальныя browser-overrides актыўныя.',
       resetStatus: 'Лакальныя падмены ачышчаны.',
+      controlsTitle: 'Ручная каліброўка',
+      controlsCopy: 'Наладжвайце eye-line, bottom pivot, маштаб па вышыні і вертыкальнае пазіцыянаванне без паўторнага імпарту ZIP.',
+      exportTitle: 'JSON-здымак',
+      exportCopy: 'Экспарт паказвае канчатковую geometry і staging, каб пазней перанесці абраны варыянт у production override без паўторнай ручной калиброўкі.',
+      copyJson: 'Скапіяваць JSON',
+      downloadJson: 'Спампаваць JSON',
+      eyeLine: 'Eye-line',
+      bottomPivot: 'Bottom pivot',
+      scale: 'Маштаб',
+      frameY: 'Пазіцыя Y',
+      resetCharacter: 'Скінуць персанажа',
       loading: (file) => `Загрузка ${file}…`,
       loaded: (file, count) => `Загружана ${count} лакальных override-асэтаў з ${file}.`,
       failed: (error) => `Не ўдалося загрузіць лакальныя падмены: ${error}`,
@@ -41,6 +63,17 @@ export const browserOverrideCopy = (locale: string): BrowserOverrideCopy => loca
         idleStatus: 'No local overrides loaded.',
         activeStatus: 'Local browser overrides are active.',
         resetStatus: 'Local overrides cleared.',
+        controlsTitle: 'Manual calibration',
+        controlsCopy: 'Tune eye-line, bottom pivot, height scale and vertical framing without re-importing the ZIP.',
+        exportTitle: 'JSON snapshot',
+        exportCopy: 'The export captures the final geometry and staging so the winning local override can be transferred into production without recalibrating it again.',
+        copyJson: 'Copy JSON',
+        downloadJson: 'Download JSON',
+        eyeLine: 'Eye line',
+        bottomPivot: 'Bottom pivot',
+        scale: 'Scale',
+        frameY: 'Frame Y',
+        resetCharacter: 'Reset character',
         loading: (file) => `Loading ${file}…`,
         loaded: (file, count) => `Loaded ${count} local override assets from ${file}.`,
         failed: (error) => `Local override load failed: ${error}`,
@@ -56,6 +89,17 @@ export const browserOverrideCopy = (locale: string): BrowserOverrideCopy => loca
         idleStatus: 'Локальные подмены не загружены.',
         activeStatus: 'Локальные browser-overrides активны.',
         resetStatus: 'Локальные подмены очищены.',
+        controlsTitle: 'Ручная калибровка',
+        controlsCopy: 'Настраивайте eye-line, bottom pivot, масштаб по высоте и вертикальное положение без повторного импорта ZIP.',
+        exportTitle: 'JSON-слепок',
+        exportCopy: 'Экспорт сохраняет итоговую geometry и staging, чтобы потом перенести выбранный локальный override в production без повторной ручной калибровки.',
+        copyJson: 'Скопировать JSON',
+        downloadJson: 'Скачать JSON',
+        eyeLine: 'Eye-line',
+        bottomPivot: 'Bottom pivot',
+        scale: 'Масштаб',
+        frameY: 'Позиция Y',
+        resetCharacter: 'Сбросить персонажа',
         loading: (file) => `Загрузка ${file}…`,
         loaded: (file, count) => `Загружено ${count} локальных override-ассетов из ${file}.`,
         failed: (error) => `Не удалось загрузить локальные подмены: ${error}`,

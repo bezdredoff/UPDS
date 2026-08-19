@@ -7,7 +7,7 @@ import {
   type ProductionCharacterKey,
   type RuntimeExpression,
 } from './characterProduction';
-import { browserLocalMedallionOverride, browserLocalPoseOverride, runtimeFrameOverride } from './characterRuntimeOverrides';
+import { browserLocalCharacterStaging, browserLocalMedallionOverride, browserLocalPoseOverride, runtimeFrameOverride } from './characterRuntimeOverrides';
 
 export type CharacterKey = ProductionCharacterKey;
 export type PlaceholderKey = PlannedCharacterKey;
@@ -96,4 +96,8 @@ export function poseAsset(character: CharacterKey): string {
 
 export function medallionAsset(character: CharacterKey): string {
   return browserLocalMedallionOverride(character)?.asset ?? characterRigs[character].medallion;
+}
+
+export function resolvedCharacterStaging(character: CharacterKey): CharacterStaging {
+  return browserLocalCharacterStaging(character, characterStaging[character]);
 }
