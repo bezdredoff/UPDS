@@ -48,14 +48,14 @@ approval.
 R2 добавляет explicit proportion gate. Одинаковый 1024×1536 canvas сохраняет общую virtual camera, но персонажи не должны становиться одинакового роста.
 
 Runtime-integrated neutral alpha-height baseline:
-- Miku — 1375 px;
-- Onoe — 1484 px (reference);
-- Ayuki — 1462 px;
+- Miku — 1378 px;
+- Onoe — 1488 px (reference);
+- Ayuki — 1466 px;
 - Emi — 1444 px.
 
 Manifest хранит alpha-bounds и visual height каждого production master. CI декодирует реальные RGBA PNG, сверяет neutral bounds и проверяет, что expression frames не меняют высоту больше чем на 1 px.
 
-R4 также добавил `neutralEyeLineYPx` (`Miku 196`, `Onoe 158`, `Ayuki 242`, `Emi 397`) и отдельный
+R4 также добавил `neutralEyeLineYPx` (`Miku 208`, `Onoe 198`, `Ayuki 247`, `Emi 397`) и отдельный
 visual-approval status. R4.1 расширяет измерение до `frameGeometry[expression]`: Scene Studio берёт
 alpha bounds и eye line выбранного Pose A PNG, а не выдаёт neutral/slot estimate за геометрию
 другого expression. Eye landmark нужен для focal-eye-line camera и не компенсирует неверный master.

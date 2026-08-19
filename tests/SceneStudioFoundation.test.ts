@@ -150,7 +150,7 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     studio.render({ viewMode: 'lineup', viewportId: '320x568', textScale: 'large' });
     expect(root.innerHTML).toContain('data-lineup-source="upds-character-production-v2+upds-character-candidate-v1"');
     expect(root.innerHTML.match(/class="scene-studio-lineup-character"/g)).toHaveLength(4);
-    expect(root.innerHTML).toContain('data-bottom-padding="118"');
+    expect(root.innerHTML).toContain('data-bottom-padding="117"');
     expect(root.innerHTML).toContain('data-bottom-padding="28"');
     expect(root.innerHTML).toContain('data-visual-height="1428"');
     expect(root.innerHTML).toContain('data-eye-line-y="244"');

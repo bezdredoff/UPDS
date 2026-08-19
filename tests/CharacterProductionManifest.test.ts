@@ -192,12 +192,12 @@ describe('ANM-028A character production manifest', () => {
 
     const reference = characterProductionManifest.characters.onoe.proportion.visualHeightPx;
     const expectedHeight = {
-      miku: 1375,
-      onoe: 1484,
-      ayuki: 1462,
+      miku: 1378,
+      onoe: 1488,
+      ayuki: 1466,
       emi: 1444,
     } as const;
-    const expectedEyeLine = { miku: 196, onoe: 158, ayuki: 242, emi: 397 } as const;
+    const expectedEyeLine = { miku: 208, onoe: 198, ayuki: 247, emi: 397 } as const;
 
     for (const key of productionCharacterKeys) {
       const definition = characterProductionManifest.characters[key];
@@ -220,9 +220,9 @@ describe('ANM-028A character production manifest', () => {
       }
     }
 
-    expect(characterProductionManifest.characters.miku.proportion.visualHeightPx / reference).toBeCloseTo(0.9265, 3);
+    expect(characterProductionManifest.characters.miku.proportion.visualHeightPx / reference).toBeCloseTo(0.9261, 3);
     expect(characterProductionManifest.characters.ayuki.proportion.visualHeightPx / reference).toBeCloseTo(0.9852, 3);
-    expect(characterProductionManifest.characters.emi.proportion.visualHeightPx / reference).toBeCloseTo(0.9730, 3);
+    expect(characterProductionManifest.characters.emi.proportion.visualHeightPx / reference).toBeCloseTo(0.9704, 3);
     expect(characterProductionManifest.characters.miku.visualApproval).toBe('approved');
     expect(characterProductionManifest.characters.onoe.visualApproval).toBe('approved');
     expect(characterProductionManifest.characters.ayuki.visualApproval).toBe('approved');
@@ -319,12 +319,12 @@ describe('ANM-028A character production manifest', () => {
     expect(mirror.runtimeContract.sceneGuideGeometry).toBe('selected-expression-alpha-bounds-and-eye-line');
     expect(mirror.proportionContract.referenceCharacter).toBe('onoe');
     expect(mirror.proportionContract.integratedVisualHeightPx).toEqual({
-      miku: 1375,
-      onoe: 1484,
-      ayuki: 1462,
+      miku: 1378,
+      onoe: 1488,
+      ayuki: 1466,
       emi: 1444,
     });
-    expect(mirror.proportionContract.neutralEyeLineYPx).toEqual({ miku: 196, onoe: 158, ayuki: 242, emi: 397 });
+    expect(mirror.proportionContract.neutralEyeLineYPx).toEqual({ miku: 208, onoe: 198, ayuki: 247, emi: 397 });
     expect(mirror.characters.emi.visualApproval).toBe('rebuild-required');
     expect(mirror.proportionContract.newCharacterApproval).toBe('lineup-required-before-production');
   });

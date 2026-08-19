@@ -160,13 +160,13 @@ Studio не пишет screenplay, saves, manifests, calibration approvals ил�
 ### Measurable warnings
 
 R4.1 не меняет canonical character scale, но показывает bottom-pivot drift в lineup. На текущих assets neutral
-Miku имеет `118 px` прозрачного отступа снизу против `26 px` у reference Onoe. Разница больше
+Miku имеет `117 px` прозрачного отступа снизу против `24 px` у reference Onoe. Разница больше
 допустимого QA threshold и видна как warning. Это кандидат на исправление master canvas, а не повод
 добавлять scene-specific runtime scale.
 
 Emi формально имеет `1024×1536` RGBA canvas и полный runtime set, но её neutral silhouette шириной
 `635 px` заканчивается на нижней границе canvas и обрезан на бёдрах; Miku/Onoe/Ayuki имеют
-полнофигурные силуэты шириной `292/381/442 px`. Ручной R3 QA также отклонил стиль и effective
+полнофигурные силуэты шириной `488/556/526 px`. Ручной R3 QA также отклонил стиль и effective
 detail. Поэтому Emi остаётся runtime fallback, но имеет `visualApproval: rebuild-required` и не
 может использоваться как Golden Sample. Следующий visual slice — один новый neutral master.
 

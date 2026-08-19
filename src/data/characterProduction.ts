@@ -174,20 +174,20 @@ export const characterProductionManifest: CharacterProductionManifest = {
     miku: production(
       'miku', 'Мику Араи', 'Мику', 'МИКУ', 'prefix',
       'pose_b_pointing_sketchbook.png', 'portrait_neutral_256.png',
-      { left: 359, top: 43, right: 651, bottom: 1418 },
-      196,
+      { left: 268, top: 41, right: 756, bottom: 1419 },
+      208,
     ),
     onoe: production(
       'onoe', 'Сацуки Оноэ', 'Оноэ', 'ОНОЭ', 'exact',
       'pose_b_evidence_bag.png', 'portrait_neutral_256.png',
-      { left: 316, top: 26, right: 697, bottom: 1510 },
-      158,
+      { left: 234, top: 24, right: 790, bottom: 1512 },
+      198,
     ),
     ayuki: production(
       'ayuki', 'Аюки Момосэ', 'Аюки', 'АЮКИ', 'exact',
       'pose_b_phone_theory.png', 'portrait_neutral_256.png',
-      { left: 304, top: 18, right: 746, bottom: 1480 },
-      242,
+      { left: 249, top: 16, right: 775, bottom: 1482 },
+      247,
     ),
     emi: production(
       'emi', 'Эми Такахаси', 'Эми', 'ЭМИ', 'exact',

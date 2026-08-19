@@ -151,7 +151,7 @@ describe('ANM-028B1 reusable scene staging contract', () => {
   it('exposes measurable lineup drift as QA warnings without altering canonical scale', () => {
     const metrics = sceneStudioLineupMetrics();
     expect(metrics.map((metric) => metric.character)).toEqual(['miku', 'onoe', 'ayuki', 'emi']);
-    expect(metrics.find((metric) => metric.character === 'miku')?.bottomPaddingPx).toBe(118);
+    expect(metrics.find((metric) => metric.character === 'miku')?.bottomPaddingPx).toBe(117);
     expect(validateSceneStudioCalibration()).toContainEqual(expect.objectContaining({
       severity: 'warning',
       code: 'bottom-pivot',

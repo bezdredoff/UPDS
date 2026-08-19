@@ -50,19 +50,19 @@
       "status": "production",
       "adultCharacter": true,
       "visualApproval": "approved",
-      "neutralEyeLineYPx": 196
+      "neutralEyeLineYPx": 208
     },
     "onoe": {
       "status": "production",
       "adultCharacter": true,
       "visualApproval": "approved",
-      "neutralEyeLineYPx": 158
+      "neutralEyeLineYPx": 198
     },
     "ayuki": {
       "status": "production",
       "adultCharacter": true,
       "visualApproval": "approved",
-      "neutralEyeLineYPx": 242
+      "neutralEyeLineYPx": 247
     },
     "emi": {
       "status": "production",
@@ -171,22 +171,22 @@
     "productionScaleDefault": 1,
     "expressionHeightTolerancePx": 1,
     "integratedVisualHeightPx": {
-      "miku": 1375,
-      "onoe": 1484,
-      "ayuki": 1462,
+      "miku": 1378,
+      "onoe": 1488,
+      "ayuki": 1466,
       "emi": 1444
     },
     "neutralEyeLineYPx": {
-      "miku": 196,
-      "onoe": 158,
-      "ayuki": 242,
+      "miku": 208,
+      "onoe": 198,
+      "ayuki": 247,
       "emi": 397
     },
     "relativeToOnoe": {
-      "miku": 0.9265,
+      "miku": 0.9261,
       "onoe": 1.0,
       "ayuki": 0.9852,
-      "emi": 0.973
+      "emi": 0.9704
     },
     "newCharacterApproval": "lineup-required-before-production"
   }

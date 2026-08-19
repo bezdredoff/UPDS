@@ -57,15 +57,15 @@ Canonical measurements для Pose A: высота непрозрачного su
 bounds этого PNG и его `eyeLineYPx`. Neutral geometry обязана совпадать с canonical neutral полями.
 
 Текущий runtime-integrated visual-height baseline:
-- Miku: 1375 px;
-- Onoe: 1484 px — reference 100%;
-- Ayuki: 1462 px;
+- Miku: 1378 px;
+- Onoe: 1488 px — reference 100%;
+- Ayuki: 1466 px;
 - Emi: 1444 px.
 
 Относительно Onoe это примерно:
-- Miku 92.7%;
+- Miku 92.6%;
 - Ayuki 98.5%;
-- Emi 97.3%.
+- Emi 97.0%.
 
 Эти значения не объявляются физическим ростом в сантиметрах и сами по себе не доказывают полный
 силуэт или visual approval. Emi показывает известный false positive: alpha-height `1444 px`
