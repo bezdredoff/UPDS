@@ -102,12 +102,13 @@ export function resolveSceneStagingPreset(
     preset,
     actors: actorSlots.map((slot, index) => {
       const input = actors[index];
-      const staging = browserLocalCharacterStaging(input.character, canonicalStaging[input.character], presetId);
-      const xPercent = browserLocalCharacterXPercent(input.character, presetId);
+      const calibrationContext = { presetId, slotId: slot.id };
+      const staging = browserLocalCharacterStaging(input.character, canonicalStaging[input.character], calibrationContext);
+      const xPercent = browserLocalCharacterXPercent(input.character, calibrationContext);
       const definition = characterProductionManifest.characters[input.character];
       const pose = input.pose ?? 'pose-a';
-      const runtimeOverride = pose === 'pose-a' ? runtimeFrameOverride(input.character, input.expression, presetId) : null;
-      const poseOverride = pose === 'pose-b' ? browserLocalPoseOverride(input.character, presetId) : null;
+      const runtimeOverride = pose === 'pose-a' ? runtimeFrameOverride(input.character, input.expression, calibrationContext) : null;
+      const poseOverride = pose === 'pose-b' ? browserLocalPoseOverride(input.character, calibrationContext) : null;
       const geometry = runtimeOverride?.geometry ?? poseOverride?.geometry ?? (pose === 'pose-a'
         ? definition.proportion.frameGeometry[input.expression]
         : definition.proportion.frameGeometry.neutral);

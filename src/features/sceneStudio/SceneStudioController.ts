@@ -2,6 +2,7 @@ import {
   sceneStagingManifest,
   sceneStagingPresetIds,
   validateSceneStagingManifest,
+  type SceneStagingActorSlot,
   type SceneStagingPresetId,
   type SceneStagingSafeBox,
 } from '../../data/sceneStaging';
@@ -26,13 +27,21 @@ import {
   browserLocalCharacterExportSnapshot,
   browserLocalCharacterOverrideSummaries,
   clearBrowserLocalCharacterOverrides,
-  copyBrowserLocalCharacterGlobalCalibrationToPlan,
+  copyBrowserLocalCharacterDefaultCalibrationToSlot,
   hasBrowserLocalCharacterOverrides,
-  hasBrowserLocalCharacterPlanCalibration,
+  hasBrowserLocalCharacterSlotCalibration,
   resetBrowserLocalCharacterCalibration,
-  resetBrowserLocalCharacterGlobalCalibration,
+  resetBrowserLocalCharacterDefaultCalibration,
+  type BrowserLocalCharacterCalibrationContext,
+  type BrowserLocalCompositionAssignments,
 } from '../../data/characterRuntimeOverrides';
-import { characterProductionManifest } from '../../data/characterProduction';
+import {
+  characterProductionManifest,
+  productionCharacterKeys,
+  runtimeExpressionOrder,
+  type ProductionCharacterKey,
+  type RuntimeExpression,
+} from '../../data/characterProduction';
 import { authoredVnShotManifest } from '../../data/authoredVnShots';
 import { backgroundAssets, sceneMeta, type BackgroundKey } from '../../data/narrative';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
@@ -93,6 +102,18 @@ export const sceneStudioSamples: Readonly<Record<SceneStagingPresetId, readonly 
   'guest-testimony-card': [],
 };
 
+type SceneStudioCompositionAssignments = Partial<Record<SceneStagingPresetId, SceneStagingActorInput[]>>;
+
+const createCompositionAssignments = (): SceneStudioCompositionAssignments => Object.fromEntries(
+  sceneStagingPresetIds.map((presetId) => [
+    presetId,
+    sceneStudioSamples[presetId].map((actor) => ({ ...actor, pose: actor.pose ?? 'pose-a' })),
+  ]),
+) as SceneStudioCompositionAssignments;
+
+const actorSlotsForPreset = (presetId: SceneStagingPresetId): readonly SceneStagingActorSlot[] =>
+  sceneStagingManifest.presets[presetId].slots.filter((slot): slot is SceneStagingActorSlot => slot.kind === 'actor');
+
 const DEFAULT_STATE: SceneStudioState = {
   workspaceMode: 'composition',
   presetId: 'solo-close',
@@ -122,7 +143,8 @@ type SceneStudioBrowserOverrideStatus = Readonly<{
 export class SceneStudioController {
   private state: SceneStudioState = DEFAULT_STATE;
   private browserOverrideStatus: SceneStudioBrowserOverrideStatus = { kind: 'idle', message: '' };
-  private browserCalibrationScope: 'global' | 'plan' = 'global';
+  private compositionAssignments: SceneStudioCompositionAssignments = createCompositionAssignments();
+  private selectedCompositionSlotId: string | null = null;
 
   constructor(
     private readonly root: HTMLElement,
@@ -144,7 +166,14 @@ export class SceneStudioController {
     }
     this.state = state;
 
-    const resolution = authoredShot?.staging ?? resolveSceneStagingPreset(state.presetId, sceneStudioSamples[state.presetId]);
+    const compositionActors = this.compositionAssignments[state.presetId] ?? sceneStudioSamples[state.presetId].map((actor) => ({ ...actor }));
+    const compositionActorSlots = actorSlotsForPreset(state.presetId);
+    if (state.workspaceMode === 'composition') {
+      if (!compositionActorSlots.some((slot) => slot.id === this.selectedCompositionSlotId)) {
+        this.selectedCompositionSlotId = compositionActorSlots[0]?.id ?? null;
+      }
+    }
+    const resolution = authoredShot?.staging ?? resolveSceneStagingPreset(state.presetId, compositionActors);
     const viewportProfile = sceneStudioCalibrationManifest.viewports[state.viewportId];
     const backgroundProfile = sceneStudioCalibrationManifest.backgrounds[state.background];
     const presetIndex = sceneStagingPresetIds.indexOf(state.presetId);
@@ -178,7 +207,7 @@ export class SceneStudioController {
     const diagnostics = this.diagnostics(state.background, resolution);
     const stageMarkup = state.viewMode === 'lineup'
       ? this.lineupMarkup(t)
-      : this.sceneMarkup(resolution, state.showGuides, t);
+      : this.sceneMarkup(resolution, state.showGuides, t, state.workspaceMode === 'composition');
     const frame = vnFrameMarkup({
       idPrefix: 'scene-studio-runtime-',
       frameContext: 'scene-studio',
@@ -233,7 +262,10 @@ export class SceneStudioController {
           ? 'scene-studio-browser-overrides-loading'
           : 'scene-studio-browser-overrides-idle';
     const browserOverrideSnapshotJson = hasBrowserLocalCharacterOverrides()
-      ? JSON.stringify(browserLocalCharacterExportSnapshot(this.browserOverrideStatus.detail?.packageLabel ?? null), null, 2)
+      ? JSON.stringify(browserLocalCharacterExportSnapshot(
+          this.browserOverrideStatus.detail?.packageLabel ?? null,
+          this.compositionAssignmentSnapshot(),
+        ), null, 2)
       : '';
     const compositionMode = state.workspaceMode === 'composition';
 
@@ -304,9 +336,12 @@ export class SceneStudioController {
           ${browserOverrides.length ? `<ul>${browserOverrides.map((summary) => `<li><code>${summary.character}</code><span>${escapeHtml(localOverrideCopy.summary(summary.frameCount, summary.poseB, summary.medallion, summary.assetCount))}</span></li>`).join('')}</ul>` : ''}
           ${this.browserOverrideStatus.detail?.warnings.length ? `<ul>${this.browserOverrideStatus.detail.warnings.map((warning) => `<li>${escapeHtml(warning)}</li>`).join('')}</ul>` : ''}
         </div>
-        ${compositionMode && hasBrowserLocalCharacterOverrides() ? this.browserOverrideCalibrationMarkup(localOverrideCopy, state.presetId) : ''}
         ${compositionMode && hasBrowserLocalCharacterOverrides() ? this.browserOverrideExportMarkup(localOverrideCopy, browserOverrideSnapshotJson) : ''}
       </section>
+
+      ${compositionMode && state.viewMode === 'scene' && compositionActorSlots.length > 0
+        ? this.compositionEditorMarkup(state.presetId, compositionActors, localOverrideCopy)
+        : ''}
 
       <div class="scene-studio-device-scroll">
         <section class="scene-studio-device-shell" data-scene-preset="${state.presetId}" data-scene-viewport="${state.viewportId}" data-art-source="runtime" data-compact="${viewportProfile.compact}" aria-label="${t('sceneStudio.previewAria')}" style="${deviceStyle}">
@@ -396,51 +431,111 @@ export class SceneStudioController {
     });
 
     if (compositionMode) {
-      this.root.querySelector<HTMLSelectElement>('#scene-studio-browser-calibration-scope')?.addEventListener('change', (event) => {
-        this.browserCalibrationScope = (event.currentTarget as HTMLSelectElement).value === 'plan' ? 'plan' : 'global';
-        this.render(state);
-      });
-      for (const slider of this.root.querySelectorAll<HTMLInputElement>('[data-browser-override-character][data-browser-override-field]')) {
+      for (const button of this.root.querySelectorAll<HTMLElement>('[data-composition-select-slot]')) {
+        button.addEventListener('click', () => {
+          const slotId = button.dataset.compositionSelectSlot;
+          if (!slotId) return;
+          this.selectedCompositionSlotId = slotId;
+          this.render(state);
+        });
+      }
+      for (const select of this.root.querySelectorAll<HTMLSelectElement>('[data-composition-character]')) {
+        select.addEventListener('change', () => {
+          const slotId = select.dataset.compositionCharacter;
+          const character = select.value as ProductionCharacterKey;
+          if (!slotId || !productionCharacterKeys.includes(character)) return;
+          this.selectedCompositionSlotId = slotId;
+          this.updateCompositionCharacter(state.presetId, slotId, character);
+          this.render(state);
+        });
+      }
+      for (const select of this.root.querySelectorAll<HTMLSelectElement>('[data-composition-expression]')) {
+        select.addEventListener('change', () => {
+          const slotId = select.dataset.compositionExpression;
+          const expression = select.value as RuntimeExpression;
+          if (!slotId || !runtimeExpressionOrder.includes(expression)) return;
+          this.selectedCompositionSlotId = slotId;
+          this.updateCompositionActor(state.presetId, slotId, { expression });
+          this.render(state);
+        });
+      }
+      for (const select of this.root.querySelectorAll<HTMLSelectElement>('[data-composition-pose]')) {
+        select.addEventListener('change', () => {
+          const slotId = select.dataset.compositionPose;
+          const pose = select.value === 'pose-b' ? 'pose-b' : 'pose-a';
+          if (!slotId) return;
+          this.selectedCompositionSlotId = slotId;
+          this.updateCompositionActor(state.presetId, slotId, { pose });
+          this.render(state);
+        });
+      }
+      for (const slider of this.root.querySelectorAll<HTMLInputElement>('[data-slot-calibration-field]')) {
         const updateOutput = (): void => {
           const output = slider.parentElement?.querySelector('output');
           if (!output) return;
-          const field = slider.dataset.browserOverrideField;
-          output.textContent = field === 'scale' ? `${slider.value}%`
-            : field === 'xPercent' || field === 'yPercent' ? `${slider.value}%`
-              : `${slider.value}px`;
+          output.textContent = slider.dataset.slotCalibrationField === 'scale' ? `${slider.value}%` : `${slider.value}%`;
         };
         slider.addEventListener('input', updateOutput);
         slider.addEventListener('change', () => {
-          const character = slider.dataset.browserOverrideCharacter as keyof typeof characterProductionManifest.characters | undefined;
-          const field = slider.dataset.browserOverrideField as 'eyeLineOffsetPx' | 'bottomOffsetPx' | 'scale' | 'xPercent' | 'yPercent' | undefined;
-          if (!character || !field) return;
+          const slotId = slider.dataset.slotId;
+          const character = slider.dataset.slotCharacter as ProductionCharacterKey | undefined;
+          const field = slider.dataset.slotCalibrationField as 'scale' | 'xPercent' | 'yPercent' | undefined;
+          if (!slotId || !character || !field) return;
           const numericValue = Number(slider.value);
-          const planId = this.browserCalibrationScope === 'plan' ? state.presetId : undefined;
+          const context = { presetId: state.presetId, slotId };
           applyBrowserLocalCharacterCalibration(
-            character as never,
+            character,
             field === 'scale' ? { scale: numericValue / 100 } : { [field]: numericValue },
-            planId,
+            context,
           );
           this.render(state);
         });
       }
-      for (const button of this.root.querySelectorAll<HTMLElement>('[data-browser-override-reset-character]')) {
-        button.addEventListener('click', () => {
-          const character = button.dataset.browserOverrideResetCharacter as keyof typeof characterProductionManifest.characters | undefined;
-          if (!character) return;
-          if (this.browserCalibrationScope === 'plan') resetBrowserLocalCharacterCalibration(character as never, state.presetId);
-          else resetBrowserLocalCharacterGlobalCalibration(character as never);
+      for (const slider of this.root.querySelectorAll<HTMLInputElement>('[data-default-calibration-field]')) {
+        const updateOutput = (): void => {
+          const output = slider.parentElement?.querySelector('output');
+          if (output) output.textContent = `${slider.value}%`;
+        };
+        slider.addEventListener('input', updateOutput);
+        slider.addEventListener('change', () => {
+          const character = slider.dataset.defaultCharacter as ProductionCharacterKey | undefined;
+          const field = slider.dataset.defaultCalibrationField as 'scale' | 'xPercent' | 'yPercent' | undefined;
+          if (!character || !field) return;
+          const numericValue = Number(slider.value);
+          applyBrowserLocalCharacterCalibration(
+            character,
+            field === 'scale' ? { scale: numericValue / 100 } : { [field]: numericValue },
+          );
           this.render(state);
         });
       }
-      for (const button of this.root.querySelectorAll<HTMLElement>('[data-browser-override-copy-global-to-plan]')) {
+      for (const button of this.root.querySelectorAll<HTMLElement>('[data-reset-slot-calibration]')) {
         button.addEventListener('click', () => {
-          const character = button.dataset.browserOverrideCopyGlobalToPlan as keyof typeof characterProductionManifest.characters | undefined;
-          if (!character) return;
-          copyBrowserLocalCharacterGlobalCalibrationToPlan(character as never, state.presetId);
+          const slotId = button.dataset.resetSlotCalibration;
+          const character = button.dataset.slotCharacter as ProductionCharacterKey | undefined;
+          if (!slotId || !character) return;
+          resetBrowserLocalCharacterCalibration(character, { presetId: state.presetId, slotId });
           this.render(state);
         });
       }
+      for (const button of this.root.querySelectorAll<HTMLElement>('[data-copy-default-to-slot]')) {
+        button.addEventListener('click', () => {
+          const slotId = button.dataset.copyDefaultToSlot;
+          const character = button.dataset.slotCharacter as ProductionCharacterKey | undefined;
+          if (!slotId || !character) return;
+          copyBrowserLocalCharacterDefaultCalibrationToSlot(character, { presetId: state.presetId, slotId });
+          this.render(state);
+        });
+      }
+      for (const button of this.root.querySelectorAll<HTMLElement>('[data-reset-default-calibration]')) {
+        button.addEventListener('click', () => {
+          const character = button.dataset.resetDefaultCalibration as ProductionCharacterKey | undefined;
+          if (!character) return;
+          resetBrowserLocalCharacterDefaultCalibration(character);
+          this.render(state);
+        });
+      }
+      this.bindCompositionDrag(state);
       this.root.querySelector('#scene-studio-browser-override-copy-json')?.addEventListener('click', () => {
         if (typeof navigator !== 'undefined' && navigator.clipboard && browserOverrideSnapshotJson) void navigator.clipboard.writeText(browserOverrideSnapshotJson);
       });
@@ -457,51 +552,211 @@ export class SceneStudioController {
     }
   }
 
-  private browserOverrideCalibrationMarkup(
+  private compositionEditorMarkup(
+    presetId: SceneStagingPresetId,
+    actors: readonly SceneStagingActorInput[],
     copy: ReturnType<typeof browserOverrideCopy>,
-    planId: SceneStagingPresetId,
   ): string {
-    const summaries = browserLocalCharacterOverrideSummaries();
-    const planScope = this.browserCalibrationScope === 'plan';
-    return `<section class="scene-studio-browser-calibration" data-calibration-scope="${this.browserCalibrationScope}" data-calibration-plan="${planId}">
-      <div class="scene-studio-section-title"><div><small>${escapeHtml(copy.eyebrow)}</small><b>${escapeHtml(copy.controlsTitle)}</b></div><code>${planScope ? escapeHtml(planId) : 'GLOBAL'}</code></div>
-      <p>${escapeHtml(copy.controlsCopy)}</p>
-      <label class="scene-studio-browser-calibration-scope"><span>${escapeHtml(copy.scope)}</span><select id="scene-studio-browser-calibration-scope">
-        <option value="global"${planScope ? '' : ' selected'}>${escapeHtml(copy.globalScope)}</option>
-        <option value="plan"${planScope ? ' selected' : ''}>${escapeHtml(copy.currentPlanScope(planId))}</option>
-      </select></label>
-      <div class="scene-studio-browser-calibration-grid">${summaries.map((summary) => {
-        const calibration = browserLocalCharacterCalibration(summary.character, planScope ? planId : undefined);
-        const planOverride = planScope && hasBrowserLocalCharacterPlanCalibration(summary.character, planId);
-        const displayName = characterProductionManifest.characters[summary.character].shortName;
-        return `<article class="scene-studio-browser-calibration-card" data-calibration-character="${summary.character}" data-plan-override="${planOverride}">
-          <header><b>${escapeHtml(displayName)}</b><code>${planScope ? escapeHtml(planId) : summary.character}</code></header>
-          ${planScope ? `<small class="scene-studio-browser-calibration-inheritance">${escapeHtml(planOverride ? copy.planOverrideActive : copy.planUsesGlobal)}</small>` : ''}
-          ${this.browserOverrideRangeControlMarkup(summary.character, 'eyeLineOffsetPx', copy.eyeLine, calibration.eyeLineOffsetPx, -180, 180, 1, `${calibration.eyeLineOffsetPx}px`)}
-          ${this.browserOverrideRangeControlMarkup(summary.character, 'bottomOffsetPx', copy.bottomPivot, calibration.bottomOffsetPx, -180, 180, 1, `${calibration.bottomOffsetPx}px`)}
-          ${this.browserOverrideRangeControlMarkup(summary.character, 'scale', copy.scale, Math.round(calibration.scale * 100), 70, 130, 1, `${Math.round(calibration.scale * 100)}%`)}
-          ${this.browserOverrideRangeControlMarkup(summary.character, 'xPercent', copy.frameX, calibration.xPercent, -18, 18, 0.5, `${calibration.xPercent}%`)}
-          ${this.browserOverrideRangeControlMarkup(summary.character, 'yPercent', copy.frameY, calibration.yPercent, -18, 18, 0.5, `${calibration.yPercent}%`)}
-          <div class="scene-studio-browser-calibration-actions">
-            ${planScope ? `<button data-browser-override-copy-global-to-plan="${summary.character}">${escapeHtml(copy.copyGlobalToPlan)}</button>` : ''}
-            <button data-browser-override-reset-character="${summary.character}">${escapeHtml(planScope ? copy.resetPlan : copy.resetGlobal)}</button>
-          </div>
+    const slots = actorSlotsForPreset(presetId);
+    const selectedSlotId = slots.some((slot) => slot.id === this.selectedCompositionSlotId)
+      ? this.selectedCompositionSlotId
+      : slots[0]?.id ?? null;
+    const selectedIndex = selectedSlotId ? slots.findIndex((slot) => slot.id === selectedSlotId) : -1;
+    const selectedActor = selectedIndex >= 0 ? actors[selectedIndex] : undefined;
+    const selectedContext: BrowserLocalCharacterCalibrationContext | null = selectedSlotId
+      ? { presetId, slotId: selectedSlotId }
+      : null;
+    const selectedCalibration = selectedActor && selectedContext
+      ? browserLocalCharacterCalibration(selectedActor.character as ProductionCharacterKey, selectedContext)
+      : null;
+    const selectedHasOverride = selectedActor && selectedContext
+      ? hasBrowserLocalCharacterSlotCalibration(selectedActor.character as ProductionCharacterKey, selectedContext)
+      : false;
+
+    return `<section class="scene-studio-composition-editor" data-composition-editor="${presetId}" data-selected-slot="${selectedSlotId ?? ''}">
+      <div class="scene-studio-section-title"><div><small>${escapeHtml(copy.editorEyebrow)}</small><b>${escapeHtml(copy.editorTitle)}</b></div><code>${escapeHtml(presetId)}</code></div>
+      <p>${escapeHtml(copy.editorCopy)}</p>
+      <div class="scene-studio-composition-slot-grid">${slots.map((slot, index) => {
+        const actor = actors[index];
+        if (!actor) return '';
+        const selected = slot.id === selectedSlotId;
+        return `<article class="scene-studio-composition-slot-card${selected ? ' is-selected' : ''}" data-composition-slot="${slot.id}">
+          <button class="scene-studio-composition-slot-select" data-composition-select-slot="${slot.id}">
+            <small>${escapeHtml(this.slotPositionLabel(slots, slot, copy))}</small><b>${escapeHtml(characterProductionManifest.characters[actor.character as ProductionCharacterKey].shortName)}</b>
+          </button>
+          <label><span>${escapeHtml(copy.character)}</span><select data-composition-character="${slot.id}">
+            ${productionCharacterKeys.map((character) => `<option value="${character}"${character === actor.character ? ' selected' : ''}>${escapeHtml(characterProductionManifest.characters[character].shortName)}</option>`).join('')}
+          </select></label>
+          <label><span>${escapeHtml(copy.expression)}</span><select data-composition-expression="${slot.id}">
+            ${runtimeExpressionOrder.map((expression) => `<option value="${expression}"${expression === actor.expression ? ' selected' : ''}>${escapeHtml(expression)}</option>`).join('')}
+          </select></label>
+          <label><span>${escapeHtml(copy.pose)}</span><select data-composition-pose="${slot.id}">
+            <option value="pose-a"${(actor.pose ?? 'pose-a') === 'pose-a' ? ' selected' : ''}>${escapeHtml(copy.poseA)}</option>
+            <option value="pose-b"${actor.pose === 'pose-b' ? ' selected' : ''}>${escapeHtml(copy.poseB)}</option>
+          </select></label>
         </article>`;
       }).join('')}</div>
+      ${selectedActor && selectedContext && selectedCalibration ? `<div class="scene-studio-slot-calibration" data-calibration-slot="${selectedContext.slotId}" data-slot-override="${selectedHasOverride}">
+        <header><div><small>${escapeHtml(copy.editing)}</small><b>${escapeHtml(this.slotPositionLabel(slots, slots[selectedIndex]!, copy))} · ${escapeHtml(characterProductionManifest.characters[selectedActor.character as ProductionCharacterKey].shortName)}</b></div><span>${escapeHtml(selectedHasOverride ? copy.customOverride : copy.usesDefault)}</span></header>
+        <p>${escapeHtml(copy.dragHint)}</p>
+        <div class="scene-studio-slot-calibration-controls">
+          ${this.slotCalibrationRangeMarkup(selectedActor.character as ProductionCharacterKey, selectedContext.slotId, 'scale', copy.scale, Math.round(selectedCalibration.scale * 100), 70, 130, 1)}
+          ${this.slotCalibrationRangeMarkup(selectedActor.character as ProductionCharacterKey, selectedContext.slotId, 'xPercent', copy.frameX, selectedCalibration.xPercent, -24, 24, 0.5)}
+          ${this.slotCalibrationRangeMarkup(selectedActor.character as ProductionCharacterKey, selectedContext.slotId, 'yPercent', copy.frameY, selectedCalibration.yPercent, -24, 24, 0.5)}
+        </div>
+        <div class="scene-studio-browser-calibration-actions">
+          <button data-copy-default-to-slot="${selectedContext.slotId}" data-slot-character="${selectedActor.character}">${escapeHtml(copy.copyDefaultToSlot)}</button>
+          <button data-reset-slot-calibration="${selectedContext.slotId}" data-slot-character="${selectedActor.character}">${escapeHtml(copy.resetSlot)}</button>
+        </div>
+      </div>` : ''}
+      <details class="scene-studio-character-defaults">
+        <summary>${escapeHtml(copy.defaultsTitle)}</summary>
+        <p>${escapeHtml(copy.defaultsCopy)}</p>
+        <div class="scene-studio-character-default-grid">${productionCharacterKeys.map((character) => {
+          const calibration = browserLocalCharacterCalibration(character);
+          return `<article><header><b>${escapeHtml(characterProductionManifest.characters[character].shortName)}</b><code>${character}</code></header>
+            ${this.defaultCalibrationRangeMarkup(character, 'scale', copy.scale, Math.round(calibration.scale * 100), 70, 130, 1)}
+            ${this.defaultCalibrationRangeMarkup(character, 'xPercent', copy.frameX, calibration.xPercent, -24, 24, 0.5)}
+            ${this.defaultCalibrationRangeMarkup(character, 'yPercent', copy.frameY, calibration.yPercent, -24, 24, 0.5)}
+            <button data-reset-default-calibration="${character}">${escapeHtml(copy.resetDefault)}</button>
+          </article>`;
+        }).join('')}</div>
+      </details>
     </section>`;
   }
 
-  private browserOverrideRangeControlMarkup(
-    character: string,
-    field: 'eyeLineOffsetPx' | 'bottomOffsetPx' | 'scale' | 'xPercent' | 'yPercent',
+  private slotCalibrationRangeMarkup(
+    character: ProductionCharacterKey,
+    slotId: string,
+    field: 'scale' | 'xPercent' | 'yPercent',
     label: string,
     value: number,
     minimum: number,
     maximum: number,
     step: number,
-    output: string,
   ): string {
-    return `<label class="scene-studio-browser-calibration-control"><span>${escapeHtml(label)}</span><input type="range" min="${minimum}" max="${maximum}" step="${step}" value="${value}" data-browser-override-character="${character}" data-browser-override-field="${field}"><output>${escapeHtml(output)}</output></label>`;
+    return `<label class="scene-studio-browser-calibration-control"><span>${escapeHtml(label)}</span><input type="range" min="${minimum}" max="${maximum}" step="${step}" value="${value}" data-slot-id="${slotId}" data-slot-character="${character}" data-slot-calibration-field="${field}"><output>${value}%</output></label>`;
+  }
+
+  private defaultCalibrationRangeMarkup(
+    character: ProductionCharacterKey,
+    field: 'scale' | 'xPercent' | 'yPercent',
+    label: string,
+    value: number,
+    minimum: number,
+    maximum: number,
+    step: number,
+  ): string {
+    return `<label class="scene-studio-browser-calibration-control"><span>${escapeHtml(label)}</span><input type="range" min="${minimum}" max="${maximum}" step="${step}" value="${value}" data-default-character="${character}" data-default-calibration-field="${field}"><output>${value}%</output></label>`;
+  }
+
+  private slotPositionLabel(
+    slots: readonly SceneStagingActorSlot[],
+    slot: SceneStagingActorSlot,
+    copy: ReturnType<typeof browserOverrideCopy>,
+  ): string {
+    if (slots.length === 1) return copy.center;
+    const sorted = [...slots].sort((left, right) => left.anchorXPercent - right.anchorXPercent);
+    const index = sorted.findIndex((candidate) => candidate.id === slot.id);
+    if (index <= 0) return copy.left;
+    if (index >= sorted.length - 1) return copy.right;
+    return copy.center;
+  }
+
+  private updateCompositionActor(
+    presetId: SceneStagingPresetId,
+    slotId: string,
+    patch: Partial<SceneStagingActorInput>,
+  ): void {
+    const slots = actorSlotsForPreset(presetId);
+    const index = slots.findIndex((slot) => slot.id === slotId);
+    if (index === -1) return;
+    const current = [...(this.compositionAssignments[presetId] ?? sceneStudioSamples[presetId])];
+    const actor = current[index];
+    if (!actor) return;
+    current[index] = { ...actor, ...patch };
+    this.compositionAssignments = { ...this.compositionAssignments, [presetId]: current };
+  }
+
+  private updateCompositionCharacter(
+    presetId: SceneStagingPresetId,
+    slotId: string,
+    character: ProductionCharacterKey,
+  ): void {
+    const slots = actorSlotsForPreset(presetId);
+    const targetIndex = slots.findIndex((slot) => slot.id === slotId);
+    if (targetIndex === -1) return;
+    const current = [...(this.compositionAssignments[presetId] ?? sceneStudioSamples[presetId])];
+    const targetActor = current[targetIndex];
+    if (!targetActor) return;
+    const existingIndex = current.findIndex((actor, index) => index !== targetIndex && actor.character === character);
+    if (existingIndex !== -1) {
+      const existingActor = current[existingIndex];
+      if (!existingActor) return;
+      current[targetIndex] = { ...existingActor };
+      current[existingIndex] = { ...targetActor };
+    } else {
+      current[targetIndex] = { ...targetActor, character };
+    }
+    this.compositionAssignments = { ...this.compositionAssignments, [presetId]: current };
+  }
+
+  private compositionAssignmentSnapshot(): BrowserLocalCompositionAssignments {
+    return Object.fromEntries(sceneStagingPresetIds.flatMap((presetId) => {
+      const slots = actorSlotsForPreset(presetId);
+      if (slots.length === 0) return [];
+      const actors = this.compositionAssignments[presetId] ?? sceneStudioSamples[presetId];
+      return [[presetId, Object.fromEntries(slots.flatMap((slot, index) => {
+        const actor = actors[index];
+        if (!actor) return [];
+        return [[slot.id, {
+          character: actor.character as ProductionCharacterKey,
+          expression: actor.expression,
+          pose: actor.pose ?? 'pose-a',
+        }]];
+      }))]];
+    })) as BrowserLocalCompositionAssignments;
+  }
+
+  private bindCompositionDrag(state: SceneStudioState): void {
+    if (state.workspaceMode !== 'composition' || state.viewMode !== 'scene') return;
+    const stage = this.root.querySelector<HTMLElement>('[data-frame-context="scene-studio"] .stage');
+    if (!stage) return;
+    for (const portrait of this.root.querySelectorAll<HTMLElement>('.scene-studio-actor-slot[data-editor-draggable="true"] .scene-studio-runtime-portrait')) {
+      portrait.addEventListener('pointerdown', (event) => {
+        const actorSlot = portrait.closest<HTMLElement>('.scene-studio-actor-slot');
+        const slotId = actorSlot?.dataset.slot;
+        const character = actorSlot?.dataset.character as ProductionCharacterKey | undefined;
+        if (!actorSlot || !slotId || !character) return;
+        const rect = stage.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0) return;
+        event.preventDefault();
+        this.selectedCompositionSlotId = slotId;
+        const context = { presetId: state.presetId, slotId };
+        const startCalibration = browserLocalCharacterCalibration(character, context);
+        const slot = actorSlotsForPreset(state.presetId).find((candidate) => candidate.id === slotId);
+        if (!slot) return;
+        const startX = event.clientX;
+        const startY = event.clientY;
+        let nextX = startCalibration.xPercent;
+        let nextY = startCalibration.yPercent;
+        portrait.setPointerCapture?.(event.pointerId);
+        const move = (moveEvent: PointerEvent): void => {
+          nextX = clamp(startCalibration.xPercent + (moveEvent.clientX - startX) / rect.width * 100, -30, 30);
+          nextY = clamp(startCalibration.yPercent + (moveEvent.clientY - startY) / rect.height * 100, -30, 30);
+          actorSlot.style.setProperty('--scene-x', `${slot.anchorXPercent + nextX}%`);
+          portrait.style.setProperty('--character-y', `${characterProductionManifest.characters[character].staging.yPercent + nextY}%`);
+        };
+        const finish = (): void => {
+          portrait.removeEventListener('pointermove', move);
+          applyBrowserLocalCharacterCalibration(character, { xPercent: nextX, yPercent: nextY }, context);
+          this.render(state);
+        };
+        portrait.addEventListener('pointermove', move);
+        portrait.addEventListener('pointerup', finish, { once: true });
+        portrait.addEventListener('pointercancel', finish, { once: true });
+      });
+    }
   }
 
   private browserOverrideExportMarkup(copy: ReturnType<typeof browserOverrideCopy>, snapshotJson: string): string {
@@ -594,12 +849,13 @@ export class SceneStudioController {
     resolution: ReturnType<typeof resolveSceneStagingPreset>,
     showGuides: boolean,
     t: (key: string, params?: Readonly<Record<string, string | number | boolean>>) => string,
+    editorInteractive = false,
   ): string {
     const guestWitnessMarkup = resolution.preset.id === 'guest-testimony-card'
       ? guestWitnessStageMarkup('hinata', t('sceneStudio.testimony.emotion'), t('sceneStudio.testimony.status'), 'scene-studio')
       : '';
     return [
-      ...resolution.actors.map((actor) => this.actorMarkup(actor, showGuides, t)),
+      ...resolution.actors.map((actor) => this.actorMarkup(actor, showGuides, t, editorInteractive)),
       ...(guestWitnessMarkup ? [guestWitnessMarkup] : resolution.guestSlots.map((slot) => `<div class="scene-studio-guest-shell" data-slot="${slot.id}" style="${safeBoxStyle(slot.safeBox)};z-index:${slot.zIndex}">
         <span>G</span><b>${t('sceneStudio.guestShell.title')}</b><small>${t('sceneStudio.guestShell.label')}</small>
       </div>`)),
@@ -619,6 +875,7 @@ export class SceneStudioController {
     actor: ReturnType<typeof resolveSceneStagingPreset>['actors'][number],
     showGuides: boolean,
     t: (key: string, params?: Readonly<Record<string, string | number | boolean>>) => string,
+    editorInteractive = false,
   ): string {
     const asset = actor.pose === 'pose-b' ? poseAsset(actor.character) : expressionAsset(actor.character, actor.expression);
     const bounds = actor.frameAlphaBounds;
@@ -641,7 +898,7 @@ export class SceneStudioController {
       `--character-y:${actor.canonicalCharacterYPercent}%`,
     ].join(';');
     const portraitStyle = `--character-scale:${actor.canonicalCharacterScale};--character-y:${actor.canonicalCharacterYPercent}%`;
-    return `<div class="scene-studio-actor-slot" data-slot="${actor.slotId}" data-character="${actor.character}" data-role="${actor.role}" data-visual-approval="${actor.visualApproval}" data-art-source="runtime" style="${style}">
+    return `<div class="scene-studio-actor-slot${editorInteractive && actor.slotId === this.selectedCompositionSlotId ? ' is-editor-selected' : ''}" data-slot="${actor.slotId}" data-character="${actor.character}" data-role="${actor.role}" data-visual-approval="${actor.visualApproval}" data-art-source="runtime" data-editor-draggable="${editorInteractive}" style="${style}">
       <div class="portrait portrait-static-wrap scene-studio-runtime-portrait" data-shot-scale="${actor.shotScale}" data-runtime-crop="true" data-vertical-anchor="${actor.verticalAnchor}" data-guide-geometry="${actor.guideGeometrySource}" data-eye-line-y="${actor.eyeLineYPx}" data-eye-line-ratio="${actor.eyeLineRatio}" data-alpha-bounds="${bounds.left},${bounds.top},${bounds.right},${bounds.bottom}" style="${portraitStyle}"><img class="portrait-static" src="${asset}" alt="${t(`character.${actor.character}`)}">${showGuides ? `<i class="scene-studio-actor-alpha-box" aria-hidden="true"><b>${t(`character.${actor.character}`)}</b><small>${t('sceneStudio.guide.frameAlpha')} · ${guideFrameLabel}</small></i><i class="scene-studio-actor-eye-marker" aria-hidden="true"><b>${t('sceneStudio.guide.eyes')} · y=${actor.eyeLineYPx}</b></i>` : ''}</div>
     </div>`;
   }

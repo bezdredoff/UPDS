@@ -6,7 +6,7 @@ import {
   applyBrowserLocalCharacterCalibration,
   applyBrowserLocalCharacterOverrides,
   browserLocalCharacterExportSnapshot,
-  hasBrowserLocalCharacterPlanCalibration,
+  hasBrowserLocalCharacterSlotCalibration,
   clearBrowserLocalCharacterOverrides,
   runtimeFrameOverride,
   validateCharacterRuntimeFrameOverrides,
@@ -60,7 +60,7 @@ describe('ANM-028D3A Emi approved-frame runtime adoption', () => {
   });
 
 
-  it('applies global and per-plan browser-local calibration, including X/Y/scale, and exports the resolved snapshot', () => {
+  it('applies character defaults plus slot-aware calibration, including X/Y/scale, and exports the v3 snapshot', () => {
     applyBrowserLocalCharacterOverrides({
       miku: {
         frames: {
@@ -94,8 +94,9 @@ describe('ANM-028D3A Emi approved-frame runtime adoption', () => {
     expect(resolvedCharacterStaging('miku')).toEqual({ scale: 1.08, yPercent: 3.5 });
     expect(resolvedCharacterXPercent('miku')).toBe(2.5);
 
-    applyBrowserLocalCharacterCalibration('miku', { scale: 1.2, xPercent: -4, yPercent: 6 }, 'solo-close');
-    expect(hasBrowserLocalCharacterPlanCalibration('miku', 'solo-close')).toBe(true);
+    const soloPrimary = { presetId: 'solo-close', slotId: 'primary' };
+    applyBrowserLocalCharacterCalibration('miku', { scale: 1.2, xPercent: -4, yPercent: 6 }, soloPrimary);
+    expect(hasBrowserLocalCharacterSlotCalibration('miku', soloPrimary)).toBe(true);
     const plan = resolveSceneStagingPreset('solo-close', [{ character: 'miku', expression: 'smile', pose: 'pose-b' }]);
     expect(plan.actors[0]?.canonicalCharacterScale).toBe(1.2);
     expect(plan.actors[0]?.canonicalCharacterYPercent).toBe(6);
@@ -108,16 +109,30 @@ describe('ANM-028D3A Emi approved-frame runtime adoption', () => {
     expect(inherited.actors[0]?.canonicalCharacterYPercent).toBe(3.5);
     expect(inherited.actors[0]?.anchorXPercent).toBe(52.5);
 
+    applyBrowserLocalCharacterCalibration('miku', { scale: 0.94, xPercent: 7, yPercent: -2 }, {
+      presetId: 'trio-reaction',
+      slotId: 'secondary',
+    });
+    const trio = resolveSceneStagingPreset('trio-reaction', [
+      { character: 'ayuki', expression: 'surprised' },
+      { character: 'miku', expression: 'neutral' },
+      { character: 'onoe', expression: 'serious' },
+    ]);
+    expect(trio.actors[1]?.canonicalCharacterScale).toBe(0.94);
+    expect(trio.actors[1]?.anchorXPercent).toBe(58);
+    expect(trio.actors[1]?.canonicalCharacterYPercent).toBe(-2);
+
     const snapshot = browserLocalCharacterExportSnapshot('visual-lab-test.zip');
-    expect(snapshot.format).toBe('upds-browser-local-character-export-v2');
+    expect(snapshot.format).toBe('upds-browser-local-character-export-v3');
     expect(snapshot.format).toBe(BROWSER_LOCAL_CHARACTER_EXPORT_FORMAT);
     expect(snapshot.packageLabel).toBe('visual-lab-test.zip');
-    expect(snapshot.characters.miku?.global.staging).toEqual({ scale: 1.08, xPercent: 2.5, yPercent: 3.5 });
-    expect(snapshot.characters.miku?.global.frames.smile).toEqual({
+    expect(snapshot.characters.miku?.default.staging).toEqual({ scale: 1.08, xPercent: 2.5, yPercent: 3.5 });
+    expect(snapshot.characters.miku?.default.frames.smile).toEqual({
       alphaBounds: { left: 310, top: 48, right: 700, bottom: 1484 },
       eyeLineYPx: 226,
     });
-    expect(snapshot.characters.miku?.perPlan['solo-close']?.staging).toEqual({ scale: 1.2, xPercent: -4, yPercent: 6 });
+    expect(snapshot.characters.miku?.slotOverrides['solo-close/primary']?.staging).toEqual({ scale: 1.2, xPercent: -4, yPercent: 6 });
+    expect(snapshot.characters.miku?.slotOverrides['solo-close/primary']?.slotId).toBe('primary');
     expect(snapshot.characters.miku?.assets.frames.smile).toBe('./assets/characters/miku/rig/pose_a/frames/frame-smile.png');
     expect(snapshot.characters.miku?.assets.poseB).toBe('./assets/characters/miku/poses/pose_b_pointing_sketchbook.png');
   });

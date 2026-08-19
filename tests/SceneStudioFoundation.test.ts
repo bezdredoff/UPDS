@@ -173,7 +173,44 @@ describe('ANM-028E0C1 Scene Studio workspace separation', () => {
     expect(root.innerHTML).toContain('text-large');
   });
 
-  it('keeps browser-local calibration editable in Composition and read-only in Story QA', () => {
+  it('shows a slot-aware Composition editor with character/expression/pose and only Scale/X/Y controls', () => {
+    const root = new FakeRoot();
+    const studio = createStudio(root);
+
+    studio.render({ workspaceMode: 'composition', presetId: 'trio-reaction' });
+    expect(root.innerHTML).toContain('data-composition-editor="trio-reaction"');
+    expect(root.innerHTML.match(/data-composition-slot=/g)).toHaveLength(3);
+    expect(root.innerHTML.match(/data-composition-character=/g)).toHaveLength(3);
+    expect(root.innerHTML.match(/data-composition-expression=/g)).toHaveLength(3);
+    expect(root.innerHTML.match(/data-composition-pose=/g)).toHaveLength(3);
+    expect(root.innerHTML).toContain('Редактор композиции');
+    expect(root.innerHTML).toContain('Базовые настройки персонажей');
+    expect(root.innerHTML).toContain('data-slot-calibration-field="scale"');
+    expect(root.innerHTML).toContain('data-slot-calibration-field="xPercent"');
+    expect(root.innerHTML).toContain('data-slot-calibration-field="yPercent"');
+    expect(root.innerHTML).not.toContain('Eye-line');
+    expect(root.innerHTML).not.toContain('Bottom pivot');
+    expect(root.innerHTML).toContain('data-editor-draggable="true"');
+  });
+
+  it('swaps an already-used character between slots instead of creating a duplicate actor', () => {
+    const root = new FakeRoot();
+    const studio = createStudio(root);
+    const editable = studio as unknown as {
+      updateCompositionCharacter: (presetId: 'trio-reaction', slotId: string, character: 'miku') => void;
+    };
+
+    editable.updateCompositionCharacter('trio-reaction', 'primary', 'miku');
+    studio.render({ workspaceMode: 'composition', presetId: 'trio-reaction' });
+    expect(root.innerHTML.match(/data-character="miku"/g)).toHaveLength(1);
+    expect(root.innerHTML.match(/data-character="ayuki"/g)).toHaveLength(1);
+    expect(root.innerHTML).toContain('data-slot="primary" data-character="miku"');
+    expect(root.innerHTML).toContain('data-slot="secondary" data-character="ayuki"');
+    expect(root.innerHTML).toContain('./assets/characters/miku/rig/pose_a/frames/frame-neutral.png');
+    expect(root.innerHTML).toContain('./assets/characters/ayuki/rig/pose_a/frames/frame-surprised.png');
+  });
+
+  it('applies slot-aware calibration in Composition, exports v3, and keeps Story QA read-only', () => {
     applyBrowserLocalCharacterOverrides({
       miku: {
         frames: {
@@ -192,24 +229,27 @@ describe('ANM-028E0C1 Scene Studio workspace separation', () => {
       },
     });
     applyBrowserLocalCharacterCalibration('miku', { scale: 1.1, xPercent: 2, yPercent: 3 });
-    applyBrowserLocalCharacterCalibration('miku', { scale: 1.2, xPercent: -5, yPercent: 6 }, 'solo-close');
+    applyBrowserLocalCharacterCalibration('miku', { scale: 1.2, xPercent: -5, yPercent: 6 }, {
+      presetId: 'solo-close',
+      slotId: 'primary',
+    });
 
     const root = new FakeRoot();
     const studio = createStudio(root);
-    (studio as unknown as { browserCalibrationScope: 'global' | 'plan' }).browserCalibrationScope = 'plan';
 
     studio.render({ workspaceMode: 'composition', presetId: 'solo-close' });
-    expect(root.innerHTML).toContain('Ручная калибровка');
-    expect(root.innerHTML).toContain('Текущий план · solo-close');
-    expect(root.innerHTML).toContain('data-calibration-scope="plan"');
-    expect(root.innerHTML).toContain('data-plan-override="true"');
+    expect(root.innerHTML).toContain('data-calibration-slot="primary"');
+    expect(root.innerHTML).toContain('data-slot-override="true"');
     expect(root.innerHTML).toContain('--scene-x:45%');
     expect(root.innerHTML).toContain('style="--character-scale:1.2;--character-y:6%"');
-    expect(root.innerHTML).toContain('upds-browser-local-character-export-v2');
+    expect(root.innerHTML).toContain('upds-browser-local-character-export-v3');
+    expect(root.innerHTML).toContain('&quot;compositionAssignments&quot;');
+    expect(root.innerHTML).toContain('&quot;slotOverrides&quot;');
 
     studio.render({ workspaceMode: 'story', lineId: 'VN0008' });
     expect(root.innerHTML).toContain('Локальные browser-overrides активны.');
-    expect(root.innerHTML).not.toContain('Ручная калибровка');
+    expect(root.innerHTML).not.toContain('scene-studio-composition-editor');
     expect(root.innerHTML).not.toContain('scene-studio-browser-override-json');
+    expect(root.innerHTML).toContain('data-editor-draggable="false"');
   });
 });

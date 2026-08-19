@@ -8,25 +8,33 @@ export type BrowserOverrideCopy = Readonly<{
   idleStatus: string;
   activeStatus: string;
   resetStatus: string;
-  controlsTitle: string;
-  controlsCopy: string;
-  scope: string;
-  globalScope: string;
-  currentPlanScope: (plan: string) => string;
-  planOverrideActive: string;
-  planUsesGlobal: string;
-  copyGlobalToPlan: string;
-  resetGlobal: string;
-  resetPlan: string;
   exportTitle: string;
   exportCopy: string;
   copyJson: string;
   downloadJson: string;
-  eyeLine: string;
-  bottomPivot: string;
+  editorEyebrow: string;
+  editorTitle: string;
+  editorCopy: string;
+  character: string;
+  expression: string;
+  pose: string;
+  poseA: string;
+  poseB: string;
+  editing: string;
+  usesDefault: string;
+  customOverride: string;
+  dragHint: string;
   scale: string;
   frameX: string;
   frameY: string;
+  copyDefaultToSlot: string;
+  resetSlot: string;
+  defaultsTitle: string;
+  defaultsCopy: string;
+  resetDefault: string;
+  left: string;
+  center: string;
+  right: string;
   loading: (file: string) => string;
   loaded: (file: string, count: number) => string;
   failed: (error: string) => string;
@@ -44,25 +52,33 @@ export const browserOverrideCopy = (locale: string): BrowserOverrideCopy => loca
       idleStatus: 'Лакальныя падмены не загружаныя.',
       activeStatus: 'Лакальныя browser-overrides актыўныя.',
       resetStatus: 'Лакальныя падмены ачышчаны.',
-      controlsTitle: 'Ручная каліброўка',
-      controlsCopy: 'Наладжвайце eye-line, bottom pivot, маштаб і X/Y-пазіцыю глабальна або асобна для бягучага плана.',
-      scope: 'Вобласць',
-      globalScope: 'Глабальна для персанажа',
-      currentPlanScope: (plan) => `Бягучы план · ${plan}`,
-      planOverrideActive: 'Для гэтага плана ёсць асобная каліброўка.',
-      planUsesGlobal: 'Гэты план пакуль выкарыстоўвае глабальную каліброўку.',
-      copyGlobalToPlan: 'Скапіраваць global → plan',
-      resetGlobal: 'Скінуць global',
-      resetPlan: 'Скінуць гэты plan',
-      exportTitle: 'JSON-здымак',
-      exportCopy: 'Экспарт захоўвае global і per-plan geometry/staging, каб пазней перанесці абраны варыянт у production без паўторнай калиброўкі.',
+      exportTitle: 'JSON-здымак v3',
+      exportCopy: 'Экспарт захоўвае character defaults, slot-aware overrides і склад кожнага плана, каб перанесці прынятую кампазіцыю ў production без паўторнай каліброўкі.',
       copyJson: 'Скапіяваць JSON',
       downloadJson: 'Спампаваць JSON',
-      eyeLine: 'Eye-line',
-      bottomPivot: 'Bottom pivot',
-      scale: 'Маштаб',
-      frameX: 'Пазіцыя X',
-      frameY: 'Пазіцыя Y',
+      editorEyebrow: 'COMPOSITION LAB',
+      editorTitle: 'Рэдактар кампазіцыі',
+      editorCopy: 'Выберыце склад кожнага слота, затым рухайце персанажа проста ў preview або дакладна наладзьце Scale/X/Y.',
+      character: 'Персанаж',
+      expression: 'Эмоцыя',
+      pose: 'Поза',
+      poseA: 'Pose A',
+      poseB: 'Pose B',
+      editing: 'Рэдагуецца',
+      usesDefault: 'Базавыя налады персанажа',
+      customOverride: 'Наладжана для гэтага месца',
+      dragHint: 'Пацягніце выбранага персанажа ў preview для X/Y. Клік або drag па іншым персанажы выбірае яго слот.',
+      scale: 'Scale',
+      frameX: 'X',
+      frameY: 'Y',
+      copyDefaultToSlot: 'Скопировать базовые',
+      resetSlot: 'Скінуць наладу',
+      defaultsTitle: 'Базовые настройки персонажей',
+      defaultsCopy: 'Базавыя Scale/X/Y выкарыстоўваюцца ва ўсіх планах, пакуль для канкрэтнага персанажа ў гэтым месцы кадра няма асобнай налады.',
+      resetDefault: 'Скінуць базавыя',
+      left: 'LEFT',
+      center: 'CENTER',
+      right: 'RIGHT',
       loading: (file) => `Загрузка ${file}…`,
       loaded: (file, count) => `Загружана ${count} лакальных override-асэтаў з ${file}.`,
       failed: (error) => `Не ўдалося загрузіць лакальныя падмены: ${error}`,
@@ -79,25 +95,33 @@ export const browserOverrideCopy = (locale: string): BrowserOverrideCopy => loca
         idleStatus: 'No local overrides loaded.',
         activeStatus: 'Local browser overrides are active.',
         resetStatus: 'Local overrides cleared.',
-        controlsTitle: 'Manual calibration',
-        controlsCopy: 'Tune eye-line, bottom pivot, scale and X/Y framing globally or independently for the current shot plan.',
-        scope: 'Scope',
-        globalScope: 'Global for character',
-        currentPlanScope: (plan) => `Current plan · ${plan}`,
-        planOverrideActive: 'This plan has its own calibration.',
-        planUsesGlobal: 'This plan currently inherits the global calibration.',
-        copyGlobalToPlan: 'Copy global → plan',
-        resetGlobal: 'Reset global',
-        resetPlan: 'Reset this plan',
-        exportTitle: 'JSON snapshot',
-        exportCopy: 'The export stores global and per-plan geometry/staging so the winning local override can be transferred into production without recalibrating it again.',
+        exportTitle: 'JSON snapshot v3',
+        exportCopy: 'The export stores character defaults, slot-aware overrides and every plan assignment so the accepted composition can move into production without recalibration.',
         copyJson: 'Copy JSON',
         downloadJson: 'Download JSON',
-        eyeLine: 'Eye line',
-        bottomPivot: 'Bottom pivot',
+        editorEyebrow: 'COMPOSITION LAB',
+        editorTitle: 'Composition editor',
+        editorCopy: 'Choose the actor in each slot, then drag the character directly in the preview or tune Scale/X/Y precisely.',
+        character: 'Character',
+        expression: 'Expression',
+        pose: 'Pose',
+        poseA: 'Pose A',
+        poseB: 'Pose B',
+        editing: 'Editing',
+        usesDefault: 'Uses character default',
+        customOverride: 'Custom slot override',
+        dragHint: 'Drag the selected character in the preview for X/Y. Clicking or dragging another character selects that slot.',
         scale: 'Scale',
-        frameX: 'Frame X',
-        frameY: 'Frame Y',
+        frameX: 'X',
+        frameY: 'Y',
+        copyDefaultToSlot: 'Скопировать базовые',
+        resetSlot: 'Reset slot',
+        defaultsTitle: 'Базовые настройки персонажей',
+        defaultsCopy: 'Base Scale/X/Y apply across plans until a specific slot + character gets its own override.',
+        resetDefault: 'Reset default',
+        left: 'LEFT',
+        center: 'CENTER',
+        right: 'RIGHT',
         loading: (file) => `Loading ${file}…`,
         loaded: (file, count) => `Loaded ${count} local override assets from ${file}.`,
         failed: (error) => `Local override load failed: ${error}`,
@@ -113,25 +137,33 @@ export const browserOverrideCopy = (locale: string): BrowserOverrideCopy => loca
         idleStatus: 'Локальные подмены не загружены.',
         activeStatus: 'Локальные browser-overrides активны.',
         resetStatus: 'Локальные подмены очищены.',
-        controlsTitle: 'Ручная калибровка',
-        controlsCopy: 'Настраивайте eye-line, bottom pivot, масштаб и X/Y-положение глобально или отдельно для текущего плана.',
-        scope: 'Область',
-        globalScope: 'Глобально для персонажа',
-        currentPlanScope: (plan) => `Текущий план · ${plan}`,
-        planOverrideActive: 'Для этого плана есть отдельная калибровка.',
-        planUsesGlobal: 'Этот план пока наследует глобальную калибровку.',
-        copyGlobalToPlan: 'Скопировать global → plan',
-        resetGlobal: 'Сбросить global',
-        resetPlan: 'Сбросить этот plan',
-        exportTitle: 'JSON-слепок',
-        exportCopy: 'Экспорт сохраняет global и per-plan geometry/staging, чтобы потом перенести выбранный локальный override в production без повторной ручной калибровки.',
+        exportTitle: 'JSON-слепок v3',
+        exportCopy: 'Экспорт сохраняет character defaults, slot-aware overrides и состав каждого плана, чтобы перенести принятую композицию в production без повторной калибровки.',
         copyJson: 'Скопировать JSON',
         downloadJson: 'Скачать JSON',
-        eyeLine: 'Eye-line',
-        bottomPivot: 'Bottom pivot',
-        scale: 'Масштаб',
-        frameX: 'Позиция X',
-        frameY: 'Позиция Y',
+        editorEyebrow: 'COMPOSITION LAB',
+        editorTitle: 'Редактор композиции',
+        editorCopy: 'Выберите состав каждого слота, затем двигайте персонажа прямо в preview или точно настройте Scale/X/Y.',
+        character: 'Персонаж',
+        expression: 'Эмоция',
+        pose: 'Поза',
+        poseA: 'Pose A',
+        poseB: 'Pose B',
+        editing: 'Редактируется',
+        usesDefault: 'Базовые настройки персонажа',
+        customOverride: 'Настроено для этого места',
+        dragHint: 'Тяните выбранного персонажа прямо в preview для X/Y. Клик или drag по другому персонажу выбирает его слот.',
+        scale: 'Scale',
+        frameX: 'X',
+        frameY: 'Y',
+        copyDefaultToSlot: 'Скопировать базовые',
+        resetSlot: 'Сбросить настройку',
+        defaultsTitle: 'Базовые настройки персонажей',
+        defaultsCopy: 'Базовые Scale/X/Y используются во всех планах, пока для конкретного персонажа в этом месте кадра нет отдельной настройки.',
+        resetDefault: 'Сбросить базовые',
+        left: 'LEFT',
+        center: 'CENTER',
+        right: 'RIGHT',
         loading: (file) => `Загрузка ${file}…`,
         loaded: (file, count) => `Загружено ${count} локальных override-ассетов из ${file}.`,
         failed: (error) => `Не удалось загрузить локальные подмены: ${error}`,
