@@ -1,4 +1,4 @@
-import { characterRigs } from '../../data/characterRigs';
+import { medallionAsset } from '../../data/characterRigs';
 import {
   blockerPresentation,
   ingredientPresentation,
@@ -165,10 +165,10 @@ export function match3TutorialMarkup(
 }
 
 function barkMedallion(bark: Match3BarkPresentation, t: Match3Translate): string {
-  if (bark.speaker === t('character.miku')) return characterRigs.miku.medallion;
-  if (bark.speaker === t('character.onoe')) return characterRigs.onoe.medallion;
-  if (bark.speaker === t('character.ayuki')) return characterRigs.ayuki.medallion;
-  return characterRigs.miku.medallion;
+  if (bark.speaker === t('character.miku')) return medallionAsset('miku');
+  if (bark.speaker === t('character.onoe')) return medallionAsset('onoe');
+  if (bark.speaker === t('character.ayuki')) return medallionAsset('ayuki');
+  return medallionAsset('miku');
 }
 
 export function match3BarkMarkup(
@@ -190,7 +190,7 @@ function detectiveStripMarkup(t: Match3Translate): string {
   return (['miku', 'onoe', 'ayuki'] as const)
     .map(
       (key) =>
-        `<span><img src="${characterRigs[key].medallion}" alt="${escapeHtml(t(`character.${key}`))}"><b>${escapeHtml(t(`character.${key}`))}</b></span>`,
+        `<span><img src="${medallionAsset(key)}" alt="${escapeHtml(t(`character.${key}`))}"><b>${escapeHtml(t(`character.${key}`))}</b></span>`,
     )
     .join('');
 }

@@ -1,5 +1,5 @@
 import { authoredVnShotForLine, type AuthoredVnShotDefinition } from '../data/authoredVnShots';
-import { characterRigs, expressionAsset, type CharacterKey } from '../data/characterRigs';
+import { characterRigs, expressionAsset, poseAsset, type CharacterKey } from '../data/characterRigs';
 import { resolveSceneStagingPreset, type ResolvedSceneActor, type ResolvedSceneStaging } from './sceneStaging';
 import { escapeHtml } from './viewMarkup';
 
@@ -15,7 +15,7 @@ export function resolveAuthoredVnShot(lineId: string): ResolvedAuthoredVnShot | 
 }
 
 const actorAsset = (actor: ResolvedSceneActor): string => actor.pose === 'pose-b'
-  ? characterRigs[actor.character].poseB
+  ? poseAsset(actor.character)
   : expressionAsset(actor.character, actor.expression);
 
 export const authoredVnShotAssets = (resolved: ResolvedAuthoredVnShot): readonly string[] =>

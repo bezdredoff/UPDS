@@ -42,13 +42,14 @@ Browser execution вынесен в `.github/workflows/browser-gate.yml` и за
 
 Pages topology smoke не дублируется в WebKit lane: это инфраструктурная проверка base-path/static topology, а не mobile-engine-specific поведение.
 
-### Локальный service-worker diagnostic
+### Локальные PWA probe diagnostics
 
 Playwright WebKit на локальном `http://127.0.0.1:4173` иногда поднимает `pageerror` вида:
 
-`127.0.0.1:4173/sw.js?... due to access control checks`.
+- `127.0.0.1:4173/sw.js?... due to access control checks`;
+- `127.0.0.1:4173/build.json?... due to access control checks`.
 
-Production `PwaController.start()` уже обрабатывает registration failure своим `try/catch`; это не uncaught gameplay/runtime failure. Поэтому browser-health probe игнорирует только этот узкий local-test pattern — одновременно должны присутствовать `127.0.0.1:4173/sw.js` и `due to access control checks`.
+Первый относится к service-worker registration, второй — к network-only published-build probe, добавленному позднее в G8E1. Оба production-path уже обрабатывают network/registration failure внутри `try/catch`; это не uncaught gameplay/runtime failure. Поэтому browser-health probe игнорирует только эти два узких local-test pattern: одновременно должны присутствовать localhost `127.0.0.1:4173`, конкретный PWA probe (`sw.js` или `build.json`) и `due to access control checks`.
 
 Все остальные `pageerror`, `console.error`, critical request failures и HTTP 4xx/5xx продолжают валить тест.
 

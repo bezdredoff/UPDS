@@ -38,11 +38,12 @@ describe('ANM-023G3 production build and Pages preview smoke contract', () => {
     expect(pagesSmoke).toContain("{ name: 'candidate-preview', path: './preview/' }");
   });
 
-  it('fails on critical browser/runtime and asset health problems while ignoring only the known local WebKit SW diagnostic', () => {
+  it('fails on critical browser/runtime and asset health problems while ignoring only known local WebKit PWA probe diagnostics', () => {
     expect(browserHealth).toContain("new Set(['document', 'script', 'stylesheet', 'image', 'font'])");
     expect(browserHealth).toContain("page.on('pageerror'");
-    expect(browserHealth).toContain('isKnownLocalServiceWorkerAccessError');
+    expect(browserHealth).toContain('isKnownLocalPwaAccessError');
     expect(browserHealth).toContain("127.0.0.1:4173/sw.js");
+    expect(browserHealth).toContain("127.0.0.1:4173/build.json");
     expect(browserHealth).toContain('due to access control checks');
     expect(browserHealth).toContain("message.type() === 'error'");
     expect(browserHealth).toContain("page.on('requestfailed'");

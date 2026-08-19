@@ -7,7 +7,7 @@ import {
   type ProductionCharacterKey,
   type RuntimeExpression,
 } from './characterProduction';
-import { runtimeFrameOverride } from './characterRuntimeOverrides';
+import { browserLocalMedallionOverride, browserLocalPoseOverride, runtimeFrameOverride } from './characterRuntimeOverrides';
 
 export type CharacterKey = ProductionCharacterKey;
 export type PlaceholderKey = PlannedCharacterKey;
@@ -88,4 +88,12 @@ export function expressionForDirection(direction: string): RuntimeExpression {
 
 export function expressionAsset(character: CharacterKey, expression: RuntimeExpression): string {
   return runtimeFrameOverride(character, expression)?.asset ?? characterRigs[character].frames[expression];
+}
+
+export function poseAsset(character: CharacterKey): string {
+  return browserLocalPoseOverride(character)?.asset ?? characterRigs[character].poseB;
+}
+
+export function medallionAsset(character: CharacterKey): string {
+  return browserLocalMedallionOverride(character)?.asset ?? characterRigs[character].medallion;
 }
