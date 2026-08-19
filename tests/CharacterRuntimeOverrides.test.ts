@@ -1,8 +1,11 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { characterRigs, expressionAsset, medallionAsset, poseAsset } from '../src/data/characterRigs';
+import { characterRigs, expressionAsset, medallionAsset, poseAsset, resolvedCharacterStaging } from '../src/data/characterRigs';
 import {
+  BROWSER_LOCAL_CHARACTER_EXPORT_FORMAT,
   CHARACTER_RUNTIME_OVERRIDE_FORMAT,
+  applyBrowserLocalCharacterCalibration,
   applyBrowserLocalCharacterOverrides,
+  browserLocalCharacterExportSnapshot,
   clearBrowserLocalCharacterOverrides,
   runtimeFrameOverride,
   validateCharacterRuntimeFrameOverrides,
@@ -53,6 +56,50 @@ describe('ANM-028D3A Emi approved-frame runtime adoption', () => {
     expect(medallionAsset('miku')).toBe('blob:miku-medallion');
     expect(expressionAsset('emi', 'serious')).toBe('./assets/characters/emi/candidates/anm028d2/frame-serious-r1.png');
     expect(poseAsset('onoe')).toBe(characterRigs.onoe.poseB);
+  });
+
+
+  it('applies browser-local eye-line, bottom-pivot and staging calibration on top of the loaded overrides and exports the resolved snapshot', () => {
+    applyBrowserLocalCharacterOverrides({
+      miku: {
+        frames: {
+          smile: {
+            asset: 'blob:miku-smile',
+            geometry: { alphaBounds: { left: 310, top: 48, right: 700, bottom: 1496 }, eyeLineYPx: 212 },
+            visualApproval: 'approved',
+            sourceCandidateId: 'browser-local:test',
+          },
+        },
+        poseB: {
+          asset: 'blob:miku-pose-b',
+          geometry: { alphaBounds: { left: 320, top: 52, right: 702, bottom: 1498 }, eyeLineYPx: 216 },
+          sourceCandidateId: 'browser-local:test',
+        },
+      },
+    });
+
+    applyBrowserLocalCharacterCalibration('miku', { eyeLineOffsetPx: 14, bottomOffsetPx: -12, scale: 1.08, yPercent: 3.5 });
+
+    expect(runtimeFrameOverride('miku', 'smile')?.geometry).toEqual({
+      alphaBounds: { left: 310, top: 48, right: 700, bottom: 1484 },
+      eyeLineYPx: 226,
+    });
+    expect(poseAsset('miku')).toBe('blob:miku-pose-b');
+    expect(resolvedCharacterStaging('miku')).toEqual({ scale: 1.08, yPercent: 3.5 });
+    const poseBStaging = resolveSceneStagingPreset('solo-close', [{ character: 'miku', expression: 'smile', pose: 'pose-b' }]);
+    expect(poseBStaging.actors[0]?.frameAlphaBounds).toEqual({ left: 320, top: 52, right: 702, bottom: 1486 });
+    expect(poseBStaging.actors[0]?.eyeLineYPx).toBe(230);
+
+    const snapshot = browserLocalCharacterExportSnapshot('visual-lab-test.zip');
+    expect(snapshot.format).toBe(BROWSER_LOCAL_CHARACTER_EXPORT_FORMAT);
+    expect(snapshot.packageLabel).toBe('visual-lab-test.zip');
+    expect(snapshot.characters.miku?.staging).toEqual({ scale: 1.08, yPercent: 3.5 });
+    expect(snapshot.characters.miku?.frames.smile).toEqual({
+      alphaBounds: { left: 310, top: 48, right: 700, bottom: 1484 },
+      eyeLineYPx: 226,
+    });
+    expect(snapshot.characters.miku?.assets.frames.smile).toBe('./assets/characters/miku/rig/pose_a/frames/frame-smile.png');
+    expect(snapshot.characters.miku?.assets.poseB).toBe('./assets/characters/miku/poses/pose_b_pointing_sketchbook.png');
   });
 
   it('uses approved frame geometry in shared multi-actor staging', () => {

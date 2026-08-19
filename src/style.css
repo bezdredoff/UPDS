@@ -1490,6 +1490,15 @@ img { display: block; }
 .scene-studio-browser-overrides-active { border-color: #b9c6b7; background: #edf4e7; }
 .scene-studio-browser-overrides-error { border-color: #d5a6aa; background: #f7e5e6; }
 .scene-studio-browser-overrides-loading { border-color: #d6c596; background: #f9f0d6; }
+.scene-studio-browser-calibration, .scene-studio-browser-export { margin-top: 10px; padding-top: 10px; border-top: 1px solid #ded3db; }
+.scene-studio-browser-calibration-grid { margin-top: 8px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.scene-studio-browser-calibration-card { padding: 8px; border: 1px solid #ded3db; border-radius: 10px; background: #fff; display: grid; gap: 8px; }
+.scene-studio-browser-calibration-card header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.scene-studio-browser-calibration-control { display: grid; gap: 4px; }
+.scene-studio-browser-calibration-control span { font-size: 8px; color: var(--ink-soft); }
+.scene-studio-browser-calibration-control input[type="range"] { width: 100%; }
+.scene-studio-browser-calibration-control output { justify-self: end; font-size: 8px; color: var(--ink); }
+#scene-studio-browser-override-json { margin-top: 8px; width: 100%; min-height: 220px; resize: vertical; border-radius: 10px; border: 1px solid #ded3db; background: #2a2630; color: #f7f4fb; padding: 10px; font: 11px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; }
 .scene-studio-summary { margin: 9px auto 0; max-width: 390px; color: var(--ink-soft); font-size: 9px; line-height: 1.4; text-align: center; }
 .scene-studio-status { margin: 12px 0 10px; padding: 10px 11px; display: grid; gap: 3px; border: 1px solid #b9c6b7; border-radius: 9px; background: #edf4e7; }
 .scene-studio-status.invalid { border-color: #d5a6aa; background: #f7e5e6; }

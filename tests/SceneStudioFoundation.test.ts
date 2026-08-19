@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { AppShell } from '../src/app/AppShell';
+import { applyBrowserLocalCharacterOverrides, clearBrowserLocalCharacterOverrides } from '../src/data/characterRuntimeOverrides';
 import type { AppNavigation } from '../src/app/AppNavigation';
 import { SceneStudioController } from '../src/features/sceneStudio/SceneStudioController';
 import { createRuntimeServices } from '../src/platform/RuntimeServices';
@@ -36,6 +37,7 @@ describe('ANM-028B1 Scene Studio foundation', () => {
   });
 
   afterEach(() => {
+    clearBrowserLocalCharacterOverrides();
     Object.defineProperty(globalThis, 'window', { configurable: true, value: originalWindow });
   });
 
@@ -219,5 +221,38 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML).toContain('data-eye-line-y="244"');
     expect(root.innerHTML).toContain('data-visual-approval="approved"');
     expect(root.innerHTML).not.toContain('./assets/characters/emi/rig/pose_a/frames/frame-serious.png');
+  });
+
+  it('renders browser-local calibration controls and a JSON snapshot once local overrides are loaded', () => {
+    applyBrowserLocalCharacterOverrides({
+      miku: {
+        frames: {
+          smile: {
+            asset: 'blob:miku-smile',
+            geometry: { alphaBounds: { left: 310, top: 48, right: 700, bottom: 1496 }, eyeLineYPx: 212 },
+            visualApproval: 'approved',
+            sourceCandidateId: 'browser-local:test',
+          },
+        },
+        poseB: {
+          asset: 'blob:miku-pose-b',
+          geometry: { alphaBounds: { left: 320, top: 52, right: 702, bottom: 1498 }, eyeLineYPx: 216 },
+          sourceCandidateId: 'browser-local:test',
+        },
+      },
+    });
+
+    const root = new FakeRoot();
+    const services = createRuntimeServices();
+    const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
+    const studio = new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
+
+    studio.render({ artSource: 'runtime' });
+    expect(root.innerHTML).toContain('Ручная калибровка');
+    expect(root.innerHTML).toContain('JSON-слепок');
+    expect(root.innerHTML).toContain('data-calibration-character="miku"');
+    expect(root.innerHTML).toContain('data-browser-override-field="eyeLineOffsetPx"');
+    expect(root.innerHTML).toContain('scene-studio-browser-override-json');
+    expect(root.innerHTML).toContain('upds-browser-local-character-export-v1');
   });
 });
