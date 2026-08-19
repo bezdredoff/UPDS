@@ -70,6 +70,10 @@ describe('ANM-028B1 Scene Studio foundation', () => {
     expect(root.innerHTML).toContain('scene-studio-actor-alpha-box');
     expect(root.innerHTML).toContain('scene-studio-actor-eye-marker');
     expect(root.innerHTML).toContain('upds-scene-studio-qa-v1');
+    expect(root.innerHTML).toContain('Локальные подмены персонажей');
+    expect(root.innerHTML).toContain('Загрузить ZIP');
+    expect(root.innerHTML).toContain('Локальные подмены не загружены.');
+    expect(root.innerHTML).toContain('BROWSER LOCAL');
   });
 
   it('renders duo and trio portraits with measurable focal eye-line anchors and selected-frame guides', () => {

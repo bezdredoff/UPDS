@@ -1,5 +1,5 @@
 import { APP_VERSION, BUILD_LABEL } from '../../appVersion';
-import { characterRigs } from '../../data/characterRigs';
+import { characterRigs, medallionAsset } from '../../data/characterRigs';
 import { backgroundAssets } from '../../data/narrative';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
@@ -30,7 +30,7 @@ export class MainMenuController {
         <h1>${t('menu.title')}<br><span>${t('menu.titleAccent')}</span></h1>
         <p class="tagline">${t('menu.tagline')}</p>
         <div class="hero-medallions" aria-label="${t('menu.heroAria')}">
-          ${(['miku', 'onoe', 'ayuki'] as const).map((key) => `<img src="${characterRigs[key].medallion}" alt="${characterRigs[key].displayName}">`).join('')}
+          ${(['miku', 'onoe', 'ayuki'] as const).map((key) => `<img src="${medallionAsset(key)}" alt="${characterRigs[key].displayName}">`).join('')}
         </div>
         <div class="menu-actions">
           <button id="new" class="primary">${t('menu.newGame')}</button>
