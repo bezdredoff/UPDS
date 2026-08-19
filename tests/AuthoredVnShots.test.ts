@@ -51,7 +51,7 @@ describe('ANM-028B2 bounded authored VN shot adoption', () => {
   });
 
 
-  it('applies per-plan browser-local X/Y/scale to authored runtime portraits on the portrait element itself', () => {
+  it('applies slot-aware browser-local X/Y/scale to authored runtime portraits on the portrait element itself', () => {
     applyBrowserLocalCharacterOverrides({
       miku: {
         frames: {
@@ -64,7 +64,10 @@ describe('ANM-028B2 bounded authored VN shot adoption', () => {
         },
       },
     });
-    applyBrowserLocalCharacterCalibration('miku', { scale: 1.18, xPercent: 4, yPercent: 5 }, 'trio-central-speaker');
+    applyBrowserLocalCharacterCalibration('miku', { scale: 1.18, xPercent: 4, yPercent: 5 }, {
+      presetId: 'trio-central-speaker',
+      slotId: 'primary',
+    });
 
     const resolved = resolveAuthoredVnShot('VN0008');
     const miku = resolved?.staging.actors.find((actor) => actor.character === 'miku');
