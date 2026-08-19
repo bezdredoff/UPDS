@@ -14,6 +14,11 @@ export const qaSelectors = {
   storyWinQaButton: '#story-win-qa',
 
   sceneNavigationButton: '#episodes',
+
+  sceneStudioButton: '#scene-studio',
+  sceneStudioScreen: '[data-scene-studio-workspace]',
+  sceneStudioDraggablePortrait: '.scene-studio-actor-slot[data-editor-draggable="true"] .scene-studio-runtime-portrait',
+  sceneStudioPrimaryCalibration: '[data-calibration-slot="primary"]',
   sceneNavigationScreen: '.scene-select',
   sceneButton: '[data-scene]',
 

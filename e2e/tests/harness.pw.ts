@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { observeBrowserHealth } from '../helpers/browserHealth';
 import { resetBrowserState } from '../helpers/runtime';
 import { qaSelectors } from '../selectors';
 
@@ -17,6 +18,35 @@ test.describe('production QA harness routing', () => {
 
     await expect(page.locator(qaSelectors.vnRuntimeFrame)).toBeVisible();
     await expect(page.locator(qaSelectors.vnDialogue)).toBeVisible();
+  });
+
+
+  test('Scene Studio Composition supports direct mouse drag on the shared production stage', async ({ page }) => {
+    const health = observeBrowserHealth(page);
+    await page.locator(qaSelectors.sceneStudioButton).click();
+    const studio = page.locator(qaSelectors.sceneStudioScreen);
+    await expect(studio).toHaveAttribute('data-scene-studio-workspace', 'composition');
+
+    const calibration = page.locator(qaSelectors.sceneStudioPrimaryCalibration);
+    await expect(calibration).toHaveAttribute('data-slot-override', 'false');
+
+    const portrait = page.locator(qaSelectors.sceneStudioDraggablePortrait).first();
+    await portrait.scrollIntoViewIfNeeded();
+    const box = await portrait.boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) return;
+
+    const startX = box.x + box.width * 0.5;
+    const startY = box.y + Math.min(box.height * 0.32, 120);
+    await page.mouse.move(startX, startY);
+    await page.mouse.down();
+    await page.mouse.move(startX + 24, startY + 18, { steps: 4 });
+    await page.mouse.up();
+
+    await expect(page.locator(qaSelectors.sceneStudioPrimaryCalibration)).toHaveAttribute('data-slot-override', 'true');
+    await expect(page.locator('[data-slot-calibration-field="xPercent"]')).not.toHaveValue('0');
+    await expect(page.locator('[data-slot-calibration-field="yPercent"]')).not.toHaveValue('0');
+    health.assertClean();
   });
 
   test('Match-3 Campaign opens the shared production Match-3 board', async ({ page }) => {

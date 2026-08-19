@@ -191,6 +191,9 @@ describe('ANM-028E0C1 Scene Studio workspace separation', () => {
     expect(root.innerHTML).not.toContain('Eye-line');
     expect(root.innerHTML).not.toContain('Bottom pivot');
     expect(root.innerHTML).toContain('data-editor-draggable="true"');
+    expect(root.innerHTML).toContain('data-stage-interactive="true"');
+    expect(root.innerHTML).not.toContain('data-frame-context="scene-studio" data-stage-interactive="true" inert');
+    expect(root.innerHTML).toContain('draggable="false"');
   });
 
   it('swaps an already-used character between slots instead of creating a duplicate actor', () => {
@@ -251,5 +254,6 @@ describe('ANM-028E0C1 Scene Studio workspace separation', () => {
     expect(root.innerHTML).not.toContain('scene-studio-composition-editor');
     expect(root.innerHTML).not.toContain('scene-studio-browser-override-json');
     expect(root.innerHTML).toContain('data-editor-draggable="false"');
+    expect(root.innerHTML).toContain('data-frame-context="scene-studio" data-stage-interactive="false" inert');
   });
 });

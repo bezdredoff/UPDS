@@ -34,6 +34,8 @@ describe('current VN presentation contract', () => {
 
   it('keeps the nameplate above the stage/dialogue seam and the lower portrait behind the dialogue card', () => {
     expect(frameSource).toContain('<span class="dialogue-nameplate">');
+    expect(frameSource).toContain('data-stage-interactive="${stageInteractive}"');
+    expect(frameSource).toContain('const frameInert = input.interactive === false && !stageInteractive');
     expect(vnSource).toContain("frameContext: 'runtime'");
     expect(vnSource).toContain('vnFrameMarkup({');
     expect(style).toContain('.dialogue-shell {\n  position: relative;\n  z-index: 8;');
