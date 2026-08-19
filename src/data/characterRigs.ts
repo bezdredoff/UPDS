@@ -7,7 +7,7 @@ import {
   type ProductionCharacterKey,
   type RuntimeExpression,
 } from './characterProduction';
-import { browserLocalCharacterStaging, browserLocalMedallionOverride, browserLocalPoseOverride, runtimeFrameOverride } from './characterRuntimeOverrides';
+import { browserLocalCharacterStaging, browserLocalCharacterXPercent, browserLocalMedallionOverride, browserLocalPoseOverride, runtimeFrameOverride } from './characterRuntimeOverrides';
 
 export type CharacterKey = ProductionCharacterKey;
 export type PlaceholderKey = PlannedCharacterKey;
@@ -100,4 +100,8 @@ export function medallionAsset(character: CharacterKey): string {
 
 export function resolvedCharacterStaging(character: CharacterKey): CharacterStaging {
   return browserLocalCharacterStaging(character, characterStaging[character]);
+}
+
+export function resolvedCharacterXPercent(character: CharacterKey): number {
+  return browserLocalCharacterXPercent(character);
 }

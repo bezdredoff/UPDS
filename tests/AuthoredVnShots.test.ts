@@ -1,14 +1,17 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import {
   AUTHORED_VN_SHOTS_FORMAT,
   authoredVnShotManifest,
   validateAuthoredVnShotManifest,
 } from '../src/data/authoredVnShots';
 import { characterForSpeaker, characterRigs } from '../src/data/characterRigs';
+import { applyBrowserLocalCharacterCalibration, applyBrowserLocalCharacterOverrides, clearBrowserLocalCharacterOverrides } from '../src/data/characterRuntimeOverrides';
 import { canonicalStoryLines } from '../src/content/storyRuntime';
 import { authoredVnShotAssets, resolveAuthoredVnShot, vnAuthoredShotMarkup } from '../src/ui/vnAuthoredShots';
 
 const storyById = new Map(canonicalStoryLines.map((line) => [line.id, line]));
+
+afterEach(() => clearBrowserLocalCharacterOverrides());
 
 describe('ANM-028B2 bounded authored VN shot adoption', () => {
   it('locks a bounded valid set across canonical authored batches to approved actor-only presets', () => {
@@ -45,6 +48,34 @@ describe('ANM-028B2 bounded authored VN shot adoption', () => {
     expect(markup).toContain('data-character="miku"');
     expect(markup).toContain('data-speaking="true"');
     expect(markup).toContain('data-vertical-anchor="background-focal-eye-line"');
+  });
+
+
+  it('applies per-plan browser-local X/Y/scale to authored runtime portraits on the portrait element itself', () => {
+    applyBrowserLocalCharacterOverrides({
+      miku: {
+        frames: {
+          neutral: {
+            asset: 'blob:miku-neutral',
+            geometry: { alphaBounds: { left: 300, top: 40, right: 710, bottom: 1490 }, eyeLineYPx: 205 },
+            visualApproval: 'approved',
+            sourceCandidateId: 'browser-local:test',
+          },
+        },
+      },
+    });
+    applyBrowserLocalCharacterCalibration('miku', { scale: 1.18, xPercent: 4, yPercent: 5 }, 'trio-central-speaker');
+
+    const resolved = resolveAuthoredVnShot('VN0008');
+    const miku = resolved?.staging.actors.find((actor) => actor.character === 'miku');
+    expect(miku?.canonicalCharacterScale).toBe(1.18);
+    expect(miku?.canonicalCharacterYPercent).toBe(5);
+    expect(miku?.anchorXPercent).toBe(54);
+
+    const markup = vnAuthoredShotMarkup(resolved!, 'miku');
+    expect(markup).toContain('--scene-x:54%');
+    expect(markup).toContain('style="--character-scale:1.18;--character-y:5%"');
+    expect(markup).toContain('blob:miku-neutral');
   });
 
   it('proves authored Pose B without changing the fallback resolver for unlisted lines', () => {

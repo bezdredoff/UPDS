@@ -36,8 +36,11 @@ import {
   browserLocalCharacterExportSnapshot,
   browserLocalCharacterOverrideSummaries,
   clearBrowserLocalCharacterOverrides,
+  copyBrowserLocalCharacterGlobalCalibrationToPlan,
   hasBrowserLocalCharacterOverrides,
+  hasBrowserLocalCharacterPlanCalibration,
   resetBrowserLocalCharacterCalibration,
+  resetBrowserLocalCharacterGlobalCalibration,
 } from '../../data/characterRuntimeOverrides';
 import { characterProductionManifest } from '../../data/characterProduction';
 import { backgroundAssets, sceneMeta, type BackgroundKey } from '../../data/narrative';
@@ -240,6 +243,7 @@ type SceneStudioBrowserOverrideStatus = Readonly<{
 export class SceneStudioController {
   private state: SceneStudioState = DEFAULT_STATE;
   private browserOverrideStatus: SceneStudioBrowserOverrideStatus = { kind: 'idle', message: '' };
+  private browserCalibrationScope: 'global' | 'plan' = 'global';
 
   constructor(
     private readonly root: HTMLElement,
@@ -408,7 +412,7 @@ export class SceneStudioController {
           ${browserOverrides.length ? `<ul>${browserOverrides.map((summary) => `<li><code>${summary.character}</code><span>${escapeHtml(localOverrideCopy.summary(summary.frameCount, summary.poseB, summary.medallion, summary.assetCount))}</span></li>`).join('')}</ul>` : ''}
           ${this.browserOverrideStatus.detail?.warnings.length ? `<ul>${this.browserOverrideStatus.detail.warnings.map((warning) => `<li>${escapeHtml(warning)}</li>`).join('')}</ul>` : ''}
         </div>
-        ${hasBrowserLocalCharacterOverrides() ? this.browserOverrideCalibrationMarkup(localOverrideCopy) : ''}
+        ${hasBrowserLocalCharacterOverrides() ? this.browserOverrideCalibrationMarkup(localOverrideCopy, state.presetId) : ''}
         ${hasBrowserLocalCharacterOverrides() ? this.browserOverrideExportMarkup(localOverrideCopy, browserOverrideSnapshotJson) : ''}
       </section>
 
@@ -496,20 +500,31 @@ export class SceneStudioController {
       if (file) void this.loadBrowserOverrideZip(file);
       browserOverrideInput.value = '';
     });
+    this.root.querySelector<HTMLSelectElement>('#scene-studio-browser-calibration-scope')?.addEventListener('change', (event) => {
+      this.browserCalibrationScope = (event.currentTarget as HTMLSelectElement).value === 'plan' ? 'plan' : 'global';
+      this.render(state);
+    });
     for (const slider of this.root.querySelectorAll<HTMLInputElement>('[data-browser-override-character][data-browser-override-field]')) {
       const updateOutput = (): void => {
         const output = slider.parentElement?.querySelector('output');
         if (!output) return;
         const field = slider.dataset.browserOverrideField;
-        output.textContent = field === 'scale' ? `${slider.value}%` : field === 'yPercent' ? `${slider.value}%` : `${slider.value}px`;
+        output.textContent = field === 'scale' ? `${slider.value}%`
+          : field === 'xPercent' || field === 'yPercent' ? `${slider.value}%`
+            : `${slider.value}px`;
       };
       slider.addEventListener('input', updateOutput);
       slider.addEventListener('change', () => {
         const character = slider.dataset.browserOverrideCharacter as keyof typeof characterProductionManifest.characters | undefined;
-        const field = slider.dataset.browserOverrideField as 'eyeLineOffsetPx' | 'bottomOffsetPx' | 'scale' | 'yPercent' | undefined;
+        const field = slider.dataset.browserOverrideField as 'eyeLineOffsetPx' | 'bottomOffsetPx' | 'scale' | 'xPercent' | 'yPercent' | undefined;
         if (!character || !field) return;
         const numericValue = Number(slider.value);
-        applyBrowserLocalCharacterCalibration(character as never, field === 'scale' ? { scale: numericValue / 100 } : { [field]: numericValue });
+        const planId = this.browserCalibrationScope === 'plan' ? state.presetId : undefined;
+        applyBrowserLocalCharacterCalibration(
+          character as never,
+          field === 'scale' ? { scale: numericValue / 100 } : { [field]: numericValue },
+          planId,
+        );
         this.render(state);
       });
     }
@@ -517,7 +532,16 @@ export class SceneStudioController {
       button.addEventListener('click', () => {
         const character = button.dataset.browserOverrideResetCharacter as keyof typeof characterProductionManifest.characters | undefined;
         if (!character) return;
-        resetBrowserLocalCharacterCalibration(character as never);
+        if (this.browserCalibrationScope === 'plan') resetBrowserLocalCharacterCalibration(character as never, state.presetId);
+        else resetBrowserLocalCharacterGlobalCalibration(character as never);
+        this.render(state);
+      });
+    }
+    for (const button of this.root.querySelectorAll<HTMLElement>('[data-browser-override-copy-global-to-plan]')) {
+      button.addEventListener('click', () => {
+        const character = button.dataset.browserOverrideCopyGlobalToPlan as keyof typeof characterProductionManifest.characters | undefined;
+        if (!character) return;
+        copyBrowserLocalCharacterGlobalCalibrationToPlan(character as never, state.presetId);
         this.render(state);
       });
     }
@@ -536,21 +560,35 @@ export class SceneStudioController {
     });
   }
 
-  private browserOverrideCalibrationMarkup(copy: ReturnType<typeof browserOverrideCopy>): string {
+  private browserOverrideCalibrationMarkup(
+    copy: ReturnType<typeof browserOverrideCopy>,
+    planId: SceneStagingPresetId,
+  ): string {
     const summaries = browserLocalCharacterOverrideSummaries();
-    return `<section class="scene-studio-browser-calibration">
-      <div class="scene-studio-section-title"><div><small>${escapeHtml(copy.eyebrow)}</small><b>${escapeHtml(copy.controlsTitle)}</b></div><code>TUNING</code></div>
+    const planScope = this.browserCalibrationScope === 'plan';
+    return `<section class="scene-studio-browser-calibration" data-calibration-scope="${this.browserCalibrationScope}" data-calibration-plan="${planId}">
+      <div class="scene-studio-section-title"><div><small>${escapeHtml(copy.eyebrow)}</small><b>${escapeHtml(copy.controlsTitle)}</b></div><code>${planScope ? escapeHtml(planId) : 'GLOBAL'}</code></div>
       <p>${escapeHtml(copy.controlsCopy)}</p>
+      <label class="scene-studio-browser-calibration-scope"><span>${escapeHtml(copy.scope)}</span><select id="scene-studio-browser-calibration-scope">
+        <option value="global"${planScope ? '' : ' selected'}>${escapeHtml(copy.globalScope)}</option>
+        <option value="plan"${planScope ? ' selected' : ''}>${escapeHtml(copy.currentPlanScope(planId))}</option>
+      </select></label>
       <div class="scene-studio-browser-calibration-grid">${summaries.map((summary) => {
-        const calibration = browserLocalCharacterCalibration(summary.character);
+        const calibration = browserLocalCharacterCalibration(summary.character, planScope ? planId : undefined);
+        const planOverride = planScope && hasBrowserLocalCharacterPlanCalibration(summary.character, planId);
         const displayName = characterProductionManifest.characters[summary.character].shortName;
-        return `<article class="scene-studio-browser-calibration-card" data-calibration-character="${summary.character}">
-          <header><b>${escapeHtml(displayName)}</b><code>${summary.character}</code></header>
+        return `<article class="scene-studio-browser-calibration-card" data-calibration-character="${summary.character}" data-plan-override="${planOverride}">
+          <header><b>${escapeHtml(displayName)}</b><code>${planScope ? escapeHtml(planId) : summary.character}</code></header>
+          ${planScope ? `<small class="scene-studio-browser-calibration-inheritance">${escapeHtml(planOverride ? copy.planOverrideActive : copy.planUsesGlobal)}</small>` : ''}
           ${this.browserOverrideRangeControlMarkup(summary.character, 'eyeLineOffsetPx', copy.eyeLine, calibration.eyeLineOffsetPx, -180, 180, 1, `${calibration.eyeLineOffsetPx}px`)}
           ${this.browserOverrideRangeControlMarkup(summary.character, 'bottomOffsetPx', copy.bottomPivot, calibration.bottomOffsetPx, -180, 180, 1, `${calibration.bottomOffsetPx}px`)}
           ${this.browserOverrideRangeControlMarkup(summary.character, 'scale', copy.scale, Math.round(calibration.scale * 100), 70, 130, 1, `${Math.round(calibration.scale * 100)}%`)}
+          ${this.browserOverrideRangeControlMarkup(summary.character, 'xPercent', copy.frameX, calibration.xPercent, -18, 18, 0.5, `${calibration.xPercent}%`)}
           ${this.browserOverrideRangeControlMarkup(summary.character, 'yPercent', copy.frameY, calibration.yPercent, -18, 18, 0.5, `${calibration.yPercent}%`)}
-          <button data-browser-override-reset-character="${summary.character}">${escapeHtml(copy.resetCharacter)}</button>
+          <div class="scene-studio-browser-calibration-actions">
+            ${planScope ? `<button data-browser-override-copy-global-to-plan="${summary.character}">${escapeHtml(copy.copyGlobalToPlan)}</button>` : ''}
+            <button data-browser-override-reset-character="${summary.character}">${escapeHtml(planScope ? copy.resetPlan : copy.resetGlobal)}</button>
+          </div>
         </article>`;
       }).join('')}</div>
     </section>`;
@@ -558,7 +596,7 @@ export class SceneStudioController {
 
   private browserOverrideRangeControlMarkup(
     character: string,
-    field: 'eyeLineOffsetPx' | 'bottomOffsetPx' | 'scale' | 'yPercent',
+    field: 'eyeLineOffsetPx' | 'bottomOffsetPx' | 'scale' | 'xPercent' | 'yPercent',
     label: string,
     value: number,
     minimum: number,
@@ -748,10 +786,11 @@ export class SceneStudioController {
       `--character-scale:${actor.canonicalCharacterScale}`,
       `--character-y:${actor.canonicalCharacterYPercent}%`,
     ].join(';');
+    const portraitStyle = `--character-scale:${actor.canonicalCharacterScale};--character-y:${actor.canonicalCharacterYPercent}%`;
     const approval = usesCandidate ? candidate.status : actor.visualApproval;
     const source = usesCandidate ? candidate.id : 'runtime';
     return `<div class="scene-studio-actor-slot" data-slot="${actor.slotId}" data-character="${actor.character}" data-role="${actor.role}" data-visual-approval="${approval}" data-art-source="${source}" style="${style}">
-      <div class="portrait portrait-static-wrap scene-studio-runtime-portrait" data-shot-scale="${actor.shotScale}" data-runtime-crop="true" data-vertical-anchor="${actor.verticalAnchor}" data-guide-geometry="${actor.guideGeometrySource}" data-eye-line-y="${actor.eyeLineYPx}" data-eye-line-ratio="${actor.eyeLineRatio}" data-alpha-bounds="${bounds.left},${bounds.top},${bounds.right},${bounds.bottom}"><img class="portrait-static" src="${asset}" alt="${t(`character.${actor.character}`)}">${showGuides ? `<i class="scene-studio-actor-alpha-box" aria-hidden="true"><b>${t(`character.${actor.character}`)}</b><small>${t('sceneStudio.guide.frameAlpha')} · ${usesCandidate ? candidate.id : guideFrameLabel}</small></i><i class="scene-studio-actor-eye-marker" aria-hidden="true"><b>${t('sceneStudio.guide.eyes')} · y=${actor.eyeLineYPx}</b></i>` : ''}</div>
+      <div class="portrait portrait-static-wrap scene-studio-runtime-portrait" data-shot-scale="${actor.shotScale}" data-runtime-crop="true" data-vertical-anchor="${actor.verticalAnchor}" data-guide-geometry="${actor.guideGeometrySource}" data-eye-line-y="${actor.eyeLineYPx}" data-eye-line-ratio="${actor.eyeLineRatio}" data-alpha-bounds="${bounds.left},${bounds.top},${bounds.right},${bounds.bottom}" style="${portraitStyle}"><img class="portrait-static" src="${asset}" alt="${t(`character.${actor.character}`)}">${showGuides ? `<i class="scene-studio-actor-alpha-box" aria-hidden="true"><b>${t(`character.${actor.character}`)}</b><small>${t('sceneStudio.guide.frameAlpha')} · ${usesCandidate ? candidate.id : guideFrameLabel}</small></i><i class="scene-studio-actor-eye-marker" aria-hidden="true"><b>${t('sceneStudio.guide.eyes')} · y=${actor.eyeLineYPx}</b></i>` : ''}</div>
     </div>`;
   }
 

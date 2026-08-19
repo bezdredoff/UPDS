@@ -2,6 +2,7 @@ import {
   characterForSpeaker,
   characterRigs,
   resolvedCharacterStaging,
+  resolvedCharacterXPercent,
   poseAsset,
   expressionAsset,
   expressionForDirection,
@@ -68,7 +69,8 @@ const characterStageMarkup = (
 ): string => {
   const rig = characterRigs[character];
   const staging = resolvedCharacterStaging(character);
-  const style = `--character-scale:${staging.scale};--character-y:${staging.yPercent}%`;
+  const xPercent = resolvedCharacterXPercent(character);
+  const style = `--character-scale:${staging.scale};--character-x:${xPercent}%;--character-y:${staging.yPercent}%`;
   if (usesVnPoseB(character, direction)) {
     return `<div class="portrait portrait-${side} portrait-static-wrap" data-character="${character}" style="${style}"><img class="portrait-static" src="${poseAsset(character)}" alt="${rig.displayName}"></div>`;
   }

@@ -18,9 +18,9 @@ describe('current VN presentation contract', () => {
     expect(style).toContain('.vn-background-fit { object-fit: contain');
     expect(style).toContain('.vn-background-fill { object-fit: cover');
     expect(style).toContain('bottom: var(--portrait-bottom, -78%);\n  height: var(--portrait-height, 178%);');
-    expect(style).toContain('.portrait-left { left: 29%; }');
-    expect(style).toContain('.portrait-right { left: 71%; }');
-    expect(style).toContain('.portrait-center { left: 50%; }');
+    expect(style).toContain('.portrait-left { left: calc(29% + var(--character-x, 0%)); }');
+    expect(style).toContain('.portrait-right { left: calc(71% + var(--character-x, 0%)); }');
+    expect(style).toContain('.portrait-center { left: calc(50% + var(--character-x, 0%)); }');
     expect(style).toContain('.stage { position: relative; z-index: 2; min-height: 0; overflow: visible; }');
   });
 

@@ -7,7 +7,7 @@ import type {
 import { characterProductionManifest, runtimeExpressionOrder } from './characterProduction';
 
 export const CHARACTER_RUNTIME_OVERRIDE_FORMAT = 'upds-character-runtime-override-v1' as const;
-export const BROWSER_LOCAL_CHARACTER_EXPORT_FORMAT = 'upds-browser-local-character-export-v1' as const;
+export const BROWSER_LOCAL_CHARACTER_EXPORT_FORMAT = 'upds-browser-local-character-export-v2' as const;
 
 export type CharacterRuntimeFrameOverride = Readonly<{
   asset: string;
@@ -49,23 +49,35 @@ export type BrowserLocalCharacterCalibration = Readonly<{
   eyeLineOffsetPx: number;
   bottomOffsetPx: number;
   scale: number;
+  xPercent: number;
   yPercent: number;
+}>;
+
+export type BrowserLocalResolvedStaging = Readonly<CharacterStaging & { xPercent: number }>;
+
+type BrowserLocalCharacterCalibrationState = Readonly<{
+  global?: BrowserLocalCharacterCalibration;
+  perPlan?: Readonly<Record<string, BrowserLocalCharacterCalibration>>;
+}>;
+
+export type BrowserLocalCharacterCalibrationSnapshot = Readonly<{
+  calibration: BrowserLocalCharacterCalibration;
+  staging: BrowserLocalResolvedStaging;
+  frames: Readonly<Partial<Record<RuntimeExpression, CharacterPortraitFrameGeometry>>>;
+  poseB?: CharacterPortraitFrameGeometry;
 }>;
 
 export type BrowserLocalCharacterExportSnapshot = Readonly<{
   format: typeof BROWSER_LOCAL_CHARACTER_EXPORT_FORMAT;
   packageLabel: string | null;
   characters: Readonly<Partial<Record<ProductionCharacterKey, Readonly<{
-    staging: CharacterStaging;
-    calibration: BrowserLocalCharacterCalibration;
-    frames: Readonly<Partial<Record<RuntimeExpression, CharacterPortraitFrameGeometry>>>;
-    poseB?: CharacterPortraitFrameGeometry;
-    medallion?: string;
     assets: Readonly<{
       frames: Readonly<Partial<Record<RuntimeExpression, string>>>;
       poseB?: string;
       medallion?: string;
     }>;
+    global: BrowserLocalCharacterCalibrationSnapshot;
+    perPlan: Readonly<Record<string, BrowserLocalCharacterCalibrationSnapshot>>;
   }>>>>;
 }>;
 
@@ -78,6 +90,7 @@ const DEFAULT_CALIBRATION: BrowserLocalCharacterCalibration = Object.freeze({
   eyeLineOffsetPx: 0,
   bottomOffsetPx: 0,
   scale: 1,
+  xPercent: 0,
   yPercent: 0,
 });
 
@@ -105,7 +118,7 @@ export const characterRuntimeFrameOverrides: Readonly<
 
 let browserLocalCharacterOverrides: BrowserLocalCharacterAssetOverrides = Object.freeze({});
 let browserLocalOverrideUrls: string[] = [];
-let browserLocalCharacterCalibrations: Partial<Record<ProductionCharacterKey, BrowserLocalCharacterCalibration>> = Object.freeze({});
+let browserLocalCharacterCalibrations: Partial<Record<ProductionCharacterKey, BrowserLocalCharacterCalibrationState>> = Object.freeze({});
 
 function round(value: number, digits = 2): number {
   const factor = 10 ** digits;
@@ -114,6 +127,19 @@ function round(value: number, digits = 2): number {
 
 function clamp(value: number, minimum: number, maximum: number): number {
   return Math.min(maximum, Math.max(minimum, value));
+}
+
+function normalizeCalibration(
+  current: BrowserLocalCharacterCalibration,
+  patch: Partial<BrowserLocalCharacterCalibration>,
+): BrowserLocalCharacterCalibration {
+  return Object.freeze({
+    eyeLineOffsetPx: Number.isFinite(patch.eyeLineOffsetPx) ? Math.round(patch.eyeLineOffsetPx!) : current.eyeLineOffsetPx,
+    bottomOffsetPx: Number.isFinite(patch.bottomOffsetPx) ? Math.round(patch.bottomOffsetPx!) : current.bottomOffsetPx,
+    scale: Number.isFinite(patch.scale) ? round(clamp(patch.scale!, 0.6, 1.6), 3) : current.scale,
+    xPercent: Number.isFinite(patch.xPercent) ? round(clamp(patch.xPercent!, -30, 30), 2) : current.xPercent,
+    yPercent: Number.isFinite(patch.yPercent) ? round(clamp(patch.yPercent!, -30, 30), 2) : current.yPercent,
+  });
 }
 
 function revokeBrowserLocalOverrideUrls(): void {
@@ -144,33 +170,91 @@ function calibratedGeometry(
   };
 }
 
-function calibrationFor(character: ProductionCharacterKey): BrowserLocalCharacterCalibration {
-  return browserLocalCharacterCalibrations[character] ?? DEFAULT_CALIBRATION;
+function globalCalibrationFor(character: ProductionCharacterKey): BrowserLocalCharacterCalibration {
+  return browserLocalCharacterCalibrations[character]?.global ?? DEFAULT_CALIBRATION;
 }
 
-export function browserLocalCharacterCalibration(character: ProductionCharacterKey): BrowserLocalCharacterCalibration {
-  return calibrationFor(character);
+function calibrationFor(character: ProductionCharacterKey, planId?: string): BrowserLocalCharacterCalibration {
+  const state = browserLocalCharacterCalibrations[character];
+  if (planId && state?.perPlan?.[planId]) return state.perPlan[planId];
+  return state?.global ?? DEFAULT_CALIBRATION;
+}
+
+export function browserLocalCharacterCalibration(
+  character: ProductionCharacterKey,
+  planId?: string,
+): BrowserLocalCharacterCalibration {
+  return calibrationFor(character, planId);
+}
+
+export function hasBrowserLocalCharacterPlanCalibration(character: ProductionCharacterKey, planId: string): boolean {
+  return Boolean(browserLocalCharacterCalibrations[character]?.perPlan?.[planId]);
+}
+
+export function browserLocalCharacterPlanIds(character: ProductionCharacterKey): readonly string[] {
+  return Object.keys(browserLocalCharacterCalibrations[character]?.perPlan ?? {}).sort();
 }
 
 export function applyBrowserLocalCharacterCalibration(
   character: ProductionCharacterKey,
   patch: Partial<BrowserLocalCharacterCalibration>,
+  planId?: string,
 ): void {
-  const current = calibrationFor(character);
+  const state = browserLocalCharacterCalibrations[character] ?? {};
+  if (planId) {
+    const current = calibrationFor(character, planId);
+    browserLocalCharacterCalibrations = Object.freeze({
+      ...browserLocalCharacterCalibrations,
+      [character]: Object.freeze({
+        ...state,
+        perPlan: Object.freeze({
+          ...(state.perPlan ?? {}),
+          [planId]: normalizeCalibration(current, patch),
+        }),
+      }),
+    });
+    return;
+  }
+  browserLocalCharacterCalibrations = Object.freeze({
+    ...browserLocalCharacterCalibrations,
+    [character]: Object.freeze({ ...state, global: normalizeCalibration(globalCalibrationFor(character), patch) }),
+  });
+}
+
+export function copyBrowserLocalCharacterGlobalCalibrationToPlan(character: ProductionCharacterKey, planId: string): void {
+  const state = browserLocalCharacterCalibrations[character] ?? {};
   browserLocalCharacterCalibrations = Object.freeze({
     ...browserLocalCharacterCalibrations,
     [character]: Object.freeze({
-      eyeLineOffsetPx: Number.isFinite(patch.eyeLineOffsetPx) ? Math.round(patch.eyeLineOffsetPx!) : current.eyeLineOffsetPx,
-      bottomOffsetPx: Number.isFinite(patch.bottomOffsetPx) ? Math.round(patch.bottomOffsetPx!) : current.bottomOffsetPx,
-      scale: Number.isFinite(patch.scale) ? round(clamp(patch.scale!, 0.6, 1.6), 3) : current.scale,
-      yPercent: Number.isFinite(patch.yPercent) ? round(clamp(patch.yPercent!, -30, 30), 2) : current.yPercent,
+      ...state,
+      perPlan: Object.freeze({ ...(state.perPlan ?? {}), [planId]: Object.freeze({ ...globalCalibrationFor(character) }) }),
     }),
   });
 }
 
-export function resetBrowserLocalCharacterCalibration(character?: ProductionCharacterKey): void {
+export function resetBrowserLocalCharacterGlobalCalibration(character: ProductionCharacterKey): void {
+  const state = browserLocalCharacterCalibrations[character];
+  if (!state) return;
+  browserLocalCharacterCalibrations = Object.freeze({
+    ...browserLocalCharacterCalibrations,
+    [character]: Object.freeze({ perPlan: state.perPlan ?? Object.freeze({}) }),
+  });
+}
+
+export function resetBrowserLocalCharacterCalibration(character?: ProductionCharacterKey, planId?: string): void {
   if (!character) {
     browserLocalCharacterCalibrations = Object.freeze({});
+    return;
+  }
+  const state = browserLocalCharacterCalibrations[character];
+  if (!state) return;
+  if (planId) {
+    const nextPlans = { ...(state.perPlan ?? {}) };
+    delete nextPlans[planId];
+    browserLocalCharacterCalibrations = Object.freeze({
+      ...browserLocalCharacterCalibrations,
+      [character]: Object.freeze({ ...state, perPlan: Object.freeze(nextPlans) }),
+    });
     return;
   }
   const next = { ...browserLocalCharacterCalibrations };
@@ -225,17 +309,18 @@ export function browserLocalCharacterOverrideCharacters(): readonly ProductionCh
 export function browserLocalExpressionOverride(
   character: ProductionCharacterKey,
   expression: RuntimeExpression,
+  planId?: string,
 ): CharacterRuntimeFrameOverride | null {
   const base = browserLocalCharacterOverrides[character]?.frames?.[expression] ?? null;
   return base
-    ? { ...base, geometry: calibratedGeometry(base.geometry, calibrationFor(character)) }
+    ? { ...base, geometry: calibratedGeometry(base.geometry, calibrationFor(character, planId)) }
     : null;
 }
 
-export function browserLocalPoseOverride(character: ProductionCharacterKey): CharacterRuntimePoseOverride | null {
+export function browserLocalPoseOverride(character: ProductionCharacterKey, planId?: string): CharacterRuntimePoseOverride | null {
   const base = browserLocalCharacterOverrides[character]?.poseB ?? null;
   return base
-    ? { ...base, geometry: calibratedGeometry(base.geometry, calibrationFor(character)) }
+    ? { ...base, geometry: calibratedGeometry(base.geometry, calibrationFor(character, planId)) }
     : null;
 }
 
@@ -243,57 +328,81 @@ export function browserLocalMedallionOverride(character: ProductionCharacterKey)
   return browserLocalCharacterOverrides[character]?.medallion ?? null;
 }
 
-export function browserLocalCharacterStaging(character: ProductionCharacterKey, fallback: CharacterStaging): CharacterStaging {
+export function browserLocalCharacterStaging(
+  character: ProductionCharacterKey,
+  fallback: CharacterStaging,
+  planId?: string,
+): CharacterStaging {
   if (!browserLocalCharacterOverrides[character]) return fallback;
-  const calibration = calibrationFor(character);
+  const calibration = calibrationFor(character, planId);
   return {
     scale: round(fallback.scale * calibration.scale, 3),
     yPercent: round(fallback.yPercent + calibration.yPercent, 2),
   };
 }
 
+export function browserLocalCharacterXPercent(character: ProductionCharacterKey, planId?: string): number {
+  return browserLocalCharacterOverrides[character] ? calibrationFor(character, planId).xPercent : 0;
+}
+
+function calibrationSnapshot(
+  character: ProductionCharacterKey,
+  calibration: BrowserLocalCharacterCalibration,
+): BrowserLocalCharacterCalibrationSnapshot {
+  const baseRecord = browserLocalCharacterOverrides[character]!;
+  const definition = characterProductionManifest.characters[character];
+  const frames = Object.fromEntries(runtimeExpressionOrder.flatMap((expression) => {
+    const frame = baseRecord.frames?.[expression];
+    return frame ? [[expression, calibratedGeometry(frame.geometry, calibration)]] : [];
+  })) as Partial<Record<RuntimeExpression, CharacterPortraitFrameGeometry>>;
+  return {
+    calibration,
+    staging: {
+      scale: round(definition.staging.scale * calibration.scale, 3),
+      xPercent: calibration.xPercent,
+      yPercent: round(definition.staging.yPercent + calibration.yPercent, 2),
+    },
+    frames,
+    poseB: baseRecord.poseB ? calibratedGeometry(baseRecord.poseB.geometry, calibration) : undefined,
+  };
+}
+
 export function browserLocalCharacterExportSnapshot(packageLabel: string | null = null): BrowserLocalCharacterExportSnapshot {
   const characters: Partial<Record<ProductionCharacterKey, BrowserLocalCharacterExportSnapshot['characters'][ProductionCharacterKey]>> = {};
   for (const character of browserLocalCharacterOverrideCharacters()) {
-    const calibration = calibrationFor(character);
     const baseRecord = browserLocalCharacterOverrides[character];
     if (!baseRecord) continue;
     const definition = characterProductionManifest.characters[character];
-    const frames = Object.fromEntries(runtimeExpressionOrder.flatMap((expression) => {
-      const frame = baseRecord.frames?.[expression];
-      if (!frame) return [];
-      return [[expression, calibratedGeometry(frame.geometry, calibration)]];
-    })) as Partial<Record<RuntimeExpression, CharacterPortraitFrameGeometry>>;
     const assets: {
       frames: Partial<Record<RuntimeExpression, string>>;
       poseB?: string;
       medallion?: string;
     } = {
-      frames: Object.fromEntries(runtimeExpressionOrder.flatMap((expression) => baseRecord.frames?.[expression] ? [[expression, definition.assets.frames[expression]]] : [])) as Partial<Record<RuntimeExpression, string>>,
+      frames: Object.fromEntries(runtimeExpressionOrder.flatMap((expression) => baseRecord.frames?.[expression]
+        ? [[expression, definition.assets.frames[expression]]]
+        : [])) as Partial<Record<RuntimeExpression, string>>,
     };
     if (baseRecord.poseB) assets.poseB = definition.assets.poseB;
     if (baseRecord.medallion) assets.medallion = definition.assets.medallion;
+    const perPlan = Object.fromEntries(browserLocalCharacterPlanIds(character).map((planId) => [
+      planId,
+      calibrationSnapshot(character, calibrationFor(character, planId)),
+    ]));
     characters[character] = {
-      staging: browserLocalCharacterStaging(character, definition.staging),
-      calibration,
-      frames,
-      poseB: baseRecord.poseB ? calibratedGeometry(baseRecord.poseB.geometry, calibration) : undefined,
-      medallion: baseRecord.medallion ? definition.assets.medallion : undefined,
       assets,
+      global: calibrationSnapshot(character, globalCalibrationFor(character)),
+      perPlan,
     };
   }
-  return {
-    format: BROWSER_LOCAL_CHARACTER_EXPORT_FORMAT,
-    packageLabel,
-    characters,
-  };
+  return { format: BROWSER_LOCAL_CHARACTER_EXPORT_FORMAT, packageLabel, characters };
 }
 
 export function runtimeFrameOverride(
   character: ProductionCharacterKey,
   expression: RuntimeExpression,
+  planId?: string,
 ): CharacterRuntimeFrameOverride | null {
-  return browserLocalExpressionOverride(character, expression) ?? characterRuntimeFrameOverrides[character]?.[expression] ?? null;
+  return browserLocalExpressionOverride(character, expression, planId) ?? characterRuntimeFrameOverrides[character]?.[expression] ?? null;
 }
 
 export function validateCharacterRuntimeFrameOverrides(): readonly string[] {
