@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { characterProductionManifest } from '../src/data/characterProduction';
+import { characterProductionManifest, productionCharacterKeys } from '../src/data/characterProduction';
 import {
   SCENE_STAGING_FORMAT,
   sceneStagingManifest,
@@ -150,18 +150,14 @@ describe('ANM-028B1 reusable scene staging contract', () => {
 
   it('exposes measurable lineup drift as QA warnings without altering canonical scale', () => {
     const metrics = sceneStudioLineupMetrics();
-    expect(metrics.map((metric) => metric.character)).toEqual(['miku', 'onoe', 'ayuki', 'emi']);
+    expect(metrics.map((metric) => metric.character)).toEqual(productionCharacterKeys);
     expect(metrics.find((metric) => metric.character === 'miku')?.bottomPaddingPx).toBe(118);
     expect(validateSceneStudioCalibration()).toContainEqual(expect.objectContaining({
       severity: 'warning',
       code: 'bottom-pivot',
       subject: 'miku',
     }));
-    expect(metrics.find((metric) => metric.character === 'emi')?.visualApproval).toBe('rebuild-required');
-    expect(validateSceneStudioCalibration()).toContainEqual(expect.objectContaining({
-      severity: 'warning',
-      code: 'master-rebuild',
-      subject: 'emi',
-    }));
+    expect(metrics.every((metric) => metric.visualApproval === 'approved')).toBe(true);
+    expect(validateSceneStudioCalibration().some((issue) => issue.code === 'master-rebuild')).toBe(false);
   });
 });

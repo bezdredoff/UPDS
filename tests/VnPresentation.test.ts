@@ -82,6 +82,13 @@ describe('current VN presentation contract', () => {
     expect(stage.stageMarkup).toContain('portrait-frame');
     expect(stage.preloadAssets).toHaveLength(1);
     expect(usesVnPoseB('miku', 'С БЛОКНОТОМ')).toBe(true);
+    expect(usesVnPoseB('ayuki', 'БЕРЁТСЯ ЗА ТЕЛЕФОН')).toBe(true);
+    expect(usesVnPoseB('kentaro', 'ПЫТАЕТСЯ ОБЪЯСНИТЬ')).toBe(true);
+    expect(usesVnPoseB('norihiro', 'С ПЛАНШЕТОМ')).toBe(true);
+    expect(usesVnPoseB('mayu', 'ЛИСТАЕТ ДОГОВОР')).toBe(true);
+    expect(usesVnPoseB('rina', 'ПОКАЗЫВАЕТ МАРШРУТ')).toBe(true);
+    expect(usesVnPoseB('kurose', 'ПОКАЗЫВАЕТ ПЛАНШЕТ')).toBe(true);
+    expect(usesVnPoseB('emi', 'С ТЕЛЕФОНОМ')).toBe(false);
   });
 
   it('composes choice/config markup without owning event binding or runtime services', () => {

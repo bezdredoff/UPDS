@@ -191,7 +191,7 @@ describe('ANM-027F full-story macro lock', () => {
 
   it('derives the ANM-030A production-gap matrix from the locked 22-slot story without inflating art scope', () => {
     expect(assetGapAudit.format).toBe('upds-asset-gap-audit-v1');
-    expect(assetGapAudit.baseline.mainSha).toBe('6c7ced64284ecb30c2cdbc134468304c1a428cb4');
+    expect(assetGapAudit.baseline.mainSha).toBe('227d32ca7e0ab681cf20919ac36bbc9a2860eac1');
     expect(assetGapAudit.slots.map((slot) => slot.slot)).toEqual(macro.slots.map((slot) => slot.slot));
     expect(assetGapAudit.summary).toMatchObject({
       storySlots: 22,
@@ -201,10 +201,10 @@ describe('ANM-027F full-story macro lock', () => {
       runtimeFallbackBackgroundVariants: 19,
       contractOnlyUnusedBackgroundVariants: 2,
       fullStageCharacters: 9,
-      productionReadyFullStageCharacters: 3,
-      mixedFullStageCharacters: 1,
-      plannedFullStageCharacters: 5,
-      outstandingFullStageAssets: 38,
+      productionReadyFullStageCharacters: 9,
+      mixedFullStageCharacters: 0,
+      plannedFullStageCharacters: 0,
+      outstandingFullStageAssets: 0,
       guestPackages: 6,
       productionGuestPackages: 0,
       outstandingGuestAssets: 24,
@@ -240,8 +240,8 @@ describe('ANM-027F full-story macro lock', () => {
     expect(assetGapAudit.characters.map((character) => character.id)).toEqual([
       'miku', 'onoe', 'ayuki', 'emi', 'kentaro', 'norihiro', 'mayu', 'rina', 'kurose',
     ]);
-    expect(assetGapAudit.characters.reduce((sum, character) => sum + character.outstandingProductionAssetCount, 0)).toBe(38);
-    expect(assetGapAudit.characters.find((character) => character.id === 'emi')?.auditStatus).toContain('rebuild-required');
+    expect(assetGapAudit.characters.reduce((sum, character) => sum + character.outstandingProductionAssetCount, 0)).toBe(0);
+    expect(assetGapAudit.characters.every((character) => character.auditStatus.join('|') === 'production')).toBe(true);
     expect(assetGapAudit.guestWitnesses).toHaveLength(6);
     expect(assetGapAudit.guestWitnesses.every((guest) => guest.auditStatus.includes('planned-missing'))).toBe(true);
     expect(assetGapAudit.heroClueCloseups).toHaveLength(6);

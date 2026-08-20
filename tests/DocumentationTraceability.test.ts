@@ -274,6 +274,7 @@ describe('active documentation traceability', () => {
     expect(index).toContain('ANM028D2_EMI_SERIOUS_R1_PROMPT.md');
     expect(index).toContain('ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md');
     expect(index).toContain('ANM028D3_EMI_SURPRISED_R1_PROMPT.md');
+    expect(index).toContain('ANM030B0B_FULL_CAST_INTEGRATION_RU.md');
     expect(architecture).toContain('src/data/sceneStaging.ts');
     expect(architecture).toContain('src/data/sceneStudioCalibration.ts');
     expect(architecture).toContain('src/ui/vnFrameMarkup.ts');
@@ -283,7 +284,7 @@ describe('active documentation traceability', () => {
     expect(protectedContracts).toContain('upds-scene-studio-calibration-v1');
     expect(protectedContracts).toContain('face-critical-lane');
     expect(protectedContracts).toContain('background-focal-eye-line');
-    expect(protectedContracts).toContain('strict seven-asset Emi rig is `rebuild-required`');
+    expect(protectedContracts).toContain('Current runtime-integrated and visually approved production characters');
     expect(protectedContracts).toContain('manual Golden Sample gates');
     expect(protectedContracts).toContain('upds-character-candidate-v1');
     expect(protectedContracts).toContain('runtimeEligible: false');

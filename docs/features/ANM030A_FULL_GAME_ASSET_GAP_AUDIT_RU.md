@@ -2,6 +2,11 @@
 
 Status: **R1.1 candidate**. Non-visual production-planning slice: no runtime asset, story, gameplay, save, localization or staging geometry changes.
 
+> ANM-030B0B update: full-stage cast закрыт `9/9`, outstanding full-stage assets = `0`.
+> Числа и `cast:*` gaps ниже сохранены как baseline-снимок первоначального ANM-030A аудита;
+> текущий machine-readable status находится в `src/content/art/ANM030A.asset-gap-audit.json`, а
+> integration decision — в `ANM030B0B_FULL_CAST_INTEGRATION_RU.md`.
+
 ## Цель
 
 Перевести уже завершённый canonical content lock `0–21` в точный production backlog. Аудит отличает «runtime умеет что-то показать» от «для этого существует утверждённый production-ready art» и не считает semantic fallback полноценным asset.

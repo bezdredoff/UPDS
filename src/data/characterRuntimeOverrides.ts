@@ -103,11 +103,6 @@ export type BrowserLocalCharacterExportSnapshot = Readonly<{
   }>>>>;
 }>;
 
-const emiApprovedGeometry: CharacterPortraitFrameGeometry = Object.freeze({
-  alphaBounds: { left: 330, top: 80, right: 737, bottom: 1508 },
-  eyeLineYPx: 244,
-});
-
 const DEFAULT_CALIBRATION: BrowserLocalCharacterCalibration = Object.freeze({
   eyeLineOffsetPx: 0,
   bottomOffsetPx: 0,
@@ -116,27 +111,9 @@ const DEFAULT_CALIBRATION: BrowserLocalCharacterCalibration = Object.freeze({
   yPercent: 0,
 });
 
-const emiOverride = (
-  expression: Exclude<RuntimeExpression, 'embarrassed'>,
-  sourceCandidateId: string,
-  asset: string,
-): readonly [RuntimeExpression, CharacterRuntimeFrameOverride] => [expression, Object.freeze({
-  asset,
-  geometry: emiApprovedGeometry,
-  visualApproval: 'approved',
-  sourceCandidateId,
-})];
-
 export const characterRuntimeFrameOverrides: Readonly<
   Partial<Record<ProductionCharacterKey, Readonly<Partial<Record<RuntimeExpression, CharacterRuntimeFrameOverride>>>>>
-> = Object.freeze({
-  emi: Object.freeze(Object.fromEntries([
-    emiOverride('neutral', 'anm028d0-r1', './assets/characters/emi/candidates/anm028d0/neutral-r1.png'),
-    emiOverride('smile', 'anm028d1-r1', './assets/characters/emi/candidates/anm028d1/frame-smile-r1.png'),
-    emiOverride('serious', 'anm028d2-r1', './assets/characters/emi/candidates/anm028d2/frame-serious-r1.png'),
-    emiOverride('surprised', 'anm028d3-r1', './assets/characters/emi/candidates/anm028d3/frame-surprised-r1.png'),
-  ]) as Partial<Record<RuntimeExpression, CharacterRuntimeFrameOverride>>),
-});
+> = Object.freeze({});
 
 let browserLocalCharacterOverrides: BrowserLocalCharacterAssetOverrides = Object.freeze({});
 let browserLocalOverrideUrls: string[] = [];

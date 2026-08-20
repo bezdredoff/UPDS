@@ -1,8 +1,8 @@
-import { characterForSpeaker, placeholderForSpeaker, type CharacterKey, type PlaceholderKey } from '../data/characterRigs';
+import { characterForSpeaker, type CharacterKey } from '../data/characterRigs';
 
 export type VnStorySpeakerLine = Readonly<{ speaker: string }>;
 
-export type VnStageActor = CharacterKey | PlaceholderKey;
+export type VnStageActor = CharacterKey;
 export type VnStageSide = 'left' | 'right' | 'center';
 
 export type VnStaging = Readonly<{
@@ -14,7 +14,7 @@ export type VnStaging = Readonly<{
 const externalActors = new Set<VnStageActor>(['emi', 'kentaro', 'norihiro', 'mayu']);
 
 export function actorForStorySpeaker(speaker: string): VnStageActor | null {
-  return characterForSpeaker(speaker) ?? placeholderForSpeaker(speaker);
+  return characterForSpeaker(speaker);
 }
 
 function nearestCounterpart(story: readonly VnStorySpeakerLine[], lineIndex: number, actor: VnStageActor): VnStageActor | null {

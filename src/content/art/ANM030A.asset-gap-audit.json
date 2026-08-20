@@ -1,8 +1,8 @@
 {
   "format": "upds-asset-gap-audit-v1",
-  "feature": "ANM-030A",
+  "feature": "ANM-030A+ANM-030B0B",
   "baseline": {
-    "mainSha": "6c7ced64284ecb30c2cdbc134468304c1a428cb4",
+    "mainSha": "227d32ca7e0ab681cf20919ac36bbc9a2860eac1",
     "storyMacro": "src/content/story/ANM027F.full-story-macro.json",
     "characterManifest": "src/data/characterProduction.ts",
     "guestManifest": "src/data/guestWitnesses.ts",
@@ -29,10 +29,10 @@
     "runtimeFallbackBackgroundVariants": 19,
     "contractOnlyUnusedBackgroundVariants": 2,
     "fullStageCharacters": 9,
-    "productionReadyFullStageCharacters": 3,
-    "mixedFullStageCharacters": 1,
-    "plannedFullStageCharacters": 5,
-    "outstandingFullStageAssets": 38,
+    "productionReadyFullStageCharacters": 9,
+    "mixedFullStageCharacters": 0,
+    "plannedFullStageCharacters": 0,
+    "outstandingFullStageAssets": 0,
     "guestPackages": 6,
     "productionGuestPackages": 0,
     "outstandingGuestAssets": 24,
@@ -514,86 +514,73 @@
       "id": "emi",
       "firstCastSlot": 0,
       "requiredAssetCount": 7,
-      "productionReadyAssetCount": 4,
-      "legacyFallbackAssetCount": 3,
-      "outstandingProductionAssetCount": 3,
+      "productionReadyAssetCount": 7,
+      "legacyFallbackAssetCount": 0,
+      "outstandingProductionAssetCount": 0,
       "auditStatus": [
-        "production",
-        "runtime-fallback",
-        "rebuild-required",
-        "external-art-blocked"
+        "production"
       ],
-      "note": "approved D0–D3 runtime overrides are live; embarrassed, Pose B and medallion remain legacy fallback"
+      "note": "strict seven-asset full-stage package is production-ready"
     },
     {
       "id": "kentaro",
       "firstCastSlot": 1,
       "requiredAssetCount": 7,
-      "productionReadyAssetCount": 0,
+      "productionReadyAssetCount": 7,
       "legacyFallbackAssetCount": 0,
-      "outstandingProductionAssetCount": 7,
+      "outstandingProductionAssetCount": 0,
       "auditStatus": [
-        "planned-missing",
-        "runtime-fallback",
-        "external-art-blocked"
+        "production"
       ],
-      "note": "asset-free planned full-stage definition; runtime uses placeholder presentation"
+      "note": "strict seven-asset full-stage package is production-ready"
     },
     {
       "id": "norihiro",
       "firstCastSlot": 2,
       "requiredAssetCount": 7,
-      "productionReadyAssetCount": 0,
+      "productionReadyAssetCount": 7,
       "legacyFallbackAssetCount": 0,
-      "outstandingProductionAssetCount": 7,
+      "outstandingProductionAssetCount": 0,
       "auditStatus": [
-        "planned-missing",
-        "runtime-fallback",
-        "external-art-blocked"
+        "production"
       ],
-      "note": "asset-free planned full-stage definition; runtime uses placeholder presentation"
+      "note": "strict seven-asset full-stage package is production-ready"
     },
     {
       "id": "mayu",
       "firstCastSlot": 4,
       "requiredAssetCount": 7,
-      "productionReadyAssetCount": 0,
+      "productionReadyAssetCount": 7,
       "legacyFallbackAssetCount": 0,
-      "outstandingProductionAssetCount": 7,
+      "outstandingProductionAssetCount": 0,
       "auditStatus": [
-        "planned-missing",
-        "runtime-fallback",
-        "external-art-blocked"
+        "production"
       ],
-      "note": "asset-free planned full-stage definition; runtime uses placeholder presentation"
+      "note": "strict seven-asset full-stage package is production-ready"
     },
     {
       "id": "rina",
       "firstCastSlot": 8,
       "requiredAssetCount": 7,
-      "productionReadyAssetCount": 0,
+      "productionReadyAssetCount": 7,
       "legacyFallbackAssetCount": 0,
-      "outstandingProductionAssetCount": 7,
+      "outstandingProductionAssetCount": 0,
       "auditStatus": [
-        "planned-missing",
-        "runtime-fallback",
-        "external-art-blocked"
+        "production"
       ],
-      "note": "asset-free planned full-stage definition; runtime uses placeholder presentation"
+      "note": "strict seven-asset full-stage package is production-ready"
     },
     {
       "id": "kurose",
       "firstCastSlot": 7,
       "requiredAssetCount": 7,
-      "productionReadyAssetCount": 0,
+      "productionReadyAssetCount": 7,
       "legacyFallbackAssetCount": 0,
-      "outstandingProductionAssetCount": 7,
+      "outstandingProductionAssetCount": 0,
       "auditStatus": [
-        "planned-missing",
-        "runtime-fallback",
-        "external-art-blocked"
+        "production"
       ],
-      "note": "asset-free planned full-stage definition; runtime uses placeholder presentation"
+      "note": "strict seven-asset full-stage package is production-ready"
     }
   ],
   "guestWitnesses": [
@@ -1015,10 +1002,7 @@
           "id": "emi",
           "tier": "recurring-stage",
           "auditStatus": [
-            "production",
-            "runtime-fallback",
-            "rebuild-required",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -1049,9 +1033,7 @@
           "reusable"
         ]
       },
-      "productionVisualGaps": [
-        "cast:emi"
-      ]
+      "productionVisualGaps": []
     },
     {
       "slot": 1,
@@ -1095,9 +1077,7 @@
           "id": "kentaro",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -1121,9 +1101,7 @@
           "reusable"
         ]
       },
-      "productionVisualGaps": [
-        "cast:kentaro"
-      ]
+      "productionVisualGaps": []
     },
     {
       "slot": 2,
@@ -1167,9 +1145,7 @@
           "id": "norihiro",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -1193,9 +1169,7 @@
           "reusable"
         ]
       },
-      "productionVisualGaps": [
-        "cast:norihiro"
-      ]
+      "productionVisualGaps": []
     },
     {
       "slot": 3,
@@ -1239,9 +1213,7 @@
           "id": "norihiro",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -1268,7 +1240,6 @@
         ]
       },
       "productionVisualGaps": [
-        "cast:norihiro",
         "hero-clue:conductive-seam"
       ]
     },
@@ -1315,9 +1286,7 @@
           "id": "mayu",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
@@ -1353,8 +1322,7 @@
         ]
       },
       "productionVisualGaps": [
-        "background:student-council-auditorium",
-        "cast:mayu"
+        "background:student-council-auditorium"
       ]
     },
     {
@@ -1557,9 +1525,7 @@
           "id": "kurose",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -1586,8 +1552,7 @@
         ]
       },
       "productionVisualGaps": [
-        "background:smart-textile-lab",
-        "cast:kurose"
+        "background:smart-textile-lab"
       ]
     },
     {
@@ -1633,18 +1598,14 @@
           "id": "rina",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
           "id": "mayu",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -1671,9 +1632,7 @@
         ]
       },
       "productionVisualGaps": [
-        "background:lost-found-warehouse",
-        "cast:rina",
-        "cast:mayu"
+        "background:lost-found-warehouse"
       ]
     },
     {
@@ -1804,9 +1763,7 @@
           "id": "kentaro",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -1834,8 +1791,7 @@
       },
       "productionVisualGaps": [
         "background:combat-club-hall",
-        "cast:aoi",
-        "cast:kentaro"
+        "cast:aoi"
       ]
     },
     {
@@ -1891,9 +1847,7 @@
           "id": "kentaro",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
@@ -1931,7 +1885,6 @@
       "productionVisualGaps": [
         "background:service-yard",
         "background:transfer-point",
-        "cast:kentaro",
         "hero-clue:asterion-transfer-chain"
       ]
     },
@@ -2388,9 +2341,7 @@
           "id": "rina",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -2420,7 +2371,6 @@
       },
       "productionVisualGaps": [
         "background:old-archive",
-        "cast:rina",
         "hero-clue:rina-catalog"
       ]
     },
@@ -2477,19 +2427,14 @@
           "id": "rina",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
           "id": "emi",
           "tier": "recurring-stage",
           "auditStatus": [
-            "production",
-            "runtime-fallback",
-            "rebuild-required",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -2520,8 +2465,6 @@
       "productionVisualGaps": [
         "background:old-archive",
         "background:clubroom-night",
-        "cast:rina",
-        "cast:emi",
         "hero-clue:post-rina-active-tag"
       ]
     },
@@ -2577,37 +2520,28 @@
           "id": "rina",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
           "id": "emi",
           "tier": "recurring-stage",
           "auditStatus": [
-            "production",
-            "runtime-fallback",
-            "rebuild-required",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
           "id": "mayu",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
           "id": "kurose",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -2634,11 +2568,7 @@
         ]
       },
       "productionVisualGaps": [
-        "background:anonymous-return-counter",
-        "cast:rina",
-        "cast:emi",
-        "cast:mayu",
-        "cast:kurose"
+        "background:anonymous-return-counter"
       ]
     },
     {
@@ -2704,46 +2634,35 @@
           "id": "kurose",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
           "id": "rina",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
           "id": "emi",
           "tier": "recurring-stage",
           "auditStatus": [
-            "production",
-            "runtime-fallback",
-            "rebuild-required",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
           "id": "mayu",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
           "id": "kentaro",
           "tier": "conditional",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
@@ -2793,11 +2712,6 @@
         "background:service-tunnel",
         "background:server-room",
         "background:disciplinary-assembly",
-        "cast:kurose",
-        "cast:rina",
-        "cast:emi",
-        "cast:mayu",
-        "cast:kentaro",
         "cast:kubo",
         "cast:vincent",
         "hero-clue:server-evidence"
@@ -2855,36 +2769,28 @@
           "id": "mayu",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
           "id": "kurose",
           "tier": "recurring-stage",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
           "id": "kentaro",
           "tier": "conditional",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
           "id": "norihiro",
           "tier": "conditional",
           "auditStatus": [
-            "planned-missing",
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
@@ -2921,10 +2827,6 @@
       },
       "productionVisualGaps": [
         "background:disciplinary-assembly",
-        "cast:mayu",
-        "cast:kurose",
-        "cast:kentaro",
-        "cast:norihiro",
         "cast:gen"
       ]
     }
@@ -2944,30 +2846,22 @@
     {
       "id": "030B0B-character-closure",
       "scope": [
-        "emi:embarrassed",
-        "emi:pose-b",
-        "emi:medallion",
         "extras:4-visual-archetype-mapping"
       ],
-      "reason": "close known mixed/semantic character contracts before large batch integration"
+      "reason": "full-stage cast integration is complete; retain only the separate extras-archetype mapping task"
     },
     {
       "id": "030B1-early-0-6",
       "scope": [
-        "kentaro",
-        "norihiro",
-        "mayu",
         "guest:hinata",
         "background-variants:student-council-auditorium,basketball-locker,textile-workshop",
         "hero-clue:conductive-seam"
       ],
-      "reason": "makes early/common route visually production-ready without new master families"
+      "reason": "finish the remaining early-route guest, background-variant and hero-clue art after full-stage cast closure"
     },
     {
       "id": "030B2-system-7-12",
       "scope": [
-        "kurose",
-        "rina",
         "guest:gen",
         "guest:aoi",
         "master:lab-asterion",
@@ -2976,7 +2870,7 @@
         "hero-clue:asterion-transfer-chain",
         "hero-clue:second-skin-tag"
       ],
-      "reason": "covers Asterion/Second Skin reveal and first required new master families"
+      "reason": "finish the remaining system-reveal guests, background families and hero clues after Kurose and Rina integration"
     },
     {
       "id": "030B3-late-13-18",

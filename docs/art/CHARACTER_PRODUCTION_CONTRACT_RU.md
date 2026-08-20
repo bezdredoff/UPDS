@@ -5,9 +5,8 @@
 Machine-readable source of truth: `src/data/characterProduction.ts` (`upds-character-production-v2`).
 `docs/art/CHARACTER_USAGE_MANIFEST.json` — человекочитаемое зеркало для production planning и обязано совпадать с canonical manifest через CI.
 
-Новые персонажи должны совпадать с утверждённым `2000s Hybrid` и текущим одобренным сравнительным
-набором Miku/Onoe/Ayuki. Emi технически интегрирована, но после R3 lineup QA имеет
-`visualApproval: rebuild-required` и не является style/full-body reference:
+Новые персонажи должны совпадать с утверждённым `2000s Hybrid` и текущим одобренным
+девятиперсонажным lineup Miku/Onoe/Ayuki/Emi/Kentaro/Norihiro/Mayu/Rina/Kurose:
 чистый контур, простые формы, почти плоский cel shading, минимум бликов/градиентов/мелких деталей,
 взрослые college-age пропорции и отсутствие современного glossy-gacha рендера.
 Все персонажи, входящие в production manifest, явно маркируются как взрослые; для новых персонажей с известным возрастом возраст должен быть 18+.
@@ -60,18 +59,21 @@ bounds этого PNG и его `eyeLineYPx`. Neutral geometry обязана с
 - Miku: 1375 px;
 - Onoe: 1484 px — reference 100%;
 - Ayuki: 1462 px;
-- Emi: 1444 px.
+- Emi: 1444 px;
+- Kentaro: 1479 px;
+- Norihiro: 1480 px;
+- Mayu: 1479 px;
+- Rina: 1480 px;
+- Kurose: 1480 px.
 
 Относительно Onoe это примерно:
 - Miku 92.7%;
 - Ayuki 98.5%;
-- Emi 97.3%.
+- Emi 97.3%;
+- остальные full-stage masters находятся примерно в диапазоне 99.7–100%.
 
-Эти значения не объявляются физическим ростом в сантиметрах и сами по себе не доказывают полный
-силуэт или visual approval. Emi показывает известный false positive: alpha-height `1444 px`
-измеряет голову до обрезанного нижнего края, хотя фигура заканчивается на бёдрах. Если позже
-story/art bible задаст рост в сантиметрах, итоговая экранная пропорция всё равно должна пройти общий
-lineup QA.
+Эти значения не объявляются физическим ростом в сантиметрах. Если позже story/art bible задаст рост
+в сантиметрах, итоговая экранная пропорция всё равно должна пройти общий lineup QA.
 
 Правила:
 - production `staging.scale` по умолчанию равен `1`;
@@ -124,17 +126,13 @@ precomposed RGBA frames и никогда не собирает лицо overlay
 
 ## Production status
 
-На baseline ANM-028D3 R1:
-- runtime production: Miku, Onoe, Ayuki, Emi;
-- visual approved: Miku, Onoe, Ayuki;
-- visual rebuild required: Emi;
-- approved neutral authoring master: Emi `anm028d0-r1`, `approved-master`, `runtimeEligible: false`;
-- approved smile expression: Emi `anm028d1-r1`, `approved-expression`, `runtimeEligible: false`;
-- approved serious expression: Emi `anm028d2-r1`, `approved-expression`, `runtimeEligible: false`;
-- Studio-only surprised candidate: Emi `anm028d3-r1`, `manual-qa`, `runtimeEligible: false`;
-- planned: Kentaro, Norihiro, Mayu, Rina, Kurose.
-
-`planned` означает «asset set ещё не произведён». Для planned-персонажа запрещено объявлять несуществующие runtime asset paths ради прохождения интерфейса. Placeholder остаётся допустим до отдельного production integration slice.
+На baseline ANM-030B0B R1:
+- runtime production и visual approved: Miku, Onoe, Ayuki, Emi, Kentaro, Norihiro, Mayu, Rina, Kurose;
+- planned full-stage characters: нет;
+- прежние Emi D0–D3 candidate-файлы сохранены только как historical production provenance и не
+  участвуют в runtime resolution;
+- guest/witness packages и extras по-прежнему живут в отдельных контрактах и не считаются
+  незакрытыми full-stage rigs.
 
 ## Candidate isolation
 
@@ -145,11 +143,8 @@ paths или `upds-character-production-v2`. Studio обязан явно пок
 использовать точные candidate alpha bounds/eye line и сохранять доступ к прежнему runtime fallback
 для A/B. Только отдельный approved integration slice может перенести master в canonical rig.
 
-ANM-028D0 Emi neutral R1: `330,80,737,1508`, height `1428 px`, bottom padding `28 px`, eye line
-`244 px`, status `approved-master`. ANM-028D1 smile наследует эту геометрию и меняет один bounded
-face ROI, status `approved-expression`. ANM-028D2 serious меняет три bounded ROI и имеет status
-`approved-expression`. ANM-028D3 surprised меняет три bounded ROI, status `manual-qa`.
-Все файлы остаются вне runtime до готовности полного семиассетного set.
+ANM-028D0–D3 Emi candidates остаются историческими файлами вне runtime. Полный ANM-030B0B rig
+использует только canonical `emi/rig/pose_a/frames/*`, новый Pose B и новый medallion.
 
 ## VN staging / virtual camera
 
