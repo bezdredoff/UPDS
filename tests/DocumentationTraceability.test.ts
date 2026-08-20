@@ -37,7 +37,7 @@ describe('active documentation traceability', () => {
     expect(protectedContracts).toContain('src/data/characterProduction.ts');
     expect(protectedContracts).toContain('precomposed 1024×1536 expression frames');
     expect(protectedContracts).toContain('Miku, Onoe, Ayuki, Emi');
-    expect(protectedContracts).toContain('Kentaro, Norihiro, Mayu, Rina, Kurose');
+    expect(protectedContracts).toContain('Kentaro, Norihiro, Mayu, Rina and Kurose');
     expect(productionContract).toContain('upds-character-production-v2');
     expect(productionContract).toContain('ровно семь обязательных runtime assets');
     for (const source of activeEntryPoints) {
