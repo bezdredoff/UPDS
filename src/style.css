@@ -531,7 +531,7 @@ img { display: block; }
   min-height: var(--vn-controls-min-height, clamp(60px, 9dvh, 82px));
   padding: 6px 10px max(6px, var(--safe-area-bottom));
   display: grid;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 7px;
   background: #f3e8d2;
   border-top: 1px solid #d7c29b;
@@ -1785,7 +1785,7 @@ img { display: block; }
   z-index: 3;
   padding-left: 18px;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(9, minmax(0, 1fr));
   align-items: end;
   gap: 0;
   overflow: hidden;
