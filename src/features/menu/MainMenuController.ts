@@ -1,6 +1,7 @@
 import { APP_VERSION, BUILD_LABEL } from '../../appVersion';
 import { characterRigs, medallionAsset } from '../../data/characterRigs';
 import { backgroundAssets } from '../../data/narrative';
+import { qaSurfaceEnabled } from '../../platform/QaAccess';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppSession } from '../../app/AppSession';
@@ -21,8 +22,9 @@ export class MainMenuController {
     this.services.telemetry.trackScreen('menu');
     this.session.reload();
     const hasSave = this.session.save.scene > 0 || this.session.save.line > 0 || this.session.save.completed.length > 0;
+    const qaEnabled = qaSurfaceEnabled();
     const t = (key: string, params: Readonly<Record<string, string | number | boolean>> = {}) => escapeHtml(this.services.localization.t(key, params));
-    this.shell.render(`<section class="menu-screen">
+    this.shell.render(`<section class="menu-screen" data-qa-surface="${qaEnabled ? 'enabled' : 'hidden'}">
       <img class="menu-background" src="${backgroundAssets.clubroom}" alt="">
       <div class="menu-wash"></div>
       <div class="menu-content">
@@ -37,12 +39,12 @@ export class MainMenuController {
           <button id="continue" ${hasSave ? '' : 'disabled'}>${t('menu.continue')}</button>
           <button id="match3-campaign">${t('menu.match3Campaign')}</button>
           <button id="settings">${t('menu.settings')}</button>
-          <div class="menu-qa-row">
+          ${qaEnabled ? `<div class="menu-qa-row">
             <button id="episodes">${t('menu.sceneNavigation')} <small>QA</small></button>
             <button id="level-lab">${t('menu.levelLab')} <small>QA</small></button>
             <button id="scene-studio">${t('menu.sceneStudio')} <small>QA</small></button>
           </div>
-          <button id="support">${t('menu.saveDiagnostics')} <small>QA</small></button>
+          <button id="support">${t('menu.saveDiagnostics')} <small>QA</small></button>` : ''}
         </div>
         <footer>${BUILD_LABEL}<br><span>v${APP_VERSION}</span></footer>
       </div>
