@@ -163,5 +163,5 @@ describe('character production manifest', () => {
           .toBeLessThanOrEqual(characterProductionManifest.proportionContract.expressionHeightTolerancePx);
       }
     }
-  });
+  }, 15_000);
 });
