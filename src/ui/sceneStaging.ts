@@ -19,7 +19,12 @@ import {
   type CharacterPortraitFrameGeometry,
   type CharacterVisualApproval,
 } from '../data/characterProduction';
-import { browserLocalCharacterStaging, browserLocalCharacterXPercent, browserLocalPoseOverride, runtimeFrameOverride } from '../data/characterRuntimeOverrides';
+import {
+  browserLocalCharacterStaging,
+  browserLocalCharacterXPercent,
+  browserLocalExpressionOverride,
+  browserLocalPoseOverride,
+} from '../data/characterRuntimeOverrides';
 import { resolveVnPortraitCamera, resolveVnPortraitEyeLineCamera } from './vnPortraitGeometry';
 
 export type SceneStagingActorInput = Readonly<{
@@ -107,9 +112,11 @@ export function resolveSceneStagingPreset(
       const xPercent = browserLocalCharacterXPercent(input.character, calibrationContext);
       const definition = characterProductionManifest.characters[input.character];
       const pose = input.pose ?? 'pose-a';
-      const runtimeOverride = pose === 'pose-a' ? runtimeFrameOverride(input.character, input.expression, calibrationContext) : null;
+      const frameOverride = pose === 'pose-a'
+        ? browserLocalExpressionOverride(input.character, input.expression, calibrationContext)
+        : null;
       const poseOverride = pose === 'pose-b' ? browserLocalPoseOverride(input.character, calibrationContext) : null;
-      const geometry = runtimeOverride?.geometry ?? poseOverride?.geometry ?? (pose === 'pose-a'
+      const geometry = frameOverride?.geometry ?? poseOverride?.geometry ?? (pose === 'pose-a'
         ? definition.proportion.frameGeometry[input.expression]
         : definition.proportion.frameGeometry.neutral);
       const eyeLineYPx = geometry.eyeLineYPx;
@@ -142,7 +149,7 @@ export function resolveSceneStagingPreset(
         resolvedEyeLinePercent,
         headTopPercent,
         guideGeometrySource: pose === 'pose-a' ? 'expression-frame' : 'neutral-pose-b-fallback',
-        visualApproval: runtimeOverride?.visualApproval ?? definition.visualApproval,
+        visualApproval: frameOverride?.visualApproval ?? definition.visualApproval,
         safeBox: slot.safeBox,
         zIndex: slot.zIndex,
       };

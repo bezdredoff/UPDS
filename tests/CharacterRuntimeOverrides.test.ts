@@ -2,14 +2,12 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { characterRigs, expressionAsset, medallionAsset, poseAsset, resolvedCharacterStaging, resolvedCharacterXPercent } from '../src/data/characterRigs';
 import {
   BROWSER_LOCAL_CHARACTER_EXPORT_FORMAT,
-  CHARACTER_RUNTIME_OVERRIDE_FORMAT,
   applyBrowserLocalCharacterCalibration,
   applyBrowserLocalCharacterOverrides,
   browserLocalCharacterExportSnapshot,
-  hasBrowserLocalCharacterSlotCalibration,
+  browserLocalExpressionOverride,
   clearBrowserLocalCharacterOverrides,
-  runtimeFrameOverride,
-  validateCharacterRuntimeFrameOverrides,
+  hasBrowserLocalCharacterSlotCalibration,
 } from '../src/data/characterRuntimeOverrides';
 import { resolveSceneStagingPreset } from '../src/ui/sceneStaging';
 
@@ -17,18 +15,15 @@ afterEach(() => {
   clearBrowserLocalCharacterOverrides();
 });
 
-describe('character runtime override and browser-local calibration', () => {
-  it('uses the canonical production rig when no temporary or browser-local override exists', () => {
-    expect(CHARACTER_RUNTIME_OVERRIDE_FORMAT).toBe('upds-character-runtime-override-v1');
-    expect(validateCharacterRuntimeFrameOverrides()).toEqual([]);
-
+describe('browser-local character overrides and calibration', () => {
+  it('uses the canonical production rig when no browser-local override exists', () => {
     expect(expressionAsset('emi', 'neutral')).toBe(characterRigs.emi.frames.neutral);
     expect(expressionAsset('emi', 'smile')).toBe(characterRigs.emi.frames.smile);
     expect(expressionAsset('emi', 'serious')).toBe(characterRigs.emi.frames.serious);
     expect(expressionAsset('emi', 'surprised')).toBe(characterRigs.emi.frames.surprised);
     expect(expressionAsset('emi', 'embarrassed')).toBe(characterRigs.emi.frames.embarrassed);
-    expect(runtimeFrameOverride('emi', 'neutral')).toBeNull();
-    expect(runtimeFrameOverride('emi', 'embarrassed')).toBeNull();
+    expect(browserLocalExpressionOverride('emi', 'neutral')).toBeNull();
+    expect(browserLocalExpressionOverride('emi', 'embarrassed')).toBeNull();
   });
 
   it('lets browser-local overrides shadow runtime frame, pose B and medallion assets without touching the approved base contract', () => {
@@ -52,7 +47,7 @@ describe('character runtime override and browser-local calibration', () => {
     });
 
     expect(expressionAsset('miku', 'smile')).toBe('blob:miku-smile');
-    expect(runtimeFrameOverride('miku', 'smile')?.geometry.alphaBounds).toEqual({ left: 310, top: 48, right: 700, bottom: 1496 });
+    expect(browserLocalExpressionOverride('miku', 'smile')?.geometry.alphaBounds).toEqual({ left: 310, top: 48, right: 700, bottom: 1496 });
     expect(poseAsset('miku')).toBe('blob:miku-pose-b');
     expect(medallionAsset('miku')).toBe('blob:miku-medallion');
     expect(expressionAsset('emi', 'serious')).toBe(characterRigs.emi.frames.serious);
@@ -86,7 +81,7 @@ describe('character runtime override and browser-local calibration', () => {
       yPercent: 3.5,
     });
 
-    expect(runtimeFrameOverride('miku', 'smile')?.geometry).toEqual({
+    expect(browserLocalExpressionOverride('miku', 'smile')?.geometry).toEqual({
       alphaBounds: { left: 310, top: 48, right: 700, bottom: 1484 },
       eyeLineYPx: 226,
     });

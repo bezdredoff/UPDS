@@ -6,7 +6,6 @@ import type {
 } from './characterProduction';
 import { characterProductionManifest, runtimeExpressionOrder } from './characterProduction';
 
-export const CHARACTER_RUNTIME_OVERRIDE_FORMAT = 'upds-character-runtime-override-v1' as const;
 export const BROWSER_LOCAL_CHARACTER_EXPORT_FORMAT = 'upds-browser-local-character-export-v3' as const;
 
 export type CharacterRuntimeFrameOverride = Readonly<{
@@ -110,10 +109,6 @@ const DEFAULT_CALIBRATION: BrowserLocalCharacterCalibration = Object.freeze({
   xPercent: 0,
   yPercent: 0,
 });
-
-export const characterRuntimeFrameOverrides: Readonly<
-  Partial<Record<ProductionCharacterKey, Readonly<Partial<Record<RuntimeExpression, CharacterRuntimeFrameOverride>>>>>
-> = Object.freeze({});
 
 let browserLocalCharacterOverrides: BrowserLocalCharacterAssetOverrides = Object.freeze({});
 let browserLocalOverrideUrls: string[] = [];
@@ -452,32 +447,4 @@ export function browserLocalCharacterExportSnapshot(
     compositionAssignments,
     characters,
   };
-}
-
-export function runtimeFrameOverride(
-  character: ProductionCharacterKey,
-  expression: RuntimeExpression,
-  context?: BrowserLocalCharacterCalibrationContext,
-): CharacterRuntimeFrameOverride | null {
-  return browserLocalExpressionOverride(character, expression, context) ?? characterRuntimeFrameOverrides[character]?.[expression] ?? null;
-}
-
-export function validateCharacterRuntimeFrameOverrides(): readonly string[] {
-  const issues: string[] = [];
-  for (const [character, expressions] of Object.entries(characterRuntimeFrameOverrides)) {
-    if (!expressions) continue;
-    for (const [expression, override] of Object.entries(expressions)) {
-      if (!override) continue;
-      if (!override.asset.startsWith('./assets/characters/')) issues.push(`${character}:${expression}: invalid asset root`);
-      if (!override.sourceCandidateId) issues.push(`${character}:${expression}: missing source candidate`);
-      const { alphaBounds, eyeLineYPx } = override.geometry;
-      if (alphaBounds.left < 0 || alphaBounds.top < 0 || alphaBounds.right > 1024 || alphaBounds.bottom > 1536) {
-        issues.push(`${character}:${expression}: alpha bounds leave the master canvas`);
-      }
-      if (eyeLineYPx <= alphaBounds.top || eyeLineYPx >= alphaBounds.bottom) {
-        issues.push(`${character}:${expression}: eye line leaves visible subject`);
-      }
-    }
-  }
-  return issues;
 }
