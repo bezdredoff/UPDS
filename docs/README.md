@@ -39,16 +39,15 @@ If two active documents conflict, prefer the narrower current machine-readable c
 - [`features/ANM027D_FULL_STORY_IMPORT_RU.md`](features/ANM027D_FULL_STORY_IMPORT_RU.md)
 - [`features/ANM027F_FULL_STORY_MACRO_LOCK_RU.md`](features/ANM027F_FULL_STORY_MACRO_LOCK_RU.md) — completed `0–21` beat/location/cast/clue/Match-3/asset-trigger lock
 - [`features/ANM027G_EPISODES_04_06_PRODUCTION_RU.md`](features/ANM027G_EPISODES_04_06_PRODUCTION_RU.md) — first post-slice canonical production batch: slots `4–6`, six VN scenes, three Match-3 levels and two story-choice gates
-- [`features/ANM027G_EPISODES_07_09_PRODUCTION_RU.md`](features/ANM027G_EPISODES_07_09_PRODUCTION_RU.md) — second canonical production batch: slots `7–9`, Asterion/laundry-service semantic variants, Rina/Kurose planned-stage triggers, Gen guest tier and three more Match-3 levels
+- [`features/ANM027G_EPISODES_07_09_PRODUCTION_RU.md`](features/ANM027G_EPISODES_07_09_PRODUCTION_RU.md) — second canonical production batch: slots `7–9`, Asterion/laundry-service semantic variants, Rina/Kurose production-stage triggers, Gen guest tier and three more Match-3 levels
 - [`features/ANM027G_EPISODES_10_12_PRODUCTION_RU.md`](features/ANM027G_EPISODES_10_12_PRODUCTION_RU.md) — third canonical production batch: slots `10–12`, Aoi guest route, Asterion transfer chain, Second Skin reveal and three more Match-3 levels
 - [`features/ANM027G_EPISODES_13_15_PRODUCTION_RU.md`](features/ANM027G_EPISODES_13_15_PRODUCTION_RU.md) — fourth canonical production batch: slots `13–15`, Kubo guest route, family atelier chronology, abandoned-laundry consent route and three more Match-3 levels
 - [`features/ANM027G_EPISODES_16_18_PRODUCTION_RU.md`](features/ANM027G_EPISODES_16_18_PRODUCTION_RU.md) — fifth canonical production batch: slots `16–18`, Vincent scanner route, Rina archive confession, common-route strategy pivot and three more Match-3 levels
 - [`features/ANM027G_EPISODES_19_21_PRODUCTION_RU.md`](features/ANM027G_EPISODES_19_21_PRODUCTION_RU.md) — final canonical ending batch: three mutually exclusive slots `19–21`, final-strategy routing, gated full-truth outcome and three ending Match-3 levels
-- [`features/ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md`](features/ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md) — current full-game visual production inventory: 22-slot background/cast/guest/hero-clue/Match-3/staging gaps and budgeted ANM-030B waves
+- [`features/ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md`](features/ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md) — original full-game visual production inventory; current measured status is the machine-readable audit in `src/content/art/ANM030A.asset-gap-audit.json`
 - [`features/ANM030B0A1_MATCH3_SPECIAL_VISUAL_CONTRACT_RU.md`](features/ANM030B0A1_MATCH3_SPECIAL_VISUAL_CONTRACT_RU.md) — planning-only contract for the shared five-asset Match-3 special/bonus production pack; current SVGs remain runtime fallback until B0A2 integration
 
 The repository now contains the complete detailed authored screenplay for all 22 slots `0–21`: ANM-003 covers `0–3`, sequential ANM-027G sources cover `4–18`, and the final `19–21` source contains the three mutually exclusive authored ending routes.
-
 
 ### Localization production
 
@@ -58,23 +57,23 @@ The repository now contains the complete detailed authored screenplay for all 22
 - [`features/ANM029B2B1_BELARUSIAN_MATCH3_LEVELS_00_06_RU.md`](features/ANM029B2B1_BELARUSIAN_MATCH3_LEVELS_00_06_RU.md) — first level-specific Belarusian Match-3 batch: M3_00–M3_06, evidence labels/items and contextual barks (123 keys)
 - [`features/ANM029B2B2_BELARUSIAN_MATCH3_LEVELS_07_13_RU.md`](features/ANM029B2B2_BELARUSIAN_MATCH3_LEVELS_07_13_RU.md) — second level-specific Belarusian Match-3 batch: M3_07–M3_13, Asterion/Second Skin evidence, items and contextual barks (128 keys)
 - [`features/ANM029B2B3_BELARUSIAN_MATCH3_LEVELS_14_21_RU.md`](features/ANM029B2B3_BELARUSIAN_MATCH3_LEVELS_14_21_RU.md) — final level-specific Belarusian Match-3 batch: M3_14–M3_21, consent/privacy evidence, items and contextual barks (146 keys)
-- [`features/ANM029B2C_BELARUSIAN_MATCH3_REACTIONS_AUDIT_RU.md`](features/ANM029B2C_BELARUSIAN_MATCH3_REACTIONS_AUDIT_RU.md) — 132 Belarusian F2 reactions plus full 612-key Match-3 structural closure; locale remains runtime-pending
-- [`features/ANM029B3A_BELARUSIAN_VN_SLOT_0_RU.md`](features/ANM029B3A_BELARUSIAN_VN_SLOT_0_RU.md) — Belarusian canonical VN slot 0 (`VN0001–VN0084`, CHOICE_00, scenes 00–02), still runtime-hidden
-- [`features/ANM029B3B_BELARUSIAN_VN_SLOT_1_RU.md`](features/ANM029B3B_BELARUSIAN_VN_SLOT_1_RU.md) — Belarusian canonical runtime VN slot 1 (`VN0085–VN0142`, scenes 03–04; 178 keys), rebased on hardened tooling and still runtime-hidden
-- [`features/ANM029B3C_BELARUSIAN_VN_SLOT_2_RU.md`](features/ANM029B3C_BELARUSIAN_VN_SLOT_2_RU.md) — Belarusian canonical runtime VN slot 2 (`VN0143–VN0191`, scenes 05–06; 151 keys), with Norihiro/pool-laundry evidence and still runtime-hidden
-- [`features/ANM029B3D_BELARUSIAN_VN_SLOT_3_RU.md`](features/ANM029B3D_BELARUSIAN_VN_SLOT_3_RU.md) — Belarusian canonical runtime VN slot 3 (`VN0192–VN0250`, scenes 07–08; 181 keys), closing the original vertical-slice chain at the canonical `VN0250` bridge while remaining runtime-hidden
-- [`features/ANM029B3E_BELARUSIAN_VN_SLOT_4_RU.md`](features/ANM029B3E_BELARUSIAN_VN_SLOT_4_RU.md) — Belarusian canonical runtime VN slot 4 (`VN0251–VN0288`, scenes 09–10 + `meeting-tone`; 125 keys), beginning the ANM-027G source chain while remaining runtime-hidden
-- [`features/ANM029B3F_BELARUSIAN_VN_SLOT_5_RU.md`](features/ANM029B3F_BELARUSIAN_VN_SLOT_5_RU.md) — Belarusian canonical runtime VN slot 5 (`VN0289–VN0326`, scenes 11–12; 118 keys), basketball/service-route evidence with Hinata and still runtime-hidden
-- [`features/ANM029B3G_BELARUSIAN_VN_SLOT_6_RU.md`](features/ANM029B3G_BELARUSIAN_VN_SLOT_6_RU.md) — Belarusian canonical runtime VN slot 6 (`VN0327–VN0369`, scenes 13–14 + `apology-to-hinata`; 140 keys), Hinata exoneration and Asterion bridge while still runtime-hidden
-- [`features/ANM029B3H_BELARUSIAN_VN_SLOT_7_RU.md`](features/ANM029B3H_BELARUSIAN_VN_SLOT_7_RU.md) — Belarusian canonical runtime VN slot 7 (`VN0370–VN0409`, scenes 15–16; 124 keys), Asterion laboratory verification and `CUE_008` while still runtime-hidden
-- [`features/ANM029B3I_BELARUSIAN_VN_SLOT_8_RU.md`](features/ANM029B3I_BELARUSIAN_VN_SLOT_8_RU.md) — Belarusian canonical runtime VN slot 8 (`VN0410–VN0448`, scenes 17–18; 121 keys), lost-and-found ledger gaps, `CUE_009` and the master-key bridge while still runtime-hidden
-- [`features/ANM029B3J_BELARUSIAN_VN_SLOT_9_RU.md`](features/ANM029B3J_BELARUSIAN_VN_SLOT_9_RU.md) — Belarusian canonical runtime VN slot 9 (`VN0449–VN0488`, scenes 19–20 + `protect-gen-source`; 131 keys), maintenance-key handoff, `CUE_010` and the Asterion night-container route while still runtime-hidden
-- [`features/ANM029B3K_BELARUSIAN_VN_SLOT_10_RU.md`](features/ANM029B3K_BELARUSIAN_VN_SLOT_10_RU.md) — Belarusian canonical runtime VN slot 10 (`VN0489–VN0527`, scenes 21–22; 121 keys), karate-club control sample, `CUE_011` and the old-photo Asterion container while still runtime-hidden
-- [`features/ANM029B3L_BELARUSIAN_VN_SLOT_11_RU.md`](features/ANM029B3L_BELARUSIAN_VN_SLOT_11_RU.md) — Belarusian canonical runtime VN slot 11 (`VN0528–VN0567`, scenes 23–24 + `photo-permission`; 131 keys), Asterion transfer chain, `CUE_012` and the weak-wireless-signal bridge while still runtime-hidden
-- [`features/ANM029B3M_BELARUSIAN_VN_SLOT_12_RU.md`](features/ANM029B3M_BELARUSIAN_VN_SLOT_12_RU.md) — Belarusian canonical runtime VN slot 12 (`VN0568–VN0607`, scenes 25–26 + `publish-tag`; 131 keys), Panty-Eater signal test, `CUE_013`, Second Skin microtag and Kurose timing link while still runtime-hidden
-- [`features/ANM029B3N_BELARUSIAN_VN_SLOT_13_RU.md`](features/ANM029B3N_BELARUSIAN_VN_SLOT_13_RU.md) — Belarusian canonical runtime VN slot 13 (`VN0608–VN0646`, scenes 27–28; 121 keys), kendo pilot-list verification, `CUE_014`, Kubo testimony and the atelier-receipt bridge while still runtime-hidden
-- [`features/ANM029B3O_BELARUSIAN_VN_SLOT_14_RU.md`](features/ANM029B3O_BELARUSIAN_VN_SLOT_14_RU.md) — Belarusian canonical runtime VN slot 14 (`VN0647–VN0686`, scenes 29–30 + `family-ledger-permission`; 131 keys), Kubo atelier ledger chronology, `CUE_015`, privacy-preserving source handling and the Ray evidence-bag bridge while still runtime-hidden
-- [`features/ANM029B3P_BELARUSIAN_VN_SLOT_15_RU.md`](features/ANM029B3P_BELARUSIAN_VN_SLOT_15_RU.md) — Belarusian canonical runtime VN slot 15 (`VN0687–VN0726`, scenes 31–32; 124 keys), Ray chase, abandoned-laundry consent route and `CUE_016`; merged via PR #134
+- [`features/ANM029B2C_BELARUSIAN_MATCH3_REACTIONS_AUDIT_RU.md`](features/ANM029B2C_BELARUSIAN_MATCH3_REACTIONS_AUDIT_RU.md) — 132 Belarusian F2 reactions plus full 612-key Match-3 structural closure
+- [`features/ANM029B3A_BELARUSIAN_VN_SLOT_0_RU.md`](features/ANM029B3A_BELARUSIAN_VN_SLOT_0_RU.md) — Belarusian canonical VN slot 0 (`VN0001–VN0084`, CHOICE_00, scenes 00–02)
+- [`features/ANM029B3B_BELARUSIAN_VN_SLOT_1_RU.md`](features/ANM029B3B_BELARUSIAN_VN_SLOT_1_RU.md) — Belarusian canonical runtime VN slot 1 (`VN0085–VN0142`, scenes 03–04; 178 keys)
+- [`features/ANM029B3C_BELARUSIAN_VN_SLOT_2_RU.md`](features/ANM029B3C_BELARUSIAN_VN_SLOT_2_RU.md) — Belarusian canonical runtime VN slot 2 (`VN0143–VN0191`, scenes 05–06; 151 keys)
+- [`features/ANM029B3D_BELARUSIAN_VN_SLOT_3_RU.md`](features/ANM029B3D_BELARUSIAN_VN_SLOT_3_RU.md) — Belarusian canonical runtime VN slot 3 (`VN0192–VN0250`, scenes 07–08; 181 keys)
+- [`features/ANM029B3E_BELARUSIAN_VN_SLOT_4_RU.md`](features/ANM029B3E_BELARUSIAN_VN_SLOT_4_RU.md) — Belarusian canonical runtime VN slot 4 (`VN0251–VN0288`, scenes 09–10 + `meeting-tone`; 125 keys)
+- [`features/ANM029B3F_BELARUSIAN_VN_SLOT_5_RU.md`](features/ANM029B3F_BELARUSIAN_VN_SLOT_5_RU.md) — Belarusian canonical runtime VN slot 5 (`VN0289–VN0326`, scenes 11–12; 118 keys)
+- [`features/ANM029B3G_BELARUSIAN_VN_SLOT_6_RU.md`](features/ANM029B3G_BELARUSIAN_VN_SLOT_6_RU.md) — Belarusian canonical runtime VN slot 6 (`VN0327–VN0369`, scenes 13–14 + `apology-to-hinata`; 140 keys)
+- [`features/ANM029B3H_BELARUSIAN_VN_SLOT_7_RU.md`](features/ANM029B3H_BELARUSIAN_VN_SLOT_7_RU.md) — Belarusian canonical runtime VN slot 7 (`VN0370–VN0409`, scenes 15–16; 124 keys)
+- [`features/ANM029B3I_BELARUSIAN_VN_SLOT_8_RU.md`](features/ANM029B3I_BELARUSIAN_VN_SLOT_8_RU.md) — Belarusian canonical runtime VN slot 8 (`VN0410–VN0448`, scenes 17–18; 121 keys)
+- [`features/ANM029B3J_BELARUSIAN_VN_SLOT_9_RU.md`](features/ANM029B3J_BELARUSIAN_VN_SLOT_9_RU.md) — Belarusian canonical runtime VN slot 9 (`VN0449–VN0488`, scenes 19–20 + `protect-gen-source`; 131 keys)
+- [`features/ANM029B3K_BELARUSIAN_VN_SLOT_10_RU.md`](features/ANM029B3K_BELARUSIAN_VN_SLOT_10_RU.md) — Belarusian canonical runtime VN slot 10 (`VN0489–VN0527`, scenes 21–22; 121 keys)
+- [`features/ANM029B3L_BELARUSIAN_VN_SLOT_11_RU.md`](features/ANM029B3L_BELARUSIAN_VN_SLOT_11_RU.md) — Belarusian canonical runtime VN slot 11 (`VN0528–VN0567`, scenes 23–24 + `photo-permission`; 131 keys)
+- [`features/ANM029B3M_BELARUSIAN_VN_SLOT_12_RU.md`](features/ANM029B3M_BELARUSIAN_VN_SLOT_12_RU.md) — Belarusian canonical runtime VN slot 12 (`VN0568–VN0607`, scenes 25–26 + `publish-tag`; 131 keys)
+- [`features/ANM029B3N_BELARUSIAN_VN_SLOT_13_RU.md`](features/ANM029B3N_BELARUSIAN_VN_SLOT_13_RU.md) — Belarusian canonical runtime VN slot 13 (`VN0608–VN0646`, scenes 27–28; 121 keys)
+- [`features/ANM029B3O_BELARUSIAN_VN_SLOT_14_RU.md`](features/ANM029B3O_BELARUSIAN_VN_SLOT_14_RU.md) — Belarusian canonical runtime VN slot 14 (`VN0647–VN0686`, scenes 29–30 + `family-ledger-permission`; 131 keys)
+- [`features/ANM029B3P_BELARUSIAN_VN_SLOT_15_RU.md`](features/ANM029B3P_BELARUSIAN_VN_SLOT_15_RU.md) — Belarusian canonical runtime VN slot 15 (`VN0687–VN0726`, scenes 31–32; 124 keys); merged via PR #134
 - [`features/ANM029B4_BELARUSIAN_COMPLETION_RU.md`](features/ANM029B4_BELARUSIAN_COMPLETION_RU.md) — final Belarusian completion: slots 16–21, remaining VN/system/tooling/dossier/ending surfaces, exact 3870-key base parity + 132 reactions, global zero-fallback audit and runtime selector activation
 - [`features/ANM029H_PRODUCTION_PLANNING_RESET_RU.md`](features/ANM029H_PRODUCTION_PLANNING_RESET_RU.md) — post-Belarusian production reset: additional locales paused; ANM-023F1–F4 code/test/Biome/performance simplification becomes the next implementation track before ANM-030 high-volume art integration
 
@@ -87,28 +86,24 @@ The repository now contains the complete detailed authored screenplay for all 22
 - [`features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md`](features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md) — accepted R4.1 foundation: eight reusable presets using the playable VN frame, focal-eye-line duo/trio staging, selected-expression alpha/eye guides, ANM-024 viewport/background calibration, visual-approval-aware lineup, diagnostics and zero-new-art budget preview
 - [`features/ANM028B2_AUTHORED_VN_SHOT_ADOPTION_RU.md`](features/ANM028B2_AUTHORED_VN_SHOT_ADOPTION_RU.md) — bounded playable-VN adoption of stable authored background/preset/actor/expression/Pose B declarations
 - [`features/ANM028B3_GUEST_WITNESS_PRESENTATION_RU.md`](features/ANM028B3_GUEST_WITNESS_PRESENTATION_RU.md) — separate six-guest schema/validator and shared asset-free/production `guest-testimony-card` renderer
-- [`features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md`](features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md) — approved Emi neutral R1 master and its completed lineup/solo/duo/trio gate
-- [`features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md`](features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md) — first bounded face-ROI expression candidate with neutral/smile/runtime comparison
-- [`features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md`](features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md) — serious expression from three bounded face ROIs with approved-reference/runtime comparison
-- [`features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md`](features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md) — approved surprised expression from three bounded face ROIs
-- [`features/ANM028D3A_EMI_RUNTIME_ADOPTION_RU.md`](features/ANM028D3A_EMI_RUNTIME_ADOPTION_RU.md) — explicit hybrid runtime adoption of approved Emi D0–D3 frames while embarrassed/Pose B/medallion remain legacy fallback
-- [`features/ANM030B0B_FULL_CAST_INTEGRATION_RU.md`](features/ANM030B0B_FULL_CAST_INTEGRATION_RU.md) — approved nine-character full-stage integration plus ANM-030B0C exact 63-file archive adoption, canonical geometry and placeholder/Emi-transition closure
-- [`art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md`](art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md) — ChatGPT Work prompt and technical export provenance
-- [`art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md`](art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md) — exact smile prompt and deterministic ROI provenance
-- [`art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md`](art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md) — exact serious prompt and deterministic multi-ROI provenance
-- [`art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md`](art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md) — exact surprised prompt and deterministic multi-ROI provenance
+- [`features/ANM030B0B_FULL_CAST_INTEGRATION_RU.md`](features/ANM030B0B_FULL_CAST_INTEGRATION_RU.md) — approved nine-character full-stage integration plus ANM-030B0C exact 63-file archive adoption and canonical geometry
+- [`features/ANM030B0G_CHARACTER_PRODUCTION_CLOSEOUT_RU.md`](features/ANM030B0G_CHARACTER_PRODUCTION_CLOSEOUT_RU.md) — current closeout authority for B0B–B0F: 9/9 production-ready, candidate/placeholder/static-override retirement and full-cast visual gate
 
-Machine-readable sources of truth: `src/data/characterProduction.ts` for the strict seven-asset full-stage
-package, `src/data/characterRuntimeOverrides.ts` for browser-local Composition calibration/experiments,
-`src/data/characterCandidates.ts` (`upds-character-candidate-v1`) for production provenance/manual-QA sources,
-`src/data/sceneStaging.ts` (`upds-scene-staging-v1`) for reusable composition coordinates,
-`src/data/authoredVnShots.ts` (`upds-authored-vn-shots-v1`) for bounded stable-line shot declarations,
-`src/data/guestWitnesses.ts` (`upds-guest-witness-production-v1`) plus `src/ui/guestWitnessMarkup.ts` for
-the separate episode-guest tier, and `src/data/sceneStudioCalibration.ts` (`upds-scene-studio-calibration-v1`) for viewport/background/lineup QA.
-`src/ui/vnPortraitGeometry.ts` owns runtime-top and multi-actor eye-line camera derivation. ANM-030B0B makes all
-nine current full-stage characters canonical and approved; historical Emi D0–D3 candidates remain provenance-only.
-`src/content/art/ANM030A.asset-gap-audit.json` (`upds-asset-gap-audit-v1`) is the derived machine-readable production-gap matrix; ANM-030B0B updates its cast status to 9/9 production-ready while preserving current guest/background/clue/Match-3 gaps. The five existing Match-3 special mechanics remain one shared planned production-art pack: current generic SVG overlays stay playable fallback until dedicated bonus visuals are approved.
-`src/content/art/ANM030B0A1.match3-special-visual-contract.json` (`upds-match3-special-visual-contract-v1`) freezes that pack before art production: exact five mechanic IDs, current SVG fallbacks, future 256×256 RGBA PNG targets, base-tile readability and the B0A1 → B0A2 integration boundary.
+Historical Emi production provenance, superseded by the current full-cast contract:
+
+- [`features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md`](features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md)
+- [`features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md`](features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md)
+- [`features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md`](features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md)
+- [`features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md`](features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md)
+- [`features/ANM028D3A_EMI_RUNTIME_ADOPTION_RU.md`](features/ANM028D3A_EMI_RUNTIME_ADOPTION_RU.md)
+- [`art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md`](art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md)
+- [`art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md`](art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md)
+- [`art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md`](art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md)
+- [`art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md`](art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md)
+
+Machine-readable sources of truth: `src/data/characterProduction.ts` for the strict nine-character seven-asset full-stage package, `src/data/characterRuntimeOverrides.ts` for browser-local Composition calibration/experiments, `src/data/sceneStaging.ts` (`upds-scene-staging-v1`) for reusable composition coordinates, `src/data/authoredVnShots.ts` (`upds-authored-vn-shots-v1`) for bounded stable-line shot declarations, `src/data/guestWitnesses.ts` (`upds-guest-witness-production-v1`) plus `src/ui/guestWitnessMarkup.ts` for the separate episode-guest tier, and `src/data/sceneStudioCalibration.ts` (`upds-scene-studio-calibration-v1`) for viewport/background/lineup QA. Historical D0–D3 candidate metadata lives in docs/prompts/Git history only; the retired `src/data/characterCandidates.ts` is not a current source of truth.
+
+`src/ui/vnPortraitGeometry.ts` owns runtime-top and multi-actor eye-line camera derivation. ANM-030B0B–B0F leave all nine current full-stage characters canonical and approved, with all 63 runtime assets digest-locked and a Mobile WebKit full-cast lineup gate. `src/content/art/ANM030A.asset-gap-audit.json` (`upds-asset-gap-audit-v1`) reports the cast at 9/9 production-ready while preserving current guest/background/clue/Match-3 gaps. The five existing Match-3 special mechanics remain one shared planned production-art pack: current generic SVG overlays stay playable fallback until dedicated bonus visuals are approved. `src/content/art/ANM030B0A1.match3-special-visual-contract.json` (`upds-match3-special-visual-contract-v1`) freezes that pack before art production.
 
 ### Match-3 production and tooling
 
