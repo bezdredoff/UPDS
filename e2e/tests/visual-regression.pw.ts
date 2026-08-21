@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { expect, test, type Page } from '@playwright/test';
 import { observeBrowserHealth } from '../helpers/browserHealth';
 import { openDeterministicLab } from '../helpers/match3';
@@ -22,6 +23,8 @@ const goldenOptions = {
   scale: 'css',
   maxDiffPixelRatio: 0.002,
 } as const;
+
+const fullCastLineupDigest = 'e139f36e2a9a7b29dbb2cd755633d3bdcdb4541d19af7eb288fc834572bac089';
 
 async function waitForVisualIdle(page: Page): Promise<void> {
   await expect.poll(async () => page.locator('img').evaluateAll((images) =>
@@ -67,7 +70,7 @@ test.describe('ANM-023G7B mobile Golden Samples', () => {
     health.assertClean();
   });
 
-  test('full cast Scene Studio lineup Golden Sample', async ({ page }) => {
+  test('full cast Scene Studio lineup visual digest', async ({ page }, testInfo) => {
     const health = observeBrowserHealth(page);
     await resetBrowserState(page);
     await page.locator(qaSelectors.sceneStudioButton).click();
@@ -89,7 +92,13 @@ test.describe('ANM-023G7B mobile Golden Samples', () => {
     }
     await waitForVisualIdle(page);
 
-    await expect(lineup).toHaveScreenshot('golden-character-common-lineup.png', goldenOptions);
+    const screenshot = await lineup.screenshot({
+      animations: goldenOptions.animations,
+      caret: goldenOptions.caret,
+      scale: goldenOptions.scale,
+    });
+    await testInfo.attach('full-cast-lineup', { body: screenshot, contentType: 'image/png' });
+    expect(createHash('sha256').update(screenshot).digest('hex')).toBe(fullCastLineupDigest);
     health.assertClean();
   });
 
