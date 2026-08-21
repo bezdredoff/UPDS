@@ -1,14 +1,14 @@
 # UPDS — защищённые проектные контракты
 
-Status: active protected contract aligned through merged ANM-027G `16–18` R1 with ANM-027G `19–21` canonical ending batch in QA.
+Status: active protected contract aligned through completed ANM-027G `0–21`, ANM-029B4 Belarusian production and merged ANM-030B0F character runtime compatibility cleanup.
 
 Эти правила считаются стабильными до отдельного продуктового решения. Реализация, тест или
 удобство production pipeline не могут молча переопределить их.
 
 ## Narrative and content
 
-- Canonical authored runtime sources сейчас инкрементальны: `src/content/ANM-003_Vertical_Slice_Screenplay.md` и `src/content/ANM-027G_Episodes_04_06_Screenplay.md`.
-- Каждый source имеет собственный `upds-story-content-v1` manifest: `src/content/story/ANM003.vertical-slice.story.json` и `src/content/story/ANM027G.episodes-04-06.story.json`.
+- Canonical authored runtime sources сейчас инкрементальны: `src/content/ANM-003_Vertical_Slice_Screenplay.md` плюс последовательные ANM-027G screenplay sources для slots `4–21`.
+- Каждый source имеет собственный `upds-story-content-v1` manifest в `src/content/story/`; вместе они покрывают canonical `0–21` runtime scope.
 - Runtime routing source: `src/data/storyGraph.ts` (`upds-story-graph-v1`).
 - Audited data flow: `screenplay sources + scoped manifests + storyGraph → per-source auditStoryContent → combined canonicalStoryLines → VN runtime`.
 - Стабильные `VN....` IDs не перенумеровываются и не переиспользуются; `VN0250` является canonical bridge между ANM-003 и последовательными ANM-027G sources; границы `4–6 → 7–9 → 10–12 → 13–15 → 16–18 → 19–21` продолжаются без повторного использования IDs.
@@ -62,21 +62,24 @@ Production character contract:
 - per-expression alpha bounds and eye-line landmark authored in master-canvas pixels for exact
   selected-frame guides and focal alignment; neutral fields remain the lineup/proportion baseline;
 - `staging.scale = 1` is the production default; CSS zoom cannot repair incorrect authored height;
-- explicit adult-character guardrail for every production/planned character.
+- explicit adult-character guardrail for every production character.
 
 Current runtime-integrated and visually approved production characters: Miku, Onoe, Ayuki, Emi,
 Kentaro, Norihiro, Mayu, Rina and Kurose. Every one uses the strict canonical seven-asset rig;
-ANM-030B0B removes the temporary Emi D0–D3 runtime override and closes the full-stage placeholder lane.
+ANM-030B0B/B0C closes the full-stage art package at 63/63 canonical assets, while B0D/B0F remove the
+retired candidate, placeholder and built-in static override runtime seams. B0E adds the Mobile WebKit
+full-cast lineup visual gate.
 
-Pre-integration masters/expressions use `src/data/characterCandidates.ts` (`upds-character-candidate-v1`) and a
-`characters/<key>/candidates/<slice>/` asset path. Candidate metadata must declare `runtimeEligible: false`;
-it does not silently mutate into the strict seven-asset rig. Exact candidate alpha bounds and eye line drive
-preview guides. Historical candidate files remain outside `RuntimeAssets`; the ANM-028D3A built-in
-transition override is retired after full-rig promotion. `src/data/characterRuntimeOverrides.ts`
-continues to own browser-local Composition experiments without changing the canonical rig.
+Historical pre-integration Emi D0–D3 candidate files and metadata remain provenance in feature docs,
+prompts and Git history only. They are not active machine-readable runtime sources. The retired
+`src/data/characterCandidates.ts`, full-stage placeholder resolver and built-in/static transition
+override must not be restored merely to preserve historical provenance. `src/data/characterRuntimeOverrides.ts`
+continues to own browser-local Composition experiments/calibration without changing the canonical rig.
 
-Current planned full-stage placeholders: none. Future planned characters must not claim fake asset paths and
-require side-by-side lineup/proportion approval before promotion to production.
+There is no planned full-stage runtime lane. Future pre-production character work stays outside
+`upds-character-production-v2` until the complete seven-asset package exists, passes side-by-side
+lineup/proportion approval and is ready for direct production integration. Planning documents or the
+derived asset audit may track future needs without inventing fake runtime paths.
 
 The seven-asset manifest applies only to full-stage characters. Episode guests use the separate
 `src/data/guestWitnesses.ts` contract (`upds-guest-witness-production-v1`): neutral bust/half-body
@@ -134,8 +137,9 @@ without manual visual QA.
   runtime scale, free-form drag offsets or episode-specific CSS are not accepted repair systems;
 - technical `production` status cannot be cited as visual approval; `visualApproval` is explicit,
   and `rebuild-required` assets cannot serve as Golden Samples;
-- neutral master lineup approval precedes production of the remaining expression frames and Pose B;
-  `upds-scene-studio-qa-v1` is a read-only handoff report and cannot write production contracts.
+- offline/new-character neutral-master lineup approval precedes completion/import of the remaining
+  expression frames and Pose B; `upds-scene-studio-qa-v1` is a read-only handoff report and cannot
+  write production contracts.
 
 Visual direction remains the approved adult-college-age 2000s Hybrid anime style: clean contour,
 simple forms, almost-flat cel shading and no generic modern glossy-gacha render.
@@ -156,7 +160,7 @@ simple forms, almost-flat cel shading and no generic modern glossy-gacha render.
 
 - Stable IDs/keys, not Russian copy, drive save, routing, telemetry and control flow.
 - Canonical production target set is exactly `ru`, `be`, `en`, `zh-CN`, `ja`, `ko`, `pt-BR`; `src/localization/LocalizationProduction.ts` owns readiness metadata.
-- RU is source/default; RU and EN are currently complete/runtime-selectable. `be`, `zh-CN`, `ja`, `ko`, `pt-BR` remain translation-pending and must not appear in the player selector before their full catalog passes production audit.
+- RU, BE and EN are production-complete/runtime-selectable. `zh-CN`, `ja`, `ko`, `pt-BR` remain translation-pending and must not appear in the player selector before their full catalog passes production audit.
 - A production-ready target catalog must have source-key parity, no empty values and identical named-placeholder signatures; runtime fallback is not evidence of translation completeness.
 - `src/localization/LocalizationGlossary.ts` is the terminology/name consistency contract for mass localization; one-off scene translations must not silently rename protected terms.
 - CJK segmentation classification is shared localization metadata; actual CJK overflow/typography approval remains a visual/mobile QA gate.

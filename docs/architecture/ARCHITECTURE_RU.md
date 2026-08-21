@@ -1,6 +1,6 @@
 # UPDS — текущая архитектура
 
-Status: active architecture through completed ANM-027G `0–21` canonical story, merged ANM-029A/B1/B2A/B2B1/B2B2/B2B3/B2C/B3A–B3P and ANM-029B4 R1.1 Belarusian production, plus merged ANM-023E tooling hardening, ANM-023F1 repository/Biome hardening and ANM-023F2 test simplification. ANM-029H R1 is merged via PR #136; additional locales are paused. ANM-023F3A/B/C are merged through PR #141 and close the bounded runtime simplification sequence. ANM-023F4A R1 is merged via PR #142 with the initial entry reduced to 741.15 kB / 247.14 kB gzip; ANM-023F4B R1 is merged via PR #144 and closes ANM-023F. ANM-030A R1 is the current derived asset-gap audit candidate.
+Status: active architecture through completed ANM-027G `0–21` canonical story, ANM-029B4 R1.1 Belarusian production, completed ANM-023F simplification/performance, completed ANM-023G browser automation and merged ANM-030B0F character runtime compatibility cleanup. ANM-030A remains the derived asset-gap audit; full-stage cast is closed at 9/9 production-ready.
 
 ## Runtime flow
 
@@ -11,23 +11,22 @@ character production metadata or persistence semantics.
 
 ## Planned simplification track — ANM-023F
 
-ANM-029H does not change ownership boundaries. It records the next bounded maintenance sequence:
+ANM-029H does not change ownership boundaries. It records the bounded maintenance sequence now completed:
 
-- F1 is merged via PR #137: Biome lint is unified across source/tests/config and generated repository debris is removed/guarded;
-- F2 is merged via PR #138: completed localization lifecycle-batch tests are consolidated into domain suites and the clean Biome cohort is blocking;
-- F3 is complete through PR #141: F3A extracted deterministic Match-3 presentation, F3B extracted deterministic VN presentation, and F3C separated stateless Match-3 rules from mutable engine lifecycle;
-- F4 starts from the merged CI payload baseline. F4A is merged via PR #142: RU remains eager fallback while BE/EN base catalogs load on demand through `LocalizationService.ensureLocale()` / `activateLocale()` and `RuntimeServices.ready` resolves the persisted locale before first player render. F4B separates complete PWA offline caching from contextual browser-image warming and bounds both warmup paths.
+- F1 merged via PR #137: Biome lint unified across source/tests/config and generated repository debris removed/guarded;
+- F2 merged via PR #138: completed localization lifecycle-batch tests consolidated into domain suites and the clean Biome cohort made blocking;
+- F3 complete through PR #141: deterministic Match-3 presentation, deterministic VN presentation and stateless Match-3 rules extracted from mutable lifecycle;
+- F4 complete through PR #144: RU remains eager fallback while BE/EN base catalogs load on demand, and complete PWA offline caching is separated from contextual bounded browser-image warming.
 
 The desired direction remains `controller orchestrates → pure/domain modules calculate → renderer renders → store persists`. Existing public/runtime contracts remain stable unless a later atomic feature explicitly changes them.
 
 ## Localization startup / payload ownership
 
-`src/localization/catalogs/index.ts` owns the runtime loading seam. Russian is the synchronously available source/fallback catalog; production-complete Belarusian and English base catalogs are dynamic imports. `LocalizationService` caches loaded catalogs and deduplicates concurrent locale loads. `RuntimeServices.ready` resolves the persisted locale before `src/main.ts` mounts the UI, preventing a wrong-language startup flash while keeping non-active locale payload out of the initial dependency graph. Match-3 reaction catalogs remain eager after F4A; the measured locale split already reduced the initial entry to 741.15 kB / 247.14 kB gzip, so further code splitting is not assumed necessary without another measured bottleneck.
+`src/localization/catalogs/index.ts` owns the runtime loading seam. Russian is the synchronously available source/fallback catalog; production-complete Belarusian and English base catalogs are dynamic imports. `LocalizationService` caches loaded catalogs and deduplicates concurrent locale loads. `RuntimeServices.ready` resolves the persisted locale before `src/main.ts` mounts the UI, preventing a wrong-language startup flash while keeping non-active locale payload out of the initial dependency graph. Match-3 reaction catalogs remain eager after F4A; the measured locale split already reduced the initial entry to the accepted F4 baseline, so further code splitting is not assumed necessary without another measured bottleneck.
 
 ## Runtime asset warming / offline cache ownership
 
 `src/platform/RuntimeAssets.ts` owns the complete runtime distribution catalog used by the PWA offline cache. `src/main.ts` passes that catalog to `PwaController.start()` but does not create browser `Image()` warmers for the whole set. Browser-image warming belongs to feature transitions: VN warms the current/next line presentation assets and Match-3 warms the active level presentation family. `AssetPreloader` deduplicates already-requested URLs and caps active image warmers at `IMAGE_PRELOAD_CONCURRENCY = 4`; `AssetHealth` exposes current/peak activity for diagnostics. The service worker preserves the complete `CACHE_URLS` contract while limiting background fetch/cache work with `CACHE_WARM_CONCURRENCY = 4`.
-
 
 ## Application composition
 
@@ -94,15 +93,15 @@ save, campaign progression, clue or persistent tutorial side effects.
 
 ### `src/features/sceneStudio/SceneStudioController.ts`
 
-Owns the read-only ANM-028B1 R4.1 composition/calibration and ANM-028D0/D1/D2/D3 candidate QA surface: art-source/preset/background/authored-line,
+Owns the read-only/editable QA composition surface around current production data: art-source/preset/background/authored-line,
 text-scale and ANM-024 viewport switching; the same shared VN frame as playable runtime; safe-area,
 playable portrait crop/occlusion; measured duo/trio eye-line alignment to the rendered background
-focal eye-line; distinct background-calibration, preset face-lane and selected-expression
-alpha/eye guides;
-canonical/approved-master/current-expression lineup; separated
-automatic/warning/manual diagnostics; native evidence/guest shells; scene budget and structured QA
-report. It consumes shared resolvers/contracts and does not write screenplay, save, calibration
-approval, character manifests or production assets.
+focal eye-line; distinct background-calibration, preset face-lane and selected-expression alpha/eye guides;
+canonical/current-expression full-cast lineup; browser-local character asset/calibration experiments;
+separated automatic/warning/manual diagnostics; native evidence/guest shells; scene budget and structured QA report.
+It consumes shared resolvers/contracts and does not write screenplay, save, calibration approval,
+character manifests or production assets. Historical ANM-028D0–D3 candidate provenance is no longer
+an active Scene Studio/runtime data source.
 
 ### `src/features/match3Campaign/Match3CampaignController.ts`
 
@@ -145,9 +144,8 @@ The current graph covers the complete authored `0–21` scope: 45 VN scenes and 
 
 ## Character production architecture
 
-- `src/data/characterProduction.ts` — canonical `upds-character-production-v2` manifest, runtime production/planned status, separate visual-approval status, assets, expression set, proportions and per-expression alpha/eye guide geometry with validator;
-- `src/data/characterCandidates.ts` — `upds-character-candidate-v1` provenance/manual-QA metadata; candidate metadata remains `runtimeEligible: false` even when an approved file is deliberately referenced by a separate transition override;
-- `src/data/characterRuntimeOverrides.ts` — browser-local Composition calibration/override layer; the built-in Emi transition override is empty after ANM-030B0B full-rig promotion;
+- `src/data/characterProduction.ts` — canonical `upds-character-production-v2` manifest for the nine current full-stage production characters, separate visual-approval status, assets, expression set, proportions and per-expression alpha/eye guide geometry with validator;
+- `src/data/characterRuntimeOverrides.ts` — browser-local Composition asset/calibration experiment layer only; no built-in/static transition override remains;
 - `src/data/characterRigs.ts` — canonical runtime rigs/staging plus expression lookup through optional browser-local overrides;
 - `src/data/sceneStaging.ts` — canonical `upds-scene-staging-v1` registry/validator for eight reusable scene compositions;
 - `src/data/authoredVnShots.ts` — bounded `upds-authored-vn-shots-v1` stable-line background/preset/actor/expression/Pose B declarations;
@@ -158,14 +156,11 @@ The current graph covers the complete authored `0–21` scope: 45 VN scenes and 
 - `src/ui/sceneStaging.ts` — pure actor-assignment resolver that keeps canonical character scale separate from preset shot scale;
 - `src/ui/vnAuthoredShots.ts` — resolves bounded authored shot declarations through that same preset resolver and renders their actor assets in playable VN;
 - `src/ui/vnFrameMarkup.ts` — shared production VN DOM/chrome used by both playable VN and Scene Studio;
-- `src/ui/vnPortraitGeometry.ts` — preserves the accepted playable-VN `178% / -78%` runtime-top
-  camera and derives an eye-line-anchored variant for duo/trio staging;
+- `src/ui/vnPortraitGeometry.ts` — preserves the accepted playable-VN `178% / -78%` runtime-top camera and derives an eye-line-anchored variant for duo/trio staging;
 - `docs/art/CHARACTER_USAGE_MANIFEST.json` — CI-checked documentation mirror;
 - `src/platform/RuntimeAssets.ts` — preload/health catalog.
 
-Runtime renders finished precomposed frames. Five expression frames, Pose B and medallion form the
-seven-asset production set. Legacy `base-neutral`, `face-*`, blink and speaking files may remain as
-unreferenced baggage, but they are not runtime architecture.
+Runtime renders finished precomposed frames. Five expression frames, Pose B and medallion form the seven-asset production set. Legacy `base-neutral`, `face-*`, blink and speaking files may remain as unreferenced baggage, but they are not runtime architecture.
 
 Relative visual height is encoded in the shared 1024×1536 master canvas and validated from alpha
 bounds. Scene-specific CSS zoom must not become a parallel proportion system. ANM-028B1 R4.1 Scene
@@ -175,10 +170,9 @@ resolves vertical position against the actual focal-point element after viewport
 guides are derived from the selected Pose A PNG geometry, while actor safe boxes remain separately
 labelled non-overlapping face-critical lanes. Shoulder/lower-body overlap is allowed. Neutral lineup
 alone exposes the complete canvas and bottom-pivot/alpha drift.
-All nine current full-stage rigs are `visualApproval: approved` and drive playable rendering plus Scene
-Studio guides directly from canonical frame geometry. Historical ANM-028D0–D3 Emi candidate metadata
-stays `runtimeEligible: false`; those files remain provenance only and no longer participate in runtime
-resolution. Browser-local overrides remain explicit and removable experiments rather than fake rig promotion.
+
+All nine current full-stage rigs are `visualApproval: approved`, provide 63/63 canonical runtime assets and drive playable rendering plus Scene Studio guides directly from canonical frame geometry. Historical ANM-028D0–D3 Emi candidate metadata/files remain provenance in feature docs, prompts and Git history only; `src/data/characterCandidates.ts`, the full-stage placeholder API and built-in/static transition override are retired and must not participate in runtime resolution. Browser-local overrides remain explicit and removable experiments rather than fake rig promotion. Mobile WebKit automatically validates the nine-character production lineup.
+
 ANM-028B2 adds bounded authored multi-character rendering through `upds-authored-vn-shots-v1` and the
 shared resolver; unlisted lines still use `resolveVnStaging()` and no line-ID condition is hidden in
 `VnController`. ANM-028B3 adds a parallel episode-guest lookup before rendering: guest speaker tokens
@@ -193,7 +187,7 @@ Authority remains one-way:
 
 `story/content + runtime manifests/resolvers → ANM-030A audit → ANM-030B production backlog`
 
-ANM-030B integration updates the authoritative manifest/resolver first and then refreshes the audit. Runtime code must never import the audit JSON to decide which image to show. This prevents a planning snapshot from becoming a second asset-routing system.
+ANM-030B integration updates the authoritative manifest/resolver first and then refreshes the audit. Runtime code must never import the audit JSON to decide which image to show. This prevents a planning snapshot from becoming a second asset-routing system. Current audit reports the full-stage cast as 9/9 production-ready with zero outstanding full-stage assets; remaining gaps belong to guests, backgrounds, hero clues and the shared Match-3 special-art pack.
 
 ## Match-3 data and engine
 
@@ -267,9 +261,7 @@ controller.
 
 ### New characters
 
-Keep `planned` until a standalone neutral master passes lineup/proportion QA and the complete
-seven-asset set exists. Promote through `characterProduction.ts`; do not add fake paths or a second
-rig registry.
+Pre-production character work remains outside the runtime manifest. A new full-stage character enters `characterProduction.ts` only when a complete seven-asset package exists, standalone transparency/canvas/pivot and lineup/proportion QA pass, and the asset set is ready to become production immediately. Do not recreate a planned/placeholder runtime lane, fake asset paths, `characterCandidates.ts` or a second rig registry merely to track work in progress.
 
 ### Save migrations
 
@@ -286,7 +278,6 @@ VN, Match-3 or content contracts.
 `docs/ROADMAP_RU.md` owns feature status; `package.json` owns stable product package name + semver, `src/appVersion.ts` imports that semver as `APP_VERSION` and owns `BUILD_LABEL`/build identity; machine
 manifests own production data; architecture/process documents explain current behavior. Feature
 notes and archived reports never override those sources.
-
 
 ## Test/tooling identity hardening
 
