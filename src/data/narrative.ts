@@ -185,7 +185,8 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   maintenanceRoom: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
   // ANM-027G 10–12 semantic variants. External masters replace only these mappings.
   combatClubHall: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
-  serviceYard: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
+  // ANM-030B1B4 adopts the campus service-yard production master.
+  serviceYard: './assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp',
   asterionTransferPoint: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
   oldGymNight: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
   // ANM-027G 13–15 semantic variants. External masters replace only these mappings.

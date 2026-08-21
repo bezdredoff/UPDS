@@ -1,6 +1,6 @@
 {
   "format": "upds-asset-gap-audit-v1",
-  "feature": "ANM-030A+ANM-030B0B+ANM-030B1B1+ANM-030B1B2+ANM-030B1B3",
+  "feature": "ANM-030A+ANM-030B0B+ANM-030B1B1+ANM-030B1B2+ANM-030B1B3+ANM-030B1B4",
   "baseline": {
     "mainSha": "227d32ca7e0ab681cf20919ac36bbc9a2860eac1",
     "storyMacro": "src/content/story/ANM027F.full-story-macro.json",
@@ -25,8 +25,8 @@
     "backgroundFamilies": 8,
     "contractedBackgroundVariants": 26,
     "runtimeSemanticBackgroundVariants": 24,
-    "productionBackgroundVariants": 8,
-    "runtimeFallbackBackgroundVariants": 16,
+    "productionBackgroundVariants": 9,
+    "runtimeFallbackBackgroundVariants": 15,
     "contractOnlyUnusedBackgroundVariants": 2,
     "fullStageCharacters": 9,
     "productionReadyFullStageCharacters": 9,
@@ -372,9 +372,11 @@
       },
       {
         "id": "campus-exterior",
-        "macroStatus": "new-master-required",
+        "macroStatus": "existing-master-family",
         "firstSlot": 11,
-        "existingMacroAssets": [],
+        "existingMacroAssets": [
+          "BG_CAMPUS_SERVICE_YARD"
+        ],
         "variants": [
           {
             "family": "campus-exterior",
@@ -382,10 +384,9 @@
             "firstUseSlot": 11,
             "usedByCurrentStory": true,
             "runtimeKey": "serviceYard",
-            "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           },
           {
@@ -413,8 +414,8 @@
           }
         ],
         "auditStatus": [
-          "planned-missing",
-          "external-art-blocked"
+          "production",
+          "reusable"
         ]
       },
       {
@@ -468,6 +469,7 @@
     ],
     "physicalFiles": [
       "assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
       "assets/backgrounds/BG_CLUBROOM_DAY.webp",
       "assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
       "assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
@@ -1801,10 +1803,9 @@
           "family": "campus-exterior",
           "variant": "service-yard",
           "runtimeKey": "serviceYard",
-          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
           "auditStatus": [
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
@@ -1880,7 +1881,6 @@
         ]
       },
       "productionVisualGaps": [
-        "background:service-yard",
         "background:transfer-point",
         "hero-clue:asterion-transfer-chain"
       ]
@@ -2863,11 +2863,11 @@
         "guest:aoi",
         "background-variants:transfer-point,server-room",
         "background-variants:maintenance-room,anonymous-return-counter",
-        "master:campus-exterior",
+        "background-variants:campus-path",
         "hero-clue:asterion-transfer-chain",
         "hero-clue:second-skin-tag"
       ],
-      "reason": "finish the remaining system-reveal guests, campus-exterior master, controlled Asterion/laundry sibling variants and hero clues after the approved family anchors"
+      "reason": "finish the remaining system-reveal guests, controlled Asterion/laundry/campus sibling variants and hero clues after the approved family anchors"
     },
     {
       "id": "030B3-late-13-18",
