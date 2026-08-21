@@ -76,6 +76,7 @@ The detailed classification and acceptance outcomes are in [`RELEASE_BACKLOG_RU.
 6. **PWA/mobile release regression** — install/update/offline/recovery/save, iOS and representative Android Chromium, final payload/performance/render sanity.
 7. **RU/BE/EN release-language QA** — proofreading, zero fallback, terminology and mobile overflow/paging.
 8. **Minimum accessibility/interaction gate** — critical touch, focus, labels, contrast/readability and motion-safety defects fixed before RC.
+9. **Public release package / rights sanity** — final PWA metadata/icons, credits and shipped-asset rights, platform-required privacy/content/age/legal notices, production URL/hosting and rollback/update ownership. Keep this bounded to the actual distribution platform.
 
 ### R1 — release-worthy / bounded polish
 
@@ -156,7 +157,7 @@ Post-launch expansion only. It must not consume base-release capacity.
 2. **Release-critical visual production** — four missing background masters and final production presentation for six guests, in small reviewable art waves with iPhone preview.
 3. **Release surface closure** — normal build hides QA tools while Browser Gate retains deterministic QA entry.
 4. **Conditional visual cleanup** — only variants/extras that real visual QA flags; five Match-3 specials only if the current SVG presentation fails product quality.
-5. **ANM-033 — Release Candidate Hardening [P0 before release]** — full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, accessibility/performance sanity.
+5. **ANM-033 — Release Candidate Hardening [P0 before release]** — full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, accessibility/performance sanity.
 6. Fix only defects found by those gates; build the RC.
 7. Hero inserts, landscape, extra locales, safe motion, song pipeline and DLC stay after base release until evidence changes priority.
 
