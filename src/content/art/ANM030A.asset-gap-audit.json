@@ -1,6 +1,6 @@
 {
   "format": "upds-asset-gap-audit-v1",
-  "feature": "ANM-030A+ANM-030B0B+ANM-030B1B1",
+  "feature": "ANM-030A+ANM-030B0B+ANM-030B1B1+ANM-030B1B2",
   "baseline": {
     "mainSha": "227d32ca7e0ab681cf20919ac36bbc9a2860eac1",
     "storyMacro": "src/content/story/ANM027F.full-story-macro.json",
@@ -25,8 +25,8 @@
     "backgroundFamilies": 8,
     "contractedBackgroundVariants": 26,
     "runtimeSemanticBackgroundVariants": 24,
-    "productionBackgroundVariants": 6,
-    "runtimeFallbackBackgroundVariants": 18,
+    "productionBackgroundVariants": 7,
+    "runtimeFallbackBackgroundVariants": 17,
     "contractOnlyUnusedBackgroundVariants": 2,
     "fullStageCharacters": 9,
     "productionReadyFullStageCharacters": 9,
@@ -263,9 +263,11 @@
       },
       {
         "id": "lab-asterion",
-        "macroStatus": "new-master-required",
+        "macroStatus": "existing-master-family",
         "firstSlot": 7,
-        "existingMacroAssets": [],
+        "existingMacroAssets": [
+          "BG_ASTERION_SMART_TEXTILE_LAB"
+        ],
         "variants": [
           {
             "family": "lab-asterion",
@@ -273,10 +275,9 @@
             "firstUseSlot": 7,
             "usedByCurrentStory": true,
             "runtimeKey": "asterionLab",
-            "runtimeAsset": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           },
           {
@@ -305,8 +306,8 @@
           }
         ],
         "auditStatus": [
-          "planned-missing",
-          "external-art-blocked"
+          "production",
+          "reusable"
         ]
       },
       {
@@ -465,6 +466,7 @@
       }
     ],
     "physicalFiles": [
+      "assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
       "assets/backgrounds/BG_CLUBROOM_DAY.webp",
       "assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
       "assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
@@ -1491,10 +1493,9 @@
           "family": "lab-asterion",
           "variant": "smart-textile-lab",
           "runtimeKey": "asterionLab",
-          "runtimeAsset": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
           "auditStatus": [
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -1550,9 +1551,7 @@
           "reusable"
         ]
       },
-      "productionVisualGaps": [
-        "background:smart-textile-lab"
-      ]
+      "productionVisualGaps": []
     },
     {
       "slot": 8,
@@ -2863,13 +2862,13 @@
       "scope": [
         "guest:gen",
         "guest:aoi",
-        "master:lab-asterion",
+        "background-variants:transfer-point,server-room",
         "master:laundry-service",
         "master:campus-exterior",
         "hero-clue:asterion-transfer-chain",
         "hero-clue:second-skin-tag"
       ],
-      "reason": "finish the remaining system-reveal guests, background families and hero clues after Kurose and Rina integration"
+      "reason": "finish the remaining system-reveal guests, background families, Asterion sibling variants and hero clues after the smart-textile-lab production anchor"
     },
     {
       "id": "030B3-late-13-18",
