@@ -67,6 +67,32 @@ test.describe('ANM-023G7B mobile Golden Samples', () => {
     health.assertClean();
   });
 
+  test('full cast Scene Studio lineup Golden Sample', async ({ page }) => {
+    const health = observeBrowserHealth(page);
+    await resetBrowserState(page);
+    await page.locator(qaSelectors.sceneStudioButton).click();
+    await expect(page.locator(qaSelectors.sceneStudioScreen)).toBeVisible();
+    await page.locator('#scene-studio-mode').selectOption('lineup');
+
+    const lineup = page.locator('.scene-studio-lineup');
+    const characters = lineup.locator('.scene-studio-lineup-character');
+    await expect(lineup).toBeVisible();
+    await expect(lineup).toHaveAttribute('data-lineup-source', 'upds-character-production-v2');
+    await expect(lineup).toHaveAttribute('data-art-source', 'runtime');
+    await expect(characters).toHaveCount(9);
+
+    for (let index = 0; index < 9; index += 1) {
+      const character = characters.nth(index);
+      await expect(character).toHaveAttribute('data-candidate', 'false');
+      await expect(character).toHaveAttribute('data-visual-approval', 'approved');
+      await expectImageLoaded(character.locator('img'));
+    }
+    await waitForVisualIdle(page);
+
+    await expect(lineup).toHaveScreenshot('golden-character-common-lineup.png', goldenOptions);
+    health.assertClean();
+  });
+
   test('CHOICE_00 Golden Sample', async ({ page }) => {
     const health = observeBrowserHealth(page);
     await openQaScene(page, 1);
