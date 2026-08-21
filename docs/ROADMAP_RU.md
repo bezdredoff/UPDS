@@ -64,6 +64,7 @@ Changing the release platform or market scope is a separate product decision, no
 - **ANM-030B1B1 [R0] — STUDENT COUNCIL AUDITORIUM BACKGROUND COMPLETE**: the approved `1080×1920` production WebP replaces the visibly wrong clubroom alias in Story slot 4; background status is now `6/24` dedicated production variants and `18` runtime aliases.
 - **ANM-030B1B2 [R0] — ASTERION SMART-TEXTILE LAB BACKGROUND COMPLETE**: the approved `1080×1920` golden master replaces the unrelated apartment fallback in Story slot 7; background status is now `7/24` dedicated production variants and `17` runtime aliases.
 - **ANM-030B1B3 [R0] — LOST-FOUND WAREHOUSE BACKGROUND COMPLETE**: the approved `1080×1920` golden master replaces the unrelated athletics-locker fallback in Story slot 8; background status is now `8/24` dedicated production variants and `16` runtime aliases.
+- **ANM-030B1B4 [R0] — CAMPUS SERVICE YARD BACKGROUND COMPLETE**: the approved `1080×1920` golden master replaces the unrelated clubroom fallback in Story slot 11; background status is now `9/24` dedicated production variants and `15` runtime aliases.
 
 ## What is actually left for release
 
@@ -72,7 +73,7 @@ The detailed classification and acceptance outcomes are in [`RELEASE_BACKLOG_RU.
 ### R0 — release blockers
 
 1. **Production player surface** — remove/hide QA-labelled Scene Navigation, Level Lab, Scene Studio and Save Diagnostics from the normal player menu while preserving deterministic QA/automation access. Match-3 Campaign remains player-facing.
-2. **Background semantic closure** — produce the two still-missing master families (`campus-exterior`, `old-building-finale`) and only enough controlled variants to remove visibly wrong place/time fallbacks. `lab-asterion` and `laundry-service` now have approved golden masters; the current fallback count is `16`. Do not turn the original `19 aliases` audit count into 19 mandatory illustrations.
+2. **Background semantic closure** — produce the one still-missing master family (`old-building-finale`) and only enough controlled variants to remove visibly wrong place/time fallbacks. `lab-asterion`, `laundry-service` and `campus-exterior` now have approved golden masters; the current fallback count is `15`. Do not turn the original `19 aliases` audit count into 19 mandatory illustrations.
 3. **Guest/witness closure** — six named guests must stop rendering asset-free initials placeholders in shipped scenes. Use the lean guest package or another explicitly approved final testimony presentation; do not promote them to seven-asset full-stage rigs by default.
 4. **Full human content QA** — Story common route + all three endings, all 22 production Match-3 levels, direct special combinations on phone, save/continue/retry/progression boundaries.
 5. **Final asset/runtime crawl** after production-art integration — zero broken shipped asset URLs/decode failures and no reliance on browser-local Scene Studio overrides.
@@ -89,7 +90,7 @@ The old post-G8 production-signal order remains useful as a vocabulary for cheap
 - **PWA offline/recovery** — expand Browser Gate only where it protects a real release failure mode;
 - **VN/content asset crawl** — make the final shipped-content URL/decode gate repeatable after production art lands;
 - **quantitative Match-3 regression/reporting** — strengthen only when human playtest evidence identifies a problem current deterministic tools do not explain cheaply;
-- controlled background variants beyond the two still-missing masters only when visual QA shows a narrative mismatch;
+- controlled background variants beyond the one still-missing master only when visual QA shows a narrative mismatch;
 - extras mapped onto **≤4 reusable adult archetypes** only where their absence visibly hurts a shipped scene;
 - Match-3 special/bonus production art only if final board QA shows the current SVGs look/read as prototype rather than production;
 - bounded audio quality replacement only if the existing procedural menu/VN/match/ending themes fail the final product listen-through.
@@ -157,7 +158,7 @@ Post-launch expansion only. It must not consume base-release capacity.
 ## Recommended immediate sequence
 
 1. **ANM-030B0H — Release Backlog Reset** — current planning/doc slice.
-2. **Release-critical visual production** — two still-missing background masters, controlled Asterion/laundry sibling variants where needed, and final production presentation for six guests, in small reviewable art waves with iPhone preview.
+2. **Release-critical visual production** — one still-missing background master, controlled Asterion/laundry/campus sibling variants where needed, and final production presentation for six guests, in small reviewable art waves with iPhone preview.
 3. **Release surface closure** — normal build hides QA tools while Browser Gate retains deterministic QA entry.
 4. **Conditional visual cleanup** — only variants/extras that real visual QA flags; five Match-3 specials only if the current SVG presentation fails product quality.
 5. **ANM-033 — Release Candidate Hardening [P0 before release]** — full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, accessibility/performance sanity.
