@@ -40,10 +40,11 @@ describe('ANM-027G episodes 7–9 canonical production batch', () => {
     expect(levels.slice(7, 10).every((level) => level.objectives.length <= 3)).toBe(true);
   });
 
-  it('adopts the approved Asterion lab while retaining unresolved service fallbacks', () => {
+  it('adopts the approved Asterion and lost-found anchors while retaining unresolved service fallbacks', () => {
     expect(backgroundAssets.asterionLab).toBe('./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp');
     expect(backgroundAssets.asterionLab).not.toBe(backgroundAssets.norihiroApartment);
-    expect(backgroundAssets.lostFoundWarehouse).toBe(backgroundAssets.lockerAthletics);
+    expect(backgroundAssets.lostFoundWarehouse).toBe('./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp');
+    expect(backgroundAssets.lostFoundWarehouse).not.toBe(backgroundAssets.lockerAthletics);
     expect(backgroundAssets.maintenanceRoom).toBe(backgroundAssets.lockerAthletics);
   });
 
