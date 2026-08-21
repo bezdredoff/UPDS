@@ -45,7 +45,8 @@ npm run docs:audit
 
 - `story:audit` — screenplay/manifest/graph completeness.
 - `character:audit` — character production manifest, isolated candidate status, PNG dimensions,
-  selected-expression/candidate alpha bounds and eye-line landmarks, visual-approval status and runtime paths.
+  selected-expression/candidate alpha bounds and eye-line landmarks, visual-approval status, runtime paths and
+  exact per-character/full-package SHA-256 adoption of the approved 63-file archive.
 - `localization:audit` — production-locale registry/readiness, RU/EN catalog structure, full screenplay coverage, placeholder signatures and localized Match-3 surfaces.
 - `scene:audit` — exact eight-preset registry/resolver, face-critical lanes, runtime-top and
   focal-eye-line camera derivation, duo/trio headroom, frame-accurate actor guides, ANM-024
