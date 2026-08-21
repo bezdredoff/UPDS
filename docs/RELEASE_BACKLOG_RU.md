@@ -1,6 +1,6 @@
 # UPDS — Release Backlog
 
-Status: **active release-planning source**, ANM-030B0H + ANM-030B1B1 + ANM-030B1B2 + ANM-030B1B3 + ANM-030B1B4 + ANM-030B1B5.
+Status: **active release-planning source**, ANM-030B0H + ANM-030B1B1 + ANM-030B1B2 + ANM-030B1B3 + ANM-030B1B4 + ANM-030B1B5 + ANM-030B1B6.
 
 Этот документ отвечает только на два вопроса:
 
@@ -45,7 +45,7 @@ Release outcome:
 
 ### R0.2 Background semantic closure
 
-После ANM-030B1B5 audit фиксирует `10/24` dedicated production background variants и `14` runtime aliases. Все восемь background families имеют production master. Утверждённая аудитория студсовета больше не использует фон маленькой клубной комнаты, smart-textile lab больше не подменяется квартирой Норихиро, склад бюро находок — спортивной раздевалкой, служебный двор кампуса — клубной комнатой, а старая прачечная — раздевалкой бассейна. `lab-asterion` уже получил production master; `transfer-point` и `server-room` остаются controlled sibling variants. `laundry-service` уже получил production master; `maintenance-room` и `anonymous-return-counter` остаются controlled sibling variants. `campus-exterior` уже получил production master; `campus-path` остаётся controlled sibling variant. `old-building-finale` уже получил production master; `old-archive` и `service-tunnel` остаются controlled sibling variants. Оставшиеся aliases по-прежнему не являются требованием произвести столько же независимых картинок.
+После ANM-030B1B6 audit фиксирует `13/24` dedicated production background variants и `11` runtime aliases. Все восемь background families имеют production master. Дополнительно три лидирующих по общей runtime-экспозиции fallback закрыты dedicated art: `textile-workshop` обслуживает четыре сцены мастерских Хинаты и Кубо, `combat-club-hall` — четыре сцены карате и кэндо, `old-archive` — три scene appearances старого корпуса. `lab-asterion` уже получил production master и сохраняет unresolved `transfer-point` и фактически не маршрутизируемый сейчас `server-room`; `laundry-service` уже получил production master и сохраняет `maintenance-room` и `anonymous-return-counter`; `campus-exterior` уже получил production master и сохраняет `campus-path`; `old-building-finale` уже получил production master и сохраняет только `service-tunnel`. Оставшиеся aliases по-прежнему не являются требованием произвести столько же независимых картинок.
 
 Обязательный outcome:
 
@@ -145,7 +145,7 @@ RU/BE/EN на существующих portrait sizes `320×568`, `375×667`, `3
 
 ### R1.3 Controlled background variants
 
-Все family masters уже существуют. Добавлять только те variants, которые visual QA оценивает как заметный narrative mismatch. Не закрывать оставшийся счётчик `14 aliases` ради самого счётчика.
+Все family masters уже существуют, а три самых часто используемых fallback закрыты. Дальнейшее производство background art через ChatGPT поставлено на паузу до отдельного воспроизводимого ComfyUI style workflow. После его подготовки добавлять только те variants, которые visual QA оценивает как заметный narrative mismatch. Не закрывать оставшийся счётчик `11 aliases` ради самого счётчика.
 
 ### R1.4 Extras visual archetypes — conditional
 
@@ -239,12 +239,13 @@ Post-launch expansion only. Не расходует base-release capacity.
 ## Рекомендуемая последовательность от текущего `main`
 
 1. **ANM-030B0H — Release Backlog Reset** — этот planning slice; удалить искусственную обязательность hero clue/landscape/music/extra locales и зафиксировать release gate.
-2. **Release-critical visual production:** controlled Asterion/laundry/campus/old-building sibling variants при подтверждённом mismatch + production presentation для шести guests; интегрировать небольшими reviewable waves с iPhone preview.
-3. **Release surface closure:** скрыть QA menu/tools из normal player build, сохранив automation access.
-4. **Conditional visual pass:** только реально нужные background variants/extras и, при плохом board QA, shared Match-3 special pack.
-5. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity.
-6. Исправить только найденные release defects и собрать RC.
-7. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release, пока данные не изменят приоритет.
+2. **Background pipeline transfer:** после B1B6 приостановить дальнейшую ChatGPT-генерацию и подготовить воспроизводимый ComfyUI workflow на утверждённых UPDS style references; не добавлять новые runtime variants в этом pipeline slice.
+3. **Guest/witness closure:** закрыть production presentation для шести guests небольшими reviewable waves с iPhone preview.
+4. **Release surface closure:** скрыть QA menu/tools из normal player build, сохранив automation access.
+5. **Conditional visual pass:** только реально нужные background variants/extras и, при плохом board QA, shared Match-3 special pack.
+6. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity.
+7. Исправить только найденные release defects и собрать RC.
+8. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release, пока данные не изменят приоритет.
 
 ## Stop rule
 

@@ -178,13 +178,14 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   norihiroApartment: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
   studentCouncilAuditorium: './assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp',
   basketballLocker: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
-  textileWorkshop: './assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp',
+  // ANM-030B1B6 adopts the high-usage textile-workshop production variant.
+  textileWorkshop: './assets/backgrounds/BG_TEXTILE_WORKSHOP.webp',
   // ANM-030B1B2/B1B3 adopt the Asterion lab and lost-found warehouse production masters.
   asterionLab: './assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp',
   lostFoundWarehouse: './assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp',
   maintenanceRoom: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
-  // ANM-027G 10–12 semantic variants. External masters replace only these mappings.
-  combatClubHall: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
+  // ANM-030B1B6 adopts one multipurpose combat-hall production variant for karate and kendo.
+  combatClubHall: './assets/backgrounds/BG_COMBAT_CLUB_HALL.webp',
   // ANM-030B1B4 adopts the campus service-yard production master.
   serviceYard: './assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp',
   asterionTransferPoint: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
@@ -195,7 +196,8 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   abandonedLaundry: './assets/backgrounds/BG_ABANDONED_LAUNDRY.webp',
   // ANM-027G 16–18 semantic variants. No new binaries until external background production.
   gymnasticsCostume: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
-  oldArchive: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
+  // ANM-030B1B6 adopts the old-archive sibling derived from the abandoned-laundry anchor.
+  oldArchive: './assets/backgrounds/BG_OLD_ARCHIVE.webp',
   clubroomNight: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
   // ANM-027G 19–21 ending variants. Semantic aliases pending external production masters.
   anonymousReturnCounter: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
