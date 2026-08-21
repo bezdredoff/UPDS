@@ -29,7 +29,7 @@ describe('release backlog prioritization', () => {
     expect(menu).toContain('menu.saveDiagnostics');
     expect(backlog).toContain('normal player build не показывает QA navigation/tools');
 
-    expect(audit).toContain('"runtimeFallbackBackgroundVariants": 19');
+    expect(audit).toContain('"runtimeFallbackBackgroundVariants": 18');
     expect(audit).toContain('"productionGuestPackages": 0');
     expect(backlog).toContain('`lab-asterion`, `laundry-service`, `campus-exterior`, `old-building-finale`');
     expect(backlog).toContain('ни один shipped guest scene не показывает placeholder initials');

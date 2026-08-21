@@ -61,6 +61,7 @@ Changing the release platform or market scope is a separate product decision, no
 - **ANM-030B0B–B0F full-stage character closure** is complete.
 - **ANM-030B0B–B0F [P1] — COMPLETE / PRs #186–#190**: nine approved rigs, exact 63-file adoption, candidate cleanup, WebKit lineup gate and retired compatibility seam removal.
 - **ANM-030B0G [P1] — DOCUMENTATION CLOSEOUT**: active architecture/testing/docs aligned with the finished 9/9 state.
+- **ANM-030B1B1 [R0] — STUDENT COUNCIL AUDITORIUM BACKGROUND COMPLETE**: the approved `1080×1920` production WebP replaces the visibly wrong clubroom alias in Story slot 4; background status is now `6/24` dedicated production variants and `18` runtime aliases.
 
 ## What is actually left for release
 
@@ -69,7 +70,7 @@ The detailed classification and acceptance outcomes are in [`RELEASE_BACKLOG_RU.
 ### R0 — release blockers
 
 1. **Production player surface** — remove/hide QA-labelled Scene Navigation, Level Lab, Scene Studio and Save Diagnostics from the normal player menu while preserving deterministic QA/automation access. Match-3 Campaign remains player-facing.
-2. **Background semantic closure** — produce the four currently missing master families (`lab-asterion`, `laundry-service`, `campus-exterior`, `old-building-finale`) and only enough controlled variants to remove visibly wrong place/time fallbacks. Do not turn the `19 aliases` audit count into 19 mandatory illustrations.
+2. **Background semantic closure** — produce the four currently missing master families (`lab-asterion`, `laundry-service`, `campus-exterior`, `old-building-finale`) and only enough controlled variants to remove visibly wrong place/time fallbacks. The approved student-council auditorium has already reduced the current fallback count to `18`; do not turn the original `19 aliases` audit count into 19 mandatory illustrations.
 3. **Guest/witness closure** — six named guests must stop rendering asset-free initials placeholders in shipped scenes. Use the lean guest package or another explicitly approved final testimony presentation; do not promote them to seven-asset full-stage rigs by default.
 4. **Full human content QA** — Story common route + all three endings, all 22 production Match-3 levels, direct special combinations on phone, save/continue/retry/progression boundaries.
 5. **Final asset/runtime crawl** after production-art integration — zero broken shipped asset URLs/decode failures and no reliance on browser-local Scene Studio overrides.

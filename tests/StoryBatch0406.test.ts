@@ -44,8 +44,9 @@ describe('ANM-027G episodes 4–6 canonical production batch', () => {
     expect(levels.slice(4, 7).every((level) => level.tutorialConcepts.every((concept) => concept === 'activate-special' || concept === 'combine-specials'))).toBe(true);
   });
 
-  it('uses semantic background variants without adding new master binaries', () => {
-    expect(backgroundAssets.studentCouncilAuditorium).toBe(backgroundAssets.clubroom);
+  it('adopts the approved auditorium while retaining unresolved early-route fallbacks', () => {
+    expect(backgroundAssets.studentCouncilAuditorium).toBe('./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp');
+    expect(backgroundAssets.studentCouncilAuditorium).not.toBe(backgroundAssets.clubroom);
     expect(backgroundAssets.basketballLocker).toBe(backgroundAssets.lockerAthletics);
     expect(backgroundAssets.textileWorkshop).toBe(backgroundAssets.kentaroApartment);
   });

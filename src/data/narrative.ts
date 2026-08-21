@@ -176,7 +176,7 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   kentaroApartment: './assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp',
   poolLocker: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
   norihiroApartment: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
-  studentCouncilAuditorium: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
+  studentCouncilAuditorium: './assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp',
   basketballLocker: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
   textileWorkshop: './assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp',
   // ANM-027G 7–9 semantic variants: no fake/new binaries; replace mappings when external masters arrive.

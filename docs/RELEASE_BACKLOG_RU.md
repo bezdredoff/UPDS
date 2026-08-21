@@ -1,6 +1,6 @@
 # UPDS — Release Backlog
 
-Status: **active release-planning source**, ANM-030B0H.
+Status: **active release-planning source**, ANM-030B0H + ANM-030B1B1.
 
 Этот документ отвечает только на два вопроса:
 
@@ -45,7 +45,7 @@ Release outcome:
 
 ### R0.2 Background semantic closure
 
-Audit сейчас фиксирует `5/24` dedicated production background variants и `19` runtime aliases. Но **19 отдельных новых картинок не являются релизным требованием**.
+После ANM-030B1B1 audit фиксирует `6/24` dedicated production background variants и `18` runtime aliases. Утверждённая аудитория студсовета больше не использует фон маленькой клубной комнаты. Но оставшиеся aliases по-прежнему не являются требованием произвести столько же независимых картинок.
 
 Обязательный outcome:
 
@@ -145,7 +145,7 @@ RU/BE/EN на существующих portrait sizes `320×568`, `375×667`, `3
 
 ### R1.3 Controlled background variants
 
-После четырёх недостающих masters добавить только те variants существующих families, которые visual QA оценивает как заметный narrative mismatch. Не закрывать счётчик `19 aliases` ради самого счётчика.
+После четырёх недостающих masters добавить только те variants существующих families, которые visual QA оценивает как заметный narrative mismatch. Не закрывать оставшийся счётчик `18 aliases` ради самого счётчика.
 
 ### R1.4 Extras visual archetypes — conditional
 
