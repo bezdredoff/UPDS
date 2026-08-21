@@ -102,6 +102,7 @@ CI проверяет:
 7. полную девятиперсонажную Scene Studio lineup;
 8. обновлённую production-gap matrix без cast gaps.
 9. SHA-256 character/package digests для exact adoption всех 63 файлов source archive.
+10. Mobile WebKit Golden Samples для main menu, VN0008 trio и Match-3 с новыми rigs/medallions.
 
 ## iPhone QA
 
