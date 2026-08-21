@@ -1,6 +1,6 @@
 {
   "format": "upds-asset-gap-audit-v1",
-  "feature": "ANM-030A+ANM-030B0B+ANM-030B1B1+ANM-030B1B2",
+  "feature": "ANM-030A+ANM-030B0B+ANM-030B1B1+ANM-030B1B2+ANM-030B1B3",
   "baseline": {
     "mainSha": "227d32ca7e0ab681cf20919ac36bbc9a2860eac1",
     "storyMacro": "src/content/story/ANM027F.full-story-macro.json",
@@ -25,8 +25,8 @@
     "backgroundFamilies": 8,
     "contractedBackgroundVariants": 26,
     "runtimeSemanticBackgroundVariants": 24,
-    "productionBackgroundVariants": 7,
-    "runtimeFallbackBackgroundVariants": 17,
+    "productionBackgroundVariants": 8,
+    "runtimeFallbackBackgroundVariants": 16,
     "contractOnlyUnusedBackgroundVariants": 2,
     "fullStageCharacters": 9,
     "productionReadyFullStageCharacters": 9,
@@ -312,9 +312,11 @@
       },
       {
         "id": "laundry-service",
-        "macroStatus": "new-master-required",
+        "macroStatus": "existing-master-family",
         "firstSlot": 8,
-        "existingMacroAssets": [],
+        "existingMacroAssets": [
+          "BG_LOST_FOUND_WAREHOUSE"
+        ],
         "variants": [
           {
             "family": "laundry-service",
@@ -333,10 +335,9 @@
             "firstUseSlot": 8,
             "usedByCurrentStory": true,
             "runtimeKey": "lostFoundWarehouse",
-            "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           },
           {
@@ -365,8 +366,8 @@
           }
         ],
         "auditStatus": [
-          "planned-missing",
-          "external-art-blocked"
+          "production",
+          "reusable"
         ]
       },
       {
@@ -470,6 +471,7 @@
       "assets/backgrounds/BG_CLUBROOM_DAY.webp",
       "assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
       "assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
       "assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
       "assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
       "assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp"
@@ -1563,10 +1565,9 @@
           "family": "laundry-service",
           "variant": "lost-found-warehouse",
           "runtimeKey": "lostFoundWarehouse",
-          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
           "auditStatus": [
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -1629,9 +1630,7 @@
           "reusable"
         ]
       },
-      "productionVisualGaps": [
-        "background:lost-found-warehouse"
-      ]
+      "productionVisualGaps": []
     },
     {
       "slot": 9,
@@ -2863,12 +2862,12 @@
         "guest:gen",
         "guest:aoi",
         "background-variants:transfer-point,server-room",
-        "master:laundry-service",
+        "background-variants:maintenance-room,anonymous-return-counter",
         "master:campus-exterior",
         "hero-clue:asterion-transfer-chain",
         "hero-clue:second-skin-tag"
       ],
-      "reason": "finish the remaining system-reveal guests, background families, Asterion sibling variants and hero clues after the smart-textile-lab production anchor"
+      "reason": "finish the remaining system-reveal guests, campus-exterior master, controlled Asterion/laundry sibling variants and hero clues after the approved family anchors"
     },
     {
       "id": "030B3-late-13-18",

@@ -1,6 +1,6 @@
 # UPDS — Release Backlog
 
-Status: **active release-planning source**, ANM-030B0H + ANM-030B1B1 + ANM-030B1B2.
+Status: **active release-planning source**, ANM-030B0H + ANM-030B1B1 + ANM-030B1B2 + ANM-030B1B3.
 
 Этот документ отвечает только на два вопроса:
 
@@ -45,11 +45,11 @@ Release outcome:
 
 ### R0.2 Background semantic closure
 
-После ANM-030B1B2 audit фиксирует `7/24` dedicated production background variants и `17` runtime aliases. Утверждённая аудитория студсовета больше не использует фон маленькой клубной комнаты, а smart-textile lab больше не подменяется квартирой Норихиро. `lab-asterion` уже получил production master; `transfer-point` и `server-room` остаются controlled sibling variants, а не копиями anchor. Оставшиеся aliases по-прежнему не являются требованием произвести столько же независимых картинок.
+После ANM-030B1B3 audit фиксирует `8/24` dedicated production background variants и `16` runtime aliases. Утверждённая аудитория студсовета больше не использует фон маленькой клубной комнаты, smart-textile lab больше не подменяется квартирой Норихиро, а склад бюро находок — спортивной раздевалкой. `lab-asterion` уже получил production master; `transfer-point` и `server-room` остаются controlled sibling variants. `laundry-service` уже получил production master; `maintenance-room` и `anonymous-return-counter` также остаются controlled sibling variants, а не копиями anchor. Оставшиеся aliases по-прежнему не являются требованием произвести столько же независимых картинок.
 
 Обязательный outcome:
 
-- создать три всё ещё отсутствующие master families, которые сейчас подменены заведомо другой локацией: `laundry-service`, `campus-exterior`, `old-building-finale`;
+- создать две всё ещё отсутствующие master families, которые сейчас подменены заведомо другой локацией: `campus-exterior`, `old-building-finale`;
 - для уже существующих families делать только controlled crop/dressing/light/grade variants, которые реально нужны, чтобы сцена не выглядела как другая локация/время суток;
 - release gate формулируется как **zero visibly wrong semantic background fallbacks in shipped Story**, а не «19/19 уникальных variant PNG»;
 - contract-only unused variants `central-laundry` и `campus-street` не производить до реального использования.
@@ -145,7 +145,7 @@ RU/BE/EN на существующих portrait sizes `320×568`, `375×667`, `3
 
 ### R1.3 Controlled background variants
 
-После трёх оставшихся недостающих masters добавить только те variants существующих families, которые visual QA оценивает как заметный narrative mismatch. Не закрывать оставшийся счётчик `17 aliases` ради самого счётчика.
+После двух оставшихся недостающих masters добавить только те variants существующих families, которые visual QA оценивает как заметный narrative mismatch. Не закрывать оставшийся счётчик `16 aliases` ради самого счётчика.
 
 ### R1.4 Extras visual archetypes — conditional
 
@@ -239,7 +239,7 @@ Post-launch expansion only. Не расходует base-release capacity.
 ## Рекомендуемая последовательность от текущего `main`
 
 1. **ANM-030B0H — Release Backlog Reset** — этот planning slice; удалить искусственную обязательность hero clue/landscape/music/extra locales и зафиксировать release gate.
-2. **Release-critical visual production:** три still-missing background masters + controlled Asterion sibling variants при подтверждённом mismatch + production presentation для шести guests; интегрировать небольшими reviewable waves с iPhone preview.
+2. **Release-critical visual production:** два still-missing background masters + controlled Asterion/laundry sibling variants при подтверждённом mismatch + production presentation для шести guests; интегрировать небольшими reviewable waves с iPhone preview.
 3. **Release surface closure:** скрыть QA menu/tools из normal player build, сохранив automation access.
 4. **Conditional visual pass:** только реально нужные background variants/extras и, при плохом board QA, shared Match-3 special pack.
 5. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity.
