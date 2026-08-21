@@ -1,6 +1,6 @@
 {
   "format": "upds-asset-gap-audit-v1",
-  "feature": "ANM-030A+ANM-030B0B",
+  "feature": "ANM-030A+ANM-030B0B+ANM-030B1B1",
   "baseline": {
     "mainSha": "227d32ca7e0ab681cf20919ac36bbc9a2860eac1",
     "storyMacro": "src/content/story/ANM027F.full-story-macro.json",
@@ -25,8 +25,8 @@
     "backgroundFamilies": 8,
     "contractedBackgroundVariants": 26,
     "runtimeSemanticBackgroundVariants": 24,
-    "productionBackgroundVariants": 5,
-    "runtimeFallbackBackgroundVariants": 19,
+    "productionBackgroundVariants": 6,
+    "runtimeFallbackBackgroundVariants": 18,
     "contractOnlyUnusedBackgroundVariants": 2,
     "fullStageCharacters": 9,
     "productionReadyFullStageCharacters": 9,
@@ -91,10 +91,9 @@
             "firstUseSlot": 4,
             "usedByCurrentStory": true,
             "runtimeKey": "studentCouncilAuditorium",
-            "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           },
           {
@@ -470,7 +469,8 @@
       "assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
       "assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
       "assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
-      "assets/backgrounds/BG_POOL_LOCKER_EVENING.webp"
+      "assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp"
     ]
   },
   "characters": [
@@ -1253,10 +1253,9 @@
           "family": "club-admin",
           "variant": "student-council-auditorium",
           "runtimeKey": "studentCouncilAuditorium",
-          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
           "auditStatus": [
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -2854,10 +2853,10 @@
       "id": "030B1-early-0-6",
       "scope": [
         "guest:hinata",
-        "background-variants:student-council-auditorium,basketball-locker,textile-workshop",
+        "background-variants:basketball-locker,textile-workshop",
         "hero-clue:conductive-seam"
       ],
-      "reason": "finish the remaining early-route guest, background-variant and hero-clue art after full-stage cast closure"
+      "reason": "continue the remaining early-route guest, background variants and hero-clue art after the student-council auditorium production integration"
     },
     {
       "id": "030B2-system-7-12",
