@@ -179,8 +179,8 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   studentCouncilAuditorium: './assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp',
   basketballLocker: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
   textileWorkshop: './assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp',
-  // ANM-027G 7–9 semantic variants: no fake/new binaries; replace mappings when external masters arrive.
-  asterionLab: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
+  // ANM-030B1B2 adopts the Asterion lab master; service-location fallbacks remain until approved.
+  asterionLab: './assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp',
   lostFoundWarehouse: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
   maintenanceRoom: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
   // ANM-027G 10–12 semantic variants. External masters replace only these mappings.

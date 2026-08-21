@@ -177,12 +177,14 @@ describe('active documentation traceability', () => {
     const runtimeAssetPreloadMemory = read('docs/features/ANM023F4B_RUNTIME_ASSET_PRELOAD_MEMORY_RU.md');
     const assetGapAudit = read('docs/features/ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md');
     const studentCouncilBackground = read('docs/features/ANM030B1B1_STUDENT_COUNCIL_AUDITORIUM_RU.md');
+    const asterionLabBackground = read('docs/features/ANM030B1B2_ASTERION_SMART_TEXTILE_LAB_RU.md');
     const currentAssetAudit = read('src/content/art/ANM030A.asset-gap-audit.json');
 
     expect(roadmap).toContain('ANM-030B0B–B0F full-stage character closure');
     expect(roadmap).toContain('ANM-030B0B–B0F [P1] — COMPLETE / PRs #186–#190');
     expect(roadmap).toContain('ANM-030B0G [P1] — DOCUMENTATION CLOSEOUT');
     expect(roadmap).toContain('ANM-030B1B1 [R0] — STUDENT COUNCIL AUDITORIUM BACKGROUND COMPLETE');
+    expect(roadmap).toContain('ANM-030B1B2 [R0] — ASTERION SMART-TEXTILE LAB BACKGROUND COMPLETE');
     expect(roadmap).toContain('ANM-030B1A [P1] — NEXT PROPOSED VERTICAL-SLICE ART MILESTONE');
     expect(roadmap).toContain('ANM-028B2 R1.1 Authored VN Shot Adoption — COMPLETE');
     expect(roadmap).toContain('027G Episode Batch Production & Canonical Import — COMPLETE');
@@ -190,10 +192,13 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('029B Belarusian Production — COMPLETE (B4 R1.1, PR #135)');
     expect(index).toContain('ANM030B0G_CHARACTER_PRODUCTION_CLOSEOUT_RU.md');
     expect(index).toContain('ANM030B1B1_STUDENT_COUNCIL_AUDITORIUM_RU.md');
+    expect(index).toContain('ANM030B1B2_ASTERION_SMART_TEXTILE_LAB_RU.md');
     expect(studentCouncilBackground).toContain('BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp');
     expect(studentCouncilBackground).toContain('1080×1920');
-    expect(currentAssetAudit).toContain('"productionBackgroundVariants": 6');
-    expect(currentAssetAudit).toContain('"runtimeFallbackBackgroundVariants": 18');
+    expect(asterionLabBackground).toContain('BG_ASTERION_SMART_TEXTILE_LAB.webp');
+    expect(asterionLabBackground).toContain('1080×1920');
+    expect(currentAssetAudit).toContain('"productionBackgroundVariants": 7');
+    expect(currentAssetAudit).toContain('"runtimeFallbackBackgroundVariants": 17');
     expect(index).toContain('Historical Emi production provenance');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_R1_PROMPT.md');
