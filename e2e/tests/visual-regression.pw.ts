@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { expect, test, type Page } from '@playwright/test';
 import { observeBrowserHealth } from '../helpers/browserHealth';
 import { openDeterministicLab } from '../helpers/match3';
@@ -22,6 +23,8 @@ const goldenOptions = {
   scale: 'css',
   maxDiffPixelRatio: 0.002,
 } as const;
+
+const fullCastLineupDigest = 'e139f36e2a9a7b29dbb2cd755633d3bdcdb4541d19af7eb288fc834572bac089';
 
 async function waitForVisualIdle(page: Page): Promise<void> {
   await expect.poll(async () => page.locator('img').evaluateAll((images) =>
@@ -64,6 +67,38 @@ test.describe('ANM-023G7B mobile Golden Samples', () => {
     await waitForVisualIdle(page);
 
     await expect(page).toHaveScreenshot('golden-vn0008-trio.png', goldenOptions);
+    health.assertClean();
+  });
+
+  test('full cast Scene Studio lineup visual digest', async ({ page }, testInfo) => {
+    const health = observeBrowserHealth(page);
+    await resetBrowserState(page);
+    await page.locator(qaSelectors.sceneStudioButton).click();
+    await expect(page.locator(qaSelectors.sceneStudioScreen)).toBeVisible();
+    await page.locator('#scene-studio-mode').selectOption('lineup');
+
+    const lineup = page.locator('.scene-studio-lineup');
+    const characters = lineup.locator('.scene-studio-lineup-character');
+    await expect(lineup).toBeVisible();
+    await expect(lineup).toHaveAttribute('data-lineup-source', 'upds-character-production-v2');
+    await expect(lineup).toHaveAttribute('data-art-source', 'runtime');
+    await expect(characters).toHaveCount(9);
+
+    for (let index = 0; index < 9; index += 1) {
+      const character = characters.nth(index);
+      await expect(character).toHaveAttribute('data-candidate', 'false');
+      await expect(character).toHaveAttribute('data-visual-approval', 'approved');
+      await expectImageLoaded(character.locator('img'));
+    }
+    await waitForVisualIdle(page);
+
+    const screenshot = await lineup.screenshot({
+      animations: goldenOptions.animations,
+      caret: goldenOptions.caret,
+      scale: goldenOptions.scale,
+    });
+    await testInfo.attach('full-cast-lineup', { body: screenshot, contentType: 'image/png' });
+    expect(createHash('sha256').update(screenshot).digest('hex')).toBe(fullCastLineupDigest);
     health.assertClean();
   });
 
