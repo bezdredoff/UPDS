@@ -3,12 +3,11 @@ import { readFile } from 'node:fs/promises';
 import { inflateSync } from 'node:zlib';
 import {
   characterProductionManifest,
-  plannedCharacterKeys,
   productionCharacterKeys,
   runtimeExpressionOrder,
   validateCharacterProductionManifest,
 } from '../src/data/characterProduction';
-import { characterRigs, characterStaging, placeholderCharacters } from '../src/data/characterRigs';
+import { characterRigs, characterStaging } from '../src/data/characterRigs';
 import { runtimeAssetCatalog } from '../src/platform/RuntimeAssets';
 
 type AlphaBounds = Readonly<{ left: number; top: number; right: number; bottom: number }>;
@@ -125,11 +124,6 @@ describe('character production manifest', () => {
       });
       expect(characterStaging[key]).toEqual(definition.staging);
     }
-  });
-
-  it('keeps the former planned lane closed after full-cast promotion', () => {
-    expect(plannedCharacterKeys).toEqual([]);
-    expect(Object.keys(placeholderCharacters)).toEqual([]);
   });
 
   it('ships exactly seven distinct runtime assets per production character', async () => {
