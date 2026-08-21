@@ -31,11 +31,14 @@ describe('ANM-023G3 production build and Pages preview smoke contract', () => {
   });
 
   it('uses baseURL-relative browser navigation for GitHub Pages project subpaths', () => {
-    expect(runtimeHelper).toContain("page.goto('./')");
+    expect(runtimeHelper).toContain("page.goto('./?qa=1')");
+    expect(runtimeHelper).not.toContain("page.goto('/?qa=1')");
     expect(bootSmoke).toContain("page.goto('./')");
     expect(bootSmoke).not.toContain("page.goto('/')");
     expect(pagesSmoke).toContain("{ name: 'stable-root', path: './' }");
     expect(pagesSmoke).toContain("{ name: 'candidate-preview', path: './preview/' }");
+    expect(pagesSmoke).toContain("page.goto(`${lane.path}?qa=1`)");
+    expect(pagesSmoke).toContain("toHaveAttribute('data-qa-surface', 'enabled')");
   });
 
   it('fails on critical browser/runtime and asset health problems while ignoring only known local WebKit PWA probe diagnostics', () => {
