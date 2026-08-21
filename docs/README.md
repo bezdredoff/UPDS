@@ -92,7 +92,7 @@ The repository now contains the complete detailed authored screenplay for all 22
 - [`features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md`](features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md) — serious expression from three bounded face ROIs with approved-reference/runtime comparison
 - [`features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md`](features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md) — approved surprised expression from three bounded face ROIs
 - [`features/ANM028D3A_EMI_RUNTIME_ADOPTION_RU.md`](features/ANM028D3A_EMI_RUNTIME_ADOPTION_RU.md) — explicit hybrid runtime adoption of approved Emi D0–D3 frames while embarrassed/Pose B/medallion remain legacy fallback
-- [`features/ANM030B0B_FULL_CAST_INTEGRATION_RU.md`](features/ANM030B0B_FULL_CAST_INTEGRATION_RU.md) — approved nine-character full-stage integration, canonical geometry refresh and placeholder/Emi-transition closure
+- [`features/ANM030B0B_FULL_CAST_INTEGRATION_RU.md`](features/ANM030B0B_FULL_CAST_INTEGRATION_RU.md) — approved nine-character full-stage integration plus ANM-030B0C exact 63-file archive adoption, canonical geometry and placeholder/Emi-transition closure
 - [`art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md`](art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md) — ChatGPT Work prompt and technical export provenance
 - [`art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md`](art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md) — exact smile prompt and deterministic ROI provenance
 - [`art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md`](art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md) — exact serious prompt and deterministic multi-ROI provenance

@@ -126,7 +126,7 @@ export class DiagnosticsController {
           <i>${String(index).padStart(2, '0')}</i>
           <span><b>${escapeHtml(meta.title)}</b><small>${escapeHtml(meta.location)}</small></span>
         </button>`).join('')}</div>
-      <aside class="placeholder-note"><b>Допустимые заглушки ANM‑009</b><span>Эми · Маю · Кэнтаро · Норихиро</span></aside>
+      <aside class="placeholder-note"><b>Production cast ANM‑030B</b><span>9/9 персонажей · full-stage заглушек нет</span></aside>
     </section>`);
     this.root.querySelector('#back')?.addEventListener('click', () => this.navigation.showMenu());
     this.root.querySelector('#header-settings')?.addEventListener('click', () => this.navigation.showSettings(() => this.renderSceneSelect(), true));

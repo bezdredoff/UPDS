@@ -1,7 +1,20 @@
-# ANM-030B0B R1 — Full Cast Production Integration
+# ANM-030B0B R1.1 / ANM-030B0C — Full Cast Production Integration
 
-Status: **candidate / GitHub CI + iPhone visual QA required**.
+Status: **R1 merged as PR #186; R1.1 corrective archive adoption requires GitHub CI + iPhone visual QA**.
 Baseline: `main` commit `227d32ca7e0ab681cf20919ac36bbc9a2860eac1`.
+
+## R1.1 corrective archive adoption
+
+PR #186 correctly integrated the full nine-character runtime routing and added the 35 assets for
+Kentaro, Norihiro, Mayu, Rina and Kurose, but unintentionally retained the previous 28 binaries for
+Miku, Onoe, Ayuki and Emi. ANM-030B0C replaces those four complete seven-asset packages with the
+files from `all-characters-first-preprod-run.zip`.
+
+The replacement keeps the same canonical paths, `1024×1536`/medallion dimensions and measured
+alpha geometry, so no runtime routing, staging scale or eye-line metadata changes are required.
+The source archive SHA-256 is
+`94fde58caa2afa58e742349ba83bf7aaa0a23e1a9ddc4c3595e94cfc5354b637`; an automated combined digest
+now locks all 63 runtime assets and prevents a partial archive import from passing CI again.
 
 ## Цель
 
@@ -87,6 +100,7 @@ CI проверяет:
 6. production speaker routing вместо placeholders;
 7. полную девятиперсонажную Scene Studio lineup;
 8. обновлённую production-gap matrix без cast gaps.
+9. SHA-256 character/package digests для exact adoption всех 63 файлов source archive.
 
 ## iPhone QA
 

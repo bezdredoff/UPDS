@@ -20,7 +20,7 @@ Active production foundation: **ANM-025/026 Match-3 production + tooling, comple
 - Match-3 shared move legality, feedback semantics and narrative special taxonomy;
 - ANM-022E Narrative Special Combination Matrix;
 - ANM-022F Interaction Guidance: inactivity hint, drag/tap source telemetry и direct special double-tap activation;
-- ANM-030B0B full-stage cast integration: all nine recurring/core characters use approved canonical seven-asset rigs; the temporary Emi override and five planned placeholders are closed;
+- ANM-030B0B/ANM-030B0C full-stage cast integration: all nine recurring/core characters use the exact approved source-archive seven-asset rigs; the R1 follow-up replaces the previously retained Miku/Onoe/Ayuki/Emi binaries, locks all 63 assets by SHA-256, and keeps the temporary Emi override plus five planned placeholders closed;
 - character runtime uses precomposed 1024×1536 expression frames; retired transparent face-overlay composition must not return;
 - ANM-023 Architecture & Test Health Pass: repository hygiene, test-health cleanup, architecture boundary audit and pipeline failure hygiene.
 - **ANM-023E Test, Tooling & Identity Hardening — R1 COMPLETE**: lifecycle-status assertions are reduced in favor of durable contracts, Biome is added to `npm run check`, and package/app product version metadata is structurally separated from feature/build identity.
