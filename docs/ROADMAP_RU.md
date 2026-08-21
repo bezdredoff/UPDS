@@ -36,6 +36,7 @@ Changing the release platform or market scope is a separate product decision, no
 
 ### Durable completion traceability
 
+- **ANM-023F — Codebase, Test & Tooling Simplification — COMPLETE**; **023F1 Biome Expansion & Repository Hygiene** starts the merged F1–F4B maintenance sequence through PR #144.
 - **ANM-023G Playwright Browser Automation is COMPLETE through G8 closeout**.
 - **023G7C Version / Diagnostics Closeout [P1] — COMPLETE / PR #159**.
 - **023G7D Browser Gate Playwright Container Hardening [P1] — COMPLETE / PR #160**.
@@ -54,7 +55,9 @@ Changing the release platform or market scope is a separate product decision, no
 - **028D Character Production / Normalization — HISTORICAL / SUPERSEDED** by the current production rigs.
 - **029A Localization Production Foundation — R1.1 COMPLETE**.
 - **029B Belarusian Production — COMPLETE (B4 R1.1, PR #135)** with **exact 3870/3870 base-key parity**; runtime production locales remain `supportedLocales = ['ru', 'be', 'en']`.
-- **ANM-030A Full Game Asset Gap Audit — COMPLETE / PR #145** plus ANM-030A2 audit tooling/repository hygiene.
+- **ANM-030A Full Game Asset Gap Audit**: **ANM-030A R1.1 [P0] — COMPLETE / PR #145**.
+- **ANM-030A2 [P0] — COMPLETE / PR #147** — audit tooling and repository/report hygiene.
+- **ANM-030B0A1 R1.1 [P1] — COMPLETE / PR #148** — planning-only shared Match-3 special visual contract.
 - **ANM-030B0B–B0F full-stage character closure** is complete.
 - **ANM-030B0B–B0F [P1] — COMPLETE / PRs #186–#190**: nine approved rigs, exact 63-file adoption, candidate cleanup, WebKit lineup gate and retired compatibility seam removal.
 - **ANM-030B0G [P1] — DOCUMENTATION CLOSEOUT**: active architecture/testing/docs aligned with the finished 9/9 state.
