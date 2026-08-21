@@ -16,11 +16,6 @@ export const productionCharacterKeys = [
 ] as const;
 export type ProductionCharacterKey = typeof productionCharacterKeys[number];
 
-/** Compatibility export for callers that still expose the former placeholder lane. */
-export const plannedCharacterKeys = [] as const;
-export type PlannedCharacterKey = never;
-export type CharacterProductionKey = ProductionCharacterKey;
-
 export type CharacterStaging = Readonly<{
   scale: number;
   yPercent: number;
@@ -225,8 +220,8 @@ export const characterProductionManifest: CharacterProductionManifest = {
 };
 
 export type CharacterProductionIssue = Readonly<{
-  code: 'format' | 'runtime-expression' | 'adult-guardrail' | 'asset-set' | 'asset-path' | 'staging' | 'proportion' | 'portrait-landmark' | 'planned-assets';
-  character?: CharacterProductionKey;
+  code: 'format' | 'runtime-expression' | 'adult-guardrail' | 'asset-set' | 'asset-path' | 'staging' | 'proportion' | 'portrait-landmark';
+  character?: ProductionCharacterKey;
   detail: string;
 }>;
 
