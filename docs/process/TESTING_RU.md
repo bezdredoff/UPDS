@@ -1,6 +1,6 @@
 # UPDS — validation and test workflow
 
-Status: active. Canonical story `0–21` is complete; ANM-023G1–G8 is closed, the Chromium/Mobile-WebKit Browser Gate is stable, and future automation is demand-driven by production signal rather than by a target test count. New art production remains externally blocked.
+Status: active. Canonical story `0–21` is complete; ANM-023G1–G8 is closed, the Chromium/Mobile-WebKit Browser Gate is stable, and future automation is demand-driven by production signal rather than by a target test count. Full-stage character production is closed at 9/9; remaining guest/background/clue/Match-3 art production is still externally gated.
 
 ## Authoritative gates
 
@@ -44,10 +44,8 @@ npm run docs:audit
 ```
 
 - `story:audit` — screenplay/manifest/graph completeness.
-- `character:audit` — character production manifest, isolated candidate status, PNG dimensions,
-  selected-expression/candidate alpha bounds and eye-line landmarks, visual-approval status, runtime paths and
-  exact per-character/full-package SHA-256 adoption of the approved 63-file archive.
-- `localization:audit` — production-locale registry/readiness, RU/EN catalog structure, full screenplay coverage, placeholder signatures and localized Match-3 surfaces.
+- `character:audit` — canonical nine-character production manifest, exact seven-asset package per character, PNG dimensions, selected-expression alpha bounds and eye-line landmarks, visual-approval status, runtime paths and exact per-character/full-package SHA-256 adoption of the approved 63-file archive.
+- `localization:audit` — production-locale registry/readiness, RU/BE/EN catalog structure, full screenplay coverage, placeholder signatures and localized Match-3 surfaces.
 - `scene:audit` — exact eight-preset registry/resolver, face-critical lanes, runtime-top and
   focal-eye-line camera derivation, duo/trio headroom, frame-accurate actor guides, ANM-024
   viewport/background calibration, contain geometry, measurable lineup/visual-status warnings,
@@ -79,7 +77,7 @@ Playwright executes the production Vite build in a real browser. Test entry poin
 
 QA entry points are not a second implementation of the game. Browser-only game rules, alternate renderers or automation-specific progression logic are prohibited.
 
-ANM-023G1–G8 coverage includes boot/build/Pages topology, VN paging/staging/choices, deterministic Match-3 mechanics, real pointer drag wiring, persistence/localization, bounded real-player Story completion, Chromium/WebKit Browser Gate execution, four reviewed mobile WebKit Golden Samples, PWA update reliability, localized iOS VN viewport stability and Match-3 render stability.
+ANM-023G1–G8 coverage includes boot/build/Pages topology, VN paging/staging/choices, deterministic Match-3 mechanics, real pointer drag wiring, persistence/localization, bounded real-player Story completion, Chromium/WebKit Browser Gate execution, reviewed mobile WebKit Golden Samples, full-cast Scene Studio lineup validation, PWA update reliability, localized iOS VN viewport stability and Match-3 render stability.
 
 **ANM-023G8 is closed.** The closeout decision is to stop before a balance-sensitive Campaign-win E2E that would either be flaky on a real level or overly narrow on an automation-only fixture. `G8C2` is deferred until balance stabilizes or a concrete regression proves that browser-level coverage is worth its maintenance cost.
 
@@ -118,7 +116,7 @@ Used only for structural safety:
 - repository root/archive hygiene;
 - feature ownership boundaries;
 - save keys and build identity shape;
-- retired face-overlay runtime does not return;
+- retired face-overlay/candidate/static-override runtime does not return;
 - active documentation points to current machine-readable sources.
 
 ## Current automated production contracts
@@ -135,13 +133,12 @@ They preserve the complete forty-five-scene/twenty-two-level authored graph, all
 ### Character production
 
 - `CharacterProductionManifest.test.ts`;
+- `CharacterArchiveAdoption.test.ts`;
 - `ExpressionFrameContract.test.ts`;
-- runtime asset and staging tests.
+- `CharacterRuntimeOverrides.test.ts`;
+- runtime asset/staging contracts and the Mobile WebKit full-cast lineup gate.
 
-They preserve the seven-asset precomposed contract, production/planned status, PNG dimensions,
-alpha-height proportions, isolated `runtimeEligible: false` candidate geometry, bounded expression
-ROI inheritance and absence of runtime face-overlay/candidate preload references. Visual style,
-identity and expression readability still require manual approval.
+They preserve exactly nine canonical full-stage production characters, seven distinct runtime assets per character, the five precomposed expression frames, PNG dimensions, alpha-height proportions, per-expression guide geometry, exact 63-file archive digests and browser-local Scene Studio override/calibration behavior. There is no active full-stage planned/placeholder lane, candidate runtime module or built-in static transition override. The asset-heavy alpha scan uses a scoped 15-second Vitest budget instead of increasing global test timeout. Visual style, identity and expression readability still require manual approval for newly produced art before integration.
 
 ### Reusable scene staging
 
@@ -152,10 +149,10 @@ identity and expression readability still require manual approval.
 They preserve the exact eight-preset `upds-scene-staging-v1` registry, safe non-overlapping boxes,
 canonical/shot scale separation, exact actor assignment, zero-new-art budgets, the
 `upds-scene-studio-calibration-v1` viewport/background contract, runtime contain fit, shared
-playable/QA VN frame, runtime/approved-master/current-candidate selector, exact candidate guides, lineup metrics,
+playable/QA VN frame, canonical/current-expression guides, lineup metrics, browser-local slot calibration,
 read-only QA report and an asset-free guest shell.
 Style, anatomy, adult visual age, lighting, perspective and final composition/readability still
-require `/preview/` phone QA against the approved Golden Sample.
+require `/preview/` phone QA against the approved Golden Sample when new visual assets are integrated.
 
 ### Match-3
 
@@ -208,8 +205,7 @@ Also check low-height landscape does not break the shared viewport shell when re
 
 ### Character assets
 
-- standalone transparency/canvas/pivot;
-- for a candidate, assert RGBA/alpha bounds/eye line and verify it is absent from runtime rig/preload;
+- before import, validate standalone transparency/canvas/pivot and measured alpha bounds/eye line in the offline/pre-production workflow;
 - inspect extracted edges on both light and dark backgrounds;
 - shared-baseline lineup and authored proportions;
 - all five expression frames side by side and during switching;
@@ -219,6 +215,8 @@ Also check low-height landscape does not break the shared viewport shell when re
 - background master contain box, estimated horizon/footline/actor zone and manual perspective/light
   approval;
 - no overlap baked into source assets, halo, double face, crop or scale jump.
+
+Historical candidate provenance may remain in feature docs/prompts/Git history, but a candidate file must not be reintroduced into runtime/preload merely for QA convenience.
 
 ### Match-3/content
 
