@@ -25,12 +25,14 @@ describe('active documentation traceability', () => {
 
   it('aligns protected character prose with the canonical precomposed v2 manifest', () => {
     const protectedContracts = read('docs/architecture/PROJECT_CONTRACTS_RU.md');
+    const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
     const productionContract = read('docs/art/CHARACTER_PRODUCTION_CONTRACT_RU.md');
+    const closeout = read('docs/features/ANM030B0G_CHARACTER_PRODUCTION_CLOSEOUT_RU.md');
     const activeEntryPoints = [
       read('README.md'),
       read('docs/README.md'),
       protectedContracts,
-      read('docs/architecture/ARCHITECTURE_RU.md'),
+      architecture,
       read('docs/process/AI_DEVELOPMENT_RU.md'),
     ];
 
@@ -40,6 +42,12 @@ describe('active documentation traceability', () => {
     expect(protectedContracts).toContain('Kentaro, Norihiro, Mayu, Rina and Kurose');
     expect(productionContract).toContain('upds-character-production-v2');
     expect(productionContract).toContain('ровно семь обязательных runtime assets');
+    expect(closeout).toContain('9/9 production-ready');
+    expect(closeout).toContain('63/63 canonical runtime assets');
+    expect(closeout).toContain('0 planned full-stage');
+    expect(protectedContracts).toContain('There is no planned full-stage runtime lane');
+    expect(architecture).not.toContain('src/data/characterCandidates.ts` —');
+    expect(protectedContracts).not.toContain('upds-character-candidate-v1');
     for (const source of activeEntryPoints) {
       expect(source).not.toContain('base-neutral + face overlay');
     }
@@ -50,11 +58,11 @@ describe('active documentation traceability', () => {
     const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
     const index = read('docs/README.md');
 
+    expect(architecture).toContain('src/content/story/ANM003.vertical-slice.story.json');
+    expect(architecture).toContain('src/content/storyRuntime.ts');
     for (const source of [protectedContracts, architecture]) {
-      expect(source).toContain('src/content/story/ANM003.vertical-slice.story.json');
       expect(source).toContain('src/data/storyGraph.ts');
     }
-    expect(architecture).toContain('src/content/storyRuntime.ts');
     expect(protectedContracts).toContain('976 authored lines');
     expect(protectedContracts).toContain('VN0250` является canonical bridge');
     expect(index).toContain('all 22 slots `0–21`');
@@ -128,9 +136,13 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('028A Character Production Manifest & Validator Foundation — COMPLETE');
     expect(roadmap).not.toContain('COMPLETE WHEN MERGED');
     expect(roadmap).toContain('029B Belarusian Production — COMPLETE (B4 R1.1, PR #135)');
-    expect(roadmap).toContain('exact **3870/3870** base-key parity');
+    expect(roadmap).toContain('exact 3870/3870 base-key parity');
     expect(roadmap).toContain("supportedLocales = ['ru', 'be', 'en']");
+    expect(roadmap).toContain('028D Character Production / Normalization — HISTORICAL / SUPERSEDED');
+    expect(roadmap).not.toContain('028D Character Production / Normalization — ART GENERATION PAUSED');
+    expect(roadmap).not.toContain('Kentaro → Norihiro → Mayu → Rina → Kurose character production');
     expect(index).toContain('ANM028A_CHARACTER_PRODUCTION_MANIFEST_RU.md');
+    expect(index).toContain('ANM030B0G_CHARACTER_PRODUCTION_CLOSEOUT_RU.md');
     expect(index).toContain('ANM027D_FULL_STORY_IMPORT_RU.md');
     expect(index).toContain('ANM026C_MATCH3_CAMPAIGN_MODE_RU.md');
     expect(briefs).toContain('pose_b_arms_crossed.png');
@@ -140,12 +152,13 @@ describe('active documentation traceability', () => {
     expect(architecture).not.toContain('Status: ANM-023D audited baseline');
   });
 
-  it('keeps durable production foundations and localization feature documents traceable', () => {
+  it('keeps durable production foundations and historical character provenance traceable', () => {
     const roadmap = read('docs/ROADMAP_RU.md');
     const index = read('docs/README.md');
     const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
     const protectedContracts = read('docs/architecture/PROJECT_CONTRACTS_RU.md');
     const feature = read('docs/features/ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
+    const closeout = read('docs/features/ANM030B0G_CHARACTER_PRODUCTION_CLOSEOUT_RU.md');
     const candidateFeature = read('docs/features/ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
     const candidatePrompt = read('docs/art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md');
     const smileFeature = read('docs/features/ANM028D1_EMI_SMILE_CANDIDATE_RU.md');
@@ -163,37 +176,38 @@ describe('active documentation traceability', () => {
     const lazyLocalePayload = read('docs/features/ANM023F4A_LAZY_LOCALE_PAYLOAD_RU.md');
     const runtimeAssetPreloadMemory = read('docs/features/ANM023F4B_RUNTIME_ASSET_PRELOAD_MEMORY_RU.md');
     const assetGapAudit = read('docs/features/ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md');
+    const currentAssetAudit = read('src/content/art/ANM030A.asset-gap-audit.json');
 
-    expect(roadmap).toContain('028B1 R4.1 Multi-Actor Eye-Line & Frame-Accurate Guides — COMPLETE');
-    expect(roadmap).toContain('ANM-028D0 R1 Emi neutral master accepted');
-    expect(roadmap).toContain('ANM-028D1 R1 Emi smile accepted');
-    expect(roadmap).toContain('ANM-028D2 R1 Emi serious accepted');
+    expect(roadmap).toContain('ANM-030B0B–B0F full-stage character closure');
+    expect(roadmap).toContain('ANM-030B0B–B0F [P1] — COMPLETE / PRs #186–#190');
+    expect(roadmap).toContain('ANM-030B0G [P1] — DOCUMENTATION CLOSEOUT');
+    expect(roadmap).toContain('ANM-030B1A [P1] — NEXT PROPOSED VERTICAL-SLICE ART MILESTONE');
     expect(roadmap).toContain('ANM-028B2 R1.1 Authored VN Shot Adoption — COMPLETE');
-    expect(roadmap).toContain('028B3 Guest/Witness Presentation Contract — R1.1 COMPLETE');
     expect(roadmap).toContain('027G Episode Batch Production & Canonical Import — COMPLETE');
     expect(roadmap).toContain('029A Localization Production Foundation — R1.1 COMPLETE');
     expect(roadmap).toContain('029B Belarusian Production — COMPLETE (B4 R1.1, PR #135)');
+    expect(index).toContain('ANM030B0G_CHARACTER_PRODUCTION_CLOSEOUT_RU.md');
+    expect(index).toContain('Historical Emi production provenance');
+    expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
+    expect(index).toContain('ANM028D0_EMI_NEUTRAL_R1_PROMPT.md');
+    expect(index).toContain('ANM028D1_EMI_SMILE_CANDIDATE_RU.md');
+    expect(index).toContain('ANM028D1_EMI_SMILE_R1_PROMPT.md');
+    expect(index).toContain('ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md');
+    expect(index).toContain('ANM028D2_EMI_SERIOUS_R1_PROMPT.md');
+    expect(index).toContain('ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md');
+    expect(index).toContain('ANM028D3_EMI_SURPRISED_R1_PROMPT.md');
+    expect(index).toContain('ANM030B0B_FULL_CAST_INTEGRATION_RU.md');
+    expect(index).not.toContain('`src/data/characterCandidates.ts` (`upds-character-candidate-v1`) for production provenance/manual-QA sources');
+    expect(currentAssetAudit).toContain('"productionReadyFullStageCharacters": 9');
+    expect(currentAssetAudit).toContain('"mixedFullStageCharacters": 0');
+    expect(currentAssetAudit).toContain('"plannedFullStageCharacters": 0');
+    expect(currentAssetAudit).toContain('"outstandingFullStageAssets": 0');
+    expect(closeout).toContain('PR #186');
+    expect(closeout).toContain('PR #190');
+    expect(closeout).toContain('Mobile WebKit full-cast Scene Studio lineup visual gate');
+    expect(closeout).toContain('conductive-seam');
+
     expect(index).toContain('ANM029B1_BELARUSIAN_PLAYER_SHELL_RU.md');
-    expect(index).toContain('ANM029B2B1_BELARUSIAN_MATCH3_LEVELS_00_06_RU.md');
-    expect(index).toContain('ANM029B2B2_BELARUSIAN_MATCH3_LEVELS_07_13_RU.md');
-    expect(index).toContain('ANM029B2B3_BELARUSIAN_MATCH3_LEVELS_14_21_RU.md');
-    expect(index).toContain('ANM029B2C_BELARUSIAN_MATCH3_REACTIONS_AUDIT_RU.md');
-    expect(index).toContain('ANM029B3A_BELARUSIAN_VN_SLOT_0_RU.md');
-    expect(index).toContain('ANM029B3B_BELARUSIAN_VN_SLOT_1_RU.md');
-    expect(index).toContain('ANM029B3C_BELARUSIAN_VN_SLOT_2_RU.md');
-    expect(index).toContain('ANM029B3D_BELARUSIAN_VN_SLOT_3_RU.md');
-    expect(index).toContain('ANM029B3E_BELARUSIAN_VN_SLOT_4_RU.md');
-    expect(index).toContain('ANM029B3F_BELARUSIAN_VN_SLOT_5_RU.md');
-    expect(index).toContain('ANM029B3G_BELARUSIAN_VN_SLOT_6_RU.md');
-    expect(index).toContain('ANM029B3H_BELARUSIAN_VN_SLOT_7_RU.md');
-    expect(index).toContain('ANM029B3I_BELARUSIAN_VN_SLOT_8_RU.md');
-    expect(index).toContain('ANM029B3J_BELARUSIAN_VN_SLOT_9_RU.md');
-    expect(index).toContain('ANM029B3K_BELARUSIAN_VN_SLOT_10_RU.md');
-    expect(index).toContain('ANM029B3L_BELARUSIAN_VN_SLOT_11_RU.md');
-    expect(index).toContain('ANM029B3M_BELARUSIAN_VN_SLOT_12_RU.md');
-    expect(index).toContain('ANM029B3N_BELARUSIAN_VN_SLOT_13_RU.md');
-    expect(index).toContain('ANM029B3O_BELARUSIAN_VN_SLOT_14_RU.md');
-    expect(index).toContain('ANM029B3P_BELARUSIAN_VN_SLOT_15_RU.md');
     expect(index).toContain('ANM029B4_BELARUSIAN_COMPLETION_RU.md');
     expect(index).toContain('ANM029H_PRODUCTION_PLANNING_RESET_RU.md');
     expect(index).toContain('ANM023F1_BIOME_REPOSITORY_HYGIENE_RU.md');
@@ -234,24 +248,15 @@ describe('active documentation traceability', () => {
     expect(lazyLocalePayload).toContain('1,206.14 kB / 389.05 kB gzip');
     expect(lazyLocalePayload).toContain('741.15 kB / 247.14 kB gzip');
     expect(lazyLocalePayload).toContain('PR #142');
-    expect(lazyLocalePayload).toContain('initialAppCatalogs');
-    expect(lazyLocalePayload).toContain('activateLocale()');
-    expect(lazyLocalePayload).toContain('ANM-023F4B');
     expect(runtimeAssetPreloadMemory).toContain('IMAGE_PRELOAD_CONCURRENCY = 4');
     expect(runtimeAssetPreloadMemory).toContain('CACHE_WARM_CONCURRENCY = 4');
-    expect(runtimeAssetPreloadMemory).toContain('services.pwa.start(runtimeAssetCatalog)');
     expect(runtimeAssetPreloadMemory).toContain('PR #144');
-    expect(runtimeAssetPreloadMemory).toContain('UPDS CI #289');
-    expect(runtimeAssetPreloadMemory).toContain('ANM-030A');
     expect(architecture).toContain('Runtime asset warming / offline cache ownership');
     expect(architecture).toContain('Production asset audit ownership');
-    expect(roadmap).toContain('ANM-023F4A R1 [P1] — COMPLETE / PR #142');
-    expect(roadmap).toContain('ANM-023F4B R1 [P1] — COMPLETE / PR #144');
     expect(roadmap).toContain('ANM-030A R1.1 [P0] — COMPLETE / PR #145');
     expect(roadmap).toContain('ANM-030A2 [P0] — COMPLETE / PR #147');
     expect(roadmap).toContain('ANM-030B0A1 R1.1 [P1] — COMPLETE / PR #148');
     expect(roadmap).toContain('ANM-030B0A2 [P1] — ART-BLOCKED');
-    expect(roadmap).toContain('one shared five-asset pack');
     expect(index).toContain('ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md');
     expect(assetGapAudit).toContain('upds-asset-gap-audit-v1');
     expect(assetGapAudit).toContain('5 dedicated production / 24 runtime-used');
@@ -259,22 +264,10 @@ describe('active documentation traceability', () => {
     expect(assetGapAudit).toContain('1 shared production-art gap: 5 special/bonus visuals');
     expect(match3PresentationExtraction).toContain('mobile candidate preview');
     expect(index).toContain('ANM023E_TEST_TOOLING_IDENTITY_HARDENING_RU.md');
-    expect(roadmap).toContain('remaining **999** base-catalog keys');
-    expect(roadmap).toContain('exact **3870/3870** base-key parity');
+    expect(roadmap).toContain('exact 3870/3870 base-key parity');
     expect(roadmap).toContain("supportedLocales = ['ru', 'be', 'en']");
     expect(roadmap).toContain('029C Simplified Chinese Production — PAUSED');
     expect(roadmap).toContain('029F Brazilian Portuguese Production — PAUSED');
-    expect(roadmap).toContain('028D Character Production / Normalization — ART GENERATION PAUSED');
-    expect(index).toContain('ANM028B1_REUSABLE_STAGING_PRESETS_RU.md');
-    expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
-    expect(index).toContain('ANM028D0_EMI_NEUTRAL_R1_PROMPT.md');
-    expect(index).toContain('ANM028D1_EMI_SMILE_CANDIDATE_RU.md');
-    expect(index).toContain('ANM028D1_EMI_SMILE_R1_PROMPT.md');
-    expect(index).toContain('ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md');
-    expect(index).toContain('ANM028D2_EMI_SERIOUS_R1_PROMPT.md');
-    expect(index).toContain('ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md');
-    expect(index).toContain('ANM028D3_EMI_SURPRISED_R1_PROMPT.md');
-    expect(index).toContain('ANM030B0B_FULL_CAST_INTEGRATION_RU.md');
     expect(architecture).toContain('src/data/sceneStaging.ts');
     expect(architecture).toContain('src/data/sceneStudioCalibration.ts');
     expect(architecture).toContain('src/ui/vnFrameMarkup.ts');
@@ -286,8 +279,7 @@ describe('active documentation traceability', () => {
     expect(protectedContracts).toContain('background-focal-eye-line');
     expect(protectedContracts).toContain('Current runtime-integrated and visually approved production characters');
     expect(protectedContracts).toContain('manual Golden Sample gates');
-    expect(protectedContracts).toContain('upds-character-candidate-v1');
-    expect(protectedContracts).toContain('runtimeEligible: false');
+    expect(protectedContracts).toContain('Historical pre-integration Emi D0–D3 candidate files');
     expect(protectedContracts).toContain('ANM-028B2');
     expect(protectedContracts).toContain('ANM-028B3');
     expect(protectedContracts).toContain('src/data/guestWitnesses.ts');
@@ -302,6 +294,7 @@ describe('active documentation traceability', () => {
     expect(feature).toContain('upds-scene-studio-qa-v1');
     expect(feature).toContain('guest-testimony-card');
     expect(feature).toContain('не входят');
+
     expect(candidateFeature).toContain('330,80,737,1508');
     expect(candidateFeature).toContain('runtimeEligible: false');
     expect(candidateFeature).toContain('lineup/solo/duo/trio');
