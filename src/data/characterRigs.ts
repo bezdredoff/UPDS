@@ -2,14 +2,18 @@ import {
   characterProductionManifest,
   productionCharacterKeys,
   type CharacterStaging,
-  type PlannedCharacterKey,
   type ProductionCharacterKey,
   type RuntimeExpression,
 } from './characterProduction';
-import { browserLocalCharacterStaging, browserLocalCharacterXPercent, browserLocalMedallionOverride, browserLocalPoseOverride, runtimeFrameOverride } from './characterRuntimeOverrides';
+import {
+  browserLocalCharacterStaging,
+  browserLocalCharacterXPercent,
+  browserLocalExpressionOverride,
+  browserLocalMedallionOverride,
+  browserLocalPoseOverride,
+} from './characterRuntimeOverrides';
 
 export type CharacterKey = ProductionCharacterKey;
-export type PlaceholderKey = PlannedCharacterKey;
 export type { CharacterStaging, RuntimeExpression } from './characterProduction';
 
 export type CharacterRig = Readonly<{
@@ -41,12 +45,6 @@ export const characterRigs = Object.fromEntries(
   }),
 ) as Record<CharacterKey, CharacterRig>;
 
-export const placeholderCharacters = Object.freeze({}) as Record<PlaceholderKey, Readonly<{
-  displayName: string;
-  initials: string;
-  accent: string;
-}>>;
-
 function speakerMatches(speaker: string, token: string, match: 'exact' | 'prefix'): boolean {
   return match === 'prefix' ? speaker.startsWith(token) : speaker === token;
 }
@@ -56,10 +54,6 @@ export function characterForSpeaker(speaker: string): CharacterKey | null {
     const definition = characterProductionManifest.characters[key];
     if (speakerMatches(speaker, definition.speakerToken, definition.speakerMatch)) return key;
   }
-  return null;
-}
-
-export function placeholderForSpeaker(_speaker: string): PlaceholderKey | null {
   return null;
 }
 
@@ -73,7 +67,7 @@ export function expressionForDirection(direction: string): RuntimeExpression {
 }
 
 export function expressionAsset(character: CharacterKey, expression: RuntimeExpression): string {
-  return runtimeFrameOverride(character, expression)?.asset ?? characterRigs[character].frames[expression];
+  return browserLocalExpressionOverride(character, expression)?.asset ?? characterRigs[character].frames[expression];
 }
 
 export function poseAsset(character: CharacterKey): string {
