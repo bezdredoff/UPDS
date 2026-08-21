@@ -119,6 +119,18 @@ Automated coverage уже сильная, но перед релизом всё 
 
 Critical defects — R0 fixes; расширенная accessibility certification отдельно не планируется без platform requirement.
 
+### R0.9 Public release package / rights sanity
+
+Это не новый gameplay feature, но для публичного релиза нужен короткий product/legal packaging pass:
+
+- финальные player-facing title/description/PWA manifest metadata и install icons соответствуют реально выпускаемой игре;
+- есть понятные credits и проверено право использовать shipped art/audio/fonts/third-party material в выбранном способе распространения;
+- локальная playtest telemetry не маскируется под внешнюю analytics: если позже появляется отправка данных на сервер/third party, privacy/consent становится отдельным обязательным release delta;
+- content/age notice, privacy page, imprint/terms или rating добавляются ровно в объёме, который требует выбранная площадка/юрисдикция, а не как заранее придуманный framework;
+- production URL/hosting и rollback/update owner определены до публичной ссылки.
+
+Для закрытого/private playtest этот пункт можно упростить. Для публичного base release его нельзя заменять ещё одним art-polish milestone.
+
 ## R1 — желательно до релиза, но не ценой задержки продукта
 
 ### R1.1 Mobile locale × viewport automation
@@ -230,7 +242,7 @@ Post-launch expansion only. Не расходует base-release capacity.
 2. **Release-critical visual production:** четыре missing background masters + production presentation для шести guests; интегрировать небольшими reviewable waves с iPhone preview.
 3. **Release surface closure:** скрыть QA menu/tools из normal player build, сохранив automation access.
 4. **Conditional visual pass:** только реально нужные background variants/extras и, при плохом board QA, shared Match-3 special pack.
-5. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, performance/accessibility sanity.
+5. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity.
 6. Исправить только найденные release defects и собрать RC.
 7. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release, пока данные не изменят приоритет.
 
