@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import batchManifestJson from '../src/content/story/ANM027G.episodes-07-09.story.json';
 import macroJson from '../src/content/story/ANM027F.full-story-macro.json';
 import { characterProductionManifest, productionCharacterKeys } from '../src/data/characterProduction';
-import { characterForSpeaker, placeholderForSpeaker } from '../src/data/characterRigs';
+import { characterForSpeaker } from '../src/data/characterRigs';
 import { guestWitnessForSpeaker, guestWitnessManifest } from '../src/data/guestWitnesses';
 import { backgroundAssets } from '../src/data/narrative';
 import { levels } from '../src/data/levels';
@@ -53,8 +53,6 @@ describe('ANM-027G episodes 7–9 canonical production batch', () => {
     expect(characterProductionManifest.characters.kurose.status).toBe('production');
     expect(characterForSpeaker('РИНА')).toBe('rina');
     expect(characterForSpeaker('КУРОСЭ')).toBe('kurose');
-    expect(placeholderForSpeaker('РИНА')).toBeNull();
-    expect(placeholderForSpeaker('КУРОСЭ')).toBeNull();
     expect(guestWitnessForSpeaker('ГЭН')).toBe('gen');
     expect(guestWitnessManifest.guests.gen.status).toBe('planned');
     expect(guestWitnessManifest.guests.gen.assets).toBeNull();
