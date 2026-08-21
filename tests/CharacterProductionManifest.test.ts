@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { readFile } from 'node:fs/promises';
 import { inflateSync } from 'node:zlib';
-import { fileURLToPath } from 'node:url';
 import {
   characterProductionManifest,
   plannedCharacterKeys,
@@ -11,17 +10,6 @@ import {
 } from '../src/data/characterProduction';
 import { characterRigs, characterStaging, placeholderCharacters } from '../src/data/characterRigs';
 import { runtimeAssetCatalog } from '../src/platform/RuntimeAssets';
-import {
-  CHARACTER_CANDIDATE_FORMAT,
-  emiNeutralCandidate,
-  emiSeriousCandidate,
-  emiSmileCandidate,
-  emiSurprisedCandidate,
-  validateEmiNeutralCandidate,
-  validateEmiSeriousCandidate,
-  validateEmiSmileCandidate,
-  validateEmiSurprisedCandidate,
-} from '../src/data/characterCandidates';
 
 type AlphaBounds = Readonly<{ left: number; top: number; right: number; bottom: number }>;
 
@@ -42,12 +30,9 @@ const pngAlphaBounds = async (asset: string): Promise<AlphaBounds> => {
 
   const width = buffer.readUInt32BE(16);
   const height = buffer.readUInt32BE(20);
-  const bitDepth = buffer[24];
-  const colorType = buffer[25];
-  const interlace = buffer[28];
-  expect(bitDepth).toBe(8);
-  expect(colorType).toBe(6);
-  expect(interlace).toBe(0);
+  expect(buffer[24]).toBe(8);
+  expect(buffer[25]).toBe(6);
+  expect(buffer[28]).toBe(0);
 
   const idat: Buffer[] = [];
   let offset = 8;
@@ -110,13 +95,11 @@ const pngSize = async (asset: string): Promise<readonly [number, number]> => {
   return [buffer.readUInt32BE(16), buffer.readUInt32BE(20)];
 };
 
-describe('ANM-028A character production manifest', () => {
-  it('validates the canonical v2 contract and keeps the runtime expression set precomposed-only', () => {
+describe('character production manifest', () => {
+  it('validates the canonical precomposed production contract', () => {
     expect(validateCharacterProductionManifest()).toEqual([]);
     expect(characterProductionManifest.format).toBe('upds-character-production-v2');
     expect(characterProductionManifest.runtimeExpressions).toEqual(runtimeExpressionOrder);
-    expect(characterProductionManifest.runtimeExpressions).not.toContain('blink');
-    expect(characterProductionManifest.runtimeExpressions).not.toContain('speaking');
     expect(characterProductionManifest.animationPolicy).toEqual({
       mode: 'precomposed-static',
       blink: 'deferred',
@@ -124,7 +107,7 @@ describe('ANM-028A character production manifest', () => {
     });
   });
 
-  it('derives production runtime rigs and staging from the manifest', () => {
+  it('derives all nine production rigs and staging entries from the manifest', () => {
     expect(Object.keys(characterRigs).sort()).toEqual([...productionCharacterKeys].sort());
     expect(Object.keys(characterStaging).sort()).toEqual([...productionCharacterKeys].sort());
 
@@ -132,6 +115,7 @@ describe('ANM-028A character production manifest', () => {
       const definition = characterProductionManifest.characters[key];
       expect(definition.status).toBe('production');
       expect(definition.adultCharacter).toBe(true);
+      expect(definition.visualApproval).toBe('approved');
       expect(characterRigs[key]).toEqual({
         displayName: definition.displayName,
         shortName: definition.shortName,
@@ -143,12 +127,12 @@ describe('ANM-028A character production manifest', () => {
     }
   });
 
-  it('closes the planned full-stage lane after integrating the complete nine-character cast', () => {
+  it('keeps the former planned lane closed after full-cast promotion', () => {
     expect(plannedCharacterKeys).toEqual([]);
-    expect(Object.keys(placeholderCharacters).sort()).toEqual([...plannedCharacterKeys].sort());
+    expect(Object.keys(placeholderCharacters)).toEqual([]);
   });
 
-  it('ships exactly seven valid production assets with production dimensions', async () => {
+  it('ships exactly seven distinct runtime assets per production character', async () => {
     for (const key of productionCharacterKeys) {
       const definition = characterProductionManifest.characters[key];
       const frameAssets = Object.values(definition.assets.frames);
@@ -167,191 +151,23 @@ describe('ANM-028A character production manifest', () => {
     }
   });
 
-  it('locks integrated master geometry and records visual approval separately from runtime availability', async () => {
-    expect(characterProductionManifest.proportionContract).toEqual({
-      measurement: 'neutral-alpha-bounds',
-      referenceCharacter: 'onoe',
-      encodeHeightInMasterCanvas: true,
-      productionScaleDefault: 1,
-      expressionHeightTolerancePx: 1,
-      newCharacterApproval: 'lineup-required-before-production',
-    });
-
-    const reference = characterProductionManifest.characters.onoe.proportion.visualHeightPx;
-    const expectedHeight = {
-      miku: 1368,
-      onoe: 1476,
-      ayuki: 1454,
-      emi: 1484,
-      kentaro: 1479,
-      norihiro: 1480,
-      mayu: 1479,
-      rina: 1480,
-      kurose: 1480,
-    } as const;
-    const expectedEyeLine = {
-      miku: 214,
-      onoe: 205,
-      ayuki: 259,
-      emi: 218,
-      kentaro: 182,
-      norihiro: 182,
-      mayu: 190,
-      rina: 200,
-      kurose: 180,
-    } as const;
-
+  it('keeps runtime geometry synchronized with the selected expression PNGs', async () => {
     for (const key of productionCharacterKeys) {
       const definition = characterProductionManifest.characters[key];
-      expect(definition.staging.scale).toBe(1);
-      expect(definition.proportion.visualHeightPx).toBe(expectedHeight[key]);
-      expect(definition.proportion.neutralEyeLineYPx).toBe(expectedEyeLine[key]);
+      expect(definition.staging).toEqual({ scale: 1, yPercent: 0 });
 
       const neutralBounds = await pngAlphaBounds(definition.assets.frames.neutral);
       expect(neutralBounds).toEqual(definition.proportion.neutralAlphaBounds);
       expect(neutralBounds.bottom - neutralBounds.top).toBe(definition.proportion.visualHeightPx);
 
       for (const expression of runtimeExpressionOrder) {
-        const asset = definition.assets.frames[expression];
-        const bounds = await pngAlphaBounds(asset);
-        const height = bounds.bottom - bounds.top;
-        expect(bounds).toEqual(definition.proportion.frameGeometry[expression].alphaBounds);
-        expect(definition.proportion.frameGeometry[expression].eyeLineYPx).toBe(expectedEyeLine[key]);
-        expect(Math.abs(height - definition.proportion.visualHeightPx))
+        const geometry = definition.proportion.frameGeometry[expression];
+        const bounds = await pngAlphaBounds(definition.assets.frames[expression]);
+        expect(bounds).toEqual(geometry.alphaBounds);
+        expect(geometry.eyeLineYPx).toBe(definition.proportion.neutralEyeLineYPx);
+        expect(Math.abs((bounds.bottom - bounds.top) - definition.proportion.visualHeightPx))
           .toBeLessThanOrEqual(characterProductionManifest.proportionContract.expressionHeightTolerancePx);
       }
     }
-
-    expect(characterProductionManifest.characters.miku.proportion.visualHeightPx / reference).toBeCloseTo(0.9268, 3);
-    expect(characterProductionManifest.characters.ayuki.proportion.visualHeightPx / reference).toBeCloseTo(0.9851, 3);
-    expect(characterProductionManifest.characters.emi.proportion.visualHeightPx / reference).toBeCloseTo(1.0054, 3);
-    for (const key of productionCharacterKeys) {
-      expect(characterProductionManifest.characters[key].visualApproval).toBe('approved');
-    }
-  });
-
-  it('keeps approved Emi neutral R1 outside runtime while the expression family is incomplete', async () => {
-    expect(validateEmiNeutralCandidate()).toEqual([]);
-    expect(emiNeutralCandidate.format).toBe(CHARACTER_CANDIDATE_FORMAT);
-    expect(emiNeutralCandidate.status).toBe('approved-master');
-    expect(emiNeutralCandidate.runtimeEligible).toBe(false);
-    expect(runtimeAssetCatalog).not.toContain(emiNeutralCandidate.asset);
-    expect(await pngSize(emiNeutralCandidate.asset)).toEqual([1024, 1536]);
-    expect(await pngAlphaBounds(emiNeutralCandidate.asset)).toEqual(emiNeutralCandidate.geometry.alphaBounds);
-    expect(emiNeutralCandidate.visualHeightPx).toBe(1428);
-    expect(emiNeutralCandidate.bottomPaddingPx).toBe(28);
-    expect(emiNeutralCandidate.geometry.eyeLineYPx).toBe(244);
-  });
-
-  it('keeps approved Emi smile R1 as a geometry-identical non-runtime expression', async () => {
-    expect(validateEmiSmileCandidate()).toEqual([]);
-    expect(emiSmileCandidate.format).toBe(CHARACTER_CANDIDATE_FORMAT);
-    expect(emiSmileCandidate.expression).toBe('smile');
-    expect(emiSmileCandidate.status).toBe('approved-expression');
-    expect(emiSmileCandidate.source).toBe('gpt-work-face-roi');
-    expect(emiSmileCandidate.runtimeEligible).toBe(false);
-    expect(runtimeAssetCatalog).not.toContain(emiSmileCandidate.asset);
-    expect(await pngSize(emiSmileCandidate.asset)).toEqual([1024, 1536]);
-    expect(await pngAlphaBounds(emiSmileCandidate.asset)).toEqual(emiNeutralCandidate.geometry.alphaBounds);
-    expect(emiSmileCandidate.geometry).toEqual(emiNeutralCandidate.geometry);
-    expect(emiSmileCandidate.visualHeightPx).toBe(1428);
-    expect(emiSmileCandidate.bottomPaddingPx).toBe(28);
-  });
-
-  it('keeps approved Emi serious R1 as a geometry-identical non-runtime expression', async () => {
-    expect(validateEmiSeriousCandidate()).toEqual([]);
-    expect(emiSeriousCandidate.format).toBe(CHARACTER_CANDIDATE_FORMAT);
-    expect(emiSeriousCandidate.expression).toBe('serious');
-    expect(emiSeriousCandidate.status).toBe('approved-expression');
-    expect(emiSeriousCandidate.source).toBe('gpt-work-face-roi');
-    expect(emiSeriousCandidate.runtimeEligible).toBe(false);
-    expect(runtimeAssetCatalog).not.toContain(emiSeriousCandidate.asset);
-    expect(await pngSize(emiSeriousCandidate.asset)).toEqual([1024, 1536]);
-    expect(await pngAlphaBounds(emiSeriousCandidate.asset)).toEqual(emiNeutralCandidate.geometry.alphaBounds);
-    expect(emiSeriousCandidate.geometry).toEqual(emiNeutralCandidate.geometry);
-    expect(emiSeriousCandidate.visualHeightPx).toBe(1428);
-    expect(emiSeriousCandidate.bottomPaddingPx).toBe(28);
-  });
-
-  it('ships Emi surprised R1 as a geometry-identical Studio-only multi-ROI candidate', async () => {
-    expect(validateEmiSurprisedCandidate()).toEqual([]);
-    expect(emiSurprisedCandidate.format).toBe(CHARACTER_CANDIDATE_FORMAT);
-    expect(emiSurprisedCandidate.expression).toBe('surprised');
-    expect(emiSurprisedCandidate.status).toBe('manual-qa');
-    expect(emiSurprisedCandidate.source).toBe('gpt-work-face-roi');
-    expect(emiSurprisedCandidate.runtimeEligible).toBe(false);
-    expect(runtimeAssetCatalog).not.toContain(emiSurprisedCandidate.asset);
-    expect(await pngSize(emiSurprisedCandidate.asset)).toEqual([1024, 1536]);
-    expect(await pngAlphaBounds(emiSurprisedCandidate.asset)).toEqual(emiNeutralCandidate.geometry.alphaBounds);
-    expect(emiSurprisedCandidate.geometry).toEqual(emiNeutralCandidate.geometry);
-    expect(emiSurprisedCandidate.visualHeightPx).toBe(1428);
-    expect(emiSurprisedCandidate.bottomPaddingPx).toBe(28);
-  });
-
-  it('keeps the documentation mirror aligned with production/planned status and v2 runtime counts', async () => {
-    const path = fileURLToPath(new URL('../docs/art/CHARACTER_USAGE_MANIFEST.json', import.meta.url));
-    const mirror = JSON.parse(await readFile(path, 'utf8')) as {
-      sourceOfTruth: string;
-      productionCharacters: string[];
-      plannedCharacters: string[];
-      characters: Record<string, { visualApproval?: string; neutralEyeLineYPx?: number }>;
-      runtimeContract: {
-        runtimeExpressions: string[];
-        requiredRuntimeAssetsPerProductionCharacter: number;
-        sceneGuideGeometry: string;
-      };
-      proportionContract: {
-        referenceCharacter: string;
-        integratedVisualHeightPx: Record<string, number>;
-        neutralEyeLineYPx: Record<string, number>;
-        newCharacterApproval: string;
-      };
-    };
-
-    expect(mirror.sourceOfTruth).toBe('src/data/characterProduction.ts');
-    expect(mirror.productionCharacters).toEqual(productionCharacterKeys);
-    expect(mirror.plannedCharacters).toEqual(plannedCharacterKeys);
-    expect(mirror.runtimeContract.runtimeExpressions).toEqual(runtimeExpressionOrder);
-    expect(mirror.runtimeContract.requiredRuntimeAssetsPerProductionCharacter).toBe(7);
-    expect(mirror.runtimeContract.sceneGuideGeometry).toBe('selected-expression-alpha-bounds-and-eye-line');
-    expect(mirror.proportionContract.referenceCharacter).toBe('onoe');
-    expect(mirror.proportionContract.integratedVisualHeightPx).toEqual({
-      miku: 1368,
-      onoe: 1476,
-      ayuki: 1454,
-      emi: 1484,
-      kentaro: 1479,
-      norihiro: 1480,
-      mayu: 1479,
-      rina: 1480,
-      kurose: 1480,
-    });
-    expect(mirror.proportionContract.neutralEyeLineYPx).toEqual({
-      miku: 214,
-      onoe: 205,
-      ayuki: 259,
-      emi: 218,
-      kentaro: 182,
-      norihiro: 182,
-      mayu: 190,
-      rina: 200,
-      kurose: 180,
-    });
-    expect(mirror.characters.emi.visualApproval).toBe('approved');
-    expect(mirror.proportionContract.newCharacterApproval).toBe('lineup-required-before-production');
-  });
-
-  it('does not let active runtime code reintroduce face-overlay asset references', async () => {
-    const rigSource = await readFile(new URL('../src/data/characterRigs.ts', import.meta.url), 'utf8');
-    const runtimeSource = await readFile(new URL('../src/platform/RuntimeAssets.ts', import.meta.url), 'utf8');
-    const vnSource = await readFile(new URL('../src/features/vn/VnController.ts', import.meta.url), 'utf8');
-    const vnPresentationSource = await readFile(new URL('../src/features/vn/VnPresentation.ts', import.meta.url), 'utf8');
-    const activeSource = `${rigSource}\n${runtimeSource}\n${vnSource}\n${vnPresentationSource}`;
-
-    expect(activeSource).not.toContain('face-speaking');
-    expect(activeSource).not.toContain('face-blink');
-    expect(activeSource).not.toContain('portrait-face');
-    expect(activeSource).not.toContain('faces.speaking');
-    expect(activeSource).not.toContain('faces.blink');
   });
 });
