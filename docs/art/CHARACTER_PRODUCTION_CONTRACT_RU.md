@@ -56,10 +56,10 @@ Canonical measurements для Pose A: высота непрозрачного su
 bounds этого PNG и его `eyeLineYPx`. Neutral geometry обязана совпадать с canonical neutral полями.
 
 Текущий runtime-integrated visual-height baseline:
-- Miku: 1375 px;
-- Onoe: 1484 px — reference 100%;
-- Ayuki: 1462 px;
-- Emi: 1444 px;
+- Miku: 1368 px;
+- Onoe: 1476 px — reference 100%;
+- Ayuki: 1454 px;
+- Emi: 1484 px;
 - Kentaro: 1479 px;
 - Norihiro: 1480 px;
 - Mayu: 1479 px;
@@ -69,8 +69,8 @@ bounds этого PNG и его `eyeLineYPx`. Neutral geometry обязана с
 Относительно Onoe это примерно:
 - Miku 92.7%;
 - Ayuki 98.5%;
-- Emi 97.3%;
-- остальные full-stage masters находятся примерно в диапазоне 99.7–100%.
+- Emi 100.5%;
+- остальные full-stage masters находятся примерно в диапазоне 100.2–100.3%.
 
 Эти значения не объявляются физическим ростом в сантиметрах. Если позже story/art bible задаст рост
 в сантиметрах, итоговая экранная пропорция всё равно должна пройти общий lineup QA.

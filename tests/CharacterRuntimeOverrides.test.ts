@@ -143,8 +143,8 @@ describe('character runtime override and browser-local calibration', () => {
     ]);
     const emi = resolution.actors.find((actor) => actor.character === 'emi');
     expect(emi).toBeDefined();
-    expect(emi?.frameAlphaBounds).toEqual({ left: 172, top: 92, right: 851, bottom: 1536 });
-    expect(emi?.eyeLineYPx).toBe(397);
+    expect(emi?.frameAlphaBounds).toEqual({ left: 272, top: 28, right: 751, bottom: 1512 });
+    expect(emi?.eyeLineYPx).toBe(218);
     expect(emi?.visualApproval).toBe('approved');
     expect(emi?.resolvedEyeLinePercent).toBe(55);
   });

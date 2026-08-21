@@ -179,10 +179,10 @@ describe('ANM-028A character production manifest', () => {
 
     const reference = characterProductionManifest.characters.onoe.proportion.visualHeightPx;
     const expectedHeight = {
-      miku: 1375,
-      onoe: 1484,
-      ayuki: 1462,
-      emi: 1444,
+      miku: 1368,
+      onoe: 1476,
+      ayuki: 1454,
+      emi: 1484,
       kentaro: 1479,
       norihiro: 1480,
       mayu: 1479,
@@ -190,10 +190,10 @@ describe('ANM-028A character production manifest', () => {
       kurose: 1480,
     } as const;
     const expectedEyeLine = {
-      miku: 196,
-      onoe: 158,
-      ayuki: 242,
-      emi: 397,
+      miku: 214,
+      onoe: 205,
+      ayuki: 259,
+      emi: 218,
       kentaro: 182,
       norihiro: 182,
       mayu: 190,
@@ -222,9 +222,9 @@ describe('ANM-028A character production manifest', () => {
       }
     }
 
-    expect(characterProductionManifest.characters.miku.proportion.visualHeightPx / reference).toBeCloseTo(0.9265, 3);
-    expect(characterProductionManifest.characters.ayuki.proportion.visualHeightPx / reference).toBeCloseTo(0.9852, 3);
-    expect(characterProductionManifest.characters.emi.proportion.visualHeightPx / reference).toBeCloseTo(0.973, 3);
+    expect(characterProductionManifest.characters.miku.proportion.visualHeightPx / reference).toBeCloseTo(0.9268, 3);
+    expect(characterProductionManifest.characters.ayuki.proportion.visualHeightPx / reference).toBeCloseTo(0.9851, 3);
+    expect(characterProductionManifest.characters.emi.proportion.visualHeightPx / reference).toBeCloseTo(1.0054, 3);
     for (const key of productionCharacterKeys) {
       expect(characterProductionManifest.characters[key].visualApproval).toBe('approved');
     }
@@ -316,10 +316,10 @@ describe('ANM-028A character production manifest', () => {
     expect(mirror.runtimeContract.sceneGuideGeometry).toBe('selected-expression-alpha-bounds-and-eye-line');
     expect(mirror.proportionContract.referenceCharacter).toBe('onoe');
     expect(mirror.proportionContract.integratedVisualHeightPx).toEqual({
-      miku: 1375,
-      onoe: 1484,
-      ayuki: 1462,
-      emi: 1444,
+      miku: 1368,
+      onoe: 1476,
+      ayuki: 1454,
+      emi: 1484,
       kentaro: 1479,
       norihiro: 1480,
       mayu: 1479,
@@ -327,10 +327,10 @@ describe('ANM-028A character production manifest', () => {
       kurose: 1480,
     });
     expect(mirror.proportionContract.neutralEyeLineYPx).toEqual({
-      miku: 196,
-      onoe: 158,
-      ayuki: 242,
-      emi: 397,
+      miku: 214,
+      onoe: 205,
+      ayuki: 259,
+      emi: 218,
       kentaro: 182,
       norihiro: 182,
       mayu: 190,

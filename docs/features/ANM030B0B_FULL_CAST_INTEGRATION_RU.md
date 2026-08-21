@@ -10,8 +10,9 @@ Kentaro, Norihiro, Mayu, Rina and Kurose, but unintentionally retained the previ
 Miku, Onoe, Ayuki and Emi. ANM-030B0C replaces those four complete seven-asset packages with the
 files from `all-characters-first-preprod-run.zip`.
 
-The replacement keeps the same canonical paths, `1024×1536`/medallion dimensions and measured
-alpha geometry, so no runtime routing, staging scale or eye-line metadata changes are required.
+The replacement keeps the same canonical paths and `1024×1536`/medallion dimensions. Its measured
+alpha geometry and eye lines differ from the retained binaries, so ANM-030B0C refreshes the
+canonical manifest and Scene Studio guides while leaving runtime routing and staging scale intact.
 The source archive SHA-256 is
 `94fde58caa2afa58e742349ba83bf7aaa0a23e1a9ddc4c3595e94cfc5354b637`; an automated combined digest
 now locks all 63 runtime assets and prevents a partial archive import from passing CI again.
@@ -76,7 +77,7 @@ Canonical neutral alpha bounds и eye line записаны в `src/data/charact
 `yPercent = 0`; character-specific CSS zoom не применяется.
 
 Lineup сохраняет Onoe как относительный reference. Измеренная alpha-height находится в диапазоне
-`1375–1484 px`; меньший Miku master остаётся намеренно ниже остальных, а не растягивается runtime.
+`1368–1484 px`; меньший Miku master остаётся намеренно ниже остальных, а не растягивается runtime.
 
 ## Audit update
 

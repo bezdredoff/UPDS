@@ -49,7 +49,7 @@
       "status": "production",
       "adultCharacter": true,
       "visualApproval": "approved",
-      "neutralEyeLineYPx": 196,
+      "neutralEyeLineYPx": 214,
       "poseBFile": "pose_b_pointing_sketchbook.png",
       "medallionFile": "portrait_neutral_256.png"
     },
@@ -57,7 +57,7 @@
       "status": "production",
       "adultCharacter": true,
       "visualApproval": "approved",
-      "neutralEyeLineYPx": 158,
+      "neutralEyeLineYPx": 205,
       "poseBFile": "pose_b_evidence_bag.png",
       "medallionFile": "portrait_neutral_256.png"
     },
@@ -65,7 +65,7 @@
       "status": "production",
       "adultCharacter": true,
       "visualApproval": "approved",
-      "neutralEyeLineYPx": 242,
+      "neutralEyeLineYPx": 259,
       "poseBFile": "pose_b_phone_theory.png",
       "medallionFile": "portrait_neutral_256.png"
     },
@@ -73,7 +73,7 @@
       "status": "production",
       "adultCharacter": true,
       "visualApproval": "approved",
-      "neutralEyeLineYPx": 397,
+      "neutralEyeLineYPx": 218,
       "poseBFile": "pose_b_arms_crossed.png",
       "medallionFile": "portrait_neutral_512.png"
     },
@@ -125,10 +125,10 @@
     "productionScaleDefault": 1,
     "expressionHeightTolerancePx": 1,
     "integratedVisualHeightPx": {
-      "miku": 1375,
-      "onoe": 1484,
-      "ayuki": 1462,
-      "emi": 1444,
+      "miku": 1368,
+      "onoe": 1476,
+      "ayuki": 1454,
+      "emi": 1484,
       "kentaro": 1479,
       "norihiro": 1480,
       "mayu": 1479,
@@ -136,10 +136,10 @@
       "kurose": 1480
     },
     "neutralEyeLineYPx": {
-      "miku": 196,
-      "onoe": 158,
-      "ayuki": 242,
-      "emi": 397,
+      "miku": 214,
+      "onoe": 205,
+      "ayuki": 259,
+      "emi": 218,
       "kentaro": 182,
       "norihiro": 182,
       "mayu": 190,
@@ -147,15 +147,15 @@
       "kurose": 180
     },
     "relativeToOnoe": {
-      "miku": 0.9265,
+      "miku": 0.9268,
       "onoe": 1.0,
-      "ayuki": 0.9852,
-      "emi": 0.973,
-      "kentaro": 0.9966,
-      "norihiro": 0.9973,
-      "mayu": 0.9966,
-      "rina": 0.9973,
-      "kurose": 0.9973
+      "ayuki": 0.9851,
+      "emi": 1.0054,
+      "kentaro": 1.002,
+      "norihiro": 1.0027,
+      "mayu": 1.002,
+      "rina": 1.0027,
+      "kurose": 1.0027
     },
     "newCharacterApproval": "lineup-required-before-production"
   }
