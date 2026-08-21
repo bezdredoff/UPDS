@@ -1,6 +1,6 @@
 {
   "format": "upds-asset-gap-audit-v1",
-  "feature": "ANM-030A+ANM-030B0B+ANM-030B1B1+ANM-030B1B2+ANM-030B1B3+ANM-030B1B4",
+  "feature": "ANM-030A+ANM-030B0B+ANM-030B1B1+ANM-030B1B2+ANM-030B1B3+ANM-030B1B4+ANM-030B1B5",
   "baseline": {
     "mainSha": "227d32ca7e0ab681cf20919ac36bbc9a2860eac1",
     "storyMacro": "src/content/story/ANM027F.full-story-macro.json",
@@ -25,8 +25,8 @@
     "backgroundFamilies": 8,
     "contractedBackgroundVariants": 26,
     "runtimeSemanticBackgroundVariants": 24,
-    "productionBackgroundVariants": 9,
-    "runtimeFallbackBackgroundVariants": 15,
+    "productionBackgroundVariants": 10,
+    "runtimeFallbackBackgroundVariants": 14,
     "contractOnlyUnusedBackgroundVariants": 2,
     "fullStageCharacters": 9,
     "productionReadyFullStageCharacters": 9,
@@ -420,9 +420,11 @@
       },
       {
         "id": "old-building-finale",
-        "macroStatus": "new-master-required",
+        "macroStatus": "existing-master-family",
         "firstSlot": 15,
-        "existingMacroAssets": [],
+        "existingMacroAssets": [
+          "BG_ABANDONED_LAUNDRY"
+        ],
         "variants": [
           {
             "family": "old-building-finale",
@@ -430,10 +432,9 @@
             "firstUseSlot": 15,
             "usedByCurrentStory": true,
             "runtimeKey": "abandonedLaundry",
-            "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           },
           {
@@ -462,12 +463,13 @@
           }
         ],
         "auditStatus": [
-          "planned-missing",
-          "external-art-blocked"
+          "production",
+          "reusable"
         ]
       }
     ],
     "physicalFiles": [
+      "assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
       "assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
       "assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
       "assets/backgrounds/BG_CLUBROOM_DAY.webp",
@@ -2149,10 +2151,9 @@
           "family": "old-building-finale",
           "variant": "abandoned-laundry",
           "runtimeKey": "abandonedLaundry",
-          "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
           "auditStatus": [
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -2208,8 +2209,7 @@
         ]
       },
       "productionVisualGaps": [
-        "background:campus-path",
-        "background:abandoned-laundry"
+        "background:campus-path"
       ]
     },
     {
@@ -2875,11 +2875,11 @@
         "guest:kubo",
         "guest:kubo-mother",
         "guest:vincent",
-        "master:old-building-finale",
+        "background-variants:old-archive",
         "hero-clue:rina-catalog",
         "hero-clue:post-rina-active-tag"
       ],
-      "reason": "covers late common route and archive/finale location family"
+      "reason": "covers late common route and the controlled old-building archive sibling after the approved family anchor"
     },
     {
       "id": "030B4-endings-19-21",

@@ -191,7 +191,8 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   oldGymNight: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
   // ANM-027G 13–15 semantic variants. External masters replace only these mappings.
   campusPath: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
-  abandonedLaundry: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
+  // ANM-030B1B5 adopts the abandoned-laundry production master.
+  abandonedLaundry: './assets/backgrounds/BG_ABANDONED_LAUNDRY.webp',
   // ANM-027G 16–18 semantic variants. No new binaries until external background production.
   gymnasticsCostume: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
   oldArchive: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',

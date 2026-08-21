@@ -38,9 +38,10 @@ describe('ANM-027G episodes 13–15 canonical production batch', () => {
     expect(levels.slice(13, 16).every((level) => level.objectives.length <= 3)).toBe(true);
   });
 
-  it('uses semantic location aliases rather than inventing unapproved binary masters', () => {
+  it('adopts the approved abandoned-laundry anchor while retaining the unresolved campus-path variant', () => {
     expect(backgroundAssets.campusPath).toBe(backgroundAssets.clubroom);
-    expect(backgroundAssets.abandonedLaundry).toBe(backgroundAssets.poolLocker);
+    expect(backgroundAssets.abandonedLaundry).toBe('./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp');
+    expect(backgroundAssets.abandonedLaundry).not.toBe(backgroundAssets.poolLocker);
   });
 
   it('keeps Kubo and his mother in the asset-free guest tier', () => {
