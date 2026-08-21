@@ -34,8 +34,9 @@ describe('ANM-023G1 Playwright foundation', () => {
     expect(config).toContain("trace: 'retain-on-failure'");
     expect(config).toContain("screenshot: 'only-on-failure'");
     expect(bootSmoke).toContain("page.goto('./')");
-    expect(bootSmoke).toContain("page.locator('.menu-screen')");
-    expect(bootSmoke).toContain("page.locator('#new')");
+    expect(bootSmoke).toContain('page.locator(qaSelectors.mainMenu)');
+    expect(bootSmoke).toContain('page.locator(qaSelectors.newGame)');
+    expect(bootSmoke).toContain("toHaveAttribute('data-qa-surface', 'hidden')");
     expect(bootSmoke).toContain('observeBrowserHealth(page)');
   });
 
