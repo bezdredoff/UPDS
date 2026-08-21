@@ -4,7 +4,7 @@ Technical product version: `0.26.0-dev`.
 
 Status: **ANM-030B0H release-planning reset** after completed full-stage character production.
 
-This roadmap is intentionally a strategic status map, not a transcript of every historical sub-feature. Detailed implementation history lives in feature docs and Git. The actionable remaining-work authority is [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md); machine-readable art inventory remains `src/content/art/ANM030A.asset-gap-audit.json`.
+This roadmap is intentionally a strategic status map, not a transcript of every historical sub-feature. Detailed implementation history lives in feature docs and Git. The actionable remaining-work authority is [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md); the approved full-game scope/reuse ceilings remain [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md); machine-readable art inventory remains `src/content/art/ANM030A.asset-gap-audit.json`. Production budgets are ceilings, not an obligation to spend every planned asset slot.
 
 `APP_VERSION` in `src/appVersion.ts` is the canonical player-facing product semver dev-line. npm `package.json.version` remains internal package metadata. `BUILD_LABEL` is separate feature/baseline identity; current traceability still includes **ANM-023G7C Version / Diagnostics Closeout**. `BUILD_ID` identifies a concrete CI build.
 
@@ -37,7 +37,7 @@ Changing the release platform or market scope is a separate product decision, no
 ### Durable completion traceability
 
 - **ANM-023F — Codebase, Test & Tooling Simplification — COMPLETE**; **023F1 Biome Expansion & Repository Hygiene** starts the merged F1–F4B maintenance sequence through PR #144.
-- **ANM-023G Playwright Browser Automation is COMPLETE through G8 closeout**.
+- **ANM-023G — Playwright Browser Automation [P0/P1] — COMPLETE THROUGH G8**. ANM-023G Playwright Browser Automation is COMPLETE through G8 closeout.
 - **023G7C Version / Diagnostics Closeout [P1] — COMPLETE / PR #159**.
 - **023G7D Browser Gate Playwright Container Hardening [P1] — COMPLETE / PR #160**.
 - **023G8A Coverage Audit & QA/Production Parity Matrix [P1] — COMPLETE / PR #162**.
@@ -79,14 +79,16 @@ The detailed classification and acceptance outcomes are in [`RELEASE_BACKLOG_RU.
 
 ### R1 — release-worthy / bounded polish
 
-- RU/BE/EN mobile locale × viewport automation over the existing portrait cohort;
-- PWA offline/recovery Browser Gate expansion when it protects a real failure mode;
-- QA-driven full content asset crawl automation;
+The old post-G8 production-signal order remains useful as a vocabulary for cheap regression work, but it is no longer an automatic implementation queue:
+
+- **RU/BE/EN mobile locale × viewport matrix** — automate the existing portrait cohort and assert geometry/overflow/visibility rather than multiplying screenshots;
+- **PWA offline/recovery** — expand Browser Gate only where it protects a real release failure mode;
+- **VN/content asset crawl** — make the final shipped-content URL/decode gate repeatable after production art lands;
+- **quantitative Match-3 regression/reporting** — strengthen only when human playtest evidence identifies a problem current deterministic tools do not explain cheaply;
 - controlled background variants beyond the four missing masters only when visual QA shows a narrative mismatch;
 - extras mapped onto **≤4 reusable adult archetypes** only where their absence visibly hurts a shipped scene;
 - Match-3 special/bonus production art only if final board QA shows the current SVGs look/read as prototype rather than production;
-- bounded audio quality replacement only if the existing procedural menu/VN/match/ending themes fail the final product listen-through;
-- stronger quantitative Match-3 reporting only when human playtest evidence justifies it.
+- bounded audio quality replacement only if the existing procedural menu/VN/match/ending themes fail the final product listen-through.
 
 Historical traceability: **ANM-030B0A2 [P1] — ART-BLOCKED** remains the old five-special integration label, but its output is now conditional polish rather than a release blocker.
 
