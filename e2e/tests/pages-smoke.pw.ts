@@ -10,12 +10,13 @@ const lanes = [
 for (const lane of lanes) {
   test(`${lane.name} boots with clean critical assets and QA navigation`, async ({ page }) => {
     const health = observeBrowserHealth(page);
-    const response = await page.goto(lane.path);
+    const response = await page.goto(`${lane.path}?qa=1`);
 
     expect(response).not.toBeNull();
     expect(response?.ok()).toBe(true);
     await expect(page.locator(qaSelectors.appRoot)).toBeVisible();
     await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
+    await expect(page.locator(qaSelectors.mainMenu)).toHaveAttribute('data-qa-surface', 'enabled');
 
     await page.locator(qaSelectors.sceneNavigationButton).click();
     await expect(page.locator(qaSelectors.sceneNavigationScreen)).toBeVisible();
