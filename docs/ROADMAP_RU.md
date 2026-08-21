@@ -83,7 +83,7 @@ Completed implementation split:
 - **023G6 Persistence / Localization / Main-Flow Journeys [P1] — COMPLETE / PR #156** — campaign save/reload, locale persistence and short real-player VN → choice → Match-3 integration flow;
 - **023G7A Browser Gate CI [P1] — COMPLETE / PR #157** — full Chromium suite plus mobile-critical WebKit subset in parallel GitHub Actions, with Playwright reports/traces/failure artifacts;
 - **023G7B Mobile Visual Golden Samples [P1] — COMPLETE / PR #158** — reviewed iPhone 13 WebKit baselines;
-- **023G7C Version / Diagnostics Closeout [P1] — COMPLETE / PR #159** — player-facing product version, build and save-schema identity remain separate and diagnosable;
+- **ANM-023G7C Version / Diagnostics Closeout [P1] — COMPLETE / PR #159** — player-facing product version, build and save-schema identity remain separate and diagnosable;
 - **023G7D Browser Gate Playwright Container Hardening [P1] — COMPLETE / PR #160** — pinned Playwright container plus deterministic hosted-runner font bridge;
 - **023G8A Coverage Audit & QA/Production Parity Matrix [P1] — COMPLETE / PR #162** — inventories the Browser Gate and prioritizes real browser-only gaps;
 - **023G8B Story/VN Production-Flow Expansion [P1] — COMPLETE / PR #165** — bounded Story Match-3 completion → evidence → post-win VN → persisted Continue journey;
