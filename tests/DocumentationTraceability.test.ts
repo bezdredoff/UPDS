@@ -181,6 +181,7 @@ describe('active documentation traceability', () => {
     const lostFoundBackground = read('docs/features/ANM030B1B3_LOST_FOUND_WAREHOUSE_RU.md');
     const campusServiceYardBackground = read('docs/features/ANM030B1B4_CAMPUS_SERVICE_YARD_RU.md');
     const abandonedLaundryBackground = read('docs/features/ANM030B1B5_ABANDONED_LAUNDRY_RU.md');
+    const highUsageBackgroundTrio = read('docs/features/ANM030B1B6_HIGH_USAGE_BACKGROUND_TRIO_RU.md');
     const currentAssetAudit = read('src/content/art/ANM030A.asset-gap-audit.json');
 
     expect(roadmap).toContain('ANM-030B0B–B0F full-stage character closure');
@@ -191,6 +192,7 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('ANM-030B1B3 [R0] — LOST-FOUND WAREHOUSE BACKGROUND COMPLETE');
     expect(roadmap).toContain('ANM-030B1B4 [R0] — CAMPUS SERVICE YARD BACKGROUND COMPLETE');
     expect(roadmap).toContain('ANM-030B1B5 [R0] — ABANDONED LAUNDRY BACKGROUND COMPLETE');
+    expect(roadmap).toContain('ANM-030B1B6 [R0] — HIGH-USAGE BACKGROUND TRIO COMPLETE');
     expect(roadmap).toContain('ANM-030B1A [P1] — NEXT PROPOSED VERTICAL-SLICE ART MILESTONE');
     expect(roadmap).toContain('ANM-028B2 R1.1 Authored VN Shot Adoption — COMPLETE');
     expect(roadmap).toContain('027G Episode Batch Production & Canonical Import — COMPLETE');
@@ -202,6 +204,7 @@ describe('active documentation traceability', () => {
     expect(index).toContain('ANM030B1B3_LOST_FOUND_WAREHOUSE_RU.md');
     expect(index).toContain('ANM030B1B4_CAMPUS_SERVICE_YARD_RU.md');
     expect(index).toContain('ANM030B1B5_ABANDONED_LAUNDRY_RU.md');
+    expect(index).toContain('ANM030B1B6_HIGH_USAGE_BACKGROUND_TRIO_RU.md');
     expect(studentCouncilBackground).toContain('BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp');
     expect(studentCouncilBackground).toContain('1080×1920');
     expect(asterionLabBackground).toContain('BG_ASTERION_SMART_TEXTILE_LAB.webp');
@@ -212,8 +215,12 @@ describe('active documentation traceability', () => {
     expect(campusServiceYardBackground).toContain('1080×1920');
     expect(abandonedLaundryBackground).toContain('BG_ABANDONED_LAUNDRY.webp');
     expect(abandonedLaundryBackground).toContain('1080×1920');
-    expect(currentAssetAudit).toContain('"productionBackgroundVariants": 10');
-    expect(currentAssetAudit).toContain('"runtimeFallbackBackgroundVariants": 14');
+    expect(highUsageBackgroundTrio).toContain('BG_TEXTILE_WORKSHOP.webp');
+    expect(highUsageBackgroundTrio).toContain('BG_COMBAT_CLUB_HALL.webp');
+    expect(highUsageBackgroundTrio).toContain('BG_OLD_ARCHIVE.webp');
+    expect(highUsageBackgroundTrio).toContain('1080×1920');
+    expect(currentAssetAudit).toContain('"productionBackgroundVariants": 13');
+    expect(currentAssetAudit).toContain('"runtimeFallbackBackgroundVariants": 11');
     expect(index).toContain('Historical Emi production provenance');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_R1_PROMPT.md');

@@ -38,8 +38,9 @@ describe('ANM-027G episodes 10–12 canonical production batch', () => {
     expect(levels.slice(10, 13).every((level) => level.objectives.length <= 3)).toBe(true);
   });
 
-  it('adopts the approved service-yard anchor while retaining unresolved location variants', () => {
-    expect(backgroundAssets.combatClubHall).toBe(backgroundAssets.lockerAthletics);
+  it('adopts the approved service-yard and high-usage combat-hall backgrounds while retaining unresolved variants', () => {
+    expect(backgroundAssets.combatClubHall).toBe('./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp');
+    expect(backgroundAssets.combatClubHall).not.toBe(backgroundAssets.lockerAthletics);
     expect(backgroundAssets.serviceYard).toBe('./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp');
     expect(backgroundAssets.serviceYard).not.toBe(backgroundAssets.clubroom);
     expect(backgroundAssets.asterionTransferPoint).toBe(backgroundAssets.norihiroApartment);

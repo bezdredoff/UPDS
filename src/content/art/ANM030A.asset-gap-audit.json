@@ -1,6 +1,6 @@
 {
   "format": "upds-asset-gap-audit-v1",
-  "feature": "ANM-030A+ANM-030B0B+ANM-030B1B1+ANM-030B1B2+ANM-030B1B3+ANM-030B1B4+ANM-030B1B5",
+  "feature": "ANM-030A+ANM-030B0B+ANM-030B1B1+ANM-030B1B2+ANM-030B1B3+ANM-030B1B4+ANM-030B1B5+ANM-030B1B6",
   "baseline": {
     "mainSha": "227d32ca7e0ab681cf20919ac36bbc9a2860eac1",
     "storyMacro": "src/content/story/ANM027F.full-story-macro.json",
@@ -25,8 +25,8 @@
     "backgroundFamilies": 8,
     "contractedBackgroundVariants": 26,
     "runtimeSemanticBackgroundVariants": 24,
-    "productionBackgroundVariants": 10,
-    "runtimeFallbackBackgroundVariants": 14,
+    "productionBackgroundVariants": 13,
+    "runtimeFallbackBackgroundVariants": 11,
     "contractOnlyUnusedBackgroundVariants": 2,
     "fullStageCharacters": 9,
     "productionReadyFullStageCharacters": 9,
@@ -119,6 +119,7 @@
         "macroStatus": "existing-master-family",
         "firstSlot": 0,
         "existingMacroAssets": [
+          "BG_COMBAT_CLUB_HALL",
           "BG_LOCKER_ATHLETICS_DAY"
         ],
         "variants": [
@@ -151,10 +152,9 @@
             "firstUseSlot": 10,
             "usedByCurrentStory": true,
             "runtimeKey": "combatClubHall",
-            "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           },
           {
@@ -218,7 +218,8 @@
         "firstSlot": 1,
         "existingMacroAssets": [
           "BG_KENTARO_APARTMENT_EVENING",
-          "BG_NORIHIRO_APARTMENT_NIGHT"
+          "BG_NORIHIRO_APARTMENT_NIGHT",
+          "BG_TEXTILE_WORKSHOP"
         ],
         "variants": [
           {
@@ -249,10 +250,9 @@
             "firstUseSlot": 6,
             "usedByCurrentStory": true,
             "runtimeKey": "textileWorkshop",
-            "runtimeAsset": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           }
         ],
@@ -423,7 +423,8 @@
         "macroStatus": "existing-master-family",
         "firstSlot": 15,
         "existingMacroAssets": [
-          "BG_ABANDONED_LAUNDRY"
+          "BG_ABANDONED_LAUNDRY",
+          "BG_OLD_ARCHIVE"
         ],
         "variants": [
           {
@@ -443,10 +444,9 @@
             "firstUseSlot": 17,
             "usedByCurrentStory": true,
             "runtimeKey": "oldArchive",
-            "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           },
           {
@@ -473,12 +473,15 @@
       "assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
       "assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
       "assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
       "assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
       "assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
       "assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
       "assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "assets/backgrounds/BG_OLD_ARCHIVE.webp",
       "assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
-      "assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp"
+      "assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "assets/backgrounds/BG_TEXTILE_WORKSHOP.webp"
     ]
   },
   "characters": [
@@ -1423,10 +1426,9 @@
           "family": "apartment-workshop",
           "variant": "textile-workshop",
           "runtimeKey": "textileWorkshop",
-          "runtimeAsset": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
           "auditStatus": [
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -1485,7 +1487,6 @@
         ]
       },
       "productionVisualGaps": [
-        "background:textile-workshop",
         "cast:hinata"
       ]
     },
@@ -1722,10 +1723,9 @@
           "family": "sports-locker",
           "variant": "combat-club-hall",
           "runtimeKey": "combatClubHall",
-          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
           "auditStatus": [
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -1791,7 +1791,6 @@
         ]
       },
       "productionVisualGaps": [
-        "background:combat-club-hall",
         "cast:aoi"
       ]
     },
@@ -1972,10 +1971,9 @@
           "family": "sports-locker",
           "variant": "combat-club-hall",
           "runtimeKey": "combatClubHall",
-          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
           "auditStatus": [
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -2041,7 +2039,6 @@
         ]
       },
       "productionVisualGaps": [
-        "background:combat-club-hall",
         "cast:kubo"
       ]
     },
@@ -2055,10 +2052,9 @@
           "family": "apartment-workshop",
           "variant": "textile-workshop",
           "runtimeKey": "textileWorkshop",
-          "runtimeAsset": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
           "auditStatus": [
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -2126,7 +2122,6 @@
         ]
       },
       "productionVisualGaps": [
-        "background:textile-workshop",
         "cast:kubo",
         "cast:kubo-mother"
       ]
@@ -2305,10 +2300,9 @@
           "family": "old-building-finale",
           "variant": "old-archive",
           "runtimeKey": "oldArchive",
-          "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
           "auditStatus": [
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         }
       ],
@@ -2367,7 +2361,6 @@
         ]
       },
       "productionVisualGaps": [
-        "background:old-archive",
         "hero-clue:rina-catalog"
       ]
     },
@@ -2381,10 +2374,9 @@
           "family": "old-building-finale",
           "variant": "old-archive",
           "runtimeKey": "oldArchive",
-          "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
           "auditStatus": [
-            "runtime-fallback",
-            "external-art-blocked"
+            "production"
           ]
         },
         {
@@ -2460,7 +2452,6 @@
         ]
       },
       "productionVisualGaps": [
-        "background:old-archive",
         "background:clubroom-night",
         "hero-clue:post-rina-active-tag"
       ]
@@ -2851,10 +2842,10 @@
       "id": "030B1-early-0-6",
       "scope": [
         "guest:hinata",
-        "background-variants:basketball-locker,textile-workshop",
+        "background-variants:basketball-locker",
         "hero-clue:conductive-seam"
       ],
-      "reason": "continue the remaining early-route guest, background variants and hero-clue art after the student-council auditorium production integration"
+      "reason": "continue the remaining early-route guest, basketball-locker variant and hero-clue art after the high-usage textile-workshop production integration"
     },
     {
       "id": "030B2-system-7-12",
@@ -2875,11 +2866,10 @@
         "guest:kubo",
         "guest:kubo-mother",
         "guest:vincent",
-        "background-variants:old-archive",
         "hero-clue:rina-catalog",
         "hero-clue:post-rina-active-tag"
       ],
-      "reason": "covers late common route and the controlled old-building archive sibling after the approved family anchor"
+      "reason": "covers the remaining late common-route guests and hero clues after the high-usage old-archive production integration"
     },
     {
       "id": "030B4-endings-19-21",

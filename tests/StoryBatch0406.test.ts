@@ -44,11 +44,12 @@ describe('ANM-027G episodes 4–6 canonical production batch', () => {
     expect(levels.slice(4, 7).every((level) => level.tutorialConcepts.every((concept) => concept === 'activate-special' || concept === 'combine-specials'))).toBe(true);
   });
 
-  it('adopts the approved auditorium while retaining unresolved early-route fallbacks', () => {
+  it('adopts the approved auditorium and high-usage textile workshop while retaining the basketball fallback', () => {
     expect(backgroundAssets.studentCouncilAuditorium).toBe('./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp');
     expect(backgroundAssets.studentCouncilAuditorium).not.toBe(backgroundAssets.clubroom);
     expect(backgroundAssets.basketballLocker).toBe(backgroundAssets.lockerAthletics);
-    expect(backgroundAssets.textileWorkshop).toBe(backgroundAssets.kentaroApartment);
+    expect(backgroundAssets.textileWorkshop).toBe('./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp');
+    expect(backgroundAssets.textileWorkshop).not.toBe(backgroundAssets.kentaroApartment);
   });
 
   it('adds two additive stable choice gates without changing the Story save schema', () => {

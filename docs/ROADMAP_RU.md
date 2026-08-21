@@ -66,6 +66,7 @@ Changing the release platform or market scope is a separate product decision, no
 - **ANM-030B1B3 [R0] — LOST-FOUND WAREHOUSE BACKGROUND COMPLETE**: the approved `1080×1920` golden master replaces the unrelated athletics-locker fallback in Story slot 8; background status is now `8/24` dedicated production variants and `16` runtime aliases.
 - **ANM-030B1B4 [R0] — CAMPUS SERVICE YARD BACKGROUND COMPLETE**: the approved `1080×1920` golden master replaces the unrelated clubroom fallback in Story slot 11; background status is now `9/24` dedicated production variants and `15` runtime aliases.
 - **ANM-030B1B5 [R0] — ABANDONED LAUNDRY BACKGROUND COMPLETE**: the approved `1080×1920` golden master replaces the unrelated pool-locker fallback in Story slot 15; all eight background families now have production masters, with `10/24` dedicated variants and `14` runtime aliases.
+- **ANM-030B1B6 [R0] — HIGH-USAGE BACKGROUND TRIO COMPLETE**: dedicated textile-workshop, multipurpose combat-club-hall and old-archive WebPs replace unrelated aliases across eleven common-route scene appearances; background status is now `13/24` dedicated variants and `11` runtime aliases.
 
 ## What is actually left for release
 
@@ -74,7 +75,7 @@ The detailed classification and acceptance outcomes are in [`RELEASE_BACKLOG_RU.
 ### R0 — release blockers
 
 1. **Production player surface** — remove/hide QA-labelled Scene Navigation, Level Lab, Scene Studio and Save Diagnostics from the normal player menu while preserving deterministic QA/automation access. Match-3 Campaign remains player-facing.
-2. **Background semantic closure** — all eight family masters now exist. Use visual QA to produce only the controlled sibling variants required to remove visibly wrong place/time fallbacks; the current fallback count is `14`. Do not turn the original `19 aliases` audit count into 19 mandatory illustrations.
+2. **Background semantic closure** — all eight family masters now exist, and the three highest-exposure fallbacks are closed. Further ChatGPT background production is paused pending a reproducible ComfyUI style workflow; the current fallback count is `11`. Do not turn the original `19 aliases` audit count into 19 mandatory illustrations.
 3. **Guest/witness closure** — six named guests must stop rendering asset-free initials placeholders in shipped scenes. Use the lean guest package or another explicitly approved final testimony presentation; do not promote them to seven-asset full-stage rigs by default.
 4. **Full human content QA** — Story common route + all three endings, all 22 production Match-3 levels, direct special combinations on phone, save/continue/retry/progression boundaries.
 5. **Final asset/runtime crawl** after production-art integration — zero broken shipped asset URLs/decode failures and no reliance on browser-local Scene Studio overrides.
@@ -159,12 +160,13 @@ Post-launch expansion only. It must not consume base-release capacity.
 ## Recommended immediate sequence
 
 1. **ANM-030B0H — Release Backlog Reset** — current planning/doc slice.
-2. **Release-critical visual production** — controlled Asterion/laundry/campus/old-building sibling variants where visual QA confirms a mismatch, plus final production presentation for six guests, in small reviewable art waves with iPhone preview.
-3. **Release surface closure** — normal build hides QA tools while Browser Gate retains deterministic QA entry.
-4. **Conditional visual cleanup** — only variants/extras that real visual QA flags; five Match-3 specials only if the current SVG presentation fails product quality.
-5. **ANM-033 — Release Candidate Hardening [P0 before release]** — full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, accessibility/performance sanity.
-6. Fix only defects found by those gates; build the RC.
-7. Hero inserts, landscape, extra locales, safe motion, song pipeline and DLC stay after base release until evidence changes priority.
+2. **Background pipeline transfer** — merge/QA the B1B6 high-usage trio, pause further ChatGPT background generation and prepare a reproducible ComfyUI workflow from the approved UPDS style references; do not add more runtime variants in that workflow slice.
+3. **Guest/witness closure** — finish production presentation for six named guests in small reviewable waves with iPhone preview.
+4. **Release surface closure** — normal build hides QA tools while Browser Gate retains deterministic QA entry.
+5. **Conditional visual cleanup** — only variants/extras that real visual QA flags; five Match-3 specials only if the current SVG presentation fails product quality.
+6. **ANM-033 — Release Candidate Hardening [P0 before release]** — full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, accessibility/performance sanity.
+7. Fix only defects found by those gates; build the RC.
+8. Hero inserts, landscape, extra locales, safe motion, song pipeline and DLC stay after base release until evidence changes priority.
 
 ## Backlog principle
 

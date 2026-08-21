@@ -29,13 +29,14 @@ describe('release backlog prioritization', () => {
     expect(menu).toContain('menu.saveDiagnostics');
     expect(backlog).toContain('normal player build не показывает QA navigation/tools');
 
-    expect(audit).toContain('"runtimeFallbackBackgroundVariants": 14');
+    expect(audit).toContain('"runtimeFallbackBackgroundVariants": 11');
     expect(audit).toContain('"productionGuestPackages": 0');
     expect(backlog).toContain('Все восемь background families имеют production master');
     expect(backlog).toContain('`lab-asterion` уже получил production master');
     expect(backlog).toContain('`laundry-service` уже получил production master');
     expect(backlog).toContain('`campus-exterior` уже получил production master');
     expect(backlog).toContain('`old-building-finale` уже получил production master');
+    expect(backlog).toContain('Дальнейшее производство background art через ChatGPT поставлено на паузу');
     expect(backlog).toContain('ни один shipped guest scene не показывает placeholder initials');
 
     expect(audit).toContain('"productionHeroClueCloseups": 0');

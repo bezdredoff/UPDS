@@ -34,9 +34,10 @@ describe('ANM-027G episodes 16–18 canonical production batch', () => {
     expect(levels.slice(16, 19).every((level) => level.objectives.length <= 3)).toBe(true);
   });
 
-  it('uses semantic location aliases and retains macro-owned hero-clue triggers', () => {
+  it('adopts the old-archive production sibling and retains the remaining aliases and hero-clue triggers', () => {
     expect(backgroundAssets.gymnasticsCostume).toBe(backgroundAssets.lockerAthletics);
-    expect(backgroundAssets.oldArchive).toBe(backgroundAssets.poolLocker);
+    expect(backgroundAssets.oldArchive).toBe('./assets/backgrounds/BG_OLD_ARCHIVE.webp');
+    expect(backgroundAssets.oldArchive).not.toBe(backgroundAssets.poolLocker);
     expect(backgroundAssets.clubroomNight).toBe(backgroundAssets.clubroom);
     expect(macro.slots[17].assetTriggers.heroClueCloseups).toContain('rina-catalog');
     expect(macro.slots[18].assetTriggers.heroClueCloseups).toContain('post-rina-active-tag');
