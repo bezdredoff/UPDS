@@ -64,21 +64,19 @@ Production character contract:
 - `staging.scale = 1` is the production default; CSS zoom cannot repair incorrect authored height;
 - explicit adult-character guardrail for every production/planned character.
 
-Current runtime-integrated production characters: Miku, Onoe, Ayuki, Emi. Runtime availability and
-manual visual approval are separate fields. Miku/Onoe/Ayuki are the current approved comparison
-set; the strict seven-asset Emi rig is `rebuild-required`. ANM-028D3A deliberately overlays approved
-D0–D3 expression files at runtime while legacy embarrassed/Pose B/medallion remain fallback.
+Current runtime-integrated and visually approved production characters: Miku, Onoe, Ayuki, Emi,
+Kentaro, Norihiro, Mayu, Rina and Kurose. Every one uses the strict canonical seven-asset rig;
+ANM-030B0B removes the temporary Emi D0–D3 runtime override and closes the full-stage placeholder lane.
 
 Pre-integration masters/expressions use `src/data/characterCandidates.ts` (`upds-character-candidate-v1`) and a
 `characters/<key>/candidates/<slice>/` asset path. Candidate metadata must declare `runtimeEligible: false`;
 it does not silently mutate into the strict seven-asset rig. Exact candidate alpha bounds and eye line drive
-preview guides. ANM-028D3A is an explicit transition path: an approved candidate file may be referenced by
-`src/data/characterRuntimeOverrides.ts` (`upds-character-runtime-override-v1`) while still remaining outside
-`RuntimeAssets` and the strict seven-asset rig. This is documented and reversible. Full-rig promotion still
-requires manual QA of the complete seven-asset family and a separate atomic production-integration change.
+preview guides. Historical candidate files remain outside `RuntimeAssets`; the ANM-028D3A built-in
+transition override is retired after full-rig promotion. `src/data/characterRuntimeOverrides.ts`
+continues to own browser-local Composition experiments without changing the canonical rig.
 
-Current planned/placeholders: Kentaro, Norihiro, Mayu, Rina, Kurose. Planned characters must not claim fake asset
-paths and require side-by-side lineup/proportion approval before promotion to production.
+Current planned full-stage placeholders: none. Future planned characters must not claim fake asset paths and
+require side-by-side lineup/proportion approval before promotion to production.
 
 The seven-asset manifest applies only to full-stage characters. Episode guests use the separate
 `src/data/guestWitnesses.ts` contract (`upds-guest-witness-production-v1`): neutral bust/half-body

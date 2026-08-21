@@ -105,12 +105,12 @@ export const authoredVnShotManifest: AuthoredVnShotManifest = {
     {
       lineId: 'VN0389', background: 'asterionLab', presetId: 'two-shot-alliance',
       actors: [{ character: 'onoe', expression: 'serious' }, { character: 'miku', expression: 'neutral' }],
-      note: 'Episode 7 technical comparison: Onoe leads while Kurose remains on the planned-character placeholder path on his own lines.',
+      note: 'Episode 7 technical comparison: Onoe leads; Kurose uses his production rig on his own lines.',
     },
     {
       lineId: 'VN0427', background: 'lostFoundWarehouse', presetId: 'trio-central-speaker',
       actors: [{ character: 'onoe', expression: 'serious' }, { character: 'miku', expression: 'neutral' }, { character: 'ayuki', expression: 'neutral' }],
-      note: 'Episode 8 core-trio analysis beat; Rina stays on the planned-character placeholder path until external art exists.',
+      note: 'Episode 8 core-trio analysis beat; Rina uses her production rig on her own lines.',
     },
     {
       lineId: 'VN0482', background: 'maintenanceRoom', presetId: 'two-shot-conflict',
@@ -121,7 +121,7 @@ export const authoredVnShotManifest: AuthoredVnShotManifest = {
     {
       lineId: 'VN0505', background: 'combatClubHall', presetId: 'trio-central-speaker',
       actors: [{ character: 'miku', expression: 'serious' }, { character: 'onoe', expression: 'neutral' }, { character: 'ayuki', expression: 'neutral' }],
-      note: 'Episode 10 control-sample task framing; Aoi remains on the B3 guest path and Kentaro uses his planned-stage placeholder on his own lines.',
+      note: 'Episode 10 control-sample task framing; Aoi remains on the B3 guest path and Kentaro uses his production rig on his own lines.',
     },
     {
       lineId: 'VN0535', background: 'serviceYard', presetId: 'trio-reaction',

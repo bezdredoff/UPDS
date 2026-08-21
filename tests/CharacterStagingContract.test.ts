@@ -3,12 +3,17 @@ import { readFile } from 'node:fs/promises';
 import { characterRigs, characterStaging, resolvedCharacterStaging, resolvedCharacterXPercent } from '../src/data/characterRigs';
 
 describe('ANM-021B R5 VN character staging contract', () => {
-  it('uses one canonical camera distance for the approved production trio', () => {
+  it('uses one canonical camera distance for the approved production cast', () => {
     expect(characterStaging).toEqual({
       miku: { scale: 1, yPercent: 0 },
       onoe: { scale: 1, yPercent: 0 },
       ayuki: { scale: 1, yPercent: 0 },
       emi: { scale: 1, yPercent: 0 },
+      kentaro: { scale: 1, yPercent: 0 },
+      norihiro: { scale: 1, yPercent: 0 },
+      mayu: { scale: 1, yPercent: 0 },
+      rina: { scale: 1, yPercent: 0 },
+      kurose: { scale: 1, yPercent: 0 },
     });
   });
 

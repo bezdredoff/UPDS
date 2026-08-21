@@ -92,22 +92,22 @@ The repository now contains the complete detailed authored screenplay for all 22
 - [`features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md`](features/ANM028D2_EMI_SERIOUS_CANDIDATE_RU.md) — serious expression from three bounded face ROIs with approved-reference/runtime comparison
 - [`features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md`](features/ANM028D3_EMI_SURPRISED_CANDIDATE_RU.md) — approved surprised expression from three bounded face ROIs
 - [`features/ANM028D3A_EMI_RUNTIME_ADOPTION_RU.md`](features/ANM028D3A_EMI_RUNTIME_ADOPTION_RU.md) — explicit hybrid runtime adoption of approved Emi D0–D3 frames while embarrassed/Pose B/medallion remain legacy fallback
+- [`features/ANM030B0B_FULL_CAST_INTEGRATION_RU.md`](features/ANM030B0B_FULL_CAST_INTEGRATION_RU.md) — approved nine-character full-stage integration, canonical geometry refresh and placeholder/Emi-transition closure
 - [`art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md`](art/prompts/ANM028D0_EMI_NEUTRAL_R1_PROMPT.md) — ChatGPT Work prompt and technical export provenance
 - [`art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md`](art/prompts/ANM028D1_EMI_SMILE_R1_PROMPT.md) — exact smile prompt and deterministic ROI provenance
 - [`art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md`](art/prompts/ANM028D2_EMI_SERIOUS_R1_PROMPT.md) — exact serious prompt and deterministic multi-ROI provenance
 - [`art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md`](art/prompts/ANM028D3_EMI_SURPRISED_R1_PROMPT.md) — exact surprised prompt and deterministic multi-ROI provenance
 
 Machine-readable sources of truth: `src/data/characterProduction.ts` for the strict seven-asset full-stage
-fallback package, `src/data/characterRuntimeOverrides.ts` for the explicit temporary Emi D0–D3 runtime adoption,
+package, `src/data/characterRuntimeOverrides.ts` for browser-local Composition calibration/experiments,
 `src/data/characterCandidates.ts` (`upds-character-candidate-v1`) for production provenance/manual-QA sources,
 `src/data/sceneStaging.ts` (`upds-scene-staging-v1`) for reusable composition coordinates,
 `src/data/authoredVnShots.ts` (`upds-authored-vn-shots-v1`) for bounded stable-line shot declarations,
 `src/data/guestWitnesses.ts` (`upds-guest-witness-production-v1`) plus `src/ui/guestWitnessMarkup.ts` for
 the separate episode-guest tier, and `src/data/sceneStudioCalibration.ts` (`upds-scene-studio-calibration-v1`) for viewport/background/lineup QA.
-`src/ui/vnPortraitGeometry.ts` owns runtime-top and multi-actor eye-line camera derivation. Technical integration
-and whole-rig visual approval remain separate: approved Emi neutral/smile/serious/surprised are playable through
-D3A overrides, while legacy embarrassed/Pose B/medallion remain fallback until replacement art is supplied.
-`src/content/art/ANM030A.asset-gap-audit.json` (`upds-asset-gap-audit-v1`) is the derived machine-readable production-gap matrix; it records current `production`, `runtime-fallback`, `planned-missing`, `reusable` and external-art-blocked status without replacing the authoritative runtime manifests above. R1.1 also records the five existing Match-3 special mechanics as one shared planned production-art pack: current generic SVG overlays stay playable fallback until dedicated bonus visuals are approved.
+`src/ui/vnPortraitGeometry.ts` owns runtime-top and multi-actor eye-line camera derivation. ANM-030B0B makes all
+nine current full-stage characters canonical and approved; historical Emi D0–D3 candidates remain provenance-only.
+`src/content/art/ANM030A.asset-gap-audit.json` (`upds-asset-gap-audit-v1`) is the derived machine-readable production-gap matrix; ANM-030B0B updates its cast status to 9/9 production-ready while preserving current guest/background/clue/Match-3 gaps. The five existing Match-3 special mechanics remain one shared planned production-art pack: current generic SVG overlays stay playable fallback until dedicated bonus visuals are approved.
 `src/content/art/ANM030B0A1.match3-special-visual-contract.json` (`upds-match3-special-visual-contract-v1`) freezes that pack before art production: exact five mechanic IDs, current SVG fallbacks, future 256×256 RGBA PNG targets, base-tile readability and the B0A1 → B0A2 integration boundary.
 
 ### Match-3 production and tooling

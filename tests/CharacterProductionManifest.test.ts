@@ -23,7 +23,6 @@ import {
   validateEmiSurprisedCandidate,
 } from '../src/data/characterCandidates';
 
-
 type AlphaBounds = Readonly<{ left: number; top: number; right: number; bottom: number }>;
 
 const paethPredictor = (a: number, b: number, c: number): number => {
@@ -144,20 +143,9 @@ describe('ANM-028A character production manifest', () => {
     }
   });
 
-  it('keeps planned characters asset-free and represented by placeholders', () => {
+  it('closes the planned full-stage lane after integrating the complete nine-character cast', () => {
+    expect(plannedCharacterKeys).toEqual([]);
     expect(Object.keys(placeholderCharacters).sort()).toEqual([...plannedCharacterKeys].sort());
-    for (const key of plannedCharacterKeys) {
-      const definition = characterProductionManifest.characters[key];
-      expect(definition.status).toBe('planned');
-      expect(definition.adultCharacter).toBe(true);
-      expect(definition.age).toBeGreaterThanOrEqual(18);
-      expect('assets' in definition).toBe(false);
-      expect(placeholderCharacters[key]).toEqual({
-        displayName: definition.shortName,
-        initials: definition.placeholder.initials,
-        accent: definition.placeholder.accent,
-      });
-    }
   });
 
   it('ships exactly seven valid production assets with production dimensions', async () => {
@@ -179,7 +167,6 @@ describe('ANM-028A character production manifest', () => {
     }
   });
 
-
   it('locks integrated master geometry and records visual approval separately from runtime availability', async () => {
     expect(characterProductionManifest.proportionContract).toEqual({
       measurement: 'neutral-alpha-bounds',
@@ -196,8 +183,23 @@ describe('ANM-028A character production manifest', () => {
       onoe: 1484,
       ayuki: 1462,
       emi: 1444,
+      kentaro: 1479,
+      norihiro: 1480,
+      mayu: 1479,
+      rina: 1480,
+      kurose: 1480,
     } as const;
-    const expectedEyeLine = { miku: 196, onoe: 158, ayuki: 242, emi: 397 } as const;
+    const expectedEyeLine = {
+      miku: 196,
+      onoe: 158,
+      ayuki: 242,
+      emi: 397,
+      kentaro: 182,
+      norihiro: 182,
+      mayu: 190,
+      rina: 200,
+      kurose: 180,
+    } as const;
 
     for (const key of productionCharacterKeys) {
       const definition = characterProductionManifest.characters[key];
@@ -222,14 +224,9 @@ describe('ANM-028A character production manifest', () => {
 
     expect(characterProductionManifest.characters.miku.proportion.visualHeightPx / reference).toBeCloseTo(0.9265, 3);
     expect(characterProductionManifest.characters.ayuki.proportion.visualHeightPx / reference).toBeCloseTo(0.9852, 3);
-    expect(characterProductionManifest.characters.emi.proportion.visualHeightPx / reference).toBeCloseTo(0.9730, 3);
-    expect(characterProductionManifest.characters.miku.visualApproval).toBe('approved');
-    expect(characterProductionManifest.characters.onoe.visualApproval).toBe('approved');
-    expect(characterProductionManifest.characters.ayuki.visualApproval).toBe('approved');
-    expect(characterProductionManifest.characters.emi.visualApproval).toBe('rebuild-required');
-
-    for (const key of plannedCharacterKeys) {
-      expect(characterProductionManifest.characters[key].proportionApproval).toBe('required-before-production');
+    expect(characterProductionManifest.characters.emi.proportion.visualHeightPx / reference).toBeCloseTo(0.973, 3);
+    for (const key of productionCharacterKeys) {
+      expect(characterProductionManifest.characters[key].visualApproval).toBe('approved');
     }
   });
 
@@ -323,9 +320,24 @@ describe('ANM-028A character production manifest', () => {
       onoe: 1484,
       ayuki: 1462,
       emi: 1444,
+      kentaro: 1479,
+      norihiro: 1480,
+      mayu: 1479,
+      rina: 1480,
+      kurose: 1480,
     });
-    expect(mirror.proportionContract.neutralEyeLineYPx).toEqual({ miku: 196, onoe: 158, ayuki: 242, emi: 397 });
-    expect(mirror.characters.emi.visualApproval).toBe('rebuild-required');
+    expect(mirror.proportionContract.neutralEyeLineYPx).toEqual({
+      miku: 196,
+      onoe: 158,
+      ayuki: 242,
+      emi: 397,
+      kentaro: 182,
+      norihiro: 182,
+      mayu: 190,
+      rina: 200,
+      kurose: 180,
+    });
+    expect(mirror.characters.emi.visualApproval).toBe('approved');
     expect(mirror.proportionContract.newCharacterApproval).toBe('lineup-required-before-production');
   });
 

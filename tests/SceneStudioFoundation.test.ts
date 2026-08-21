@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { AppShell } from '../src/app/AppShell';
 import { applyBrowserLocalCharacterCalibration, applyBrowserLocalCharacterOverrides, clearBrowserLocalCharacterOverrides } from '../src/data/characterRuntimeOverrides';
@@ -23,6 +24,7 @@ class FakeRoot {
 }
 
 const originalWindow = globalThis.window;
+const style = readFileSync(new URL('../src/style.css', import.meta.url), 'utf8');
 
 const createStudio = (root: FakeRoot): SceneStudioController => {
   const services = createRuntimeServices();
@@ -146,7 +148,7 @@ describe('ANM-028E0C1 Scene Studio workspace separation', () => {
     expect(root.innerHTML).toContain('data-character="miku"');
     expect(root.innerHTML).toContain('data-character="emi"');
     expect(root.innerHTML).toContain('data-art-source="runtime"');
-    expect(root.innerHTML).toContain('./assets/characters/emi/candidates/anm028d2/frame-serious-r1.png');
+    expect(root.innerHTML).toContain('./assets/characters/emi/rig/pose_a/frames/frame-serious.png');
     expect(root.innerHTML).toContain('data-visual-approval="approved"');
 
     studio.render({ workspaceMode: 'composition', presetId: 'evidence-cutaway', background: 'clubroom' });
@@ -167,7 +169,8 @@ describe('ANM-028E0C1 Scene Studio workspace separation', () => {
 
     studio.render({ workspaceMode: 'composition', viewMode: 'lineup', viewportId: '320x568', textScale: 'large' });
     expect(root.innerHTML).toContain('data-lineup-source="upds-character-production-v2"');
-    expect(root.innerHTML.match(/class="scene-studio-lineup-character"/g)).toHaveLength(4);
+    expect(root.innerHTML.match(/class="scene-studio-lineup-character"/g)).toHaveLength(9);
+    expect(style).toContain('grid-template-columns: repeat(9, minmax(0, 1fr));');
     expect(root.innerHTML).not.toContain('data-candidate="true"');
     expect(root.innerHTML).toContain('data-scene-viewport="320x568"');
     expect(root.innerHTML).toContain('text-large');

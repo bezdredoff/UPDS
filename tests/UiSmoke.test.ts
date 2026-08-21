@@ -70,7 +70,7 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).toContain('Настройки');
   });
 
-  it('renders a precomposed finished rig and every approved portrait placeholder', () => {
+  it('renders precomposed production rigs for the full-stage cast', () => {
     const { root, app } = create();
     const mikuLine = getScene(0).findIndex((line) => line.speaker.startsWith('МИКУ'));
     app.openScene(0, mikuLine);
@@ -89,17 +89,20 @@ describe('AnimeDetectiveApp render smoke', () => {
     expect(root.innerHTML).not.toContain('aria-label="Главное меню"');
     expect(root.innerHTML).not.toContain('id="config"');
 
-    const placeholderCases = [
-      { scene: 1, speaker: 'МАЮ', label: 'Маю', choice: 'C' as ChoiceId },
-      { scene: 3, speaker: 'КЭНТАРО', label: 'Кэнтаро', choice: 'A' as ChoiceId },
-      { scene: 5, speaker: 'НОРИХИРО', label: 'Норихиро', choice: 'A' as ChoiceId },
+    const productionCases = [
+      { scene: 1, speaker: 'МАЮ', label: 'Маю', character: 'mayu', choice: 'C' as ChoiceId },
+      { scene: 3, speaker: 'КЭНТАРО', label: 'Кэнтаро', character: 'kentaro', choice: 'A' as ChoiceId },
+      { scene: 5, speaker: 'НОРИХИРО', label: 'Норихиро', character: 'norihiro', choice: 'A' as ChoiceId },
     ];
-    for (const item of placeholderCases) {
+    for (const item of productionCases) {
       (app as unknown as { save: { choice: ChoiceId } }).save.choice = item.choice;
       const line = getScene(item.scene, item.choice).findIndex((entry) => entry.speaker === item.speaker);
       expect(line, item.speaker).toBeGreaterThanOrEqual(0);
       app.openScene(item.scene, line);
-      expect(root.innerHTML).toContain('PORTRAIT PLACEHOLDER');
+      expect(root.innerHTML).toContain('character-rig');
+      expect(root.innerHTML).toContain(`data-character="${item.character}"`);
+      expect(root.innerHTML).toContain(`./assets/characters/${item.character}/rig/pose_a/frames/`);
+      expect(root.innerHTML).not.toContain('PORTRAIT PLACEHOLDER');
       expect(root.innerHTML).toContain(item.label);
     }
   });

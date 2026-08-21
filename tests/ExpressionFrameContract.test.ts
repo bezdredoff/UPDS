@@ -1,13 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { readFile } from 'node:fs/promises';
 import { characterRigs } from '../src/data/characterRigs';
+import { productionCharacterKeys } from '../src/data/characterProduction';
 import { runtimeAssetCatalog } from '../src/platform/RuntimeAssets';
-
-const production = ['miku', 'onoe', 'ayuki', 'emi'] as const;
 
 describe('ANM-021B R4 expression frame contract', () => {
   it('uses five precomposed expression frames per production character', () => {
-    for (const key of production) {
+    for (const key of productionCharacterKeys) {
       const frames = characterRigs[key].frames;
       expect(Object.keys(frames).sort()).toEqual(['embarrassed','neutral','serious','smile','surprised'].sort());
       expect(new Set(Object.values(frames)).size).toBe(5);

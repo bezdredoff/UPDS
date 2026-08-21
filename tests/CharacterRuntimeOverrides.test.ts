@@ -17,19 +17,19 @@ afterEach(() => {
   clearBrowserLocalCharacterOverrides();
 });
 
-describe('ANM-028D3A Emi approved-frame runtime adoption', () => {
-  it('adopts only the four approved Pose A expressions and keeps embarrassed on the legacy rig', () => {
+describe('character runtime override and browser-local calibration', () => {
+  it('uses the canonical production rig when no temporary or browser-local override exists', () => {
     expect(CHARACTER_RUNTIME_OVERRIDE_FORMAT).toBe('upds-character-runtime-override-v1');
     expect(validateCharacterRuntimeFrameOverrides()).toEqual([]);
 
-    expect(expressionAsset('emi', 'neutral')).toBe('./assets/characters/emi/candidates/anm028d0/neutral-r1.png');
-    expect(expressionAsset('emi', 'smile')).toBe('./assets/characters/emi/candidates/anm028d1/frame-smile-r1.png');
-    expect(expressionAsset('emi', 'serious')).toBe('./assets/characters/emi/candidates/anm028d2/frame-serious-r1.png');
-    expect(expressionAsset('emi', 'surprised')).toBe('./assets/characters/emi/candidates/anm028d3/frame-surprised-r1.png');
+    expect(expressionAsset('emi', 'neutral')).toBe(characterRigs.emi.frames.neutral);
+    expect(expressionAsset('emi', 'smile')).toBe(characterRigs.emi.frames.smile);
+    expect(expressionAsset('emi', 'serious')).toBe(characterRigs.emi.frames.serious);
+    expect(expressionAsset('emi', 'surprised')).toBe(characterRigs.emi.frames.surprised);
     expect(expressionAsset('emi', 'embarrassed')).toBe(characterRigs.emi.frames.embarrassed);
+    expect(runtimeFrameOverride('emi', 'neutral')).toBeNull();
     expect(runtimeFrameOverride('emi', 'embarrassed')).toBeNull();
   });
-
 
   it('lets browser-local overrides shadow runtime frame, pose B and medallion assets without touching the approved base contract', () => {
     applyBrowserLocalCharacterOverrides({
@@ -55,10 +55,9 @@ describe('ANM-028D3A Emi approved-frame runtime adoption', () => {
     expect(runtimeFrameOverride('miku', 'smile')?.geometry.alphaBounds).toEqual({ left: 310, top: 48, right: 700, bottom: 1496 });
     expect(poseAsset('miku')).toBe('blob:miku-pose-b');
     expect(medallionAsset('miku')).toBe('blob:miku-medallion');
-    expect(expressionAsset('emi', 'serious')).toBe('./assets/characters/emi/candidates/anm028d2/frame-serious-r1.png');
+    expect(expressionAsset('emi', 'serious')).toBe(characterRigs.emi.frames.serious);
     expect(poseAsset('onoe')).toBe(characterRigs.onoe.poseB);
   });
-
 
   it('applies character defaults plus slot-aware calibration, including X/Y/scale, and exports the v3 snapshot', () => {
     applyBrowserLocalCharacterOverrides({
@@ -137,15 +136,15 @@ describe('ANM-028D3A Emi approved-frame runtime adoption', () => {
     expect(snapshot.characters.miku?.assets.poseB).toBe('./assets/characters/miku/poses/pose_b_pointing_sketchbook.png');
   });
 
-  it('uses approved frame geometry in shared multi-actor staging', () => {
+  it('uses canonical production frame geometry in shared multi-actor staging', () => {
     const resolution = resolveSceneStagingPreset('two-shot-conflict', [
       { character: 'miku', expression: 'serious' },
       { character: 'emi', expression: 'serious' },
     ]);
     const emi = resolution.actors.find((actor) => actor.character === 'emi');
     expect(emi).toBeDefined();
-    expect(emi?.frameAlphaBounds).toEqual({ left: 330, top: 80, right: 737, bottom: 1508 });
-    expect(emi?.eyeLineYPx).toBe(244);
+    expect(emi?.frameAlphaBounds).toEqual({ left: 172, top: 92, right: 851, bottom: 1536 });
+    expect(emi?.eyeLineYPx).toBe(397);
     expect(emi?.visualApproval).toBe('approved');
     expect(emi?.resolvedEyeLinePercent).toBe(55);
   });

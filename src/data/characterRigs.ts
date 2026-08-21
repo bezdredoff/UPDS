@@ -1,6 +1,5 @@
 import {
   characterProductionManifest,
-  plannedCharacterKeys,
   productionCharacterKeys,
   type CharacterStaging,
   type PlannedCharacterKey,
@@ -42,16 +41,7 @@ export const characterRigs = Object.fromEntries(
   }),
 ) as Record<CharacterKey, CharacterRig>;
 
-export const placeholderCharacters = Object.fromEntries(
-  plannedCharacterKeys.map((key) => {
-    const definition = characterProductionManifest.characters[key];
-    return [key, {
-      displayName: definition.shortName,
-      initials: definition.placeholder.initials,
-      accent: definition.placeholder.accent,
-    }];
-  }),
-) as Record<PlaceholderKey, Readonly<{
+export const placeholderCharacters = Object.freeze({}) as Record<PlaceholderKey, Readonly<{
   displayName: string;
   initials: string;
   accent: string;
@@ -69,11 +59,7 @@ export function characterForSpeaker(speaker: string): CharacterKey | null {
   return null;
 }
 
-export function placeholderForSpeaker(speaker: string): PlaceholderKey | null {
-  for (const key of plannedCharacterKeys) {
-    const definition = characterProductionManifest.characters[key];
-    if (speakerMatches(speaker, definition.speakerToken, definition.speakerMatch)) return key;
-  }
+export function placeholderForSpeaker(_speaker: string): PlaceholderKey | null {
   return null;
 }
 

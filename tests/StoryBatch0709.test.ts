@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import batchManifestJson from '../src/content/story/ANM027G.episodes-07-09.story.json';
 import macroJson from '../src/content/story/ANM027F.full-story-macro.json';
-import { characterProductionManifest, plannedCharacterKeys } from '../src/data/characterProduction';
-import { placeholderForSpeaker } from '../src/data/characterRigs';
+import { characterProductionManifest, productionCharacterKeys } from '../src/data/characterProduction';
+import { characterForSpeaker, placeholderForSpeaker } from '../src/data/characterRigs';
 import { guestWitnessForSpeaker, guestWitnessManifest } from '../src/data/guestWitnesses';
 import { backgroundAssets } from '../src/data/narrative';
 import { levels } from '../src/data/levels';
@@ -46,15 +46,15 @@ describe('ANM-027G episodes 7–9 canonical production batch', () => {
     expect(backgroundAssets.maintenanceRoom).toBe(backgroundAssets.lockerAthletics);
   });
 
-  it('adds Rina and Kurose as asset-free planned stage characters while Gen stays in the guest tier', () => {
-    expect(plannedCharacterKeys).toContain('rina');
-    expect(plannedCharacterKeys).toContain('kurose');
-    expect(characterProductionManifest.characters.rina.status).toBe('planned');
-    expect(characterProductionManifest.characters.kurose.status).toBe('planned');
-    expect('assets' in characterProductionManifest.characters.rina).toBe(false);
-    expect('assets' in characterProductionManifest.characters.kurose).toBe(false);
-    expect(placeholderForSpeaker('РИНА')).toBe('rina');
-    expect(placeholderForSpeaker('КУРОСЭ')).toBe('kurose');
+  it('routes Rina and Kurose through production rigs while Gen stays in the guest tier', () => {
+    expect(productionCharacterKeys).toContain('rina');
+    expect(productionCharacterKeys).toContain('kurose');
+    expect(characterProductionManifest.characters.rina.status).toBe('production');
+    expect(characterProductionManifest.characters.kurose.status).toBe('production');
+    expect(characterForSpeaker('РИНА')).toBe('rina');
+    expect(characterForSpeaker('КУРОСЭ')).toBe('kurose');
+    expect(placeholderForSpeaker('РИНА')).toBeNull();
+    expect(placeholderForSpeaker('КУРОСЭ')).toBeNull();
     expect(guestWitnessForSpeaker('ГЭН')).toBe('gen');
     expect(guestWitnessManifest.guests.gen.status).toBe('planned');
     expect(guestWitnessManifest.guests.gen.assets).toBeNull();

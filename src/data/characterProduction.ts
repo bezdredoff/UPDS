@@ -3,12 +3,23 @@ export const CHARACTER_PRODUCTION_FORMAT = 'upds-character-production-v2' as con
 export const runtimeExpressionOrder = ['neutral', 'smile', 'serious', 'surprised', 'embarrassed'] as const;
 export type RuntimeExpression = typeof runtimeExpressionOrder[number];
 
-export const productionCharacterKeys = ['miku', 'onoe', 'ayuki', 'emi'] as const;
+export const productionCharacterKeys = [
+  'miku',
+  'onoe',
+  'ayuki',
+  'emi',
+  'kentaro',
+  'norihiro',
+  'mayu',
+  'rina',
+  'kurose',
+] as const;
 export type ProductionCharacterKey = typeof productionCharacterKeys[number];
 
-export const plannedCharacterKeys = ['kentaro', 'norihiro', 'mayu', 'rina', 'kurose'] as const;
-export type PlannedCharacterKey = typeof plannedCharacterKeys[number];
-export type CharacterProductionKey = ProductionCharacterKey | PlannedCharacterKey;
+/** Compatibility export for callers that still expose the former placeholder lane. */
+export const plannedCharacterKeys = [] as const;
+export type PlannedCharacterKey = never;
+export type CharacterProductionKey = ProductionCharacterKey;
 
 export type CharacterStaging = Readonly<{
   scale: number;
@@ -55,21 +66,6 @@ export type ProductionCharacterDefinition = Readonly<{
   assets: CharacterProductionAssets;
 }>;
 
-export type PlannedCharacterDefinition = Readonly<{
-  status: 'planned';
-  displayName: string;
-  shortName: string;
-  adultCharacter: true;
-  age: number;
-  speakerToken: string;
-  speakerMatch: 'exact';
-  placeholder: Readonly<{ initials: string; accent: string }>;
-  authoredEmotionCoverage: readonly RuntimeExpression[];
-  plannedPoseBFile: string;
-  productionPriority: 'high' | 'medium';
-  proportionApproval: 'required-before-production';
-}>;
-
 export type CharacterProductionManifest = Readonly<{
   format: typeof CHARACTER_PRODUCTION_FORMAT;
   frameCanvas: Readonly<{ width: 1024; height: 1536 }>;
@@ -92,8 +88,7 @@ export type CharacterProductionManifest = Readonly<{
     blink: 'deferred';
     speaking: 'deferred';
   }>;
-  characters: Readonly<Record<ProductionCharacterKey, ProductionCharacterDefinition>> &
-    Readonly<Record<PlannedCharacterKey, PlannedCharacterDefinition>>;
+  characters: Readonly<Record<ProductionCharacterKey, ProductionCharacterDefinition>>;
 }>;
 
 const frames = (key: ProductionCharacterKey): Readonly<Record<RuntimeExpression, string>> => {
@@ -194,7 +189,7 @@ export const characterProductionManifest: CharacterProductionManifest = {
       'pose_b_arms_crossed.png', 'portrait_neutral_512.png',
       { left: 194, top: 92, right: 829, bottom: 1536 },
       397,
-      'rebuild-required',
+      'approved',
       {
         smile: { left: 180, top: 92, right: 852, bottom: 1536 },
         serious: { left: 172, top: 92, right: 851, bottom: 1536 },
@@ -202,76 +197,36 @@ export const characterProductionManifest: CharacterProductionManifest = {
         embarrassed: { left: 193, top: 93, right: 830, bottom: 1536 },
       },
     ),
-    kentaro: {
-      status: 'planned',
-      displayName: 'Кэнтаро Фудзита',
-      shortName: 'Кэнтаро',
-      adultCharacter: true,
-      age: 20,
-      speakerToken: 'КЭНТАРО',
-      speakerMatch: 'exact',
-      placeholder: { initials: 'К', accent: '#6588b0' },
-      authoredEmotionCoverage: ['neutral', 'serious', 'embarrassed', 'smile', 'surprised'],
-      plannedPoseBFile: 'pose_b_camera_explaining.png',
-      productionPriority: 'high',
-      proportionApproval: 'required-before-production',
-    },
-    norihiro: {
-      status: 'planned',
-      displayName: 'Норихиро Сэнда',
-      shortName: 'Норихиро',
-      adultCharacter: true,
-      age: 21,
-      speakerToken: 'НОРИХИРО',
-      speakerMatch: 'exact',
-      placeholder: { initials: 'Н', accent: '#4a9a8b' },
-      authoredEmotionCoverage: ['neutral', 'serious', 'smile', 'surprised'],
-      plannedPoseBFile: 'pose_b_tablet_keys.png',
-      productionPriority: 'high',
-      proportionApproval: 'required-before-production',
-    },
-    mayu: {
-      status: 'planned',
-      displayName: 'Маю Хаясака',
-      shortName: 'Маю',
-      adultCharacter: true,
-      age: 22,
-      speakerToken: 'МАЮ',
-      speakerMatch: 'exact',
-      placeholder: { initials: 'М', accent: '#a970a5' },
-      authoredEmotionCoverage: ['neutral', 'serious'],
-      plannedPoseBFile: 'pose_b_phone_documents.png',
-      productionPriority: 'medium',
-      proportionApproval: 'required-before-production',
-    },
-    rina: {
-      status: 'planned',
-      displayName: 'Рина Сираиси',
-      shortName: 'Рина',
-      adultCharacter: true,
-      age: 20,
-      speakerToken: 'РИНА',
-      speakerMatch: 'exact',
-      placeholder: { initials: 'Р', accent: '#667a86' },
-      authoredEmotionCoverage: ['neutral', 'serious', 'surprised'],
-      plannedPoseBFile: 'pose_b_ledger_package.png',
-      productionPriority: 'high',
-      proportionApproval: 'required-before-production',
-    },
-    kurose: {
-      status: 'planned',
-      displayName: 'Рэйдзи Куросэ',
-      shortName: 'Куросэ',
-      adultCharacter: true,
-      age: 34,
-      speakerToken: 'КУРОСЭ',
-      speakerMatch: 'exact',
-      placeholder: { initials: 'РК', accent: '#536a78' },
-      authoredEmotionCoverage: ['neutral', 'serious', 'smile', 'surprised'],
-      plannedPoseBFile: 'pose_b_lab_tablet.png',
-      productionPriority: 'high',
-      proportionApproval: 'required-before-production',
-    },
+    kentaro: production(
+      'kentaro', 'Кэнтаро Фудзита', 'Кэнтаро', 'КЭНТАРО', 'exact',
+      'pose_b_camera_explaining.png', 'portrait_neutral_256.png',
+      { left: 217, top: 29, right: 807, bottom: 1508 },
+      182,
+    ),
+    norihiro: production(
+      'norihiro', 'Норихиро Сэнда', 'Норихиро', 'НОРИХИРО', 'exact',
+      'pose_b_tablet_keys.png', 'portrait_neutral_256.png',
+      { left: 221, top: 28, right: 803, bottom: 1508 },
+      182,
+    ),
+    mayu: production(
+      'mayu', 'Маю Хаясака', 'Маю', 'МАЮ', 'exact',
+      'pose_b_phone_documents.png', 'portrait_neutral_256.png',
+      { left: 268, top: 29, right: 756, bottom: 1508 },
+      190,
+    ),
+    rina: production(
+      'rina', 'Рина Сираиси', 'Рина', 'РИНА', 'exact',
+      'pose_b_ledger_package.png', 'portrait_neutral_256.png',
+      { left: 259, top: 28, right: 765, bottom: 1508 },
+      200,
+    ),
+    kurose: production(
+      'kurose', 'Рэйдзи Куросэ', 'Куросэ', 'КУРОСЭ', 'exact',
+      'pose_b_lab_tablet.png', 'portrait_neutral_256.png',
+      { left: 279, top: 28, right: 745, bottom: 1508 },
+      180,
+    ),
   },
 };
 
@@ -294,102 +249,86 @@ export function validateCharacterProductionManifest(
     issues.push({ code: 'runtime-expression', detail: 'runtime expression set/order differs from the production contract' });
   }
 
-  for (const key of [...productionCharacterKeys, ...plannedCharacterKeys]) {
+  for (const key of productionCharacterKeys) {
     const definition = manifest.characters[key];
     if (definition.adultCharacter !== true) {
       issues.push({ code: 'adult-guardrail', character: key, detail: `${key} must be explicitly adult` });
     }
 
-    if (definition.status === 'production') {
-      const frameNames = Object.keys(definition.assets.frames).sort();
-      if (frameNames.join('|') !== [...runtimeExpressionOrder].sort().join('|')) {
-        issues.push({ code: 'asset-set', character: key, detail: `${key} does not provide the five required expression frames` });
+    const frameNames = Object.keys(definition.assets.frames).sort();
+    if (frameNames.join('|') !== [...runtimeExpressionOrder].sort().join('|')) {
+      issues.push({ code: 'asset-set', character: key, detail: `${key} does not provide the five required expression frames` });
+    }
+    const assets = [...Object.values(definition.assets.frames), definition.assets.poseB, definition.assets.medallion];
+    if (assets.length !== 7 || new Set(assets).size !== 7) {
+      issues.push({ code: 'asset-set', character: key, detail: `${key} must provide seven distinct runtime assets` });
+    }
+    const expectedRoot = `./assets/characters/${key}/`;
+    for (const asset of assets) {
+      if (!asset.startsWith(expectedRoot)) {
+        issues.push({ code: 'asset-path', character: key, detail: `${asset} must remain under ${expectedRoot}` });
       }
-      const assets = [...Object.values(definition.assets.frames), definition.assets.poseB, definition.assets.medallion];
-      if (assets.length !== 7 || new Set(assets).size !== 7) {
-        issues.push({ code: 'asset-set', character: key, detail: `${key} must provide seven distinct runtime assets` });
-      }
-      const expectedRoot = `./assets/characters/${key}/`;
-      for (const asset of assets) {
-        if (!asset.startsWith(expectedRoot)) {
-          issues.push({ code: 'asset-path', character: key, detail: `${asset} must remain under ${expectedRoot}` });
-        }
-      }
-      if (!Number.isFinite(definition.staging.scale) || definition.staging.scale <= 0 ||
-          !Number.isFinite(definition.staging.yPercent)) {
-        issues.push({ code: 'staging', character: key, detail: `${key} staging values must be finite and scale must be positive` });
-      }
-      if (definition.staging.scale !== manifest.proportionContract.productionScaleDefault) {
-        issues.push({
-          code: 'proportion',
-          character: key,
-          detail: `${key} production height must be authored in the master canvas instead of compensated with runtime scale`,
-        });
-      }
-      const bounds = definition.proportion.neutralAlphaBounds;
-      const boundsAreValid = (candidate: CharacterAlphaBounds): boolean =>
-        Number.isInteger(candidate.left) && Number.isInteger(candidate.top) &&
-        Number.isInteger(candidate.right) && Number.isInteger(candidate.bottom) &&
-        candidate.left >= 0 && candidate.top >= 0 &&
-        candidate.right <= manifest.frameCanvas.width && candidate.bottom <= manifest.frameCanvas.height &&
-        candidate.right > candidate.left && candidate.bottom > candidate.top;
-      const validBounds =
-        Number.isInteger(bounds.left) && Number.isInteger(bounds.top) &&
-        Number.isInteger(bounds.right) && Number.isInteger(bounds.bottom) &&
-        bounds.left >= 0 && bounds.top >= 0 &&
-        bounds.right <= manifest.frameCanvas.width && bounds.bottom <= manifest.frameCanvas.height &&
-        bounds.right > bounds.left && bounds.bottom > bounds.top;
-      if (!validBounds || definition.proportion.visualHeightPx !== bounds.bottom - bounds.top) {
-        issues.push({
-          code: 'proportion',
-          character: key,
-          detail: `${key} neutral alpha bounds/visual height are invalid for the shared master canvas`,
-        });
-      }
-      const neutralGeometry = definition.proportion.frameGeometry.neutral;
-      if (neutralGeometry.alphaBounds.left !== bounds.left || neutralGeometry.alphaBounds.top !== bounds.top ||
-          neutralGeometry.alphaBounds.right !== bounds.right || neutralGeometry.alphaBounds.bottom !== bounds.bottom ||
-          neutralGeometry.eyeLineYPx !== definition.proportion.neutralEyeLineYPx) {
+    }
+    if (!Number.isFinite(definition.staging.scale) || definition.staging.scale <= 0 ||
+        !Number.isFinite(definition.staging.yPercent)) {
+      issues.push({ code: 'staging', character: key, detail: `${key} staging values must be finite and scale must be positive` });
+    }
+    if (definition.staging.scale !== manifest.proportionContract.productionScaleDefault) {
+      issues.push({
+        code: 'proportion',
+        character: key,
+        detail: `${key} production height must be authored in the master canvas instead of compensated with runtime scale`,
+      });
+    }
+    const bounds = definition.proportion.neutralAlphaBounds;
+    const boundsAreValid = (candidate: CharacterAlphaBounds): boolean =>
+      Number.isInteger(candidate.left) && Number.isInteger(candidate.top) &&
+      Number.isInteger(candidate.right) && Number.isInteger(candidate.bottom) &&
+      candidate.left >= 0 && candidate.top >= 0 &&
+      candidate.right <= manifest.frameCanvas.width && candidate.bottom <= manifest.frameCanvas.height &&
+      candidate.right > candidate.left && candidate.bottom > candidate.top;
+    const validBounds =
+      Number.isInteger(bounds.left) && Number.isInteger(bounds.top) &&
+      Number.isInteger(bounds.right) && Number.isInteger(bounds.bottom) &&
+      bounds.left >= 0 && bounds.top >= 0 &&
+      bounds.right <= manifest.frameCanvas.width && bounds.bottom <= manifest.frameCanvas.height &&
+      bounds.right > bounds.left && bounds.bottom > bounds.top;
+    if (!validBounds || definition.proportion.visualHeightPx !== bounds.bottom - bounds.top) {
+      issues.push({
+        code: 'proportion',
+        character: key,
+        detail: `${key} neutral alpha bounds/visual height are invalid for the shared master canvas`,
+      });
+    }
+    const neutralGeometry = definition.proportion.frameGeometry.neutral;
+    if (neutralGeometry.alphaBounds.left !== bounds.left || neutralGeometry.alphaBounds.top !== bounds.top ||
+        neutralGeometry.alphaBounds.right !== bounds.right || neutralGeometry.alphaBounds.bottom !== bounds.bottom ||
+        neutralGeometry.eyeLineYPx !== definition.proportion.neutralEyeLineYPx) {
+      issues.push({
+        code: 'portrait-landmark',
+        character: key,
+        detail: `${key} neutral frame geometry must mirror the canonical neutral proportion fields`,
+      });
+    }
+    for (const expression of runtimeExpressionOrder) {
+      const geometry = definition.proportion.frameGeometry[expression];
+      if (!geometry) {
         issues.push({
           code: 'portrait-landmark',
           character: key,
-          detail: `${key} neutral frame geometry must mirror the canonical neutral proportion fields`,
+          detail: `${key}:${expression} is missing selected-frame guide geometry`,
         });
+        continue;
       }
-      for (const expression of runtimeExpressionOrder) {
-        const geometry = definition.proportion.frameGeometry[expression];
-        if (!geometry) {
-          issues.push({
-            code: 'portrait-landmark',
-            character: key,
-            detail: `${key}:${expression} is missing selected-frame guide geometry`,
-          });
-          continue;
-        }
-        const eyeLine = geometry.eyeLineYPx;
-        const frameBounds = geometry.alphaBounds;
-        if (!boundsAreValid(frameBounds) || !Number.isInteger(eyeLine) ||
-            eyeLine <= frameBounds.top || eyeLine >= frameBounds.bottom ||
-            eyeLine > frameBounds.top + (frameBounds.bottom - frameBounds.top) * 0.35) {
-          issues.push({
-            code: 'portrait-landmark',
-            character: key,
-            detail: `${key}:${expression} alpha bounds and eye-line must describe the selected runtime frame`,
-          });
-        }
-      }
-    } else {
-      if (definition.age < 18) {
-        issues.push({ code: 'adult-guardrail', character: key, detail: `${key} planned age must be 18+` });
-      }
-      if ('assets' in definition) {
-        issues.push({ code: 'planned-assets', character: key, detail: `${key} is planned and must not claim production assets` });
-      }
-      if (definition.proportionApproval !== 'required-before-production') {
+      const eyeLine = geometry.eyeLineYPx;
+      const frameBounds = geometry.alphaBounds;
+      if (!boundsAreValid(frameBounds) || !Number.isInteger(eyeLine) ||
+          eyeLine <= frameBounds.top || eyeLine >= frameBounds.bottom ||
+          eyeLine > frameBounds.top + (frameBounds.bottom - frameBounds.top) * 0.35) {
         issues.push({
-          code: 'proportion',
+          code: 'portrait-landmark',
           character: key,
-          detail: `${key} must require lineup proportion approval before production promotion`,
+          detail: `${key}:${expression} alpha bounds and eye-line must describe the selected runtime frame`,
         });
       }
     }

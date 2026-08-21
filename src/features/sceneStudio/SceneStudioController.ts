@@ -922,7 +922,7 @@ export class SceneStudioController {
   }
 
   private lineupEntries(): readonly Readonly<{
-    character: 'miku' | 'onoe' | 'ayuki' | 'emi';
+    character: ProductionCharacterKey;
     visualHeightPx: number;
     heightVsReference: number;
     bottomPaddingPx: number;

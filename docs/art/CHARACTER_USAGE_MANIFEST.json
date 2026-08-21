@@ -5,15 +5,14 @@
     "miku",
     "onoe",
     "ayuki",
-    "emi"
-  ],
-  "plannedCharacters": [
+    "emi",
     "kentaro",
     "norihiro",
     "mayu",
     "rina",
     "kurose"
   ],
+  "plannedCharacters": [],
   "runtimeContract": {
     "productionStatusMeaning": "runtime-integrated",
     "visualApprovalValues": [
@@ -50,118 +49,73 @@
       "status": "production",
       "adultCharacter": true,
       "visualApproval": "approved",
-      "neutralEyeLineYPx": 196
+      "neutralEyeLineYPx": 196,
+      "poseBFile": "pose_b_pointing_sketchbook.png",
+      "medallionFile": "portrait_neutral_256.png"
     },
     "onoe": {
       "status": "production",
       "adultCharacter": true,
       "visualApproval": "approved",
-      "neutralEyeLineYPx": 158
+      "neutralEyeLineYPx": 158,
+      "poseBFile": "pose_b_evidence_bag.png",
+      "medallionFile": "portrait_neutral_256.png"
     },
     "ayuki": {
       "status": "production",
       "adultCharacter": true,
       "visualApproval": "approved",
-      "neutralEyeLineYPx": 242
+      "neutralEyeLineYPx": 242,
+      "poseBFile": "pose_b_phone_theory.png",
+      "medallionFile": "portrait_neutral_256.png"
     },
     "emi": {
       "status": "production",
       "adultCharacter": true,
-      "visualApproval": "rebuild-required",
+      "visualApproval": "approved",
       "neutralEyeLineYPx": 397,
-      "age": 19,
       "poseBFile": "pose_b_arms_crossed.png",
       "medallionFile": "portrait_neutral_512.png"
     },
     "kentaro": {
-      "status": "planned",
+      "status": "production",
       "adultCharacter": true,
-      "age": 20,
-      "storyScenes": [
-        "VN_SCENE_03_E1_PRE",
-        "VN_SCENE_04_E1_POST"
-      ],
-      "authoredEmotionCoverage": [
-        "neutral",
-        "serious",
-        "embarrassed",
-        "smile",
-        "surprised"
-      ],
-      "plannedPoseBFile": "pose_b_camera_explaining.png",
-      "priority": "high",
-      "proportionApproval": "required-before-production"
+      "visualApproval": "approved",
+      "neutralEyeLineYPx": 182,
+      "poseBFile": "pose_b_camera_explaining.png",
+      "medallionFile": "portrait_neutral_256.png"
     },
     "norihiro": {
-      "status": "planned",
+      "status": "production",
       "adultCharacter": true,
-      "age": 21,
-      "storyScenes": [
-        "VN_SCENE_05_E2_PRE",
-        "VN_SCENE_06_E2_POST",
-        "VN_SCENE_07_E3_PRE",
-        "VN_SCENE_08_E3_POST"
-      ],
-      "authoredEmotionCoverage": [
-        "neutral",
-        "serious",
-        "smile",
-        "surprised"
-      ],
-      "plannedPoseBFile": "pose_b_tablet_keys.png",
-      "priority": "high",
-      "proportionApproval": "required-before-production"
+      "visualApproval": "approved",
+      "neutralEyeLineYPx": 182,
+      "poseBFile": "pose_b_tablet_keys.png",
+      "medallionFile": "portrait_neutral_256.png"
     },
     "mayu": {
-      "status": "planned",
+      "status": "production",
       "adultCharacter": true,
-      "age": 22,
-      "storyScenes": [
-        "VN_SCENE_01_E0_PRE"
-      ],
-      "branchConstraint": "CHOICE_00 variant C in the current vertical slice",
-      "authoredEmotionCoverage": [
-        "neutral",
-        "serious"
-      ],
-      "plannedPoseBFile": "pose_b_phone_documents.png",
-      "priority": "medium",
-      "proportionApproval": "required-before-production"
+      "visualApproval": "approved",
+      "neutralEyeLineYPx": 190,
+      "poseBFile": "pose_b_phone_documents.png",
+      "medallionFile": "portrait_neutral_256.png"
     },
     "rina": {
-      "status": "planned",
+      "status": "production",
       "adultCharacter": true,
-      "age": 20,
-      "storyScenes": [
-        "VN_SCENE_17_E8_PRE",
-        "VN_SCENE_18_E8_POST"
-      ],
-      "authoredEmotionCoverage": [
-        "neutral",
-        "serious",
-        "surprised"
-      ],
-      "plannedPoseBFile": "pose_b_ledger_package.png",
-      "priority": "high",
-      "proportionApproval": "required-before-production"
+      "visualApproval": "approved",
+      "neutralEyeLineYPx": 200,
+      "poseBFile": "pose_b_ledger_package.png",
+      "medallionFile": "portrait_neutral_256.png"
     },
     "kurose": {
-      "status": "planned",
+      "status": "production",
       "adultCharacter": true,
-      "age": 34,
-      "storyScenes": [
-        "VN_SCENE_15_E7_PRE",
-        "VN_SCENE_16_E7_POST"
-      ],
-      "authoredEmotionCoverage": [
-        "neutral",
-        "serious",
-        "smile",
-        "surprised"
-      ],
-      "plannedPoseBFile": "pose_b_lab_tablet.png",
-      "priority": "high",
-      "proportionApproval": "required-before-production"
+      "visualApproval": "approved",
+      "neutralEyeLineYPx": 180,
+      "poseBFile": "pose_b_lab_tablet.png",
+      "medallionFile": "portrait_neutral_256.png"
     }
   },
   "proportionContract": {
@@ -174,19 +128,34 @@
       "miku": 1375,
       "onoe": 1484,
       "ayuki": 1462,
-      "emi": 1444
+      "emi": 1444,
+      "kentaro": 1479,
+      "norihiro": 1480,
+      "mayu": 1479,
+      "rina": 1480,
+      "kurose": 1480
     },
     "neutralEyeLineYPx": {
       "miku": 196,
       "onoe": 158,
       "ayuki": 242,
-      "emi": 397
+      "emi": 397,
+      "kentaro": 182,
+      "norihiro": 182,
+      "mayu": 190,
+      "rina": 200,
+      "kurose": 180
     },
     "relativeToOnoe": {
       "miku": 0.9265,
       "onoe": 1.0,
       "ayuki": 0.9852,
-      "emi": 0.973
+      "emi": 0.973,
+      "kentaro": 0.9966,
+      "norihiro": 0.9973,
+      "mayu": 0.9966,
+      "rina": 0.9973,
+      "kurose": 0.9973
     },
     "newCharacterApproval": "lineup-required-before-production"
   }

@@ -6,8 +6,6 @@ import {
   poseAsset,
   expressionAsset,
   expressionForDirection,
-  placeholderCharacters,
-  placeholderForSpeaker,
   type CharacterKey,
   type RuntimeExpression,
 } from '../../data/characterRigs';
@@ -79,27 +77,26 @@ const characterStageMarkup = (
     </div>`;
 };
 
-const placeholderStageMarkup = (key: keyof typeof placeholderCharacters, side: VnStageSide): string => {
-  const character = placeholderCharacters[key];
-  return `<div class="portrait-placeholder portrait-placeholder-${side}" style="--placeholder-accent:${character.accent}">
-      <span>${character.initials}</span>
-      <b>${character.displayName}</b>
-      <small>PORTRAIT PLACEHOLDER</small>
-    </div>`;
-};
-
 const clueToastMarkup = (clueId: ClueId, dossierUpdatedLabel: string): string => {
   const level = levels.find((candidate) => candidate.clueId === clueId)!;
   const clue = cluePresentation[clueId];
   return `<div class="clue-toast"><img src="${clue.asset}" alt=""><span><small>${escapeHtml(dossierUpdatedLabel)}</small><b>${escapeHtml(level.clueTitle)}</b></span></div>`;
 };
 
-export const usesVnPoseB = (character: CharacterKey, direction: string): boolean => {
-  const value = direction.toLocaleUpperCase('ru-RU');
-  if (character === 'miku') return /С БЛОКНОТОМ|УКАЗЫВАЕТ НА/.test(value);
-  if (character === 'onoe') return /КРУЖЕВНЫМ ПАКЕТОМ|БЕР[ЕЁ]Т ПИНЦЕТ/.test(value);
-  return /С ТЕЛЕФОНОМ|ПОКАЗЫВАЕТ ТЕЛЕФОН|С ДОСКОЙ НА ТЕЛЕФОНЕ/.test(value);
+const poseBDirectionPatterns: Readonly<Record<CharacterKey, RegExp>> = {
+  miku: /С БЛОКНОТОМ|УКАЗЫВАЕТ НА|ПОКАЗЫВАЕТ ЭСКИЗ|РИСУЕТ/,
+  onoe: /КРУЖЕВНЫМ ПАКЕТОМ|ПАКЕТОМ-УЛИКОЙ|БЕР[ЕЁ]Т ПИНЦЕТ/,
+  ayuki: /С ТЕЛЕФОНОМ|БЕР[ЕЁ]ТСЯ ЗА ТЕЛЕФОН|ПОКАЗЫВАЕТ ТЕЛЕФОН|С ДОСКОЙ НА ТЕЛЕФОНЕ/,
+  emi: /СКРЕЩИВАЕТ РУКИ|СО СКРЕЩ[ЕЁ]ННЫМИ РУКАМИ/,
+  kentaro: /С КАМЕРОЙ|ПОКАЗЫВАЕТ КАМЕРУ|ПЫТАЕТСЯ ОБЪЯСНИТЬ/,
+  norihiro: /С ПЛАНШЕТОМ|ПОКАЗЫВАЕТ КЛЮЧИ|С КЛЮЧАМИ/,
+  mayu: /С ДОГОВОРОМ|ЛИСТАЕТ ДОГОВОР|С ПАПКОЙ|С ДОКУМЕНТАМИ|ФИНАНСОВЫЙ ПАКЕТ|С ПЛАНШЕТОМ/,
+  rina: /ПОКАЗЫВАЕТ МАРШРУТ|ПОКАЗЫВАЕТ ПРЕФИКС|С ЖУРНАЛОМ|С КАТАЛОГОМ|СМОТРИТ НА ПАКЕТЫ/,
+  kurose: /С ПЛАНШЕТОМ|ПОКАЗЫВАЕТ ПЛАНШЕТ|ЛАБОРАТОРНЫЙ ПЛАНШЕТ/,
 };
+
+export const usesVnPoseB = (character: CharacterKey, direction: string): boolean =>
+  poseBDirectionPatterns[character].test(direction.toLocaleUpperCase('ru-RU'));
 
 export function resolveVnStagePresentation(input: Readonly<{
   story: readonly StoryLine[];
@@ -116,8 +113,7 @@ export function resolveVnStagePresentation(input: Readonly<{
   const background = authoredShot?.shot.background
     ?? getBackgroundForLine(input.sceneIndex, input.lineIndex, input.story);
   const character = direction ? null : characterForSpeaker(input.entry.speaker);
-  const placeholder = direction ? null : placeholderForSpeaker(input.entry.speaker);
-  const guestWitness = direction || authoredShot || character || placeholder
+  const guestWitness = direction || authoredShot || character
     ? null
     : guestWitnessForSpeaker(input.entry.speaker);
   const expression = expressionForDirection(input.entry.emotion);
@@ -127,7 +123,6 @@ export function resolveVnStagePresentation(input: Readonly<{
     !authoredShot && character
       ? characterStageMarkup(character, expression, input.entry.emotion, staging?.side ?? 'center')
       : '',
-    !authoredShot && placeholder ? placeholderStageMarkup(placeholder, staging?.side ?? 'center') : '',
     guestWitness
       ? guestWitnessStageMarkup(guestWitness, input.entry.emotion, input.localizedEmotion)
       : '',
