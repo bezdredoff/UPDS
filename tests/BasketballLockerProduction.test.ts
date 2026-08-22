@@ -1,9 +1,11 @@
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { backgroundAssets, sceneMeta } from '../src/data/narrative';
 
 const assetPath = resolve(process.cwd(), 'public/assets/backgrounds/BG_BASKETBALL_LOCKER.webp');
+const approvedSha256 = 'ac591b43778570fb46a3a9282538154b4199825bfacf5dacea6d66b48668e149';
 
 function readWebpDimensions(buffer: Buffer): readonly [number, number] {
   expect(buffer.subarray(0, 4).toString('ascii')).toBe('RIFF');
@@ -45,10 +47,10 @@ describe('ANM-030B1B7 basketball locker production background', () => {
     expect(sceneMeta.find((scene) => scene.id === 'VN_SCENE_12_E5_POST')?.defaultBackground).toBe('basketballLocker');
   });
 
-  it('ships a decodable-looking 1080x1920 portrait WebP', () => {
+  it('ships the exact approved 1080x1920 portrait WebP', () => {
     expect(existsSync(assetPath)).toBe(true);
     const asset = readFileSync(assetPath);
-    expect(asset.length).toBeGreaterThan(50_000);
     expect(readWebpDimensions(asset)).toEqual([1080, 1920]);
+    expect(createHash('sha256').update(asset).digest('hex')).toBe(approvedSha256);
   });
 });
