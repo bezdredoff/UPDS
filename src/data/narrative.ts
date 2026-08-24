@@ -177,7 +177,8 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   poolLocker: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
   norihiroApartment: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
   studentCouncilAuditorium: './assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp',
-  basketballLocker: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
+  // ANM-030B1B7 adopts the dedicated production background already imported by #201.
+  basketballLocker: './assets/backgrounds/BG_BASKETBALL_LOCKER.webp',
   // ANM-030B1B6 adopts the high-usage textile-workshop production variant.
   textileWorkshop: './assets/backgrounds/BG_TEXTILE_WORKSHOP.webp',
   // ANM-030B1B2/B1B3 adopt the Asterion lab and lost-found warehouse production masters.
