@@ -36,10 +36,12 @@ describe('GitHub/phone pipeline contract', () => {
     expect(workflow).toContain("- 'incoming/*.zip'");
     expect(workflow).toContain('Validate candidate in read-only sandbox');
     expect(workflow).toContain('Detect candidate archive mode');
+    expect(workflow).toContain('"upds-delta-v1", "upds-delta-v2"');
     expect(workflow).toContain("steps.archive-mode.outputs.mode == 'full'");
     expect(workflow).toContain('python3 baseline/scripts/validate-upload-zip.py');
     expect(workflow).toContain("steps.archive-mode.outputs.mode == 'delta'");
     expect(workflow).toContain('python3 baseline/scripts/apply-delta-zip.py');
+    expect(workflow).toContain('"$(realpath baseline)"');
     expect(workflow).toContain('npm run check');
     expect(workflow).toContain('Create candidate branch and pull request');
     expect(workflow).toContain('Create or reuse candidate branch');
@@ -57,6 +59,16 @@ describe('GitHub/phone pipeline contract', () => {
     expect(workflow).toContain('Reset binary inbox branch');
   });
 
+  it('pins candidate branch creation to the exact main commit used for validation', () => {
+    const workflow = read('.github/workflows/import-zip.yml');
+    expect(workflow).toContain('validated_main_sha: ${{ steps.baseline-meta.outputs.validated_main_sha }}');
+    expect(workflow).toContain('fetch-depth: 0');
+    expect(workflow).toContain('Pin validated main commit');
+    expect(workflow).toContain('Check out the exact main commit used for candidate validation');
+    expect(workflow).toContain('ref: ${{ needs.validate-candidate.outputs.validated_main_sha }}');
+    expect(workflow).toContain('Candidate validation baseline:');
+  });
+
   it('cleans rejected mobile ZIPs while preserving the failed import result and avoiding a zero-ZIP follow-up run', () => {
     const workflow = read('.github/workflows/import-zip.yml');
     expect(workflow).toContain('always() &&');
@@ -67,5 +79,4 @@ describe('GitHub/phone pipeline contract', () => {
     expect(workflow).toContain('git push --force origin "$reset_commit:incoming"');
     expect(workflow).not.toContain('git push --force origin HEAD:incoming');
   });
-
 });
