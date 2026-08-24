@@ -33,7 +33,10 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(css).toContain('--safe-area-left: env(safe-area-inset-left, 0px)');
     expect(css).toContain('--physical-viewport-height: 100dvh');
     expect(css).toContain(":root[data-upds-display-mode='standalone']");
-    expect(css).toContain('--physical-viewport-height: 100lvh');
+    expect(css).toContain(
+      '--physical-viewport-height: calc(100dvh + var(--safe-area-top))',
+    );
+    expect(css).not.toContain('--physical-viewport-height: 100lvh');
     expect(css).toContain('--game-viewport-max-width: 430px');
     expect(css).toContain('--game-viewport-max-height: 932px');
     expect(css).toContain('position: fixed');

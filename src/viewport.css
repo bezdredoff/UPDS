@@ -9,7 +9,7 @@
 }
 
 :root[data-upds-display-mode='standalone'] {
-  --physical-viewport-height: 100lvh;
+  --physical-viewport-height: calc(100dvh + var(--safe-area-top));
 }
 
 /*
@@ -19,9 +19,9 @@
  * consumes the --safe-area-* tokens directly; no screen-specific env(...) reads
  * or duplicated safe-area overrides should live outside this layer.
  *
- * iOS standalone can report a layout viewport shorter than the physical canvas.
- * The installed-mode token therefore uses the large viewport height while normal
- * browser tabs retain the dynamic viewport contract.
+ * With a translucent iOS status bar, standalone WebKit can start the page at the
+ * physical top while still excluding the top safe inset from 100dvh. The installed
+ * shell adds that inset back; normal browser tabs retain the dynamic viewport.
  */
 .viewport-shell {
   position: fixed;

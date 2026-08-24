@@ -1,6 +1,6 @@
 # ANM-030B1B9 — iOS safe-area repair
 
-Status: **R3 candidate; requires GitHub CI and installed-iPhone preview QA**.
+Status: **R4 candidate; requires GitHub CI and installed-iPhone preview QA**.
 
 ## Problem
 
@@ -18,12 +18,19 @@ R2 did not fix the remaining bottom strip on an installed iPhone. Its E2E compar
 `window.innerHeight`, so the test accepted the same shortened standalone layout viewport that
 caused the real gap. Safari and Chrome tabs visually masked that area with their own browser UI.
 
-## R3 runtime contract
+R3 still left the strip on the real device. `100lvh` and `100dvh` resolve to the same shortened
+standalone viewport there, while the translucent status bar places the page origin at the physical
+top. The missing bottom span matches the top safe-area inset. The R3 E2E hid this mistake by
+overriding `--physical-viewport-height` with the expected answer instead of exercising production CSS.
+
+## R4 runtime contract
 
 - PWA bootstrap publishes the detected display mode as `data-upds-display-mode` on `<html>`.
 - Normal browser tabs keep `--physical-viewport-height: 100dvh`.
-- Installed standalone mode uses `--physical-viewport-height: 100lvh` so the fixed shell reaches the
-  physical canvas bottom even when iOS reports a shorter dynamic/layout viewport.
+- Installed standalone mode uses
+  `--physical-viewport-height: calc(100dvh + var(--safe-area-top))`. This adds back the top inset
+  excluded from the standalone viewport while the translucent status bar keeps the page at physical
+  `top: 0`.
 - `.viewport-shell` is pinned to the physical top and horizontal edges and receives the explicit
   physical height token; it no longer derives its bottom from `inset: 0`.
 - On phone widths `.phone` and every active player screen continue to fill the shell with
@@ -36,10 +43,10 @@ in `src/viewport.css`.
 
 ## Regression protection
 
-- Vitest locks the `100dvh` browser default, the `100lvh` standalone override and the runtime
-  display-mode marker.
-- Mobile WebKit E2E injects representative `47px` top and `34px` bottom insets and emulates a
-  standalone physical canvas extending `59px` below `window.innerHeight`.
+- Vitest locks the `100dvh` browser default, the standalone `100dvh + safe-area-top` formula and the
+  runtime display-mode marker; the rejected `100lvh` formula is forbidden.
+- Mobile WebKit E2E injects representative `59px` top and `34px` bottom insets. It does not override
+  the physical-height token, so production CSS itself must extend the shell by the top inset.
 - The E2E checks the bottom edge of `.viewport-shell`, `.phone` and the active screen on the main
   menu, Settings and Match-3 Campaign. A body-background strip can no longer pass by matching only
   the shortened `window.innerHeight`.
