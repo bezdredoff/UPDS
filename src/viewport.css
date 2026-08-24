@@ -15,9 +15,10 @@
  * or duplicated safe-area overrides should live outside this layer.
  */
 .viewport-shell {
-  position: relative;
-  width: 100vw;
-  height: 100dvh;
+  position: fixed;
+  inset: 0;
+  width: auto;
+  height: auto;
   min-width: 0;
   min-height: 0;
   display: grid;

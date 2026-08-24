@@ -33,7 +33,9 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(css).toContain('--safe-area-left: env(safe-area-inset-left, 0px)');
     expect(css).toContain('--game-viewport-max-width: 430px');
     expect(css).toContain('--game-viewport-max-height: 932px');
-    expect(css).toContain('height: 100dvh');
+    expect(css).toContain('position: fixed');
+    expect(css).toContain('inset: 0');
+    expect(css).not.toContain('height: 100dvh');
     expect(css).not.toContain('padding: var(--safe-area');
   });
 
