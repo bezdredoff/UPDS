@@ -18,10 +18,23 @@ const shapedLevel = (): LevelDefinition => ({
 });
 
 describe('ANM-026B2 board shape and deterministic start layout', () => {
-  it('keeps production levels on the legacy full-board contract', () => {
-    expect(levels.every((level) => level.boardHoles === undefined)).toBe(true);
-    expect(levels.every((level) => level.initialTiles === undefined)).toBe(true);
+  it('keeps production topology adoption bounded to the approved E4B cohort', () => {
+    const adopted = new Set(['M3_00', 'M3_02', 'M3_04', 'M3_06']);
+    const legacy = levels.filter((level) => !adopted.has(level.shortId));
+
     expect(validateLevelDefinitions(levels)).toEqual([]);
+    expect(legacy).toHaveLength(18);
+    expect(legacy.every((level) => level.boardHoles === undefined)).toBe(true);
+    expect(legacy.every((level) => level.initialTiles === undefined)).toBe(true);
+
+    expect(levels[0].shortId).toBe('M3_00');
+    expect(levels[0].boardHoles).toBeUndefined();
+    expect(levels[0].initialTiles?.length).toBeGreaterThan(0);
+    for (const shortId of ['M3_02', 'M3_04', 'M3_06']) {
+      const level = levels.find((candidate) => candidate.shortId === shortId);
+      expect(level?.boardHoles?.length).toBeGreaterThan(0);
+      expect(level?.initialTiles).toBeUndefined();
+    }
   });
 
   it('keeps holes empty, preserves fixed start tiles and rejects swaps into holes', () => {

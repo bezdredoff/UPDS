@@ -35,6 +35,8 @@ describe('ANM-025E2 objective-aware Match-3 guidance', () => {
       objectives: [{ kind: 'collect', tile: 'pantiesLacePink', target: 40, label: 'Розовые' }],
       blockers: [],
       ingredients: [],
+      boardHoles: undefined,
+      initialTiles: undefined,
     };
     const game = new Match3Game(collectOnly, 477);
 
@@ -56,6 +58,8 @@ describe('ANM-025E2 objective-aware Match-3 guidance', () => {
       objectives: [{ kind: 'drop', ingredient: 'receipt', target: 1, label: 'Квитанция' }],
       blockers: [],
       ingredients: [{ index: 3, kind: 'receipt' }],
+      boardHoles: undefined,
+      initialTiles: undefined,
     };
     const game = new Match3Game(dropOnly, 13);
     const before = ingredientIndex(game, 'receipt');
