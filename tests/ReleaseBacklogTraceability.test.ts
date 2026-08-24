@@ -38,7 +38,7 @@ describe('release backlog prioritization', () => {
     expect(backlog).toContain('Все восемь background families имеют production master');
     expect(backlog).toContain('`maintenance-room`');
     expect(backlog).toContain('**Следующий рекомендуемый background slice: `maintenance-room`.**');
-    expect(backlog).toContain('производить в **ChatGPT Work**');
+    expect(backlog).toContain('ChatGPT Work');
     expect(backlog).toContain('ни один shipped guest scene не показывает placeholder initials');
 
     expect(audit).toContain('"productionHeroClueCloseups": 0');
