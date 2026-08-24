@@ -31,6 +31,7 @@ jobs:
     outputs:
       archive_name: ${{ steps.meta.outputs.archive_name }}
       candidate_slug: ${{ steps.meta.outputs.candidate_slug }}
+      validated_main_sha: ${{ steps.baseline-meta.outputs.validated_main_sha }}
     steps:
       - name: Check out uploaded archive branch
         uses: actions/checkout@v6
@@ -41,7 +42,16 @@ jobs:
         with:
           ref: main
           path: baseline
+          fetch-depth: 0
           persist-credentials: false
+      - name: Pin validated main commit
+        id: baseline-meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          validated_main_sha="$(git -C baseline rev-parse HEAD)"
+          echo "validated_main_sha=$validated_main_sha" >> "$GITHUB_OUTPUT"
+          echo "Candidate validation baseline: $validated_main_sha"
       - name: Resolve uploaded ZIP
         id: meta
         shell: bash
@@ -87,9 +97,10 @@ jobs:
               except Exception as exc:
                   raise SystemExit(f"Invalid patch-manifest.json: {exc}")
               else:
-                  if manifest.get("format") != "upds-delta-v1":
+                  format_name = manifest.get("format")
+                  if format_name not in ("upds-delta-v1", "upds-delta-v2"):
                       raise SystemExit(
-                          "patch-manifest.json exists but format is not upds-delta-v1"
+                          "patch-manifest.json exists but format is not a supported upds-delta version"
                       )
                   print("delta")
           PY
@@ -114,11 +125,12 @@ jobs:
           rm -rf "$RUNNER_TEMP/candidate"
           mkdir -p "$RUNNER_TEMP/candidate"
           rsync -a --delete --exclude='.git/' baseline/ "$RUNNER_TEMP/candidate/"
-          current_main_sha="$(git -C baseline rev-parse HEAD)"
+          current_main_sha="${{ steps.baseline-meta.outputs.validated_main_sha }}"
           python3 baseline/scripts/apply-delta-zip.py \
             "$RUNNER_TEMP/candidate.zip" \
             "$current_main_sha" \
-            "$RUNNER_TEMP/candidate"
+            "$RUNNER_TEMP/candidate" \
+            "$(realpath baseline)"
 
       - name: Reject pipeline self-modification from mobile ZIP
         shell: bash
@@ -200,10 +212,11 @@ jobs:
       pr_url: ${{ steps.pr.outputs.pr_url }}
       branch: ${{ steps.branch.outputs.branch }}
     steps:
-      - name: Check out main without executing candidate code
+      - name: Check out the exact main commit used for candidate validation
         uses: actions/checkout@v6
         with:
-          ref: main
+          ref: ${{ needs.validate-candidate.outputs.validated_main_sha }}
+          fetch-depth: 0
       - name: Download validated source artifact
         uses: actions/download-artifact@v4
         with:
@@ -230,7 +243,7 @@ jobs:
           git switch -c "$branch"
           git add -A
           if git diff --cached --quiet; then
-            echo "Candidate is identical to main; refusing to create an empty PR." >&2
+            echo "Candidate is identical to validated main; refusing to create an empty PR." >&2
             exit 1
           fi
           git commit -m "Import ${{ needs.validate-candidate.outputs.archive_name }}"
@@ -255,6 +268,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           BRANCH: ${{ steps.branch.outputs.branch }}
           ARCHIVE: ${{ needs.validate-candidate.outputs.archive_name }}
+          VALIDATED_MAIN_SHA: ${{ needs.validate-candidate.outputs.validated_main_sha }}
         shell: bash
         run: |
           set -euo pipefail
@@ -269,11 +283,18 @@ jobs:
               exit 1
             fi
 
+            body="$(printf '%s\n\n%s\n%s\n%s\n%s\n%s' \
+              'Mobile ZIP candidate imported by GitHub Actions.' \
+              "- Candidate validation baseline: \`$VALIDATED_MAIN_SHA\`." \
+              '- The archive passed `npm run check` in a read-only job before this branch was created.' \
+              '- Independent PR CI must still be explicitly approved and pass before merge.' \
+              '- Test the GitHub Pages preview linked by the import workflow before merging.' \
+              '- Do not merge if the changed-file list contains unexpected canon, VN IDs, save key, art-direction, or rig-contract changes.')"
             pr_url="$(gh pr create \
               --base main \
               --head "$BRANCH" \
               --title "Candidate import: $ARCHIVE" \
-              --body $'Mobile ZIP candidate imported by GitHub Actions.\n\n- The archive passed `npm run check` in a read-only job before this branch was created.\n- Independent PR CI must still be explicitly approved and pass before merge.\n- Test the GitHub Pages preview linked by the import workflow before merging.\n- Do not merge if the changed-file list contains unexpected canon, VN IDs, save key, art-direction, or rig-contract changes.' )"
+              --body "$body" )"
           fi
 
           pr_number="${pr_url##*/}"
