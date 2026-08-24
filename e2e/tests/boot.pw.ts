@@ -19,3 +19,64 @@ test('boots the production build into the player menu without QA tools', async (
   await expect(page.locator(qaSelectors.supportButton)).toHaveCount(0);
   health.assertClean();
 });
+
+test(
+  'keeps iPhone panels below the status area and every player screen full-bleed',
+  async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'webkit-mobile', 'iOS/WebKit safe-area regression');
+    const health = observeBrowserHealth(page);
+    await page.goto('./');
+    await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
+
+    await page.evaluate(() => {
+      document.documentElement.style.setProperty('--safe-area-top', '47px');
+      document.documentElement.style.setProperty('--safe-area-bottom', '34px');
+    });
+
+    const expectFullBleedShell = async (): Promise<void> => {
+      const geometry = await page.evaluate(() => {
+        const rect = (selector: string) => {
+          const node = document.querySelector<HTMLElement>(selector);
+          if (!node) throw new Error(`Missing safe-area geometry node: ${selector}`);
+          return node.getBoundingClientRect();
+        };
+        const shell = rect('.viewport-shell');
+        const phone = rect('.phone');
+        return {
+          innerHeight: window.innerHeight,
+          shell: { top: shell.top, bottom: shell.bottom },
+          phone: { top: phone.top, bottom: phone.bottom },
+        };
+      });
+
+      expect(geometry.shell.top).toBeCloseTo(0, 1);
+      expect(geometry.phone.top).toBeCloseTo(0, 1);
+      expect(geometry.shell.bottom).toBeCloseTo(geometry.innerHeight, 1);
+      expect(geometry.phone.bottom).toBeCloseTo(geometry.innerHeight, 1);
+    };
+
+    await expectFullBleedShell();
+    await page.locator(qaSelectors.settingsButton).click();
+    const settings = page.locator(qaSelectors.settingsScreen);
+    await expect(settings).toBeVisible();
+    await settings.evaluate((node) => {
+      node.scrollTop = node.scrollHeight;
+    });
+
+    const panelHeader = settings.locator('.panel-nav');
+    const panelAction = panelHeader.locator('.app-header-action').first();
+    await expect
+      .poll(async () => (await panelHeader.boundingBox())?.y ?? -1)
+      .toBeGreaterThanOrEqual(0);
+    await expect
+      .poll(async () => (await panelAction.boundingBox())?.y ?? -1)
+      .toBeGreaterThanOrEqual(46);
+    await expectFullBleedShell();
+
+    await page.locator(qaSelectors.settingsBack).click();
+    await page.locator(qaSelectors.match3CampaignButton).click();
+    await expect(page.locator(qaSelectors.match3CampaignScreen)).toBeVisible();
+    await expectFullBleedShell();
+    health.assertClean();
+  },
+);

@@ -52,6 +52,23 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(badge).toContain('right: calc(var(--safe-area-right) + 6px)');
   });
 
+  it('keeps scrolling panel headers below the top inset and the mobile shell full-bleed', () => {
+    const legacy = read('src/style.css');
+    const viewport = read('src/viewport.css');
+
+    expect(legacy).toContain(
+      '.panel { height: 100%; padding: 0 20px max(30px, var(--safe-area-bottom))',
+    );
+    expect(legacy).toContain(
+      '.phone { width: 100%; height: 100%; max-height: none; box-shadow: none; }',
+    );
+    expect(legacy).toContain('top: 0;');
+    expect(legacy).toContain('margin: 0 -20px 14px;');
+    expect(legacy).not.toContain('top: calc(-1 * max(20px, var(--safe-area-top)))');
+    expect(viewport).toContain('position: fixed');
+    expect(viewport).toContain('inset: 0');
+  });
+
   it('loads shared token discovery after presentation and preview badge CSS', () => {
     const main = read('src/main.ts');
     const legacy = main.indexOf("import './style.css';");
