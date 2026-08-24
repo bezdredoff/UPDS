@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { backgroundAssets } from '../src/data/narrative';
 
 const read = (path: string): string => readFileSync(resolve(process.cwd(), path), 'utf8');
 
@@ -27,16 +28,17 @@ describe('release backlog prioritization', () => {
     expect(menu).toContain('menu.levelLab');
     expect(menu).toContain('menu.sceneStudio');
     expect(menu).toContain('menu.saveDiagnostics');
-    expect(backlog).toContain('normal player build не показывает QA navigation/tools');
+    expect(backlog).toContain('normal player URL больше не показывает');
+    expect(backlog).toContain('`?qa=1`');
 
-    expect(audit).toContain('"runtimeFallbackBackgroundVariants": 11');
+    expect(backgroundAssets.basketballLocker).toBe('./assets/backgrounds/BG_BASKETBALL_LOCKER.webp');
+    expect(backgroundAssets.basketballLocker).not.toBe(backgroundAssets.lockerAthletics);
     expect(audit).toContain('"productionGuestPackages": 0');
+    expect(backlog).toContain('**`14/24` dedicated production variants и `10` runtime aliases**');
     expect(backlog).toContain('Все восемь background families имеют production master');
-    expect(backlog).toContain('`lab-asterion` уже получил production master');
-    expect(backlog).toContain('`laundry-service` уже получил production master');
-    expect(backlog).toContain('`campus-exterior` уже получил production master');
-    expect(backlog).toContain('`old-building-finale` уже получил production master');
-    expect(backlog).toContain('Дальнейшее производство background art через ChatGPT поставлено на паузу');
+    expect(backlog).toContain('`maintenance-room`');
+    expect(backlog).toContain('**Следующий рекомендуемый background slice: `maintenance-room`.**');
+    expect(backlog).toContain('ChatGPT Work');
     expect(backlog).toContain('ни один shipped guest scene не показывает placeholder initials');
 
     expect(audit).toContain('"productionHeroClueCloseups": 0');
