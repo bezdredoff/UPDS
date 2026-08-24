@@ -57,8 +57,14 @@ describe('ANM-025F3 Match-3 reaction presentation and anti-spam', () => {
     expect(controller.indexOf('this.armReactionPresentationTimer()')).toBeGreaterThan(controller.indexOf('this.shell.render(match3ScreenMarkup({'));
     expect(controller).toContain('this.reactionPresentationTimer === null');
     expect(presentation).toContain("barkEntering ? ' is-entering' : ''");
-    expect(css).toContain('min-height: 42px');
+    expect(css).toContain('height: 49px');
+    expect(css).toContain('min-height: 49px');
+    expect(css).not.toContain('position: absolute');
+    expect(css).not.toContain('inset: 0');
+    expect(css).toContain('-webkit-line-clamp: 2');
+    expect(css).toContain('height: 40px');
     expect(css).toContain('@keyframes match3-reaction-bark-enter');
     expect(css).toContain('@media (prefers-reduced-motion: reduce)');
+    expect(css.match(/animation: match3-reaction-bark-enter 160ms ease-out both;/g)).toHaveLength(1);
   });
 });
