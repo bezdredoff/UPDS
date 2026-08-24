@@ -24,18 +24,21 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(afterRenderCount).toBe(1);
   });
 
-  it('centralizes safe-area discovery as shared CSS tokens without double-applying it yet', () => {
+  it('centralizes safe-area discovery and selects the installed physical viewport height', () => {
     const css = readFileSync(new URL('../src/viewport.css', import.meta.url), 'utf8');
 
     expect(css).toContain('--safe-area-top: env(safe-area-inset-top, 0px)');
     expect(css).toContain('--safe-area-right: env(safe-area-inset-right, 0px)');
     expect(css).toContain('--safe-area-bottom: env(safe-area-inset-bottom, 0px)');
     expect(css).toContain('--safe-area-left: env(safe-area-inset-left, 0px)');
+    expect(css).toContain('--physical-viewport-height: 100dvh');
+    expect(css).toContain(":root[data-upds-display-mode='standalone']");
+    expect(css).toContain('--physical-viewport-height: 100lvh');
     expect(css).toContain('--game-viewport-max-width: 430px');
     expect(css).toContain('--game-viewport-max-height: 932px');
     expect(css).toContain('position: fixed');
-    expect(css).toContain('inset: 0');
-    expect(css).not.toContain('height: 100dvh');
+    expect(css).toContain('height: var(--physical-viewport-height)');
+    expect(css).not.toContain('inset: 0');
     expect(css).not.toContain('padding: var(--safe-area');
   });
 
@@ -46,5 +49,8 @@ describe('ANM-024B shared game viewport shell', () => {
 
     expect(legacyCss).toBeGreaterThanOrEqual(0);
     expect(viewportCss).toBeGreaterThan(legacyCss);
+    expect(main).toContain(
+      'document.documentElement.dataset.updsDisplayMode = initialPwa.displayMode',
+    );
   });
 });
