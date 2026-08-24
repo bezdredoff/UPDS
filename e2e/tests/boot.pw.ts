@@ -28,16 +28,12 @@ test(
     await page.goto('./');
     await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
 
-    const standaloneViewportExtension = 59;
-    await page.evaluate((extension) => {
+    const standaloneTopInset = 59;
+    await page.evaluate((topInset) => {
       document.documentElement.dataset.updsDisplayMode = 'standalone';
-      document.documentElement.style.setProperty('--safe-area-top', '47px');
+      document.documentElement.style.setProperty('--safe-area-top', `${topInset}px`);
       document.documentElement.style.setProperty('--safe-area-bottom', '34px');
-      document.documentElement.style.setProperty(
-        '--physical-viewport-height',
-        `calc(100dvh + ${extension}px)`,
-      );
-    }, standaloneViewportExtension);
+    }, standaloneTopInset);
 
     const expectFullBleedScreen = async (activeScreenSelector: string): Promise<void> => {
       const geometry = await page.evaluate((selector) => {
@@ -56,7 +52,7 @@ test(
           screen: { top: screen.top, bottom: screen.bottom },
         };
       }, activeScreenSelector);
-      const physicalBottom = geometry.innerHeight + standaloneViewportExtension;
+      const physicalBottom = geometry.innerHeight + standaloneTopInset;
 
       expect(geometry.shell.top).toBeCloseTo(0, 1);
       expect(geometry.phone.top).toBeCloseTo(0, 1);

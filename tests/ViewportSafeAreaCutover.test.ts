@@ -82,7 +82,10 @@ describe('ANM-024C/D shared safe-area ownership', () => {
 
     expect(viewport).toContain('--physical-viewport-height: 100dvh');
     expect(viewport).toContain(":root[data-upds-display-mode='standalone']");
-    expect(viewport).toContain('--physical-viewport-height: 100lvh');
+    expect(viewport).toContain(
+      '--physical-viewport-height: calc(100dvh + var(--safe-area-top))',
+    );
+    expect(viewport).not.toContain('--physical-viewport-height: 100lvh');
     expect(main).toContain(
       'document.documentElement.dataset.updsDisplayMode = initialPwa.displayMode',
     );
