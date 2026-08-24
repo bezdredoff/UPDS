@@ -18,19 +18,19 @@ const shapedLevel = (): LevelDefinition => ({
 });
 
 describe('ANM-026B2 board shape and deterministic start layout', () => {
-  it('keeps production topology adoption bounded to the approved E4B cohort', () => {
-    const adopted = new Set(['M3_00', 'M3_02', 'M3_04', 'M3_06']);
+  it('keeps production topology adoption bounded to the approved E4B/E4C cohorts', () => {
+    const adopted = new Set(['M3_00', 'M3_02', 'M3_04', 'M3_06', 'M3_11', 'M3_12', 'M3_17', 'M3_21']);
     const legacy = levels.filter((level) => !adopted.has(level.shortId));
 
     expect(validateLevelDefinitions(levels)).toEqual([]);
-    expect(legacy).toHaveLength(18);
+    expect(legacy).toHaveLength(14);
     expect(legacy.every((level) => level.boardHoles === undefined)).toBe(true);
     expect(legacy.every((level) => level.initialTiles === undefined)).toBe(true);
 
     expect(levels[0].shortId).toBe('M3_00');
     expect(levels[0].boardHoles).toBeUndefined();
     expect(levels[0].initialTiles?.length).toBeGreaterThan(0);
-    for (const shortId of ['M3_02', 'M3_04', 'M3_06']) {
+    for (const shortId of ['M3_02', 'M3_04', 'M3_06', 'M3_11', 'M3_12', 'M3_17', 'M3_21']) {
       const level = levels.find((candidate) => candidate.shortId === shortId);
       expect(level?.boardHoles?.length).toBeGreaterThan(0);
       expect(level?.initialTiles).toBeUndefined();

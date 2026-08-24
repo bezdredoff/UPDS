@@ -269,7 +269,7 @@ export const levels: readonly LevelDefinition[] = [
   {
     id: 'M3_11_ASTERION_TRANSFER', shortId: 'M3_11', title: 'Цепочка контейнера', storyAction: 'Сопоставить пломбы, маршрут и манифест между прачечной, перегрузочным пунктом и лабораторией Asterion.',
     context: { sourceSceneId: 'VN_SCENE_23_E11_PRE', pageBackground: 'asterionTransferPoint', boardSurface: 'service-lanes', boardFrame: 'lab-file', narrativeProfile: 'lab-transfer-chain', tilePresentationProfile: 'asterion-transfer', participants: ['miku', 'onoe', 'ayuki', 'kentaro'], narrativeTags: ['service-yard', 'asterion-transfer', 'container-seals', 'photo-chain'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'socks', 'towel', 'sportsBra', 'camisole', 'pantiesSportWhite'], moves: 29,
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'socks', 'towel', 'sportsBra', 'camisole', 'pantiesSportWhite'], boardHoles: [1, 2, 5, 6, 25, 30, 33, 38, 57, 58, 61, 62], moves: 29,
     objectives: [{ kind: 'clearBlockers', target: 8, label: 'Упаковка' }, { kind: 'dropGroup', ingredients: ['transferSeal', 'routeCard'], target: 2, label: 'Пломба и маршрут' }, { kind: 'drop', ingredient: 'transferManifest', target: 1, label: 'Манифест' }],
     blocker: 'sealedPackage', blockers: positions([8, 15, 24, 31, 32, 39, 48, 55]), ingredients: [{ index: 4, kind: 'transferSeal' }, { index: 7, kind: 'routeCard' }, { index: 12, kind: 'transferManifest' }], seed: 9012,
     clueId: 'CUE_012', clueTitle: 'Цепочка передачи Asterion', clueSummary: 'Фотографии, пломбы и манифест доказывают маршрут спорных вещей из прачечной в лабораторный контур Asterion и обратно.',
@@ -278,7 +278,7 @@ export const levels: readonly LevelDefinition[] = [
   {
     id: 'M3_12_SECOND_SKIN_SIGNAL', shortId: 'M3_12', title: 'Сигнал Second Skin', storyAction: 'Отделить радиопомехи от повторяющегося сигнала и извлечь активную микрометку из сервисной бирки.',
     context: { sourceSceneId: 'VN_SCENE_25_E12_PRE', pageBackground: 'oldGymNight', boardSurface: 'signal-cross', boardFrame: 'evidence-file', narrativeProfile: 'second-skin-tag', tilePresentationProfile: 'second-skin-signal', participants: ['miku', 'onoe', 'ayuki'], narrativeTags: ['old-gym-night', 'occult-bait', 'radio-signal', 'second-skin'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesLacePink', 'pantiesSportWhite'], moves: 28,
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesLacePink', 'pantiesSportWhite'], boardHoles: [0, 1, 6, 7, 8, 9, 14, 15, 48, 49, 54, 55, 56, 57, 62, 63], moves: 28,
     objectives: [{ kind: 'clearBlockers', target: 10, label: 'Помехи' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Сигнальные узлы' }, { kind: 'drop', ingredient: 'secondSkinTag', target: 1, label: 'Микрометка' }],
     blocker: 'signalNoise', blockers: positions([11, 19, 25, 26, 27, 28, 29, 30, 35, 43]), ingredients: [{ index: 20, kind: 'secondSkinTag' }], seed: 9013,
     clueId: 'CUE_013', clueTitle: 'Метка Second Skin', clueSummary: 'Активная микрометка передаёт данные под внутренним именем Second Skin и объясняет технический критерий выбора вещей.',
@@ -323,7 +323,7 @@ export const levels: readonly LevelDefinition[] = [
   {
     id: 'M3_17_RINA_ARCHIVE_CATALOG', shortId: 'M3_17', title: 'Каталог Рины', storyAction: 'Открыть архивные ряды, отделить реальные цели от контрольных предметов и сверить каталог с подтверждёнными пропажами.',
     context: { sourceSceneId: 'VN_SCENE_35_E17_PRE', pageBackground: 'oldArchive', boardSurface: 'archive-rows', boardFrame: 'warehouse-file', narrativeProfile: 'rina-catalog', tilePresentationProfile: 'rina-archive', participants: ['miku', 'onoe', 'ayuki', 'rina'], narrativeTags: ['old-archive', 'sealed-evidence', 'rina-catalog', 'physical-theft'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesHighWaistBlack', 'pantiesSportWhite'], moves: 30,
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesHighWaistBlack', 'pantiesSportWhite'], boardHoles: [9, 10, 11, 12, 20, 21, 22, 23, 60, 61, 62, 63], moves: 30,
     objectives: [{ kind: 'clearBlockers', target: 10, label: 'Архивные пломбы' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Коды целей' }, { kind: 'drop', ingredient: 'rinaCatalog', target: 1, label: 'Каталог' }],
     blocker: 'archiveSeal', blockers: positions([[8, 2], 14, [16, 2], 19, 42, [43, 2], 48, 51, 56, 59]), ingredients: [{ index: 28, kind: 'rinaCatalog' }], seed: 9018,
     clueId: 'CUE_018', clueTitle: 'Каталог Рины', clueSummary: 'Запечатанный каталог полностью совпадает с подтверждёнными кражами и отделяет реальные цели Second Skin от случайной маскирующей выборки.',
@@ -359,7 +359,7 @@ export const levels: readonly LevelDefinition[] = [
   {
     id: 'M3_21_CONVENIENT_CASE', shortId: 'M3_21', title: 'Идеальный подозреваемый', storyAction: 'Собрать удобные совпадения, убрать противоречащие карточки и подготовить эффектный, но ложный финальный слайд.',
     context: { sourceSceneId: 'VN_SCENE_43_E21_PRE', pageBackground: 'disciplinaryAssembly', boardSurface: 'ordered-grid', boardFrame: 'audit-file', narrativeProfile: 'convenient-case', tilePresentationProfile: 'convenient-presentation', participants: ['miku', 'onoe', 'ayuki', 'mayu', 'kurose'], narrativeTags: ['assembly', 'false-case', 'presentation', 'discarded-contradictions'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesBoyshortBlue', 'pantiesSportWhite'], moves: 29,
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesBoyshortBlue', 'pantiesSportWhite'], boardHoles: [0, 7, 17, 23, 24, 30, 33, 39, 40, 46, 56, 62], moves: 29,
     objectives: [{ kind: 'collect', tile: 'laundryTag', target: 14, label: 'Удобные совпадения' }, { kind: 'clearBlockers', target: 10, label: 'Возражения' }, { kind: 'drop', ingredient: 'finalSlide', target: 1, label: 'Финальный слайд' }],
     blocker: 'falseConclusion', blockers: positions([10, 15, 18, 21, 42, 45, 50, 53, 58, 61]), ingredients: [{ index: 27, kind: 'finalSlide' }], seed: 9022,
     clueId: 'CUE_022', clueTitle: 'Удалённые противоречия', clueSummary: 'Публичная версия выглядит убедительно только после сознательного удаления фактов, которые оправдывают удобного подозреваемого и указывают на Second Skin.',
