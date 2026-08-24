@@ -81,7 +81,9 @@ Several candidate PRs may coexist.
 - There is still only one public `/preview/` slot; the latest successful mobile import owns it.
 
 This feature does not auto-merge, auto-approve or silently rewrite already-open PR branches after a
-later merge. GitHub PR conflict/review rules and manual merge remain authoritative.
+later merge. GitHub PR conflict/review rules and manual merge remain authoritative. Before merging an
+older open candidate after other PRs landed, its mergeability and required Quality gate status must
+still be reviewed in GitHub.
 
 ## Regression coverage
 
