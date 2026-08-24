@@ -2,7 +2,7 @@
 
 Technical product version: `0.26.0-dev`.
 
-Status: **ANM-030B0H release-planning reset** after completed full-stage character production.
+Status: **ANM-030B1B8 release-priority sync** after production-player-surface closure and the latest background integrations.
 
 This roadmap is intentionally a strategic status map, not a transcript of every historical sub-feature. Detailed implementation history lives in feature docs and Git. The actionable remaining-work authority is [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md); the approved full-game scope/reuse ceilings remain [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md); machine-readable art inventory remains `src/content/art/ANM030A.asset-gap-audit.json`. Production budgets are ceilings, not an obligation to spend every planned asset slot.
 
@@ -32,7 +32,8 @@ Changing the release platform or market scope is a separate product decision, no
 - complete canonical authored story and graph/runtime pipeline for all 22 slots and three endings;
 - viewport/safe-area foundation and Playwright Browser Gate;
 - RU, BE and EN production runtime;
-- nine-character full-stage production closure with exact 63 runtime assets and Mobile WebKit visual protection.
+- nine-character full-stage production closure with exact 63 runtime assets and Mobile WebKit visual protection;
+- production player surface closure: internal QA tools hidden from normal player URL and retained through explicit `?qa=1` access.
 
 ### Durable completion traceability
 
@@ -61,21 +62,23 @@ Changing the release platform or market scope is a separate product decision, no
 - **ANM-030B0B–B0F full-stage character closure** is complete.
 - **ANM-030B0B–B0F [P1] — COMPLETE / PRs #186–#190**: nine approved rigs, exact 63-file adoption, candidate cleanup, WebKit lineup gate and retired compatibility seam removal.
 - **ANM-030B0G [P1] — DOCUMENTATION CLOSEOUT**: active architecture/testing/docs aligned with the finished 9/9 state.
+- **ANM-030B0I [R0] — PRODUCTION PLAYER SURFACE COMPLETE / PR #193**: normal player menu no longer exposes Scene Navigation, Level Lab, Scene Studio or Save Diagnostics; explicit `?qa=1` retains production-parity QA access.
 - **ANM-030B1B1 [R0] — STUDENT COUNCIL AUDITORIUM BACKGROUND COMPLETE**: the approved `1080×1920` production WebP replaces the visibly wrong clubroom alias in Story slot 4; background status is now `6/24` dedicated production variants and `18` runtime aliases.
 - **ANM-030B1B2 [R0] — ASTERION SMART-TEXTILE LAB BACKGROUND COMPLETE**: the approved `1080×1920` golden master replaces the unrelated apartment fallback in Story slot 7; background status is now `7/24` dedicated production variants and `17` runtime aliases.
 - **ANM-030B1B3 [R0] — LOST-FOUND WAREHOUSE BACKGROUND COMPLETE**: the approved `1080×1920` golden master replaces the unrelated athletics-locker fallback in Story slot 8; background status is now `8/24` dedicated production variants and `16` runtime aliases.
 - **ANM-030B1B4 [R0] — CAMPUS SERVICE YARD BACKGROUND COMPLETE**: the approved `1080×1920` golden master replaces the unrelated clubroom fallback in Story slot 11; background status is now `9/24` dedicated production variants and `15` runtime aliases.
 - **ANM-030B1B5 [R0] — ABANDONED LAUNDRY BACKGROUND COMPLETE**: the approved `1080×1920` golden master replaces the unrelated pool-locker fallback in Story slot 15; all eight background families now have production masters, with `10/24` dedicated variants and `14` runtime aliases.
 - **ANM-030B1B6 [R0] — HIGH-USAGE BACKGROUND TRIO COMPLETE**: dedicated textile-workshop, multipurpose combat-club-hall and old-archive WebPs replace unrelated aliases across eleven common-route scene appearances; background status is now `13/24` dedicated variants and `11` runtime aliases.
+- **ANM-030B1B7 [R0] — BASKETBALL LOCKER COMPLETE / PRs #201–#202**: binary-safe `1080×1920` production WebP replaces the athletics-locker alias in both E5 scenes and passes iPhone visual QA; background status is now **`14/24` dedicated variants and `10` runtime aliases**.
 
 ## What is actually left for release
 
-The detailed classification and acceptance outcomes are in [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md). The important change from the old roadmap is that **not every remaining art budget or idea is a release requirement**.
+The detailed classification, current background ranking and acceptance outcomes are in [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md). The important rule remains that **not every remaining art budget or idea is a release requirement**.
 
 ### R0 — release blockers
 
-1. **Production player surface** — remove/hide QA-labelled Scene Navigation, Level Lab, Scene Studio and Save Diagnostics from the normal player menu while preserving deterministic QA/automation access. Match-3 Campaign remains player-facing.
-2. **Background semantic closure** — all eight family masters now exist, and the three highest-exposure fallbacks are closed. Further ChatGPT background production is paused pending a reproducible ComfyUI style workflow; the current fallback count is `11`. Do not turn the original `19 aliases` audit count into 19 mandatory illustrations.
+1. **Production player surface — COMPLETE.** Reopen only on regression.
+2. **Background semantic closure — ACTIVE.** All eight family masters exist; `14/24` runtime semantic variants now have dedicated production art and `10` aliases remain. Current recommended common-route order is `maintenance-room` → `old-gym-night` → `gymnastics-costume` → `asterion-transfer-point` → `campus-path`. Production may continue in ChatGPT Work using approved UPDS backgrounds as style references; ComfyUI is optional, not a prerequisite. Do not turn the alias counter into a mandatory one-image-per-alias quota.
 3. **Guest/witness closure** — six named guests must stop rendering asset-free initials placeholders in shipped scenes. Use the lean guest package or another explicitly approved final testimony presentation; do not promote them to seven-asset full-stage rigs by default.
 4. **Full human content QA** — Story common route + all three endings, all 22 production Match-3 levels, direct special combinations on phone, save/continue/retry/progression boundaries.
 5. **Final asset/runtime crawl** after production-art integration — zero broken shipped asset URLs/decode failures and no reliance on browser-local Scene Studio overrides.
@@ -159,14 +162,12 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 ## Recommended immediate sequence
 
-1. **ANM-030B0H — Release Backlog Reset** — current planning/doc slice.
-2. **Background pipeline transfer** — merge/QA the B1B6 high-usage trio, pause further ChatGPT background generation and prepare a reproducible ComfyUI workflow from the approved UPDS style references; do not add more runtime variants in that workflow slice.
-3. **Guest/witness closure** — finish production presentation for six named guests in small reviewable waves with iPhone preview.
-4. **Release surface closure** — normal build hides QA tools while Browser Gate retains deterministic QA entry.
-5. **Conditional visual cleanup** — only variants/extras that real visual QA flags; five Match-3 specials only if the current SVG presentation fails product quality.
-6. **ANM-033 — Release Candidate Hardening [P0 before release]** — full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, accessibility/performance sanity.
-7. Fix only defects found by those gates; build the RC.
-8. Hero inserts, landscape, extra locales, safe motion, song pipeline and DLC stay after base release until evidence changes priority.
+1. **Background semantic closure:** `maintenance-room` → `old-gym-night` → `gymnastics-costume` → `asterion-transfer-point` → `campus-path`, in small binary-safe waves with iPhone preview; reassess after the common-route five before committing to all ending-only variants.
+2. **Guest/witness closure in parallel:** finish production presentation for six named guests in small reviewable waves with iPhone preview.
+3. **Ending-specific background cleanup where visual QA still demands it:** `service-tunnel`, `server-room`, `disciplinary-assembly`, `anonymous-return-counter`; `clubroom-night` is last because its current fallback is the correct location with the wrong time-of-day.
+4. **ANM-033 — Release Candidate Hardening [P0 before release]** — full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, accessibility/performance sanity.
+5. Fix only defects found by those gates; build the RC.
+6. Hero inserts, landscape, extra locales, safe motion, song pipeline and DLC stay after base release until evidence changes priority.
 
 ## Backlog principle
 
