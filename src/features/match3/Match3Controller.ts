@@ -499,6 +499,29 @@ if (!feedback) return;
 feedback.className = `match-feedback${kind ? ` ${kind}` : ''}${text ? ' visible' : ''}`;
 feedback.textContent = text;
 }
+private syncBoardFrameMarkup(board: HTMLElement, markup: string): void {
+const template = document.createElement('template');
+template.innerHTML = markup;
+const currentCells = Array.from(board.children) as HTMLElement[];
+const nextCells = Array.from(template.content.children) as HTMLElement[];
+const structureMatches = currentCells.length === nextCells.length
+&& currentCells.every((cell, index) => cell.tagName === nextCells[index]?.tagName);
+if (!structureMatches) {
+board.innerHTML = markup;
+return;
+}
+for (let index = 0; index < currentCells.length; index += 1) {
+const live = currentCells[index];
+const next = nextCells[index];
+for (const attribute of Array.from(live.attributes)) {
+if (!next.hasAttribute(attribute.name)) live.removeAttribute(attribute.name);
+}
+for (const attribute of Array.from(next.attributes)) {
+if (live.getAttribute(attribute.name) !== attribute.value) live.setAttribute(attribute.name, attribute.value);
+}
+if (live.innerHTML !== next.innerHTML) live.innerHTML = next.innerHTML;
+}
+}
 private renderMatchFrame(frame: Match3Frame): void {
 const game = this.activeMatch;
 const board = this.root.querySelector<HTMLElement>('.board');
@@ -507,7 +530,7 @@ const clearing = frame.clearedIndices ? new Set(frame.clearedIndices) : undefine
 const motions = frame.motions
 ? new Map(frame.motions.map((motion) => [motion.index, { kind: motion.kind, rows: motion.rows }] as const))
 : undefined;
-board.innerHTML = match3BoardCellsMarkup({
+const frameMarkup = match3BoardCellsMarkup({
 level: game.level,
 board: frame.board,
 selectedCell: this.selectedCell,
@@ -516,6 +539,7 @@ t: (key, params) => this.t(key, params),
 clearing,
 motions,
 });
+this.syncBoardFrameMarkup(board, frameMarkup);
 board.className = `board phase-${frame.phase}`;
 if (frame.phase === 'clear') {
 const feedback = frame.feedback ?? 'match';
