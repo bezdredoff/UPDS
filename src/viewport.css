@@ -3,8 +3,13 @@
   --safe-area-right: env(safe-area-inset-right, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --safe-area-left: env(safe-area-inset-left, 0px);
+  --physical-viewport-height: 100dvh;
   --game-viewport-max-width: 430px;
   --game-viewport-max-height: 932px;
+}
+
+:root[data-upds-display-mode='standalone'] {
+  --physical-viewport-height: 100lvh;
 }
 
 /*
@@ -13,12 +18,18 @@
  * This file is the single physical safe-area discovery layer. Presentation CSS
  * consumes the --safe-area-* tokens directly; no screen-specific env(...) reads
  * or duplicated safe-area overrides should live outside this layer.
+ *
+ * iOS standalone can report a layout viewport shorter than the physical canvas.
+ * The installed-mode token therefore uses the large viewport height while normal
+ * browser tabs retain the dynamic viewport contract.
  */
 .viewport-shell {
   position: fixed;
-  inset: 0;
+  top: 0;
+  right: 0;
+  left: 0;
   width: auto;
-  height: auto;
+  height: var(--physical-viewport-height);
   min-width: 0;
   min-height: 0;
   display: grid;

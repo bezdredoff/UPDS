@@ -72,7 +72,20 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(panelNavRule).not.toMatch(/(?:^|\n)\s*padding\s*:/);
     expect(legacy).not.toContain('top: calc(-1 * max(20px, var(--safe-area-top)))');
     expect(viewport).toContain('position: fixed');
-    expect(viewport).toContain('inset: 0');
+    expect(viewport).toContain('height: var(--physical-viewport-height)');
+    expect(viewport).not.toContain('inset: 0');
+  });
+
+  it('uses the physical canvas height only for installed standalone mode', () => {
+    const main = read('src/main.ts');
+    const viewport = read('src/viewport.css');
+
+    expect(viewport).toContain('--physical-viewport-height: 100dvh');
+    expect(viewport).toContain(":root[data-upds-display-mode='standalone']");
+    expect(viewport).toContain('--physical-viewport-height: 100lvh');
+    expect(main).toContain(
+      'document.documentElement.dataset.updsDisplayMode = initialPwa.displayMode',
+    );
   });
 
   it('loads shared token discovery after presentation and preview badge CSS', () => {

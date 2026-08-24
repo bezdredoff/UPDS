@@ -23,6 +23,7 @@ const bootstrap = async (): Promise<void> => {
   await services.ready;
 
   const initialPwa = services.pwa.snapshot();
+  document.documentElement.dataset.updsDisplayMode = initialPwa.displayMode;
   services.telemetry.startSession({
     path: pathname || 'unknown',
     online: globalThis.navigator?.onLine ?? true,
