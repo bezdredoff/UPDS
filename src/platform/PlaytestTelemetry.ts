@@ -38,11 +38,24 @@ export type PlaytestLevelSummary = Readonly<{
   abandons: number;
   winRate: number | null;
   hints: number;
+  manualHints: number;
+  autoHints: number;
+  manualHintRate: number | null;
+  autoHintRate: number | null;
   validMoves: number;
   invalidMoves: number;
   reshuffles: number;
   specials: number;
+  directSpecialActivations: number;
+  directComboSignals: number;
+  cascade2PlusMoves: number;
+  cascade2PlusRate: number | null;
+  sameSessionRetriesAfterLoss: number;
+  sameSessionRetryAfterLossRate: number | null;
+  sameSessionNextAfterWin: number;
+  sameSessionNextAfterWinRate: number | null;
   maxCascade: number;
+  medianMoveEventGapMs: number | null;
   medianDurationMs: number | null;
   medianMovesUsed: number | null;
   medianMovesLeftOnWin: number | null;
@@ -95,6 +108,10 @@ const median = (values: number[]): number | null => {
   return sorted.length % 2 ? sorted[middle] : Math.round((sorted[middle - 1] + sorted[middle]) / 2);
 };
 
+const percentage = (numerator: number, denominator: number): number | null => (
+  denominator > 0 ? Math.round((numerator / denominator) * 1000) / 10 : null
+);
+
 const normalizePersisted = (value: unknown): PersistedPlaytest => {
   if (!isObject(value) || value.schemaVersion !== PLAYTEST_SCHEMA_VERSION || !Array.isArray(value.events)) return blankPersisted();
   const events = value.events.filter((event): event is PlaytestEvent => {
@@ -111,11 +128,33 @@ const normalizePersisted = (value: unknown): PersistedPlaytest => {
   };
 };
 
+const nextMatchStartByEndSeq = (events: readonly PlaytestEvent[]): ReadonlyMap<number, PlaytestEvent> => {
+  const bySession = new Map<string, PlaytestEvent[]>();
+  for (const event of events) {
+    const session = bySession.get(event.sessionId) ?? [];
+    session.push(event);
+    bySession.set(event.sessionId, session);
+  }
+
+  const result = new Map<number, PlaytestEvent>();
+  for (const sessionEvents of bySession.values()) {
+    const ordered = [...sessionEvents].sort((a, b) => a.seq - b.seq);
+    let nextStart: PlaytestEvent | null = null;
+    for (let index = ordered.length - 1; index >= 0; index -= 1) {
+      const event = ordered[index];
+      if (event.name === 'match_start') nextStart = event;
+      else if (event.name === 'match_end' && nextStart) result.set(event.seq, nextStart);
+    }
+  }
+  return result;
+};
+
 export const summarizePlaytest = (events: readonly PlaytestEvent[]): PlaytestSummary => {
   const sessions = new Set(events.filter((event) => event.name === 'session_start').map((event) => event.sessionId));
   const uniqueLines = new Set<string>();
   const choices: Record<string, number> = {};
   const levelIds = new Set<string>();
+  const continuationStarts = nextMatchStartByEndSeq(events);
   for (const event of events) {
     if (event.name === 'vn_line' && typeof event.data.lineId === 'string') uniqueLines.add(event.data.lineId);
     if (event.name === 'choice_selected' && typeof event.data.choice === 'string') choices[event.data.choice] = (choices[event.data.choice] ?? 0) + 1;
@@ -139,18 +178,56 @@ export const summarizePlaytest = (events: readonly PlaytestEvent[]): PlaytestSum
       return budget !== null && left !== null ? Math.max(0, budget - left) : null;
     }).filter((value): value is number => value !== null);
     const moves = relevant.filter((event) => event.name === 'match_move');
+    const validMoves = moves.filter((event) => event.data.valid === true).length;
+    const hints = relevant.filter((event) => event.name === 'match_hint');
+    const manualHints = hints.filter((event) => event.data.source === 'manual').length;
+    const autoHints = hints.filter((event) => event.data.source === 'inactivity').length;
+    const sourcedHints = manualHints + autoHints;
+    const cascade2PlusMoves = moves.filter((event) => (finiteNumber(event.data.cascades) ?? 0) >= 2).length;
+    const moveEventGaps = moves
+      .map((event) => finiteNumber(event.data.moveEventGapMs))
+      .filter((value): value is number => value !== null && value >= 0);
+    const directComboSignals = relevant.filter((event) => (
+      event.name === 'match_reaction'
+      && event.data.action === 'shown'
+      && event.data.directSpecialCombo === true
+    )).length;
+
+    const lossEnds = ends.filter((event) => event.data.outcome === 'loss');
+    const sameSessionRetriesAfterLoss = lossEnds.filter((event) => continuationStarts.get(event.seq)?.data.levelId === levelId).length;
+    const campaignWinEnds = ends.filter((event) => event.data.outcome === 'win' && event.data.mode === 'campaign');
+    const sameSessionNextAfterWin = campaignWinEnds.filter((event) => {
+      const next = continuationStarts.get(event.seq);
+      const currentIndex = finiteNumber(event.data.levelIndex);
+      const nextIndex = finiteNumber(next?.data.levelIndex);
+      return Boolean(next && currentIndex !== null && nextIndex === currentIndex + 1);
+    }).length;
+
     levels[levelId] = {
       starts,
       wins,
       losses,
       abandons,
-      winRate: completed ? Math.round((wins / completed) * 1000) / 10 : null,
-      hints: relevant.filter((event) => event.name === 'match_hint').length,
-      validMoves: moves.filter((event) => event.data.valid === true).length,
+      winRate: percentage(wins, completed),
+      hints: hints.length,
+      manualHints,
+      autoHints,
+      manualHintRate: percentage(manualHints, sourcedHints),
+      autoHintRate: percentage(autoHints, sourcedHints),
+      validMoves,
       invalidMoves: moves.filter((event) => event.data.valid === false).length,
       reshuffles: moves.filter((event) => event.data.reshuffled === true).length,
       specials: moves.reduce((sum, event) => sum + Math.max(0, finiteNumber(event.data.specialsCreated) ?? 0), 0),
+      directSpecialActivations: moves.filter((event) => event.data.valid === true && event.data.activation === 'direct').length,
+      directComboSignals,
+      cascade2PlusMoves,
+      cascade2PlusRate: percentage(cascade2PlusMoves, validMoves),
+      sameSessionRetriesAfterLoss,
+      sameSessionRetryAfterLossRate: percentage(sameSessionRetriesAfterLoss, lossEnds.length),
+      sameSessionNextAfterWin,
+      sameSessionNextAfterWinRate: percentage(sameSessionNextAfterWin, campaignWinEnds.length),
       maxCascade: moves.reduce((max, event) => Math.max(max, finiteNumber(event.data.cascades) ?? 0), 0),
+      medianMoveEventGapMs: median(moveEventGaps),
       medianDurationMs: median(durations),
       medianMovesUsed: median(movesUsed),
       medianMovesLeftOnWin: median(movesLeft),
@@ -184,6 +261,9 @@ export class PlaytestTelemetry {
   private ended = false;
   private sessionStartedAt = Date.now();
   private lastScreenKey = '';
+  private activeMatchAttemptId: string | null = null;
+  private activeMatchMoveNumber = 0;
+  private lastMatchMoveTrackedAt: number | null = null;
 
   constructor(private readonly storage: StorageLike, private readonly key = PLAYTEST_STORAGE_KEY) {
     this.state = this.read();
@@ -194,6 +274,9 @@ export class PlaytestTelemetry {
   startSession(environment: Readonly<Record<string, unknown>> = {}): void {
     this.ended = false;
     this.sessionStartedAt = Date.now();
+    this.activeMatchAttemptId = null;
+    this.activeMatchMoveNumber = 0;
+    this.lastMatchMoveTrackedAt = null;
     this.track('session_start', environment);
   }
 
@@ -204,18 +287,45 @@ export class PlaytestTelemetry {
   }
 
   track(name: PlaytestEventName, data: Readonly<Record<string, unknown>> = {}): void {
+    const trackedAt = Date.now();
+    if (name === 'match_start') {
+      this.activeMatchAttemptId = `${this.currentSessionId}:${this.state.nextSeq}`;
+      this.activeMatchMoveNumber = 0;
+      this.lastMatchMoveTrackedAt = null;
+    }
+
+    let eventData: Record<string, unknown> = { ...data };
+    if (name.startsWith('match_') && this.activeMatchAttemptId) {
+      eventData = { ...eventData, attemptId: eventData.attemptId ?? this.activeMatchAttemptId };
+    }
+    if (name === 'match_move') {
+      if (eventData.valid === true) this.activeMatchMoveNumber += 1;
+      eventData = {
+        ...eventData,
+        moveNumber: eventData.moveNumber ?? this.activeMatchMoveNumber,
+        ...(this.lastMatchMoveTrackedAt === null ? {} : { moveEventGapMs: Math.max(0, trackedAt - this.lastMatchMoveTrackedAt) }),
+      };
+      this.lastMatchMoveTrackedAt = trackedAt;
+    }
+
     const event: PlaytestEvent = {
       seq: this.state.nextSeq,
-      at: new Date().toISOString(),
+      at: new Date(trackedAt).toISOString(),
       sessionId: this.sessionId,
       name,
       appVersion: APP_VERSION,
       buildId: BUILD_ID,
-      data: { ...data },
+      data: eventData,
     };
     const events = [...this.state.events, event].slice(-PLAYTEST_EVENT_LIMIT);
     this.state = { ...this.state, updatedAt: event.at, nextSeq: event.seq + 1, events };
     this.write();
+
+    if (name === 'match_end') {
+      this.activeMatchAttemptId = null;
+      this.activeMatchMoveNumber = 0;
+      this.lastMatchMoveTrackedAt = null;
+    }
   }
 
   trackScreen(screen: string, detail = ''): void {
@@ -245,6 +355,9 @@ export class PlaytestTelemetry {
     this.ended = false;
     this.sessionStartedAt = Date.now();
     this.lastScreenKey = '';
+    this.activeMatchAttemptId = null;
+    this.activeMatchMoveNumber = 0;
+    this.lastMatchMoveTrackedAt = null;
     this.write();
   }
 
