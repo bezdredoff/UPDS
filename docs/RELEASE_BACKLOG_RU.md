@@ -1,6 +1,6 @@
 # UPDS — Release Backlog
 
-Status: **active release-planning source**, ANM-030B0H + ANM-030B1B1 + ANM-030B1B2 + ANM-030B1B3 + ANM-030B1B4 + ANM-030B1B5 + ANM-030B1B6.
+Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B1–B1B8.
 
 Этот документ отвечает только на два вопроса:
 
@@ -32,27 +32,46 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B1B1 + ANM-030B1
 
 ## R0 — реальные release blockers
 
-### R0.1 Production player surface
+### R0.1 Production player surface — COMPLETE
 
-Сейчас `MainMenuController` прямо показывает `Scene Navigation`, `Level Lab`, `Scene Studio` и `Save Diagnostics` с маркировкой `QA`. Для production release это неправильная поверхность.
+ANM-030B0I / PR #193 закрыл этот пункт:
 
-Release outcome:
+- normal player URL больше не показывает `Scene Navigation`, `Level Lab`, `Scene Studio` и `Save Diagnostics`;
+- те же production-parity QA tools доступны через явный `?qa=1`;
+- Match-3 Campaign остаётся player-facing mode;
+- Browser Gate продолжает использовать те же runtime controllers, отдельный QA build не создавался.
 
-- normal player build не показывает QA navigation/tools в основном меню;
-- Browser Gate и production QA продолжают иметь детерминированный доступ к тем же tools через явный QA/dev entry mechanism;
-- Match-3 Campaign **не** прячется автоматически: ANM-026C определяет его как отдельный player-facing mode;
-- diagnostics можно сохранить как support capability, но не как постоянную QA-кнопку главного меню.
+Повторно открывать этот пункт только при regression, которая снова выводит internal tooling игроку.
 
 ### R0.2 Background semantic closure
 
-После ANM-030B1B6 audit фиксирует `13/24` dedicated production background variants и `11` runtime aliases. Все восемь background families имеют production master. Дополнительно три лидирующих по общей runtime-экспозиции fallback закрыты dedicated art: `textile-workshop` обслуживает четыре сцены мастерских Хинаты и Кубо, `combat-club-hall` — четыре сцены карате и кэндо, `old-archive` — три scene appearances старого корпуса. `lab-asterion` уже получил production master и сохраняет unresolved `transfer-point` и фактически не маршрутизируемый сейчас `server-room`; `laundry-service` уже получил production master и сохраняет `maintenance-room` и `anonymous-return-counter`; `campus-exterior` уже получил production master и сохраняет `campus-path`; `old-building-finale` уже получил production master и сохраняет только `service-tunnel`. Оставшиеся aliases по-прежнему не являются требованием произвести столько же независимых картинок.
+После ANM-030B1B7 / PR #201–202 состояние production backgrounds: **`14/24` dedicated production variants и `10` runtime aliases**. Все восемь background families имеют production master. Dedicated art уже закрывает auditorium, smart-textile lab, lost-found warehouse, service yard, abandoned laundry, textile workshop, combat-club hall, old archive и basketball locker; новый basketball asset успешно прошёл iPhone visual QA в обеих E5-сценах.
+
+Оставшиеся aliases по-прежнему **не** являются требованием произвести десять картинок ради счётчика. Но их теперь полезно ранжировать по реальному player impact: общая экспозиция, степень semantic mismatch и сюжетная важность.
+
+| Rank | Variant | Current fallback | Exposure | Оценка |
+| ---: | --- | --- | --- | --- |
+| **1** | `maintenance-room` | athletics locker | 2 common-route VN scenes, slot 9 | **NEXT** — высокая экспозиция и явно другое помещение |
+| **2** | `old-gym-night` | pool locker evening | 2 common-route VN scenes, slot 12 | очень заметный mismatch помещения и ночного тона |
+| **3** | `gymnastics-costume` | athletics locker | 2 common-route VN scenes, slot 16 | другой спорт/функция помещения; заметно в общей ветке |
+| **4** | `asterion-transfer-point` | Norihiro apartment | slot 11, common route, отдельная post-scene + transition | экстремальный semantic mismatch; Asterion family master уже есть |
+| **5** | `campus-path` | clubroom day | slot 15, common route | exterior заменён интерьером — очевидный mismatch |
+| **6** | `service-tunnel` | pool locker evening | ending A, slot 20 | экстремальный mismatch, но только одна ending route |
+| **7** | `server-room` | Norihiro apartment | ending A, slot 20 | экстремальный mismatch в кульминации, но branch-specific |
+| **8** | `disciplinary-assembly` | clubroom day | endings A/C, slots 20–21 | две ending scenes; место близко по school-family, но недостаточно формально |
+| **9** | `anonymous-return-counter` | athletics locker | ending B, slot 19 | явный mismatch, но одна branch-specific сцена |
+| **10** | `clubroom-night` | clubroom day | common slot 18 | правильная локация; отличается в основном time-of-day/light, поэтому самый безопасный fallback |
 
 Обязательный outcome:
 
 - не создавать новые family masters ради покрытия: anchor-фаза завершена для всех восьми families;
-- для уже существующих families делать только controlled crop/dressing/light/grade variants, которые реально нужны, чтобы сцена не выглядела как другая локация/время суток;
+- производство оставшихся фонов можно продолжать в **ChatGPT Work**, используя уже утверждённые UPDS backgrounds как style references; ComfyUI остаётся альтернативой, но больше не является prerequisite;
+- сначала закрывать rank 1–5 common-route / visibly-wrong variants, затем ending-specific 6–9; `clubroom-night` делать последним и только если простой controlled lighting variant не даёт достаточного качества;
+- для уже существующих families делать controlled sibling variants, которые реально нужны, чтобы сцена не выглядела как другая локация/время суток;
 - release gate формулируется как **zero visibly wrong semantic background fallbacks in shipped Story**, а не «19/19 уникальных variant PNG»;
 - contract-only unused variants `central-laundry` и `campus-street` не производить до реального использования.
+
+**Следующий рекомендуемый background slice: `maintenance-room`.** После него — `old-gym-night` и `gymnastics-costume`; затем повторно оценить common-route story crawl перед производством ending-only variants.
 
 ### R0.3 Guest / witness presentation closure
 
@@ -145,7 +164,7 @@ RU/BE/EN на существующих portrait sizes `320×568`, `375×667`, `3
 
 ### R1.3 Controlled background variants
 
-Все family masters уже существуют, а три самых часто используемых fallback закрыты. Дальнейшее производство background art через ChatGPT поставлено на паузу до отдельного воспроизводимого ComfyUI style workflow. После его подготовки добавлять только те variants, которые visual QA оценивает как заметный narrative mismatch. Не закрывать оставшийся счётчик `11 aliases` ради самого счётчика.
+Все family masters уже существуют; после B1B7 закрыто `14/24` runtime semantic variants. Дальнейшие variants можно производить в ChatGPT Work небольшими approved waves, сохраняя утверждённые UPDS backgrounds как style references. Не закрывать оставшийся счётчик `10 aliases` ради самого счётчика: приоритет задаёт таблица R0.2 и реальный visual QA.
 
 ### R1.4 Extras visual archetypes — conditional
 
@@ -238,14 +257,12 @@ Post-launch expansion only. Не расходует base-release capacity.
 
 ## Рекомендуемая последовательность от текущего `main`
 
-1. **ANM-030B0H — Release Backlog Reset** — этот planning slice; удалить искусственную обязательность hero clue/landscape/music/extra locales и зафиксировать release gate.
-2. **Background pipeline transfer:** после B1B6 приостановить дальнейшую ChatGPT-генерацию и подготовить воспроизводимый ComfyUI workflow на утверждённых UPDS style references; не добавлять новые runtime variants в этом pipeline slice.
-3. **Guest/witness closure:** закрыть production presentation для шести guests небольшими reviewable waves с iPhone preview.
-4. **Release surface closure:** скрыть QA menu/tools из normal player build, сохранив automation access.
-5. **Conditional visual pass:** только реально нужные background variants/extras и, при плохом board QA, shared Match-3 special pack.
-6. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity.
-7. Исправить только найденные release defects и собрать RC.
-8. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release, пока данные не изменят приоритет.
+1. **Background semantic closure — active:** `maintenance-room` → `old-gym-night` → `gymnastics-costume` → `asterion-transfer-point` → `campus-path`; интегрировать небольшими binary-safe waves с iPhone preview. После common-route пятёрки повторно оценить необходимость ending-only variants.
+2. **Guest/witness closure — active/parallel:** production presentation для `hinata`, `gen`, `aoi`, `kubo`, `kubo-mother`, `vincent` небольшими reviewable waves.
+3. **Ending background cleanup — conditional but likely:** `service-tunnel`, `server-room`, `disciplinary-assembly`, `anonymous-return-counter`; `clubroom-night` последним как самый мягкий mismatch.
+4. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity.
+5. Исправить только найденные release defects и собрать RC.
+6. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release, пока данные не изменят приоритет.
 
 ## Stop rule
 
