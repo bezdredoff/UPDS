@@ -43,19 +43,47 @@ async function holdPointerDrag(
   );
 }
 
+type Match3DomProbe = Window & {
+  __updsMatch3Screen?: Element | null;
+  __updsMatch3Board?: Element | null;
+  __updsMatch3Cells?: Element[];
+  __updsMatch3BoardRect?: { top: number; left: number; width: number; height: number };
+};
+
 async function rememberMatch3Dom(page: Page): Promise<void> {
   await page.evaluate(() => {
-    const host = window as Window & { __updsMatch3Screen?: Element | null; __updsMatch3Board?: Element | null };
+    const host = window as Match3DomProbe;
+    const board = document.querySelector('.board[role="grid"]');
+    const rect = board?.getBoundingClientRect();
     host.__updsMatch3Screen = document.querySelector('.match-screen');
-    host.__updsMatch3Board = document.querySelector('.board[role="grid"]');
+    host.__updsMatch3Board = board;
+    host.__updsMatch3Cells = board ? Array.from(board.children) : [];
+    host.__updsMatch3BoardRect = rect
+      ? { top: rect.top, left: rect.left, width: rect.width, height: rect.height }
+      : undefined;
   });
 }
 
 async function expectMatch3DomStable(page: Page): Promise<void> {
   expect(await page.evaluate(() => {
-    const host = window as Window & { __updsMatch3Screen?: Element | null; __updsMatch3Board?: Element | null };
+    const host = window as Match3DomProbe;
+    const board = document.querySelector('.board[role="grid"]');
+    const cells = board ? Array.from(board.children) : [];
+    const rect = board?.getBoundingClientRect();
+    const rememberedRect = host.__updsMatch3BoardRect;
+    const geometryStable = Boolean(
+      rect
+      && rememberedRect
+      && Math.abs(rect.top - rememberedRect.top) < 0.5
+      && Math.abs(rect.left - rememberedRect.left) < 0.5
+      && Math.abs(rect.width - rememberedRect.width) < 0.5
+      && Math.abs(rect.height - rememberedRect.height) < 0.5,
+    );
     return host.__updsMatch3Screen === document.querySelector('.match-screen')
-      && host.__updsMatch3Board === document.querySelector('.board[role="grid"]');
+      && host.__updsMatch3Board === board
+      && host.__updsMatch3Cells?.length === cells.length
+      && cells.every((cell, index) => host.__updsMatch3Cells?.[index] === cell)
+      && geometryStable;
   })).toBe(true);
 }
 
@@ -92,6 +120,10 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
 
     const reaction = page.locator(`${qaSelectors.match3Bark}[data-reaction-id="special-created"]`);
     await expect(reaction).toBeVisible();
+    await expectMatch3DomStable(page);
+    await reaction.locator('span').evaluate((text) => {
+      text.textContent = 'A deliberately long localized reaction line that must wrap without moving the board, objectives, controls, or any other Match-3 geometry.';
+    });
     await expectMatch3DomStable(page);
     await expect(reaction).toHaveCount(0, { timeout: 4_000 });
     await expectMatch3DomStable(page);
@@ -200,8 +232,10 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(64);
 
     const progressBeforeActivation = (await firstObjectiveProgress(page))[0];
+    await rememberMatch3Dom(page);
     await activateSpecialByDoubleTap(page, 2);
 
+    await expectMatch3DomStable(page);
     await expect(page.locator(qaSelectors.match3Moves)).toHaveText(String(deterministicLabMoves - 2));
     expect((await firstObjectiveProgress(page))[0]).toBeGreaterThan(progressBeforeActivation);
     await expect(match3Cell(page, 2).locator(qaSelectors.match3Special)).toHaveCount(0);

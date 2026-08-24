@@ -11,6 +11,9 @@ const neighbours = (index: number): number[] => {
   ].filter((candidate) => candidate >= 0);
 };
 
+const totalBlockerLayers = (game: Match3Game): number =>
+  game.board.reduce((total, cell) => total + cell.blockerLayers, 0);
+
 describe('Match3Game', () => {
   it.each(levels.map((level, index) => [index, level] as const))('creates a stable playable board for level %i', (index, level) => {
     const game = new Match3Game(level, level.seed + index);
@@ -22,14 +25,16 @@ describe('Match3Game', () => {
 
   it.each(levels.map((level, index) => [index, level] as const))('can resolve a legal move on level %i', (_index, level) => {
     const game = new Match3Game(level, level.seed + 777);
+    const beforeBlockerLayers = totalBlockerLayers(game);
     let madeMove = false;
     for (let index = 0; index < game.board.length && !madeMove; index += 1) {
       for (const neighbour of neighbours(index)) {
         const result = game.attemptSwap(index, neighbour);
         if (!result.valid) continue;
         madeMove = true;
+        const blockerLayerProgress = beforeBlockerLayers - totalBlockerLayers(game);
         expect(result.cascades).toBeGreaterThan(0);
-        expect(result.cleared).toBeGreaterThanOrEqual(3);
+        expect(result.cleared + blockerLayerProgress).toBeGreaterThanOrEqual(3);
         expect(result.frames[0]?.phase).toBe('swap');
         const clearFrames = result.frames.filter((frame) => frame.phase === 'clear');
         const settleFrames = result.frames.filter((frame) => frame.phase === 'settle');

@@ -22,12 +22,16 @@ describe('ANM-023G8E3 Match-3 render stability', () => {
     expect(controller).not.toContain('await this.playMoveFrames(result, first, second);\nthis.renderMatch();');
   });
 
-  it('delegates cell input to the stable board so frame markup replacement does not lose interaction', () => {
+  it('delegates cell input and preserves every board-cell shell across animation frames', () => {
     expect(controller).toContain("board.addEventListener('click', (event) => {");
     expect(controller).toContain("board.addEventListener('pointerdown', (event) => {");
     expect(controller).toContain("const cell = target.closest<HTMLElement>('[data-cell]');");
     expect(controller).not.toContain("this.root.querySelectorAll<HTMLElement>('[data-cell]').forEach((cell) => {");
-    expect(controller).toContain('board.innerHTML = match3BoardCellsMarkup({');
+    expect(controller).toContain('private syncBoardFrameMarkup(board: HTMLElement, markup: string): void');
+    expect(controller).toContain('const frameMarkup = match3BoardCellsMarkup({');
+    expect(controller).toContain('this.syncBoardFrameMarkup(board, frameMarkup);');
+    expect(controller).toContain('if (live.innerHTML !== next.innerHTML) live.innerHTML = next.innerHTML;');
+    expect(controller).not.toContain('board.innerHTML = match3BoardCellsMarkup({');
   });
 
   it('updates objectives, bark and tutorials without rebuilding the Match-3 shell', () => {
@@ -43,6 +47,8 @@ describe('ANM-023G8E3 Match-3 render stability', () => {
     expect(browserSpec).toContain('inactivity hint updates the stable Match-3 screen and board in place');
     expect(browserSpec).toContain('reaction bark appears and dismisses without replacing the Match-3 screen or board');
     expect(browserSpec).toContain("[data-reaction-id=\"special-created\"]");
+    expect(browserSpec).toContain('__updsMatch3Cells');
+    expect(browserSpec).toContain('__updsMatch3BoardRect');
     expect(browserSpec).toContain('await expectMatch3DomStable(page);');
     expect(browserSpec).toContain('a deterministic cascade uses production clear/settle/refill rules');
   });
