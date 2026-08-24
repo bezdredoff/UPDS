@@ -1,6 +1,6 @@
 # UPDS — GitHub / iPhone delivery pipeline
 
-Status: active ANM-010 + ANM-022H1 delivery contract.
+Status: active ANM-010 + ANM-022H1 + ANM-010E delivery contract.
 
 ## Цель
 
@@ -23,7 +23,8 @@ identities. После merge `pages.yml` публикует новый чист�
 
 | Lane | Use | Preview | Merge |
 |---|---|---|---|
-| `PATCH.zip` / `upds-delta-v1` | preferred code/docs/data delta from an exact `main` SHA | `/preview/` | manual |
+| `PATCH.zip` / `upds-delta-v2` | preferred code/docs/data delta; safely tolerates unrelated `main` movement | `/preview/` | manual |
+| `PATCH.zip` / `upds-delta-v1` | legacy exact-`baseSha` delta | `/preview/` | manual |
 | `FULL_PROJECT.zip` | binary/art payloads, recovery or complete replacement | `/preview/` | manual |
 | direct connector branch/PR | narrow docs/tests/non-visual technical maintenance | no importer preview | manual |
 | `preflight/chatgpt` | optional technical CI before packaging | none | never merge as delivery |
@@ -35,18 +36,36 @@ acceptance. Direct connector PR is not a shortcut around visual QA.
 
 Preferred for ordinary source, data, tests and documentation changes.
 
-Manifest format: `upds-delta-v1`.
+Preferred manifest format: `upds-delta-v2`.
 
-Required properties:
+Required properties remain:
 
-- exact `baseSha` of current `main`;
+- `baseSha` of the `main` commit used while authoring the patch;
 - explicit changed/deleted paths;
 - no path traversal, symlinks, `.git`, `node_modules` or `dist`;
 - no protected pipeline files;
-- deterministic application over the exact baseline.
+- deterministic application in a sandbox before any write-capable job.
 
-A stale `baseSha` must fail. The importer does not auto-rebase or guess how to merge an old patch.
-Regenerate the patch from the new `main` instead.
+### Safe rebase in delta v2
+
+If `baseSha` still equals current `main`, the patch applies normally.
+
+If `main` advanced after the patch was prepared, v2 may rebase the delta automatically only when:
+
+1. `baseSha` exists and is an ancestor of current `main`;
+2. every path listed in `files[]` and `delete[]` is unchanged between `baseSha` and current `main`.
+
+The importer compares the touched paths through Git history. Therefore an unrelated merge no longer
+invalidates the ZIP. A changed replacement file, create collision, changed delete target or other
+Git-visible change on a touched path fails closed and reports the conflicting path(s).
+
+The rebased candidate is always assembled from current `main` plus the delta and must pass the same
+full `npm run check` gate.
+
+### Legacy delta v1
+
+`upds-delta-v1` remains accepted for already prepared/older archives and keeps the original exact-SHA
+contract. A stale v1 `baseSha` fails; it is never silently upgraded to v2 behavior.
 
 ### Short archive names
 
@@ -77,21 +96,25 @@ Archive rules:
 
 ## Mobile upload/import flow
 
-1. Resolve current `main` and build the appropriate ZIP.
+1. Resolve current `main` before authoring/package creation and build the appropriate ZIP. New code/docs/data deltas should use `upds-delta-v2`.
 2. In branch `incoming`, upload exactly one ZIP under `incoming/`.
 3. `Import mobile ZIP candidate` performs a write-separated read-only validation:
+   - checks out current `main` with enough history for v2 ancestry/path comparison;
+   - records that exact commit as `validated_main_sha`;
    - validates archive safety/mode;
-   - checks exact delta baseline when applicable;
+   - for v1, checks exact delta baseline;
+   - for v2, either uses the exact baseline or proves that every touched path is unchanged before rebasing onto current `main`;
    - applies the candidate in a sandbox;
    - runs `npm ci --ignore-scripts` and `npm run check`;
    - validates current `main` independently;
    - rejects protected pipeline modification.
 4. Only after validation, the write-capable job:
-   - creates/reuses a deterministic `candidate/*` branch;
+   - checks out the exact `validated_main_sha` rather than resolving `main` again;
+   - creates/reuses a deterministic `candidate/*` branch from that validated parent;
    - creates/reuses a PR into `main`;
    - publishes stable `main` plus candidate `/preview/`;
    - posts the preview link;
-   - resets `incoming` to a clean `[skip ci]` commit based on `main`.
+   - resets `incoming` to a clean `[skip ci]` commit based on current `main`.
 5. Approve the independent PR workflow when GitHub requests it.
 6. Wait for green **Quality gate**.
 7. Review Files changed and verify protected contracts.
@@ -100,6 +123,19 @@ Archive rules:
 10. Confirm the stable root after `pages.yml`.
 
 No workflow in this path may auto-approve or auto-merge the candidate.
+
+## Parallel candidate PRs
+
+Several candidate PRs may be open at the same time.
+
+- Import runs remain serialized by the `mobile-import` concurrency group so one ZIP is validated at a time.
+- A later v2 ZIP prepared from an older ancestor may still import after another PR merged when their touched paths do not overlap.
+- If a touched path changed, the stale ZIP is rejected explicitly rather than overwriting the merged change.
+- Candidate branch creation is pinned to the exact `main` SHA used for validation, closing the validation→write race.
+- `/preview/` is still a single public slot, so the latest successful mobile import replaces the previous candidate preview.
+
+ANM-010E does not auto-rebase or auto-merge already-open PR branches after later merges. GitHub PR
+conflict/review rules and manual merge remain authoritative.
 
 ## Rejected and stale uploads
 
@@ -110,6 +146,10 @@ On validation failure:
 - cleanup uses `[skip ci]` and must not trigger a noisy second zero-ZIP run;
 - no candidate branch/PR is created from an unvalidated tree.
 
+For v2, a stale `baseSha` is not itself a failure when the base remains an ancestor and all touched
+paths are unchanged. Regenerate/rebase only when the importer reports a real touched-path conflict,
+non-ancestor base or another archive error. For v1, any stale `baseSha` still requires a new archive.
+
 Use a new archive revision after fixing the source.
 
 ## Lane C — Direct connector branch/PR
@@ -119,10 +159,10 @@ stable.
 
 Required flow:
 
-1. read exact current `main` and confirm no competing PR;
+1. read exact current `main` and confirm no competing edit to the same maintenance scope;
 2. create a new task-specific branch from that SHA;
 3. create an intentional commit containing only the agreed scope;
-4. open a draft PR into `main`;
+4. open a PR into `main`;
 5. run/approve GitHub Quality gate;
 6. review changed files;
 7. merge manually.
@@ -168,7 +208,6 @@ validated tree. A closed/merged PR with the same head is not silently recreated.
 
 - GitHub browser upload/validator ZIP limit: 25 MiB.
 - Only one public `/preview/` slot exists at a time.
-- Candidate preview is not permanent evidence; PR/commit/tests and explicit QA notes provide
-  traceability.
+- Candidate preview is not permanent evidence; PR/commit/tests and explicit QA notes provide traceability.
 - Art archives may require FULL_PROJECT even when code-only work normally uses delta.
 - Infrastructure changes remain separate maintenance PRs.
