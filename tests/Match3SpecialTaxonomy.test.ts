@@ -4,6 +4,7 @@ import {
   expandSpecialClearTargets,
   findMatchGroups,
   findPlayerSpecialCreations,
+  findSquareMatchGroups,
   type Match3RuleCell,
 } from '../src/engine/Match3Rules';
 
@@ -70,7 +71,10 @@ describe('ANM-022D special shape taxonomy', () => {
       8: { tile: 'pantiesLacePink' },
       9: { tile: 'pantiesLacePink' },
     });
-    expect(findPlayerSpecialCreations(cells, [], 1, 9)).toEqual([
+    const groups = findMatchGroups(cells);
+    expect(groups).toEqual([]);
+    expect(findSquareMatchGroups(cells)).toContainEqual({ orientation: 'square', indices: [0, 1, 8, 9] });
+    expect(findPlayerSpecialCreations(cells, groups, 1, 9)).toEqual([
       { index: 9, kind: 'lead', consumed: [0, 1, 8, 9] },
     ]);
 

@@ -1,8 +1,10 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { medallionAsset } from '../src/data/characterRigs';
 import { levels } from '../src/data/levels';
 import { Match3Game } from '../src/engine/Match3Game';
 import {
+  match3BarkMarkup,
   match3BoardCellsMarkup,
   match3ContextAttrs,
   match3IntroMarkup,
@@ -127,6 +129,13 @@ describe('current Match-3 presentation contract', () => {
     expect(screen).toContain('id="dossier"');
     expect(screen).toContain('&lt;bark&gt;');
     expect(screen).toContain('field-bark-slot');
+  });
+
+
+  it('uses the correct production medallion for Norihiro Match-3 dialogue', () => {
+    const bark = match3BarkMarkup({ speaker: t('character.norihiro'), text: '…' }, false, t);
+    expect(bark).toContain(`src="${medallionAsset('norihiro')}"`);
+    expect(bark).not.toContain(`src="${medallionAsset('miku')}"`);
   });
 
   it('keeps the renderer independent from runtime services and DOM mutation', () => {

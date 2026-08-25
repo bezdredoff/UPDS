@@ -45,7 +45,7 @@ describe('ANM-023G8E3 Match-3 render stability', () => {
   it('covers inactivity hints, reaction lifecycle and cascade DOM identity in both browser gates', () => {
     expect(selectors).toContain("match3Bark: '.field-bark'");
     expect(browserSpec).toContain('inactivity hint updates the stable Match-3 screen and board in place');
-    expect(browserSpec).toContain('reaction bark appears and dismisses without replacing the Match-3 screen or board');
+    expect(browserSpec).toContain('reaction bark settles into an idle last-speaker card without replacing the Match-3 screen or board');
     expect(browserSpec).toContain("[data-reaction-id=\"special-created\"]");
     expect(browserSpec).toContain('__updsMatch3Cells');
     expect(browserSpec).toContain('__updsMatch3BoardRect');

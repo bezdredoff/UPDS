@@ -111,7 +111,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     health.assertClean();
   });
 
-  test('reaction bark appears and dismisses without replacing the Match-3 screen or board', async ({ page }) => {
+  test('reaction bark settles into an idle last-speaker card without replacing the Match-3 screen or board', async ({ page }) => {
     const health = observeBrowserHealth(page);
     await openDeterministicLab(page);
     await rememberMatch3Dom(page);
@@ -120,12 +120,17 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
 
     const reaction = page.locator(`${qaSelectors.match3Bark}[data-reaction-id="special-created"]`);
     await expect(reaction).toBeVisible();
+    const speakerPortrait = await reaction.locator('img').getAttribute('src');
     await expectMatch3DomStable(page);
     await reaction.locator('span').evaluate((text) => {
       text.textContent = 'A deliberately long localized reaction line that must wrap without moving the board, objectives, controls, or any other Match-3 geometry.';
     });
     await expectMatch3DomStable(page);
     await expect(reaction).toHaveCount(0, { timeout: 4_000 });
+    const idleBark = page.locator(qaSelectors.match3Bark);
+    await expect(idleBark).toBeVisible();
+    await expect(idleBark.locator('span')).toHaveText('…');
+    expect(await idleBark.locator('img').getAttribute('src')).toBe(speakerPortrait);
     await expectMatch3DomStable(page);
     health.assertClean();
   });

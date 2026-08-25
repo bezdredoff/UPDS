@@ -56,6 +56,8 @@ describe('ANM-025F3 Match-3 reaction presentation and anti-spam', () => {
     expect(controller).toContain('this.armReactionPresentationTimer()');
     expect(controller.indexOf('this.armReactionPresentationTimer()')).toBeGreaterThan(controller.indexOf('this.shell.render(match3ScreenMarkup({'));
     expect(controller).toContain('this.reactionPresentationTimer === null');
+    expect(controller).toContain("this.matchBark = { speaker, text: '…' }");
+    expect(controller).toContain('window.setTimeout(showIdleBark, 180)');
     expect(presentation).toContain("barkEntering ? ' is-entering' : ''");
     expect(css).toContain('height: 49px');
     expect(css).toContain('min-height: 49px');

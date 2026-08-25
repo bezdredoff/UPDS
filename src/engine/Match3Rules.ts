@@ -14,7 +14,7 @@ export type DirectSpecialCombo =
   | 'fallback';
 
 export type MatchGroup = Readonly<{
-  orientation: 'row' | 'column';
+  orientation: 'row' | 'column' | 'square';
   indices: readonly number[];
 }>;
 
@@ -69,6 +69,29 @@ export function findMatchGroups(cells: readonly Match3RuleCell[]): MatchGroup[] 
   }
 
   return groups;
+}
+
+export function findSquareMatchGroups(cells: readonly Match3RuleCell[]): MatchGroup[] {
+  const groups: MatchGroup[] = [];
+  for (let row = 0; row < BOARD_SIZE - 1; row += 1) {
+    for (let column = 0; column < BOARD_SIZE - 1; column += 1) {
+      const square = [
+        indexOf(row, column),
+        indexOf(row, column + 1),
+        indexOf(row + 1, column),
+        indexOf(row + 1, column + 1),
+      ];
+      const tile = cells[square[0]]?.tile ?? null;
+      if (tile && square.every((index) => cells[index]?.tile === tile)) {
+        groups.push({ orientation: 'square', indices: square });
+      }
+    }
+  }
+  return groups;
+}
+
+export function findResolutionMatchGroups(cells: readonly Match3RuleCell[]): MatchGroup[] {
+  return [...findMatchGroups(cells), ...findSquareMatchGroups(cells)];
 }
 
 const uniqueCreations = (creations: readonly SpecialCreation[]): readonly SpecialCreation[] => {
@@ -130,7 +153,7 @@ export function findPlayerSpecialCreations(
   if (candidates.length > 0) return uniqueCreations(candidates);
 
   for (const group of groups) {
-    if (group.indices.length !== 4 || !group.indices.some((index) => swapped.has(index))) continue;
+    if (group.orientation === 'square' || group.indices.length !== 4 || !group.indices.some((index) => swapped.has(index))) continue;
     const index = group.indices.includes(second) ? second : first;
     candidates.push({ index, kind: group.orientation === 'row' ? 'flash-row' : 'flash-column' });
   }
