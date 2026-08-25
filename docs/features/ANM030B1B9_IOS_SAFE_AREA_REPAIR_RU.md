@@ -1,6 +1,6 @@
 # ANM-030B1B9 — iOS safe-area repair
 
-Status: **R4 candidate; requires GitHub CI and installed-iPhone preview QA**.
+Status: **R5 candidate; requires GitHub CI and installed-iPhone preview QA**.
 
 ## Problem
 
@@ -23,14 +23,22 @@ standalone viewport there, while the translucent status bar places the page orig
 top. The missing bottom span matches the top safe-area inset. The R3 E2E hid this mistake by
 overriding `--physical-viewport-height` with the expected answer instead of exercising production CSS.
 
-## R4 runtime contract
+R4 also left the strip unchanged. The real-device observation that the pre-mount document briefly
+fills the entire screen, followed by the strip appearing with the mounted game, identifies a
+separate compositor canvas outside the functional descendant viewport. Pixel inspection confirms
+the strip is `#181a2f`, matching the root fallback `#171a2f`, while the mounted menu ends near
+`#2c2f46`. Oversizing `.viewport-shell` cannot paint through that clipping boundary.
+
+## R5 runtime contract
 
 - PWA bootstrap publishes the detected display mode as `data-upds-display-mode` on `<html>`.
 - Normal browser tabs keep `--physical-viewport-height: 100dvh`.
-- Installed standalone mode uses
-  `--physical-viewport-height: calc(100dvh + var(--safe-area-top))`. This adds back the top inset
-  excluded from the standalone viewport while the translucent status bar keeps the page at physical
-  `top: 0`.
+- The functional shell uses `100dvh`; R3/R4 `100lvh` and `100dvh + safe-area-top` oversizing is
+  removed.
+- In standalone mode the root document canvas follows the active screen's authored bottom tone via
+  `:root:has(...)` mappings. Browser tabs and desktop retain the original dark outer background.
+- Menu uses the measured `#2c2f46` boundary tone; panels use their `#f0e7e5` gradient endpoint;
+  VN uses the `#f3e8d2` control-bar tone; remaining screen families have matching authored fallbacks.
 - `.viewport-shell` is pinned to the physical top and horizontal edges and receives the explicit
   physical height token; it no longer derives its bottom from `inset: 0`.
 - On phone widths `.phone` and every active player screen continue to fill the shell with
@@ -43,10 +51,11 @@ in `src/viewport.css`.
 
 ## Regression protection
 
-- Vitest locks the `100dvh` browser default, the standalone `100dvh + safe-area-top` formula and the
-  runtime display-mode marker; the rejected `100lvh` formula is forbidden.
-- Mobile WebKit E2E injects representative `59px` top and `34px` bottom insets. It does not override
-  the physical-height token, so production CSS itself must extend the shell by the top inset.
+- Vitest locks the `100dvh` functional viewport, forbids both rejected oversizing formulas and
+  requires a standalone root-canvas mapping for every player screen family.
+- Mobile WebKit E2E injects representative `59px` top and `34px` bottom insets, verifies shell/screen
+  geometry against the functional viewport, and checks the computed root canvas on Menu, Settings
+  and Match-3 Campaign.
 - The E2E checks the bottom edge of `.viewport-shell`, `.phone` and the active screen on the main
   menu, Settings and Match-3 Campaign. A body-background strip can no longer pass by matching only
   the shortened `window.innerHeight`.
@@ -57,7 +66,7 @@ in `src/viewport.css`.
 On the generated `/preview/`, remove the previous installation, then install the candidate again.
 The install-time viewport metadata and standalone launch state must come from this candidate.
 
-1. Main menu reaches the physical bottom edge without a dark empty strip.
+1. Main menu has no visible color seam into the iOS bottom canvas.
 2. Settings header remains below time/signal/battery both at the top and after scrolling down.
 3. Dossier header remains below the status area after scrolling the clue list.
 4. Match-3 Campaign reaches the physical bottom edge and keeps its already-correct header inset.
