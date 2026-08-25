@@ -26,7 +26,7 @@ The completed Belarusian production line no longer needs one permanent test file
 
 F2 replaces 23 Belarusian test files with three current domain suites:
 
-- `BelarusianCompletionLocalization.test.ts` — global 3870/3870 base parity, 61-key shell contract, runtime readiness, screenplay directives, final routes and Russian-only Cyrillic guard;
+- `BelarusianCompletionLocalization.test.ts` — global 3855/3855 base parity after lean blocker-alias cleanup, 61-key shell contract, runtime readiness, screenplay directives, final routes and Russian-only Cyrillic guard;
 - `BelarusianMatch3Localization.test.ts` — exact historical Match-3 slice counts `83 / 123 / 128 / 146`, full `480 + 132 = 612` surface and reviewed terminology/protected labels;
 - `BelarusianVnLocalization.test.ts` — all 16 historical VN slot selectors remain explicit and data-driven, preserving their exact key counts, 149 representative copy/payload assertions, 45 scene-boundary assertions, four transition assertions and three explicit choice-gate assertions.
 

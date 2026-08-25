@@ -71,7 +71,8 @@ describe('ANM-025E4B Match-3 topology prototype cohort', () => {
 
   it('keeps the rounded foam basin playable on its production seed and a comparative E4A seed', () => {
     const level = byShortId('M3_02');
-    expect(level.blocker).toBe('foam');
+    expect(level.blocker).toBe('overlay');
+    expect(level.blockerIsPermeable).toBe(true);
     expect(level.boardHoles).toEqual([0, 1, 6, 7, 8, 15, 48, 55, 56, 57, 62, 63]);
     expectPlayableStart(level);
     expectPlayableStart(level, 120_002);

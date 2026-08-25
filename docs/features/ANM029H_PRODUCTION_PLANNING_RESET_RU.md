@@ -4,7 +4,7 @@ Status: COMPLETE — R1 merged via PR #136. Planning-only reset. No gameplay, st
 
 ## Почему reset нужен сейчас
 
-Belarusian production завершён через ANM-029B4 R1.1 / PR #135: `be` имеет exact `3870/3870` base-key parity, `132/132` Match-3 reactions, zero runtime fallback и входит в `supportedLocales = ['ru', 'be', 'en']`. Остальные зарегистрированные production locales (`zh-CN`, `ja`, `ko`, `pt-BR`) не стартуют автоматически.
+Belarusian production завершён через ANM-029B4 R1.1 / PR #135: после ANM-025G1 `be` имеет exact `3855/3855` base-key parity, `132/132` Match-3 reactions, zero runtime fallback и входит в `supportedLocales = ['ru', 'be', 'en']`. Остальные зарегистрированные production locales (`zh-CN`, `ja`, `ko`, `pt-BR`) не стартуют автоматически.
 
 Одновременно repository уже содержит достаточно систем, контента и production tooling, чтобы следующий крупный рост стоимости разработки пришёл не от отсутствующих фич, а от сложности сопровождения. Поэтому перед массовым ANM-030 art/content rollout вводится короткий technical simplification track.
 

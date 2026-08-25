@@ -26,7 +26,7 @@ Status: COMPLETE — R1.1 merged via PR #135 on 2026-08-16; full-catalog linguis
 - **15 character-name** strings;
 - **15 dossier** strings.
 
-После batch `beCatalog` имеет exact parity с `ruCatalog`: **3870 / 3870** base keys. Separate F2 reaction catalog остаётся exact **132 / 132**; runtime `appCatalogs.be` therefore имеет тот же полный key set, что RU/EN.
+После ANM-025G1 `beCatalog` сохраняет exact parity с `ruCatalog`: **3855 / 3855** base keys; 15 retired Level Lab blocker aliases удалены симметрично из всех release locales. Separate F2 reaction catalog остаётся exact **132 / 132**; runtime `appCatalogs.be` therefore имеет тот же полный key set, что RU/EN.
 
 ## Canonical routing
 
@@ -62,7 +62,7 @@ Accepted runtime state after the full-catalog gate:
 
 `BelarusianCompletionLocalization.test.ts` добавляет global readiness gate:
 
-1. exact `3870 / 3870` base-key parity;
+1. exact `3855 / 3855` base-key parity;
 2. zero missing / extra / empty / placeholder drift;
 3. exact `132 / 132` reaction parity;
 4. runtime app-catalog key parity RU/BE/EN — no missing-key fallback;

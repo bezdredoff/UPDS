@@ -1,5 +1,6 @@
 import {
   BOARD_SIZE,
+  blockerLocksTileInteraction,
   objectiveIngredientKeys,
   type IngredientKey,
   type LevelDefinition,
@@ -249,7 +250,7 @@ export class Match3Game {
 
     const cell = this.cells[index];
     if (!cell?.tile) return emptyMoveResult('ingredient', this.won, this.lost);
-    if (this.isLockedCell(index)) return emptyMoveResult('blocked', this.won, this.lost);
+    if (this.isBlockedCell(index)) return emptyMoveResult('blocked', this.won, this.lost);
     if (!cell.special) return emptyMoveResult('no-special', this.won, this.lost);
 
     const frames: Match3Frame[] = [];
@@ -341,7 +342,7 @@ export class Match3Game {
     if (first === second) return empty('same-cell');
     if (!this.areAdjacent(first, second)) return empty('not-adjacent');
     if (!this.cells[first]?.tile || !this.cells[second]?.tile) return empty('ingredient');
-    if (this.isLockedCell(first) || this.isLockedCell(second)) return empty('blocked');
+    if (this.isBlockedCell(first) || this.isBlockedCell(second)) return empty('blocked');
 
     const sameTile = this.cells[first].tile === this.cells[second].tile;
     const firstSpecial = this.cells[first].special;
@@ -467,7 +468,7 @@ export class Match3Game {
       }
 
       const activatedCount = specialActivations.length;
-      const visibleClear = [...clear].filter((index) => Boolean(this.cells[index]?.tile) && !this.isLockedCell(index));
+      const visibleClear = [...clear].filter((index) => Boolean(this.cells[index]?.tile) && !this.isBlockedCell(index));
       const feedback: MatchFeedbackKind = activatedCount > 0
         ? 'special'
         : totals.cascades >= 2
@@ -534,7 +535,7 @@ export class Match3Game {
         const remaining = Math.max(0, objective.target - (this.collected[objective.tile] ?? 0));
         if (remaining <= 0) continue;
         const useful = [...projectedClear].filter((index) =>
-          this.cells[index].tile === objective.tile && !this.isLockedCell(index)).length;
+          this.cells[index].tile === objective.tile && !this.isBlockedCell(index)).length;
         const progress = Math.min(remaining, useful);
         objectiveProgressUnits += progress;
         if (progress >= remaining) objectiveCompletionBonuses += 1;
@@ -577,7 +578,7 @@ export class Match3Game {
           colOf(index) === ingredientColumn
           && rowOf(index) > ingredientRow
           && Boolean(this.cells[index].tile)
-          && !this.isLockedCell(index)
+          && !this.isBlockedCell(index)
           && !this.hasLockedBarrierBetween(ingredientIndex, index));
         objectiveProgressUnits += clearsBelow.length;
       }
@@ -596,7 +597,7 @@ export class Match3Game {
     for (let row = rowOf(upperIndex) + 1; row <= rowOf(lowerIndex); row += 1) {
       const index = indexOf(row, column);
       if (!this.isActiveCell(index)) continue;
-      if (this.isLockedCell(index)) return true;
+      if (this.isBlockedCell(index)) return true;
     }
     return false;
   }
@@ -616,11 +617,11 @@ export class Match3Game {
       if (objective.kind !== 'collect') continue;
       if ((this.collected[objective.tile] ?? 0) >= objective.target) continue;
       const target = this.cells.findIndex((cell, cellIndex) =>
-        cellIndex !== index && !local.includes(cellIndex) && cell.tile === objective.tile && !this.isLockedCell(cellIndex));
+        cellIndex !== index && !local.includes(cellIndex) && cell.tile === objective.tile && !this.isBlockedCell(cellIndex));
       if (target >= 0) return [...local, target];
     }
     const fallback = this.cells.findIndex((cell, cellIndex) =>
-      cellIndex !== index && !local.includes(cellIndex) && Boolean(cell.tile) && !this.isLockedCell(cellIndex));
+      cellIndex !== index && !local.includes(cellIndex) && Boolean(cell.tile) && !this.isBlockedCell(cellIndex));
     return fallback >= 0 ? [...local, fallback] : local;
   }
 
@@ -629,7 +630,7 @@ export class Match3Game {
     for (const index of indices) {
       const cell = this.cells[index];
       if (!cell?.tile) continue;
-      if (this.isLockedCell(index)) continue;
+      if (this.isBlockedCell(index)) continue;
       this.collected[cell.tile] = (this.collected[cell.tile] ?? 0) + 1;
       cell.tile = null;
       cell.special = null;
@@ -702,7 +703,7 @@ export class Match3Game {
       for (let column = 0; column < BOARD_SIZE; column += 1) {
         let segmentBottom = BOARD_SIZE - 1;
         for (let row = BOARD_SIZE - 1; row >= -1; row -= 1) {
-          const barrier = row >= 0 && this.isLockedCell(indexOf(row, column));
+          const barrier = row >= 0 && this.isBlockedCell(indexOf(row, column));
           if (row >= 0 && !barrier) continue;
           this.compactSegment(column, row + 1, segmentBottom, origins);
           segmentBottom = row - 1;
@@ -720,7 +721,7 @@ export class Match3Game {
       for (let row = 0; row < BOARD_SIZE; row += 1) {
         const index = indexOf(row, column);
         if (!this.isActiveCell(index)) continue;
-        if (this.isLockedCell(index)) {
+        if (this.isBlockedCell(index)) {
           flush();
           continue;
         }
@@ -794,7 +795,7 @@ export class Match3Game {
     const column = colOf(index);
     if (this.boardHoles.size === 0) {
       for (let row = rowOf(index) - 1; row >= 0; row -= 1) {
-        if (this.isLockedCell(indexOf(row, column))) return row + 1;
+        if (this.isBlockedCell(indexOf(row, column))) return row + 1;
       }
       return 0;
     }
@@ -802,7 +803,7 @@ export class Match3Game {
     for (let row = rowOf(index) - 1; row >= 0; row -= 1) {
       const candidate = indexOf(row, column);
       if (!this.isActiveCell(candidate)) continue;
-      if (this.isLockedCell(candidate)) return top;
+      if (this.isBlockedCell(candidate)) return top;
       top = row;
     }
     return top;
@@ -845,8 +846,8 @@ export class Match3Game {
     return rowDistance + columnDistance === 1;
   }
 
-  private isLockedCell(index: number): boolean {
-    return this.level.blocker !== 'foam' && this.cells[index].blockerLayers > 0;
+  private isBlockedCell(index: number): boolean {
+    return blockerLocksTileInteraction(this.level, this.cells[index].blockerLayers);
   }
 
   private swapContents(first: number, second: number): void {
