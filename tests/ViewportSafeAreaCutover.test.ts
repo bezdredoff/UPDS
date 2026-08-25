@@ -76,16 +76,19 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(viewport).not.toContain('inset: 0');
   });
 
-  it('uses the physical canvas height only for installed standalone mode', () => {
+  it('keeps descendants in the functional viewport and paints the standalone canvas at root', () => {
     const main = read('src/main.ts');
     const viewport = read('src/viewport.css');
+    const legacy = read('src/style.css');
 
     expect(viewport).toContain('--physical-viewport-height: 100dvh');
-    expect(viewport).toContain(":root[data-upds-display-mode='standalone']");
-    expect(viewport).toContain(
-      '--physical-viewport-height: calc(100dvh + var(--safe-area-top))',
-    );
+    expect(viewport).not.toContain('calc(100dvh + var(--safe-area-top))');
     expect(viewport).not.toContain('--physical-viewport-height: 100lvh');
+    expect(legacy).toContain('background: var(--upds-system-canvas-color)');
+    expect(legacy).toContain(
+      ":root[data-upds-display-mode='standalone']:has(.menu-screen)",
+    );
+    expect(legacy).toContain('--upds-system-canvas-color: #f0e7e5');
     expect(main).toContain(
       'document.documentElement.dataset.updsDisplayMode = initialPwa.displayMode',
     );
