@@ -30,7 +30,8 @@
     "test:e2e:chromium": "npm --prefix e2e run test:chromium",
     "e2e:report": "npm --prefix e2e run report",
     "lint:fix": "biome lint --write src tests vite.config.ts",
-    "quality:fix": "biome check --write --formatter-enabled=false src tests vite.config.ts"
+    "quality:fix": "biome check --write --formatter-enabled=false src tests vite.config.ts",
+    "match3:audit": "vitest run --config vitest.match3-audit.config.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.7",
