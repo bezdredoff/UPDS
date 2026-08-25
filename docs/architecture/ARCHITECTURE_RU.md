@@ -222,7 +222,7 @@ completeness/placeholder checks; `LocalizationGlossary.ts` owns stable translato
 A locale remains `translation-pending` and absent from the selector until its full production catalog
 passes the readiness contract.
 
-ANM-029B was produced in bounded review scopes through merged B3P. ANM-029B4 then closes slots 16–21 plus the deferred VN/system/tooling/dossier/ending surfaces in one final readiness batch. `beCatalog` must exactly match the stable RU source catalog (3870 base keys), the separate Belarusian F2 reaction catalog must exactly match its 132-key RU source, and runtime `appCatalogs.be` must have no missing-key fallback path before activation.
+ANM-029B was produced in bounded review scopes through merged B3P. ANM-029B4 then closes slots 16–21 plus the deferred VN/system/tooling/dossier/ending surfaces in one final readiness batch. `beCatalog` must exactly match the stable RU source catalog (3855 base keys after ANM-025G1 removed 15 retired Level Lab blocker aliases), the separate Belarusian F2 reaction catalog must exactly match its 132-key RU source, and runtime `appCatalogs.be` must have no missing-key fallback path before activation.
 
 After B4 acceptance, RU, BE and EN cover the complete authored slots `0–21` and active Match-3 systems and are runtime-selectable. `zh-CN`, `ja`, `ko` and `pt-BR` stay translation-pending and product-paused until the post-Belarusian backlog/roadmap reset. VN IDs, level IDs, reaction IDs and telemetry remain locale-independent.
 Internal dialogue paging runs after localized text resolution and never creates authored IDs; its CJK

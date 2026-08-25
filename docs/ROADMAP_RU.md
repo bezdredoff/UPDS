@@ -47,6 +47,7 @@ Changing the release platform or market scope is a separate product decision, no
 - **G8C2 Campaign completion/progression browser E2E is DEFERRED, not required for G8 completion.**
 - **ANM-024 Display / Viewport / Safe-Area Foundation — COMPLETE**.
 - **ANM-025 Match-3 Production Framework — FRAMEWORK COMPLETE**; deterministic balance baseline is complete through E3. A separate E4 framework is evidence-driven rather than automatically required.
+- **ANM-025G1 Lean Blocker Archetypes**: human-playtest follow-up reduces 18 narrative blocker IDs to three reusable presentation styles and one stable HUD term without rebalance; contract and mobile gate are in [`ANM025G1_LEAN_BLOCKER_ARCHETYPES_RU.md`](features/ANM025G1_LEAN_BLOCKER_ARCHETYPES_RU.md).
 - **ANM-026 Level Lab & Match-3 Campaign — COMPLETE**.
 - **ANM-027 Story Content Architecture & Import — COMPLETE**.
 - **027G Episode Batch Production & Canonical Import — COMPLETE**: authored/runtime-integrated `0–21` content and three endings.
@@ -55,7 +56,7 @@ Changing the release platform or market scope is a separate product decision, no
 - **ANM-028B2 R1.1 Authored VN Shot Adoption — COMPLETE**.
 - **028D Character Production / Normalization — HISTORICAL / SUPERSEDED** by the current production rigs.
 - **029A Localization Production Foundation — R1.1 COMPLETE**.
-- **029B Belarusian Production — COMPLETE (B4 R1.1, PR #135)** with **exact 3870/3870 base-key parity**; runtime production locales remain `supportedLocales = ['ru', 'be', 'en']`.
+- **029B Belarusian Production — COMPLETE (B4 R1.1, PR #135)** with **exact 3855/3855 base-key parity** after ANM-025G1 removed 15 retired Level Lab blocker aliases; runtime production locales remain `supportedLocales = ['ru', 'be', 'en']`.
 - **ANM-030A Full Game Asset Gap Audit**: **ANM-030A R1.1 [P0] — COMPLETE / PR #145**.
 - **ANM-030A2 [P0] — COMPLETE / PR #147** — audit tooling and repository/report hygiene.
 - **ANM-030B0A1 R1.1 [P1] — COMPLETE / PR #148** — planning-only shared Match-3 special visual contract.

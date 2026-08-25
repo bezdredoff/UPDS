@@ -80,7 +80,7 @@ The repository now contains the complete detailed authored screenplay for all 22
 - [`features/ANM029B3N_BELARUSIAN_VN_SLOT_13_RU.md`](features/ANM029B3N_BELARUSIAN_VN_SLOT_13_RU.md) — Belarusian canonical runtime VN slot 13 (`VN0608–VN0646`, scenes 27–28; 121 keys)
 - [`features/ANM029B3O_BELARUSIAN_VN_SLOT_14_RU.md`](features/ANM029B3O_BELARUSIAN_VN_SLOT_14_RU.md) — Belarusian canonical runtime VN slot 14 (`VN0647–VN0686`, scenes 29–30 + `family-ledger-permission`; 131 keys)
 - [`features/ANM029B3P_BELARUSIAN_VN_SLOT_15_RU.md`](features/ANM029B3P_BELARUSIAN_VN_SLOT_15_RU.md) — Belarusian canonical runtime VN slot 15 (`VN0687–VN0726`, scenes 31–32; 124 keys); merged via PR #134
-- [`features/ANM029B4_BELARUSIAN_COMPLETION_RU.md`](features/ANM029B4_BELARUSIAN_COMPLETION_RU.md) — final Belarusian completion: slots 16–21, remaining VN/system/tooling/dossier/ending surfaces, exact 3870-key base parity + 132 reactions, global zero-fallback audit and runtime selector activation
+- [`features/ANM029B4_BELARUSIAN_COMPLETION_RU.md`](features/ANM029B4_BELARUSIAN_COMPLETION_RU.md) — final Belarusian completion: slots 16–21, remaining VN/system/tooling/dossier/ending surfaces, exact 3855-key base parity after lean blocker-alias cleanup + 132 reactions, global zero-fallback audit and runtime selector activation
 - [`features/ANM029H_PRODUCTION_PLANNING_RESET_RU.md`](features/ANM029H_PRODUCTION_PLANNING_RESET_RU.md) — post-Belarusian production reset: additional locales paused; ANM-023F1–F4 code/test/Biome/performance simplification becomes the next implementation track before ANM-030 high-volume art integration
 
 ### Character production

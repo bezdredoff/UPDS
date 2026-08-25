@@ -136,7 +136,7 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('028A Character Production Manifest & Validator Foundation — COMPLETE');
     expect(roadmap).not.toContain('COMPLETE WHEN MERGED');
     expect(roadmap).toContain('029B Belarusian Production — COMPLETE (B4 R1.1, PR #135)');
-    expect(roadmap).toContain('exact 3870/3870 base-key parity');
+    expect(roadmap).toContain('exact 3855/3855 base-key parity');
     expect(roadmap).toContain("supportedLocales = ['ru', 'be', 'en']");
     expect(roadmap).toContain('028D Character Production / Normalization — HISTORICAL / SUPERSEDED');
     expect(roadmap).not.toContain('028D Character Production / Normalization — ART GENERATION PAUSED');
@@ -298,7 +298,7 @@ describe('active documentation traceability', () => {
     expect(assetGapAudit).toContain('1 shared production-art gap: 5 special/bonus visuals');
     expect(match3PresentationExtraction).toContain('mobile candidate preview');
     expect(index).toContain('ANM023E_TEST_TOOLING_IDENTITY_HARDENING_RU.md');
-    expect(roadmap).toContain('exact 3870/3870 base-key parity');
+    expect(roadmap).toContain('exact 3855/3855 base-key parity');
     expect(roadmap).toContain("supportedLocales = ['ru', 'be', 'en']");
     expect(roadmap).toContain('029C Simplified Chinese Production — PAUSED');
     expect(roadmap).toContain('029F Brazilian Portuguese Production — PAUSED');

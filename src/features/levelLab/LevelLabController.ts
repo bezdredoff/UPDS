@@ -1,12 +1,13 @@
 import {
   BOARD_SIZE,
   blockerPresentation,
+  blockerStyles,
   ingredientPresentation,
   isLevelBoardCellActive,
   levels,
   tileKeys,
   validateLevelDefinitions,
-  type BlockerKey,
+  type BlockerStyle,
   type BoardPlacement,
   type IngredientKey,
   type IngredientPlacement,
@@ -26,7 +27,7 @@ export const MAX_LEVEL_LAB_SEED = 0xffffffff;
 
 export type LevelLabDraft = Readonly<{
   moves: number;
-  blocker: BlockerKey;
+  blocker: BlockerStyle;
   blockers: readonly BoardPlacement[];
   ingredients: readonly IngredientPlacement[];
   objectives: readonly LevelObjective[];
@@ -278,7 +279,7 @@ export class LevelLabController {
         <div class="level-lab-section-title"><div><small>${t('levelLab.editorEyebrow')}</small><b>${t('levelLab.editorTitle')}</b></div><span>${t('levelLab.draftOnly')}</span></div>
         <div class="level-lab-editor-row">
           <label><span>${t('levelLab.moves')}</span><input id="lab-moves" type="number" min="1" step="1" value="${draft.moves}"></label>
-          <label><span>${t('levelLab.blockerType')}</span><select id="lab-blocker-type">${Object.keys(blockerPresentation).map((key) => `<option value="${key}"${draft.blocker === key ? ' selected' : ''}>${t(`levelLab.blocker.${key}`)}</option>`).join('')}</select></label>
+          <label><span>${t('levelLab.blockerType')}</span><select id="lab-blocker-type">${blockerStyles.map((key) => `<option value="${key}"${draft.blocker === key ? ' selected' : ''}>${t(`levelLab.blocker.${key}`)}</option>`).join('')}</select></label>
         </div>
         <div class="level-lab-editor-block">
           <small>${t('levelLab.tileWeights')}</small>
@@ -351,7 +352,7 @@ export class LevelLabController {
     const errors: string[] = [];
     const moves = Number(this.root.querySelector<HTMLInputElement>('#lab-moves')?.value);
     if (!Number.isInteger(moves) || moves <= 0) errors.push('moves: expected positive integer');
-    const blocker = this.root.querySelector<HTMLSelectElement>('#lab-blocker-type')?.value as BlockerKey;
+    const blocker = this.root.querySelector<HTMLSelectElement>('#lab-blocker-type')?.value as BlockerStyle;
     if (!blockerPresentation[blocker]) errors.push('blocker: unknown type');
 
     const activeTiles = [...this.root.querySelectorAll<HTMLInputElement>('.lab-tile-toggle:checked')].map((input) => input.dataset.tile as Match3TileId);
