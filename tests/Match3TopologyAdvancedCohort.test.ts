@@ -43,7 +43,7 @@ describe('ANM-025E4C advanced Match-3 topology cohort', () => {
     const m17 = byShortId('M3_17');
     const m21 = byShortId('M3_21');
 
-    expect(shape(m11)).toBe('#..##..#\n########\n########\n#.####.#\n#.####.#\n########\n########\n#..##..#');
+    expect(shape(m11)).toBe('#..##..#\n########\n########\n########\n########\n########\n########\n#..##..#');
     expect(shape(m12)).toBe('..####..\n..####..\n########\n########\n########\n########\n..####..\n..####..');
     expect(shape(m17)).toBe('##..####\n##....##\n########\n########\n########\n########\n########\n####..##');
     expect(shape(m21)).toBe('.######.\n########\n#.#####.\n.#####.#\n#.#####.\n.#####.#\n########\n.#####.#');
@@ -77,9 +77,9 @@ describe('ANM-025E4C advanced Match-3 topology cohort', () => {
 
   it('expresses the intended spatial ideas without changing goals or move budgets', () => {
     const m11 = byShortId('M3_11');
-    expect(m11.boardHoles).toEqual([1, 2, 5, 6, 25, 30, 33, 38, 57, 58, 61, 62]);
-    expect(m11.moves).toBe(29);
-    expect(m11.ingredients.map(({ index }) => index)).toEqual([4, 7, 12]);
+    expect(m11.boardHoles).toEqual([1, 2, 5, 6, 57, 58, 61, 62]);
+    expect(m11.moves).toBe(33);
+    expect(m11.ingredients.map(({ index }) => index)).toEqual([28, 45, 36]);
 
     const m12 = byShortId('M3_12');
     expect(m12.boardHoles).toEqual([0, 1, 6, 7, 8, 9, 14, 15, 48, 49, 54, 55, 56, 57, 62, 63]);

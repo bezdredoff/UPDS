@@ -33,12 +33,12 @@ describe('ANM-025E4B Match-3 topology prototype cohort', () => {
     expect(shape(m00)).toBe('########\n########\n########\n########\n########\n########\n########\n########');
     expect(shape(m02)).toBe('..####..\n.######.\n########\n########\n########\n########\n.######.\n..####..');
     expect(shape(m04)).toBe('###..###\n###..###\n########\n########\n########\n########\n###..###\n###..###');
-    expect(shape(m06)).toBe('###..###\n###..###\n###..###\n########\n########\n###..###\n###..###\n###..###');
+    expect(shape(m06)).toBe('###..###\n###..###\n###..###\n########\n########\n########\n########\n########');
 
     expect(activeCellCount(m00)).toBe(64);
     expect(activeCellCount(m02)).toBe(52);
     expect(activeCellCount(m04)).toBe(56);
-    expect(activeCellCount(m06)).toBe(52);
+    expect(activeCellCount(m06)).toBe(58);
     expect(new Set([shape(m00), shape(m02), shape(m04), shape(m06)]).size).toBe(4);
   });
 
@@ -89,7 +89,8 @@ describe('ANM-025E4B Match-3 topology prototype cohort', () => {
 
   it('keeps the two workshop evidence routes on separate left/right lanes behind garment-bag gates', () => {
     const level = byShortId('M3_06');
-    expect(level.boardHoles).toEqual([3, 4, 11, 12, 19, 20, 43, 44, 51, 52, 59, 60]);
+    expect(level.boardHoles).toEqual([3, 4, 11, 12, 19, 20]);
+    expect(level.moves).toBe(32);
     expect(level.ingredients.map((ingredient) => ingredient.index)).toEqual([26, 29]);
     expect(level.ingredients.map((ingredient) => ingredient.index % BOARD_SIZE)).toEqual([2, 5]);
     expect(level.blockers.filter((blocker) => blocker.index % BOARD_SIZE === 2).length).toBeGreaterThanOrEqual(3);

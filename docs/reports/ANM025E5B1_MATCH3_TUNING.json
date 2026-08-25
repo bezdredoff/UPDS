@@ -1,0 +1,42 @@
+{
+  "format": "upds-match3-tuning-report",
+  "version": 1,
+  "feature": "ANM-025E5B1",
+  "policy": "objective-aware-getHintMove",
+  "seedsPerCohort": 200,
+  "cohorts": [150000, 160000, 170000],
+  "levels": {
+    "M3_06": {
+      "before": {
+        "moves": 29,
+        "boardHoles": [3, 4, 11, 12, 19, 20, 43, 44, 51, 52, 59, 60]
+      },
+      "after": {
+        "moves": 32,
+        "boardHoles": [3, 4, 11, 12, 19, 20]
+      },
+      "measurements": [
+        { "seedBase": 150000, "beforeWinRate": 0.095, "afterWinRate": 0.455, "beforeSpecialsPerMove": 0.0757, "afterSpecialsPerMove": 0.1089, "beforeCascade2PlusRate": 0.2129, "afterCascade2PlusRate": 0.2569, "beforeReshuffleRate": 0.0538, "afterReshuffleRate": 0.0123 },
+        { "seedBase": 160000, "beforeWinRate": 0.07, "afterWinRate": 0.335, "beforeSpecialsPerMove": 0.0872, "afterSpecialsPerMove": 0.1087, "beforeCascade2PlusRate": 0.208, "afterCascade2PlusRate": 0.2555, "beforeReshuffleRate": 0.0484, "afterReshuffleRate": 0.0104 },
+        { "seedBase": 170000, "beforeWinRate": 0.055, "afterWinRate": 0.42, "beforeSpecialsPerMove": 0.0738, "afterSpecialsPerMove": 0.1136, "beforeCascade2PlusRate": 0.2011, "afterCascade2PlusRate": 0.2587, "beforeReshuffleRate": 0.0559, "afterReshuffleRate": 0.0134 }
+      ]
+    },
+    "M3_11": {
+      "before": {
+        "moves": 29,
+        "boardHoles": [1, 2, 5, 6, 25, 30, 33, 38, 57, 58, 61, 62],
+        "ingredientIndices": [4, 7, 12]
+      },
+      "after": {
+        "moves": 33,
+        "boardHoles": [1, 2, 5, 6, 57, 58, 61, 62],
+        "ingredientIndices": [28, 45, 36]
+      },
+      "measurements": [
+        { "seedBase": 150000, "beforeWinRate": 0.02, "afterWinRate": 0.44, "beforeSpecialsPerMove": 0.1137, "afterSpecialsPerMove": 0.1339, "beforeCascade2PlusRate": 0.2353, "afterCascade2PlusRate": 0.2468, "beforeReshuffleRate": 0.0307, "afterReshuffleRate": 0.0074 },
+        { "seedBase": 160000, "beforeWinRate": 0.045, "afterWinRate": 0.375, "beforeSpecialsPerMove": 0.1134, "afterSpecialsPerMove": 0.1317, "beforeCascade2PlusRate": 0.2253, "afterCascade2PlusRate": 0.2475, "beforeReshuffleRate": 0.0289, "afterReshuffleRate": 0.0111 },
+        { "seedBase": 170000, "beforeWinRate": 0.025, "afterWinRate": 0.38, "beforeSpecialsPerMove": 0.1099, "afterSpecialsPerMove": 0.1451, "beforeCascade2PlusRate": 0.2344, "afterCascade2PlusRate": 0.2692, "beforeReshuffleRate": 0.0299, "afterReshuffleRate": 0.0084 }
+      ]
+    }
+  }
+}
