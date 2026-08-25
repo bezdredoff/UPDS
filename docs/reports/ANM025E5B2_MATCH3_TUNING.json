@@ -1,0 +1,289 @@
+{
+  "format": "upds-match3-tuning-report",
+  "version": 1,
+  "feature": "ANM-025E5B2",
+  "policy": "objective-aware-getHintMove",
+  "runsPerCohort": 200,
+  "cohortBases": [
+    150000,
+    160000,
+    170000
+  ],
+  "levels": {
+    "M3_09": {
+      "beforePositions": [
+        26,
+        29
+      ],
+      "afterPositions": [
+        27,
+        28
+      ],
+      "cohorts": {
+        "150000": {
+          "before": {
+            "wins": 66,
+            "winRate": 0.33,
+            "specialsPerMove": 0.1503,
+            "cascade2PlusRate": 0.2936,
+            "reshuffleRate": 0.0016,
+            "maxCascade": 8,
+            "ingredientDropRate": {
+              "serviceKey": 0.59,
+              "handoffSlip": 0.545
+            }
+          },
+          "after": {
+            "wins": 100,
+            "winRate": 0.5,
+            "specialsPerMove": 0.1536,
+            "cascade2PlusRate": 0.3131,
+            "reshuffleRate": 0.0007,
+            "maxCascade": 7,
+            "ingredientDropRate": {
+              "serviceKey": 0.62,
+              "handoffSlip": 0.665
+            }
+          }
+        },
+        "160000": {
+          "before": {
+            "wins": 77,
+            "winRate": 0.385,
+            "specialsPerMove": 0.147,
+            "cascade2PlusRate": 0.2973,
+            "reshuffleRate": 0.0014,
+            "maxCascade": 11,
+            "ingredientDropRate": {
+              "serviceKey": 0.615,
+              "handoffSlip": 0.58
+            }
+          },
+          "after": {
+            "wins": 96,
+            "winRate": 0.48,
+            "specialsPerMove": 0.1608,
+            "cascade2PlusRate": 0.3089,
+            "reshuffleRate": 0.0018,
+            "maxCascade": 8,
+            "ingredientDropRate": {
+              "serviceKey": 0.615,
+              "handoffSlip": 0.625
+            }
+          }
+        },
+        "170000": {
+          "before": {
+            "wins": 92,
+            "winRate": 0.46,
+            "specialsPerMove": 0.1563,
+            "cascade2PlusRate": 0.3151,
+            "reshuffleRate": 0.0013,
+            "maxCascade": 8,
+            "ingredientDropRate": {
+              "serviceKey": 0.695,
+              "handoffSlip": 0.595
+            }
+          },
+          "after": {
+            "wins": 103,
+            "winRate": 0.515,
+            "specialsPerMove": 0.152,
+            "cascade2PlusRate": 0.3081,
+            "reshuffleRate": 0.0009,
+            "maxCascade": 8,
+            "ingredientDropRate": {
+              "serviceKey": 0.655,
+              "handoffSlip": 0.645
+            }
+          }
+        }
+      }
+    },
+    "M3_14": {
+      "beforePositions": [
+        26,
+        29
+      ],
+      "afterPositions": [
+        27,
+        28
+      ],
+      "cohorts": {
+        "150000": {
+          "before": {
+            "wins": 77,
+            "winRate": 0.385,
+            "specialsPerMove": 0.1549,
+            "cascade2PlusRate": 0.2995,
+            "reshuffleRate": 0.0021,
+            "maxCascade": 7,
+            "ingredientDropRate": {
+              "familyReceipt": 0.65,
+              "atelierLedger": 0.54
+            }
+          },
+          "after": {
+            "wins": 105,
+            "winRate": 0.525,
+            "specialsPerMove": 0.1597,
+            "cascade2PlusRate": 0.3053,
+            "reshuffleRate": 0.0012,
+            "maxCascade": 8,
+            "ingredientDropRate": {
+              "familyReceipt": 0.63,
+              "atelierLedger": 0.65
+            }
+          }
+        },
+        "160000": {
+          "before": {
+            "wins": 79,
+            "winRate": 0.395,
+            "specialsPerMove": 0.1511,
+            "cascade2PlusRate": 0.2974,
+            "reshuffleRate": 0.0012,
+            "maxCascade": 9,
+            "ingredientDropRate": {
+              "familyReceipt": 0.68,
+              "atelierLedger": 0.545
+            }
+          },
+          "after": {
+            "wins": 93,
+            "winRate": 0.465,
+            "specialsPerMove": 0.1547,
+            "cascade2PlusRate": 0.3139,
+            "reshuffleRate": 0.0033,
+            "maxCascade": 8,
+            "ingredientDropRate": {
+              "familyReceipt": 0.58,
+              "atelierLedger": 0.645
+            }
+          }
+        },
+        "170000": {
+          "before": {
+            "wins": 76,
+            "winRate": 0.38,
+            "specialsPerMove": 0.1556,
+            "cascade2PlusRate": 0.3051,
+            "reshuffleRate": 0.0022,
+            "maxCascade": 8,
+            "ingredientDropRate": {
+              "familyReceipt": 0.68,
+              "atelierLedger": 0.52
+            }
+          },
+          "after": {
+            "wins": 85,
+            "winRate": 0.425,
+            "specialsPerMove": 0.1518,
+            "cascade2PlusRate": 0.2986,
+            "reshuffleRate": 0.0015,
+            "maxCascade": 7,
+            "ingredientDropRate": {
+              "familyReceipt": 0.575,
+              "atelierLedger": 0.565
+            }
+          }
+        }
+      }
+    },
+    "M3_15": {
+      "beforePositions": [
+        28,
+        31
+      ],
+      "afterPositions": [
+        20,
+        29
+      ],
+      "cohorts": {
+        "150000": {
+          "before": {
+            "wins": 43,
+            "winRate": 0.215,
+            "specialsPerMove": 0.1685,
+            "cascade2PlusRate": 0.313,
+            "reshuffleRate": 0.0009,
+            "maxCascade": 9,
+            "ingredientDropRate": {
+              "markedPackage": 0.695,
+              "serviceKeyCard": 0.305
+            }
+          },
+          "after": {
+            "wins": 88,
+            "winRate": 0.44,
+            "specialsPerMove": 0.1638,
+            "cascade2PlusRate": 0.2998,
+            "reshuffleRate": 0.0013,
+            "maxCascade": 8,
+            "ingredientDropRate": {
+              "markedPackage": 0.555,
+              "serviceKeyCard": 0.625
+            }
+          }
+        },
+        "160000": {
+          "before": {
+            "wins": 64,
+            "winRate": 0.32,
+            "specialsPerMove": 0.1708,
+            "cascade2PlusRate": 0.3127,
+            "reshuffleRate": 0.001,
+            "maxCascade": 8,
+            "ingredientDropRate": {
+              "markedPackage": 0.725,
+              "serviceKeyCard": 0.415
+            }
+          },
+          "after": {
+            "wins": 90,
+            "winRate": 0.45,
+            "specialsPerMove": 0.1503,
+            "cascade2PlusRate": 0.3167,
+            "reshuffleRate": 0.0015,
+            "maxCascade": 8,
+            "ingredientDropRate": {
+              "markedPackage": 0.61,
+              "serviceKeyCard": 0.57
+            }
+          }
+        },
+        "170000": {
+          "before": {
+            "wins": 56,
+            "winRate": 0.28,
+            "specialsPerMove": 0.1723,
+            "cascade2PlusRate": 0.3184,
+            "reshuffleRate": 0.0013,
+            "maxCascade": 8,
+            "ingredientDropRate": {
+              "markedPackage": 0.69,
+              "serviceKeyCard": 0.375
+            }
+          },
+          "after": {
+            "wins": 92,
+            "winRate": 0.46,
+            "specialsPerMove": 0.15,
+            "cascade2PlusRate": 0.3096,
+            "reshuffleRate": 0.0015,
+            "maxCascade": 9,
+            "ingredientDropRate": {
+              "markedPackage": 0.605,
+              "serviceKeyCard": 0.615
+            }
+          }
+        }
+      }
+    }
+  },
+  "notes": [
+    "Move budgets, objectives, blockers, active tile sets and narrative context are unchanged.",
+    "Only authored ingredient start positions change.",
+    "Auto win rates are comparator signals, not human win-rate targets."
+  ]
+}
