@@ -118,11 +118,19 @@ const reactionId = reaction.id;
 this.reactionPresentationTimer = window.setTimeout(() => {
 this.reactionPresentationTimer = null;
 if (this.matchBark?.reaction?.id !== reactionId) return;
-this.matchBark = null;
+const speaker = this.matchBark.speaker;
+const showIdleBark = (): void => {
+if (this.matchBark?.reaction?.id !== reactionId) return;
+this.matchBark = { speaker, text: '…' };
+this.syncMatchPresentation();
+};
 const barkElement = this.root.querySelector<HTMLElement>(`.field-bark.reaction-bark[data-reaction-id="${reactionId}"]`);
-if (!barkElement) return;
+if (!barkElement) {
+showIdleBark();
+return;
+}
 barkElement.classList.add('is-dismissing');
-window.setTimeout(() => barkElement.remove(), 180);
+window.setTimeout(showIdleBark, 180);
 }, reaction.durationMs);
 }
 private armAutoHint(): void {

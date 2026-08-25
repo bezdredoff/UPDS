@@ -1,4 +1,5 @@
 import { medallionAsset } from '../../data/characterRigs';
+import { productionCharacterKeys } from '../../data/characterProduction';
 import {
   blockerPresentation,
   ingredientPresentation,
@@ -165,10 +166,8 @@ export function match3TutorialMarkup(
 }
 
 function barkMedallion(bark: Match3BarkPresentation, t: Match3Translate): string {
-  if (bark.speaker === t('character.miku')) return medallionAsset('miku');
-  if (bark.speaker === t('character.onoe')) return medallionAsset('onoe');
-  if (bark.speaker === t('character.ayuki')) return medallionAsset('ayuki');
-  return medallionAsset('miku');
+  const character = productionCharacterKeys.find((key) => bark.speaker === t(`character.${key}`));
+  return medallionAsset(character ?? 'miku');
 }
 
 export function match3BarkMarkup(

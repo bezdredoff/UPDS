@@ -11,6 +11,7 @@ import {
   directSpecialComboTargets,
   expandSpecialClearTargets,
   findMatchGroups as findBoardMatchGroups,
+  findResolutionMatchGroups as findBoardResolutionMatchGroups,
   findPlayerSpecialCreations,
   indexOf,
   resolveDirectSpecialCombo,
@@ -311,8 +312,12 @@ export class Match3Game {
     return findBoardMatchGroups(this.cells);
   }
 
+  private findResolutionMatchGroups(): MatchGroup[] {
+    return findBoardResolutionMatchGroups(this.cells);
+  }
+
   hasImmediateMatches(): boolean {
-    return this.findMatchGroups().length > 0;
+    return this.findResolutionMatchGroups().length > 0;
   }
 
   hasAvailableMove(): boolean {
@@ -393,7 +398,11 @@ export class Match3Game {
         const verticalMatch = row >= 2
           && this.cells[index - BOARD_SIZE].tile === tile
           && this.cells[index - BOARD_SIZE * 2].tile === tile;
-        return !horizontalMatch && !verticalMatch;
+        const squareMatch = row >= 1 && column >= 1
+          && this.cells[index - 1].tile === tile
+          && this.cells[index - BOARD_SIZE].tile === tile
+          && this.cells[index - BOARD_SIZE - 1].tile === tile;
+        return !horizontalMatch && !verticalMatch && !squareMatch;
       });
       cell.tile = candidates[0] ?? this.randomTile();
     }
@@ -410,7 +419,11 @@ export class Match3Game {
         const verticalMatch = row >= 2
           && this.cells[index - BOARD_SIZE].tile === tile
           && this.cells[index - BOARD_SIZE * 2].tile === tile;
-        return !horizontalMatch && !verticalMatch;
+        const squareMatch = row >= 1 && column >= 1
+          && this.cells[index - 1].tile === tile
+          && this.cells[index - BOARD_SIZE].tile === tile
+          && this.cells[index - BOARD_SIZE - 1].tile === tile;
+        return !horizontalMatch && !verticalMatch && !squareMatch;
       });
       this.cells[index].tile = candidates[0] ?? this.randomTile();
     }
@@ -489,7 +502,7 @@ export class Match3Game {
         specialsActivated: 0,
         motions: settle.motions,
       });
-      groups = this.findMatchGroups();
+      groups = this.findResolutionMatchGroups();
       specialActivations = [];
     }
 
@@ -820,7 +833,7 @@ export class Match3Game {
       cell.special = null;
     }
     while (this.hasImmediateMatches()) {
-      const groups = this.findMatchGroups();
+      const groups = this.findResolutionMatchGroups();
       for (const group of groups) this.cells[group.indices[group.indices.length - 1]].tile = this.randomTile();
     }
   }
