@@ -1,8 +1,9 @@
 import { APP_VERSION, BUILD_ID } from '../appVersion';
 import type { StorageLike } from './SafeStorage';
 
-export const PLAYTEST_STORAGE_KEY = 'seiran-detectives-playtest-v1';
-export const PLAYTEST_SCHEMA_VERSION = 1;
+export const PLAYTEST_STORAGE_KEY = 'seiran-detectives-playtest-v2';
+export const PLAYTEST_LEGACY_STORAGE_KEY = 'seiran-detectives-playtest-v1';
+export const PLAYTEST_SCHEMA_VERSION = 2;
 export const PLAYTEST_EVENT_LIMIT = 2500;
 
 export type PlaytestEventName =
@@ -112,8 +113,8 @@ const percentage = (numerator: number, denominator: number): number | null => (
   denominator > 0 ? Math.round((numerator / denominator) * 1000) / 10 : null
 );
 
-const normalizePersisted = (value: unknown): PersistedPlaytest => {
-  if (!isObject(value) || value.schemaVersion !== PLAYTEST_SCHEMA_VERSION || !Array.isArray(value.events)) return blankPersisted();
+const normalizePersisted = (value: unknown, acceptedSchemaVersions: readonly number[]): PersistedPlaytest | null => {
+  if (!isObject(value) || !acceptedSchemaVersions.includes(Number(value.schemaVersion)) || !Array.isArray(value.events)) return null;
   const events = value.events.filter((event): event is PlaytestEvent => {
     if (!isObject(event)) return false;
     return typeof event.at === 'string' && typeof event.sessionId === 'string' && typeof event.name === 'string' && Number.isInteger(event.seq) && isObject(event.data);
@@ -263,10 +264,19 @@ export class PlaytestTelemetry {
   private lastScreenKey = '';
   private activeMatchAttemptId: string | null = null;
   private activeMatchMoveNumber = 0;
+  private activeMatchMoveAttemptNumber = 0;
+  private activeMatchHintNumber = 0;
+  private activeMatchBoardRevision = 0;
+  private activeHint: Readonly<{ id: string; boardRevision: number; first: number; second: number }> | null = null;
   private lastMatchMoveTrackedAt: number | null = null;
 
   constructor(private readonly storage: StorageLike, private readonly key = PLAYTEST_STORAGE_KEY) {
-    this.state = this.read();
+    const current = this.read(this.key, [PLAYTEST_SCHEMA_VERSION]);
+    const legacy = this.key === PLAYTEST_STORAGE_KEY && !current
+      ? this.read(PLAYTEST_LEGACY_STORAGE_KEY, [1])
+      : null;
+    this.state = current ?? legacy ?? blankPersisted();
+    if (legacy) this.write();
   }
 
   get sessionId(): string { return this.currentSessionId; }
@@ -276,6 +286,10 @@ export class PlaytestTelemetry {
     this.sessionStartedAt = Date.now();
     this.activeMatchAttemptId = null;
     this.activeMatchMoveNumber = 0;
+    this.activeMatchMoveAttemptNumber = 0;
+    this.activeMatchHintNumber = 0;
+    this.activeMatchBoardRevision = 0;
+    this.activeHint = null;
     this.lastMatchMoveTrackedAt = null;
     this.track('session_start', environment);
   }
@@ -291,20 +305,53 @@ export class PlaytestTelemetry {
     if (name === 'match_start') {
       this.activeMatchAttemptId = `${this.currentSessionId}:${this.state.nextSeq}`;
       this.activeMatchMoveNumber = 0;
+      this.activeMatchMoveAttemptNumber = 0;
+      this.activeMatchHintNumber = 0;
+      this.activeMatchBoardRevision = 0;
+      this.activeHint = null;
       this.lastMatchMoveTrackedAt = null;
     }
 
     let eventData: Record<string, unknown> = { ...data };
     if (name.startsWith('match_') && this.activeMatchAttemptId) {
-      eventData = { ...eventData, attemptId: eventData.attemptId ?? this.activeMatchAttemptId };
+      eventData = { ...eventData, attemptId: this.activeMatchAttemptId, boardRevision: this.activeMatchBoardRevision };
     }
-    if (name === 'match_move') {
+    if (name === 'match_hint' && this.activeMatchAttemptId) {
+      this.activeMatchHintNumber += 1;
+      const hintId = `${this.activeMatchAttemptId}:h${this.activeMatchHintNumber}`;
+      const first = finiteNumber(eventData.first);
+      const second = finiteNumber(eventData.second);
+      eventData = { ...eventData, hintId };
+      this.activeHint = eventData.available === true && first !== null && second !== null
+        ? { id: hintId, boardRevision: this.activeMatchBoardRevision, first, second }
+        : null;
+    }
+    if (name === 'match_move' && this.activeMatchAttemptId) {
+      const boardRevisionBefore = this.activeMatchBoardRevision;
+      this.activeMatchMoveAttemptNumber += 1;
       if (eventData.valid === true) this.activeMatchMoveNumber += 1;
+      if (eventData.valid === true) this.activeMatchBoardRevision += 1;
+      const first = finiteNumber(eventData.first);
+      const second = finiteNumber(eventData.second);
+      const followedHintId = this.activeHint
+        && this.activeHint.boardRevision === boardRevisionBefore
+        && first !== null
+        && second !== null
+        && ((first === this.activeHint.first && second === this.activeHint.second)
+          || (first === this.activeHint.second && second === this.activeHint.first))
+        ? this.activeHint.id
+        : null;
       eventData = {
         ...eventData,
+        moveId: `${this.activeMatchAttemptId}:m${this.activeMatchMoveAttemptNumber}`,
         moveNumber: eventData.moveNumber ?? this.activeMatchMoveNumber,
+        boardRevisionBefore,
+        boardRevisionAfter: this.activeMatchBoardRevision,
+        followedHintId,
         ...(this.lastMatchMoveTrackedAt === null ? {} : { moveEventGapMs: Math.max(0, trackedAt - this.lastMatchMoveTrackedAt) }),
       };
+      delete eventData.boardRevision;
+      this.activeHint = null;
       this.lastMatchMoveTrackedAt = trackedAt;
     }
 
@@ -324,6 +371,10 @@ export class PlaytestTelemetry {
     if (name === 'match_end') {
       this.activeMatchAttemptId = null;
       this.activeMatchMoveNumber = 0;
+      this.activeMatchMoveAttemptNumber = 0;
+      this.activeMatchHintNumber = 0;
+      this.activeMatchBoardRevision = 0;
+      this.activeHint = null;
       this.lastMatchMoveTrackedAt = null;
     }
   }
@@ -357,15 +408,19 @@ export class PlaytestTelemetry {
     this.lastScreenKey = '';
     this.activeMatchAttemptId = null;
     this.activeMatchMoveNumber = 0;
+    this.activeMatchMoveAttemptNumber = 0;
+    this.activeMatchHintNumber = 0;
+    this.activeMatchBoardRevision = 0;
+    this.activeHint = null;
     this.lastMatchMoveTrackedAt = null;
     this.write();
   }
 
-  private read(): PersistedPlaytest {
+  private read(key: string, acceptedSchemaVersions: readonly number[]): PersistedPlaytest | null {
     try {
-      const raw = this.storage.getItem(this.key);
-      return raw ? normalizePersisted(JSON.parse(raw)) : blankPersisted();
-    } catch { return blankPersisted(); }
+      const raw = this.storage.getItem(key);
+      return raw ? normalizePersisted(JSON.parse(raw), acceptedSchemaVersions) : null;
+    } catch { return null; }
   }
 
   private write(): void {
