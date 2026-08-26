@@ -18,6 +18,7 @@ import { qaSelectors } from '../selectors';
 
 const shortDragRatio = 0.1;
 const committedDragRatio = 0.42;
+const autoHintDelayMs = 30_000;
 
 async function holdPointerDrag(
   page: Page,
@@ -100,11 +101,19 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
 
   test('inactivity hint updates the stable Match-3 screen and board in place', async ({ page }) => {
     const health = observeBrowserHealth(page);
+    await page.clock.install();
     await openDeterministicLab(page);
     await rememberMatch3Dom(page);
 
+    const pauseTime = await page.evaluate(() => Date.now() + 1_000);
+    await page.clock.pauseAt(pauseTime);
+    await match3Cell(page, 0).click();
+
     expect(await movesLeft(page)).toBe(deterministicLabMoves);
-    await expect(page.locator(qaSelectors.match3HintedCell)).toHaveCount(2, { timeout: 7_000 });
+    await page.clock.fastForward(autoHintDelayMs - 1);
+    expect(await page.locator(qaSelectors.match3HintedCell).count()).toBe(0);
+    await page.clock.fastForward(1);
+    await expect(page.locator(qaSelectors.match3HintedCell)).toHaveCount(2);
     await expect(page.locator(qaSelectors.match3Bark)).toBeVisible();
     expect(await movesLeft(page)).toBe(deterministicLabMoves);
     await expectMatch3DomStable(page);

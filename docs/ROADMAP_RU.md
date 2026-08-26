@@ -48,6 +48,7 @@ Changing the release platform or market scope is a separate product decision, no
 - **ANM-024 Display / Viewport / Safe-Area Foundation — COMPLETE**.
 - **ANM-025 Match-3 Production Framework — FRAMEWORK COMPLETE**; deterministic balance baseline is complete through E3. A separate E4 framework is evidence-driven rather than automatically required.
 - **ANM-025G1 Lean Blocker Archetypes**: human-playtest follow-up reduces 18 narrative blocker IDs to three reusable presentation styles and one stable HUD term without rebalance; contract and mobile gate are in [`ANM025G1_LEAN_BLOCKER_ARCHETYPES_RU.md`](features/ANM025G1_LEAN_BLOCKER_ARCHETYPES_RU.md).
+- **ANM-025G2 Auto-Hint Pacing**: playtest follow-up raises the inactivity hint delay from 5 to 30 seconds so normal reading/thinking time is not treated as a request for help; manual Hint, objective scoring, balance and telemetry schema stay unchanged. Contract and mobile gate are in [`ANM025G2_AUTO_HINT_PACING_RU.md`](features/ANM025G2_AUTO_HINT_PACING_RU.md).
 - **ANM-026 Level Lab & Match-3 Campaign — COMPLETE**.
 - **ANM-027 Story Content Architecture & Import — COMPLETE**.
 - **027G Episode Batch Production & Canonical Import — COMPLETE**: authored/runtime-integrated `0–21` content and three endings.
