@@ -105,9 +105,13 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     await openDeterministicLab(page);
     await rememberMatch3Dom(page);
 
+    const pauseTime = await page.evaluate(() => Date.now() + 1_000);
+    await page.clock.pauseAt(pauseTime);
+    await match3Cell(page, 0).click();
+
     expect(await movesLeft(page)).toBe(deterministicLabMoves);
     await page.clock.fastForward(autoHintDelayMs - 1);
-    await expect(page.locator(qaSelectors.match3HintedCell)).toHaveCount(0);
+    expect(await page.locator(qaSelectors.match3HintedCell).count()).toBe(0);
     await page.clock.fastForward(1);
     await expect(page.locator(qaSelectors.match3HintedCell)).toHaveCount(2);
     await expect(page.locator(qaSelectors.match3Bark)).toBeVisible();

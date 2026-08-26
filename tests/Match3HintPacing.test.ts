@@ -21,7 +21,10 @@ describe('ANM-025G2 auto-hint pacing', () => {
 
     expect(browserSpec).toContain('const autoHintDelayMs = 30_000;');
     expect(browserSpec).toContain('await page.clock.install();');
+    expect(browserSpec).toContain('await page.clock.pauseAt(pauseTime);');
+    expect(browserSpec).toContain('await match3Cell(page, 0).click();');
     expect(browserSpec).toContain('await page.clock.fastForward(autoHintDelayMs - 1);');
+    expect(browserSpec).toContain('expect(await page.locator(qaSelectors.match3HintedCell).count()).toBe(0);');
     expect(browserSpec).toContain('await page.clock.fastForward(1);');
     expect(browserSpec).toContain('await expectMatch3DomStable(page);');
   });
