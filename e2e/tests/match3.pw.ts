@@ -233,10 +233,13 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
 
     await tapSwap(page, deterministicInvalidSwap[0], deterministicInvalidSwap[1]);
 
+    const invalidFeedback = page.locator(qaSelectors.match3Feedback);
+    await expect(invalidFeedback).toHaveClass(/reject-feedback.*visible|visible.*reject-feedback/);
     expect(await movesLeft(page)).toBe(deterministicLabMoves);
     expect(await firstObjectiveProgress(page)).toEqual([0, 10]);
     expect(await tileVariant(page, 4)).toBe('tile:sportsBra');
     expect(await tileVariant(page, 5)).toBe('tile:laundryTag');
+    await expect(invalidFeedback).not.toHaveClass(/visible/);
 
     await tapSwap(page, deterministicFlashSwap[0], deterministicFlashSwap[1]);
 

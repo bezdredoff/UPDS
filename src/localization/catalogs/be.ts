@@ -114,7 +114,7 @@ export const beCatalog = {
   'match3.feedback.chain': 'ЛАНЦУЖОК ×{count}',
   'match3.feedback.combo': 'КОМБА!',
   'match3.feedback.match': 'СУПАДЗЕННЕ',
-  'match3.feedback.reshuffled': 'ПОЛЕ ПЕРАМЕШАНА',
+  'match3.feedback.reshuffled': 'НЯМА ХАДОЎ · ПОЛЕ ПЕРАМЕШАНА',
   'match3.feedback.noMatch': 'НЯМА СУПАДЗЕННЯ',
   'match3.feedback.moveBlocked': 'ПЕРАМЯШЧЭННЕ ЗАБЛАКІРАВАНА',
   "match3.feedback.storyObjectLocked": "СЮЖЭТНЫ АБ'ЕКТ НЕЛЬГА ПЕРАМЯШЧАЦЬ",

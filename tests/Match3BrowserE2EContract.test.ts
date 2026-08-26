@@ -62,6 +62,9 @@ describe('ANM-023G5 Match-3 browser E2E contract', () => {
     expect(spec).toContain('objective-aware Hint resolves a real legal move');
     expect(spec).toContain('a deterministic cascade uses production clear/settle/refill rules');
     expect(spec).toContain('invalid swap is side-effect free');
+    expect(spec).toContain('const invalidFeedback = page.locator(qaSelectors.match3Feedback)');
+    expect(spec).toContain('toHaveClass(/reject-feedback.*visible|visible.*reject-feedback/)');
+    expect(spec).toContain('not.toHaveClass(/visible/)');
     expect(spec).toContain("toEqual([7, 10])");
     expect(spec).toContain("toEqual([3, 10])");
     expect(spec).toContain("'.special.flash-row'");
