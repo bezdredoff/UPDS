@@ -31,6 +31,7 @@ export async function openCampaignFirstLevel(page: Page): Promise<void> {
 export async function openDeterministicLab(
   page: Page,
   seed = deterministicLabSeed,
+  objectives: readonly unknown[] = deterministicObjective,
 ): Promise<void> {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await resetBrowserState(page);
@@ -46,7 +47,7 @@ export async function openDeterministicLab(
   await page.locator(qaSelectors.levelLabInitialTiles).fill(JSON.stringify(deterministicInitialTiles));
   await page.locator(qaSelectors.levelLabBlockers).fill('[]');
   await page.locator(qaSelectors.levelLabIngredients).fill('[]');
-  await page.locator(qaSelectors.levelLabObjectives).fill(JSON.stringify(deterministicObjective));
+  await page.locator(qaSelectors.levelLabObjectives).fill(JSON.stringify(objectives));
   await page.locator(qaSelectors.levelLabApply).click();
 
   await expect(page.locator(qaSelectors.levelLabValidation)).toHaveClass(/valid/);
