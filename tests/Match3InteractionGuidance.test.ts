@@ -39,7 +39,7 @@ describe('ANM-022F interaction guidance', () => {
 
   it('locks the inactivity, double-tap and telemetry source contracts', async () => {
     const controller = await readFile(new URL('../src/features/match3/Match3Controller.ts', import.meta.url), 'utf8');
-    expect(controller).toContain('MATCH_AUTO_HINT_DELAY_MS = 5000');
+    expect(controller).toContain('MATCH_AUTO_HINT_DELAY_MS = 30000');
     expect(controller).toContain('SPECIAL_DOUBLE_TAP_WINDOW_MS = 360');
     expect(controller).toContain("this.showObjectiveHint('inactivity')");
     expect(controller).toContain("source: 'double-tap', activation: 'direct'");

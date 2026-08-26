@@ -39,7 +39,7 @@ type Match3BarkPresentation,
 export type MatchOutcome = 'win' | 'loss' | 'abandon';
 export type MatchInteractionSource = 'tap' | 'drag' | 'double-tap';
 export type MatchHintSource = 'manual' | 'inactivity';
-export const MATCH_AUTO_HINT_DELAY_MS = 5000;
+export const MATCH_AUTO_HINT_DELAY_MS = 30000;
 export const SPECIAL_DOUBLE_TAP_WINDOW_MS = 360;
 type Bark = Match3BarkPresentation;
 type LabRun = Readonly<{ levelIndex: number; seed: number; level: LevelDefinition; onExit: () => void }>;

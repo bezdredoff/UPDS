@@ -79,7 +79,7 @@ Semantic vocabulary различает:
 Дополнительно реализованы:
 - direct double-tap activation of special;
 - any-special drag activation;
-- automatic objective-aware hint after five seconds;
+- automatic objective-aware hint after thirty seconds;
 - hint timer reset on board/user activity;
 - differentiated telemetry source.
 
