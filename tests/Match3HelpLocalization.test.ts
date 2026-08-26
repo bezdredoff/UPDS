@@ -9,7 +9,7 @@ describe('ANM-025C2 Match-3 Help localization', () => {
   it('keeps the compact Help extension complete in RU, BE and EN', () => {
     expect(helpKeys).toHaveLength(9);
     for (const locale of supportedLocales) {
-      const catalog = match3HelpCatalogs[locale];
+      const catalog: Readonly<Record<string, string>> = match3HelpCatalogs[locale];
       expect(Object.keys(catalog).sort()).toEqual(helpKeys);
       for (const key of helpKeys) expect(catalog[key], `${locale}:${key}`).toBeTruthy();
     }
@@ -18,7 +18,7 @@ describe('ANM-025C2 Match-3 Help localization', () => {
   it('exposes every Help key through the actual lazy runtime catalogs with no fallback', async () => {
     for (const locale of supportedLocales) {
       const runtime = await loadRuntimeLocaleCatalog(locale);
-      const expected = match3HelpCatalogs[locale];
+      const expected: Readonly<Record<string, string>> = match3HelpCatalogs[locale];
       for (const key of helpKeys) expect(runtime[key], `${locale}:${key}`).toBe(expected[key]);
     }
   });
