@@ -19,6 +19,11 @@ import { qaSelectors } from '../selectors';
 const shortDragRatio = 0.1;
 const committedDragRatio = 0.42;
 const autoHintDelayMs = 30_000;
+const responsiveHudObjectives = [
+  { kind: 'collect', tile: 'pantiesSportWhite', target: 10, label: 'Подтверждённые бирки' },
+  { kind: 'collect', tile: 'laundryTag', target: 8, label: 'Сервисные ярлыки' },
+  { kind: 'collect', tile: 'sportsBra', target: 6, label: 'Проверка машины' },
+] as const;
 
 async function holdPointerDrag(
   page: Page,
@@ -186,6 +191,40 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     expect(await firstObjectiveProgress(page)).toEqual([3, 10]);
     await expect(match3Cell(page, 2).locator('.special.flash-row')).toBeVisible();
     await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(64);
+    health.assertClean();
+  });
+
+  test('three long objectives fit the production HUD without horizontal scrolling or clipped labels', async ({ page }) => {
+    const health = observeBrowserHealth(page);
+    await openDeterministicLab(page, deterministicLabSeed, responsiveHudObjectives);
+
+    const objectiveBoard = page.locator('.objective-board');
+    await expect(page.locator(qaSelectors.match3Objectives)).toHaveCount(3);
+    const geometry = await objectiveBoard.evaluate((board) => {
+      const strip = board.querySelector<HTMLElement>('.objectives');
+      if (!strip) throw new Error('Missing objective strip');
+      const stripRect = strip.getBoundingClientRect();
+      const cards = Array.from(strip.querySelectorAll<HTMLElement>('.objective'));
+      const labels = cards.map((card) => card.querySelector<HTMLElement>('span')).filter(Boolean) as HTMLElement[];
+      return {
+        overflow: strip.scrollWidth - strip.clientWidth,
+        cardsInside: cards.every((card) => {
+          const rect = card.getBoundingClientRect();
+          return rect.left >= stripRect.left - 1 && rect.right <= stripRect.right + 1;
+        }),
+        cardsUnclipped: cards.every((card) => card.scrollHeight <= card.clientHeight + 1),
+        labelsUnclipped: labels.every((label) =>
+          label.scrollWidth <= label.clientWidth + 1 && label.scrollHeight <= label.clientHeight + 1,
+        ),
+        labelsWrap: labels.every((label) => getComputedStyle(label).whiteSpace === 'normal'),
+      };
+    });
+
+    expect(geometry.overflow).toBeLessThanOrEqual(1);
+    expect(geometry.cardsInside).toBe(true);
+    expect(geometry.cardsUnclipped).toBe(true);
+    expect(geometry.labelsUnclipped).toBe(true);
+    expect(geometry.labelsWrap).toBe(true);
     health.assertClean();
   });
 

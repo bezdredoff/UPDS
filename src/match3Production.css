@@ -411,3 +411,83 @@
 .match-screen[data-m3-board-frame='lab-file'] .board { box-shadow: inset 0 0 0 2px rgba(121, 169, 190, 0.3), 0 18px 46px rgba(0,0,0,.28); }
 .match-screen[data-m3-board-frame='warehouse-file'] .board { box-shadow: inset 0 0 0 2px rgba(190, 170, 132, 0.28), 0 18px 46px rgba(0,0,0,.28); }
 .match-screen[data-m3-board-frame='maintenance-file'] .board { box-shadow: inset 0 0 0 2px rgba(145, 157, 169, 0.3), 0 18px 46px rgba(0,0,0,.28); }
+
+/* ANM-025C1 responsive objective HUD: keep every active objective visible at once on the phone canvas. */
+.match-case-hud {
+  grid-template-columns: minmax(0, 1fr) 108px;
+}
+.objective-board .objectives {
+  gap: 5px;
+  overflow-x: hidden;
+}
+.objective-board .objective {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 44px;
+  padding: 2px 5px 3px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: 22px minmax(16px, auto);
+  column-gap: 4px;
+}
+.objective-board .objective-icons {
+  grid-column: 1;
+  grid-row: 1;
+  width: auto;
+  height: 22px;
+  justify-content: flex-start;
+}
+.objective-board .objective-icons img {
+  width: 22px;
+  height: 22px;
+}
+.objective-board .objective-icons.multi img {
+  width: 17px;
+  height: 17px;
+  margin-right: -5px;
+}
+.objective-board .objective span {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  align-self: start;
+  overflow: visible;
+  font-size: 8px;
+  line-height: 1.05;
+  text-overflow: clip;
+  white-space: normal;
+}
+.objective-board .objective b {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  justify-self: end;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+@media (max-width: 430px) {
+  .match-case-hud { grid-template-columns: minmax(0, 1fr) 94px; }
+  .stage-board { grid-template-columns: 42px minmax(0, 1fr); gap: 3px; }
+  .stage-meta { padding-left: 2px; border-left: 0; }
+  .stage-meta b { font-size: 8px; line-height: 1.05; white-space: normal; }
+  .stage-meta small { font-size: 7px; line-height: 1.12; letter-spacing: .03em; }
+}
+
+@media (max-width: 340px) {
+  .match-case-hud { grid-template-columns: minmax(0, 1fr) 86px; }
+  .objective-board .objectives { gap: 3px; }
+  .objective-board .objective {
+    height: 40px;
+    padding-left: 3px;
+    padding-right: 3px;
+    grid-template-rows: 20px minmax(15px, auto);
+  }
+  .objective-board .objective-icons { height: 20px; }
+  .objective-board .objective-icons img { width: 20px; height: 20px; }
+  .objective-board .objective-icons.multi img { width: 15px; height: 15px; margin-right: -5px; }
+  .objective-board .objective span { font-size: 7px; }
+  .objective-board .objective b { font-size: 9px; }
+  .stage-board { grid-template-columns: 38px minmax(0, 1fr); }
+  .moves-left { width: 38px; height: 38px; border-width: 2px; }
+  .moves-left b { font-size: 27px; }
+  .stage-meta small { font-size: 6px; }
+}
