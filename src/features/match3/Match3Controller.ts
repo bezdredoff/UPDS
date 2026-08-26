@@ -37,6 +37,7 @@ match3TutorialMarkup,
 type Match3BarkPresentation,
 } from './Match3Presentation';
 import { match3ObjectiveDeltas, match3ObjectiveSnapshot } from './Match3Telemetry';
+import { match3InvalidFeedbackKey } from './Match3InvalidFeedback';
 export type MatchOutcome = 'win' | 'loss' | 'abandon';
 export type MatchInteractionSource = 'tap' | 'drag' | 'double-tap';
 export type MatchHintSource = 'manual' | 'inactivity';
@@ -631,7 +632,7 @@ const cells = [first, second]
 const noMatch = result.reason === 'no-match';
 if (noMatch) await this.animateSwapStacks(first, second, !reduced);
 cells.forEach((cell) => cell.classList.add('swap-rejected'));
-this.setMatchFeedback(noMatch ? this.t('match3.feedback.noMatch') : this.t('match3.feedback.swapUnavailable'), 'reject-feedback');
+this.setMatchFeedback(this.t(match3InvalidFeedbackKey(result.reason)), 'reject-feedback');
 await this.matchDelay(matchMotionDuration('invalidHold', reduced));
 cells.forEach((cell) => cell.classList.remove('swap-rejected'));
 if (noMatch && !reduced) {
@@ -869,12 +870,17 @@ objectiveDeltas: match3ObjectiveDeltas(objectiveBefore, objectiveAfter),
 if (!result.valid) {
 if (result.reason === 'not-adjacent' && selectSecondWhenNonAdjacent) {
 this.selectedCell = second;
+this.matchBark = this.bark('notAdjacentInvalid', 'miku');
 this.syncMatchPresentation();
+this.setMatchFeedback(this.t(match3InvalidFeedbackKey(result.reason)), 'reject-feedback');
+await this.matchDelay(matchMotionDuration('invalidHold', this.prefersReducedMatchMotion()));
+this.setMatchFeedback('');
 return;
 }
 if (result.reason === 'ingredient') this.matchBark = this.bark('ingredientInvalid', 'miku');
 else if (result.reason === 'blocked') this.matchBark = this.bark('blockedInvalid', 'onoe');
 else if (result.reason === 'no-match') this.matchBark = this.bark('noMatchInvalid', 'onoe');
+this.syncMatchPresentation();
 await this.playMoveFrames(result, first, second);
 this.syncMatchPresentation();
 return;

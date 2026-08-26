@@ -70,6 +70,8 @@ describe('ANM-023G5 Match-3 browser E2E contract', () => {
     expect(spec).toContain('toHaveCount(64)');
     expect(controller).toContain('const result = game.attemptSwap(first, second)');
     expect(controller).toContain('const result = game.attemptSpecialActivation(index)');
+    expect(controller).toContain('this.t(match3InvalidFeedbackKey(result.reason))');
+    expect(controller).not.toContain("noMatch ? this.t('match3.feedback.noMatch') : this.t('match3.feedback.swapUnavailable')");
   });
 
   it('uses the same engine legality contract already protected by unit tests', () => {

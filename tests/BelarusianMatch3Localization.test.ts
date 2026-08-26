@@ -97,7 +97,7 @@ const selectByLevelRange = (
 const sliceSpecs: readonly SliceSpec[] = [
   {
     label: 'core/campaign',
-    keyCount: 83,
+    keyCount: 87,
     select: (catalog) => Object.fromEntries(Object.entries(catalog).filter(([key]) => isMatch3CoreKey(key))),
   },
   {
@@ -143,15 +143,15 @@ describe('Belarusian Match-3 localization', () => {
     expect(isMatch3CoreKey('match3.bark.blockers.0')).toBe(false);
   });
 
-  it('keeps the complete 612-key Match-3 production surface structurally aligned', () => {
+  it('keeps the complete 616-key Match-3 production surface structurally aligned', () => {
     const sourceMain = selectMessageCatalogByPrefixes(ruCatalog, ['match3', 'match3Campaign']);
     const targetMain = selectMessageCatalogByPrefixes(beCatalog, ['match3', 'match3Campaign']);
     const source = { ...sourceMain, ...match3ReactionCatalogs.ru };
     const target = { ...targetMain, ...match3ReactionCatalogs.be };
 
-    assertComplete(sourceMain, targetMain, 480, 'main Match-3 catalog');
+    assertComplete(sourceMain, targetMain, 484, 'main Match-3 catalog');
     assertComplete(match3ReactionCatalogs.ru, match3ReactionCatalogs.be, 132, 'reaction catalog');
-    assertComplete(source, target, 612, 'full Match-3 surface');
+    assertComplete(source, target, 616, 'full Match-3 surface');
   });
 
   it('preserves reviewed terminology, names and protected project labels', () => {
