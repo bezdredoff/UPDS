@@ -78,6 +78,16 @@ export type Match3ScreenMarkupInput = Readonly<{
   objectiveValues: readonly number[];
 }>;
 
+const match3HelpTopics = [
+  ['match3.objective', 'match3.help.objectives.body'],
+  ['match3.hint', 'match3.help.hint.body'],
+  ['match3.tutorial.clear-blocker.title', 'match3.tutorial.clear-blocker.body'],
+  ['match3.tutorial.drop-ingredient.title', 'match3.tutorial.drop-ingredient.body'],
+  ['match3.tutorial.activate-special.title', 'match3.tutorial.activate-special.body'],
+  ['match3.tutorial.combine-specials.title', 'match3.tutorial.combine-specials.body'],
+  ['match3.help.reshuffle.title', 'match3.help.reshuffle.body'],
+] as const;
+
 export function match3ContextAttrs(level: LevelDefinition): string {
   const context = level.context;
   return `data-m3-page="${escapeHtml(context.pageBackground)}" data-m3-board-surface="${escapeHtml(context.boardSurface)}" data-m3-board-frame="${escapeHtml(context.boardFrame)}" data-m3-profile="${escapeHtml(context.narrativeProfile)}" data-m3-tile-profile="${escapeHtml(context.tilePresentationProfile)}"`;
@@ -165,6 +175,27 @@ export function match3TutorialMarkup(
 </div>`;
 }
 
+export function match3HelpMarkup(t: Match3Translate): string {
+  const trigger = t('match3.help.trigger');
+  const topics = match3HelpTopics
+    .map(
+      ([titleKey, bodyKey]) =>
+        `<section class="match-help-topic"><h3>${escapeHtml(t(titleKey))}</h3><p>${escapeHtml(t(bodyKey))}</p></section>`,
+    )
+    .join('');
+
+  return `<details class="match-help">
+<summary class="app-header-action match-help-trigger" aria-label="${escapeHtml(trigger)}" title="${escapeHtml(trigger)}"><span aria-hidden="true">?</span><span class="visually-hidden">${escapeHtml(trigger)}</span></summary>
+<div class="match-help-popover" role="dialog" aria-labelledby="match-help-title">
+<span class="case-tab">${escapeHtml(t('match3.help.label'))}</span>
+<h2 id="match-help-title">${escapeHtml(t('match3.help.title'))}</h2>
+<p class="match-help-intro">${escapeHtml(t('match3.help.intro'))}</p>
+<div class="match-help-list">${topics}</div>
+<p class="match-help-close-hint">${escapeHtml(t('match3.help.closeHint'))}</p>
+</div>
+</details>`;
+}
+
 function barkMedallion(bark: Match3BarkPresentation, t: Match3Translate): string {
   const character = productionCharacterKeys.find((key) => bark.speaker === t(`character.${key}`));
   return medallionAsset(character ?? 'miku');
@@ -204,6 +235,7 @@ ${headerActionMarkup('back', 'back', t('common.back'), undefined, 'app-header-ba
 <div class="app-header-title"><small>${escapeHtml(t('match3.investigation', { current: levelIndex + 1, total: totalLevels }))}</small><b>${escapeHtml(levelTitle)}</b></div>
 <nav class="app-header-actions" aria-label="${escapeHtml(t('match3.investigationNavigation'))}">
 ${headerActionMarkup('dossier', 'dossier', t('dossier.title'), clueCount)}
+${match3HelpMarkup(t)}
 ${headerActionMarkup('header-settings', 'settings', t('common.settings'))}
 </nav>
 </header>
@@ -262,6 +294,7 @@ ${headerActionMarkup('quit', 'back', quitLabel, undefined, 'app-header-back')}
 <div class="app-header-title"><small>${escapeHtml(level.shortId)}</small><b>${escapeHtml(levelTitle)}</b></div>
 <nav class="app-header-actions" aria-label="${escapeHtml(t('match3.investigationNavigation'))}">
 ${runMode === 'story' ? headerActionMarkup('dossier', 'dossier', t('dossier.title'), clueCount) : ''}
+${match3HelpMarkup(t)}
 ${headerActionMarkup('header-settings', 'settings', t('common.settings'))}
 </nav>
 </header>
