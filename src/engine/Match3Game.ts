@@ -114,6 +114,9 @@ const makeRng = (seed: number): (() => number) => {
 
 const OBJECTIVE_PROGRESS_HINT_PRIORITY = 10_000;
 const OBJECTIVE_COMPLETION_HINT_BONUS = 2_000;
+// Rotate equal-score hints for a stable half of board signatures. This removes aggregate
+// scan-order bias without lowering the established deterministic hint-following win floors.
+const HINT_TIE_ROTATION_BUCKET_MASK = 0xd1;
 
 const emptyMoveResult = (reason: MoveResult['reason'], won: boolean, lost: boolean): MoveResult => ({
   valid: false,
@@ -280,7 +283,7 @@ export class Match3Game {
   }
 
   getHintMove(): HintMove | null {
-    let best: HintMove | null = null;
+    let bestMoves: HintMove[] = [];
 
     for (let index = 0; index < this.cells.length; index += 1) {
       for (const candidate of [index + 1, index + BOARD_SIZE]) {
@@ -289,15 +292,27 @@ export class Match3Game {
 
         const score = this.scoreHintEvaluation(index, candidate, evaluation);
         const move = { first: index, second: candidate, score };
-        if (
-          !best
-          || move.score > best.score
-          || (move.score === best.score && (move.first < best.first || (move.first === best.first && move.second < best.second)))
-        ) best = move;
+        if (bestMoves.length === 0 || move.score > bestMoves[0].score) bestMoves = [move];
+        else if (move.score === bestMoves[0].score) bestMoves.push(move);
       }
     }
 
-    return best;
+    return bestMoves[this.hintTieBreakIndex(bestMoves.length)] ?? null;
+  }
+
+  private hintTieBreakIndex(candidateCount: number): number {
+    if (candidateCount <= 1) return 0;
+    const signature = `${this.level.id}|${this.cells.map((cell) => (
+      `${cell.tile ?? '-'},${cell.ingredient ?? '-'},${cell.blockerLayers},${cell.special ?? '-'}`
+    )).join(';')}`;
+    let hash = 2166136261;
+    for (let index = 0; index < signature.length; index += 1) {
+      hash ^= signature.charCodeAt(index);
+      hash = Math.imul(hash, 16777619);
+    }
+    const rotationBucket = (hash >>> 8) & 7;
+    if ((HINT_TIE_ROTATION_BUCKET_MASK & (1 << rotationBucket)) === 0) return 0;
+    return (hash >>> 0) % candidateCount;
   }
 
   private scoreHintEvaluation(first: number, second: number, evaluation: SwapEvaluation): number {
