@@ -36,6 +36,7 @@ match3ScreenMarkup,
 match3TutorialMarkup,
 type Match3BarkPresentation,
 } from './Match3Presentation';
+import { match3ObjectiveDeltas, match3ObjectiveSnapshot } from './Match3Telemetry';
 export type MatchOutcome = 'win' | 'loss' | 'abandon';
 export type MatchInteractionSource = 'tap' | 'drag' | 'double-tap';
 export type MatchHintSource = 'manual' | 'inactivity';
@@ -480,7 +481,14 @@ private showObjectiveHint(source: MatchHintSource): void {
 const game = this.activeMatch;
 if (!game || this.matchInputLocked) return;
 const hint = game.getHintMove();
-this.services.telemetry.track('match_hint', { levelId: game.level.id, levelIndex: this.activeLevelIndex, movesLeft: game.movesLeft, available: Boolean(hint), source });
+this.services.telemetry.track('match_hint', {
+levelId: game.level.id,
+levelIndex: this.activeLevelIndex,
+movesLeft: game.movesLeft,
+available: Boolean(hint), source,
+first: hint?.first ?? null,
+second: hint?.second ?? null,
+});
 this.selectedCell = null;
 this.hintedCells.clear();
 if (!hint) {
@@ -805,11 +813,14 @@ this.matchInputLocked = true;
 this.clearAutoHintTimer();
 this.hintedCells.clear();
 try {
+const objectiveBefore = match3ObjectiveSnapshot(game);
 const result = game.attemptSpecialActivation(index);
+const objectiveAfter = match3ObjectiveSnapshot(game);
 this.services.telemetry.track('match_move', {
 levelId: game.level.id, levelIndex: this.activeLevelIndex, valid: result.valid, reason: result.valid ? 'ok' : result.reason,
 source: 'double-tap', activation: 'direct', movesLeft: game.movesLeft, cascades: result.cascades, specialsCreated: result.specialsCreated,
-reshuffled: result.reshuffled, won: result.won, lost: result.lost,
+reshuffled: result.reshuffled, won: result.won, lost: result.lost, first: index, second: index,
+objectiveDeltas: match3ObjectiveDeltas(objectiveBefore, objectiveAfter),
 });
 if (!result.valid) {
 this.syncMatchPresentation();
@@ -846,11 +857,14 @@ this.hintedCells.clear();
 this.lastTappedSpecial = null;
 try {
 const directSpecialCombo = Boolean(game.board[first]?.special && game.board[second]?.special);
+const objectiveBefore = match3ObjectiveSnapshot(game);
 const result = game.attemptSwap(first, second);
+const objectiveAfter = match3ObjectiveSnapshot(game);
 this.services.telemetry.track('match_move', {
 levelId: game.level.id, levelIndex: this.activeLevelIndex, valid: result.valid, reason: result.valid ? 'ok' : result.reason,
 source, activation: 'swap', movesLeft: game.movesLeft, cascades: result.cascades, specialsCreated: result.specialsCreated,
-reshuffled: result.reshuffled, won: result.won, lost: result.lost,
+reshuffled: result.reshuffled, won: result.won, lost: result.lost, first, second,
+objectiveDeltas: match3ObjectiveDeltas(objectiveBefore, objectiveAfter),
 });
 if (!result.valid) {
 if (result.reason === 'not-adjacent' && selectSecondWhenNonAdjacent) {

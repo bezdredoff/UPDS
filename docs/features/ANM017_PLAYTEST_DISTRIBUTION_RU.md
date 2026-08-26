@@ -8,8 +8,8 @@
 
 Telemetry хранится отдельно от campaign save:
 
-- key: `seiran-detectives-playtest-v1`;
-- schema: `1`;
+- current key: `seiran-detectives-playtest-v2`;
+- schema: `2`; при первом запуске валидные v1 events копируются в v2 без удаления legacy key;
 - cap: 2500 последних событий;
 - данные пишутся best-effort и не блокируют gameplay при проблемах storage.
 
@@ -21,7 +21,7 @@ Telemetry хранится отдельно от campaign save:
 - screen_view;
 - vn_line / vn_paging / vn_skip / vn_auto / vn_log_open;
 - choice_selected;
-- match_start / match_move / match_hint / match_end;
+- match_start / match_move / match_hint / match_tutorial / match_reaction / match_end;
 - vertical_slice_complete;
 - pwa_registered / pwa_offline_ready / pwa_update_available / pwa_update_applied / pwa_installed / connectivity_changed.
 
@@ -40,6 +40,8 @@ Telemetry хранится отдельно от campaign save:
 - max cascade;
 - win / loss / abandon;
 - final objective progress.
+
+Schema v2 дополнительно связывает Match-3 attempt/hint/move через стабильные IDs, фиксирует клетки предложенного и фактического хода, устойчивые board revisions и per-objective deltas. Полные снимки доски и animation frames в telemetry не сохраняются.
 
 ### Export
 
