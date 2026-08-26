@@ -507,7 +507,7 @@ private prefersReducedMatchMotion(): boolean {
 return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 }
 private matchDelay(milliseconds: number): Promise<void> {
-if (this.prefersReducedMatchMotion()) return Promise.resolve();
+if (milliseconds <= 0) return Promise.resolve();
 return new Promise((resolve) => window.setTimeout(resolve, milliseconds));
 }
 private setMatchFeedback(text: string, kind = ''): void {
@@ -658,7 +658,11 @@ if (finalFrame) this.renderMatchFrame(finalFrame);
 if (result.primaryFeedback === 'special' || result.primaryFeedback === 'combo') this.services.audio.play('special');
 else if (result.primaryFeedback === 'chain') this.services.audio.play('cascade');
 else this.services.audio.play('match');
-if (result.reshuffled) this.services.audio.play('reshuffle');
+if (result.reshuffled) {
+this.services.audio.play('reshuffle');
+this.setMatchFeedback(this.t('match3.feedback.reshuffled'), 'reshuffle-feedback');
+await this.matchDelay(matchMotionDuration('feedbackHold', true));
+}
 if (result.won) this.services.audio.play('win');
 else if (result.lost) this.services.audio.play('lose');
 return;
@@ -673,7 +677,10 @@ const duration = frame.phase === 'clear'
 : matchMotionDuration('reshuffle', false);
 await this.matchDelay(duration);
 }
-if (result.cascades >= 2) {
+if (result.reshuffled) {
+this.setMatchFeedback(this.t('match3.feedback.reshuffled'), 'reshuffle-feedback');
+await this.matchDelay(matchMotionDuration('feedbackHold', false));
+} else if (result.cascades >= 2) {
 this.setMatchFeedback(this.t('match3.feedback.chain', { count: result.cascades }), 'chain-feedback');
 await this.matchDelay(matchMotionDuration('feedbackHold', false));
 }

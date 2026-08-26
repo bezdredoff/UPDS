@@ -1172,7 +1172,7 @@ export const enCatalog = {
   'match3.feedback.chain': 'CHAIN ×{count}',
   'match3.feedback.combo': 'COMBO!',
   'match3.feedback.match': 'MATCH',
-  'match3.feedback.reshuffled': 'BOARD SHUFFLED',
+  'match3.feedback.reshuffled': 'NO MOVES · BOARD SHUFFLED',
   'match3.feedback.noMatch': 'NO MATCH',
   'match3.feedback.moveBlocked': 'MOVE BLOCKED',
   'match3.feedback.storyObjectLocked': 'STORY OBJECT CANNOT BE MOVED',

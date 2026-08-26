@@ -1172,7 +1172,7 @@ export const ruCatalog = {
   'match3.feedback.chain': 'ЦЕПОЧКА ×{count}',
   'match3.feedback.combo': 'КОМБО!',
   'match3.feedback.match': 'СОВПАДЕНИЕ',
-  'match3.feedback.reshuffled': 'ПОЛЕ ПЕРЕМЕШАНО',
+  'match3.feedback.reshuffled': 'НЕТ ХОДОВ · ПОЛЕ ПЕРЕМЕШАНО',
   'match3.feedback.noMatch': 'НЕТ СОВПАДЕНИЯ',
   'match3.feedback.moveBlocked': 'ПЕРЕМЕЩЕНИЕ ЗАБЛОКИРОВАНО',
   'match3.feedback.storyObjectLocked': 'СЮЖЕТНЫЙ ОБЪЕКТ НЕЛЬЗЯ ПЕРЕМЕЩАТЬ',
