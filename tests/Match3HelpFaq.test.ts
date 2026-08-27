@@ -44,9 +44,25 @@ describe('ANM-025C2 Match-3 Help / FAQ', () => {
     expect(presentationSource).not.toContain('toggleHelp');
   });
 
-  it('floats the panel over Match-3 instead of resizing the board and keeps it phone-scrollable', () => {
+  it('centers the Help sheet on the phone viewport instead of anchoring it to the header trigger', () => {
     expect(helpCss).toContain('.match-help-popover');
-    expect(helpCss).toContain('position: absolute;');
+    expect(helpCss).toContain('position: fixed;');
+    expect(helpCss).toContain('left: 50%;');
+    expect(helpCss).toContain('transform: translateX(-50%);');
+    expect(helpCss).toContain('width: min(350px, calc(100vw - 28px));');
+    expect(helpCss).not.toContain('right: 0;');
+  });
+
+  it('uses the established Match-3 tutorial-card visual vocabulary and a blocking backdrop', () => {
+    expect(helpCss).toContain('.match-help[open]::before');
+    expect(helpCss).toContain('background: #0714279e;');
+    expect(helpCss).toContain('border: 3px solid var(--m3-gold);');
+    expect(helpCss).toContain('border-left: 8px solid var(--m3-green);');
+    expect(helpCss).toContain('background: linear-gradient(180deg, var(--m3-paper-light), var(--m3-paper));');
+    expect(helpCss).toContain('box-shadow: 0 0 0 3px var(--m3-navy), 0 18px 44px #020914c7;');
+  });
+
+  it('keeps the centered sheet phone-scrollable without resizing the Match-3 board', () => {
     expect(helpCss).toContain('overflow-y: auto;');
     expect(helpCss).toContain('overscroll-behavior: contain;');
     expect(helpCss).toContain('summary::-webkit-details-marker');
