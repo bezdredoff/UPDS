@@ -1,14 +1,24 @@
 import type { Locale } from '../Locale';
 import type { LocaleCatalogs, MessageCatalog } from '../MessageCatalog';
+import { match3HelpCatalogs } from './match3Help';
 import { match3ReactionCatalogs } from './match3Reactions';
 import { ruCatalog } from './ru';
 
-const withMatch3Reactions = (catalog: MessageCatalog, reactions: MessageCatalog): MessageCatalog => ({
+const withMatch3RuntimeCopy = (
+  catalog: MessageCatalog,
+  reactions: MessageCatalog,
+  help: MessageCatalog,
+): MessageCatalog => ({
   ...catalog,
   ...reactions,
+  ...help,
 });
 
-export const ruRuntimeCatalog = withMatch3Reactions(ruCatalog, match3ReactionCatalogs.ru);
+export const ruRuntimeCatalog = withMatch3RuntimeCopy(
+  ruCatalog,
+  match3ReactionCatalogs.ru,
+  match3HelpCatalogs.ru,
+);
 
 /**
  * Startup catalogs intentionally contain only the default/fallback locale.
@@ -23,8 +33,8 @@ export async function loadRuntimeLocaleCatalog(locale: Locale): Promise<MessageC
   if (locale === 'ru') return ruRuntimeCatalog;
   if (locale === 'be') {
     const { beCatalog } = await import('./be');
-    return withMatch3Reactions(beCatalog, match3ReactionCatalogs.be);
+    return withMatch3RuntimeCopy(beCatalog, match3ReactionCatalogs.be, match3HelpCatalogs.be);
   }
   const { enCatalog } = await import('./en');
-  return withMatch3Reactions(enCatalog, match3ReactionCatalogs.en);
+  return withMatch3RuntimeCopy(enCatalog, match3ReactionCatalogs.en, match3HelpCatalogs.en);
 }
