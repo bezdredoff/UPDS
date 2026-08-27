@@ -216,9 +216,9 @@ describe('ANM-027F full-story macro lock', () => {
       match3LayoutArchetypes: 6,
       match3TilePresentationProfiles: 22,
       match3SharedSpecialMechanics: 5,
-      productionReadyMatch3SpecialVisuals: 0,
-      outstandingMatch3SpecialVisuals: 5,
-      match3ProductionArtGaps: 1,
+      productionReadyMatch3SpecialVisuals: 5,
+      outstandingMatch3SpecialVisuals: 0,
+      match3ProductionArtGaps: 0,
       blockingMatch3ArtGaps: 0,
       sceneStagingPresets: 8,
       authoredGoldenShots: 23,
@@ -246,13 +246,14 @@ describe('ANM-027F full-story macro lock', () => {
     expect(assetGapAudit.guestWitnesses.every((guest) => guest.auditStatus.includes('planned-missing'))).toBe(true);
     expect(assetGapAudit.heroClueCloseups).toHaveLength(6);
     expect(assetGapAudit.heroClueCloseups.every((clue) => clue.auditStatus.includes('external-art-blocked'))).toBe(true);
-    expect(assetGapAudit.match3.specialVisuals.outstandingProductionAssets).toBe(5);
+    expect(assetGapAudit.match3.specialVisuals.outstandingProductionAssets).toBe(0);
     expect(assetGapAudit.match3.specialVisuals.mechanics.map((special) => special.kind)).toEqual([
       'flash-row', 'flash-column', 'evidence', 'lead', 'insight',
     ]);
-    expect(assetGapAudit.match3.specialVisuals.auditStatus).toEqual(['planned-missing', 'reusable', 'external-art-blocked']);
+    expect(assetGapAudit.match3.specialVisuals.auditStatus).toEqual(['production', 'reusable']);
     for (const special of assetGapAudit.match3.specialVisuals.mechanics) {
-      expect(special.auditStatus).toEqual(['runtime-fallback', 'rebuild-required']);
+      expect(special.auditStatus).toEqual(['production', 'reusable']);
+      expect(special.runtimeAsset).toMatch(/\/specials\/.+\.png$/);
       expect(readFileSync(resolve(process.cwd(), 'public', special.runtimeAsset.replace('./', ''))).byteLength).toBeGreaterThan(0);
     }
     for (const clue of assetGapAudit.heroClueCloseups) {

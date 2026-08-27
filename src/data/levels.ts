@@ -139,12 +139,19 @@ export const blockerPresentation: Record<BlockerStyle, Readonly<{ label: string;
 };
 
 export const specialAsset = './assets/match3/special_observation_magnifier.png';
-export const specialAssets = {
+export const specialFallbackAssets = {
   'flash-row': './assets/match3/specials/flash-row.svg',
   'flash-column': './assets/match3/specials/flash-column.svg',
   evidence: './assets/match3/specials/evidence.svg',
   lead: './assets/match3/specials/lead.svg',
   insight: './assets/match3/specials/insight.svg',
+} as const;
+export const specialAssets = {
+  'flash-row': './assets/match3/specials/flash-row.png',
+  'flash-column': './assets/match3/specials/flash-column.png',
+  evidence: './assets/match3/specials/evidence.png',
+  lead: './assets/match3/specials/lead.png',
+  insight: './assets/match3/specials/insight.png',
 } as const;
 
 const positions = (items: readonly (number | readonly [number, 1 | 2])[]): BoardPlacement[] => items.map((item) => (

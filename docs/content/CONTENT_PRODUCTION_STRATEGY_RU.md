@@ -181,7 +181,7 @@ ANM-025/026 остаются общей системой для всех сюж�
 - активные base tiles выбираются из общего production catalog, без нового набора PNG на каждый эпизод;
 - вариативность создают board shape, start layout, spawn weights, objectives, blocker combinations,
   narrative context и reactions;
-- существующие пять special mechanics (`flash-row`, `flash-column`, `evidence`, `lead`, `insight`) получают **один общий reusable production visual pack**. Текущие generic SVG overlays допустимы как runtime fallback, но не считаются финальным bonus-tile art;
+- существующие пять special mechanics (`flash-row`, `flash-column`, `evidence`, `lead`, `insight`) используют **один общий reusable production visual pack** из пяти RGBA PNG. Generic SVG overlays сохранены только как semantic runtime fallback;
 - special visual pack не создаёт новую механику и не размножается по эпизодам: одни и те же пять утверждённых bonus identities используются во всех 22 уровнях; camera/flash/viewfinder/evidence motifs допустимы как art direction, если сохраняют mechanic readability;
 - новая одноразовая mechanic запрещена; новая mechanic допустима только если используется минимум в
   четырёх уровнях и имеет tutorial/Level Lab/validation coverage.
@@ -249,6 +249,6 @@ Macro lock опирается на утверждённый Story Bible и ис�
    macro-locked guests remain asset-free until external art is supplied and never become fake full-stage paths.
 7. **ANM-027G `4–21` — COMPLETE** — all six post-slice batches and three endings are authored/runtime-integrated while consuming only macro-approved asset triggers.
 8. **ANM-023F — COMPLETE THROUGH F4B / PR #144** — repository/test/runtime simplification plus measured payload and bounded asset warming are stable before mass art integration.
-9. **ANM-030A R1.1 — CURRENT CANDIDATE** — derive the exact 22-slot production/fallback/missing/reuse matrix before producing or integrating more art, including the shared five-asset Match-3 special/bonus visual gap.
-10. **ANM-030B0A — PLANNED** — produce/integrate the reusable five-special Match-3 visual pack when external art production resumes; until then the existing SVGs remain fallback.
+9. **ANM-030A R1.1 — COMPLETE** — the original 22-slot production/fallback/missing/reuse matrix remains historical input while the machine-readable audit tracks later integrations.
+10. **ANM-030B0A2 — COMPLETE** — the reusable five-special Match-3 PNG pack is integrated across board/Help; the existing SVGs remain semantic fallback.
 11. Resume external full-stage/background/guest/hero-clue production through budgeted ANM-030B0B/B1–B4 waves; run 028C safe-motion when it no longer competes with visual blockers.

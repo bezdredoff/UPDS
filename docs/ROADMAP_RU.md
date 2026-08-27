@@ -66,6 +66,7 @@ Changing the release platform or market scope is a separate product decision, no
 - **ANM-030A Full Game Asset Gap Audit**: **ANM-030A R1.1 [P0] — COMPLETE / PR #145**.
 - **ANM-030A2 [P0] — COMPLETE / PR #147** — audit tooling and repository/report hygiene.
 - **ANM-030B0A1 R1.1 [P1] — COMPLETE / PR #148** — planning-only shared Match-3 special visual contract.
+- **ANM-030B0A2 R1 [P1] — COMPLETE** — five approved `256×256` RGBA special overlays replace the generic SVG primary art across board and localized Help; the SVG set remains semantic fallback and both packs stay preload/offline-safe.
 - **ANM-030B0B–B0F full-stage character closure** is complete.
 - **ANM-030B0B–B0F [P1] — COMPLETE / PRs #186–#190**: nine approved rigs, exact 63-file adoption, candidate cleanup, WebKit lineup gate and retired compatibility seam removal.
 - **ANM-030B0G [P1] — DOCUMENTATION CLOSEOUT**: active architecture/testing/docs aligned with the finished 9/9 state.
@@ -104,10 +105,10 @@ The old post-G8 production-signal order remains useful as a vocabulary for cheap
 - **quantitative Match-3 regression/reporting** — strengthen only when human playtest evidence identifies a problem current deterministic tools do not explain cheaply;
 - controlled background variants beyond the completed family anchors only when visual QA shows a narrative mismatch;
 - extras mapped onto **≤4 reusable adult archetypes** only where their absence visibly hurts a shipped scene;
-- Match-3 special/bonus production art only if final board QA shows the current SVGs look/read as prototype rather than production;
+- Match-3 special/bonus production art — **COMPLETE through ANM-030B0A2**; reopen only for evidence-driven activation/combo VFX polish;
 - bounded audio quality replacement only if the existing procedural menu/VN/match/ending themes fail the final product listen-through.
 
-Historical traceability: **ANM-030B0A2 [P1] — ART-BLOCKED** remains the old five-special integration label, but its output is now conditional polish rather than a release blocker.
+Historical traceability: **ANM-030B0A2 [P1] — COMPLETE** closes the old five-special integration label without promoting optional activation/combo VFX to a release blocker.
 
 ## Deferred / post-release
 

@@ -7,7 +7,7 @@ const helpKeys = Object.keys(match3HelpCatalogs.ru).sort();
 
 describe('ANM-025C2 Match-3 Help localization', () => {
   it('keeps the compact Help extension complete in RU, BE and EN', () => {
-    expect(helpKeys).toHaveLength(9);
+    expect(helpKeys).toHaveLength(16);
     for (const locale of supportedLocales) {
       const catalog: Readonly<Record<string, string>> = match3HelpCatalogs[locale];
       expect(Object.keys(catalog).sort()).toEqual(helpKeys);

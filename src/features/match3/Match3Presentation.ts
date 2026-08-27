@@ -6,6 +6,7 @@ import {
   isLevelBoardCellActive,
   specialAsset,
   specialAssets,
+  specialFallbackAssets,
   type LevelDefinition,
 } from '../../data/levels';
 import { backgroundAssets } from '../../data/narrative';
@@ -89,6 +90,18 @@ const match3HelpTopics = [
   ['match3.help.reshuffle.title', 'match3.help.reshuffle.body'],
 ] as const;
 
+type Match3SpecialId = keyof typeof specialAssets;
+
+const match3HelpSpecials = Object.keys(specialAssets) as Match3SpecialId[];
+
+function match3SpecialImageMarkup(
+  special: Match3SpecialId,
+  className: string,
+  alt: string,
+): string {
+  return `<img class="${className}" src="${specialAssets[special]}" data-asset-fallback-src="${specialFallbackAssets[special]}" alt="${escapeHtml(alt)}" draggable="false">`;
+}
+
 export function match3ContextAttrs(level: LevelDefinition): string {
   const context = level.context;
   return `data-m3-page="${escapeHtml(context.pageBackground)}" data-m3-board-surface="${escapeHtml(context.boardSurface)}" data-m3-board-frame="${escapeHtml(context.boardFrame)}" data-m3-profile="${escapeHtml(context.narrativeProfile)}" data-m3-tile-profile="${escapeHtml(context.tilePresentationProfile)}"`;
@@ -166,7 +179,7 @@ export function match3BoardCellsMarkup(input: Match3BoardMarkupInput): string {
 <span class="tile-stack">
 ${tile ? `<img class="tile" src="${tile.asset}" data-tile-variant="${escapeHtml(tile.variantId)}" alt="" draggable="false">` : ''}
 ${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="" draggable="false">${evidenceTag ? `<i class="story-object-evidence-tag" data-evidence-tag="${escapeHtml(evidenceTag)}" aria-hidden="true">${escapeHtml(evidenceTag)}</i>` : ''}` : ''}
-${cell.special ? `<img class="special ${cell.special}" src="${specialAssets[cell.special]}" alt="${escapeHtml(t(`match3.special.${cell.special}`))}" draggable="false">` : ''}
+${cell.special ? match3SpecialImageMarkup(cell.special, `special ${cell.special}`, t(`match3.special.${cell.special}`)) : ''}
 </span>
 ${cell.blockerLayers > 0 ? `<span class="blocker"><img src="${blockerAsset}" alt="" draggable="false"><b>${cell.blockerLayers}</b></span>` : ''}
 </button>`;
@@ -198,6 +211,12 @@ export function match3HelpMarkup(t: Match3Translate): string {
         `<section class="match-help-topic"><h3>${escapeHtml(t(titleKey))}</h3><p>${escapeHtml(t(bodyKey))}</p></section>`,
     )
     .join('');
+  const specials = match3HelpSpecials
+    .map((special) => `<li class="match-help-special" data-special="${special}">
+<span class="match-help-special-visual" aria-hidden="true">${match3SpecialImageMarkup(special, 'match-help-special-image', '')}</span>
+<span><b>${escapeHtml(t(`match3.special.${special}`))}</b><small>${escapeHtml(t(`match3.help.special.${special}.body`))}</small></span>
+</li>`)
+    .join('');
 
   return `<details class="match-help">
 <summary class="app-header-action match-help-trigger" aria-label="${escapeHtml(trigger)}" title="${escapeHtml(trigger)}"><span aria-hidden="true">?</span><span class="visually-hidden">${escapeHtml(trigger)}</span></summary>
@@ -205,6 +224,11 @@ export function match3HelpMarkup(t: Match3Translate): string {
 <span class="case-tab">${escapeHtml(t('match3.help.label'))}</span>
 <h2 id="match-help-title">${escapeHtml(t('match3.help.title'))}</h2>
 <p class="match-help-intro">${escapeHtml(t('match3.help.intro'))}</p>
+<section class="match-help-specials" aria-labelledby="match-help-specials-title">
+<h3 id="match-help-specials-title">${escapeHtml(t('match3.help.specials.title'))}</h3>
+<p>${escapeHtml(t('match3.help.specials.intro'))}</p>
+<ul class="match-help-special-list">${specials}</ul>
+</section>
 <div class="match-help-list">${topics}</div>
 <p class="match-help-close-hint">${escapeHtml(t('match3.help.closeHint'))}</p>
 </div>

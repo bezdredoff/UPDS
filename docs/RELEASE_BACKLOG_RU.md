@@ -170,13 +170,13 @@ RU/BE/EN на существующих portrait sizes `320×568`, `375×667`, `3
 
 Macro содержит 7 semantic extras roles и budget ≤4 reusable adult archetypes. Делать их только там, где реальная playable scene выглядит незаконченной без extra art. **Не производить семь уникальных персонажей.**
 
-### R1.5 Match-3 special/bonus visual pack — conditional polish
+### R1.5 Match-3 special/bonus visual pack — COMPLETE
 
-`flash-row`, `flash-column`, `evidence`, `lead`, `insight` уже функциональны через SVG/runtime overlays; audit прямо фиксирует `blockingMatch3ArtGaps = 0`.
+`flash-row`, `flash-column`, `evidence`, `lead`, `insight` используют общий production pack из пяти transparent `256×256` PNG. SVG сохранены как semantic runtime fallback, а Help показывает реальные изображения вместе с правилами создания и эффектом на RU/BE/EN.
 
-Пять production PNG имеют смысл, если финальный board QA показывает, что SVG выглядят слишком prototype-like или плохо читаются рядом с остальным art. Иначе это safe cut.
+Audit фиксирует `productionReadyMatch3SpecialVisuals = 5`, `outstandingMatch3SpecialVisuals = 0` и `blockingMatch3ArtGaps = 0`.
 
-Historical planning label `ANM-030B0A2 [P1] — ART-BLOCKED` остаётся traceable, но больше не означает release blocker.
+Отдельный activation/combo VFX pass остаётся optional polish после playable board QA.
 
 ### R1.6 Audio quality decision, не song pipeline
 

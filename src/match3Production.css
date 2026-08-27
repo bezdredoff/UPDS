@@ -226,7 +226,7 @@
   filter: drop-shadow(0 2px 1px #071224b8) saturate(1.05);
 }
 .ingredient { padding: 2px; }
-.special { padding: 3px; opacity: 1; filter: drop-shadow(0 0 7px #fff0a8); }
+.special { padding: 0; opacity: 1; filter: drop-shadow(0 0 7px #fff0a8); }
 .board-cell.selected { outline-color: #fff2a8; }
 .board-cell.hinted { outline-color: #6ce2d3; box-shadow: 0 0 0 2px #fff2ba, 0 0 18px #6ce2d3; }
 

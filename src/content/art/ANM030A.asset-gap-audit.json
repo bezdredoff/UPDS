@@ -1,6 +1,6 @@
 {
   "format": "upds-asset-gap-audit-v1",
-  "feature": "ANM-030A+ANM-030B0B+ANM-030B1B1+ANM-030B1B2+ANM-030B1B3+ANM-030B1B4+ANM-030B1B5+ANM-030B1B6",
+  "feature": "ANM-030A+ANM-030B0B+ANM-030B0A2+ANM-030B1B1+ANM-030B1B2+ANM-030B1B3+ANM-030B1B4+ANM-030B1B5+ANM-030B1B6",
   "baseline": {
     "mainSha": "227d32ca7e0ab681cf20919ac36bbc9a2860eac1",
     "storyMacro": "src/content/story/ANM027F.full-story-macro.json",
@@ -48,9 +48,9 @@
     "authoredGoldenShots": 23,
     "legacyOrphanClueBinaries": 2,
     "match3SharedSpecialMechanics": 5,
-    "productionReadyMatch3SpecialVisuals": 0,
-    "outstandingMatch3SpecialVisuals": 5,
-    "match3ProductionArtGaps": 1
+    "productionReadyMatch3SpecialVisuals": 5,
+    "outstandingMatch3SpecialVisuals": 0,
+    "match3ProductionArtGaps": 0
   },
   "backgrounds": {
     "families": [
@@ -871,51 +871,51 @@
       "mechanics": [
         {
           "kind": "flash-row",
-          "runtimeAsset": "./assets/match3/specials/flash-row.svg",
+          "runtimeAsset": "./assets/match3/specials/flash-row.png",
           "auditStatus": [
-            "runtime-fallback",
-            "rebuild-required"
+            "production",
+            "reusable"
           ],
-          "note": "horizontal line-clear; dedicated thematic bonus art required"
+          "note": "production horizontal camera-strobe line-clear; SVG retained as runtime fallback"
         },
         {
           "kind": "flash-column",
-          "runtimeAsset": "./assets/match3/specials/flash-column.svg",
+          "runtimeAsset": "./assets/match3/specials/flash-column.png",
           "auditStatus": [
-            "runtime-fallback",
-            "rebuild-required"
+            "production",
+            "reusable"
           ],
-          "note": "vertical line-clear; dedicated thematic bonus art required"
+          "note": "production vertical camera-strobe line-clear; SVG retained as runtime fallback"
         },
         {
           "kind": "evidence",
-          "runtimeAsset": "./assets/match3/specials/evidence.svg",
+          "runtimeAsset": "./assets/match3/specials/evidence.png",
           "auditStatus": [
-            "runtime-fallback",
-            "rebuild-required"
+            "production",
+            "reusable"
           ],
-          "note": "area/evidence special; current generic icon is runtime fallback"
+          "note": "production radial camera-flash area/evidence special; SVG retained as runtime fallback"
         },
         {
           "kind": "lead",
-          "runtimeAsset": "./assets/match3/specials/lead.svg",
+          "runtimeAsset": "./assets/match3/specials/lead.png",
           "auditStatus": [
-            "runtime-fallback",
-            "rebuild-required"
+            "production",
+            "reusable"
           ],
-          "note": "objective-aware lead special; current generic icon is runtime fallback"
+          "note": "production focus-locator objective-aware lead special; SVG retained as runtime fallback"
         },
         {
           "kind": "insight",
-          "runtimeAsset": "./assets/match3/specials/insight.svg",
+          "runtimeAsset": "./assets/match3/specials/insight.png",
           "auditStatus": [
-            "runtime-fallback",
-            "rebuild-required"
+            "production",
+            "reusable"
           ],
-          "note": "highest-tier insight special; current generic icon is runtime fallback"
+          "note": "production premium viewfinder highest-tier insight special; SVG retained as runtime fallback"
         }
       ],
-      "outstandingProductionAssets": 5,
+      "outstandingProductionAssets": 0,
       "productionDirection": [
         "one reusable dedicated visual identity per existing special mechanic",
         "camera/flash/viewfinder/evidence motifs are preferred where they improve immediate readability",
@@ -923,18 +923,16 @@
         "do not create per-episode special packs; the same approved pack serves all 22 levels"
       ],
       "auditStatus": [
-        "planned-missing",
-        "reusable",
-        "external-art-blocked"
+        "production",
+        "reusable"
       ],
-      "note": "current SVG overlays keep gameplay readable but are prototype/runtime fallback; production closure requires dedicated thematic bonus visuals for the five already-existing special mechanics"
+      "note": "five approved 256-square RGBA production overlays serve all 22 levels; generic SVG overlays remain fallback-only"
     },
     "auditStatus": [
       "production",
-      "reusable",
-      "planned-missing"
+      "reusable"
     ],
-    "note": "all 22 levels are production-configured and do not need per-episode tile PNG packs; the remaining shared Match-3 art gap is one five-asset special/bonus visual pack for the existing special mechanics"
+    "note": "all 22 levels share the completed five-asset special/bonus production pack and do not need per-episode tile PNG packs"
   },
   "staging": {
     "presetCount": 8,
