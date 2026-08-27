@@ -1,0 +1,96 @@
+/* ANM-025D4 — shared visual identity tags for story objects. */
+
+.story-object-evidence-tag {
+  position: absolute;
+  z-index: 6;
+  right: 1px;
+  bottom: 1px;
+  min-width: 16px;
+  height: 14px;
+  padding: 0 3px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #fff0bd;
+  border-radius: 4px;
+  background: #10243df2;
+  color: #fff3c8;
+  box-shadow: 0 1px 4px #050b1e9e;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: .03em;
+  pointer-events: none;
+  text-shadow: 0 1px #0007;
+}
+
+/* The board tag lives inside tile-stack, so it follows fall/settle/clear motion. */
+.tile-stack > .story-object-evidence-tag {
+  right: 2px;
+  bottom: 2px;
+}
+
+.objective-evidence-icon {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+}
+
+.objective-evidence-icon > img {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  object-fit: contain;
+}
+
+.objective-evidence-icon > .story-object-evidence-tag {
+  right: -2px;
+  bottom: -1px;
+  min-width: 12px;
+  height: 10px;
+  padding: 0 2px;
+  border-width: 1px;
+  border-radius: 3px;
+  font-size: 6px;
+  box-shadow: 0 1px 2px #050b1e80;
+}
+
+.objective-icons.multi .objective-evidence-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: -7px;
+}
+
+.objective-icons.multi .objective-evidence-icon:last-child {
+  margin-right: 0;
+}
+
+@media (max-height: 650px), (max-width: 340px) {
+  .tile-stack > .story-object-evidence-tag {
+    min-width: 14px;
+    height: 12px;
+    padding: 0 2px;
+    font-size: 7px;
+  }
+
+  .objective-evidence-icon {
+    width: 23px;
+    height: 23px;
+  }
+
+  .objective-icons.multi .objective-evidence-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: -6px;
+  }
+
+  .objective-evidence-icon > .story-object-evidence-tag {
+    right: -2px;
+    bottom: -1px;
+    min-width: 10px;
+    height: 8px;
+    padding: 0 1px;
+    font-size: 5px;
+  }
+}
