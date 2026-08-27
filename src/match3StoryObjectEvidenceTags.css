@@ -35,6 +35,7 @@
   width: 30px;
   height: 30px;
   flex: 0 0 auto;
+  display: block;
 }
 
 .objective-evidence-icon > img {
