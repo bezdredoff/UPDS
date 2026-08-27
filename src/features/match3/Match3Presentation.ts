@@ -11,6 +11,7 @@ import {
 import { backgroundAssets } from '../../data/narrative';
 import { resolveMatch3TilePresentation } from '../../data/match3TilePresentation';
 import type { Match3ReactionId, Match3RunMode } from '../../data/match3Reactions';
+import { storyObjectEvidenceTag } from '../../data/match3StoryObjectPresentation';
 import type { Match3TutorialConceptId } from '../../data/match3Tutorials';
 import type { BoardCell } from '../../engine/Match3Game';
 import type { Match3ReactionEmphasis } from '../../ui/match3ReactionPresentation';
@@ -101,26 +102,35 @@ export function match3ObjectiveMarkup(
   showProgress: boolean,
   objectiveIndex?: number,
 ): string {
-  let assets: readonly string[];
+  let objectiveIcons: readonly Readonly<{ asset: string; evidenceTag?: string }>[];
   if (objective.kind === 'collect') {
-    assets = [resolveMatch3TilePresentation(level.context.tilePresentationProfile, objective.tile).asset];
+    objectiveIcons = [{ asset: resolveMatch3TilePresentation(level.context.tilePresentationProfile, objective.tile).asset }];
   } else if (objective.kind === 'drop') {
-    assets = [ingredientPresentation[objective.ingredient].asset];
+    objectiveIcons = [{ asset: ingredientPresentation[objective.ingredient].asset, evidenceTag: storyObjectEvidenceTag(objective.ingredient) }];
   } else if (objective.kind === 'dropGroup') {
-    assets = objective.ingredients.map((ingredient) => ingredientPresentation[ingredient].asset);
+    objectiveIcons = objective.ingredients.map((ingredient) => ({
+      asset: ingredientPresentation[ingredient].asset,
+      evidenceTag: storyObjectEvidenceTag(ingredient),
+    }));
   } else {
-    assets = [blockerPresentation[level.blocker].asset];
+    objectiveIcons = [{ asset: blockerPresentation[level.blocker].asset }];
   }
 
   const current = Math.min(value, objective.target);
-  const icons = assets.map((asset) => `<img src="${asset}" alt="">`).join('');
+  const icons = objectiveIcons
+    .map(({ asset, evidenceTag }) => {
+      if (!evidenceTag) return `<img src="${asset}" alt="">`;
+      const tag = escapeHtml(evidenceTag);
+      return `<span class="objective-evidence-icon" data-evidence-tag="${tag}"><img src="${asset}" alt=""><i class="story-object-evidence-tag" aria-hidden="true">${tag}</i></span>`;
+    })
+    .join('');
   const objectiveIndexAttr = objectiveIndex === undefined ? '' : ` data-objective-index="${objectiveIndex}"`;
   const storyObjectClass =
     objectiveIndex !== undefined && (objective.kind === 'drop' || objective.kind === 'dropGroup')
       ? ` story-object-${objectiveIndex}`
       : '';
   return `<div class="objective${showProgress && current >= objective.target ? ' done' : ''}${storyObjectClass}"${objectiveIndexAttr}>
-<div class="objective-icons ${assets.length > 1 ? 'multi' : ''}">${icons}</div><span>${escapeHtml(label)}</span>
+<div class="objective-icons ${objectiveIcons.length > 1 ? 'multi' : ''}">${icons}</div><span>${escapeHtml(label)}</span>
 <b>${showProgress ? `${current}/` : ''}${objective.target}</b>
 </div>`;
 }
@@ -144,6 +154,7 @@ export function match3BoardCellsMarkup(input: Match3BoardMarkupInput): string {
         ? resolveMatch3TilePresentation(level.context.tilePresentationProfile, cell.tile)
         : null;
       const ingredient = cell.ingredient ? ingredientPresentation[cell.ingredient] : null;
+      const evidenceTag = cell.ingredient ? storyObjectEvidenceTag(cell.ingredient) : null;
       const cellLabel = cell.ingredient
         ? t(`match3.ingredient.${cell.ingredient}`)
         : cell.tile
@@ -154,7 +165,7 @@ export function match3BoardCellsMarkup(input: Match3BoardMarkupInput): string {
 <span class="tile-socket"></span>
 <span class="tile-stack">
 ${tile ? `<img class="tile" src="${tile.asset}" data-tile-variant="${escapeHtml(tile.variantId)}" alt="" draggable="false">` : ''}
-${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="" draggable="false">` : ''}
+${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="" draggable="false">${evidenceTag ? `<i class="story-object-evidence-tag" data-evidence-tag="${escapeHtml(evidenceTag)}" aria-hidden="true">${escapeHtml(evidenceTag)}</i>` : ''}` : ''}
 ${cell.special ? `<img class="special ${cell.special}" src="${specialAssets[cell.special]}" alt="${escapeHtml(t(`match3.special.${cell.special}`))}" draggable="false">` : ''}
 </span>
 ${cell.blockerLayers > 0 ? `<span class="blocker"><img src="${blockerAsset}" alt="" draggable="false"><b>${cell.blockerLayers}</b></span>` : ''}
