@@ -9,6 +9,8 @@ import type { AppSession } from '../../app/AppSession';
 import type { AppShell } from '../../app/AppShell';
 import { escapeHtml, iconMarkup as icon, panelHeaderMarkup } from '../../ui/viewMarkup';
 import { bindPwaControls, pwaStatusMarkup } from '../../ui/systemControls';
+import '../../diagnosticsPlaytestSummary.css';
+import { match3PlaytestSummaryMarkup } from './Match3PlaytestSummary';
 
 export class DiagnosticsController {
   constructor(
@@ -47,6 +49,7 @@ export class DiagnosticsController {
         <article><small>PLAYTEST</small><b>${playtest.eventCount} events</b><span>${playtest.summary.sessions} sessions · ${playtest.summary.verticalSliceCompletions} completions</span></article>
         <article><small>PWA</small><b>${pwa.offlineReady ? 'OFFLINE READY' : pwa.registration.toUpperCase()}</b><span>${pwa.installed ? 'installed' : 'browser'} · ${pwa.online ? 'online' : 'offline'} · ${escapeHtml(pwa.lane)}</span></article>
       </div>
+      ${match3PlaytestSummaryMarkup(playtest.summary)}
       ${pwaStatusMarkup(this.services)}
       <div class="support-actions">
         <button id="story-win-qa">${icon('log')}<span><b>Story win boundary</b><small>M3_00 · нажми Hint и сделай подсвеченный ход → evidence → VN; сбрасывает Story save</small></span></button>
