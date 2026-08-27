@@ -1,0 +1,104 @@
+/* ANM-025D1 — visual causality for activated Match-3 specials.
+ * Clear frames already expose the causal chain in DOM: every affected tile is
+ * `is-clearing`, while activated special sources still contain `.special`.
+ * Reuse that contract instead of adding engine/controller state.
+ */
+
+.phase-clear:has(.board-cell.is-clearing .special) .board-cell.is-clearing {
+  z-index: 3;
+  animation: special-impact-target 280ms cubic-bezier(.18,.82,.28,1) both;
+}
+
+.phase-clear:has(.board-cell.is-clearing .special) .board-cell.is-clearing::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: 8;
+  pointer-events: none;
+  border: 2px solid #fff2a8;
+  border-radius: 3px;
+  background: radial-gradient(circle at 50% 50%, #fff7c04d 0 35%, #6ce2d329 58%, transparent 76%);
+  box-shadow: inset 0 0 10px #fff3b86b, 0 0 8px #6ce2d388;
+  animation: special-impact-flash 280ms ease-out both;
+}
+
+.phase-clear .board-cell.is-clearing:has(.special) {
+  z-index: 6;
+  outline: 3px solid #fff2a8;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 2px #12314f, 0 0 18px #fff0a8, 0 0 26px #6ce2d3;
+  animation: special-impact-source 280ms cubic-bezier(.18,.82,.28,1) both;
+}
+
+.phase-clear .board-cell.is-clearing:has(.special) .special {
+  opacity: 1;
+  filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 10px #fff0a8) drop-shadow(0 0 14px #6ce2d3);
+  animation: special-impact-icon 280ms cubic-bezier(.18,.82,.28,1) both;
+}
+
+/* Give row/column tools a tiny directional cue before the common target flash. */
+.phase-clear .board-cell.is-clearing:has(.special.flash-row) .tile-socket::after,
+.phase-clear .board-cell.is-clearing:has(.special.flash-column) .tile-socket::after {
+  content: '';
+  position: absolute;
+  z-index: 7;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, #fff5bdde 20%, #6ce2d3f2 50%, #fff5bdde 80%, transparent);
+  filter: drop-shadow(0 0 5px #6ce2d3);
+  animation: special-impact-beam 280ms ease-out both;
+}
+
+.phase-clear .board-cell.is-clearing:has(.special.flash-row) .tile-socket::after {
+  left: -18%;
+  right: -18%;
+  top: 44%;
+  height: 12%;
+}
+
+.phase-clear .board-cell.is-clearing:has(.special.flash-column) .tile-socket::after {
+  top: -18%;
+  bottom: -18%;
+  left: 44%;
+  width: 12%;
+  transform: rotate(90deg);
+}
+
+@keyframes special-impact-target {
+  0% { transform: scale(1); filter: brightness(1); }
+  42% { transform: scale(1.055); filter: brightness(1.42); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes special-impact-flash {
+  0% { opacity: 0; transform: scale(.72); }
+  34% { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 0; transform: scale(1.12); }
+}
+
+@keyframes special-impact-source {
+  0% { transform: scale(1); }
+  38% { transform: scale(1.11); }
+  100% { transform: scale(1); }
+}
+
+@keyframes special-impact-icon {
+  0% { transform: scale(.82) rotate(-8deg); }
+  42% { transform: scale(1.24) rotate(4deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+@keyframes special-impact-beam {
+  0% { opacity: 0; scale: .25 1; }
+  35% { opacity: 1; scale: 1.15 1; }
+  100% { opacity: 0; scale: 1 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phase-clear:has(.board-cell.is-clearing .special) .board-cell.is-clearing,
+  .phase-clear:has(.board-cell.is-clearing .special) .board-cell.is-clearing::after,
+  .phase-clear .board-cell.is-clearing:has(.special),
+  .phase-clear .board-cell.is-clearing:has(.special) .special,
+  .phase-clear .board-cell.is-clearing:has(.special) .tile-socket::after {
+    animation: none;
+  }
+}
