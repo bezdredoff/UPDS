@@ -86,7 +86,7 @@ describe('Match-3 playtest summary dashboard', () => {
     expect(markup).toContain('2 manual · 1 auto');
     expect(markup).toContain('max ×3');
     expect(markup).toContain('retry 100%');
-    expect(markup).toContain('2 levels · 5 attempts · 4 completed');
+    expect(markup).toContain('2 levels · 5 attempts · 5 completed');
   });
 
   it('has a useful empty state and omits zero-start level rows', () => {
