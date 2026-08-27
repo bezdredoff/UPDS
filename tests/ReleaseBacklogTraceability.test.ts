@@ -53,7 +53,8 @@ describe('release backlog prioritization', () => {
     expect(backlog).toContain('19/19 уникальных variant PNG');
     expect(backlog).toContain('≤4 reusable adult archetypes');
     expect(backlog).toContain('blockingMatch3ArtGaps = 0');
-    expect(backlog).toContain('Пять production PNG имеют смысл, если');
+    expect(backlog).toContain('productionReadyMatch3SpecialVisuals = 5');
+    expect(backlog).toContain('activation/combo VFX pass остаётся optional polish');
     expect(backlog).toContain('уникальная песня для каждого Match-3 level');
   });
 });

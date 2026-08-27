@@ -52,6 +52,12 @@ export const installImageFallbackHandler = (log: ErrorLog, health: AssetHealth, 
     const failedAsset = image.currentSrc || image.src || image.getAttribute('src') || '(unknown image)';
     health.recordFailure(failedAsset, 'runtime');
     log.record('asset', `Failed image: ${failedAsset}`);
+    const assetFallback = image.dataset.assetFallbackSrc;
+    if (assetFallback && image.dataset.assetFallbackSourceApplied !== '1') {
+      image.dataset.assetFallbackSourceApplied = '1';
+      image.src = assetFallback;
+      return;
+    }
     image.dataset.assetFallbackApplied = '1';
     if (image.classList.contains('portrait-face')) {
       image.classList.add('is-hidden');

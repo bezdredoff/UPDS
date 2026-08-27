@@ -290,8 +290,9 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('ANM-030A R1.1 [P0] — COMPLETE / PR #145');
     expect(roadmap).toContain('ANM-030A2 [P0] — COMPLETE / PR #147');
     expect(roadmap).toContain('ANM-030B0A1 R1.1 [P1] — COMPLETE / PR #148');
-    expect(roadmap).toContain('ANM-030B0A2 [P1] — ART-BLOCKED');
+    expect(roadmap).toContain('ANM-030B0A2 [P1] — COMPLETE');
     expect(index).toContain('ANM030A_FULL_GAME_ASSET_GAP_AUDIT_RU.md');
+    expect(index).toContain('ANM030B0A2_MATCH3_SPECIAL_ASSET_INTEGRATION_RU.md');
     expect(assetGapAudit).toContain('upds-asset-gap-audit-v1');
     expect(assetGapAudit).toContain('5 dedicated production / 24 runtime-used');
     expect(assetGapAudit).toContain('38 production outputs');
@@ -369,7 +370,7 @@ describe('active documentation traceability', () => {
     expect(roadmap).toContain('023G8C1 Match-3 Browser Interaction Parity [P1] — COMPLETE / PR #166');
     expect(roadmap).toContain('G8C2 Campaign completion/progression browser E2E is DEFERRED, not required for G8 completion.');
     expect(roadmap).toContain('023G8E3 Match-3 Render Stability [P1] — COMPLETE / PR #175');
-    expect(roadmap).toContain('ANM-030B0A2 [P1] — ART-BLOCKED');
+    expect(roadmap).toContain('ANM-030B0A2 [P1] — COMPLETE');
     expect(testing).toContain('Playwright is the only browser/E2E automation framework for UPDS');
     expect(testing).toContain('Selenium/WebDriver is not part of the UPDS test stack');
     expect(ai).toContain('Playwright is the sole browser/E2E framework');

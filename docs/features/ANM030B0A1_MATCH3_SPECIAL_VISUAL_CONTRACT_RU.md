@@ -8,6 +8,13 @@
 Machine-readable source of truth:
 `src/content/art/ANM030B0A1.match3-special-visual-contract.json` (`upds-match3-special-visual-contract-v1`).
 
+## Current adoption
+
+ANM-030B0A2 реализован: пять production PNG подключены к board и локализованному Help,
+зарегистрированы для preload/offline delivery, а перечисленные ниже SVG сохранены как semantic
+fallback. Этот документ остаётся исходным production brief; implementation closeout находится в
+[`ANM030B0A2_MATCH3_SPECIAL_ASSET_INTEGRATION_RU.md`](ANM030B0A2_MATCH3_SPECIAL_ASSET_INTEGRATION_RU.md).
+
 ## Что остаётся неизменным
 
 ANM-022D/022E gameplay vocabulary и правила не переименовываются:
@@ -20,7 +27,7 @@ ANM-022D/022E gameplay vocabulary и правила не переименовы�
 | `lead` | player-created 2×2 | локальная очистка + одна полезная удалённая цель |
 | `insight` | line-5+ | очищает retained base tile type |
 
-Текущие `public/assets/match3/specials/*.svg` остаются рабочим fallback до отдельной integration-фичи.
+Текущие `public/assets/match3/specials/*.svg` остаются рабочим semantic fallback после integration.
 Никаких новых mechanics, balance changes или special-combination rules в B0A1 нет.
 
 ## Production pack
@@ -76,8 +83,8 @@ Activation/combo FX не являются blocker для первой интег
 ## Production sequence
 
 1. **B0A1 — этот contract:** docs/data/tests only, no art.
-2. External production: подготовить пять визуалов по contract и провести первичный review вне runtime.
-3. **B0A2 — Asset Integration:** импортировать approved PNG, переключить `specialAssets`, сохранить fallback safety/preload и провести iPhone board QA.
+2. External production: **COMPLETE** — пять визуалов подготовлены по contract.
+3. **B0A2 — Asset Integration: COMPLETE** — approved PNG импортированы, `specialAssets` переключён, fallback/preload/Help coverage добавлены; остаётся candidate iPhone board QA перед merge.
 4. Только после реального playtest решать, нужен ли отдельный activation/combo FX pass.
 
 ## Out of scope

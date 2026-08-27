@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { characterRigs } from '../src/data/characterRigs';
 import { backgroundAssets } from '../src/data/narrative';
-import { blockerPresentation, cluePresentation, ingredientPresentation, specialAsset, tilePresentation } from '../src/data/levels';
+import { blockerPresentation, cluePresentation, ingredientPresentation, specialAsset, specialAssets, specialFallbackAssets, tilePresentation } from '../src/data/levels';
 import { runtimeAssetCatalog } from '../src/platform/RuntimeAssets';
 
 const localPath = (asset: string): string => resolve(process.cwd(), 'public', asset.replace(/^\.\//, ''));
@@ -17,6 +17,8 @@ describe('runtime asset contract', () => {
       ...Object.values(blockerPresentation).map((item) => item.asset),
       ...Object.values(cluePresentation).map((item) => item.asset),
       specialAsset,
+      ...Object.values(specialAssets),
+      ...Object.values(specialFallbackAssets),
     ];
     for (const asset of assets) expect(existsSync(localPath(asset)), asset).toBe(true);
   });

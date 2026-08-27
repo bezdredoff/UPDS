@@ -25,6 +25,8 @@ const requiredTopicKeys = [
   'match3.help.reshuffle.body',
 ] as const;
 
+const requiredSpecials = ['flash-row', 'flash-column', 'evidence', 'lead', 'insight'] as const;
+
 describe('ANM-025C2 Match-3 Help / FAQ', () => {
   it('renders an accessible native disclosure with the approved rules reference', () => {
     const markup = match3HelpMarkup(t);
@@ -36,6 +38,15 @@ describe('ANM-025C2 Match-3 Help / FAQ', () => {
     expect(markup).toContain('translated:match3.help.title');
     expect(markup).toContain('translated:match3.help.closeHint');
     for (const key of requiredTopicKeys) expect(markup, key).toContain(`translated:${key}`);
+    expect(markup).toContain('translated:match3.help.specials.title');
+    expect(markup).toContain('translated:match3.help.specials.intro');
+    for (const special of requiredSpecials) {
+      expect(markup).toContain(`data-special="${special}"`);
+      expect(markup).toContain(`translated:match3.special.${special}`);
+      expect(markup).toContain(`translated:match3.help.special.${special}.body`);
+      expect(markup).toContain(`specials/${special}.png`);
+      expect(markup).toContain(`data-asset-fallback-src="./assets/match3/specials/${special}.svg"`);
+    }
   });
 
   it('offers the same Help entry from the level intro and the active board without controller state', () => {
@@ -67,5 +78,13 @@ describe('ANM-025C2 Match-3 Help / FAQ', () => {
     expect(helpCss).toContain('overscroll-behavior: contain;');
     expect(helpCss).toContain('summary::-webkit-details-marker');
     expect(mainSource).toContain("import './match3Help.css';");
+  });
+
+  it('shows each special at actual mobile board scale in a compact readable guide', () => {
+    expect(helpCss).toContain('.match-help-special-list');
+    expect(helpCss).toContain('grid-template-columns: 50px minmax(0, 1fr);');
+    expect(helpCss).toContain('.match-help-special-visual');
+    expect(helpCss).toContain('width: 48px;');
+    expect(helpCss).toContain('height: 48px;');
   });
 });

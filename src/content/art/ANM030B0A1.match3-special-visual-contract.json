@@ -1,8 +1,8 @@
 {
   "format": "upds-match3-special-visual-contract-v1",
-  "feature": "ANM-030B0A1",
-  "status": "planning-only",
-  "purpose": "Freeze the production visual contract for the five existing Match-3 special mechanics before external art generation and runtime integration.",
+  "feature": "ANM-030B0A1+ANM-030B0A2",
+  "status": "implemented",
+  "purpose": "Record the approved production visual contract and completed runtime/Help integration for the five existing Match-3 special mechanics.",
   "runtimeContract": {
     "mechanicsFrozen": true,
     "mechanicIds": [
@@ -94,6 +94,19 @@
       "powerTier": 3
     }
   ],
+  "integration": {
+    "feature": "ANM-030B0A2",
+    "productionAssetsMapped": true,
+    "svgFallbacksRetained": true,
+    "fallbackPreloaded": true,
+    "offlineCatalogRegistered": true,
+    "localizedHelpGuide": [
+      "ru",
+      "be",
+      "en"
+    ],
+    "helpGuideShowsCreationAndEffect": true
+  },
   "optionalActivationFx": [
     "flash-row beam",
     "flash-column beam",
@@ -103,14 +116,12 @@
     "special-special combo burst overlays"
   ],
   "outOfScope": [
-    "art generation",
-    "binary asset import",
-    "runtime special mapping changes",
     "gameplay or balance changes",
     "special-special combination rule changes",
     "per-level or per-episode special packs",
+    "base tile identity replacement",
     "mandatory activation/combo VFX"
   ],
-  "nextFeature": "ANM-030B0A2",
-  "revision": "R1.1"
+  "nextFeature": "optional-activation-fx-after-playtest",
+  "revision": "R2"
 }

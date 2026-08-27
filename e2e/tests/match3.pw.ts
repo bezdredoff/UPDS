@@ -116,6 +116,11 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     await page.locator('.match-help-trigger').click();
     const help = page.locator('.match-help-popover');
     await expect(help).toBeVisible();
+    await expect(help.locator('.match-help-special')).toHaveCount(5);
+    expect(await help.locator('.match-help-special-image').evaluateAll((images) => images.every((image) => {
+      const asset = image as HTMLImageElement;
+      return asset.complete && asset.naturalWidth === 256 && asset.naturalHeight === 256 && asset.currentSrc.endsWith('.png');
+    }))).toBe(true);
 
     const geometry = await help.evaluate((panel) => {
       const rect = panel.getBoundingClientRect();
@@ -225,7 +230,12 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
 
     await expect(page.locator(qaSelectors.match3Moves)).toHaveText(String(deterministicLabMoves - 1));
     expect(await firstObjectiveProgress(page)).toEqual([3, 10]);
-    await expect(match3Cell(page, 2).locator('.special.flash-row')).toBeVisible();
+    const flash = match3Cell(page, 2).locator('.special.flash-row');
+    await expect(flash).toBeVisible();
+    expect(await flash.evaluate((image) => {
+      const asset = image as HTMLImageElement;
+      return asset.complete && asset.naturalWidth === 256 && asset.naturalHeight === 256 && asset.currentSrc.endsWith('/flash-row.png');
+    })).toBe(true);
     await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(64);
     health.assertClean();
   });

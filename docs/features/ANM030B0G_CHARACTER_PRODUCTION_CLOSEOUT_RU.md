@@ -82,6 +82,9 @@ Asset-heavy alpha scanning has a scoped 15-second Vitest budget; global test tim
 
 Character production closure **не означает**, что весь visual production завершён. После B0G machine-readable audit продолжает считать открытыми:
 
+> Historical B0G snapshot: subsequent ANM-030B0A2 closes the Match-3 special line below with five
+> production PNG while retaining the SVGs as fallback. Current counts live in the machine-readable audit.
+
 - 19 runtime-used background semantic aliases без dedicated production variants;
 - 6 guest packages / 24 guest assets;
 - 6 dedicated hero clue close-ups;
