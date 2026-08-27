@@ -1,0 +1,49 @@
+/* ANM-025C3 contextual guidance for active drop/dropGroup story-object objectives. */
+.match-guidance-slot {
+  min-height: 20px;
+}
+
+.match-guidance-slot .match-hint {
+  margin: 6px 9px 0;
+}
+
+.story-object-guidance,
+.default-input-guidance {
+  display: none;
+}
+
+.story-object-guidance {
+  padding: 5px 8px;
+  border: 1px solid var(--m3-gold);
+  border-left: 5px solid var(--m3-green);
+  border-radius: 4px;
+  background: linear-gradient(180deg, #fffaf0e8, #f5e6c9e8);
+  color: var(--m3-navy);
+  font-size: 9px;
+  font-weight: 850;
+  line-height: 1.25;
+  text-align: left;
+  text-shadow: none;
+}
+
+.match-screen:has(.objective.story-object-0:not(.done)) .story-object-guidance.story-object-0 {
+  display: block;
+}
+.match-screen:not(:has(.objective.story-object-0:not(.done))):has(.objective.story-object-1:not(.done)) .story-object-guidance.story-object-1 {
+  display: block;
+}
+.match-screen:not(:has(.objective.story-object-0:not(.done), .objective.story-object-1:not(.done))):has(.objective.story-object-2:not(.done)) .story-object-guidance.story-object-2 {
+  display: block;
+}
+.match-screen:not(:has(.objective.story-object-0:not(.done), .objective.story-object-1:not(.done), .objective.story-object-2:not(.done))) .default-input-guidance {
+  display: block;
+}
+
+@media (max-height: 650px), (max-width: 340px) {
+  .match-guidance-slot .match-hint { margin: 4px 6px 0; }
+  .story-object-guidance {
+    padding: 4px 6px;
+    font-size: 8px;
+    line-height: 1.2;
+  }
+}

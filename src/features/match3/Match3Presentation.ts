@@ -115,7 +115,11 @@ export function match3ObjectiveMarkup(
   const current = Math.min(value, objective.target);
   const icons = assets.map((asset) => `<img src="${asset}" alt="">`).join('');
   const objectiveIndexAttr = objectiveIndex === undefined ? '' : ` data-objective-index="${objectiveIndex}"`;
-  return `<div class="objective ${showProgress && current >= objective.target ? 'done' : ''}"${objectiveIndexAttr}>
+  const storyObjectClass =
+    objectiveIndex !== undefined && (objective.kind === 'drop' || objective.kind === 'dropGroup')
+      ? ` story-object-${objectiveIndex}`
+      : '';
+  return `<div class="objective${showProgress && current >= objective.target ? ' done' : ''}${storyObjectClass}"${objectiveIndexAttr}>
 <div class="objective-icons ${assets.length > 1 ? 'multi' : ''}">${icons}</div><span>${escapeHtml(label)}</span>
 <b>${showProgress ? `${current}/` : ''}${objective.target}</b>
 </div>`;
@@ -194,6 +198,25 @@ export function match3HelpMarkup(t: Match3Translate): string {
 <p class="match-help-close-hint">${escapeHtml(t('match3.help.closeHint'))}</p>
 </div>
 </details>`;
+}
+
+export function match3StoryObjectGuidanceMarkup(
+  level: LevelDefinition,
+  objectiveLabels: readonly string[],
+  t: Match3Translate,
+): string {
+  const storyGuidance = level.objectives
+    .map((objective, index) => {
+      if (objective.kind !== 'drop' && objective.kind !== 'dropGroup') return '';
+      const label = objectiveLabels[index] ?? '';
+      return `<p class="match-hint story-object-guidance story-object-${index}" data-guidance="story-object" data-objective-index="${index}">${escapeHtml(t('match3.storyObjectGuidance', { object: label }))}</p>`;
+    })
+    .join('');
+
+  return `<div class="match-guidance-slot" aria-live="polite">
+${storyGuidance}
+<p class="match-hint default-input-guidance" data-guidance="input">${escapeHtml(t('match3.inputHint'))}</p>
+</div>`;
 }
 
 function barkMedallion(bark: Match3BarkPresentation, t: Match3Translate): string {
@@ -320,7 +343,7 @@ ${detectiveStripMarkup(t)}
 <img src="${specialAsset}" alt=""><span><b>${escapeHtml(t('match3.hint'))}</b><small>${escapeHtml(t('match3.bestMove'))}</small></span>
 </button>
 </div>
-<p class="match-hint">${escapeHtml(t('match3.inputHint'))}</p>
+${match3StoryObjectGuidanceMarkup(level, objectiveLabels, t)}
 ${match3TutorialMarkup(tutorialConcept, tutorialDismissed, t)}
 </section>`;
 }
