@@ -5,6 +5,7 @@ import './vnViewportStability.css';
 import './match3Production.css';
 import './match3Help.css';
 import './match3StoryObjectGuidance.css';
+import './match3SpecialImpact.css';
 import { BUILD_ID } from './appVersion';
 import { AnimeDetectiveApp } from './ui/AnimeDetectiveApp';
 import { installImageFallbackHandler } from './platform/AssetHealth';
