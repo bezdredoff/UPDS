@@ -1,0 +1,37 @@
+{
+  "schema": "upds-match3-story-object-asset-audit-v1",
+  "source": "src/data/levels.ts#ingredientPresentation",
+  "totalStoryObjectIdentities": 27,
+  "physicalRuntimeAssets": 4,
+  "shortlist": [
+    {
+      "asset": "./assets/match3/goal_receipt.png",
+      "semanticFanout": 10,
+      "priority": 1,
+      "reason": "Highest semantic fan-out: one receipt-like image represents documents, manifests, cards, catalog and confirmations."
+    },
+    {
+      "asset": "./assets/match3/goal_memory_card.png",
+      "semanticFanout": 9,
+      "priority": 2,
+      "reason": "High semantic fan-out: one memory-card image represents logs, sheets, seals, scanners, drives and presentation material."
+    },
+    {
+      "asset": "./assets/clues/clue_towel_conductive_seam.png",
+      "semanticFanout": 6,
+      "priority": 3,
+      "reason": "A single conductive-seam close-up stands in for several materially different tagged or marked physical objects."
+    },
+    {
+      "asset": "./assets/clues/clue_service_key.png",
+      "semanticFanout": 2,
+      "priority": 4,
+      "reason": "Lowest fan-out but still conflates a physical service key with a service key-card."
+    }
+  ],
+  "decision": {
+    "status": "measured-shortlist",
+    "next": "split-or-replace-these-four-runtime-identities",
+    "doNotChangeGameplay": true
+  }
+}
