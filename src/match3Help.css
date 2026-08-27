@@ -1,5 +1,7 @@
-/* ANM-025C2 player-facing Match-3 Help / FAQ.
+/* ANM-025C2/C2A player-facing Match-3 Help / FAQ.
  * Native <details> keeps the board/controller state untouched while the panel is open.
+ * C2A centers the sheet on the phone canvas and aligns it with the established
+ * Match-3 tutorial/card visual language instead of anchoring a wide popover to the ? trigger.
  */
 .match-help {
   position: relative;
@@ -7,6 +9,8 @@
 }
 
 .match-help > summary {
+  position: relative;
+  z-index: 42;
   list-style: none;
   cursor: pointer;
 }
@@ -21,86 +25,99 @@
   background: #294a69;
 }
 
+.match-help[open]::before {
+  content: '';
+  position: fixed;
+  z-index: 39;
+  inset: 0;
+  background: #0714279e;
+  backdrop-filter: blur(1px);
+}
+
 .match-help-popover {
-  position: absolute;
+  position: fixed;
   z-index: 40;
-  top: calc(100% + 8px);
-  right: 0;
-  width: min(372px, calc(100vw - 18px));
-  max-height: min(72dvh, 620px);
+  top: max(68px, calc(var(--safe-area-top) + 58px));
+  left: 50%;
+  width: min(350px, calc(100vw - 28px));
+  max-width: calc(100vw - 28px);
+  max-height: min(76dvh, 650px);
+  transform: translateX(-50%);
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 18px 16px 14px;
-  border: 2px solid var(--m3-gold);
+  scrollbar-gutter: stable;
+  padding: 30px 20px 18px;
+  border: 3px solid var(--m3-gold);
+  border-left: 8px solid var(--m3-green);
   border-radius: 7px;
-  background:
-    repeating-linear-gradient(0deg, #8e77500b 0 1px, transparent 1px 24px),
-    linear-gradient(180deg, var(--m3-paper-light), var(--m3-paper));
+  background: linear-gradient(180deg, var(--m3-paper-light), var(--m3-paper));
   color: var(--m3-navy);
-  box-shadow: 0 0 0 3px var(--m3-navy), 0 18px 42px #050b1e99;
+  box-shadow: 0 0 0 3px var(--m3-navy), 0 18px 44px #020914c7;
   text-align: left;
   -webkit-overflow-scrolling: touch;
 }
 .match-help-popover .case-tab {
-  position: static;
-  display: inline-block;
+  top: 0;
+  left: 12px;
   min-width: 0;
-  margin: -18px 0 12px -16px;
-  padding: 5px 12px;
-  border-radius: 0 0 4px 0;
 }
 .match-help-popover h2 {
-  margin: 0 0 6px;
+  margin: 7px 0 8px;
   color: var(--m3-navy);
-  font: 800 20px/1.08 Georgia, serif;
+  font: 850 24px/1.05 Georgia, serif;
 }
 .match-help-intro {
-  margin: 0 0 12px;
-  color: #5f5547;
-  font-size: 11px;
-  line-height: 1.35;
+  margin: 0 0 13px;
+  color: #5c513e;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
 }
 .match-help-list {
   display: grid;
-  gap: 7px;
 }
 .match-help-topic {
-  padding: 8px 9px;
-  border: 1px solid #c5ad76;
-  border-radius: 5px;
-  background: #fff8df;
+  padding: 10px 0;
+  border-top: 1px solid #c5ad76;
 }
+.match-help-topic:first-child { border-top: 0; padding-top: 2px; }
 .match-help-topic h3 {
-  margin: 0 0 3px;
+  margin: 0 0 4px;
   color: var(--m3-green-dark);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 950;
-  line-height: 1.15;
+  line-height: 1.2;
 }
 .match-help-topic p {
   margin: 0;
-  color: #514a40;
-  font-size: 10px;
-  line-height: 1.32;
+  color: #5c513e;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.4;
   overflow-wrap: anywhere;
 }
 .match-help-close-hint {
-  margin: 11px 0 0;
+  margin: 12px 0 0;
+  padding-top: 11px;
+  border-top: 1px solid #c5ad76;
   color: #74664d;
   font-size: 9px;
-  font-weight: 800;
+  font-weight: 850;
   text-align: center;
 }
 
-@media (max-width: 340px) {
+@media (max-width: 340px), (max-height: 650px) {
   .match-help-popover {
-    width: calc(100vw - 12px);
-    padding: 14px 12px 11px;
+    top: max(62px, calc(var(--safe-area-top) + 52px));
+    width: calc(100vw - 22px);
+    max-width: calc(100vw - 22px);
+    max-height: min(78dvh, 560px);
+    padding: 24px 16px 14px;
   }
-  .match-help-popover .case-tab { margin: -14px 0 10px -12px; }
-  .match-help-popover h2 { font-size: 17px; }
-  .match-help-intro { font-size: 10px; }
-  .match-help-topic { padding: 7px; }
-  .match-help-topic h3 { font-size: 10px; }
-  .match-help-topic p { font-size: 9px; }
+  .match-help-popover .case-tab { left: 9px; }
+  .match-help-popover h2 { font-size: 20px; }
+  .match-help-intro { font-size: 11px; }
+  .match-help-topic { padding: 8px 0; }
+  .match-help-topic h3 { font-size: 11px; }
+  .match-help-topic p { font-size: 10px; }
 }
