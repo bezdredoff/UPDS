@@ -1,0 +1,74 @@
+/* ANM-025D2 — blocker readability without changing blocker mechanics. */
+
+.board-cell:has(.blocker) .blocker {
+  pointer-events: none;
+}
+
+.board-cell:has(.blocker img[src*="obstacle_locked_cell"]) {
+  box-shadow:
+    inset 0 0 0 2px #8f3341,
+    inset 0 0 0 4px #f1cf8b55,
+    inset 0 1px #ffffff24;
+}
+
+.board-cell:has(.blocker img[src*="obstacle_locked_cell"]) .blocker img {
+  opacity: .98;
+  filter: contrast(1.16) saturate(1.08) drop-shadow(0 2px 2px #081326c7);
+}
+
+.board-cell:has(.blocker img[src*="obstacle_prop_box_2layer"]) {
+  box-shadow:
+    inset 0 0 0 2px #d1ae68,
+    inset 0 0 0 4px #0b1d39b8,
+    inset 0 1px #ffffff22;
+}
+
+.board-cell:has(.blocker img[src*="obstacle_prop_box_2layer"]) .blocker img {
+  opacity: .98;
+  filter: contrast(1.12) saturate(1.06) drop-shadow(0 2px 2px #071326d0);
+}
+
+/* Overlay blockers keep the retained tile readable instead of visually replacing it. */
+.board-cell:has(.blocker img[src*="obstacle_soap_foam"]) {
+  box-shadow:
+    inset 0 0 0 2px #b9e7ee,
+    inset 0 0 0 4px #325b72b8,
+    inset 0 1px #ffffff2b;
+}
+
+.board-cell:has(.blocker img[src*="obstacle_soap_foam"]) .blocker img {
+  opacity: .72;
+  filter: contrast(1.04) saturate(.9) drop-shadow(0 1px 2px #0713269e);
+}
+
+/* M3_02 is the single mechanically permeable overlay level. Its presentation is
+   intentionally lighter so players can infer that the base tile is still usable. */
+.match-screen[data-m3-profile="pool-laundry"] .board-cell:has(.blocker img[src*="obstacle_soap_foam"]) {
+  box-shadow:
+    inset 0 0 0 1px #c9f5f6,
+    inset 0 0 0 3px #4ca2ad80,
+    inset 0 1px #ffffff30;
+}
+
+.match-screen[data-m3-profile="pool-laundry"] .board-cell:has(.blocker img[src*="obstacle_soap_foam"]) .blocker img {
+  opacity: .46;
+  filter: contrast(.98) saturate(.78) drop-shadow(0 1px 1px #07132670);
+}
+
+/* Layer count stays readable over every blocker asset and at the smallest board scale. */
+.board-cell:has(.blocker) .blocker b {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #fff4cf;
+  border-radius: 9px;
+  background: #10243df2;
+  color: #fff7dc;
+  box-shadow: 0 1px 4px #050b1ea8;
+  font-size: 10px;
+  font-weight: 950;
+  line-height: 1;
+  text-shadow: 0 1px #0008;
+}
