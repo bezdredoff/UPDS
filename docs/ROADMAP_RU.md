@@ -66,7 +66,7 @@ Changing the release platform or market scope is a separate product decision, no
 - **ANM-030A Full Game Asset Gap Audit**: **ANM-030A R1.1 [P0] — COMPLETE / PR #145**.
 - **ANM-030A2 [P0] — COMPLETE / PR #147** — audit tooling and repository/report hygiene.
 - **ANM-030B0A1 R1.1 [P1] — COMPLETE / PR #148** — planning-only shared Match-3 special visual contract.
-- **ANM-030B0A2 R1 [P1] — COMPLETE** — five approved `256×256` RGBA special overlays replace the generic SVG primary art across board and localized Help; the SVG set remains semantic fallback and both packs stay preload/offline-safe.
+- **ANM-030B0A2 R2 [P1] — COMPLETE** — five approved `256×256` RGBA specials replace the full base-tile artwork, retain a compact type marker, appear in localized Help, and are created by qualifying refill/cascade matches; unexplained story-object numeric tags are removed and invalid feedback remains readable for `1600 ms`.
 - **ANM-030B0B–B0F full-stage character closure** is complete.
 - **ANM-030B0B–B0F [P1] — COMPLETE / PRs #186–#190**: nine approved rigs, exact 63-file adoption, candidate cleanup, WebKit lineup gate and retired compatibility seam removal.
 - **ANM-030B0G [P1] — DOCUMENTATION CLOSEOUT**: active architecture/testing/docs aligned with the finished 9/9 state.

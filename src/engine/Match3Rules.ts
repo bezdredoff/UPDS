@@ -160,6 +160,61 @@ export function findPlayerSpecialCreations(
   return uniqueCreations(candidates);
 }
 
+const automaticCreationAnchor = (
+  cells: readonly Match3RuleCell[],
+  indices: readonly number[],
+  preferredIndices: readonly number[],
+): number | null => {
+  const available = indices.filter((index) => !cells[index]?.special);
+  if (available.length === 0) return null;
+  const preferred = preferredIndices.find((index) => available.includes(index));
+  return preferred ?? available[Math.floor((available.length - 1) / 2)] ?? null;
+};
+
+export function findAutomaticSpecialCreations(
+  cells: readonly Match3RuleCell[],
+  groups: readonly MatchGroup[],
+  preferredIndices: readonly number[] = [],
+): readonly SpecialCreation[] {
+  const candidates: SpecialCreation[] = [];
+
+  for (const group of groups) {
+    if (group.orientation === 'square' || group.indices.length < 5) continue;
+    const index = automaticCreationAnchor(cells, group.indices, preferredIndices);
+    if (index !== null) candidates.push({ index, kind: 'insight' });
+  }
+  if (candidates.length > 0) return uniqueCreations(candidates);
+
+  const rows = groups.filter((group) => group.orientation === 'row');
+  const columns = groups.filter((group) => group.orientation === 'column');
+  for (const rowGroup of rows) {
+    for (const columnGroup of columns) {
+      const intersection = rowGroup.indices.find((index) => columnGroup.indices.includes(index));
+      if (intersection !== undefined && !cells[intersection]?.special) {
+        candidates.push({ index: intersection, kind: 'evidence' });
+      }
+    }
+  }
+  if (candidates.length > 0) return uniqueCreations(candidates);
+
+  for (const group of groups) {
+    if (group.orientation !== 'square') continue;
+    const index = automaticCreationAnchor(cells, group.indices, preferredIndices);
+    if (index !== null) candidates.push({ index, kind: 'lead', consumed: group.indices });
+  }
+  if (candidates.length > 0) return uniqueCreations(candidates);
+
+  for (const group of groups) {
+    if (group.orientation === 'square' || group.indices.length !== 4) continue;
+    const index = automaticCreationAnchor(cells, group.indices, preferredIndices);
+    if (index !== null) candidates.push({
+      index,
+      kind: group.orientation === 'row' ? 'flash-row' : 'flash-column',
+    });
+  }
+  return uniqueCreations(candidates);
+}
+
 export function classifyPlayerMove(
   groups: readonly MatchGroup[],
   activatedSpecials: readonly number[],

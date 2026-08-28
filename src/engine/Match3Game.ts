@@ -11,6 +11,7 @@ import {
   colOf,
   directSpecialComboTargets,
   expandSpecialClearTargets,
+  findAutomaticSpecialCreations,
   findMatchGroups as findBoardMatchGroups,
   findResolutionMatchGroups as findBoardResolutionMatchGroups,
   findPlayerSpecialCreations,
@@ -458,6 +459,7 @@ export class Match3Game {
     const totals: ResolutionTotals = { cleared: 0, cascades: 0, specialsCreated: 0, blockersCleared: 0, ingredientsDropped: 0 };
     let groups = [...initialGroups];
     let specialActivations = [...activatedSpecials];
+    let automaticCreationAnchors: readonly number[] = [];
 
     for (
       let cascade = 0;
@@ -468,7 +470,8 @@ export class Match3Game {
       const matched = new Set(groups.flatMap((group) => [...group.indices]));
       const creations = totals.cascades === 1
         ? new Map(playerCreations.map((creation) => [creation.index, creation] as const))
-        : new Map<number, SpecialCreation>();
+        : new Map(findAutomaticSpecialCreations(this.cells, groups, automaticCreationAnchors)
+          .map((creation) => [creation.index, creation] as const));
 
       const creationConsumed = [...creations.values()].flatMap((creation) => [...(creation.consumed ?? [])]);
       const clearSeed = new Set<number>([...matched, ...specialActivations, ...creationConsumed]);
@@ -510,6 +513,9 @@ export class Match3Game {
       }
 
       const settle = this.settleBoard();
+      automaticCreationAnchors = [...settle.motions]
+        .sort((a, b) => Number(b.kind === 'spawn') - Number(a.kind === 'spawn') || b.rows - a.rows || a.index - b.index)
+        .map((motion) => motion.index);
       totals.ingredientsDropped += settle.dropped;
       frames.push({
         phase: 'settle',

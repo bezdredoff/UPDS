@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readFile } from 'node:fs/promises';
 import {
   expandSpecialClearTargets,
+  findAutomaticSpecialCreations,
   findMatchGroups,
   findPlayerSpecialCreations,
   findSquareMatchGroups,
@@ -37,10 +38,24 @@ describe('ANM-022D special shape taxonomy', () => {
     expect(findPlayerSpecialCreations(cells, groups, 9, 10)).toEqual([{ index: 10, kind: 'insight' }]);
   });
 
-  it('creates specials only on the first player-authored mutable resolution', async () => {
+  it('creates specials for a later automatic cascade using a moved tile as its stable anchor', () => {
+    const cells = boardWith({
+      56: { tile: 'towel' },
+      57: { tile: 'towel' },
+      58: { tile: 'towel' },
+      59: { tile: 'towel' },
+    });
+    const groups = findMatchGroups(cells);
+    expect(findAutomaticSpecialCreations(cells, groups, [57])).toEqual([
+      { index: 57, kind: 'flash-row' },
+    ]);
+  });
+
+  it('wires automatic creation into resolutions after the player-authored first cascade', async () => {
     const engine = await readFile(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
     expect(engine).toContain('totals.cascades === 1');
     expect(engine).toContain('playerCreations.map');
+    expect(engine).toContain('findAutomaticSpecialCreations(this.cells, groups, automaticCreationAnchors)');
   });
 
   it('gives Evidence, Lead and Insight deterministic activation effects', () => {

@@ -172,7 +172,7 @@ Macro содержит 7 semantic extras roles и budget ≤4 reusable adult arc
 
 ### R1.5 Match-3 special/bonus visual pack — COMPLETE
 
-`flash-row`, `flash-column`, `evidence`, `lead`, `insight` используют общий production pack из пяти transparent `256×256` PNG. SVG сохранены как semantic runtime fallback, а Help показывает реальные изображения вместе с правилами создания и эффектом на RU/BE/EN.
+`flash-row`, `flash-column`, `evidence`, `lead`, `insight` используют общий production pack из пяти transparent `256×256` PNG. R2 заменяет ими полноразмерный base tile, оставляя только маленький type marker; SVG сохранены как semantic runtime fallback, а Help показывает реальные изображения вместе с правилами создания и эффектом на RU/BE/EN. Qualifying cascade/refill matches теперь создают те же bonuses; story-object numeric tags удалены, invalid feedback держится `1600 ms`.
 
 Audit фиксирует `productionReadyMatch3SpecialVisuals = 5`, `outstandingMatch3SpecialVisuals = 0` и `blockingMatch3ArtGaps = 0`.
 
