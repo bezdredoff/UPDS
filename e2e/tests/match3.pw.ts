@@ -236,7 +236,9 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
       const asset = image as HTMLImageElement;
       return asset.complete && asset.naturalWidth === 256 && asset.naturalHeight === 256 && asset.currentSrc.endsWith('/flash-row.png');
     })).toBe(true);
-    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(64);
+    await expect(match3Cell(page, 2).locator('.tile')).toHaveCount(0);
+    await expect(match3Cell(page, 2).locator('.special-base-marker')).toBeVisible();
+    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(63);
     health.assertClean();
   });
 
