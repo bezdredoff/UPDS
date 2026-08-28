@@ -320,6 +320,8 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
 
     const invalidFeedback = page.locator(qaSelectors.match3Feedback);
     await expect(invalidFeedback).toHaveClass(/reject-feedback.*visible|visible.*reject-feedback/);
+    await page.waitForTimeout(700);
+    await expect(invalidFeedback).toHaveClass(/visible/);
     expect(await movesLeft(page)).toBe(deterministicLabMoves);
     expect(await firstObjectiveProgress(page)).toEqual([0, 10]);
     expect(await tileVariant(page, 4)).toBe('tile:sportsBra');
@@ -331,7 +333,9 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     await expect(page.locator(qaSelectors.match3Moves)).toHaveText(String(deterministicLabMoves - 1));
     expect(await firstObjectiveProgress(page)).toEqual([3, 10]);
     await expect(match3Cell(page, 2).locator('.special.flash-row')).toBeVisible();
-    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(64);
+    await expect(match3Cell(page, 2).locator('.tile')).toHaveCount(0);
+    await expect(match3Cell(page, 2).locator('.special-base-marker')).toBeVisible();
+    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(63);
 
     const progressBeforeActivation = (await firstObjectiveProgress(page))[0];
     await rememberMatch3Dom(page);

@@ -28,8 +28,21 @@ describe('current Match-3 presentation contract', () => {
     expect(MATCH_MOTION_MS.clear).toBe(280);
     expect(MATCH_MOTION_MS.settle).toBe(320);
     expect(MATCH_MOTION_MS.reshuffle).toBe(460);
+    expect(MATCH_MOTION_MS.invalidHold).toBe(1600);
     expect(matchMotionDuration('clear', true)).toBe(0);
-    expect(matchMotionDuration('invalidHold', true)).toBeGreaterThan(0);
+    expect(matchMotionDuration('invalidHold', true)).toBe(1600);
+  });
+
+  it('lets production bonus art replace the full tile while retaining a compact type marker', () => {
+    const level = levels[0];
+    const game = new Match3Game(level, level.seed);
+    const board = game.board.map((cell, index) => index === 0 ? { ...cell, special: 'flash-row' as const } : cell);
+    const markup = match3BoardCellsMarkup({ level, board, selectedCell: null, hintedCells: new Set(), t });
+    const firstCell = markup.slice(0, markup.indexOf('</button>'));
+    expect(firstCell).toContain('special flash-row');
+    expect(firstCell).toContain('special-base-marker');
+    expect(firstCell).not.toContain('class="tile"');
+    expect(style).toContain('width: 128%');
   });
 
   it('keeps objective-aware hints and staged move feedback', () => {

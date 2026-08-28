@@ -12,7 +12,6 @@ import {
 import { backgroundAssets } from '../../data/narrative';
 import { resolveMatch3TilePresentation } from '../../data/match3TilePresentation';
 import type { Match3ReactionId, Match3RunMode } from '../../data/match3Reactions';
-import { storyObjectEvidenceTag } from '../../data/match3StoryObjectPresentation';
 import type { Match3TutorialConceptId } from '../../data/match3Tutorials';
 import type { BoardCell } from '../../engine/Match3Game';
 import type { Match3ReactionEmphasis } from '../../ui/match3ReactionPresentation';
@@ -115,15 +114,14 @@ export function match3ObjectiveMarkup(
   showProgress: boolean,
   objectiveIndex?: number,
 ): string {
-  let objectiveIcons: readonly Readonly<{ asset: string; evidenceTag?: string }>[];
+  let objectiveIcons: readonly Readonly<{ asset: string }>[];
   if (objective.kind === 'collect') {
     objectiveIcons = [{ asset: resolveMatch3TilePresentation(level.context.tilePresentationProfile, objective.tile).asset }];
   } else if (objective.kind === 'drop') {
-    objectiveIcons = [{ asset: ingredientPresentation[objective.ingredient].asset, evidenceTag: storyObjectEvidenceTag(objective.ingredient) }];
+    objectiveIcons = [{ asset: ingredientPresentation[objective.ingredient].asset }];
   } else if (objective.kind === 'dropGroup') {
     objectiveIcons = objective.ingredients.map((ingredient) => ({
       asset: ingredientPresentation[ingredient].asset,
-      evidenceTag: storyObjectEvidenceTag(ingredient),
     }));
   } else {
     objectiveIcons = [{ asset: blockerPresentation[level.blocker].asset }];
@@ -131,11 +129,7 @@ export function match3ObjectiveMarkup(
 
   const current = Math.min(value, objective.target);
   const icons = objectiveIcons
-    .map(({ asset, evidenceTag }) => {
-      if (!evidenceTag) return `<img src="${asset}" alt="">`;
-      const tag = escapeHtml(evidenceTag);
-      return `<span class="objective-evidence-icon" data-evidence-tag="${tag}"><img src="${asset}" alt=""><i class="story-object-evidence-tag" aria-hidden="true">${tag}</i></span>`;
-    })
+    .map(({ asset }) => `<img src="${asset}" alt="">`)
     .join('');
   const objectiveIndexAttr = objectiveIndex === undefined ? '' : ` data-objective-index="${objectiveIndex}"`;
   const storyObjectClass =
@@ -167,7 +161,6 @@ export function match3BoardCellsMarkup(input: Match3BoardMarkupInput): string {
         ? resolveMatch3TilePresentation(level.context.tilePresentationProfile, cell.tile)
         : null;
       const ingredient = cell.ingredient ? ingredientPresentation[cell.ingredient] : null;
-      const evidenceTag = cell.ingredient ? storyObjectEvidenceTag(cell.ingredient) : null;
       const cellLabel = cell.ingredient
         ? t(`match3.ingredient.${cell.ingredient}`)
         : cell.tile
@@ -177,9 +170,10 @@ export function match3BoardCellsMarkup(input: Match3BoardMarkupInput): string {
       return `<button class="board-cell${selected}${hinted}${clearingClass}${motionClass}" data-cell="${index}" role="gridcell" aria-label="${escapeHtml(cellLabel)}"${motionStyle}>
 <span class="tile-socket"></span>
 <span class="tile-stack">
-${tile ? `<img class="tile" src="${tile.asset}" data-tile-variant="${escapeHtml(tile.variantId)}" alt="" draggable="false">` : ''}
-${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="" draggable="false">${evidenceTag ? `<i class="story-object-evidence-tag" data-evidence-tag="${escapeHtml(evidenceTag)}" aria-hidden="true">${escapeHtml(evidenceTag)}</i>` : ''}` : ''}
+${tile && !cell.special ? `<img class="tile" src="${tile.asset}" data-tile-variant="${escapeHtml(tile.variantId)}" alt="" draggable="false">` : ''}
+${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="" draggable="false">` : ''}
 ${cell.special ? match3SpecialImageMarkup(cell.special, `special ${cell.special}`, t(`match3.special.${cell.special}`)) : ''}
+${cell.special && tile ? `<span class="special-base-marker" aria-hidden="true"><img src="${tile.asset}" data-tile-variant="${escapeHtml(tile.variantId)}" alt="" draggable="false"></span>` : ''}
 </span>
 ${cell.blockerLayers > 0 ? `<span class="blocker"><img src="${blockerAsset}" alt="" draggable="false"><b>${cell.blockerLayers}</b></span>` : ''}
 </button>`;

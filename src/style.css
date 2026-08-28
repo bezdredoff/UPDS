@@ -937,7 +937,22 @@ img { display: block; }
 .tile, .ingredient, .special, .blocker, .blocker img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .tile { z-index: 1; padding: 2px; filter: drop-shadow(0 1px 1px #10172d66); }
 .ingredient { z-index: 3; padding: 3px; filter: drop-shadow(0 2px 2px #0008); animation: ingredient-glow 1.4s ease-in-out infinite; }
-.special { z-index: 2; padding: 5px; opacity: .92; filter: drop-shadow(0 0 6px #fff4a1); }
+.special { z-index: 2; inset: -14%; width: 128%; height: 128%; padding: 0; opacity: 1; filter: drop-shadow(0 0 6px #fff4a1); }
+.special-base-marker {
+  position: absolute;
+  z-index: 3;
+  right: 1px;
+  bottom: 1px;
+  width: 16px;
+  height: 16px;
+  padding: 1px;
+  overflow: hidden;
+  border: 1px solid #fff0bd;
+  border-radius: 50%;
+  background: #10243deb;
+  box-shadow: 0 1px 4px #050b1e9e;
+}
+.special-base-marker img { width: 100%; height: 100%; object-fit: contain; }
 .special.row { transform: rotate(-18deg); }
 .special.column { transform: rotate(72deg); }
 .blocker { z-index: 4; pointer-events: none; }
@@ -1451,8 +1466,8 @@ img { display: block; }
 
 /* ANM-022D: taxonomy uses the existing observation asset; shape is also encoded by CSS. */
 .special.flash-row, .special.flash-column, .special.evidence, .special.lead, .special.insight {
-  width: 100%;
-  height: 100%;
+  width: 128%;
+  height: 128%;
   padding: 0;
   object-fit: contain;
   filter: drop-shadow(0 1px 2px rgba(24, 20, 38, .72));

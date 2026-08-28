@@ -64,4 +64,30 @@ describe('ANM-025F4 cascade square resolution', () => {
     expect(totals.cleared).toBeGreaterThanOrEqual(4);
     expect(totals.specialsCreated).toBe(0);
   });
+
+  it('creates a Flash when falling tiles complete a four-match on the second cascade', () => {
+    const game = new Match3Game(levels[0], 250402);
+    const internals = game as unknown as Match3Internals;
+
+    for (let index = 0; index < internals.cells.length; index += 1) {
+      const row = Math.floor(index / 8);
+      const column = index % 8;
+      internals.cells[index].tile = (row + column) % 2 === 0 ? 'towel' : 'socks';
+      internals.cells[index].ingredient = null;
+      internals.cells[index].blockerLayers = 0;
+      internals.cells[index].special = null;
+    }
+    internals.cells[33].tile = 'pantiesLacePink';
+    for (const index of [56, 58, 59]) internals.cells[index].tile = 'pantiesLacePink';
+    for (const index of [41, 49, 57]) internals.cells[index].tile = 'pantiesSportWhite';
+
+    const groups = findResolutionMatchGroups(internals.cells);
+    expect(groups).toContainEqual({ orientation: 'column', indices: [41, 49, 57] });
+    const frames: Match3Frame[] = [];
+    const totals = internals.resolve(groups, [], [], null, 41, 57, frames, 'match');
+
+    expect(totals.cascades).toBeGreaterThanOrEqual(2);
+    expect(totals.specialsCreated).toBeGreaterThanOrEqual(1);
+    expect(frames.some((frame) => frame.cascade >= 2 && frame.phase === 'clear')).toBe(true);
+  });
 });

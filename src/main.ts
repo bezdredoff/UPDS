@@ -7,7 +7,6 @@ import './match3Help.css';
 import './match3StoryObjectGuidance.css';
 import './match3SpecialImpact.css';
 import './match3BlockerReadability.css';
-import './match3StoryObjectEvidenceTags.css';
 import { BUILD_ID } from './appVersion';
 import { AnimeDetectiveApp } from './ui/AnimeDetectiveApp';
 import { installImageFallbackHandler } from './platform/AssetHealth';
