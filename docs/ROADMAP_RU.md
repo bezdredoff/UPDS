@@ -30,7 +30,7 @@ Changing the release platform or market scope is a separate product decision, no
 - save/progression, VN shell/paging/staging, localization foundation, PWA/offline/update foundation and telemetry foundation;
 - Match-3 production framework, Level Lab and player-facing Match-3 Campaign;
 - complete canonical authored story and graph/runtime pipeline for all 22 slots and three endings;
-- viewport/safe-area foundation and Playwright Browser Gate;
+- viewport/safe-area foundation, including installed-iOS physical-bottom extension, and Playwright Browser Gate;
 - RU, BE and EN production runtime;
 - nine-character full-stage production closure with exact 63 runtime assets and Mobile WebKit visual protection;
 - production player surface closure: internal QA tools hidden from normal player URL and retained through explicit `?qa=1` access.

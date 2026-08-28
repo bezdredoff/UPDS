@@ -21,7 +21,7 @@ test('boots the production build into the player menu without QA tools', async (
 });
 
 test(
-  'keeps iPhone panels safe and bridges the installed system canvas per screen',
+  'keeps iPhone panels safe and extends installed player screens to the physical bottom',
   async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'webkit-mobile', 'iOS/WebKit safe-area regression');
     const health = observeBrowserHealth(page);
@@ -35,10 +35,7 @@ test(
       document.documentElement.style.setProperty('--safe-area-bottom', '34px');
     }, standaloneTopInset);
 
-    const expectScreenCanvas = async (
-      activeScreenSelector: string,
-      expectedCanvasColor: string,
-    ): Promise<void> => {
+    const expectPhysicalFullBleed = async (activeScreenSelector: string): Promise<void> => {
       const geometry = await page.evaluate((selector) => {
         const rect = (target: string) => {
           const node = document.querySelector<HTMLElement>(target);
@@ -50,23 +47,22 @@ test(
         const screen = rect(selector);
         return {
           innerHeight: window.innerHeight,
-          rootBackground: getComputedStyle(document.documentElement).backgroundColor,
           shell: { top: shell.top, bottom: shell.bottom },
           phone: { top: phone.top, bottom: phone.bottom },
           screen: { top: screen.top, bottom: screen.bottom },
         };
       }, activeScreenSelector);
+      const physicalBottom = geometry.innerHeight + standaloneTopInset;
 
       expect(geometry.shell.top).toBeCloseTo(0, 1);
       expect(geometry.phone.top).toBeCloseTo(0, 1);
       expect(geometry.screen.top).toBeCloseTo(0, 1);
-      expect(geometry.shell.bottom).toBeCloseTo(geometry.innerHeight, 1);
-      expect(geometry.phone.bottom).toBeCloseTo(geometry.innerHeight, 1);
-      expect(geometry.screen.bottom).toBeCloseTo(geometry.innerHeight, 1);
-      expect(geometry.rootBackground).toBe(expectedCanvasColor);
+      expect(geometry.shell.bottom).toBeCloseTo(physicalBottom, 1);
+      expect(geometry.phone.bottom).toBeCloseTo(physicalBottom, 1);
+      expect(geometry.screen.bottom).toBeCloseTo(physicalBottom, 1);
     };
 
-    await expectScreenCanvas(qaSelectors.mainMenu, 'rgb(44, 47, 70)');
+    await expectPhysicalFullBleed(qaSelectors.mainMenu);
     await page.locator(qaSelectors.settingsButton).click();
     const settings = page.locator(qaSelectors.settingsScreen);
     await expect(settings).toBeVisible();
@@ -82,12 +78,12 @@ test(
     await expect
       .poll(async () => (await panelAction.boundingBox())?.y ?? -1)
       .toBeGreaterThanOrEqual(46);
-    await expectScreenCanvas(qaSelectors.settingsScreen, 'rgb(240, 231, 229)');
+    await expectPhysicalFullBleed(qaSelectors.settingsScreen);
 
     await page.locator(qaSelectors.settingsBack).click();
     await page.locator(qaSelectors.match3CampaignButton).click();
     await expect(page.locator(qaSelectors.match3CampaignScreen)).toBeVisible();
-    await expectScreenCanvas(qaSelectors.match3CampaignScreen, 'rgb(217, 215, 225)');
+    await expectPhysicalFullBleed(qaSelectors.match3CampaignScreen);
     health.assertClean();
   },
 );

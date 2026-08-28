@@ -24,7 +24,7 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(afterRenderCount).toBe(1);
   });
 
-  it('centralizes safe-area discovery and keeps the shell in the functional viewport', () => {
+  it('centralizes safe-area discovery and extends only the installed physical viewport', () => {
     const css = readFileSync(new URL('../src/viewport.css', import.meta.url), 'utf8');
 
     expect(css).toContain('--safe-area-top: env(safe-area-inset-top, 0px)');
@@ -32,8 +32,10 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(css).toContain('--safe-area-bottom: env(safe-area-inset-bottom, 0px)');
     expect(css).toContain('--safe-area-left: env(safe-area-inset-left, 0px)');
     expect(css).toContain('--physical-viewport-height: 100dvh');
-    expect(css).not.toContain("data-upds-display-mode='standalone'");
-    expect(css).not.toContain('calc(100dvh + var(--safe-area-top))');
+    expect(css).toContain(":root[data-upds-display-mode='standalone']");
+    expect(css).toContain(
+      '--physical-viewport-height: calc(100dvh + var(--safe-area-top))',
+    );
     expect(css).not.toContain('--physical-viewport-height: 100lvh');
     expect(css).toContain('--game-viewport-max-width: 430px');
     expect(css).toContain('--game-viewport-max-height: 932px');
@@ -43,23 +45,11 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(css).not.toContain('padding: var(--safe-area');
   });
 
-  it('bridges the installed system canvas with every player-screen bottom tone', () => {
+  it('rejects the background-only workaround that leaves player content above the iOS bottom edge', () => {
     const css = readFileSync(new URL('../src/style.css', import.meta.url), 'utf8');
 
-    expect(css).toContain('--upds-system-canvas-color: #171a2f');
-    expect(css).toContain("data-upds-display-mode='standalone'");
-    for (const selector of [
-      '.menu-screen',
-      '.vn-screen',
-      '.choice-screen',
-      '.level-intro',
-      '.evidence-transition',
-      '.ending-screen',
-      '.match-screen',
-      '.result-screen',
-      '.panel',
-      '.match3-campaign-screen',
-    ]) expect(css).toContain(`:has(${selector})`);
+    expect(css).not.toContain('--upds-system-canvas-color');
+    expect(css).not.toContain(":root[data-upds-display-mode='standalone']:has(");
   });
 
   it('loads the viewport layer after legacy presentation CSS for controlled migration', () => {
