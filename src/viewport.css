@@ -13,6 +13,23 @@
 }
 
 /*
+ * The 430x932 cap belongs to the desktop/browser presentation frame, not to
+ * installed phones. Current large iPhones expose a 440px CSS viewport, so the
+ * legacy max-width: 430px mobile breakpoint leaves .phone on its capped 100dvh
+ * rule and centers it inside the taller physical shell. Keep a small-phone-sized
+ * standalone window edge-to-edge independently of any one iPhone generation.
+ */
+@media (orientation: portrait) and (max-width: 520px) {
+  :root[data-upds-display-mode='standalone'] .phone.game-viewport {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    box-shadow: none;
+  }
+}
+
+/*
  * ANM-024 shared viewport foundation.
  *
  * This file is the single physical safe-area discovery layer. Presentation CSS

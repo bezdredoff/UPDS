@@ -173,6 +173,9 @@ simple forms, almost-flat cel shading and no generic modern glossy-gacha render.
   not reintroduce screen-specific safe-area padding inside feature controllers.
 - Installed iOS standalone extends the shared shell to the physical bottom with
   `calc(100dvh + var(--safe-area-top))`; normal browser tabs retain `100dvh`.
+- Installed portrait phone windows up to `520px` bypass the desktop `430×932` frame cap and require
+  `.phone.game-viewport` to fill the shared shell in both axes. The `440px` large-iPhone branch is
+  mandatory regression coverage.
 - A root-background/color bridge is not a valid substitute for physical full-bleed because it
   leaves the interactive player screen shorter than the device canvas.
 - Minimum portrait regression viewport: `320×568`.

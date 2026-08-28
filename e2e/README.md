@@ -69,11 +69,12 @@ Localization uses production Settings and locale persistence. G8E2 extends that 
 
 ## Installed iOS full-bleed
 
-`boot.pw.ts` owns the ANM-030B1B9 regression. In Mobile WebKit it injects representative
-standalone insets and requires Menu, Settings and Match-3 Campaign to end at
-`window.innerHeight + safe-area-top`. Replacing this with a `window.innerHeight` assertion or a
-root-background color check is forbidden: both allow the real installed-iPhone bottom strip to
-return while CI remains green.
+`boot.pw.ts` owns the ANM-030B1B9 regression. In Mobile WebKit it switches to the `440px` CSS width
+used by current large iPhones, injects representative standalone insets and requires Menu, Settings
+and Match-3 Campaign to fill the entire inline axis and end at
+`window.innerHeight + safe-area-top`. Replacing this with the default `390px` iPhone 13 profile, a
+`window.innerHeight` assertion or a root-background color check is forbidden: each lets either the
+legacy `430px` frame cap or the real installed-iPhone bottom strip return while CI remains green.
 
 ## Short main-flow contract
 
@@ -112,7 +113,7 @@ Completed cuts:
 
 Future automation remains one Playwright stack plus focused engine/contract tests. Implement these only as bounded slices when they are the highest-value work:
 
-1. **RU/BE/EN mobile locale × viewport matrix** on real production screens using `320×568`, `375×667`, `390×844`, `393×852`, `430×932`. Prefer geometry/overflow/visibility assertions over multiplying Golden Sample screenshots.
+1. **RU/BE/EN mobile locale × viewport matrix** on real production screens using `320×568`, `375×667`, `390×844`, `393×852`, `430×932`, `440×956`. Prefer geometry/overflow/visibility assertions over multiplying Golden Sample screenshots.
 2. **PWA offline/recovery journey**: online boot/service-worker readiness → real save/locale state → offline reload → usable Continue/Settings → network recovery.
 3. **VN/content asset crawl** through QA Scene Navigation but production VN rendering: every canonical scene opens, required visible content is non-empty, assets decode and browser/runtime health stays clean.
 4. **Quantitative Match-3 regression/reporting** outside Playwright on real production levels and deterministic seed samples, building on ANM-025E3 instead of browser-playing levels to completion.
