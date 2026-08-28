@@ -245,6 +245,9 @@ become a generic mutable app context.
 Installed iOS is an explicit physical-height exception: with the translucent status bar its
 `100dvh` stops one top-safe-inset above the physical bottom. Therefore standalone mode must use
 `calc(100dvh + var(--safe-area-top))` for `.viewport-shell`; browser tabs remain `100dvh`.
+For portrait standalone windows up to `520px`, `.phone.game-viewport` must fill that shell in both
+axes. The `430×932` game-frame cap is desktop/browser presentation only; applying it to a `440px`
+large-iPhone viewport centers a shortened player surface and recreates the bottom strip.
 Painting the remaining strip through a root-background or screen-specific `:has(...)` bridge is
 not equivalent: it does not extend player content and is forbidden by viewport regression tests.
 

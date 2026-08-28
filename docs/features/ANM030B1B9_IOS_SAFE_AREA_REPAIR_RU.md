@@ -1,6 +1,6 @@
 # ANM-030B1B9 — iOS safe-area repair
 
-Status: **R6 candidate; requires GitHub CI and installed-iPhone preview QA**.
+Status: **R7 candidate; requires GitHub CI and installed-iPhone preview QA**.
 
 ## Problem
 
@@ -37,19 +37,32 @@ never make the interactive screen full-height.
 The delay between merge and observation is expected for an installed PWA: a previously running
 R4 build can remain active until the service worker publishes and the user applies a later build.
 
-## R6 runtime contract
+R6 restored the physical-height formula, but only tested the `390px`-wide iPhone 13 profile. The
+outer `.viewport-shell` reached the expected physical bottom while the inner `.phone` still used
+its base `width: min(100vw, 430px)` and `height: min(100dvh, 932px)` rules whenever the viewport was
+wider than the legacy `@media (max-width: 430px)` override. Current large iPhones expose a `440px`
+CSS viewport. On those devices the shorter `.phone` was centered inside the correctly enlarged
+shell, recreating both the visible lower strip and the shortened player content. R6 asserted the
+outer and inner geometry, but its narrow device profile made the bad branch unreachable.
+
+## R7 runtime contract
 
 - PWA bootstrap publishes the detected display mode as `data-upds-display-mode` on `<html>`.
 - Normal browser tabs keep `--physical-viewport-height: 100dvh`.
 - Installed standalone mode uses
   `--physical-viewport-height: calc(100dvh + var(--safe-area-top))`; this restores the missing
   physical span without changing browser-tab geometry.
+- In portrait standalone windows up to `520px` wide, `.phone.game-viewport` fills the shared shell
+  in both axes and drops the desktop frame's max-size and shadow presentation.
+- The `430×932` cap remains valid for desktop/browser framing. It must never cap an installed phone;
+  `520px` deliberately covers the current `440px` large-iPhone viewport without treating tablets as
+  phones.
 - The R5 `--upds-system-canvas-color` and screen-specific `:root:has(...)` mappings are removed.
   They are explicitly forbidden as a substitute for full-height player geometry.
 - `.viewport-shell` is pinned to the physical top and horizontal edges and receives the explicit
   physical height token; it does not derive its bottom from `inset: 0`.
-- On phone widths `.phone` and every active player screen continue to fill the shell with
-  `height: 100%`.
+- `.phone` and every active player screen fill the shell with `width: 100%` and `height: 100%` on
+  installed portrait phones, independently of the older `430px` breakpoint.
 - `.app-header` remains the only owner of top safe-area presentation inside panel navigation.
 - Bottom content padding continues to consume `--safe-area-bottom` on each scrolling/content surface.
 
@@ -62,11 +75,14 @@ in `src/viewport.css`.
   `calc(100dvh + var(--safe-area-top))` extension and continues to reject `100lvh`.
 - Vitest rejects `--upds-system-canvas-color` and standalone screen-specific `:has(...)` mappings,
   so a later refactor cannot silently replace physical geometry with color camouflage.
-- Mobile WebKit E2E injects representative `59px` top and `34px` bottom insets, verifies shell/screen
-  geometry against `window.innerHeight + 59px` on Menu, Settings and Match-3 Campaign.
+- Mobile WebKit E2E switches to a `440px` large-iPhone viewport, injects representative `59px` top
+  and `34px` bottom insets, and verifies shell/screen geometry against
+  `window.innerHeight + 59px` on Menu, Settings and Match-3 Campaign.
 - The E2E checks the bottom edge of `.viewport-shell`, `.phone` and the active screen on the main
   menu, Settings and Match-3 Campaign. A background-only strip can no longer pass by matching only
   the shortened `window.innerHeight` or by asserting a root color.
+- The same E2E checks all left/right edges against the full `440px` viewport, so restoring a
+  `430px` cap or narrowing the installed-phone override fails Browser Gate.
 - The scrolled Settings header action must still remain below the top inset.
 
 The architectural contract is duplicated intentionally in `ARCHITECTURE_RU.md`,
@@ -78,7 +94,8 @@ invariant, not a temporary visual tweak.
 On the generated `/preview/`, remove the previous installation, then install the candidate again.
 The install-time viewport metadata and standalone launch state must come from this candidate.
 
-1. Main menu content/background reaches the physical bottom; there is no dark-blue strip.
+1. Main menu content/background reaches all four physical edges; there is no dark-blue lower strip
+   or narrow centered `430px` frame.
 2. Settings header remains below time/signal/battery both at the top and after scrolling down.
 3. Dossier header remains below the status area after scrolling the clue list.
 4. Settings and Dossier content continue behind the home-indicator safe area without losing their

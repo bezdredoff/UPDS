@@ -25,6 +25,9 @@ test(
   async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'webkit-mobile', 'iOS/WebKit safe-area regression');
     const health = observeBrowserHealth(page);
+    // iPhone 16/17 Pro Max use a 440px CSS viewport. This deliberately exceeds
+    // the legacy 430px desktop-frame cap that caused the installed-PWA gap.
+    await page.setViewportSize({ width: 440, height: 763 });
     await page.goto('./');
     await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
 
@@ -46,17 +49,25 @@ test(
         const phone = rect('.phone');
         const screen = rect(selector);
         return {
+          innerWidth: window.innerWidth,
           innerHeight: window.innerHeight,
-          shell: { top: shell.top, bottom: shell.bottom },
-          phone: { top: phone.top, bottom: phone.bottom },
-          screen: { top: screen.top, bottom: screen.bottom },
+          shell: { top: shell.top, right: shell.right, bottom: shell.bottom, left: shell.left },
+          phone: { top: phone.top, right: phone.right, bottom: phone.bottom, left: phone.left },
+          screen: { top: screen.top, right: screen.right, bottom: screen.bottom, left: screen.left },
         };
       }, activeScreenSelector);
       const physicalBottom = geometry.innerHeight + standaloneTopInset;
 
+      expect(geometry.innerWidth).toBe(440);
       expect(geometry.shell.top).toBeCloseTo(0, 1);
       expect(geometry.phone.top).toBeCloseTo(0, 1);
       expect(geometry.screen.top).toBeCloseTo(0, 1);
+      expect(geometry.shell.left).toBeCloseTo(0, 1);
+      expect(geometry.phone.left).toBeCloseTo(0, 1);
+      expect(geometry.screen.left).toBeCloseTo(0, 1);
+      expect(geometry.shell.right).toBeCloseTo(geometry.innerWidth, 1);
+      expect(geometry.phone.right).toBeCloseTo(geometry.innerWidth, 1);
+      expect(geometry.screen.right).toBeCloseTo(geometry.innerWidth, 1);
       expect(geometry.shell.bottom).toBeCloseTo(physicalBottom, 1);
       expect(geometry.phone.bottom).toBeCloseTo(physicalBottom, 1);
       expect(geometry.screen.bottom).toBeCloseTo(physicalBottom, 1);
