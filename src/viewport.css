@@ -8,6 +8,10 @@
   --game-viewport-max-height: 932px;
 }
 
+:root[data-upds-display-mode='standalone'] {
+  --physical-viewport-height: calc(100dvh + var(--safe-area-top));
+}
+
 /*
  * ANM-024 shared viewport foundation.
  *
@@ -15,9 +19,10 @@
  * consumes the --safe-area-* tokens directly; no screen-specific env(...) reads
  * or duplicated safe-area overrides should live outside this layer.
  *
- * The fixed shell owns the functional WebKit viewport. Any installed-iOS canvas
- * reserved outside that viewport is painted by the screen-aware root background
- * bridge in style.css rather than by oversizing and clipping this descendant.
+ * Installed iOS with a translucent status bar reports 100dvh shorter than the
+ * physical screen while placing the page origin at the physical top. The missing
+ * bottom span equals the top safe inset, so standalone mode adds that inset back.
+ * Browser tabs keep the unextended dynamic viewport.
  */
 .viewport-shell {
   position: fixed;

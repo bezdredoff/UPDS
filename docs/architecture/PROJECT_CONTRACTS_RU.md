@@ -171,6 +171,10 @@ simple forms, almost-flat cel shading and no generic modern glossy-gacha render.
 - Portrait phone remains the primary product layout.
 - Architecture uses `physical screen → safe viewport → game viewport → scene coordinates` and must
   not reintroduce screen-specific safe-area padding inside feature controllers.
+- Installed iOS standalone extends the shared shell to the physical bottom with
+  `calc(100dvh + var(--safe-area-top))`; normal browser tabs retain `100dvh`.
+- A root-background/color bridge is not a valid substitute for physical full-bleed because it
+  leaves the interactive player screen shorter than the device canvas.
 - Minimum portrait regression viewport: `320×568`.
 - Low-height landscape must remain non-broken, while full landscape parity is a later feature.
 - Navigation touch target is approximately 44×44 px where applicable.

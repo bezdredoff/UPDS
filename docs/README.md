@@ -135,7 +135,7 @@ Machine-readable sources of truth: `src/data/characterProduction.ts` for the str
 - [`features/ANM024A_VIEWPORT_SAFE_AREA_CONTRACT_RU.md`](features/ANM024A_VIEWPORT_SAFE_AREA_CONTRACT_RU.md)
 - [`features/ANM024C_SHARED_SAFE_AREA_OWNERSHIP_RU.md`](features/ANM024C_SHARED_SAFE_AREA_OWNERSHIP_RU.md)
 - [`features/ANM024D_VIEWPORT_REGRESSION_CLOSURE_RU.md`](features/ANM024D_VIEWPORT_REGRESSION_CLOSURE_RU.md)
-- [`features/ANM030B1B9_IOS_SAFE_AREA_REPAIR_RU.md`](features/ANM030B1B9_IOS_SAFE_AREA_REPAIR_RU.md) — fixed-canvas iPhone shell, non-negative sticky panel headers and synthetic-inset Mobile WebKit regression coverage
+- [`features/ANM030B1B9_IOS_SAFE_AREA_REPAIR_RU.md`](features/ANM030B1B9_IOS_SAFE_AREA_REPAIR_RU.md) — R6 installed-iPhone physical full-bleed contract, non-negative sticky panel headers and synthetic-inset Mobile WebKit regression coverage
 
 ## Process
 

@@ -242,6 +242,12 @@ become a generic mutable app context.
 - `src/viewport.css` — shared viewport shell and safe-area ownership;
 - feature CSS consumes shared coordinates rather than re-owning device insets.
 
+Installed iOS is an explicit physical-height exception: with the translucent status bar its
+`100dvh` stops one top-safe-inset above the physical bottom. Therefore standalone mode must use
+`calc(100dvh + var(--safe-area-top))` for `.viewport-shell`; browser tabs remain `100dvh`.
+Painting the remaining strip through a root-background or screen-specific `:has(...)` bridge is
+not equivalent: it does not extend player content and is forbidden by viewport regression tests.
+
 Portrait is primary; low-height landscape remains non-broken. Full landscape staging/layout is a
 later feature and must extend this shared coordinate model.
 

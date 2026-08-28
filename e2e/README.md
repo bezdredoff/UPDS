@@ -67,6 +67,14 @@ Campaign persistence uses only visible player behavior:
 
 Localization uses production Settings and locale persistence. G8E2 extends that coverage with RU/BE/EN multi-page VN paging stability so translated text may change page count without changing the physical VN viewport.
 
+## Installed iOS full-bleed
+
+`boot.pw.ts` owns the ANM-030B1B9 regression. In Mobile WebKit it injects representative
+standalone insets and requires Menu, Settings and Match-3 Campaign to end at
+`window.innerHeight + safe-area-top`. Replacing this with a `window.innerHeight` assertion or a
+root-background color check is forbidden: both allow the real installed-iPhone bottom strip to
+return while CI remains green.
+
 ## Short main-flow contract
 
 The representative player flow begins at `#new`, not QA Scene Navigation:
