@@ -1,0 +1,211 @@
+
+> class-u-detectives@0.25.4-dev precheck
+> npm run security:audit
+
+
+> class-u-detectives@0.25.4-dev security:audit
+> npm audit --audit-level=high
+
+found 0 vulnerabilities
+
+> class-u-detectives@0.25.4-dev check
+> npm run lint && npm run test && npm run build
+
+
+> class-u-detectives@0.25.4-dev lint
+> biome lint src tests vite.config.ts
+
+Checked 230 files in 49ms. No fixes applied.
+
+> class-u-detectives@0.25.4-dev test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90mC:/git/UPDS-local-ai[39m
+
+ [31m❯[39m tests/ViewportSafeAreaCutover.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 9[2mms[22m[39m
+   [32m✓[39m ANM-024C/D shared safe-area ownership[2m > [22mdiscovers physical insets only in the shared viewport token layer[32m 2[2mms[22m[39m
+   [32m✓[39m ANM-024C/D shared safe-area ownership[2m > [22mkeeps screen presentation on shared safe-area tokens without a duplicate override layer[32m 1[2mms[22m[39m
+   [32m✓[39m ANM-024C/D shared safe-area ownership[2m > [22mkeeps the preview QA badge on the same shared geometry contract[32m 0[2mms[22m[39m
+   [32m✓[39m ANM-024C/D shared safe-area ownership[2m > [22mkeeps scrolling panel headers below the top inset and the mobile shell full-bleed[32m 0[2mms[22m[39m
+[31m   [31m×[31m ANM-024C/D shared safe-area ownership[2m > [22mextends the installed standalone shell to the physical bottom instead of painting a reserved strip[39m[32m 5[2mms[22m[39m
+[31m     → expected ':root {\r\n  --safe-area-top: env(saf…' to contain 'width: 100%;\n    height: 100%;'[39m
+   [32m✓[39m ANM-024C/D shared safe-area ownership[2m > [22mloads shared token discovery after presentation and preview badge CSS[32m 0[2mms[22m[39m
+ [31m❯[39m tests/Match3RenderStability.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 8[2mms[22m[39m
+[31m   [31m×[31m ANM-023G8E3 Match-3 render stability[2m > [22mkeeps full Match-3 renders at structural boundaries and syncs transient state in place[39m[32m 7[2mms[22m[39m
+[31m     → expected 'import {\r\nblockerPresentation,\r\nc…' to contain 'this.matchBark = this.bark(\'hintFoun…'[39m
+   [32m✓[39m ANM-023G8E3 Match-3 render stability[2m > [22mdelegates cell input and preserves every board-cell shell across animation frames[32m 0[2mms[22m[39m
+   [32m✓[39m ANM-023G8E3 Match-3 render stability[2m > [22mupdates objectives, bark and tutorials without rebuilding the Match-3 shell[32m 0[2mms[22m[39m
+   [32m✓[39m ANM-023G8E3 Match-3 render stability[2m > [22mcovers inactivity hints, reaction lifecycle and cascade DOM identity in both browser gates[32m 0[2mms[22m[39m
+ [31m❯[39m tests/ViewportShell.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 8[2mms[22m[39m
+   [32m✓[39m ANM-024B shared game viewport shell[2m > [22mrenders every scene inside one physical shell and one game viewport[32m 1[2mms[22m[39m
+[31m   [31m×[31m ANM-024B shared game viewport shell[2m > [22mcentralizes safe-area discovery and extends only the installed physical viewport[39m[32m 5[2mms[22m[39m
+[31m     → expected ':root {\r\n  --safe-area-top: env(saf…' to contain 'width: 100%;\n    height: 100%;'[39m
+   [32m✓[39m ANM-024B shared game viewport shell[2m > [22mrejects the background-only workaround that leaves player content above the iOS bottom edge[32m 0[2mms[22m[39m
+   [32m✓[39m ANM-024B shared game viewport shell[2m > [22mloads the viewport layer after legacy presentation CSS for controlled migration[32m 0[2mms[22m[39m
+ [31m❯[39m tests/Match3ReshuffleFeedback.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 7[2mms[22m[39m
+   [32m✓[39m ANM-025G3D explained reshuffle UX[2m > [22mexplains both dead-board cause and reshuffle outcome in every release locale[32m 1[2mms[22m[39m
+[31m   [31m×[31m ANM-025G3D explained reshuffle UX[2m > [22mholds reshuffle feedback instead of letting a redundant final chain summary overwrite it[39m[32m 5[2mms[22m[39m
+[31m     → expected 'import {\r\nblockerPresentation,\r\nc…' to contain 'if (result.reshuffled) {\nthis.setMat…'[39m
+   [32m✓[39m ANM-025G3D explained reshuffle UX[2m > [22mkeeps a readable reduced-motion hold while skipping zero-duration animation phases[32m 0[2mms[22m[39m
+   [32m✓[39m ANM-025G3D explained reshuffle UX[2m > [22mleaves dead-board detection and engine reshuffle ownership unchanged[32m 0[2mms[22m[39m
+ [31m❯[39m tests/VnPresentation.test.ts [2m([22m[2m7 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 14[2mms[22m[39m
+[31m   [31m×[31m current VN presentation contract[2m > [22mkeeps a stable four-row shell with contain-over-fill backgrounds and bottom-anchored portraits[39m[32m 7[2mms[22m[39m
+[31m     → expected ':root {\r\n  font-family: Inter, ui-s…' to contain 'bottom: var(--portrait-bottom, -78%);…'[39m
+   [32m✓[39m current VN presentation contract[2m > [22msupports bounded authored multi-character shots without removing the legacy lane fallback[32m 0[2mms[22m[39m
+[31m   [31m×[31m current VN presentation contract[2m > [22mkeeps the nameplate above the stage/dialogue seam and the lower portrait behind the dialogue card[39m[32m 4[2mms[22m[39m
+[31m     → expected ':root {\r\n  font-family: Inter, ui-s…' to contain '.dialogue-shell {\n  position: relati…'[39m
+   [32m✓[39m current VN presentation contract[2m > [22mkeeps a fixed two-line dialogue viewport wired to measured localization-safe paging[32m 0[2mms[22m[39m
+   [32m✓[39m current VN presentation contract[2m > [22mkeeps compact contextual navigation and no persistent main-menu action in gameplay headers[32m 0[2mms[22m[39m
+   [32m✓[39m current VN presentation contract[2m > [22mresolves legacy character stage markup and pose-B policy from the presentation boundary[32m 1[2mms[22m[39m
+   [32m✓[39m current VN presentation contract[2m > [22mcomposes choice/config markup without owning event binding or runtime services[32m 0[2mms[22m[39m
+ [32m✓[39m tests/Match3TopologyAdvancedCohort.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 316[2mms[22m[39m
+   [33m[2m✓[22m[39m ANM-025E4C advanced Match-3 topology cohort[2m > [22mdoes not reduce the established E4A hint-following win counts while adding topology [33m 311[2mms[22m[39m
+ [32m✓[39m tests/ScreenplayLocalizationCompleteness.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 103[2mms[22m[39m
+ [32m✓[39m tests/PlaytestTelemetry.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 838[2mms[22m[39m
+   [33m[2m✓[22m[39m local playtest telemetry[2m > [22mdeduplicates consecutive screen views and caps the persistent event log [33m 832[2mms[22m[39m
+ [32m✓[39m tests/Match3QuantitativeBalance.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 1163[2mms[22m[39m
+   [33m[2m✓[22m[39m ANM-025E3 quantitative Match-3 balance[2m > [22mmaintains a deterministic hint-following lower-bound envelope across the established four-level balance baseline [33m 1161[2mms[22m[39m
+ [32m✓[39m tests/Match3HintRanking.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 86[2mms[22m[39m
+ [32m✓[39m tests/Match3DifficultyCurveTuning.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 1349[2mms[22m[39m
+   [33m[2m✓[22m[39m ANM-025E5B1 severe Match-3 outlier tuning[2m > [22mmoves M3_06 out of the severe band while increasing board activity [33m 729[2mms[22m[39m
+   [33m[2m✓[22m[39m ANM-025E5B1 severe Match-3 outlier tuning[2m > [22mmoves M3_11 out of the severe band without turning it into a relief level [33m 619[2mms[22m[39m
+ [32m✓[39m tests/CharacterArchiveAdoption.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+ [32m✓[39m tests/VnDialoguePaging.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 58[2mms[22m[39m
+ [32m✓[39m tests/LocalizationCompletionAudit.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 41[2mms[22m[39m
+ [32m✓[39m tests/Match3Game.test.ts [2m([22m[2m67 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+ [32m✓[39m tests/BelarusianVnLocalization.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 43[2mms[22m[39m
+ [32m✓[39m tests/BelarusianCompletionLocalization.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+ [32m✓[39m tests/Match3MoveLegality.test.ts [2m([22m[2m24 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32m✓[39m tests/Match3FunBaseline.test.ts [2m([22m[2m23 tests[22m[2m)[22m[33m 1943[2mms[22m[39m
+ [32m✓[39m tests/Match3DifficultyCurveSecondCohort.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 1856[2mms[22m[39m
+   [33m[2m✓[22m[39m ANM-025E5B2 second Match-3 outlier cohort[2m > [22mkeeps the tuned cohort inside a comparator challenge envelope on mixed holdout seeds [33m 1851[2mms[22m[39m
+ [32m✓[39m tests/NarrativeContract.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32m✓[39m tests/LocalizationFoundation.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32m✓[39m tests/Match3ActiveTileSet.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32m✓[39m tests/RepositoryHygiene.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m tests/BelarusianMatch3Localization.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32m✓[39m tests/CharacterProductionManifest.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 1975[2mms[22m[39m
+   [33m[2m✓[22m[39m character production manifest[2m > [22mkeeps runtime geometry synchronized with the selected expression PNGs [33m 1883[2mms[22m[39m
+ [32m✓[39m tests/Match3HelpLocalization.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m tests/Match3TileLocalization.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m tests/Match3GuidanceLocalization.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m tests/StoryCanonicalRuntimeImport.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+[90mstdout[2m | tests/RuntimeAssetInventory.test.ts[2m > [22m[2mruntime asset inventory[2m > [22m[2mbuilds a release-checklist inventory from runtime semantic keys
+[22m[39mRUNTIME ASSET INVENTORY
+backgrounds: semantic keys=24; production files=14; aliases/fallbacks=10
+characters: production keys=9; assets=63 (5 frames + pose + medallion each)
+match3 bonus: production PNG=5; SVG fallbacks=5
+guest runtime: keys=6; production packages=0; planned fallback guests=6; planned assets=24
+path/decode errors=0; guest contract errors=0
+
+ [32m✓[39m tests/RuntimeAssetInventory.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 28[2mms[22m[39m
+ [32m✓[39m tests/SceneStudioFoundation.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m tests/UiSmoke.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [32m✓[39m tests/Match3TilePresentationProfile.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/Match3ObjectiveAwareGuidance.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/StoryMacroLock.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/Match3NarrativeContext.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/Match3SpawnWeights.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/RuntimeAssets.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/Match3SpecialNarrativeAssets.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/AuthoredVnShots.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/Match3Localization.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/LevelLabFoundation.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/StoryContentAudit.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/LocalizationProductionContract.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/DocumentationTraceability.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [32m✓[39m tests/Match3BoardShapeStartLayout.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/Match3TopologyPrototype.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/SceneStagingContract.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/Match3CampaignMode.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/Match3ObjectiveSimplicity.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/Match3LeanBlockerArchetypes.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/Match3InteractionGuidance.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/VnLocalizationContract.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/Match3SpecialTaxonomy.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/CharacterStagingContract.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/PlatformInfrastructure.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/StoryGraphContract.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/ExpressionFrameContract.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/Match3Presentation.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/GuestWitnessPresentation.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/Match3NarrativeReactionContent.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/Match3InvalidFeedback.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/GitHubPipeline.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/LevelLabEditableConfig.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/Match3NarrativeSpecialCombinations.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/LocalizationCoverage.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/ReleaseBacklogTraceability.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/StoryBatch1921.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/Match3FeedbackSemantics.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/Match3NarrativeReactionPresentation.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/Match3RoadmapContract.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/Match3SpecialComboTutorial.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/Match3CascadeSquareResolution.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/DeltaZipFoundation.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/AudioFoundation.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/StoryWinQaFixture.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/Match3SpecialTutorial.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/AssetPreloader.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/ViewportRegressionMatrix.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/Match3TutorialFramework.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/CharacterRuntimeOverrides.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/StoryRuntimeRouting.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/Match3LockerPantiesProductionPack.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/BrowserCoverageAuditContract.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/MobileUx.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/Match3StoryObjectAssetAudit.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/Match3NarrativeReactions.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/Match3HelpFaq.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/StoryBatch1012.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/VnViewportStability.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/LevelDefinitions.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/VisualRegressionGoldenSamplesContract.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/Match3ObjectiveTutorials.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/StoryBatch0709.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/ToolingIdentityHardening.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/PwaDistribution.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/ViewportContract.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/StoryBatch1618.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/VnStaging.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/Match3CampaignTileSetRollout.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/Match3BrowserInteractionParityContract.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/PwaUpdateReliability.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/StoryBatch1315.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/BasketballLockerProduction.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/Match3BrowserE2EContract.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/Match3HintPacing.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/Match3StoryObjectEvidenceTags.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/Match3BlockerReadability.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/Match3HumanPlaytestProtocol.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/VnBrowserE2EContract.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/BrowserStoryCompletionE2EContract.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/VnPlayback.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/DependencySecurityClosureContract.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/BrowserPersistenceLocalizationFlowContract.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/VersionIdentity.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/BrowserAutomationHarnessContract.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/BrowserGateWorkflowContract.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/G8CloseoutContract.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/StoryBatch0406.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/Match3PlaytestSummaryDashboard.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/PreviewBuildIdentity.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/Match3SpecialImpactTracing.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/BrowserPagesSmokeContract.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/CampaignStore.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/ViewMarkup.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/PagesPreviewRerunContract.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/PreviewCommentFormatting.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/Match3ProductionPresentation.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 1[2mms[22m[39m
+ [32m✓[39m tests/Match3ResponsiveObjectives.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/PlaywrightFoundation.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 1[2mms[22m[39m
+ [32m✓[39m tests/ChatGPTPreflight.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 1[2mms[22m[39m
+ [32m✓[39m tests/Match3StoryObjectGuidance.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/QaAccess.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 1[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m6 failed[39m[22m[2m | [22m[1m[32m129 passed[39m[22m[90m (135)[39m
+[2m      Tests [22m [1m[31m6 failed[39m[22m[2m | [22m[1m[32m659 passed[39m[22m[90m (665)[39m
+[2m   Start at [22m 18:12:18
+[2m   Duration [22m 5.37s[2m (transform 2.11s, setup 0ms, collect 5.75s, tests 10.68s, environment 12ms, prepare 5.85s)[22m
+

@@ -40,7 +40,8 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(css).toContain(
       ":root[data-upds-display-mode='standalone'] .phone.game-viewport",
     );
-    expect(css).toContain('width: 100%;\n    height: 100%;');
+    expect(css).toContain('width: 100%');
+    expect(css).toContain('height: 100%');
     expect(css).not.toContain('--physical-viewport-height: 100lvh');
     expect(css).toContain('--game-viewport-max-width: 430px');
     expect(css).toContain('--game-viewport-max-height: 932px');

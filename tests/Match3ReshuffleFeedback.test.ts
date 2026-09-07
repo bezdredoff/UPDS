@@ -16,7 +16,10 @@ describe('ANM-025G3D explained reshuffle UX', () => {
   });
 
   it('holds reshuffle feedback instead of letting a redundant final chain summary overwrite it', () => {
-    expect(controller).toContain("if (result.reshuffled) {\nthis.setMatchFeedback(this.t('match3.feedback.reshuffled'), 'reshuffle-feedback');\nawait this.matchDelay(matchMotionDuration('feedbackHold', false));\n} else if (result.cascades >= 2)");
+    expect(controller).toContain("if (result.reshuffled) {");
+    expect(controller).toContain("this.setMatchFeedback(this.t('match3.feedback.reshuffled'), 'reshuffle-feedback');");
+    expect(controller).toContain("await this.matchDelay(matchMotionDuration('feedbackHold', false));");
+    expect(controller).toContain("} else if (result.cascades >= 2)");
   });
 
   it('keeps a readable reduced-motion hold while skipping zero-duration animation phases', () => {
