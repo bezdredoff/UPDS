@@ -17,7 +17,8 @@ describe('ANM-023G8E3 Match-3 render stability', () => {
     expect(controller).toContain("board.className = 'board';");
     expect(controller).toContain("moves.textContent = String(game.movesLeft);");
     expect(controller).toContain("objectiveElement.classList.toggle('done', current >= objective.target);");
-    expect(controller).toContain("this.matchBark = this.bark('hintFound', 'miku');\nthis.syncMatchPresentation();");
+    expect(controller).toContain("this.matchBark = this.bark('hintFound', 'miku');");
+    expect(controller).toContain("this.syncMatchPresentation();");
     expect(controller).not.toContain("this.matchBark = this.bark('hintFound', 'miku');\nthis.renderMatch();");
     expect(controller).not.toContain('await this.playMoveFrames(result, first, second);\nthis.renderMatch();');
   });

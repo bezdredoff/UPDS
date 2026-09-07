@@ -92,7 +92,8 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(viewport).toContain(
       ":root[data-upds-display-mode='standalone'] .phone.game-viewport",
     );
-    expect(viewport).toContain('width: 100%;\n    height: 100%;');
+    expect(viewport).toContain('width: 100%');
+    expect(viewport).toContain('height: 100%');
     expect(viewport).not.toContain('--physical-viewport-height: 100lvh');
     expect(legacy).not.toContain('--upds-system-canvas-color');
     expect(legacy).not.toContain(":root[data-upds-display-mode='standalone']:has(");

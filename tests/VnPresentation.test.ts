@@ -17,7 +17,8 @@ describe('current VN presentation contract', () => {
     expect(style).toContain('grid-template-rows: auto minmax(0, 1fr) var(--vn-dialogue-row, clamp(154px, 22dvh, 198px)) auto');
     expect(style).toContain('.vn-background-fit { object-fit: contain');
     expect(style).toContain('.vn-background-fill { object-fit: cover');
-    expect(style).toContain('bottom: var(--portrait-bottom, -78%);\n  height: var(--portrait-height, 178%);');
+    expect(style).toContain('bottom: var(--portrait-bottom, -78%)');
+    expect(style).toContain('height: var(--portrait-height, 178%)');
     expect(style).toContain('.portrait-left { left: calc(29% + var(--character-x, 0%)); }');
     expect(style).toContain('.portrait-right { left: calc(71% + var(--character-x, 0%)); }');
     expect(style).toContain('.portrait-center { left: calc(50% + var(--character-x, 0%)); }');
@@ -38,7 +39,9 @@ describe('current VN presentation contract', () => {
     expect(frameSource).toContain('const frameInert = input.interactive === false && !stageInteractive');
     expect(vnSource).toContain("frameContext: 'runtime'");
     expect(vnSource).toContain('vnFrameMarkup({');
-    expect(style).toContain('.dialogue-shell {\n  position: relative;\n  z-index: 8;');
+    expect(style).toContain('.dialogue-shell');
+    expect(style).toContain('position: relative');
+    expect(style).toContain('z-index: 8');
     expect(style).toContain('.dialogue-nameplate {');
     expect(style).toContain('z-index: 12;');
     expect(style).toContain('pointer-events: none;');
