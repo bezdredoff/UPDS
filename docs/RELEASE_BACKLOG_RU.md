@@ -9,6 +9,8 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B
 
 Историю уже завершённых фич хранит `ROADMAP_RU.md`, feature docs и Git. Machine-readable art status остаётся в `src/content/art/ANM030A.asset-gap-audit.json`.
 
+Актуальная runtime-проверка B1 добавлена в `tests/RuntimeAssetInventory.test.ts` и запускается через `npm run assets:audit`. Она строит inventory непосредственно из `narrative.ts`, character manifest, Match-3 special assets и guest contract; baseline на текущем runtime: `24` semantic background keys, `14` production WebP, `10` aliases/fallbacks, `9` full-stage characters, `5` Match-3 bonus PNG и `6` planned guest fallback packages. Path/decode и guest-contract errors: `0`.
+
 ## Цель первого релиза
 
 Текущий реалистичный base-release target:
