@@ -56,6 +56,22 @@ describe('VN dialogue paging', () => {
     expect(pages.join(' ').replace(/\s+/gu, ' ').trim()).toBe(text);
   });
 
+  it('handles dialogueContinuationText regression cases', () => {
+    // hasContinuation = true
+    expect(dialogueContinuationText('Text…', true)).toBe('Text…');
+    expect(dialogueContinuationText('Text… ', true)).toBe('Text…');
+    expect(dialogueContinuationText('Text。', true)).toBe('Text…');
+    expect(dialogueContinuationText('Text;', true)).toBe('Text…');
+    expect(dialogueContinuationText('Text; more text', true)).toBe('Text; more text…');
+    expect(dialogueContinuationText('', true)).toBe('…');
+
+    // hasContinuation = false
+    expect(dialogueContinuationText('Text', false)).toBe('Text');
+    expect(dialogueContinuationText('Text.', false)).toBe('Text.');
+    expect(dialogueContinuationText('Text;', false)).toBe('Text;');
+    expect(dialogueContinuationText('Text… ', false)).toBe('Text… ');
+  });
+
   it('rejects collapsed measurement geometry and accepts a normal two-line mobile viewport', () => {
     expect(isUsableDialogueViewport(0, 120, 24)).toBe(false);
     expect(isUsableDialogueViewport(100, 120, 24)).toBe(false);
