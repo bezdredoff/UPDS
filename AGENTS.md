@@ -25,4 +25,11 @@ Checks from this folder:
 
 Installed dependencies are shared through a node_modules junction. Do not install, upgrade, delete, or edit dependencies. Do not modify CI, pipeline scripts, generated art, snapshots or visual approvals for a routine task. Do not commit, push, merge, deploy, reset, clean or discard changes unless the user asks for that action.
 
+## Windows & WebKit Limitations
+- `npm run check` и локальный Chromium E2E можно использовать как локальные проверки.
+- Локальный Playwright WebKit на Windows не является эквивалентом GitHub Browser Gate.
+- WebKit golden snapshots в репозитории рассчитаны на Linux CI; нельзя создавать или коммитить новые `*-win32.png`.
+- Для WebKit и visual regression окончательным источником считается GitHub Browser Gate.
+- При локальном падении WebKit на Windows сначала проверить test-results и не обновлять snapshots автоматически.
+
 Answer in Russian. Finish with the changed files, actual checks/results, and any remaining limitation. For read-only requests, make no file changes.
