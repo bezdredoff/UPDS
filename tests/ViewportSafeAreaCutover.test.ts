@@ -96,8 +96,11 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(legacy).toContain('--upds-system-canvas-color');
     expect(legacy).toContain(":root[data-upds-display-mode='standalone']:has(");
     expect(main).toContain(
-      'document.documentElement.dataset.updsDisplayMode = initialPwa.displayMode',
+      "document.documentElement.dataset.updsDisplayMode = standaloneMode ? 'standalone' : initialPwa.displayMode",
     );
+    expect(main).toContain('? globalThis.innerHeight');
+    expect(main).not.toContain("addEventListener('online', syncViewportHeight)");
+    expect(main).not.toContain("addEventListener('offline', syncViewportHeight)");
   });
 
   it('loads shared token discovery after presentation and preview badge CSS', () => {

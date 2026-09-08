@@ -21,24 +21,43 @@ const bootstrap = async (): Promise<void> => {
     document.documentElement.dataset.updsBuild = BUILD_ID;
   }
 
-  // Apply standalone geometry before async locale/storage setup. iOS can paint
-  // the shell before services are ready; waiting here briefly exposes the
-  // browser viewport model and leaves the installed PWA with a stale bottom
-  // strip until the next layout pass.
+  // Resolve standalone mode synchronously before async locale/storage/PWA work.
+  // Connectivity, service-worker state and cache warmup must never change the
+  // player geometry after the installed app has painted.
   const navigatorStandalone = (globalThis.navigator as Navigator & { standalone?: boolean } | undefined)?.standalone === true;
   const mediaStandalone = typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(display-mode: standalone)').matches;
-  document.documentElement.dataset.updsDisplayMode = navigatorStandalone || mediaStandalone ? 'standalone' : 'browser';
+  const standaloneMode = navigatorStandalone || mediaStandalone;
+  document.documentElement.dataset.updsDisplayMode = standaloneMode ? 'standalone' : 'browser';
 
   const syncViewportHeight = (): void => {
-    const viewportHeight = globalThis.visualViewport?.height ?? globalThis.innerHeight;
+    // Installed iOS PWAs need a stable layout viewport. visualViewport can emit
+    // transient resize values during zoom/compositor/service-worker transitions,
+    // which previously shrank the entire game and exposed a bottom strip.
+    const viewportHeight = standaloneMode
+      ? globalThis.innerHeight
+      : (globalThis.visualViewport?.height ?? globalThis.innerHeight);
     if (Number.isFinite(viewportHeight) && viewportHeight > 0) {
       document.documentElement.style.setProperty('--upds-viewport-height', `${viewportHeight}px`);
     }
   };
+
+  const syncAfterOrientationChange = (): void => {
+    globalThis.requestAnimationFrame(() => {
+      globalThis.requestAnimationFrame(syncViewportHeight);
+    });
+  };
+
   syncViewportHeight();
-  globalThis.visualViewport?.addEventListener('resize', syncViewportHeight);
-  globalThis.addEventListener('resize', syncViewportHeight);
-  globalThis.addEventListener('orientationchange', syncViewportHeight);
+  if (standaloneMode) {
+    // Keep portrait gameplay stable online and offline. Only a real orientation
+    // change is allowed to recalculate the installed-app viewport height.
+    globalThis.addEventListener('orientationchange', syncAfterOrientationChange);
+  } else {
+    // Browser tabs still follow dynamic browser chrome / keyboard geometry.
+    globalThis.visualViewport?.addEventListener('resize', syncViewportHeight);
+    globalThis.addEventListener('resize', syncViewportHeight);
+    globalThis.addEventListener('orientationchange', syncAfterOrientationChange);
+  }
 
   const root = document.querySelector<HTMLElement>('#app');
   if (!root) throw new Error('Missing #app');
@@ -46,7 +65,7 @@ const bootstrap = async (): Promise<void> => {
   await services.ready;
 
   const initialPwa = services.pwa.snapshot();
-  document.documentElement.dataset.updsDisplayMode = initialPwa.displayMode;
+  document.documentElement.dataset.updsDisplayMode = standaloneMode ? 'standalone' : initialPwa.displayMode;
   services.telemetry.startSession({
     path: pathname || 'unknown',
     online: globalThis.navigator?.onLine ?? true,

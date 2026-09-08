@@ -63,16 +63,37 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(legacyCss).toBeGreaterThanOrEqual(0);
     expect(viewportCss).toBeGreaterThan(legacyCss);
     expect(main).toContain(
-      'document.documentElement.dataset.updsDisplayMode = initialPwa.displayMode',
+      "document.documentElement.dataset.updsDisplayMode = standaloneMode ? 'standalone' : initialPwa.displayMode",
     );
   });
 
   it('sets the initial standalone mode before async services can paint the shell', () => {
     const main = readFileSync(new URL('../src/main.ts', import.meta.url), 'utf8');
-    const initialMode = main.indexOf('document.documentElement.dataset.updsDisplayMode = navigatorStandalone');
+    const initialMode = main.indexOf('document.documentElement.dataset.updsDisplayMode = standaloneMode');
     const servicesReady = main.indexOf('await services.ready');
 
     expect(initialMode).toBeGreaterThanOrEqual(0);
     expect(servicesReady).toBeGreaterThan(initialMode);
+  });
+
+  it('keeps installed standalone height stable across online/offline and transient visualViewport resizes', () => {
+    const main = readFileSync(new URL('../src/main.ts', import.meta.url), 'utf8');
+    const standaloneBranch = main.slice(
+      main.indexOf('if (standaloneMode) {'),
+      main.indexOf('  } else {', main.indexOf('if (standaloneMode) {')),
+    );
+    const browserBranch = main.slice(
+      main.indexOf('  } else {', main.indexOf('if (standaloneMode) {')),
+      main.indexOf('\n  }\n\n  const root', main.indexOf('  } else {', main.indexOf('if (standaloneMode) {'))),
+    );
+
+    expect(main).toContain('? globalThis.innerHeight');
+    expect(standaloneBranch).toContain("addEventListener('orientationchange', syncAfterOrientationChange)");
+    expect(standaloneBranch).not.toContain("visualViewport?.addEventListener('resize'");
+    expect(standaloneBranch).not.toContain("addEventListener('resize', syncViewportHeight)");
+    expect(browserBranch).toContain("visualViewport?.addEventListener('resize', syncViewportHeight)");
+    expect(browserBranch).toContain("addEventListener('resize', syncViewportHeight)");
+    expect(main).not.toContain("addEventListener('online', syncViewportHeight)");
+    expect(main).not.toContain("addEventListener('offline', syncViewportHeight)");
   });
 });
