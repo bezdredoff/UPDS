@@ -3,13 +3,10 @@
   --safe-area-right: env(safe-area-inset-right, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --safe-area-left: env(safe-area-inset-left, 0px);
-  --physical-viewport-height: 100dvh;
+  --upds-viewport-height: 100dvh;
+  --physical-viewport-height: var(--upds-viewport-height);
   --game-viewport-max-width: 430px;
   --game-viewport-max-height: 932px;
-}
-
-:root[data-upds-display-mode='standalone'] {
-  --physical-viewport-height: calc(100dvh + var(--safe-area-top));
 }
 
 /*
@@ -36,10 +33,10 @@
  * consumes the --safe-area-* tokens directly; no screen-specific env(...) reads
  * or duplicated safe-area overrides should live outside this layer.
  *
- * Installed iOS with a translucent status bar reports 100dvh shorter than the
- * physical screen while placing the page origin at the physical top. The missing
- * bottom span equals the top safe inset, so standalone mode adds that inset back.
- * Browser tabs keep the unextended dynamic viewport.
+ * The fixed shell owns the functional WebKit viewport. Installed iOS can paint
+ * a compositor canvas outside that viewport; the root background bridge in the
+ * presentation layer fills that canvas without enlarging descendants past the
+ * usable viewport.
  */
 .viewport-shell {
   position: fixed;

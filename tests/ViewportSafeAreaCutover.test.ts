@@ -81,11 +81,9 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     const viewport = read('src/viewport.css');
     const legacy = read('src/style.css');
 
-    expect(viewport).toContain('--physical-viewport-height: 100dvh');
-    expect(viewport).toContain(":root[data-upds-display-mode='standalone']");
-    expect(viewport).toContain(
-      '--physical-viewport-height: calc(100dvh + var(--safe-area-top))',
-    );
+    expect(viewport).toContain('--upds-viewport-height: 100dvh');
+    expect(viewport).toContain('--physical-viewport-height: var(--upds-viewport-height)');
+    expect(viewport).toContain('--upds-viewport-height: 100dvh');
     expect(viewport).toContain(
       '@media (orientation: portrait) and (max-width: 520px)',
     );
@@ -95,8 +93,8 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(viewport).toContain('width: 100%');
     expect(viewport).toContain('height: 100%');
     expect(viewport).not.toContain('--physical-viewport-height: 100lvh');
-    expect(legacy).not.toContain('--upds-system-canvas-color');
-    expect(legacy).not.toContain(":root[data-upds-display-mode='standalone']:has(");
+    expect(legacy).toContain('--upds-system-canvas-color');
+    expect(legacy).toContain(":root[data-upds-display-mode='standalone']:has(");
     expect(main).toContain(
       'document.documentElement.dataset.updsDisplayMode = initialPwa.displayMode',
     );
