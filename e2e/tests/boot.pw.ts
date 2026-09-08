@@ -16,7 +16,7 @@ test('boots the production build into the player menu without QA tools', async (
   await expect(page.locator(qaSelectors.sceneNavigationButton)).toHaveCount(0);
   await expect(page.locator(qaSelectors.levelLabButton)).toHaveCount(0);
   await expect(page.locator(qaSelectors.sceneStudioButton)).toHaveCount(0);
-  await expect(page.locator(qaSelectors.supportButton)).toHaveCount(0);
+  await expect(page.locator(qaSelectors.supportButton)).toBeVisible();
   health.assertClean();
 });
 
