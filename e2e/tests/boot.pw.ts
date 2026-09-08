@@ -38,7 +38,7 @@ test(
       document.documentElement.style.setProperty('--safe-area-bottom', '34px');
     }, standaloneTopInset);
 
-    const expectPhysicalFullBleed = async (activeScreenSelector: string): Promise<void> => {
+    const expectScreenCanvas = async (activeScreenSelector: string, expectedCanvasColor: string): Promise<void> => {
       const geometry = await page.evaluate((selector) => {
         const rect = (target: string) => {
           const node = document.querySelector<HTMLElement>(target);
@@ -51,13 +51,12 @@ test(
         return {
           innerWidth: window.innerWidth,
           innerHeight: window.innerHeight,
+          rootBackground: getComputedStyle(document.documentElement).backgroundColor,
           shell: { top: shell.top, right: shell.right, bottom: shell.bottom, left: shell.left },
           phone: { top: phone.top, right: phone.right, bottom: phone.bottom, left: phone.left },
           screen: { top: screen.top, right: screen.right, bottom: screen.bottom, left: screen.left },
         };
       }, activeScreenSelector);
-      const physicalBottom = geometry.innerHeight + standaloneTopInset;
-
       expect(geometry.innerWidth).toBe(440);
       expect(geometry.shell.top).toBeCloseTo(0, 1);
       expect(geometry.phone.top).toBeCloseTo(0, 1);
@@ -68,12 +67,13 @@ test(
       expect(geometry.shell.right).toBeCloseTo(geometry.innerWidth, 1);
       expect(geometry.phone.right).toBeCloseTo(geometry.innerWidth, 1);
       expect(geometry.screen.right).toBeCloseTo(geometry.innerWidth, 1);
-      expect(geometry.shell.bottom).toBeCloseTo(physicalBottom, 1);
-      expect(geometry.phone.bottom).toBeCloseTo(physicalBottom, 1);
-      expect(geometry.screen.bottom).toBeCloseTo(physicalBottom, 1);
+      expect(geometry.shell.bottom).toBeCloseTo(geometry.innerHeight, 1);
+      expect(geometry.phone.bottom).toBeCloseTo(geometry.innerHeight, 1);
+      expect(geometry.screen.bottom).toBeCloseTo(geometry.innerHeight, 1);
+      expect(geometry.rootBackground).toBe(expectedCanvasColor);
     };
 
-    await expectPhysicalFullBleed(qaSelectors.mainMenu);
+    await expectScreenCanvas(qaSelectors.mainMenu, 'rgb(44, 47, 70)');
     await page.locator(qaSelectors.settingsButton).click();
     const settings = page.locator(qaSelectors.settingsScreen);
     await expect(settings).toBeVisible();
@@ -89,12 +89,12 @@ test(
     await expect
       .poll(async () => (await panelAction.boundingBox())?.y ?? -1)
       .toBeGreaterThanOrEqual(46);
-    await expectPhysicalFullBleed(qaSelectors.settingsScreen);
+    await expectScreenCanvas(qaSelectors.settingsScreen, 'rgb(240, 231, 229)');
 
     await page.locator(qaSelectors.settingsBack).click();
     await page.locator(qaSelectors.match3CampaignButton).click();
     await expect(page.locator(qaSelectors.match3CampaignScreen)).toBeVisible();
-    await expectPhysicalFullBleed(qaSelectors.match3CampaignScreen);
+    await expectScreenCanvas(qaSelectors.match3CampaignScreen, 'rgb(217, 215, 225)');
     health.assertClean();
   },
 );
