@@ -81,9 +81,9 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     const viewport = read('src/viewport.css');
     const legacy = read('src/style.css');
 
-    expect(viewport).toContain('--physical-viewport-height: 100dvh');
-    expect(viewport).toContain(":root[data-upds-display-mode='standalone']");
-    expect(viewport).toContain('--physical-viewport-height: 100dvh');
+    expect(viewport).toContain('--upds-viewport-height: 100dvh');
+    expect(viewport).toContain('--physical-viewport-height: var(--upds-viewport-height)');
+    expect(viewport).toContain('--upds-viewport-height: 100dvh');
     expect(viewport).toContain(
       '@media (orientation: portrait) and (max-width: 520px)',
     );

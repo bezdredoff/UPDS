@@ -34,6 +34,9 @@ body {
   place-items: center;
   background: radial-gradient(circle at 50% 0, #55516e, #171a2f 62%);
 }
+:root[data-upds-display-mode='standalone'] body {
+  background: var(--upds-system-canvas-color);
+}
 button { font: inherit; color: inherit; cursor: pointer; }
 button:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
 button:disabled { cursor: default; opacity: .38; }
@@ -42,7 +45,7 @@ img { display: block; }
 .phone {
   position: relative;
   width: min(100vw, 430px);
-  height: min(100dvh, 932px);
+  height: min(var(--upds-viewport-height, 100dvh), 932px);
   min-height: 0;
   overflow: hidden;
   background: var(--paper);

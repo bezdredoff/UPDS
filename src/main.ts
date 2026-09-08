@@ -29,6 +29,17 @@ const bootstrap = async (): Promise<void> => {
   const mediaStandalone = typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(display-mode: standalone)').matches;
   document.documentElement.dataset.updsDisplayMode = navigatorStandalone || mediaStandalone ? 'standalone' : 'browser';
 
+  const syncViewportHeight = (): void => {
+    const viewportHeight = globalThis.visualViewport?.height ?? globalThis.innerHeight;
+    if (Number.isFinite(viewportHeight) && viewportHeight > 0) {
+      document.documentElement.style.setProperty('--upds-viewport-height', `${viewportHeight}px`);
+    }
+  };
+  syncViewportHeight();
+  globalThis.visualViewport?.addEventListener('resize', syncViewportHeight);
+  globalThis.addEventListener('resize', syncViewportHeight);
+  globalThis.addEventListener('orientationchange', syncViewportHeight);
+
   const root = document.querySelector<HTMLElement>('#app');
   if (!root) throw new Error('Missing #app');
   const services = createRuntimeServices();

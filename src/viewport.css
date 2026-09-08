@@ -3,7 +3,8 @@
   --safe-area-right: env(safe-area-inset-right, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --safe-area-left: env(safe-area-inset-left, 0px);
-  --physical-viewport-height: 100dvh;
+  --upds-viewport-height: 100dvh;
+  --physical-viewport-height: var(--upds-viewport-height);
   --game-viewport-max-width: 430px;
   --game-viewport-max-height: 932px;
 }
