@@ -21,6 +21,14 @@ const bootstrap = async (): Promise<void> => {
     document.documentElement.dataset.updsBuild = BUILD_ID;
   }
 
+  // Apply standalone geometry before async locale/storage setup. iOS can paint
+  // the shell before services are ready; waiting here briefly exposes the
+  // browser viewport model and leaves the installed PWA with a stale bottom
+  // strip until the next layout pass.
+  const navigatorStandalone = (globalThis.navigator as Navigator & { standalone?: boolean } | undefined)?.standalone === true;
+  const mediaStandalone = typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(display-mode: standalone)').matches;
+  document.documentElement.dataset.updsDisplayMode = navigatorStandalone || mediaStandalone ? 'standalone' : 'browser';
+
   const root = document.querySelector<HTMLElement>('#app');
   if (!root) throw new Error('Missing #app');
   const services = createRuntimeServices();
