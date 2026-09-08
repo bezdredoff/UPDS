@@ -69,4 +69,13 @@ describe('ANM-024B shared game viewport shell', () => {
       'document.documentElement.dataset.updsDisplayMode = initialPwa.displayMode',
     );
   });
+
+  it('sets the initial standalone mode before async services can paint the shell', () => {
+    const main = readFileSync(new URL('../src/main.ts', import.meta.url), 'utf8');
+    const initialMode = main.indexOf('document.documentElement.dataset.updsDisplayMode = navigatorStandalone');
+    const servicesReady = main.indexOf('await services.ready');
+
+    expect(initialMode).toBeGreaterThanOrEqual(0);
+    expect(servicesReady).toBeGreaterThan(initialMode);
+  });
 });
