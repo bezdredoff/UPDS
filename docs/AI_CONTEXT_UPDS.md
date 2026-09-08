@@ -47,3 +47,10 @@ UPDS is a mobile-first visual novel × Match-3 game.
 - **No New Slots**: Do not invent story/content slots beyond the canonical 0–21.
 - **Rule of Least Change**: Use stable contracts; avoid redundant logic.
 - **Visual Identity**: Maintain established adult-college-age Hybrid anime style (clean contours, cel shading).
+
+## 7. Windows & WebKit Limitations
+- **Local Checks**: `npm run check` и локальный Chromium E2E можно использовать как локальные проверки.
+- **WebKit vs Browser Gate**: Локальный Playwright WebKit на Windows не является эквивалентом GitHub Browser Gate.
+- **Snapshot Constraints**: WebKit golden snapshots в репозитории рассчитаны на Linux CI; нельзя создавать или коммитить новые `*-win32.png`.
+- **Authority**: Для WebKit и visual regression окончательным источником считается GitHub Browser Gate.
+- **Failure Handling**: При локальном падении WebKit на Windows сначала проверить test-results и не обновлять snapshots автоматически.
