@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { observeBrowserHealth } from '../helpers/browserHealth';
-import { openQaScene } from '../helpers/vn';
+import { advanceToLine, openQaScene } from '../helpers/vn';
 
 const captureGeometry = async (page: import('@playwright/test').Page) => page.evaluate(() => {
   const rect = (selector: string) => {
@@ -18,7 +18,7 @@ const captureGeometry = async (page: import('@playwright/test').Page) => page.ev
     shell: rect('.viewport-shell'),
     phone: rect('.phone'),
     stage: rect('.stage'),
-    portrait: document.querySelector<HTMLElement>('.portrait') ? rect('.portrait') : null,
+    portrait: rect('.portrait'),
     dialogue: rect('.dialogue-shell'),
     controls: rect('.vn-controls'),
   };
@@ -26,14 +26,9 @@ const captureGeometry = async (page: import('@playwright/test').Page) => page.ev
 
 const expectSameGeometry = (before: Awaited<ReturnType<typeof captureGeometry>>, after: Awaited<ReturnType<typeof captureGeometry>>) => {
   expect(after.frameSame).toBe(true);
-  for (const area of ['shell', 'phone', 'stage', 'dialogue', 'controls'] as const) {
+  for (const area of ['shell', 'phone', 'stage', 'portrait', 'dialogue', 'controls'] as const) {
     for (const field of ['top', 'bottom', 'width', 'height'] as const) {
       expect(after[area][field]).toBeCloseTo(before[area][field], 2);
-    }
-  }
-  if (before.portrait && after.portrait) {
-    for (const field of ['top', 'bottom', 'width', 'height'] as const) {
-      expect(after.portrait[field]).toBeCloseTo(before.portrait[field], 2);
     }
   }
 };
@@ -42,13 +37,14 @@ test.describe('VN browser chrome stability', () => {
   test('height-only Safari resize signal cannot rescale or rebuild VN', async ({ page }) => {
     const health = observeBrowserHealth(page);
     await openQaScene(page, 0);
+    await advanceToLine(page, 'VN0002');
     const before = await captureGeometry(page);
 
     await page.evaluate(() => {
-      // Simulate the root dynamic-height update that mobile Safari performs when
-      // browser chrome changes. VN browser CSS must ignore it in favour of 100svh.
-      document.documentElement.style.setProperty('--upds-viewport-height', '500px');
+      // Safari emits resize while its browser chrome changes. The global browser
+      // viewport handler may run, but VN must remain on its stable 100svh frame.
       window.dispatchEvent(new Event('resize'));
+      document.documentElement.style.setProperty('--upds-viewport-height', '500px');
     });
     await page.waitForTimeout(250);
 
