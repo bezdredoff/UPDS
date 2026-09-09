@@ -30,6 +30,20 @@ decision is authored and merged.
 
 Do not copy a “current build” string into multiple READMEs.
 
+### Release status protocol
+
+Before every UPDS task, read `docs/UPDS_RELEASE_MANIFEST_RU.md`, `docs/release-status.json` and
+`docs/known-issues.json`. Select or create the task ID before editing. After a meaningful result,
+update the task status, owner, date and evidence in the same PR or ZIP candidate. Use
+`queued → active → review → accepted`; use `blocked`, `known-issue` or `deferred` when appropriate.
+Never mark a task `accepted` from a green build alone: content, art and device acceptance require
+explicit evidence. ChatGPT must include these JSON updates in the ZIP sent through `incoming`;
+Codex must include them in the direct branch/PR. Technical evidence may include CI, preview, SHA,
+asset manifest and checksums, but semantic acceptance remains explicit.
+
+The dashboard at `/UPDS/status/` is the rendered view, not a second source of truth. If the
+dashboard and JSON disagree, the tracked JSON and its latest merged commit are authoritative.
+
 ### Narrative
 
 1. Explicitly supplied/approved Story Bible and episode plan;
