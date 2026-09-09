@@ -95,9 +95,11 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(viewport).not.toContain('--physical-viewport-height: 100lvh');
     expect(legacy).toContain('--upds-system-canvas-color');
     expect(legacy).toContain(":root[data-upds-display-mode='standalone']:has(");
-    expect(main).toContain('if (!standaloneMode) {');
     expect(main).toContain('const syncBrowserViewportHeight = (): void =>');
-    expect(main).not.toContain('? globalThis.innerHeight');
+    expect(main).toContain('const viewportHeight = globalThis.visualViewport?.height ?? globalThis.innerHeight;');
+    const browserGuard = main.indexOf('if (!standaloneMode) {');
+    expect(browserGuard).toBeGreaterThanOrEqual(0);
+    expect(main.indexOf('syncBrowserViewportHeight();', browserGuard)).toBeGreaterThan(browserGuard);
     expect(main).toContain(
       "document.documentElement.dataset.updsDisplayMode = standaloneMode ? 'standalone' : initialPwa.displayMode",
     );
