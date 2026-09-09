@@ -57,6 +57,7 @@ export class VnController {
   private dialoguePageIndex = 0;
   private dialoguePages: string[] = [];
   private dialogueReflowTimer: number | null = null;
+  private dialogueReflowWidth: number | null = null;
   private trackedVnLineId: string | null = null;
   private trackedPagingKey: string | null = null;
   private pendingClue: ClueId | null = null;
@@ -259,7 +260,7 @@ export class VnController {
     if (!measurement) {
       // An unstable/zero-size layout must never drive the measured paginator
       // down to one- or two-grapheme pages. Keep the deterministic fallback
-      // until resize/font/layout reflow gives us a real viewport.
+      // until a real width/orientation reflow gives us a usable viewport.
       this.dialoguePages = fallbackPages;
       return fallbackPages;
     }
@@ -292,23 +293,46 @@ export class VnController {
     return measuredPages;
   }
 
+  private remeasureDialogueInPlace(): void {
+    if (!this.root.querySelector('.vn-screen')) return;
+    const entry = this.story[this.session.save.line];
+    if (!entry) return;
+    const localizedText = this.lineText(entry);
+    const fallbackDialoguePages = paginateDialogueText(localizedText, currentDialogueProfile(this.textScale));
+    this.dialoguePages = [];
+    this.measureAndApplyDialoguePages(entry.id, localizedText, fallbackDialoguePages);
+  }
+
   private bindDialogueReflow(): void {
     if (typeof window === 'undefined' || typeof window.addEventListener !== 'function') return;
+    this.dialogueReflowWidth = Math.round(window.innerWidth);
+
     const requestReflow = (): void => {
       if (!this.root.querySelector('.vn-screen')) return;
       if (this.dialogueReflowTimer !== null) window.clearTimeout(this.dialogueReflowTimer);
       this.dialogueReflowTimer = window.setTimeout(() => {
         this.dialogueReflowTimer = null;
-        this.dialoguePages = [];
-        this.renderVN();
+        window.requestAnimationFrame(() => window.requestAnimationFrame(() => this.remeasureDialogueInPlace()));
       }, 80);
     };
-    window.addEventListener('resize', requestReflow, { passive: true });
-    window.addEventListener('orientationchange', requestReflow, { passive: true });
 
-    if (typeof document !== 'undefined' && document.fonts?.ready) {
-      void document.fonts.ready.then(() => requestReflow());
-    }
+    const requestWidthReflow = (): void => {
+      const nextWidth = Math.round(window.innerWidth);
+      const previousWidth = this.dialogueReflowWidth ?? nextWidth;
+      this.dialogueReflowWidth = nextWidth;
+      // Mobile Safari changes height as browser chrome hides/returns. Height-only
+      // resize must never rebuild or repaginate VN; only real width changes matter.
+      if (Math.abs(nextWidth - previousWidth) < 2) return;
+      requestReflow();
+    };
+
+    const requestOrientationReflow = (): void => {
+      this.dialogueReflowWidth = Math.round(window.innerWidth);
+      requestReflow();
+    };
+
+    window.addEventListener('resize', requestWidthReflow, { passive: true });
+    window.addEventListener('orientationchange', requestOrientationReflow, { passive: true });
   }
 
   private preloadNextVnAssets(): void {
