@@ -16,6 +16,7 @@ describe('ANM-023G8A Playwright coverage audit contract', () => {
     const postAuditSpecs = new Set([
       'story-completion.pw.ts',
       'vn-browser-chrome-stability.pw.ts',
+      'viewport-recorder.pw.ts',
     ]);
     const g8aBaseline = specs.filter((name) => !postAuditSpecs.has(name));
 
@@ -23,6 +24,7 @@ describe('ANM-023G8A Playwright coverage audit contract', () => {
     for (const spec of g8aBaseline) expect(audit).toContain(`\`${spec}\``);
     expect(g8b).toContain('`story-completion.pw.ts`');
     expect(g8e3).toContain('`e2e/tests/vn-browser-chrome-stability.pw.ts`');
+    expect(read('docs/features/IOS_VIEWPORT_CAPTURE_RU.md')).toContain('`e2e/tests/viewport-recorder.pw.ts`');
 
     expect(audit).toContain('20 Chromium cases');
     expect(audit).toContain('15 cases');
