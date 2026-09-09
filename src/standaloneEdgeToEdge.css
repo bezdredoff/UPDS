@@ -1,27 +1,30 @@
 /*
- * Universal installed-PWA presentation contract.
- *
- * The physical shell already fills the installed screen with 100vh. On iOS,
- * dynamic viewport units may still resolve to the shorter visual viewport
- * (for example screen 874px while 100dvh is 812px). Any inner scene sizing
- * that keeps using dvh can therefore reintroduce a false bottom band even
- * though .viewport-shell and .game-viewport are correct.
- *
- * Scope every workaround to the runtime standalone flag. No device-specific
- * inset values are hard-coded: safe-area placement continues to use the
- * shared env()-derived --safe-area-* tokens.
+ * Installed-PWA edge-to-edge presentation.
+ * Physical height belongs to viewport.css; VN row sizes belong to the frozen
+ * tokens produced in main.ts. This layer must never introduce vh/dvh/svh back
+ * into runtime VN geometry.
  */
 
-:root[data-upds-display-mode='standalone'] .vn-screen {
-  --vn-dialogue-row: clamp(154px, 22vh, 198px);
+/*
+ * #254 introduced a per-screen root-color bridge as a substitute for physical
+ * player height. Keep it visually neutralized while the legacy declarations in
+ * style.css are retired: a real gap must stay visible to tests instead of being
+ * camouflaged by a matching canvas color.
+ */
+:root[data-upds-display-mode='standalone'] {
+  background: #171a2f;
 }
 
-:root[data-upds-display-mode='standalone'] .vn-controls {
-  --vn-controls-min-height: clamp(60px, 9vh, 82px);
-  /*
-   * Keep controls above the home indicator, but let the VN art remain visible
-   * underneath the non-interactive safe-area instead of painting a fake strip.
-   */
+:root[data-upds-display-mode='standalone'] body {
+  background: #171a2f;
+}
+
+/*
+ * Controls remain above the home indicator, while the protected non-interactive
+ * pixels show the underlying VN art rather than a separate beige application
+ * strip. Sizing itself comes from --upds-vn-controls-min-height.
+ */
+:root[data-upds-display-mode='standalone'] .vn-screen[data-frame-context='runtime'] .vn-controls {
   background: linear-gradient(
     to bottom,
     #f3e8d2 0 calc(100% - var(--safe-area-bottom)),
@@ -29,16 +32,7 @@
   );
 }
 
-:root[data-upds-display-mode='standalone'] .vn-status {
-  bottom: calc(max(72px, 10vh) + var(--safe-area-bottom));
-}
-
-/*
- * Match-3 used to shorten the whole scene with bottom safe-area padding.
- * The scene/background now stays edge-to-edge; only the interactive tooltray
- * reserves the OS inset, so the protected region is visual game canvas rather
- * than an empty application band.
- */
+/* Match-3 keeps canvas edge-to-edge; only interactive tools reserve the inset. */
 :root[data-upds-display-mode='standalone'] .match-screen {
   padding-bottom: 0;
 }
@@ -51,16 +45,7 @@
   max-height: min(76vh, 650px);
 }
 
-/* Preserve the existing compact-phone tuning. */
 @media (max-height: 650px), (max-width: 340px) {
-  :root[data-upds-display-mode='standalone'] .vn-screen {
-    --vn-dialogue-row: 136px;
-  }
-
-  :root[data-upds-display-mode='standalone'] .vn-controls {
-    --vn-controls-min-height: 58px;
-  }
-
   :root[data-upds-display-mode='standalone'] .match-help-popover {
     max-height: min(78vh, 560px);
   }
