@@ -64,6 +64,7 @@ export class VnController {
   private trackedPagingKey: string | null = null;
   private pendingClue: ClueId | null = null;
   private lastAdvanceTapAt = Number.NEGATIVE_INFINITY;
+  private lastAdvanceTapTarget: EventTarget | null = null;
 
   constructor(
     private readonly root: HTMLElement,
@@ -235,12 +236,15 @@ export class VnController {
     this.root.querySelector('#next')?.addEventListener('click', (event) => {
       const now = performance.now();
       const clickCount = event instanceof MouseEvent ? event.detail : 0;
-      if (!acceptsVnAdvanceTap(now, this.lastAdvanceTapAt) || clickCount > 1) {
+      const repeatedSameControl = event.currentTarget === this.lastAdvanceTapTarget
+        && !acceptsVnAdvanceTap(now, this.lastAdvanceTapAt);
+      if (repeatedSameControl || clickCount > 1) {
         event.preventDefault();
         event.stopPropagation();
         return;
       }
       this.lastAdvanceTapAt = now;
+      this.lastAdvanceTapTarget = event.currentTarget;
       this.nextLine();
     });
     this.root.querySelector('#skip')?.addEventListener('click', () => this.skipReadLines());
