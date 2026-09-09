@@ -1,4 +1,5 @@
 import type { CampaignSave } from '../engine/CampaignStore';
+import { viewportDebugEvent } from '../platform/ViewportDebug';
 import { createRuntimeServices, type RuntimeServices } from '../platform/RuntimeServices';
 import { AppSession } from '../app/AppSession';
 import { AppShell } from '../app/AppShell';
@@ -93,6 +94,7 @@ export class AnimeDetectiveApp {
   }
 
   private renderPwaUpdateBanner(): void {
+    viewportDebugEvent('PwaBanner:render', {}, true);
     const phone = this.root.querySelector<HTMLElement>('.phone');
     if (!phone) return;
     phone.querySelector('.pwa-update-banner')?.remove();
