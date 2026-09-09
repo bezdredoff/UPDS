@@ -1,0 +1,73 @@
+/*
+ * Universal installed-PWA presentation contract.
+ *
+ * The physical shell already fills the installed screen with 100vh. On iOS,
+ * dynamic viewport units may still resolve to the shorter visual viewport
+ * (for example screen 874px while 100dvh is 812px). Any inner scene sizing
+ * that keeps using dvh can therefore reintroduce a false bottom band even
+ * though .viewport-shell and .game-viewport are correct.
+ *
+ * Scope every workaround to the runtime standalone flag. No device-specific
+ * inset values are hard-coded: safe-area placement continues to use the
+ * shared env()-derived --safe-area-* tokens.
+ */
+
+:root[data-upds-display-mode='standalone'] .vn-screen {
+  --vn-dialogue-row: clamp(154px, 22vh, 198px);
+}
+
+:root[data-upds-display-mode='standalone'] .vn-controls {
+  --vn-controls-min-height: clamp(60px, 9vh, 82px);
+  /*
+   * Keep controls above the home indicator, but let the VN art remain visible
+   * underneath the non-interactive safe-area instead of painting a fake strip.
+   */
+  background: linear-gradient(
+    to bottom,
+    #f3e8d2 0 calc(100% - var(--safe-area-bottom)),
+    transparent calc(100% - var(--safe-area-bottom)) 100%
+  );
+}
+
+:root[data-upds-display-mode='standalone'] .vn-status {
+  bottom: calc(max(72px, 10vh) + var(--safe-area-bottom));
+}
+
+/*
+ * Match-3 used to shorten the whole scene with bottom safe-area padding.
+ * The scene/background now stays edge-to-edge; only the interactive tooltray
+ * reserves the OS inset, so the protected region is visual game canvas rather
+ * than an empty application band.
+ */
+:root[data-upds-display-mode='standalone'] .match-screen {
+  padding-bottom: 0;
+}
+
+:root[data-upds-display-mode='standalone'] .match-tooltray {
+  margin-bottom: var(--safe-area-bottom);
+}
+
+:root[data-upds-display-mode='standalone'] .match-help-popover {
+  max-height: min(76vh, 650px);
+}
+
+/* Preserve the existing compact-phone tuning. */
+@media (max-height: 650px), (max-width: 340px) {
+  :root[data-upds-display-mode='standalone'] .vn-screen {
+    --vn-dialogue-row: 136px;
+  }
+
+  :root[data-upds-display-mode='standalone'] .vn-controls {
+    --vn-controls-min-height: 58px;
+  }
+
+  :root[data-upds-display-mode='standalone'] .match-help-popover {
+    max-height: min(78vh, 560px);
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  :root[data-upds-display-mode='standalone'] .board {
+    width: min(56vh, 310px);
+  }
+}
