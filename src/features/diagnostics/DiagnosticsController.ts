@@ -12,6 +12,76 @@ import { bindPwaControls, pwaStatusMarkup } from '../../ui/systemControls';
 import '../../diagnosticsPlaytestSummary.css';
 import { match3PlaytestSummaryMarkup } from './Match3PlaytestSummary';
 
+const metric = (value: number | undefined): string =>
+  typeof value === 'number' && Number.isFinite(value) ? String(Math.round(value * 100) / 100) : 'n/a';
+
+const measureCssHeight = (height: string): string => {
+  if (typeof document === 'undefined' || !document.body) return 'n/a';
+  const probe = document.createElement('div');
+  probe.setAttribute('aria-hidden', 'true');
+  probe.style.position = 'fixed';
+  probe.style.left = '-10000px';
+  probe.style.top = '0';
+  probe.style.width = '1px';
+  probe.style.height = height;
+  probe.style.visibility = 'hidden';
+  probe.style.pointerEvents = 'none';
+  document.body.appendChild(probe);
+  const value = metric(probe.getBoundingClientRect().height);
+  probe.remove();
+  return value;
+};
+
+const measureSafeArea = (): { top: string; right: string; bottom: string; left: string } => {
+  if (typeof document === 'undefined' || !document.body || typeof getComputedStyle !== 'function') {
+    return { top: 'n/a', right: 'n/a', bottom: 'n/a', left: 'n/a' };
+  }
+  const probe = document.createElement('div');
+  probe.setAttribute('aria-hidden', 'true');
+  probe.style.position = 'fixed';
+  probe.style.left = '-10000px';
+  probe.style.top = '0';
+  probe.style.width = '0';
+  probe.style.height = '0';
+  probe.style.paddingTop = 'env(safe-area-inset-top, 0px)';
+  probe.style.paddingRight = 'env(safe-area-inset-right, 0px)';
+  probe.style.paddingBottom = 'env(safe-area-inset-bottom, 0px)';
+  probe.style.paddingLeft = 'env(safe-area-inset-left, 0px)';
+  document.body.appendChild(probe);
+  const style = getComputedStyle(probe);
+  const result = {
+    top: style.paddingTop,
+    right: style.paddingRight,
+    bottom: style.paddingBottom,
+    left: style.paddingLeft,
+  };
+  probe.remove();
+  return result;
+};
+
+const collectViewportMetrics = () => {
+  const viewport = globalThis.visualViewport;
+  const screenValue = globalThis.screen;
+  const root = typeof document !== 'undefined' ? document.documentElement : undefined;
+  const safe = measureSafeArea();
+  const navigatorStandalone = (globalThis.navigator as Navigator & { standalone?: boolean } | undefined)?.standalone === true;
+  const mediaStandalone = typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(display-mode: standalone)').matches;
+
+  return {
+    inner: `${metric(globalThis.innerWidth)}×${metric(globalThis.innerHeight)}`,
+    client: `${metric(root?.clientWidth)}×${metric(root?.clientHeight)}`,
+    screen: `${metric(screenValue?.width)}×${metric(screenValue?.height)}`,
+    available: `${metric(screenValue?.availWidth)}×${metric(screenValue?.availHeight)}`,
+    visual: viewport ? `${metric(viewport.width)}×${metric(viewport.height)}` : 'n/a',
+    visualDetail: viewport
+      ? `scale ${metric(viewport.scale)} · offset ${metric(viewport.offsetLeft)},${metric(viewport.offsetTop)} · page ${metric(viewport.pageLeft)},${metric(viewport.pageTop)}`
+      : 'VisualViewport unavailable',
+    cssHeights: `vh ${measureCssHeight('100vh')} · dvh ${measureCssHeight('100dvh')} · svh ${measureCssHeight('100svh')} · lvh ${measureCssHeight('100lvh')}`,
+    safe: `T ${safe.top} · R ${safe.right} · B ${safe.bottom} · L ${safe.left}`,
+    mode: `${navigatorStandalone ? 'navigator standalone' : 'navigator browser'} · ${mediaStandalone ? 'media standalone' : 'media browser'} · data ${root?.dataset.updsDisplayMode ?? 'unset'}`,
+  };
+};
+
 export class DiagnosticsController {
   constructor(
     private readonly root: HTMLElement,
@@ -32,6 +102,7 @@ export class DiagnosticsController {
     const errors = this.services.errorLog.getEntries();
     const playtest = this.services.telemetry.snapshot();
     const pwa = this.services.pwa.snapshot();
+    const viewport = collectViewportMetrics();
     const storageLabel = this.services.storage.mode === 'persistent' ? 'localStorage · persistent' : 'memory fallback · текущая вкладка';
 
     this.shell.render(`<section class="panel support-panel">
@@ -48,10 +119,19 @@ export class DiagnosticsController {
         <article><small>AUDIO</small><b>${this.services.audio.supported ? 'WEB AUDIO' : 'FALLBACK'}</b><span>music ${Math.round(this.services.audio.settings.musicVolume * 100)}% · sfx ${Math.round(this.services.audio.settings.effectsVolume * 100)}% · ${this.services.audio.settings.muted ? 'muted' : 'active'}</span></article>
         <article><small>PLAYTEST</small><b>${playtest.eventCount} events</b><span>${playtest.summary.sessions} sessions · ${playtest.summary.verticalSliceCompletions} completions</span></article>
         <article><small>PWA</small><b>${pwa.offlineReady ? 'OFFLINE READY' : pwa.registration.toUpperCase()}</b><span>${pwa.installed ? 'installed' : 'browser'} · ${pwa.online ? 'online' : 'offline'} · ${escapeHtml(pwa.lane)}</span></article>
+        <article><small>VIEWPORT</small><b>inner ${escapeHtml(viewport.inner)}</b><span>client ${escapeHtml(viewport.client)}</span></article>
+        <article><small>VISUAL VIEWPORT</small><b>${escapeHtml(viewport.visual)}</b><span>${escapeHtml(viewport.visualDetail)}</span></article>
+        <article><small>SCREEN</small><b>${escapeHtml(viewport.screen)}</b><span>available ${escapeHtml(viewport.available)}</span></article>
+        <article><small>CSS HEIGHTS</small><b>${escapeHtml(viewport.cssHeights)}</b><span>measured live in CSS px</span></article>
+        <article><small>SAFE AREA</small><b>${escapeHtml(viewport.safe)}</b><span>resolved env(safe-area-inset-*)</span></article>
+        <article><small>DISPLAY MODE</small><b>${escapeHtml(viewport.mode)}</b><span>navigator · media query · root data attribute</span></article>
+        <article><small>SHELL</small><b id="viewport-shell-size">measuring…</b><span id="viewport-shell-vars">measuring…</span></article>
+        <article><small>GAME VIEWPORT</small><b id="game-viewport-size">measuring…</b><span id="game-viewport-position">measuring…</span></article>
       </div>
       ${match3PlaytestSummaryMarkup(playtest.summary)}
       ${pwaStatusMarkup(this.services)}
       <div class="support-actions">
+        <button id="refresh-viewport">${icon('log')}<span><b>Обновить viewport-метрики</b><small>Пересчитать значения после появления полосы или рескейла</small></span></button>
         <button id="story-win-qa">${icon('log')}<span><b>Story win boundary</b><small>M3_00 · нажми Hint и сделай подсвеченный ход → evidence → VN; сбрасывает Story save</small></span></button>
         <button id="export-save">${icon('save')}<span><b>Экспорт сохранения</b><small>JSON для переноса или резервной копии</small></span></button>
         <button id="import-save">${icon('load')}<span><b>Импорт сохранения</b><small>Совместимый UPDS save JSON</small></span></button>
@@ -70,8 +150,25 @@ export class DiagnosticsController {
       <button id="clear-errors" class="danger-link">Очистить журнал runtime-ошибок</button>
     </section>`);
 
+    if (typeof getComputedStyle === 'function') {
+      const shellElement = this.root.querySelector<HTMLElement>('.viewport-shell');
+      const gameViewport = this.root.querySelector<HTMLElement>('.phone.game-viewport');
+      const shellRect = shellElement?.getBoundingClientRect();
+      const gameRect = gameViewport?.getBoundingClientRect();
+      const rootStyle = getComputedStyle(document.documentElement);
+      const shellSize = this.root.querySelector<HTMLElement>('#viewport-shell-size');
+      const shellVars = this.root.querySelector<HTMLElement>('#viewport-shell-vars');
+      const gameSize = this.root.querySelector<HTMLElement>('#game-viewport-size');
+      const gamePosition = this.root.querySelector<HTMLElement>('#game-viewport-position');
+      if (shellSize) shellSize.textContent = shellRect ? `${metric(shellRect.width)}×${metric(shellRect.height)}` : 'not found';
+      if (shellVars) shellVars.textContent = `physical ${rootStyle.getPropertyValue('--physical-viewport-height').trim() || 'unset'} · js ${rootStyle.getPropertyValue('--upds-viewport-height').trim() || 'unset'}`;
+      if (gameSize) gameSize.textContent = gameRect ? `${metric(gameRect.width)}×${metric(gameRect.height)}` : 'not found';
+      if (gamePosition) gamePosition.textContent = gameRect ? `top ${metric(gameRect.top)} · bottom ${metric(gameRect.bottom)}` : 'not found';
+    }
+
     this.root.querySelector('#back')?.addEventListener('click', () => this.navigation.showMenu());
     this.root.querySelector('#header-settings')?.addEventListener('click', () => this.navigation.showSettings(() => this.render(status), true));
+    this.root.querySelector('#refresh-viewport')?.addEventListener('click', () => this.render('Viewport-метрики обновлены.'));
     this.root.querySelector('#story-win-qa')?.addEventListener('click', () => {
       if (typeof window.confirm === 'function' && !window.confirm('QA Story win сбросит текущий Story progress. Продолжить?')) return;
       this.services.audio.play('uiClick');
