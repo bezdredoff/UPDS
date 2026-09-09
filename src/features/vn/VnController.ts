@@ -22,6 +22,7 @@ import {
 } from '../../data/storyChoices';
 import { meetsStoryEndingRequirement, storyOutcomeMetrics } from '../../data/storyOutcome';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
+import { viewportDebugEvent } from '../../platform/ViewportDebug';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppSession } from '../../app/AppSession';
@@ -139,6 +140,7 @@ export class VnController {
   }
 
   private renderVN(): void {
+    viewportDebugEvent('VnController.renderVN', { scene: this.session.save.scene, line: this.session.save.line }, true);
     this.services.audio.setScene('vn');
     const entry = this.story[this.session.save.line];
     if (!entry) {
@@ -250,6 +252,7 @@ export class VnController {
   }
 
   private measureAndApplyDialoguePages(lineId: string, text: string, fallbackPages: string[]): string[] {
+    viewportDebugEvent('VnController.measureDialogue:before', { lineId }, true);
     const textElement = this.root.querySelector<HTMLElement>('.dialogue-text');
     if (!textElement) {
       this.dialoguePages = fallbackPages;
@@ -290,10 +293,12 @@ export class VnController {
     if (progressElement) {
       progressElement.innerHTML = `${measuredPages.map((_, page) => `<i class="${page <= this.dialoguePageIndex ? 'is-active' : ''}"></i>`).join('')}<b>▼</b>`;
     }
+    viewportDebugEvent('VnController.measureDialogue:after', { lineId, pages: measuredPages.length });
     return measuredPages;
   }
 
   private remeasureDialogueInPlace(): void {
+    viewportDebugEvent('VnController.remeasureDialogueInPlace', {}, true);
     if (!this.root.querySelector('.vn-screen')) return;
     const entry = this.story[this.session.save.line];
     if (!entry) return;

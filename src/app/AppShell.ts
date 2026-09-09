@@ -1,3 +1,5 @@
+import { viewportDebugEvent } from '../platform/ViewportDebug';
+
 /** Owns the shared viewport DOM shell and disposable UI timers. */
 export class AppShell {
   private timers: number[] = [];
@@ -8,9 +10,11 @@ export class AppShell {
   ) {}
 
   render(content: string): void {
+    viewportDebugEvent('AppShell.render:before', { screen: content.match(/<section\b[^>]*class="([^"]+)"/)?.[1] ?? 'unknown' }, true);
     this.clearTimers();
     this.root.innerHTML = `<div class="viewport-shell" data-viewport-shell="physical"><main class="phone game-viewport" data-game-viewport="compat-edge-to-edge">${content}</main></div>`;
     this.afterRender();
+    viewportDebugEvent('AppShell.render:after');
   }
 
   clearTimers(): void {

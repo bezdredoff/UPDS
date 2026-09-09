@@ -1,4 +1,5 @@
 import type { AssetHealth } from './AssetHealth';
+import { viewportDebugEvent } from './ViewportDebug';
 
 export const IMAGE_PRELOAD_CONCURRENCY = 4;
 
@@ -25,10 +26,12 @@ const preloadOne = (asset: string, health: AssetHealth, ImageCtor: ImageConstruc
     resolve();
   };
   image.onload = () => {
+    viewportDebugEvent('preload:load', { asset, naturalWidth: image.naturalWidth, naturalHeight: image.naturalHeight });
     health.recordPreloadLoaded();
     finish();
   };
   image.onerror = () => {
+    viewportDebugEvent('preload:error', { asset });
     health.recordFailure(asset, 'preload');
     finish();
   };

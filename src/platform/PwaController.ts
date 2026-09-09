@@ -1,4 +1,5 @@
 import { BUILD_ID } from '../appVersion';
+import { viewportDebugEvent, viewportDebugRegistration } from './ViewportDebug';
 import type { ErrorLog } from './ErrorLog';
 import type { PlaytestTelemetry } from './PlaytestTelemetry';
 
@@ -81,6 +82,7 @@ export class PwaController {
   }
 
   async start(assetUrls: readonly string[]): Promise<void> {
+    viewportDebugEvent('pwa:start');
     if (this.started) return;
     this.started = true;
     if (typeof window !== 'undefined') {
@@ -109,6 +111,7 @@ export class PwaController {
       const version = encodeURIComponent(BUILD_ID);
       const registration = await navigator.serviceWorker.register(`./sw.js?v=${version}`, { scope: './' });
       this.registrationHandle = registration;
+      viewportDebugRegistration(registration);
       this.telemetry.track('pwa_registered', { scope: registration.scope, lane: laneForPath(globalThis.location?.pathname ?? '') });
       this.observeRegistration(registration);
       navigator.serviceWorker.addEventListener('message', (event) => this.onMessage(event));
@@ -147,6 +150,7 @@ export class PwaController {
   }
 
   applyUpdate(): boolean {
+    viewportDebugEvent('pwa:applyUpdate', {}, true);
     if (!this.updateAvailable) return false;
     const waiting = this.registrationHandle?.waiting;
     this.telemetry.track('pwa_update_applied', {
@@ -229,6 +233,7 @@ export class PwaController {
   }
 
   private reloadPage(): void {
+    viewportDebugEvent('pwa:reloadPage', {}, true);
     if (this.reloadRequested || typeof globalThis.location?.reload !== 'function') return;
     this.reloadRequested = true;
     globalThis.location.reload();
