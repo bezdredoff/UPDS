@@ -896,6 +896,8 @@ img { display: block; }
 
 /* Keep a rapid VN advance tap from becoming Safari smart-zoom. Pinch zoom remains available. */
 .vn-screen .dialogue,
+.vn-screen .dialogue-shell,
+.vn-screen .dialogue-text,
 .vn-screen .vn-controls button,
 .vn-screen .app-header button {
   touch-action: manipulation;

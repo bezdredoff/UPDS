@@ -177,6 +177,7 @@ test.describe('VN through QA Scene Navigation', () => {
     const beforeLineId = await currentVnLineId(page);
     const before = await captureVnViewportGeometry(page);
     expect(await page.locator(qaSelectors.vnNext).evaluate((node) => getComputedStyle(node).touchAction)).toBe('manipulation');
+    expect(await page.locator(qaSelectors.vnDialogue).evaluate((node) => getComputedStyle(node).touchAction)).toBe('manipulation');
     await page.waitForTimeout(220);
 
     await page.evaluate(() => {
