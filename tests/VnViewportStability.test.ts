@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 const read = (path: string): string => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 
-describe('ANM-023G8E2/E3 iOS VN viewport stability', () => {
+describe('ANM-023G8E2/E4 iOS VN viewport stability', () => {
   it('pins browser text inflation without disabling user pinch zoom', () => {
     const css = read('src/vnViewportStability.css');
     const main = read('src/main.ts');
@@ -17,20 +17,21 @@ describe('ANM-023G8E2/E3 iOS VN viewport stability', () => {
     expect(html).not.toContain('maximum-scale=1');
   });
 
-  it('keeps browser runtime VN on stable small-viewport geometry while Safari chrome changes height', () => {
+  it('uses frozen pixel tokens instead of live viewport units for runtime VN', () => {
     const css = read('src/vnViewportStability.css');
-    const runtimeFrame = ".vn-screen[data-frame-context='runtime']";
+    const main = read('src/main.ts');
+    const standalone = read('src/standaloneEdgeToEdge.css');
 
-    expect(css).toContain(`:root[data-upds-display-mode='browser'] .viewport-shell:has(${runtimeFrame})`);
-    expect(css).toContain('height: 100svh');
-    expect(css).toContain(`:root[data-upds-display-mode='browser'] .phone.game-viewport:has(${runtimeFrame})`);
-    expect(css).toContain('height: min(100svh, 932px)');
-    expect(css).toContain(`:root[data-upds-display-mode='browser'] ${runtimeFrame} {`);
-    expect(css).toContain('--vn-dialogue-row: clamp(154px, 22svh, 198px)');
-    expect(css).toContain('--vn-controls-min-height: clamp(60px, 9svh, 82px)');
-    expect(css).toContain('bottom: calc(max(72px, 10svh) + var(--safe-area-bottom))');
-    expect(css).not.toContain(":root[data-upds-display-mode='browser'] .vn-screen {");
-    expect(css).not.toContain('data-frame-context=\'scene-studio\']');
+    expect(main).toContain("rootStyle.setProperty('--upds-vn-dialogue-row'");
+    expect(main).toContain("rootStyle.setProperty('--upds-vn-controls-min-height'");
+    expect(main).toContain("rootStyle.setProperty('--upds-vn-status-offset'");
+    expect(css).toContain(".vn-screen[data-frame-context='runtime']");
+    expect(css).toContain('--vn-dialogue-row: var(--upds-vn-dialogue-row, 178px)');
+    expect(css).toContain('--vn-controls-min-height: var(--upds-vn-controls-min-height, 73px)');
+    expect(css).toContain('bottom: calc(var(--upds-vn-status-offset, 81px) + var(--safe-area-bottom))');
+    expect(css).not.toMatch(/\d(?:dvh|svh|lvh|vh)/);
+    expect(standalone).not.toContain('--vn-dialogue-row: clamp');
+    expect(standalone).not.toContain('--vn-controls-min-height: clamp');
   });
 
   it('prevents the legacy height breakpoint from rescaling normal-width portrait runtime VN', () => {
@@ -42,7 +43,7 @@ describe('ANM-023G8E2/E3 iOS VN viewport stability', () => {
     expect(css).toContain('bottom: var(--portrait-bottom, -78%)');
     expect(css).toContain('font-size: 17px');
     expect(css).toContain('line-height: 1.42');
-    expect(css).toContain('min-height: var(--vn-controls-min-height, clamp(60px, 9svh, 82px))');
+    expect(css).toContain('var(--upds-vn-controls-min-height, 73px)');
   });
 
   it('advances dialogue pages in place instead of rebuilding the VN shell', () => {
@@ -68,6 +69,15 @@ describe('ANM-023G8E2/E3 iOS VN viewport stability', () => {
     expect(bindSource).toContain('this.remeasureDialogueInPlace()');
     expect(bindSource).not.toContain('this.renderVN()');
     expect(bindSource).not.toContain('document.fonts.ready');
+  });
+
+  it('keeps the global viewport owner frozen on height-only Safari changes', () => {
+    const main = read('src/main.ts');
+
+    expect(main).toContain('if (Math.abs(nextWidth - stableLayoutWidth) < 2) return;');
+    expect(main).not.toContain("visualViewport?.addEventListener('resize'");
+    expect(main).not.toContain('syncBrowserViewportHeight');
+    expect(main).not.toContain('stopImmediatePropagation()');
   });
 
   it('covers the reported Belarusian lines in the Mobile WebKit critical suite', () => {
