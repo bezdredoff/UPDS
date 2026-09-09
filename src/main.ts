@@ -78,9 +78,9 @@ const bootstrap = async (): Promise<void> => {
   installImageFallbackHandler(services.errorLog, services.assetHealth);
   void services.pwa.start(runtimeAssetCatalog);
 
-  // In standalone, mount once the final web fonts are known. VnController keeps
-  // its normal font-ready paging hook, but it can no longer produce a visibly
-  // late first-layout rescale because the app was painted with fallback fonts.
+  // In standalone, mount only after final web fonts are known. VnController
+  // keeps its normal font-ready paging hook, but the first visible scene already
+  // uses final font metrics instead of changing geometry later.
   if (standaloneMode && typeof document !== 'undefined' && document.fonts?.ready) {
     await document.fonts.ready;
   }
