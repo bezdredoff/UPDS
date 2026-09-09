@@ -6,17 +6,23 @@ const root = process.cwd();
 const read = (path: string): string => readFileSync(resolve(root, path), 'utf8');
 const audit = read('docs/features/ANM023G8A_PLAYWRIGHT_COVERAGE_AUDIT_RU.md');
 const g8b = read('docs/features/ANM023G8B_STORY_COMPLETION_FLOW_RU.md');
+const g8e3 = read('docs/features/ANM023G8E3_VN_LAYOUT_STABILITY_RU.md');
 
 describe('ANM-023G8A Playwright coverage audit contract', () => {
   it('preserves the completed G8A baseline while tracing post-audit Playwright additions', () => {
     const specs = readdirSync(resolve(root, 'e2e/tests'))
       .filter((name) => name.endsWith('.pw.ts'))
       .sort();
-    const g8aBaseline = specs.filter((name) => name !== 'story-completion.pw.ts');
+    const postAuditSpecs = new Set([
+      'story-completion.pw.ts',
+      'vn-browser-chrome-stability.pw.ts',
+    ]);
+    const g8aBaseline = specs.filter((name) => !postAuditSpecs.has(name));
 
     expect(g8aBaseline).toHaveLength(7);
     for (const spec of g8aBaseline) expect(audit).toContain(`\`${spec}\``);
     expect(g8b).toContain('`story-completion.pw.ts`');
+    expect(g8e3).toContain('`e2e/tests/vn-browser-chrome-stability.pw.ts`');
 
     expect(audit).toContain('20 Chromium cases');
     expect(audit).toContain('15 cases');
