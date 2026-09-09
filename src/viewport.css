@@ -10,35 +10,27 @@
 }
 
 /*
- * Installed iOS Web Apps with viewport-fit=cover have a long-standing WebKit
- * bug where visualViewport/innerHeight and dynamic viewport units can resolve
- * to the usable area minus safe-area insets. In standalone mode, 100vh is the
- * deliberate physical-screen contract; safe-area tokens then keep controls out
- * of the Dynamic Island and home-indicator regions without shortening the game.
- *
- * The native display-mode query applies this before application JavaScript can
- * paint. The data attribute is retained as a navigator.standalone fallback.
+ * Real installed-iPhone QA in ANM-030B1B9 R4/R7 established this contract:
+ * with viewport-fit=cover + black-translucent, standalone 100dvh is shortened
+ * by the top safe inset while the page origin remains at the physical top.
+ * Add that inset back once at the shell boundary. Do not substitute 100vh or a
+ * root-background bridge for actual player geometry.
  */
 @media (display-mode: standalone) {
   :root {
-    --physical-viewport-height: 100vh;
+    --physical-viewport-height: calc(100dvh + var(--safe-area-top));
   }
 }
 
 :root[data-upds-display-mode='standalone'] {
-  --physical-viewport-height: 100vh;
+  --physical-viewport-height: calc(100dvh + var(--safe-area-top));
 }
 
-/*
- * The 430x932 cap belongs to the desktop/browser presentation frame, not to
- * installed phones. Current large iPhones expose a viewport wider than 430px,
- * so standalone must opt out of the compatibility cap independently of any one
- * iPhone generation.
- */
+/* The desktop 430x932 frame cap never applies to an installed phone. */
 @media (display-mode: standalone) and (orientation: portrait) and (max-width: 520px) {
   .phone.game-viewport {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     max-width: none;
     max-height: none;
     box-shadow: none;
@@ -48,7 +40,7 @@
 @media (orientation: portrait) and (max-width: 520px) {
   :root[data-upds-display-mode='standalone'] .phone.game-viewport {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     max-width: none;
     max-height: none;
     box-shadow: none;
@@ -56,14 +48,8 @@
 }
 
 /*
- * ANM-024 shared viewport foundation.
- *
- * This file is the single physical safe-area discovery layer. Presentation CSS
- * consumes the --safe-area-* tokens directly; no screen-specific env(...) reads
- * or duplicated safe-area overrides should live outside this layer.
- *
- * The fixed shell owns the physical WebKit viewport. In standalone the shell is
- * explicitly 100vh; browser tabs continue to use the JS-fed dynamic height.
+ * ANM-024 shared viewport foundation. Physical inset discovery happens only
+ * here. Feature layers consume shared tokens but do not own physical height.
  */
 .viewport-shell {
   position: fixed;
