@@ -57,8 +57,9 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(main).toContain('const syncStableLayoutMetrics = (): void =>');
     expect(main).toContain('const usableHeight = globalThis.visualViewport?.height ?? globalThis.innerHeight;');
     expect(main).toContain('const syncStandalonePhysicalHeight = (): void =>');
-    expect(main).toContain("--upds-physical-screen-height");
+    expect(main).toContain("--physical-viewport-height");
     expect(main).toContain('Math.abs(screenWidth - viewportWidth) < 2');
+    expect(main).toContain('Math.max(globalThis.innerHeight, screenHeight)');
     expect(main).toContain("rootStyle.setProperty('--upds-viewport-height', `${usableHeight}px`)");
     expect(main).toContain('if (Math.abs(nextWidth - stableLayoutWidth) < 2) return;');
     expect(main).toContain("addEventListener('resize', syncAfterRealWidthChange, { passive: true })");

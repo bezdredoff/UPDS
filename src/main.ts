@@ -39,7 +39,7 @@ const bootstrap = async (): Promise<void> => {
     const viewportWidth = globalThis.innerWidth;
     const rootStyle = document.documentElement.style;
     if (!Number.isFinite(screenWidth) || !Number.isFinite(screenHeight) || !Number.isFinite(viewportWidth)) {
-      rootStyle.removeProperty('--upds-physical-screen-height');
+      rootStyle.removeProperty('--physical-viewport-height');
       return;
     }
 
@@ -47,10 +47,11 @@ const bootstrap = async (): Promise<void> => {
     // compositor area below a standalone iPhone's shortened dynamic viewport.
     // Require matching widths so a desktop browser window is never mistaken for
     // the device screen (and keep the CSS safe-area formula as the fallback).
-    if (screenHeight > 0 && screenHeight > globalThis.innerHeight && Math.abs(screenWidth - viewportWidth) < 2) {
-      rootStyle.setProperty('--upds-physical-screen-height', `${screenHeight}px`);
+    if (screenHeight > 0 && Math.abs(screenWidth - viewportWidth) < 2) {
+      const physicalHeight = Math.max(globalThis.innerHeight, screenHeight);
+      rootStyle.setProperty('--physical-viewport-height', `${physicalHeight}px`);
     } else {
-      rootStyle.removeProperty('--upds-physical-screen-height');
+      rootStyle.removeProperty('--physical-viewport-height');
     }
   };
 
