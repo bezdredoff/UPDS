@@ -1,17 +1,20 @@
 import { BUILD_ID, BUILD_TIMESTAMP } from '../appVersion';
 import type { RuntimeServices } from './RuntimeServices';
 import { ViewportDebugBuffer } from './ViewportDebugBuffer';
+import { ViewportDebugSamples, ViewportDebugStyles, serializeViewportDebug, type ExportMode } from './ViewportDebugExport';
+import { mountViewportDebugExport } from './ViewportDebugExportUi';
 
 type Detail = Readonly<Record<string, unknown>>;
 type Rect = ReturnType<typeof rectOf>;
-type Entry = { t: number; reason: string; detail: Detail; state: ReturnType<typeof collect> };
+type Entry = { id: number; t: number; reason: string; detail: Detail; styleRefs: number[]; state: ReturnType<typeof collect> };
 type EarlyEvidence = { enabled: boolean; entries: Detail[]; stop: () => void };
 declare global {
   interface Window {
     __updsViewportEarly?: EarlyEvidence;
     __updsViewportDebug?: {
       capture: (reason: string, detail?: Detail) => void;
-      exportJSON: () => string;
+      exportJSON: (mode?: ExportMode) => string;
+      exportMetrics: ReturnType<typeof serializeViewportDebug>['metrics'] | null;
     };
   }
 }
@@ -52,11 +55,11 @@ const identify = (node: Element): string => {
   if (!nodeIds.has(node)) nodeIds.set(node, ++nextNodeId);
   return `${node.tagName.toLowerCase()}${node.id ? `#${node.id}` : ''}.${[...node.classList].join('.')}@${nodeIds.get(node)}`;
 };
-const describe = (node: Element) => ({
-  node: identify(node), rect: rectOf(node), style: stylesOf(getComputedStyle(node)),
-  tokens: stylesOf(getComputedStyle(node), tokens),
-  before: stylesOf(getComputedStyle(node, '::before'), ['content', ...properties]),
-  after: stylesOf(getComputedStyle(node, '::after'), ['content', ...properties]),
+const describe = (node: Element, styles: ViewportDebugStyles) => ({
+  node: identify(node), rect: rectOf(node), style: styles.intern(stylesOf(getComputedStyle(node))),
+  tokens: styles.intern(stylesOf(getComputedStyle(node), tokens)),
+  before: styles.intern(stylesOf(getComputedStyle(node, '::before'), ['content', ...properties])),
+  after: styles.intern(stylesOf(getComputedStyle(node, '::after'), ['content', ...properties])),
   client: { width: node.clientWidth, height: node.clientHeight },
   scroll: { width: node.scrollWidth, height: node.scrollHeight, top: node.scrollTop, left: node.scrollLeft },
   image: node instanceof HTMLImageElement ? {
@@ -74,12 +77,12 @@ const media = new Map<string, MediaQueryList>();
 let lastBrowserEvent: Detail | null = null;
 let lastRender: Detail | null = null;
 
-function collect() {
+function collect(styles: ViewportDebugStyles) {
   const root = document.documentElement;
   const vv = window.visualViewport;
   const worker = (value: ServiceWorker | null | undefined) => value ? { state: value.state, scriptURL: value.scriptURL } : null;
   const safe = getComputedStyle(probes.get('safe')!);
-  const elements = Object.fromEntries(selectors.map((selector) => [selector, [...document.querySelectorAll(selector)].map(describe)]));
+  const elements = Object.fromEntries(selectors.map((selector) => [selector, [...document.querySelectorAll(selector)].map((node) => describe(node, styles))]));
   const phoneBottom = document.querySelector('.phone')?.getBoundingClientRect().bottom;
   // Hit testing cannot see OS/compositor pixels. Out-of-range points are deliberately retained.
   const sampleY = [...new Set([innerHeight - 1, (vv?.height ?? innerHeight) - 1, screen.height - 1, ...(phoneBottom ? [phoneBottom - 1, phoneBottom - 20, phoneBottom - 40] : [])])];
@@ -98,7 +101,7 @@ function collect() {
     display: { navigatorStandalone: (navigator as Navigator & { standalone?: boolean }).standalone ?? null, mediaStandalone: matchMedia('(display-mode: standalone)').matches, rootMode: root.dataset.updsDisplayMode ?? null },
     orientation: { type: screen.orientation?.type, angle: screen.orientation?.angle, legacy: window.orientation },
     fonts: document.fonts?.status, language: root.lang, visibility: document.visibilityState, focused: document.hasFocus(), online: navigator.onLine,
-    rootStyle: root.getAttribute('style'), rootTokens: stylesOf(getComputedStyle(root), tokens),
+    rootStyle: root.getAttribute('style'), rootTokens: styles.intern(stylesOf(getComputedStyle(root), tokens)),
     serviceWorker: { controller: worker(navigator.serviceWorker?.controller), registrationKnown: Boolean(registration), scope: registration?.scope, waiting: worker(registration?.waiting), installing: worker(registration?.installing), active: worker(registration?.active) },
     pwa, elements, bottomHits, media: Object.fromEntries([...media].map(([query, list]) => [query, list.matches])),
     lastBrowserEvent, lastRender,
@@ -144,21 +147,23 @@ export function viewportDebugRegistration(value: ServiceWorkerRegistration): voi
 
 function createRecorder() {
   const started = performance.now();
-  const buffer = new ViewportDebugBuffer<Entry>(started);
+  const buffer = new ViewportDebugSamples<Entry>(started);
+  const styles = new ViewportDebugStyles();
+  let nextSampleId = 0;
   const events = new ViewportDebugBuffer<{ t: number; reason: string; detail: Detail }>(started, 2048);
   const errors: string[] = [];
   const previous = new Map<string, { node: string; rect: Rect }>();
   let capturing = false;
   let panel: HTMLElement;
   let summary: HTMLElement;
-  let marked: { before?: Entry; after: Entry } | null = null;
   let pending = false;
   const capture = (reason: string, detail: Detail = {}) => {
     if (capturing) return;
     capturing = true;
     try {
       const t = performance.now();
-      const state = collect();
+      styles.begin();
+      const state = collect(styles);
       const changes: Detail[] = [];
       const current = new Set<string>();
       for (const [selector, nodes] of Object.entries(state.elements)) {
@@ -177,9 +182,9 @@ function createRecorder() {
         changes.push({ selector: key, old, new: null });
         previous.delete(key);
       }
-      const entry: Entry = { t, reason, detail: { ...detail, changes, captureDurationMs: round(performance.now() - t) }, state };
-      if (reason === 'user:rescale') marked = { before: buffer.recent[buffer.recent.length - 1], after: entry };
+      const entry: Entry = { id: nextSampleId++, t, reason, styleRefs: [...styles.used], detail: { ...detail, changes, styleInterningMs: round(styles.durationMs), captureDurationMs: round(performance.now() - t) }, state };
       buffer.push(entry);
+      if (nextSampleId % 64 === 0) styles.retain(buffer.retainedStyleIds());
       events.push({ t, reason, detail });
       if (summary) {
         const stage = state.elements['.stage'][0]?.rect.height ?? '-';
@@ -196,13 +201,11 @@ function createRecorder() {
     pending = true;
     requestAnimationFrame(() => { pending = false; capture(`after:${reason}`); });
   };
-  const exportJSON = () => {
-    // Computed declarations dominate the trace. Intern identical style records
-    // in the export, retaining exact values without megabytes of repetition.
-    const styles: Detail[] = [];
-    const styleIds = new Map<string, number>();
+  let exportMetrics: ReturnType<typeof serializeViewportDebug>['metrics'] | null = null;
+  const generate = (mode: ExportMode = 'compact') => {
+    const startupEvents = new Set(events.startup);
     const payload = {
-    schema: 'upds-viewport-debug-v1', buildId: BUILD_ID, buildTimestamp: BUILD_TIMESTAMP,
+    buildId: BUILD_ID, buildTimestamp: BUILD_TIMESTAMP,
     started, timeOrigin: performance.timeOrigin, exportedAt: new Date().toISOString(),
     url: `${location.origin}${location.pathname}`, userAgent: navigator.userAgent,
     statusBar: document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')?.getAttribute('content'),
@@ -210,19 +213,16 @@ function createRecorder() {
     early: window.__updsViewportEarly?.entries ?? [],
     stylesheets: [...document.styleSheets].map((sheet) => ({ href: sheet.href, disabled: sheet.disabled })),
     resources: performance.getEntriesByType('resource').map((entry) => ({ name: entry.name, startTime: entry.startTime, duration: entry.duration })),
-    startup: buffer.startup, recent: buffer.recent.filter((entry) => !buffer.startup.includes(entry)), events, marked, errors,
+    events: [...events.startup, ...events.recent.filter((entry) => !startupEvents.has(entry))], errors,
+    eventRetention: { startupLimit: 2048, recentLimit: 2048, droppedStartup: events.droppedStartup, droppedRecent: events.droppedRecent },
     dropped: { startup: buffer.droppedStartup, recent: buffer.droppedRecent },
     limitations: ['DOM hit tests are not compositor pixel evidence.', 'Readbacks/observers add overhead; compare an uninstrumented run.', 'Native image decode completion has no passive DOM event; load, natural size and resource timing are recorded.'],
     };
-    const packed = JSON.parse(JSON.stringify(payload, (key, value) => {
-      if (!['style', 'tokens', 'before', 'after', 'rootTokens'].includes(key) || !value || typeof value !== 'object' || 'state' in value || 'rect' in value) return value;
-      const serialized = JSON.stringify(value);
-      let id = styleIds.get(serialized);
-      if (id === undefined) { id = styles.length; styleIds.set(serialized, id); styles.push(value); }
-      return { styleRef: id };
-    }));
-    return JSON.stringify({ ...packed, styles });
+    const result = serializeViewportDebug(buffer, styles, payload, mode);
+    exportMetrics = result.metrics;
+    return result;
   };
+  const exportJSON = (mode: ExportMode = 'compact') => generate(mode).json;
 
   const observed = new Set<Element>();
   const ro = new ResizeObserver((entries) => queue('ResizeObserver', { nodes: entries.map((entry) => ({ node: identify(entry.target), rect: rectOf(entry.target) })), lastBrowserEvent, lastRender }));
@@ -292,9 +292,9 @@ function createRecorder() {
 
   panel = document.createElement('aside');
   panel.dataset.viewportDebug = 'overlay';
-  panel.style.cssText = 'position:fixed;z-index:2147483647;top:35%;right:4px;width:245px;max-width:90vw;contain:layout style;pointer-events:none';
+  panel.style.cssText = 'position:fixed;z-index:2147483647;top:8%;right:4px;width:320px;max-width:90vw;max-height:84%;contain:layout style;pointer-events:none';
   const shadow = panel.attachShadow({ mode: 'open' });
-  shadow.innerHTML = `<style>:host{font:11px/1.3 monospace;color:white}section{background:#111e;padding:6px;border:1px solid #bbb;border-radius:5px}p{margin:0 0 4px;white-space:pre-wrap}button{pointer-events:auto;font:11px sans-serif;min-height:32px;padding:4px;margin:2px}textarea{pointer-events:auto;width:95%;height:100px;font:16px monospace}</style><section><p>Viewport recorder · ${BUILD_ID}</p><p id="summary"></p><button id="mark">Mark rescale</button><button id="copy">Copy debug JSON</button><button id="hide">Hide overlay</button><button id="off">Disable next launch</button><p id="status"></p></section>`;
+  shadow.innerHTML = `<style>:host{font:11px/1.3 monospace;color:white}section{box-sizing:border-box;max-height:84vh;max-height:84dvh;overflow:auto;overscroll-behavior:contain;pointer-events:auto;background:#111e;padding:6px;border:1px solid #bbb;border-radius:5px}p{margin:0 0 4px;white-space:pre-wrap;overflow-wrap:anywhere}button{pointer-events:auto;font:11px sans-serif;min-height:32px;padding:4px;margin:2px}textarea{display:block;box-sizing:border-box;pointer-events:auto;width:100%;height:180px;max-height:30vh;overflow:auto;resize:vertical;font:16px monospace;color:#111;background:white}</style><section><p>Viewport recorder · ${BUILD_ID}</p><p id="summary"></p><button id="mark">Mark rescale</button><button id="hide">Hide overlay</button><button id="off">Disable next launch</button><div id="export"></div></section>`;
   summary = shadow.querySelector<HTMLElement>('#summary')!;
   shadow.querySelector('#mark')!.addEventListener('click', () => capture('user:rescale'));
   shadow.querySelector('#hide')!.addEventListener('click', () => {
@@ -311,17 +311,9 @@ function createRecorder() {
     try { localStorage.removeItem(`upds-viewport-debug:${new URL('.', location.href).pathname}`); } catch { /* Storage may be disabled. */ }
     shadow.querySelector('#status')!.textContent = 'Disabled next launch; remove viewportdebug=1 from URL.';
   });
-  shadow.querySelector('#copy')!.addEventListener('click', () => {
-    capture('user:copy');
-    const json = exportJSON();
-    const fallback = () => {
-      let area = shadow.querySelector('textarea');
-      if (!area) { area = document.createElement('textarea'); shadow.append(area); }
-      area.value = json; area.focus(); area.select();
-      shadow.querySelector('#status')!.textContent = 'Clipboard unavailable: select all and copy below.';
-    };
-    if (!navigator.clipboard?.writeText) { fallback(); return; }
-    void navigator.clipboard.writeText(json).then(() => { shadow.querySelector('#status')!.textContent = 'Copied'; }).catch(fallback);
+  mountViewportDebugExport(shadow.querySelector<HTMLElement>('#export')!, (mode) => {
+    capture('user:export', { mode });
+    return generate(mode);
   });
   document.body.append(panel);
   // Shadow DOM mutations cannot recursively feed the document observer.
@@ -332,7 +324,7 @@ function createRecorder() {
   for (const delay of [250, 500, 1000, 2000, 5000, 10000, 15000, 30000]) setTimeout(() => capture(`startup:${delay}ms`), delay);
   // Continue after startup: user may enter VN much later than bootstrap.
   setInterval(() => capture('sample:500ms'), 500);
-  return { capture, exportJSON };
+  return { capture, exportJSON, get exportMetrics() { return exportMetrics; } };
 }
 
 export function startViewportDebug(): void {
