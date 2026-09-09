@@ -24,7 +24,7 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(afterRenderCount).toBe(1);
   });
 
-  it('centralizes safe-area discovery and extends only the installed physical viewport', () => {
+  it('centralizes safe-area discovery and gives installed iOS a full-screen 100vh shell', () => {
     const css = readFileSync(new URL('../src/viewport.css', import.meta.url), 'utf8');
 
     expect(css).toContain('--safe-area-top: env(safe-area-inset-top, 0px)');
@@ -33,18 +33,21 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(css).toContain('--safe-area-left: env(safe-area-inset-left, 0px)');
     expect(css).toContain('--upds-viewport-height: 100dvh');
     expect(css).toContain('--physical-viewport-height: var(--upds-viewport-height)');
-    expect(css).toContain('@media (orientation: portrait) and (max-width: 520px)');
+    expect(css).toContain('@media (display-mode: standalone)');
+    expect(css).toContain('--physical-viewport-height: 100vh');
+    expect(css).toContain(
+      '@media (display-mode: standalone) and (orientation: portrait) and (max-width: 520px)',
+    );
     expect(css).toContain(
       ":root[data-upds-display-mode='standalone'] .phone.game-viewport",
     );
     expect(css).toContain('width: 100%');
-    expect(css).toContain('height: 100%');
+    expect(css).toContain('height: 100vh');
     expect(css).not.toContain('--physical-viewport-height: 100lvh');
     expect(css).toContain('--game-viewport-max-width: 430px');
     expect(css).toContain('--game-viewport-max-height: 932px');
     expect(css).toContain('position: fixed');
     expect(css).toContain('height: var(--physical-viewport-height)');
-    expect(css).not.toContain('inset: 0');
     expect(css).not.toContain('padding: var(--safe-area');
   });
 
@@ -76,24 +79,16 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(servicesReady).toBeGreaterThan(initialMode);
   });
 
-  it('keeps installed standalone height stable across online/offline and transient visualViewport resizes', () => {
+  it('keeps installed standalone height out of JS viewport measurements', () => {
     const main = readFileSync(new URL('../src/main.ts', import.meta.url), 'utf8');
-    const standaloneBranch = main.slice(
-      main.indexOf('if (standaloneMode) {'),
-      main.indexOf('  } else {', main.indexOf('if (standaloneMode) {')),
-    );
-    const browserBranch = main.slice(
-      main.indexOf('  } else {', main.indexOf('if (standaloneMode) {')),
-      main.indexOf('\n  }\n\n  const root', main.indexOf('  } else {', main.indexOf('if (standaloneMode) {'))),
-    );
 
-    expect(main).toContain('? globalThis.innerHeight');
-    expect(standaloneBranch).toContain("addEventListener('orientationchange', syncAfterOrientationChange)");
-    expect(standaloneBranch).not.toContain("visualViewport?.addEventListener('resize'");
-    expect(standaloneBranch).not.toContain("addEventListener('resize', syncViewportHeight)");
-    expect(browserBranch).toContain("visualViewport?.addEventListener('resize', syncViewportHeight)");
-    expect(browserBranch).toContain("addEventListener('resize', syncViewportHeight)");
-    expect(main).not.toContain("addEventListener('online', syncViewportHeight)");
-    expect(main).not.toContain("addEventListener('offline', syncViewportHeight)");
+    expect(main).toContain('const syncBrowserViewportHeight = (): void =>');
+    expect(main).toContain('if (!standaloneMode) {');
+    expect(main).toContain("visualViewport?.addEventListener('resize', syncBrowserViewportHeight)");
+    expect(main).toContain("addEventListener('resize', syncBrowserViewportHeight)");
+    expect(main).toContain("addEventListener('orientationchange', syncBrowserAfterOrientationChange)");
+    expect(main).not.toContain('? globalThis.innerHeight');
+    expect(main).not.toContain("addEventListener('online', syncBrowserViewportHeight)");
+    expect(main).not.toContain("addEventListener('offline', syncBrowserViewportHeight)");
   });
 });
