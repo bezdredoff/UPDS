@@ -20,16 +20,12 @@
 }
 
 /*
- * Controls remain above the home indicator, while the protected non-interactive
- * pixels show the underlying VN art rather than a separate beige application
- * strip. Sizing itself comes from --upds-vn-controls-min-height.
+ * Controls remain above the home indicator, while their non-interactive safe
+ * area is painted by the same panel surface. This prevents the standalone
+ * compositor canvas from appearing as a dark strip below the controls.
  */
 :root[data-upds-display-mode='standalone'] .vn-screen[data-frame-context='runtime'] .vn-controls {
-  background: linear-gradient(
-    to bottom,
-    #f3e8d2 0 calc(100% - var(--safe-area-bottom)),
-    transparent calc(100% - var(--safe-area-bottom)) 100%
-  );
+  background: #f3e8d2;
 }
 
 /* Match-3 keeps canvas edge-to-edge; only interactive tools reserve the inset. */

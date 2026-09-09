@@ -45,6 +45,7 @@ describe('ANM-024B shared game viewport shell', () => {
     );
     expect(css).toContain('width: 100%');
     expect(css).toContain('height: 100%');
+    expect(css).toContain('height: var(--physical-viewport-height)');
     expect(css).not.toContain('--physical-viewport-height: 100vh');
     expect(css).not.toContain('--physical-viewport-height: 100lvh');
     expect(css).toContain('height: var(--physical-viewport-height)');
