@@ -38,14 +38,15 @@ describe('ANM-024D viewport regression matrix', () => {
     }
   });
 
-  it('keeps shared safe-area presentation while allowing the installed iOS physical-shell exception', () => {
+  it('keeps shared safe-area presentation and the proven installed physical-shell extension', () => {
     const viewportCss = readFileSync(new URL('../src/viewport.css', import.meta.url), 'utf8');
     const styleCss = readFileSync(new URL('../src/style.css', import.meta.url), 'utf8');
     const indexHtml = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 
     expect(indexHtml).toContain('viewport-fit=cover');
     expect(viewportCss).toContain('@media (display-mode: standalone)');
-    expect(viewportCss).toContain('--physical-viewport-height: 100vh');
+    expect(viewportCss).toContain('--physical-viewport-height: calc(100dvh + var(--safe-area-top))');
+    expect(viewportCss).toContain('height: 100%');
     expect(viewportCss.match(/env\(safe-area-inset-/g)).toHaveLength(4);
     expect(styleCss).not.toContain('display-mode:');
     expect(styleCss).toContain('@media (orientation: landscape) and (max-height: 500px)');
