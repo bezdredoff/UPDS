@@ -38,13 +38,22 @@ test.describe('VN browser chrome stability', () => {
     const health = observeBrowserHealth(page);
     await openQaScene(page, 0);
     await advanceToLine(page, 'VN0002');
+
+    // Runtime portraits intentionally have idle breathing and a few VN chrome
+    // elements animate. Those transforms are presentation motion, not layout
+    // rescale, so freeze them before measuring the browser-chrome contract.
+    await page.addStyleTag({
+      content: '[data-vn-frame="shared"][data-frame-context="runtime"], [data-vn-frame="shared"][data-frame-context="runtime"] * { animation: none !important; transition: none !important; }',
+    });
+    await page.waitForTimeout(50);
+
     const before = await captureGeometry(page);
 
     await page.evaluate(() => {
       // Safari emits resize while its browser chrome changes. The global browser
       // viewport handler may run, but VN must remain on its stable 100svh frame.
-      window.dispatchEvent(new Event('resize'));
       document.documentElement.style.setProperty('--upds-viewport-height', '500px');
+      window.dispatchEvent(new Event('resize'));
     });
     await page.waitForTimeout(250);
 
