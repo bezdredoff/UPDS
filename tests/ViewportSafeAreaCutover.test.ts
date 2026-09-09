@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-const read = (path: string): string => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+const read = (path: string): string => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 
 describe('ANM-024C/D shared safe-area ownership', () => {
   it('discovers physical insets only in the shared viewport token layer', () => {

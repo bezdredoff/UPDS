@@ -6,6 +6,40 @@
     <meta name="theme-color" content="#1f2340" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <script>
+      // Opt-in evidence starts before the module graph/CSS has finished loading.
+      (() => {
+        const flag = new URLSearchParams(location.search).get('viewportdebug');
+        const key = `upds-viewport-debug:${new URL('.', location.href).pathname}`;
+        let enabled = flag === '1';
+        try {
+          if (flag === '0') localStorage.removeItem(key);
+          else if (enabled) localStorage.setItem(key, '1');
+          else enabled = localStorage.getItem(key) === '1';
+        } catch { /* Explicit URL flag works without storage. */ }
+        if (!enabled) return;
+        addEventListener('DOMContentLoaded', () => {
+          document.querySelector('link[rel="manifest"]')?.setAttribute('href', './viewport-debug.webmanifest');
+        }, { once: true });
+        const entries = [];
+        const record = (event) => {
+          if (entries.length >= 256) return;
+          const v = visualViewport;
+          entries.push({ t: performance.now(), reason: event.type, innerWidth, innerHeight,
+            clientWidth: document.documentElement.clientWidth, clientHeight: document.documentElement.clientHeight,
+            screenWidth: screen.width, screenHeight: screen.height,
+            visualViewport: v ? { width: v.width, height: v.height, offsetTop: v.offsetTop, offsetLeft: v.offsetLeft, scale: v.scale } : null });
+        };
+        const names = ['resize', 'orientationchange', 'pageshow', 'load'];
+        for (const name of names) addEventListener(name, record, { passive: true });
+        visualViewport?.addEventListener('resize', record, { passive: true });
+        window.__updsViewportEarly = { enabled, entries, stop: () => {
+          for (const name of names) removeEventListener(name, record);
+          visualViewport?.removeEventListener('resize', record);
+        } };
+        record({ type: 'html:bootstrap' });
+      })();
+    </script>
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="apple-touch-icon" href="./icons/icon-180.png" />
     <meta name="description" content="Детективы класса U — VN × match-3 vertical slice" />
