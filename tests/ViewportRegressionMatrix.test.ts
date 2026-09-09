@@ -38,13 +38,15 @@ describe('ANM-024D viewport regression matrix', () => {
     }
   });
 
-  it('uses the same safe-area presentation contract in browser and standalone PWA modes', () => {
+  it('keeps shared safe-area presentation while allowing the installed iOS physical-shell exception', () => {
     const viewportCss = readFileSync(new URL('../src/viewport.css', import.meta.url), 'utf8');
     const styleCss = readFileSync(new URL('../src/style.css', import.meta.url), 'utf8');
     const indexHtml = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 
     expect(indexHtml).toContain('viewport-fit=cover');
-    expect(viewportCss).not.toContain('display-mode:');
+    expect(viewportCss).toContain('@media (display-mode: standalone)');
+    expect(viewportCss).toContain('--physical-viewport-height: 100vh');
+    expect(viewportCss.match(/env\(safe-area-inset-/g)).toHaveLength(4);
     expect(styleCss).not.toContain('display-mode:');
     expect(styleCss).toContain('@media (orientation: landscape) and (max-height: 500px)');
   });
