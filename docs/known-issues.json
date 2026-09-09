@@ -1,0 +1,7 @@
+{
+  "updated": "2026-09-09",
+  "issues": [
+    {"id":"KI-001","title":"iOS standalone safe-area/full-bleed regression","severity":"R0","status":"open","owner":"Codex + User","device":"actual iPhone pending","workaround":"none accepted","evidence":"real-device check required"},
+    {"id":"KI-002","title":"Cold offline launch/startup precache needs device validation","severity":"R0","status":"open","owner":"Codex","device":"iOS/Android PWA","workaround":"first online launch","evidence":"validate startup asset manifest and offline relaunch"}
+  ]
+}
