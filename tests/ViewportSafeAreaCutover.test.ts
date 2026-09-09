@@ -18,7 +18,7 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(badge).not.toContain('env(safe-area-inset-');
   });
 
-  it('keeps screen presentation on shared safe-area tokens without a duplicate override layer', () => {
+  it('keeps screen presentation on shared safe-area tokens without a duplicate discovery layer', () => {
     const legacy = read('src/style.css');
     const viewport = read('src/viewport.css');
 
@@ -30,19 +30,9 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(legacy).toContain('padding-bottom: max(8px, var(--safe-area-bottom))');
 
     for (const selector of [
-      '.menu-content',
-      '.app-header',
-      '.vn-controls',
-      '.vn-overlay',
-      '.level-card',
-      '.match-screen',
-      '.result-content',
-      '.panel',
-      '.support-panel',
-      '.panel-nav',
-      '.settings-panel',
-      '.pwa-update-banner',
-      '.match-hint',
+      '.menu-content', '.app-header', '.vn-controls', '.vn-overlay', '.level-card',
+      '.match-screen', '.result-content', '.panel', '.support-panel', '.panel-nav',
+      '.settings-panel', '.pwa-update-banner', '.match-hint',
     ]) expect(viewport).not.toContain(selector);
   });
 
@@ -59,12 +49,8 @@ describe('ANM-024C/D shared safe-area ownership', () => {
       /\/\* Panels, dossier and QA \*\/[\s\S]*?\.panel-nav\s*\{([^}]*)\}/,
     )?.[1];
 
-    expect(legacy).toContain(
-      '.panel { height: 100%; padding: 0 20px max(30px, var(--safe-area-bottom))',
-    );
-    expect(legacy).toContain(
-      '.phone { width: 100%; height: 100%; max-height: none; box-shadow: none; }',
-    );
+    expect(legacy).toContain('.panel { height: 100%; padding: 0 20px max(30px, var(--safe-area-bottom))');
+    expect(legacy).toContain('.phone { width: 100%; height: 100%; max-height: none; box-shadow: none; }');
     expect(legacy).toContain('top: 0;');
     expect(legacy).toContain('margin: 0 -20px 14px;');
     expect(legacy).toContain('padding: max(7px, var(--safe-area-top)) 9px 7px;');
@@ -75,31 +61,27 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(viewport).toContain('height: var(--physical-viewport-height)');
   });
 
-  it('uses the WebKit standalone 100vh workaround instead of JS-measured installed height', () => {
+  it('restores the real-device standalone extension and freezes browser height-only changes', () => {
     const main = read('src/main.ts');
     const viewport = read('src/viewport.css');
-    const legacy = read('src/style.css');
+    const standalone = read('src/standaloneEdgeToEdge.css');
 
     expect(viewport).toContain('--upds-viewport-height: 100dvh');
     expect(viewport).toContain('--physical-viewport-height: var(--upds-viewport-height)');
     expect(viewport).toContain('@media (display-mode: standalone)');
-    expect(viewport).toContain('--physical-viewport-height: 100vh');
+    expect(viewport).toContain('--physical-viewport-height: calc(100dvh + var(--safe-area-top))');
     expect(viewport).toContain(
       '@media (display-mode: standalone) and (orientation: portrait) and (max-width: 520px)',
     );
-    expect(viewport).toContain(
-      ":root[data-upds-display-mode='standalone'] .phone.game-viewport",
-    );
+    expect(viewport).toContain(":root[data-upds-display-mode='standalone'] .phone.game-viewport");
     expect(viewport).toContain('width: 100%');
-    expect(viewport).toContain('height: 100vh');
+    expect(viewport).toContain('height: 100%');
+    expect(viewport).not.toContain('--physical-viewport-height: 100vh');
     expect(viewport).not.toContain('--physical-viewport-height: 100lvh');
-    expect(legacy).toContain('--upds-system-canvas-color');
-    expect(legacy).toContain(":root[data-upds-display-mode='standalone']:has(");
-    expect(main).toContain('const syncBrowserViewportHeight = (): void =>');
-    expect(main).toContain('const viewportHeight = globalThis.visualViewport?.height ?? globalThis.innerHeight;');
-    const browserGuard = main.indexOf('if (!standaloneMode) {');
-    expect(browserGuard).toBeGreaterThanOrEqual(0);
-    expect(main.indexOf('syncBrowserViewportHeight();', browserGuard)).toBeGreaterThan(browserGuard);
+    expect(main).toContain('const syncStableLayoutMetrics = (): void =>');
+    expect(main).toContain('if (Math.abs(nextWidth - stableLayoutWidth) < 2) return;');
+    expect(main).not.toContain("visualViewport?.addEventListener('resize'");
+    expect(standalone).toContain(":root[data-upds-display-mode='standalone'] {\n  background: #171a2f;");
     expect(main).toContain(
       "document.documentElement.dataset.updsDisplayMode = standaloneMode ? 'standalone' : initialPwa.displayMode",
     );
