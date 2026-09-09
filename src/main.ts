@@ -7,6 +7,7 @@ import './match3Help.css';
 import './match3StoryObjectGuidance.css';
 import './match3SpecialImpact.css';
 import './match3BlockerReadability.css';
+import './standaloneEdgeToEdge.css';
 import { BUILD_ID } from './appVersion';
 import { AnimeDetectiveApp } from './ui/AnimeDetectiveApp';
 import { installImageFallbackHandler } from './platform/AssetHealth';
@@ -50,6 +51,12 @@ const bootstrap = async (): Promise<void> => {
     globalThis.visualViewport?.addEventListener('resize', syncBrowserViewportHeight);
     globalThis.addEventListener('resize', syncBrowserViewportHeight);
     globalThis.addEventListener('orientationchange', syncBrowserAfterOrientationChange);
+  } else {
+    // Installed iOS can emit transient resize events while network/UI/font state
+    // settles even though the physical PWA screen did not change. Feature-level
+    // resize listeners must not turn those events into a full scene re-render.
+    // A real rotation still arrives through orientationchange and remains usable.
+    globalThis.addEventListener('resize', (event) => event.stopImmediatePropagation(), { capture: true });
   }
 
   const root = document.querySelector<HTMLElement>('#app');
@@ -70,6 +77,14 @@ const bootstrap = async (): Promise<void> => {
   installGlobalErrorHandlers(services.errorLog);
   installImageFallbackHandler(services.errorLog, services.assetHealth);
   void services.pwa.start(runtimeAssetCatalog);
+
+  // In standalone, mount once the final web fonts are known. VnController keeps
+  // its normal font-ready paging hook, but it can no longer produce a visibly
+  // late first-layout rescale because the app was painted with fallback fonts.
+  if (standaloneMode && typeof document !== 'undefined' && document.fonts?.ready) {
+    await document.fonts.ready;
+  }
+
   new AnimeDetectiveApp(root, services).mount();
 };
 
