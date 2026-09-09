@@ -7,6 +7,9 @@ Mobile-first visual novel × Match-3 about an adult college detective club.
 Do not maintain an independent build number in this README:
 
 - current production status and next work: [`docs/ROADMAP_RU.md`](docs/ROADMAP_RU.md);
+- release manifest: [`docs/UPDS_RELEASE_MANIFEST_RU.md`](docs/UPDS_RELEASE_MANIFEST_RU.md);
+- live release dashboard: [GitHub Pages status](https://bezdredoff.github.io/UPDS/status/);
+- machine-readable release tasks: [`docs/release-status.json`](docs/release-status.json);
 - product/build identity: [`src/appVersion.ts`](src/appVersion.ts);
 - protected product/runtime contracts: [`docs/architecture/PROJECT_CONTRACTS_RU.md`](docs/architecture/PROJECT_CONTRACTS_RU.md);
 - machine-readable character production status: [`src/data/characterProduction.ts`](src/data/characterProduction.ts).
@@ -30,6 +33,8 @@ npm run docs:audit
 ```
 
 GitHub CI running `npm run check` is the authoritative automated gate.
+
+The live release dashboard is generated during every production build from the tracked release status and known-issues data. Semantic task status is updated explicitly with the corresponding PR or ZIP candidate; CI and preview provide technical evidence but do not infer acceptance.
 
 ## Documentation
 

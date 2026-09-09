@@ -10,3 +10,4 @@ __pycache__/
 .vs/
 e2e/test-results/
 e2e/playwright-report/
+public/status/
