@@ -128,8 +128,17 @@ is missing for the historical claim, so those documents cannot certify a known-g
 PR243 contains an automatic preview-link comment and no human review/test result. Need the user's dated build-specific
 confirmation/recording before bisect can call R7 or an imported R4 archive “good”.
 
+The exact R4 merge is `71465db4a7d54c3a6277bde597969bfd30850874` (#211, 2026-08-24 UTC):
+it replaces standalone100lvh with dvh+top. R5 `574e45f3af448f4088dd367bbdbc49b47b1a53ae`
+(#217, 2026-08-25 UTC) removes that extension and introduces the root-color bridge. PR211/217 also contain
+only automatic preview comments, with no human device report. This identifies a concrete historical reversal,
+but not a verified good→bad device bisect interval. R4→R7 retains the formula, adds the ≤520px phone fill override,
+and imports later Match-3 styles; index/manifest metadata do not change across that comparison.
+
 | Commit/PR | Actual strategy change | Evidential limit |
 | --- | --- | --- |
+| 71465db #211 R4 | standalone lvh → dvh+top | Exact candidate for historical success claim; no attributable device record in PR |
+| 574e45f #217 R5 | remove extension, add per-screen root-color bridge | Concrete reversal; later R6 restores extension |
 | 900f8fb #243 R7 | standalone dvh+top; portrait phone100% up to520px | Candidate docs, not attributable device proof |
 | 177ab98 #253 | publish display mode before async services | Avoids late mode flip but cannot prove stable CSS metrics |
 | f193f32 #254 | JS visual height, functional viewport, screen-color bridge | Reintroduced short shell strategy |
