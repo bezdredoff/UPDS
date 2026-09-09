@@ -13,8 +13,12 @@ const captureGeometry = async (page: import('@playwright/test').Page) => page.ev
   if (!host.__updsChromeStableFrame) {
     host.__updsChromeStableFrame = document.querySelector('[data-vn-frame="shared"][data-frame-context="runtime"]');
   }
+  const rootStyle = getComputedStyle(document.documentElement);
   return {
     frameSame: host.__updsChromeStableFrame === document.querySelector('[data-vn-frame="shared"][data-frame-context="runtime"]'),
+    frozenViewportHeight: rootStyle.getPropertyValue('--upds-viewport-height').trim(),
+    dialogueToken: rootStyle.getPropertyValue('--upds-vn-dialogue-row').trim(),
+    controlsToken: rootStyle.getPropertyValue('--upds-vn-controls-min-height').trim(),
     shell: rect('.viewport-shell'),
     phone: rect('.phone'),
     stage: rect('.stage'),
@@ -26,6 +30,9 @@ const captureGeometry = async (page: import('@playwright/test').Page) => page.ev
 
 const expectSameGeometry = (before: Awaited<ReturnType<typeof captureGeometry>>, after: Awaited<ReturnType<typeof captureGeometry>>) => {
   expect(after.frameSame).toBe(true);
+  expect(after.frozenViewportHeight).toBe(before.frozenViewportHeight);
+  expect(after.dialogueToken).toBe(before.dialogueToken);
+  expect(after.controlsToken).toBe(before.controlsToken);
   for (const area of ['shell', 'phone', 'stage', 'portrait', 'dialogue', 'controls'] as const) {
     for (const field of ['top', 'bottom', 'width', 'height'] as const) {
       expect(after[area][field]).toBeCloseTo(before[area][field], 2);
@@ -34,27 +41,24 @@ const expectSameGeometry = (before: Awaited<ReturnType<typeof captureGeometry>>,
 };
 
 test.describe('VN browser chrome stability', () => {
-  test('height-only Safari resize signal cannot rescale or rebuild VN', async ({ page }) => {
+  test('height-only Safari viewport change cannot rescale or rebuild VN', async ({ page }) => {
     const health = observeBrowserHealth(page);
     await openQaScene(page, 0);
     await advanceToLine(page, 'VN0002');
 
-    // Runtime portraits intentionally have idle breathing and a few VN chrome
-    // elements animate. Those transforms are presentation motion, not layout
-    // rescale, so freeze them before measuring the browser-chrome contract.
     await page.addStyleTag({
       content: '[data-vn-frame="shared"][data-frame-context="runtime"], [data-vn-frame="shared"][data-frame-context="runtime"] * { animation: none !important; transition: none !important; }',
     });
     await page.waitForTimeout(50);
 
     const before = await captureGeometry(page);
+    const viewport = page.viewportSize();
+    if (!viewport) throw new Error('Missing Playwright viewport');
 
-    await page.evaluate(() => {
-      // Safari emits resize while its browser chrome changes. The global browser
-      // viewport handler may run, but VN must remain on its stable 100svh frame.
-      document.documentElement.style.setProperty('--upds-viewport-height', '500px');
-      window.dispatchEvent(new Event('resize'));
-    });
+    // This changes window.innerHeight and CSS dynamic viewport units while
+    // keeping width identical, matching Safari chrome movement much more closely
+    // than manually mutating a production CSS variable.
+    await page.setViewportSize({ width: viewport.width, height: viewport.height - 100 });
     await page.waitForTimeout(250);
 
     const after = await captureGeometry(page);
