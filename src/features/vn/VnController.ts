@@ -22,6 +22,7 @@ import {
 } from '../../data/storyChoices';
 import { meetsStoryEndingRequirement, storyOutcomeMetrics } from '../../data/storyOutcome';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
+import { viewportDebugEvent } from '../../platform/ViewportDebug';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppSession } from '../../app/AppSession';
@@ -36,6 +37,7 @@ import {
 import { createDialogueRenderedFit } from '../../ui/dialogueMeasurement';
 import { autoDelayForLine, nextUnreadIndex, type AutoSpeed, type TextScale } from '../../ui/vnPlayback';
 import { vnFrameMarkup } from '../../ui/vnFrameMarkup';
+import { acceptsVnAdvanceTap } from '../../ui/vnTapGuard';
 import { audioSettingsMarkup, bindAudioSettingsControls } from '../../ui/systemControls';
 import {
   resolveVnStagePresentation,
@@ -61,6 +63,7 @@ export class VnController {
   private trackedVnLineId: string | null = null;
   private trackedPagingKey: string | null = null;
   private pendingClue: ClueId | null = null;
+  private lastAdvanceTapAt = Number.NEGATIVE_INFINITY;
 
   constructor(
     private readonly root: HTMLElement,
@@ -139,6 +142,7 @@ export class VnController {
   }
 
   private renderVN(): void {
+    viewportDebugEvent('VnController.renderVN', { scene: this.session.save.scene, line: this.session.save.line }, true);
     this.services.audio.setScene('vn');
     const entry = this.story[this.session.save.line];
     if (!entry) {
@@ -228,7 +232,17 @@ export class VnController {
       this.services.telemetry.track('vn_log_open', { lineId: entry.id });
       this.renderHistoryOverlay();
     });
-    this.root.querySelector('#next')?.addEventListener('click', () => this.nextLine());
+    this.root.querySelector('#next')?.addEventListener('click', (event) => {
+      const now = performance.now();
+      const clickCount = event instanceof MouseEvent ? event.detail : 0;
+      if (!acceptsVnAdvanceTap(now, this.lastAdvanceTapAt) || clickCount > 1) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+      this.lastAdvanceTapAt = now;
+      this.nextLine();
+    });
     this.root.querySelector('#skip')?.addEventListener('click', () => this.skipReadLines());
     this.root.querySelector('#auto')?.addEventListener('click', () => {
       this.autoMode = !this.autoMode;
@@ -250,6 +264,7 @@ export class VnController {
   }
 
   private measureAndApplyDialoguePages(lineId: string, text: string, fallbackPages: string[]): string[] {
+    viewportDebugEvent('VnController.measureDialogue:before', { lineId }, true);
     const textElement = this.root.querySelector<HTMLElement>('.dialogue-text');
     if (!textElement) {
       this.dialoguePages = fallbackPages;
@@ -290,10 +305,12 @@ export class VnController {
     if (progressElement) {
       progressElement.innerHTML = `${measuredPages.map((_, page) => `<i class="${page <= this.dialoguePageIndex ? 'is-active' : ''}"></i>`).join('')}<b>▼</b>`;
     }
+    viewportDebugEvent('VnController.measureDialogue:after', { lineId, pages: measuredPages.length });
     return measuredPages;
   }
 
   private remeasureDialogueInPlace(): void {
+    viewportDebugEvent('VnController.remeasureDialogueInPlace', {}, true);
     if (!this.root.querySelector('.vn-screen')) return;
     const entry = this.story[this.session.save.line];
     if (!entry) return;
