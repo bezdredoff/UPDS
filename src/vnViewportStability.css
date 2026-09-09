@@ -22,11 +22,11 @@ html {
   --vn-dialogue-row: clamp(154px, 22svh, 198px);
 }
 
-:root[data-upds-display-mode='browser'] .vn-controls {
+:root[data-upds-display-mode='browser'] .vn-screen .vn-controls {
   --vn-controls-min-height: clamp(60px, 9svh, 82px);
 }
 
-:root[data-upds-display-mode='browser'] .vn-status {
+:root[data-upds-display-mode='browser'] .vn-screen .vn-status {
   bottom: calc(max(72px, 10svh) + var(--safe-area-bottom));
 }
 
@@ -34,33 +34,37 @@ html {
  * Do not let Safari chrome accidentally cross the legacy max-height:650px
  * compact breakpoint in portrait. Compact portrait remains width-driven on
  * genuinely narrow phones; landscape keeps its existing height-driven rules.
+ *
+ * Every selector stays under .vn-screen. Scene Studio intentionally reuses
+ * portrait/dialogue classes for previews and must never inherit runtime VN
+ * browser-chrome overrides.
  */
 @media (orientation: portrait) and (min-width: 341px) {
-  :root[data-upds-display-mode='browser'] .vn-topbar {
+  :root[data-upds-display-mode='browser'] .vn-screen .vn-topbar {
     min-height: max(58px, calc(48px + var(--safe-area-top)));
     gap: 7px;
     padding: max(7px, var(--safe-area-top)) 9px 7px;
   }
 
-  :root[data-upds-display-mode='browser'] .vn-case-pill {
+  :root[data-upds-display-mode='browser'] .vn-screen .vn-case-pill {
     min-height: 44px;
     padding: 4px 7px 4px 9px;
     border-radius: 9px;
   }
 
-  :root[data-upds-display-mode='browser'] .vn-case-pill b {
+  :root[data-upds-display-mode='browser'] .vn-screen .vn-case-pill b {
     font-size: 10px;
   }
 
-  :root[data-upds-display-mode='browser'] .vn-topbar .app-header-title small {
+  :root[data-upds-display-mode='browser'] .vn-screen .vn-topbar .app-header-title small {
     font-size: 7px;
   }
 
-  :root[data-upds-display-mode='browser'] .vn-topbar .app-header-title b {
+  :root[data-upds-display-mode='browser'] .vn-screen .vn-topbar .app-header-title b {
     font-size: 11px;
   }
 
-  :root[data-upds-display-mode='browser'] .vn-topbar .app-header-action {
+  :root[data-upds-display-mode='browser'] .vn-screen .vn-topbar .app-header-action {
     width: 44px;
     min-width: 44px;
     height: 44px;
@@ -68,29 +72,29 @@ html {
     border-radius: 10px;
   }
 
-  :root[data-upds-display-mode='browser'] .vn-topbar .app-header-action img {
+  :root[data-upds-display-mode='browser'] .vn-screen .vn-topbar .app-header-action img {
     width: 21px;
     height: 21px;
   }
 
-  :root[data-upds-display-mode='browser'] .portrait {
+  :root[data-upds-display-mode='browser'] .vn-screen .portrait {
     height: var(--portrait-height, 178%);
     bottom: var(--portrait-bottom, -78%);
     max-width: none;
   }
 
-  :root[data-upds-display-mode='browser'] .dialogue-shell {
+  :root[data-upds-display-mode='browser'] .vn-screen .dialogue-shell {
     height: 100%;
     min-height: 0;
     padding: 10px 12px 7px;
   }
 
-  :root[data-upds-display-mode='browser'] .dialogue {
+  :root[data-upds-display-mode='browser'] .vn-screen .dialogue {
     padding: 32px 20px 25px;
     border-radius: 18px;
   }
 
-  :root[data-upds-display-mode='browser'] .dialogue-nameplate {
+  :root[data-upds-display-mode='browser'] .vn-screen .dialogue-nameplate {
     left: 32px;
     top: -19px;
     max-width: calc(100% - 64px);
@@ -99,23 +103,23 @@ html {
     font-size: 13px;
   }
 
-  :root[data-upds-display-mode='browser'] .dialogue-text {
+  :root[data-upds-display-mode='browser'] .vn-screen .dialogue-text {
     font-size: 17px;
     line-height: 1.42;
   }
 
-  :root[data-upds-display-mode='browser'] .text-large .dialogue-text {
+  :root[data-upds-display-mode='browser'] .vn-screen .text-large .dialogue-text {
     font-size: 19px;
     line-height: 1.46;
   }
 
-  :root[data-upds-display-mode='browser'] .vn-controls {
+  :root[data-upds-display-mode='browser'] .vn-screen .vn-controls {
     min-height: var(--vn-controls-min-height, clamp(60px, 9svh, 82px));
     gap: 7px;
     padding: 6px 10px max(6px, var(--safe-area-bottom));
   }
 
-  :root[data-upds-display-mode='browser'] .vn-controls button {
+  :root[data-upds-display-mode='browser'] .vn-screen .vn-controls button {
     min-height: 50px;
     border-radius: 10px;
     font-size: 8px;
