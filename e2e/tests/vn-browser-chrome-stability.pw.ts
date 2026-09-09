@@ -35,7 +35,7 @@ const expectSameGeometry = (before: Awaited<ReturnType<typeof captureGeometry>>,
   expect(after.controlsToken).toBe(before.controlsToken);
   for (const area of ['shell', 'phone', 'stage', 'portrait', 'dialogue', 'controls'] as const) {
     for (const field of ['top', 'bottom', 'width', 'height'] as const) {
-      expect(after[area][field]).toBeCloseTo(before[area][field], 2);
+      expect(after[area][field], `${area}.${field}`).toBeCloseTo(before[area][field], 2);
     }
   }
 };
@@ -43,6 +43,13 @@ const expectSameGeometry = (before: Awaited<ReturnType<typeof captureGeometry>>,
 test.describe('VN browser chrome stability', () => {
   test('height-only Safari viewport change cannot rescale or rebuild VN', async ({ page }) => {
     const health = observeBrowserHealth(page);
+
+    // Keep both measurements inside the same normal-phone portrait layout mode.
+    // The previous Chromium version started from Desktop Chrome 1280x720 and
+    // moved to 1280x620, accidentally crossing the intentional max-height:650px
+    // compact breakpoint. That was a genuine responsive-mode change, not Safari
+    // browser chrome movement.
+    await page.setViewportSize({ width: 390, height: 844 });
     await openQaScene(page, 0);
     await advanceToLine(page, 'VN0002');
 
@@ -52,13 +59,9 @@ test.describe('VN browser chrome stability', () => {
     await page.waitForTimeout(50);
 
     const before = await captureGeometry(page);
-    const viewport = page.viewportSize();
-    if (!viewport) throw new Error('Missing Playwright viewport');
 
-    // This changes window.innerHeight and CSS dynamic viewport units while
-    // keeping width identical, matching Safari chrome movement much more closely
-    // than manually mutating a production CSS variable.
-    await page.setViewportSize({ width: viewport.width, height: viewport.height - 100 });
+    // Change only visible height and remain above the 650px compact breakpoint.
+    await page.setViewportSize({ width: 390, height: 744 });
     await page.waitForTimeout(250);
 
     const after = await captureGeometry(page);
