@@ -1,5 +1,129 @@
-/* ANM-023G8E2: keep iOS browser text inflation from changing VN viewport geometry. */
+/* ANM-023G8E2/G8E3: keep mobile browser VN geometry stable while browser chrome changes. */
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+}
+
+/*
+ * Safari may change visualViewport/innerHeight while its top/bottom chrome hides
+ * or returns. Runtime VN must not follow that transient height. Use the small
+ * viewport as the stable browser presentation frame; installed standalone is
+ * overridden later by standaloneEdgeToEdge.css and keeps the physical 100vh
+ * contract.
+ *
+ * Scene Studio intentionally renders the same shared .vn-screen markup with
+ * data-frame-context="scene-studio". Every override in this file must therefore
+ * target data-frame-context="runtime" explicitly, otherwise QA previews inherit
+ * player-only browser-chrome compensation and Golden Samples drift.
+ */
+:root[data-upds-display-mode='browser'] .viewport-shell:has(.vn-screen[data-frame-context='runtime']) {
+  height: 100svh;
+}
+
+:root[data-upds-display-mode='browser'] .phone.game-viewport:has(.vn-screen[data-frame-context='runtime']) {
+  height: min(100svh, 932px);
+}
+
+:root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] {
+  --vn-dialogue-row: clamp(154px, 22svh, 198px);
+}
+
+:root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .vn-controls {
+  --vn-controls-min-height: clamp(60px, 9svh, 82px);
+}
+
+:root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .vn-status {
+  bottom: calc(max(72px, 10svh) + var(--safe-area-bottom));
+}
+
+/*
+ * Do not let Safari chrome accidentally cross the legacy max-height:650px
+ * compact breakpoint in portrait. Compact portrait remains width-driven on
+ * genuinely narrow phones; landscape keeps its existing height-driven rules.
+ */
+@media (orientation: portrait) and (min-width: 341px) {
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .vn-topbar {
+    min-height: max(58px, calc(48px + var(--safe-area-top)));
+    gap: 7px;
+    padding: max(7px, var(--safe-area-top)) 9px 7px;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .vn-case-pill {
+    min-height: 44px;
+    padding: 4px 7px 4px 9px;
+    border-radius: 9px;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .vn-case-pill b {
+    font-size: 10px;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .vn-topbar .app-header-title small {
+    font-size: 7px;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .vn-topbar .app-header-title b {
+    font-size: 11px;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .vn-topbar .app-header-action {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    border-radius: 10px;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .vn-topbar .app-header-action img {
+    width: 21px;
+    height: 21px;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .portrait {
+    height: var(--portrait-height, 178%);
+    bottom: var(--portrait-bottom, -78%);
+    max-width: none;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .dialogue-shell {
+    height: 100%;
+    min-height: 0;
+    padding: 10px 12px 7px;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .dialogue {
+    padding: 32px 20px 25px;
+    border-radius: 18px;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .dialogue-nameplate {
+    left: 32px;
+    top: -19px;
+    max-width: calc(100% - 64px);
+    min-height: 38px;
+    padding: 8px 15px;
+    font-size: 13px;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .dialogue-text {
+    font-size: 17px;
+    line-height: 1.42;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'].text-large .dialogue-text {
+    font-size: 19px;
+    line-height: 1.46;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .vn-controls {
+    min-height: var(--vn-controls-min-height, clamp(60px, 9svh, 82px));
+    gap: 7px;
+    padding: 6px 10px max(6px, var(--safe-area-bottom));
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-screen[data-frame-context='runtime'] .vn-controls button {
+    min-height: 50px;
+    border-radius: 10px;
+    font-size: 8px;
+  }
 }

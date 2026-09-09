@@ -10,6 +10,7 @@ const baseURL = requestedBaseURL
 const mobileCriticalTestMatch = [
   /boot\.pw\.ts/,
   /vn-navigation\.pw\.ts/,
+  /vn-browser-chrome-stability\.pw\.ts/,
   /match3\.pw\.ts/,
   /persistence-localization-flow\.pw\.ts/,
   /visual-regression\.pw\.ts/,
