@@ -17,22 +17,27 @@ describe('ANM-023G8E2/E3 iOS VN viewport stability', () => {
     expect(html).not.toContain('maximum-scale=1');
   });
 
-  it('keeps browser VN on stable small-viewport geometry while Safari chrome changes height', () => {
+  it('keeps browser runtime VN on stable small-viewport geometry while Safari chrome changes height', () => {
     const css = read('src/vnViewportStability.css');
+    const runtimeFrame = ".vn-screen[data-frame-context='runtime']";
 
-    expect(css).toContain(":root[data-upds-display-mode='browser'] .viewport-shell:has(.vn-screen)");
+    expect(css).toContain(`:root[data-upds-display-mode='browser'] .viewport-shell:has(${runtimeFrame})`);
     expect(css).toContain('height: 100svh');
-    expect(css).toContain(":root[data-upds-display-mode='browser'] .phone.game-viewport:has(.vn-screen)");
+    expect(css).toContain(`:root[data-upds-display-mode='browser'] .phone.game-viewport:has(${runtimeFrame})`);
     expect(css).toContain('height: min(100svh, 932px)');
+    expect(css).toContain(`:root[data-upds-display-mode='browser'] ${runtimeFrame} {`);
     expect(css).toContain('--vn-dialogue-row: clamp(154px, 22svh, 198px)');
     expect(css).toContain('--vn-controls-min-height: clamp(60px, 9svh, 82px)');
     expect(css).toContain('bottom: calc(max(72px, 10svh) + var(--safe-area-bottom))');
+    expect(css).not.toContain(":root[data-upds-display-mode='browser'] .vn-screen {");
+    expect(css).not.toContain('data-frame-context=\'scene-studio\']');
   });
 
-  it('prevents the legacy height breakpoint from rescaling normal-width portrait VN', () => {
+  it('prevents the legacy height breakpoint from rescaling normal-width portrait runtime VN', () => {
     const css = read('src/vnViewportStability.css');
 
     expect(css).toContain('@media (orientation: portrait) and (min-width: 341px)');
+    expect(css).toContain(".vn-screen[data-frame-context='runtime'] .portrait");
     expect(css).toContain('height: var(--portrait-height, 178%)');
     expect(css).toContain('bottom: var(--portrait-bottom, -78%)');
     expect(css).toContain('font-size: 17px');
