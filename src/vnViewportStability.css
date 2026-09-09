@@ -48,6 +48,18 @@ html {
     border-radius: 9px;
   }
 
+  :root[data-upds-display-mode='browser'] .vn-case-pill b {
+    font-size: 10px;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-topbar .app-header-title small {
+    font-size: 7px;
+  }
+
+  :root[data-upds-display-mode='browser'] .vn-topbar .app-header-title b {
+    font-size: 11px;
+  }
+
   :root[data-upds-display-mode='browser'] .vn-topbar .app-header-action {
     width: 44px;
     min-width: 44px;
