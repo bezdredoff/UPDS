@@ -28,10 +28,11 @@ describe('standalone edge-to-edge regression contract', () => {
     expect(standalone).not.toMatch(/\b34px\b/);
   });
 
-  it('keeps bottom safe-area non-interactive while painting game content edge-to-edge', () => {
+  it('keeps bottom safe-area non-interactive while painting the controls surface edge-to-edge', () => {
     const css = read('src/standaloneEdgeToEdge.css');
 
-    expect(css).toContain('transparent calc(100% - var(--safe-area-bottom)) 100%');
+    expect(css).toContain('background: #f3e8d2;');
+    expect(css).not.toContain('transparent calc(100% - var(--safe-area-bottom)) 100%');
     expect(css).toContain(":root[data-upds-display-mode='standalone'] .match-screen");
     expect(css).toContain('padding-bottom: 0');
     expect(css).toContain(":root[data-upds-display-mode='standalone'] .match-tooltray");

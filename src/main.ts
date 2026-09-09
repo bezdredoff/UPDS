@@ -32,6 +32,31 @@ const bootstrap = async (): Promise<void> => {
   const standaloneMode = navigatorStandalone || mediaStandalone;
   document.documentElement.dataset.updsDisplayMode = standaloneMode ? 'standalone' : 'browser';
 
+  const syncStandalonePhysicalHeight = (): void => {
+    if (!standaloneMode) return;
+    const screenWidth = globalThis.screen?.width;
+    const screenHeight = globalThis.screen?.height;
+    const viewportWidth = globalThis.innerWidth;
+    const rootStyle = document.documentElement.style;
+    if (!Number.isFinite(screenWidth) || !Number.isFinite(screenHeight) || !Number.isFinite(viewportWidth)) {
+      rootStyle.removeProperty('--physical-viewport-height');
+      return;
+    }
+
+    // screen.height is the only browser-exposed measurement that includes the
+    // compositor area below a standalone iPhone's shortened dynamic viewport.
+    // Require matching widths so a desktop browser window is never mistaken for
+    // the device screen (and keep the CSS safe-area formula as the fallback).
+    if (screenHeight > 0 && Math.abs(screenWidth - viewportWidth) < 2) {
+      const physicalHeight = Math.max(globalThis.innerHeight, screenHeight);
+      rootStyle.setProperty('--physical-viewport-height', `${physicalHeight}px`);
+    } else {
+      rootStyle.removeProperty('--physical-viewport-height');
+    }
+  };
+
+  syncStandalonePhysicalHeight();
+
   /*
    * One geometry snapshot owns a visible orientation. Mobile Safari is allowed
    * to change visualViewport/innerHeight while browser chrome, networking or UI
@@ -55,6 +80,7 @@ const bootstrap = async (): Promise<void> => {
     globalThis.requestAnimationFrame(() => {
       globalThis.requestAnimationFrame(() => {
         stableLayoutWidth = Math.round(globalThis.innerWidth);
+        syncStandalonePhysicalHeight();
         syncStableLayoutMetrics();
       });
     });
@@ -64,7 +90,10 @@ const bootstrap = async (): Promise<void> => {
     const nextWidth = Math.round(globalThis.innerWidth);
     if (Math.abs(nextWidth - stableLayoutWidth) < 2) return;
     stableLayoutWidth = nextWidth;
-    globalThis.requestAnimationFrame(syncStableLayoutMetrics);
+    globalThis.requestAnimationFrame(() => {
+      syncStandalonePhysicalHeight();
+      syncStableLayoutMetrics();
+    });
   };
 
   syncStableLayoutMetrics();
