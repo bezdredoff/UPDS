@@ -168,6 +168,29 @@ test.describe('VN through QA Scene Navigation', () => {
     health.assertClean();
   });
 
+  test('coalesces an accidental rapid double tap without changing the viewport scale', async ({ page }) => {
+    await openQaScene(page, 0);
+    await advanceToLine(page, 'VN0003');
+    while (Number(await page.locator(qaSelectors.vnDialogue).getAttribute('data-dialogue-pages')) > 1) {
+      await page.locator(qaSelectors.vnNext).click();
+    }
+    const beforeLineId = await currentVnLineId(page);
+    const before = await captureVnViewportGeometry(page);
+    expect(await page.locator(qaSelectors.vnNext).evaluate((node) => getComputedStyle(node).touchAction)).toBe('manipulation');
+    await page.waitForTimeout(220);
+
+    await page.evaluate(() => {
+      const button = document.querySelector<HTMLButtonElement>('#next');
+      if (!button) throw new Error('Missing VN advance button');
+      for (let index = 0; index < 2; index += 1) {
+        button.dispatchEvent(new MouseEvent('click', { bubbles: true, detail: 1 }));
+      }
+    });
+
+    await expect.poll(() => currentVnLineId(page)).not.toBe(beforeLineId);
+    expectStableVnViewport(before, await captureVnViewportGeometry(page));
+  });
+
   test('reaches CHOICE_00 through the real scene flow and resumes the selected branch', async ({ page }) => {
     const health = observeBrowserHealth(page);
     await openQaScene(page, 1);

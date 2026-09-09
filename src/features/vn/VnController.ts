@@ -37,6 +37,7 @@ import {
 import { createDialogueRenderedFit } from '../../ui/dialogueMeasurement';
 import { autoDelayForLine, nextUnreadIndex, type AutoSpeed, type TextScale } from '../../ui/vnPlayback';
 import { vnFrameMarkup } from '../../ui/vnFrameMarkup';
+import { acceptsVnAdvanceTap } from '../../ui/vnTapGuard';
 import { audioSettingsMarkup, bindAudioSettingsControls } from '../../ui/systemControls';
 import {
   resolveVnStagePresentation,
@@ -62,6 +63,7 @@ export class VnController {
   private trackedVnLineId: string | null = null;
   private trackedPagingKey: string | null = null;
   private pendingClue: ClueId | null = null;
+  private lastAdvanceTapAt = Number.NEGATIVE_INFINITY;
 
   constructor(
     private readonly root: HTMLElement,
@@ -230,7 +232,17 @@ export class VnController {
       this.services.telemetry.track('vn_log_open', { lineId: entry.id });
       this.renderHistoryOverlay();
     });
-    this.root.querySelector('#next')?.addEventListener('click', () => this.nextLine());
+    this.root.querySelector('#next')?.addEventListener('click', (event) => {
+      const now = performance.now();
+      const clickCount = event instanceof MouseEvent ? event.detail : 0;
+      if (!acceptsVnAdvanceTap(now, this.lastAdvanceTapAt) || clickCount > 1) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+      this.lastAdvanceTapAt = now;
+      this.nextLine();
+    });
     this.root.querySelector('#skip')?.addEventListener('click', () => this.skipReadLines());
     this.root.querySelector('#auto')?.addEventListener('click', () => {
       this.autoMode = !this.autoMode;
