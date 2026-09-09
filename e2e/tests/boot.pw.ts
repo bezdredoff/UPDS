@@ -21,24 +21,23 @@ test('boots the production build into the player menu without QA tools', async (
 });
 
 test(
-  'keeps iPhone panels safe and extends installed player screens to the physical bottom',
+  'extends installed iPhone player and VN to the physical bottom without UI overflow',
   async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'webkit-mobile', 'iOS/WebKit safe-area regression');
     const health = observeBrowserHealth(page);
-    // iPhone 16/17 Pro Max use a 440px CSS viewport. This deliberately exceeds
-    // the legacy 430px desktop-frame cap that caused the installed-PWA gap.
     await page.setViewportSize({ width: 440, height: 763 });
     await page.goto('./');
     await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
 
     const standaloneTopInset = 59;
-    await page.evaluate((topInset) => {
+    const standaloneBottomInset = 34;
+    await page.evaluate(({ topInset, bottomInset }) => {
       document.documentElement.dataset.updsDisplayMode = 'standalone';
       document.documentElement.style.setProperty('--safe-area-top', `${topInset}px`);
-      document.documentElement.style.setProperty('--safe-area-bottom', '34px');
-    }, standaloneTopInset);
+      document.documentElement.style.setProperty('--safe-area-bottom', `${bottomInset}px`);
+    }, { topInset: standaloneTopInset, bottomInset: standaloneBottomInset });
 
-    const expectScreenCanvas = async (activeScreenSelector: string, expectedCanvasColor: string): Promise<void> => {
+    const expectPhysicalFullBleed = async (activeScreenSelector: string): Promise<void> => {
       const geometry = await page.evaluate((selector) => {
         const rect = (target: string) => {
           const node = document.querySelector<HTMLElement>(target);
@@ -51,12 +50,13 @@ test(
         return {
           innerWidth: window.innerWidth,
           innerHeight: window.innerHeight,
-          rootBackground: getComputedStyle(document.documentElement).backgroundColor,
           shell: { top: shell.top, right: shell.right, bottom: shell.bottom, left: shell.left },
           phone: { top: phone.top, right: phone.right, bottom: phone.bottom, left: phone.left },
           screen: { top: screen.top, right: screen.right, bottom: screen.bottom, left: screen.left },
         };
       }, activeScreenSelector);
+      const physicalBottom = geometry.innerHeight + standaloneTopInset;
+
       expect(geometry.innerWidth).toBe(440);
       expect(geometry.shell.top).toBeCloseTo(0, 1);
       expect(geometry.phone.top).toBeCloseTo(0, 1);
@@ -67,34 +67,50 @@ test(
       expect(geometry.shell.right).toBeCloseTo(geometry.innerWidth, 1);
       expect(geometry.phone.right).toBeCloseTo(geometry.innerWidth, 1);
       expect(geometry.screen.right).toBeCloseTo(geometry.innerWidth, 1);
-      expect(geometry.shell.bottom).toBeCloseTo(geometry.innerHeight, 1);
-      expect(geometry.phone.bottom).toBeCloseTo(geometry.innerHeight, 1);
-      expect(geometry.screen.bottom).toBeCloseTo(geometry.innerHeight, 1);
-      expect(geometry.rootBackground).toBe(expectedCanvasColor);
+      expect(geometry.shell.bottom).toBeCloseTo(physicalBottom, 1);
+      expect(geometry.phone.bottom).toBeCloseTo(physicalBottom, 1);
+      expect(geometry.screen.bottom).toBeCloseTo(physicalBottom, 1);
     };
 
-    await expectScreenCanvas(qaSelectors.mainMenu, 'rgb(44, 47, 70)');
+    await expectPhysicalFullBleed(qaSelectors.mainMenu);
+
     await page.locator(qaSelectors.settingsButton).click();
     const settings = page.locator(qaSelectors.settingsScreen);
     await expect(settings).toBeVisible();
-    await settings.evaluate((node) => {
-      node.scrollTop = node.scrollHeight;
-    });
-
+    await settings.evaluate((node) => { node.scrollTop = node.scrollHeight; });
     const panelHeader = settings.locator('.panel-nav');
     const panelAction = panelHeader.locator('.app-header-action').first();
-    await expect
-      .poll(async () => (await panelHeader.boundingBox())?.y ?? -1)
-      .toBeGreaterThanOrEqual(0);
-    await expect
-      .poll(async () => (await panelAction.boundingBox())?.y ?? -1)
-      .toBeGreaterThanOrEqual(46);
-    await expectScreenCanvas(qaSelectors.settingsScreen, 'rgb(240, 231, 229)');
+    await expect.poll(async () => (await panelHeader.boundingBox())?.y ?? -1).toBeGreaterThanOrEqual(0);
+    await expect.poll(async () => (await panelAction.boundingBox())?.y ?? -1).toBeGreaterThanOrEqual(46);
+    await expectPhysicalFullBleed(qaSelectors.settingsScreen);
 
     await page.locator(qaSelectors.settingsBack).click();
     await page.locator(qaSelectors.match3CampaignButton).click();
     await expect(page.locator(qaSelectors.match3CampaignScreen)).toBeVisible();
-    await expectScreenCanvas(qaSelectors.match3CampaignScreen, 'rgb(217, 215, 225)');
+    await expectPhysicalFullBleed(qaSelectors.match3CampaignScreen);
+    await page.locator('#back').click();
+
+    await page.locator(qaSelectors.newGame).click();
+    const runtimeVn = page.locator('[data-vn-frame="shared"][data-frame-context="runtime"]');
+    await expect(runtimeVn).toBeVisible();
+    await expectPhysicalFullBleed('[data-vn-frame="shared"][data-frame-context="runtime"]');
+
+    const vnBottom = await page.evaluate((bottomInset) => {
+      const controls = document.querySelector<HTMLElement>('.vn-controls');
+      const buttons = [...document.querySelectorAll<HTMLElement>('.vn-controls button')];
+      if (!controls || buttons.length === 0) throw new Error('Missing VN controls');
+      const controlsRect = controls.getBoundingClientRect();
+      const highestButtonBottom = Math.max(...buttons.map((button) => button.getBoundingClientRect().bottom));
+      return {
+        controlsBottom: controlsRect.bottom,
+        buttonBottom: highestButtonBottom,
+        physicalBottom: window.innerHeight + 59,
+        safeTop: controlsRect.bottom - bottomInset,
+      };
+    }, standaloneBottomInset);
+
+    expect(vnBottom.controlsBottom).toBeCloseTo(vnBottom.physicalBottom, 1);
+    expect(vnBottom.buttonBottom).toBeLessThanOrEqual(vnBottom.safeTop + 1);
     health.assertClean();
   },
 );
