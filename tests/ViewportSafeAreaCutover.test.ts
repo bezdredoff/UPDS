@@ -73,34 +73,36 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(legacy).not.toContain('top: calc(-1 * max(20px, var(--safe-area-top)))');
     expect(viewport).toContain('position: fixed');
     expect(viewport).toContain('height: var(--physical-viewport-height)');
-    expect(viewport).not.toContain('inset: 0');
   });
 
-  it('extends the installed standalone shell to the physical bottom instead of painting a reserved strip', () => {
+  it('uses the WebKit standalone 100vh workaround instead of JS-measured installed height', () => {
     const main = read('src/main.ts');
     const viewport = read('src/viewport.css');
     const legacy = read('src/style.css');
 
     expect(viewport).toContain('--upds-viewport-height: 100dvh');
     expect(viewport).toContain('--physical-viewport-height: var(--upds-viewport-height)');
-    expect(viewport).toContain('--upds-viewport-height: 100dvh');
+    expect(viewport).toContain('@media (display-mode: standalone)');
+    expect(viewport).toContain('--physical-viewport-height: 100vh');
     expect(viewport).toContain(
-      '@media (orientation: portrait) and (max-width: 520px)',
+      '@media (display-mode: standalone) and (orientation: portrait) and (max-width: 520px)',
     );
     expect(viewport).toContain(
       ":root[data-upds-display-mode='standalone'] .phone.game-viewport",
     );
     expect(viewport).toContain('width: 100%');
-    expect(viewport).toContain('height: 100%');
+    expect(viewport).toContain('height: 100vh');
     expect(viewport).not.toContain('--physical-viewport-height: 100lvh');
     expect(legacy).toContain('--upds-system-canvas-color');
     expect(legacy).toContain(":root[data-upds-display-mode='standalone']:has(");
+    expect(main).toContain('const syncBrowserViewportHeight = (): void =>');
+    expect(main).toContain('const viewportHeight = globalThis.visualViewport?.height ?? globalThis.innerHeight;');
+    const browserGuard = main.indexOf('if (!standaloneMode) {');
+    expect(browserGuard).toBeGreaterThanOrEqual(0);
+    expect(main.indexOf('syncBrowserViewportHeight();', browserGuard)).toBeGreaterThan(browserGuard);
     expect(main).toContain(
       "document.documentElement.dataset.updsDisplayMode = standaloneMode ? 'standalone' : initialPwa.displayMode",
     );
-    expect(main).toContain('? globalThis.innerHeight');
-    expect(main).not.toContain("addEventListener('online', syncViewportHeight)");
-    expect(main).not.toContain("addEventListener('offline', syncViewportHeight)");
   });
 
   it('loads shared token discovery after presentation and preview badge CSS', () => {

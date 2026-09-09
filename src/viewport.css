@@ -10,16 +10,45 @@
 }
 
 /*
- * The 430x932 cap belongs to the desktop/browser presentation frame, not to
- * installed phones. Current large iPhones expose a 440px CSS viewport, so the
- * legacy max-width: 430px mobile breakpoint leaves .phone on its capped 100dvh
- * rule and centers it inside the taller physical shell. Keep a small-phone-sized
- * standalone window edge-to-edge independently of any one iPhone generation.
+ * Installed iOS Web Apps with viewport-fit=cover have a long-standing WebKit
+ * bug where visualViewport/innerHeight and dynamic viewport units can resolve
+ * to the usable area minus safe-area insets. In standalone mode, 100vh is the
+ * deliberate physical-screen contract; safe-area tokens then keep controls out
+ * of the Dynamic Island and home-indicator regions without shortening the game.
+ *
+ * The native display-mode query applies this before application JavaScript can
+ * paint. The data attribute is retained as a navigator.standalone fallback.
  */
+@media (display-mode: standalone) {
+  :root {
+    --physical-viewport-height: 100vh;
+  }
+}
+
+:root[data-upds-display-mode='standalone'] {
+  --physical-viewport-height: 100vh;
+}
+
+/*
+ * The 430x932 cap belongs to the desktop/browser presentation frame, not to
+ * installed phones. Current large iPhones expose a viewport wider than 430px,
+ * so standalone must opt out of the compatibility cap independently of any one
+ * iPhone generation.
+ */
+@media (display-mode: standalone) and (orientation: portrait) and (max-width: 520px) {
+  .phone.game-viewport {
+    width: 100%;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
+    box-shadow: none;
+  }
+}
+
 @media (orientation: portrait) and (max-width: 520px) {
   :root[data-upds-display-mode='standalone'] .phone.game-viewport {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     max-width: none;
     max-height: none;
     box-shadow: none;
@@ -33,10 +62,8 @@
  * consumes the --safe-area-* tokens directly; no screen-specific env(...) reads
  * or duplicated safe-area overrides should live outside this layer.
  *
- * The fixed shell owns the functional WebKit viewport. Installed iOS can paint
- * a compositor canvas outside that viewport; the root background bridge in the
- * presentation layer fills that canvas without enlarging descendants past the
- * usable viewport.
+ * The fixed shell owns the physical WebKit viewport. In standalone the shell is
+ * explicitly 100vh; browser tabs continue to use the JS-fed dynamic height.
  */
 .viewport-shell {
   position: fixed;

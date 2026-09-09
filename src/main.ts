@@ -21,42 +21,35 @@ const bootstrap = async (): Promise<void> => {
     document.documentElement.dataset.updsBuild = BUILD_ID;
   }
 
-  // Resolve standalone mode synchronously before async locale/storage/PWA work.
-  // Connectivity, service-worker state and cache warmup must never change the
-  // player geometry after the installed app has painted.
+  // Resolve standalone mode before async locale/storage/PWA work. Geometry for
+  // installed iOS is intentionally CSS-owned: WebKit can report innerHeight,
+  // visualViewport.height and dynamic viewport units without the cover safe-area.
   const navigatorStandalone = (globalThis.navigator as Navigator & { standalone?: boolean } | undefined)?.standalone === true;
   const mediaStandalone = typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(display-mode: standalone)').matches;
   const standaloneMode = navigatorStandalone || mediaStandalone;
   document.documentElement.dataset.updsDisplayMode = standaloneMode ? 'standalone' : 'browser';
 
-  const syncViewportHeight = (): void => {
-    // Installed iOS PWAs need a stable layout viewport. visualViewport can emit
-    // transient resize values during zoom/compositor/service-worker transitions,
-    // which previously shrank the entire game and exposed a bottom strip.
-    const viewportHeight = standaloneMode
-      ? globalThis.innerHeight
-      : (globalThis.visualViewport?.height ?? globalThis.innerHeight);
+  const syncBrowserViewportHeight = (): void => {
+    const viewportHeight = globalThis.visualViewport?.height ?? globalThis.innerHeight;
     if (Number.isFinite(viewportHeight) && viewportHeight > 0) {
       document.documentElement.style.setProperty('--upds-viewport-height', `${viewportHeight}px`);
     }
   };
 
-  const syncAfterOrientationChange = (): void => {
+  const syncBrowserAfterOrientationChange = (): void => {
     globalThis.requestAnimationFrame(() => {
-      globalThis.requestAnimationFrame(syncViewportHeight);
+      globalThis.requestAnimationFrame(syncBrowserViewportHeight);
     });
   };
 
-  syncViewportHeight();
-  if (standaloneMode) {
-    // Keep portrait gameplay stable online and offline. Only a real orientation
-    // change is allowed to recalculate the installed-app viewport height.
-    globalThis.addEventListener('orientationchange', syncAfterOrientationChange);
-  } else {
+  if (!standaloneMode) {
     // Browser tabs still follow dynamic browser chrome / keyboard geometry.
-    globalThis.visualViewport?.addEventListener('resize', syncViewportHeight);
-    globalThis.addEventListener('resize', syncViewportHeight);
-    globalThis.addEventListener('orientationchange', syncAfterOrientationChange);
+    // Installed PWAs never write a JS pixel height: their physical shell uses
+    // the standalone 100vh contract in viewport.css from the first CSS paint.
+    syncBrowserViewportHeight();
+    globalThis.visualViewport?.addEventListener('resize', syncBrowserViewportHeight);
+    globalThis.addEventListener('resize', syncBrowserViewportHeight);
+    globalThis.addEventListener('orientationchange', syncBrowserAfterOrientationChange);
   }
 
   const root = document.querySelector<HTMLElement>('#app');
