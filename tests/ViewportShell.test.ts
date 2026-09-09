@@ -83,11 +83,13 @@ describe('ANM-024B shared game viewport shell', () => {
     const main = readFileSync(new URL('../src/main.ts', import.meta.url), 'utf8');
 
     expect(main).toContain('const syncBrowserViewportHeight = (): void =>');
-    expect(main).toContain('if (!standaloneMode) {');
-    expect(main).toContain("visualViewport?.addEventListener('resize', syncBrowserViewportHeight)");
-    expect(main).toContain("addEventListener('resize', syncBrowserViewportHeight)");
-    expect(main).toContain("addEventListener('orientationchange', syncBrowserAfterOrientationChange)");
-    expect(main).not.toContain('? globalThis.innerHeight');
+    expect(main).toContain('const viewportHeight = globalThis.visualViewport?.height ?? globalThis.innerHeight;');
+    const browserGuard = main.indexOf('if (!standaloneMode) {');
+    expect(browserGuard).toBeGreaterThanOrEqual(0);
+    expect(main.indexOf('syncBrowserViewportHeight();', browserGuard)).toBeGreaterThan(browserGuard);
+    expect(main.indexOf("visualViewport?.addEventListener('resize', syncBrowserViewportHeight)", browserGuard)).toBeGreaterThan(browserGuard);
+    expect(main.indexOf("addEventListener('resize', syncBrowserViewportHeight)", browserGuard)).toBeGreaterThan(browserGuard);
+    expect(main.indexOf("addEventListener('orientationchange', syncBrowserAfterOrientationChange)", browserGuard)).toBeGreaterThan(browserGuard);
     expect(main).not.toContain("addEventListener('online', syncBrowserViewportHeight)");
     expect(main).not.toContain("addEventListener('offline', syncBrowserViewportHeight)");
   });
