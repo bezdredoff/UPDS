@@ -1,6 +1,10 @@
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { vnConfigOverlayMarkup } from '../src/features/vn/VnPresentation';
+import { setVnAdvanceAccessibilityLabel } from '../src/ui/runtimeAccessibilityLabels';
 import { vnFrameMarkup } from '../src/ui/vnFrameMarkup';
+
+const runtimeServicesSource = readFileSync(new URL('../src/platform/RuntimeServices.ts', import.meta.url), 'utf8');
 
 const frame = (autoMode: boolean): string => vnFrameMarkup({
   frameContext: 'runtime',
@@ -53,7 +57,7 @@ const config = (autoSpeed: 'slow' | 'normal' | 'fast', textScale: 'normal' | 'la
     },
   });
 
-describe('G2-A11Y-002 VN selected-state semantics', () => {
+describe('G2 VN accessibility state semantics', () => {
   it('exposes AUTO as a real pressed toggle without changing the existing active class', () => {
     expect(frame(false)).toContain('id="auto" class="" aria-pressed="false"');
     expect(frame(true)).toContain('id="auto" class="is-active" aria-pressed="true"');
@@ -71,5 +75,19 @@ describe('G2-A11Y-002 VN selected-state semantics', () => {
     expect(changed).toContain('data-auto-speed="normal" class="" aria-pressed="false"');
     expect(changed).toContain('data-text-scale="large" class="is-selected" aria-pressed="true"');
     expect(changed).toContain('data-text-scale="normal" class="" aria-pressed="false"');
+  });
+
+  it('gives the VN dialogue advance control a localized action name instead of dialogue content', () => {
+    setVnAdvanceAccessibilityLabel('Продолжить');
+    expect(frame(false)).toContain('id="next" aria-label="Продолжить"');
+    expect(frame(false)).not.toContain('aria-label="Hello."');
+    setVnAdvanceAccessibilityLabel('Continue');
+  });
+
+  it('syncs the advance label from existing localized Continue copy without changing locale persistence wiring', () => {
+    expect(runtimeServicesSource).toContain("setVnAdvanceAccessibilityLabel(localization.t('menu.continue'))");
+    expect(runtimeServicesSource).toContain('localization.subscribe((locale) => localeSettings.save(locale))');
+    expect(runtimeServicesSource).toContain('localization.subscribe(() => syncAccessibilityLabels())');
+    expect(runtimeServicesSource).toContain('syncAccessibilityLabels();');
   });
 });
