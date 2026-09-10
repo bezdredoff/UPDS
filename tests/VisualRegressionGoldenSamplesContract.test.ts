@@ -53,8 +53,9 @@ describe('ANM-023G7B mobile visual regression Golden Sample contract', () => {
     expect(visualSpec).not.toContain('Match3Game');
   });
 
-  it('excludes only the intentionally dynamic build footer from the menu baseline', () => {
-    expect(menuController).toContain('${BUILD_LABEL}');
+  it('excludes the player version footer from the menu baseline without exposing build labels', () => {
+    expect(menuController).toContain('<footer><span class="menu-build-spacer" aria-hidden="true">&nbsp;</span><br><span>v${APP_VERSION}</span></footer>');
+    expect(menuController).not.toContain('${BUILD_LABEL}');
     expect(visualSpec).toContain('.menu-screen footer { visibility: hidden !important; }');
   });
 

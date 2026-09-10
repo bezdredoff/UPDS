@@ -28,7 +28,7 @@ export const qaSelectors = {
   vnStage: '.stage',
   vnDirectionCard: '.direction-card',
   vnDialogue: '.dialogue-text',
-  vnLineId: '.line-id',
+  vnLineId: '.qa-line-id',
   vnNext: '#next',
   vnCharacter: '[data-character]',
   vnAuthoredShot: '[data-authored-shot]',

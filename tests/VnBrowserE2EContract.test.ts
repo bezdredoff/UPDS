@@ -28,7 +28,7 @@ describe('ANM-023G4 VN browser E2E contract', () => {
     for (const token of [
       "vnBackgroundFit: '.vn-background-fit'",
       "vnDirectionCard: '.direction-card'",
-      "vnLineId: '.line-id'",
+      "vnLineId: '.qa-line-id'",
       "vnNext: '#next'",
       "vnAuthoredShot: '[data-authored-shot]'",
       "vnAuthoredActor: '.vn-authored-actor-slot'",
@@ -40,7 +40,7 @@ describe('ANM-023G4 VN browser E2E contract', () => {
 
     expect(vnFrame).toContain('data-dialogue-page="${pageIndex + 1}"');
     expect(vnFrame).toContain('data-dialogue-pages="${pageCount}"');
-    expect(vnFrame).toContain('class="line-id"');
+    expect(vnFrame).toContain('class="line-id qa-line-id" hidden');
     expect(vnFrame).toContain("id=\"${escapeHtml(id('next'))}\"");
     expect(vnController).toContain("this.root.querySelector('#next')");
     expect(vnController).toContain("this.root.querySelectorAll<HTMLElement>('[data-choice]')");

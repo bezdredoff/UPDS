@@ -1,4 +1,4 @@
-import { APP_VERSION, BUILD_LABEL } from '../../appVersion';
+import { APP_VERSION } from '../../appVersion';
 import { characterRigs, medallionAsset } from '../../data/characterRigs';
 import { backgroundAssets } from '../../data/narrative';
 import { qaSurfaceEnabled } from '../../platform/QaAccess';
@@ -46,7 +46,7 @@ export class MainMenuController {
           </div>
           <button id="support">${t('menu.saveDiagnostics')} <small>QA</small></button>` : ''}
         </div>
-        <footer>${BUILD_LABEL}<br><span>v${APP_VERSION}</span></footer>
+        <footer><span class="menu-build-spacer" aria-hidden="true">&nbsp;</span><br><span>v${APP_VERSION}</span></footer>
       </div>
     </section>`);
 
