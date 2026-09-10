@@ -1,6 +1,7 @@
 import { viewportDebugEvent } from './ViewportDebug';
 
 export type ViewportDisplayMode = 'standalone' | 'browser';
+export type ViewportRuntimeChangeReason = 'width' | 'orientation';
 
 export type ViewportGeometryInput = Readonly<{
   displayMode: ViewportDisplayMode;
@@ -27,6 +28,10 @@ export type ViewportLayoutTokens = Readonly<{
   vnStatusOffset: string;
 }>;
 
+export type ViewportRuntimeListener = (geometry: ViewportGeometry, reason: ViewportRuntimeChangeReason) => void;
+
+const listeners = new Set<ViewportRuntimeListener>();
+
 const positiveNumber = (value: number | null | undefined): value is number =>
   typeof value === 'number' && Number.isFinite(value) && value > 0;
 
@@ -39,6 +44,15 @@ export const detectViewportDisplayMode = (): ViewportDisplayMode => {
   const mediaStandalone =
     typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(display-mode: standalone)').matches;
   return navigatorStandalone || mediaStandalone ? 'standalone' : 'browser';
+};
+
+export const subscribeViewportRuntime = (listener: ViewportRuntimeListener): (() => void) => {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+};
+
+const publishViewportRuntimeChange = (geometry: ViewportGeometry, reason: ViewportRuntimeChangeReason): void => {
+  for (const listener of listeners) listener(geometry, reason);
 };
 
 export const resolveViewportGeometry = (input: ViewportGeometryInput): ViewportGeometry => {
@@ -122,18 +136,20 @@ export type InstalledViewportRuntime = Readonly<{
 }>;
 
 /**
- * Sole runtime owner of window/screen viewport sampling and layout tokens.
- * Height-only Safari changes are ignored after the initial snapshot; a real
- * width/orientation change refreshes the snapshot explicitly.
+ * Sole runtime owner of window/screen viewport sampling, browser viewport
+ * events and layout tokens. Height-only Safari changes are ignored after the
+ * initial snapshot; a real width/orientation change refreshes the snapshot and
+ * is then published to feature subscribers.
  */
 export const installViewportRuntime = (): InstalledViewportRuntime => {
   const displayMode = detectViewportDisplayMode();
   let current = sampleViewportGeometry(displayMode);
   let stableLayoutWidth = Math.round(current.width);
 
-  const sync = (): void => {
+  const sync = (reason?: ViewportRuntimeChangeReason): void => {
     current = sampleViewportGeometry(displayMode);
     applyViewportGeometry(current);
+    if (reason) publishViewportRuntimeChange(current, reason);
   };
 
   const syncAfterOrientationChange = (): void => {
@@ -142,6 +158,7 @@ export const installViewportRuntime = (): InstalledViewportRuntime => {
         current = sampleViewportGeometry(displayMode);
         stableLayoutWidth = Math.round(current.width);
         applyViewportGeometry(current);
+        publishViewportRuntimeChange(current, 'orientation');
       });
     });
   };
@@ -150,7 +167,7 @@ export const installViewportRuntime = (): InstalledViewportRuntime => {
     const nextWidth = Math.round(globalThis.innerWidth);
     if (Math.abs(nextWidth - stableLayoutWidth) < 2) return;
     stableLayoutWidth = nextWidth;
-    globalThis.requestAnimationFrame(sync);
+    globalThis.requestAnimationFrame(() => sync('width'));
   };
 
   sync();
