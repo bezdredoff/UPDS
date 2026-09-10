@@ -28,6 +28,13 @@ If two active documents conflict, prefer the narrower current machine-readable c
 
 ## Current production contracts
 
+### Release and device status
+
+- [`UPDS_RELEASE_MANIFEST_RU.md`](UPDS_RELEASE_MANIFEST_RU.md) — release scope, acceptance rule and dashboard authority
+- [`release-status.json`](release-status.json) — machine-readable release tasks and dependencies
+- [`known-issues.json`](known-issues.json) — reproducible open release blockers
+- [`features/ANM030B1B9_IOS_PWA_VIEWPORT_STATUS_RU.md`](features/ANM030B1B9_IOS_PWA_VIEWPORT_STATUS_RU.md) — current iOS PWA viewport evidence, paused hypotheses and required next capture
+
 ### Story and content
 
 - [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md) — full 22-slot scope, tier/reuse budgets, macro lock and three-episode delivery batches
