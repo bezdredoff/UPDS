@@ -74,6 +74,7 @@
 .game-viewport {
   --scene-inline-size: 100%;
   --scene-block-size: 100%;
+  container: upds-game / inline-size;
 }
 
 .app-screen-host {

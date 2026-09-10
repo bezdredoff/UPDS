@@ -1,4 +1,4 @@
-/* Stable VN presentation: viewport units are sampled once in main.ts, not live here. */
+/* Stable VN presentation: viewport units are sampled by ViewportRuntime, not live here. */
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -9,6 +9,10 @@ html {
  * vh/dvh/svh/visualViewport while browser chrome or installed UI settles; none
  * of those transitions can therefore change stage, dialogue or controls.
  * Scene Studio keeps its own calibration geometry and is intentionally excluded.
+ *
+ * G2a-ARCH-004 removed the legacy height-based compact compensation from this
+ * file. Compact presentation is selected by the persistent upds-game inline-size
+ * container in feature CSS, so height-only browser-chrome movement cannot switch it.
  */
 .vn-screen[data-frame-context='runtime'] {
   --vn-dialogue-row: var(--upds-vn-dialogue-row, 178px);
@@ -20,89 +24,4 @@ html {
 
 .vn-screen[data-frame-context='runtime'] .vn-status {
   bottom: calc(var(--upds-vn-status-offset, 81px) + var(--safe-area-bottom));
-}
-
-/*
- * Legacy CSS has a max-height:650px compact query. On a normal-width portrait
- * phone, browser chrome must not switch that composition mode after mount.
- * Width remains the compact discriminator; true orientation changes refresh the
- * frozen tokens and VnController pagination in place.
- */
-@media (orientation: portrait) and (min-width: 341px) {
-  .vn-screen[data-frame-context='runtime'] .vn-topbar {
-    min-height: max(58px, calc(48px + var(--safe-area-top)));
-    gap: 7px;
-    padding: max(7px, var(--safe-area-top)) 9px 7px;
-  }
-
-  .vn-screen[data-frame-context='runtime'] .vn-case-pill {
-    min-height: 44px;
-    padding: 4px 7px 4px 9px;
-    border-radius: 9px;
-  }
-
-  .vn-screen[data-frame-context='runtime'] .vn-case-pill b { font-size: 10px; }
-  .vn-screen[data-frame-context='runtime'] .vn-topbar .app-header-title small { font-size: 7px; }
-  .vn-screen[data-frame-context='runtime'] .vn-topbar .app-header-title b { font-size: 11px; }
-
-  .vn-screen[data-frame-context='runtime'] .vn-topbar .app-header-action {
-    width: 44px;
-    min-width: 44px;
-    height: 44px;
-    min-height: 44px;
-    border-radius: 10px;
-  }
-
-  .vn-screen[data-frame-context='runtime'] .vn-topbar .app-header-action img {
-    width: 21px;
-    height: 21px;
-  }
-
-  .vn-screen[data-frame-context='runtime'] .portrait {
-    height: var(--portrait-height, 178%);
-    bottom: var(--portrait-bottom, -78%);
-    max-width: none;
-  }
-
-  .vn-screen[data-frame-context='runtime'] .dialogue-shell {
-    height: 100%;
-    min-height: 0;
-    padding: 10px 12px 7px;
-  }
-
-  .vn-screen[data-frame-context='runtime'] .dialogue {
-    padding: 32px 20px 25px;
-    border-radius: 18px;
-  }
-
-  .vn-screen[data-frame-context='runtime'] .dialogue-nameplate {
-    left: 32px;
-    top: -19px;
-    max-width: calc(100% - 64px);
-    min-height: 38px;
-    padding: 8px 15px;
-    font-size: 13px;
-  }
-
-  .vn-screen[data-frame-context='runtime'] .dialogue-text {
-    font-size: 17px;
-    line-height: 1.42;
-  }
-
-  .vn-screen[data-frame-context='runtime'].text-large .dialogue-text {
-    font-size: 19px;
-    line-height: 1.46;
-  }
-
-  .vn-screen[data-frame-context='runtime'] .vn-controls {
-    min-height: var(--vn-controls-min-height, var(--upds-vn-controls-min-height, 73px));
-    gap: 7px;
-    padding: 6px 10px max(6px, var(--safe-area-bottom));
-  }
-
-  .vn-screen[data-frame-context='runtime'] .vn-controls button {
-    min-height: 50px;
-    border-radius: 10px;
-    font-size: 8px;
-  }
 }

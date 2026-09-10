@@ -175,7 +175,7 @@
   text-align: center;
 }
 
-@media (max-width: 340px), (max-height: 650px) {
+@container upds-game (max-width: 340px) {
   .match-help-popover {
     top: max(62px, calc(var(--safe-area-top) + 52px));
     width: calc(100vw - 22px);

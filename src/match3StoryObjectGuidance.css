@@ -39,7 +39,7 @@
   display: block;
 }
 
-@media (max-height: 650px), (max-width: 340px) {
+@container upds-game (max-width: 340px) {
   .match-guidance-slot .match-hint { margin: 4px 6px 0; }
   .story-object-guidance {
     padding: 4px 6px;

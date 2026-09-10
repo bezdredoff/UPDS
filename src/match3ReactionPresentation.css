@@ -63,7 +63,7 @@
   }
 }
 
-@media (max-height: 650px), (max-width: 340px) {
+@container upds-game (max-width: 340px) {
   .field-bark-slot {
     height: 40px;
     min-height: 40px;
