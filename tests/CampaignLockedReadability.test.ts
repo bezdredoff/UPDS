@@ -21,6 +21,16 @@ describe('G2-READ-001 locked Campaign readability contract', () => {
     expect(css).toContain('button:disabled');
   });
 
+  it('wins the existing primary !important cascade only for the locked disabled action', () => {
+    const legacyCss = read('src/style.css');
+    const css = read('src/features/match3Campaign/campaignReadability.css');
+    expect(legacyCss).toContain('background: var(--coral) !important;');
+    expect(legacyCss).toContain('color: white !important;');
+    expect(css).toContain('border-color: #c2bac3 !important;');
+    expect(css).toContain('background: #e4dfe4 !important;');
+    expect(css).toContain('color: #5a535d !important;');
+  });
+
   it('keeps the existing spoiler-safe locked identity contract intact', () => {
     const controller = read('src/features/match3Campaign/Match3CampaignController.ts');
     const spoilerSpec = read('e2e/tests/campaign-spoilers.pw.ts');
