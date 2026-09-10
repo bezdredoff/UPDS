@@ -232,10 +232,10 @@ export function vnConfigOverlayMarkup(input: Readonly<{
       <div class="vn-overlay-card config-card">
         <header><div><small>CONFIG</small><h2>${escapeHtml(labels.title)}</h2></div><button id="close-overlay" class="overlay-close" aria-label="${escapeHtml(labels.close)}">${icon('close')}</button></header>
         <fieldset><legend>${escapeHtml(labels.autoSpeed)}</legend><div class="segmented">
-          ${(['slow', 'normal', 'fast'] as AutoSpeed[]).map((speed) => `<button data-auto-speed="${speed}" class="${input.autoSpeed === speed ? 'is-selected' : ''}">${speed === 'slow' ? labels.slow : speed === 'normal' ? labels.normal : labels.fast}</button>`).join('')}
+          ${(['slow', 'normal', 'fast'] as AutoSpeed[]).map((speed) => `<button data-auto-speed="${speed}" class="${input.autoSpeed === speed ? 'is-selected' : ''}" aria-pressed="${input.autoSpeed === speed}">${speed === 'slow' ? labels.slow : speed === 'normal' ? labels.normal : labels.fast}</button>`).join('')}
         </div></fieldset>
         <fieldset><legend>${escapeHtml(labels.textSize)}</legend><div class="segmented">
-          ${(['normal', 'large'] as TextScale[]).map((scale) => `<button data-text-scale="${scale}" class="${input.textScale === scale ? 'is-selected' : ''}">${scale === 'normal' ? labels.normal : labels.large}</button>`).join('')}
+          ${(['normal', 'large'] as TextScale[]).map((scale) => `<button data-text-scale="${scale}" class="${input.textScale === scale ? 'is-selected' : ''}" aria-pressed="${input.textScale === scale}">${scale === 'normal' ? labels.normal : labels.large}</button>`).join('')}
         </div></fieldset>
         <fieldset><legend>${escapeHtml(labels.audio)}</legend>${input.audioSettingsHtml}</fieldset>
         <div class="vn-config-navigation"><small>${escapeHtml(labels.navigation)}</small><button id="vn-main-menu">${icon('menu')}<span><b>${escapeHtml(labels.mainMenu)}</b><em>${escapeHtml(labels.saved)}</em></span></button></div>
