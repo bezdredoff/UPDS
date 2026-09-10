@@ -31,34 +31,17 @@ describe('ANM-023G8A Playwright coverage audit contract', () => {
     expect(playwrightConfig).toContain("testMatch: /.*\\.pw\\.ts/");
   });
 
-  it('records the shared production-controller parity instead of treating QA tools as alternate games', () => {
-    const app = read('src/ui/AnimeDetectiveApp.ts');
-    const harnessContract = read('tests/BrowserAutomationHarnessContract.test.ts');
-
-    expect(app.match(/new VnController/g)?.length ?? 0).toBe(1);
-    expect(app.match(/new Match3Controller/g)?.length ?? 0).toBe(1);
-    expect(harnessContract).toContain('keeps QA Scene Navigation on the same production VN controller and frame');
-    expect(harnessContract).toContain('keeps Story, Match-3 Campaign and Level Lab on one production Match3Controller');
+  it('preserves the historical QA-to-production parity decisions without rechecking current source shape', () => {
     expect(audit).toContain('QA Scene Navigation → production VN');
     expect(audit).toContain('Match-3 Campaign / Level Lab / Story → production Match-3');
+    expect(audit).toContain('there is no `QAVnController` or browser-only VN implementation');
+    expect(audit).toContain('mode differences are explicit state/lifecycle differences');
   });
 
-  it('traces the remaining audited browser-only boundaries to the real production code that owns them', () => {
-    const match3 = read('src/features/match3/Match3Controller.ts');
-    const flow = read('e2e/helpers/flow.ts');
-    const match3Helper = read('e2e/helpers/match3.ts');
-
-    expect(flow).toContain('startFirstStoryMatchAndVerifyResumeBoundary');
-    expect(match3).toContain('private completeLevel(): void');
-    expect(match3).toContain("this.renderCampaignResult('win')");
-    expect(match3).toContain("board.addEventListener('pointerdown'");
-    expect(match3).toContain("const cell = target.closest<HTMLElement>('[data-cell]');");
-    expect(match3).toContain("board.addEventListener('pointermove'");
-    expect(match3).toContain("board.addEventListener('pointerup'");
-    expect(match3).toContain("this.attemptMatchSwap(pointer.startIndex, targetIndex, false, 'drag')");
-    expect(match3Helper).toContain('export async function tapSwap');
-
+  it('preserves the audited browser gaps and traces completed Story completion separately', () => {
     expect(g8b).toContain('Story Match-3 Completion → Evidence → VN');
+    expect(g8b).toContain('StoryWinQaFixture.test.ts');
+    expect(g8b).toContain('BrowserStoryCompletionE2EContract.test.ts');
     expect(audit).toContain('P0 — Match-3 Campaign completion/progression');
     expect(audit).toContain('P0/P1 — Real pointer drag/swipe input');
   });

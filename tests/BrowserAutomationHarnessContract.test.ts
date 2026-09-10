@@ -4,93 +4,77 @@ import { describe, expect, it } from 'vitest';
 
 const read = (path: string): string => readFileSync(resolve(process.cwd(), path), 'utf8');
 
-const app = read('src/ui/AnimeDetectiveApp.ts');
-const menu = read('src/features/menu/MainMenuController.ts');
-const diagnostics = read('src/features/diagnostics/DiagnosticsController.ts');
-const campaign = read('src/features/match3Campaign/Match3CampaignController.ts');
-const levelLab = read('src/features/levelLab/LevelLabController.ts');
-const match3 = read('src/features/match3/Match3Controller.ts');
-const match3Presentation = read('src/features/match3/Match3Presentation.ts');
-const vnFrame = read('src/ui/vnFrameMarkup.ts');
 const selectors = read('e2e/selectors.ts');
 const resetHelper = read('e2e/helpers/runtime.ts');
 const harness = read('e2e/tests/harness.pw.ts');
 
-const occurrences = (source: string, token: string): number => source.split(token).length - 1;
-
 describe('ANM-023G2 browser automation harness contract', () => {
-  it('keeps QA Scene Navigation on the same production VN controller and frame', () => {
-    expect(occurrences(app, 'new VnController')).toBe(1);
-    expect(app).toContain('showSceneSelect: () => this.diagnostics.renderSceneSelect()');
-    expect(diagnostics).toContain('this.navigation.openScene(Number(button.dataset.scene), 0)');
-    expect(vnFrame).toContain('data-vn-frame="shared"');
-    expect(vnFrame).toContain('data-frame-context="${input.frameContext}"');
-    expect(selectors).toContain('[data-vn-frame="shared"][data-frame-context="runtime"]');
-    expect(app).not.toContain('QAVnController');
-  });
-
-  it('keeps Story, Match-3 Campaign and Level Lab on one production Match3Controller', () => {
-    expect(occurrences(app, 'new Match3Controller')).toBe(1);
-    expect(app).toContain('this.match3.startCampaignMatch(levelIndex, this.match3CampaignSession');
-    expect(app).toContain('this.match3.startLabMatch(levelIndex, seed');
-    expect(match3).toContain("if (this.labRun) return 'lab';");
-    expect(match3).toContain("if (this.campaignRun) return 'campaign';");
-    expect(match3).toContain("return 'story';");
-    expect(match3Presentation).toContain('class="match-screen');
-    expect(match3Presentation).toContain('class="board" role="grid"');
-    expect(match3Presentation).toContain('data-cell="${index}"');
-    expect(app).not.toContain('QAMatch3Controller');
-  });
-
-  it('freezes the existing QA/product selectors as the browser automation API', () => {
+  it('keeps Scene Navigation on the shared VN browser surface', () => {
     for (const token of [
-      'id="episodes"',
-      'id="match3-campaign"',
-      'id="level-lab"',
+      'qaSelectors.sceneNavigationButton',
+      'qaSelectors.sceneNavigationScreen',
+      'qaSelectors.sceneButton',
+      'qaSelectors.vnRuntimeFrame',
+      'qaSelectors.vnDialogue',
     ]) {
-      expect(menu).toContain(token);
+      expect(harness).toContain(token);
     }
 
-    expect(diagnostics).toContain('class="panel scene-select"');
-    expect(diagnostics).toContain('data-scene="${index}"');
-    expect(campaign).toContain('class="match3-campaign-screen"');
-    expect(campaign).toContain('data-campaign-level="${index}"');
+    expect(harness).not.toContain('VnController');
+    expect(harness).not.toContain('QAVnController');
+  });
 
+  it('keeps Campaign and Level Lab on the shared Match-3 browser surface', () => {
     for (const token of [
-      'id="lab-level"',
-      'id="lab-seed"',
-      'id="lab-preview"',
-      'id="lab-play"',
+      'qaSelectors.match3CampaignButton',
+      'qaSelectors.match3CampaignScreen',
+      'qaSelectors.match3CampaignLevelButton',
+      'qaSelectors.levelLabButton',
+      'qaSelectors.levelLabSeed',
+      'qaSelectors.levelLabPlay',
+      'qaSelectors.match3Screen',
+      'qaSelectors.match3Board',
+      'qaSelectors.match3Cell',
     ]) {
-      expect(levelLab).toContain(token);
+      expect(harness).toContain(token);
     }
 
+    expect(harness).not.toContain('Match3Controller');
+    expect(harness).not.toContain('QAMatch3Controller');
+    expect(harness).not.toContain('Match3Game');
+  });
+
+  it('keeps the QA/product selectors as the browser automation API', () => {
     for (const selector of [
       "sceneNavigationButton: '#episodes'",
+      "sceneNavigationScreen: '.scene-select'",
       "sceneButton: '[data-scene]'",
+      "sceneStudioButton: '#scene-studio'",
+      "vnRuntimeFrame: '[data-vn-frame=\"shared\"][data-frame-context=\"runtime\"]'",
+      "match3CampaignButton: '#match3-campaign'",
       "match3CampaignLevelButton: '[data-campaign-level]'",
       "levelLabSeed: '#lab-seed'",
       "levelLabPlay: '#lab-play'",
+      "match3Board: '.board[role=\"grid\"]'",
       "match3Cell: '[data-cell]'",
     ]) {
       expect(selectors).toContain(selector);
     }
   });
 
-  it('resets browser persistence outside the game runtime and exercises all three harness routes', () => {
+  it('keeps browser reset and harness setup free of runtime shortcuts', () => {
     expect(resetHelper).toContain('window.localStorage.clear()');
     expect(resetHelper).toContain('window.sessionStorage.clear()');
     expect(resetHelper).not.toContain('__UPDS');
     expect(resetHelper).not.toContain('CampaignStore');
     expect(resetHelper).not.toContain('Match3Game');
 
-    expect(harness).toContain('QA Scene Navigation opens the shared production VN frame');
-    expect(harness).toContain('Scene Studio Composition supports direct mouse drag on the shared production stage');
-    expect(harness).toContain('sceneStudioDraggablePortrait');
+    expect(harness).toContain('resetBrowserState(page)');
+    expect(harness).toContain('qaSelectors.sceneStudioButton');
+    expect(harness).toContain('qaSelectors.sceneStudioDraggablePortrait');
     expect(harness).toContain('page.mouse.down()');
-    expect(harness).toContain('data-slot-override');
-    expect(harness).toContain('Match-3 Campaign opens the shared production Match-3 board');
-    expect(harness).toContain('Level Lab launches an exact seed through the shared production Match-3 board');
-    expect(harness).toContain("fill('424242')");
+    expect(harness).not.toContain('localStorage');
+    expect(harness).not.toContain('sessionStorage');
+    expect(harness).not.toContain('__UPDS');
   });
 });

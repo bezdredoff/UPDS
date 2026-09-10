@@ -10,9 +10,9 @@
 
 Browser automation использует тот же runtime, что и игрок:
 
-- `QA Scene Navigation` вызывает обычный `AppNavigation.openScene(...)` и приходит в единственный `VnController`;
-- `Match-3 Campaign` запускает production level через единственный `Match3Controller`;
-- `Level Lab` передаёт выбранный level/draft и exact uint32 seed в тот же `Match3Controller.startLabMatch(...)`;
+- `QA Scene Navigation` вызывает обычный `AppNavigation.openScene(...)` и приходит в production VN runtime;
+- `Match-3 Campaign` запускает production level через общий Match-3 runtime;
+- `Level Lab` передаёт выбранный level/draft и exact uint32 seed в тот же production Match-3 runtime;
 - Story, Campaign и Lab различаются режимом/источником progression, но не renderer/game engine;
 - shared `vnFrameMarkup` остаётся общей production DOM-структурой VN;
 - `Match3Presentation` остаётся общей production DOM-структурой Match-3.
@@ -26,7 +26,7 @@ Browser automation использует тот же runtime, что и игро�
 
 ## Stable automation selectors
 
-G2 не добавляет лишние `data-testid`: текущий production DOM уже имеет достаточно устойчивых семантических точек. Они становятся automation API и защищаются Vitest contract-тестом.
+G2 не добавляет лишние `data-testid`: текущий production DOM уже имеет достаточно устойчивых семантических точек. Они становятся automation API и защищаются Vitest contract-тестом на уровне `e2e/selectors.ts`, а не повторным чтением production markup/controllers.
 
 Основные entry selectors:
 
@@ -49,32 +49,26 @@ G2 не добавляет лишние `data-testid`: текущий production
 - save/progression classes не получают test-only методы;
 - нет hidden URL/query-param для подмены игрового состояния.
 
-Более специализированные deterministic fixtures добавляются только когда G4/G5 докажут конкретную необходимость.
+Более специализированные deterministic fixtures добавляются только когда конкретная production boundary действительно требует воспроизводимого setup.
 
 ## G2 harness smoke
 
-Добавлены три коротких browser journeys:
+Текущий `harness.pw.ts` содержит четыре коротких browser journeys:
 
 1. Main Menu → QA Scene Navigation → первая сцена → shared production VN frame.
-2. Main Menu → Match-3 Campaign → первый доступный level → shared production Match-3 board.
-3. Main Menu → Level Lab → seed `424242` → Play Draft → shared production Match-3 board с `SEED 424242`.
+2. Main Menu → Scene Studio → direct mouse drag → shared production stage/calibration state.
+3. Main Menu → Match-3 Campaign → первый доступный level → shared production Match-3 board.
+4. Main Menu → Level Lab → exact seed → Play Draft → shared production Match-3 board.
 
-Это не полноценное VN/Match-3 покрытие. G2 только доказывает правильность harness boundaries. Детальные проверки остаются:
+Это не полноценное VN/Match-3 покрытие. Harness только доказывает правильность QA entry boundaries. Детальные проверки остаются в специализированных VN, Match-3, persistence/localization и visual-regression specs.
 
-- G3 — boot/build/Pages `/preview/`;
-- G4 — VN content/paging/presentation;
-- G5 — Match-3 mechanics/campaign/Level Lab;
-- G6 — persistence/localization/main-flow;
-- G7 — visual regression + blocking Browser Gate.
+## Validation ownership после G2a
 
-## Validation
+Root `npm run check` по-прежнему не запускает Playwright. G2a разделяет ответственность, чтобы fast tests не зеркалили локальную форму production-кода:
 
-Root `npm run check` по-прежнему не запускает Playwright. Он проверяет `BrowserAutomationHarnessContract.test.ts`, который защищает:
+- `RepositoryHygiene.test.ts` защищает архитектуру composition root: feature-controller construction остаётся централизованным, sibling feature imports запрещены, persistence не пересоздаётся внутри feature modules;
+- `BrowserAutomationHarnessContract.test.ts` защищает стабильный selector API, наличие ключевых QA journeys в `harness.pw.ts` и отсутствие прямых runtime/game shortcuts в browser harness/reset helper;
+- `BrowserCoverageAuditContract.test.ts` хранит исторический G8A audit как audit-документ, а не как повторный source-code verifier;
+- фактическая QA → production parity проверяется исполнением `harness.pw.ts` в Browser Gate.
 
-- единственный production controller для VN;
-- единственный production controller для Match-3;
-- routing QA surfaces в эти controllers;
-- стабильный selector contract;
-- отсутствие test-only runtime reset/game logic.
-
-Исполняемые `*.pw.ts` tests остаются отдельным Playwright suite и войдут в GitHub Browser Gate в G7.
+То есть рефакторинг controller internals не требует переписывать browser contract только ради совпадения строк, если архитектурные boundaries и исполняемое browser-поведение остаются неизменными.
