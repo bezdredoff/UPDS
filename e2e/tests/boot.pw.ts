@@ -42,6 +42,30 @@ test('keeps compact production touch targets at least 44px tall', async ({ page 
   await page.locator(qaSelectors.match3CampaignButton).click();
   await expect(page.locator(qaSelectors.match3CampaignScreen)).toBeVisible();
   await expectAtLeast44(`${qaSelectors.match3CampaignScreen} .campaign-level-card button`);
+
+  const lockedCard = page.locator('.campaign-level-card.locked').first();
+  await expect(lockedCard).toBeVisible();
+  const lockedPresentation = await lockedCard.evaluate((node) => {
+    const heading = node.querySelector<HTMLElement>('.campaign-level-heading b');
+    const meta = node.querySelector<HTMLElement>('.campaign-level-meta span');
+    const button = node.querySelector<HTMLButtonElement>('button:disabled');
+    if (!heading || !meta || !button) throw new Error('Missing locked Campaign presentation node');
+    const cardStyle = getComputedStyle(node);
+    return {
+      opacity: cardStyle.opacity,
+      filter: cardStyle.filter,
+      headingColor: getComputedStyle(heading).color,
+      metaColor: getComputedStyle(meta).color,
+      buttonOpacity: getComputedStyle(button).opacity,
+      buttonColor: getComputedStyle(button).color,
+    };
+  });
+  expect(lockedPresentation.opacity).toBe('1');
+  expect(lockedPresentation.filter).toBe('none');
+  expect(lockedPresentation.headingColor).toBe('rgb(55, 51, 69)');
+  expect(lockedPresentation.metaColor).toBe('rgb(79, 73, 85)');
+  expect(lockedPresentation.buttonOpacity).toBe('1');
+  expect(lockedPresentation.buttonColor).toBe('rgb(90, 83, 93)');
   await page.locator('#back').click();
 
   await page.locator(qaSelectors.newGame).click();
