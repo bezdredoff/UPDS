@@ -1,0 +1,7 @@
+/* G2-TOUCH-001: keep production pointer targets usable in compact portrait layouts. */
+.settings-panel .language-row select,
+.vn-overlay .audio-preview-actions button,
+.match3-campaign-screen .campaign-level-card button,
+.match-screen .hint-button {
+  min-height: 44px;
+}
