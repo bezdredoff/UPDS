@@ -20,6 +20,38 @@ test('boots the production build into the player menu without QA tools', async (
   health.assertClean();
 });
 
+test('keeps compact production touch targets at least 44px tall', async ({ page }) => {
+  const health = observeBrowserHealth(page);
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto('./');
+  await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
+
+  const expectAtLeast44 = async (selector: string): Promise<void> => {
+    const heights = await page.locator(selector).evaluateAll((nodes) =>
+      nodes.map((node) => (node as HTMLElement).getBoundingClientRect().height),
+    );
+    expect(heights.length).toBeGreaterThan(0);
+    for (const height of heights) expect(height).toBeGreaterThanOrEqual(44);
+  };
+
+  await page.locator(qaSelectors.settingsButton).click();
+  await expect(page.locator(qaSelectors.settingsScreen)).toBeVisible();
+  await expectAtLeast44(qaSelectors.languageSelect);
+
+  await page.locator(qaSelectors.settingsBack).click();
+  await page.locator(qaSelectors.match3CampaignButton).click();
+  await expect(page.locator(qaSelectors.match3CampaignScreen)).toBeVisible();
+  await expectAtLeast44(`${qaSelectors.match3CampaignScreen} .campaign-level-card button`);
+  await page.locator('#back').click();
+
+  await page.locator(qaSelectors.newGame).click();
+  await expect(page.locator(qaSelectors.vnRuntimeFrame)).toBeVisible();
+  await page.locator('#header-settings').click();
+  await expect(page.locator('.vn-overlay[role="dialog"]')).toBeVisible();
+  await expectAtLeast44('.vn-overlay .audio-preview-actions button');
+  health.assertClean();
+});
+
 test(
   'extends installed iPhone player and VN to the physical bottom without UI overflow',
   async ({ page }, testInfo) => {
