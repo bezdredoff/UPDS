@@ -1,4 +1,5 @@
 import type { TextScale } from './vnPlayback';
+import { vnAdvanceAccessibilityLabel } from './runtimeAccessibilityLabels';
 import { escapeHtml, headerActionMarkup, iconMarkup as icon } from './viewMarkup';
 
 export type VnFrameLabels = Readonly<{
@@ -76,7 +77,7 @@ export function vnFrameMarkup(input: VnFrameMarkupInput): string {
     </div>
     <div class="dialogue-shell ${input.direction ? 'direction' : ''}"${chromeInert}>
       <span class="dialogue-nameplate">${escapeHtml(input.speaker)}<em>${escapeHtml(input.emotion)}</em></span>
-      <button class="dialogue ${input.direction ? 'direction' : ''}" id="${escapeHtml(id('next'))}"${inertControl}>
+      <button class="dialogue ${input.direction ? 'direction' : ''}" id="${escapeHtml(id('next'))}" aria-label="${escapeHtml(vnAdvanceAccessibilityLabel())}"${inertControl}>
         <span class="dialogue-text" data-dialogue-page="${pageIndex + 1}" data-dialogue-pages="${pageCount}">${escapeHtml(input.dialogueText)}</span>
         <span class="line-id qa-line-id" hidden>${escapeHtml(input.lineId)}${pageCount > 1 ? ` · ${pageIndex + 1}/${pageCount}` : ''}</span>
         <span class="line-id" aria-hidden="true">&nbsp;</span>

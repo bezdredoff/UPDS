@@ -5,6 +5,7 @@ import { DEFAULT_LOCALE } from '../localization/Locale';
 import { LocalizationService } from '../localization/LocalizationService';
 import { LocaleSettingsStore } from '../localization/LocaleSettingsStore';
 import { initialAppCatalogs, loadRuntimeLocaleCatalog } from '../localization/catalogs';
+import { setVnAdvanceAccessibilityLabel } from '../ui/runtimeAccessibilityLabels';
 import { AssetHealth } from './AssetHealth';
 import { ErrorLog } from './ErrorLog';
 import { PlaytestTelemetry } from './PlaytestTelemetry';
@@ -37,7 +38,11 @@ export const createRuntimeServices = (): RuntimeServices => {
     DEFAULT_LOCALE,
     loadRuntimeLocaleCatalog,
   );
+  const syncAccessibilityLabels = (): void => {
+    setVnAdvanceAccessibilityLabel(localization.t('menu.continue'));
+  };
   localization.subscribe((locale) => localeSettings.save(locale));
+  localization.subscribe(() => syncAccessibilityLabels());
 
   const requestedLocale = localeSettings.load();
   const ready = localization.activateLocale(requestedLocale).catch((error) => {
@@ -45,6 +50,7 @@ export const createRuntimeServices = (): RuntimeServices => {
     if (localization.locale !== DEFAULT_LOCALE) localization.setLocale(DEFAULT_LOCALE);
   }).then(() => {
     if (typeof document !== 'undefined') document.documentElement.lang = localization.locale;
+    syncAccessibilityLabels();
   });
 
   return {
