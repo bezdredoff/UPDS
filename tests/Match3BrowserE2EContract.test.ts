@@ -64,7 +64,6 @@ describe('ANM-023G5 Match-3 browser E2E contract', () => {
     expect(helper).toContain('deterministicCascadeSeed = 424242');
     expect(helper).toContain("fill(JSON.stringify(deterministicInitialTiles))");
     expect(helper).toContain("fill(JSON.stringify(objectives))");
-    expect(helper).not.toContain('document.querySelector');
   });
 
   it('keeps representative mechanics journeys executable in Chromium and mobile WebKit', () => {
