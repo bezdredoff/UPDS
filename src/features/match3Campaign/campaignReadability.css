@@ -18,8 +18,8 @@
 
 .match3-campaign-screen .campaign-level-card.locked button:disabled {
   opacity: 1;
-  border-color: #c2bac3 !important;
-  background: #e4dfe4 !important;
-  color: #5a535d !important;
+  border-color: #c2bac3;
+  background: #e4dfe4;
+  color: #5a535d;
   box-shadow: none;
 }

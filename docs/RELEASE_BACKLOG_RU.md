@@ -41,11 +41,11 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B
 | Task | Status | Outcome |
 | --- | --- | --- |
 | `G2a-ARCH-001` | **accepted · #288** | один `ViewportRuntime` владеет geometry и layout tokens |
-| `G2a-ARCH-002` | **active** | один владелец `resize/orientationchange`; VN только repagination subscriber |
-| `G2a-ARCH-003` | queued | persistent `.viewport-shell/.phone` + явные screen/overlay hosts |
-| `G2a-ARCH-004` | queued | единый compact/container layout вместо нескольких height/width breakpoints |
-| `G2a-ARCH-005` | queued | standalone CSS convergence, удаление лишних geometry/canvas overrides |
-| `G2a-ARCH-006` | queued | стабильный button/cascade contract без counter-`!important` и import-order correctness |
+| `G2a-ARCH-002` | **accepted · #289** | один владелец `resize/orientationchange`; VN только repagination subscriber |
+| `G2a-ARCH-003` | **accepted · #290** | persistent `.viewport-shell/.phone` + persistent `app-screen-host` |
+| `G2a-ARCH-004` | **accepted · #291** | единый `upds-game` compact/container layout вместо `650px OR 340px` presentation decision |
+| `G2a-ARCH-005` | **accepted · #292/#293** | один standalone CSS activation signal + удалён root-canvas camouflage/compatibility containment |
+| `G2a-ARCH-006` | **active / in review** | primary button cascade без visual counter-`!important`; feature variants выигрывают semantic specificity независимо от import order |
 | `G2a-ARCH-007` | queued | один display-mode resolver и один stable/preview/local lane resolver |
 | `G2a-ARCH-008` | queued | shared viewport evidence snapshot для Diagnostics/ViewportDebug |
 | `G2a-ARCH-009` | queued | удалить test-only compatibility methods из composition root |
@@ -274,7 +274,7 @@ Post-launch expansion only. Не расходует base-release capacity.
 
 ## Рекомендуемая последовательность от текущего `main`
 
-1. **G2a bounded cleanup — active:** ARCH-002 → ARCH-003 → ARCH-004; затем ARCH-005/006/007/008 небольшими независимыми PR. ARCH-009/010 выполнять там, где они не мешают runtime work. Stop rule — не продолжать refactor без конкретного ownership/regression payoff.
+1. **G2a bounded cleanup — active:** ARCH-006 → ARCH-007 → ARCH-008 небольшими независимыми PR; затем ARCH-009/010 там, где они не мешают runtime work. ARCH-001–005 уже accepted. Stop rule — не продолжать refactor без конкретного ownership/regression payoff.
 2. **Background visual QA — parallel:** проверка интегрированного набора `23/23` на телефоне и в полном story crawl; `server-room` не генерировать и не возвращать в текущий scope.
 3. **Guest/witness closure — parallel:** production presentation для `hinata`, `gen`, `aoi`, `kubo`, `kubo-mother`, `vincent` небольшими reviewable waves.
 4. **Ending background cleanup — accepted:** dedicated masters уже интегрированы; reopen только по результатам visual QA.

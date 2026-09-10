@@ -76,17 +76,17 @@
 }
 .level-card .moves-chip b { color: #fff1c8; font-size: 32px; }
 .level-card .moves-chip span { color: #e8d2a0; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
-.level-card > button.primary {
+.level-intro .level-card > button.primary {
   min-height: 50px;
-  border: 2px solid var(--m3-gold) !important;
-  border-radius: 5px !important;
-  background: var(--m3-green) !important;
-  color: #fff7dc !important;
-  box-shadow: inset 0 0 0 2px #18392b !important;
+  border: 2px solid var(--m3-gold);
+  border-radius: 5px;
+  background: var(--m3-green);
+  color: #fff7dc;
+  box-shadow: inset 0 0 0 2px #18392b;
   font-weight: 950;
   letter-spacing: .06em;
 }
-.level-card > button.primary:hover { background: var(--m3-green-dark) !important; }
+.level-intro .level-card > button.primary:hover { background: var(--m3-green-dark); }
 
 /* Gameplay scene: background recedes, HUD + playfield become the obvious foreground. */
 .match-screen {
@@ -272,7 +272,7 @@
 @container upds-game (max-width: 340px) {
   .level-card { left: 11px; right: 11px; padding: 18px 15px 14px 19px; }
   .level-card .moves-chip { margin: 8px 0; padding: 5px 8px; }
-  .level-card > button.primary { min-height: 44px; }
+  .level-intro .level-card > button.primary { min-height: 44px; }
   .match-case-hud { margin-left: 6px; margin-right: 6px; gap: 5px; }
   .objective-board, .stage-board { min-height: 68px; }
   .board { width: min(calc(100% - 10px), 310px); padding: 6px; gap: 2px; border-width: 3px; }
@@ -368,7 +368,7 @@
 .match-tutorial-card .case-tab { top: 0; }
 .match-tutorial-card h2 { margin: 7px 0 8px; font: 850 24px/1.05 Georgia, serif; }
 .match-tutorial-card p { margin: 0 0 15px; color: #5c513e; font-size: 13px; font-weight: 700; line-height: 1.4; }
-.match-tutorial-card button.primary {
+.match-tutorial-overlay .match-tutorial-card button.primary {
   width: 100%;
   min-height: 48px;
   border: 2px solid var(--m3-gold);
