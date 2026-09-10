@@ -77,11 +77,10 @@ describe('ANM-024C/D shared safe-area ownership', () => {
 
     expect(viewport).toContain('--upds-viewport-height: 100dvh');
     expect(viewport).toContain('--physical-viewport-height: var(--upds-viewport-height)');
-    expect(viewport).toContain('@media (display-mode: standalone)');
+    expect(viewport).not.toContain('@media (display-mode: standalone)');
+    expect(viewport).toContain(":root[data-upds-display-mode='standalone'] {");
     expect(viewport).toContain('--physical-viewport-height: calc(100dvh + var(--safe-area-top))');
-    expect(viewport).toContain(
-      '@media (display-mode: standalone) and (orientation: portrait) and (max-width: 520px)',
-    );
+    expect(viewport).toContain('@media (orientation: portrait) and (max-width: 520px)');
     expect(viewport).toContain(":root[data-upds-display-mode='standalone'] .phone.game-viewport");
     expect(viewport).toContain('width: 100%');
     expect(viewport).toContain('height: 100%');

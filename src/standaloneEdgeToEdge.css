@@ -1,15 +1,16 @@
 /*
- * Installed-PWA edge-to-edge presentation.
- * Physical height belongs to viewport.css; VN row sizes belong to the frozen
- * tokens produced by ViewportRuntime.ts. This layer must never introduce vh/dvh/svh back
- * into runtime VN geometry.
+ * Installed-PWA feature safe-area presentation.
+ * Standalone detection and physical height belong to ViewportRuntime + viewport.css.
+ * This layer consumes only data-upds-display-mode and must never resolve display mode,
+ * physical height or runtime VN row geometry on its own.
  */
 
 /*
- * #254 introduced a per-screen root-color bridge as a substitute for physical
- * player height. Keep it visually neutralized while the legacy declarations in
- * style.css are retired: a real gap must stay visible to tests instead of being
- * camouflaged by a matching canvas color.
+ * Compatibility containment for the historical per-screen root-color bridge in
+ * style.css. Keep one fixed system canvas color so a real geometry gap remains
+ * visible instead of being camouflaged. G2a-ARCH-005B retires the dead bridge
+ * declarations from the large legacy stylesheet; this rule preserves behavior
+ * until that mechanical cleanup is merged.
  */
 :root[data-upds-display-mode='standalone'] {
   background: #171a2f;
