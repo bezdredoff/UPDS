@@ -6,21 +6,6 @@
  */
 
 /*
- * Compatibility containment for the historical per-screen root-color bridge in
- * style.css. Keep one fixed system canvas color so a real geometry gap remains
- * visible instead of being camouflaged. G2a-ARCH-005B retires the dead bridge
- * declarations from the large legacy stylesheet; this rule preserves behavior
- * until that mechanical cleanup is merged.
- */
-:root[data-upds-display-mode='standalone'] {
-  background: #171a2f;
-}
-
-:root[data-upds-display-mode='standalone'] body {
-  background: #171a2f;
-}
-
-/*
  * Controls remain above the home indicator, while their non-interactive safe
  * area is painted by the same panel surface. This prevents the standalone
  * compositor canvas from appearing as a dark strip below the controls.
