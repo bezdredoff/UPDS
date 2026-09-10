@@ -16,15 +16,16 @@ describe('G2-TOUCH-001 production touch-target contract', () => {
       '.settings-panel .language-row select',
       '.vn-overlay .audio-preview-actions button',
       '.match3-campaign-screen .campaign-level-card button',
-      '.match-screen .hint-button',
     ]) {
       expect(css).toContain(selector);
     }
     expect(css).toContain('min-height: 44px;');
+    expect(css).not.toContain('.match-screen .hint-button');
   });
 
-  it('retains the later Match-3 production compact hint hardening as a second line of defence', () => {
+  it('preserves Match-3 Hint at 48px normally and 44px only in the compact production profile', () => {
     const match3Css = read('src/match3Production.css');
+    expect(match3Css).toContain('.hint-button {\n  min-height: 48px;');
     expect(match3Css).toContain('.hint-button { min-height: 44px; }');
   });
 
