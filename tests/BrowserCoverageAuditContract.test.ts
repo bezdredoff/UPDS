@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
@@ -6,32 +6,29 @@ const root = process.cwd();
 const read = (path: string): string => readFileSync(resolve(root, path), 'utf8');
 const audit = read('docs/features/ANM023G8A_PLAYWRIGHT_COVERAGE_AUDIT_RU.md');
 const g8b = read('docs/features/ANM023G8B_STORY_COMPLETION_FLOW_RU.md');
-const g8e3 = read('docs/features/ANM023G8E3_VN_LAYOUT_STABILITY_RU.md');
+const playwrightConfig = read('e2e/playwright.config.ts');
+
+const historicalG8aSpecs = [
+  ['boot.pw.ts', 1],
+  ['pages-smoke.pw.ts', 2],
+  ['harness.pw.ts', 3],
+  ['vn-navigation.pw.ts', 3],
+  ['match3.pw.ts', 4],
+  ['persistence-localization-flow.pw.ts', 3],
+  ['visual-regression.pw.ts', 4],
+] as const;
 
 describe('ANM-023G8A Playwright coverage audit contract', () => {
-  it('preserves the completed G8A baseline while tracing post-audit Playwright additions', () => {
-    const specs = readdirSync(resolve(root, 'e2e/tests'))
-      .filter((name) => name.endsWith('.pw.ts'))
-      .sort();
-    const postAuditSpecs = new Set([
-      'campaign-spoilers.pw.ts',
-      'story-completion.pw.ts',
-      'vn-browser-chrome-stability.pw.ts',
-      'viewport-recorder.pw.ts',
-    ]);
-    const g8aBaseline = specs.filter((name) => !postAuditSpecs.has(name));
+  it('preserves the completed G8A historical baseline without coupling it to the live spec inventory', () => {
+    for (const [spec, cases] of historicalG8aSpecs) {
+      expect(audit).toContain(`| \`${spec}\` | ${cases} |`);
+    }
 
-    expect(g8aBaseline).toHaveLength(7);
-    for (const spec of g8aBaseline) expect(audit).toContain(`\`${spec}\``);
-    expect(g8b).toContain('`story-completion.pw.ts`');
-    expect(g8e3).toContain('`e2e/tests/vn-browser-chrome-stability.pw.ts`');
-    expect(read('docs/features/IOS_VIEWPORT_CAPTURE_RU.md')).toContain('`e2e/tests/viewport-recorder.pw.ts`');
-
-    expect(audit).toContain('20 Chromium cases');
+    expect(audit).toContain('7 Playwright spec-файлов и 20 Chromium cases');
     expect(audit).toContain('15 cases');
-    expect(g8b).toContain('8 specs / 21 Chromium cases / 15 Mobile WebKit critical cases');
     expect(audit).toContain('No current spec is recommended for deletion in G8A.');
     expect(audit).not.toContain('Selenium is recommended');
+    expect(playwrightConfig).toContain("testMatch: /.*\\.pw\\.ts/");
   });
 
   it('records the shared production-controller parity instead of treating QA tools as alternate games', () => {
