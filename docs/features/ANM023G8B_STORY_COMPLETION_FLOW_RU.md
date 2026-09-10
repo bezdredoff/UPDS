@@ -62,8 +62,8 @@ Main Menu не меняется, поэтому четыре утверждён�
 
 ## Automated contracts
 
-- `StoryWinQaFixture.test.ts` доказывает one-swap real win и неизменность canonical `levels[0]`.
-- `BrowserStoryCompletionE2EContract.test.ts` фиксирует explicit `startMatch(..., levelOverride)`, запрещает hidden force-win/browser-storage shortcuts и защищает evidence/VN/reload assertions.
+- `StoryWinQaFixture.test.ts` доказывает one-swap real win через настоящий `Match3Game` и неизменность canonical `levels[0]`.
+- `BrowserStoryCompletionE2EContract.test.ts` после G2a-TEST-003 защищает player-visible Evidence → VN → reload/Continue boundary и запрещает browser-storage/hidden force-win/controller shortcuts, не фиксируя точный QA copy или внутреннюю форму production controllers.
 - `BrowserCoverageAuditContract.test.ts` сохраняет только historical G8A baseline; `story-completion.pw.ts` не входит в центральный post-audit registry.
 
 ## Не входит
