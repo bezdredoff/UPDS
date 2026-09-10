@@ -3,26 +3,93 @@ import { describe, expect, it } from 'vitest';
 import { AppShell } from '../src/app/AppShell';
 import { resolveViewportGeometry, viewportLayoutTokens } from '../src/platform/ViewportRuntime';
 
-class FakeRoot {
+class FakeElement {
   innerHTML = '';
+  removed = false;
+
+  constructor(private readonly onRemove: () => void = () => undefined) {}
+
+  remove(): void {
+    this.removed = true;
+    this.onRemove();
+  }
+}
+
+class FakeGameViewport extends FakeElement {
+  children: FakeElement[];
+
+  constructor(private readonly screenHost: FakeElement) {
+    super();
+    this.children = [screenHost];
+  }
+
+  resetChildren(): void {
+    this.children = [this.screenHost];
+  }
+
+  appendTransientChild(): FakeElement {
+    let transient: FakeElement;
+    transient = new FakeElement(() => {
+      this.children = this.children.filter((child) => child !== transient);
+    });
+    this.children.push(transient);
+    return transient;
+  }
+}
+
+class FakeRoot {
+  private markup = '';
+  private mounted = false;
+  readonly screenHost = new FakeElement();
+  readonly gameViewport = new FakeGameViewport(this.screenHost);
+  shellMounts = 0;
+
+  set innerHTML(value: string) {
+    this.markup = value;
+    if (value.includes('data-screen-host="primary"')) {
+      if (!this.mounted) this.shellMounts += 1;
+      this.mounted = true;
+      this.screenHost.innerHTML = '';
+      this.gameViewport.resetChildren();
+    }
+  }
+
+  get innerHTML(): string {
+    return `${this.markup}${this.screenHost.innerHTML}`;
+  }
+
+  querySelector<T>(selector: string): T | null {
+    if (!this.mounted) return null;
+    if (selector === '[data-screen-host="primary"]') return this.screenHost as T;
+    if (selector === '[data-game-viewport="compat-edge-to-edge"]') return this.gameViewport as T;
+    return null;
+  }
 }
 
 describe('ANM-024B shared game viewport shell', () => {
-  it('renders every scene inside one physical shell and one game viewport', () => {
+  it('mounts one persistent physical shell and replaces only screen content', () => {
     const root = new FakeRoot();
     let afterRenderCount = 0;
     const shell = new AppShell(root as unknown as HTMLElement, () => {
       afterRenderCount += 1;
     });
 
-    shell.render('<section class="screen">scene</section>');
+    shell.render('<section class="screen first">first</section>');
+    const persistentScreenHost = root.screenHost;
+    const transientOverlay = root.gameViewport.appendTransientChild();
+    shell.render('<section class="screen second">second</section>');
 
+    expect(root.shellMounts).toBe(1);
+    expect(root.screenHost).toBe(persistentScreenHost);
     expect(root.innerHTML).toContain('class="viewport-shell"');
     expect(root.innerHTML).toContain('data-viewport-shell="physical"');
     expect(root.innerHTML).toContain('class="phone game-viewport"');
     expect(root.innerHTML).toContain('data-game-viewport="compat-edge-to-edge"');
-    expect(root.innerHTML).toContain('<section class="screen">scene</section>');
-    expect(afterRenderCount).toBe(1);
+    expect(root.innerHTML).toContain('data-screen-host="primary"');
+    expect(root.screenHost.innerHTML).toContain('<section class="screen second">second</section>');
+    expect(root.screenHost.innerHTML).not.toContain('first');
+    expect(transientOverlay.removed).toBe(true);
+    expect(afterRenderCount).toBe(2);
   });
 
   it('restores the real-device R4/R7 physical-height formula for standalone iOS', () => {
@@ -45,6 +112,7 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(css).toContain('width: 100%');
     expect(css).toContain('height: 100%');
     expect(css).toContain('height: var(--physical-viewport-height)');
+    expect(css).toContain('.app-screen-host');
     expect(css).not.toContain('--physical-viewport-height: 100vh');
     expect(css).not.toContain('--physical-viewport-height: 100lvh');
   });

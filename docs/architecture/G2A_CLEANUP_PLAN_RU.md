@@ -23,8 +23,8 @@ Status: active bounded maintenance plan after merged G2 runtime/UI hardening and
 | ID | Priority | Status | Задача | Outcome |
 | --- | --- | --- | --- | --- |
 | G2a-ARCH-001 | P0 | accepted | Single viewport geometry owner | `ViewportRuntime` единолично измеряет runtime geometry и пишет layout tokens; merged PR #288 |
-| G2a-ARCH-002 | P0 | active | Single viewport event ownership | только `ViewportRuntime` слушает production `resize/orientationchange`; VN получает уже отфильтрованное geometry-change событие и отвечает только repagination |
-| G2a-ARCH-003 | P0 | queued | Persistent AppShell | `.viewport-shell` и `.phone.game-viewport` создаются один раз; screen content меняется внутри persistent host; global/feature overlays имеют явные hosts |
+| G2a-ARCH-002 | P0 | accepted | Single viewport event ownership | только `ViewportRuntime` слушает production `resize/orientationchange`; VN получает уже отфильтрованное geometry-change событие и отвечает только repagination; merged PR #289 |
+| G2a-ARCH-003 | P0 | active | Persistent AppShell | `.viewport-shell` и `.phone.game-viewport` создаются один раз; screen content меняется внутри persistent `app-screen-host`; transient direct viewport children очищаются на screen boundary, сохраняя старую overlay семантику |
 | G2a-ARCH-004 | P1 | queued | Unified compact layout | убрать несколько независимых `max-height:650px / max-width:340px` решений; один container/layout contract определяет compact presentation без Safari-chrome height flips |
 | G2a-ARCH-005 | P1 | queued | Standalone CSS convergence | свести `@media(display-mode)`, `data-upds-display-mode`, `standaloneEdgeToEdge.css` и root canvas workarounds к одному понятному ownership contract; удалить ставшие ненужными страховочные overrides после device evidence |
 | G2a-ARCH-006 | P1 | queued | CSS cascade/button contract | уйти от глобального `.primary !important` и feature-level counter-`!important`; ввести стабильные button modifiers / layers и убрать correctness, зависящий от import order |
@@ -35,15 +35,14 @@ Status: active bounded maintenance plan after merged G2 runtime/UI hardening and
 
 ## Рекомендуемый порядок
 
-1. ARCH-002 — единый поток viewport events.
-2. ARCH-003 — persistent physical shell.
-3. ARCH-004 — единый compact/container layout.
-4. ARCH-005 — удалить дубли standalone geometry/presentation overrides, которые стали лишними после 001–004.
-5. ARCH-006 — почистить cascade/`!important` после стабилизации layout ownership.
-6. ARCH-007 — централизовать display mode / runtime lane identity.
-7. ARCH-008 — объединить diagnostics evidence collectors.
-8. ARCH-009 — удалить test-only composition-root compatibility API.
-9. ARCH-010 — repository hygiene cleanup + guard.
+1. ARCH-003 — persistent physical shell.
+2. ARCH-004 — единый compact/container layout.
+3. ARCH-005 — удалить дубли standalone geometry/presentation overrides, которые стали лишними после 001–004.
+4. ARCH-006 — почистить cascade/`!important` после стабилизации layout ownership.
+5. ARCH-007 — централизовать display mode / runtime lane identity.
+6. ARCH-008 — объединить diagnostics evidence collectors.
+7. ARCH-009 — удалить test-only composition-root compatibility API.
+8. ARCH-010 — repository hygiene cleanup + guard.
 
 ARCH-009/010 можно выполнить раньше, если они не пересекаются с активным runtime PR. ART/guest production может идти параллельно; этот track не должен превращаться в бесконечный refactor перед релизом.
 
