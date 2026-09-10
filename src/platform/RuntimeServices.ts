@@ -6,6 +6,7 @@ import { LocalizationService } from '../localization/LocalizationService';
 import { LocaleSettingsStore } from '../localization/LocaleSettingsStore';
 import { initialAppCatalogs, loadRuntimeLocaleCatalog } from '../localization/catalogs';
 import { setVnAdvanceAccessibilityLabel } from '../ui/runtimeAccessibilityLabels';
+import { installVnModalFocusManagement } from '../ui/vnModalFocus';
 import { AssetHealth } from './AssetHealth';
 import { ErrorLog } from './ErrorLog';
 import { PlaytestTelemetry } from './PlaytestTelemetry';
@@ -27,6 +28,7 @@ export type RuntimeServices = Readonly<{
 }>;
 
 export const createRuntimeServices = (): RuntimeServices => {
+  installVnModalFocusManagement();
   const storage = getSafeStorage(() => window.localStorage);
   const errorLog = new ErrorLog(storage.storage);
   const telemetry = new PlaytestTelemetry(storage.storage);
