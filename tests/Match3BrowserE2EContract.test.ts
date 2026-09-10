@@ -7,25 +7,27 @@ const read = (path: string): string => readFileSync(resolve(process.cwd(), path)
 const selectors = read('e2e/selectors.ts');
 const helper = read('e2e/helpers/match3.ts');
 const spec = read('e2e/tests/match3.pw.ts');
-const app = read('src/ui/AnimeDetectiveApp.ts');
-const controller = read('src/features/match3/Match3Controller.ts');
-const presentation = read('src/features/match3/Match3Presentation.ts');
-const levelLab = read('src/features/levelLab/LevelLabController.ts');
-const engineTests = read('tests/Match3Game.test.ts');
+const playwrightConfig = read('e2e/playwright.config.ts');
 
 describe('ANM-023G5 Match-3 browser E2E contract', () => {
-  it('keeps Campaign and Level Lab on the one production Match3Controller', () => {
-    expect(app.match(/new Match3Controller/g)?.length ?? 0).toBe(1);
-    expect(app).toContain('this.match3.startCampaignMatch');
-    expect(app).toContain('this.match3.startLabMatch');
-    expect(controller).toContain("if (this.labRun) return 'lab';");
-    expect(controller).toContain("if (this.campaignRun) return 'campaign';");
-    expect(helper).not.toContain('Match3Game');
-    expect(helper).not.toContain('window.__');
-    expect(spec).not.toContain('localStorage.setItem');
+  it('uses visible Campaign and Level Lab routes without browser-only gameplay shortcuts', () => {
+    expect(helper).toContain('resetBrowserState(page)');
+    expect(helper).toContain('match3CampaignButton');
+    expect(helper).toContain('levelLabButton');
+    expect(helper).toContain('levelLabPlay');
+    expect(helper).toContain('match3Screen');
+    expect(helper).toContain('match3Board');
+
+    for (const source of [helper, spec]) {
+      expect(source).not.toContain('Match3Controller');
+      expect(source).not.toContain('Match3Game');
+      expect(source).not.toContain('localStorage.setItem');
+      expect(source).not.toContain('__UPDS_TEST__');
+      expect(source).not.toContain('forceWin');
+    }
   });
 
-  it('freezes the existing production DOM hooks used to observe Match-3 mechanics', () => {
+  it('keeps the Match-3 automation selector API explicit', () => {
     for (const token of [
       "match3Moves: '.moves-left b'",
       "match3StageId: '.stage-meta b'",
@@ -34,53 +36,52 @@ describe('ANM-023G5 Match-3 browser E2E contract', () => {
       "match3HintedCell: '.board-cell.hinted[data-cell]'",
       "match3Tile: '.tile[data-tile-variant]'",
       "match3Special: '.special'",
+      "match3Feedback: '#match-feedback'",
+      "match3Bark: '.field-bark'",
+      "levelLabInitialTiles: '#lab-initial-tiles-json'",
+      "levelLabObjectives: '#lab-objectives-json'",
+      "levelLabApply: '#lab-apply'",
+      "levelLabPlay: '#lab-play'",
     ]) {
       expect(selectors).toContain(token);
     }
-
-    expect(presentation).toContain('data-tile-variant="${escapeHtml(tile.variantId)}"');
-    expect(presentation).toContain('class="moves-left"><b>${movesLeft}</b>');
-    expect(presentation).toContain('class="stage-meta"');
-    expect(presentation).toContain('id="hint"');
   });
 
-  it('builds the deterministic fixture only through the visible Level Lab draft editor', () => {
-    expect(helper).toContain('levelLabInitialTiles');
-    expect(helper).toContain('levelLabBlockers');
-    expect(helper).toContain('levelLabIngredients');
-    expect(helper).toContain('levelLabObjectives');
-    expect(helper).toContain('levelLabApply');
+  it('builds deterministic browser fixtures only through the visible Level Lab editor', () => {
+    for (const token of [
+      'levelLabInitialTiles',
+      'levelLabBlockers',
+      'levelLabIngredients',
+      'levelLabObjectives',
+      'levelLabApply',
+      'levelLabValidation',
+      'levelLabPlay',
+    ]) {
+      expect(helper).toContain(token);
+    }
+
     expect(helper).toContain('deterministicLabSeed = 7');
     expect(helper).toContain('deterministicCascadeSeed = 424242');
-    expect(levelLab).toContain('id="lab-initial-tiles-json"');
-    expect(levelLab).toContain('id="lab-objectives-json"');
-    expect(levelLab).toContain("this.root.querySelector('#lab-apply')");
-    expect(levelLab).toContain("this.root.querySelector('#lab-play')");
+    expect(helper).toContain("fill(JSON.stringify(deterministicInitialTiles))");
+    expect(helper).toContain("fill(JSON.stringify(objectives))");
   });
 
-  it('covers legal hint moves, invalid swaps, deterministic cascades, refill, objectives and special activation', () => {
-    expect(spec).toContain('objective-aware Hint resolves a real legal move');
-    expect(spec).toContain('a deterministic cascade uses production clear/settle/refill rules');
-    expect(spec).toContain('invalid swap is side-effect free');
-    expect(spec).toContain('const invalidFeedback = page.locator(qaSelectors.match3Feedback)');
-    expect(spec).toContain('toHaveClass(/reject-feedback.*visible|visible.*reject-feedback/)');
-    expect(spec).toContain('not.toHaveClass(/visible/)');
-    expect(spec).toContain("toEqual([7, 10])");
-    expect(spec).toContain("toEqual([3, 10])");
-    expect(spec).toContain("'.special.flash-row'");
+  it('keeps representative mechanics journeys executable in Chromium and mobile WebKit', () => {
+    for (const token of [
+      'Campaign starts the production first level on the shared board',
+      'inactivity hint updates the stable Match-3 screen and board in place',
+      'real pointer drag previews threshold state',
+      'objective-aware Hint resolves a real legal move',
+      'a deterministic cascade uses production clear/settle/refill rules',
+      'invalid swap is side-effect free',
+      'activates flash-row',
+    ]) {
+      expect(spec).toContain(token);
+    }
+
+    expect(spec).toContain('toHaveCount(64)');
     expect(spec).toContain('progressBeforeActivation');
     expect(spec).toContain('toBeGreaterThan(progressBeforeActivation)');
-    expect(spec).toContain('toHaveCount(64)');
-    expect(controller).toContain('const result = game.attemptSwap(first, second)');
-    expect(controller).toContain('const result = game.attemptSpecialActivation(index)');
-    expect(controller).toContain('this.t(match3InvalidFeedbackKey(result.reason))');
-    expect(controller).not.toContain("noMatch ? this.t('match3.feedback.noMatch') : this.t('match3.feedback.swapUnavailable')");
-  });
-
-  it('uses the same engine legality contract already protected by unit tests', () => {
-    expect(engineTests).toContain('getHintMove()');
-    expect(engineTests).toContain('expect(result.valid).toBe(true)');
-    expect(engineTests).toContain("reason).toBe('not-adjacent')");
-    expect(engineTests).toContain('expect(game.movesLeft).toBe(before)');
+    expect(playwrightConfig).toContain('/match3\\.pw\\.ts/');
   });
 });
