@@ -47,7 +47,6 @@ export type BackgroundKey =
   | 'clubroomNight'
   | 'anonymousReturnCounter'
   | 'serviceTunnel'
-  | 'serverRoom'
   | 'disciplinaryAssembly';
 
 const conditionalSpeakerPattern = /^\{IF\s+([^}]+)\}\s*/;
@@ -184,27 +183,23 @@ export const backgroundAssets: Record<BackgroundKey, string> = {
   // ANM-030B1B2/B1B3 adopt the Asterion lab and lost-found warehouse production masters.
   asterionLab: './assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp',
   lostFoundWarehouse: './assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp',
-  maintenanceRoom: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
+  maintenanceRoom: './assets/backgrounds/BG_MAINTENANCE_ROOM.webp',
   // ANM-030B1B6 adopts one multipurpose combat-hall production variant for karate and kendo.
   combatClubHall: './assets/backgrounds/BG_COMBAT_CLUB_HALL.webp',
   // ANM-030B1B4 adopts the campus service-yard production master.
   serviceYard: './assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp',
-  asterionTransferPoint: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
-  oldGymNight: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
-  // ANM-027G 13–15 semantic variants. External masters replace only these mappings.
-  campusPath: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
+  asterionTransferPoint: './assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp',
+  oldGymNight: './assets/backgrounds/BG_OLD_GYM_NIGHT.webp',
+  campusPath: './assets/backgrounds/BG_CAMPUS_PATH.webp',
   // ANM-030B1B5 adopts the abandoned-laundry production master.
   abandonedLaundry: './assets/backgrounds/BG_ABANDONED_LAUNDRY.webp',
-  // ANM-027G 16–18 semantic variants. No new binaries until external background production.
-  gymnasticsCostume: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
+  gymnasticsCostume: './assets/backgrounds/BG_GYMNASTICS_COSTUME.webp',
   // ANM-030B1B6 adopts the old-archive sibling derived from the abandoned-laundry anchor.
   oldArchive: './assets/backgrounds/BG_OLD_ARCHIVE.webp',
-  clubroomNight: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
-  // ANM-027G 19–21 ending variants. Semantic aliases pending external production masters.
-  anonymousReturnCounter: './assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp',
-  serviceTunnel: './assets/backgrounds/BG_POOL_LOCKER_EVENING.webp',
-  serverRoom: './assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp',
-  disciplinaryAssembly: './assets/backgrounds/BG_CLUBROOM_DAY.webp',
+  clubroomNight: './assets/backgrounds/BG_CLUBROOM_NIGHT.webp',
+  anonymousReturnCounter: './assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp',
+  serviceTunnel: './assets/backgrounds/BG_SERVICE_TUNNEL.webp',
+  disciplinaryAssembly: './assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp',
 };
 
 export function getBackgroundForLine(sceneIndex: number, lineIndex: number, story: readonly StoryLine[]): BackgroundKey {
@@ -212,7 +207,6 @@ export function getBackgroundForLine(sceneIndex: number, lineIndex: number, stor
   for (let index = 0; index <= lineIndex && index < story.length; index += 1) {
     const direction = `${story[index].emotion} ${story[index].text}`;
     if (direction.includes('BG_DISCIPLINARY_ASSEMBLY')) background = 'disciplinaryAssembly';
-    else if (direction.includes('BG_SERVER_ROOM')) background = 'serverRoom';
     else if (direction.includes('BG_SERVICE_TUNNEL')) background = 'serviceTunnel';
     else if (direction.includes('BG_ANONYMOUS_RETURN_COUNTER')) background = 'anonymousReturnCounter';
     else if (direction.includes('BG_CLUBROOM_NIGHT')) background = 'clubroomNight';

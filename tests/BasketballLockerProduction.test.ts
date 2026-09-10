@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { backgroundAssets, sceneMeta } from '../src/data/narrative';
 
 const assetPath = resolve(process.cwd(), 'public/assets/backgrounds/BG_BASKETBALL_LOCKER.webp');
-const approvedSha256 = 'ccec67f61c34058eed79e44a4d5bacafb5c3f5003a9ebcc5fe8e181fb4ad06f8';
+const approvedSha256 = '9dd4f701a3206811d37a3226880ec1c9265382eec7a67ad026dd856dff7ec4cc';
 
 function readWebpDimensions(buffer: Buffer): readonly [number, number] {
   expect(buffer.subarray(0, 4).toString('ascii')).toBe('RIFF');

@@ -219,8 +219,8 @@ describe('active documentation traceability', () => {
     expect(highUsageBackgroundTrio).toContain('BG_COMBAT_CLUB_HALL.webp');
     expect(highUsageBackgroundTrio).toContain('BG_OLD_ARCHIVE.webp');
     expect(highUsageBackgroundTrio).toContain('1080×1920');
-    expect(currentAssetAudit).toContain('"productionBackgroundVariants": 13');
-    expect(currentAssetAudit).toContain('"runtimeFallbackBackgroundVariants": 11');
+    expect(currentAssetAudit).toContain('"productionBackgroundVariants": 23');
+    expect(currentAssetAudit).toContain('"runtimeFallbackBackgroundVariants": 0');
     expect(index).toContain('Historical Emi production provenance');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_CANDIDATE_RU.md');
     expect(index).toContain('ANM028D0_EMI_NEUTRAL_R1_PROMPT.md');

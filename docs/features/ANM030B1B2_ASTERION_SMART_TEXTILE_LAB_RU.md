@@ -27,7 +27,8 @@ the target phone remains the merge gate.
 
 - `backgroundAssets.asterionLab` now resolves to the dedicated production WebP;
 - `lab-asterion` becomes an existing production master family;
-- `transfer-point` and `server-room` intentionally remain unresolved sibling variants until their
+- `transfer-point` is now covered by the approved G4 batch; `server-room` is intentionally out of
+  current scope and has no runtime background key. Until its removal, sibling variants were
   own visual candidates are derived from this golden master and approved;
 - no controller, screenplay, save, localization, staging-preset or scene-index behavior changes;
 - current background totals move from `6/24` production + `18` aliases to `7/24` production + `17`

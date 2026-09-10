@@ -38,8 +38,8 @@ describe('ANM-027G episodes 13–15 canonical production batch', () => {
     expect(levels.slice(13, 16).every((level) => level.objectives.length <= 3)).toBe(true);
   });
 
-  it('adopts the approved abandoned-laundry anchor while retaining the unresolved campus-path variant', () => {
-    expect(backgroundAssets.campusPath).toBe(backgroundAssets.clubroom);
+  it('adopts the approved campus-path and abandoned-laundry anchors', () => {
+    expect(backgroundAssets.campusPath).toBe('./assets/backgrounds/BG_CAMPUS_PATH.webp');
     expect(backgroundAssets.abandonedLaundry).toBe('./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp');
     expect(backgroundAssets.abandonedLaundry).not.toBe(backgroundAssets.poolLocker);
   });

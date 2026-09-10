@@ -45,7 +45,7 @@ describe('ANM-027G episodes 7–9 canonical production batch', () => {
     expect(backgroundAssets.asterionLab).not.toBe(backgroundAssets.norihiroApartment);
     expect(backgroundAssets.lostFoundWarehouse).toBe('./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp');
     expect(backgroundAssets.lostFoundWarehouse).not.toBe(backgroundAssets.lockerAthletics);
-    expect(backgroundAssets.maintenanceRoom).toBe(backgroundAssets.lockerAthletics);
+    expect(backgroundAssets.maintenanceRoom).toBe('./assets/backgrounds/BG_MAINTENANCE_ROOM.webp');
   });
 
   it('routes Rina and Kurose through production rigs while Gen stays in the guest tier', () => {

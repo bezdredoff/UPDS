@@ -1,7 +1,7 @@
 {
   "project": "UPDS",
   "release": "Complete portrait-first PWA",
-  "updated": "2026-09-09",
+  "updated": "2026-09-10",
   "statuses": ["queued", "active", "review", "accepted", "blocked", "known-issue", "deferred"],
   "tasks": [
     {"id":"G0","cluster":"Gate","title":"PWA на реальном телефоне","status":"active","owner":"User + ChatGPT/Codex","start":"2026-09-09","end":"2026-09-10","depends":[],"evidence":"device evidence pending"},
@@ -9,8 +9,8 @@
     {"id":"G2","cluster":"Product","title":"Runtime/UI hardening","status":"queued","owner":"ChatGPT/Codex","start":"2026-09-11","end":"2026-09-14","depends":["G1"],"evidence":"pending"},
     {"id":"G2a","cluster":"Product","title":"Architecture и test simplification","status":"queued","owner":"ChatGPT/Codex","start":"2026-09-11","end":"2026-09-14","depends":["G1"],"evidence":"pending"},
     {"id":"G3","cluster":"Art","title":"Guests и character emotion closure","status":"queued","owner":"ChatGPT/Codex + ComfyUI","start":"2026-09-11","end":"2026-09-15","depends":["G1"],"evidence":"pending"},
-    {"id":"G4","cluster":"Art","title":"Background flow и common-route batch","status":"queued","owner":"ChatGPT/Codex + ComfyUI","start":"2026-09-11","end":"2026-09-16","depends":["G1"],"evidence":"pending"},
-    {"id":"G4a","cluster":"Art","title":"Full art/style audit","status":"queued","owner":"ChatGPT + Codex + ComfyUI","start":"2026-09-11","end":"2026-09-15","depends":["G1"],"evidence":"pending"},
+    {"id":"G4","cluster":"Art","title":"Background flow и common-route batch","status":"accepted","owner":"ChatGPT Image + Codex","start":"2026-09-10","end":"2026-09-10","depends":["G1"],"evidence":"docs/features/ANM030G4_BACKGROUND_FLOW_COMMON_ROUTE_RU.md; tests/RuntimeAssetInventory.test.ts"},
+    {"id":"G4a","cluster":"Art","title":"Full art/style audit","status":"active","owner":"User + ChatGPT/Codex","start":"2026-09-10","end":"2026-09-12","depends":["G4"],"evidence":"iPhone visual spot-check pending"},
     {"id":"G5a","cluster":"Validation","title":"Scenario и RU/BE/EN editorial pass","status":"queued","owner":"ChatGPT + Codex","start":"2026-09-15","end":"2026-09-18","depends":["G2"],"evidence":"pending"},
     {"id":"G5b","cluster":"Validation","title":"Match-3 design, balance и variety","status":"queued","owner":"User + ChatGPT/Codex","start":"2026-09-11","end":"2026-09-17","depends":["G1"],"evidence":"human playtest pending"},
     {"id":"G5","cluster":"Validation","title":"Full playthrough и asset crawl","status":"queued","owner":"User/testers + ChatGPT/Codex","start":"2026-09-18","end":"2026-09-22","depends":["G3","G4","G4a","G5a","G5b"],"evidence":"pending"},

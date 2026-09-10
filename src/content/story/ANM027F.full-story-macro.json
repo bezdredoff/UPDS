@@ -167,8 +167,7 @@
       "existingAssets": [],
       "requiredVariants": [
         "smart-textile-lab",
-        "transfer-point",
-        "server-room"
+        "transfer-point"
       ]
     },
     {
@@ -1780,10 +1779,6 @@
         {
           "family": "old-building-finale",
           "variant": "service-tunnel"
-        },
-        {
-          "family": "lab-asterion",
-          "variant": "server-room"
         },
         {
           "family": "club-admin",
