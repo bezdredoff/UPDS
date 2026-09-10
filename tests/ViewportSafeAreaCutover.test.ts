@@ -66,6 +66,7 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     const viewport = read('src/viewport.css');
     const runtime = read('src/platform/ViewportRuntime.ts');
     const standalone = read('src/standaloneEdgeToEdge.css');
+    const legacy = read('src/style.css');
     const geometry = resolveViewportGeometry({
       displayMode: 'standalone',
       innerWidth: 402,
@@ -90,7 +91,10 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(geometry.layoutHeight).toBe(874);
     expect(runtime).toContain('if (Math.abs(nextWidth - stableLayoutWidth) < 2) return;');
     expect(runtime).not.toContain("visualViewport?.addEventListener('resize'");
-    expect(standalone).toContain(":root[data-upds-display-mode='standalone'] {\n  background: #171a2f;");
+    expect(legacy).toContain('background: #171a2f;');
+    expect(legacy).not.toContain('--upds-system-canvas-color');
+    expect(legacy).not.toContain(":root[data-upds-display-mode='standalone']:has(");
+    expect(standalone).not.toMatch(/:root\[data-upds-display-mode='standalone'\]\s*\{\s*background:/);
   });
 
   it('loads shared token discovery after presentation and preview badge CSS', () => {
