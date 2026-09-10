@@ -85,7 +85,7 @@ export function vnFrameMarkup(input: VnFrameMarkupInput): string {
     </div>
     <nav class="vn-controls" aria-label="${escapeHtml(input.labels.controls)}"${chromeInert}>
       <button id="${escapeHtml(id('skip'))}" ${input.skipAvailable ? '' : 'disabled'}${inertControl}>${icon('skip')}<span>SKIP</span></button>
-      <button id="${escapeHtml(id('auto'))}" class="${input.autoMode ? 'is-active' : ''}"${inertControl}>${icon('auto')}<span>AUTO</span></button>
+      <button id="${escapeHtml(id('auto'))}" class="${input.autoMode ? 'is-active' : ''}" aria-pressed="${input.autoMode}"${inertControl}>${icon('auto')}<span>AUTO</span></button>
       <button id="${escapeHtml(id('save-vn'))}"${inertControl}>${icon('save')}<span>SAVE</span></button>
       <button id="${escapeHtml(id('load-vn'))}"${inertControl}>${icon('load')}<span>LOAD</span></button>
     </nav>
