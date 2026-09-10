@@ -5,6 +5,7 @@ import { levels } from '../../data/levels';
 import { backgroundAssets } from '../../data/narrative';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import { escapeHtml, headerActionMarkup } from '../../ui/viewMarkup';
+import './campaignReadability.css';
 
 export class Match3CampaignController {
   constructor(
