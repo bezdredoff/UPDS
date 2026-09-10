@@ -192,6 +192,47 @@ test.describe('VN through QA Scene Navigation', () => {
     expectStableVnViewport(before, await captureVnViewportGeometry(page));
   });
 
+  test('traps keyboard focus in VN overlays and restores the opener', async ({ page }) => {
+    const health = observeBrowserHealth(page);
+    await openQaScene(page, 0);
+
+    const history = page.locator('#history');
+    await history.focus();
+    await page.keyboard.press('Enter');
+    const overlay = page.locator('.vn-overlay');
+    const close = page.locator('#close-overlay');
+    await expect(overlay).toBeVisible();
+    await expect(close).toBeFocused();
+    await expect(page.locator(qaSelectors.vnScreen)).toHaveAttribute('inert', '');
+    await page.keyboard.press('Tab');
+    await expect(close).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(overlay).toHaveCount(0);
+    await expect(history).toBeFocused();
+    await expect(page.locator(qaSelectors.vnScreen)).not.toHaveAttribute('inert', '');
+
+    const settings = page.locator('#header-settings');
+    await settings.focus();
+    await page.keyboard.press('Enter');
+    await expect(overlay).toBeVisible();
+    await expect(page.locator('#close-overlay')).toBeFocused();
+    await expect(page.locator(qaSelectors.vnScreen)).toHaveAttribute('inert', '');
+    await page.keyboard.press('Shift+Tab');
+    await expect(page.locator('#vn-main-menu')).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(page.locator('#close-overlay')).toBeFocused();
+
+    const fast = page.locator('[data-auto-speed="fast"]');
+    await fast.focus();
+    await page.keyboard.press('Enter');
+    await expect(fast).toBeFocused();
+
+    await page.keyboard.press('Escape');
+    await expect(overlay).toHaveCount(0);
+    await expect(settings).toBeFocused();
+    health.assertClean();
+  });
+
   test('reaches CHOICE_00 through the real scene flow and resumes the selected branch', async ({ page }) => {
     const health = observeBrowserHealth(page);
     await openQaScene(page, 1);

@@ -5,6 +5,7 @@ import { levels } from '../../data/levels';
 import { backgroundAssets } from '../../data/narrative';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import { escapeHtml, headerActionMarkup } from '../../ui/viewMarkup';
+import './campaignReadability.css';
 
 export class Match3CampaignController {
   constructor(
@@ -48,9 +49,12 @@ export class Match3CampaignController {
             const best = this.session.save.bestMovesLeft[level.id];
             const status = !unlocked ? t('match3Campaign.locked') : done ? t('match3Campaign.completed') : t('match3Campaign.available');
             const action = done ? t('match3Campaign.replay') : t('match3Campaign.play');
+            const identity = unlocked
+              ? `<div class="campaign-level-heading"><span>${escapeHtml(level.shortId)}</span><b>${t(`match3.level.${level.id}.title`)}</b></div>
+              <p>${t(`match3.level.${level.id}.storyAction`)}</p>`
+              : `<div class="campaign-level-heading"><span aria-hidden="true">—</span><b>${status}</b></div>`;
             return `<article class="campaign-level-card${done ? ' completed' : ''}${unlocked ? '' : ' locked'}">
-              <div class="campaign-level-heading"><span>${escapeHtml(level.shortId)}</span><b>${t(`match3.level.${level.id}.title`)}</b></div>
-              <p>${t(`match3.level.${level.id}.storyAction`)}</p>
+              ${identity}
               <div class="campaign-level-meta">
                 <span>${status}</span><span>${t('match3Campaign.attempts', { count: attempts })}</span>
                 ${best === undefined ? '' : `<span>${t('match3Campaign.best', { moves: best })}</span>`}

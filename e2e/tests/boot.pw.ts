@@ -16,7 +16,63 @@ test('boots the production build into the player menu without QA tools', async (
   await expect(page.locator(qaSelectors.sceneNavigationButton)).toHaveCount(0);
   await expect(page.locator(qaSelectors.levelLabButton)).toHaveCount(0);
   await expect(page.locator(qaSelectors.sceneStudioButton)).toHaveCount(0);
-  await expect(page.locator(qaSelectors.supportButton)).toBeVisible();
+  await expect(page.locator(qaSelectors.supportButton)).toHaveCount(0);
+  health.assertClean();
+});
+
+test('keeps compact production touch targets at least 44px tall', async ({ page }) => {
+  const health = observeBrowserHealth(page);
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto('./');
+  await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
+
+  const expectAtLeast44 = async (selector: string): Promise<void> => {
+    const heights = await page.locator(selector).evaluateAll((nodes) =>
+      nodes.map((node) => (node as HTMLElement).getBoundingClientRect().height),
+    );
+    expect(heights.length).toBeGreaterThan(0);
+    for (const height of heights) expect(height).toBeGreaterThanOrEqual(44);
+  };
+
+  await page.locator(qaSelectors.settingsButton).click();
+  await expect(page.locator(qaSelectors.settingsScreen)).toBeVisible();
+  await expectAtLeast44(qaSelectors.languageSelect);
+
+  await page.locator(qaSelectors.settingsBack).click();
+  await page.locator(qaSelectors.match3CampaignButton).click();
+  await expect(page.locator(qaSelectors.match3CampaignScreen)).toBeVisible();
+  await expectAtLeast44(`${qaSelectors.match3CampaignScreen} .campaign-level-card button`);
+
+  const lockedCard = page.locator('.campaign-level-card.locked').first();
+  await expect(lockedCard).toBeVisible();
+  const lockedPresentation = await lockedCard.evaluate((node) => {
+    const heading = node.querySelector<HTMLElement>('.campaign-level-heading b');
+    const meta = node.querySelector<HTMLElement>('.campaign-level-meta span');
+    const button = node.querySelector<HTMLButtonElement>('button:disabled');
+    if (!heading || !meta || !button) throw new Error('Missing locked Campaign presentation node');
+    const cardStyle = getComputedStyle(node);
+    return {
+      opacity: cardStyle.opacity,
+      filter: cardStyle.filter,
+      headingColor: getComputedStyle(heading).color,
+      metaColor: getComputedStyle(meta).color,
+      buttonOpacity: getComputedStyle(button).opacity,
+      buttonColor: getComputedStyle(button).color,
+    };
+  });
+  expect(lockedPresentation.opacity).toBe('1');
+  expect(lockedPresentation.filter).toBe('none');
+  expect(lockedPresentation.headingColor).toBe('rgb(55, 51, 69)');
+  expect(lockedPresentation.metaColor).toBe('rgb(79, 73, 85)');
+  expect(lockedPresentation.buttonOpacity).toBe('1');
+  expect(lockedPresentation.buttonColor).toBe('rgb(90, 83, 93)');
+  await page.locator('#back').click();
+
+  await page.locator(qaSelectors.newGame).click();
+  await expect(page.locator(qaSelectors.vnRuntimeFrame)).toBeVisible();
+  await page.locator('#header-settings').click();
+  await expect(page.locator('.vn-overlay[role="dialog"]')).toBeVisible();
+  await expectAtLeast44('.vn-overlay .audio-preview-actions button');
   health.assertClean();
 });
 

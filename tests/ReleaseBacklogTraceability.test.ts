@@ -23,11 +23,17 @@ describe('release backlog prioritization', () => {
     const backlog = read('docs/RELEASE_BACKLOG_RU.md');
     const menu = read('src/features/menu/MainMenuController.ts');
     const audit = read('src/content/art/ANM030A.asset-gap-audit.json');
+    const qaBlock = menu.match(/\$\{qaEnabled \? `([\s\S]*?)` : ''\}/)?.[1] ?? '';
 
     expect(menu).toContain('menu.sceneNavigation');
     expect(menu).toContain('menu.levelLab');
     expect(menu).toContain('menu.sceneStudio');
     expect(menu).toContain('menu.saveDiagnostics');
+    expect(qaBlock).toContain('id="episodes"');
+    expect(qaBlock).toContain('id="level-lab"');
+    expect(qaBlock).toContain('id="scene-studio"');
+    expect(qaBlock).toContain('id="support"');
+    expect(menu.match(/id="support"/g)).toHaveLength(1);
     expect(backlog).toContain('normal player URL больше не показывает');
     expect(backlog).toContain('`?qa=1`');
 

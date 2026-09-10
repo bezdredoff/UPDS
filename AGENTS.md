@@ -6,6 +6,8 @@ Work only in this checkout: `C:\git\UPDS-local-ai`, branch `local-ai/upds-setup`
 
 At the start of a task inspect Git status. Read `README.md`, then the relevant sections of `docs/process/AI_DEVELOPMENT_RU.md` and `docs/architecture/PROJECT_CONTRACTS_RU.md`. Current priorities are in `docs/RELEASE_BACKLOG_RU.md` and `docs/ROADMAP_RU.md`. Read narrowly; archived documents are historical.
 
+For release work, also read `docs/UPDS_RELEASE_MANIFEST_RU.md`, `docs/release-status.json` and `docs/known-issues.json`. Choose the task ID before editing and update its status/evidence in the same PR or ZIP candidate. Do not mark a task `accepted` from CI alone; semantic acceptance needs explicit evidence. ChatGPT includes the update in the ZIP sent through `incoming`; Codex includes it in the direct branch/PR.
+
 Use your actual file-search/read/edit tools. Never claim to have read, changed, or tested something without a successful tool result. If a tool fails, report the exact limitation. Do not propose installing Ollama, models, packages or another agent as a substitute for using this repository.
 
 This is a Windows checkout. For user-requested shell commands use Bionic's native shell-command tool, the same tool that runs Git. The Python/WASM sandbox cannot start processes: `emscripten does not support processes` is a sandbox limitation, not evidence that npm or Git is missing. Do not use Python subprocess/os.system for project commands. Use native file read/edit tools for source changes. A Git warning about `/tmp` is not a failed command when its exit code is 0.

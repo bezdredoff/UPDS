@@ -197,9 +197,9 @@ export function vnHistoryOverlayMarkup(input: Readonly<{
   return `<section class="vn-overlay" role="dialog" aria-modal="true" aria-label="${escapeHtml(input.ariaLabel)}">
       <div class="vn-overlay-card history-card">
         <header><div><small>CASE LOG</small><h2>${escapeHtml(input.title)}</h2></div><button id="close-overlay" class="overlay-close" aria-label="${escapeHtml(input.closeLabel)}">${icon('close')}</button></header>
-        <div class="history-list">${input.entries.length ? input.entries.map((entry) => `
+        <div class="history-list">${input.entries.length ? input.entries.map((entry, index) => `
           <article class="${entry.direction ? 'is-direction' : ''}">
-            <div><b>${escapeHtml(entry.speaker)}</b><small>${escapeHtml(entry.id)}</small></div>
+            <div><b>${escapeHtml(entry.speaker)}</b><small aria-hidden="true">#${index + 1}</small></div>
             <p>${escapeHtml(entry.text)}</p>
           </article>`).join('') : `<p class="empty-history">${escapeHtml(input.emptyLabel)}</p>`}</div>
       </div>
@@ -232,10 +232,10 @@ export function vnConfigOverlayMarkup(input: Readonly<{
       <div class="vn-overlay-card config-card">
         <header><div><small>CONFIG</small><h2>${escapeHtml(labels.title)}</h2></div><button id="close-overlay" class="overlay-close" aria-label="${escapeHtml(labels.close)}">${icon('close')}</button></header>
         <fieldset><legend>${escapeHtml(labels.autoSpeed)}</legend><div class="segmented">
-          ${(['slow', 'normal', 'fast'] as AutoSpeed[]).map((speed) => `<button data-auto-speed="${speed}" class="${input.autoSpeed === speed ? 'is-selected' : ''}">${speed === 'slow' ? labels.slow : speed === 'normal' ? labels.normal : labels.fast}</button>`).join('')}
+          ${(['slow', 'normal', 'fast'] as AutoSpeed[]).map((speed) => `<button data-auto-speed="${speed}" class="${input.autoSpeed === speed ? 'is-selected' : ''}" aria-pressed="${input.autoSpeed === speed}">${speed === 'slow' ? labels.slow : speed === 'normal' ? labels.normal : labels.fast}</button>`).join('')}
         </div></fieldset>
         <fieldset><legend>${escapeHtml(labels.textSize)}</legend><div class="segmented">
-          ${(['normal', 'large'] as TextScale[]).map((scale) => `<button data-text-scale="${scale}" class="${input.textScale === scale ? 'is-selected' : ''}">${scale === 'normal' ? labels.normal : labels.large}</button>`).join('')}
+          ${(['normal', 'large'] as TextScale[]).map((scale) => `<button data-text-scale="${scale}" class="${input.textScale === scale ? 'is-selected' : ''}" aria-pressed="${input.textScale === scale}">${scale === 'normal' ? labels.normal : labels.large}</button>`).join('')}
         </div></fieldset>
         <fieldset><legend>${escapeHtml(labels.audio)}</legend>${input.audioSettingsHtml}</fieldset>
         <div class="vn-config-navigation"><small>${escapeHtml(labels.navigation)}</small><button id="vn-main-menu">${icon('menu')}<span><b>${escapeHtml(labels.mainMenu)}</b><em>${escapeHtml(labels.saved)}</em></span></button></div>
@@ -258,14 +258,14 @@ export function vnChoiceScreenMarkup(input: Readonly<{
         <img class="choice-background choice-background-fit" src="${escapeHtml(input.backgroundAsset)}" alt="">
       </div>
       <header class="app-header choice-topbar">
-        <div class="app-header-title"><small>CASE 001 · CHOICE_00</small><b>${escapeHtml(input.headerLabel)}</b></div>
+        <div class="app-header-title"><small>CASE 001</small><b>${escapeHtml(input.headerLabel)}</b></div>
         <nav class="app-header-actions" aria-label="${escapeHtml(input.navigationLabel)}">
           ${headerActionMarkup('header-settings', 'settings', input.settingsLabel)}
         </nav>
       </header>
       <div class="choice-panel">
-        <p class="eyebrow">CHOICE_00</p><h2>${escapeHtml(input.prompt)}</h2>
-        ${input.options.map((option) => `<button data-choice="${option.id}"><i>${option.id}</i><span><b>${escapeHtml(option.title)}</b><small>${escapeHtml(option.effect)}</small></span></button>`).join('')}
+        <p class="eyebrow" aria-hidden="true">◆</p><h2>${escapeHtml(input.prompt)}</h2>
+        ${input.options.map((option) => `<button data-choice="${option.id}"><i aria-hidden="true">◆</i><span><b>${escapeHtml(option.title)}</b><small>${escapeHtml(option.effect)}</small></span></button>`).join('')}
       </div>
     </section>`;
 }
@@ -279,13 +279,12 @@ export function vnStoryChoiceScreenMarkup(input: Readonly<{
   settingsLabel: string;
   options: readonly VnStoryChoicePresentationOption[];
 }>): string {
-  const gateLabel = input.gate.id.toUpperCase();
   return `<section class="choice-screen">
       <div class="choice-background-stack" aria-hidden="true"><img class="choice-background choice-background-fill" src="${escapeHtml(input.backgroundAsset)}" alt=""><img class="choice-background choice-background-fit" src="${escapeHtml(input.backgroundAsset)}" alt=""></div>
-      <header class="app-header choice-topbar"><div class="app-header-title"><small>CASE 001 · ${escapeHtml(gateLabel)}</small><b>${escapeHtml(input.headerLabel)}</b></div>
+      <header class="app-header choice-topbar"><div class="app-header-title"><small>CASE 001</small><b>${escapeHtml(input.headerLabel)}</b></div>
         <nav class="app-header-actions" aria-label="${escapeHtml(input.navigationLabel)}">${headerActionMarkup('header-settings', 'settings', input.settingsLabel)}</nav></header>
-      <div class="choice-panel"><p class="eyebrow">${escapeHtml(gateLabel)}</p><h2>${escapeHtml(input.prompt)}</h2>
-        ${input.options.map((option) => `<button data-story-choice="${option.id}"><i>${option.id}</i><span><b>${escapeHtml(option.title)}</b><small>${escapeHtml(option.effect)}</small></span></button>`).join('')}
+      <div class="choice-panel"><p class="eyebrow" aria-hidden="true">◆</p><h2>${escapeHtml(input.prompt)}</h2>
+        ${input.options.map((option) => `<button data-story-choice="${option.id}"><i aria-hidden="true">◆</i><span><b>${escapeHtml(option.title)}</b><small>${escapeHtml(option.effect)}</small></span></button>`).join('')}
       </div></section>`;
 }
 

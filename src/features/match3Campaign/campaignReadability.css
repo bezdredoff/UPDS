@@ -1,0 +1,25 @@
+/* G2-READ-001: locked Campaign slots stay clearly unavailable without dimming their text twice. */
+.match3-campaign-screen .campaign-level-card.locked {
+  opacity: 1;
+  filter: none;
+  border-color: #b8b1bc;
+  background: #f3f0f3;
+  box-shadow: 0 3px 10px #1b203612;
+}
+
+.match3-campaign-screen .campaign-level-card.locked .campaign-level-heading b {
+  color: #373345;
+}
+
+.match3-campaign-screen .campaign-level-card.locked .campaign-level-meta span {
+  background: #ded9df;
+  color: #4f4955;
+}
+
+.match3-campaign-screen .campaign-level-card.locked button:disabled {
+  opacity: 1;
+  border-color: #c2bac3 !important;
+  background: #e4dfe4 !important;
+  color: #5a535d !important;
+  box-shadow: none;
+}

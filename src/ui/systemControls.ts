@@ -1,3 +1,4 @@
+import './accessibilityTouchTargets.css';
 import type { RuntimeServices } from '../platform/RuntimeServices';
 import { isSupportedLocale } from '../localization/Locale';
 import { runtimeSelectableLocaleProfiles } from '../localization/LocalizationProduction';

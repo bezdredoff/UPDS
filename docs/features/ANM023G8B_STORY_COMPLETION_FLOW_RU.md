@@ -58,13 +58,13 @@ Main Menu не меняется, поэтому четыре утверждён�
 
 Он намеренно не добавляется в `mobileCriticalTestMatch`, поэтому Mobile WebKit остаётся на 15 critical cases. Сначала стабилизируем cross-system journey в Chromium; mobile-specific signal здесь ниже, чем у будущего G8C1 drag/swipe.
 
-Завершённый G8A audit-документ не переписывается этим feature. `BrowserCoverageAuditContract.test.ts` хранит его как immutable 7-spec/20-Chromium baseline и отдельно трассирует новый G8B spec через этот документ.
+Завершённый G8A audit-документ не переписывается этим feature. `BrowserCoverageAuditContract.test.ts` проверяет его как immutable исторический baseline `7 specs / 20 Chromium cases`, но не перечисляет текущий live inventory и не требует вручную allowlist-ить более поздние Playwright specs. Текущие `*.pw.ts` обнаруживаются самим Playwright через `testMatch`, а feature-specific additions защищаются собственными contracts/docs.
 
 ## Automated contracts
 
 - `StoryWinQaFixture.test.ts` доказывает one-swap real win и неизменность canonical `levels[0]`.
 - `BrowserStoryCompletionE2EContract.test.ts` фиксирует explicit `startMatch(..., levelOverride)`, запрещает hidden force-win/browser-storage shortcuts и защищает evidence/VN/reload assertions.
-- `BrowserCoverageAuditContract.test.ts` отделяет завершённый G8A baseline от post-audit G8B addition.
+- `BrowserCoverageAuditContract.test.ts` сохраняет только historical G8A baseline; `story-completion.pw.ts` не входит в центральный post-audit registry.
 
 ## Не входит
 
