@@ -195,10 +195,10 @@ describe('ANM-027F full-story macro lock', () => {
     expect(assetGapAudit.slots.map((slot) => slot.slot)).toEqual(macro.slots.map((slot) => slot.slot));
     expect(assetGapAudit.summary).toMatchObject({
       storySlots: 22,
-      contractedBackgroundVariants: 26,
-      runtimeSemanticBackgroundVariants: 24,
-      productionBackgroundVariants: 13,
-      runtimeFallbackBackgroundVariants: 11,
+      contractedBackgroundVariants: 25,
+      runtimeSemanticBackgroundVariants: 23,
+      productionBackgroundVariants: 23,
+      runtimeFallbackBackgroundVariants: 0,
       contractOnlyUnusedBackgroundVariants: 2,
       fullStageCharacters: 9,
       productionReadyFullStageCharacters: 9,

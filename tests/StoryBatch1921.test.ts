@@ -62,11 +62,10 @@ describe('ANM-027G episodes 19–21 canonical ending batch', () => {
     expect(meetsFullTruthRequirement(storyOutcomeMetrics({ choice: 'B', clues: [], storyChoices: { 'final-strategy': 'B' } }))).toBe(false);
   });
 
-  it('reuses semantic background aliases and preserves the macro-owned server-evidence hero clue', () => {
-    expect(backgroundAssets.anonymousReturnCounter).toBe(backgroundAssets.lockerAthletics);
-    expect(backgroundAssets.serviceTunnel).toBe(backgroundAssets.poolLocker);
-    expect(backgroundAssets.serverRoom).toBe(backgroundAssets.norihiroApartment);
-    expect(backgroundAssets.disciplinaryAssembly).toBe(backgroundAssets.clubroom);
+  it('uses approved ending backgrounds and preserves the macro-owned server-evidence hero clue', () => {
+    expect(backgroundAssets.anonymousReturnCounter).toBe('./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp');
+    expect(backgroundAssets.serviceTunnel).toBe('./assets/backgrounds/BG_SERVICE_TUNNEL.webp');
+    expect(backgroundAssets.disciplinaryAssembly).toBe('./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp');
     expect(macro.slots[20].assetTriggers.heroClueCloseups).toContain('server-evidence');
   });
 });

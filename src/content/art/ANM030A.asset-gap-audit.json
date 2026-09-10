@@ -1,6 +1,6 @@
 {
   "format": "upds-asset-gap-audit-v1",
-  "feature": "ANM-030A+ANM-030B0B+ANM-030B0A2+ANM-030B1B1+ANM-030B1B2+ANM-030B1B3+ANM-030B1B4+ANM-030B1B5+ANM-030B1B6",
+  "feature": "ANM-030A+ANM-030B0B+ANM-030B0A2+ANM-030B1B1+ANM-030B1B2+ANM-030B1B3+ANM-030B1B4+ANM-030B1B5+ANM-030B1B6+ANM-030G4",
   "baseline": {
     "mainSha": "227d32ca7e0ab681cf20919ac36bbc9a2860eac1",
     "storyMacro": "src/content/story/ANM027F.full-story-macro.json",
@@ -23,10 +23,10 @@
   "summary": {
     "storySlots": 22,
     "backgroundFamilies": 8,
-    "contractedBackgroundVariants": 26,
-    "runtimeSemanticBackgroundVariants": 24,
-    "productionBackgroundVariants": 13,
-    "runtimeFallbackBackgroundVariants": 11,
+    "contractedBackgroundVariants": 25,
+    "runtimeSemanticBackgroundVariants": 23,
+    "productionBackgroundVariants": 23,
+    "runtimeFallbackBackgroundVariants": 0,
     "contractOnlyUnusedBackgroundVariants": 2,
     "fullStageCharacters": 9,
     "productionReadyFullStageCharacters": 9,
@@ -79,10 +79,9 @@
             "firstUseSlot": 18,
             "usedByCurrentStory": true,
             "runtimeKey": "clubroomNight",
-            "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           },
           {
@@ -102,10 +101,9 @@
             "firstUseSlot": 20,
             "usedByCurrentStory": true,
             "runtimeKey": "disciplinaryAssembly",
-            "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           }
         ],
@@ -140,10 +138,9 @@
             "firstUseSlot": 5,
             "usedByCurrentStory": true,
             "runtimeKey": "basketballLocker",
-            "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           },
           {
@@ -163,10 +160,9 @@
             "firstUseSlot": 12,
             "usedByCurrentStory": true,
             "runtimeKey": "oldGymNight",
-            "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           },
           {
@@ -175,10 +171,9 @@
             "firstUseSlot": 16,
             "usedByCurrentStory": true,
             "runtimeKey": "gymnasticsCostume",
-            "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           }
         ],
@@ -286,22 +281,9 @@
             "firstUseSlot": 11,
             "usedByCurrentStory": true,
             "runtimeKey": "asterionTransferPoint",
-            "runtimeAsset": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
-            ]
-          },
-          {
-            "family": "lab-asterion",
-            "variant": "server-room",
-            "firstUseSlot": 20,
-            "usedByCurrentStory": true,
-            "runtimeKey": "serverRoom",
-            "runtimeAsset": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
-            "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           }
         ],
@@ -346,10 +328,9 @@
             "firstUseSlot": 9,
             "usedByCurrentStory": true,
             "runtimeKey": "maintenanceRoom",
-            "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           },
           {
@@ -358,10 +339,9 @@
             "firstUseSlot": 19,
             "usedByCurrentStory": true,
             "runtimeKey": "anonymousReturnCounter",
-            "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           }
         ],
@@ -395,10 +375,9 @@
             "firstUseSlot": 15,
             "usedByCurrentStory": true,
             "runtimeKey": "campusPath",
-            "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_CAMPUS_PATH.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           },
           {
@@ -455,10 +434,9 @@
             "firstUseSlot": 20,
             "usedByCurrentStory": true,
             "runtimeKey": "serviceTunnel",
-            "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+            "runtimeAsset": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
             "auditStatus": [
-              "runtime-fallback",
-              "external-art-blocked"
+              "production"
             ]
           }
         ],
@@ -1645,7 +1623,7 @@
           "family": "laundry-service",
           "variant": "maintenance-room",
           "runtimeKey": "maintenanceRoom",
-          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
           "auditStatus": [
             "runtime-fallback",
             "external-art-blocked"
@@ -1894,7 +1872,7 @@
           "family": "sports-locker",
           "variant": "old-gym-night",
           "runtimeKey": "oldGymNight",
-          "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
           "auditStatus": [
             "runtime-fallback",
             "external-art-blocked"
@@ -2134,7 +2112,7 @@
           "family": "campus-exterior",
           "variant": "campus-path",
           "runtimeKey": "campusPath",
-          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_CAMPUS_PATH.webp",
           "auditStatus": [
             "runtime-fallback",
             "external-art-blocked"
@@ -2215,7 +2193,7 @@
           "family": "sports-locker",
           "variant": "gymnastics-costume",
           "runtimeKey": "gymnasticsCostume",
-          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
           "auditStatus": [
             "runtime-fallback",
             "external-art-blocked"
@@ -2381,7 +2359,7 @@
           "family": "club-admin",
           "variant": "clubroom-night",
           "runtimeKey": "clubroomNight",
-          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
           "auditStatus": [
             "runtime-fallback",
             "external-art-blocked"
@@ -2464,7 +2442,7 @@
           "family": "laundry-service",
           "variant": "anonymous-return-counter",
           "runtimeKey": "anonymousReturnCounter",
-          "runtimeAsset": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
           "auditStatus": [
             "runtime-fallback",
             "external-art-blocked"
@@ -2567,17 +2545,7 @@
           "family": "old-building-finale",
           "variant": "service-tunnel",
           "runtimeKey": "serviceTunnel",
-          "runtimeAsset": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
-          "auditStatus": [
-            "runtime-fallback",
-            "external-art-blocked"
-          ]
-        },
-        {
-          "family": "lab-asterion",
-          "variant": "server-room",
-          "runtimeKey": "serverRoom",
-          "runtimeAsset": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
           "auditStatus": [
             "runtime-fallback",
             "external-art-blocked"
@@ -2587,7 +2555,7 @@
           "family": "club-admin",
           "variant": "disciplinary-assembly",
           "runtimeKey": "disciplinaryAssembly",
-          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
           "auditStatus": [
             "runtime-fallback",
             "external-art-blocked"
@@ -2696,7 +2664,6 @@
       },
       "productionVisualGaps": [
         "background:service-tunnel",
-        "background:server-room",
         "background:disciplinary-assembly",
         "cast:kubo",
         "cast:vincent",
@@ -2713,7 +2680,7 @@
           "family": "club-admin",
           "variant": "disciplinary-assembly",
           "runtimeKey": "disciplinaryAssembly",
-          "runtimeAsset": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+          "runtimeAsset": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
           "auditStatus": [
             "runtime-fallback",
             "external-art-blocked"
@@ -2850,7 +2817,7 @@
       "scope": [
         "guest:gen",
         "guest:aoi",
-        "background-variants:transfer-point,server-room",
+        "background-variants:transfer-point",
         "background-variants:maintenance-room,anonymous-return-counter",
         "background-variants:campus-path",
         "hero-clue:asterion-transfer-chain",
@@ -2872,7 +2839,7 @@
     {
       "id": "030B4-endings-19-21",
       "scope": [
-        "background-variants:anonymous-return-counter,service-tunnel,server-room,disciplinary-assembly",
+        "background-variants:anonymous-return-counter,service-tunnel,disciplinary-assembly",
         "hero-clue:server-evidence"
       ],
       "reason": "finishes all three ending branches after common-route assets are stable"

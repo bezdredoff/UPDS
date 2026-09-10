@@ -87,7 +87,7 @@ The detailed classification, current background ranking and acceptance outcomes 
 ### R0 — release blockers
 
 1. **Production player surface — COMPLETE.** Reopen only on regression.
-2. **Background semantic closure — ACTIVE.** All eight family masters exist; `14/24` runtime semantic variants now have dedicated production art and `10` aliases remain. Current recommended common-route order is `maintenance-room` → `old-gym-night` → `gymnastics-costume` → `asterion-transfer-point` → `campus-path`. Production may continue in ChatGPT Work using approved UPDS backgrounds as style references; ComfyUI is optional, not a prerequisite. Do not turn the alias counter into a mandatory one-image-per-alias quota.
+2. **Background semantic closure — G4 ACCEPTED.** `23/23` runtime semantic variants now have dedicated production art and `0` aliases remain. The approved ChatGPT Image batch is integrated; ComfyUI remains an optional reproducible experiment. `server-room` is removed from the current scope and represented only by the service-tunnel scene context.
 3. **Guest/witness closure** — six named guests must stop rendering asset-free initials placeholders in shipped scenes. Use the lean guest package or another explicitly approved final testimony presentation; do not promote them to seven-asset full-stage rigs by default.
 4. **Full human content QA** — Story common route + all three endings, all 22 production Match-3 levels, direct special combinations on phone, save/continue/retry/progression boundaries.
 5. **Final asset/runtime crawl** after production-art integration — zero broken shipped asset URLs/decode failures and no reliance on browser-local Scene Studio overrides.
@@ -173,7 +173,7 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 1. **Background semantic closure:** `maintenance-room` → `old-gym-night` → `gymnastics-costume` → `asterion-transfer-point` → `campus-path`, in small binary-safe waves with iPhone preview; reassess after the common-route five before committing to all ending-only variants.
 2. **Guest/witness closure in parallel:** finish production presentation for six named guests in small reviewable waves with iPhone preview.
-3. **Ending-specific background cleanup where visual QA still demands it:** `service-tunnel`, `server-room`, `disciplinary-assembly`, `anonymous-return-counter`; `clubroom-night` is last because its current fallback is the correct location with the wrong time-of-day.
+3. **Ending-specific background cleanup — integrated.** `service-tunnel`, `disciplinary-assembly`, `anonymous-return-counter` and `clubroom-night` now use dedicated masters; reopen only on visual regression.
 4. **ANM-033 — Release Candidate Hardening [P0 before release]** — full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, accessibility/performance sanity.
 5. Fix only defects found by those gates; build the RC.
 6. Hero inserts, landscape, extra locales, safe motion, song pipeline and DLC stay after base release until evidence changes priority.

@@ -40,11 +40,11 @@ describe('release backlog prioritization', () => {
     expect(backgroundAssets.basketballLocker).toBe('./assets/backgrounds/BG_BASKETBALL_LOCKER.webp');
     expect(backgroundAssets.basketballLocker).not.toBe(backgroundAssets.lockerAthletics);
     expect(audit).toContain('"productionGuestPackages": 0');
-    expect(backlog).toContain('**`14/24` dedicated production variants и `10` runtime aliases**');
-    expect(backlog).toContain('Все восемь background families имеют production master');
+    expect(backlog).toContain('**`23/23` dedicated production variants и `0` runtime aliases**');
+    expect(backlog).toContain('Все утверждённые common-route и ending masters интегрированы');
     expect(backlog).toContain('`maintenance-room`');
-    expect(backlog).toContain('**Следующий рекомендуемый background slice: `maintenance-room`.**');
-    expect(backlog).toContain('ChatGPT Work');
+    expect(backlog).toContain('**Следующий шаг по фонам — visual QA G4a/G5:**');
+    expect(backlog).toContain('ChatGPT Image');
     expect(backlog).toContain('ни один shipped guest scene не показывает placeholder initials');
 
     expect(audit).toContain('"productionHeroClueCloseups": 0');

@@ -65,8 +65,8 @@ describe('runtime asset inventory', () => {
       `path/decode errors=${issues.length}; guest contract errors=${guestIssues.length}`,
     ].join('\n'));
 
-    expect(backgroundEntries).toHaveLength(24);
-    expect(backgroundFiles).toHaveLength(14);
+    expect(backgroundEntries).toHaveLength(23);
+    expect(backgroundFiles).toHaveLength(23);
     expect(productionCharacterKeys).toHaveLength(9);
     expect(characterAssets).toHaveLength(productionCharacterKeys.length * 7);
     expect(bonusAssets).toHaveLength(5);

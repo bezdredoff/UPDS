@@ -38,7 +38,7 @@ The club builds the clean sponsor-ready answer the college wants by removing con
 
 ## Production budget
 
-No new binary assets or Match-3 mechanics. `anonymousReturnCounter`, `serviceTunnel`, `serverRoom` and `disciplinaryAssembly` are semantic aliases of existing background masters until the external art pipeline supplies approved replacements. `server-evidence` remains a native evidence treatment until its separately budgeted hero close-up exists.
+G4 supplies dedicated production masters for `anonymousReturnCounter`, `serviceTunnel` and `disciplinaryAssembly`. Отдельная сцена `serverRoom` исключена из текущего scope; серверные логи остаются narrative context внутри service tunnel. `server-evidence` remains a native evidence treatment until its separately budgeted hero close-up exists.
 
 ## Final canonical boundary
 

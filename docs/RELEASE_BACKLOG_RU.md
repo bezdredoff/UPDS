@@ -9,7 +9,7 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B
 
 Историю уже завершённых фич хранит `ROADMAP_RU.md`, feature docs и Git. Machine-readable art status остаётся в `src/content/art/ANM030A.asset-gap-audit.json`.
 
-Актуальная runtime-проверка B1 добавлена в `tests/RuntimeAssetInventory.test.ts` и запускается через `npm run assets:audit`. Она строит inventory непосредственно из `narrative.ts`, character manifest, Match-3 special assets и guest contract; baseline на текущем runtime: `24` semantic background keys, `14` production WebP, `10` aliases/fallbacks, `9` full-stage characters, `5` Match-3 bonus PNG и `6` planned guest fallback packages. Path/decode и guest-contract errors: `0`.
+Актуальная runtime-проверка B1 добавлена в `tests/RuntimeAssetInventory.test.ts` и запускается через `npm run assets:audit`. После G4 inventory: `23` semantic background keys, `23` production WebP, `0` aliases/fallbacks, `9` full-stage characters, `5` Match-3 bonus PNG и `6` planned guest fallback packages. Path/decode и guest-contract errors: `0`.
 
 ## Цель первого релиза
 
@@ -47,33 +47,27 @@ ANM-030B0I / PR #193 закрыл этот пункт:
 
 ### R0.2 Background semantic closure
 
-После ANM-030B1B7 / PR #201–202 состояние production backgrounds: **`14/24` dedicated production variants и `10` runtime aliases**. Все восемь background families имеют production master. Dedicated art уже закрывает auditorium, smart-textile lab, lost-found warehouse, service yard, abandoned laundry, textile workshop, combat-club hall, old archive и basketball locker; новый basketball asset успешно прошёл iPhone visual QA в обеих E5-сценах.
+После G4 состояние production backgrounds: **`23/23` dedicated production variants и `0` runtime aliases**. Все утверждённые common-route и ending masters интегрированы; `server-room` исключён из текущего scope как отдельная сцена и не входит в runtime catalog.
 
-Оставшиеся aliases по-прежнему **не** являются требованием произвести десять картинок ради счётчика. Но их теперь полезно ранжировать по реальному player impact: общая экспозиция, степень semantic mismatch и сюжетная важность.
+Aliases закрыты в G4. В backlog больше не добавляются задачи на генерацию `server-room`: отдельная
+сцена исключена из scope, а серверный narrative context остаётся в `service-tunnel`.
 
-| Rank | Variant | Current fallback | Exposure | Оценка |
+| Status | Variant | Runtime result | Next action |
 | ---: | --- | --- | --- | --- |
-| **1** | `maintenance-room` | athletics locker | 2 common-route VN scenes, slot 9 | **NEXT** — высокая экспозиция и явно другое помещение |
-| **2** | `old-gym-night` | pool locker evening | 2 common-route VN scenes, slot 12 | очень заметный mismatch помещения и ночного тона |
-| **3** | `gymnastics-costume` | athletics locker | 2 common-route VN scenes, slot 16 | другой спорт/функция помещения; заметно в общей ветке |
-| **4** | `asterion-transfer-point` | Norihiro apartment | slot 11, common route, отдельная post-scene + transition | экстремальный semantic mismatch; Asterion family master уже есть |
-| **5** | `campus-path` | clubroom day | slot 15, common route | exterior заменён интерьером — очевидный mismatch |
-| **6** | `service-tunnel` | pool locker evening | ending A, slot 20 | экстремальный mismatch, но только одна ending route |
-| **7** | `server-room` | Norihiro apartment | ending A, slot 20 | экстремальный mismatch в кульминации, но branch-specific |
-| **8** | `disciplinary-assembly` | clubroom day | endings A/C, slots 20–21 | две ending scenes; место близко по school-family, но недостаточно формально |
-| **9** | `anonymous-return-counter` | athletics locker | ending B, slot 19 | явный mismatch, но одна branch-specific сцена |
-| **10** | `clubroom-night` | clubroom day | common slot 18 | правильная локация; отличается в основном time-of-day/light, поэтому самый безопасный fallback |
+| **done** | `maintenance-room`, `old-gym-night`, `gymnastics-costume`, `asterion-transfer-point`, `campus-path` | dedicated WebP | visual QA G4a |
+| **done** | `clubroom-night`, `anonymous-return-counter`, `service-tunnel`, `disciplinary-assembly` | dedicated WebP | visual QA G4a |
+| **out of scope** | `server-room` | no runtime key; use service-tunnel context | do not generate |
 
 Обязательный outcome:
 
 - не создавать новые family masters ради покрытия: anchor-фаза завершена для всех восьми families;
-- производство оставшихся фонов можно продолжать в **ChatGPT Work**, используя уже утверждённые UPDS backgrounds как style references; ComfyUI остаётся альтернативой, но больше не является prerequisite;
-- сначала закрывать rank 1–5 common-route / visibly-wrong variants, затем ending-specific 6–9; `clubroom-night` делать последним и только если простой controlled lighting variant не даёт достаточного качества;
+- production default — ChatGPT Image; ComfyUI использовать как воспроизводимый test/fallback flow;
+- visual QA выполняется после интеграции; новые варианты открывать только при доказанном semantic mismatch;
 - для уже существующих families делать controlled sibling variants, которые реально нужны, чтобы сцена не выглядела как другая локация/время суток;
 - release gate формулируется как **zero visibly wrong semantic background fallbacks in shipped Story**, а не «19/19 уникальных variant PNG»;
 - contract-only unused variants `central-laundry` и `campus-street` не производить до реального использования.
 
-**Следующий рекомендуемый background slice: `maintenance-room`.** После него — `old-gym-night` и `gymnastics-costume`; затем повторно оценить common-route story crawl перед производством ending-only variants.
+**Следующий шаг по фонам — visual QA G4a/G5:** пройти common route и endings на телефоне, проверив композицию, читаемость персонажей и отсутствие артефактов.
 
 ### R0.3 Guest / witness presentation closure
 
@@ -166,7 +160,7 @@ RU/BE/EN на существующих portrait sizes `320×568`, `375×667`, `3
 
 ### R1.3 Controlled background variants
 
-Все family masters уже существуют; после B1B7 закрыто `14/24` runtime semantic variants. Дальнейшие variants можно производить в ChatGPT Work небольшими approved waves, сохраняя утверждённые UPDS backgrounds как style references. Не закрывать оставшийся счётчик `10 aliases` ради самого счётчика: приоритет задаёт таблица R0.2 и реальный visual QA.
+Все runtime family masters закрыты после G4. Новые варианты производить только при фактическом visual mismatch; production default — ChatGPT Image, а ComfyUI использовать как воспроизводимый test/fallback flow.
 
 ### R1.4 Extras visual archetypes — conditional
 
@@ -259,9 +253,9 @@ Post-launch expansion only. Не расходует base-release capacity.
 
 ## Рекомендуемая последовательность от текущего `main`
 
-1. **Background semantic closure — active:** `maintenance-room` → `old-gym-night` → `gymnastics-costume` → `asterion-transfer-point` → `campus-path`; интегрировать небольшими binary-safe waves с iPhone preview. После common-route пятёрки повторно оценить необходимость ending-only variants.
+1. **Background visual QA — active:** проверка интегрированного набора `23/23` на телефоне и в полном story crawl; `server-room` не генерировать и не возвращать в текущий scope.
 2. **Guest/witness closure — active/parallel:** production presentation для `hinata`, `gen`, `aoi`, `kubo`, `kubo-mother`, `vincent` небольшими reviewable waves.
-3. **Ending background cleanup — conditional but likely:** `service-tunnel`, `server-room`, `disciplinary-assembly`, `anonymous-return-counter`; `clubroom-night` последним как самый мягкий mismatch.
+3. **Ending background cleanup — accepted:** dedicated masters уже интегрированы; reopen только по результатам visual QA.
 4. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity.
 5. Исправить только найденные release defects и собрать RC.
 6. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release, пока данные не изменят приоритет.

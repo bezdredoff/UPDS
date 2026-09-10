@@ -151,7 +151,7 @@ ANM-030A их **не удаляет**: перед cleanup нужно решит�
 | 17 | Самый аккуратный преступник | `old-archive` (fallback) | `rina` | `rina-catalog` | `archive-rows` / reusable | `background:old-archive`<br>`cast:rina`<br>`hero-clue:rina-catalog` |
 | 18 | Вор, который пытался остановить кражу | `old-archive` (fallback)<br>`clubroom-night` (fallback) | `rina`, `emi` | `post-rina-active-tag` | `ordered-grid` / reusable | `background:old-archive`<br>`background:clubroom-night`<br>`cast:rina`<br>`cast:emi`<br>`hero-clue:post-rina-active-tag` |
 | 19 | Вор пойман | `anonymous-return-counter` (fallback)<br>`clubroom-day` (prod) | `rina`, `emi`, `mayu`, `kurose` | — | `archive-rows` / reusable | `background:anonymous-return-counter`<br>`cast:rina`<br>`cast:emi`<br>`cast:mayu`<br>`cast:kurose` |
-| 20 | Под прачечной | `service-tunnel` (fallback)<br>`server-room` (fallback)<br>`disciplinary-assembly` (fallback) | `kurose`, `rina`, `emi`, `mayu`, `kentaro`, `kubo`, `vincent` | `server-evidence` | `service-lanes` / reusable | `background:service-tunnel`<br>`background:server-room`<br>`background:disciplinary-assembly`<br>`cast:kurose`<br>`cast:rina`<br>`cast:emi`<br>`cast:mayu`<br>`cast:kentaro`<br>`cast:kubo`<br>`cast:vincent`<br>`hero-clue:server-evidence` |
+| 20 | Под прачечной | `service-tunnel` (prod)<br>`disciplinary-assembly` (prod) | `kurose`, `rina`, `emi`, `mayu`, `kentaro`, `kubo`, `vincent` | `server-evidence` | `service-lanes` / reusable | `background:service-tunnel`<br>`background:disciplinary-assembly`<br>`cast:kurose`<br>`cast:rina`<br>`cast:emi`<br>`cast:mayu`<br>`cast:kentaro`<br>`cast:kubo`<br>`cast:vincent`<br>`hero-clue:server-evidence` |
 | 21 | Идеальный подозреваемый | `disciplinary-assembly` (fallback)<br>`clubroom-day` (prod) | `mayu`, `kurose`, `kentaro`, `norihiro`, `gen` | — | `ordered-grid` / reusable | `background:disciplinary-assembly`<br>`cast:mayu`<br>`cast:kurose`<br>`cast:kentaro`<br>`cast:norihiro`<br>`cast:gen` |
 
 ## Recommended ANM-030B waves
@@ -163,7 +163,7 @@ ANM-030B лучше продолжать не «по типу файла», а �
 3. **030B1 Early `0–6`** — Kentaro, Norihiro, Mayu, Hinata; existing-family variants для student council / basketball / textile workshop; `conductive-seam` hero close-up.
 4. **030B2 System reveal `7–12`** — Kurose, Rina, Gen, Aoi; новые master families `lab-asterion`, `laundry-service`, `campus-exterior`; hero clues `asterion-transfer-chain` и `second-skin-tag`.
 5. **030B3 Late common route `13–18`** — Kubo, mother Kubo, Vincent; `old-building-finale`; hero clues `rina-catalog` и `post-rina-active-tag`.
-6. **030B4 Endings `19–21`** — ending-specific variants `anonymous-return-counter`, `service-tunnel`, `server-room`, `disciplinary-assembly`; `server-evidence`.
+6. **030B4 Endings `19–21`** — ending-specific variants `anonymous-return-counter`, `service-tunnel`, `disciplinary-assembly`; `server-room` is out of scope and `server-evidence` remains separately gated.
 
 Каждая wave может быть раздроблена на более мелкие atomic ZIP features. Production order внутри character/background pipelines может меняться при наличии готового external art, но audit status меняется только после реальной интеграции и QA.
 
