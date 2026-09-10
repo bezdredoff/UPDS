@@ -51,13 +51,27 @@ export function installVnModalFocusManagement(doc?: Document): void {
     });
   };
 
+  const markBackgroundInert = (element: HTMLElement): void => {
+    if (element.hasAttribute('inert')) return;
+    element.setAttribute('inert', '');
+    element.setAttribute('data-vn-modal-inert', '');
+  };
+
   const isolateBackground = (overlay: HTMLElement): void => {
     const parent = overlay.parentElement;
     if (!parent) return;
     Array.from(parent.children).forEach((child) => {
-      if (!(child instanceof HTMLElement) || child === overlay || child.hasAttribute('inert')) return;
-      child.setAttribute('inert', '');
-      child.setAttribute('data-vn-modal-inert', '');
+      if (!(child instanceof HTMLElement) || child === overlay) return;
+      if (child.matches('[data-screen-host="primary"]')) {
+        // AppShell keeps this host persistent, but the VN screen inside it must
+        // remain the modal background boundary so focus semantics do not depend
+        // on whether the physical viewport shell itself is persistent.
+        Array.from(child.children).forEach((screen) => {
+          if (screen instanceof HTMLElement) markBackgroundInert(screen);
+        });
+        return;
+      }
+      markBackgroundInert(child);
     });
   };
 
