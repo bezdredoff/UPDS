@@ -46,16 +46,28 @@ describe('ANM-023G8E2/E4 iOS VN viewport stability', () => {
     expect(standalone).not.toContain('--vn-controls-min-height: clamp');
   });
 
-  it('prevents the legacy height breakpoint from rescaling normal-width portrait runtime VN', () => {
+  it('delegates compact presentation to the persistent game container instead of height compensation', () => {
     const css = read('src/vnViewportStability.css');
+    const viewport = read('src/viewport.css');
+    const compactSources = [
+      read('src/style.css'),
+      read('src/match3Production.css'),
+      read('src/match3Help.css'),
+      read('src/match3StoryObjectGuidance.css'),
+      read('src/match3ReactionPresentation.css'),
+      read('src/standaloneEdgeToEdge.css'),
+      read('src/diagnosticsPlaytestSummary.css'),
+    ];
 
-    expect(css).toContain('@media (orientation: portrait) and (min-width: 341px)');
-    expect(css).toContain(".vn-screen[data-frame-context='runtime'] .portrait");
-    expect(css).toContain('height: var(--portrait-height, 178%)');
-    expect(css).toContain('bottom: var(--portrait-bottom, -78%)');
-    expect(css).toContain('font-size: 17px');
-    expect(css).toContain('line-height: 1.42');
-    expect(css).toContain('var(--upds-vn-controls-min-height, 73px)');
+    expect(viewport).toContain('container: upds-game / inline-size;');
+    expect(compactSources.some((source) => source.includes('@container upds-game (max-width: 340px)'))).toBe(true);
+    for (const source of compactSources) {
+      expect(source).not.toContain('@media (max-height: 650px)');
+      expect(source).not.toContain('@media (max-height: 650px), (max-width: 340px)');
+      expect(source).not.toContain('@media (max-width: 340px), (max-height: 650px)');
+    }
+    expect(css).not.toContain('@media (orientation: portrait) and (min-width: 341px)');
+    expect(css).not.toContain(".vn-screen[data-frame-context='runtime'] .portrait");
   });
 
   it('advances dialogue pages in place instead of rebuilding the VN shell', () => {

@@ -269,7 +269,7 @@
   .match-tooltray { margin-top: 6px; }
 }
 
-@media (max-height: 650px), (max-width: 340px) {
+@container upds-game (max-width: 340px) {
   .level-card { left: 11px; right: 11px; padding: 18px 15px 14px 19px; }
   .level-card .moves-chip { margin: 8px 0; padding: 5px 8px; }
   .level-card > button.primary { min-height: 44px; }
@@ -377,7 +377,7 @@
   color: #fff7dc;
   font-weight: 950;
 }
-@media (max-height: 650px) {
+@container upds-game (max-width: 340px) {
   .match-tutorial-card { padding: 24px 16px 14px; }
   .match-tutorial-card h2 { font-size: 20px; }
   .match-tutorial-card p { font-size: 11px; }
@@ -474,7 +474,7 @@
   .stage-meta small { font-size: 7px; line-height: 1.12; letter-spacing: .03em; }
 }
 
-@media (max-width: 340px) {
+@container upds-game (max-width: 340px) {
   .match-case-hud { grid-template-columns: minmax(0, 1fr) 86px; }
   .objective-board .objectives { gap: 3px; }
   .objective-board .objective {

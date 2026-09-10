@@ -20,7 +20,8 @@ describe('ANM-025A Match-3 Golden Sample production presentation', () => {
     expect(productionCss).toContain('border: 5px solid var(--m3-paper)');
     expect(productionCss).toContain('.board-cell:nth-child(even)');
     expect(productionCss).toContain('.match-tooltray');
-    expect(productionCss).toContain('@media (max-height: 650px), (max-width: 340px)');
+    expect(productionCss).toContain('@container upds-game (max-width: 340px)');
+    expect(productionCss).not.toContain('@media (max-height: 650px)');
   });
 
   it('keeps gameplay/controller contracts outside the production stylesheet', () => {

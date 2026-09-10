@@ -1,7 +1,7 @@
 /*
  * Installed-PWA edge-to-edge presentation.
  * Physical height belongs to viewport.css; VN row sizes belong to the frozen
- * tokens produced in main.ts. This layer must never introduce vh/dvh/svh back
+ * tokens produced by ViewportRuntime.ts. This layer must never introduce vh/dvh/svh back
  * into runtime VN geometry.
  */
 
@@ -41,7 +41,7 @@
   max-height: min(76vh, 650px);
 }
 
-@media (max-height: 650px), (max-width: 340px) {
+@container upds-game (max-width: 340px) {
   :root[data-upds-display-mode='standalone'] .match-help-popover {
     max-height: min(78vh, 560px);
   }

@@ -104,11 +104,12 @@ describe('Match-3 playtest summary dashboard', () => {
     expect(markup).toContain('&lt;script&gt;alert(1)&lt;/script&gt;');
   });
 
-  it('is wired into QA Diagnostics and keeps a narrow-phone layout', () => {
+  it('is wired into QA Diagnostics and keeps a narrow-game layout', () => {
     expect(controller).toContain("import '../../diagnosticsPlaytestSummary.css';");
     expect(controller).toContain('match3PlaytestSummaryMarkup(playtest.summary)');
     expect(css).toContain('.match3-playtest-metrics');
     expect(css).toContain('grid-template-columns: repeat(4, minmax(0, 1fr))');
-    expect(css).toMatch(/@media \(max-width: 340px\)[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
+    expect(css).toMatch(/@container upds-game \(max-width: 340px\)[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
+    expect(css).not.toContain('@media (max-width: 340px)');
   });
 });

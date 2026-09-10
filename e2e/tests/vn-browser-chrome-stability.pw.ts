@@ -41,15 +41,13 @@ const expectSameGeometry = (before: Awaited<ReturnType<typeof captureGeometry>>,
 };
 
 test.describe('VN browser chrome stability', () => {
-  test('height-only Safari viewport change cannot rescale or rebuild VN', async ({ page }) => {
+  test('height-only Safari viewport change cannot cross the old compact threshold or rebuild VN', async ({ page }) => {
     const health = observeBrowserHealth(page);
 
-    // Keep both measurements inside the same normal-phone portrait layout mode.
-    // The previous Chromium version started from Desktop Chrome 1280x720 and
-    // moved to 1280x620, accidentally crossing the intentional max-height:650px
-    // compact breakpoint. That was a genuine responsive-mode change, not Safari
-    // browser chrome movement.
-    await page.setViewportSize({ width: 390, height: 844 });
+    // Load below the secondary 760px vertical-fit threshold but above the old
+    // 650px compact threshold. Crossing 650px must now be presentation-neutral
+    // because compact layout is owned by the game container width.
+    await page.setViewportSize({ width: 390, height: 700 });
     await openQaScene(page, 0);
     await advanceToLine(page, 'VN0002');
 
@@ -60,12 +58,29 @@ test.describe('VN browser chrome stability', () => {
 
     const before = await captureGeometry(page);
 
-    // Change only visible height and remain above the 650px compact breakpoint.
-    await page.setViewportSize({ width: 390, height: 744 });
+    await page.setViewportSize({ width: 390, height: 620 });
     await page.waitForTimeout(250);
 
     const after = await captureGeometry(page);
     expectSameGeometry(before, after);
+    health.assertClean();
+  });
+
+  test('real game-container narrowing enables compact VN presentation', async ({ page }) => {
+    const health = observeBrowserHealth(page);
+
+    await page.setViewportSize({ width: 390, height: 700 });
+    await openQaScene(page, 0);
+    await advanceToLine(page, 'VN0002');
+
+    const normalFontSize = await page.locator('.dialogue-text').evaluate((node) => getComputedStyle(node).fontSize);
+    expect(normalFontSize).toBe('17px');
+
+    await page.setViewportSize({ width: 320, height: 700 });
+    await expect.poll(async () => page.locator('.dialogue-text').evaluate((node) => getComputedStyle(node).fontSize)).toBe('14px');
+
+    const gameWidth = await page.locator('.game-viewport').evaluate((node) => node.getBoundingClientRect().width);
+    expect(gameWidth).toBeCloseTo(320, 1);
     health.assertClean();
   });
 });
