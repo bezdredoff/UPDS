@@ -20,6 +20,8 @@ Browser проходит только существующие UI-маршрут
 
 В helper/spec нет импорта `Match3Game`, прямого доступа к controller и `window.__TEST__`.
 
+После G2a архитектурная ownership-проверка не дублируется внутри browser contract: `RepositoryHygiene.test.ts` защищает composition-root/controller boundaries, а `Match3BrowserE2EContract.test.ts` проверяет browser automation API, visible fixture path и отсутствие browser-only shortcuts. Фактическую связку UI → production runtime доказывает исполняемый `match3.pw.ts` в Browser Gate.
+
 ## Campaign smoke
 
 Первая campaign-карточка всегда доступна после browser reset.
@@ -99,10 +101,18 @@ Legal move не хардкодится там, где этого не требу
 
 Playwright включает `prefers-reduced-motion: reduce`.
 
-Это не test-only branch: controller уже использует этот browser preference в production и при reduced motion показывает финальный settle/reshuffle frame без искусственных задержек. Поэтому E2E не содержит `waitForTimeout()`.
+Это не test-only branch: controller уже использует этот browser preference в production и при reduced motion показывает финальный settle/reshuffle frame без искусственных задержек. Поэтому E2E не содержит ожиданий production animation timing как обязательного контракта.
 
 ## CI boundary
 
-`match3.pw.ts` остаётся вне root `npm run check`.
+`match3.pw.ts` остаётся вне root `npm run check`, но входит в blocking Browser Gate и mobile-critical WebKit lane.
 
-Root CI проверяет `Match3BrowserE2EContract.test.ts`, а executable browser suite запускается отдельным Browser Gate начиная с ANM-023G7A.
+После G2a root CI через `Match3BrowserE2EContract.test.ts` защищает только устойчивые browser-level границы:
+
+- visible Campaign / Level Lab entry и отсутствие browser-only gameplay shortcuts;
+- единый selector API для наблюдаемой Match-3 поверхности;
+- deterministic fixture через видимые поля Level Lab;
+- наличие representative Campaign, hint, pointer-drag, cascade, invalid-swap и special-activation journeys;
+- включение `match3.pw.ts` в mobile-critical Playwright lane.
+
+Он намеренно не читает `AnimeDetectiveApp`, `Match3Controller`, `Match3Presentation`, `LevelLabController` или текст `Match3Game.test.ts`. Их собственные архитектурные/domain contracts и executable Browser Gate остаются источником истины для этих уровней.
