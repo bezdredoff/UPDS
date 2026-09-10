@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { resolveViewportGeometry } from '../src/platform/ViewportRuntime';
 
 const read = (path: string): string => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 
@@ -61,10 +62,18 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(viewport).toContain('height: var(--physical-viewport-height)');
   });
 
-  it('restores the real-device standalone extension and freezes browser height-only changes', () => {
-    const main = read('src/main.ts');
+  it('restores the real-device standalone extension and freezes height-only changes', () => {
     const viewport = read('src/viewport.css');
+    const runtime = read('src/platform/ViewportRuntime.ts');
     const standalone = read('src/standaloneEdgeToEdge.css');
+    const geometry = resolveViewportGeometry({
+      displayMode: 'standalone',
+      innerWidth: 402,
+      innerHeight: 812,
+      visualViewportHeight: 812,
+      screenWidth: 402,
+      screenHeight: 874,
+    });
 
     expect(viewport).toContain('--upds-viewport-height: 100dvh');
     expect(viewport).toContain('--physical-viewport-height: var(--upds-viewport-height)');
@@ -78,13 +87,11 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(viewport).toContain('height: 100%');
     expect(viewport).not.toContain('--physical-viewport-height: 100vh');
     expect(viewport).not.toContain('--physical-viewport-height: 100lvh');
-    expect(main).toContain('const syncStableLayoutMetrics = (): void =>');
-    expect(main).toContain('if (Math.abs(nextWidth - stableLayoutWidth) < 2) return;');
-    expect(main).not.toContain("visualViewport?.addEventListener('resize'");
+    expect(geometry.dynamicHeight).toBe(812);
+    expect(geometry.layoutHeight).toBe(874);
+    expect(runtime).toContain('if (Math.abs(nextWidth - stableLayoutWidth) < 2) return;');
+    expect(runtime).not.toContain("visualViewport?.addEventListener('resize'");
     expect(standalone).toContain(":root[data-upds-display-mode='standalone'] {\n  background: #171a2f;");
-    expect(main).toContain(
-      "document.documentElement.dataset.updsDisplayMode = standaloneMode ? 'standalone' : initialPwa.displayMode",
-    );
   });
 
   it('loads shared token discovery after presentation and preview badge CSS', () => {

@@ -15,90 +15,16 @@ import { installGlobalErrorHandlers } from './platform/ErrorLog';
 import { createRuntimeServices } from './platform/RuntimeServices';
 import { runtimeAssetCatalog } from './platform/RuntimeAssets';
 import { startViewportDebug, viewportDebugEvent, viewportDebugServices } from './platform/ViewportDebug';
-
-const clamp = (value: number, minimum: number, maximum: number): number =>
-  Math.min(maximum, Math.max(minimum, value));
+import { installViewportRuntime } from './platform/ViewportRuntime';
 
 const bootstrap = async (): Promise<void> => {
   startViewportDebug();
+  const viewportRuntime = installViewportRuntime();
   const pathname = globalThis.location?.pathname ?? '';
   if (/\/preview(?:\/|$)/.test(pathname)) {
     document.documentElement.dataset.updsLane = 'preview';
     document.documentElement.dataset.updsBuild = BUILD_ID;
   }
-
-  const navigatorStandalone = (globalThis.navigator as Navigator & { standalone?: boolean } | undefined)?.standalone === true;
-  const mediaStandalone = typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(display-mode: standalone)').matches;
-  const standaloneMode = navigatorStandalone || mediaStandalone;
-  document.documentElement.dataset.updsDisplayMode = standaloneMode ? 'standalone' : 'browser';
-
-  const syncStandalonePhysicalHeight = (): void => {
-    if (!standaloneMode) return;
-    const screenWidth = globalThis.screen?.width;
-    const screenHeight = globalThis.screen?.height;
-    const viewportWidth = globalThis.innerWidth;
-    const rootStyle = document.documentElement.style;
-    if (!Number.isFinite(screenWidth) || !Number.isFinite(screenHeight) || !Number.isFinite(viewportWidth)) {
-      rootStyle.removeProperty('--physical-viewport-height');
-      return;
-    }
-
-    // screen.height is the only browser-exposed measurement that includes the
-    // compositor area below a standalone iPhone's shortened dynamic viewport.
-    // Require matching widths so a desktop browser window is never mistaken for
-    // the device screen (and keep the CSS safe-area formula as the fallback).
-    if (screenHeight > 0 && Math.abs(screenWidth - viewportWidth) < 2) {
-      const physicalHeight = Math.max(globalThis.innerHeight, screenHeight);
-      rootStyle.setProperty('--physical-viewport-height', `${physicalHeight}px`);
-    } else {
-      rootStyle.removeProperty('--physical-viewport-height');
-    }
-  };
-
-  syncStandalonePhysicalHeight();
-
-  /*
-   * One geometry snapshot owns a visible orientation. Mobile Safari is allowed
-   * to change visualViewport/innerHeight while browser chrome, networking or UI
-   * settles, but those height-only events must not resize the game or VN rows.
-   * A genuine width/orientation change refreshes the snapshot explicitly.
-   */
-  let stableLayoutWidth = Math.round(globalThis.innerWidth);
-  const syncStableLayoutMetrics = (): void => {
-    const usableHeight = globalThis.visualViewport?.height ?? globalThis.innerHeight;
-    if (!Number.isFinite(usableHeight) || usableHeight <= 0) return;
-
-    const rootStyle = document.documentElement.style;
-    if (!standaloneMode) rootStyle.setProperty('--upds-viewport-height', `${usableHeight}px`);
-    rootStyle.setProperty('--upds-vn-dialogue-row', `${clamp(usableHeight * 0.22, 154, 198)}px`);
-    rootStyle.setProperty('--upds-vn-controls-min-height', `${clamp(usableHeight * 0.09, 60, 82)}px`);
-    rootStyle.setProperty('--upds-vn-status-offset', `${Math.max(72, usableHeight * 0.10)}px`);
-    viewportDebugEvent('viewport:tokens-written', { usableHeight }, true);
-  };
-
-  const syncAfterOrientationChange = (): void => {
-    globalThis.requestAnimationFrame(() => {
-      globalThis.requestAnimationFrame(() => {
-        stableLayoutWidth = Math.round(globalThis.innerWidth);
-        syncStandalonePhysicalHeight();
-        syncStableLayoutMetrics();
-      });
-    });
-  };
-
-  const syncAfterRealWidthChange = (): void => {
-    const nextWidth = Math.round(globalThis.innerWidth);
-    if (Math.abs(nextWidth - stableLayoutWidth) < 2) return;
-    stableLayoutWidth = nextWidth;
-    globalThis.requestAnimationFrame(() => {
-      syncStandalonePhysicalHeight();
-      syncStableLayoutMetrics();
-    });
-  };
-
-  syncStableLayoutMetrics();
-  globalThis.addEventListener('resize', syncAfterRealWidthChange, { passive: true });
-  globalThis.addEventListener('orientationchange', syncAfterOrientationChange, { passive: true });
 
   const root = document.querySelector<HTMLElement>('#app');
   if (!root) throw new Error('Missing #app');
@@ -109,7 +35,6 @@ const bootstrap = async (): Promise<void> => {
   viewportDebugEvent('bootstrap:after-services-ready');
 
   const initialPwa = services.pwa.snapshot();
-  document.documentElement.dataset.updsDisplayMode = standaloneMode ? 'standalone' : initialPwa.displayMode;
   services.telemetry.startSession({
     path: pathname || 'unknown',
     online: globalThis.navigator?.onLine ?? true,
@@ -123,9 +48,9 @@ const bootstrap = async (): Promise<void> => {
   viewportDebugEvent('bootstrap:before-pwa-start');
   void services.pwa.start(runtimeAssetCatalog);
 
-  // Mount standalone only after font metrics are final. Geometry tokens above
-  // were already frozen before any async service or service-worker work began.
-  if (standaloneMode && typeof document !== 'undefined' && document.fonts?.ready) {
+  // Mount standalone only after font metrics are final. ViewportRuntime already
+  // froze physical/game geometry before any async service or service-worker work.
+  if (viewportRuntime.displayMode === 'standalone' && typeof document !== 'undefined' && document.fonts?.ready) {
     await document.fonts.ready;
   }
 

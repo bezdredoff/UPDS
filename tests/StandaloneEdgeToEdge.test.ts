@@ -40,12 +40,12 @@ describe('standalone edge-to-edge regression contract', () => {
   });
 
   it('does not globally swallow standalone resize events', () => {
-    const main = read('src/main.ts');
+    const runtime = read('src/platform/ViewportRuntime.ts');
 
-    expect(main).toContain("addEventListener('resize', syncAfterRealWidthChange, { passive: true })");
-    expect(main).toContain("addEventListener('orientationchange', syncAfterOrientationChange, { passive: true })");
-    expect(main).not.toContain('stopImmediatePropagation()');
-    expect(main).not.toContain("visualViewport?.addEventListener('resize'");
+    expect(runtime).toContain("globalThis.addEventListener('resize', syncAfterRealWidthChange, { passive: true })");
+    expect(runtime).toContain("globalThis.addEventListener('orientationchange', syncAfterOrientationChange, { passive: true })");
+    expect(runtime).not.toContain('stopImmediatePropagation()');
+    expect(runtime).not.toContain("visualViewport?.addEventListener('resize'");
   });
 
   it('waits for final fonts before the standalone application mount', () => {

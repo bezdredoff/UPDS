@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { resolveViewportGeometry, viewportLayoutTokens } from '../src/platform/ViewportRuntime';
 
 const read = (path: string): string => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 
@@ -17,14 +18,25 @@ describe('ANM-023G8E2/E4 iOS VN viewport stability', () => {
     expect(html).not.toContain('maximum-scale=1');
   });
 
-  it('uses frozen pixel tokens instead of live viewport units for runtime VN', () => {
+  it('uses frozen physical-height tokens instead of shortened dynamic height for standalone VN', () => {
     const css = read('src/vnViewportStability.css');
-    const main = read('src/main.ts');
     const standalone = read('src/standaloneEdgeToEdge.css');
+    const geometry = resolveViewportGeometry({
+      displayMode: 'standalone',
+      innerWidth: 402,
+      innerHeight: 812,
+      visualViewportHeight: 812,
+      screenWidth: 402,
+      screenHeight: 874,
+    });
+    const tokens = viewportLayoutTokens(geometry);
 
-    expect(main).toContain("rootStyle.setProperty('--upds-vn-dialogue-row'");
-    expect(main).toContain("rootStyle.setProperty('--upds-vn-controls-min-height'");
-    expect(main).toContain("rootStyle.setProperty('--upds-vn-status-offset'");
+    expect(geometry.layoutHeight).toBe(874);
+    expect(tokens.physicalViewportHeight).toBe('874px');
+    expect(tokens.browserViewportHeight).toBeNull();
+    expect(tokens.vnDialogueRow).toMatch(/px$/);
+    expect(tokens.vnControlsMinHeight).toMatch(/px$/);
+    expect(tokens.vnStatusOffset).toMatch(/px$/);
     expect(css).toContain(".vn-screen[data-frame-context='runtime']");
     expect(css).toContain('--vn-dialogue-row: var(--upds-vn-dialogue-row, 178px)');
     expect(css).toContain('--vn-controls-min-height: var(--upds-vn-controls-min-height, 73px)');
@@ -72,12 +84,14 @@ describe('ANM-023G8E2/E4 iOS VN viewport stability', () => {
   });
 
   it('keeps the global viewport owner frozen on height-only Safari changes', () => {
-    const main = read('src/main.ts');
+    const runtime = read('src/platform/ViewportRuntime.ts');
 
-    expect(main).toContain('if (Math.abs(nextWidth - stableLayoutWidth) < 2) return;');
-    expect(main).not.toContain("visualViewport?.addEventListener('resize'");
-    expect(main).not.toContain('syncBrowserViewportHeight');
-    expect(main).not.toContain('stopImmediatePropagation()');
+    expect(runtime).toContain('if (Math.abs(nextWidth - stableLayoutWidth) < 2) return;');
+    expect(runtime).toContain("globalThis.addEventListener('resize', syncAfterRealWidthChange, { passive: true })");
+    expect(runtime).toContain("globalThis.addEventListener('orientationchange', syncAfterOrientationChange, { passive: true })");
+    expect(runtime).not.toContain("visualViewport?.addEventListener('resize'");
+    expect(runtime).not.toContain('syncBrowserViewportHeight');
+    expect(runtime).not.toContain('stopImmediatePropagation()');
   });
 
   it('covers the reported Belarusian lines in the Mobile WebKit critical suite', () => {
