@@ -54,14 +54,15 @@ describe('standalone edge-to-edge regression contract', () => {
     expect(css).toContain('margin-bottom: var(--safe-area-bottom)');
   });
 
-  it('keeps legacy root-canvas camouflage neutralized until its declarations are retired', () => {
+  it('retires root-canvas camouflage instead of neutralizing it later', () => {
     const style = read('src/style.css');
-    const css = read('src/standaloneEdgeToEdge.css');
+    const standalone = read('src/standaloneEdgeToEdge.css');
 
-    expect(style).toContain('--upds-system-canvas-color');
-    expect(css).toContain('Compatibility containment for the historical per-screen root-color bridge');
-    expect(css).toContain(":root[data-upds-display-mode='standalone'] {");
-    expect(css).toContain('background: #171a2f;');
+    expect(style).toContain('background: #171a2f;');
+    expect(style).not.toContain('--upds-system-canvas-color');
+    expect(style).not.toContain(":root[data-upds-display-mode='standalone']:has(");
+    expect(standalone).not.toContain('Compatibility containment for the historical per-screen root-color bridge');
+    expect(standalone).not.toContain(":root[data-upds-display-mode='standalone'] body");
   });
 
   it('does not globally swallow standalone resize events', () => {
