@@ -48,11 +48,18 @@ G4 расширяет единый `e2e/selectors.ts` уже существую�
 
 Новых production `data-testid` не требуется.
 
-## CI boundary
+## CI boundary после G2a
 
-Исполняемый `vn-navigation.pw.ts` остаётся отдельным browser suite до G7.
+`vn-navigation.pw.ts` входит в общий Chromium suite и mobile-critical WebKit set, поэтому runtime paging/staging/choice/modal-focus поведение проверяется исполняемым Browser Gate.
 
-Текущий root `npm run check` проверяет `VnBrowserE2EContract.test.ts`, который защищает отсутствие browser-only runtime seam, selector contract, representative line IDs, связь `VN0008` с уже утверждённым authored-shot production contract и использование реального choice DOM/handler.
+Root `npm run check` по-прежнему запускает `VnBrowserE2EContract.test.ts`, но после G2a он защищает только browser automation boundary:
+
+- QA Scene Navigation/helper path без hidden runtime API;
+- стабильный selector API;
+- наличие representative paging/authored-shot/choice checkpoints в browser journey;
+- keyboard modal-focus journey и inclusion в mobile-critical WebKit.
+
+Он больше не читает `VnController`, `RuntimeServices`, `vnModalFocus`, `vnFrameMarkup`, `vnAuthoredShots` или другой unit-test ради проверки точного написания production implementation. Эти детали защищаются соответствующими unit/architecture contracts и фактическим Browser Gate поведением.
 
 ## Следующий шаг
 
