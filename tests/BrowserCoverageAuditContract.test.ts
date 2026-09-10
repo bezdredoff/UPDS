@@ -14,6 +14,7 @@ describe('ANM-023G8A Playwright coverage audit contract', () => {
       .filter((name) => name.endsWith('.pw.ts'))
       .sort();
     const postAuditSpecs = new Set([
+      'campaign-spoilers.pw.ts',
       'story-completion.pw.ts',
       'vn-browser-chrome-stability.pw.ts',
       'viewport-recorder.pw.ts',
