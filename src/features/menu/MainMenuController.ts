@@ -43,8 +43,8 @@ export class MainMenuController {
             <button id="episodes">${t('menu.sceneNavigation')} <small>QA</small></button>
             <button id="level-lab">${t('menu.levelLab')} <small>QA</small></button>
             <button id="scene-studio">${t('menu.sceneStudio')} <small>QA</small></button>
-          </div>` : ''}
-          <button id="support">${t('menu.saveDiagnostics')}${qaEnabled ? ' <small>QA</small>' : ''}</button>
+          </div>
+          <button id="support">${t('menu.saveDiagnostics')} <small>QA</small></button>` : ''}
         </div>
         <footer>${BUILD_LABEL}<br><span>v${APP_VERSION}</span></footer>
       </div>
