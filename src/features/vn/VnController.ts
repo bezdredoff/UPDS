@@ -23,6 +23,7 @@ import {
 import { meetsStoryEndingRequirement, storyOutcomeMetrics } from '../../data/storyOutcome';
 import { preloadImageAssets } from '../../platform/AssetPreloader';
 import { viewportDebugEvent } from '../../platform/ViewportDebug';
+import { subscribeViewportRuntime } from '../../platform/ViewportRuntime';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppSession } from '../../app/AppSession';
@@ -59,7 +60,6 @@ export class VnController {
   private dialoguePageIndex = 0;
   private dialoguePages: string[] = [];
   private dialogueReflowTimer: number | null = null;
-  private dialogueReflowWidth: number | null = null;
   private trackedVnLineId: string | null = null;
   private trackedPagingKey: string | null = null;
   private pendingClue: ClueId | null = null;
@@ -325,35 +325,15 @@ export class VnController {
   }
 
   private bindDialogueReflow(): void {
-    if (typeof window === 'undefined' || typeof window.addEventListener !== 'function') return;
-    this.dialogueReflowWidth = Math.round(window.innerWidth);
-
-    const requestReflow = (): void => {
+    if (typeof window === 'undefined') return;
+    subscribeViewportRuntime(() => {
       if (!this.root.querySelector('.vn-screen')) return;
       if (this.dialogueReflowTimer !== null) window.clearTimeout(this.dialogueReflowTimer);
       this.dialogueReflowTimer = window.setTimeout(() => {
         this.dialogueReflowTimer = null;
         window.requestAnimationFrame(() => window.requestAnimationFrame(() => this.remeasureDialogueInPlace()));
       }, 80);
-    };
-
-    const requestWidthReflow = (): void => {
-      const nextWidth = Math.round(window.innerWidth);
-      const previousWidth = this.dialogueReflowWidth ?? nextWidth;
-      this.dialogueReflowWidth = nextWidth;
-      // Mobile Safari changes height as browser chrome hides/returns. Height-only
-      // resize must never rebuild or repaginate VN; only real width changes matter.
-      if (Math.abs(nextWidth - previousWidth) < 2) return;
-      requestReflow();
-    };
-
-    const requestOrientationReflow = (): void => {
-      this.dialogueReflowWidth = Math.round(window.innerWidth);
-      requestReflow();
-    };
-
-    window.addEventListener('resize', requestWidthReflow, { passive: true });
-    window.addEventListener('orientationchange', requestOrientationReflow, { passive: true });
+    });
   }
 
   private preloadNextVnAssets(): void {
@@ -505,7 +485,6 @@ export class VnController {
     else this.renderVN();
   }
 
-
   renderChoice(): void {
     this.services.audio.setScene('vn');
     this.services.telemetry.trackScreen('choice', 'CHOICE_00');
@@ -602,5 +581,4 @@ export class VnController {
     if (nextScene < 0) throw new Error(`Unknown story scene ${transition.targetSceneId}`);
     this.openScene(nextScene, 0);
   }
-
 }

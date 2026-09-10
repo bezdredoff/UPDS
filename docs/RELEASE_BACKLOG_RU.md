@@ -1,6 +1,6 @@
 # UPDS — Release Backlog
 
-Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B1–B1B8.
+Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B1–B1B8 + G2a bounded architecture cleanup.
 
 Этот документ отвечает только на два вопроса:
 
@@ -31,6 +31,27 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B
 - **R1 — release-worthy:** желательно закрыть до релиза, но можно сознательно cut, если текущая реализация уже качественно достаточна.
 - **R2 — post-release / optional:** не задерживает base release.
 - **DROP / evidence-only:** не строить без новой доказанной потребности.
+
+## G2a — bounded architecture / patch cleanup
+
+Полный engineering plan: [`architecture/G2A_CLEANUP_PLAN_RU.md`](architecture/G2A_CLEANUP_PLAN_RU.md).
+
+Цель этого track — не общий rewrite, а удаление доказанных duplicate owners и workaround layers перед RC. Глобальные runtime/layout задачи выполняются небольшими PR; art/guest production может идти параллельно.
+
+| Task | Status | Outcome |
+| --- | --- | --- |
+| `G2a-ARCH-001` | **accepted · #288** | один `ViewportRuntime` владеет geometry и layout tokens |
+| `G2a-ARCH-002` | **active** | один владелец `resize/orientationchange`; VN только repagination subscriber |
+| `G2a-ARCH-003` | queued | persistent `.viewport-shell/.phone` + явные screen/overlay hosts |
+| `G2a-ARCH-004` | queued | единый compact/container layout вместо нескольких height/width breakpoints |
+| `G2a-ARCH-005` | queued | standalone CSS convergence, удаление лишних geometry/canvas overrides |
+| `G2a-ARCH-006` | queued | стабильный button/cascade contract без counter-`!important` и import-order correctness |
+| `G2a-ARCH-007` | queued | один display-mode resolver и один stable/preview/local lane resolver |
+| `G2a-ARCH-008` | queued | shared viewport evidence snapshot для Diagnostics/ViewportDebug |
+| `G2a-ARCH-009` | queued | удалить test-only compatibility methods из composition root |
+| `G2a-ARCH-010` | queued | удалить случайный scratch output в root и усилить repository hygiene guard |
+
+Legacy numeric Story save → stable `StorySceneId` намеренно **не входит** в этот cleanup: compatibility adapter пока защищает существующие saves и потребует отдельного save-schema решения. Локальные `clamp()` helpers и Scene Studio viewport simulation также не являются самостоятельными cleanup-задачами.
 
 ## R0 — реальные release blockers
 
@@ -253,12 +274,13 @@ Post-launch expansion only. Не расходует base-release capacity.
 
 ## Рекомендуемая последовательность от текущего `main`
 
-1. **Background visual QA — active:** проверка интегрированного набора `23/23` на телефоне и в полном story crawl; `server-room` не генерировать и не возвращать в текущий scope.
-2. **Guest/witness closure — active/parallel:** production presentation для `hinata`, `gen`, `aoi`, `kubo`, `kubo-mother`, `vincent` небольшими reviewable waves.
-3. **Ending background cleanup — accepted:** dedicated masters уже интегрированы; reopen только по результатам visual QA.
-4. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity.
-5. Исправить только найденные release defects и собрать RC.
-6. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release, пока данные не изменят приоритет.
+1. **G2a bounded cleanup — active:** ARCH-002 → ARCH-003 → ARCH-004; затем ARCH-005/006/007/008 небольшими независимыми PR. ARCH-009/010 выполнять там, где они не мешают runtime work. Stop rule — не продолжать refactor без конкретного ownership/regression payoff.
+2. **Background visual QA — parallel:** проверка интегрированного набора `23/23` на телефоне и в полном story crawl; `server-room` не генерировать и не возвращать в текущий scope.
+3. **Guest/witness closure — parallel:** production presentation для `hinata`, `gen`, `aoi`, `kubo`, `kubo-mother`, `vincent` небольшими reviewable waves.
+4. **Ending background cleanup — accepted:** dedicated masters уже интегрированы; reopen только по результатам visual QA.
+5. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity.
+6. Исправить только найденные release defects и собрать RC.
+7. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release, пока данные не изменят приоритет.
 
 ## Stop rule
 

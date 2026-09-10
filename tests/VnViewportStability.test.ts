@@ -68,27 +68,31 @@ describe('ANM-023G8E2/E4 iOS VN viewport stability', () => {
     expect(controller).toContain('if (this.autoMode) this.shell.schedule(() => this.nextLine(), autoDelayForLine(page, this.autoSpeed));');
   });
 
-  it('ignores height-only resize and remeasures width/orientation changes without full renderVN', () => {
+  it('lets ViewportRuntime own resize/orientation signals while VN only remeasures on published changes', () => {
     const controller = read('src/features/vn/VnController.ts');
     const bindStart = controller.indexOf('private bindDialogueReflow(): void');
     const bindEnd = controller.indexOf('private preloadNextVnAssets(): void', bindStart);
     const bindSource = controller.slice(bindStart, bindEnd);
 
-    expect(bindSource).toContain('this.dialogueReflowWidth = Math.round(window.innerWidth)');
-    expect(bindSource).toContain('if (Math.abs(nextWidth - previousWidth) < 2) return');
-    expect(bindSource).toContain("window.addEventListener('resize', requestWidthReflow, { passive: true })");
-    expect(bindSource).toContain("window.addEventListener('orientationchange', requestOrientationReflow, { passive: true })");
+    expect(controller).toContain("import { subscribeViewportRuntime } from '../../platform/ViewportRuntime';");
+    expect(bindSource).toContain('subscribeViewportRuntime(() => {');
     expect(bindSource).toContain('this.remeasureDialogueInPlace()');
+    expect(bindSource).not.toContain('window.innerWidth');
+    expect(bindSource).not.toContain("addEventListener('resize'");
+    expect(bindSource).not.toContain("addEventListener('orientationchange'");
     expect(bindSource).not.toContain('this.renderVN()');
     expect(bindSource).not.toContain('document.fonts.ready');
   });
 
-  it('keeps the global viewport owner frozen on height-only Safari changes', () => {
+  it('keeps the global viewport owner frozen on height-only Safari changes and publishes real geometry changes', () => {
     const runtime = read('src/platform/ViewportRuntime.ts');
 
     expect(runtime).toContain('if (Math.abs(nextWidth - stableLayoutWidth) < 2) return;');
     expect(runtime).toContain("globalThis.addEventListener('resize', syncAfterRealWidthChange, { passive: true })");
     expect(runtime).toContain("globalThis.addEventListener('orientationchange', syncAfterOrientationChange, { passive: true })");
+    expect(runtime).toContain('export const subscribeViewportRuntime');
+    expect(runtime).toContain("publishViewportRuntimeChange(current, 'orientation')");
+    expect(runtime).toContain("globalThis.requestAnimationFrame(() => sync('width'))");
     expect(runtime).not.toContain("visualViewport?.addEventListener('resize'");
     expect(runtime).not.toContain('syncBrowserViewportHeight');
     expect(runtime).not.toContain('stopImmediatePropagation()');
