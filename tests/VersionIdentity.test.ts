@@ -17,14 +17,15 @@ describe('product version and build identity', () => {
     expect(BUILD_LABEL).not.toContain(APP_VERSION);
   });
 
-  it('keeps product version, feature baseline, concrete build and save schema visibly distinct', () => {
+  it('keeps product version player-facing while feature/build identity stays in diagnostics', () => {
     const diagnostics = read('src/features/diagnostics/DiagnosticsController.ts');
     const menu = read('src/features/menu/MainMenuController.ts');
     expect(diagnostics).toContain('<small>VERSION</small><b>${escapeHtml(APP_VERSION)}</b><span>${escapeHtml(BUILD_LABEL)}</span>');
     expect(diagnostics).toContain('<small>BUILD</small><b>${escapeHtml(BUILD_ID)}</b><span>${escapeHtml(BUILD_TIMESTAMP)}</span>');
     expect(diagnostics).toContain('<small>SAVE SCHEMA</small><b>v${SAVE_SCHEMA_VERSION}</b>');
     expect(diagnostics).not.toContain('<small>SAVE SCHEMA</small><b>v1</b>');
-    expect(menu).toContain('<footer>${BUILD_LABEL}<br><span>v${APP_VERSION}</span></footer>');
+    expect(menu).toContain('<footer><span>v${APP_VERSION}</span></footer>');
+    expect(menu).not.toContain('BUILD_LABEL');
     expect(menu).not.toContain('menu.scriptLines');
     expect(menu).not.toContain('parsedLineCount');
   });
