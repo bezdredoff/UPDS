@@ -46,7 +46,7 @@ export class MainMenuController {
           </div>
           <button id="support">${t('menu.saveDiagnostics')} <small>QA</small></button>` : ''}
         </div>
-        <footer><span>v${APP_VERSION}</span></footer>
+        <footer><span class="menu-build-spacer" aria-hidden="true">&nbsp;</span><br><span>v${APP_VERSION}</span></footer>
       </div>
     </section>`);
 
