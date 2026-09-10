@@ -44,7 +44,8 @@ describe('ANM-024D viewport regression matrix', () => {
     const indexHtml = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 
     expect(indexHtml).toContain('viewport-fit=cover');
-    expect(viewportCss).toContain('@media (display-mode: standalone)');
+    expect(viewportCss).not.toContain('@media (display-mode: standalone)');
+    expect(viewportCss).toContain(":root[data-upds-display-mode='standalone'] {");
     expect(viewportCss).toContain('--physical-viewport-height: calc(100dvh + var(--safe-area-top))');
     expect(viewportCss).toContain('height: 100%');
     expect(viewportCss.match(/env\(safe-area-inset-/g)).toHaveLength(4);

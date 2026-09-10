@@ -25,8 +25,8 @@ Status: active bounded maintenance plan after merged G2 runtime/UI hardening and
 | G2a-ARCH-001 | P0 | accepted | Single viewport geometry owner | `ViewportRuntime` единолично измеряет runtime geometry и пишет layout tokens; merged PR #288 |
 | G2a-ARCH-002 | P0 | accepted | Single viewport event ownership | только `ViewportRuntime` слушает production `resize/orientationchange`; VN получает уже отфильтрованное geometry-change событие и отвечает только repagination; merged PR #289 |
 | G2a-ARCH-003 | P0 | accepted | Persistent AppShell | `.viewport-shell` и `.phone.game-viewport` создаются один раз; screen content меняется внутри persistent `app-screen-host`; merged PR #290 |
-| G2a-ARCH-004 | P1 | active | Unified compact layout | persistent `.game-viewport` — named inline-size container `upds-game`; compact presentation больше не выбирается старым `650px OR 340px` viewport decision и потребляет ширину game container |
-| G2a-ARCH-005 | P1 | queued | Standalone CSS convergence | свести `@media(display-mode)`, `data-upds-display-mode`, `standaloneEdgeToEdge.css` и root canvas workarounds к одному понятному ownership contract; удалить ставшие ненужными страховочные overrides после device evidence |
+| G2a-ARCH-004 | P1 | accepted | Unified compact layout | persistent `.game-viewport` — named inline-size container `upds-game`; compact presentation больше не выбирается старым `650px OR 340px` viewport decision; merged PR #291 |
+| G2a-ARCH-005 | P1 | active | Standalone CSS convergence | 005A: `ViewportRuntime` dataset становится единственным CSS activation signal для standalone geometry, native `@media(display-mode)` duplicate удаляется; 005B: удалить исторический per-screen root-canvas bridge из `style.css` и оставшийся compatibility containment |
 | G2a-ARCH-006 | P1 | queued | CSS cascade/button contract | уйти от глобального `.primary !important` и feature-level counter-`!important`; ввести стабильные button modifiers / layers и убрать correctness, зависящий от import order |
 | G2a-ARCH-007 | P1 | queued | Platform identity single source | один resolver для display mode и один resolver для stable/preview/local lane; PWA, bootstrap и diagnostics не вычисляют их независимо |
 | G2a-ARCH-008 | P1 | queued | Shared viewport evidence collector | Diagnostics и ViewportDebug используют общий read-only raw/resolved snapshot; early pre-bundle recorder остаётся отдельным только пока нужен для KI-001/KI-003 |
@@ -35,8 +35,8 @@ Status: active bounded maintenance plan after merged G2 runtime/UI hardening and
 
 ## Рекомендуемый порядок
 
-1. ARCH-004 — единый compact/container layout.
-2. ARCH-005 — удалить дубли standalone geometry/presentation overrides, которые стали лишними после 001–004.
+1. ARCH-005A — один CSS activation signal для standalone geometry.
+2. ARCH-005B — удалить dead root-canvas camouflage declarations и compatibility containment.
 3. ARCH-006 — почистить cascade/`!important` после стабилизации layout ownership.
 4. ARCH-007 — централизовать display mode / runtime lane identity.
 5. ARCH-008 — объединить diagnostics evidence collectors.
@@ -49,7 +49,7 @@ ARCH-009/010 можно выполнить раньше, если они не п
 
 ### Local vertical-fit rules
 
-ARCH-004 убирает `max-height:650px` как presentation breakpoint, включая Match-3 tutorial typography, чтобы один и тот же magic threshold не оставался вторым владельцем compact state. При этом отдельные локальные правила вроде `max-height:760px` для board/menu fit и landscape height rules остаются: они не выбирают общую compact presentation family и могут быть пересмотрены только при конкретной regression evidence.
+ARCH-004 убрал `max-height:650px` как presentation breakpoint. Отдельные локальные правила вроде `max-height:760px` для board/menu fit и landscape height rules остаются: они не выбирают общую compact presentation family и могут быть пересмотрены только при конкретной regression evidence.
 
 ### Legacy numeric Story save → stable `StorySceneId`
 

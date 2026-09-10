@@ -14,33 +14,17 @@
  * Real installed-iPhone QA in ANM-030B1B9 R4/R7 established this contract:
  * with viewport-fit=cover + black-translucent, standalone 100dvh is shortened
  * by the top safe inset while the page origin remains at the physical top.
- * Add that inset back once at the shell boundary. Do not substitute 100vh or a
- * root-background bridge for actual player geometry.
+ * ViewportRuntime synchronously publishes data-upds-display-mode before AppShell
+ * mounts, so that dataset is the sole CSS activation signal for standalone
+ * geometry. Do not duplicate this branch with @media(display-mode), 100vh or a
+ * root-background bridge.
  */
-@media (display-mode: standalone) {
-  :root {
-    --physical-viewport-height: calc(100dvh + var(--safe-area-top));
-    --physical-viewport-height: max(calc(100dvh + var(--safe-area-top)), var(--upds-physical-screen-height));
-  }
-}
-
 :root[data-upds-display-mode='standalone'] {
   --physical-viewport-height: calc(100dvh + var(--safe-area-top));
   --physical-viewport-height: max(calc(100dvh + var(--safe-area-top)), var(--upds-physical-screen-height));
 }
 
 /* The desktop 430x932 frame cap never applies to an installed phone. */
-@media (display-mode: standalone) and (orientation: portrait) and (max-width: 520px) {
-  .phone.game-viewport {
-    width: 100%;
-    height: 100%;
-    height: var(--physical-viewport-height);
-    max-width: none;
-    max-height: none;
-    box-shadow: none;
-  }
-}
-
 @media (orientation: portrait) and (max-width: 520px) {
   :root[data-upds-display-mode='standalone'] .phone.game-viewport {
     width: 100%;
