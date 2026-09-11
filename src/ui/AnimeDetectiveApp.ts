@@ -1,4 +1,3 @@
-import type { CampaignSave } from '../engine/CampaignStore';
 import { viewportDebugEvent } from '../platform/ViewportDebug';
 import { createRuntimeServices, type RuntimeServices } from '../platform/RuntimeServices';
 import { AppSession } from '../app/AppSession';
@@ -133,17 +132,4 @@ export class AnimeDetectiveApp {
     this.vn.openScene(scene, line);
   }
 
-  // Compatibility seams retained for existing smoke tests and QA harnesses.
-  startMatch(level: number): void { this.match3.startMatch(level); }
-  renderSupport(status = ''): void { this.diagnostics.render(status); }
-  renderSettings(): void { this.settings.render(); }
-  renderLevelLab(): void { this.levelLab.render(); }
-  renderSceneStudio(): void { this.sceneStudio.render(); }
-  renderMatch3Campaign(): void { this.match3Campaign.render(); }
-  startCampaignMatch(level: number): void { this.match3.startCampaignMatch(level, this.match3CampaignSession, () => this.match3Campaign.render()); }
-  startLabMatch(level: number, seed: number): void { this.match3.startLabMatch(level, seed, () => this.levelLab.render(level, seed)); }
-  nextLine(): void { this.vn.nextLine(); }
-
-  get save(): CampaignSave { return this.session.save; }
-  set save(value: CampaignSave) { this.session.save = value; }
 }

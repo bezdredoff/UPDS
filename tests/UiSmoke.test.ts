@@ -3,6 +3,14 @@ import { APP_VERSION, BUILD_LABEL } from '../src/appVersion';
 import { LOCALE_SETTINGS_KEY } from '../src/localization/LocaleSettingsStore';
 import { ruCatalog } from '../src/localization/catalogs/ru';
 import { getScene, type ChoiceId } from '../src/data/narrative';
+import type { AppNavigation } from '../src/app/AppNavigation';
+import { AppSession } from '../src/app/AppSession';
+import { AppShell } from '../src/app/AppShell';
+import { DiagnosticsController } from '../src/features/diagnostics/DiagnosticsController';
+import { MainMenuController } from '../src/features/menu/MainMenuController';
+import { Match3Controller } from '../src/features/match3/Match3Controller';
+import { SettingsController } from '../src/features/settings/SettingsController';
+import { VnController } from '../src/features/vn/VnController';
 import { createRuntimeServices } from '../src/platform/RuntimeServices';
 import { AnimeDetectiveApp } from '../src/ui/AnimeDetectiveApp';
 
@@ -22,16 +30,9 @@ class FakeRoot {
   querySelectorAll(): [] { return []; }
 }
 
-type AppHarness = {
-  openScene(scene: number, line?: number): void;
-  startMatch(level: number): void;
-  renderSupport(status?: string): void;
-  renderSettings(): void;
-};
-
 const originalWindow = globalThis.window;
 
-describe('AnimeDetectiveApp render smoke', () => {
+describe('UI controller render smoke', () => {
   beforeEach(() => {
     Object.defineProperty(globalThis, 'window', {
       configurable: true,
@@ -47,22 +48,34 @@ describe('AnimeDetectiveApp render smoke', () => {
     Object.defineProperty(globalThis, 'window', { configurable: true, value: originalWindow });
   });
 
-  const create = (): { root: FakeRoot; app: AnimeDetectiveApp & AppHarness } => {
+  const create = (services = createRuntimeServices()) => {
     const root = new FakeRoot();
-    const app = new AnimeDetectiveApp(root as unknown as HTMLElement) as AnimeDetectiveApp & AppHarness;
-    return { root, app };
+    const element = root as unknown as HTMLElement;
+    const session = new AppSession(services);
+    const shell = new AppShell(element, () => undefined);
+    const navigation = {} as AppNavigation;
+    const vn = new VnController(element, services, session, shell, navigation);
+    const match3 = new Match3Controller(element, services, session, shell, navigation, () => undefined);
+    return {
+      root,
+      session,
+      menu: new MainMenuController(element, services, session, shell, navigation),
+      settings: new SettingsController(element, services, shell, navigation, () => match3.hasActiveMatch),
+      diagnostics: new DiagnosticsController(element, services, session, shell, navigation, () => undefined),
+      vn,
+      match3,
+    };
   };
 
-  const createReady = async (): Promise<{ root: FakeRoot; app: AnimeDetectiveApp & AppHarness }> => {
-    const root = new FakeRoot();
+  const createReady = async () => {
     const services = createRuntimeServices();
     await services.ready;
-    const app = new AnimeDetectiveApp(root as unknown as HTMLElement, services) as AnimeDetectiveApp & AppHarness;
-    return { root, app };
+    return create(services);
   };
 
   it('mounts the production menu without a browser DOM implementation', () => {
-    const { root, app } = create();
+    const root = new FakeRoot();
+    const app = new AnimeDetectiveApp(root as unknown as HTMLElement);
     app.mount();
     expect(root.innerHTML).toContain(`v${APP_VERSION}`);
     expect(root.innerHTML).not.toContain(BUILD_LABEL);
@@ -72,9 +85,9 @@ describe('AnimeDetectiveApp render smoke', () => {
   });
 
   it('renders precomposed production rigs for the full-stage cast', () => {
-    const { root, app } = create();
+    const { root, session, vn } = create();
     const mikuLine = getScene(0).findIndex((line) => line.speaker.startsWith('МИКУ'));
-    app.openScene(0, mikuLine);
+    vn.openScene(0, mikuLine);
     expect(root.innerHTML).toContain('character-rig');
     expect(root.innerHTML).toMatch(/data-stage-side="(left|right|center)"/);
     expect(root.innerHTML).toMatch(/portrait-(left|right|center)/);
@@ -96,10 +109,10 @@ describe('AnimeDetectiveApp render smoke', () => {
       { scene: 5, speaker: 'НОРИХИРО', label: 'Норихиро', character: 'norihiro', choice: 'A' as ChoiceId },
     ];
     for (const item of productionCases) {
-      (app as unknown as { save: { choice: ChoiceId } }).save.choice = item.choice;
+      session.save.choice = item.choice;
       const line = getScene(item.scene, item.choice).findIndex((entry) => entry.speaker === item.speaker);
       expect(line, item.speaker).toBeGreaterThanOrEqual(0);
-      app.openScene(item.scene, line);
+      vn.openScene(item.scene, line);
       expect(root.innerHTML).toContain('character-rig');
       expect(root.innerHTML).toContain(`data-character="${item.character}"`);
       expect(root.innerHTML).toContain(`./assets/characters/${item.character}/rig/pose_a/frames/`);
@@ -109,9 +122,8 @@ describe('AnimeDetectiveApp render smoke', () => {
   });
 
   it('renders player-facing audio controls without requiring browser audio support', () => {
-    const { root, app } = create();
-    app.mount();
-    app.renderSettings();
+    const { root, settings } = create();
+    settings.render();
     expect(root.innerHTML).toContain('Звук и отклик');
     expect(root.innerHTML).toContain('Громкость музыки');
     expect(root.innerHTML).toContain('Громкость эффектов');
@@ -124,14 +136,14 @@ describe('AnimeDetectiveApp render smoke', () => {
   it('renders the ANM-019B language selector and an English menu/settings vertical slice', async () => {
     const storage = (globalThis.window as unknown as { localStorage: Storage }).localStorage;
     storage.setItem(LOCALE_SETTINGS_KEY, 'en');
-    const { root, app } = await createReady();
-    app.mount();
+    const { root, menu, settings } = await createReady();
+    menu.render();
     expect(root.innerHTML).toContain('New Game');
     expect(root.innerHTML).toContain('Scene Navigation');
     expect(root.innerHTML).toContain('Saves &amp; Diagnostics');
     expect(root.innerHTML).not.toContain('Новая игра');
 
-    app.renderSettings();
+    settings.render();
     expect(root.innerHTML).toContain('Audio &amp; Feedback');
     expect(root.innerHTML).toContain('Music volume');
     expect(root.innerHTML).toContain('Check for update');
@@ -142,13 +154,13 @@ describe('AnimeDetectiveApp render smoke', () => {
   it('renders the production-complete Belarusian menu/settings slice and selector option', async () => {
     const storage = (globalThis.window as unknown as { localStorage: Storage }).localStorage;
     storage.setItem(LOCALE_SETTINGS_KEY, 'be');
-    const { root, app } = await createReady();
-    app.mount();
+    const { root, menu, settings } = await createReady();
+    menu.render();
     expect(root.innerHTML).toContain('Новая гульня');
     expect(root.innerHTML).toContain('Навігацыя па сцэнах');
     expect(root.innerHTML).not.toContain('Новая игра');
 
-    app.renderSettings();
+    settings.render();
     expect(root.innerHTML).toContain('Гук і водгук');
     expect(root.innerHTML).toContain('data-language-select');
     expect(root.innerHTML).toContain('<option value="be" selected>Беларуская</option>');
@@ -157,8 +169,8 @@ describe('AnimeDetectiveApp render smoke', () => {
   it('renders the ANM-019C English VN chrome, scene metadata and choices without translating screenplay lines', async () => {
     const storage = (globalThis.window as unknown as { localStorage: Storage }).localStorage;
     storage.setItem(LOCALE_SETTINGS_KEY, 'en');
-    const { root, app } = await createReady();
-    app.openScene(0, 0);
+    const { root, vn } = await createReady();
+    vn.openScene(0, 0);
     expect(root.innerHTML).toContain('The Club That Barely Exists');
     expect(root.innerHTML).toContain('aria-label="Dialogue history"');
     expect(root.innerHTML).toContain('aria-label="Settings"');
@@ -169,8 +181,8 @@ describe('AnimeDetectiveApp render smoke', () => {
 
     const choiceLine = getScene(1).findIndex((entry) => entry.id === 'VN0040');
     expect(choiceLine).toBeGreaterThanOrEqual(0);
-    app.openScene(1, choiceLine);
-    app.nextLine();
+    vn.openScene(1, choiceLine);
+    vn.nextLine();
     expect(root.innerHTML).toContain('Choose an approach');
     expect(root.innerHTML).toContain('Where do we start?');
     expect(root.innerHTML).toContain('Find the second victim first');
@@ -179,9 +191,8 @@ describe('AnimeDetectiveApp render smoke', () => {
   });
 
   it('renders save and diagnostics tools', () => {
-    const { root, app } = create();
-    app.mount();
-    app.renderSupport();
+    const { root, diagnostics } = create();
+    diagnostics.render();
     expect(root.innerHTML).toContain('Сохранения и диагностика');
     expect(root.innerHTML).toContain('Экспорт сохранения');
     expect(root.innerHTML).toContain('Импорт сохранения');
@@ -192,8 +203,8 @@ describe('AnimeDetectiveApp render smoke', () => {
   });
 
   it('renders a complete 8x8 board with localized runtime chrome', () => {
-    const { root, app } = create();
-    app.startMatch(0);
+    const { root, match3 } = create();
+    match3.startMatch(0);
     expect(root.innerHTML).toContain('match-screen');
     expect((root.innerHTML.match(/data-cell=/g) ?? [])).toHaveLength(64);
     expect(root.innerHTML).toContain('tile_');
@@ -207,24 +218,23 @@ describe('AnimeDetectiveApp render smoke', () => {
   });
   it('pages compact VN dialogue before advancing the authored line', () => {
     Object.assign(globalThis.window as unknown as Record<string, unknown>, { innerWidth: 320, innerHeight: 568 });
-    const { root, app } = create();
-    app.openScene(0, 0);
+    const { root, session, vn } = create();
+    vn.openScene(0, 0);
     expect(root.innerHTML).toContain('VN0001 · 1/2');
     expect(root.innerHTML).toContain('data-dialogue-page="1"');
 
-    const state = app as unknown as { nextLine(): void; save: { line: number; readLines: string[] } };
-    expect(state.save.line).toBe(0);
-    expect(state.save.readLines).not.toContain('VN0001');
+    expect(session.save.line).toBe(0);
+    expect(session.save.readLines).not.toContain('VN0001');
 
-    state.nextLine();
-    expect(state.save.line).toBe(0);
-    expect(state.save.readLines).not.toContain('VN0001');
+    vn.nextLine();
+    expect(session.save.line).toBe(0);
+    expect(session.save.readLines).not.toContain('VN0001');
     expect(root.innerHTML).toContain('VN0001 · 2/2');
     expect(root.innerHTML).toContain('data-dialogue-page="2"');
 
-    state.nextLine();
-    expect(state.save.line).toBe(1);
-    expect(state.save.readLines).toContain('VN0001');
+    vn.nextLine();
+    expect(session.save.line).toBe(1);
+    expect(session.save.readLines).toContain('VN0001');
   });
 
 });

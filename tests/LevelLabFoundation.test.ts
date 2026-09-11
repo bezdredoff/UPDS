@@ -1,7 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import type { AppNavigation } from '../src/app/AppNavigation';
+import { AppSession } from '../src/app/AppSession';
+import { AppShell } from '../src/app/AppShell';
 import { levels, validateLevelDefinitions } from '../src/data/levels';
-import { levelLabBoardSignature, normalizeLevelLabSeed } from '../src/features/levelLab/LevelLabController';
-import { AnimeDetectiveApp } from '../src/ui/AnimeDetectiveApp';
+import { LevelLabController, levelLabBoardSignature, normalizeLevelLabSeed } from '../src/features/levelLab/LevelLabController';
+import { Match3Controller } from '../src/features/match3/Match3Controller';
+import { createRuntimeServices } from '../src/platform/RuntimeServices';
 
 class MemoryStorage implements Storage {
   private values = new Map<string, string>();
@@ -56,8 +60,16 @@ describe('ANM-026A Level Lab foundation', () => {
   it('renders a validated 8x8 lab preview for the production level config', () => {
     expect(validateLevelDefinitions(levels)).toEqual([]);
     const root = new FakeRoot();
-    const app = new AnimeDetectiveApp(root as unknown as HTMLElement);
-    app.renderLevelLab();
+    const element = root as unknown as HTMLElement;
+    const services = createRuntimeServices();
+    const lab = new LevelLabController(
+      element,
+      services,
+      new AppShell(element, () => undefined),
+      {} as AppNavigation,
+      () => undefined,
+    );
+    lab.render();
     expect(root.innerHTML).toContain('Level Lab');
     expect(root.innerHTML).toContain('CONFIG VALID');
     expect(root.innerHTML).toContain('M3_00');
@@ -69,8 +81,18 @@ describe('ANM-026A Level Lab foundation', () => {
 
   it('starts a deterministic lab run without mutating story save or tutorial progress', () => {
     const root = new FakeRoot();
-    const app = new AnimeDetectiveApp(root as unknown as HTMLElement);
-    app.save = {
+    const element = root as unknown as HTMLElement;
+    const services = createRuntimeServices();
+    const session = new AppSession(services);
+    const match3 = new Match3Controller(
+      element,
+      services,
+      session,
+      new AppShell(element, () => undefined),
+      {} as AppNavigation,
+      () => undefined,
+    );
+    session.save = {
       scene: 3,
       line: 7,
       choice: 'B',
@@ -80,9 +102,9 @@ describe('ANM-026A Level Lab foundation', () => {
       readLines: ['VN0001'],
       tutorialsCompleted: ['basic-swap'],
     };
-    const before = JSON.parse(JSON.stringify(app.save));
-    app.startLabMatch(0, 0);
-    expect(app.save).toEqual(before);
+    const before = JSON.parse(JSON.stringify(session.save));
+    match3.startLabMatch(0, 0, () => undefined);
+    expect(session.save).toEqual(before);
     expect(root.innerHTML).toContain('LEVEL LAB RUN');
     expect(root.innerHTML).toContain('SEED 0');
     expect(root.innerHTML).toContain('match-screen');

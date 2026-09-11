@@ -1,6 +1,6 @@
 # G2a-ARCH-008 — Shared viewport evidence collector
 
-Status: **in review**.
+Status: **accepted via PR #296**.
 
 ## Проблема
 

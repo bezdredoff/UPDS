@@ -5,7 +5,6 @@ import { applyBrowserLocalCharacterCalibration, applyBrowserLocalCharacterOverri
 import type { AppNavigation } from '../src/app/AppNavigation';
 import { SceneStudioController } from '../src/features/sceneStudio/SceneStudioController';
 import { createRuntimeServices } from '../src/platform/RuntimeServices';
-import { AnimeDetectiveApp } from '../src/ui/AnimeDetectiveApp';
 
 class MemoryStorage implements Storage {
   private values = new Map<string, string>();
@@ -51,11 +50,8 @@ describe('ANM-028E0C1 Scene Studio workspace separation', () => {
 
   it('opens in Composition with runtime/browser-local art and no legacy Emi Art Source control', () => {
     const root = new FakeRoot();
-    const app = new AnimeDetectiveApp(root as unknown as HTMLElement);
-    app.mount();
-    expect(root.innerHTML).toContain('Студия сцен');
-
-    app.renderSceneStudio();
+    const studio = createStudio(root);
+    studio.render();
     expect(root.innerHTML).toContain('data-scene-studio-workspace="composition"');
     expect(root.innerHTML).toContain('data-scene-preset="solo-close"');
     expect(root.innerHTML).toContain('data-art-source="runtime"');
