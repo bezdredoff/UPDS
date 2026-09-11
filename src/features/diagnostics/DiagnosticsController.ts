@@ -115,7 +115,7 @@ export class DiagnosticsController {
       const gameSize = this.root.querySelector<HTMLElement>('#game-viewport-size');
       const gamePosition = this.root.querySelector<HTMLElement>('#game-viewport-position');
       if (shellSize) shellSize.textContent = shellRect ? `${metric(shellRect.width)}×${metric(shellRect.height)}` : 'not found';
-      if (shellVars) shellVars.textContent = `physical ${rootStyle.getPropertyValue('--physical-viewport-height').trim() || 'unset'} · js ${rootStyle.getPropertyValue('--upds-viewport-height').trim() || 'unset'}`;
+      if (shellVars) shellVars.textContent = `layout ${rootStyle.getPropertyValue('--upds-viewport-height').trim() || 'unset'} · screen is evidence only`;
       if (gameSize) gameSize.textContent = gameRect ? `${metric(gameRect.width)}×${metric(gameRect.height)}` : 'not found';
       if (gamePosition) gamePosition.textContent = gameRect ? `top ${metric(gameRect.top)} · bottom ${metric(gameRect.bottom)}` : 'not found';
     }

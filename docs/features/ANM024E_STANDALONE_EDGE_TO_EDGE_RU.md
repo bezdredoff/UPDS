@@ -2,6 +2,10 @@
 
 Статус: candidate fix after real-device viewport diagnostics; geometry ownership is being consolidated by G2a-ARCH-001.
 
+> Исторический контракт. Формула с `screen.height` опровергнута изолированным real-iPhone
+> evidence 2026-09-11 и заменена candidate G0-PWA-001. Текущий контракт:
+> [`G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md`](G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md).
+
 ## Что показала диагностика на реальном iPhone
 
 На установленной PWA одновременно были измерены:

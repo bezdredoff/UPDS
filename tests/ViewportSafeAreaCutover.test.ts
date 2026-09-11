@@ -59,10 +59,11 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     expect(panelNavRule).not.toMatch(/(?:^|\n)\s*padding\s*:/);
     expect(legacy).not.toContain('top: calc(-1 * max(20px, var(--safe-area-top)))');
     expect(viewport).toContain('position: fixed');
-    expect(viewport).toContain('height: var(--physical-viewport-height)');
+    expect(viewport).toContain('inset: 0');
+    expect(viewport).toContain('height: auto');
   });
 
-  it('restores the real-device standalone extension and freezes height-only changes', () => {
+  it('keeps standalone geometry inside the measured layout viewport', () => {
     const viewport = read('src/viewport.css');
     const runtime = read('src/platform/ViewportRuntime.ts');
     const standalone = read('src/standaloneEdgeToEdge.css');
@@ -77,24 +78,25 @@ describe('ANM-024C/D shared safe-area ownership', () => {
     });
 
     expect(viewport).toContain('--upds-viewport-height: 100dvh');
-    expect(viewport).toContain('--physical-viewport-height: var(--upds-viewport-height)');
     expect(viewport).not.toContain('@media (display-mode: standalone)');
-    expect(viewport).toContain(":root[data-upds-display-mode='standalone'] {");
-    expect(viewport).toContain('--physical-viewport-height: calc(100dvh + var(--safe-area-top))');
     expect(viewport).toContain('@media (orientation: portrait) and (max-width: 520px)');
     expect(viewport).toContain(":root[data-upds-display-mode='standalone'] .phone.game-viewport");
     expect(viewport).toContain('width: 100%');
     expect(viewport).toContain('height: 100%');
-    expect(viewport).not.toContain('--physical-viewport-height: 100vh');
-    expect(viewport).not.toContain('--physical-viewport-height: 100lvh');
+    expect(viewport).toContain('inset: 0');
+    expect(viewport).toContain('height: auto');
+    expect(viewport).not.toContain('--physical-viewport-height');
+    expect(viewport).not.toContain('calc(100dvh + var(--safe-area-top))');
     expect(geometry.dynamicHeight).toBe(812);
-    expect(geometry.layoutHeight).toBe(874);
+    expect(geometry.physicalHeight).toBe(874);
+    expect(geometry.layoutHeight).toBe(812);
     expect(runtime).toContain('if (Math.abs(nextWidth - stableLayoutWidth) < 2) return;');
     expect(runtime).not.toContain("visualViewport?.addEventListener('resize'");
     expect(legacy).toContain('background: #171a2f;');
     expect(legacy).not.toContain('--upds-system-canvas-color');
     expect(legacy).not.toContain(":root[data-upds-display-mode='standalone']:has(");
     expect(standalone).not.toMatch(/:root\[data-upds-display-mode='standalone'\]\s*\{\s*background:/);
+    expect(read('index.html')).toContain('apple-mobile-web-app-status-bar-style" content="default"');
   });
 
   it('loads shared token discovery after presentation and preview badge CSS', () => {

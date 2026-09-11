@@ -1,11 +1,23 @@
 # ANM-030B1B9 — статус iOS PWA viewport и VN-низа
 
-Дата фиксации: **2026-09-10**  
-Статус: **отложено до отдельного device-debug прохода; не считать закрытым**  
+Дата фиксации: **2026-09-10; обновлено 2026-09-11**
+Статус: **device-debug возобновлён; гипотеза physical-height опровергнута**
 Связанный release gate: `G0`  
 Связанные known issues: `KI-001`, `KI-003`
 
-## Решение по текущему плану
+## Обновление 2026-09-11
+
+Изолированная real-iPhone лаборатория доказала, что `screen.height=874` нельзя использовать как
+layout height при `inner/visual/dvh=812`: вариант с `fixed; inset:0` полностью помещается, а
+добавление `max(innerHeight, screen.height)` обрезает ровно `62px`. `black-translucent` отдельно
+воспроизводит нижнюю полосу body и публикует safe-area `62/34`, не расширяя layout viewport.
+
+Production candidate и новый acceptance protocol описаны в
+[`G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md`](G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md). Нижележащие
+наблюдения сохранены как история исходной triage; прежний physical-height контракт больше не
+является активной рекомендацией.
+
+## Решение по плану на момент исходной triage
 
 Работу над подбором очередной формулы высоты временно приостанавливаем. Следующий приоритет —
 работа по актуальному release dashboard и остальным G-задачам. `G0` остаётся `active`, а
@@ -76,4 +88,4 @@ PWA online, installed PWA airplane/offline, installed PWA после возвр�
 между CSS-only safe-area схемой, runtime physical-height fallback и исправлением внутренних VN
 rows.
 
-До получения этого evidence новые изменения в production viewport CSS не планируются.
+Требуемое evidence получено 2026-09-11; этот stop rule снят только для bounded G0-PWA-001 repair.

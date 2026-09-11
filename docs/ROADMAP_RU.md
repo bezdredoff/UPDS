@@ -2,11 +2,11 @@
 
 Technical product version: `0.26.0-dev`.
 
-Status: **ANM-030B1B8 release-priority sync** after production-player-surface closure and the latest background integrations.
+Status: **ANM-030B1C / G0-PWA-001 iOS viewport repair candidate** after isolated real-iPhone reproduction.
 
 This roadmap is intentionally a strategic status map, not a transcript of every historical sub-feature. Detailed implementation history lives in feature docs and Git. The actionable remaining-work authority is [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md); the approved full-game scope/reuse ceilings remain [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md); machine-readable art inventory remains `src/content/art/ANM030A.asset-gap-audit.json`. Production budgets are ceilings, not an obligation to spend every planned asset slot.
 
-`APP_VERSION` in `src/appVersion.ts` is the canonical player-facing product semver dev-line. npm `package.json.version` remains internal package metadata. `BUILD_LABEL` is separate feature/baseline identity; current traceability still includes **ANM-023G7C Version / Diagnostics Closeout**. `BUILD_ID` identifies a concrete CI build.
+`APP_VERSION` in `src/appVersion.ts` is the canonical player-facing product semver dev-line. npm `package.json.version` remains internal package metadata. `BUILD_LABEL` is separate feature/baseline identity; the current candidate is **ANM-030B1C iOS Viewport Repair**. `BUILD_ID` identifies a concrete CI build.
 
 ## Base-release target
 
@@ -30,8 +30,8 @@ Changing the release platform or market scope is a separate product decision, no
 - save/progression, VN shell/paging/staging, localization foundation, PWA/offline/update foundation and telemetry foundation;
 - Match-3 production framework, Level Lab and player-facing Match-3 Campaign;
 - complete canonical authored story and graph/runtime pipeline for all 22 slots and three endings;
-- viewport/safe-area foundation, including installed-iOS physical-bottom extension, uncapped
-  `440px` large-iPhone full-bleed and Playwright Browser Gate;
+- viewport/safe-area ownership, shared evidence, uncapped `440px` large-iPhone presentation and
+  Playwright Browser Gate; the G0-PWA-001 device repair candidate is active;
 - RU, BE and EN production runtime;
 - nine-character full-stage production closure with exact 63 runtime assets and Mobile WebKit visual protection;
 - production player surface closure: internal QA tools hidden from normal player URL and retained through explicit `?qa=1` access.
@@ -171,8 +171,8 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 ## Recommended immediate sequence
 
-1. **Background semantic closure:** `maintenance-room` → `old-gym-night` → `gymnastics-costume` → `asterion-transfer-point` → `campus-path`, in small binary-safe waves with iPhone preview; reassess after the common-route five before committing to all ending-only variants.
-2. **Guest/witness closure in parallel:** finish production presentation for six named guests in small reviewable waves with iPhone preview.
+1. **G0-PWA-001:** проверить исправленный layout-viewport candidate fresh install на том же iPhone; не закрывать KI-001/KI-003 до online/offline evidence.
+2. **Background visual QA и guest/witness closure:** продолжить release content work после bounded PWA retest.
 3. **Ending-specific background cleanup — integrated.** `service-tunnel`, `disciplinary-assembly`, `anonymous-return-counter` and `clubroom-night` now use dedicated masters; reopen only on visual regression.
 4. **ANM-033 — Release Candidate Hardening [P0 before release]** — full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, accessibility/performance sanity.
 5. Fix only defects found by those gates; build the RC.

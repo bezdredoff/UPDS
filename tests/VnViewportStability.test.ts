@@ -18,7 +18,7 @@ describe('ANM-023G8E2/E4 iOS VN viewport stability', () => {
     expect(html).not.toContain('maximum-scale=1');
   });
 
-  it('uses frozen physical-height tokens instead of shortened dynamic height for standalone VN', () => {
+  it('sizes frozen standalone VN tokens from the visible layout viewport', () => {
     const css = read('src/vnViewportStability.css');
     const standalone = read('src/standaloneEdgeToEdge.css');
     const geometry = resolveViewportGeometry({
@@ -31,8 +31,8 @@ describe('ANM-023G8E2/E4 iOS VN viewport stability', () => {
     });
     const tokens = viewportLayoutTokens(geometry);
 
-    expect(geometry.layoutHeight).toBe(874);
-    expect(tokens.physicalViewportHeight).toBe('874px');
+    expect(geometry.layoutHeight).toBe(812);
+    expect(geometry.physicalHeight).toBe(874);
     expect(tokens.browserViewportHeight).toBeNull();
     expect(tokens.vnDialogueRow).toMatch(/px$/);
     expect(tokens.vnControlsMinHeight).toMatch(/px$/);

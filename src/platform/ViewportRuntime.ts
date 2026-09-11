@@ -22,7 +22,6 @@ export type ViewportGeometry = Readonly<{
 }>;
 
 export type ViewportLayoutTokens = Readonly<{
-  physicalViewportHeight: string | null;
   browserViewportHeight: string | null;
   vnDialogueRow: string;
   vnControlsMinHeight: string;
@@ -60,14 +59,17 @@ export const resolveViewportGeometry = (input: ViewportGeometryInput): ViewportG
     positiveNumber(input.screenHeight) &&
     Math.abs(input.screenWidth - width) < 2
   ) {
-    physicalHeight = Math.max(innerHeight, input.screenHeight);
+    physicalHeight = input.screenHeight;
   }
 
   return {
     displayMode: input.displayMode,
     width,
     dynamicHeight,
-    layoutHeight: input.displayMode === 'standalone' && physicalHeight !== null ? physicalHeight : dynamicHeight,
+    // screen.height is device evidence, not a CSS layout boundary. Installed
+    // iOS can report 874 here while its layout/visual viewport is only 812;
+    // sizing the fixed shell to the former clips its lower 62px.
+    layoutHeight: dynamicHeight,
     physicalHeight,
   };
 };
@@ -75,10 +77,6 @@ export const resolveViewportGeometry = (input: ViewportGeometryInput): ViewportG
 export const viewportLayoutTokens = (geometry: ViewportGeometry): ViewportLayoutTokens => {
   const height = geometry.layoutHeight;
   return {
-    physicalViewportHeight:
-      geometry.displayMode === 'standalone' && geometry.physicalHeight !== null
-        ? `${geometry.physicalHeight}px`
-        : null,
     browserViewportHeight: geometry.displayMode === 'browser' ? `${height}px` : null,
     vnDialogueRow: `${clamp(height * 0.22, 154, 198)}px`,
     vnControlsMinHeight: `${clamp(height * 0.09, 60, 82)}px`,
@@ -100,9 +98,6 @@ const applyViewportGeometry = (geometry: ViewportGeometry): void => {
   const root = document.documentElement;
   const tokens = viewportLayoutTokens(geometry);
   root.dataset.updsDisplayMode = geometry.displayMode;
-
-  if (tokens.physicalViewportHeight === null) root.style.removeProperty('--physical-viewport-height');
-  else root.style.setProperty('--physical-viewport-height', tokens.physicalViewportHeight);
 
   if (tokens.browserViewportHeight === null) root.style.removeProperty('--upds-viewport-height');
   else root.style.setProperty('--upds-viewport-height', tokens.browserViewportHeight);

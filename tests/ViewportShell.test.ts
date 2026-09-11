@@ -92,7 +92,7 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(afterRenderCount).toBe(2);
   });
 
-  it('restores the real-device R4/R7 physical-height formula for standalone iOS through the resolved display-mode dataset', () => {
+  it('bounds the installed-iOS shell to its fixed layout viewport', () => {
     const css = readFileSync(new URL('../src/viewport.css', import.meta.url), 'utf8');
     const runtime = readFileSync(new URL('../src/platform/ViewportRuntime.ts', import.meta.url), 'utf8');
 
@@ -101,24 +101,22 @@ describe('ANM-024B shared game viewport shell', () => {
     expect(css).toContain('--safe-area-bottom: env(safe-area-inset-bottom, 0px)');
     expect(css).toContain('--safe-area-left: env(safe-area-inset-left, 0px)');
     expect(css).toContain('--upds-viewport-height: 100dvh');
-    expect(css).toContain('--upds-physical-screen-height: 0px');
-    expect(css).toContain('--physical-viewport-height: var(--upds-viewport-height)');
     expect(runtime).toContain('root.dataset.updsDisplayMode = geometry.displayMode;');
-    expect(css).toContain(":root[data-upds-display-mode='standalone'] {");
-    expect(css).toContain('--physical-viewport-height: calc(100dvh + var(--safe-area-top))');
-    expect(css).toContain('max(calc(100dvh + var(--safe-area-top)), var(--upds-physical-screen-height))');
     expect(css).toContain('@media (orientation: portrait) and (max-width: 520px)');
     expect(css).toContain(":root[data-upds-display-mode='standalone'] .phone.game-viewport");
     expect(css).not.toContain('@media (display-mode: standalone)');
     expect(css).toContain('width: 100%');
     expect(css).toContain('height: 100%');
-    expect(css).toContain('height: var(--physical-viewport-height)');
+    expect(css).toContain('inset: 0');
+    expect(css).toContain('height: auto');
     expect(css).toContain('.app-screen-host');
-    expect(css).not.toContain('--physical-viewport-height: 100vh');
-    expect(css).not.toContain('--physical-viewport-height: 100lvh');
+    expect(css).not.toContain('--physical-viewport-height');
+    expect(css).not.toContain('--upds-physical-screen-height');
+    expect(css).not.toContain('calc(100dvh + var(--safe-area-top))');
+    expect(runtime).not.toContain("setProperty('--physical-viewport-height'");
   });
 
-  it('keeps standalone game geometry identical when WebKit exposes shortened or full dynamic height', () => {
+  it('keeps physical screen evidence out of standalone layout geometry', () => {
     const online = resolveViewportGeometry({
       displayMode: 'standalone',
       innerWidth: 402,
@@ -138,11 +136,11 @@ describe('ANM-024B shared game viewport shell', () => {
 
     expect(online.dynamicHeight).toBe(812);
     expect(online.physicalHeight).toBe(874);
-    expect(online.layoutHeight).toBe(874);
+    expect(online.layoutHeight).toBe(812);
     expect(offline.layoutHeight).toBe(874);
-    expect(viewportLayoutTokens(online)).toEqual(viewportLayoutTokens(offline));
-    expect(viewportLayoutTokens(online).physicalViewportHeight).toBe('874px');
+    expect(viewportLayoutTokens(online)).not.toEqual(viewportLayoutTokens(offline));
     expect(viewportLayoutTokens(online).browserViewportHeight).toBeNull();
+    expect(Number.parseFloat(viewportLayoutTokens(online).vnDialogueRow)).toBeCloseTo(178.64);
   });
 
   it('keeps browser geometry based on the dynamic viewport instead of the physical screen', () => {

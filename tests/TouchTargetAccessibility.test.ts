@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-const read = (path: string): string => readFileSync(resolve(process.cwd(), path), 'utf8');
+const read = (path: string): string => readFileSync(resolve(process.cwd(), path), 'utf8').replace(/\r\n/g, '\n');
 
 describe('G2-TOUCH-001 production touch-target contract', () => {
   it('loads the focused accessibility override from the shared player controls bundle', () => {

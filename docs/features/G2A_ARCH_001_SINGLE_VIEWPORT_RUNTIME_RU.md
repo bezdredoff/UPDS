@@ -2,6 +2,10 @@
 
 Status: **accepted via PR #288**.
 
+> ARCH-001 остаётся принятым ownership refactor. Его сохранённая height formula была отдельным
+> product behavior и после нового real-iPhone evidence заменена G0-PWA-001; это не возобновляет
+> закрытый G2a cleanup track.
+
 ## Зачем
 
 После серии real-device PWA фиксов внешний `.viewport-shell` уже мог занимать физические `874px`, но `src/main.ts` отдельно вычислял VN layout tokens из `visualViewport.height ?? innerHeight`.

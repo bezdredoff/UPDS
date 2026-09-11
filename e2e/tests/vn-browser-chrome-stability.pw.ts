@@ -15,10 +15,12 @@ const captureGeometry = async (page: import('@playwright/test').Page) => page.ev
   }
   const rootStyle = getComputedStyle(document.documentElement);
   return {
+    innerHeight: window.innerHeight,
     frameSame: host.__updsChromeStableFrame === document.querySelector('[data-vn-frame="shared"][data-frame-context="runtime"]'),
     frozenViewportHeight: rootStyle.getPropertyValue('--upds-viewport-height').trim(),
     dialogueToken: rootStyle.getPropertyValue('--upds-vn-dialogue-row').trim(),
     controlsToken: rootStyle.getPropertyValue('--upds-vn-controls-min-height').trim(),
+    dialogueFontSize: getComputedStyle(document.querySelector<HTMLElement>('.dialogue-text')!).fontSize,
     shell: rect('.viewport-shell'),
     phone: rect('.phone'),
     stage: rect('.stage'),
@@ -28,16 +30,26 @@ const captureGeometry = async (page: import('@playwright/test').Page) => page.ev
   };
 });
 
-const expectSameGeometry = (before: Awaited<ReturnType<typeof captureGeometry>>, after: Awaited<ReturnType<typeof captureGeometry>>) => {
+const expectHeightOnlyViewportAdaptation = (before: Awaited<ReturnType<typeof captureGeometry>>, after: Awaited<ReturnType<typeof captureGeometry>>) => {
   expect(after.frameSame).toBe(true);
   expect(after.frozenViewportHeight).toBe(before.frozenViewportHeight);
   expect(after.dialogueToken).toBe(before.dialogueToken);
   expect(after.controlsToken).toBe(before.controlsToken);
-  for (const area of ['shell', 'phone', 'stage', 'portrait', 'dialogue', 'controls'] as const) {
-    for (const field of ['top', 'bottom', 'width', 'height'] as const) {
-      expect(after[area][field], `${area}.${field}`).toBeCloseTo(before[area][field], 2);
-    }
+  expect(after.dialogueFontSize).toBe(before.dialogueFontSize);
+
+  for (const area of ['shell', 'phone'] as const) {
+    expect(after[area].width, `${area}.width`).toBeCloseTo(before[area].width, 2);
   }
+
+  const heightChange = after.innerHeight - before.innerHeight;
+  expect(after.shell.top).toBeCloseTo(before.shell.top, 2);
+  expect(after.phone.top).toBeCloseTo(before.phone.top, 2);
+  expect(after.shell.bottom).toBeCloseTo(after.innerHeight, 2);
+  expect(after.phone.bottom).toBeCloseTo(after.innerHeight, 2);
+  expect(after.shell.height - before.shell.height).toBeCloseTo(heightChange, 2);
+  expect(after.phone.height - before.phone.height).toBeCloseTo(heightChange, 2);
+  expect(after.dialogue.bottom).toBeLessThanOrEqual(after.shell.bottom + 1);
+  expect(after.controls.bottom).toBeLessThanOrEqual(after.shell.bottom + 1);
 };
 
 test.describe('VN browser chrome stability', () => {
@@ -62,7 +74,7 @@ test.describe('VN browser chrome stability', () => {
     await page.waitForTimeout(250);
 
     const after = await captureGeometry(page);
-    expectSameGeometry(before, after);
+    expectHeightOnlyViewportAdaptation(before, after);
     health.assertClean();
   });
 
