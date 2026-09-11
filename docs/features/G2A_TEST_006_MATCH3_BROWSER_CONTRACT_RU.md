@@ -1,6 +1,6 @@
 # G2a-TEST-006 — Match-3 browser contract ownership
 
-Статус: **review**.
+Status: **accepted via PR #287**.
 
 ## Проблема
 
@@ -50,8 +50,8 @@ Browser contract больше не должен подтверждать эти 
 - PWA/safe-area;
 - backgrounds/art.
 
-## Завершение G2a
+## Завершённый финальный аудит
 
-Это последний заранее выявленный крупный browser source-shape contract после TEST-001…005. После merge нужно сделать короткий финальный аудит оставшихся `read('src/...')` tests. Source-reading contracts, которые действительно защищают CSS/PWA/version/build ownership или другой намеренно статический repository contract, не удаляются только ради формальной чистоты.
+TEST-006 был принят через PR #287. После него выполнен короткий финальный аудит оставшихся `read('src/...')` tests: source-reading contracts, которые действительно защищают CSS/PWA/version/build ownership или другой намеренно статический repository contract, сохранены; существенное дублирование закрыто последующими bounded architecture slices ARCH-001…010 через PR #288–#298.
 
-Если финальный аудит не покажет нового существенного дублирования, G2a можно переводить в `accepted` и переходить к следующему release cluster.
+G2a закрыт после ARCH-010 / PR #298 и docs closeout / PR #299. Следующий активный трек — release work. KI-001/KI-003 остаются отдельными открытыми real-iPhone gates; этот slice и G2a их не закрывают. Не продолжать G2a без нового доказанного regression/ownership риска.

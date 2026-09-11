@@ -1,5 +1,7 @@
 # G2a-TEST-002 — browser journey contracts without production source-shape coupling
 
+Status: **accepted via PR #283**.
+
 ## Цель
 
 Снизить хрупкость fast/unit gate вокруг Playwright journeys: browser contract test должен защищать способ доказательства пользовательского поведения и запрет test-only shortcuts, но не требовать точного текста production-реализации.
@@ -38,9 +40,9 @@
 
 Эти вещи должны защищаться на своём уровне: публичными unit/domain tests, architecture contracts или реальным browser behavior. Stable Story save key уже отдельно защищён `RepositoryHygiene.test.ts`; locale store/key — `LocalizationFoundation.test.ts`; post-win Story boundary имеет отдельный G8B browser journey/contract.
 
-## Правило для следующих G2a slices
+## Сохранённое ownership-правило
 
-Source-reading contract допустим, когда он проверяет реально архитектурную границу, которую трудно выразить через публичный API: например запрет sibling-controller imports, единственный composition root или отсутствие hidden test mutation API.
+Это правило было применено в последующих принятых TEST-003…006 (PR #284–#287): source-reading contract допустим, когда он проверяет реально архитектурную границу, которую трудно выразить через публичный API, например запрет sibling-controller imports, единственный composition root или отсутствие hidden test mutation API.
 
 Не стоит добавлять source-text assertion только ради того, чтобы зафиксировать имя локальной переменной, порядок внутренних вызовов или точное написание реализации, уже доказанной unit/E2E поведением.
 

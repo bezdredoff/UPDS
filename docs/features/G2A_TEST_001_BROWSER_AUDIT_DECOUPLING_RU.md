@@ -1,5 +1,7 @@
 # G2a-TEST-001 — historical Browser Coverage Audit decoupling
 
+Status: **accepted via PR #281**.
+
 ## Цель
 
 Убрать из fast/unit gate ручную зависимость между историческим ANM-023G8A coverage audit и текущим набором Playwright spec-файлов.
@@ -34,10 +36,8 @@ Slice не ослабляет runtime/browser coverage:
 
 Меняется только test/documentation ownership. Runtime, production UI, Playwright specs, workflows, Golden Samples, PWA и game logic не меняются.
 
-## Следующий G2a шаг
+## Последующие принятые результаты
 
-После этого slice нужно отдельно пройти оставшиеся source-text contract tests и классифицировать их:
+После TEST-001 последовательно приняты TEST-002…006 через PR #283–#287. Они продолжили decoupling browser/source-shape contracts без ослабления Browser Gate. Финальный аудит после TEST-006 завершён и больше не является будущим шагом.
 
-1. protected architecture/ownership contracts — оставить;
-2. behavior already proven by unit/E2E — удалить дублирующую source-string проверку;
-3. implementation-shape assertions — заменить на более устойчивый public/behavior contract там, где это возможно без потери сигнала.
+G2a закрыт после ARCH-010 / PR #298 и docs closeout / PR #299. Следующий активный трек — release work. KI-001/KI-003 остаются отдельными открытыми real-iPhone gates; G2a не продолжать без нового доказанного regression/ownership риска.
