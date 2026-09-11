@@ -1,6 +1,6 @@
 # G2a-ARCH-007 — Platform identity single source
 
-Status: **in review**.
+Status: **accepted · PR #295**.
 
 ## Проблема
 
@@ -30,7 +30,7 @@ Status: **in review**.
 - bootstrap preview badge decision;
 - Diagnostics resolved identity.
 
-Diagnostics при этом продолжает показывать raw navigator/media/root signals. Это evidence, а не второй decision owner. Их объединение с `ViewportDebug` в один raw/resolved snapshot остаётся задачей ARCH-008.
+Diagnostics при этом продолжает показывать raw navigator/media/root signals. Это evidence, а не второй decision owner. Их объединение с `ViewportDebug` в один raw/resolved snapshot выполняется следующим ARCH-008.
 
 ## Regression contract
 

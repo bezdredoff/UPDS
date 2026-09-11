@@ -26,6 +26,7 @@ describe('G2a-ARCH-007 platform identity', () => {
     const pwa = read('src/platform/PwaController.ts');
     const main = read('src/main.ts');
     const diagnostics = read('src/features/diagnostics/DiagnosticsController.ts');
+    const evidence = read('src/platform/ViewportEvidence.ts');
 
     expect(identity).toContain("matchMedia('(display-mode: standalone)')");
     expect(identity).toContain('/\\/preview(?:\\/|$)/');
@@ -37,7 +38,12 @@ describe('G2a-ARCH-007 platform identity', () => {
     expect(pwa).not.toContain("matchMedia('(display-mode: standalone)')");
     expect(main).toContain('resolveRuntimeLane(pathname');
     expect(main).not.toContain('/\\/preview(?:\\/|$)/');
-    expect(diagnostics).toContain('resolveDisplayMode()');
-    expect(diagnostics).toContain('resolveRuntimeLane()');
+    expect(diagnostics).toContain("from '../../platform/ViewportEvidence'");
+    expect(diagnostics).toContain('collectViewportEvidence()');
+    expect(diagnostics).not.toContain('resolveDisplayMode()');
+    expect(diagnostics).not.toContain('resolveRuntimeLane()');
+    expect(evidence).toContain("from './PlatformIdentity'");
+    expect(evidence).toContain('resolveDisplayMode(displaySignals)');
+    expect(evidence).toContain('resolveRuntimeLane()');
   });
 });
