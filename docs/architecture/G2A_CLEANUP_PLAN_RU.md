@@ -27,8 +27,8 @@ Status: active bounded maintenance plan after merged G2 runtime/UI hardening and
 | G2a-ARCH-003 | P0 | accepted | Persistent AppShell | `.viewport-shell` и `.phone.game-viewport` создаются один раз; screen content меняется внутри persistent `app-screen-host`; merged PR #290 |
 | G2a-ARCH-004 | P1 | accepted | Unified compact layout | persistent `.game-viewport` — named inline-size container `upds-game`; compact presentation больше не выбирается старым `650px OR 340px` viewport decision; merged PR #291 |
 | G2a-ARCH-005A | P1 | accepted | Single standalone CSS activation | `ViewportRuntime` dataset — единственный CSS activation signal для standalone geometry; native `@media(display-mode)` duplicate удалён; merged PR #292 |
-| G2a-ARCH-005B | P1 | active | Retire root-canvas camouflage | удалить `--upds-system-canvas-color`, screen-specific standalone `:has(...)` mappings и поздний compatibility containment; geometry gap больше не маскируется цветом текущего screen |
-| G2a-ARCH-006 | P1 | queued | CSS cascade/button contract | уйти от глобального `.primary !important` и feature-level counter-`!important`; ввести стабильные button modifiers / layers и убрать correctness, зависящий от import order |
+| G2a-ARCH-005B | P1 | accepted | Retire root-canvas camouflage | `--upds-system-canvas-color`, screen-specific standalone `:has(...)` mappings и поздний compatibility containment удалены; geometry gap больше не маскируется цветом текущего screen; merged PR #293 |
+| G2a-ARCH-006 | P1 | active | CSS cascade/button contract | shared primary modifier scoped to `.phone button.primary`; Match-3/Campaign variants win by contextual specificity instead of `!important`, so primary-button correctness no longer depends on stylesheet import order |
 | G2a-ARCH-007 | P1 | queued | Platform identity single source | один resolver для display mode и один resolver для stable/preview/local lane; PWA, bootstrap и diagnostics не вычисляют их независимо |
 | G2a-ARCH-008 | P1 | queued | Shared viewport evidence collector | Diagnostics и ViewportDebug используют общий read-only raw/resolved snapshot; early pre-bundle recorder остаётся отдельным только пока нужен для KI-001/KI-003 |
 | G2a-ARCH-009 | P2 | queued | Retire test-only app compatibility seams | убрать public methods в `AnimeDetectiveApp`, существующие только для старых smoke/QA tests; тестировать navigation/controller boundaries без production API ради тестов |
@@ -36,12 +36,11 @@ Status: active bounded maintenance plan after merged G2 runtime/UI hardening and
 
 ## Рекомендуемый порядок
 
-1. ARCH-005B — удалить dead root-canvas camouflage declarations и compatibility containment.
-2. ARCH-006 — почистить cascade/`!important` после стабилизации layout ownership.
-3. ARCH-007 — централизовать display mode / runtime lane identity.
-4. ARCH-008 — объединить diagnostics evidence collectors.
-5. ARCH-009 — удалить test-only composition-root compatibility API.
-6. ARCH-010 — repository hygiene cleanup + guard.
+1. ARCH-006 — завершить button/cascade contract и убрать production counter-`!important` для primary actions.
+2. ARCH-007 — централизовать display mode / runtime lane identity.
+3. ARCH-008 — объединить diagnostics evidence collectors.
+4. ARCH-009 — удалить test-only composition-root compatibility API.
+5. ARCH-010 — repository hygiene cleanup + guard.
 
 ARCH-009/010 можно выполнить раньше, если они не пересекаются с активным runtime PR. ART/guest production может идти параллельно; этот track не должен превращаться в бесконечный refactor перед релизом.
 
@@ -50,6 +49,10 @@ ARCH-009/010 можно выполнить раньше, если они не п
 ### Local vertical-fit rules
 
 ARCH-004 убрал `max-height:650px` как presentation breakpoint. Отдельные локальные правила вроде `max-height:760px` для board/menu fit и landscape height rules остаются: они не выбирают общую compact presentation family и могут быть пересмотрены только при конкретной regression evidence.
+
+### Accessibility / reduced-motion `!important`
+
+ARCH-006 касается конфликтующих visual button declarations. Blanket `!important` внутри `prefers-reduced-motion` и utility `visually-hidden` остаются намеренными enforcement rules; они не являются частью button cascade contract.
 
 ### Legacy numeric Story save → stable `StorySceneId`
 

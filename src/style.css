@@ -37,11 +37,11 @@ img { display: block; }
   isolation: isolate;
 }
 
-.primary {
-  border-color: var(--coral) !important;
-  background: var(--coral) !important;
-  color: white !important;
-  font-weight: 850 !important;
+.phone button.primary {
+  border-color: var(--coral);
+  background: var(--coral);
+  color: white;
+  font-weight: 850;
   box-shadow: 0 8px 22px #a93a5450;
 }
 .eyebrow {
@@ -1423,7 +1423,7 @@ img { display: block; }
 .pwa-update-banner b { font-size: 10px; }
 .pwa-update-banner span { color: var(--ink-soft); font-size: 8px; line-height: 1.25; }
 .pwa-update-banner button { min-height: 40px; padding: 6px 10px; border: 1px solid #c8b886; border-radius: 8px; background: #fff; font-size: 8px; font-weight: 850; }
-.pwa-update-banner .primary { min-height: 40px; }
+.pwa-update-banner button.primary { min-height: 40px; }
 
 @container upds-game (max-width: 350px) {
   .pwa-status-card { grid-template-columns: 1fr; }

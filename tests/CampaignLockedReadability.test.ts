@@ -21,14 +21,18 @@ describe('G2-READ-001 locked Campaign readability contract', () => {
     expect(css).toContain('button:disabled');
   });
 
-  it('wins the existing primary !important cascade only for the locked disabled action', () => {
+  it('uses contextual button specificity instead of competing important declarations', () => {
     const legacyCss = read('src/style.css');
     const css = read('src/features/match3Campaign/campaignReadability.css');
-    expect(legacyCss).toContain('background: var(--coral) !important;');
-    expect(legacyCss).toContain('color: white !important;');
-    expect(css).toContain('border-color: #c2bac3 !important;');
-    expect(css).toContain('background: #e4dfe4 !important;');
-    expect(css).toContain('color: #5a535d !important;');
+    expect(legacyCss).toContain('.phone button.primary {');
+    expect(legacyCss).toContain('background: var(--coral);');
+    expect(legacyCss).not.toContain('background: var(--coral) !important;');
+    expect(legacyCss).not.toContain('\n.primary {');
+    expect(css).toContain('.match3-campaign-screen .campaign-level-card.locked button:disabled');
+    expect(css).toContain('border-color: #c2bac3;');
+    expect(css).toContain('background: #e4dfe4;');
+    expect(css).toContain('color: #5a535d;');
+    expect(css).not.toContain('!important');
   });
 
   it('keeps the existing spoiler-safe locked identity contract intact', () => {
