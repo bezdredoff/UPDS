@@ -1,6 +1,6 @@
 # G2a-TEST-004 — QA Harness contract ownership
 
-Status: review candidate.
+Status: **accepted via PR #285**.
 
 ## Проблема
 

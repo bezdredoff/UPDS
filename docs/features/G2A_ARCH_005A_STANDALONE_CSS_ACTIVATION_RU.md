@@ -1,6 +1,6 @@
 # G2a-ARCH-005A — Standalone CSS activation
 
-Status: **in review**.
+Status: **accepted via PR #292**.
 
 ## Проблема
 
@@ -36,9 +36,7 @@ Status: **in review**.
 
 ## Root canvas bridge
 
-Исторические screen-specific `--upds-system-canvas-color` / `:root:has(...)` declarations в большом `style.css` пока намеренно не удаляются в этом slice. Поздний fixed-color containment в `standaloneEdgeToEdge.css` продолжает делать их визуально нейтральными, чтобы реальный geometry gap не маскировался цветом.
-
-Их механическое удаление вынесено в **G2a-ARCH-005B**, чтобы не смешивать небольшой platform ownership change с rewrite большого legacy stylesheet.
+В рамках ARCH-005A исторические screen-specific `--upds-system-canvas-color` / `:root:has(...)` declarations в большом `style.css` намеренно не удалялись. Полное удаление bridge впоследствии принято отдельным G2a-ARCH-005B / PR #293, чтобы не смешивать небольшой platform ownership change с rewrite большого legacy stylesheet.
 
 ## Regression contract
 
@@ -50,14 +48,15 @@ Vitest проверяет, что:
 - physical-height formula остаётся прежней;
 - `standaloneEdgeToEdge.css` не владеет physical height или display-mode detection;
 - safe-area behavior VN/Match-3 сохраняется;
-- root-canvas camouflage остаётся нейтрализованным до 005B.
+- root-canvas bridge был отдельной последующей задачей и закрыт в ARCH-005B / PR #293.
 
 Существующий Browser Gate остаётся authoritative behavioral verification; Golden Samples не меняются.
 
 ## Не входит в slice
 
-- удаление root-canvas bridge из `style.css` — ARCH-005B;
-- объединение `PwaController` / `DiagnosticsController` display-mode detection — ARCH-007/008;
+- root-canvas bridge не входил в ARCH-005A и впоследствии удалён в ARCH-005B / PR #293;
+- объединение platform identity не входило в ARCH-005A и впоследствии принято в ARCH-007 / PR #295;
+- shared viewport evidence не входило в ARCH-005A и впоследствии принято в ARCH-008 / PR #296;
 - изменение `ViewportRuntime` geometry/event formulas;
 - gameplay, Match-3 balance, story или save schema;
 - закрытие KI-001/KI-003 без реального installed-iPhone QA.

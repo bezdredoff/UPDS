@@ -1,6 +1,6 @@
 # G2a-ARCH-007 — Platform identity single source
 
-Status: **accepted · PR #295**.
+Status: **accepted via PR #295**.
 
 ## Проблема
 
@@ -30,7 +30,7 @@ Status: **accepted · PR #295**.
 - bootstrap preview badge decision;
 - Diagnostics resolved identity.
 
-Diagnostics при этом продолжает показывать raw navigator/media/root signals. Это evidence, а не второй decision owner. Их объединение с `ViewportDebug` в один raw/resolved snapshot выполняется следующим ARCH-008.
+Diagnostics при этом продолжает показывать raw navigator/media/root signals. Это evidence, а не второй decision owner. Их объединение с `ViewportDebug` в один raw/resolved snapshot впоследствии принято в ARCH-008 / PR #296.
 
 ## Regression contract
 
@@ -50,5 +50,5 @@ Diagnostics при этом продолжает показывать raw naviga
 - изменение viewport geometry/event formulas;
 - изменение service-worker cache topology;
 - изменение player-facing preview badge presentation;
-- объединение Diagnostics и ViewportDebug raw measurements — ARCH-008;
+- объединение Diagnostics и ViewportDebug raw measurements не входило в ARCH-007 и впоследствии принято в ARCH-008 / PR #296;
 - закрытие KI-001/KI-003 без реального installed-iPhone online/offline QA.

@@ -1,6 +1,6 @@
 # G2a-ARCH-001 — Single Viewport Runtime
 
-Статус: review.
+Status: **accepted via PR #288**.
 
 ## Зачем
 
@@ -51,4 +51,4 @@
 - меняет Match-3 layout/balance;
 - закрывает KI-001/KI-003 без real-device evidence.
 
-Следующие архитектурные slices после подтверждения этого контракта: persistent AppShell и CSS viewport consolidation.
+Последующие результаты уже приняты: single viewport event ownership — ARCH-002 / PR #289, persistent AppShell — ARCH-003 / PR #290, unified compact layout — ARCH-004 / PR #291, standalone/root-canvas cleanup — ARCH-005A/005B / PR #292–#293. Они больше не являются будущими G2a шагами.

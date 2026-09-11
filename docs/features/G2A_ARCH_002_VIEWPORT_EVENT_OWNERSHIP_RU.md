@@ -1,6 +1,6 @@
 # G2a-ARCH-002 — Single Viewport Event Ownership
 
-Status: in review.
+Status: **accepted via PR #289**.
 
 ## Проблема
 

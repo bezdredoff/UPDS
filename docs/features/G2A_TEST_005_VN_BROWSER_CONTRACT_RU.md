@@ -1,5 +1,7 @@
 # G2a-TEST-005 — VN browser contract ownership
 
+Status: **accepted via PR #286**.
+
 ## Цель
 
 Уменьшить хрупкость `VnBrowserE2EContract.test.ts`: browser contract должен защищать внешний automation/journey boundary, а не точное написание production VN implementation.

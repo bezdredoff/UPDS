@@ -1,6 +1,6 @@
 # G2a-TEST-003 — Story Completion browser contract simplification
 
-Status: review.
+Status: **accepted via PR #284**.
 
 ## Зачем
 
