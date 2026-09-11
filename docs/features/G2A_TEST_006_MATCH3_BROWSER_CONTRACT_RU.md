@@ -54,4 +54,4 @@ Browser contract больше не должен подтверждать эти 
 
 TEST-006 был принят через PR #287. После него выполнен короткий финальный аудит оставшихся `read('src/...')` tests: source-reading contracts, которые действительно защищают CSS/PWA/version/build ownership или другой намеренно статический repository contract, сохранены; существенное дублирование закрыто последующими bounded architecture slices ARCH-001…010 через PR #288–#298.
 
-G2a закрыт после ARCH-010 / PR #298 и docs closeout / PR #299. Следующий активный трек — release work. KI-001/KI-003 остаются отдельными открытыми real-iPhone gates; этот slice и G2a их не закрывают. Не продолжать G2a без нового доказанного regression/ownership риска.
+G2a закрыт после ARCH-010 / PR #298 и docs closeout / PR #299. Следующий активный трек — release work. Этот slice и G2a не закрывали KI-001/KI-003; они позднее закрыты real-iPhone acceptance G0-PWA-001. Не продолжать G2a без нового доказанного regression/ownership риска.

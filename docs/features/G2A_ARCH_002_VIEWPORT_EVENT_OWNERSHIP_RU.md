@@ -42,4 +42,5 @@ Status: **accepted via PR #289**.
 - VN использует runtime subscription и не содержит собственного width/event policy;
 - существующие Mobile WebKit VN/localization journeys продолжают быть executable Browser Gate evidence.
 
-Реальный iPhone QA KI-001/KI-003 остаётся отдельным release gate; этот refactor сам по себе не закрывает known issues.
+Этот refactor сам по себе не закрывал KI-001/KI-003; отдельный real-iPhone release gate был
+пройден позднее в G0-PWA-001 2026-09-11.

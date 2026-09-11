@@ -34,12 +34,26 @@
   inset: 0;
   width: auto;
   height: auto;
+  /* Suppress iOS double-tap smart zoom everywhere without disabling pinch zoom. */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   min-width: 0;
   min-height: 0;
   display: grid;
   place-items: center;
   overflow: hidden;
   isolation: isolate;
+}
+
+/*
+ * Keep the policy explicit on tap targets as well: touch-action is not inherited,
+ * and browser regression checks read the target's computed style. The Match-3
+ * board keeps its stronger touch-action: none contract in the feature layer.
+ */
+.viewport-shell button,
+.viewport-shell .dialogue-text {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .game-viewport {

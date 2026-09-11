@@ -59,7 +59,7 @@ Production geometry и события по-прежнему принадлежа
 
 ## Не входит в slice
 
-- inline `window.__updsViewportEarly` recorder из `index.html`: он намеренно стартует до module graph и остаётся отдельным до закрытия KI-001/KI-003;
+- inline `window.__updsViewportEarly` recorder из `index.html`: он намеренно стартует до module graph и сохраняется для release/device regression evidence даже после закрытия KI-001/KI-003;
 - изменение `ViewportRuntime` geometry/event formulas;
 - новые diagnostics panels или экспортный schema bump;
 - закрытие KI-001/KI-003 без real-device online/offline evidence;

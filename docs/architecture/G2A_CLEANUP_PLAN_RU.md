@@ -38,7 +38,8 @@ Status: **completed / closed** after merged PR #298.
 
 ARCH-001–010 завершены и приняты через PR #288–#298. Следующее активное направление — release work из `RELEASE_BACKLOG_RU.md`, включая visual QA, guest/witness closure и Release Candidate Hardening.
 
-PWA KI-001/KI-003 остаются отдельными known issues и закрываются только после реального iPhone QA; завершение G2a не меняет их статус.
+PWA KI-001/KI-003 были отдельными known issues и закрыты позднее, 2026-09-11, после успешного
+fresh-installed iPhone QA G0-PWA-001. Это acceptance release work, а не продолжение G2a.
 
 ## Явно не включаем сейчас
 

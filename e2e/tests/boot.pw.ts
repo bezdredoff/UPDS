@@ -20,6 +20,33 @@ test('boots the production build into the player menu without QA tools', async (
   health.assertClean();
 });
 
+test('keeps the global rapid-tap zoom guard across player and Match-3 surfaces', async ({ page }) => {
+  const health = observeBrowserHealth(page);
+  await page.goto('./');
+
+  const expectShellGesturePolicy = async (): Promise<void> => {
+    const policy = await page.locator('.viewport-shell').evaluate((node) => ({
+      touchAction: getComputedStyle(node).touchAction,
+      scale: window.visualViewport?.scale ?? 1,
+    }));
+    expect(policy.touchAction).toBe('manipulation');
+    expect(policy.scale).toBe(1);
+  };
+
+  await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
+  await expectShellGesturePolicy();
+
+  await page.locator(qaSelectors.match3CampaignButton).click();
+  await expect(page.locator(qaSelectors.match3CampaignScreen)).toBeVisible();
+  await expectShellGesturePolicy();
+
+  await page.locator(`${qaSelectors.match3CampaignLevelButton}[data-campaign-level="0"]`).click();
+  await expect(page.locator(qaSelectors.match3Screen)).toBeVisible();
+  await expectShellGesturePolicy();
+  expect(await page.locator(qaSelectors.match3Board).evaluate((node) => getComputedStyle(node).touchAction)).toBe('none');
+  health.assertClean();
+});
+
 test('keeps compact production touch targets at least 44px tall', async ({ page }) => {
   const health = observeBrowserHealth(page);
   await page.setViewportSize({ width: 320, height: 568 });

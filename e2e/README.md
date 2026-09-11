@@ -75,6 +75,11 @@ Campaign and VN to fill the inline axis and end exactly at `window.innerHeight`.
 large-iPhone cap regression and asserts that VN buttons remain above the bottom safe area. A
 root-background color check is not a substitute for player geometry.
 
+The same file protects G0-PWA-002 ownership: persistent `.viewport-shell` must expose
+`touch-action: manipulation` through Menu, Campaign and Match-3, while the board retains
+`touch-action: none`. This blocks iOS rapid-tap smart zoom without replacing production board
+drag or intentional special-tile double tap.
+
 ## Short main-flow contract
 
 The representative player flow begins at `#new`, not QA Scene Navigation:
