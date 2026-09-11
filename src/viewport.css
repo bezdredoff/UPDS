@@ -34,6 +34,9 @@
   inset: 0;
   width: auto;
   height: auto;
+  /* Suppress iOS double-tap smart zoom everywhere without disabling pinch zoom. */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   min-width: 0;
   min-height: 0;
   display: grid;

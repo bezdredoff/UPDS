@@ -31,4 +31,4 @@ Guard намеренно не сканирует содержимое файло
 
 ## G2a closeout
 
-ARCH-010 завершил последний запланированный bounded cleanup slice через PR #298; docs closeout принят через PR #299. G2a закрыт, следующий активный трек — release work. KI-001/KI-003 остаются открытыми отдельно до real-iPhone evidence и не закрываются этим docs sync. Не продолжать G2a без нового доказанного regression/ownership риска.
+ARCH-010 завершил последний запланированный bounded cleanup slice через PR #298; docs closeout принят через PR #299. G2a закрыт, следующий активный трек — release work. Этот docs sync не закрывал KI-001/KI-003; они позднее закрыты real-iPhone acceptance G0-PWA-001. Не продолжать G2a без нового доказанного regression/ownership риска.

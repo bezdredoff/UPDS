@@ -68,4 +68,4 @@
 5. portrait → landscape → portrait: geometry не сохраняет stale размер;
 6. Diagnostics: `.viewport-shell` и `.game-viewport` продолжают совпадать с physical height, а VN layout tokens не различаются только из-за online/offline состояния.
 
-До прохождения этого real-device gate KI-001 и KI-003 остаются открытыми.
+Этот real-device gate пройден 2026-09-11 в G0-PWA-001; KI-001 и KI-003 закрыты.

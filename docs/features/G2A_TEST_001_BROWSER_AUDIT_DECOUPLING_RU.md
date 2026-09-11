@@ -40,4 +40,4 @@ Slice не ослабляет runtime/browser coverage:
 
 После TEST-001 последовательно приняты TEST-002…006 через PR #283–#287. Они продолжили decoupling browser/source-shape contracts без ослабления Browser Gate. Финальный аудит после TEST-006 завершён и больше не является будущим шагом.
 
-G2a закрыт после ARCH-010 / PR #298 и docs closeout / PR #299. Следующий активный трек — release work. KI-001/KI-003 остаются отдельными открытыми real-iPhone gates; G2a не продолжать без нового доказанного regression/ownership риска.
+G2a закрыт после ARCH-010 / PR #298 и docs closeout / PR #299. Следующий активный трек — release work. KI-001/KI-003 позднее закрыты real-iPhone acceptance G0-PWA-001; G2a не продолжать без нового доказанного regression/ownership риска.

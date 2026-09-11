@@ -53,7 +53,7 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B
 
 Legacy numeric Story save → stable `StorySceneId` намеренно **не входит** в этот cleanup: compatibility adapter пока защищает существующие saves и потребует отдельного save-schema решения. Локальные `clamp()` helpers и Scene Studio viewport simulation также не являются самостоятельными cleanup-задачами.
 
-G2a закрыт после ARCH-010. Не продолжать этот refactor track без нового доказанного regression/ownership риска. PWA KI-001/KI-003 остаются отдельными known issues до real-iPhone evidence и возвращаются в release work на соответствующем gate.
+G2a закрыт после ARCH-010. Не продолжать этот refactor track без нового доказанного regression/ownership риска. PWA KI-001/KI-003 были закрыты позднее real-iPhone evidence G0-PWA-001; текущий G0-дефект rapid-tap smart zoom отслеживается отдельно как KI-004.
 
 ## R0 — реальные release blockers
 
@@ -126,11 +126,17 @@ Automated coverage уже сильная, но перед релизом всё 
 
 ### R0.6 PWA / mobile release regression
 
-`G0-PWA-001` активирован реальным iPhone evidence от 2026-09-11. Изолированные варианты доказали:
+`G0-PWA-001` закрыт real-iPhone evidence от 2026-09-11. Изолированные варианты доказали:
 `fixed; inset:0` помещается в `812px`, а `max(innerHeight, screen.height)` создаёт shell `874px` и
 обрезает ровно `62px`; `black-translucent` дополнительно воспроизводит нижнюю полосу. Candidate
-использует layout viewport, status-bar `default` и сохраняет safe-area внутри controls. KI-001 и
-KI-003 остаются открыты до fresh-install проверки candidate online/offline.
+использует layout viewport, status-bar `default` и сохраняет safe-area внутри controls. Fresh-install
+проверка PR #301 online/offline успешна: полоса исчезла, VN помещается; KI-001 и KI-003 закрыты.
+
+`G0-PWA-002` активирован последующим real-iPhone observation: быстрые тапы вызывают iOS smart zoom
+на Match-3 и level-intro, тогда как VN уже был защищён локально. Candidate переносит
+`touch-action: manipulation` на persistent viewport shell, не запрещает pinch zoom и сохраняет
+`touch-action: none`/intentional special double tap на board. KI-004 закрывается только после
+повторной проверки этих жестов на устройстве.
 
 Перед RC подтвердить существующие, а не строить новые, capabilities:
 
@@ -156,6 +162,8 @@ KI-003 остаются открыты до fresh-install проверки candi
 Не требуется превращать релиз в отдельный accessibility rewrite. Но критические player actions должны оставаться доступны и читаемы:
 
 - usable touch targets;
+- rapid taps не вызывают browser smart zoom на player, level-intro или Match-3;
+- pinch zoom остаётся доступным вне board, а Match-3 drag и intentional special double tap работают;
 - видимый keyboard focus там, где keyboard navigation поддерживается;
 - meaningful labels для основных controls;
 - контраст/читабельность текста;
@@ -282,10 +290,10 @@ Post-launch expansion only. Не расходует base-release capacity.
 
 ## Рекомендуемая последовательность от текущего `main`
 
-1. **G0-PWA-001:** завершить bounded candidate и проверить fresh install на том же iPhone; сохранить exact build JSON/screenshots online и offline.
+1. **G0-PWA-002:** проверить rapid taps на level-intro/Match-3 и отсутствие viewport rescale; подтвердить board drag, special double tap и доступный pinch zoom. G0-PWA-001 уже device accepted, KI-001/KI-003 закрыты.
 2. **Background visual QA и guest/witness closure:** продолжить текущие release-направления после device retest.
 3. **Ending background cleanup — accepted:** dedicated masters уже интегрированы; reopen только по результатам visual QA.
-4. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity. G0-PWA-001 повторно проверяется на финальном payload.
+4. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity. Принятые G0-PWA-001/002 contracts повторно проверяются на финальном payload.
 5. Исправить только найденные release defects и собрать RC.
 6. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release, пока данные не изменят приоритет.
 

@@ -29,11 +29,14 @@ describe('standalone edge-to-edge regression contract', () => {
 
   it('keeps shell geometry viewport-bound and runtime VN sizing in frozen tokens', () => {
     const viewport = read('src/viewport.css');
+    const style = read('src/style.css');
     const vn = read('src/vnViewportStability.css');
     const standalone = read('src/standaloneEdgeToEdge.css');
 
     expect(viewport).toContain('inset: 0');
     expect(viewport).toContain('height: auto');
+    expect(viewport).toContain('touch-action: manipulation');
+    expect(viewport).toContain('-webkit-tap-highlight-color: transparent');
     expect(viewport).toContain('height: 100%');
     expect(vn).toContain('--vn-dialogue-row: var(--upds-vn-dialogue-row, 178px)');
     expect(vn).toContain('--vn-controls-min-height: var(--upds-vn-controls-min-height, 73px)');
@@ -43,6 +46,8 @@ describe('standalone edge-to-edge regression contract', () => {
     expect(standalone).not.toContain('--vn-controls-min-height: clamp');
     expect(standalone).not.toMatch(/\b62px\b/);
     expect(standalone).not.toMatch(/\b34px\b/);
+    expect(style).toContain('touch-action: none');
+    expect(style).not.toContain('Keep a rapid VN advance tap');
   });
 
   it('keeps bottom safe-area non-interactive while painting the controls surface edge-to-edge', () => {

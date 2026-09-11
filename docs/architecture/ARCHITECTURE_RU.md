@@ -253,6 +253,12 @@ large-iPhone viewport centers a shortened player surface and recreates the botto
 Painting a remaining strip through a root-background or screen-specific `:has(...)` bridge is
 not a repair and remains forbidden by viewport regression tests.
 
+Rapid-tap browser gesture policy also belongs to the persistent shell. `.viewport-shell` uses
+`touch-action: manipulation`, suppressing iOS double-tap smart zoom across menu, level-intro, VN
+and Match-3 without disabling pinch zoom. Match-3 board keeps `touch-action: none` for drag/swipe,
+and feature controllers must not globally coalesce clicks because intentional special-tile double
+tap is gameplay.
+
 Portrait is primary; low-height landscape remains non-broken. Full landscape staging/layout is a
 later feature and must extend this shared coordinate model.
 

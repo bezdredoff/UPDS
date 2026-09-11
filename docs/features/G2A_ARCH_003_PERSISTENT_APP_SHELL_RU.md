@@ -41,4 +41,5 @@ Transient cleanup сохраняет прежнюю семантику полн�
 - compact/container-query migration;
 - Match-3/VN gameplay или presentation changes.
 
-KI-001/KI-003 остаются открыты до реальной проверки установленной PWA на iPhone.
+На момент этого architecture slice KI-001/KI-003 оставались открыты; позднее их закрыла реальная
+проверка установленной PWA G0-PWA-001 на iPhone 2026-09-11.

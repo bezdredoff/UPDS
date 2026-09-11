@@ -1,7 +1,7 @@
 # ANM-030B1C / G0-PWA-001 — iOS layout viewport repair
 
 Дата: **2026-09-11**
-Статус: **implementation candidate; требуется повторная проверка на том же iPhone**
+Статус: **device accepted 2026-09-11; repository PR #301 in review**
 Связанные release gate / issues: `G0`, `KI-001`, `KI-003`
 
 ## Evidence
@@ -32,16 +32,15 @@
 - Существующая policy сохраняется: height-only события не перестраивают игру; width/orientation
   обновляют frozen snapshot.
 
-## Что не считается закрытым
+## Device acceptance
 
-`KI-001` и `KI-003` остаются `open`. Этот PR создаёт проверяемый candidate, но не заменяет
-повторный fresh-install QA production build на реальном iPhone. Для принятия нужны:
+Пользователь подтвердил 2026-09-11 на том же fresh-installed iPhone candidate из PR #301:
 
-1. удалить прежнюю Home Screen installation и установить candidate заново;
-2. online cold launch: shell/game/VN bottom равны layout viewport bottom, полосы нет;
-3. проверить VN controls и paging, затем offline cold launch/recovery;
-4. подтвердить тот же `BUILD_ID`, сохранить viewport JSON и скриншоты;
-5. повторить минимум на representative Android Chromium перед RC.
+- нижняя полоса исчезла;
+- VN полностью помещается в layout viewport;
+- результат сохраняется online и offline.
 
-Если candidate проходит iPhone online, но расходится offline, это остаётся отдельным PWA lifecycle
-исследованием; возвращать physical screen sizing или root-color camouflage запрещено.
+На этом evidence `KI-001` и `KI-003` закрыты. Возвращать physical screen sizing,
+`black-translucent` или root-color camouflage запрещено. Representative Android и повторная
+offline/update проверка финального payload остаются общими RC gates, а не причинами держать эти
+два воспроизведённых iPhone-дефекта открытыми.

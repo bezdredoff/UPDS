@@ -1,7 +1,7 @@
 # ANM-030B1B9 — статус iOS PWA viewport и VN-низа
 
 Дата фиксации: **2026-09-10; обновлено 2026-09-11**
-Статус: **device-debug возобновлён; гипотеза physical-height опровергнута**
+Статус: **superseded; KI-001/KI-003 закрыты device acceptance G0-PWA-001**
 Связанный release gate: `G0`  
 Связанные known issues: `KI-001`, `KI-003`
 
@@ -16,6 +16,10 @@ Production candidate и новый acceptance protocol описаны в
 [`G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md`](G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md). Нижележащие
 наблюдения сохранены как история исходной triage; прежний physical-height контракт больше не
 является активной рекомендацией.
+
+Fresh-installed PR #301 candidate затем успешно проверен пользователем на том же iPhone online и
+offline: нижняя полоса исчезла, VN полностью помещается. `KI-001` и `KI-003` закрыты 2026-09-11.
+Позднее наблюдение rapid-tap smart zoom вынесено отдельно в G0-PWA-002 / `KI-004`.
 
 ## Решение по плану на момент исходной triage
 
