@@ -29,6 +29,12 @@ const collectFiles = (relativeRoot: string, predicate: (path: string) => boolean
 const collectBakFiles = (relativeRoot: string): string[] => collectFiles(relativeRoot, (path) => path.endsWith('.bak'));
 const collectGeneratedDebris = (relativeRoot: string): string[] =>
   collectFiles(relativeRoot, (path) => /(?:^|\/)__pycache__(?:\/|$)|\.py[co]$|(?:^|\/)\.DS_Store$/.test(path));
+const isRootScratchOutput = (name: string): boolean => {
+  const windowsPathRedirect = /^[A-Za-z](?::|\uF03A|：|꞉)(?:[\\/]|Users)/i;
+  const scratchArtifact = /(?:^|[._-])scratch(?:pad)?s?(?:[._-]|$)/i;
+  const namedOutput = /(?:^|[._-])(?:check|test|qa|diagnostics?)[_-](?:output|results?|reports?|dump)(?:[._-]|$)/i;
+  return windowsPathRedirect.test(name) || scratchArtifact.test(name) || namedOutput.test(name);
+};
 const featureTsFiles = collectFiles('src/features', (path) => path.endsWith('.ts'));
 const srcTsFiles = collectFiles('src', (path) => path.endsWith('.ts'));
 const sourceFor = (path: string): string => readFileSync(resolve(repositoryRoot, path), 'utf8');
@@ -53,6 +59,28 @@ describe('repository maintenance contract', () => {
     expect(rootFiles.some((name) => /^README_ANM/i.test(name))).toBe(false);
     expect(rootFiles.some((name) => /VALIDATION_REPORT|MANUAL_QA/i.test(name))).toBe(false);
     expect(rootFiles).not.toContain('CHECK_COMMANDS.txt');
+  });
+
+  it('keeps redirected Windows paths and local scratch/check output out of the repository root', () => {
+    const rootFiles = readdirSync(new URL('..', import.meta.url), { withFileTypes: true })
+      .filter((entry) => entry.isFile())
+      .map((entry) => entry.name);
+
+    expect(rootFiles.filter(isRootScratchOutput)).toEqual([]);
+    expect([
+      'CUsersbezdr.lmstudioscratchpadskmcheck_output.txt',
+      'C:\\Users\\dev\\scratchpad\\check_output.txt',
+      'scratchpad-notes.txt',
+      'test-results.json',
+      'qa-report.log',
+      'diagnostics-dump.json',
+    ].every(isRootScratchOutput)).toBe(true);
+    expect([
+      'README.md',
+      'ROOT_CAUSE_NOTES.md',
+      'package.json',
+      'vitest.match3-audit.config.ts',
+    ].some(isRootScratchOutput)).toBe(false);
   });
 
   it('keeps backup copies and generated interpreter debris out of the active production tree', () => {

@@ -1,6 +1,6 @@
 # G2a-ARCH-009 — Retire test-only app compatibility seams
 
-Status: **in review**.
+Status: **accepted** via PR #297.
 
 ## Проблема
 
