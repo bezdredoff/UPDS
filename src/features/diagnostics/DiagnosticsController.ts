@@ -3,6 +3,7 @@ import { sceneMeta } from '../../data/narrative';
 import { createDiagnosticsSnapshot } from '../../platform/Diagnostics';
 import { downloadJson } from '../../platform/Download';
 import { SAVE_SCHEMA_VERSION } from '../../engine/CampaignStore';
+import { resolveDisplayMode, resolveRuntimeLane } from '../../platform/PlatformIdentity';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppSession } from '../../app/AppSession';
@@ -66,6 +67,8 @@ const collectViewportMetrics = () => {
   const safe = measureSafeArea();
   const navigatorStandalone = (globalThis.navigator as Navigator & { standalone?: boolean } | undefined)?.standalone === true;
   const mediaStandalone = typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(display-mode: standalone)').matches;
+  const resolvedMode = resolveDisplayMode();
+  const resolvedLane = resolveRuntimeLane();
 
   return {
     inner: `${metric(globalThis.innerWidth)}×${metric(globalThis.innerHeight)}`,
@@ -78,7 +81,7 @@ const collectViewportMetrics = () => {
       : 'VisualViewport unavailable',
     cssHeights: `vh ${measureCssHeight('100vh')} · dvh ${measureCssHeight('100dvh')} · svh ${measureCssHeight('100svh')} · lvh ${measureCssHeight('100lvh')}`,
     safe: `T ${safe.top} · R ${safe.right} · B ${safe.bottom} · L ${safe.left}`,
-    mode: `${navigatorStandalone ? 'navigator standalone' : 'navigator browser'} · ${mediaStandalone ? 'media standalone' : 'media browser'} · data ${root?.dataset.updsDisplayMode ?? 'unset'}`,
+    mode: `${resolvedMode} · lane ${resolvedLane} · ${navigatorStandalone ? 'navigator standalone' : 'navigator browser'} · ${mediaStandalone ? 'media standalone' : 'media browser'} · data ${root?.dataset.updsDisplayMode ?? 'unset'}`,
   };
 };
 
@@ -124,7 +127,7 @@ export class DiagnosticsController {
         <article><small>SCREEN</small><b>${escapeHtml(viewport.screen)}</b><span>available ${escapeHtml(viewport.available)}</span></article>
         <article><small>CSS HEIGHTS</small><b>${escapeHtml(viewport.cssHeights)}</b><span>measured live in CSS px</span></article>
         <article><small>SAFE AREA</small><b>${escapeHtml(viewport.safe)}</b><span>resolved env(safe-area-inset-*)</span></article>
-        <article><small>DISPLAY MODE</small><b>${escapeHtml(viewport.mode)}</b><span>navigator · media query · root data attribute</span></article>
+        <article><small>DISPLAY MODE</small><b>${escapeHtml(viewport.mode)}</b><span>resolved identity · raw navigator/media · root data attribute</span></article>
         <article><small>SHELL</small><b id="viewport-shell-size">measuring…</b><span id="viewport-shell-vars">measuring…</span></article>
         <article><small>GAME VIEWPORT</small><b id="game-viewport-size">measuring…</b><span id="game-viewport-position">measuring…</span></article>
       </div>

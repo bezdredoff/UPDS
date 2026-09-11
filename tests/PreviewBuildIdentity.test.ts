@@ -12,11 +12,14 @@ describe('preview build identity contract', () => {
     expect(config).toContain("process.env.VITE_BUILD_ID ?? (githubBuildId || 'local')");
   });
 
-  it('marks only /preview/ pages with a persistent human-visible build id', () => {
+  it('marks only the shared preview lane with a persistent human-visible build id', () => {
+    const identity = read('src/platform/PlatformIdentity.ts');
     const main = read('src/main.ts');
     const css = read('src/buildIdentity.css');
-    expect(main).toContain('/\\/preview(?:\\/|$)/');
-    expect(main).toContain("document.documentElement.dataset.updsLane = 'preview'");
+    expect(identity).toContain('/\\/preview(?:\\/|$)/');
+    expect(main).toContain("const lane = resolveRuntimeLane(pathname");
+    expect(main).toContain("if (lane === 'preview')");
+    expect(main).toContain('document.documentElement.dataset.updsLane = lane');
     expect(main).toContain('document.documentElement.dataset.updsBuild = BUILD_ID');
     expect(css).toContain("html[data-upds-lane='preview']::before");
     expect(css).toContain("content: 'PREVIEW · ' attr(data-upds-build)");

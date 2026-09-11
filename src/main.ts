@@ -12,6 +12,7 @@ import { BUILD_ID } from './appVersion';
 import { AnimeDetectiveApp } from './ui/AnimeDetectiveApp';
 import { installImageFallbackHandler } from './platform/AssetHealth';
 import { installGlobalErrorHandlers } from './platform/ErrorLog';
+import { resolveRuntimeLane } from './platform/PlatformIdentity';
 import { createRuntimeServices } from './platform/RuntimeServices';
 import { runtimeAssetCatalog } from './platform/RuntimeAssets';
 import { startViewportDebug, viewportDebugEvent, viewportDebugServices } from './platform/ViewportDebug';
@@ -21,8 +22,9 @@ const bootstrap = async (): Promise<void> => {
   startViewportDebug();
   const viewportRuntime = installViewportRuntime();
   const pathname = globalThis.location?.pathname ?? '';
-  if (/\/preview(?:\/|$)/.test(pathname)) {
-    document.documentElement.dataset.updsLane = 'preview';
+  const lane = resolveRuntimeLane(pathname, globalThis.location?.protocol ?? '');
+  if (lane === 'preview') {
+    document.documentElement.dataset.updsLane = lane;
     document.documentElement.dataset.updsBuild = BUILD_ID;
   }
 
