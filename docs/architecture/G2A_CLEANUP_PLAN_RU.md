@@ -1,6 +1,6 @@
 # G2a — Architecture / Patch Cleanup Plan
 
-Status: active bounded maintenance plan after merged G2 runtime/UI hardening and G2a test simplification.
+Status: **completed / closed** after merged PR #298.
 
 ## Цель
 
@@ -32,15 +32,13 @@ Status: active bounded maintenance plan after merged G2 runtime/UI hardening and
 | G2a-ARCH-007 | P1 | accepted | Platform identity single source | `PlatformIdentity` единолично resolves standalone/browser и stable/preview/local; bootstrap, `ViewportRuntime`, `PwaController` и Diagnostics потребляют эти resolver'ы; merged PR #295 |
 | G2a-ARCH-008 | P1 | accepted | Shared viewport evidence collector | `ViewportEvidence` даёт Diagnostics и ViewportDebug один read-only raw/resolved snapshot и один reusable probe host; layout tokens не пишет; early pre-bundle recorder остаётся отдельным; merged PR #296 |
 | G2a-ARCH-009 | P2 | accepted | Retire test-only app compatibility seams | `AnimeDetectiveApp` больше не публикует feature render/start и mutable save API только ради tests; merged PR #297 |
-| G2a-ARCH-010 | P2 | review | Repository debris guard | accidental Windows-path scratch output удалён; root hygiene guard запрещает path redirects и явные scratch/check/test/QA/diagnostics output dumps без запрета legitimate docs/config |
+| G2a-ARCH-010 | P2 | accepted | Repository debris guard | accidental Windows-path scratch output удалён; root hygiene guard запрещает path redirects и явные scratch/check/test/QA/diagnostics output dumps без запрета legitimate docs/config; merged PR #298 |
 
-## Рекомендуемый порядок
+## Итог и дальнейшее направление
 
-1. ARCH-008 — завершить shared viewport evidence collector.
-2. ARCH-009 — удалить test-only composition-root compatibility API.
-3. ARCH-010 — repository hygiene cleanup + guard.
+ARCH-001–010 завершены и приняты через PR #288–#298. Следующее активное направление — release work из `RELEASE_BACKLOG_RU.md`, включая visual QA, guest/witness closure и Release Candidate Hardening.
 
-ARCH-009/010 можно выполнить раньше, если они не пересекаются с активным runtime PR. ART/guest production может идти параллельно; этот track не должен превращаться в бесконечный refactor перед релизом.
+PWA KI-001/KI-003 остаются отдельными known issues и закрываются только после реального iPhone QA; завершение G2a не меняет их статус.
 
 ## Явно не включаем сейчас
 
@@ -74,4 +72,4 @@ Inline recorder в `index.html` намеренно стартует до module 
 
 ## Stop rule
 
-G2a cleanup заканчивается, когда для production layout/platform state остаются понятные single-owner boundaries и дальнейший refactor не снижает конкретный regression/maintenance risk. Сходство кода само по себе не является причиной для новой задачи.
+G2a cleanup завершён. Не продолжать G2a и не создавать следующий refactor slice без нового доказанного regression/ownership риска. Сходство кода само по себе не является причиной для новой задачи; при появлении такого evidence работа начинается как отдельное решение из актуального release context.

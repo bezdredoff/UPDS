@@ -1,6 +1,6 @@
 # UPDS — Release Backlog
 
-Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B1–B1B8 + G2a bounded architecture cleanup.
+Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B1–B1B8. G2a bounded architecture cleanup завершён.
 
 Этот документ отвечает только на два вопроса:
 
@@ -49,9 +49,11 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B
 | `G2a-ARCH-007` | **accepted · #295** | один display-mode resolver и один stable/preview/local lane resolver |
 | `G2a-ARCH-008` | **accepted · #296** | shared viewport evidence snapshot для Diagnostics/ViewportDebug |
 | `G2a-ARCH-009` | **accepted · #297** | удалить test-only compatibility methods из composition root; tests используют controller/session boundaries |
-| `G2a-ARCH-010` | **active / in review** | удалить случайный scratch output в root и усилить repository hygiene guard |
+| `G2a-ARCH-010` | **accepted · #298** | удалить случайный scratch output в root и усилить repository hygiene guard |
 
 Legacy numeric Story save → stable `StorySceneId` намеренно **не входит** в этот cleanup: compatibility adapter пока защищает существующие saves и потребует отдельного save-schema решения. Локальные `clamp()` helpers и Scene Studio viewport simulation также не являются самостоятельными cleanup-задачами.
+
+G2a закрыт после ARCH-010. Не продолжать этот refactor track без нового доказанного regression/ownership риска. PWA KI-001/KI-003 остаются отдельными known issues до real-iPhone evidence и возвращаются в release work на соответствующем gate.
 
 ## R0 — реальные release blockers
 
@@ -274,13 +276,14 @@ Post-launch expansion only. Не расходует base-release capacity.
 
 ## Рекомендуемая последовательность от текущего `main`
 
-1. **G2a bounded cleanup — active:** ARCH-006 → ARCH-007 → ARCH-008 небольшими независимыми PR; затем ARCH-009/010 там, где они не мешают runtime work. ARCH-001–005 уже accepted. Stop rule — не продолжать refactor без конкретного ownership/regression payoff.
-2. **Background visual QA — parallel:** проверка интегрированного набора `23/23` на телефоне и в полном story crawl; `server-room` не генерировать и не возвращать в текущий scope.
-3. **Guest/witness closure — parallel:** production presentation для `hinata`, `gen`, `aoi`, `kubo`, `kubo-mother`, `vincent` небольшими reviewable waves.
-4. **Ending background cleanup — accepted:** dedicated masters уже интегрированы; reopen только по результатам visual QA.
-5. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity.
-6. Исправить только найденные release defects и собрать RC.
-7. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release, пока данные не изменят приоритет.
+1. **Background visual QA:** проверка интегрированного набора `23/23` на телефоне и в полном story crawl; `server-room` не генерировать и не возвращать в текущий scope.
+2. **Guest/witness closure:** production presentation для `hinata`, `gen`, `aoi`, `kubo`, `kubo-mother`, `vincent` небольшими reviewable waves.
+3. **Ending background cleanup — accepted:** dedicated masters уже интегрированы; reopen только по результатам visual QA.
+4. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity. KI-001/KI-003 проверяются здесь на реальном iPhone.
+5. Исправить только найденные release defects и собрать RC.
+6. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release, пока данные не изменят приоритет.
+
+G2a ARCH-001–010 accepted и не является следующим действием. Возвращаться к architecture cleanup можно только по новому доказанному regression/ownership риску.
 
 ## Stop rule
 

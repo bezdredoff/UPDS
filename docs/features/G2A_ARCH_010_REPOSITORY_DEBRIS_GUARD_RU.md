@@ -1,6 +1,6 @@
 # G2a-ARCH-010 — Repository debris guard
 
-Status: **in review**.
+Status: **accepted** via PR #298.
 
 ## Проблема
 
