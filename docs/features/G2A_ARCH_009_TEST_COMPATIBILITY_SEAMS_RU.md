@@ -1,6 +1,6 @@
 # G2a-ARCH-009 — Retire test-only app compatibility seams
 
-Status: **accepted** via PR #297.
+Status: **accepted via PR #297**.
 
 ## Проблема
 
@@ -34,5 +34,5 @@ Test wiring остаётся внутри tests. Production не получае�
 - изменение controller visibility или production navigation contract;
 - новый test runtime либо второй composition root;
 - изменение save schema, VN progression или Match-3 rules;
-- ARCH-010 repository debris cleanup;
+- repository debris cleanup не входил в ARCH-009 и впоследствии принят в ARCH-010 / PR #298;
 - закрытие KI-001/KI-003 без real-iPhone evidence.

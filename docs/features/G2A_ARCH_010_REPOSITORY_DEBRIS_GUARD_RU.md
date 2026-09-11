@@ -1,6 +1,6 @@
 # G2a-ARCH-010 — Repository debris guard
 
-Status: **accepted** via PR #298.
+Status: **accepted via PR #298**.
 
 ## Проблема
 
@@ -28,3 +28,7 @@ Guard намеренно не сканирует содержимое файло
 - изменение CI workflows, dependencies или generated visual baselines;
 - runtime, gameplay, save, PWA или viewport изменения;
 - дальнейший автоматический G2a refactor после ARCH-010.
+
+## G2a closeout
+
+ARCH-010 завершил последний запланированный bounded cleanup slice через PR #298; docs closeout принят через PR #299. G2a закрыт, следующий активный трек — release work. KI-001/KI-003 остаются открытыми отдельно до real-iPhone evidence и не закрываются этим docs sync. Не продолжать G2a без нового доказанного regression/ownership риска.

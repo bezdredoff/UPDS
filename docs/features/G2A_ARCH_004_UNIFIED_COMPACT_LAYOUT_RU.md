@@ -1,6 +1,6 @@
 # G2a-ARCH-004 — Unified compact layout
 
-Status: **in review**.
+Status: **accepted via PR #291**.
 
 ## Проблема
 
@@ -64,8 +64,8 @@ Golden Samples не меняются.
 
 ## Не входит в slice
 
-- standalone display-mode/root-canvas convergence — ARCH-005;
-- `!important` / button cascade cleanup — ARCH-006;
+- standalone display-mode/root-canvas convergence не входила в ARCH-004; впоследствии принята как ARCH-005A / PR #292 и ARCH-005B / PR #293;
+- `!important` / button cascade cleanup не входил в ARCH-004; впоследствии принят как ARCH-006 / PR #294;
 - изменение `ViewportRuntime` height formulas или event policy;
 - изменение Match-3 gameplay/balance;
 - закрытие KI-001/KI-003 без реального iPhone QA.

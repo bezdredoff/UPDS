@@ -1,6 +1,6 @@
 # G2a-ARCH-006 — Button / CSS Cascade Contract
 
-Status: **in review**
+Status: **accepted via PR #294**.
 
 ## Проблема
 
@@ -52,6 +52,6 @@ Feature variants должны быть семантически контекст
 5. locked Campaign action остаётся явно disabled/readable;
 6. CSS import order может сохраняться для организации bundle, но не является механизмом разрешения этих visual conflicts.
 
-## Следующий шаг
+## Последующий принятый результат
 
-После принятия ARCH-006 следующий bounded architecture slice — **G2a-ARCH-007 Platform identity single source**: один resolver для display mode и один resolver для stable/preview/local runtime lane.
+Следующий bounded architecture result уже принят: G2a-ARCH-007 Platform identity single source через PR #295. Дальнейшая унификация viewport evidence принята в ARCH-008 / PR #296; это больше не будущие G2a шаги.

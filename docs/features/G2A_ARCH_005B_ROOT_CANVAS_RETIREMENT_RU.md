@@ -1,6 +1,6 @@
 # G2a-ARCH-005B — retirement root-canvas camouflage
 
-Status: active implementation slice after merged G2a-ARCH-005A / PR #292.
+Status: **accepted via PR #293**.
 
 ## Проблема
 
@@ -39,7 +39,7 @@ Status: active implementation slice after merged G2a-ARCH-005A / PR #292.
 - story/save schema;
 - Golden Samples.
 
-`ViewportDebug` пока может перечислять историческое имя CSS token среди forensic probes. Это diagnostic observation, а не production owner; его очистка логично относится к ARCH-008, где будет объединён viewport evidence collector.
+После ARCH-005B историческое diagnostic observation в `ViewportDebug` ещё существовало отдельно; его объединение с общим viewport evidence collector впоследствии принято в ARCH-008 / PR #296.
 
 ## Real-device status
 

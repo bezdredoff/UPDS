@@ -1,6 +1,6 @@
 # G2a-ARCH-003 — Persistent AppShell
 
-Status: **in review**.
+Status: **accepted via PR #290**.
 
 ## Проблема
 
