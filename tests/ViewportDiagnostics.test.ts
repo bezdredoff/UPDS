@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 describe('iOS viewport diagnostics', () => {
-  it('exposes independent viewport sources without changing layout geometry', () => {
+  it('exposes independent raw viewport sources plus shared resolved identity without changing layout geometry', () => {
     const controller = readFileSync(
       new URL('../src/features/diagnostics/DiagnosticsController.ts', import.meta.url),
       'utf8',
@@ -16,6 +16,8 @@ describe('iOS viewport diagnostics', () => {
     expect(controller).toContain('globalThis.visualViewport');
     expect(controller).toContain('globalThis.innerHeight');
     expect(controller).toContain("matchMedia('(display-mode: standalone)')");
+    expect(controller).toContain('resolveDisplayMode()');
+    expect(controller).toContain('resolveRuntimeLane()');
     expect(controller).toContain('viewport-shell-size');
     expect(controller).toContain('game-viewport-size');
     expect(controller).toContain('Обновить viewport-метрики');

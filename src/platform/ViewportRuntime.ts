@@ -1,6 +1,7 @@
+import { resolveDisplayMode, type RuntimeDisplayMode } from './PlatformIdentity';
 import { viewportDebugEvent } from './ViewportDebug';
 
-export type ViewportDisplayMode = 'standalone' | 'browser';
+export type ViewportDisplayMode = RuntimeDisplayMode;
 export type ViewportRuntimeChangeReason = 'width' | 'orientation';
 
 export type ViewportGeometryInput = Readonly<{
@@ -37,14 +38,6 @@ const positiveNumber = (value: number | null | undefined): value is number =>
 
 const clamp = (value: number, minimum: number, maximum: number): number =>
   Math.min(maximum, Math.max(minimum, value));
-
-export const detectViewportDisplayMode = (): ViewportDisplayMode => {
-  const navigatorStandalone =
-    (globalThis.navigator as Navigator & { standalone?: boolean } | undefined)?.standalone === true;
-  const mediaStandalone =
-    typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(display-mode: standalone)').matches;
-  return navigatorStandalone || mediaStandalone ? 'standalone' : 'browser';
-};
 
 export const subscribeViewportRuntime = (listener: ViewportRuntimeListener): (() => void) => {
   listeners.add(listener);
@@ -142,7 +135,7 @@ export type InstalledViewportRuntime = Readonly<{
  * is then published to feature subscribers.
  */
 export const installViewportRuntime = (): InstalledViewportRuntime => {
-  const displayMode = detectViewportDisplayMode();
+  const displayMode = resolveDisplayMode();
   let current = sampleViewportGeometry(displayMode);
   let stableLayoutWidth = Math.round(current.width);
 

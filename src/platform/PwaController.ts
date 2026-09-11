@@ -1,4 +1,5 @@
 import { BUILD_ID } from '../appVersion';
+import { resolveDisplayMode, resolveRuntimeLane, type RuntimeDisplayMode, type RuntimeLane } from './PlatformIdentity';
 import { viewportDebugEvent, viewportDebugRegistration } from './ViewportDebug';
 import type { ErrorLog } from './ErrorLog';
 import type { PlaytestTelemetry } from './PlaytestTelemetry';
@@ -6,14 +7,14 @@ import type { PlaytestTelemetry } from './PlaytestTelemetry';
 export type PwaSnapshot = Readonly<{
   supported: boolean;
   installed: boolean;
-  displayMode: 'standalone' | 'browser';
+  displayMode: RuntimeDisplayMode;
   registration: 'none' | 'installing' | 'waiting' | 'active';
   updateAvailable: boolean;
   offlineReady: boolean;
   canPromptInstall: boolean;
   online: boolean;
   scope: string;
-  lane: 'stable' | 'preview' | 'local';
+  lane: RuntimeLane;
   publishedBuild: string;
   cacheBuild: string;
   cacheFailed: number;
@@ -22,18 +23,6 @@ export type PwaSnapshot = Readonly<{
 type InstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }> };
 type PublishedBuildIdentity = Readonly<{ buildId?: unknown; buildTimestamp?: unknown }>;
 type Listener = (snapshot: PwaSnapshot) => void;
-
-const displayMode = (): 'standalone' | 'browser' => {
-  const navigatorStandalone = (globalThis.navigator as Navigator & { standalone?: boolean } | undefined)?.standalone === true;
-  const mediaStandalone = typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(display-mode: standalone)').matches;
-  return navigatorStandalone || mediaStandalone ? 'standalone' : 'browser';
-};
-
-const laneForPath = (pathname: string): 'stable' | 'preview' | 'local' => {
-  if (/\/preview\/?/.test(pathname)) return 'preview';
-  if (/^https?:/.test(globalThis.location?.protocol ?? '')) return 'stable';
-  return 'local';
-};
 
 export const hasPublishedBuildUpdate = (publishedBuild: string, currentBuild = BUILD_ID): boolean =>
   publishedBuild.length > 0 && publishedBuild !== currentBuild;
@@ -58,17 +47,18 @@ export class PwaController {
     const supported = typeof navigator !== 'undefined' && 'serviceWorker' in navigator;
     const registration = this.registrationHandle;
     const registrationState: PwaSnapshot['registration'] = registration?.waiting ? 'waiting' : registration?.installing ? 'installing' : registration?.active ? 'active' : 'none';
+    const displayMode = resolveDisplayMode();
     return {
       supported,
-      installed: displayMode() === 'standalone',
-      displayMode: displayMode(),
+      installed: displayMode === 'standalone',
+      displayMode,
       registration: registrationState,
       updateAvailable: this.updateAvailable,
       offlineReady: this.offlineReady,
       canPromptInstall: Boolean(this.installPrompt),
       online: typeof navigator === 'undefined' ? true : navigator.onLine,
       scope: registration?.scope ?? '',
-      lane: laneForPath(globalThis.location?.pathname ?? ''),
+      lane: resolveRuntimeLane(),
       publishedBuild: this.publishedBuild,
       cacheBuild: this.cacheBuild,
       cacheFailed: this.cacheFailed,
@@ -112,7 +102,7 @@ export class PwaController {
       const registration = await navigator.serviceWorker.register(`./sw.js?v=${version}`, { scope: './' });
       this.registrationHandle = registration;
       viewportDebugRegistration(registration);
-      this.telemetry.track('pwa_registered', { scope: registration.scope, lane: laneForPath(globalThis.location?.pathname ?? '') });
+      this.telemetry.track('pwa_registered', { scope: registration.scope, lane: resolveRuntimeLane() });
       this.observeRegistration(registration);
       navigator.serviceWorker.addEventListener('message', (event) => this.onMessage(event));
       navigator.serviceWorker.addEventListener('controllerchange', () => {

@@ -28,19 +28,18 @@ Status: active bounded maintenance plan after merged G2 runtime/UI hardening and
 | G2a-ARCH-004 | P1 | accepted | Unified compact layout | persistent `.game-viewport` — named inline-size container `upds-game`; compact presentation больше не выбирается старым `650px OR 340px` viewport decision; merged PR #291 |
 | G2a-ARCH-005A | P1 | accepted | Single standalone CSS activation | `ViewportRuntime` dataset — единственный CSS activation signal для standalone geometry; native `@media(display-mode)` duplicate удалён; merged PR #292 |
 | G2a-ARCH-005B | P1 | accepted | Retire root-canvas camouflage | `--upds-system-canvas-color`, screen-specific standalone `:has(...)` mappings и поздний compatibility containment удалены; geometry gap больше не маскируется цветом текущего screen; merged PR #293 |
-| G2a-ARCH-006 | P1 | active | CSS cascade/button contract | shared primary modifier scoped to `.phone button.primary`; Match-3/Campaign variants win by contextual specificity instead of `!important`, so primary-button correctness no longer depends on stylesheet import order |
-| G2a-ARCH-007 | P1 | queued | Platform identity single source | один resolver для display mode и один resolver для stable/preview/local lane; PWA, bootstrap и diagnostics не вычисляют их независимо |
+| G2a-ARCH-006 | P1 | accepted | CSS cascade/button contract | shared primary modifier scoped to `.phone button.primary`; Match-3/Campaign variants win by contextual specificity instead of `!important`; merged PR #294 |
+| G2a-ARCH-007 | P1 | review | Platform identity single source | `PlatformIdentity` единолично resolves standalone/browser и stable/preview/local; bootstrap, `ViewportRuntime`, `PwaController` и Diagnostics потребляют эти resolver'ы, включая общий exact `/preview(?:/|$)` boundary |
 | G2a-ARCH-008 | P1 | queued | Shared viewport evidence collector | Diagnostics и ViewportDebug используют общий read-only raw/resolved snapshot; early pre-bundle recorder остаётся отдельным только пока нужен для KI-001/KI-003 |
 | G2a-ARCH-009 | P2 | queued | Retire test-only app compatibility seams | убрать public methods в `AnimeDetectiveApp`, существующие только для старых smoke/QA tests; тестировать navigation/controller boundaries без production API ради тестов |
 | G2a-ARCH-010 | P2 | queued | Repository debris guard | удалить случайный `CUsersbezdr.lmstudioscratchpadskmcheck_output.txt` и расширить hygiene guard для redirected scratch/output файлов в root |
 
 ## Рекомендуемый порядок
 
-1. ARCH-006 — завершить button/cascade contract и убрать production counter-`!important` для primary actions.
-2. ARCH-007 — централизовать display mode / runtime lane identity.
-3. ARCH-008 — объединить diagnostics evidence collectors.
-4. ARCH-009 — удалить test-only composition-root compatibility API.
-5. ARCH-010 — repository hygiene cleanup + guard.
+1. ARCH-007 — завершить shared platform identity contract.
+2. ARCH-008 — объединить diagnostics evidence collectors.
+3. ARCH-009 — удалить test-only composition-root compatibility API.
+4. ARCH-010 — repository hygiene cleanup + guard.
 
 ARCH-009/010 можно выполнить раньше, если они не пересекаются с активным runtime PR. ART/guest production может идти параллельно; этот track не должен превращаться в бесконечный refactor перед релизом.
 
@@ -53,6 +52,10 @@ ARCH-004 убрал `max-height:650px` как presentation breakpoint. Отде�
 ### Accessibility / reduced-motion `!important`
 
 ARCH-006 касается конфликтующих visual button declarations. Blanket `!important` внутри `prefers-reduced-motion` и utility `visually-hidden` остаются намеренными enforcement rules; они не являются частью button cascade contract.
+
+### Raw diagnostics signals
+
+ARCH-007 централизует **resolved platform identity**, но Diagnostics/ViewportDebug пока могут отдельно показывать raw `navigator.standalone`, media-query и root-dataset signals как evidence. Их общий read-only snapshot — отдельный ARCH-008; raw evidence не является вторым decision owner.
 
 ### Legacy numeric Story save → stable `StorySceneId`
 
