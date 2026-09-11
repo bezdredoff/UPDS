@@ -45,6 +45,17 @@
   isolation: isolate;
 }
 
+/*
+ * Keep the policy explicit on tap targets as well: touch-action is not inherited,
+ * and browser regression checks read the target's computed style. The Match-3
+ * board keeps its stronger touch-action: none contract in the feature layer.
+ */
+.viewport-shell button,
+.viewport-shell .dialogue-text {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .game-viewport {
   --scene-inline-size: 100%;
   --scene-block-size: 100%;
