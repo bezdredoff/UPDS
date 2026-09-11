@@ -26,6 +26,8 @@ describe('iOS viewport diagnostics', () => {
     expect(controller).toContain('viewport-shell-size');
     expect(controller).toContain('game-viewport-size');
     expect(controller).toContain('Обновить viewport-метрики');
+    expect(controller).toContain('screen is evidence only');
+    expect(controller).not.toContain("getPropertyValue('--physical-viewport-height')");
     expect(controller).not.toContain("style.setProperty('--upds-viewport-height'");
   });
 });

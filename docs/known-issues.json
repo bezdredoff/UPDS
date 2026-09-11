@@ -1,8 +1,8 @@
 {
-  "updated": "2026-09-10",
+  "updated": "2026-09-11",
   "issues": [
-    {"id":"KI-001","title":"iOS standalone safe-area/full-bleed regression","severity":"R0","status":"open","owner":"Codex + User","device":"actual iPhone; model/iOS not recorded","workaround":"none accepted","evidence":"2026-09-10 screenshots: online inner/visual 402x812 with CSS dvh 812 and safe top/bottom 62/34; airplane inner/visual 402x874 with CSS dvh 874; result differs by launch/network state"},
-    {"id":"KI-003","title":"iOS standalone VN lower UI is clipped","severity":"R0","status":"open","owner":"Codex + User","device":"actual iPhone; model/iOS not recorded","workaround":"none accepted","evidence":"2026-09-10 VN screenshots show lower controls clipped; airplane removes the visible strip in some launches but does not make all VN controls fit"},
+    {"id":"KI-001","title":"iOS standalone safe-area/full-bleed regression","severity":"R0","status":"open","owner":"Codex + User","device":"actual iPhone 402x874; model not recorded; iOS 18.7 / Mobile Safari 26.6.1","workaround":"G0-PWA-001 candidate uses status-bar default and viewport-bound fixed inset shell; not accepted until production retest","evidence":"2026-09-11 lab build 995b78b277e2: variant 30 fixed inset ends at layout bottom 812 without strip; variant 33 black-translucent keeps inner/visual 812, publishes safe 62/34 and exposes a 62px body strip"},
+    {"id":"KI-003","title":"iOS standalone VN lower UI is clipped","severity":"R0","status":"open","owner":"Codex + User","device":"actual iPhone 402x874; model not recorded; iOS 18.7 / Mobile Safari 26.6.1","workaround":"G0-PWA-001 candidate removes screen.height from layout; not accepted until production VN retest","evidence":"2026-09-11 lab build 995b78b277e2: variant 32 layout viewport 812 but max(innerHeight,screen.height) creates shell/footer bottom 874; exactly 62px including the bottom action is clipped, while variant 30 fits"},
     {"id":"KI-002","title":"Cold offline launch/startup precache needs device validation","severity":"R0","status":"open","owner":"Codex","device":"iOS/Android PWA","workaround":"first online launch","evidence":"validate startup asset manifest and offline relaunch"}
   ]
 }

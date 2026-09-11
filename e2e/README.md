@@ -67,14 +67,13 @@ Campaign persistence uses only visible player behavior:
 
 Localization uses production Settings and locale persistence. G8E2 extends that coverage with RU/BE/EN multi-page VN paging stability so translated text may change page count without changing the physical VN viewport.
 
-## Installed iOS full-bleed
+## Installed iOS viewport boundary
 
-`boot.pw.ts` owns the ANM-030B1B9 regression. In Mobile WebKit it switches to the `440px` CSS width
-used by current large iPhones, injects representative standalone insets and requires Menu, Settings
-and Match-3 Campaign to fill the entire inline axis and end at
-`window.innerHeight + safe-area-top`. Replacing this with the default `390px` iPhone 13 profile, a
-`window.innerHeight` assertion or a root-background color check is forbidden: each lets either the
-legacy `430px` frame cap or the real installed-iPhone bottom strip return while CI remains green.
+`boot.pw.ts` owns the G0-PWA-001 regression. In Mobile WebKit it switches to the `440px` CSS width,
+injects representative non-translucent standalone insets and requires Menu, Settings, Match-3
+Campaign and VN to fill the inline axis and end exactly at `window.innerHeight`. The test keeps the
+large-iPhone cap regression and asserts that VN buttons remain above the bottom safe area. A
+root-background color check is not a substitute for player geometry.
 
 ## Short main-flow contract
 

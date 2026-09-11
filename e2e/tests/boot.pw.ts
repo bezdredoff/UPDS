@@ -77,7 +77,7 @@ test('keeps compact production touch targets at least 44px tall', async ({ page 
 });
 
 test(
-  'extends installed iPhone player and VN to the physical bottom without UI overflow',
+  'bounds installed iPhone player and VN to the layout viewport without UI overflow',
   async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'webkit-mobile', 'iOS/WebKit safe-area regression');
     const health = observeBrowserHealth(page);
@@ -85,7 +85,7 @@ test(
     await page.goto('./');
     await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
 
-    const standaloneTopInset = 59;
+    const standaloneTopInset = 0;
     const standaloneBottomInset = 34;
     await page.evaluate(({ topInset, bottomInset }) => {
       document.documentElement.dataset.updsDisplayMode = 'standalone';
@@ -93,7 +93,7 @@ test(
       document.documentElement.style.setProperty('--safe-area-bottom', `${bottomInset}px`);
     }, { topInset: standaloneTopInset, bottomInset: standaloneBottomInset });
 
-    const expectPhysicalFullBleed = async (activeScreenSelector: string): Promise<void> => {
+    const expectViewportBounded = async (activeScreenSelector: string): Promise<void> => {
       const geometry = await page.evaluate((selector) => {
         const rect = (target: string) => {
           const node = document.querySelector<HTMLElement>(target);
@@ -111,7 +111,7 @@ test(
           screen: { top: screen.top, right: screen.right, bottom: screen.bottom, left: screen.left },
         };
       }, activeScreenSelector);
-      const physicalBottom = geometry.innerHeight + standaloneTopInset;
+      const layoutBottom = geometry.innerHeight;
 
       expect(geometry.innerWidth).toBe(440);
       expect(geometry.shell.top).toBeCloseTo(0, 1);
@@ -123,12 +123,12 @@ test(
       expect(geometry.shell.right).toBeCloseTo(geometry.innerWidth, 1);
       expect(geometry.phone.right).toBeCloseTo(geometry.innerWidth, 1);
       expect(geometry.screen.right).toBeCloseTo(geometry.innerWidth, 1);
-      expect(geometry.shell.bottom).toBeCloseTo(physicalBottom, 1);
-      expect(geometry.phone.bottom).toBeCloseTo(physicalBottom, 1);
-      expect(geometry.screen.bottom).toBeCloseTo(physicalBottom, 1);
+      expect(geometry.shell.bottom).toBeCloseTo(layoutBottom, 1);
+      expect(geometry.phone.bottom).toBeCloseTo(layoutBottom, 1);
+      expect(geometry.screen.bottom).toBeCloseTo(layoutBottom, 1);
     };
 
-    await expectPhysicalFullBleed(qaSelectors.mainMenu);
+    await expectViewportBounded(qaSelectors.mainMenu);
 
     await page.locator(qaSelectors.settingsButton).click();
     const settings = page.locator(qaSelectors.settingsScreen);
@@ -137,19 +137,19 @@ test(
     const panelHeader = settings.locator('.panel-nav');
     const panelAction = panelHeader.locator('.app-header-action').first();
     await expect.poll(async () => (await panelHeader.boundingBox())?.y ?? -1).toBeGreaterThanOrEqual(0);
-    await expect.poll(async () => (await panelAction.boundingBox())?.y ?? -1).toBeGreaterThanOrEqual(46);
-    await expectPhysicalFullBleed(qaSelectors.settingsScreen);
+    await expect.poll(async () => (await panelAction.boundingBox())?.y ?? -1).toBeGreaterThanOrEqual(0);
+    await expectViewportBounded(qaSelectors.settingsScreen);
 
     await page.locator(qaSelectors.settingsBack).click();
     await page.locator(qaSelectors.match3CampaignButton).click();
     await expect(page.locator(qaSelectors.match3CampaignScreen)).toBeVisible();
-    await expectPhysicalFullBleed(qaSelectors.match3CampaignScreen);
+    await expectViewportBounded(qaSelectors.match3CampaignScreen);
     await page.locator('#back').click();
 
     await page.locator(qaSelectors.newGame).click();
     const runtimeVn = page.locator('[data-vn-frame="shared"][data-frame-context="runtime"]');
     await expect(runtimeVn).toBeVisible();
-    await expectPhysicalFullBleed('[data-vn-frame="shared"][data-frame-context="runtime"]');
+    await expectViewportBounded('[data-vn-frame="shared"][data-frame-context="runtime"]');
 
     const vnBottom = await page.evaluate((bottomInset) => {
       const controls = document.querySelector<HTMLElement>('.vn-controls');
@@ -160,12 +160,12 @@ test(
       return {
         controlsBottom: controlsRect.bottom,
         buttonBottom: highestButtonBottom,
-        physicalBottom: window.innerHeight + 59,
+        layoutBottom: window.innerHeight,
         safeTop: controlsRect.bottom - bottomInset,
       };
     }, standaloneBottomInset);
 
-    expect(vnBottom.controlsBottom).toBeCloseTo(vnBottom.physicalBottom, 1);
+    expect(vnBottom.controlsBottom).toBeCloseTo(vnBottom.layoutBottom, 1);
     expect(vnBottom.buttonBottom).toBeLessThanOrEqual(vnBottom.safeTop + 1);
     health.assertClean();
   },

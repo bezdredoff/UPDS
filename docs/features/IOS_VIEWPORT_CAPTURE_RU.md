@@ -120,7 +120,8 @@ File share с новым user gesture, Select All, download и сохранно�
 ## Контролируемый опыт со status bar — после baseline
 
 `scripts/create-viewport-experiment.mjs` создаёт копию **готового** dist и меняет только статический status-bar meta
-в index.html. В исходниках остаётся black-translucent. Пример после `npm run build`:
+в index.html. После G0-PWA-001 production candidate использует `default`; скрипт сохраняется для
+контролируемого сравнения install-time metadata. Пример после `npm run build`:
 
 ```powershell
 node scripts/create-viewport-experiment.mjs dist C:\git\viewport-black-translucent black-translucent

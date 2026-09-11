@@ -242,14 +242,16 @@ become a generic mutable app context.
 - `src/viewport.css` — shared viewport shell and safe-area ownership;
 - feature CSS consumes shared coordinates rather than re-owning device insets.
 
-Installed iOS is an explicit physical-height exception: with the translucent status bar its
-`100dvh` stops one top-safe-inset above the physical bottom. Therefore standalone mode must use
-`calc(100dvh + var(--safe-area-top))` for `.viewport-shell`; browser tabs remain `100dvh`.
+Installed iOS uses the layout viewport as the interactive boundary. Real-iPhone G0-PWA-001
+evidence showed `screen.height=874` while `inner/visual/dvh=812`; promoting the physical value to
+layout clipped exactly `62px`. `.viewport-shell` therefore uses `position: fixed; inset: 0` with
+auto height. `screen.height` remains evidence only, and safe-area tokens protect controls inside
+the shell rather than extending it.
 For portrait standalone windows up to `520px`, `.phone.game-viewport` must fill that shell in both
 axes. The `430×932` game-frame cap is desktop/browser presentation only; applying it to a `440px`
 large-iPhone viewport centers a shortened player surface and recreates the bottom strip.
-Painting the remaining strip through a root-background or screen-specific `:has(...)` bridge is
-not equivalent: it does not extend player content and is forbidden by viewport regression tests.
+Painting a remaining strip through a root-background or screen-specific `:has(...)` bridge is
+not a repair and remains forbidden by viewport regression tests.
 
 Portrait is primary; low-height landscape remains non-broken. Full landscape staging/layout is a
 later feature and must extend this shared coordinate model.

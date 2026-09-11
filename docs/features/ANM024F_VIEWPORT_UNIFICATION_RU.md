@@ -1,5 +1,9 @@
 # ANM-024F — единый viewport owner после полевого iPhone QA
 
+> Исторический cutover. Ownership остаётся действующим, но physical-height формула опровергнута
+> real-iPhone isolation 2026-09-11 и заменена G0-PWA-001 layout-viewport candidate:
+> [`G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md`](G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md).
+
 ## Почему понадобился новый cutover
 
 Полевой QA после #256, #258 и #259 показал, что три симптома сохраняются одновременно: поздний rescale, не помещающийся VN UI в standalone PWA и нижняя пустая полоса. Диагностика реального устройства показала `screen/100vh = 874`, `innerHeight/100dvh = 812`, `safe-area-top = 62`, `safe-area-bottom = 34`, при этом внешний shell уже мог достигать 874px.

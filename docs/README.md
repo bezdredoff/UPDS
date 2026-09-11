@@ -33,7 +33,8 @@ If two active documents conflict, prefer the narrower current machine-readable c
 - [`UPDS_RELEASE_MANIFEST_RU.md`](UPDS_RELEASE_MANIFEST_RU.md) — release scope, acceptance rule and dashboard authority
 - [`release-status.json`](release-status.json) — machine-readable release tasks and dependencies
 - [`known-issues.json`](known-issues.json) — reproducible open release blockers
-- [`features/ANM030B1B9_IOS_PWA_VIEWPORT_STATUS_RU.md`](features/ANM030B1B9_IOS_PWA_VIEWPORT_STATUS_RU.md) — current iOS PWA viewport evidence, paused hypotheses and required next capture
+- [`features/G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md`](features/G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md) — active real-iPhone evidence, layout-viewport repair candidate and acceptance protocol
+- [`features/ANM030B1B9_IOS_PWA_VIEWPORT_STATUS_RU.md`](features/ANM030B1B9_IOS_PWA_VIEWPORT_STATUS_RU.md) — historical triage superseded by G0-PWA-001
 
 ### Story and content
 

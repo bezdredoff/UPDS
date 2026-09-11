@@ -2,6 +2,10 @@
 
 Status: **R7 candidate; requires GitHub CI and installed-iPhone preview QA**.
 
+> Историческая серия. Physical-height решение R4/R7 опровергнуто изолированным real-iPhone
+> evidence 2026-09-11. Активный candidate описан в
+> [`G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md`](G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md).
+
 ## Problem
 
 Real standalone iPhone screenshots exposed two shared-shell regressions that the desktop-sized

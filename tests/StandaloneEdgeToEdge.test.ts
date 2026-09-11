@@ -27,16 +27,18 @@ describe('standalone edge-to-edge regression contract', () => {
     expect(standalone).not.toContain('navigator.standalone');
   });
 
-  it('keeps physical height in viewport.css and runtime VN sizing in frozen tokens', () => {
+  it('keeps shell geometry viewport-bound and runtime VN sizing in frozen tokens', () => {
     const viewport = read('src/viewport.css');
     const vn = read('src/vnViewportStability.css');
     const standalone = read('src/standaloneEdgeToEdge.css');
 
-    expect(viewport).toContain('--physical-viewport-height: calc(100dvh + var(--safe-area-top))');
+    expect(viewport).toContain('inset: 0');
+    expect(viewport).toContain('height: auto');
     expect(viewport).toContain('height: 100%');
     expect(vn).toContain('--vn-dialogue-row: var(--upds-vn-dialogue-row, 178px)');
     expect(vn).toContain('--vn-controls-min-height: var(--upds-vn-controls-min-height, 73px)');
-    expect(standalone).not.toContain('--physical-viewport-height');
+    expect(viewport).not.toContain('--physical-viewport-height');
+    expect(viewport).not.toContain('--upds-physical-screen-height');
     expect(standalone).not.toContain('--vn-dialogue-row: clamp');
     expect(standalone).not.toContain('--vn-controls-min-height: clamp');
     expect(standalone).not.toMatch(/\b62px\b/);

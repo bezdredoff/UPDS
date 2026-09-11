@@ -126,6 +126,12 @@ Automated coverage уже сильная, но перед релизом всё 
 
 ### R0.6 PWA / mobile release regression
 
+`G0-PWA-001` активирован реальным iPhone evidence от 2026-09-11. Изолированные варианты доказали:
+`fixed; inset:0` помещается в `812px`, а `max(innerHeight, screen.height)` создаёт shell `874px` и
+обрезает ровно `62px`; `black-translucent` дополнительно воспроизводит нижнюю полосу. Candidate
+использует layout viewport, status-bar `default` и сохраняет safe-area внутри controls. KI-001 и
+KI-003 остаются открыты до fresh-install проверки candidate online/offline.
+
 Перед RC подтвердить существующие, а не строить новые, capabilities:
 
 - fresh install, reload, offline start/recovery и update flow;
@@ -276,10 +282,10 @@ Post-launch expansion only. Не расходует base-release capacity.
 
 ## Рекомендуемая последовательность от текущего `main`
 
-1. **Background visual QA:** проверка интегрированного набора `23/23` на телефоне и в полном story crawl; `server-room` не генерировать и не возвращать в текущий scope.
-2. **Guest/witness closure:** production presentation для `hinata`, `gen`, `aoi`, `kubo`, `kubo-mother`, `vincent` небольшими reviewable waves.
+1. **G0-PWA-001:** завершить bounded candidate и проверить fresh install на том же iPhone; сохранить exact build JSON/screenshots online и offline.
+2. **Background visual QA и guest/witness closure:** продолжить текущие release-направления после device retest.
 3. **Ending background cleanup — accepted:** dedicated masters уже интегрированы; reopen только по результатам visual QA.
-4. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity. KI-001/KI-003 проверяются здесь на реальном iPhone.
+4. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity. G0-PWA-001 повторно проверяется на финальном payload.
 5. Исправить только найденные release defects и собрать RC.
 6. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release, пока данные не изменят приоритет.
 
