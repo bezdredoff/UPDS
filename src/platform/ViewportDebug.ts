@@ -1,5 +1,6 @@
 import { BUILD_ID, BUILD_TIMESTAMP } from '../appVersion';
 import type { RuntimeServices } from './RuntimeServices';
+import { collectViewportEvidence, prepareViewportEvidence } from './ViewportEvidence';
 import { ViewportDebugBuffer } from './ViewportDebugBuffer';
 import { ViewportDebugSamples, ViewportDebugStyles, serializeViewportDebug, type ExportMode } from './ViewportDebugExport';
 import { mountViewportDebugExport } from './ViewportDebugExportUi';
@@ -71,35 +72,39 @@ const describe = (node: Element, styles: ViewportDebugStyles) => ({
 let recorder: ReturnType<typeof createRecorder> | undefined;
 let pwa: unknown = null;
 let registration: ServiceWorkerRegistration | null = null;
-let probeHost: HTMLElement;
-const probes = new Map<string, HTMLElement>();
 const media = new Map<string, MediaQueryList>();
 let lastBrowserEvent: Detail | null = null;
 let lastRender: Detail | null = null;
 
 function collect(styles: ViewportDebugStyles) {
   const root = document.documentElement;
-  const vv = window.visualViewport;
+  const evidence = collectViewportEvidence();
   const worker = (value: ServiceWorker | null | undefined) => value ? { state: value.state, scriptURL: value.scriptURL } : null;
-  const safe = getComputedStyle(probes.get('safe')!);
   const elements = Object.fromEntries(selectors.map((selector) => [selector, [...document.querySelectorAll(selector)].map((node) => describe(node, styles))]));
   const phoneBottom = document.querySelector('.phone')?.getBoundingClientRect().bottom;
   // Hit testing cannot see OS/compositor pixels. Out-of-range points are deliberately retained.
-  const sampleY = [...new Set([innerHeight - 1, (vv?.height ?? innerHeight) - 1, screen.height - 1, ...(phoneBottom ? [phoneBottom - 1, phoneBottom - 20, phoneBottom - 40] : [])])];
+  const sampleY = [...new Set([
+    evidence.inner.height - 1,
+    (evidence.visualViewport?.height ?? evidence.inner.height) - 1,
+    evidence.screen.height - 1,
+    ...(phoneBottom ? [phoneBottom - 1, phoneBottom - 20, phoneBottom - 40] : []),
+  ])];
   const bottomHits = sampleY.map((y) => ({
-    x: innerWidth / 2, y,
-    outsideLayoutViewport: y >= root.clientHeight,
-    stack: document.elementsFromPoint(innerWidth / 2, y).filter((node) => !node.closest('[data-viewport-debug]')).map(identify),
+    x: evidence.inner.width / 2, y,
+    outsideLayoutViewport: y >= evidence.client.height,
+    stack: document.elementsFromPoint(evidence.inner.width / 2, y).filter((node) => !node.closest('[data-viewport-debug]')).map(identify),
   }));
   return {
-    buildId: BUILD_ID, screen: { width: screen.width, height: screen.height, availWidth: screen.availWidth, availHeight: screen.availHeight },
-    inner: { width: innerWidth, height: innerHeight }, client: { width: root.clientWidth, height: root.clientHeight },
+    buildId: BUILD_ID,
+    screen: evidence.screen,
+    inner: evidence.inner,
+    client: evidence.client,
     scroll: { x: scrollX, y: scrollY }, devicePixelRatio,
-    visualViewport: vv ? { width: vv.width, height: vv.height, offsetTop: vv.offsetTop, offsetLeft: vv.offsetLeft, pageTop: vv.pageTop, pageLeft: vv.pageLeft, scale: vv.scale } : null,
-    cssHeights: Object.fromEntries(['vh', 'dvh', 'svh', 'lvh'].map((unit) => [unit, { supported: CSS.supports('height', `100${unit}`), height: rectOf(probes.get(unit)!).height }])),
-    safeArea: { top: safe.paddingTop, right: safe.paddingRight, bottom: safe.paddingBottom, left: safe.paddingLeft },
-    display: { navigatorStandalone: (navigator as Navigator & { standalone?: boolean }).standalone ?? null, mediaStandalone: matchMedia('(display-mode: standalone)').matches, rootMode: root.dataset.updsDisplayMode ?? null },
-    orientation: { type: screen.orientation?.type, angle: screen.orientation?.angle, legacy: window.orientation },
+    visualViewport: evidence.visualViewport,
+    cssHeights: evidence.cssHeights,
+    safeArea: evidence.safeArea,
+    display: evidence.display,
+    orientation: evidence.orientation,
     fonts: document.fonts?.status, language: root.lang, visibility: document.visibilityState, focused: document.hasFocus(), online: navigator.onLine,
     rootStyle: root.getAttribute('style'), rootTokens: styles.intern(stylesOf(getComputedStyle(root), tokens)),
     serviceWorker: { controller: worker(navigator.serviceWorker?.controller), registrationKnown: Boolean(registration), scope: registration?.scope, waiting: worker(registration?.waiting), installing: worker(registration?.installing), active: worker(registration?.active) },
@@ -189,7 +194,7 @@ function createRecorder() {
       if (summary) {
         const stage = state.elements['.stage'][0]?.rect.height ?? '-';
         const portrait = state.elements['.portrait'][0]?.rect.height ?? '-';
-        summary.textContent = `${(t / 1000).toFixed(1)}s ${state.display.rootMode ?? '?'} · stage ${stage} / portrait ${portrait}\ninner ${innerHeight} · shell ${state.elements['.viewport-shell'][0]?.rect.height ?? '-'} · ${reason}`;
+        summary.textContent = `${(t / 1000).toFixed(1)}s ${state.display.rootMode ?? '?'} · stage ${stage} / portrait ${portrait}\ninner ${state.inner.height} · shell ${state.elements['.viewport-shell'][0]?.rect.height ?? '-'} · ${reason}`;
       }
     } catch (error) {
       if (errors.length < 20) errors.push(String(error));
@@ -330,19 +335,7 @@ function createRecorder() {
 export function startViewportDebug(): void {
   if (typeof window === 'undefined' || !window.__updsViewportEarly?.enabled || recorder) return;
   window.__updsViewportEarly.stop();
-  probeHost = document.createElement('div');
-  probeHost.dataset.viewportDebug = 'probes';
-  probeHost.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;overflow:hidden;visibility:hidden;pointer-events:none;contain:strict';
-  const shadow = probeHost.attachShadow({ mode: 'closed' });
-  for (const unit of ['vh', 'dvh', 'svh', 'lvh', 'safe']) {
-    const probe = document.createElement('div');
-    probe.style.cssText = unit === 'safe'
-      ? 'position:absolute;width:0;height:0;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)'
-      : `position:absolute;width:1px;height:100${unit}`;
-    shadow.append(probe);
-    probes.set(unit, probe);
-  }
-  document.body.append(probeHost);
+  prepareViewportEvidence();
   try {
     recorder = createRecorder();
     window.__updsViewportDebug = recorder;

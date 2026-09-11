@@ -3,7 +3,7 @@ import { sceneMeta } from '../../data/narrative';
 import { createDiagnosticsSnapshot } from '../../platform/Diagnostics';
 import { downloadJson } from '../../platform/Download';
 import { SAVE_SCHEMA_VERSION } from '../../engine/CampaignStore';
-import { resolveDisplayMode, resolveRuntimeLane } from '../../platform/PlatformIdentity';
+import { collectViewportEvidence, VIEWPORT_EVIDENCE_UNITS } from '../../platform/ViewportEvidence';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppSession } from '../../app/AppSession';
@@ -16,72 +16,23 @@ import { match3PlaytestSummaryMarkup } from './Match3PlaytestSummary';
 const metric = (value: number | undefined): string =>
   typeof value === 'number' && Number.isFinite(value) ? String(Math.round(value * 100) / 100) : 'n/a';
 
-const measureCssHeight = (height: string): string => {
-  if (typeof document === 'undefined' || !document.body) return 'n/a';
-  const probe = document.createElement('div');
-  probe.setAttribute('aria-hidden', 'true');
-  probe.style.position = 'fixed';
-  probe.style.left = '-10000px';
-  probe.style.top = '0';
-  probe.style.width = '1px';
-  probe.style.height = height;
-  probe.style.visibility = 'hidden';
-  probe.style.pointerEvents = 'none';
-  document.body.appendChild(probe);
-  const value = metric(probe.getBoundingClientRect().height);
-  probe.remove();
-  return value;
-};
-
-const measureSafeArea = (): { top: string; right: string; bottom: string; left: string } => {
-  if (typeof document === 'undefined' || !document.body || typeof getComputedStyle !== 'function') {
-    return { top: 'n/a', right: 'n/a', bottom: 'n/a', left: 'n/a' };
-  }
-  const probe = document.createElement('div');
-  probe.setAttribute('aria-hidden', 'true');
-  probe.style.position = 'fixed';
-  probe.style.left = '-10000px';
-  probe.style.top = '0';
-  probe.style.width = '0';
-  probe.style.height = '0';
-  probe.style.paddingTop = 'env(safe-area-inset-top, 0px)';
-  probe.style.paddingRight = 'env(safe-area-inset-right, 0px)';
-  probe.style.paddingBottom = 'env(safe-area-inset-bottom, 0px)';
-  probe.style.paddingLeft = 'env(safe-area-inset-left, 0px)';
-  document.body.appendChild(probe);
-  const style = getComputedStyle(probe);
-  const result = {
-    top: style.paddingTop,
-    right: style.paddingRight,
-    bottom: style.paddingBottom,
-    left: style.paddingLeft,
-  };
-  probe.remove();
-  return result;
-};
-
 const collectViewportMetrics = () => {
-  const viewport = globalThis.visualViewport;
-  const screenValue = globalThis.screen;
-  const root = typeof document !== 'undefined' ? document.documentElement : undefined;
-  const safe = measureSafeArea();
-  const navigatorStandalone = (globalThis.navigator as Navigator & { standalone?: boolean } | undefined)?.standalone === true;
-  const mediaStandalone = typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(display-mode: standalone)').matches;
-  const resolvedMode = resolveDisplayMode();
-  const resolvedLane = resolveRuntimeLane();
+  const evidence = collectViewportEvidence();
+  const viewport = evidence.visualViewport;
+  const display = evidence.display;
 
   return {
-    inner: `${metric(globalThis.innerWidth)}×${metric(globalThis.innerHeight)}`,
-    client: `${metric(root?.clientWidth)}×${metric(root?.clientHeight)}`,
-    screen: `${metric(screenValue?.width)}×${metric(screenValue?.height)}`,
-    available: `${metric(screenValue?.availWidth)}×${metric(screenValue?.availHeight)}`,
+    inner: `${metric(evidence.inner.width)}×${metric(evidence.inner.height)}`,
+    client: `${metric(evidence.client.width)}×${metric(evidence.client.height)}`,
+    screen: `${metric(evidence.screen.width)}×${metric(evidence.screen.height)}`,
+    available: `${metric(evidence.screen.availWidth)}×${metric(evidence.screen.availHeight)}`,
     visual: viewport ? `${metric(viewport.width)}×${metric(viewport.height)}` : 'n/a',
     visualDetail: viewport
       ? `scale ${metric(viewport.scale)} · offset ${metric(viewport.offsetLeft)},${metric(viewport.offsetTop)} · page ${metric(viewport.pageLeft)},${metric(viewport.pageTop)}`
       : 'VisualViewport unavailable',
-    cssHeights: `vh ${measureCssHeight('100vh')} · dvh ${measureCssHeight('100dvh')} · svh ${measureCssHeight('100svh')} · lvh ${measureCssHeight('100lvh')}`,
-    safe: `T ${safe.top} · R ${safe.right} · B ${safe.bottom} · L ${safe.left}`,
-    mode: `${resolvedMode} · lane ${resolvedLane} · ${navigatorStandalone ? 'navigator standalone' : 'navigator browser'} · ${mediaStandalone ? 'media standalone' : 'media browser'} · data ${root?.dataset.updsDisplayMode ?? 'unset'}`,
+    cssHeights: VIEWPORT_EVIDENCE_UNITS.map((unit) => `${unit} ${metric(evidence.cssHeights[unit].height)}`).join(' · '),
+    safe: `T ${evidence.safeArea.top} · R ${evidence.safeArea.right} · B ${evidence.safeArea.bottom} · L ${evidence.safeArea.left}`,
+    mode: `${display.resolvedMode} · lane ${display.lane} · ${display.navigatorStandalone ? 'navigator standalone' : 'navigator browser'} · ${display.mediaStandalone ? 'media standalone' : 'media browser'} · data ${display.rootMode ?? 'unset'}`,
   };
 };
 
