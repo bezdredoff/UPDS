@@ -31,8 +31,8 @@ Status: active bounded maintenance plan after merged G2 runtime/UI hardening and
 | G2a-ARCH-006 | P1 | accepted | CSS cascade/button contract | shared primary modifier scoped to `.phone button.primary`; Match-3/Campaign variants win by contextual specificity instead of `!important`; merged PR #294 |
 | G2a-ARCH-007 | P1 | accepted | Platform identity single source | `PlatformIdentity` единолично resolves standalone/browser и stable/preview/local; bootstrap, `ViewportRuntime`, `PwaController` и Diagnostics потребляют эти resolver'ы; merged PR #295 |
 | G2a-ARCH-008 | P1 | accepted | Shared viewport evidence collector | `ViewportEvidence` даёт Diagnostics и ViewportDebug один read-only raw/resolved snapshot и один reusable probe host; layout tokens не пишет; early pre-bundle recorder остаётся отдельным; merged PR #296 |
-| G2a-ARCH-009 | P2 | review | Retire test-only app compatibility seams | smoke/QA tests вызывают реальные feature-controller/session boundaries; `AnimeDetectiveApp` больше не публикует feature render/start и mutable save API только ради tests |
-| G2a-ARCH-010 | P2 | queued | Repository debris guard | удалить случайный `CUsersbezdr.lmstudioscratchpadskmcheck_output.txt` и расширить hygiene guard для redirected scratch/output файлов в root |
+| G2a-ARCH-009 | P2 | accepted | Retire test-only app compatibility seams | `AnimeDetectiveApp` больше не публикует feature render/start и mutable save API только ради tests; merged PR #297 |
+| G2a-ARCH-010 | P2 | review | Repository debris guard | accidental Windows-path scratch output удалён; root hygiene guard запрещает path redirects и явные scratch/check/test/QA/diagnostics output dumps без запрета legitimate docs/config |
 
 ## Рекомендуемый порядок
 

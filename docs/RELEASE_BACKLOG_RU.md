@@ -48,8 +48,8 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B
 | `G2a-ARCH-006` | **accepted · #294** | primary button cascade без visual counter-`!important`; feature variants выигрывают semantic specificity независимо от import order |
 | `G2a-ARCH-007` | **accepted · #295** | один display-mode resolver и один stable/preview/local lane resolver |
 | `G2a-ARCH-008` | **accepted · #296** | shared viewport evidence snapshot для Diagnostics/ViewportDebug |
-| `G2a-ARCH-009` | **active / in review** | удалить test-only compatibility methods из composition root; tests используют controller/session boundaries |
-| `G2a-ARCH-010` | queued | удалить случайный scratch output в root и усилить repository hygiene guard |
+| `G2a-ARCH-009` | **accepted · #297** | удалить test-only compatibility methods из composition root; tests используют controller/session boundaries |
+| `G2a-ARCH-010` | **active / in review** | удалить случайный scratch output в root и усилить repository hygiene guard |
 
 Legacy numeric Story save → stable `StorySceneId` намеренно **не входит** в этот cleanup: compatibility adapter пока защищает существующие saves и потребует отдельного save-schema решения. Локальные `clamp()` helpers и Scene Studio viewport simulation также не являются самостоятельными cleanup-задачами.
 
