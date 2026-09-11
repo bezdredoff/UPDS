@@ -1,4 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import type { AppNavigation } from '../src/app/AppNavigation';
+import { AppSession } from '../src/app/AppSession';
+import { AppShell } from '../src/app/AppShell';
+import { Match3CampaignSession } from '../src/app/Match3CampaignSession';
 import { ANM009_SAVE_KEY } from '../src/engine/CampaignStore';
 import {
   MATCH3_CAMPAIGN_SAVE_KEY,
@@ -7,7 +11,9 @@ import {
   normalizeMatch3CampaignSave,
 } from '../src/engine/Match3CampaignStore';
 import { levels } from '../src/data/levels';
-import { AnimeDetectiveApp } from '../src/ui/AnimeDetectiveApp';
+import { Match3Controller } from '../src/features/match3/Match3Controller';
+import { Match3CampaignController } from '../src/features/match3Campaign/Match3CampaignController';
+import { createRuntimeServices } from '../src/platform/RuntimeServices';
 
 class MemoryStorage implements Storage {
   private values = new Map<string, string>();
@@ -76,8 +82,18 @@ describe('ANM-026C standalone Match-3 campaign', () => {
   it('renders a player-facing hub with sequential unlocks', () => {
     const storage = (globalThis.window as unknown as { localStorage: Storage }).localStorage;
     const root = new FakeRoot();
-    const app = new AnimeDetectiveApp(root as unknown as HTMLElement) as AnimeDetectiveApp & { renderMatch3Campaign(): void };
-    app.renderMatch3Campaign();
+    const element = root as unknown as HTMLElement;
+    const services = createRuntimeServices();
+    const session = new Match3CampaignSession(services.match3CampaignStore, services);
+    const campaign = new Match3CampaignController(
+      element,
+      services,
+      session,
+      new AppShell(element, () => undefined),
+      {} as AppNavigation,
+      () => undefined,
+    );
+    campaign.render();
     expect(root.innerHTML).toContain('Доска дел');
     expect(root.innerHTML).toContain('M3_00');
     expect(root.innerHTML).toContain('data-campaign-level="0"');
@@ -88,7 +104,7 @@ describe('ANM-026C standalone Match-3 campaign', () => {
     const state = store.load();
     state.completed.push(levels[0].id);
     store.save(state);
-    app.renderMatch3Campaign();
+    campaign.render();
     expect(root.innerHTML).not.toMatch(/data-campaign-level="1"[^>]*disabled/);
     expect(root.innerHTML).toContain('ПРОЙДЕНО');
   });
@@ -96,8 +112,18 @@ describe('ANM-026C standalone Match-3 campaign', () => {
   it('starting campaign Match-3 records only the campaign attempt', () => {
     const storage = (globalThis.window as unknown as { localStorage: Storage }).localStorage;
     const root = new FakeRoot();
-    const app = new AnimeDetectiveApp(root as unknown as HTMLElement) as AnimeDetectiveApp & { startCampaignMatch(level: number): void };
-    app.startCampaignMatch(0);
+    const element = root as unknown as HTMLElement;
+    const services = createRuntimeServices();
+    const campaignSession = new Match3CampaignSession(services.match3CampaignStore, services);
+    const match3 = new Match3Controller(
+      element,
+      services,
+      new AppSession(services),
+      new AppShell(element, () => undefined),
+      {} as AppNavigation,
+      () => undefined,
+    );
+    match3.startCampaignMatch(0, campaignSession, () => undefined);
     const campaign = new Match3CampaignStore(storage).load();
     expect(campaign.attempts[levels[0].id]).toBe(1);
     expect(storage.getItem(ANM009_SAVE_KEY)).toBeNull();

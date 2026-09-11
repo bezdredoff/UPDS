@@ -45,10 +45,10 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B
 | `G2a-ARCH-003` | **accepted · #290** | persistent `.viewport-shell/.phone` + persistent `app-screen-host` |
 | `G2a-ARCH-004` | **accepted · #291** | единый `upds-game` compact/container layout вместо `650px OR 340px` presentation decision |
 | `G2a-ARCH-005` | **accepted · #292/#293** | один standalone CSS activation signal + удалён root-canvas camouflage/compatibility containment |
-| `G2a-ARCH-006` | **active / in review** | primary button cascade без visual counter-`!important`; feature variants выигрывают semantic specificity независимо от import order |
-| `G2a-ARCH-007` | queued | один display-mode resolver и один stable/preview/local lane resolver |
-| `G2a-ARCH-008` | queued | shared viewport evidence snapshot для Diagnostics/ViewportDebug |
-| `G2a-ARCH-009` | queued | удалить test-only compatibility methods из composition root |
+| `G2a-ARCH-006` | **accepted · #294** | primary button cascade без visual counter-`!important`; feature variants выигрывают semantic specificity независимо от import order |
+| `G2a-ARCH-007` | **accepted · #295** | один display-mode resolver и один stable/preview/local lane resolver |
+| `G2a-ARCH-008` | **accepted · #296** | shared viewport evidence snapshot для Diagnostics/ViewportDebug |
+| `G2a-ARCH-009` | **active / in review** | удалить test-only compatibility methods из composition root; tests используют controller/session boundaries |
 | `G2a-ARCH-010` | queued | удалить случайный scratch output в root и усилить repository hygiene guard |
 
 Legacy numeric Story save → stable `StorySceneId` намеренно **не входит** в этот cleanup: compatibility adapter пока защищает существующие saves и потребует отдельного save-schema решения. Локальные `clamp()` helpers и Scene Studio viewport simulation также не являются самостоятельными cleanup-задачами.

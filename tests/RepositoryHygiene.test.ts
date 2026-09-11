@@ -96,6 +96,25 @@ describe('UI architecture boundaries', () => {
     expect(animeAppSource).toContain('const navigation: AppNavigation');
   });
 
+  it('keeps test-only feature and state access off the production app API', () => {
+    const retiredSeams = [
+      'startMatch',
+      'renderSupport',
+      'renderSettings',
+      'renderLevelLab',
+      'renderSceneStudio',
+      'renderMatch3Campaign',
+      'startCampaignMatch',
+      'startLabMatch',
+      'nextLine',
+      'get save',
+      'set save',
+    ];
+    for (const seam of retiredSeams) {
+      expect(animeAppSource, `${seam} must stay on its owning controller/session`).not.toMatch(new RegExp(`^  ${seam}\\b`, 'm'));
+    }
+  });
+
   it('prevents feature modules from importing sibling feature modules', () => {
     for (const file of featureTsFiles) {
       const sourceFeature = file.split('/')[2];
