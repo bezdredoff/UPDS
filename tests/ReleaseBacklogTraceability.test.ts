@@ -43,7 +43,8 @@ describe('release backlog prioritization', () => {
     expect(backlog).toContain('**`23/23` dedicated production variants и `0` runtime aliases**');
     expect(backlog).toContain('Все утверждённые common-route и ending masters интегрированы');
     expect(backlog).toContain('`maintenance-room`');
-    expect(backlog).toContain('**Следующий шаг по фонам — visual QA G4a/G5:**');
+    expect(backlog).toContain('Все `23/23` production backgrounds явно утверждены пользователем');
+    expect(backlog).toContain('Повторять полный isolated background review не нужно');
     expect(backlog).toContain('ChatGPT Image');
     expect(backlog).toContain('ни один shipped guest scene не показывает placeholder initials');
 

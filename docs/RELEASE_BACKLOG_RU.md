@@ -77,8 +77,8 @@ Aliases закрыты в G4. В backlog больше не добавляютс�
 
 | Status | Variant | Runtime result | Next action |
 | ---: | --- | --- | --- | --- |
-| **done** | `maintenance-room`, `old-gym-night`, `gymnastics-costume`, `asterion-transfer-point`, `campus-path` | dedicated WebP | visual QA G4a |
-| **done** | `clubroom-night`, `anonymous-return-counter`, `service-tunnel`, `disciplinary-assembly` | dedicated WebP | visual QA G4a |
+| **approved** | `maintenance-room`, `old-gym-night`, `gymnastics-costume`, `asterion-transfer-point`, `campus-path` | dedicated WebP | user-approved 2026-09-12 |
+| **approved** | `clubroom-night`, `anonymous-return-counter`, `service-tunnel`, `disciplinary-assembly` | dedicated WebP | user-approved 2026-09-12 |
 | **out of scope** | `server-room` | no runtime key; use service-tunnel context | do not generate |
 
 Обязательный outcome:
@@ -90,7 +90,7 @@ Aliases закрыты в G4. В backlog больше не добавляютс�
 - release gate формулируется как **zero visibly wrong semantic background fallbacks in shipped Story**, а не «19/19 уникальных variant PNG»;
 - contract-only unused variants `central-laundry` и `campus-street` не производить до реального использования.
 
-**Следующий шаг по фонам — visual QA G4a/G5:** пройти common route и endings на телефоне, проверив композицию, читаемость персонажей и отсутствие артефактов.
+Все `23/23` production backgrounds явно утверждены пользователем после локального Scene Studio review 2026-09-12. Повторять полный isolated background review не нужно; в G5 остаётся только integrated device spot-check common route и endings на композицию, читаемость персонажей и runtime-артефакты.
 
 ### R0.3 Guest / witness presentation closure
 
@@ -132,11 +132,12 @@ Automated coverage уже сильная, но перед релизом всё 
 использует layout viewport, status-bar `default` и сохраняет safe-area внутри controls. Fresh-install
 проверка PR #301 online/offline успешна: полоса исчезла, VN помещается; KI-001 и KI-003 закрыты.
 
-`G0-PWA-002` активирован последующим real-iPhone observation: быстрые тапы вызывают iOS smart zoom
-на Match-3 и level-intro, тогда как VN уже был защищён локально. Candidate переносит
-`touch-action: manipulation` на persistent viewport shell, не запрещает pinch zoom и сохраняет
+`G0-PWA-002` активирован последующим real-iPhone observation: быстрые тапы вызывали iOS smart zoom
+на Match-3 и level-intro, тогда как VN уже был защищён локально. PR #302 исправил Match-3, но
+real-iPhone retest 2026-09-12 подтвердил остаточный rescale на level-intro. Follow-up явно задаёт
+`touch-action: manipulation` всему intro subtree, не запрещает pinch zoom и не меняет
 `touch-action: none`/intentional special double tap на board. KI-004 закрывается только после
-повторной проверки этих жестов на устройстве.
+повторной проверки level-intro на устройстве.
 
 Перед RC подтвердить существующие, а не строить новые, capabilities:
 
@@ -290,8 +291,8 @@ Post-launch expansion only. Не расходует base-release capacity.
 
 ## Рекомендуемая последовательность от текущего `main`
 
-1. **G0-PWA-002:** проверить rapid taps на level-intro/Match-3 и отсутствие viewport rescale; подтвердить board drag, special double tap и доступный pinch zoom. G0-PWA-001 уже device accepted, KI-001/KI-003 закрыты.
-2. **Background visual QA и guest/witness closure:** продолжить текущие release-направления после device retest.
+1. **G0-PWA-002:** Match-3 rapid-tap guard подтверждён на iPhone; проверить follow-up с явной защитой level-intro и подтвердить scale `1`. Board drag, special double tap и pinch zoom остаются regression checks. G0-PWA-001 уже device accepted, KI-001/KI-003 закрыты.
+2. **Guest/witness closure:** background review 23/23 утверждён; продолжить production presentation для шести гостей после device retest.
 3. **Ending background cleanup — accepted:** dedicated masters уже интегрированы; reopen только по результатам visual QA.
 4. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity. Принятые G0-PWA-001/002 contracts повторно проверяются на финальном payload.
 5. Исправить только найденные release defects и собрать RC.

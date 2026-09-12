@@ -171,8 +171,8 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 ## Recommended immediate sequence
 
-1. **G0-PWA-002:** проверить общий rapid-tap guard на level-intro и Match-3; подтвердить scale `1`, board drag, special double tap и pinch zoom. G0-PWA-001 уже device accepted, KI-001/KI-003 закрыты.
-2. **Background visual QA и guest/witness closure:** продолжить release content work после bounded PWA retest.
+1. **G0-PWA-002:** Match-3 rapid-tap guard подтверждён на iPhone; проверить follow-up с явной защитой level-intro и подтвердить scale `1`. Board drag, special double tap и pinch zoom остаются regression checks. G0-PWA-001 уже device accepted, KI-001/KI-003 закрыты.
+2. **Guest/witness closure:** все 23 production backgrounds утверждены пользователем 2026-09-12; продолжить release content work с шестью гостями после bounded PWA retest.
 3. **Ending-specific background cleanup — integrated.** `service-tunnel`, `disciplinary-assembly`, `anonymous-return-counter` and `clubroom-night` now use dedicated masters; reopen only on visual regression.
 4. **ANM-033 — Release Candidate Hardening [P0 before release]** — full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, accessibility/performance sanity.
 5. Fix only defects found by those gates; build the RC.
