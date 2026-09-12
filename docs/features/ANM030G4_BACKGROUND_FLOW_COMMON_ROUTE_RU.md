@@ -145,4 +145,4 @@ hero close-ups или новые варианты только ради умен
 - [x] все новые файлы `1080×1920`, декодируются и проходят binary-safe crawl;
 - [x] runtime mapping обновлён после accepted binary;
 - [x] `server-room` исключён из текущего scope, macro lock и runtime catalog;
-- [ ] финальный human/iPhone visual spot-check после сборки остаётся частью G4a/G5.
+- [x] все `23/23` production backgrounds явно утверждены пользователем после локального Scene Studio review 2026-09-12; integrated device spot-check в G5 остаётся regression-проверкой, а не повторной art-приёмкой.

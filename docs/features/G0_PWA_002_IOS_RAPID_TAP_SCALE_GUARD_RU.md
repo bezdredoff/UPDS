@@ -1,18 +1,22 @@
 # ANM-030B1C2 / G0-PWA-002 — общий iOS rapid-tap scale guard
 
-Дата: **2026-09-11**
+Дата: **2026-09-12**
 Статус: **implementation candidate; требуется real-iPhone retest**
 Связанные release gate / issue: `G0`, `KI-004`
 
 ## Наблюдение
 
 После успешной проверки G0-PWA-001 на установленной iPhone PWA пользователь подтвердил, что
-быстрый повторный tap всё ещё вызывает browser rescale на Match-3 и на level-intro перед ним.
-Ранее защита была локальной только для VN controls/dialogue.
+быстрый повторный tap вызывал browser rescale на Match-3 и на level-intro перед ним. Первая
+реализация G0-PWA-002 из PR #302 исправила Match-3, но real-iPhone retest 2026-09-12 показал,
+что level-intro всё ещё рескейлится. Общая shell-policy не наследуется обычными intro descendants,
+которые Safari может выбрать непосредственной целью быстрого tap.
 
 ## Контракт исправления
 
 - persistent `.viewport-shell` задаёт `touch-action: manipulation` для всей player surface;
+- `.level-intro` и все его descendants получают явный `touch-action: manipulation`, чтобы
+  computed policy не зависела от наследования общей оболочки;
 - iOS double-tap smart zoom запрещён на menu, level intro, Match-3 и остальных экранах;
 - пользовательский pinch zoom не запрещается: viewport meta не получает `maximum-scale=1` или
   `user-scalable=no`;

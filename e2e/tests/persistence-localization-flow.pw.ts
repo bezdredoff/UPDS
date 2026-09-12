@@ -79,7 +79,20 @@ test.describe('Persistence, localization and short main-flow journeys', () => {
 
     await startFirstStoryMatchAndVerifyResumeBoundary(page);
 
-    await expect(page.locator(qaSelectors.matchIntro)).toBeVisible();
+    const intro = page.locator(qaSelectors.matchIntro);
+    await expect(intro).toBeVisible();
+    for (const selector of [
+      qaSelectors.matchIntro,
+      '.level-intro-background',
+      '.level-intro-shade',
+      '.level-card',
+      '.level-card h2',
+      '.level-card > p:not(.eyebrow)',
+      qaSelectors.matchStart,
+    ]) {
+      expect(await page.locator(selector).evaluate((node) => getComputedStyle(node).touchAction)).toBe('manipulation');
+    }
+    expect(await page.evaluate(() => window.visualViewport?.scale ?? 1)).toBe(1);
     health.assertClean();
   });
 });
