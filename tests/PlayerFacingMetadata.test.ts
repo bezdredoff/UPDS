@@ -34,6 +34,10 @@ describe('G2 player-facing production metadata', () => {
         history: 'History',
         settings: 'Settings',
         controls: 'Controls',
+        skip: 'Skip',
+        auto: 'Auto',
+        save: 'Save',
+        load: 'Load',
       },
     });
 

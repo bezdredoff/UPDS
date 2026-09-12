@@ -96,8 +96,8 @@ describe('UI controller render smoke', () => {
     expect(root.innerHTML).toContain('vn-controls');
     expect(root.innerHTML).toContain('vn-background-fill');
     expect(root.innerHTML).toContain('vn-background-fit');
-    expect(root.innerHTML).toContain('>SKIP<');
-    expect(root.innerHTML).toContain('>AUTO<');
+    expect(root.innerHTML).toContain('>ПРОПУСК<');
+    expect(root.innerHTML).toContain('>АВТО<');
     expect(root.innerHTML).toContain('aria-label="История диалога"');
     expect(root.innerHTML).toContain('aria-label="Настройки"');
     expect(root.innerHTML).not.toContain('aria-label="Главное меню"');
@@ -127,9 +127,9 @@ describe('UI controller render smoke', () => {
     expect(root.innerHTML).toContain('Звук и отклик');
     expect(root.innerHTML).toContain('Громкость музыки');
     expect(root.innerHTML).toContain('Громкость эффектов');
-    expect(root.innerHTML).toContain('Haptics');
+    expect(root.innerHTML).toContain('Виброотклик');
     expect(root.innerHTML).toContain('Проверить музыку');
-    expect(root.innerHTML).toContain('Проверить SFX');
+    expect(root.innerHTML).toContain('Проверить эффекты');
   });
 
 
