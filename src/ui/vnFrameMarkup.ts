@@ -8,6 +8,10 @@ export type VnFrameLabels = Readonly<{
   history: string;
   settings: string;
   controls: string;
+  skip: string;
+  auto: string;
+  save: string;
+  load: string;
 }>;
 
 export type VnFrameMarkupInput = Readonly<{
@@ -85,10 +89,10 @@ export function vnFrameMarkup(input: VnFrameMarkupInput): string {
       </button>
     </div>
     <nav class="vn-controls" aria-label="${escapeHtml(input.labels.controls)}"${chromeInert}>
-      <button id="${escapeHtml(id('skip'))}" ${input.skipAvailable ? '' : 'disabled'}${inertControl}>${icon('skip')}<span>SKIP</span></button>
-      <button id="${escapeHtml(id('auto'))}" class="${input.autoMode ? 'is-active' : ''}" aria-pressed="${input.autoMode}"${inertControl}>${icon('auto')}<span>AUTO</span></button>
-      <button id="${escapeHtml(id('save-vn'))}"${inertControl}>${icon('save')}<span>SAVE</span></button>
-      <button id="${escapeHtml(id('load-vn'))}"${inertControl}>${icon('load')}<span>LOAD</span></button>
+      <button id="${escapeHtml(id('skip'))}" ${input.skipAvailable ? '' : 'disabled'}${inertControl}>${icon('skip')}<span>${escapeHtml(input.labels.skip)}</span></button>
+      <button id="${escapeHtml(id('auto'))}" class="${input.autoMode ? 'is-active' : ''}" aria-pressed="${input.autoMode}"${inertControl}>${icon('auto')}<span>${escapeHtml(input.labels.auto)}</span></button>
+      <button id="${escapeHtml(id('save-vn'))}"${inertControl}>${icon('save')}<span>${escapeHtml(input.labels.save)}</span></button>
+      <button id="${escapeHtml(id('load-vn'))}"${inertControl}>${icon('load')}<span>${escapeHtml(input.labels.load)}</span></button>
     </nav>
     <div id="${escapeHtml(id('vn-status'))}" class="vn-status" hidden></div>
   </section>`;

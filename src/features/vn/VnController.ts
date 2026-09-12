@@ -188,7 +188,7 @@ export class VnController {
       textScale: this.textScale,
       backgroundAsset: stage.backgroundAsset,
       location: this.sceneText('location'),
-      caseLabel: `CASE 001 · SCENE ${String(this.session.save.scene).padStart(2, '0')}`,
+      caseLabel: this.t('vn.chrome.caseScene', { case: '001', scene: String(this.session.save.scene).padStart(2, '0') }),
       sceneTitle: this.sceneText('title'),
       clueCount: this.session.save.clues.length,
       stageSide: stage.stageSide,
@@ -208,6 +208,10 @@ export class VnController {
         history: this.t('vn.chrome.history'),
         settings: this.t('common.settings'),
         controls: this.t('vn.chrome.controls'),
+        skip: this.t('vn.chrome.skip'),
+        auto: this.t('vn.chrome.auto'),
+        save: this.t('vn.chrome.save'),
+        load: this.t('vn.chrome.load'),
       },
     }));
 
