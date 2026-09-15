@@ -1,0 +1,100 @@
+{
+  "sourceFiles": [
+    "src/localization/catalogs/ru.ts",
+    "src/localization/catalogs/match3Guidance.ts",
+    "src/localization/catalogs/match3Help.ts",
+    "src/localization/catalogs/match3Reactions.ts"
+  ],
+  "counts": {
+    "storyLines": 976,
+    "storyDirectives": 30,
+    "playerUiAndMatch3": 938,
+    "qaTools": 151
+  },
+  "files": [
+    {
+      "filename": "packet-01-vn-scenes-00-05.md",
+      "kind": "story",
+      "entries": 178,
+      "sha256": "bb734f5f74962824e6f2d903e392b150671c836259f0d9638286a5bdb7817b25"
+    },
+    {
+      "filename": "packet-02-vn-scenes-06-11.md",
+      "kind": "story",
+      "entries": 142,
+      "sha256": "9b8ce9c3b03f3f99bbdd4d11566f9cf9dc8bc9cb70cb9b546be9a77246b27020"
+    },
+    {
+      "filename": "packet-03-vn-scenes-12-17.md",
+      "kind": "story",
+      "entries": 121,
+      "sha256": "a725417c42449cdf56e928f5594652d5d2248a148e67ff3217e096ef6411145f"
+    },
+    {
+      "filename": "packet-04-vn-scenes-18-23.md",
+      "kind": "story",
+      "entries": 118,
+      "sha256": "a017ee76ada45932257a908e1381b1a30e411f4a04e7cbe82cef109b8d79eb99"
+    },
+    {
+      "filename": "packet-05-vn-scenes-24-29.md",
+      "kind": "story",
+      "entries": 119,
+      "sha256": "7d67a280cfd1c7b7388fa0fc04297ddb23d1e3a2ad1a68251ecf2312f2fbe1bf"
+    },
+    {
+      "filename": "packet-06-vn-scenes-30-35.md",
+      "kind": "story",
+      "entries": 119,
+      "sha256": "e82dc954cb32f0af08eec565e856a872ce64348c59c86db956a7857ade534e30"
+    },
+    {
+      "filename": "packet-07-vn-scenes-36-40.md",
+      "kind": "story",
+      "entries": 99,
+      "sha256": "834a4fb676b37af366fbe820052bdb0fc9dcb637f88af01ed5028582c9a94f51"
+    },
+    {
+      "filename": "packet-08-vn-scenes-41-44.md",
+      "kind": "story",
+      "entries": 80,
+      "sha256": "b9485f74fd6403e1e794a0ee670412efab0f836ffc3c96f8c0e74b2eac94bdab"
+    },
+    {
+      "filename": "packet-09-player-ui.md",
+      "kind": "runtime",
+      "entries": 322,
+      "sha256": "cf2b870e90b1493a0af4fdbbbfdbc0f1620b0ea6c79e8b598af45e9d972e85c9"
+    },
+    {
+      "filename": "packet-10-match3-core.md",
+      "kind": "runtime",
+      "entries": 202,
+      "sha256": "a3f4aeec9c1cf76852e7f49dd1819c559c55bc7b2de467ddb24c688050df40a2"
+    },
+    {
+      "filename": "packet-11-match3-levels-00-10.md",
+      "kind": "runtime",
+      "entries": 139,
+      "sha256": "4815079c19cb2b28e76553b09fb350b36df56dd641e38ac2154fc0fe7b427dbd"
+    },
+    {
+      "filename": "packet-12-match3-levels-11-21.md",
+      "kind": "runtime",
+      "entries": 143,
+      "sha256": "b70635cb84d23a50d811e744970ce2bd651256b3985e27ed5b3241259efc4431"
+    },
+    {
+      "filename": "packet-13-match3-reactions.md",
+      "kind": "runtime",
+      "entries": 132,
+      "sha256": "35dc37a92a1357acc0919524aeda1b8bf864953519d0ac1ea34a7cad77aba6c0"
+    },
+    {
+      "filename": "appendix-qa-tools.md",
+      "kind": "qa",
+      "entries": 151,
+      "sha256": "cf8200eca172f686dda5701fba723b2c0dd415a580a583186ceef70f9ddc2fdc"
+    }
+  ]
+}

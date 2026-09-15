@@ -215,7 +215,9 @@ export class SceneStudioController {
       textScale: state.textScale,
       backgroundAsset: backgroundAssets[state.background],
       location: rawT(`vn.scene.${sceneMeta[backgroundProfile.sceneIndex].id}.location`),
-      caseLabel: `CASE 001 · SCENE ${String(backgroundProfile.sceneIndex).padStart(2, '0')}`,
+      caseLabel: rawT('vn.chrome.caseScene')
+        .replace('{case}', '001')
+        .replace('{scene}', String(backgroundProfile.sceneIndex).padStart(2, '0')),
       sceneTitle: rawT(`vn.scene.${sceneMeta[backgroundProfile.sceneIndex].id}.title`),
       clueCount: 3,
       stageSide: state.viewMode,
@@ -238,6 +240,10 @@ export class SceneStudioController {
         history: rawT('vn.chrome.history'),
         settings: rawT('common.settings'),
         controls: rawT('vn.chrome.controls'),
+        skip: rawT('vn.chrome.skip'),
+        auto: rawT('vn.chrome.auto'),
+        save: rawT('vn.chrome.save'),
+        load: rawT('vn.chrome.load'),
       },
     });
     const deviceStyle = [

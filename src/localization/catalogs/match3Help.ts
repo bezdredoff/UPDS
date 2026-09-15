@@ -1,7 +1,7 @@
 import type { MessageCatalog } from '../MessageCatalog';
 
 const ru = {
-  'match3.help.trigger': 'Помощь по Match-3',
+  'match3.help.trigger': 'Помощь по игре «три в ряд»',
   'match3.help.label': 'СПРАВКА',
   'match3.help.title': 'Как работает расследование',
   'match3.help.intro': 'Короткая памятка по правилам. Её можно открыть в любой момент: состояние доски и число ходов не меняются.',

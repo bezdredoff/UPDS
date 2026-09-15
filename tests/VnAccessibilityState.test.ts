@@ -31,6 +31,10 @@ const frame = (autoMode: boolean): string => vnFrameMarkup({
     history: 'History',
     settings: 'Settings',
     controls: 'Controls',
+    skip: 'Skip',
+    auto: 'Auto',
+    save: 'Save',
+    load: 'Load',
   },
 });
 
