@@ -48,7 +48,7 @@ describe('ANM-027G episodes 7–9 canonical production batch', () => {
     expect(backgroundAssets.maintenanceRoom).toBe('./assets/backgrounds/BG_MAINTENANCE_ROOM.webp');
   });
 
-  it('routes Rina and Kurose through production rigs while Gen stays in the guest tier', () => {
+  it('routes Rina and Kurose through production rigs while Gen stays in the lean guest tier', () => {
     expect(productionCharacterKeys).toContain('rina');
     expect(productionCharacterKeys).toContain('kurose');
     expect(characterProductionManifest.characters.rina.status).toBe('production');
@@ -56,8 +56,8 @@ describe('ANM-027G episodes 7–9 canonical production batch', () => {
     expect(characterForSpeaker('РИНА')).toBe('rina');
     expect(characterForSpeaker('КУРОСЭ')).toBe('kurose');
     expect(guestWitnessForSpeaker('ГЭН')).toBe('gen');
-    expect(guestWitnessManifest.guests.gen.status).toBe('planned');
-    expect(guestWitnessManifest.guests.gen.assets).toBeNull();
+    expect(guestWitnessManifest.guests.gen.status).toBe('production');
+    expect(guestWitnessManifest.guests.gen.assets).not.toBeNull();
   });
 
   it('adds the Gen source-protection choice without changing save schema', () => {

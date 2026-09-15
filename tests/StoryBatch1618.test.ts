@@ -43,11 +43,11 @@ describe('ANM-027G episodes 16–18 canonical production batch', () => {
     expect(macro.slots[18].assetTriggers.heroClueCloseups).toContain('post-rina-active-tag');
   });
 
-  it('keeps Vincent in the asset-free guest tier', () => {
+  it('keeps Vincent in the production guest tier', () => {
     expect(guestWitnessForSpeaker('ВИНСЕНТ')).toBe('vincent');
     expect(guestWitnessManifest.guests.vincent.firstSlot).toBe(16);
-    expect(guestWitnessManifest.guests.vincent.status).toBe('planned');
-    expect(guestWitnessManifest.guests.vincent.assets).toBeNull();
+    expect(guestWitnessManifest.guests.vincent.status).toBe('production');
+    expect(guestWitnessManifest.guests.vincent.assets).not.toBeNull();
   });
 
   it('adds the Vincent trust and final-strategy gates without changing save schema', () => {

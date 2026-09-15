@@ -47,10 +47,10 @@ describe('ANM-027G episodes 10–12 canonical production batch', () => {
     expect(backgroundAssets.oldGymNight).toBe('./assets/backgrounds/BG_OLD_GYM_NIGHT.webp');
   });
 
-  it('keeps Aoi in the asset-free guest tier and records both hero-clue triggers as native evidence placeholders', () => {
+  it('keeps Aoi in the production guest tier and records both hero-clue triggers as native evidence placeholders', () => {
     expect(guestWitnessForSpeaker('АОЙ')).toBe('aoi');
-    expect(guestWitnessManifest.guests.aoi.status).toBe('planned');
-    expect(guestWitnessManifest.guests.aoi.assets).toBeNull();
+    expect(guestWitnessManifest.guests.aoi.status).toBe('production');
+    expect(guestWitnessManifest.guests.aoi.assets).not.toBeNull();
     expect(guestWitnessManifest.guests.aoi.firstSlot).toBe(10);
     expect(macro.slots[11].assetTriggers.heroClueCloseups).toContain('asterion-transfer-chain');
     expect(macro.slots[12].assetTriggers.heroClueCloseups).toContain('second-skin-tag');

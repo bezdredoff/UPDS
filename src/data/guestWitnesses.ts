@@ -55,7 +55,7 @@ export type GuestWitnessManifest = Readonly<{
   guests: Readonly<Record<GuestWitnessKey, GuestWitnessDefinition>>;
 }>;
 
-const plannedGuest = (
+const productionGuest = (
   id: GuestWitnessKey,
   displayName: string,
   speakerToken: string,
@@ -72,8 +72,23 @@ const plannedGuest = (
   adultVisualGuardrail: true,
   initials,
   accent,
-  status: 'planned',
-  assets: null,
+  status: 'production',
+  assets: {
+    bustMaster: `./assets/guests/${id}/neutral.png`,
+    expressions: [
+      {
+        id: 'serious',
+        asset: `./assets/guests/${id}/expressions/serious.png`,
+        directionTokens: ['serious', 'angry', 'stern'],
+      },
+      {
+        id: 'smile',
+        asset: `./assets/guests/${id}/expressions/smile.png`,
+        directionTokens: ['smile', 'happy', 'warm'],
+      },
+    ],
+    medallion: `./assets/guests/${id}/medallion.png`,
+  },
 });
 
 export const guestWitnessManifest: GuestWitnessManifest = {
@@ -86,12 +101,12 @@ export const guestWitnessManifest: GuestWitnessManifest = {
     runtimePresentation: 'guest-testimony-card',
   },
   guests: {
-    hinata: plannedGuest('hinata', 'Тихару Хината', 'ХИНАТА', 5, 'ХТ', '#b05469'),
-    gen: plannedGuest('gen', 'Гэн Исида', 'ГЭН', 9, 'ГИ', '#596b86'),
-    aoi: plannedGuest('aoi', 'Аой Кагава', 'АОЙ', 10, 'АК', '#6b5546'),
-    kubo: plannedGuest('kubo', 'Кохэй Кубо', 'КУБО', 13, 'КК', '#4f607b'),
-    'kubo-mother': plannedGuest('kubo-mother', 'Мать Кубо', 'МАТЬ КУБО', 14, 'МК', '#8b5c72'),
-    vincent: plannedGuest('vincent', 'Винсент Мори', 'ВИНСЕНТ', 16, 'ВМ', '#506b68'),
+    hinata: productionGuest('hinata', 'Тихару Хината', 'ХИНАТА', 5, 'ХТ', '#b05469'),
+    gen: productionGuest('gen', 'Гэн Исида', 'ГЭН', 9, 'ГИ', '#596b86'),
+    aoi: productionGuest('aoi', 'Аой Кагава', 'АОЙ', 10, 'АК', '#6b5546'),
+    kubo: productionGuest('kubo', 'Кохэй Кубо', 'КУБО', 13, 'КК', '#4f607b'),
+    'kubo-mother': productionGuest('kubo-mother', 'Мать Кубо', 'МАТЬ КУБО', 14, 'МК', '#8b5c72'),
+    vincent: productionGuest('vincent', 'Винсент Мори', 'ВИНСЕНТ', 16, 'ВМ', '#506b68'),
   },
 };
 
@@ -108,12 +123,23 @@ export function guestWitnessForSpeaker(speaker: string): GuestWitnessKey | null 
   return null;
 }
 
+const guestDirectionSemanticTokens = (direction: string): readonly string[] => {
+  const normalized = direction.toLocaleUpperCase('ru-RU');
+  const tokens = [normalized];
+  if (/СЕРЬ[ЕЁ]З|ЗЛО|РАЗДРАЖ|ОСКОРБЛ|СТРОГ|ХОЛОД|РЕЗК|НАПРЯЖ|ТРЕВОЖ|ПРЯМО/u.test(normalized)) tokens.push('SERIOUS');
+  if (/УЛЫБ|СМЕ|ТЕПЛ|МЯГК|ОДОБР|ДОВОЛ|РАДОСТ|ВЕСЕЛ/u.test(normalized)) tokens.push('SMILE');
+  return tokens;
+};
+
 export function guestWitnessAssetForDirection(key: GuestWitnessKey, direction: string): string | null {
   const guest = guestWitnessManifest.guests[key];
   if (guest.status !== 'production' || !guest.assets) return null;
-  const normalized = direction.toLocaleUpperCase('ru-RU');
+  const semanticTokens = guestDirectionSemanticTokens(direction);
   const expression = guest.assets.expressions.find((candidate) =>
-    candidate.directionTokens.some((token) => normalized.includes(token.toLocaleUpperCase('ru-RU'))),
+    candidate.directionTokens.some((token) => {
+      const normalizedToken = token.toLocaleUpperCase('ru-RU');
+      return semanticTokens.some((semantic) => semantic.includes(normalizedToken));
+    }),
   );
   return expression?.asset ?? guest.assets.bustMaster;
 }

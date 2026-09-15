@@ -48,12 +48,19 @@ describe('runtime asset inventory', () => {
     const guestIssues = validateGuestWitnessManifest();
     const plannedGuests = guestWitnessKeys.filter((key) => guestWitnessManifest.guests[key].status === 'planned');
     const productionGuests = guestWitnessKeys.filter((key) => guestWitnessManifest.guests[key].status === 'production');
+    const guestAssets = productionGuests.flatMap((key) => {
+      const assets = guestWitnessManifest.guests[key].assets;
+      return assets
+        ? [assets.bustMaster, ...assets.expressions.map((expression) => expression.asset), assets.medallion]
+        : [];
+    });
 
     const issues = [
       ...collectIssues(backgroundFiles),
       ...collectIssues(characterAssets),
       ...collectIssues(bonusAssets),
       ...collectIssues(bonusFallbackAssets),
+      ...collectIssues(guestAssets),
     ];
 
     console.log([
@@ -61,7 +68,7 @@ describe('runtime asset inventory', () => {
       `backgrounds: semantic keys=${backgroundEntries.length}; production files=${backgroundFiles.length}; aliases/fallbacks=${backgroundAliases.length}`,
       `characters: production keys=${productionCharacterKeys.length}; assets=${characterAssets.length} (${runtimeExpressionOrder.length} frames + pose + medallion each)`,
       `match3 bonus: production PNG=${bonusAssets.length}; SVG fallbacks=${bonusFallbackAssets.length}`,
-      `guest runtime: keys=${guestWitnessKeys.length}; production packages=${productionGuests.length}; planned fallback guests=${plannedGuests.length}; planned assets=${plannedGuests.length * guestWitnessManifest.package.productionAssetCount}`,
+      `guest runtime: keys=${guestWitnessKeys.length}; production packages=${productionGuests.length}; production PNG=${guestAssets.length}; planned fallback guests=${plannedGuests.length}; planned assets=${plannedGuests.length * guestWitnessManifest.package.productionAssetCount}`,
       `path/decode errors=${issues.length}; guest contract errors=${guestIssues.length}`,
     ].join('\n'));
 
@@ -73,7 +80,8 @@ describe('runtime asset inventory', () => {
     expect(bonusFallbackAssets).toHaveLength(5);
     expect(issues).toEqual([]);
     expect(guestIssues).toEqual([]);
-    expect(plannedGuests).toHaveLength(6);
-    expect(productionGuests).toHaveLength(0);
+    expect(guestAssets).toHaveLength(24);
+    expect(plannedGuests).toHaveLength(0);
+    expect(productionGuests).toHaveLength(6);
   });
 });
