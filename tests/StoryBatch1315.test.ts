@@ -44,13 +44,13 @@ describe('ANM-027G episodes 13–15 canonical production batch', () => {
     expect(backgroundAssets.abandonedLaundry).not.toBe(backgroundAssets.poolLocker);
   });
 
-  it('keeps Kubo and his mother in the asset-free guest tier', () => {
+  it('keeps Kubo and his mother in the production guest tier', () => {
     expect(guestWitnessForSpeaker('КУБО')).toBe('kubo');
     expect(guestWitnessForSpeaker('МАТЬ КУБО')).toBe('kubo-mother');
-    expect(guestWitnessManifest.guests.kubo.status).toBe('planned');
-    expect(guestWitnessManifest.guests.kubo.assets).toBeNull();
-    expect(guestWitnessManifest.guests['kubo-mother'].status).toBe('planned');
-    expect(guestWitnessManifest.guests['kubo-mother'].assets).toBeNull();
+    expect(guestWitnessManifest.guests.kubo.status).toBe('production');
+    expect(guestWitnessManifest.guests.kubo.assets).not.toBeNull();
+    expect(guestWitnessManifest.guests['kubo-mother'].status).toBe('production');
+    expect(guestWitnessManifest.guests['kubo-mother'].assets).not.toBeNull();
   });
 
   it('adds only the family-ledger permission gate without changing save schema', () => {

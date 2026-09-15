@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   GUEST_WITNESS_FORMAT,
+  guestWitnessAssetForDirection,
   guestWitnessForSpeaker,
   guestWitnessKeys,
   guestWitnessManifest,
@@ -38,15 +39,38 @@ describe('ANM-028B3 guest/witness presentation contract', () => {
     }
   });
 
-  it('keeps all guest packages asset-free until external production art is supplied', () => {
-    for (const guest of Object.values(guestWitnessManifest.guests)) {
+  it('promotes all six lean guest packages with four canonical production assets each', () => {
+    for (const key of guestWitnessKeys) {
+      const guest = guestWitnessManifest.guests[key];
       expect(guest.tier).toBe('episode-guest');
       expect(guest.adultVisualGuardrail).toBe(true);
-      expect(guest.status).toBe('planned');
-      expect(guest.assets).toBeNull();
+      expect(guest.status).toBe('production');
+      expect(guest.assets).not.toBeNull();
+      expect(guest.assets?.bustMaster).toBe(`./assets/guests/${key}/neutral.png`);
+      expect(guest.assets?.expressions).toEqual([
+        {
+          id: 'serious',
+          asset: `./assets/guests/${key}/expressions/serious.png`,
+          directionTokens: ['serious', 'angry', 'stern'],
+        },
+        {
+          id: 'smile',
+          asset: `./assets/guests/${key}/expressions/smile.png`,
+          directionTokens: ['smile', 'happy', 'warm'],
+        },
+      ]);
+      expect(guest.assets?.medallion).toBe(`./assets/guests/${key}/medallion.png`);
     }
     expect(guestWitnessManifest.guests.hinata.firstSlot).toBe(5);
     expect(guestWitnessManifest.guests.vincent.firstSlot).toBe(16);
+  });
+
+  it('routes the two package expressions by direction token and falls back to neutral', () => {
+    expect(guestWitnessAssetForDirection('hinata', 'SERIOUS')).toBe('./assets/guests/hinata/expressions/serious.png');
+    expect(guestWitnessAssetForDirection('hinata', 'warm reaction')).toBe('./assets/guests/hinata/expressions/smile.png');
+    expect(guestWitnessAssetForDirection('vincent', 'РАЗДРАЖЁННО')).toBe('./assets/guests/vincent/expressions/serious.png');
+    expect(guestWitnessAssetForDirection('aoi', 'ОДОБРЯЕТ')).toBe('./assets/guests/aoi/expressions/smile.png');
+    expect(guestWitnessAssetForDirection('hinata', 'СПОКОЙНО')).toBe('./assets/guests/hinata/neutral.png');
   });
 
   it('maps stable screenplay speaker tokens without entering the full-stage staging resolver', () => {
@@ -60,19 +84,21 @@ describe('ANM-028B3 guest/witness presentation contract', () => {
     expect(guestWitnessForSpeaker('МИКУ')).toBeNull();
   });
 
-  it('renders a real guest-testimony-card layout with no fake image path for planned guests', () => {
+  it('renders production guest art through the existing guest-testimony-card layout', () => {
     const staging = resolveSceneStagingPreset('guest-testimony-card', []);
     expect(staging.actors).toHaveLength(0);
     expect(staging.guestSlots).toHaveLength(1);
     expect(staging.nativeSlots.map((slot) => slot.kind)).toEqual(['testimony-card']);
 
-    const markup = guestWitnessStageMarkup('hinata', 'СЕРЬЁЗНО', 'СЕРЬЁЗНО');
+    const markup = guestWitnessStageMarkup('hinata', 'serious', 'СЕРЬЁЗНО');
     expect(markup).toContain('data-guest-witness="hinata"');
-    expect(markup).toContain('data-guest-status="planned"');
+    expect(markup).toContain('data-guest-status="production"');
     expect(markup).toContain('data-scene-preset="guest-testimony-card"');
     expect(markup).toContain('Тихару Хината');
-    expect(markup).toContain('guest-witness-placeholder');
-    expect(markup).not.toContain('<img');
+    expect(markup).toContain('guest-witness-image');
+    expect(markup).toContain('./assets/guests/hinata/expressions/serious.png');
+    expect(markup).toContain('<img');
+    expect(markup).not.toContain('guest-witness-placeholder');
     expect(markup).not.toContain('./assets/characters/');
   });
 
@@ -80,21 +106,14 @@ describe('ANM-028B3 guest/witness presentation contract', () => {
     const missingAssets = structuredClone(guestWitnessManifest) as unknown as {
       guests: Record<string, { status: string; assets: unknown }>;
     };
-    missingAssets.guests.hinata.status = 'production';
+    missingAssets.guests.hinata.assets = null;
     expect(validateGuestWitnessManifest(missingAssets as unknown as GuestWitnessManifest))
       .toContainEqual(expect.objectContaining({ guest: 'hinata', code: 'status-assets' }));
 
     const plannedWithAssets = structuredClone(guestWitnessManifest) as unknown as {
       guests: Record<string, { status: string; assets: unknown }>;
     };
-    plannedWithAssets.guests.gen.assets = {
-      bustMaster: './assets/guests/gen/bust-neutral.png',
-      expressions: [
-        { id: 'stern', asset: './assets/guests/gen/bust-stern.png', directionTokens: ['СЕРЬЁЗ'] },
-        { id: 'surprised', asset: './assets/guests/gen/bust-surprised.png', directionTokens: ['УДИВ'] },
-      ],
-      medallion: './assets/guests/gen/medallion-neutral.png',
-    };
+    plannedWithAssets.guests.gen.status = 'planned';
     expect(validateGuestWitnessManifest(plannedWithAssets as unknown as GuestWitnessManifest))
       .toContainEqual(expect.objectContaining({ guest: 'gen', code: 'status-assets' }));
   });

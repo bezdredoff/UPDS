@@ -7,9 +7,9 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B
 1. что ещё реально нужно сделать до первого релиза;
 2. какие накопившиеся идеи полезны, но не должны автоматически становиться обязательной работой.
 
-Историю уже завершённых фич хранит `ROADMAP_RU.md`, feature docs и Git. Machine-readable art status остаётся в `src/content/art/ANM030A.asset-gap-audit.json`.
+Историю уже завершённых фич хранит `ROADMAP_RU.md`, feature docs и Git. Machine-readable art baseline остаётся в `src/content/art/ANM030A.asset-gap-audit.json`; live guest runtime state после ANM-028B3 R1.2 определяется `src/data/guestWitnesses.ts` и `tests/RuntimeAssetInventory.test.ts`.
 
-Актуальная runtime-проверка B1 добавлена в `tests/RuntimeAssetInventory.test.ts` и запускается через `npm run assets:audit`. После G4 inventory: `23` semantic background keys, `23` production WebP, `0` aliases/fallbacks, `9` full-stage characters, `5` Match-3 bonus PNG и `6` planned guest fallback packages. Path/decode и guest-contract errors: `0`.
+Актуальная runtime-проверка B1 запускается через `npm run assets:audit`. После guest production-art integration inventory должен показывать: `23` semantic background keys, `23` production WebP, `0` aliases/fallbacks, `9` full-stage characters, `5` Match-3 bonus PNG, **`6` production guest packages / `24` guest PNG / `0` planned guest fallbacks**. Path/decode и guest-contract errors: `0`.
 
 ## Цель первого релиза
 
@@ -92,16 +92,19 @@ Aliases закрыты в G4. В backlog больше не добавляютс�
 
 Все `23/23` production backgrounds явно утверждены пользователем после локального Scene Studio review 2026-09-12. Повторять полный isolated background review не нужно; в G5 остаётся только integrated device spot-check common route и endings на композицию, читаемость персонажей и runtime-артефакты.
 
-### R0.3 Guest / witness presentation closure
+### R0.3 Guest / witness presentation closure — ART INTEGRATED, DEVICE QA PENDING
 
-Шесть story guests (`hinata`, `gen`, `aoi`, `kubo`, `kubo-mother`, `vincent`) сейчас asset-free. Shared renderer при отсутствии art показывает initials placeholder. Для законченной narrative game буквенные placeholders у именованных свидетелей неприемлемы.
+ANM-028B3 R1.2 переводит все шесть story guests (`hinata`, `gen`, `aoi`, `kubo`, `kubo-mother`, `vincent`) в существующий lean production contract: neutral bust/half-body + `serious` + `smile` + medallion. Runtime manifest содержит **6 production packages / 24 PNG / 0 planned fallback guests**; full-stage source art из внешнего пакета в runtime не импортируется.
 
-Release outcome:
+Release outcome после candidate/device approval:
 
 - ни один shipped guest scene не показывает placeholder initials как финальный art;
-- предпочтительный bounded solution — уже существующий lean guest package: bust/half-body master + 2 expression variants + medallion;
-- если для конкретного гостя product-approved stylized testimony presentation выглядит намеренно и лучше полного bust, это допустимый более дешёвый replacement, но он должен выглядеть как конечный дизайн, а не fallback;
+- все guest paths проходят `assets:audit` на existence/image signature и остаются под `./assets/guests/<id>/`;
+- representative iPhone preview подтверждает crop/scale/face readability внутри `guest-testimony-card` без per-character CSS fixes;
+- neutral fallback и обе expression routes работают без 404/decode flash;
 - гостей не повышать до full-stage seven-asset rigs без новой драматической необходимости.
+
+Если device review не выявит art/layout defect, отдельного guest-production milestone больше не нужно: R0.3 считается закрытым и остаётся только частью общего финального asset/runtime crawl.
 
 ### R0.4 Full playable-content QA
 
@@ -292,7 +295,7 @@ Post-launch expansion only. Не расходует base-release capacity.
 ## Рекомендуемая последовательность от текущего `main`
 
 1. **G0-PWA-002:** Match-3 rapid-tap guard подтверждён на iPhone; проверить follow-up с явной защитой level-intro и подтвердить scale `1`. Board drag, special double tap и pinch zoom остаются regression checks. G0-PWA-001 уже device accepted, KI-001/KI-003 закрыты.
-2. **Guest/witness closure:** background review 23/23 утверждён; продолжить production presentation для шести гостей после device retest.
+2. **Guest/witness candidate QA:** открыть `/preview/` ANM-028B3 R1.2 и spot-check всех шесть production guests; если crop/readability/asset loading корректны, закрыть R0.3 без дополнительного art-production pass.
 3. **Ending background cleanup — accepted:** dedicated masters уже интегрированы; reopen только по результатам visual QA.
 4. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity. Принятые G0-PWA-001/002 contracts повторно проверяются на финальном payload.
 5. Исправить только найденные release defects и собрать RC.

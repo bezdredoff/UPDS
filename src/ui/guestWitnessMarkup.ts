@@ -37,6 +37,9 @@ export function guestWitnessStageMarkup(
   const visual = asset
     ? `<img class="guest-witness-image" src="${escapeHtml(asset)}" alt="${escapeHtml(guest.displayName)}">`
     : `<span class="guest-witness-placeholder" aria-hidden="true">${escapeHtml(guest.initials)}</span>`;
+  const testimonyMeta = context === 'scene-studio' && guest.status === 'production'
+    ? `PRODUCTION · ${guestWitnessManifest.package.productionAssetCount} ASSETS`
+    : localizedEmotion;
 
   return `<div class="guest-witness-presentation guest-witness-${context}" data-guest-witness="${key}" data-guest-status="${guest.status}" data-scene-preset="guest-testimony-card">
     <div class="guest-witness-shell" data-slot="${escapeHtml(guestSlot.id)}" style="${safeBoxStyle(guestSlot.safeBox, guestSlot.zIndex)};--guest-accent:${escapeHtml(guest.accent)}">
@@ -46,7 +49,7 @@ export function guestWitnessStageMarkup(
     <article class="guest-witness-testimony" data-slot="${escapeHtml(testimonySlot.id)}" style="${safeBoxStyle(testimonySlot.safeBox, testimonySlot.zIndex)};--guest-accent:${escapeHtml(guest.accent)}">
       <span aria-hidden="true">“</span>
       <b>${escapeHtml(guest.displayName)}</b>
-      <small>${escapeHtml(localizedEmotion)}</small>
+      <small>${escapeHtml(testimonyMeta)}</small>
     </article>
   </div>`;
 }
