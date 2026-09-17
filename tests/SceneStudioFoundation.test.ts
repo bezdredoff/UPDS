@@ -98,6 +98,8 @@ describe('ANM-028E0C1 Scene Studio workspace separation', () => {
     expect(root.innerHTML).not.toContain('id="scene-studio-preset"');
     expect(root.innerHTML).not.toContain('id="scene-studio-background"');
     expect(root.innerHTML).not.toContain('id="scene-studio-mode"');
+    expect(root.innerHTML).not.toContain('id="scene-studio-guest-witness"');
+    expect(root.innerHTML).not.toContain('id="scene-studio-guest-expression"');
     expect(root.innerHTML.match(/data-character=/g)).toHaveLength(3);
     expect(root.innerHTML).toContain('data-character="miku"');
     expect(root.innerHTML).toContain('data-character="onoe"');
@@ -160,6 +162,44 @@ describe('ANM-028E0C1 Scene Studio workspace separation', () => {
     expect(root.innerHTML).toContain('Тихару Хината');
     expect(root.innerHTML).not.toContain('guest-witness-placeholder');
     expect(root.innerHTML).not.toContain('/characters/guest/');
+  });
+
+  it('lets Composition QA inspect every production guest across neutral, serious, and smile routes', () => {
+    const root = new FakeRoot();
+    const studio = createStudio(root);
+
+    studio.render({
+      workspaceMode: 'composition',
+      presetId: 'guest-testimony-card',
+      guestWitnessId: 'gen',
+      guestWitnessExpression: 'smile',
+    });
+    expect(root.innerHTML).toContain('id="scene-studio-guest-witness"');
+    expect(root.innerHTML).toContain('id="scene-studio-guest-expression"');
+    expect(root.innerHTML).toContain('value="kubo-mother"');
+    expect(root.innerHTML).toContain('data-guest-witness="gen"');
+    expect(root.innerHTML).toContain('./assets/guests/gen/expressions/smile.png');
+    expect(root.innerHTML).toContain('Гэн Исида');
+
+    studio.render({
+      workspaceMode: 'composition',
+      presetId: 'guest-testimony-card',
+      guestWitnessId: 'vincent',
+      guestWitnessExpression: 'serious',
+    });
+    expect(root.innerHTML).toContain('data-guest-witness="vincent"');
+    expect(root.innerHTML).toContain('./assets/guests/vincent/expressions/serious.png');
+
+    studio.render({
+      workspaceMode: 'composition',
+      presetId: 'guest-testimony-card',
+      guestWitnessId: 'aoi',
+      guestWitnessExpression: 'neutral',
+    });
+    expect(root.innerHTML).toContain('data-guest-witness="aoi"');
+    expect(root.innerHTML).toContain('./assets/guests/aoi/neutral.png');
+    expect(root.innerHTML).not.toContain('./assets/guests/aoi/expressions/serious.png');
+    expect(root.innerHTML).not.toContain('./assets/guests/aoi/expressions/smile.png');
   });
 
   it('keeps lineup as a runtime-only Composition diagnostic instead of an Emi candidate selector', () => {

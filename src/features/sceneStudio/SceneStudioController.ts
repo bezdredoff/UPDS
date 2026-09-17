@@ -42,6 +42,11 @@ import {
   type ProductionCharacterKey,
   type RuntimeExpression,
 } from '../../data/characterProduction';
+import {
+  guestWitnessKeys,
+  guestWitnessManifest,
+  type GuestWitnessKey,
+} from '../../data/guestWitnesses';
 import { authoredVnShotManifest } from '../../data/authoredVnShots';
 import { backgroundAssets, sceneMeta, type BackgroundKey } from '../../data/narrative';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
@@ -64,6 +69,9 @@ import { loadBrowserLocalCharacterOverrideZip, type BrowserLocalCharacterOverrid
 
 export const sceneStudioBackgroundKeys = Object.keys(backgroundAssets) as BackgroundKey[];
 export const sceneStudioStoryLineIds = authoredVnShotManifest.shots.map((shot) => shot.lineId) as readonly string[];
+export const sceneStudioGuestWitnessKeys = guestWitnessKeys.filter((key) => guestWitnessManifest.guests[key].status === 'production') as readonly GuestWitnessKey[];
+export const sceneStudioGuestWitnessExpressions = ['neutral', 'serious', 'smile'] as const;
+export type SceneStudioGuestWitnessExpression = typeof sceneStudioGuestWitnessExpressions[number];
 export type SceneStudioWorkspaceMode = 'composition' | 'story';
 
 export type SceneStudioState = Readonly<{
@@ -75,6 +83,8 @@ export type SceneStudioState = Readonly<{
   lineId: string;
   textScale: TextScale;
   showGuides: boolean;
+  guestWitnessId: GuestWitnessKey;
+  guestWitnessExpression: SceneStudioGuestWitnessExpression;
 }>;
 
 export const sceneStudioSamples: Readonly<Record<SceneStagingPresetId, readonly SceneStagingActorInput[]>> = {
@@ -123,6 +133,8 @@ const DEFAULT_STATE: SceneStudioState = {
   lineId: 'VN0008',
   textScale: 'normal',
   showGuides: true,
+  guestWitnessId: 'hinata',
+  guestWitnessExpression: 'serious',
 };
 
 const safeBoxStyle = (safeBox: SceneStagingSafeBox): string => [
@@ -207,7 +219,14 @@ export class SceneStudioController {
     const diagnostics = this.diagnostics(state.background, resolution);
     const stageMarkup = state.viewMode === 'lineup'
       ? this.lineupMarkup(t)
-      : this.sceneMarkup(resolution, state.showGuides, t, state.workspaceMode === 'composition');
+      : this.sceneMarkup(
+          resolution,
+          state.showGuides,
+          t,
+          state.workspaceMode === 'composition',
+          state.guestWitnessId,
+          state.guestWitnessExpression,
+        );
     const frame = vnFrameMarkup({
       idPrefix: 'scene-studio-runtime-',
       frameContext: 'scene-studio',
@@ -309,7 +328,15 @@ export class SceneStudioController {
         </select></label>
         <label><span>${t('sceneStudio.background')}</span><select id="scene-studio-background">
           ${sceneStudioBackgroundKeys.map((key) => `<option value="${key}"${key === state.background ? ' selected' : ''}>${t(`sceneStudio.background.${key}`)}</option>`).join('')}
-        </select></label>` : `<label data-story-derived="preset"><span>${escapeHtml(workspaceCopy.derivedPreset)}</span><select disabled>
+        </select></label>
+        ${state.presetId === 'guest-testimony-card' ? `<label><span>${escapeHtml(workspaceCopy.guestWitness)}</span><select id="scene-studio-guest-witness">
+          ${sceneStudioGuestWitnessKeys.map((key) => `<option value="${key}"${key === state.guestWitnessId ? ' selected' : ''}>${escapeHtml(guestWitnessManifest.guests[key].displayName)}</option>`).join('')}
+        </select></label>
+        <label><span>${escapeHtml(workspaceCopy.guestExpression)}</span><select id="scene-studio-guest-expression">
+          <option value="neutral"${state.guestWitnessExpression === 'neutral' ? ' selected' : ''}>${escapeHtml(workspaceCopy.guestExpressionNeutral)}</option>
+          <option value="serious"${state.guestWitnessExpression === 'serious' ? ' selected' : ''}>${escapeHtml(workspaceCopy.guestExpressionSerious)}</option>
+          <option value="smile"${state.guestWitnessExpression === 'smile' ? ' selected' : ''}>${escapeHtml(workspaceCopy.guestExpressionSmile)}</option>
+        </select></label>` : ''}` : `<label data-story-derived="preset"><span>${escapeHtml(workspaceCopy.derivedPreset)}</span><select disabled>
           <option>${t(`sceneStudio.preset.${state.presetId}.title`)}</option>
         </select></label>
         <label data-story-derived="background"><span>${escapeHtml(workspaceCopy.derivedBackground)}</span><select disabled>
@@ -405,6 +432,14 @@ export class SceneStudioController {
     });
     this.root.querySelector<HTMLSelectElement>('#scene-studio-background')?.addEventListener('change', (event) => {
       rerender({ background: (event.currentTarget as HTMLSelectElement).value as BackgroundKey });
+    });
+    this.root.querySelector<HTMLSelectElement>('#scene-studio-guest-witness')?.addEventListener('change', (event) => {
+      const guestWitnessId = (event.currentTarget as HTMLSelectElement).value as GuestWitnessKey;
+      if (sceneStudioGuestWitnessKeys.includes(guestWitnessId)) rerender({ guestWitnessId });
+    });
+    this.root.querySelector<HTMLSelectElement>('#scene-studio-guest-expression')?.addEventListener('change', (event) => {
+      const guestWitnessExpression = (event.currentTarget as HTMLSelectElement).value as SceneStudioGuestWitnessExpression;
+      if (sceneStudioGuestWitnessExpressions.includes(guestWitnessExpression)) rerender({ guestWitnessExpression });
     });
     this.root.querySelector<HTMLSelectElement>('#scene-studio-line')?.addEventListener('change', (event) => {
       rerender({ lineId: (event.currentTarget as HTMLSelectElement).value });
@@ -809,6 +844,12 @@ export class SceneStudioController {
       lineId: requested.lineId && sceneStudioStoryLineIds.includes(requested.lineId) ? requested.lineId : DEFAULT_STATE.lineId,
       textScale: requested.textScale === 'large' ? 'large' : 'normal',
       showGuides: requested.showGuides ?? DEFAULT_STATE.showGuides,
+      guestWitnessId: requested.guestWitnessId && sceneStudioGuestWitnessKeys.includes(requested.guestWitnessId)
+        ? requested.guestWitnessId
+        : DEFAULT_STATE.guestWitnessId,
+      guestWitnessExpression: requested.guestWitnessExpression && sceneStudioGuestWitnessExpressions.includes(requested.guestWitnessExpression)
+        ? requested.guestWitnessExpression
+        : DEFAULT_STATE.guestWitnessExpression,
     };
   }
 
@@ -857,9 +898,11 @@ export class SceneStudioController {
     showGuides: boolean,
     t: (key: string, params?: Readonly<Record<string, string | number | boolean>>) => string,
     editorInteractive = false,
+    guestWitnessId: GuestWitnessKey = DEFAULT_STATE.guestWitnessId,
+    guestWitnessExpression: SceneStudioGuestWitnessExpression = DEFAULT_STATE.guestWitnessExpression,
   ): string {
     const guestWitnessMarkup = resolution.preset.id === 'guest-testimony-card'
-      ? guestWitnessStageMarkup('hinata', t('sceneStudio.testimony.emotion'), t('sceneStudio.testimony.status'), 'scene-studio')
+      ? guestWitnessStageMarkup(guestWitnessId, guestWitnessExpression, t('sceneStudio.testimony.status'), 'scene-studio')
       : '';
     return [
       ...resolution.actors.map((actor) => this.actorMarkup(actor, showGuides, t, editorInteractive)),
