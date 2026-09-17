@@ -1,6 +1,6 @@
-# ANM-028B3 R1.2 — Guest / Witness Presentation Contract
+# ANM-028B3 — Guest / Witness Presentation Contract
 
-Status: **production art integrated in R1.2 candidate; runtime/device visual QA required before merge**.
+Status: **production art merged via PR #305; R1.4 adds fast Scene Studio guest/expression QA; device visual approval remains pending**.
 
 ## Цель
 
@@ -8,8 +8,9 @@ Status: **production art integrated in R1.2 candidate; runtime/device visual QA 
 полноценными stage-персонажами и не раздувая строгий `upds-character-production-v2`.
 
 ANM-027F фиксирует шесть guest packages: **Hinata, Gen, Aoi, Kubo, mother Kubo, Vincent**.
-R1.2 переводит все шесть из временного asset-free состояния в production art, сохраняя существующий
-runtime `guest-testimony-card` и весь narrative/staging contract.
+R1.2/R1.3 перевели все шесть из временного asset-free состояния в production art, сохраняя существующий
+runtime `guest-testimony-card` и весь narrative/staging contract. PR #305 закрепил production art в `main`; R1.4
+добавляет только QA-переключатели Scene Studio и не меняет runtime contract.
 
 ## Machine-readable contract
 
@@ -81,14 +82,21 @@ Shared renderer: `src/ui/guestWitnessMarkup.ts`.
 
 ## Scene Studio
 
-`guest-testimony-card` использует тот же shared renderer. Hinata остаётся representative QA sample,
-но теперь должна отображаться production-картинка из `./assets/guests/hinata/`, а не initials shell.
+`guest-testimony-card` использует тот же shared renderer. В Composition mode R1.4 добавляет два QA-select:
 
-Это visual QA поверхности guest tier, а не разрешение превращать гостей в full-stage actors.
+- **Гость** — все шесть production guest packages;
+- **Выражение** — `neutral`, `serious`, `smile`.
+
+Переключатели меняют только Scene Studio state и передают выбранные значения в тот же
+`guestWitnessStageMarkup(...)`, который использует production guest presentation. Поэтому все **18 комбинаций**
+можно визуально пролистать без прохождения сюжетных слотов и без отдельного QA renderer.
+
+Story QA остаётся read-only и не получает эти Composition-only controls. Это visual QA поверхности guest tier,
+а не разрешение превращать гостей в full-stage actors.
 
 ## Boundary с full-stage contract
 
-R1.2 **не меняет**:
+R1.4 **не меняет**:
 
 - `src/data/characterProduction.ts`;
 - strict seven-asset full-stage rig;
@@ -107,7 +115,8 @@ full-stage renderer.
 - runtime asset inventory включает все **24 guest PNG** и проверяет existence/image signature;
 - speaker-token mapping остаётся детерминированным;
 - shared renderer выдаёт `<img>` из `./assets/guests/<id>/`, а не initials placeholder;
-- Scene Studio representative guest использует production art;
+- Scene Studio guest selector перечисляет все 6 production guest packages, expression selector — ровно `neutral / serious / smile`;
+- Scene Studio QA routes проверяют `gen/smile`, `vincent/serious` и `aoi/neutral` через shared renderer;
 - существующие batch tests `7–9`, `10–12`, `13–15`, `16–18` ожидают production guest tier;
 - GitHub `Quality gate` остаётся authoritative acceptance.
 
@@ -115,12 +124,13 @@ full-stage renderer.
 
 Перед merge на `/preview/`:
 
-1. открыть representative guest scenes для всех шести персонажей;
-2. убедиться, что initials placeholders нигде не появляются;
-3. проверить crop/scale/face readability внутри guest shell на iPhone portrait;
-4. проверить отсутствие 404/decode flashing online и после повторной загрузки;
-5. проверить хотя бы одну neutral fallback, одну `serious` и одну `smile` route;
-6. подтвердить, что guest card/dialogue/header не перекрываются и не требуют per-character CSS fixes.
+1. открыть Scene Studio → Composition → `guest-testimony-card`;
+2. пролистать всех шесть гостей через новый guest selector и минимум по одному разу проверить `neutral`, `serious`, `smile`;
+3. убедиться, что initials placeholders нигде не появляются;
+4. проверить crop/scale/face readability внутри guest shell на iPhone portrait;
+5. проверить отсутствие 404/decode flashing online и после повторной загрузки;
+6. подтвердить, что guest card/dialogue/header не перекрываются и не требуют per-character CSS fixes;
+7. после Studio sweep сделать короткий Story spot-check реального появления гостя, чтобы подтвердить production routing вне QA surface.
 
 После device approval R0.3 можно считать закрытым, а guest art остаётся частью общего final asset/runtime
 crawl ANM-033.

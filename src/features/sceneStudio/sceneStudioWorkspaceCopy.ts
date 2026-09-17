@@ -10,6 +10,11 @@ export type SceneStudioWorkspaceCopy = Readonly<{
   compositionSpeaker: string;
   compositionEmotion: string;
   compositionText: string;
+  guestWitness: string;
+  guestExpression: string;
+  guestExpressionNeutral: string;
+  guestExpressionSerious: string;
+  guestExpressionSmile: string;
 }>;
 
 export const sceneStudioWorkspaceCopy = (locale: string): SceneStudioWorkspaceCopy => locale === 'be'
@@ -25,6 +30,11 @@ export const sceneStudioWorkspaceCopy = (locale: string): SceneStudioWorkspaceCo
       compositionSpeaker: 'КАМПАЗІЦЫЯ',
       compositionEmotion: 'STAGING PREVIEW',
       compositionText: 'Наладзьце план, фон і пазіцыі персанажаў. Гэты preview не прывязаны да сюжэтнага VN-радка.',
+      guestWitness: 'Госць',
+      guestExpression: 'Выраз',
+      guestExpressionNeutral: 'Нейтральны',
+      guestExpressionSerious: 'Сур’ёзны',
+      guestExpressionSmile: 'Усмешка',
     }
   : locale === 'en'
     ? {
@@ -39,6 +49,11 @@ export const sceneStudioWorkspaceCopy = (locale: string): SceneStudioWorkspaceCo
         compositionSpeaker: 'COMPOSITION',
         compositionEmotion: 'STAGING PREVIEW',
         compositionText: 'Tune the plan, background and character placement. This preview is not bound to a story VN line.',
+        guestWitness: 'Guest',
+        guestExpression: 'Expression',
+        guestExpressionNeutral: 'Neutral',
+        guestExpressionSerious: 'Serious',
+        guestExpressionSmile: 'Smile',
       }
     : {
         workspace: 'Рабочий режим',
@@ -52,4 +67,9 @@ export const sceneStudioWorkspaceCopy = (locale: string): SceneStudioWorkspaceCo
         compositionSpeaker: 'КОМПОЗИЦИЯ',
         compositionEmotion: 'STAGING PREVIEW',
         compositionText: 'Настраивайте план, фон и положение персонажей. Этот preview не привязан к сюжетной VN-реплике.',
+        guestWitness: 'Гость',
+        guestExpression: 'Выражение',
+        guestExpressionNeutral: 'Нейтральное',
+        guestExpressionSerious: 'Серьёзное',
+        guestExpressionSmile: 'Улыбка',
       };
