@@ -144,6 +144,23 @@ export function guestWitnessAssetForDirection(key: GuestWitnessKey, direction: s
   return expression?.asset ?? guest.assets.bustMaster;
 }
 
+export function guestWitnessMedallionAsset(key: GuestWitnessKey): string | null {
+  const guest = guestWitnessManifest.guests[key];
+  return guest.status === 'production' && guest.assets ? guest.assets.medallion : null;
+}
+
+export function guestWitnessRuntimeAssets(): readonly string[] {
+  return guestWitnessKeys.flatMap((key) => {
+    const guest = guestWitnessManifest.guests[key];
+    if (guest.status !== 'production' || !guest.assets) return [];
+    return [
+      guest.assets.bustMaster,
+      ...guest.assets.expressions.map((expression) => expression.asset),
+      guest.assets.medallion,
+    ];
+  });
+}
+
 export type GuestWitnessIssue = Readonly<{
   code: 'format' | 'key-set' | 'identity' | 'slot' | 'status-assets' | 'asset-count' | 'asset-path' | 'expression';
   guest?: GuestWitnessKey;

@@ -1,4 +1,5 @@
 import { characterRigs } from '../data/characterRigs';
+import { guestWitnessRuntimeAssets } from '../data/guestWitnesses';
 import { blockerPresentation, cluePresentation, ingredientPresentation, specialAsset, specialAssets, specialFallbackAssets, tilePresentation } from '../data/levels';
 import { backgroundAssets } from '../data/narrative';
 import { uniqueAssetList } from './AssetPreloader';
@@ -13,6 +14,7 @@ const uiAssets = [
 export const runtimeAssetCatalog = uniqueAssetList([
   ...Object.values(backgroundAssets),
   ...Object.values(characterRigs).flatMap((rig) => [...Object.values(rig.frames), rig.poseB, rig.medallion]),
+  ...guestWitnessRuntimeAssets(),
   ...Object.values(tilePresentation).map((item) => item.asset),
   ...Object.values(ingredientPresentation).map((item) => item.asset),
   ...Object.values(blockerPresentation).map((item) => item.asset),
