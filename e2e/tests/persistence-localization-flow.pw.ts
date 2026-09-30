@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { observeBrowserHealth } from '../helpers/browserHealth';
+import { expectPlayerGesturePolicy, expectRapidTapsKeepScale } from '../helpers/gestures';
 import {
   persistAtVn0002AndReload,
   startFirstStoryMatchAndVerifyResumeBoundary,
@@ -10,6 +11,7 @@ import { advanceToLine, currentVnLineId } from '../helpers/vn';
 import { qaSelectors } from '../selectors';
 
 test.describe('Persistence, localization and short main-flow journeys', () => {
+  test.use({ hasTouch: true });
   test('campaign progress survives reload and Continue resumes the exact VN line', async ({ page }) => {
     const health = observeBrowserHealth(page);
     await persistAtVn0002AndReload(page);
@@ -81,6 +83,8 @@ test.describe('Persistence, localization and short main-flow journeys', () => {
 
     const intro = page.locator(qaSelectors.matchIntro);
     await expect(intro).toBeVisible();
+    await expectPlayerGesturePolicy(page);
+    await expectRapidTapsKeepScale(page, ['.intro-topbar .app-header-title', '.level-card h2', '.level-card > p:not(.eyebrow)']);
     for (const selector of [
       qaSelectors.matchIntro,
       '.level-intro-background',

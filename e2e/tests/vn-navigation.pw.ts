@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import { observeBrowserHealth } from '../helpers/browserHealth';
+import { expectPlayerGesturePolicy } from '../helpers/gestures';
 import { resetBrowserState } from '../helpers/runtime';
 import {
   advanceCurrentLineToChoice,
@@ -102,6 +103,7 @@ test.describe('VN through QA Scene Navigation', () => {
     await openQaScene(page, 0);
 
     expect(await currentVnLineId(page)).toBe('VN0001');
+    await expectPlayerGesturePolicy(page);
     await expect(page.locator(qaSelectors.vnDirectionCard)).toBeVisible();
     await expectImageLoaded(page.locator(qaSelectors.vnBackgroundFit));
 
@@ -202,6 +204,7 @@ test.describe('VN through QA Scene Navigation', () => {
     const overlay = page.locator('.vn-overlay');
     const close = page.locator('#close-overlay');
     await expect(overlay).toBeVisible();
+    await expectPlayerGesturePolicy(page);
     await expect(close).toBeFocused();
     await expect(page.locator(qaSelectors.vnScreen)).toHaveAttribute('inert', '');
     await page.keyboard.press('Tab');
@@ -242,6 +245,7 @@ test.describe('VN through QA Scene Navigation', () => {
     await advanceCurrentLineToChoice(page);
 
     await expect(page.locator(qaSelectors.vnChoiceScreen)).toBeVisible();
+    await expectPlayerGesturePolicy(page);
     await expect(page.locator(qaSelectors.vnChoiceButton)).toHaveCount(3);
     await expectImageLoaded(page.locator(qaSelectors.vnChoiceBackgroundFit));
 

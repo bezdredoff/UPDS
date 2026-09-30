@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { observeBrowserHealth } from '../helpers/browserHealth';
+import { expectPlayerGesturePolicy, expectRapidTapsKeepScale } from '../helpers/gestures';
+import { resetBrowserState } from '../helpers/runtime';
 import { qaSelectors } from '../selectors';
 
 test('boots the production build into the player menu without QA tools', async ({ page }) => {
@@ -35,16 +37,74 @@ test('keeps the global rapid-tap zoom guard across player and Match-3 surfaces',
 
   await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
   await expectShellGesturePolicy();
+  await expectPlayerGesturePolicy(page);
+
+  await page.locator(qaSelectors.settingsButton).click();
+  await expect(page.locator(qaSelectors.settingsScreen)).toBeVisible();
+  await expectPlayerGesturePolicy(page);
+  await page.locator(qaSelectors.settingsBack).click();
 
   await page.locator(qaSelectors.match3CampaignButton).click();
   await expect(page.locator(qaSelectors.match3CampaignScreen)).toBeVisible();
   await expectShellGesturePolicy();
+  await expectPlayerGesturePolicy(page);
 
   await page.locator(`${qaSelectors.match3CampaignLevelButton}[data-campaign-level="0"]`).click();
   await expect(page.locator(qaSelectors.match3Screen)).toBeVisible();
   await expectShellGesturePolicy();
+  await expectPlayerGesturePolicy(page);
   expect(await page.locator(qaSelectors.match3Board).evaluate((node) => getComputedStyle(node).touchAction)).toBe('none');
   health.assertClean();
+});
+
+test.describe('rapid touch input on text and headers', () => {
+  test.use({ hasTouch: true });
+
+  test('protects menu, settings, Campaign and Match-3 copy and headers', async ({ page }) => {
+    await page.setViewportSize({ width: 402, height: 874 });
+    await page.goto('./');
+    await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
+    await expectRapidTapsKeepScale(page, ['.menu-screen h1']);
+    await page.locator(qaSelectors.settingsButton).click();
+    await expect(page.locator(qaSelectors.settingsScreen)).toBeVisible();
+    await expectPlayerGesturePolicy(page);
+    await expectRapidTapsKeepScale(page, ['.settings-panel .app-header-title']);
+    await page.locator(qaSelectors.settingsBack).click();
+    await page.locator(qaSelectors.match3CampaignButton).click();
+    await expect(page.locator(qaSelectors.match3CampaignScreen)).toBeVisible();
+    await expectPlayerGesturePolicy(page);
+    await expectRapidTapsKeepScale(page, ['.campaign-level-heading b']);
+    await page.locator(`${qaSelectors.match3CampaignLevelButton}[data-campaign-level="0"]`).click();
+    await expect(page.locator(qaSelectors.match3Screen)).toBeVisible();
+    await expectPlayerGesturePolicy(page);
+    await expectRapidTapsKeepScale(page, ['.match-topbar .app-header-title', '.match-screen .objective']);
+  });
+
+  test('protects text and headers on all 22 investigation boards and their help panels', async ({ page }) => {
+    test.slow();
+    await page.setViewportSize({ width: 402, height: 874 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await resetBrowserState(page);
+    await page.locator(qaSelectors.levelLabButton).click();
+    await expect(page.locator(qaSelectors.levelLabScreen)).toBeVisible();
+    const levelCount = await page.locator(`${qaSelectors.levelLabLevel} option`).count();
+    expect(levelCount).toBe(22);
+    for (let level = 0; level < levelCount; level += 1) {
+      await page.locator(qaSelectors.levelLabLevel).selectOption(String(level));
+      await page.locator(qaSelectors.levelLabPlay).click();
+      await expect(page.locator(qaSelectors.match3Screen)).toBeVisible();
+      if (level === 2) await expect(page.locator('.match-topbar .app-header-title b')).toHaveText('Мокрые показания');
+      await expectPlayerGesturePolicy(page);
+      await expectRapidTapsKeepScale(page, ['.match-topbar .app-header-title b', '.objective > span']);
+      await page.locator('.match-help > summary').click();
+      await expect(page.locator('.match-help')).toHaveAttribute('open', '');
+      await expectPlayerGesturePolicy(page);
+      if (level === 2) await expectRapidTapsKeepScale(page, ['.match-help-popover h2', '.match-help-intro']);
+      await page.locator('.match-help > summary').click();
+      await page.locator(qaSelectors.match3Quit).click();
+      await expect(page.locator(qaSelectors.levelLabScreen)).toBeVisible();
+    }
+  });
 });
 
 test('keeps compact production touch targets at least 44px tall', async ({ page }) => {

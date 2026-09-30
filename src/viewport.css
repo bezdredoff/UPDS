@@ -46,12 +46,12 @@
 }
 
 /*
- * Keep the policy explicit on tap targets as well: touch-action is not inherited,
- * and browser regression checks read the target's computed style. The Match-3
- * board keeps its stronger touch-action: none contract in the feature layer.
+ * Set the policy explicitly at every depth, including text, headers, native
+ * details/summary and scroll hosts. A shell-only rule can stop at a nested
+ * scrolling element; inherit can also stop at a native element's shadow slot.
+ * Zero specificity lets feature gesture owners retain their stronger `none`.
  */
-.viewport-shell button,
-.viewport-shell .dialogue-text {
+:where(.viewport-shell *) {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }

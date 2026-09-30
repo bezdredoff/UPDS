@@ -175,7 +175,7 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 ## Recommended immediate sequence
 
-1. **G0-PWA-002:** Match-3 rapid-tap guard подтверждён на iPhone; проверить follow-up с явной защитой level-intro и подтвердить scale `1`. Board drag, special double tap и pinch zoom остаются regression checks. G0-PWA-001 уже device accepted, KI-001/KI-003 закрыты.
+1. **G0-PWA-002 — остаётся открыт:** 2026-09-30 пользователь воспроизвёл smart zoom на тексте и хэдере расследования 3/22 «Мокрые показания» после прежних исправлений. Новый candidate задаёт общую gesture policy всем descendants и проверяет все 22 Match-3 экрана. Нужен real-iPhone retest текста, хэдеров, intro и help; board drag, special double tap и pinch zoom сохраняются. G0-PWA-001 device accepted, KI-001/KI-003 закрыты.
 2. **Guest/witness closure:** все 23 production backgrounds утверждены пользователем 2026-09-12; продолжить release content work с шестью гостями после bounded PWA retest.
 3. **Ending-specific background cleanup — integrated.** `service-tunnel`, `disciplinary-assembly`, `anonymous-return-counter` and `clubroom-night` now use dedicated masters; reopen only on visual regression.
 4. **ANM-033 — Release Candidate Hardening [P0 before release]** — full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, accessibility/performance sanity.

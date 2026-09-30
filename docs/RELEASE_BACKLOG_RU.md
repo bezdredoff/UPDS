@@ -144,8 +144,11 @@ Automated coverage уже сильная, но перед релизом всё 
 на Match-3 и level-intro, тогда как VN уже был защищён локально. PR #302 исправил Match-3, но
 real-iPhone retest 2026-09-12 подтвердил остаточный rescale на level-intro. Follow-up явно задаёт
 `touch-action: manipulation` всему intro subtree, не запрещает pinch zoom и не меняет
-`touch-action: none`/intentional special double tap на board. KI-004 закрывается только после
-повторной проверки level-intro на устройстве.
+`touch-action: none`/intentional special double tap на board. Проверка 2026-09-30 выявила smart zoom
+на тексте и хэдере расследования 3/22 «Мокрые показания», тогда как фон не увеличивается.
+Новый candidate задаёт явную policy всем descendants общей оболочки, включая scroll hosts и
+native details/summary; локальное intro-правило удалено. KI-004 закрывается только после
+повторной проверки этих целей, intro и help на реальном iPhone.
 
 Перед RC подтвердить существующие, а не строить новые, capabilities:
 
@@ -299,7 +302,7 @@ Post-launch expansion only. Не расходует base-release capacity.
 
 ## Рекомендуемая последовательность от текущего `main`
 
-1. **G0-PWA-002:** Match-3 rapid-tap guard подтверждён на iPhone; проверить follow-up с явной защитой level-intro и подтвердить scale `1`. Board drag, special double tap и pinch zoom остаются regression checks. G0-PWA-001 уже device accepted, KI-001/KI-003 закрыты.
+1. **G0-PWA-002:** исправить/перепроверить воспроизведённый 2026-09-30 smart zoom на тексте и хэдере «Мокрых показаний». Candidate распространяет явную policy на всю оболочку; автоматический sweep покрывает 22 расследования. Приёмка — real-iPhone scale `1` на тексте, хэдерах, intro и help; board drag, special double tap и pinch zoom остаются regression checks. G0-PWA-001 device accepted, KI-001/KI-003 закрыты.
 2. **Guest/witness closure — accepted:** PR #308, пользовательская приёмка 2026-09-30; отдельный production pass завершён. Следующий технический шаг — финальный asset/runtime audit (первичный inventory: 23 фона, 63 full-stage assets, 24 guest PNG, без path/contract errors).
 3. **Ending background cleanup — accepted:** dedicated masters уже интегрированы; reopen только по результатам visual QA.
 4. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity. Принятые G0-PWA-001/002 contracts повторно проверяются на финальном payload.

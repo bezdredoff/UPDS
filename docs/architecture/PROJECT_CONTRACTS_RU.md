@@ -186,8 +186,10 @@ simple forms, almost-flat cel shading and no generic modern glossy-gacha render.
   mandatory regression coverage.
 - A root-background/color bridge is not a valid substitute for correct viewport geometry.
 - Persistent `.viewport-shell` owns the global rapid-tap browser policy through
-  `touch-action: manipulation`; do not disable pinch zoom in viewport meta. Match-3 board retains
-  `touch-action: none` and intentional special-tile double tap.
+  `touch-action: manipulation` explicitly on every descendant, including text, headers, scroll hosts
+  and native details/summary. Use a zero-specificity shared descendant rule so feature gesture owners
+  can override it; do not disable pinch zoom in viewport meta. Match-3 board and its descendants retain
+  `touch-action: none` and intentional special-tile double tap; editor drag surfaces retain their own policy.
 - Minimum portrait regression viewport: `320×568`.
 - Low-height landscape must remain non-broken, while full landscape parity is a later feature.
 - Navigation touch target is approximately 44×44 px where applicable.
