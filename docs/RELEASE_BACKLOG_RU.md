@@ -27,6 +27,17 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B
 
 ## Приоритеты
 
+### G4a — очередь после арт-ревью 2026-09-30
+
+Все 150 изображений просмотрены: **117 approved / 33 rework / 13 blocker**.
+G4a остаётся active до исправлений, повторной пользовательской приёмки и runtime-проверки.
+Первым выполняется `G4a-MAYU`: новый дизайн и neutral master Маю на утверждение,
+затем пять Pose A, Pose B и medallion. Остальные 26 замечаний не теряются:
+эмоции/глаза Мику, Оноэ, Рины, Куросэ и Винсента; alpha Мику; волосы Оноэ;
+зрачок Эми; простая Pose A Рины; читаемость трёх бонусов.
+Точная очередь, границы и исходный JSON: [отчёт G4a](reviews/G4A_ART_REVIEW_2026-09-30.md).
+117 approved сохраняются; закрытые G0 и G3 presentation не открываются заново.
+
 - **R0 — release blocker:** без этого base release не считаем production-ready.
 - **R1 — release-worthy:** желательно закрыть до релиза, но можно сознательно cut, если текущая реализация уже качественно достаточна.
 - **R2 — post-release / optional:** не задерживает base release.
@@ -53,7 +64,7 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B
 
 Legacy numeric Story save → stable `StorySceneId` намеренно **не входит** в этот cleanup: compatibility adapter пока защищает существующие saves и потребует отдельного save-schema решения. Локальные `clamp()` helpers и Scene Studio viewport simulation также не являются самостоятельными cleanup-задачами.
 
-G2a закрыт после ARCH-010. Не продолжать этот refactor track без нового доказанного regression/ownership риска. PWA KI-001/KI-003 были закрыты позднее real-iPhone evidence G0-PWA-001; текущий G0-дефект rapid-tap smart zoom отслеживается отдельно как KI-004.
+G2a закрыт после ARCH-010. Не продолжать этот refactor track без нового доказанного regression/ownership риска. PWA KI-001/KI-003 закрыты real-iPhone evidence G0-PWA-001; KI-004 и G0-PWA-002 закрыты пользовательской приёмкой R4 / PR #311 от 2026-09-30. G0 завершён.
 
 ## R0 — реальные release blockers
 
@@ -147,13 +158,17 @@ real-iPhone retest 2026-09-12 подтвердил остаточный rescale 
 `touch-action: none`/intentional special double tap на board. Проверка 2026-09-30 выявила smart zoom
 на тексте и хэдере расследования 3/22 «Мокрые показания», тогда как фон не увеличивается.
 Новый candidate задаёт явную policy всем descendants общей оболочки, включая scroll hosts и
-native details/summary; локальное intro-правило удалено. KI-004 закрывается только после
-повторной проверки этих целей, intro и help на реальном iPhone.
+native details/summary; локальное intro-правило удалено. Эта R3 реализация ещё не закрыла KI-004.
 
 После merge PR #310 пользователь сообщил, что zoom сохранился. Stable deploy PR #310
 подтверждён, но актуальность cached phone build отдельно не подтверждена. R4 дополняет CSS
 ограниченным passive-content touchend fallback; tests проверяют отмену browser default
-и исключения для scroll/pinch/controls/board. G0 остаётся открыт до реальной device-приёмки.
+и исключения для scroll/pinch/controls/board.
+
+**G0 — ACCEPTED, 2026-09-30:** после импорта R4 и merge PR #311 (`5dbddae`) пользователь
+повторно проверил исправление на телефоне, подтвердил «теперь всё работает как надо» и явно
+разрешил закрыть G0. G0-PWA-001/002 приняты; KI-001/KI-003/KI-004 закрыты.
+Приёмка этого дефекта не подменяет full-release offline/update/save/device gate G5c; KI-002 открыт.
 
 Перед RC подтвердить существующие, а не строить новые, capabilities:
 
@@ -307,12 +322,15 @@ Post-launch expansion only. Не расходует base-release capacity.
 
 ## Рекомендуемая последовательность от текущего `main`
 
-1. **G0-PWA-002:** исправить/перепроверить воспроизведённый 2026-09-30 smart zoom на тексте и хэдере «Мокрых показаний». Candidate распространяет явную policy на всю оболочку; автоматический sweep покрывает 22 расследования. Приёмка — real-iPhone scale `1` на тексте, хэдерах, intro и help; board drag, special double tap и pinch zoom остаются regression checks. G0-PWA-001 device accepted, KI-001/KI-003 закрыты.
-2. **Guest/witness closure — accepted:** PR #308, пользовательская приёмка 2026-09-30; отдельный production pass завершён. Следующий технический шаг — финальный asset/runtime audit (первичный inventory: 23 фона, 63 full-stage assets, 24 guest PNG, без path/contract errors).
-3. **Ending background cleanup — accepted:** dedicated masters уже интегрированы; reopen только по результатам visual QA.
-4. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity. Принятые G0-PWA-001/002 contracts повторно проверяются на финальном payload.
-5. Исправить только найденные release defects и собрать RC.
-6. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release, пока данные не изменят приоритет.
+1. **G4a — исправления арт-ревью:** 33 rework / 13 blocker; начать с `G4a-MAYU` (утверждение neutral master → семь согласованных assets). Затем пройти остальные замечания по [отчёту](reviews/G4A_ART_REVIEW_2026-09-30.md), повторную приёмку и runtime-проверку. 117 approved не переделывать без нового дефекта; G3 shared presentation остаётся accepted, улыбка Винсента исправляется отдельно.
+2. **G5a — финальная RU/BE/EN вычитка:** editorial pass RU интегрирован; остаются финальные языковые/paging/overflow проверки.
+3. **G5b — human Match-3 playtest:** balance, design и variety всех 22 уровней.
+4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.
+5. **G5c / ANM-033 — финальная release regression:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, public-release packaging/rights. KI-002 остаётся открытым здесь. Принятые G0 contracts повторно проверить на финальном payload, не открывая новый PWA refactor без дефекта.
+6. **G6 — RC:** исправить только найденные release defects, затем packaging/deploy/rollback.
+7. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release.
+
+G0 и G3 закрыты явной пользовательской приёмкой 2026-09-30; G2a также закрыт. Они не являются следующими задачами.
 
 G2a ARCH-001–010 accepted и не является следующим действием. Возвращаться к architecture cleanup можно только по новому доказанному regression/ownership риску.
 

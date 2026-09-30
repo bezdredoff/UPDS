@@ -20,7 +20,7 @@ production localization contract проходит автоматическую �
 2. G5a — финальная RU/BE/EN вычитка и mobile overflow/paging; русский editorial pass уже интегрирован PR #304, остальные проверки не закрыты по этому факту.
 3. G5b — ручной playtest 22 Match-3 levels, special combinations, retry/progression и баланс.
 4. G5 — Story common route и три финала, фактический asset/decode crawl, save/continue/reload.
-5. G0/G5c — pending level-intro rapid-tap, install/update/offline/recovery на iPhone и Android.
+5. G5c — финальный install/update/offline/recovery на iPhone и Android. G0 закрыт отдельной пользовательской device-приёмкой R4 / PR #311 от 2026-09-30; rapid-tap defect KI-004 закрыт, повторная release regression остаётся.
 6. G6 — RC, credits/rights, release metadata и rollback после предыдущих gates.
 
 Следующее исправление определяется воспроизводимым дефектом этих проверок; новый сюжет,

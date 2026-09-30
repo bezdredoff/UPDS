@@ -33,8 +33,9 @@ If two active documents conflict, prefer the narrower current machine-readable c
 - [`UPDS_RELEASE_MANIFEST_RU.md`](UPDS_RELEASE_MANIFEST_RU.md) — release scope, acceptance rule and dashboard authority
 - [`release-status.json`](release-status.json) — machine-readable release tasks and dependencies
 - [`known-issues.json`](known-issues.json) — reproducible open release blockers
+- [`reviews/G4A_ART_REVIEW_2026-09-30.md`](reviews/G4A_ART_REVIEW_2026-09-30.md) — completed 150-image review, 33 rework / 13 blockers and Mayu-first remediation
 - [`features/G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md`](features/G0_PWA_001_IOS_VIEWPORT_REPAIR_RU.md) — accepted real-iPhone layout-viewport repair and device evidence
-- [`features/G0_PWA_002_IOS_RAPID_TAP_SCALE_GUARD_RU.md`](features/G0_PWA_002_IOS_RAPID_TAP_SCALE_GUARD_RU.md) — active global rapid-tap smart-zoom guard for player, level intro and Match-3
+- [`features/G0_PWA_002_IOS_RAPID_TAP_SCALE_GUARD_RU.md`](features/G0_PWA_002_IOS_RAPID_TAP_SCALE_GUARD_RU.md) — accepted rapid-tap smart-zoom guard; G0 device closeout after PR #311
 - [`features/ANM030B1B9_IOS_PWA_VIEWPORT_STATUS_RU.md`](features/ANM030B1B9_IOS_PWA_VIEWPORT_STATUS_RU.md) — historical triage superseded by G0-PWA-001
 
 ### Story and content

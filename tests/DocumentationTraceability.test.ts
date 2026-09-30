@@ -312,7 +312,8 @@ describe('active documentation traceability', () => {
     expect(protectedContracts).toContain('upds-scene-studio-calibration-v1');
     expect(protectedContracts).toContain('face-critical-lane');
     expect(protectedContracts).toContain('background-focal-eye-line');
-    expect(protectedContracts).toContain('Current runtime-integrated and visually approved production characters');
+    expect(protectedContracts).toContain('Current runtime-integrated production characters');
+    expect(protectedContracts).toContain('Visual approval is superseded per image');
     expect(protectedContracts).toContain('manual Golden Sample gates');
     expect(protectedContracts).toContain('Historical pre-integration Emi D0–D3 candidate files');
     expect(protectedContracts).toContain('ANM-028B2');
@@ -377,6 +378,52 @@ describe('active documentation traceability', () => {
     expect(e2eReadme).toContain('Playwright is the only browser/E2E automation framework for UPDS');
     expect(rootPackage).not.toContain('selenium');
     expect(e2ePackage).not.toContain('selenium');
+  });
+
+  it('records accepted G0 without silently closing the final offline/device release gate', () => {
+    const release = JSON.parse(read('docs/release-status.json'));
+    const issues = JSON.parse(read('docs/known-issues.json'));
+    const g0 = release.tasks.find((task: { id: string }) => task.id === 'G0');
+    const issue = (id: string) => issues.issues.find((item: { id: string }) => item.id === id);
+    expect(g0.status).toBe('accepted');
+    expect(g0.evidence).toContain('Accepted by user');
+    expect(g0.evidence).toContain('PR #311');
+    expect(issue('KI-004').status).toBe('closed');
+    expect(issue('KI-002').status).toBe('open');
+    for (const path of ['docs/ROADMAP_RU.md', 'docs/RELEASE_BACKLOG_RU.md']) {
+      const source = read(path);
+      expect(source).toContain('G0');
+      expect(source).toContain('G5c');
+      expect(source).not.toContain('G0 остаётся открыт');
+      expect(source).not.toContain('G0-PWA-002 — остаётся открыт');
+    }
+    expect(read('docs/features/G0_PWA_002_IOS_RAPID_TAP_SCALE_GUARD_RU.md')).toContain('Статус: **ACCEPTED');
+  });
+
+  it('preserves the complete user art review and Mayu-first remediation without claiming acceptance', () => {
+    const report = JSON.parse(read('docs/reviews/UPDS_ART_REVIEW_2026-09-30.json'));
+    const items = report.items as { path: string; status: string; blocker: boolean }[];
+    expect(report.format).toBe('upds-local-art-review-v1');
+    expect(new Set(items.map((item) => item.path)).size).toBe(150);
+    expect(items.filter((item) => item.status === 'approved')).toHaveLength(117);
+    expect(items.filter((item) => item.status === 'rework')).toHaveLength(33);
+    expect(items.filter((item) => item.blocker)).toHaveLength(13);
+    expect(items.filter((item) => item.blocker).every((item) => item.status === 'rework')).toBe(true);
+    const mayu = items.filter((item) => item.path.includes('/characters/mayu/'));
+    expect(mayu).toHaveLength(7);
+    expect(mayu.every((item) => item.status === 'rework' && item.blocker)).toBe(true);
+    const release = JSON.parse(read('docs/release-status.json'));
+    const task = (id: string) => release.tasks.find((item: { id: string }) => item.id === id);
+    expect(task('G4a').status).toBe('active');
+    expect(task('G4a-MAYU').status).toBe('active');
+    expect(task('G0').status).toBe('accepted');
+    expect(task('G3').status).toBe('accepted');
+    const issues = JSON.parse(read('docs/known-issues.json'));
+    expect(issues.issues.find((item: { id: string }) => item.id === 'KI-005').status).toBe('open');
+    for (const path of ['docs/ROADMAP_RU.md', 'docs/RELEASE_BACKLOG_RU.md']) {
+      expect(read(path)).toContain('G4a-MAYU');
+      expect(read(path)).toContain('G4A_ART_REVIEW_2026-09-30.md');
+    }
   });
 
   it('keeps mobile archive names short while preserving manifest authority', () => {

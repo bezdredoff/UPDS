@@ -64,11 +64,19 @@ Production character contract:
 - `staging.scale = 1` is the production default; CSS zoom cannot repair incorrect authored height;
 - explicit adult-character guardrail for every production character.
 
-Current runtime-integrated and visually approved production characters: Miku, Onoe, Ayuki, Emi,
+Current runtime-integrated production characters: Miku, Onoe, Ayuki, Emi,
 Kentaro, Norihiro, Mayu, Rina and Kurose. Every one uses the strict canonical seven-asset rig;
 ANM-030B0B/B0C closes the full-stage art package at 63/63 canonical assets, while B0D/B0F remove the
 retired candidate, placeholder and built-in static override runtime seams. B0E adds the Mobile WebKit
 full-cast lineup visual gate.
+
+Visual approval is superseded per image by the explicit 2026-09-30 user review:
+117 approved / 33 rework / 13 blocker across the full 150-image catalog.
+See `docs/reviews/G4A_ART_REVIEW_2026-09-30.md` and its source JSON. Runtime completeness
+does not override these rejections. In particular, all seven Mayu images require a new
+identity design; keep the old runtime package until an approved replacement is ready,
+but do not use its rejected identity as the new master. New candidates stay outside
+the production manifest until approval and complete seven-asset integration.
 
 Historical pre-integration Emi D0–D3 candidate files and metadata remain provenance in feature docs,
 prompts and Git history only. They are not active machine-readable runtime sources. The retired

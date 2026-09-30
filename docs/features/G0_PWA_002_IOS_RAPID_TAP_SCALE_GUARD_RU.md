@@ -1,7 +1,7 @@
 # ANM-030B1C2 / G0-PWA-002 — общий iOS rapid-tap scale guard
 
 Дата обновления: **2026-09-30**
-Статус: **implementation candidate; требуется real-iPhone retest**
+Статус: **ACCEPTED — user device acceptance, 2026-09-30, PR #311**
 Связанные release gate / issue: `G0`, `KI-004`
 
 ## Наблюдение
@@ -53,7 +53,7 @@ long press и render/navigation сбрасывают последователь�
 
 Новые unit tests проверяют эти исключения; browser tests проверяют `defaultPrevented` на
 втором/третьем touchend и что при native touchscreen taps fallback действительно достигнут
-на тексте каждого из 22 уровней. Физический iPhone всё ещё обязателен для приёмки.
+на тексте каждого из 22 уровней. Требовавшаяся физическая device-приёмка подтверждена ниже.
 
 1. Установить exact candidate build заново или дождаться подтверждённого PWA update.
 2. Убедиться, что телефон получил именно R4 candidate (а не cached PR #310). В расследовании
@@ -82,7 +82,7 @@ R3 локальный результат 2026-09-30: `npm run check` — 147 ф�
 build PASS; targeted mobile WebKit — 4/4 PASS, включая sweep всех 22 уровней и Story → intro.
 Chromium 22-level touch sweep PASS; VN/locale/persistence/board regression PASS. В первом
 параллельном запуске существующий help-image test не дождался картинки; одиночный повтор PASS.
-GitHub CI/Browser Gate ещё не запускались для этого candidate. Dependencies не изменялись;
+На момент подготовки R3 GitHub CI/Browser Gate ещё не запускались. Dependencies не изменялись;
 security audit сообщает 2 moderate advisories, high-severity gate проходит.
 
 R4 проверки 2026-09-30: `npm run check` — 148 файлов / 724 tests, lint/build PASS;
@@ -94,4 +94,14 @@ R4 проверки 2026-09-30: `npm run check` — 148 файлов / 724 tests
 Повтор этой проверки в mobile WebKit PASS. Board drag/special activation и VN/locale/save
 регрессии Chromium PASS. Эти результаты не являются physical-iPhone acceptance.
 
-`KI-004` остаётся открытым до этой проверки на реальном iPhone.
+## Device acceptance / closeout
+
+2026-09-30 пользователь импортировал R4, после merge PR #311 (`5dbddaeb3a20bbb00ac63b3958184f93d2f80c0b`)
+повторно проверил исправление на телефоне и подтвердил: «теперь всё работает как надо».
+Пользователь явно разрешил закрыть G0. G0-PWA-002 accepted, KI-004 closed; вместе с ранее
+принятым G0-PWA-001 это завершает G0. CI, Browser Gate и stable deployment PR #311 успешны.
+Основание приёмки — подтверждение пользователя, не только автоматические проверки.
+
+Не утверждается, что эта проверка заменила всю iOS/Android device matrix, cold offline,
+update/save и языковую release regression. Они остаются в G5c / ANM-033; KI-002 остаётся open.
+Предыдущие неудачные R3 проверки выше сохранены как история, не как текущий статус.
