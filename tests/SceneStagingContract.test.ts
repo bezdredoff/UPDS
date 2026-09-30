@@ -126,7 +126,8 @@ describe('ANM-028B1 reusable scene staging contract', () => {
       expect(preset.budget.heroClueCloseups, preset.id).toBe(0);
     }
     const guest = sceneStagingManifest.presets['guest-testimony-card'];
-    expect(guest.slots.map((slot) => slot.kind)).toEqual(['guest-shell', 'testimony-card']);
+    expect(guest.slots.map((slot) => slot.kind)).toEqual(['guest-shell']);
+    expect(guest.budget.nativeUiSlots).toBe(0);
     expect(JSON.stringify(guest)).not.toContain('./assets/characters/');
   });
 

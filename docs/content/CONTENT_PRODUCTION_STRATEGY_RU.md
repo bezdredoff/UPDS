@@ -88,6 +88,10 @@ fallback до внешнего Stable Diffusion replacement pass. Гости н�
 
 Guest/witness package реализован ANM-028B3 как отдельный `upds-guest-witness-production-v1` presentation/asset contract. Planned guests остаются asset-free; production требует полный bust + две expression variants + medallion. Гостя нельзя добавлять в `upds-character-production-v2` как якобы полноценного stage-персонажа с пустыми или фиктивными путями.
 
+G3-GUEST-UI-001 (30.09.2026): по запросу пользователя гостевой рендер использует общий `.portrait`
+и камеру VN `178% / -78%`. Рамка бюста и отдельная карточка свидетеля удалены. Четыре ассета
+на гостя сохраняются; `guest-testimony-card` остаётся техническим ID пресета, а не названием видимой карточки.
+
 ## Выражения, позы и генерация
 
 Full-stage taxonomy остаётся закрытой:

@@ -2,6 +2,9 @@
 
 Technical product version: `0.26.0-dev`.
 
+G3-GUEST-UI-001 — local review candidate, 2026-09-30: гостевые изображения используют общий
+VN-портрет без рамки и карточки свидетеля. Проверка устройства и публикация кандидата ещё не выполнены.
+
 Status: **ANM-030B1C2 / G0-PWA-002 iOS rapid-tap interaction candidate** after G0-PWA-001 device acceptance.
 
 This roadmap is intentionally a strategic status map, not a transcript of every historical sub-feature. Detailed implementation history lives in feature docs and Git. The actionable remaining-work authority is [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md); the approved full-game scope/reuse ceilings remain [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md); machine-readable art inventory remains `src/content/art/ANM030A.asset-gap-audit.json`. Production budgets are ceilings, not an obligation to spend every planned asset slot.

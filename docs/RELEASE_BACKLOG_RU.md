@@ -100,7 +100,7 @@ Release outcome после candidate/device approval:
 
 - ни один shipped guest scene не показывает placeholder initials как финальный art;
 - все guest paths проходят `assets:audit` на existence/image signature и остаются под `./assets/guests/<id>/`;
-- representative iPhone preview подтверждает crop/scale/face readability внутри `guest-testimony-card` без per-character CSS fixes;
+- representative iPhone preview подтверждает crop/scale/face readability общего VN-портрета гостя без per-character CSS fixes; G3-GUEST-UI-001 удаляет прежнюю рамку и карточку свидетеля;
 - neutral fallback и обе expression routes работают без 404/decode flash;
 - гостей не повышать до full-stage seven-asset rigs без новой драматической необходимости.
 

@@ -84,11 +84,11 @@ describe('ANM-028B3 guest/witness presentation contract', () => {
     expect(guestWitnessForSpeaker('МИКУ')).toBeNull();
   });
 
-  it('renders production guest art through the existing guest-testimony-card layout', () => {
+  it('renders every guest with the shared portrait camera and no witness card', () => {
     const staging = resolveSceneStagingPreset('guest-testimony-card', []);
     expect(staging.actors).toHaveLength(0);
     expect(staging.guestSlots).toHaveLength(1);
-    expect(staging.nativeSlots.map((slot) => slot.kind)).toEqual(['testimony-card']);
+    expect(staging.nativeSlots).toHaveLength(0);
 
     const markup = guestWitnessStageMarkup('hinata', 'serious', 'СЕРЬЁЗНО');
     expect(markup).toContain('data-guest-witness="hinata"');
@@ -100,6 +100,17 @@ describe('ANM-028B3 guest/witness presentation contract', () => {
     expect(markup).toContain('<img');
     expect(markup).not.toContain('guest-witness-placeholder');
     expect(markup).not.toContain('./assets/characters/');
+    for (const key of guestWitnessKeys) {
+      for (const direction of ['neutral', 'serious', 'smile']) {
+        const portrait = guestWitnessStageMarkup(key, direction, direction);
+        expect(portrait).toContain('portrait portrait-right');
+        expect(portrait).toContain('portrait-frame guest-witness-image');
+        expect(portrait).toContain('--portrait-height:178%;--portrait-bottom:-78%');
+        expect(portrait).toContain(`src="${guestWitnessAssetForDirection(key, direction)}"`);
+        expect(portrait).not.toContain('guest-witness-shell');
+        expect(portrait).not.toContain('guest-witness-testimony');
+      }
+    }
   });
 
   it('rejects partial or fake production packages instead of weakening the guest boundary', () => {

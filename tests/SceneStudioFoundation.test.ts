@@ -158,7 +158,9 @@ describe('ANM-028E0C1 Scene Studio workspace separation', () => {
     expect(root.innerHTML).toContain('data-guest-status="production"');
     expect(root.innerHTML).toContain('guest-witness-image');
     expect(root.innerHTML).toContain('./assets/guests/hinata/expressions/serious.png');
-    expect(root.innerHTML).toContain('PRODUCTION · 4 ASSETS');
+    expect(root.innerHTML).toContain('portrait portrait-right guest-witness-presentation');
+    expect(root.innerHTML).not.toContain('guest-witness-shell');
+    expect(root.innerHTML).not.toContain('guest-witness-testimony');
     expect(root.innerHTML).toContain('Тихару Хината');
     expect(root.innerHTML).not.toContain('guest-witness-placeholder');
     expect(root.innerHTML).not.toContain('/characters/guest/');
