@@ -150,6 +150,11 @@ real-iPhone retest 2026-09-12 подтвердил остаточный rescale 
 native details/summary; локальное intro-правило удалено. KI-004 закрывается только после
 повторной проверки этих целей, intro и help на реальном iPhone.
 
+После merge PR #310 пользователь сообщил, что zoom сохранился. Stable deploy PR #310
+подтверждён, но актуальность cached phone build отдельно не подтверждена. R4 дополняет CSS
+ограниченным passive-content touchend fallback; tests проверяют отмену browser default
+и исключения для scroll/pinch/controls/board. G0 остаётся открыт до реальной device-приёмки.
+
 Перед RC подтвердить существующие, а не строить новые, capabilities:
 
 - fresh install, reload, offline start/recovery и update flow;

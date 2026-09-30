@@ -6,7 +6,7 @@ G3-GUEST-UI-001 — ACCEPTED, 2026-09-30, PR #308: гостевые изобра
 VN-портрет без рамки и карточки свидетеля. Пользователь подтвердил результат после merge.
 Следующий этап — финальный asset/runtime audit и ручные release checks; гостевая подача закрыта.
 
-Status: **G3 guest presentation accepted / release validation in progress**. G0-PWA-002 iOS rapid-tap and final offline checks retain their separate pending device gates.
+Status: **G3 guest presentation accepted / release validation in progress**. G0-PWA-002 remains open after user retest of merged PR #310: CSS-only R3 did not stop zoom on the phone. R4 adds a bounded passive-content touchend fallback; real-iPhone acceptance and final offline checks remain pending.
 
 This roadmap is intentionally a strategic status map, not a transcript of every historical sub-feature. Detailed implementation history lives in feature docs and Git. The actionable remaining-work authority is [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md); the approved full-game scope/reuse ceilings remain [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md); machine-readable art inventory remains `src/content/art/ANM030A.asset-gap-audit.json`. Production budgets are ceilings, not an obligation to spend every planned asset slot.
 

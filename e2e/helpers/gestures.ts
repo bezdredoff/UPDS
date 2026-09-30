@@ -26,10 +26,17 @@ export async function expectRapidTapsKeepScale(page: Page, selectors: readonly s
     const box = await target.boundingBox();
     if (!box) throw new Error(`Missing rapid-tap target: ${selector}`);
     const before = await page.evaluate(() => window.visualViewport?.scale ?? 1);
+    await target.evaluate((node) => {
+      node.setAttribute('data-test-blocked-taps', '0');
+      node.addEventListener('touchend', (event) => {
+        if (event.defaultPrevented) node.setAttribute('data-test-blocked-taps', String(Number(node.getAttribute('data-test-blocked-taps')) + 1));
+      });
+    });
     for (let tap = 0; tap < 4; tap += 1) {
       await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
     }
     await page.waitForTimeout(350);
     expect(await page.evaluate(() => window.visualViewport?.scale ?? 1), selector).toBeCloseTo(before, 5);
+    expect(Number(await target.getAttribute('data-test-blocked-taps')), `fallback reached: ${selector}`).toBeGreaterThan(0);
   }
 }

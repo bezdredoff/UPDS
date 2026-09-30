@@ -1,4 +1,5 @@
 import { viewportDebugEvent } from '../platform/ViewportDebug';
+import { installRapidTapZoomGuard } from '../platform/RapidTapZoomGuard';
 
 const persistentShellMarkup = '<div class="viewport-shell" data-viewport-shell="physical"><main class="phone game-viewport" data-game-viewport="compat-edge-to-edge"><div class="app-screen-host" data-screen-host="primary"></div></main></div>';
 const fallbackShellMarkup = (content: string): string => `<div class="viewport-shell" data-viewport-shell="physical"><main class="phone game-viewport" data-game-viewport="compat-edge-to-edge">${content}</main></div>`;
@@ -8,11 +9,14 @@ export class AppShell {
   private timers: number[] = [];
   private screenHost: HTMLElement | null = null;
   private gameViewport: HTMLElement | null = null;
+  private readonly resetRapidTapGuard: () => void;
 
   constructor(
     readonly root: HTMLElement,
     private readonly afterRender: () => void,
-  ) {}
+  ) {
+    this.resetRapidTapGuard = installRapidTapZoomGuard(root);
+  }
 
   private ensureScreenHost(): HTMLElement | null {
     if (this.screenHost && this.gameViewport) return this.screenHost;
@@ -38,6 +42,7 @@ export class AppShell {
   }
 
   render(content: string): void {
+    this.resetRapidTapGuard();
     viewportDebugEvent('AppShell.render:before', { screen: content.match(/<section\b[^>]*class="([^"]+)"/)?.[1] ?? 'unknown' }, true);
     this.clearTimers();
 

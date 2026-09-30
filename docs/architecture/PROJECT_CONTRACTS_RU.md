@@ -190,6 +190,10 @@ simple forms, almost-flat cel shading and no generic modern glossy-gacha render.
   and native details/summary. Use a zero-specificity shared descendant rule so feature gesture owners
   can override it; do not disable pinch zoom in viewport meta. Match-3 board and its descendants retain
   `touch-action: none` and intentional special-tile double tap; editor drag surfaces retain their own policy.
+- AppShell installs the shared passive-content rapid-tap fallback once on the app root. It cancels
+  only duplicate stationary single-finger touchend defaults, never propagation or synthetic clicks.
+  Interactive controls, board/editor gestures, pinch, scroll and long press are excluded; screen
+  renders reset the sequence. CSS/computed-style emulation does not replace real-iPhone acceptance.
 - Minimum portrait regression viewport: `320×568`.
 - Low-height landscape must remain non-broken, while full landscape parity is a later feature.
 - Navigation touch target is approximately 44×44 px where applicable.
