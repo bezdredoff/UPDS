@@ -2,10 +2,11 @@
 
 Technical product version: `0.26.0-dev`.
 
-G3-GUEST-UI-001 — local review candidate, 2026-09-30: гостевые изображения используют общий
-VN-портрет без рамки и карточки свидетеля. Проверка устройства и публикация кандидата ещё не выполнены.
+G3-GUEST-UI-001 — ACCEPTED, 2026-09-30, PR #308: гостевые изображения используют общий
+VN-портрет без рамки и карточки свидетеля. Пользователь подтвердил результат после merge.
+Следующий этап — финальный asset/runtime audit и ручные release checks; гостевая подача закрыта.
 
-Status: **ANM-030B1C2 / G0-PWA-002 iOS rapid-tap interaction candidate** after G0-PWA-001 device acceptance.
+Status: **G3 guest presentation accepted / release validation in progress**. G0-PWA-002 iOS rapid-tap and final offline checks retain their separate pending device gates.
 
 This roadmap is intentionally a strategic status map, not a transcript of every historical sub-feature. Detailed implementation history lives in feature docs and Git. The actionable remaining-work authority is [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md); the approved full-game scope/reuse ceilings remain [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md); machine-readable art inventory remains `src/content/art/ANM030A.asset-gap-audit.json`. Production budgets are ceilings, not an obligation to spend every planned asset slot.
 
@@ -91,7 +92,7 @@ The detailed classification, current background ranking and acceptance outcomes 
 
 1. **Production player surface — COMPLETE.** Reopen only on regression.
 2. **Background semantic closure — G4 ACCEPTED.** `23/23` runtime semantic variants now have dedicated production art and `0` aliases remain. The approved ChatGPT Image batch is integrated; ComfyUI remains an optional reproducible experiment. `server-room` is removed from the current scope and represented only by the service-tunnel scene context.
-3. **Guest/witness closure** — six named guests must stop rendering asset-free initials placeholders in shipped scenes. Use the lean guest package or another explicitly approved final testimony presentation; do not promote them to seven-asset full-stage rigs by default.
+3. **Guest/witness closure — ACCEPTED / PR #308.** Six guests use 24 production PNG and the shared VN portrait presentation; user acceptance recorded on 2026-09-30. Reopen only on a demonstrated regression; all-six/locale/viewport checks remain part of the final release pass.
 4. **Full human content QA** — Story common route + all three endings, all 22 production Match-3 levels, direct special combinations on phone, save/continue/retry/progression boundaries.
 5. **Final asset/runtime crawl** after production-art integration — zero broken shipped asset URLs/decode failures and no reliance on browser-local Scene Studio overrides.
 6. **PWA/mobile release regression** — install/update/offline/recovery/save, iOS and representative Android Chromium, final payload/performance/render sanity.

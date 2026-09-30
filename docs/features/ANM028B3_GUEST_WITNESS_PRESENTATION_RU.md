@@ -1,6 +1,6 @@
 # ANM-028B3 — Guest / Witness Presentation Contract
 
-Status: **production art merged; G3-GUEST-UI-001 shared portrait presentation is a local review candidate; device visual approval remains pending**.
+Status: **ACCEPTED — production art and shared portrait presentation merged through PR #308; user acceptance recorded 2026-09-30**.
 
 ## Цель
 
@@ -130,5 +130,6 @@ full-stage renderer.
 6. подтвердить, что portrait/dialogue/header не перекрываются и не требуют per-character CSS fixes;
 7. после Studio sweep сделать короткий Story spot-check реального появления гостя, чтобы подтвердить production routing вне QA surface.
 
-После device approval R0.3 можно считать закрытым, а guest art остаётся частью общего final asset/runtime
-crawl ANM-033.
+R0.3 закрыт пользовательской приёмкой 2026-09-30 после PR #308. Guest art остаётся частью общего
+final asset/runtime crawl ANM-033; полный шестиперсонажный device/locale sweep не объявляется
+пройденным по одной общей приёмке.
