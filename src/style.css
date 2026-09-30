@@ -620,12 +620,6 @@ img { display: block; }
 .choice-panel small { margin-top: 3px; color: var(--ink-soft); }
 
 /* Level intro */
-.level-intro,
-.level-intro * {
-  /* Safari evaluates the tapped descendant; the shell policy is not inherited. */
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
 .level-intro-background { filter: brightness(.68); }
 .level-intro-shade { position: absolute; inset: 0; background: linear-gradient(0deg, #171a30f7 8%, #20264145 76%); }
 .level-card {
@@ -769,7 +763,6 @@ img { display: block; }
 .field-bark span { font: 11px/1.22 Georgia, serif; }
 
 .board {
-  touch-action: none;
   overscroll-behavior: contain;
   user-select: none;
   -webkit-user-select: none;
@@ -787,6 +780,10 @@ img { display: block; }
   border-radius: 14px;
   background: #243354;
   box-shadow: inset 0 0 0 2px #e8d9ad, inset 0 0 24px #0e1328aa, 0 9px 20px #1c223947;
+}
+.board,
+.board * {
+  touch-action: none;
 }
 .board-cell {
   touch-action: none;
@@ -1592,6 +1589,9 @@ img { display: block; }
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
+}
+.scene-studio-actor-slot[data-editor-draggable="true"] .scene-studio-runtime-portrait * {
+  touch-action: none;
 }
 .scene-studio-actor-slot[data-editor-draggable="true"] .scene-studio-runtime-portrait .portrait-static {
   user-select: none;

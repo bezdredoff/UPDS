@@ -48,9 +48,9 @@ describe('standalone edge-to-edge regression contract', () => {
     expect(standalone).not.toMatch(/\b34px\b/);
     expect(style).toContain('touch-action: none');
     expect(style).not.toContain('Keep a rapid VN advance tap');
-    expect(style).toContain('.level-intro,');
-    expect(style).toContain('.level-intro *');
-    expect(style).toContain('Safari evaluates the tapped descendant');
+    expect(viewport).toContain(':where(.viewport-shell *)');
+    expect(style).toContain('.board *');
+    expect(style).not.toContain('.level-intro *');
   });
 
   it('keeps bottom safe-area non-interactive while painting the controls surface edge-to-edge', () => {
