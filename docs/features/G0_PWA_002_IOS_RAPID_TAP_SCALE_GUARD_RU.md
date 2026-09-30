@@ -36,8 +36,28 @@ Shell-only policy и список отдельных кнопок не покр�
 
 ## Acceptance
 
+### R4 — touch-event fallback после неудачной device-приёмки PR #310
+
+После merge R3 / PR #310 пользователь сообщил, что быстрые тапы всё ещё вызывают zoom.
+Stable deploy подтверждён: `build-36739992409-046612dbcb54`, 2026-09-30T15:52:55Z;
+CI и Browser Gate успешны. Какая сборка закэширована на телефоне, отдельно не установлено.
+Зелёная эмуляция и computed CSS не являются доказательством исправления native iOS smart zoom.
+
+R4 сохраняет CSS policy и добавляет `RapidTapZoomGuard`, установленный один раз на persistent
+app root через AppShell. Capture/non-passive `touchend` отменяет только browser default
+повторного неподвижного single-finger tap по пассивному тексту/хэдеру: длительность до 250ms,
+интервал до 350ms, расстояние до 24px, тот же экран/overlay. Обработчик не останавливает
+распространение событий и не синтезирует clicks. Buttons/links/inputs/labels/summary,
+Match-3 board и editor drag исключены. Scroll movement, multitouch/pinch, touchcancel,
+long press и render/navigation сбрасывают последовательность.
+
+Новые unit tests проверяют эти исключения; browser tests проверяют `defaultPrevented` на
+втором/третьем touchend и что при native touchscreen taps fallback действительно достигнут
+на тексте каждого из 22 уровней. Физический iPhone всё ещё обязателен для приёмки.
+
 1. Установить exact candidate build заново или дождаться подтверждённого PWA update.
-2. В расследовании 3/22 «Мокрые показания» быстро тапнуть по тексту, заголовку, вложенным
+2. Убедиться, что телефон получил именно R4 candidate (а не cached PR #310). В расследовании
+   3/22 «Мокрые показания» быстро тапнуть по тексту, заголовку, вложенным
    словам/иконкам хедера, intro, Start, HUD, help и обычным клеткам: viewport scale остаётся `1`.
 3. Убедиться, что drag/swipe и tap-selection на board работают.
 4. Создать special и подтвердить его intentional double-tap activation.
@@ -58,11 +78,20 @@ Shell-only policy и список отдельных кнопок не покр�
 
 Эмуляция на Windows не доказывает отсутствие iOS smart zoom на реальном телефоне.
 
-Локальный результат 2026-09-30: `npm run check` — 147 файлов / 716 tests, lint и production
+R3 локальный результат 2026-09-30: `npm run check` — 147 файлов / 716 tests, lint и production
 build PASS; targeted mobile WebKit — 4/4 PASS, включая sweep всех 22 уровней и Story → intro.
 Chromium 22-level touch sweep PASS; VN/locale/persistence/board regression PASS. В первом
 параллельном запуске существующий help-image test не дождался картинки; одиночный повтор PASS.
 GitHub CI/Browser Gate ещё не запускались для этого candidate. Dependencies не изменялись;
 security audit сообщает 2 moderate advisories, high-severity gate проходит.
+
+R4 проверки 2026-09-30: `npm run check` — 148 файлов / 724 tests, lint/build PASS;
+повторный typecheck и 22 focused unit/doc tests PASS. Chromium/WebKit проверили фактическую
+отмену touchend на тексте всех 22 уровней, Story intro, help, menu/settings/Campaign.
+В native Campaign тесте сначала мешал tutorial overlay: target был визуально перекрыт,
+а старый scale-only assert это пропускал. Теперь тест сначала проверяет текст tutorial,
+закрывает его настоящим touch tap и лишь затем проверяет реальный header/objective target.
+Повтор этой проверки в mobile WebKit PASS. Board drag/special activation и VN/locale/save
+регрессии Chromium PASS. Эти результаты не являются physical-iPhone acceptance.
 
 `KI-004` остаётся открытым до этой проверки на реальном iPhone.

@@ -60,6 +60,55 @@ test('keeps the global rapid-tap zoom guard across player and Match-3 surfaces',
 test.describe('rapid touch input on text and headers', () => {
   test.use({ hasTouch: true });
 
+  test('cancels duplicate passive touch defaults but preserves controls, board, scroll and pinch', async ({ page }) => {
+    await page.goto('./');
+    await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
+    const result = await page.evaluate(() => {
+      const screen = document.querySelector('.menu-screen');
+      if (!screen) throw new Error('Missing player screen');
+      const fixture = document.createElement('div');
+      fixture.innerHTML = '<p><span>Passive header text</span></p><button>Control</button><div class="board"><span>Tile</span></div>';
+      screen.append(fixture);
+      let time = 1000;
+      const event = (target: Element, type: string, touches: number, x = 100, duration = 30): boolean => {
+        time += duration;
+        const touch = { clientX: x, clientY: 100 };
+        const input = new Event(type, { bubbles: true, cancelable: true });
+        Object.defineProperties(input, {
+          timeStamp: { value: time },
+          touches: { value: Array.from({ length: touches }, () => touch) },
+          changedTouches: { value: [touch] },
+        });
+        target.dispatchEvent(input);
+        return input.defaultPrevented;
+      };
+      const tap = (target: Element, duration = 30): boolean => {
+        event(target, 'touchstart', 1);
+        return event(target, 'touchend', 0, 100, duration);
+      };
+      const text = fixture.querySelector('p span')!;
+      const control = fixture.querySelector('button')!;
+      const tile = fixture.querySelector('.board span')!;
+      const passive = [tap(text), tap(text), tap(text)];
+      const buttons = [tap(control), tap(control)];
+      const board = [tap(tile), tap(tile)];
+      tap(text);
+      event(text, 'touchstart', 1);
+      event(text, 'touchmove', 1, 130);
+      const scroll = event(text, 'touchend', 0);
+      event(text, 'touchstart', 1);
+      event(text, 'touchstart', 2);
+      event(text, 'touchend', 1);
+      const pinch = event(text, 'touchend', 0);
+      const longPress = tap(text, 500);
+      event(text, 'touchcancel', 0);
+      const afterCancel = tap(text);
+      fixture.remove();
+      return { passive, buttons, board, scroll, pinch, longPress, afterCancel };
+    });
+    expect(result).toEqual({ passive: [false, true, true], buttons: [false, false], board: [false, false], scroll: false, pinch: false, longPress: false, afterCancel: false });
+  });
+
   test('protects menu, settings, Campaign and Match-3 copy and headers', async ({ page }) => {
     await page.setViewportSize({ width: 402, height: 874 });
     await page.goto('./');
@@ -77,7 +126,13 @@ test.describe('rapid touch input on text and headers', () => {
     await page.locator(`${qaSelectors.match3CampaignLevelButton}[data-campaign-level="0"]`).click();
     await expect(page.locator(qaSelectors.match3Screen)).toBeVisible();
     await expectPlayerGesturePolicy(page);
-    await expectRapidTapsKeepScale(page, ['.match-topbar .app-header-title', '.match-screen .objective']);
+    const tutorialTry = page.locator(qaSelectors.match3TutorialTry);
+    if (await tutorialTry.isVisible()) {
+      await expectRapidTapsKeepScale(page, ['.match-tutorial-card h2', '.match-tutorial-card p']);
+      await tutorialTry.tap();
+      await expect(tutorialTry).toHaveCount(0);
+    }
+    await expectRapidTapsKeepScale(page, ['.match-topbar .app-header-title b', '.match-screen .objective > span']);
   });
 
   test('protects text and headers on all 22 investigation boards and their help panels', async ({ page }) => {
