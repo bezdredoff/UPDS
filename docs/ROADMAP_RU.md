@@ -6,7 +6,7 @@ G3-GUEST-UI-001 — ACCEPTED, 2026-09-30, PR #308: гостевые изобра
 VN-портрет без рамки и карточки свидетеля. Пользователь подтвердил результат после merge.
 Следующий этап — финальный asset/runtime audit и ручные release checks; гостевая подача закрыта.
 
-Status: **G3 guest presentation accepted / release validation in progress**. G0-PWA-002 remains open after user retest of merged PR #310: CSS-only R3 did not stop zoom on the phone. R4 adds a bounded passive-content touchend fallback; real-iPhone acceptance and final offline checks remain pending.
+Status: **G0 device accepted / G3 guest presentation accepted / release validation in progress**. G0 closed by explicit user acceptance on 2026-09-30 after merged PR #311 (G0-PWA-002 R4). KI-001/KI-003/KI-004 closed; final offline/update/save/device regression remains in G5c, with KI-002 open.
 
 This roadmap is intentionally a strategic status map, not a transcript of every historical sub-feature. Detailed implementation history lives in feature docs and Git. The actionable remaining-work authority is [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md); the approved full-game scope/reuse ceilings remain [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md); machine-readable art inventory remains `src/content/art/ANM030A.asset-gap-audit.json`. Production budgets are ceilings, not an obligation to spend every planned asset slot.
 
@@ -35,7 +35,7 @@ Changing the release platform or market scope is a separate product decision, no
 - Match-3 production framework, Level Lab and player-facing Match-3 Campaign;
 - complete canonical authored story and graph/runtime pipeline for all 22 slots and three endings;
 - viewport/safe-area ownership, shared evidence, uncapped `440px` large-iPhone presentation and
-  Playwright Browser Gate; G0-PWA-001 is device accepted, while G0-PWA-002 rapid-tap QA is active;
+  Playwright Browser Gate; G0-PWA-001 and G0-PWA-002 are device accepted (G0 closed);
 - RU, BE and EN production runtime;
 - nine-character full-stage production closure with exact 63 runtime assets and Mobile WebKit visual protection;
 - production player surface closure: internal QA tools hidden from normal player URL and retained through explicit `?qa=1` access.
@@ -175,12 +175,15 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 ## Recommended immediate sequence
 
-1. **G0-PWA-002 — остаётся открыт:** 2026-09-30 пользователь воспроизвёл smart zoom на тексте и хэдере расследования 3/22 «Мокрые показания» после прежних исправлений. Новый candidate задаёт общую gesture policy всем descendants и проверяет все 22 Match-3 экрана. Нужен real-iPhone retest текста, хэдеров, intro и help; board drag, special double tap и pinch zoom сохраняются. G0-PWA-001 device accepted, KI-001/KI-003 закрыты.
-2. **Guest/witness closure:** все 23 production backgrounds утверждены пользователем 2026-09-12; продолжить release content work с шестью гостями после bounded PWA retest.
-3. **Ending-specific background cleanup — integrated.** `service-tunnel`, `disciplinary-assembly`, `anonymous-return-counter` and `clubroom-night` now use dedicated masters; reopen only on visual regression.
-4. **ANM-033 — Release Candidate Hardening [P0 before release]** — full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, accessibility/performance sanity.
-5. Fix only defects found by those gates; build the RC.
-6. Hero inserts, landscape, extra locales, safe motion, song pipeline and DLC stay after base release until evidence changes priority.
+1. **G4a — финальный art/runtime audit:** проверить оставшиеся character/clue/bonus assets в игре. Гости приняты после PR #308; 23 фона утверждены. Первичный inventory (23 фона, 63 full-stage assets, 24 guest PNG) уже прошёл; не повторять закрытую production работу без regression.
+2. **G5a — финальная RU/BE/EN вычитка:** editorial pass RU интегрирован; остаются финальные языковые/paging/overflow проверки.
+3. **G5b — human Match-3 playtest:** balance, design и variety всех 22 уровней.
+4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.
+5. **G5c / ANM-033 — финальная release regression:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, public-release packaging/rights. KI-002 остаётся открытым здесь. Принятые G0 contracts повторно проверить на финальном payload, не открывая новый PWA refactor без дефекта.
+6. **G6 — RC:** исправить только найденные release defects, затем packaging/deploy/rollback.
+7. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release.
+
+G0 и G3 закрыты явной пользовательской приёмкой 2026-09-30; G2a также закрыт. Они не являются следующими задачами.
 
 ## Backlog principle
 
