@@ -1,6 +1,6 @@
 # ANM-028B3 — Guest / Witness Presentation Contract
 
-Status: **production art merged via PR #305; R1.4 adds fast Scene Studio guest/expression QA; device visual approval remains pending**.
+Status: **production art merged; G3-GUEST-UI-001 shared portrait presentation is a local review candidate; device visual approval remains pending**.
 
 ## Цель
 
@@ -67,15 +67,13 @@ Validator по-прежнему отклоняет:
 
 Shared renderer: `src/ui/guestWitnessMarkup.ts`.
 
-Он всегда использует `guest-testimony-card` из `upds-scene-staging-v1`:
+G3-GUEST-UI-001 (30.09.2026, запрос пользователя) заменяет визуальную карточку общим VN-портретом:
 
-- слева — guest bust shell с production PNG;
-- справа — testimony identity card;
-- dialogue остаётся в обычном shared VN dialogue frame;
-- direction-token match выбирает одну из двух expression variants;
-- unmatched direction показывает neutral bust;
-- initials placeholder остаётся только защитным fallback для будущего `planned` package и не должен
-  появляться в shipped Story при текущем manifest.
+- `.portrait` / `.portrait-frame` и shared camera `178% / -78%`;
+- правая позиция говорящего на фоне сцены, без декоративного shell и testimony identity card;
+- имя/эмоция и dialogue остаются в обычном shared VN dialogue frame;
+- direction-token match выбирает одну из двух expression variants, иначе neutral;
+- `guest-testimony-card` сохраняется как технический ID; preset имеет один guest slot и ноль native UI slots.
 
 `VnPresentation` не требует нового runtime lane: guest line по-прежнему не становится `CharacterKey`,
 а resolved guest PNG автоматически входит в preload конкретной реплики.
@@ -127,9 +125,9 @@ full-stage renderer.
 1. открыть Scene Studio → Composition → `guest-testimony-card`;
 2. пролистать всех шесть гостей через новый guest selector и минимум по одному разу проверить `neutral`, `serious`, `smile`;
 3. убедиться, что initials placeholders нигде не появляются;
-4. проверить crop/scale/face readability внутри guest shell на iPhone portrait;
+4. проверить crop/scale/face readability общего VN-портрета гостя на iPhone portrait;
 5. проверить отсутствие 404/decode flashing online и после повторной загрузки;
-6. подтвердить, что guest card/dialogue/header не перекрываются и не требуют per-character CSS fixes;
+6. подтвердить, что portrait/dialogue/header не перекрываются и не требуют per-character CSS fixes;
 7. после Studio sweep сделать короткий Story spot-check реального появления гостя, чтобы подтвердить production routing вне QA surface.
 
 После device approval R0.3 можно считать закрытым, а guest art остаётся частью общего final asset/runtime

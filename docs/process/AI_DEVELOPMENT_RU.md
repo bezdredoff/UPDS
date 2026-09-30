@@ -178,7 +178,8 @@ navigation/callback seam through the composition root.
 - Do not add episode-specific coordinates or silently treat the current single-active-speaker VN
   renderer as multi-character. Authored preset assignment/migration belongs to 028B2 and must use
   the shared resolver. Guest/witness content uses `upds-guest-witness-production-v1` plus the shared
-  B3 `guest-testimony-card` renderer; planned guests remain asset-free until a complete external art
+  B3 renderer sharing `.portrait` camera/framing (G3-GUEST-UI-001); the stable `guest-testimony-card`
+  ID no longer means a visual witness card. Planned guests remain asset-free until a complete external art
   package is explicitly promoted.
 - Preview composition through the shared `vnFrameMarkup` contract. A separate fake Studio header,
   dialogue card or bottom-control layout is prohibited because it hides real occlusion/crop defects.

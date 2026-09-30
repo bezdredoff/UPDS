@@ -185,22 +185,14 @@ export const sceneStagingManifest: SceneStagingManifest = {
         {
           id: 'guest',
           kind: 'guest-shell',
-          anchorXPercent: 25,
+          anchorXPercent: 71,
           anchorYPercent: 96,
-          shotScale: 0.62,
-          safeBox: box(5, 24, 45, 96),
+          shotScale: 1,
+          safeBox: box(4, 4, 96, 96),
           zIndex: 3,
         },
-        {
-          id: 'testimony',
-          kind: 'testimony-card',
-          anchorXPercent: 73,
-          anchorYPercent: 49,
-          safeBox: box(51, 16, 95, 82),
-          zIndex: 4,
-        },
       ],
-      budget: zeroArtBudget(0, 1, 1),
+      budget: zeroArtBudget(0, 1, 0),
     },
   },
 };
@@ -220,7 +212,7 @@ const expectedSlotKinds: Readonly<Record<SceneStagingPresetId, readonly SceneSta
   'trio-central-speaker': ['actor', 'actor', 'actor'],
   'trio-reaction': ['actor', 'actor', 'actor'],
   'evidence-cutaway': ['native-evidence'],
-  'guest-testimony-card': ['guest-shell', 'testimony-card'],
+  'guest-testimony-card': ['guest-shell'],
 };
 
 const finite = (value: number): boolean => Number.isFinite(value);
@@ -313,7 +305,7 @@ export function validateSceneStagingManifest(
 
   const guestPreset = manifest.presets['guest-testimony-card'];
   if (guestPreset?.slots.some((slot) => slot.kind === 'actor')) {
-    issues.push({ code: 'guest-boundary', preset: 'guest-testimony-card', detail: 'guest preview must remain a shell until ANM-028B3 defines its renderer' });
+    issues.push({ code: 'guest-boundary', preset: 'guest-testimony-card', detail: 'guest portrait uses the separate lean package, not full-stage actor assignments' });
   }
   return issues;
 }

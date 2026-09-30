@@ -150,7 +150,7 @@ The current graph covers the complete authored `0–21` scope: 45 VN scenes and 
 - `src/data/sceneStaging.ts` — canonical `upds-scene-staging-v1` registry/validator for eight reusable scene compositions;
 - `src/data/authoredVnShots.ts` — bounded `upds-authored-vn-shots-v1` stable-line background/preset/actor/expression/Pose B declarations;
 - `src/data/guestWitnesses.ts` — separate `upds-guest-witness-production-v1` contract/validator for the six macro-locked episode guests; planned packages are asset-free and production packages contain neutral bust + two expression variants + neutral medallion;
-- `src/ui/guestWitnessMarkup.ts` — shared `guest-testimony-card` renderer used by playable VN and Scene Studio without promoting guests to `CharacterKey`;
+- `src/ui/guestWitnessMarkup.ts` — lean guest renderer used by playable VN and Scene Studio with the shared `.portrait` camera, without promoting guests to `CharacterKey`; `guest-testimony-card` remains the stable preset ID, with no visual testimony card;
 - `src/data/sceneStudioCalibration.ts` — read-only `upds-scene-studio-calibration-v1` viewport,
   background and measurable lineup QA contract plus `upds-scene-studio-qa-v1` report identity;
 - `src/ui/sceneStaging.ts` — pure actor-assignment resolver that keeps canonical character scale separate from preset shot scale;

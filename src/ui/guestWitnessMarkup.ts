@@ -3,54 +3,25 @@ import {
   guestWitnessManifest,
   type GuestWitnessKey,
 } from '../data/guestWitnesses';
-import type { SceneStagingSafeBox } from '../data/sceneStaging';
-import { resolveSceneStagingPreset } from './sceneStaging';
+import { resolveVnPortraitCamera } from './vnPortraitGeometry';
 import { escapeHtml } from './viewMarkup';
 
 export type GuestWitnessMarkupContext = 'runtime' | 'scene-studio';
 
-const safeBoxStyle = (safeBox: SceneStagingSafeBox, zIndex: number): string => [
-  `left:${safeBox.leftPercent}%`,
-  `top:${safeBox.topPercent}%`,
-  `width:${safeBox.rightPercent - safeBox.leftPercent}%`,
-  `height:${safeBox.bottomPercent - safeBox.topPercent}%`,
-  `z-index:${zIndex}`,
-].join(';');
-
-/**
- * Shared B3 guest/witness renderer. It deliberately resolves only the dedicated
- * guest-testimony-card preset; episode guests never become fake full-stage actors.
- */
+/** Guests retain their lean asset package and share the playable VN portrait camera. */
 export function guestWitnessStageMarkup(
   key: GuestWitnessKey,
   direction: string,
-  localizedEmotion: string,
+  _localizedEmotion: string,
   context: GuestWitnessMarkupContext = 'runtime',
 ): string {
   const guest = guestWitnessManifest.guests[key];
-  const resolution = resolveSceneStagingPreset('guest-testimony-card', []);
-  const guestSlot = resolution.guestSlots[0];
-  const testimonySlot = resolution.nativeSlots.find((slot) => slot.kind === 'testimony-card');
-  if (!guestSlot || !testimonySlot) throw new Error('guest-testimony-card preset is missing its guest/testimony slots');
-
   const asset = guestWitnessAssetForDirection(key, direction);
-  if (!asset) {
-    throw new Error(`guest testimony renderer requires production art for ${key}`);
-  }
-  const visual = `<img class="guest-witness-image" src="${escapeHtml(asset)}" alt="${escapeHtml(guest.displayName)}">`;
-  const testimonyMeta = context === 'scene-studio' && guest.status === 'production'
-    ? `PRODUCTION · ${guestWitnessManifest.package.productionAssetCount} ASSETS`
-    : localizedEmotion;
+  if (!asset) throw new Error(`guest portrait renderer requires production art for ${key}`);
 
-  return `<div class="guest-witness-presentation guest-witness-${context}" data-guest-witness="${key}" data-guest-status="${guest.status}" data-scene-preset="guest-testimony-card">
-    <div class="guest-witness-shell" data-slot="${escapeHtml(guestSlot.id)}" style="${safeBoxStyle(guestSlot.safeBox, guestSlot.zIndex)};--guest-accent:${escapeHtml(guest.accent)}">
-      ${visual}
-      <b>${escapeHtml(guest.displayName)}</b>
-    </div>
-    <article class="guest-witness-testimony" data-slot="${escapeHtml(testimonySlot.id)}" style="${safeBoxStyle(testimonySlot.safeBox, testimonySlot.zIndex)};--guest-accent:${escapeHtml(guest.accent)}">
-      <span aria-hidden="true">“</span>
-      <b>${escapeHtml(guest.displayName)}</b>
-      <small>${escapeHtml(testimonyMeta)}</small>
-    </article>
+  const camera = resolveVnPortraitCamera();
+  const style = `--portrait-height:${camera.heightPercent}%;--portrait-bottom:${camera.bottomPercent}%`;
+  return `<div class="portrait portrait-right guest-witness-presentation guest-witness-${context}" data-guest-witness="${key}" data-guest-status="${guest.status}" data-scene-preset="guest-testimony-card" style="${style}">
+    <img class="portrait-frame guest-witness-image" src="${escapeHtml(asset)}" alt="${escapeHtml(guest.displayName)}">
   </div>`;
 }

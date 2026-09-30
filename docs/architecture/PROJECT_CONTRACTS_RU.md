@@ -83,8 +83,11 @@ derived asset audit may track future needs without inventing fake runtime paths.
 
 The seven-asset manifest applies only to full-stage characters. Episode guests use the separate
 `src/data/guestWitnesses.ts` contract (`upds-guest-witness-production-v1`): neutral bust/half-body
-master + two character-specific expression variants + neutral medallion, rendered only through
-`guest-testimony-card`. The six macro-locked current guests are production packages with all four
+master + two character-specific expression variants + neutral medallion. G3-GUEST-UI-001 (2026-09-30,
+user-requested presentation change) renders guests with the shared `.portrait` / `.portrait-frame`
+camera at `178% / -78%` in the right speaker lane, on the scene background without a bust shell or
+testimony identity card. The stable `guest-testimony-card` ID is retained for routing and Studio
+selection; its preset now has one guest slot and zero native UI slots. The six macro-locked current guests are production packages with all four
 assets under `./assets/guests/<id>/` (**24 runtime PNG total, 0 planned fallback guests**). A future
 `planned` guest must remain asset-free until its complete four-asset package is supplied. Guest IDs
 never enter `upds-character-production-v2`. Offline face-ROI layers/compositing and broader full-stage
@@ -113,7 +116,7 @@ without manual visual QA.
   separate camera value derived from the playable `.portrait` baseline and cannot repair an
   incorrect master canvas;
 - the preset budget itself creates zero new runtime art, background masters or hero clue close-ups;
-- evidence/testimony cards are localized native UI;
+- evidence cards are localized native UI; guest identity/emotion uses the shared VN dialogue row;
 - `guest-testimony-card` is owned by ANM-028B3: `upds-guest-witness-production-v1` supplies the
   separate schema/validator and `src/ui/guestWitnessMarkup.ts` supplies the shared renderer; all six
   current macro-locked guests use complete four-asset production packages and remain outside

@@ -202,8 +202,8 @@ export const enCatalog = {
   'sceneStudio.preset.trio-reaction.summary': 'An asymmetric three-character reaction creates variety by combining approved expression frames.',
   'sceneStudio.preset.evidence-cutaway.title': 'Evidence cutaway',
   'sceneStudio.preset.evidence-cutaway.summary': 'Localized native UI carries the information; hero clue art stays at zero by default.',
-  'sceneStudio.preset.guest-testimony-card.title': 'Guest testimony card',
-  'sceneStudio.preset.guest-testimony-card.summary': 'Previews the guest/witness boundary without fake manifest paths; the production renderer remains ANM-028B3.',
+  'sceneStudio.preset.guest-testimony-card.title': 'Guest portrait',
+  'sceneStudio.preset.guest-testimony-card.summary': 'A guest on the scene background with the same framing as the other characters.',
 
   'settings.eyebrow': 'CONFIG · SYSTEM',
   'settings.title': 'Settings',
