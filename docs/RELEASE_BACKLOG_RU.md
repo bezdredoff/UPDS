@@ -92,11 +92,15 @@ Aliases закрыты в G4. В backlog больше не добавляютс�
 
 Все `23/23` production backgrounds явно утверждены пользователем после локального Scene Studio review 2026-09-12. Повторять полный isolated background review не нужно; в G5 остаётся только integrated device spot-check common route и endings на композицию, читаемость персонажей и runtime-артефакты.
 
-### R0.3 Guest / witness presentation closure — ART INTEGRATED, DEVICE QA PENDING
+### R0.3 Guest / witness presentation closure — ACCEPTED / PR #308
 
 ANM-028B3 R1.2 переводит все шесть story guests (`hinata`, `gen`, `aoi`, `kubo`, `kubo-mother`, `vincent`) в существующий lean production contract: neutral bust/half-body + `serious` + `smile` + medallion. Runtime manifest содержит **6 production packages / 24 PNG / 0 planned fallback guests**; full-stage source art из внешнего пакета в runtime не импортируется.
 
-Release outcome после candidate/device approval:
+30.09.2026 пользователь подтвердил новую подачу после merge PR #308. Runtime использует общий
+VN-портрет без прежней рамки и карточки. Эта приёмка закрывает отдельную guest-presentation задачу;
+полная матрица всех гостей/языков/устройств остаётся частью финального release pass.
+
+Зафиксированный release outcome:
 
 - ни один shipped guest scene не показывает placeholder initials как финальный art;
 - все guest paths проходят `assets:audit` на existence/image signature и остаются под `./assets/guests/<id>/`;
@@ -104,7 +108,8 @@ Release outcome после candidate/device approval:
 - neutral fallback и обе expression routes работают без 404/decode flash;
 - гостей не повышать до full-stage seven-asset rigs без новой драматической необходимости.
 
-Если device review не выявит art/layout defect, отдельного guest-production milestone больше не нужно: R0.3 считается закрытым и остаётся только частью общего финального asset/runtime crawl.
+R0.3 закрыт. Следующая техническая проверка — общий asset/runtime crawl; отдельно создавать новый
+guest-production milestone не нужно без воспроизводимого art/layout defect.
 
 ### R0.4 Full playable-content QA
 
@@ -295,7 +300,7 @@ Post-launch expansion only. Не расходует base-release capacity.
 ## Рекомендуемая последовательность от текущего `main`
 
 1. **G0-PWA-002:** Match-3 rapid-tap guard подтверждён на iPhone; проверить follow-up с явной защитой level-intro и подтвердить scale `1`. Board drag, special double tap и pinch zoom остаются regression checks. G0-PWA-001 уже device accepted, KI-001/KI-003 закрыты.
-2. **Guest/witness candidate QA:** открыть `/preview/` ANM-028B3 R1.2 и spot-check всех шесть production guests; если crop/readability/asset loading корректны, закрыть R0.3 без дополнительного art-production pass.
+2. **Guest/witness closure — accepted:** PR #308, пользовательская приёмка 2026-09-30; отдельный production pass завершён. Следующий технический шаг — финальный asset/runtime audit (первичный inventory: 23 фона, 63 full-stage assets, 24 guest PNG, без path/contract errors).
 3. **Ending background cleanup — accepted:** dedicated masters уже интегрированы; reopen только по результатам visual QA.
 4. **ANM-033 Release Candidate Hardening:** full Story/22-level human regression, three endings, RU/BE/EN, asset crawl, PWA/update/offline/save, iOS + Android, public-release packaging/rights, performance/accessibility sanity. Принятые G0-PWA-001/002 contracts повторно проверяются на финальном payload.
 5. Исправить только найденные release defects и собрать RC.
