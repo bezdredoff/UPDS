@@ -34,9 +34,10 @@ export function guestWitnessStageMarkup(
   if (!guestSlot || !testimonySlot) throw new Error('guest-testimony-card preset is missing its guest/testimony slots');
 
   const asset = guestWitnessAssetForDirection(key, direction);
-  const visual = asset
-    ? `<img class="guest-witness-image" src="${escapeHtml(asset)}" alt="${escapeHtml(guest.displayName)}">`
-    : `<span class="guest-witness-placeholder" aria-hidden="true">${escapeHtml(guest.initials)}</span>`;
+  if (!asset) {
+    throw new Error(`guest testimony renderer requires production art for ${key}`);
+  }
+  const visual = `<img class="guest-witness-image" src="${escapeHtml(asset)}" alt="${escapeHtml(guest.displayName)}">`;
   const testimonyMeta = context === 'scene-studio' && guest.status === 'production'
     ? `PRODUCTION · ${guestWitnessManifest.package.productionAssetCount} ASSETS`
     : localizedEmotion;
