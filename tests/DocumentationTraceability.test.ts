@@ -379,6 +379,26 @@ describe('active documentation traceability', () => {
     expect(e2ePackage).not.toContain('selenium');
   });
 
+  it('records accepted G0 without silently closing the final offline/device release gate', () => {
+    const release = JSON.parse(read('docs/release-status.json'));
+    const issues = JSON.parse(read('docs/known-issues.json'));
+    const g0 = release.tasks.find((task: { id: string }) => task.id === 'G0');
+    const issue = (id: string) => issues.issues.find((item: { id: string }) => item.id === id);
+    expect(g0.status).toBe('accepted');
+    expect(g0.evidence).toContain('Accepted by user');
+    expect(g0.evidence).toContain('PR #311');
+    expect(issue('KI-004').status).toBe('closed');
+    expect(issue('KI-002').status).toBe('open');
+    for (const path of ['docs/ROADMAP_RU.md', 'docs/RELEASE_BACKLOG_RU.md']) {
+      const source = read(path);
+      expect(source).toContain('G0');
+      expect(source).toContain('G5c');
+      expect(source).not.toContain('G0 остаётся открыт');
+      expect(source).not.toContain('G0-PWA-002 — остаётся открыт');
+    }
+    expect(read('docs/features/G0_PWA_002_IOS_RAPID_TAP_SCALE_GUARD_RU.md')).toContain('Статус: **ACCEPTED');
+  });
+
   it('keeps mobile archive names short while preserving manifest authority', () => {
     const pipeline = read('docs/process/GITHUB_PHONE_PIPELINE_RU.md');
     const ai = read('docs/process/AI_DEVELOPMENT_RU.md');
