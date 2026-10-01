@@ -2,67 +2,29 @@
 
 Technical product version: `0.26.0-dev`.
 
-2026-10-01 — `G4a-BONUS-READABILITY`: после merged #319 (`4223b6e`)
-пользователь утвердил evidence v1 и квадратные предметные силуэты v3:
-фонарик flash-row и сигнальную ракету flash-column. Три PNG интегрированы
-локально; направления показаны отдельными метками ↔/↕ на поле и в Help.
-Lead/insight и игровые механики неизменны. Автотесты и игровая проверка
-фиксируются в evidence; финальная телефонная приёмка/G4a ещё не закрыты.
-[Evidence](reviews/BONUS_READABILITY_2026-10-01.md).
+2026-10-01 — редакционный пакет русского текста G5a слит в PR #322
+(`92fc258`). Исправлено 45 строк VN/UI, уточнены термины и справка Match-3,
+обновлены review-пакеты. Quality, Chromium full E2E и Mobile WebKit critical E2E
+прошли. В G5a остаются финальная вычитка RU/BE/EN и проверка переноса/переполнения
+на мобильном экране.
 
-2026-10-01 — `G4a-RINA-POSE`: пользователь выбрал следующий срез после
-слияния PR #318 (`5c5a216`). Принятый neutral v2 и четыре исходных выражения
-интегрированы локально в новую Pose A без руки на бедре.
-Pose B и medallion сохранены; общий пакет ждёт финального просмотра.
-[Evidence](reviews/RINA_POSE_2026-10-01.md).
-
-Коррекция Рины: жест v1 принят, внешность отклонена; v2 явно принят пользователем.
-По запросу интегрированы все пять Pose A: исходные лица сохранены на новой основе,
-тело/alpha стабильны; Pose B и medallion неизменны. 31 character test passed.
-Статус review до проверки пакета в игре/на телефоне; далее три бонуса PNG.
-
-По запросу пользователя цвет радужек smile/serious/embarrassed выровнен под
-зелёный neutral, без перерисовки выражений. Маски и pixel-preservation QA сохранены.
-Все пять кадров явно утверждены пользователем; запрошен PR. Локально 752 tests
-и build passed; GitHub gates и runtime/device QA остаются отдельными проверками.
-
-2026-10-01 — `G4a-ONOE-ALPHA`: подготовлена очистка семи PNG Оноэ поверх
-merged #317. Только alpha у плеч; RGB, лица, длинные волосы и геометрия сохранены.
-Все семь изображений визуально приняты: шесть stage PNG и более узкая маска
-портрета v2. PR #318 merged; статус review до финальной проверки в игре/на телефоне.
-Рина интегрирована локально; остаются три бонуса и общий runtime/device QA.
-[Evidence](reviews/ONOE_ALPHA_CLEANUP_2026-10-01.md).
-
-2026-10-01 — `G4a-FACE-REPAIR`: подготовлен общий пакет шести правок лица:
-Мику/Оноэ/Рина/Куросэ surprised, Куросэ embarrassed и Винсент smile.
-Все шесть лиц явно приняты пользователем; PR #317 merged, Quality/Chromium/WebKit passed.
-Исходная alpha и pixels вне face ROI сохранены, добавлен preservation test.
-Пряди Оноэ исправляются отдельным срезом выше; новая Pose A Рины ещё в очереди.
-Общая игровая приёмка остаётся обязательной; G4a не закрывается.
-[Evidence](reviews/FACE_REPAIR_BATCH_2026-10-01.md).
-
-2026-10-01 — `G4a-MIKU-ALPHA`: пользователь утвердил очистку прозрачности;
-все семь PNG Мику заменены локально с резервной копией. RGB, размеры, положение
-и alpha bounds сохранены. Очистка merged в PR #316; surprised принят пользователем
-и включён в новый общий пакет выше. G4a не закрывается. [Evidence](reviews/MIKU_ALPHA_CLEANUP_2026-10-01.md).
-
-2026-10-01 — `G4a-EMI`: пользовательская правка зрачка интегрирована локально
-в портрет и полный neutral frame; размеры/геометрия сохранены. Статус review,
-далее CI и ручной просмотр в игре. [Evidence](reviews/EMI_EYE_FIX_2026-10-01.md).
+2026-10-01 — все 33 позиции rework из арт-ревью (включая 13 blocker) исправлены
+или согласованы пользователем и опубликованы в PR #314–320; все PR слиты,
+Quality/Chromium/Mobile WebKit gates прошли. Подзадачи remediation приняты.
+Подзадача `G4a-MAYU` принята по слитому PR #314. G4a остаётся в статусе review до интегрированной проверки линейки, сцен и игры
+на реальном телефоне. Исторический экспорт 150 изображений не изменён.
+[Отчёт G4a](reviews/G4A_ART_REVIEW_2026-09-30.md); [сводка бонусов](reviews/BONUS_READABILITY_2026-10-01.md).
 
 G3-GUEST-UI-001 — ACCEPTED, 2026-09-30, PR #308: гостевые изображения используют общий
 VN-портрет без рамки и карточки свидетеля. Пользователь подтвердил результат после merge.
 Следующий этап — финальный asset/runtime audit и ручные release checks; гостевая подача закрыта.
 
-G4a — **ART REVIEW COMPLETE / REMEDIATION ACTIVE**, 2026-09-30: локально просмотрены все
-150 изображений; 117 approved, 33 rework, из них 13 отмечены blocker. Это не закрывает G4a
-и не заменяет проверки в игре/на телефоне. `G4a-MAYU`: дизайн v5b и основная поза v6
-(лёгкий разворот, руки за спиной) утверждены пользователем. Полный семифайловый пакет v7
-нормализован и 2026-10-01 интегрирован локально целиком: пять эмоций, Pose B и портрет.
-Геометрия и контрольные суммы обновлены; далее ручная lineup/scene/device проверка.
-Срез пока active; изменения отправляются отдельным PR, merge/deploy ещё не выполнены.
-Очередь и исходные
-комментарии: [`reviews/G4A_ART_REVIEW_2026-09-30.md`](reviews/G4A_ART_REVIEW_2026-09-30.md).
+G4a — **REMEDIATION MERGED / INTEGRATED ACCEPTANCE PENDING**, 2026-10-01:
+исторически просмотрены 150 изображений (117 approved, 33 rework, включая 13 blocker).
+Все 33 позиции закрыты слитыми PR #314–320; отдельные задачи приняты, но общий G4a
+остаётся review до проверки линейки, сцен, игрового процесса и реального телефона.
+`KI-005` отслеживает только этот оставшийся сводный приёмочный проход. Экспорт и его
+исходные оценки неизменны: [`отчёт G4a`](reviews/G4A_ART_REVIEW_2026-09-30.md).
 
 Status: **G0 device accepted / G3 guest presentation accepted / release validation in progress**. G0 closed by explicit user acceptance on 2026-09-30 after merged PR #311 (G0-PWA-002 R4). KI-001/KI-003/KI-004 closed; final offline/update/save/device regression remains in G5c, with KI-002 open.
 
@@ -233,8 +195,8 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 ## Recommended immediate sequence
 
-1. **G4a — исправления по завершённому арт-ревью:** исходно 117/150 approved; 33 rework, включая 13 blocker. `G4a-MAYU`: семь assets v7 локально интегрированы 2026-10-01; далее ручная lineup/scene/device приёмка. Затем исправить оставшиеся 26 замечаний (шесть blocker): эмоции/глаза, alpha, позу Рины и три бонуса по [отчёту](reviews/G4A_ART_REVIEW_2026-09-30.md). Не переделывать 117 утверждённых изображений без нового дефекта. G3 shared presentation остаётся accepted, но улыбка Винсента требует отдельной правки в G4a.
-2. **G5a — финальная RU/BE/EN вычитка:** editorial pass RU интегрирован; остаются финальные языковые/paging/overflow проверки.
+1. **G4a — сводная игровая/телефонная приёмка:** исправления всех 33 rework-позиций, включая 13 blocker, приняты и слиты в PR #314–320; остаются lineup/scene/gameplay и реальный телефон по [отчёту](reviews/G4A_ART_REVIEW_2026-09-30.md). Исходные 117 approved не менять без нового дефекта.
+2. **G5a — финальная RU/BE/EN вычитка:** обновление RU слито в PR #322; остаются финальная языковая вычитка и мобильная проверка paging/overflow.
 3. **G5b — human Match-3 playtest:** balance, design и variety всех 22 уровней.
 4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.
 5. **G5c / ANM-033 — финальная release regression:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, public-release packaging/rights. KI-002 остаётся открытым здесь. Принятые G0 contracts повторно проверить на финальном payload, не открывая новый PWA refactor без дефекта.

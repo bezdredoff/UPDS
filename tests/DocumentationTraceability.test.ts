@@ -400,7 +400,7 @@ describe('active documentation traceability', () => {
     expect(read('docs/features/G0_PWA_002_IOS_RAPID_TAP_SCALE_GUARD_RU.md')).toContain('Статус: **ACCEPTED');
   });
 
-  it('preserves the complete user art review and Mayu-first remediation without claiming acceptance', () => {
+  it('preserves the historical user art review and tracks merged remediation pending integrated acceptance', () => {
     const report = JSON.parse(read('docs/reviews/UPDS_ART_REVIEW_2026-09-30.json'));
     const items = report.items as { path: string; status: string; blocker: boolean }[];
     expect(report.format).toBe('upds-local-art-review-v1');
@@ -414,8 +414,9 @@ describe('active documentation traceability', () => {
     expect(mayu.every((item) => item.status === 'rework' && item.blocker)).toBe(true);
     const release = JSON.parse(read('docs/release-status.json'));
     const task = (id: string) => release.tasks.find((item: { id: string }) => item.id === id);
-    expect(task('G4a').status).toBe('active');
-    expect(task('G4a-MAYU').status).toBe('active');
+    expect(task('G4a').status).toBe('review');
+    expect(task('G4a').evidence).toContain('merged PRs #314–320');
+    expect(task('G4a-MAYU').status).toBe('accepted');
     expect(task('G0').status).toBe('accepted');
     expect(task('G3').status).toBe('accepted');
     const issues = JSON.parse(read('docs/known-issues.json'));
