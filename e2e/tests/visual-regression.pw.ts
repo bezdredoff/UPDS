@@ -24,10 +24,11 @@ const goldenOptions = {
   maxDiffPixelRatio: 0.002,
 } as const;
 
-// Linux mobile WebKit baseline after Mayu v7, Emi eye correction and Miku alpha cleanup.
-// Reviewed CI attachment: run 36865572790; both attempts produced this digest.
-// Provenance: docs/reviews/MIKU_ALPHA_CLEANUP_2026-10-01.md.
-const fullCastLineupDigest = '871780933cb460a3be6ca9785c70577f7d2ba4250cf5eedd3173fdde561cb6f5';
+// Linux mobile WebKit baseline after Onoe shoulder alpha cleanup, on top of PR #317.
+// Reviewed CI attachment: run 36876468100; both attempts produced this digest.
+// Only 58 pixels in Onoe's shoulder region differ; no layout or other actors change.
+// Provenance: docs/reviews/ONOE_ALPHA_CLEANUP_2026-10-01.md.
+const fullCastLineupDigest = 'e43fa8b599ec58a049b5b1c772b00bc2a2dc10854dd68f53f2b7bfce7e6c4746';
 
 async function waitForVisualIdle(page: Page): Promise<void> {
   await expect.poll(async () => page.locator('img').evaluateAll((images) =>

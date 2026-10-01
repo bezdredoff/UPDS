@@ -8,14 +8,14 @@ import {
   type ProductionCharacterKey,
 } from '../src/data/characterProduction';
 
-// Original archive plus Mayu v7, Emi eye correction, Miku alpha and face repairs.
+// Original archive plus Mayu v7, Emi eye correction, Miku alpha, face repairs and Onoe cleanup.
 // Provenance: docs/reviews/MAYU_V7_INTEGRATION_2026-10-01.md
 // docs/reviews/EMI_EYE_FIX_2026-10-01.md, MIKU_ALPHA_CLEANUP_2026-10-01.md
-// and docs/reviews/FACE_REPAIR_BATCH_2026-10-01.md.
-const packageDigest = '121a522c5f47f81e5ad83b28da0f011a8f5d258412c2efd0fcb3cec89b46cf93';
+// docs/reviews/FACE_REPAIR_BATCH_2026-10-01.md and ONOE_ALPHA_CLEANUP_2026-10-01.md.
+const packageDigest = 'c4785a52bf788cd76f8f5496214f376ee21d8a68b988d16ea42072f77730d419';
 const characterDigests: Readonly<Record<ProductionCharacterKey, string>> = {
   miku: '1f708261c9aebce1e38f2f689c3e0381ef2c7cae2ebb188833cb71d1f8f0c5c7',
-  onoe: '35e73985aabd098b4de64ec292abcf1a93f6305135b71b7d37bf885950c5095e',
+  onoe: '8d8ac28376ef2876dfbf195b27f901a9d75cd24315e8516315a3a92d5ed27d96',
   ayuki: '1188200ae2e4a3eeb408a7882b165a1fc8988ce331a4689a1af753d8949ed588',
   emi: '7db7b0728d619aa62d17b2d82000801446cb4c942a049ca2e77c73b7d5d5bca7',
   kentaro: 'd6db6f5f968cf889bfece2108c5075f78f3d13ab4d39180e785dd3d53346c1b0',

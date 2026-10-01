@@ -14,6 +14,7 @@ type RepairAsset = {
   rois: readonly FaceROI[];
   outsideROIChanges: number;
   alphaChanges: number;
+  preservationSourcePath?: string;
 };
 const manifest: { format: string; assets: readonly RepairAsset[] } = JSON.parse(
   readFileSync("docs/art/FACE_REPAIR_BATCH_2026-10-01.json", "utf8"),
@@ -35,7 +36,12 @@ describe("G4a face-only repairs preserve approved base pixels", () => {
   for (const asset of manifest.assets) {
     it(`${asset.id}: locks adopted PNG, original alpha and pixels outside face ROI`, () => {
       expect(asset.path).toMatch(/^public\/assets\/(characters|guests)\//);
-      const bytes = readFileSync(asset.path);
+      if (asset.preservationSourcePath) {
+        expect(asset.id).toBe("onoe-surprised");
+        expect(asset.preservationSourcePath).toBe("docs/art/onoe-alpha-2026-10-01/source-surprised.png");
+      }
+      // Subsequent alpha-only cleanup is independently locked by OnoeAlphaCleanup.test.ts.
+      const bytes = readFileSync(asset.preservationSourcePath ?? asset.path);
       expect(createHash("sha256").update(bytes).digest("hex")).toBe(asset.outputSHA256);
       const measured = preservationSignatures(bytes, asset.rois);
       expect([measured.width, measured.height]).toEqual([1024, 1536]);

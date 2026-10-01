@@ -62,6 +62,7 @@
         1536
       ],
       "path": "public/assets/characters/onoe/rig/pose_a/frames/frame-surprised.png",
+      "preservationSourcePath": "docs/art/onoe-alpha-2026-10-01/source-surprised.png",
       "rois": [
         [
           434,
@@ -74,7 +75,7 @@
       "height": 1536,
       "alphaSHA256": "8b974f25f5ec6ccca0a92aa27ad1d2521a80b518775e6e25b936336150e42319",
       "outsideROISHA256": "288cde116c287169cd8c10dd92927210e936ab0cfc939f8ae6c3da9e93193ef9",
-      "approval": "candidate-user-review-pending"
+      "approval": "user-approved-2026-10-01"
     },
     {
       "id": "rina-surprised",
@@ -107,7 +108,7 @@
       "height": 1536,
       "alphaSHA256": "d92dfd3d5a9c255dfd0ace435af1bf65c41d6d50f13c0b734b29dd4ba5919e30",
       "outsideROISHA256": "0b0350a2ea489a4f50bad2ba8395f61b48522ba64314d83f38f762cb0883685c",
-      "approval": "candidate-user-review-pending"
+      "approval": "user-approved-2026-10-01"
     },
     {
       "id": "kurose-surprised",
@@ -140,7 +141,7 @@
       "height": 1536,
       "alphaSHA256": "8cadad2816ed52930ea8426eb141a27dcdb51fdfc243f247ab9db1f8bde398dc",
       "outsideROISHA256": "17d3ac73d8d496d71e9aaf26a6a03aac31e2b34b4c95fdf618dc31bf5f301fac",
-      "approval": "candidate-user-review-pending"
+      "approval": "user-approved-2026-10-01"
     },
     {
       "id": "kurose-embarrassed",
@@ -173,7 +174,7 @@
       "height": 1536,
       "alphaSHA256": "86f8eebdc6f26143bc7f73d96cd83141df8a01723cb8ebc3eb446828c713ce75",
       "outsideROISHA256": "996b1802c82dc04fd211c5d2a15d8b7055d4afcfff947ba12ed9458cf92f59c7",
-      "approval": "candidate-user-review-pending"
+      "approval": "user-approved-2026-10-01"
     },
     {
       "id": "vincent-smile",
@@ -206,7 +207,7 @@
       "height": 1536,
       "alphaSHA256": "50828b0234bec2c7089f5a5683b145558d231d30bf9f7c9478dabc8130d3cd45",
       "outsideROISHA256": "60284189f3fd8b6036fdcf3656772a138186d071e4e57ba0834927f9906966e2",
-      "approval": "candidate-user-review-pending"
+      "approval": "user-approved-2026-10-01"
     }
   ]
 }

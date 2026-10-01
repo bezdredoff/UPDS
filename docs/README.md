@@ -1,5 +1,8 @@
 # UPDS documentation index
 
+Арт-ревью: [очистка семи PNG Оноэ](reviews/ONOE_ALPHA_CLEANUP_2026-10-01.md)
+и [маски/QA/сравнение](art/onoe-alpha-2026-10-01/qa.json).
+
 This index routes readers to the current sources of truth. It is not an independent status or
 version ledger.
 

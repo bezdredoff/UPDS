@@ -20,8 +20,10 @@ JSON в `workflows/` — API graphs для `/prompt`, не drag-and-drop UI work
    RGBA вне ROI. Проверить decoded pixel signatures, не только размер и file hash.
 7. Посмотреть full-body и close-up на сером/светлом/тёмном фоне, сравнить neutral.
    Отдельно проверить цвет глаз, очки, возраст, симметрию взгляда и границы вставки.
-8. Только после явной приёмки считать asset утверждённым. В этом PR Мику принята,
-   остальные пять кадров ожидают пользовательского просмотра.
+8. Только после явной приёмки считать asset утверждённым. Все шесть лиц #317
+   приняты пользователем 2026-10-01; финальная runtime/device проверка остаётся.
+   Последующая alpha-only очистка Оноэ — отдельный review candidate:
+   `../onoe-alpha-2026-10-01/README_RU.md`. Не переносить её приёмку с лица автоматически.
 
 `FACE_REPAIR_BATCH_2026-10-01.json` уровнем выше фиксирует source/output SHA256,
 ROIs, canvas/bounds, alpha/outside-ROI signatures и approval по каждому PNG.

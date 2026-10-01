@@ -1,0 +1,606 @@
+{
+  "format": "upds-onoe-alpha-cleanup-v1",
+  "task": "G4a-ONOE-ALPHA",
+  "baseSha": "dda9d1982b5d8241fb1136a2f6285ef72b8207bd",
+  "method": "deterministic alpha-only shoulder contour masks; no generation",
+  "jobs": [
+    {
+      "id": "pose-a",
+      "files": [
+        "rig/pose_a/frames/frame-neutral.png",
+        "rig/pose_a/frames/frame-smile.png",
+        "rig/pose_a/frames/frame-serious.png",
+        "rig/pose_a/frames/frame-surprised.png",
+        "rig/pose_a/frames/frame-embarrassed.png"
+      ],
+      "left": [
+        [
+          240,
+          390
+        ],
+        [
+          250,
+          390
+        ],
+        [
+          260,
+          392
+        ],
+        [
+          270,
+          393
+        ],
+        [
+          280,
+          389
+        ],
+        [
+          290,
+          388
+        ],
+        [
+          310,
+          384
+        ],
+        [
+          330,
+          380
+        ],
+        [
+          340,
+          377
+        ],
+        [
+          350,
+          369
+        ],
+        [
+          360,
+          364
+        ],
+        [
+          370,
+          360
+        ],
+        [
+          380,
+          356
+        ],
+        [
+          390,
+          352
+        ],
+        [
+          400,
+          339
+        ],
+        [
+          410,
+          331
+        ]
+      ],
+      "right": [
+        [
+          300,
+          660
+        ],
+        [
+          310,
+          664
+        ],
+        [
+          320,
+          668
+        ],
+        [
+          330,
+          672
+        ],
+        [
+          340,
+          676
+        ],
+        [
+          350,
+          680
+        ],
+        [
+          360,
+          686
+        ],
+        [
+          370,
+          691
+        ],
+        [
+          380,
+          697
+        ],
+        [
+          390,
+          702
+        ],
+        [
+          400,
+          708
+        ],
+        [
+          410,
+          713
+        ],
+        [
+          420,
+          716
+        ],
+        [
+          430,
+          718
+        ],
+        [
+          440,
+          720
+        ],
+        [
+          450,
+          722
+        ],
+        [
+          460,
+          723
+        ],
+        [
+          470,
+          727
+        ],
+        [
+          480,
+          732
+        ]
+      ]
+    },
+    {
+      "id": "pose-b",
+      "files": [
+        "poses/pose_b_evidence_bag.png"
+      ],
+      "left": [
+        [
+          240,
+          388
+        ],
+        [
+          250,
+          391
+        ],
+        [
+          260,
+          393
+        ],
+        [
+          270,
+          391
+        ],
+        [
+          280,
+          389
+        ],
+        [
+          290,
+          387
+        ],
+        [
+          300,
+          384
+        ],
+        [
+          310,
+          382
+        ],
+        [
+          320,
+          373
+        ],
+        [
+          330,
+          369
+        ],
+        [
+          340,
+          365
+        ],
+        [
+          350,
+          362
+        ],
+        [
+          360,
+          359
+        ],
+        [
+          370,
+          355
+        ],
+        [
+          380,
+          349
+        ],
+        [
+          390,
+          347
+        ],
+        [
+          400,
+          335
+        ],
+        [
+          410,
+          333
+        ]
+      ],
+      "right": [
+        [
+          260,
+          650
+        ],
+        [
+          270,
+          655
+        ],
+        [
+          280,
+          659
+        ],
+        [
+          290,
+          663
+        ],
+        [
+          300,
+          667
+        ],
+        [
+          310,
+          670
+        ],
+        [
+          320,
+          675
+        ],
+        [
+          330,
+          681
+        ],
+        [
+          340,
+          688
+        ],
+        [
+          350,
+          693
+        ],
+        [
+          360,
+          698
+        ],
+        [
+          370,
+          702
+        ],
+        [
+          380,
+          707
+        ],
+        [
+          390,
+          710
+        ],
+        [
+          400,
+          712
+        ],
+        [
+          410,
+          716
+        ],
+        [
+          420,
+          718
+        ],
+        [
+          430,
+          718
+        ],
+        [
+          440,
+          719
+        ],
+        [
+          450,
+          725
+        ],
+        [
+          460,
+          732
+        ]
+      ]
+    },
+    {
+      "id": "portrait",
+      "files": [
+        "medallions/portrait_neutral_256.png"
+      ],
+      "left": [
+        [
+          115,
+          59
+        ],
+        [
+          120,
+          58.5
+        ],
+        [
+          125,
+          56.5
+        ],
+        [
+          130,
+          55
+        ],
+        [
+          135,
+          53.5
+        ],
+        [
+          140,
+          51
+        ],
+        [
+          145,
+          49
+        ],
+        [
+          150,
+          47
+        ],
+        [
+          155,
+          45
+        ],
+        [
+          160,
+          43
+        ],
+        [
+          165,
+          42
+        ],
+        [
+          170,
+          40
+        ],
+        [
+          175,
+          38.5
+        ],
+        [
+          180,
+          37
+        ],
+        [
+          185,
+          35.5
+        ],
+        [
+          190,
+          33.5
+        ]
+      ],
+      "right": [
+        [
+          135,
+          205
+        ],
+        [
+          140,
+          208
+        ],
+        [
+          145,
+          210
+        ],
+        [
+          150,
+          213
+        ],
+        [
+          155,
+          216
+        ],
+        [
+          160,
+          219
+        ],
+        [
+          165,
+          222
+        ],
+        [
+          170,
+          224
+        ],
+        [
+          175,
+          226
+        ],
+        [
+          180,
+          227
+        ],
+        [
+          185,
+          229
+        ],
+        [
+          190,
+          230
+        ],
+        [
+          195,
+          232
+        ],
+        [
+          200,
+          234
+        ],
+        [
+          205,
+          236
+        ],
+        [
+          210,
+          237
+        ],
+        [
+          215,
+          237
+        ],
+        [
+          220,
+          240
+        ],
+        [
+          225,
+          240
+        ]
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "path": "public/assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+      "mask": "pose-a",
+      "width": 1024,
+      "height": 1536,
+      "sourceSHA256": "a9803067e53ac01bbbb20a2115d5ae59d4ba7ea24cb69c10f1ba2865676479c1",
+      "outputSHA256": "13c143ff435678c339f7142dc2e1c6490edd32ac86941b54de888916cd9d7cee",
+      "rgbSHA256": "d69c699537f49abc924ad7fd7941f6d80717107ebef6b8fce5320ba326a2704e",
+      "protectedPixelsSHA256": "09c0c424c3adf16344ad48ed5c5f2e6c15f811941d385222444fe6de65f1cdb8",
+      "alphaChanges": 1726,
+      "bounds": [
+        222,
+        30,
+        800,
+        1506
+      ],
+      "visualApproval": "user-approved-2026-10-01"
+    },
+    {
+      "path": "public/assets/characters/onoe/rig/pose_a/frames/frame-smile.png",
+      "mask": "pose-a",
+      "width": 1024,
+      "height": 1536,
+      "sourceSHA256": "075e5b4dfa15d660cc673d06c114c00a92997cb199f80710a4eeeabf2b304a3d",
+      "outputSHA256": "56d4110ee9a364680678ff3b2b42a98ef5968b383ca3612dbaafa019704a90c4",
+      "rgbSHA256": "f28ff06eba4111d14844765bc1b60fcf487c5e77ff9e9f79a587f4b8fd84c21f",
+      "protectedPixelsSHA256": "7e705b6196754d7bce5a05c0fa819ba9838a26863ed506619cb2d0eb79417eea",
+      "alphaChanges": 1756,
+      "bounds": [
+        222,
+        30,
+        800,
+        1506
+      ],
+      "visualApproval": "user-approved-2026-10-01"
+    },
+    {
+      "path": "public/assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+      "mask": "pose-a",
+      "width": 1024,
+      "height": 1536,
+      "sourceSHA256": "ccd0bf8d80114d5b3d75ca54ed804c4906249e269701a7394d73a69321267b60",
+      "outputSHA256": "910afd03b64388090ef9c90453d6d6141562e0d1cc4aee5633db8096e2085618",
+      "rgbSHA256": "f3c587b929aef1192aeaa8a0251d8952bbf4056d80a5eeb2d8b9d909765a3af0",
+      "protectedPixelsSHA256": "799b8c383c5e3e9bece49b5a11bfb63f7ccce606bc49bdac09cf6cfa72d491d1",
+      "alphaChanges": 1738,
+      "bounds": [
+        222,
+        30,
+        800,
+        1506
+      ],
+      "visualApproval": "user-approved-2026-10-01"
+    },
+    {
+      "path": "public/assets/characters/onoe/rig/pose_a/frames/frame-surprised.png",
+      "mask": "pose-a",
+      "width": 1024,
+      "height": 1536,
+      "sourceSHA256": "80c63e9dd6c322402ec841a95c359641ed940eb535bd03695805f78424a8550b",
+      "outputSHA256": "2b60744c752e0635daa1237747319974b820093ed14e5ecc29ea5bdfc96ba328",
+      "rgbSHA256": "584224437ef82512adcbb81fd3e6e03ccbd5e05054740ac21d0bea159cc5e0a9",
+      "protectedPixelsSHA256": "6909ec456bb2ecb1c15096e0164ce34c0b16fb17d4e392042544f4dd28fa95f9",
+      "alphaChanges": 1733,
+      "bounds": [
+        222,
+        30,
+        800,
+        1506
+      ],
+      "visualApproval": "user-approved-2026-10-01"
+    },
+    {
+      "path": "public/assets/characters/onoe/rig/pose_a/frames/frame-embarrassed.png",
+      "mask": "pose-a",
+      "width": 1024,
+      "height": 1536,
+      "sourceSHA256": "dca494815b9b0afc61dd5bd6c8ce3f3571e88e1883265dc7f980fc18aa9b8a83",
+      "outputSHA256": "f3bfc282f1ff7c82c36c0840873ceb23427a7df5889760f6764376df33704d33",
+      "rgbSHA256": "fc817364d5ca25233a8b26de692016db71ee4393bb35bcb2d404a56ff3b2fc4d",
+      "protectedPixelsSHA256": "4ab89d0b87daadfe1b26b5bce3ba9964b7f8cbcd7d707ce2cd2e89b4d4e9f824",
+      "alphaChanges": 1712,
+      "bounds": [
+        222,
+        30,
+        800,
+        1506
+      ],
+      "visualApproval": "user-approved-2026-10-01"
+    },
+    {
+      "path": "public/assets/characters/onoe/poses/pose_b_evidence_bag.png",
+      "mask": "pose-b",
+      "width": 1024,
+      "height": 1536,
+      "sourceSHA256": "0fc0566defe52da9e880502ce70d1dbc33b3e8b44b74d68e259c6202a246febe",
+      "outputSHA256": "7258904aa2ebc7c640d6164fd26fec3b8904886959208a38d985716108ba7833",
+      "rgbSHA256": "17ab3a44db40c464938b939caa32d5abb23d80606cf6af8b0461be4bd4f0ab3a",
+      "protectedPixelsSHA256": "1134a2c72f026efc8eeeb203cc2552bf3783f6eca1d357ce1d0a080e1265e06a",
+      "alphaChanges": 1588,
+      "bounds": [
+        231,
+        31,
+        793,
+        1506
+      ],
+      "visualApproval": "user-approved-2026-10-01"
+    },
+    {
+      "path": "public/assets/characters/onoe/medallions/portrait_neutral_256.png",
+      "mask": "portrait",
+      "width": 256,
+      "height": 256,
+      "sourceSHA256": "0c30b5530edb5c729e48681b704a89e8a9cef121dd97bab2623d832b1ca5813f",
+      "outputSHA256": "d7d4516be0de0fb5e23ee4f81bb56ec4c23921e63c76e956de5ab1dff9c282e1",
+      "rgbSHA256": "5a4f0953900c7a81473c5fa662b38580f738151e03cbfa90e4d2106c96cb78d3",
+      "protectedPixelsSHA256": "747f889b7145dd33c8f775c5431107b2b84d6ef37371a0a5f792dd07c6f5dc38",
+      "alphaChanges": 384,
+      "bounds": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "visualApproval": "user-approved-2026-10-01"
+    }
+  ]
+}
