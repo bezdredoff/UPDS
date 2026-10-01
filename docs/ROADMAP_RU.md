@@ -11,19 +11,17 @@ Technical product version: `0.26.0-dev`.
 2026-10-01 — все 33 позиции rework из арт-ревью (включая 13 blocker) исправлены
 или согласованы пользователем и опубликованы в PR #314–320; все PR слиты,
 Quality/Chromium/Mobile WebKit gates прошли. Подзадачи remediation приняты.
-Подзадача `G4a-MAYU` принята по слитому PR #314. G4a остаётся в статусе review до интегрированной проверки линейки, сцен и игры
-на реальном телефоне. Исторический экспорт 150 изображений не изменён.
+Подзадача `G4a-MAYU` принята по слитому PR #314. Пользователь завершил интегрированную проверку линейки, сцен и игры на телефоне 2026-10-01; G4a и KI-005 закрыты. Исторический экспорт 150 изображений не изменён.
 [Отчёт G4a](reviews/G4A_ART_REVIEW_2026-09-30.md); [сводка бонусов](reviews/BONUS_READABILITY_2026-10-01.md).
 
 G3-GUEST-UI-001 — ACCEPTED, 2026-09-30, PR #308: гостевые изображения используют общий
 VN-портрет без рамки и карточки свидетеля. Пользователь подтвердил результат после merge.
 Следующий этап — финальный asset/runtime audit и ручные release checks; гостевая подача закрыта.
 
-G4a — **REMEDIATION MERGED / INTEGRATED ACCEPTANCE PENDING**, 2026-10-01:
+G4a — **ACCEPTED**, 2026-10-01:
 исторически просмотрены 150 изображений (117 approved, 33 rework, включая 13 blocker).
-Все 33 позиции закрыты слитыми PR #314–320; отдельные задачи приняты, но общий G4a
-остаётся review до проверки линейки, сцен, игрового процесса и реального телефона.
-`KI-005` отслеживает только этот оставшийся сводный приёмочный проход. Экспорт и его
+Все 33 позиции закрыты слитыми PR #314–320; пользователь подтвердил сводную проверку
+линейки, сцен и игры на телефоне. G4a и `KI-005` закрыты. Экспорт и его
 исходные оценки неизменны: [`отчёт G4a`](reviews/G4A_ART_REVIEW_2026-09-30.md).
 
 Status: **G0 device accepted / G3 guest presentation accepted / release validation in progress**. G0 closed by explicit user acceptance on 2026-09-30 after merged PR #311 (G0-PWA-002 R4). KI-001/KI-003/KI-004 closed; final offline/update/save/device regression remains in G5c, with KI-002 open.
@@ -195,7 +193,7 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 ## Recommended immediate sequence
 
-1. **G4a — сводная игровая/телефонная приёмка:** исправления всех 33 rework-позиций, включая 13 blocker, приняты и слиты в PR #314–320; остаются lineup/scene/gameplay и реальный телефон по [отчёту](reviews/G4A_ART_REVIEW_2026-09-30.md). Исходные 117 approved не менять без нового дефекта.
+1. **G4a — ACCEPTED:** все 33 rework-позиции, включая 13 blocker, исправлены и слиты в PR #314–320; пользователь подтвердил интегрированную проверку в игре и на телефоне. [Отчёт](reviews/G4A_ART_REVIEW_2026-09-30.md). Исходные 117 approved не менять без нового дефекта.
 2. **G5a — финальная RU/BE/EN вычитка:** обновление RU слито в PR #322; остаются финальная языковая вычитка и мобильная проверка paging/overflow.
 3. **G5b — human Match-3 playtest:** balance, design и variety всех 22 уровней.
 4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.
