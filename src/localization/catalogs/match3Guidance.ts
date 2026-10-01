@@ -3,7 +3,7 @@ import type { MessageCatalog } from '../MessageCatalog';
 
 export const match3GuidanceCatalogs = {
   ru: {
-    'match3.storyObjectGuidance': 'Сюжетный объект: {object}. Его нельзя менять местами — освобождайте клетки под ним и доведите до нижнего края.',
+    'match3.storyObjectGuidance': 'Сюжетный объект: {object}. Его нельзя передвигать — освобождайте клетки под ним, чтобы он опустился до нижнего края.',
   },
   be: {
     'match3.storyObjectGuidance': 'Сюжэтны аб’ект: {object}. Яго нельга мяняць месцамі — вызваляйце клеткі пад ім і давядзіце да ніжняга краю.',

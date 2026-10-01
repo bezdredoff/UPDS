@@ -151,5 +151,5 @@
 | sceneStudio.preset.trio-reaction.summary | Асимметричная реакция трёх персонажей создаёт вариативность сочетанием готовых expressions. |
 | sceneStudio.preset.evidence-cutaway.title | Перебивка уликой |
 | sceneStudio.preset.evidence-cutaway.summary | Информация подаётся локализуемым native UI; hero clue art остаётся нулевым по умолчанию. |
-| sceneStudio.preset.guest-testimony-card.title | Карточка показаний |
-| sceneStudio.preset.guest-testimony-card.summary | Предпросмотр границы guest/witness без фиктивных manifest paths; production renderer отложен до 028B3. |
+| sceneStudio.preset.guest-testimony-card.title | Гостевой портрет |
+| sceneStudio.preset.guest-testimony-card.summary | Гость на общем фоне сцены с тем же кадрированием, что у остальных персонажей. |
