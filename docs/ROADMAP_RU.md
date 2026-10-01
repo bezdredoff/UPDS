@@ -6,6 +6,12 @@ G3-GUEST-UI-001 — ACCEPTED, 2026-09-30, PR #308: гостевые изобра
 VN-портрет без рамки и карточки свидетеля. Пользователь подтвердил результат после merge.
 Следующий этап — финальный asset/runtime audit и ручные release checks; гостевая подача закрыта.
 
+G4a — **ART REVIEW COMPLETE / REMEDIATION ACTIVE**, 2026-09-30: локально просмотрены все
+150 изображений; 117 approved, 33 rework, из них 13 отмечены blocker. Это не закрывает G4a
+и не заменяет проверки в игре/на телефоне. Первый шаг — `G4a-MAYU`: новый neutral master
+Маю, отличимый от Мику; после утверждения — полный семифайловый пакет. Очередь и исходные
+комментарии: [`reviews/G4A_ART_REVIEW_2026-09-30.md`](reviews/G4A_ART_REVIEW_2026-09-30.md).
+
 Status: **G0 device accepted / G3 guest presentation accepted / release validation in progress**. G0 closed by explicit user acceptance on 2026-09-30 after merged PR #311 (G0-PWA-002 R4). KI-001/KI-003/KI-004 closed; final offline/update/save/device regression remains in G5c, with KI-002 open.
 
 This roadmap is intentionally a strategic status map, not a transcript of every historical sub-feature. Detailed implementation history lives in feature docs and Git. The actionable remaining-work authority is [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md); the approved full-game scope/reuse ceilings remain [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md); machine-readable art inventory remains `src/content/art/ANM030A.asset-gap-audit.json`. Production budgets are ceilings, not an obligation to spend every planned asset slot.
@@ -175,7 +181,7 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 ## Recommended immediate sequence
 
-1. **G4a — финальный art/runtime audit:** проверить оставшиеся character/clue/bonus assets в игре. Гости приняты после PR #308; 23 фона утверждены. Первичный inventory (23 фона, 63 full-stage assets, 24 guest PNG) уже прошёл; не повторять закрытую production работу без regression.
+1. **G4a — исправления по завершённому арт-ревью:** 117/150 approved; 33 rework, включая 13 blocker. Начать с `G4a-MAYU`: утвердить новый neutral master, затем заменить семь assets единым согласованным пакетом. Далее исправить отмеченные эмоции/глаза, alpha, позу Рины и три бонуса по [отчёту](reviews/G4A_ART_REVIEW_2026-09-30.md); повторно принять изменённые файлы и проверить в игре. Не переделывать 117 утверждённых изображений без нового дефекта. G3 shared presentation остаётся accepted, но улыбка Винсента требует отдельной правки в G4a.
 2. **G5a — финальная RU/BE/EN вычитка:** editorial pass RU интегрирован; остаются финальные языковые/paging/overflow проверки.
 3. **G5b — human Match-3 playtest:** balance, design и variety всех 22 уровней.
 4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.

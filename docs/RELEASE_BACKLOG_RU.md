@@ -27,6 +27,17 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B
 
 ## Приоритеты
 
+### G4a — очередь после арт-ревью 2026-09-30
+
+Все 150 изображений просмотрены: **117 approved / 33 rework / 13 blocker**.
+G4a остаётся active до исправлений, повторной пользовательской приёмки и runtime-проверки.
+Первым выполняется `G4a-MAYU`: новый дизайн и neutral master Маю на утверждение,
+затем пять Pose A, Pose B и medallion. Остальные 26 замечаний не теряются:
+эмоции/глаза Мику, Оноэ, Рины, Куросэ и Винсента; alpha Мику; волосы Оноэ;
+зрачок Эми; простая Pose A Рины; читаемость трёх бонусов.
+Точная очередь, границы и исходный JSON: [отчёт G4a](reviews/G4A_ART_REVIEW_2026-09-30.md).
+117 approved сохраняются; закрытые G0 и G3 presentation не открываются заново.
+
 - **R0 — release blocker:** без этого base release не считаем production-ready.
 - **R1 — release-worthy:** желательно закрыть до релиза, но можно сознательно cut, если текущая реализация уже качественно достаточна.
 - **R2 — post-release / optional:** не задерживает base release.
@@ -311,7 +322,7 @@ Post-launch expansion only. Не расходует base-release capacity.
 
 ## Рекомендуемая последовательность от текущего `main`
 
-1. **G4a — финальный art/runtime audit:** проверить оставшиеся character/clue/bonus assets в игре. Гости приняты после PR #308; 23 фона утверждены. Первичный inventory (23 фона, 63 full-stage assets, 24 guest PNG) уже прошёл; не повторять закрытую production работу без regression.
+1. **G4a — исправления арт-ревью:** 33 rework / 13 blocker; начать с `G4a-MAYU` (утверждение neutral master → семь согласованных assets). Затем пройти остальные замечания по [отчёту](reviews/G4A_ART_REVIEW_2026-09-30.md), повторную приёмку и runtime-проверку. 117 approved не переделывать без нового дефекта; G3 shared presentation остаётся accepted, улыбка Винсента исправляется отдельно.
 2. **G5a — финальная RU/BE/EN вычитка:** editorial pass RU интегрирован; остаются финальные языковые/paging/overflow проверки.
 3. **G5b — human Match-3 playtest:** balance, design и variety всех 22 уровней.
 4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.
