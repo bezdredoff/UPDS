@@ -1,0 +1,212 @@
+{
+  "format": "upds-face-repair-preservation-v1",
+  "task": "G4a-FACE-REPAIR",
+  "baseline": "5ae91a3c428b20b22380384795b5d51759fae7f1",
+  "method": "ComfyUI Flux2-Klein 8+8 steps; feathered face composite; exact original alpha and non-ROI pixels retained",
+  "assets": [
+    {
+      "id": "miku-surprised",
+      "bounds": [
+        279,
+        47,
+        744,
+        1415
+      ],
+      "alphaChanges": 0,
+      "prompt_id": "e4afaf67-4ba0-4599-a39b-dc6d0ca8da5f",
+      "insideROIChanges": 10162,
+      "sourceSHA256": "2046463480fa0f4043ae3d9e9efd0407655ff7e6a50e6f00158a99f15abbc700",
+      "outsideROIChanges": 0,
+      "outputSHA256": "e377c953ea479f066323df58b06d7b2f352af1747f83a32dfa933a4211e969f1",
+      "canvas": [
+        1024,
+        1536
+      ],
+      "path": "public/assets/characters/miku/rig/pose_a/frames/frame-surprised.png",
+      "rois": [
+        [
+          443,
+          174,
+          145,
+          55
+        ],
+        [
+          494,
+          251,
+          58,
+          40
+        ]
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alphaSHA256": "9e228262bcde55a787511a1e377e3f0f29a21c32d76c92b27d6511eadd7d0e24",
+      "outsideROISHA256": "3da8672b2cc8c36494200e6c579803b0f607b5df0d85b5713fbb9bf76bc826e4",
+      "approval": "user-approved-2026-10-01"
+    },
+    {
+      "id": "onoe-surprised",
+      "bounds": [
+        222,
+        30,
+        800,
+        1506
+      ],
+      "alphaChanges": 0,
+      "prompt_id": "318e0934-385c-4ef8-ad0a-49295e35d132",
+      "insideROIChanges": 18550,
+      "sourceSHA256": "e5cd3ed87e6f65208b99863cee85a57b763a7c042933a5dc64799cb08e825b1a",
+      "outsideROIChanges": 0,
+      "outputSHA256": "80c63e9dd6c322402ec841a95c359641ed940eb535bd03695805f78424a8550b",
+      "canvas": [
+        1024,
+        1536
+      ],
+      "path": "public/assets/characters/onoe/rig/pose_a/frames/frame-surprised.png",
+      "rois": [
+        [
+          434,
+          163,
+          150,
+          124
+        ]
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alphaSHA256": "8b974f25f5ec6ccca0a92aa27ad1d2521a80b518775e6e25b936336150e42319",
+      "outsideROISHA256": "288cde116c287169cd8c10dd92927210e936ab0cfc939f8ae6c3da9e93193ef9",
+      "approval": "candidate-user-review-pending"
+    },
+    {
+      "id": "rina-surprised",
+      "bounds": [
+        259,
+        28,
+        765,
+        1508
+      ],
+      "alphaChanges": 0,
+      "prompt_id": "85dbe8b6-83a0-47c2-b4c7-8f01bd37f6a3",
+      "insideROIChanges": 20807,
+      "sourceSHA256": "832edb9a6d01c463f9c6d53239685bd4d33e3c7694479c82ccb5c4a29b2cf789",
+      "outsideROIChanges": 0,
+      "outputSHA256": "574e354e8267f4948384031f0c2fe34d7be9f512dc456e1971f503f176ab3e67",
+      "canvas": [
+        1024,
+        1536
+      ],
+      "path": "public/assets/characters/rina/rig/pose_a/frames/frame-surprised.png",
+      "rois": [
+        [
+          440,
+          156,
+          152,
+          137
+        ]
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alphaSHA256": "d92dfd3d5a9c255dfd0ace435af1bf65c41d6d50f13c0b734b29dd4ba5919e30",
+      "outsideROISHA256": "0b0350a2ea489a4f50bad2ba8395f61b48522ba64314d83f38f762cb0883685c",
+      "approval": "candidate-user-review-pending"
+    },
+    {
+      "id": "kurose-surprised",
+      "bounds": [
+        279,
+        28,
+        745,
+        1508
+      ],
+      "alphaChanges": 0,
+      "prompt_id": "a5dcc545-8c46-44ae-b554-05877d632cf3",
+      "insideROIChanges": 16153,
+      "sourceSHA256": "5b208b48a4574bdf91704f4a2d55584673c09ebd90291741988a97b3e2ad6316",
+      "outsideROIChanges": 0,
+      "outputSHA256": "c76c3b95cf3e506ebe7b11c787db56eba6fe9581cbf2d321a6cf27747592e262",
+      "canvas": [
+        1024,
+        1536
+      ],
+      "path": "public/assets/characters/kurose/rig/pose_a/frames/frame-surprised.png",
+      "rois": [
+        [
+          438,
+          97,
+          124,
+          140
+        ]
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alphaSHA256": "8cadad2816ed52930ea8426eb141a27dcdb51fdfc243f247ab9db1f8bde398dc",
+      "outsideROISHA256": "17d3ac73d8d496d71e9aaf26a6a03aac31e2b34b4c95fdf618dc31bf5f301fac",
+      "approval": "candidate-user-review-pending"
+    },
+    {
+      "id": "kurose-embarrassed",
+      "bounds": [
+        279,
+        28,
+        745,
+        1508
+      ],
+      "alphaChanges": 0,
+      "prompt_id": "380e6b4c-c4f4-4461-92ca-0f8c550e8500",
+      "insideROIChanges": 16469,
+      "sourceSHA256": "bed8763d7e937c2fee75a33b12315cf369697c8bf77432f93fe0364af345b7bd",
+      "outsideROIChanges": 0,
+      "outputSHA256": "38cc2fe981893650bf6bbb28a15d1b774613bfc17c96829d626ecdc73eae9f2f",
+      "canvas": [
+        1024,
+        1536
+      ],
+      "path": "public/assets/characters/kurose/rig/pose_a/frames/frame-embarrassed.png",
+      "rois": [
+        [
+          438,
+          97,
+          124,
+          140
+        ]
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alphaSHA256": "86f8eebdc6f26143bc7f73d96cd83141df8a01723cb8ebc3eb446828c713ce75",
+      "outsideROISHA256": "996b1802c82dc04fd211c5d2a15d8b7055d4afcfff947ba12ed9458cf92f59c7",
+      "approval": "candidate-user-review-pending"
+    },
+    {
+      "id": "vincent-smile",
+      "bounds": [
+        228,
+        60,
+        743,
+        1522
+      ],
+      "alphaChanges": 0,
+      "prompt_id": "12be34fb-ac51-4836-9b62-ef3f7a561aeb",
+      "insideROIChanges": 2726,
+      "sourceSHA256": "1550c5608fae80c8d6639826b954201f645bd69c63ced312f4ee5ddfb0cf80be",
+      "outsideROIChanges": 0,
+      "outputSHA256": "7fd3970dee09e48364dea7f30cb6ad8359554a0dde5015151a4b945b102371eb",
+      "canvas": [
+        1024,
+        1536
+      ],
+      "path": "public/assets/guests/vincent/expressions/smile.png",
+      "rois": [
+        [
+          482,
+          218,
+          78,
+          35
+        ]
+      ],
+      "width": 1024,
+      "height": 1536,
+      "alphaSHA256": "50828b0234bec2c7089f5a5683b145558d231d30bf9f7c9478dabc8130d3cd45",
+      "outsideROISHA256": "60284189f3fd8b6036fdcf3656772a138186d071e4e57ba0834927f9906966e2",
+      "approval": "candidate-user-review-pending"
+    }
+  ]
+}

@@ -1,0 +1,458 @@
+{
+  "1": {
+    "inputs": {
+      "image": "UPDS_Face_Repairs_20261001/onoe-surprised-reference.png"
+    },
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {
+      "image": "UPDS_Face_Repairs_20261001/onoe-surprised-base.png"
+    },
+    "class_type": "LoadImage"
+  },
+  "3": {
+    "inputs": {
+      "image": [
+        "8",
+        0
+      ],
+      "resolution_steps": 16,
+      "upscale_method": "lanczos",
+      "megapixels": 0.75
+    },
+    "class_type": "ImageScaleToTotalPixels"
+  },
+  "4": {
+    "inputs": {
+      "image": [
+        "8",
+        0
+      ],
+      "resolution_steps": 16,
+      "upscale_method": "lanczos",
+      "megapixels": 0.75
+    },
+    "class_type": "ImageScaleToTotalPixels"
+  },
+  "10": {
+    "inputs": {
+      "weight_dtype": "default",
+      "unet_name": "Flux2-Klein-9B-True-V3-fp8mixed.safetensors"
+    },
+    "class_type": "UNETLoader"
+  },
+  "11": {
+    "inputs": {
+      "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+      "type": "flux2",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader"
+  },
+  "12": {
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    },
+    "class_type": "VAELoader"
+  },
+  "13": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect"
+  },
+  "20": {
+    "inputs": {
+      "megapixels": 0.75,
+      "prompt": "Edit ONLY the facial expression of this exact adult anime woman Satsuki Onoe. Natural surprise: slightly raised eyebrows, moderately widened matching turquoise teal eyes with their original colored irises and pupils, coherent forward gaze, small softly open mouth. No gray irises, no black-dot eyes, no giant whites, no panic or scream. Preserve exact face identity, burgundy long hair, mature proportions, skin color, head angle, head position, turquoise teal iris color, original anime line art and restrained flat cel shading. Same crop and spatial alignment. Change only eyebrows, eyelids and mouth. No new hair, no age change, no text.",
+      "image2": [
+        "4",
+        0
+      ],
+      "resolution_steps": 16,
+      "image1": [
+        "3",
+        0
+      ],
+      "vae": [
+        "12",
+        0
+      ],
+      "empty_height": 1536,
+      "clip": [
+        "11",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "empty_width": 1024,
+      "batch_size": 1
+    },
+    "class_type": "VNCCS_Flux_Klein_Encoder"
+  },
+  "21": {
+    "inputs": {
+      "image": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "GetImageSize"
+  },
+  "22": {
+    "inputs": {
+      "height": [
+        "21",
+        1
+      ],
+      "width": [
+        "21",
+        0
+      ],
+      "steps": 8
+    },
+    "class_type": "Flux2Scheduler"
+  },
+  "23": {
+    "inputs": {
+      "model": [
+        "10",
+        0
+      ],
+      "conditioning": [
+        "20",
+        0
+      ]
+    },
+    "class_type": "BasicGuider"
+  },
+  "24": {
+    "inputs": {
+      "noise_seed": 101027
+    },
+    "class_type": "RandomNoise"
+  },
+  "25": {
+    "inputs": {
+      "noise": [
+        "24",
+        0
+      ],
+      "sigmas": [
+        "22",
+        0
+      ],
+      "guider": [
+        "23",
+        0
+      ],
+      "sampler": [
+        "13",
+        0
+      ],
+      "latent_image": [
+        "20",
+        2
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced"
+  },
+  "26": {
+    "inputs": {
+      "samples": [
+        "25",
+        0
+      ],
+      "vae": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "30": {
+    "inputs": {
+      "megapixels": 0.75,
+      "prompt": "Refine IMAGE 1 expression: Edit ONLY the facial expression of this exact adult anime woman Satsuki Onoe. Natural surprise: slightly raised eyebrows, moderately widened matching turquoise teal eyes with their original colored irises and pupils, coherent forward gaze, small softly open mouth. No gray irises, no black-dot eyes, no giant whites, no panic or scream. Preserve exact face identity, burgundy long hair, mature proportions, skin color, head angle, head position, turquoise teal iris color, original anime line art and restrained flat cel shading. Same crop and spatial alignment. Change only eyebrows, eyelids and mouth. No new hair, no age change, no text. IMAGE 2 is the original neutral identity reference, NOT a request to restore neutral expression. Keep the requested expression from IMAGE 1 and identity and spatial alignment from IMAGE 2.",
+      "image2": [
+        "4",
+        0
+      ],
+      "resolution_steps": 16,
+      "image1": [
+        "26",
+        0
+      ],
+      "vae": [
+        "12",
+        0
+      ],
+      "empty_height": 1536,
+      "clip": [
+        "11",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "empty_width": 1024,
+      "batch_size": 1
+    },
+    "class_type": "VNCCS_Flux_Klein_Encoder"
+  },
+  "31": {
+    "inputs": {
+      "image": [
+        "26",
+        0
+      ]
+    },
+    "class_type": "GetImageSize"
+  },
+  "32": {
+    "inputs": {
+      "height": [
+        "31",
+        1
+      ],
+      "width": [
+        "31",
+        0
+      ],
+      "steps": 8
+    },
+    "class_type": "Flux2Scheduler"
+  },
+  "33": {
+    "inputs": {
+      "model": [
+        "10",
+        0
+      ],
+      "conditioning": [
+        "30",
+        0
+      ]
+    },
+    "class_type": "BasicGuider"
+  },
+  "34": {
+    "inputs": {
+      "noise_seed": 102027
+    },
+    "class_type": "RandomNoise"
+  },
+  "35": {
+    "inputs": {
+      "noise": [
+        "34",
+        0
+      ],
+      "sigmas": [
+        "32",
+        0
+      ],
+      "guider": [
+        "33",
+        0
+      ],
+      "sampler": [
+        "13",
+        0
+      ],
+      "latent_image": [
+        "30",
+        2
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced"
+  },
+  "36": {
+    "inputs": {
+      "samples": [
+        "35",
+        0
+      ],
+      "vae": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "80": {
+    "inputs": {
+      "images": [
+        "26",
+        0
+      ],
+      "filename_prefix": "UPDS_Face_Repairs_20261001/onoe-surprised/pass1"
+    },
+    "class_type": "SaveImage"
+  },
+  "81": {
+    "inputs": {
+      "images": [
+        "36",
+        0
+      ],
+      "filename_prefix": "UPDS_Face_Repairs_20261001/onoe-surprised/pass2"
+    },
+    "class_type": "SaveImage"
+  },
+  "8": {
+    "inputs": {
+      "x": 400,
+      "height": 224,
+      "width": 224,
+      "image": [
+        "1",
+        0
+      ],
+      "y": 120
+    },
+    "class_type": "ImageCrop"
+  },
+  "41": {
+    "inputs": {
+      "crop": "disabled",
+      "height": 224,
+      "width": 224,
+      "image": [
+        "36",
+        0
+      ],
+      "upscale_method": "lanczos"
+    },
+    "class_type": "ImageScale"
+  },
+  "100": {
+    "inputs": {
+      "width": 148,
+      "image": [
+        "41",
+        0
+      ],
+      "x": 34,
+      "height": 54,
+      "y": 49
+    },
+    "class_type": "ImageCrop"
+  },
+  "101": {
+    "inputs": {
+      "value": 1.0,
+      "width": 148,
+      "height": 54
+    },
+    "class_type": "SolidMask"
+  },
+  "102": {
+    "inputs": {
+      "right": 6,
+      "left": 6,
+      "top": 4,
+      "mask": [
+        "101",
+        0
+      ],
+      "bottom": 4
+    },
+    "class_type": "FeatherMask"
+  },
+  "103": {
+    "inputs": {
+      "y": 169,
+      "x": 434,
+      "source": [
+        "100",
+        0
+      ],
+      "mask": [
+        "102",
+        0
+      ],
+      "resize_source": false,
+      "destination": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "ImageCompositeMasked"
+  },
+  "105": {
+    "inputs": {
+      "width": 42,
+      "image": [
+        "41",
+        0
+      ],
+      "x": 93,
+      "height": 37,
+      "y": 123
+    },
+    "class_type": "ImageCrop"
+  },
+  "106": {
+    "inputs": {
+      "value": 1.0,
+      "width": 42,
+      "height": 37
+    },
+    "class_type": "SolidMask"
+  },
+  "107": {
+    "inputs": {
+      "right": 6,
+      "left": 6,
+      "top": 4,
+      "mask": [
+        "106",
+        0
+      ],
+      "bottom": 4
+    },
+    "class_type": "FeatherMask"
+  },
+  "108": {
+    "inputs": {
+      "y": 243,
+      "x": 493,
+      "source": [
+        "105",
+        0
+      ],
+      "mask": [
+        "107",
+        0
+      ],
+      "resize_source": false,
+      "destination": [
+        "103",
+        0
+      ]
+    },
+    "class_type": "ImageCompositeMasked"
+  },
+  "40": {
+    "inputs": {
+      "alpha": [
+        "2",
+        1
+      ],
+      "image": [
+        "108",
+        0
+      ]
+    },
+    "class_type": "JoinImageWithAlpha"
+  },
+  "82": {
+    "inputs": {
+      "filename_prefix": "UPDS_Face_Repairs_20261001/onoe-surprised/composite",
+      "images": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "SaveImage"
+  }
+}
