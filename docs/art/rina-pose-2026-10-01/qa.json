@@ -1,0 +1,131 @@
+{
+  "format": "upds-rina-pose-preservation-v1",
+  "task": "G4a-RINA-POSE",
+  "baseSha": "5c5a2164fb6ff983dc57972796238fe5ca10b306",
+  "method": "Accepted neutral v2 plus original expression RGB face ROI; deterministic masked brown-to-green iris correction explicitly requested; no generation; shared exact alpha and pixels outside face ROI",
+  "faceROI": [
+    440,
+    156,
+    152,
+    137
+  ],
+  "irisCorrection": {
+    "expressions": [
+      "smile",
+      "serious",
+      "embarrassed"
+    ],
+    "eyeBoxes": [
+      [
+        459,
+        194,
+        33,
+        37
+      ],
+      [
+        550,
+        183,
+        34,
+        36
+      ]
+    ],
+    "palette": [
+      {
+        "hue": 139.62208020105427,
+        "saturation": 0.35067409971993596,
+        "value": 0.45550051599587177
+      },
+      {
+        "hue": 139.2558679641542,
+        "saturation": 0.38007579876381004,
+        "value": 0.473467074691148
+      }
+    ],
+    "method": "Brown hue 25..65, saturation >0.18, value >0.23 only inside eye boxes; match measured neutral green palette; preserve dark pupils, white highlights and alpha"
+  },
+  "masterSHA256": "4ec1dd2d41b3bf1ddbf41e10a5bb90fed352c0e37a442e4775e1dbe87b8fede1",
+  "bounds": [
+    266,
+    28,
+    765,
+    1508
+  ],
+  "eyeLineYPx": 200,
+  "assets": [
+    {
+      "expression": "neutral",
+      "path": "public/assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+      "sourcePath": "docs/art/rina-pose-2026-10-01/source/frame-neutral.png",
+      "sourceSHA256": "00065275ef668a843b035a3711ec7e99c019fcd5ff729b7332b2e4f9317b8cae",
+      "outputSHA256": "4ec1dd2d41b3bf1ddbf41e10a5bb90fed352c0e37a442e4775e1dbe87b8fede1",
+      "alphaSHA256": "81c1d02e50766bec0511424b53a7f882a9c44f2554d2a2e3f3a788eac36a9bee",
+      "outsideROISHA256": "0ab5a55fcd94797402cc2e9e5c707bfaa7312d46ae38276ac63cffbcc712c7bc",
+      "faceRGBSHA256": "de75ef02a53679640b55c57a3c7bd44d38735f40f95c6ba85a537d1b4d190108",
+      "irisMaskPath": null,
+      "irisChanges": 0,
+      "approval": "user-approved-2026-10-01"
+    },
+    {
+      "expression": "smile",
+      "path": "public/assets/characters/rina/rig/pose_a/frames/frame-smile.png",
+      "sourcePath": "docs/art/rina-pose-2026-10-01/source/frame-smile.png",
+      "sourceSHA256": "83bbec2f9fb63795cd7ff6fbc0ae85ac49b2e695d2727ed9d5f17c9846399da5",
+      "outputSHA256": "95c42c34312a65182c744b422f34799507edf20983db827003a9cb03f7a1715d",
+      "alphaSHA256": "81c1d02e50766bec0511424b53a7f882a9c44f2554d2a2e3f3a788eac36a9bee",
+      "outsideROISHA256": "0ab5a55fcd94797402cc2e9e5c707bfaa7312d46ae38276ac63cffbcc712c7bc",
+      "faceRGBSHA256": "e2df3f79b3df9eb76c830dd0744248647ee6299dc5b6f4dd4df7c94119ba3d7e",
+      "irisMaskPath": "docs/art/rina-pose-2026-10-01/iris-masks/smile.png",
+      "irisChanges": 707,
+      "approval": "user-approved-2026-10-01"
+    },
+    {
+      "expression": "serious",
+      "path": "public/assets/characters/rina/rig/pose_a/frames/frame-serious.png",
+      "sourcePath": "docs/art/rina-pose-2026-10-01/source/frame-serious.png",
+      "sourceSHA256": "3660ec65031e356b3d848c821e31f4b1284c41782cf3933231994e7568f1a59e",
+      "outputSHA256": "503d437dac1d0ae184aa527629440bd337d364a723ad381f651a4aa078287cfb",
+      "alphaSHA256": "81c1d02e50766bec0511424b53a7f882a9c44f2554d2a2e3f3a788eac36a9bee",
+      "outsideROISHA256": "0ab5a55fcd94797402cc2e9e5c707bfaa7312d46ae38276ac63cffbcc712c7bc",
+      "faceRGBSHA256": "2d0e8aa7dd6fae21dc269782a9813a6df960615e1177e364f828aaf710b36ad8",
+      "irisMaskPath": "docs/art/rina-pose-2026-10-01/iris-masks/serious.png",
+      "irisChanges": 687,
+      "approval": "user-approved-2026-10-01"
+    },
+    {
+      "expression": "surprised",
+      "path": "public/assets/characters/rina/rig/pose_a/frames/frame-surprised.png",
+      "sourcePath": "docs/art/rina-pose-2026-10-01/source/frame-surprised.png",
+      "sourceSHA256": "574e354e8267f4948384031f0c2fe34d7be9f512dc456e1971f503f176ab3e67",
+      "outputSHA256": "617a91361f2b6820d5334be5065bc2421aa8d6148a8c010115e0802957a03c6c",
+      "alphaSHA256": "81c1d02e50766bec0511424b53a7f882a9c44f2554d2a2e3f3a788eac36a9bee",
+      "outsideROISHA256": "0ab5a55fcd94797402cc2e9e5c707bfaa7312d46ae38276ac63cffbcc712c7bc",
+      "faceRGBSHA256": "ff7fa366415a74db73498a6c536d4aa67503de39e95e73c2529c194c4f48690d",
+      "irisMaskPath": null,
+      "irisChanges": 0,
+      "approval": "user-approved-2026-10-01"
+    },
+    {
+      "expression": "embarrassed",
+      "path": "public/assets/characters/rina/rig/pose_a/frames/frame-embarrassed.png",
+      "sourcePath": "docs/art/rina-pose-2026-10-01/source/frame-embarrassed.png",
+      "sourceSHA256": "ef247ef7dac2115dd4dbe9db9417688d982895819e0f7e78c622e4565c34c8db",
+      "outputSHA256": "6f079f804afe3a000dd1087f4f013945f89aaba21a833896f558d872c41e4f52",
+      "alphaSHA256": "81c1d02e50766bec0511424b53a7f882a9c44f2554d2a2e3f3a788eac36a9bee",
+      "outsideROISHA256": "0ab5a55fcd94797402cc2e9e5c707bfaa7312d46ae38276ac63cffbcc712c7bc",
+      "faceRGBSHA256": "ef55ce794a61099277425f9ac889f2c7cc2d3e78ea89859554be36eaba25116f",
+      "irisMaskPath": "docs/art/rina-pose-2026-10-01/iris-masks/embarrassed.png",
+      "irisChanges": 709,
+      "approval": "user-approved-2026-10-01"
+    }
+  ],
+  "protectedAssets": [
+    {
+      "path": "public/assets/characters/rina/poses/pose_b_ledger_package.png",
+      "sha256": "d7b56efa85d1e5ff7fd2d8561418fa473510976cb952dc453f1d5595537199b1"
+    },
+    {
+      "path": "public/assets/characters/rina/medallions/portrait_neutral_256.png",
+      "sha256": "6dfac74c806135fbf8c19462993c34894d4b4296b0ccead83dc7d8548501d453"
+    }
+  ]
+}
