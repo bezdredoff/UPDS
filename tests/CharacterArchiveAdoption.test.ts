@@ -8,12 +8,12 @@ import {
   type ProductionCharacterKey,
 } from '../src/data/characterProduction';
 
-// Original archive baseline plus Mayu v7 and the user's Emi eye correction.
+// Original archive baseline plus Mayu v7, Emi eye correction and Miku alpha cleanup.
 // Provenance: docs/reviews/MAYU_V7_INTEGRATION_2026-10-01.md
-// and docs/reviews/EMI_EYE_FIX_2026-10-01.md.
-const packageDigest = '980d68f322f8d3e8767f95a73e92ba4b750ee974851c49b34d8fef064f1d37cd';
+// docs/reviews/EMI_EYE_FIX_2026-10-01.md and MIKU_ALPHA_CLEANUP_2026-10-01.md.
+const packageDigest = 'ddd90726a16eaed903a5cfd314b30f653327d9713ee2b28e8b3aae2ed1b9477b';
 const characterDigests: Readonly<Record<ProductionCharacterKey, string>> = {
-  miku: 'a3b42f25159ce317fc62b264fd89b00bf7120e77343279128232fb9f460c79b5',
+  miku: 'e83a0a7024c68e8ccc4f7d02a58ef02011f8665e973dea160343db2cffd68e7c',
   onoe: 'a7461a43af9d0786ba95ce0d5ccfa701733f1cdb0363a4efb1a7721844b431f8',
   ayuki: '1188200ae2e4a3eeb408a7882b165a1fc8988ce331a4689a1af753d8949ed588',
   emi: '7db7b0728d619aa62d17b2d82000801446cb4c942a049ca2e77c73b7d5d5bca7',
