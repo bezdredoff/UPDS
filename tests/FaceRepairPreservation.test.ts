@@ -37,10 +37,13 @@ describe("G4a face-only repairs preserve approved base pixels", () => {
     it(`${asset.id}: locks adopted PNG, original alpha and pixels outside face ROI`, () => {
       expect(asset.path).toMatch(/^public\/assets\/(characters|guests)\//);
       if (asset.preservationSourcePath) {
-        expect(asset.id).toBe("onoe-surprised");
-        expect(asset.preservationSourcePath).toBe("docs/art/onoe-alpha-2026-10-01/source-surprised.png");
+        const checkpoints: Record<string, string> = {
+          "onoe-surprised": "docs/art/onoe-alpha-2026-10-01/source-surprised.png",
+          "rina-surprised": "docs/art/rina-pose-2026-10-01/source/frame-surprised.png",
+        };
+        expect(asset.preservationSourcePath).toBe(checkpoints[asset.id]);
       }
-      // Subsequent alpha-only cleanup is independently locked by OnoeAlphaCleanup.test.ts.
+      // Subsequent pose/alpha edits have separate preservation suites and original checkpoints.
       const bytes = readFileSync(asset.preservationSourcePath ?? asset.path);
       expect(createHash("sha256").update(bytes).digest("hex")).toBe(asset.outputSHA256);
       const measured = preservationSignatures(bytes, asset.rois);

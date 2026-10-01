@@ -12,7 +12,7 @@ import {
 // Provenance: docs/reviews/MAYU_V7_INTEGRATION_2026-10-01.md
 // docs/reviews/EMI_EYE_FIX_2026-10-01.md, MIKU_ALPHA_CLEANUP_2026-10-01.md
 // docs/reviews/FACE_REPAIR_BATCH_2026-10-01.md and ONOE_ALPHA_CLEANUP_2026-10-01.md.
-const packageDigest = 'c4785a52bf788cd76f8f5496214f376ee21d8a68b988d16ea42072f77730d419';
+const packageDigest = 'eb2e24aeac248734092e0645a7b13e821c34a353bc896f5f71e491f56bfacfc5';
 const characterDigests: Readonly<Record<ProductionCharacterKey, string>> = {
   miku: '1f708261c9aebce1e38f2f689c3e0381ef2c7cae2ebb188833cb71d1f8f0c5c7',
   onoe: '8d8ac28376ef2876dfbf195b27f901a9d75cd24315e8516315a3a92d5ed27d96',
@@ -21,7 +21,7 @@ const characterDigests: Readonly<Record<ProductionCharacterKey, string>> = {
   kentaro: 'd6db6f5f968cf889bfece2108c5075f78f3d13ab4d39180e785dd3d53346c1b0',
   norihiro: '117a1a7466486e52b65fc5e2047429ae8f481c845bc84f20f054b8f91a75b4ee',
   mayu: '889eee1d848c4cd3d97cba6d9e905cc0e02e92e9de514400fbb7de136da76122',
-  rina: 'b1cbfe0bda9e6de15846bdcad0dc0938077dfd2dcd846ac526ab1f9722d05508',
+  rina: '3d9178e7f7df1bd7b3f772ee7009e000c4bd3ecbc2bbd7f7bd4c83f7426d6ae5',
   kurose: '50dd639a033e91b639139d6143b9d34ba87feaf7fad1d786814fafc49622bb77',
 };
 

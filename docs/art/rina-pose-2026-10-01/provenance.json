@@ -1,0 +1,22 @@
+{
+  "runtimeEligible": false,
+  "task": "G4a-RINA-POSE",
+  "prompt1": "This is a precisely aligned torso crop of the ORIGINAL adult anime character Rina. Edit ONLY her arm on the LEFT SIDE OF THE IMAGE: remove the hand-on-hip gesture, lift that forearm so the hand rests lightly near her collarbone and upper chest, elbow bent naturally downward and close to her side, calm shy gesture. Preserve exact shoulder position, original generous upper torso volume, original torso width and length, cardigan silhouette, button placement, cream undershirt, original blue-grey color, black outlines and original simple flat cel shading. The other arm on the RIGHT SIDE OF IMAGE stays straight down and unchanged. Preserve brown shoulder bag and strap and the honey-blonde hair entering this crop. Keep the ORIGINAL camera and spatial alignment: do not recenter, zoom, rotate, lengthen, slim, redesign or change proportions. Do not add a head or legs outside this torso crop. No new clothes, no crop top, no jewelry. Uniform white background outside the existing character. Draw an anatomically coherent hand with five fingers; no hand on waist or hip.",
+  "sourceFlowSha256": "9327097D47FC2B808BB2043F3582522A403F069666255E76EE27AA77F0A0C0CA",
+  "crop": {
+    "height": 512,
+    "width": 512,
+    "y": 320,
+    "x": 224
+  },
+  "approval": "pose gesture approved, identity v1 rejected; v2 pending",
+  "baseSha": "5c5a2164fb6ff983dc57972796238fe5ca10b306",
+  "sourceFlow": "C:\\StableDiffusion\\generated_workflows\\guest_production_v2\\comfy_v10_full_batch\\hinata_pose_02_api.json",
+  "prompt2": "Refine IMAGE 1 with its new LEFT arm gesture frozen. IMAGE 2 is the exact ORIGINAL torso identity and proportions reference, NOT a request to restore its hand on hip. This is a precisely aligned torso crop of the ORIGINAL adult anime character Rina. Edit ONLY her arm on the LEFT SIDE OF THE IMAGE: remove the hand-on-hip gesture, lift that forearm so the hand rests lightly near her collarbone and upper chest, elbow bent naturally downward and close to her side, calm shy gesture. Preserve exact shoulder position, original generous upper torso volume, original torso width and length, cardigan silhouette, button placement, cream undershirt, original blue-grey color, black outlines and original simple flat cel shading. The other arm on the RIGHT SIDE OF IMAGE stays straight down and unchanged. Preserve brown shoulder bag and strap and the honey-blonde hair entering this crop. Keep the ORIGINAL camera and spatial alignment: do not recenter, zoom, rotate, lengthen, slim, redesign or change proportions. Do not add a head or legs outside this torso crop. No new clothes, no crop top, no jewelry. Uniform white background outside the existing character. Draw an anatomically coherent hand with five fingers; no hand on waist or hip. Retain only the changed arm gesture; restore any unintended clothing, palette or body-proportion changes to IMAGE 2.",
+  "seeds": [
+    101002,
+    102002
+  ],
+  "workflow": "Guest v10 Flux2-Klein Euler 8+8, localized torso edit instead of full-body 3D redraw",
+  "sourceSha256": "00065275EF668A843B035A3711EC7E99C019FCD5FF729B7332B2E4F9317B8CAE"
+}

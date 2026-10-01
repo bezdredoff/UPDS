@@ -1,0 +1,425 @@
+{
+  "1": {
+    "inputs": {
+      "image": "UPDS_Rina_Review_20261001/rina-original-neutral.png"
+    },
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {
+      "image": "UPDS_Rina_Review_20261001/rina-original-neutral.png"
+    },
+    "class_type": "LoadImage"
+  },
+  "3": {
+    "inputs": {
+      "image": [
+        "8",
+        0
+      ],
+      "resolution_steps": 16,
+      "upscale_method": "lanczos",
+      "megapixels": 0.75
+    },
+    "class_type": "ImageScaleToTotalPixels"
+  },
+  "4": {
+    "inputs": {
+      "image": [
+        "8",
+        0
+      ],
+      "resolution_steps": 16,
+      "upscale_method": "lanczos",
+      "megapixels": 0.75
+    },
+    "class_type": "ImageScaleToTotalPixels"
+  },
+  "10": {
+    "inputs": {
+      "weight_dtype": "default",
+      "unet_name": "Flux2-Klein-9B-True-V3-fp8mixed.safetensors"
+    },
+    "class_type": "UNETLoader"
+  },
+  "11": {
+    "inputs": {
+      "clip_name": "qwen_3_8b_fp8mixed.safetensors",
+      "type": "flux2",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader"
+  },
+  "12": {
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    },
+    "class_type": "VAELoader"
+  },
+  "13": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect"
+  },
+  "20": {
+    "inputs": {
+      "megapixels": 0.75,
+      "prompt": "This is a precisely aligned torso crop of the ORIGINAL adult anime character Rina. Edit ONLY her arm on the LEFT SIDE OF THE IMAGE: remove the hand-on-hip gesture, lift that forearm so the hand rests lightly near her collarbone and upper chest, elbow bent naturally downward and close to her side, calm shy gesture. Preserve exact shoulder position, original generous upper torso volume, original torso width and length, cardigan silhouette, button placement, cream undershirt, original blue-grey color, black outlines and original simple flat cel shading. The other arm on the RIGHT SIDE OF IMAGE stays straight down and unchanged. Preserve brown shoulder bag and strap and the honey-blonde hair entering this crop. Keep the ORIGINAL camera and spatial alignment: do not recenter, zoom, rotate, lengthen, slim, redesign or change proportions. Do not add a head or legs outside this torso crop. No new clothes, no crop top, no jewelry. Uniform white background outside the existing character. Draw an anatomically coherent hand with five fingers; no hand on waist or hip.",
+      "image2": [
+        "4",
+        0
+      ],
+      "resolution_steps": 16,
+      "image1": [
+        "3",
+        0
+      ],
+      "vae": [
+        "12",
+        0
+      ],
+      "empty_height": 1536,
+      "clip": [
+        "11",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "empty_width": 1024,
+      "batch_size": 1
+    },
+    "class_type": "VNCCS_Flux_Klein_Encoder"
+  },
+  "21": {
+    "inputs": {
+      "image": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "GetImageSize"
+  },
+  "22": {
+    "inputs": {
+      "height": [
+        "21",
+        1
+      ],
+      "width": [
+        "21",
+        0
+      ],
+      "steps": 8
+    },
+    "class_type": "Flux2Scheduler"
+  },
+  "23": {
+    "inputs": {
+      "model": [
+        "10",
+        0
+      ],
+      "conditioning": [
+        "20",
+        0
+      ]
+    },
+    "class_type": "BasicGuider"
+  },
+  "24": {
+    "inputs": {
+      "noise_seed": 101002
+    },
+    "class_type": "RandomNoise"
+  },
+  "25": {
+    "inputs": {
+      "noise": [
+        "24",
+        0
+      ],
+      "sigmas": [
+        "22",
+        0
+      ],
+      "guider": [
+        "23",
+        0
+      ],
+      "sampler": [
+        "13",
+        0
+      ],
+      "latent_image": [
+        "20",
+        2
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced"
+  },
+  "26": {
+    "inputs": {
+      "samples": [
+        "25",
+        0
+      ],
+      "vae": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "30": {
+    "inputs": {
+      "megapixels": 0.75,
+      "prompt": "Refine IMAGE 1 with its new LEFT arm gesture frozen. IMAGE 2 is the exact ORIGINAL torso identity and proportions reference, NOT a request to restore its hand on hip. This is a precisely aligned torso crop of the ORIGINAL adult anime character Rina. Edit ONLY her arm on the LEFT SIDE OF THE IMAGE: remove the hand-on-hip gesture, lift that forearm so the hand rests lightly near her collarbone and upper chest, elbow bent naturally downward and close to her side, calm shy gesture. Preserve exact shoulder position, original generous upper torso volume, original torso width and length, cardigan silhouette, button placement, cream undershirt, original blue-grey color, black outlines and original simple flat cel shading. The other arm on the RIGHT SIDE OF IMAGE stays straight down and unchanged. Preserve brown shoulder bag and strap and the honey-blonde hair entering this crop. Keep the ORIGINAL camera and spatial alignment: do not recenter, zoom, rotate, lengthen, slim, redesign or change proportions. Do not add a head or legs outside this torso crop. No new clothes, no crop top, no jewelry. Uniform white background outside the existing character. Draw an anatomically coherent hand with five fingers; no hand on waist or hip. Retain only the changed arm gesture; restore any unintended clothing, palette or body-proportion changes to IMAGE 2.",
+      "image2": [
+        "4",
+        0
+      ],
+      "resolution_steps": 16,
+      "image1": [
+        "26",
+        0
+      ],
+      "vae": [
+        "12",
+        0
+      ],
+      "empty_height": 1536,
+      "clip": [
+        "11",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "empty_width": 1024,
+      "batch_size": 1
+    },
+    "class_type": "VNCCS_Flux_Klein_Encoder"
+  },
+  "31": {
+    "inputs": {
+      "image": [
+        "26",
+        0
+      ]
+    },
+    "class_type": "GetImageSize"
+  },
+  "32": {
+    "inputs": {
+      "height": [
+        "31",
+        1
+      ],
+      "width": [
+        "31",
+        0
+      ],
+      "steps": 8
+    },
+    "class_type": "Flux2Scheduler"
+  },
+  "33": {
+    "inputs": {
+      "model": [
+        "10",
+        0
+      ],
+      "conditioning": [
+        "30",
+        0
+      ]
+    },
+    "class_type": "BasicGuider"
+  },
+  "34": {
+    "inputs": {
+      "noise_seed": 102002
+    },
+    "class_type": "RandomNoise"
+  },
+  "35": {
+    "inputs": {
+      "noise": [
+        "34",
+        0
+      ],
+      "sigmas": [
+        "32",
+        0
+      ],
+      "guider": [
+        "33",
+        0
+      ],
+      "sampler": [
+        "13",
+        0
+      ],
+      "latent_image": [
+        "30",
+        2
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced"
+  },
+  "36": {
+    "inputs": {
+      "samples": [
+        "35",
+        0
+      ],
+      "vae": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "37": {
+    "inputs": {
+      "refine_foreground": true,
+      "model": "BiRefNet_toonout",
+      "image": [
+        "36",
+        0
+      ],
+      "sensitivity": 1.0,
+      "background": "Alpha",
+      "invert_output": false,
+      "background_color": "#202020",
+      "mask_offset": 0,
+      "mask_blur": 0
+    },
+    "class_type": "BiRefNetRMBG"
+  },
+  "38": {
+    "inputs": {
+      "alpha_black": 0.03,
+      "image": [
+        "37",
+        0
+      ],
+      "source_image": [
+        "36",
+        0
+      ],
+      "min_component_area": 256,
+      "edge_radius": 6,
+      "background": "WHITE",
+      "decontaminate_strength": 0.0,
+      "core_threshold": 0.2,
+      "alpha_white": 0.97,
+      "mask": [
+        "37",
+        1
+      ]
+    },
+    "class_type": "UPDSUniversalMatteCleanup"
+  },
+  "39": {
+    "inputs": {
+      "mask": [
+        "38",
+        1
+      ]
+    },
+    "class_type": "InvertMask"
+  },
+  "40": {
+    "inputs": {
+      "image": [
+        "38",
+        0
+      ],
+      "alpha": [
+        "39",
+        0
+      ]
+    },
+    "class_type": "JoinImageWithAlpha"
+  },
+  "80": {
+    "inputs": {
+      "images": [
+        "26",
+        0
+      ],
+      "filename_prefix": "UPDS_Rina_Review_20261001/pose-v2/pass1-crop"
+    },
+    "class_type": "SaveImage"
+  },
+  "81": {
+    "inputs": {
+      "images": [
+        "36",
+        0
+      ],
+      "filename_prefix": "UPDS_Rina_Review_20261001/pose-v2/pass2-crop"
+    },
+    "class_type": "SaveImage"
+  },
+  "82": {
+    "inputs": {
+      "images": [
+        "40",
+        0
+      ],
+      "filename_prefix": "UPDS_Rina_Review_20261001/pose-v2/arm-crop-rgba"
+    },
+    "class_type": "SaveImage"
+  },
+  "5": {
+    "class_type": "EmptyImage",
+    "inputs": {
+      "width": 1024,
+      "height": 1536,
+      "color": 16777215,
+      "batch_size": 1
+    }
+  },
+  "6": {
+    "class_type": "InvertMask",
+    "inputs": {
+      "mask": [
+        "1",
+        1
+      ]
+    }
+  },
+  "7": {
+    "class_type": "ImageCompositeMasked",
+    "inputs": {
+      "source": [
+        "1",
+        0
+      ],
+      "y": 0,
+      "x": 0,
+      "resize_source": false,
+      "mask": [
+        "6",
+        0
+      ],
+      "destination": [
+        "5",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "height": 512,
+      "width": 512,
+      "y": 320,
+      "image": [
+        "7",
+        0
+      ],
+      "x": 224
+    }
+  }
+}

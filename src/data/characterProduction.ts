@@ -207,7 +207,7 @@ export const characterProductionManifest: CharacterProductionManifest = {
     rina: production(
       'rina', 'Рина Сираиси', 'Рина', 'РИНА', 'exact',
       'pose_b_ledger_package.png', 'portrait_neutral_256.png',
-      { left: 259, top: 28, right: 765, bottom: 1508 },
+      { left: 266, top: 28, right: 765, bottom: 1508 },
       200,
     ),
     kurose: production(
