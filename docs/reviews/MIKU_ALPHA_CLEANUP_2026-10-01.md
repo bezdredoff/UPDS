@@ -67,6 +67,22 @@ Miku seven-asset digest:
 GitHub CI этого пакета ещё ожидается. Не менять Linux WebKit visual baseline без
 просмотра соответствующего CI attachment.
 
+### Публикация и проверенные Linux эталоны
+
+Создан зависимый PR #316, base `local-ai/emi-eye-fix` (#315).
+Quality gate run 36865569827 passed. В Browser Gate 36865572790 Chromium passed;
+WebKit: 31 passed, два устаревших эталона — trio VN0008 и общий lineup.
+Скачаны и визуально просмотрены actual/diff trio и full-cast-lineup из Linux CI.
+Trio diff показывает согласованную очистку возле шеи Мику и небольшие различия
+растрирования текста; композиция, остальные персонажи и UI layout сохранены.
+Обе попытки trio совпадают по SHA256:
+`51b15bd3afece04adfe651a5694c8f77f7d7f5c901966fd2485395a97839f4db`.
+В качестве нового Linux snapshot скопирован именно проверенный CI actual PNG,
+не Windows snapshot. Обе попытки lineup дали SHA256
+`871780933cb460a3be6ca9785c70577f7d2ba4250cf5eedd3173fdde561cb6f5`;
+он становится новым fullCastLineupDigest. Assertion и maxDiffPixelRatio не меняются.
+После исправления требуется повторный Browser Gate; не считать первоначальный run успешным.
+
 Пользователь принял очистку, а не новое выражение лица: `surprised` сохраняет
 старую эмоцию и остаётся отдельным замечанием ревью. G4a и KI-005 не закрываются;
 исторический JSON ревью не переписывается. Нужен финальный просмотр всех пяти
