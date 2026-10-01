@@ -24,10 +24,10 @@ const goldenOptions = {
   maxDiffPixelRatio: 0.002,
 } as const;
 
-// Linux mobile WebKit baseline after the complete Mayu v7 replacement.
-// Reviewed CI attachment: run 36854301920; both attempts produced this digest.
-// Provenance: docs/reviews/MAYU_V7_INTEGRATION_2026-10-01.md.
-const fullCastLineupDigest = '738ec5e4450dedd80ba6dab490c512ebb3cf5738892c261a459217e82e74c112';
+// Linux mobile WebKit baseline after Mayu v7 and the Emi eye correction.
+// Reviewed CI attachment: run 36858443504; both attempts produced this digest.
+// Provenance: docs/reviews/EMI_EYE_FIX_2026-10-01.md.
+const fullCastLineupDigest = 'b10198b80c2b2410abfa0d3a80343aebc78326474d28cf3ed86c4ecfa8d61ffb';
 
 async function waitForVisualIdle(page: Page): Promise<void> {
   await expect.poll(async () => page.locator('img').evaluateAll((images) =>
