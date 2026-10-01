@@ -16,25 +16,25 @@
       "filename": "packet-01-vn-scenes-00-05.md",
       "kind": "story",
       "entries": 178,
-      "sha256": "bb734f5f74962824e6f2d903e392b150671c836259f0d9638286a5bdb7817b25"
+      "sha256": "42d56f914387bbd9e051750397ae113886aca0eaac455198c201a60ae5fe0ff5"
     },
     {
       "filename": "packet-02-vn-scenes-06-11.md",
       "kind": "story",
       "entries": 142,
-      "sha256": "9b8ce9c3b03f3f99bbdd4d11566f9cf9dc8bc9cb70cb9b546be9a77246b27020"
+      "sha256": "41613e566311672be7f594875df7daa26769bb67d760c98f3e4161c2189feee0"
     },
     {
       "filename": "packet-03-vn-scenes-12-17.md",
       "kind": "story",
       "entries": 121,
-      "sha256": "a725417c42449cdf56e928f5594652d5d2248a148e67ff3217e096ef6411145f"
+      "sha256": "f3c210e52e2fddded06f14f38ccba50cf6accb686accd925b701657a39993319"
     },
     {
       "filename": "packet-04-vn-scenes-18-23.md",
       "kind": "story",
       "entries": 118,
-      "sha256": "a017ee76ada45932257a908e1381b1a30e411f4a04e7cbe82cef109b8d79eb99"
+      "sha256": "8ea7e33b4a61f85e2dfbc65218434b05786c404d56006ee1916bb85527102c46"
     },
     {
       "filename": "packet-05-vn-scenes-24-29.md",
@@ -46,19 +46,19 @@
       "filename": "packet-06-vn-scenes-30-35.md",
       "kind": "story",
       "entries": 119,
-      "sha256": "e82dc954cb32f0af08eec565e856a872ce64348c59c86db956a7857ade534e30"
+      "sha256": "cc312e9a31d6ad1ac4c1a941df12f158185a3dacedce3f7f16be2a2229426ebd"
     },
     {
       "filename": "packet-07-vn-scenes-36-40.md",
       "kind": "story",
       "entries": 99,
-      "sha256": "834a4fb676b37af366fbe820052bdb0fc9dcb637f88af01ed5028582c9a94f51"
+      "sha256": "cd9d9d94c63880a30fd6291f7e151491eae3abe85a6677acc6d4bce0a8340635"
     },
     {
       "filename": "packet-08-vn-scenes-41-44.md",
       "kind": "story",
       "entries": 80,
-      "sha256": "b9485f74fd6403e1e794a0ee670412efab0f836ffc3c96f8c0e74b2eac94bdab"
+      "sha256": "9bb781aad198be34be7f23552a5ab070dbd739627375aa61ecabf00d081e73eb"
     },
     {
       "filename": "packet-09-player-ui.md",
@@ -70,7 +70,7 @@
       "filename": "packet-10-match3-core.md",
       "kind": "runtime",
       "entries": 202,
-      "sha256": "a3f4aeec9c1cf76852e7f49dd1819c559c55bc7b2de467ddb24c688050df40a2"
+      "sha256": "d355244890fec6513a6836f5c0432cf5fb61954a5acfccede4c34152690e5234"
     },
     {
       "filename": "packet-11-match3-levels-00-10.md",
@@ -94,7 +94,7 @@
       "filename": "appendix-qa-tools.md",
       "kind": "qa",
       "entries": 151,
-      "sha256": "cf8200eca172f686dda5701fba723b2c0dd415a580a583186ceef70f9ddc2fdc"
+      "sha256": "439e4283fa22777b9f326ecfc6005a51c5f1a644e0df22c027ba9210791e85f0"
     }
   ]
 }
