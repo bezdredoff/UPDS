@@ -7,6 +7,7 @@ type CleanupAsset = {
   path: string; mask: string; outputSHA256: string; sourceSHA256: string;
   rgbSHA256: string; protectedPixelsSHA256: string;
   width: number; height: number; alphaChanges: number; bounds: number[];
+  visualApproval: string;
 };
 const manifest: { format: string; assets: CleanupAsset[] } = JSON.parse(
   readFileSync('docs/art/onoe-alpha-2026-10-01/qa.json', 'utf8'),
@@ -16,6 +17,7 @@ const sha = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
 describe('Onoe shoulder-strand cleanup preserves approved artwork', () => {
   it('covers exactly five expressions, Pose B and the portrait', () => {
     expect(manifest.format).toBe('upds-onoe-alpha-cleanup-v1');
+    expect(manifest.assets.every(a => a.visualApproval === 'user-approved-2026-10-01')).toBe(true);
     expect(manifest.assets.map(a => a.path).sort()).toEqual([
       'public/assets/characters/onoe/medallions/portrait_neutral_256.png',
       'public/assets/characters/onoe/poses/pose_b_evidence_bag.png',
@@ -63,5 +65,11 @@ describe('Onoe shoulder-strand cleanup preserves approved artwork', () => {
     const source = readFileSync('docs/art/onoe-alpha-2026-10-01/source-surprised.png');
     const asset = manifest.assets.find(a => a.path.endsWith('/frame-surprised.png'));
     expect(sha(source)).toBe(asset?.sourceSHA256);
+  });
+  it('keeps the colored portrait strand where the rejected v1 had a square cut', () => {
+    const image = decodeRgbaPng(readFileSync('public/assets/characters/onoe/medallions/portrait_neutral_256.png'));
+    for (const [x, y, alpha] of [[199, 135, 224], [211, 165, 222], [221, 185, 255]]) {
+      expect(image.pixels[(y * image.width + x) * 4 + 3]).toBe(alpha);
+    }
   });
 });

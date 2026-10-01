@@ -331,162 +331,142 @@
       ],
       "left": [
         [
-          85,
-          67
-        ],
-        [
-          105,
-          66
-        ],
-        [
-          110,
-          66
-        ],
-        [
           115,
-          65
+          59
         ],
         [
           120,
-          65
+          58.5
         ],
         [
           125,
-          65
+          56.5
         ],
         [
           130,
-          66
-        ],
-        [
-          135,
-          64
-        ],
-        [
-          140,
-          65
-        ],
-        [
-          145,
-          64
-        ],
-        [
-          150,
-          62
-        ],
-        [
-          155,
-          61
-        ],
-        [
-          160,
-          58
-        ],
-        [
-          165,
           55
         ],
         [
-          170,
-          53
+          135,
+          53.5
         ],
         [
-          175,
+          140,
           51
         ],
         [
-          180,
+          145,
           49
         ],
         [
+          150,
+          47
+        ],
+        [
+          155,
+          45
+        ],
+        [
+          160,
+          43
+        ],
+        [
+          165,
+          42
+        ],
+        [
+          170,
+          40
+        ],
+        [
+          175,
+          38.5
+        ],
+        [
+          180,
+          37
+        ],
+        [
           185,
-          46
+          35.5
         ],
         [
           190,
-          38
-        ],
-        [
-          195,
-          35
+          33.5
         ]
       ],
       "right": [
         [
-          130,
-          200
-        ],
-        [
           135,
-          192
+          205
         ],
         [
           140,
-          194
+          208
         ],
         [
           145,
-          195
-        ],
-        [
-          150,
-          197
-        ],
-        [
-          155,
-          199
-        ],
-        [
-          160,
-          203
-        ],
-        [
-          165,
-          206
-        ],
-        [
-          170,
           210
         ],
         [
-          175,
+          150,
           213
         ],
         [
-          180,
-          215
+          155,
+          216
         ],
         [
-          185,
-          217
-        ],
-        [
-          190,
+          160,
           219
         ],
         [
-          195,
+          165,
           222
         ],
         [
-          200,
-          225
+          170,
+          224
         ],
         [
-          205,
+          175,
           226
         ],
         [
-          210,
+          180,
+          227
+        ],
+        [
+          185,
+          229
+        ],
+        [
+          190,
+          230
+        ],
+        [
+          195,
+          232
+        ],
+        [
+          200,
+          234
+        ],
+        [
+          205,
           236
         ],
         [
+          210,
+          237
+        ],
+        [
           215,
-          238
+          237
         ],
         [
           220,
-          238
+          240
         ],
         [
           225,
@@ -511,7 +491,8 @@
         30,
         800,
         1506
-      ]
+      ],
+      "visualApproval": "user-approved-2026-10-01"
     },
     {
       "path": "public/assets/characters/onoe/rig/pose_a/frames/frame-smile.png",
@@ -528,7 +509,8 @@
         30,
         800,
         1506
-      ]
+      ],
+      "visualApproval": "user-approved-2026-10-01"
     },
     {
       "path": "public/assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
@@ -545,7 +527,8 @@
         30,
         800,
         1506
-      ]
+      ],
+      "visualApproval": "user-approved-2026-10-01"
     },
     {
       "path": "public/assets/characters/onoe/rig/pose_a/frames/frame-surprised.png",
@@ -562,7 +545,8 @@
         30,
         800,
         1506
-      ]
+      ],
+      "visualApproval": "user-approved-2026-10-01"
     },
     {
       "path": "public/assets/characters/onoe/rig/pose_a/frames/frame-embarrassed.png",
@@ -579,7 +563,8 @@
         30,
         800,
         1506
-      ]
+      ],
+      "visualApproval": "user-approved-2026-10-01"
     },
     {
       "path": "public/assets/characters/onoe/poses/pose_b_evidence_bag.png",
@@ -596,7 +581,8 @@
         31,
         793,
         1506
-      ]
+      ],
+      "visualApproval": "user-approved-2026-10-01"
     },
     {
       "path": "public/assets/characters/onoe/medallions/portrait_neutral_256.png",
@@ -604,16 +590,17 @@
       "width": 256,
       "height": 256,
       "sourceSHA256": "0c30b5530edb5c729e48681b704a89e8a9cef121dd97bab2623d832b1ca5813f",
-      "outputSHA256": "17d48a486af2d768cb6c00094852f5a60cb6cb2e3efb22cf92d5344bd5b808b6",
+      "outputSHA256": "d7d4516be0de0fb5e23ee4f81bb56ec4c23921e63c76e956de5ab1dff9c282e1",
       "rgbSHA256": "5a4f0953900c7a81473c5fa662b38580f738151e03cbfa90e4d2106c96cb78d3",
-      "protectedPixelsSHA256": "b95c4a49b5a57c3f96e208c695ed60fcc6b2ca1e1e454121b2f6e1fb37c89ce6",
-      "alphaChanges": 1475,
+      "protectedPixelsSHA256": "747f889b7145dd33c8f775c5431107b2b84d6ef37371a0a5f792dd07c6f5dc38",
+      "alphaChanges": 384,
       "bounds": [
         0,
         0,
         256,
         256
-      ]
+      ],
+      "visualApproval": "user-approved-2026-10-01"
     }
   ]
 }
