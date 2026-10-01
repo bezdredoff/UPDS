@@ -8,14 +8,15 @@ import {
   type ProductionCharacterKey,
 } from '../src/data/characterProduction';
 
-// Original archive baseline, with the complete Mayu v7 replacement integrated
-// on 2026-10-01. Provenance: docs/reviews/MAYU_V7_INTEGRATION_2026-10-01.md.
-const packageDigest = '2a03f72ba4fef2252d6172ce238e0bda3dbbe5565d5ecadbcd910f8b4a7a9b7c';
+// Original archive baseline plus Mayu v7 and the user's Emi eye correction.
+// Provenance: docs/reviews/MAYU_V7_INTEGRATION_2026-10-01.md
+// and docs/reviews/EMI_EYE_FIX_2026-10-01.md.
+const packageDigest = '980d68f322f8d3e8767f95a73e92ba4b750ee974851c49b34d8fef064f1d37cd';
 const characterDigests: Readonly<Record<ProductionCharacterKey, string>> = {
   miku: 'a3b42f25159ce317fc62b264fd89b00bf7120e77343279128232fb9f460c79b5',
   onoe: 'a7461a43af9d0786ba95ce0d5ccfa701733f1cdb0363a4efb1a7721844b431f8',
   ayuki: '1188200ae2e4a3eeb408a7882b165a1fc8988ce331a4689a1af753d8949ed588',
-  emi: '60fee8a1d523b0aefd42138d1c61240196a7f2a629a493ae53d50be9b4cf5e22',
+  emi: '7db7b0728d619aa62d17b2d82000801446cb4c942a049ca2e77c73b7d5d5bca7',
   kentaro: 'd6db6f5f968cf889bfece2108c5075f78f3d13ab4d39180e785dd3d53346c1b0',
   norihiro: '117a1a7466486e52b65fc5e2047429ae8f481c845bc84f20f054b8f91a75b4ee',
   mayu: '889eee1d848c4cd3d97cba6d9e905cc0e02e92e9de514400fbb7de136da76122',
