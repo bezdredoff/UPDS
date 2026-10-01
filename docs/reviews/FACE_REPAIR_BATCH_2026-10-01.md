@@ -56,7 +56,8 @@ alpha всех эмоций одного персонажа: сохранена 
 7 новых preservation tests, asset inventory (0 path/decode errors), docs audit
 (11 тестов), lint, TypeScript и production build. Прежнее предупреждение о bundle
 больше 500 kB остаётся. `character:audit` теперь включает preservation tests.
-GitHub Quality/Browser Gate запускаются после публикации; Linux golden samples
+GitHub Quality и обе Browser Gate lanes #317 успешно завершены до пользовательского merge.
+Linux golden samples
 и lineup digest не меняются без фактического различия и просмотра CI attachments.
 Этот пакет не меняет neutral lineup или trio embarrassed baseline, поэтому новые
 visual approvals не подменяются автоматическим обновлением snapshots.

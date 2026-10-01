@@ -47,6 +47,19 @@ golden/digest меняются только после просмотра actual
 
 ## Ручная приёмка
 
+### GitHub и Linux lineup
+
+Quality gate `36876468122` passed; Chromium в Browser Gate `36876468100` passed.
+Первый WebKit: 31 passed, 1 flaky (внутренний WebKit reload error, retry passed),
+1 failed — старый full-cast lineup digest. Trio Golden Sample passed без обновления.
+Просмотрены предыдущий и новый Linux lineup: ровно 58 изменённых pixels,
+всё отличие в области Оноэ `(53,390)-(96,425)` на снимке 372×450.
+Остальные персонажи и layout не меняются. Обе попытки lineup дают одинаковый SHA256:
+`e43fa8b599ec58a049b5b1c772b00bc2a2dc10854dd68f53f2b7bfce7e6c4746`.
+[Проверенный CI actual](../art/onoe-alpha-2026-10-01/linux-lineup-actual.png).
+Обновлён только digest, не assertion/порог и не trio snapshot.
+Нужен повторный GitHub gate; исходное падение не считается успешным.
+
 Просмотреть neutral и все четыре эмоции, Pose B и медальон на светлом/тёмном
 фоне; переключить эмоции в игре, проверить отсутствие скачков силуэта.
 Окончательное одобрение пользователем новой очистки не выводится из тестов.
