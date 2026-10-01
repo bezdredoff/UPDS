@@ -110,6 +110,7 @@
   background: #fff8e6a8;
 }
 .match-help-special-visual {
+  position: relative;
   display: grid;
   width: 48px;
   height: 48px;

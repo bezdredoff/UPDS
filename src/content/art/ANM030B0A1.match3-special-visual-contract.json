@@ -49,8 +49,8 @@
       "effect": "clear-row",
       "currentFallback": "./assets/match3/specials/flash-row.svg",
       "productionAsset": "./assets/match3/specials/flash-row.png",
-      "productionMotif": "camera strobe / horizontal flash rail",
-      "readabilityCue": "strong horizontal light axis",
+      "productionMotif": "compact diagonal flashlight with broad light beam",
+      "readabilityCue": "square silhouette plus separate horizontal UI arrow",
       "powerTier": 1
     },
     {
@@ -59,8 +59,8 @@
       "effect": "clear-column",
       "currentFallback": "./assets/match3/specials/flash-column.svg",
       "productionAsset": "./assets/match3/specials/flash-column.png",
-      "productionMotif": "camera strobe / vertical flash rail",
-      "readabilityCue": "strong vertical light axis",
+      "productionMotif": "compact diagonal signal rocket with large fins and flame",
+      "readabilityCue": "square silhouette plus separate vertical UI arrow",
       "powerTier": 1
     },
     {
