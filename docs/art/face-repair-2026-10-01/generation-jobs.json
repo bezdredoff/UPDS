@@ -1,0 +1,126 @@
+[
+  {
+    "id": "onoe-surprised",
+    "key": "onoe",
+    "expression": "surprised",
+    "path": "public/assets/characters/onoe/rig/pose_a/frames/frame-surprised.png",
+    "reference": "public/assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+    "crop": [
+      400,
+      120,
+      224,
+      224
+    ],
+    "rois": [
+      [
+        434,
+        163,
+        150,
+        124
+      ]
+    ],
+    "seed": 101027,
+    "prompt": "Edit ONLY the facial expression of this exact adult anime woman Satsuki Onoe. Natural surprise: slightly raised eyebrows, moderately widened matching turquoise teal eyes with their original colored irises and pupils, coherent forward gaze, small softly open mouth. No gray irises, no black-dot eyes, no giant whites, no panic or scream. Preserve exact face identity, burgundy long hair, mature proportions, skin color, head angle, head position, turquoise teal iris color, original anime line art and restrained flat cel shading. Same crop and spatial alignment. Change only eyebrows, eyelids and mouth. No new hair, no age change, no text.",
+    "prompt_id": "318e0934-385c-4ef8-ad0a-49295e35d132",
+    "composite_prompt_id": "6998a831-f5eb-4c4d-831d-8ec75cd19439"
+  },
+  {
+    "id": "rina-surprised",
+    "key": "rina",
+    "expression": "surprised",
+    "path": "public/assets/characters/rina/rig/pose_a/frames/frame-surprised.png",
+    "reference": "public/assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+    "crop": [
+      400,
+      120,
+      224,
+      224
+    ],
+    "rois": [
+      [
+        440,
+        156,
+        152,
+        137
+      ]
+    ],
+    "seed": 101037,
+    "prompt": "Edit ONLY the facial expression of this exact adult anime woman Rina. Natural surprise: slightly raised eyebrows, moderately widened matching green eyes with original green irises and normal pupils, coherent forward gaze, small softly open mouth. No black-dot eyes, no empty white eyes, no huge eyes, no panic or scream. Preserve exact mature face identity, honey blonde hair, skin color, head angle, head position, green iris color, original anime line art and flat restrained cel shading. Same crop and exact spatial alignment. Change only eyebrows, eyelids and mouth. No new hair, no age change, no text.",
+    "prompt_id": "85dbe8b6-83a0-47c2-b4c7-8f01bd37f6a3",
+    "composite_prompt_id": "399af7bf-19be-40fe-a9de-f805a6731b89"
+  },
+  {
+    "id": "kurose-surprised",
+    "key": "kurose",
+    "expression": "surprised",
+    "path": "public/assets/characters/kurose/rig/pose_a/frames/frame-surprised.png",
+    "reference": "public/assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+    "crop": [
+      392,
+      64,
+      224,
+      224
+    ],
+    "rois": [
+      [
+        438,
+        97,
+        124,
+        140
+      ]
+    ],
+    "seed": 101047,
+    "prompt": "Edit ONLY the facial expression of this exact mature middle-aged anime man Reiji Kurose. Natural restrained surprise: mildly raised eyebrows, slightly widened normal gray-blue irises with pupils, clear focused eyes behind the exact original thin rectangular silver glasses, small softly open mouth, not terrified. Preserve the neutral reference identity, middle-aged appearance, forehead creases, mature eye wrinkles, original glasses including both rectangular frames and bridge, gray-blue eye color, hair, skin color, head angle and exact spatial alignment. No black-dot eyes, no huge eyes, no missing glasses, no younger face, no scream. Original clean anime line art, restrained flat cel shading. Change only expression, no objects or text.",
+    "prompt_id": "a5dcc545-8c46-44ae-b554-05877d632cf3",
+    "composite_prompt_id": "c59fb084-2887-4275-a9ad-3125878fe749"
+  },
+  {
+    "id": "kurose-embarrassed",
+    "key": "kurose",
+    "expression": "embarrassed",
+    "path": "public/assets/characters/kurose/rig/pose_a/frames/frame-embarrassed.png",
+    "reference": "public/assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+    "crop": [
+      392,
+      64,
+      224,
+      224
+    ],
+    "rois": [
+      [
+        438,
+        97,
+        124,
+        140
+      ]
+    ],
+    "seed": 101058,
+    "prompt": "Edit this exact MIDDLE-AGED MAN into visibly embarrassed, self-conscious awkwardness, not neutral. Slightly worried raised inner eyebrows, gray-blue eyes behind unchanged rectangular silver glasses, gently averted shy gaze, subtle coral blush on BOTH cheeks, small tense closed mouth with a hesitant asymmetric corner, no big smile. Preserve his established middle-aged face, age lines, forehead creases, eye wrinkles, nasolabial folds, same hair, glasses, identity, head angle and exact spatial alignment. Normal colored irises and pupils, no black-dot eyes, no empty slits, no childlike face, no smooth youthful cheeks, no tears, no comedic panic. Exact original anime line art and restrained flat cel shading. Expression edit ONLY, not a new portrait.",
+    "prompt_id": "380e6b4c-c4f4-4461-92ca-0f8c550e8500",
+    "composite_prompt_id": "c1dd8eb1-e560-4962-a64b-61d0104f3fdb"
+  },
+  {
+    "id": "vincent-smile",
+    "key": "vincent",
+    "expression": "smile",
+    "path": "public/assets/guests/vincent/expressions/smile.png",
+    "reference": "public/assets/guests/vincent/neutral.png",
+    "crop": [
+      408,
+      107,
+      224,
+      224
+    ],
+    "rois": [
+      [
+        482,
+        218,
+        78,
+        35
+      ]
+    ],
+    "seed": 101067,
+    "prompt": "Edit ONLY the mouth expression of this exact adult anime man Vincent Mori. Replace the broad grin with a subtle restrained natural closed-mouth smile: relaxed narrow mouth, only very slightly lifted corners, warm but reserved. No broad grin, no smirk, no teeth, no open mouth. Preserve exact mature face identity, eye expression, original green eyes, brown wavy hair, nose, skin tone, face anatomy, original anime line art and flat cel shading, head position and crop alignment. Change only the mouth and immediately surrounding skin. No new objects, no text.",
+    "prompt_id": "12be34fb-ac51-4836-9b62-ef3f7a561aeb"
+  }
+]

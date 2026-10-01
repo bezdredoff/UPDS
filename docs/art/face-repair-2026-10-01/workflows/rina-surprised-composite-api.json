@@ -1,0 +1,104 @@
+{
+  "4": {
+    "class_type": "ImageCrop",
+    "inputs": {
+      "y": 36,
+      "height": 137,
+      "x": 40,
+      "width": 152,
+      "image": [
+        "3",
+        0
+      ]
+    }
+  },
+  "2": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "UPDS_Face_Repairs_20261001/rina-surprised-face.png"
+    }
+  },
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "UPDS_Face_Repairs_20261001/rina-surprised-base.png"
+    }
+  },
+  "3": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "height": 224,
+      "crop": "disabled",
+      "upscale_method": "lanczos",
+      "width": 224,
+      "image": [
+        "2",
+        0
+      ]
+    }
+  },
+  "82": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "8",
+        0
+      ],
+      "filename_prefix": "UPDS_Face_Repairs_20261001/rina-surprised/face-blend"
+    }
+  },
+  "6": {
+    "class_type": "FeatherMask",
+    "inputs": {
+      "top": 12,
+      "left": 12,
+      "bottom": 12,
+      "right": 12,
+      "mask": [
+        "5",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "JoinImageWithAlpha",
+    "inputs": {
+      "image": [
+        "7",
+        0
+      ],
+      "alpha": [
+        "1",
+        1
+      ]
+    }
+  },
+  "7": {
+    "class_type": "ImageCompositeMasked",
+    "inputs": {
+      "y": 156,
+      "x": 440,
+      "source": [
+        "4",
+        0
+      ],
+      "mask": [
+        "6",
+        0
+      ],
+      "destination": [
+        "1",
+        0
+      ],
+      "resize_source": false
+    }
+  },
+  "5": {
+    "class_type": "SolidMask",
+    "inputs": {
+      "height": 137,
+      "value": 1.0,
+      "width": 152
+    }
+  }
+}
