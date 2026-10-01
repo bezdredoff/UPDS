@@ -99,7 +99,8 @@ function match3SpecialImageMarkup(
   className: string,
   alt: string,
 ): string {
-  return `<img class="${className}" src="${specialAssets[special]}" data-asset-fallback-src="${specialFallbackAssets[special]}" alt="${escapeHtml(alt)}" draggable="false">`;
+  const direction = special === 'flash-row' ? '↔' : special === 'flash-column' ? '↕' : null;
+  return `<img class="${className}" src="${specialAssets[special]}" data-asset-fallback-src="${specialFallbackAssets[special]}" alt="${escapeHtml(alt)}" draggable="false">${direction ? `<span class="special-direction-marker" data-special-direction="${special === 'flash-row' ? 'row' : 'column'}" aria-hidden="true">${direction}</span>` : ''}`;
 }
 
 export function match3ContextAttrs(level: LevelDefinition): string {

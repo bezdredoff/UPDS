@@ -105,7 +105,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     health.assertClean();
   });
 
-  test('Help stays centered inside the phone viewport without moving the board', async ({ page }) => {
+  test('Help stays centered inside the phone viewport without moving the board', async ({ page }, testInfo) => {
     const health = observeBrowserHealth(page);
     await openDeterministicLab(page);
 
@@ -138,6 +138,17 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
 
     expect(geometry.centerDelta).toBeLessThanOrEqual(1);
     expect(geometry.insideViewport).toBe(true);
+
+    await expect(help.locator('.special-direction-marker')).toHaveCount(2);
+    await expect(help.locator('[data-special="flash-row"] [data-special-direction="row"]')).toHaveText('↔');
+    await expect(help.locator('[data-special="flash-column"] [data-special-direction="column"]')).toHaveText('↕');
+    expect(await help.locator('.special-direction-marker').evaluateAll((markers) => markers.every((marker) => {
+      const rect = marker.getBoundingClientRect();
+      const parent = marker.parentElement?.getBoundingClientRect();
+      return parent && rect.left >= parent.left && rect.right <= parent.right
+        && rect.top >= parent.top && rect.bottom <= parent.bottom;
+    }))).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath('bonus-help.png') });
 
     const boardAfter = await board.boundingBox();
     if (!boardAfter) throw new Error('Missing Match-3 board while Help is open');

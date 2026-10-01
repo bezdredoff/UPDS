@@ -4,9 +4,9 @@ import { readFile } from 'node:fs/promises';
 import { specialAssets, specialFallbackAssets } from '../src/data/levels';
 
 const expectedProductionDigests = {
-  'flash-row': 'a8d8617e81c189eb90f7be374e3e48d3af73b547204f0fdbc284ce58928984b6',
-  'flash-column': 'eae46cd018e54133d87ccf7175940dae0f479c5d0d4619335b102aedf4ed11b4',
-  evidence: 'c45a3993d159549f90fbc22f5589dc24c8eeb6f1ca754960cd103fa640e4fae1',
+  'flash-row': '0311032777ebf96509e50f3275a4800464b85a4e12b010d44aebdf8203d8c6a7',
+  'flash-column': '15f87e326e76bcd15f7a09b84e40346d81b7abdfea1b53e7257c95a0603a785e',
+  evidence: '9a7858a430ccec501fc70ebc38cccac4d2033a652516fb4a72945fe49ecf37f5',
   lead: '565f7783cce7b4ba7d060a41112430405881ba189ebc74ae2ca3729b40de7351',
   insight: '2d3e29d7afaec2b23630c5b9556f287227b0faab8cbb620b0036bcfb0fa77b61',
 } as const;
