@@ -97,7 +97,7 @@
       "status": "production",
       "adultCharacter": true,
       "visualApproval": "approved",
-      "neutralEyeLineYPx": 190,
+      "neutralEyeLineYPx": 176,
       "poseBFile": "pose_b_phone_documents.png",
       "medallionFile": "portrait_neutral_256.png"
     },
@@ -142,7 +142,7 @@
       "emi": 218,
       "kentaro": 182,
       "norihiro": 182,
-      "mayu": 190,
+      "mayu": 176,
       "rina": 200,
       "kurose": 180
     },

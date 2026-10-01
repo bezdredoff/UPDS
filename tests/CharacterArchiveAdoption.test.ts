@@ -8,7 +8,9 @@ import {
   type ProductionCharacterKey,
 } from '../src/data/characterProduction';
 
-const packageDigest = 'c10411a3a530490a721fc54dcf48feff07ca4b2ee0720b31d2128931487cec62';
+// Original archive baseline, with the complete Mayu v7 replacement integrated
+// on 2026-10-01. Provenance: docs/reviews/MAYU_V7_INTEGRATION_2026-10-01.md.
+const packageDigest = '2a03f72ba4fef2252d6172ce238e0bda3dbbe5565d5ecadbcd910f8b4a7a9b7c';
 const characterDigests: Readonly<Record<ProductionCharacterKey, string>> = {
   miku: 'a3b42f25159ce317fc62b264fd89b00bf7120e77343279128232fb9f460c79b5',
   onoe: 'a7461a43af9d0786ba95ce0d5ccfa701733f1cdb0363a4efb1a7721844b431f8',
@@ -16,7 +18,7 @@ const characterDigests: Readonly<Record<ProductionCharacterKey, string>> = {
   emi: '60fee8a1d523b0aefd42138d1c61240196a7f2a629a493ae53d50be9b4cf5e22',
   kentaro: 'd6db6f5f968cf889bfece2108c5075f78f3d13ab4d39180e785dd3d53346c1b0',
   norihiro: '117a1a7466486e52b65fc5e2047429ae8f481c845bc84f20f054b8f91a75b4ee',
-  mayu: 'b9fabc85684997a0b5f9db4544d07ee3d0389b33e2e1299949b4708082c938cb',
+  mayu: '889eee1d848c4cd3d97cba6d9e905cc0e02e92e9de514400fbb7de136da76122',
   rina: '94e97a7507e7871333e9b66fff5bc13dd83e817f7c2c44cba0edec71d3ccf020',
   kurose: '415df2955da887fdef738ae62066737bfeb0c4a4c50742a70d1017a52e91da4c',
 };
@@ -38,7 +40,7 @@ const digestAssets = (paths: readonly string[]): string => sha256(
 );
 
 describe('ANM-030B0C complete character archive adoption', () => {
-  it('locks every seven-asset character package to the approved source archive', () => {
+  it('locks every seven-asset character package to its adopted source baseline', () => {
     for (const key of productionCharacterKeys) {
       const paths = assetsFor(key);
       expect(paths, key).toHaveLength(7);

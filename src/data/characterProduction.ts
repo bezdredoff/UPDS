@@ -201,8 +201,8 @@ export const characterProductionManifest: CharacterProductionManifest = {
     mayu: production(
       'mayu', 'Маю Хаясака', 'Маю', 'МАЮ', 'exact',
       'pose_b_phone_documents.png', 'portrait_neutral_256.png',
-      { left: 268, top: 29, right: 756, bottom: 1508 },
-      190,
+    { left: 295, top: 42, right: 728, bottom: 1521 },
+    176,
     ),
     rina: production(
       'rina', 'Рина Сираиси', 'Рина', 'РИНА', 'exact',
