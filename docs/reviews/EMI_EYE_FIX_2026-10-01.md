@@ -40,6 +40,15 @@ Digest всех 63 runtime assets:
 
 ## Gate и дальнейшие действия
 
+PR #315: Quality gate и Chromium прошли в runs 36858443203 / 36858443504.
+Mobile WebKit: 32 passed, один failed — только строгая checksum общего lineup.
+Обе попытки дали одинаковый новый SHA256
+`b10198b80c2b2410abfa0d3a80343aebc78326474d28cf3ed86c4ecfa8d61ffb`.
+2026-10-01 скачан и просмотрен Linux/WebKit attachment `full-cast-lineup`
+из run 36858443504: stage, размещение, подписи и guides сохранены.
+Обновлён только `fullCastLineupDigest`, без ослабления assertion или snapshots.
+Повторный GitHub Browser Gate требуется перед merge; агент PR не сливает.
+
 Проверить character/assets/docs audit, lint/typecheck, сборку и GitHub Browser Gate.
 При изменении строгого lineup digest использовать только проверенный Linux/WebKit
 attachment; не заменять его Windows snapshot и не отключать сравнение.
