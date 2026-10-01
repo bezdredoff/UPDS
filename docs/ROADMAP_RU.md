@@ -8,8 +8,12 @@ VN-портрет без рамки и карточки свидетеля. По
 
 G4a — **ART REVIEW COMPLETE / REMEDIATION ACTIVE**, 2026-09-30: локально просмотрены все
 150 изображений; 117 approved, 33 rework, из них 13 отмечены blocker. Это не закрывает G4a
-и не заменяет проверки в игре/на телефоне. Первый шаг — `G4a-MAYU`: новый neutral master
-Маю, отличимый от Мику; после утверждения — полный семифайловый пакет. Очередь и исходные
+и не заменяет проверки в игре/на телефоне. `G4a-MAYU`: дизайн v5b и основная поза v6
+(лёгкий разворот, руки за спиной) утверждены пользователем. Полный семифайловый пакет v7
+нормализован и 2026-10-01 интегрирован локально целиком: пять эмоций, Pose B и портрет.
+Геометрия и контрольные суммы обновлены; далее ручная lineup/scene/device проверка.
+Срез пока active; изменения отправляются отдельным PR, merge/deploy ещё не выполнены.
+Очередь и исходные
 комментарии: [`reviews/G4A_ART_REVIEW_2026-09-30.md`](reviews/G4A_ART_REVIEW_2026-09-30.md).
 
 Status: **G0 device accepted / G3 guest presentation accepted / release validation in progress**. G0 closed by explicit user acceptance on 2026-09-30 after merged PR #311 (G0-PWA-002 R4). KI-001/KI-003/KI-004 closed; final offline/update/save/device regression remains in G5c, with KI-002 open.
@@ -181,7 +185,7 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 ## Recommended immediate sequence
 
-1. **G4a — исправления по завершённому арт-ревью:** 117/150 approved; 33 rework, включая 13 blocker. Начать с `G4a-MAYU`: утвердить новый neutral master, затем заменить семь assets единым согласованным пакетом. Далее исправить отмеченные эмоции/глаза, alpha, позу Рины и три бонуса по [отчёту](reviews/G4A_ART_REVIEW_2026-09-30.md); повторно принять изменённые файлы и проверить в игре. Не переделывать 117 утверждённых изображений без нового дефекта. G3 shared presentation остаётся accepted, но улыбка Винсента требует отдельной правки в G4a.
+1. **G4a — исправления по завершённому арт-ревью:** исходно 117/150 approved; 33 rework, включая 13 blocker. `G4a-MAYU`: семь assets v7 локально интегрированы 2026-10-01; далее ручная lineup/scene/device приёмка. Затем исправить оставшиеся 26 замечаний (шесть blocker): эмоции/глаза, alpha, позу Рины и три бонуса по [отчёту](reviews/G4A_ART_REVIEW_2026-09-30.md). Не переделывать 117 утверждённых изображений без нового дефекта. G3 shared presentation остаётся accepted, но улыбка Винсента требует отдельной правки в G4a.
 2. **G5a — финальная RU/BE/EN вычитка:** editorial pass RU интегрирован; остаются финальные языковые/paging/overflow проверки.
 3. **G5b — human Match-3 playtest:** balance, design и variety всех 22 уровней.
 4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.
