@@ -43,6 +43,16 @@ Digest полного runtime набора из 63 файлов:
 Автоматические gates пройдены: полный suite — 148 файлов / 726 тестов,
 включая character/assets/docs audit; lint и production build успешны.
 Сборка сообщает прежнее предупреждение о размере JS bundle, не ошибку.
+
+PR #314: первый GitHub Quality gate и Chromium E2E пройдены. Mobile WebKit
+остановился только на прежнем digest общего Scene Studio lineup после замены Маю.
+Проверен Linux CI attachment `full-cast-lineup` из run `36854301920`:
+SHA-256 `738ec5e4450dedd80ba6dab490c512ebb3cf5738892c261a459217e82e74c112`.
+Оба запуска (основной и retry) дали тот же hash. 2026-10-01 обновлён только
+`fullCastLineupDigest` в `e2e/tests/visual-regression.pw.ts` с этим provenance.
+Остальные Golden Samples и строгая проверка digest не изменены;
+Windows snapshots не создавались. Повторный GitHub Browser Gate требуется
+для подтверждения исправления; это не означает пользовательскую device-приёмку.
 Они не заменяют ручной просмотр. Для завершения G4a-MAYU:
 
 - Сравнить Маю с Оноэ и Мику в Scene Studio, проверить рост/eye-line и опору ног.
