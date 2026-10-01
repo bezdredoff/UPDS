@@ -8,10 +8,10 @@ import {
   type ProductionCharacterKey,
 } from '../src/data/characterProduction';
 
-// Original archive plus Mayu v7, Emi eye correction, Miku alpha and face repairs.
+// Original archive plus Mayu v7, Emi eye correction, Miku alpha, face repairs and Onoe cleanup.
 // Provenance: docs/reviews/MAYU_V7_INTEGRATION_2026-10-01.md
 // docs/reviews/EMI_EYE_FIX_2026-10-01.md, MIKU_ALPHA_CLEANUP_2026-10-01.md
-// and docs/reviews/FACE_REPAIR_BATCH_2026-10-01.md.
+// docs/reviews/FACE_REPAIR_BATCH_2026-10-01.md and ONOE_ALPHA_CLEANUP_2026-10-01.md.
 const packageDigest = '6e08d8af911db9127b94d2e48c300e416bf6fd8187acb11f01aae4f6ea979eae';
 const characterDigests: Readonly<Record<ProductionCharacterKey, string>> = {
   miku: '1f708261c9aebce1e38f2f689c3e0381ef2c7cae2ebb188833cb71d1f8f0c5c7',
