@@ -134,7 +134,7 @@ describe('ANM-023G8E2/E4 iOS VN viewport stability', () => {
 
     expect(config).toContain('/persistence-localization-flow\\.pw\\.ts/');
     expect(spec).toContain("for (const locale of ['ru', 'be', 'en'] as const)");
-    expect(spec).toContain("await advanceToLine(page, 'VN0555', 40);");
+    expect(spec).toContain("await advanceToLine(page, 'VN0559', 60);");
     expect(spec).toContain("toHaveAttribute('data-dialogue-page', '2')");
     expect(spec).toContain('__updsLocalizedVnFrame');
     expect(spec).toContain('window.visualViewport?.scale ?? 1');

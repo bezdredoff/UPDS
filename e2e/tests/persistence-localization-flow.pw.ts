@@ -47,12 +47,12 @@ test.describe('Persistence, localization and short main-flow journeys', () => {
       await expect(page.locator(qaSelectors.sceneNavigationScreen)).toBeVisible();
       await page.locator(`${qaSelectors.sceneButton}[data-scene="24"]`).click();
       await expect(page.locator(qaSelectors.vnRuntimeFrame)).toBeVisible();
-      await advanceToLine(page, 'VN0555', 40);
+      await advanceToLine(page, 'VN0559', 60);
 
       const dialogue = page.locator(qaSelectors.vnDialogue);
       await expect.poll(async () => Number((await dialogue.getAttribute('data-dialogue-pages')) ?? '0')).toBeGreaterThan(1);
       await expect(dialogue).toHaveAttribute('data-dialogue-page', '1');
-      expect(await currentVnLineId(page)).toBe('VN0555');
+      expect(await currentVnLineId(page)).toBe('VN0559');
 
       await page.evaluate(() => {
         const host = window as Window & { __updsLocalizedVnFrame?: Element | null };
@@ -63,7 +63,7 @@ test.describe('Persistence, localization and short main-flow journeys', () => {
       await page.locator(qaSelectors.vnNext).click();
 
       await expect(dialogue).toHaveAttribute('data-dialogue-page', '2');
-      expect(await currentVnLineId(page)).toBe('VN0555');
+      expect(await currentVnLineId(page)).toBe('VN0559');
       expect(await page.evaluate(() => {
         const host = window as Window & { __updsLocalizedVnFrame?: Element | null };
         return host.__updsLocalizedVnFrame === document.querySelector('[data-vn-frame="shared"][data-frame-context="runtime"]');

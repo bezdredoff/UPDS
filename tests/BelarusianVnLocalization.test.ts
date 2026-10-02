@@ -65,7 +65,7 @@ const slotSpecs: readonly VnSlotSpec[] = [
       { key: "vn.scene.VN_SCENE_03_E1_PRE.title", mode: "equal", expected: "Пакой, які ўсё тлумачыць занадта дрэнна" },
       { key: "vn.line.VN0093.text", mode: "contain", expected: "Кэнтаро" },
       { key: "vn.line.VN0101.text", mode: "contain", expected: "эмодзі трусікаў" },
-      { key: "vn.line.VN0111.text", mode: "contain", expected: "часавая лінія" },
+      { key: "vn.line.VN0111.text", mode: "contain", expected: "часовую лінію" },
       { key: "vn.line.VN0123.text", mode: "contain", expected: "87 да 12 працэнтаў" },
       { key: "vn.line.VN0136.text", mode: "equal", expected: "{ADD CUE_002_SERVICE_CART; SET SUS_KENTARO=cleared}" },
       { key: "vn.line.VN0141.text", mode: "equal", expected: "«Эпізод 2 — Мокрыя паказанні»" },
