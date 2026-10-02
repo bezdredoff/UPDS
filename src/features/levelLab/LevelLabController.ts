@@ -413,7 +413,7 @@ export class LevelLabController {
       return `<span class="level-lab-cell" data-lab-cell="${index}">
         ${tile ? `<img class="level-lab-tile" src="${tile.asset}" alt="">` : ''}
         ${ingredient ? `<img class="level-lab-ingredient" src="${ingredient.asset}" alt="">` : ''}
-        ${cell.blockerLayers > 0 ? `<span class="level-lab-blocker"><img src="${blockerAsset}" alt=""><b>${cell.blockerLayers}</b></span>` : ''}
+        ${cell.blockerLayers > 0 ? `<span class="level-lab-blocker"><img src="${blockerAsset}" alt="">${cell.blockerLayers > 1 ? `<b>${cell.blockerLayers}</b>` : ''}</span>` : ''}
       </span>`;
     }).join('');
   }

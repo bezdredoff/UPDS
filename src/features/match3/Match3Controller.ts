@@ -409,7 +409,13 @@ this.installBoardInput();
 private bindTutorialTry(level: LevelDefinition): void {
 this.root.querySelector('#tutorial-try')?.addEventListener('click', () => {
 if (!this.activeTutorial) return;
-this.services.telemetry.track('match_tutorial', { action: 'try', conceptId: this.activeTutorial, levelId: level.id, mode: this.runMode });
+const concept = this.activeTutorial;
+this.services.telemetry.track('match_tutorial', { action: 'acknowledged', conceptId: concept, levelId: level.id, mode: this.runMode });
+const progress = this.tutorialProgress();
+if (concept === 'activate-special' && !progress.includes(concept)) {
+progress.push(concept);
+this.persistTutorialProgress();
+}
 this.tutorialPromptDismissed = true;
 this.syncMatchPresentation();
 this.armAutoHint();
@@ -708,14 +714,17 @@ return cell && board.contains(cell) ? cell : null;
 board.addEventListener('click', (event) => {
 const cell = eventCell(event.target);
 if (!cell || performance.now() < this.suppressBoardClickUntil) return;
+const index = Number(cell.dataset.cell);
+if (this.selectedCell === null && this.activeMatch?.isCellBlocked(index)) return;
 this.noteMatchActivity();
-this.handleCell(Number(cell.dataset.cell));
+this.handleCell(index);
 });
 board.addEventListener('pointerdown', (event) => {
 const cell = eventCell(event.target);
 if (!cell || this.matchInputLocked || event.button !== 0) return;
-this.noteMatchActivity();
 const startIndex = Number(cell.dataset.cell);
+if (this.activeMatch?.isCellBlocked(startIndex)) return;
+this.noteMatchActivity();
 this.activePointer = { id: event.pointerId, startIndex, startX: event.clientX, startY: event.clientY };
 this.hintedCells.clear();
 cell.classList.add('drag-source');

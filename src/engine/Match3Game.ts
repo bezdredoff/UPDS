@@ -12,6 +12,7 @@ import {
   type DirectSpecialCombo,
   type MatchFeedbackKind,
   type MatchGroup,
+  type Match3RuleCell,
   type SpecialCreation,
   type SpecialKind,
 } from './Match3Rules';
@@ -321,11 +322,21 @@ export class Match3Game {
   }
 
   findMatchGroups(): MatchGroup[] {
-    return this.rules.findMatchGroups(this.cells);
+    return this.rules.findMatchGroups(this.matchableCells());
   }
 
   private findResolutionMatchGroups(): MatchGroup[] {
-    return this.rules.findResolutionMatchGroups(this.cells);
+    return this.rules.findResolutionMatchGroups(this.matchableCells());
+  }
+
+  private matchableCells(): readonly Match3RuleCell[] {
+    return this.cells.map((cell, index) => this.isBlockedCell(index)
+      ? { tile: null, special: null }
+      : cell);
+  }
+
+  isCellBlocked(index: number): boolean {
+    return !this.cells[index] || this.isBlockedCell(index);
   }
 
   hasImmediateMatches(): boolean {
