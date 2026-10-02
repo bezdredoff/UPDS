@@ -20,7 +20,7 @@ const ru = {
 } satisfies MessageCatalog;
 
 const be = {
-  'match3.help.trigger': 'Даведка па Match-3',
+  'match3.help.trigger': 'Даведка па гульні «тры ў рад»',
   'match3.help.label': 'ДАВЕДКА',
   'match3.help.title': 'Як працуе расследаванне',
   'match3.help.intro': 'Кароткая памятка па правілах. Яе можна адкрыць у любы момант: стан поля і колькасць хадоў не змяняюцца.',

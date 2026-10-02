@@ -185,7 +185,7 @@ describe('Belarusian Match-3 localization', () => {
 
     expect(match3ReactionCatalogs.be['match3.reaction.specialCombo.11']).toContain('Asterion');
     expect(match3ReactionCatalogs.be['match3.reaction.nearWin.18']).toContain('Second Skin');
-    expect(match3ReactionCatalogs.be['match3.reaction.danger.19']).toContain('CASE CLOSED');
+    expect(match3ReactionCatalogs.be['match3.reaction.danger.19']).toContain('СПРАВА ЗАКРЫТА');
     expect(match3ReactionCatalogs.be['match3.reaction.specialCombo.7']).toContain('Куросэ');
     expect(match3ReactionCatalogs.be['match3.reaction.specialActivated.16']).toContain('Вінсент');
     expect(match3ReactionCatalogs.be['match3.reaction.objectiveComplete.20']).toContain('згоду');
