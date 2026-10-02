@@ -2,6 +2,12 @@
 
 Technical product version: `0.26.0-dev`.
 
+2026-10-02 — завершён английский редакторский проход G5a: вычитаны 976 сюжетных
+реплик и 601 строка основного UI/Match-3; исправлены смысловые расхождения с RU/BE.
+Каталоги RU/BE/EN содержат одинаковые 3 868 ключей; localization audit — 27/27,
+docs audit — 11/11. G5a остаётся active: полная вычитка BE и мобильная проверка
+paging/overflow ещё впереди. [Отчёт EN](reviews/G5A_EN_EDITORIAL_AUDIT_2026-10-02.md).
+
 2026-10-01 — редакционный пакет русского текста G5a слит в PR #322
 (`92fc258`). Исправлено 45 строк VN/UI, уточнены термины и справка Match-3,
 обновлены review-пакеты. Quality, Chromium full E2E и Mobile WebKit critical E2E
@@ -194,7 +200,7 @@ Post-launch expansion only. It must not consume base-release capacity.
 ## Recommended immediate sequence
 
 1. **G4a — ACCEPTED:** все 33 rework-позиции, включая 13 blocker, исправлены и слиты в PR #314–320; пользователь подтвердил интегрированную проверку в игре и на телефоне. [Отчёт](reviews/G4A_ART_REVIEW_2026-09-30.md). Исходные 117 approved не менять без нового дефекта.
-2. **G5a — финальная RU/BE/EN вычитка:** обновление RU слито в PR #322; остаются финальная языковая вычитка и мобильная проверка paging/overflow.
+2. **G5a — EN вычитан; BE и мобильная вёрстка остаются открыты:** RU обновлён в PR #322, английский editorial pass завершён. Нужны полная вычитка BE и проверка paging/overflow.
 3. **G5b — human Match-3 playtest:** balance, design и variety всех 22 уровней.
 4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.
 5. **G5c / ANM-033 — финальная release regression:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, public-release packaging/rights. KI-002 остаётся открытым здесь. Принятые G0 contracts повторно проверить на финальном payload, не открывая новый PWA refactor без дефекта.

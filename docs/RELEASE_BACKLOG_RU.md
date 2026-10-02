@@ -41,9 +41,11 @@ Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B
 
 ### G5a — редактура и локализации
 
-Русское обновление вычитки слито в PR #322: 45 строк VN/UI, термины и справка
-Match-3, обновлённые review-пакеты; Quality, Chromium и Mobile WebKit gates прошли.
-Остаются финальная вычитка RU/BE/EN и проверка переноса текста/переполнения на
+Русская редактура слита в PR #322. Английский проход охватил все 976 сюжетных
+реплик и 601 строку основного UI/Match-3; исправлены формулировки и расхождения со
+смыслом актуальной русской версии. Каталоги RU/BE/EN содержат по 3 868 ключей;
+аудит локализации прошёл 27/27 проверок. [Отчёт EN](reviews/G5A_EN_EDITORIAL_AUDIT_2026-10-02.md).
+Остаются полная вычитка белорусского текста и проверка переноса/переполнения на
 мобильных экранах. G5a остаётся active до этих проверок.
 
 - **R0 — release blocker:** без этого base release не считаем production-ready.
@@ -331,7 +333,7 @@ Post-launch expansion only. Не расходует base-release capacity.
 ## Рекомендуемая последовательность от текущего `main`
 
 1. **G4a — ACCEPTED:** все 33 исходные rework-позиции, включая 13 blocker, закрыты PR #314–320; пользователь подтвердил интегрированную проверку в игре и на телефоне. [Отчёт](reviews/G4A_ART_REVIEW_2026-09-30.md). 117 approved сохраняются без нового дефекта.
-2. **G5a — финальная RU/BE/EN вычитка:** RU обновление слито в PR #322; остаются финальная языковая вычитка и мобильная проверка paging/overflow.
+2. **G5a — EN вычитан; BE и мобильная вёрстка остаются открыты:** RU обновлён в PR #322, английский editorial pass завершён. Нужны полная вычитка BE и проверка paging/overflow.
 3. **G5b — human Match-3 playtest:** balance, design и variety всех 22 уровней.
 4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.
 5. **G5c / ANM-033 — финальная release regression:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, public-release packaging/rights. KI-002 остаётся открытым здесь. Принятые G0 contracts повторно проверить на финальном payload, не открывая новый PWA refactor без дефекта.
