@@ -190,6 +190,7 @@ function match3BoardShapeMask(level: LevelDefinition): string {
   if (holes.size === 0) return '';
 
   const paths: string[] = [];
+  const outline: string[] = [];
   for (let row = 0; row < rows; row += 1) {
     let column = 0;
     while (column < columns) {
@@ -200,10 +201,21 @@ function match3BoardShapeMask(level: LevelDefinition): string {
       if (width > 0) paths.push(`M${start} ${row}h${width}v1h-${width}z`);
     }
   }
+  const active = (row: number, column: number) => row >= 0 && row < rows && column >= 0 && column < columns && !holes.has(row * columns + column);
+  for (let row = 0; row < rows; row += 1) {
+    for (let column = 0; column < columns; column += 1) {
+      if (!active(row, column)) continue;
+      if (!active(row - 1, column)) outline.push(`M${column} ${row}h1`);
+      if (!active(row, column + 1)) outline.push(`M${column + 1} ${row}v1`);
+      if (!active(row + 1, column)) outline.push(`M${column + 1} ${row + 1}h-1`);
+      if (!active(row, column - 1)) outline.push(`M${column} ${row + 1}v-1`);
+    }
+  }
 
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${columns} ${rows}" preserveAspectRatio="none"><path fill="white" d="${paths.join('')}"/></svg>`;
-  const encoded = encodeURIComponent(svg).replace(/[!'()*]/g, (character) => `%${character.charCodeAt(0).toString(16).toUpperCase()}`);
-  return `--board-shape-mask:url('data:image/svg+xml,${encoded}')`;
+  const encodeSvg = (svg: string) => encodeURIComponent(svg).replace(/[!'()*]/g, (character) => `%${character.charCodeAt(0).toString(16).toUpperCase()}`);
+  const maskSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${columns} ${rows}" preserveAspectRatio="none"><path fill="white" d="${paths.join('')}"/></svg>`;
+  const outlineSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${columns} ${rows}" preserveAspectRatio="none"><path fill="none" stroke="#f3e4bc" stroke-width=".065" stroke-linecap="round" stroke-linejoin="round" d="${outline.join('')}"/></svg>`;
+  return `--board-shape-mask:url('data:image/svg+xml,${encodeSvg(maskSvg)}');--board-shape-outline:url('data:image/svg+xml,${encodeSvg(outlineSvg)}')`;
 }
 
 export function match3TutorialMarkup(
