@@ -90,6 +90,8 @@ describe('ANM-025E4C advanced Match-3 topology cohort', () => {
     const m17 = byShortId('M3_17');
     expect(m17.boardHoles).toHaveLength(8);
     expect(m17.moves).toBe(30);
+    expect(m17.objectives.find((objective) => objective.kind === 'clearBlockers')?.target).toBe(8);
+    expect(m17.blockers).toHaveLength(8);
     expect(m17.ingredients.map(({ kind }) => kind)).toEqual(['rinaCatalog']);
 
     const m21 = byShortId('M3_21');
