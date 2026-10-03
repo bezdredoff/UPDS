@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { BOARD_SIZE, levels } from '../src/data/levels';
+import { levelBoardDimensions, levels } from '../src/data/levels';
 import { Match3Game } from '../src/engine/Match3Game';
 
-const neighbours = (index: number): number[] => {
-  const row = Math.floor(index / BOARD_SIZE);
-  const column = index % BOARD_SIZE;
+const neighbours = (index: number, rows: number, columns: number): number[] => {
+  const row = Math.floor(index / columns);
+  const column = index % columns;
   return [
-    column < BOARD_SIZE - 1 ? index + 1 : -1,
-    row < BOARD_SIZE - 1 ? index + BOARD_SIZE : -1,
+    column < columns - 1 ? index + 1 : -1,
+    row < rows - 1 ? index + columns : -1,
   ].filter((candidate) => candidate >= 0);
 };
 
@@ -17,7 +17,8 @@ const totalBlockerLayers = (game: Match3Game): number =>
 describe('Match3Game', () => {
   it.each(levels.map((level, index) => [index, level] as const))('creates a stable playable board for level %i', (index, level) => {
     const game = new Match3Game(level, level.seed + index);
-    expect(game.board).toHaveLength(64);
+    const { rows, columns } = levelBoardDimensions(level);
+    expect(game.board).toHaveLength(rows * columns);
     expect(game.hasImmediateMatches()).toBe(false);
     expect(game.hasAvailableMove()).toBe(true);
     expect(game.movesLeft).toBe(level.moves);
@@ -25,10 +26,11 @@ describe('Match3Game', () => {
 
   it.each(levels.map((level, index) => [index, level] as const))('can resolve a legal move on level %i', (_index, level) => {
     const game = new Match3Game(level, level.seed + 777);
+    const { rows, columns } = levelBoardDimensions(level);
     const beforeBlockerLayers = totalBlockerLayers(game);
     let madeMove = false;
     for (let index = 0; index < game.board.length && !madeMove; index += 1) {
-      for (const neighbour of neighbours(index)) {
+      for (const neighbour of neighbours(index, rows, columns)) {
         const result = game.attemptSwap(index, neighbour);
         if (!result.valid) continue;
         madeMove = true;
@@ -40,14 +42,14 @@ describe('Match3Game', () => {
         const settleFrames = result.frames.filter((frame) => frame.phase === 'settle');
         expect(clearFrames.length).toBeGreaterThan(0);
         expect(settleFrames.length).toBeGreaterThan(0);
-        expect(result.frames.every((frame) => frame.board.length === 64)).toBe(true);
+        expect(result.frames.every((frame) => frame.board.length === rows * columns)).toBe(true);
         for (const frame of clearFrames) {
           expect(frame.clearedIndices?.length ?? 0).toBeGreaterThan(0);
           expect(frame.clearedIndices?.some((cellIndex) => Boolean(frame.board[cellIndex]?.tile || frame.board[cellIndex]?.ingredient || frame.board[cellIndex]?.special))).toBe(true);
         }
         for (const frame of settleFrames) {
           expect((frame.motions?.length ?? 0)).toBeGreaterThan(0);
-          expect(frame.motions?.every((motion) => motion.index >= 0 && motion.index < 64 && motion.rows > 0)).toBe(true);
+          expect(frame.motions?.every((motion) => motion.index >= 0 && motion.index < rows * columns && motion.rows > 0)).toBe(true);
         }
         expect(game.movesLeft).toBe(level.moves - 1);
         break;

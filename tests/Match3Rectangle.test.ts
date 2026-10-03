@@ -12,7 +12,7 @@ const size = { rows: 9, columns: 7 } as const;
 const emptyBoard = (): Match3RuleCell[] => Array.from({ length: 63 }, () => ({ tile: null, special: null }));
 
 describe('G5b-M3-RECT-001 rectangular board contract', () => {
-  it('preserves legacy seeded games while independently creating a 63-position prototype', () => {
+  it('preserves legacy seeded games while using the M3_06 production pilot as its rectangle reference', () => {
     const legacy = new Match3Game(levels[0], 7);
     const before = JSON.stringify(legacy.board);
     const rectangle = new Match3Game(workshopRectanglePrototype(), 7);
@@ -20,7 +20,8 @@ describe('G5b-M3-RECT-001 rectangular board contract', () => {
     expect(legacy.board).toHaveLength(64);
     expect(JSON.stringify(legacy.board)).toBe(before);
     expect(new Match3Game({ ...levels[0], boardSize: { rows: 8, columns: 8 } }, 7).board).toEqual(legacy.board);
-    expect(levels.every((level) => level.boardSize === undefined)).toBe(true);
+    expect(levels.find((level) => level.shortId === 'M3_06')?.boardSize).toEqual(size);
+    expect(levels.filter((level) => level.shortId !== 'M3_06').every((level) => level.boardSize === undefined)).toBe(true);
     expect(validateLevelDefinitions([workshopRectanglePrototype()])).toEqual([]);
   });
 

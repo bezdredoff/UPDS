@@ -235,10 +235,10 @@ export const levels: readonly LevelDefinition[] = [
   {
     id: 'M3_06_TEXTILE_WORKSHOP', shortId: 'M3_06', title: 'Мастерская Хинаты', storyAction: 'Сопоставить заказы, убрать чехлы и найти гарантийную карту вместе с серебристой катушкой.',
     context: { sourceSceneId: 'VN_SCENE_13_E6_PRE', pageBackground: 'textileWorkshop', boardSurface: 'workbench-clusters', boardFrame: 'workshop-file', narrativeProfile: 'post-repair-seam', tilePresentationProfile: 'textile-workshop', participants: ['miku', 'onoe', 'ayuki', 'hinata'], narrativeTags: ['textile-workshop', 'warranty-card', 'conductive-thread', 'exoneration'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['sportsBra', 'camisole', 'laundryTag', 'pantiesSportWhite', 'pantiesLacePink', 'towel'],
-    boardHoles: [3, 4, 11, 12, 19, 20], moves: 32,
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['sportsBra', 'camisole', 'laundryTag', 'pantiesSportWhite', 'pantiesLacePink', 'pantiesHighWaistBlack'],
+    boardSize: { rows: 9, columns: 7 }, boardHoles: [3, 10, 17], moves: 32,
     objectives: [{ kind: 'clearBlockers', target: 8, label: 'Преграды' }, { kind: 'collect', tile: 'sportsBra', target: 12, label: 'Заказы' }, { kind: 'dropGroup', ingredients: ['warrantyCard', 'silverSpool'], target: 2, label: 'Проверка машины' }],
-    blocker: 'solid', blockers: positions([[10, 2], 13, [18, 2], 21, 42, [45, 2], 50, 53]), ingredients: [{ index: 26, kind: 'warrantyCard' }, { index: 29, kind: 'silverSpool' }], seed: 9007,
+    blocker: 'solid', blockers: positions([[9, 2], 11, [16, 2], 18, 37, [39, 2], 44, 46]), ingredients: [{ index: 23, kind: 'warrantyCard' }, { index: 25, kind: 'silverSpool' }], seed: 9007,
     clueId: 'CUE_007', clueTitle: 'Шов после ремонта', clueSummary: 'До центральной прачечной серебристого шва не было; оборудование Хинаты не поддерживает такую проводящую нить.',
     startBark: { speaker: 'Хината', text: 'Заказы слева, образцы справа. Машину не обвиняйте без спецификации.' }, winBark: { speaker: 'Мику', text: 'Хината исключена. Шов появился после её мастерской — на маршруте прачечной.' }, loseBark: { speaker: 'Хината', text: 'Вы смешали заказы и образцы. В мастерской это хуже плохой гипотезы.' },
   },
