@@ -1,7 +1,7 @@
 # G5b — Match-3 design, balance и variety audit
 
 Дата: 2026-10-02  
-Статус: **ACTIVE · audit production-конфигов завершён; human playtest не проведён**  
+Статус: **ACTIVE · source/design audit завершён; exploratory desktop first pass 8/22 записан; phone pass и E6B sample pending**
 Основание: `docs/release-status.json` → `G5b`  
 Объём: все 22 production levels `M3_00–M3_21`.
 
@@ -11,6 +11,21 @@
 - All-22 deterministic snapshot E5A: 200 seeds на уровень, 4 400 прогонов objective-aware hint policy.
 - Tuning reports E5B1 (`M3_06`, `M3_11`) и E5B2 (`M3_09`, `M3_14`, `M3_15`): по три независимые когорты по 200 seeds на каждый уровень.
 - Канонический human protocol E6B не запускался: human scores, физическое устройство и human telemetry отсутствуют.
+
+## Exploratory first pass и geometry pilot
+
+Один пользовательский desktop pass (`N=1`) охватил `M3_00–M3_07` на Windows/Chrome.
+Основные сигналы: M3_00 не объяснял конкретные действия; числа на однослойных
+преградах и повторный спец-туториал сбивали с толку; часть подсказок визуально ссылалась
+на содержимое под преградами; M3_04 просил более разнообразный набор предметов;
+M3_06–07 выглядели слишком синими. Результаты и исходы приведены в пользовательской
+таблице первого прохода и отдельно не трактуются как win-rate или E6B cohort.
+
+После PR #330 production M3_06 переведён в пилот 9×7: 63 клетки, стабильный ID и seed,
+цели и лимит 32 хода сохранены. В active tile set заменён один towel на
+`pantiesHighWaistBlack`. Остальные 21 level остаются 8×8. E5A/E5B M3_06 и прежний
+human outcome относятся к старой конфигурации и не доказывают баланс пилота.
+См. `docs/features/G5B_M3_RECT_002_PRODUCTION_PILOT_RU.md`.
 
 ## Design и variety по всей кампании
 
