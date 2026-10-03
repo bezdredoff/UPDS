@@ -122,6 +122,7 @@ test.describe('ANM-023G7B mobile Golden Samples', () => {
     health.assertClean();
   });
 
+  // Rebaselined from approved production UI A in PR #334 (Linux WebKit run 37133409737).
   test('deterministic Match-3 seed 7 Golden Sample', async ({ page }) => {
     const health = observeBrowserHealth(page);
     await openDeterministicLab(page);
