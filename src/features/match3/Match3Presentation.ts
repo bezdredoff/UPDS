@@ -5,6 +5,7 @@ import {
   blockerPresentation,
   ingredientPresentation,
   isLevelBoardCellActive,
+  levelBoardDimensions,
   specialAsset,
   specialAssets,
   specialFallbackAssets,
@@ -274,15 +275,6 @@ export function match3BarkMarkup(
   return `<div class="field-bark${reactionClass}"${reactionData}><img src="${barkMedallion(bark, t)}" alt=""><div><b>${escapeHtml(bark.speaker)}</b><span>${escapeHtml(bark.text)}</span></div></div>`;
 }
 
-function detectiveStripMarkup(t: Match3Translate): string {
-  return (['miku', 'onoe', 'ayuki'] as const)
-    .map(
-      (key) =>
-        `<span><img src="${medallionAsset(key)}" alt="${escapeHtml(t(`character.${key}`))}"><b>${escapeHtml(t(`character.${key}`))}</b></span>`,
-    )
-    .join('');
-}
-
 export function match3IntroMarkup(input: Match3IntroMarkupInput): string {
   const { level, levelIndex, totalLevels, clueCount, t, levelTitle, storyAction, objectiveLabels } = input;
   return `<section class="level-intro" ${match3ContextAttrs(level)}>
@@ -344,7 +336,7 @@ export function match3ScreenMarkup(input: Match3ScreenMarkupInput): string {
         : t('match3.stage', { current: activeLevelIndex + 1, total: totalLevels });
   const stageId = runMode === 'lab' ? `SEED ${labSeed ?? 0}` : level.shortId;
 
-  return `<section class="match-screen${tutorialConcept && !tutorialDismissed ? ' tutorial-active' : ''}" ${match3ContextAttrs(level)}>
+  return `<section class="match-screen m3-ui-a${tutorialConcept && !tutorialDismissed ? ' tutorial-active' : ''}" ${match3ContextAttrs(level)}>
 <img class="match-background" src="${backgroundAssets[level.context.pageBackground]}" alt="">
 <div class="match-shade"></div>
 <header class="app-header match-topbar">
@@ -367,14 +359,13 @@ ${headerActionMarkup('header-settings', 'settings', t('common.settings'))}
 <div class="stage-meta"><small>${escapeHtml(stageLabel)}</small><b>${escapeHtml(stageId)}</b></div>
 </section>
 </div>
-<div class="field-bark-slot" aria-live="polite">${match3BarkMarkup(bark, barkEntering, t)}</div>
 <div id="match-feedback" class="match-feedback" aria-live="polite"></div>
-<div class="board" role="grid" aria-label="${escapeHtml(t('match3.boardAria'))}">${match3BoardCellsMarkup({ level, board, selectedCell, hintedCells, t })}</div>
-<div class="match-tooltray">
-<div class="detective-strip" aria-label="${escapeHtml(t('match3.teamAria'))}">
-${detectiveStripMarkup(t)}
+<div class="match-playfield" style="--board-columns:${levelBoardDimensions(level).columns};--board-rows:${levelBoardDimensions(level).rows}">
+<div class="board" style="--board-columns:${levelBoardDimensions(level).columns};--board-rows:${levelBoardDimensions(level).rows}" role="grid" aria-rowcount="${levelBoardDimensions(level).rows}" aria-colcount="${levelBoardDimensions(level).columns}" aria-label="${escapeHtml(t('match3.boardAria'))}">${match3BoardCellsMarkup({ level, board, selectedCell, hintedCells, t })}</div>
 </div>
-<button id="hint" class="hint-button">
+<div class="match-tooltray match-dialogue-panel">
+<div class="field-bark-slot" aria-live="polite" aria-atomic="true">${match3BarkMarkup(bark, barkEntering, t)}</div>
+<button id="hint" class="hint-button" type="button" data-hint-active="${hintedCells.size > 0}">
 <img src="${specialAsset}" alt=""><span><b>${escapeHtml(t('match3.hint'))}</b><small>${escapeHtml(t('match3.bestMove'))}</small></span>
 </button>
 </div>

@@ -7,7 +7,6 @@ levels,
 specialAsset,
 specialAssets,
 specialFallbackAssets,
-BOARD_SIZE,
 type ClueId,
 type LevelDefinition,
 } from '../../data/levels';
@@ -148,13 +147,14 @@ this.showObjectiveHint('inactivity');
 private noteMatchActivity(): void {
 this.hintedCells.clear();
 this.root.querySelectorAll<HTMLElement>('.board-cell.hinted').forEach((cell) => cell.classList.remove('hinted'));
+this.root.querySelector<HTMLElement>('#hint')?.setAttribute('data-hint-active', 'false');
 this.armAutoHint();
 }
 private get tutorialPromptVisible(): boolean {
 return this.activeTutorial !== null && !this.tutorialPromptDismissed;
 }
 private currentTutorialRevealEvents(): Match3TutorialRevealEvent[] {
-const dynamic = this.activeMatch ? tutorialRevealEventsForBoard(this.activeMatch.board, BOARD_SIZE) : [];
+const dynamic = this.activeMatch ? tutorialRevealEventsForBoard(this.activeMatch.board, this.activeMatch.geometry.rows, this.activeMatch.geometry.columns) : [];
 return [...new Set<Match3TutorialRevealEvent>([...this.tutorialRevealEvents, ...dynamic])];
 }
 private get runMode(): Match3RunMode {
@@ -445,6 +445,7 @@ board.querySelectorAll<HTMLElement>('.board-cell.selected').forEach((cell) => ce
 board.querySelectorAll<HTMLElement>('.board-cell.hinted').forEach((cell) => cell.classList.remove('hinted'));
 if (this.selectedCell !== null) board.querySelector<HTMLElement>(`[data-cell="${this.selectedCell}"]`)?.classList.add('selected');
 for (const index of this.hintedCells) board.querySelector<HTMLElement>(`[data-cell="${index}"]`)?.classList.add('hinted');
+this.root.querySelector<HTMLElement>('#hint')?.setAttribute('data-hint-active', String(this.hintedCells.size > 0));
 this.setMatchFeedback('');
 
 const renderedBark = barkSlot.querySelector<HTMLElement>('.field-bark');
@@ -728,7 +729,7 @@ const sourceCell = this.root.querySelector<HTMLElement>(`[data-cell="${pointer.s
 const sourceStack = sourceCell?.querySelector<HTMLElement>('.tile-stack');
 if (!sourceCell || !sourceStack) return;
 const cellSize = Math.max(1, sourceCell.getBoundingClientRect().width);
-const preview = getDragPreview(pointer.startIndex, event.clientX - pointer.startX, event.clientY - pointer.startY, cellSize);
+const preview = getDragPreview(pointer.startIndex, event.clientX - pointer.startX, event.clientY - pointer.startY, cellSize, this.activeMatch?.geometry);
 this.root.querySelectorAll<HTMLElement>('.board-cell.drag-target, .board-cell.drag-target--commit').forEach((target) => {
 target.classList.remove('drag-target', 'drag-target--commit');
 const stack = target.querySelector<HTMLElement>('.tile-stack');
@@ -758,11 +759,11 @@ const pointer = this.activePointer;
 if (!pointer || pointer.id !== event.pointerId || this.matchInputLocked) return;
 this.activePointer = null;
 const sourceCell = this.root.querySelector<HTMLElement>(`[data-cell="${pointer.startIndex}"]`);
-const cellSize = Math.max(1, sourceCell?.getBoundingClientRect().width ?? board.getBoundingClientRect().width / 8);
+const cellSize = Math.max(1, sourceCell?.getBoundingClientRect().width ?? board.getBoundingClientRect().width / (this.activeMatch?.geometry.columns ?? 8));
 const deltaX = event.clientX - pointer.startX;
 const deltaY = event.clientY - pointer.startY;
-const drag = getDragPreview(pointer.startIndex, deltaX, deltaY, cellSize);
-const swipe = getSwipeDecision(pointer.startIndex, deltaX, deltaY, cellSize);
+const drag = getDragPreview(pointer.startIndex, deltaX, deltaY, cellSize, this.activeMatch?.geometry);
+const swipe = getSwipeDecision(pointer.startIndex, deltaX, deltaY, cellSize, this.activeMatch?.geometry);
 this.clearDragPreview();
 const committed = drag.committed || swipe.committed;
 const targetIndex = drag.committed ? drag.targetIndex : swipe.targetIndex;

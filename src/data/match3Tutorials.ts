@@ -65,16 +65,17 @@ export function tutorialRevealEventsForMove(result: Readonly<{
 
 export function tutorialRevealEventsForBoard(
   board: readonly Readonly<{ special: string | null }>[],
-  boardSize: number,
+  rows: number,
+  columns = rows,
 ): Match3TutorialRevealEvent[] {
-  if (!Number.isInteger(boardSize) || boardSize <= 0) return [];
+  if (!Number.isInteger(rows) || rows <= 0 || !Number.isInteger(columns) || columns <= 0) return [];
   for (let index = 0; index < board.length; index += 1) {
     if (!board[index]?.special) continue;
-    const row = Math.floor(index / boardSize);
-    const column = index % boardSize;
+    const row = Math.floor(index / columns);
+    const column = index % columns;
     for (const neighbour of [
-      column + 1 < boardSize ? index + 1 : -1,
-      row + 1 < boardSize ? index + boardSize : -1,
+      column + 1 < columns ? index + 1 : -1,
+      row + 1 < rows ? index + columns : -1,
     ]) {
       if (neighbour >= 0 && neighbour < board.length && board[neighbour]?.special) return ['special-combo-ready'];
     }

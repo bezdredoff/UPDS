@@ -95,6 +95,38 @@ async function expectMatch3DomStable(page: Page): Promise<void> {
 }
 
 test.describe('Match-3 through Campaign and Level Lab', () => {
+  for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }, { width: 440, height: 956 }]) {
+    test(`UI A fits ${viewport.width}×${viewport.height} and preserves the hint button during bark updates`, async ({ page }, testInfo) => {
+      await page.setViewportSize(viewport);
+      await openDeterministicLab(page, deterministicLabSeed, responsiveHudObjectives);
+      const hint = page.locator('#hint');
+      const retainedHint = await hint.elementHandle();
+      await hint.focus();
+      await page.keyboard.press('Enter');
+      await expect(hint).toHaveAttribute('data-hint-active', 'true');
+      await expect(hint).toBeFocused();
+      expect(await hint.locator('b').evaluate((label) => label.scrollWidth <= label.clientWidth + 1)).toBe(true);
+      await page.keyboard.press('Enter');
+      expect(await retainedHint?.evaluate((element) => element === document.querySelector('#hint'))).toBe(true);
+      const fit = await page.locator('.match-screen').evaluate((screen) => {
+        const board = screen.querySelector('.board')!.getBoundingClientRect();
+        const panel = screen.querySelector('.match-dialogue-panel')!.getBoundingClientRect();
+        const button = screen.querySelector('#hint')!.getBoundingClientRect();
+        const header = screen.querySelector('.app-header')!.getBoundingClientRect();
+        const frame = screen.getBoundingClientRect();
+        return {
+          ordered: header.bottom <= board.top && board.bottom <= panel.top + 1,
+          visible: panel.bottom <= frame.bottom + 1 && board.width > 180,
+          hintTarget: button.width >= 44 && button.height >= 44,
+          noHorizontalOverflow: screen.scrollWidth <= screen.clientWidth + 1,
+          siblingHint: !screen.querySelector('.field-bark-slot #hint'),
+        };
+      });
+      expect(fit).toEqual({ ordered: true, visible: true, hintTarget: true, noHorizontalOverflow: true, siblingHint: true });
+      await page.screenshot({ path: testInfo.outputPath(`ui-a-${viewport.width}.png`) });
+    });
+  }
+
   test('Campaign starts the production first level on the shared board', async ({ page }) => {
     const health = observeBrowserHealth(page);
     await openCampaignFirstLevel(page);

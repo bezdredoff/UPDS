@@ -1,0 +1,149 @@
+/* G5b-M3-UIA-001. Shared header is intentionally outside these feature rules. */
+.match-screen.m3-ui-a {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #d9d0b6;
+  overflow-y: auto;
+}
+.m3-ui-a > .app-header,
+.m3-ui-a > .match-case-hud,
+.m3-ui-a > .match-dialogue-panel,
+.m3-ui-a > .match-guidance-slot { flex-shrink: 0; }
+.m3-ui-a .match-background { z-index: 0; opacity: .96; filter: brightness(.94) saturate(.9); transform: none; }
+.match-screen.m3-ui-a .match-shade { background: transparent; }
+.m3-ui-a .match-case-hud {
+  width: min(calc(100% - 24px), 414px);
+  margin: 0 auto;
+  padding: 0;
+  grid-template-columns: minmax(0, 1fr) 72px;
+  gap: 12px;
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+}
+.m3-ui-a .objective-board,
+.m3-ui-a .stage-board {
+  min-width: 0;
+  min-height: 62px;
+  padding: 5px 6px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  gap: 4px;
+  align-items: center;
+  border: 3px solid var(--m3-paper);
+  border-radius: 8px;
+  background: linear-gradient(180deg, var(--m3-paper-light), var(--m3-paper));
+  box-shadow: none;
+}
+.m3-ui-a .case-tab {
+  position: static;
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--m3-green-dark);
+  font-size: 10px;
+  line-height: 1.2;
+  letter-spacing: .04em;
+}
+.m3-ui-a .objective-board .objectives { width: 100%; height: auto; gap: 6px; padding: 0; align-items: stretch; }
+.m3-ui-a .objective-board .objective { height: auto; padding: 0; border: 0; background: transparent; gap: 2px; grid-template-rows: 24px auto; }
+.m3-ui-a .objective-board .objective.done { background: #dce8c8; }
+.m3-ui-a .objective-board .objective span { font-size: 10px; line-height: 1.2; }
+.m3-ui-a .objective-board .objective b { color: var(--m3-green-dark); font-size: 14px; }
+.m3-ui-a .objective-icons img { width: 24px; height: 24px; }
+.m3-ui-a .moves-left { width: auto; height: auto; min-height: 24px; margin: 0; border: 0; background: transparent; box-shadow: none; }
+.m3-ui-a .moves-left b { color: var(--m3-green-dark); font: 800 22px/1 "Trebuchet MS", sans-serif; }
+/* Stage remains in the accessibility tree; its level ID is also visible in the header. */
+.m3-ui-a .stage-meta {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.m3-ui-a .match-playfield {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 auto;
+  min-height: 180px;
+  width: 100%;
+  container-type: size;
+  display: grid;
+  place-items: end center;
+}
+.match-screen.m3-ui-a .board {
+  width: min(calc(100% - 24px), 414px, calc(100cqh * var(--board-columns) / var(--board-rows)));
+  max-width: 414px;
+  aspect-ratio: var(--board-columns) / var(--board-rows);
+  margin: 0;
+  padding: 0;
+  grid-template-columns: repeat(var(--board-columns), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--board-rows), minmax(0, 1fr));
+  gap: 1px;
+  border: 3px solid var(--m3-paper);
+  outline: 0;
+  border-radius: 8px;
+  background: rgb(7 19 35 / 62%);
+  box-shadow: none;
+}
+.m3-ui-a .board::after { display: none; }
+.m3-ui-a .board-cell,
+.m3-ui-a .board-cell:nth-child(even) { border: 1px solid rgb(219 224 190 / 35%); border-radius: 0; background: rgb(90 133 153 / 15%); box-shadow: none; }
+.m3-ui-a .board-cell.board-hole { border-color: transparent; background: transparent; }
+.m3-ui-a .tile-socket { inset: 1px; border: 0; border-radius: 0; background: transparent; }
+.m3-ui-a .tile { transform: scale(1.08); }
+.m3-ui-a .match-dialogue-panel {
+  width: min(calc(100% - 24px), 414px);
+  height: 88px;
+  margin: 0 auto;
+  padding: 4px;
+  grid-template-columns: minmax(0, 1fr) 106px;
+  gap: 6px;
+  border: 3px solid var(--m3-paper);
+  outline: 0;
+  border-radius: 8px;
+  background: linear-gradient(180deg, var(--m3-paper-light), var(--m3-paper));
+  box-shadow: none;
+}
+.m3-ui-a .field-bark-slot { height: 100%; min-height: 0; margin: 0; overflow-y: auto; }
+.m3-ui-a .field-bark-slot .field-bark {
+  min-height: 100%;
+  padding: 2px;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.m3-ui-a .field-bark > img { width: 40px; height: 40px; border-color: var(--m3-paper); box-shadow: 0 0 0 1px var(--m3-green); }
+.m3-ui-a .field-bark-slot .field-bark > div { overflow: visible; }
+.m3-ui-a .field-bark b { font-size: 10px; }
+.m3-ui-a .field-bark-slot .field-bark span { display: block; overflow: visible; font: 12px/1.25 "Trebuchet MS", sans-serif; overflow-wrap: anywhere; }
+.m3-ui-a .hint-button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 3px;
+  grid-template-columns: 20px minmax(0, 1fr);
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--m3-green-dark);
+  transform: none;
+}
+.m3-ui-a .hint-button img { width: 20px; height: 20px; transition: transform 160ms ease, filter 160ms ease; }
+.m3-ui-a .hint-button b { font-size: 10px; line-height: 1.15; letter-spacing: 0; white-space: nowrap; transition: transform 160ms ease, text-shadow 160ms ease; }
+.m3-ui-a .hint-button small { color: var(--m3-green-dark); font-size: 9px; }
+.m3-ui-a .hint-button:focus-visible { outline: 2px solid var(--m3-green-dark); outline-offset: 2px; }
+.m3-ui-a .hint-button:is(:hover, :focus-visible, :active, [data-hint-active="true"]) img { transform: scale(1.1); filter: drop-shadow(0 0 5px var(--m3-gold)); }
+.m3-ui-a .hint-button:is(:hover, :focus-visible, :active, [data-hint-active="true"]) b { transform: scale(1.06); text-shadow: 0 0 5px var(--m3-gold); }
+.m3-ui-a .match-guidance-slot { margin: 0 12px; }
+.m3-ui-a .match-guidance-slot .match-hint { margin: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .m3-ui-a .hint-button img,
+  .m3-ui-a .hint-button b { transition: none; }
+  .m3-ui-a .hint-button:is(:hover, :focus-visible, :active, [data-hint-active="true"]) img,
+  .m3-ui-a .hint-button:is(:hover, :focus-visible, :active, [data-hint-active="true"]) b { transform: none; }
+}

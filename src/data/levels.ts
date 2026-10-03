@@ -1,7 +1,13 @@
+import { LEGACY_BOARD_DIMENSIONS, validBoardDimensions, type BoardDimensions } from '../engine/BoardGeometry';
 import type { Match3LevelContext } from './match3Context';
 import { match3TutorialConceptIds, type Match3TutorialConceptId } from './match3Tutorials';
 
-export const BOARD_SIZE = 8;
+/** Legacy square size. Runtime geometry must come from levelBoardDimensions(). */
+export const BOARD_SIZE = LEGACY_BOARD_DIMENSIONS.columns;
+
+export function levelBoardDimensions(level: Readonly<{ boardSize?: BoardDimensions }>): BoardDimensions {
+  return level.boardSize ?? LEGACY_BOARD_DIMENSIONS;
+}
 
 export type Match3TileId =
   | 'camisole'
@@ -42,6 +48,8 @@ export function objectiveIngredientKeys(objective: LevelObjective): readonly Ing
 }
 
 export type LevelDefinition = Readonly<{
+  /** Explicit rows/columns; omitted preserves legacy 8×8 indices and seeded behavior. */
+  boardSize?: BoardDimensions;
   id: string;
   shortId: string;
   title: string;
@@ -81,8 +89,9 @@ export function blockerLocksTileInteraction(
   return blockerLayers > 0 && level.blockerIsPermeable !== true;
 }
 
-export function isLevelBoardCellActive(level: Pick<LevelDefinition, 'boardHoles'>, index: number): boolean {
-  return Number.isInteger(index) && index >= 0 && index < BOARD_SIZE * BOARD_SIZE && !(level.boardHoles?.includes(index) ?? false);
+export function isLevelBoardCellActive(level: Pick<LevelDefinition, 'boardHoles' | 'boardSize'>, index: number): boolean {
+  const { rows, columns } = levelBoardDimensions(level);
+  return Number.isInteger(index) && index >= 0 && index < rows * columns && !(level.boardHoles?.includes(index) ?? false);
 }
 
 export const tileKeys: readonly Match3TileId[] = [
@@ -399,6 +408,12 @@ export function validateLevelDefinitions(definitions: readonly LevelDefinition[]
   const errors: string[] = [];
   const ids = new Set<string>();
   for (const level of definitions) {
+    const size = levelBoardDimensions(level);
+    if (!validBoardDimensions(size)) {
+      errors.push(`${level.id}: invalid board dimensions`);
+      continue;
+    }
+    const cellCount = size.rows * size.columns;
     if (ids.has(level.id)) errors.push(`Duplicate level id: ${level.id}`);
     ids.add(level.id);
     if (level.moves <= 0) errors.push(`${level.id}: moves must be positive`);
@@ -429,12 +444,12 @@ export function validateLevelDefinitions(definitions: readonly LevelDefinition[]
       }
     }
     const boardHoles = level.boardHoles ?? [];
-    if (boardHoles.some((index) => !Number.isInteger(index) || index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: board hole outside board`);
+    if (boardHoles.some((index) => !Number.isInteger(index) || index < 0 || index >= cellCount)) errors.push(`${level.id}: board hole outside board`);
     if (new Set(boardHoles).size !== boardHoles.length) errors.push(`${level.id}: duplicate board hole`);
-    if (boardHoles.length >= BOARD_SIZE * BOARD_SIZE - 2) errors.push(`${level.id}: board shape needs at least three active cells`);
+    if (boardHoles.length >= cellCount - 2) errors.push(`${level.id}: board shape needs at least three active cells`);
     const inactive = new Set(boardHoles);
     const initialTiles = level.initialTiles ?? [];
-    if (initialTiles.some(({ index }) => !Number.isInteger(index) || index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: initial tile outside board`);
+    if (initialTiles.some(({ index }) => !Number.isInteger(index) || index < 0 || index >= cellCount)) errors.push(`${level.id}: initial tile outside board`);
     if (new Set(initialTiles.map(({ index }) => index)).size !== initialTiles.length) errors.push(`${level.id}: duplicate initial tile cell`);
     if (initialTiles.some(({ index }) => inactive.has(index))) errors.push(`${level.id}: initial tile placed in board hole`);
     if (initialTiles.some(({ tile }) => !level.activeTiles.includes(tile))) errors.push(`${level.id}: initial tile uses inactive match type`);
@@ -446,10 +461,10 @@ export function validateLevelDefinitions(definitions: readonly LevelDefinition[]
         if (new Set(objective.ingredients).size !== objective.ingredients.length) errors.push(`${level.id}: duplicate ingredient type in dropGroup`);
       }
     }
-    if (level.blockers.some(({ index }) => index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: blocker outside board`);
+    if (level.blockers.some(({ index }) => !Number.isInteger(index) || index < 0 || index >= cellCount)) errors.push(`${level.id}: blocker outside board`);
     if (level.blockers.some(({ index }) => inactive.has(index))) errors.push(`${level.id}: blocker placed in board hole`);
     if (new Set(level.blockers.map(({ index }) => index)).size !== level.blockers.length) errors.push(`${level.id}: duplicate blocker cell`);
-    if (level.ingredients.some(({ index }) => index < 0 || index >= BOARD_SIZE * BOARD_SIZE)) errors.push(`${level.id}: ingredient outside board`);
+    if (level.ingredients.some(({ index }) => !Number.isInteger(index) || index < 0 || index >= cellCount)) errors.push(`${level.id}: ingredient outside board`);
     if (level.ingredients.some(({ index }) => inactive.has(index))) errors.push(`${level.id}: ingredient placed in board hole`);
     if (initialTiles.some(({ index }) => level.ingredients.some((ingredient) => ingredient.index === index))) errors.push(`${level.id}: initial tile overlaps ingredient`);
     if (level.ingredients.some(({ index }) => level.blockers.some((blocker) => blocker.index === index))) errors.push(`${level.id}: ingredient overlaps blocker`);

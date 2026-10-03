@@ -211,7 +211,8 @@ describe('UI controller render smoke', () => {
     expect(root.innerHTML).toContain('obstacle_locked_cell.png');
     expect(root.innerHTML).toContain('goal_receipt.png');
     expect(root.innerHTML).toContain('match-case-hud');
-    expect(root.innerHTML).toContain('detective-strip');
+    expect(root.innerHTML).toContain('match-dialogue-panel');
+    expect(root.innerHTML.indexOf('class="board"')).toBeLessThan(root.innerHTML.indexOf('class="field-bark-slot"'));
     expect(root.innerHTML).toContain(ruCatalog['match3.hint']);
     expect(root.innerHTML).toContain(ruCatalog['match3.inputHint']);
     expect(root.innerHTML).toContain('tile-stack');
