@@ -1,7 +1,7 @@
 # G5b-M3-RECT-002 — production-пилот поля 7×9 на M3_06
 
 Дата: 2026-10-03. Статус: **active · код-кандидат, human/balance acceptance pending**.
-GitHub baseline: `main` / `533e2f6` (PR #330).
+GitHub baseline: `main` / `919271a` (PR #330, #331, #329).
 
 ## Цель
 
@@ -35,8 +35,10 @@ human pass с отмеченной сложностью и визуально с
 
 ## Приёмка и ограничения
 
-- Технический rectangular contract был проверен в PR #330 до переноса geometry в
-  production data. После этого переноса автоматические проверки не запускались.
+- Rectangular contract и production-пилот проверены автоматическими проверками в
+  CI/локально при PR #331/#329. После merge выполнен all-22 auto-audit: 4 400 прогонов
+  на baseline `919271a`; результаты в
+  `docs/reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-03.json`.
 - Требуется отдельная desktop/mobile проверка именно production route M3_06 и повторный
   human playtest; реальный телефон остаётся главным визуальным gate.
 - Не переводить остальные уровни и не менять move budget по одному лишь числу клеток.
