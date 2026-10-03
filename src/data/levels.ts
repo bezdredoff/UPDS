@@ -216,7 +216,7 @@ export const levels: readonly LevelDefinition[] = [
   {
     id: 'M3_04_EMERGENCY_MEETING', shortId: 'M3_04', title: 'Семь клубов, один календарь', storyAction: 'Отделить подтверждённые заявления от слухов и восстановить общий календарь стирки.',
     context: { sourceSceneId: 'VN_SCENE_09_E4_PRE', pageBackground: 'studentCouncilAuditorium', boardSurface: 'meeting-grid', boardFrame: 'audit-file', narrativeProfile: 'laundry-cadence', tilePresentationProfile: 'meeting-reports', participants: ['miku', 'onoe', 'ayuki', 'mayu'], narrativeTags: ['student-council', 'seven-clubs', 'laundry-calendar', 'rumor-control'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'pantiesSportWhite', 'pantiesLacePink', 'sportsBra', 'socks', 'towel'],
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'pantiesSportWhite', 'pantiesLacePink', 'pantiesHighWaistBlack', 'sportsBra', 'socks'],
     boardHoles: [3, 4, 11, 12, 51, 52, 59, 60], moves: 28,
     objectives: [{ kind: 'collect', tile: 'laundryTag', target: 14, label: 'Подтверждённые бирки' }, { kind: 'clearBlockers', target: 8, label: 'Преграды' }, { kind: 'drop', ingredient: 'laundryCalendar', target: 1, label: 'Календарь' }],
     blocker: 'solid', blockers: positions([9, 18, 21, 22, 42, 45, 49, 54]), ingredients: [{ index: 27, kind: 'laundryCalendar' }], seed: 9005,
@@ -245,7 +245,7 @@ export const levels: readonly LevelDefinition[] = [
   {
     id: 'M3_07_ASTERION_THREAD', shortId: 'M3_07', title: 'Образцы Asterion', storyAction: 'Сопоставить серебристую нить, лабораторные карточки и официальную спецификацию.',
     context: { sourceSceneId: 'VN_SCENE_15_E7_PRE', pageBackground: 'asterionLab', boardSurface: 'signal-cross', boardFrame: 'lab-file', narrativeProfile: 'asterion-thread', tilePresentationProfile: 'asterion-lab', participants: ['miku', 'onoe', 'ayuki', 'kurose'], narrativeTags: ['asterion-lab', 'conductive-thread', 'serial-code', 'assignment-registry'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'towel', 'socks', 'pantiesSportWhite'], moves: 28,
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'pantiesHighWaistBlack', 'socks', 'pantiesSportWhite'], moves: 28,
     objectives: [{ kind: 'clearBlockers', target: 8, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Образцы' }, { kind: 'drop', ingredient: 'asterionSpec', target: 1, label: 'Спецификация' }],
     blocker: 'locked', blockers: positions([9, 12, 18, 21, 42, 45, 50, 53]), ingredients: [{ index: 27, kind: 'asterionSpec' }], seed: 9008,
     clueId: 'CUE_008', clueTitle: 'Нить Asterion', clueSummary: 'Серебристая нить принадлежит Asterion, но открытый реестр не содержит назначений на личные вещи студентов.',
@@ -372,8 +372,8 @@ export const levels: readonly LevelDefinition[] = [
     id: 'M3_21_CONVENIENT_CASE', shortId: 'M3_21', title: 'Идеальный подозреваемый', storyAction: 'Собрать удобные совпадения, убрать противоречащие карточки и подготовить эффектный, но ложный финальный слайд.',
     context: { sourceSceneId: 'VN_SCENE_43_E21_PRE', pageBackground: 'disciplinaryAssembly', boardSurface: 'ordered-grid', boardFrame: 'audit-file', narrativeProfile: 'convenient-case', tilePresentationProfile: 'convenient-presentation', participants: ['miku', 'onoe', 'ayuki', 'mayu', 'kurose'], narrativeTags: ['assembly', 'false-case', 'presentation', 'discarded-contradictions'] },
     tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesBoyshortBlue', 'pantiesSportWhite'], boardHoles: [0, 7, 17, 23, 24, 30, 33, 39, 40, 46, 56, 62], moves: 29,
-    objectives: [{ kind: 'collect', tile: 'laundryTag', target: 14, label: 'Удобные совпадения' }, { kind: 'clearBlockers', target: 10, label: 'Преграды' }, { kind: 'drop', ingredient: 'finalSlide', target: 1, label: 'Финальный слайд' }],
-    blocker: 'solid', blockers: positions([10, 15, 18, 21, 42, 45, 50, 53, 58, 61]), ingredients: [{ index: 27, kind: 'finalSlide' }], seed: 9022,
+    objectives: [{ kind: 'collect', tile: 'laundryTag', target: 14, label: 'Удобные совпадения' }, { kind: 'clearBlockers', target: 8, label: 'Преграды' }, { kind: 'drop', ingredient: 'finalSlide', target: 1, label: 'Финальный слайд' }],
+    blocker: 'solid', blockers: positions([10, 15, 18, 21, 42, 45, 58, 61]), ingredients: [{ index: 27, kind: 'finalSlide' }], seed: 9022,
     clueId: 'CUE_022', clueTitle: 'Удалённые противоречия', clueSummary: 'Публичная версия выглядит убедительно только после сознательного удаления фактов, которые оправдывают удобного подозреваемого и указывают на Second Skin.',
     startBark: { speaker: 'Оноэ', text: 'Я отмечу каждое возражение, которое мы сейчас убираем. Хотя бы между собой не будем называть это доказательством.' }, winBark: { speaker: 'Аюки', text: 'Слайд идеальный. И теперь я очень хорошо вижу, почему идеальная история может быть неправильной.' }, loseBark: { speaker: 'Мику', text: 'Даже ложная версия развалилась. Пересобираем и смотрим, какие факты приходится скрывать.' },
   },

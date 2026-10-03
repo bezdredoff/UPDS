@@ -45,6 +45,10 @@ G1 уже сократил blocker vocabulary до трёх reusable archetypes 
 
 ## iPhone preview QA
 
+### G5b follow-up — layer count по первому human feedback
+
+После exploratory desktop pass 2026-10-02 однослойные blocker cells перестали показывать бейдж `1`; числовой бейдж остаётся только при нескольких слоях. Пояснение о смысле числа добавлено в blocker tutorial. Это меняет только UI-обозначение: blocker layer counts и mechanics не меняются.
+
 1. M3_00 / другой `locked`: blocker сразу выглядит как закрытая клетка, layer badge читается.
 2. M3_06 / другой `solid`: box blocker визуально не путается с lock и foam.
 3. M3_12 / M3_16: blocking foam остаётся заметным, но base tile под ним читается.

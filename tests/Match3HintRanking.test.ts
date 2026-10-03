@@ -15,9 +15,9 @@ describe('ANM-025G3B spatially neutral hint ranking', () => {
     const hints = Array.from({ length: 3 }, () => game.getHintMove());
 
     expect(hints).toEqual([
-      { first: 49, second: 50, score: 30112 },
-      { first: 49, second: 50, score: 30112 },
-      { first: 49, second: 50, score: 30112 },
+      { first: 3, second: 11, score: 20124 },
+      { first: 3, second: 11, score: 20124 },
+      { first: 3, second: 11, score: 20124 },
     ]);
     expect(game.board.map((cell) => ({ ...cell }))).toEqual(before);
   });

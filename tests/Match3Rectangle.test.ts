@@ -34,6 +34,30 @@ describe('G5b-M3-RECT-001 rectangular board contract', () => {
     expect(validateLevelDefinitions([{ ...source, boardSize: { rows: 9, columns: 0 } }])).toContain(`${source.id}: invalid board dimensions`);
   });
 
+  it('does not match, hint, or accept input from tiles hidden beneath a blocking obstacle', () => {
+    const source = levels[0];
+    const hiddenMatch: LevelDefinition = {
+      ...source,
+      id: 'M3_HIDDEN_BLOCKER_MATCH',
+      shortId: 'M3_HIDDEN_BLOCKER_MATCH',
+      boardHoles: undefined,
+      blockers: [{ index: 1, layers: 1 }],
+      initialTiles: [
+        { index: 0, tile: 'sportsBra' },
+        { index: 1, tile: 'sportsBra' },
+        { index: 2, tile: 'sportsBra' },
+      ],
+    };
+    const game = new Match3Game(hiddenMatch, 7);
+
+    expect(game.board[1].tile).toBe('sportsBra');
+    expect(game.findMatchGroups().flatMap((group) => group.indices)).not.toContain(1);
+    expect(game.hasImmediateMatches()).toBe(false);
+    expect(game.isCellBlocked(1)).toBe(true);
+    expect(game.getHintMove()).not.toMatchObject({ first: 1 });
+    expect(game.getHintMove()).not.toMatchObject({ second: 1 });
+  });
+
   it('keeps neighbours and tutorial reveals within rectangular edges including the ninth row', () => {
     expect(neighbourIndex(6, 'right', size)).toBeNull();
     expect(neighbourIndex(7, 'left', size)).toBeNull();

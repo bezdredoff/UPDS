@@ -94,6 +94,8 @@ describe('ANM-025E4C advanced Match-3 topology cohort', () => {
     const m21 = byShortId('M3_21');
     expect(m21.boardHoles).toEqual([0, 7, 17, 23, 24, 30, 33, 39, 40, 46, 56, 62]);
     expect(m21.moves).toBe(29);
+    expect(m21.objectives.find((objective) => objective.kind === 'clearBlockers')?.target).toBe(8);
+    expect(m21.blockers.map(({ index }) => index)).toEqual([10, 15, 18, 21, 42, 45, 58, 61]);
     expect(m21.ingredients).toEqual([{ index: 27, kind: 'finalSlide' }]);
   });
 });

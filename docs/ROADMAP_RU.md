@@ -203,7 +203,7 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 1. **G4a — ACCEPTED:** все 33 rework-позиции, включая 13 blocker, исправлены и слиты в PR #314–320; пользователь подтвердил интегрированную проверку в игре и на телефоне. [Отчёт](reviews/G4A_ART_REVIEW_2026-09-30.md). Исходные 117 approved не менять без нового дефекта.
 2. **G5a — ACCEPTED:** RU слит в PR #322, EN — #325, BE — #326; локализационные аудиты и браузерные/mobile gates пройдены, пользователь подтвердил проверку на телефоне.
-3. **G5b — ACTIVE:** source/design audit всех 22 production levels и E5A/E5B evidence зафиксирован в [отчёте G5b](reviews/G5B_MATCH3_DESIGN_BALANCE_AUDIT_2026-10-02.md); первый exploratory pass `M3_00–M3_07` записан; M3_06 теперь отдельный 7×9 production-пилот, human phone pass и subjective sessions pending.
+3. **G5b — ACTIVE:** source/design audit всех 22 уровней, exploratory desktop pass `M3_00–M3_07`, первые исправления обратной связи и production-пилот 7×9 для M3_06 зафиксированы в [отчёте G5b](reviews/G5B_MATCH3_DESIGN_BALANCE_AUDIT_2026-10-02.md); полный phone pass и E6B subjective sessions pending.
 4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.
 5. **G5c / ANM-033 — финальная release regression:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, public-release packaging/rights. KI-002 остаётся открытым здесь. Принятые G0 contracts повторно проверить на финальном payload, не открывая новый PWA refactor без дефекта.
 6. **G6 — RC:** исправить только найденные release defects, затем packaging/deploy/rollback.

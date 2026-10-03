@@ -51,14 +51,16 @@ describe('ANM-025G1 lean blocker archetypes', () => {
       be: beCatalog,
     };
     const expected = { ru: 'Преграды', en: 'Blockers', be: 'Перашкоды' } as const;
+    const clearAction = { ru: 'Очистить преграды', en: 'Clear blockers', be: 'Прыбраць перашкоды' } as const;
 
     for (const level of levels) {
       const objectiveIndex = level.objectives.findIndex((objective) => objective.kind === 'clearBlockers');
       expect(objectiveIndex, level.shortId).toBeGreaterThanOrEqual(0);
       expect(level.objectives[objectiveIndex].label, level.shortId).toBe('Преграды');
       const key = `match3.level.${level.id}.objective.${objectiveIndex}`;
+      const expectedLabel = ['M3_00', 'M3_02'].includes(level.shortId) ? clearAction : expected;
       for (const locale of Object.keys(expected) as readonly (keyof typeof expected)[]) {
-        expect(catalogs[locale][key], `${locale}:${key}`).toBe(expected[locale]);
+        expect(catalogs[locale][key], `${locale}:${key}`).toBe(expectedLabel[locale]);
       }
     }
   });
