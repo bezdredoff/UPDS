@@ -184,6 +184,28 @@ ${cell.blockerLayers > 0 ? `<span class="blocker"><img src="${blockerAsset}" alt
     .join('');
 }
 
+function match3BoardShapeMask(level: LevelDefinition): string {
+  const { rows, columns } = levelBoardDimensions(level);
+  const holes = new Set(level.boardHoles ?? []);
+  if (holes.size === 0) return '';
+
+  const paths: string[] = [];
+  for (let row = 0; row < rows; row += 1) {
+    let column = 0;
+    while (column < columns) {
+      while (column < columns && holes.has(row * columns + column)) column += 1;
+      const start = column;
+      while (column < columns && !holes.has(row * columns + column)) column += 1;
+      const width = column - start;
+      if (width > 0) paths.push(`M${start} ${row}h${width}v1h-${width}z`);
+    }
+  }
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${columns} ${rows}" preserveAspectRatio="none"><path fill="white" d="${paths.join('')}"/></svg>`;
+  const encoded = encodeURIComponent(svg).replace(/[!'()*]/g, (character) => `%${character.charCodeAt(0).toString(16).toUpperCase()}`);
+  return `--board-shape-mask:url('data:image/svg+xml,${encoded}')`;
+}
+
 export function match3TutorialMarkup(
   concept: Match3TutorialConceptId | null,
   dismissed: boolean,
@@ -335,6 +357,9 @@ export function match3ScreenMarkup(input: Match3ScreenMarkupInput): string {
         ? t('match3Campaign.stage', { current: activeLevelIndex + 1, total: totalLevels })
         : t('match3.stage', { current: activeLevelIndex + 1, total: totalLevels });
   const stageId = runMode === 'lab' ? `SEED ${labSeed ?? 0}` : level.shortId;
+  const boardDimensions = levelBoardDimensions(level);
+  const boardMask = match3BoardShapeMask(level);
+  const boardStyle = `--board-columns:${boardDimensions.columns};--board-rows:${boardDimensions.rows}${boardMask ? `;${boardMask}` : ''}`;
 
   return `<section class="match-screen m3-ui-a${tutorialConcept && !tutorialDismissed ? ' tutorial-active' : ''}" ${match3ContextAttrs(level)}>
 <img class="match-background" src="${backgroundAssets[level.context.pageBackground]}" alt="">
@@ -360,8 +385,8 @@ ${headerActionMarkup('header-settings', 'settings', t('common.settings'))}
 </section>
 </div>
 <div id="match-feedback" class="match-feedback" aria-live="polite"></div>
-<div class="match-playfield" style="--board-columns:${levelBoardDimensions(level).columns};--board-rows:${levelBoardDimensions(level).rows}">
-<div class="board" style="--board-columns:${levelBoardDimensions(level).columns};--board-rows:${levelBoardDimensions(level).rows}" role="grid" aria-rowcount="${levelBoardDimensions(level).rows}" aria-colcount="${levelBoardDimensions(level).columns}" aria-label="${escapeHtml(t('match3.boardAria'))}">${match3BoardCellsMarkup({ level, board, selectedCell, hintedCells, t })}</div>
+<div class="match-playfield" style="${boardStyle}">
+<div class="board"${boardMask ? ' data-board-shaped="true"' : ''} style="${boardStyle}" role="grid" aria-rowcount="${boardDimensions.rows}" aria-colcount="${boardDimensions.columns}" aria-label="${escapeHtml(t('match3.boardAria'))}">${match3BoardCellsMarkup({ level, board, selectedCell, hintedCells, t })}</div>
 </div>
 <div class="match-tooltray match-dialogue-panel">
 <div class="field-bark-slot" aria-live="polite" aria-atomic="true">${match3BarkMarkup(bark, barkEntering, t)}</div>
