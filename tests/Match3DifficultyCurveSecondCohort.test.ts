@@ -42,7 +42,7 @@ describe('ANM-025E5B2 second Match-3 outlier cohort', () => {
     expect(m09.objectives.map((objective) => objective.target)).toEqual([8, 14, 2]);
 
     const m14 = byShortId('M3_14');
-    expect(m14.moves).toBe(29);
+    expect(m14.moves).toBe(27);
     expect(m14.ingredients.map(({ kind }) => kind)).toEqual(['familyReceipt', 'atelierLedger']);
     expect(m14.objectives.map((objective) => objective.target)).toEqual([8, 14, 2]);
 

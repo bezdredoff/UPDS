@@ -84,7 +84,7 @@ describe('ANM-025E4C advanced Match-3 topology cohort', () => {
 
     const m12 = byShortId('M3_12');
     expect(m12.boardHoles).toHaveLength(16);
-    expect(m12.moves).toBe(28);
+    expect(m12.moves).toBe(30);
     expect(m12.ingredients.map(({ kind }) => kind)).toEqual(['secondSkinTag']);
 
     const m17 = byShortId('M3_17');

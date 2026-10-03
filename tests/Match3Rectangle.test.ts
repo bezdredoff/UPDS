@@ -156,6 +156,6 @@ describe('G5b-M3-RECT-001 rectangular board contract', () => {
     const draft = createLevelLabDraft(prototype);
     expect(applyLevelLabDraft(prototype, draft).boardSize).toEqual(size);
     expect(JSON.parse(exportLevelLabDraft(prototype, draft))).toMatchObject({ format: 'upds-level-lab-v3', boardSize: size });
-    expect(JSON.parse(exportLevelLabDraft(levels[0], createLevelLabDraft(levels[0]))).format).toBe('upds-level-lab-v2');
+    expect(JSON.parse(exportLevelLabDraft(levels[0], createLevelLabDraft(levels[0]))).format).toBe('upds-level-lab-v3');
   });
 });

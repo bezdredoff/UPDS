@@ -56,7 +56,7 @@ describe('ANM-026B2 board shape and deterministic start layout', () => {
   });
 
   it('compacts tiles through hole rows while never filling the hole itself', () => {
-    const level: LevelDefinition = { ...levels[0], id: 'M3_TEST_GRAVITY', boardSize: { rows: 8, columns: 8 }, boardHoles: [16], initialTiles: [{ index: 8, tile: 'pantiesSportWhite' }] };
+    const level: LevelDefinition = { ...levels[0], id: 'M3_TEST_GRAVITY', boardSize: { rows: 8, columns: 8 }, boardHoles: [16], blockers: [], ingredients: [], initialTiles: [{ index: 8, tile: 'pantiesSportWhite' }] };
     const game = new Match3Game(level, 77);
     const internals = game as unknown as Match3Internals;
     internals.cells[8].special = 'lead';
@@ -69,7 +69,7 @@ describe('ANM-026B2 board shape and deterministic start layout', () => {
   });
 
   it('drops an ingredient from the lowest active cell when the physical bottom is a hole', () => {
-    const level: LevelDefinition = { ...levels[0], id: 'M3_TEST_EXIT', boardSize: { rows: 8, columns: 8 }, boardHoles: [56] };
+    const level: LevelDefinition = { ...levels[0], id: 'M3_TEST_EXIT', boardSize: { rows: 8, columns: 8 }, boardHoles: [56], blockers: [], ingredients: [], initialTiles: [] };
     const game = new Match3Game(level, 88);
     const internals = game as unknown as Match3Internals;
     internals.cells[48].tile = null;
@@ -81,7 +81,7 @@ describe('ANM-026B2 board shape and deterministic start layout', () => {
     expect(internals.cells[56].ingredient).toBeNull();
   });
 
-  it('rejects placements in holes and exports shape/start-layout through Level Lab v2', () => {
+  it('rejects placements in holes and exports shape/start-layout through Level Lab v3', () => {
     const base = levels[0];
     expect(validateLevelDefinitions([{ ...base, boardHoles: [base.blockers[0].index] }])).toContain(`${base.id}: blocker placed in board hole`);
     expect(validateLevelDefinitions([{ ...base, initialTiles: [{ index: base.ingredients[0].index, tile: 'pantiesSportWhite' }] }])).toContain(`${base.id}: initial tile overlaps ingredient`);
@@ -96,7 +96,7 @@ describe('ANM-026B2 board shape and deterministic start layout', () => {
     expect(applied.boardHoles).toEqual([0, 7]);
     expect(applied.initialTiles).toEqual([{ index: 1, tile: 'pantiesSportWhite' }]);
     const exported = JSON.parse(exportLevelLabDraft(base, draft)) as Record<string, unknown>;
-    expect(exported.format).toBe('upds-level-lab-v2');
+    expect(exported.format).toBe('upds-level-lab-v3');
     expect(exported.boardHoles).toEqual([0, 7]);
     expect(exported.initialTiles).toEqual([{ index: 1, tile: 'pantiesSportWhite' }]);
   });

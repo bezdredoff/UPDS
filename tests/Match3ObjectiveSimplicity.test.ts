@@ -68,6 +68,7 @@ describe('ANM-025E1 objective simplicity and grouped narrative goals', () => {
       ...source,
       id: 'M3_GROUPED_DROP_TEST',
       shortId: 'M3_GROUP',
+      boardSize: { rows: 8, columns: 8 },
       tutorialConcepts: [],
       objectives: [{ kind: 'dropGroup', ingredients: ['receipt', 'damagedTowel'], target: 2, label: 'Улики' }],
       blockers: [],

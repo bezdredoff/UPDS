@@ -348,7 +348,7 @@ const authoredLevels: readonly LevelDefinition[] = [
   {
     id: 'M3_12_SECOND_SKIN_SIGNAL', shortId: 'M3_12', title: 'Сигнал Second Skin', storyAction: 'Отделить радиопомехи от повторяющегося сигнала и извлечь активную микрометку из сервисной бирки.',
     context: { sourceSceneId: 'VN_SCENE_25_E12_PRE', pageBackground: 'oldGymNight', boardSurface: 'signal-cross', boardFrame: 'evidence-file', narrativeProfile: 'second-skin-tag', tilePresentationProfile: 'second-skin-signal', participants: ['miku', 'onoe', 'ayuki'], narrativeTags: ['old-gym-night', 'occult-bait', 'radio-signal', 'second-skin'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesLacePink', 'pantiesSportWhite'], boardHoles: [0, 1, 6, 7, 8, 9, 14, 15, 48, 49, 54, 55, 56, 57, 62, 63], moves: 28,
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesLacePink', 'pantiesSportWhite'], boardHoles: [0, 1, 6, 7, 8, 9, 14, 15, 48, 49, 54, 55, 56, 57, 62, 63], moves: 30,
     objectives: [{ kind: 'clearBlockers', target: 10, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Сигнальные узлы' }, { kind: 'drop', ingredient: 'secondSkinTag', target: 1, label: 'Микрометка' }],
     blocker: 'overlay', blockers: positions([11, 19, 25, 26, 27, 28, 29, 30, 35, 43]), ingredients: [{ index: 20, kind: 'secondSkinTag' }], seed: 9013,
     clueId: 'CUE_013', clueTitle: 'Метка Second Skin', clueSummary: 'Активная микрометка передаёт данные под внутренним именем Second Skin и объясняет технический критерий выбора вещей.',
@@ -366,7 +366,7 @@ const authoredLevels: readonly LevelDefinition[] = [
   {
     id: 'M3_14_KUBO_ATELIER_LEDGER', shortId: 'M3_14', title: 'Книга семейного ателье', storyAction: 'Сопоставить квитанции, изделия и книгу заказов, не смешивая записи посторонних клиентов.',
     context: { sourceSceneId: 'VN_SCENE_29_E14_PRE', pageBackground: 'textileWorkshop', boardSurface: 'workbench-clusters', boardFrame: 'workshop-file', narrativeProfile: 'rina-pretheft-search', tilePresentationProfile: 'kubo-atelier', participants: ['miku', 'onoe', 'ayuki', 'kubo', 'kubo-mother'], narrativeTags: ['family-atelier', 'order-ledger', 'pretheft', 'silver-seam'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'pantiesLacePink', 'pantiesSportWhite', 'towel'], moves: 29,
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'pantiesLacePink', 'pantiesSportWhite', 'towel'], moves: 27,
     objectives: [{ kind: 'clearBlockers', target: 8, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Коды заказов' }, { kind: 'dropGroup', ingredients: ['familyReceipt', 'atelierLedger'], target: 2, label: 'Квитанция + книга' }],
     blocker: 'solid', blockers: positions([[10, 2], 13, 18, 21, 42, [45, 2], 50, 53]), ingredients: [{ index: 27, kind: 'familyReceipt' }, { index: 28, kind: 'atelierLedger' }], seed: 9015,
     clueId: 'CUE_015', clueTitle: 'Рина знала заранее', clueSummary: 'Книга заказов доказывает: Рина искала серебристые швы и записывала коды ещё до первых публичных краж.',
