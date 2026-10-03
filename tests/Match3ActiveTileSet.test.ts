@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
   ACTIVE_TILE_TYPE_LIMIT,
+  MIN_PANTIES_TYPES_PER_LEVEL,
   MAX_PANTIES_TYPES_PER_LEVEL,
   levels,
   tileKeys,
@@ -21,6 +22,7 @@ type MutableCell = {
 describe('ANM-025C2A active tile set contract', () => {
   it('keeps six active match identities per level while allowing narrative-specific production sets', () => {
     expect(ACTIVE_TILE_TYPE_LIMIT).toBe(6);
+    expect(MIN_PANTIES_TYPES_PER_LEVEL).toBe(3);
     expect(MAX_PANTIES_TYPES_PER_LEVEL).toBe(4);
     for (const level of levels) {
       expect(new Set(level.activeTiles).size).toBe(ACTIVE_TILE_TYPE_LIMIT);
