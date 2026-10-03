@@ -7,6 +7,7 @@ import './match3Help.css';
 import './match3StoryObjectGuidance.css';
 import './match3SpecialImpact.css';
 import './match3BlockerReadability.css';
+import './match3UiA.css';
 import './standaloneEdgeToEdge.css';
 import { BUILD_ID } from './appVersion';
 import { AnimeDetectiveApp } from './ui/AnimeDetectiveApp';

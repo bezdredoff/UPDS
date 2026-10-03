@@ -1,23 +1,14 @@
 import {
-  BOARD_SIZE,
+  levelBoardDimensions,
   blockerLocksTileInteraction,
   objectiveIngredientKeys,
   type IngredientKey,
   type LevelDefinition,
   type Match3TileId,
 } from '../data/levels';
+import { createBoardGeometry } from './BoardGeometry';
 import {
-  classifyPlayerMove,
-  colOf,
-  directSpecialComboTargets,
-  expandSpecialClearTargets,
-  findAutomaticSpecialCreations,
-  findMatchGroups as findBoardMatchGroups,
-  findResolutionMatchGroups as findBoardResolutionMatchGroups,
-  findPlayerSpecialCreations,
-  indexOf,
-  resolveDirectSpecialCombo,
-  rowOf,
+  createMatch3Rules,
   type DirectSpecialCombo,
   type MatchFeedbackKind,
   type MatchGroup,
@@ -136,6 +127,8 @@ const emptyMoveResult = (reason: MoveResult['reason'], won: boolean, lost: boole
 
 export class Match3Game {
   readonly level: LevelDefinition;
+  readonly geometry: ReturnType<typeof createBoardGeometry>;
+  private readonly rules: ReturnType<typeof createMatch3Rules>;
   movesLeft: number;
   private readonly cells: MutableCell[];
   private readonly random: () => number;
@@ -146,10 +139,12 @@ export class Match3Game {
 
   constructor(level: LevelDefinition, seed = level.seed) {
     this.level = level;
+    this.geometry = createBoardGeometry(levelBoardDimensions(level));
+    this.rules = createMatch3Rules(this.geometry);
     this.movesLeft = level.moves;
     this.random = makeRng(seed);
     this.boardHoles = new Set(level.boardHoles ?? []);
-    this.cells = Array.from({ length: BOARD_SIZE * BOARD_SIZE }, () => ({
+    this.cells = Array.from({ length: this.geometry.cellCount }, () => ({
       tile: null,
       ingredient: null,
       blockerLayers: 0,
@@ -210,7 +205,7 @@ export class Match3Game {
     const evaluation = this.evaluateSwap(first, second);
     if (!evaluation.valid) return emptyMoveResult(evaluation.reason ?? 'no-match', this.won, this.lost);
 
-    const primaryFeedback = classifyPlayerMove(evaluation.groups, evaluation.activatedSpecials, evaluation.creations);
+    const primaryFeedback = this.rules.classifyPlayerMove(evaluation.groups, evaluation.activatedSpecials, evaluation.creations);
     this.swapContents(first, second);
     const groups = [...evaluation.groups];
     const activatedSpecials = [...evaluation.activatedSpecials];
@@ -287,7 +282,7 @@ export class Match3Game {
     let bestMoves: HintMove[] = [];
 
     for (let index = 0; index < this.cells.length; index += 1) {
-      for (const candidate of [index + 1, index + BOARD_SIZE]) {
+      for (const candidate of [index + 1, index + this.geometry.columns]) {
         const evaluation = this.evaluateSwap(index, candidate);
         if (!evaluation.valid) continue;
 
@@ -326,11 +321,11 @@ export class Match3Game {
   }
 
   findMatchGroups(): MatchGroup[] {
-    return findBoardMatchGroups(this.cells);
+    return this.rules.findMatchGroups(this.cells);
   }
 
   private findResolutionMatchGroups(): MatchGroup[] {
-    return findBoardResolutionMatchGroups(this.cells);
+    return this.rules.findResolutionMatchGroups(this.cells);
   }
 
   hasImmediateMatches(): boolean {
@@ -339,7 +334,7 @@ export class Match3Game {
 
   hasAvailableMove(): boolean {
     for (let index = 0; index < this.cells.length; index += 1) {
-      for (const candidate of [index + 1, index + BOARD_SIZE]) {
+      for (const candidate of [index + 1, index + this.geometry.columns]) {
         if (this.evaluateSwap(index, candidate).valid) return true;
       }
     }
@@ -363,14 +358,14 @@ export class Match3Game {
     const sameTile = this.cells[first].tile === this.cells[second].tile;
     const firstSpecial = this.cells[first].special;
     const secondSpecial = this.cells[second].special;
-    const directCombo = resolveDirectSpecialCombo(firstSpecial, secondSpecial);
+    const directCombo = this.rules.resolveDirectSpecialCombo(firstSpecial, secondSpecial);
 
     this.swapContents(first, second);
     const activatedSpecials = [first, second].filter((index) => this.cells[index].special !== null);
     const groups = this.findMatchGroups();
     const creations = sameTile && activatedSpecials.length === 0
       ? []
-      : findPlayerSpecialCreations(this.cells, groups, first, second);
+      : this.rules.findPlayerSpecialCreations(this.cells, groups, first, second);
     this.swapContents(first, second);
 
     if (groups.length === 0 && activatedSpecials.length === 0 && creations.length === 0 && directCombo === null) return empty('no-match');
@@ -407,18 +402,18 @@ export class Match3Game {
       const cell = this.cells[index];
       if (cell.tile || cell.ingredient) continue;
       const candidates = this.shuffledTileKeys().filter((tile) => {
-        const row = rowOf(index);
-        const column = colOf(index);
+        const row = this.rules.rowOf(index);
+        const column = this.rules.colOf(index);
         const horizontalMatch = column >= 2
           && this.cells[index - 1].tile === tile
           && this.cells[index - 2].tile === tile;
         const verticalMatch = row >= 2
-          && this.cells[index - BOARD_SIZE].tile === tile
-          && this.cells[index - BOARD_SIZE * 2].tile === tile;
+          && this.cells[index - this.geometry.columns].tile === tile
+          && this.cells[index - this.geometry.columns * 2].tile === tile;
         const squareMatch = row >= 1 && column >= 1
           && this.cells[index - 1].tile === tile
-          && this.cells[index - BOARD_SIZE].tile === tile
-          && this.cells[index - BOARD_SIZE - 1].tile === tile;
+          && this.cells[index - this.geometry.columns].tile === tile
+          && this.cells[index - this.geometry.columns - 1].tile === tile;
         return !horizontalMatch && !verticalMatch && !squareMatch;
       });
       cell.tile = candidates[0] ?? this.randomTile();
@@ -428,18 +423,18 @@ export class Match3Game {
   private fillInitialTiles(): void {
     for (let index = 0; index < this.cells.length; index += 1) {
       const candidates = this.shuffledTileKeys().filter((tile) => {
-        const row = rowOf(index);
-        const column = colOf(index);
+        const row = this.rules.rowOf(index);
+        const column = this.rules.colOf(index);
         const horizontalMatch = column >= 2
           && this.cells[index - 1].tile === tile
           && this.cells[index - 2].tile === tile;
         const verticalMatch = row >= 2
-          && this.cells[index - BOARD_SIZE].tile === tile
-          && this.cells[index - BOARD_SIZE * 2].tile === tile;
+          && this.cells[index - this.geometry.columns].tile === tile
+          && this.cells[index - this.geometry.columns * 2].tile === tile;
         const squareMatch = row >= 1 && column >= 1
           && this.cells[index - 1].tile === tile
-          && this.cells[index - BOARD_SIZE].tile === tile
-          && this.cells[index - BOARD_SIZE - 1].tile === tile;
+          && this.cells[index - this.geometry.columns].tile === tile
+          && this.cells[index - this.geometry.columns - 1].tile === tile;
         return !horizontalMatch && !verticalMatch && !squareMatch;
       });
       this.cells[index].tile = candidates[0] ?? this.randomTile();
@@ -470,17 +465,17 @@ export class Match3Game {
       const matched = new Set(groups.flatMap((group) => [...group.indices]));
       const creations = totals.cascades === 1
         ? new Map(playerCreations.map((creation) => [creation.index, creation] as const))
-        : new Map(findAutomaticSpecialCreations(this.cells, groups, automaticCreationAnchors)
+        : new Map(this.rules.findAutomaticSpecialCreations(this.cells, groups, automaticCreationAnchors)
           .map((creation) => [creation.index, creation] as const));
 
       const creationConsumed = [...creations.values()].flatMap((creation) => [...(creation.consumed ?? [])]);
       const clearSeed = new Set<number>([...matched, ...specialActivations, ...creationConsumed]);
       if (totals.cascades === 1 && directCombo) {
-        for (const target of directSpecialComboTargets(this.cells, directCombo, first, second, (index) => this.leadTargets(index))) {
+        for (const target of this.rules.directSpecialComboTargets(this.cells, directCombo, first, second, (index) => this.leadTargets(index))) {
           clearSeed.add(target);
         }
       }
-      const clear = expandSpecialClearTargets(this.cells, clearSeed, (index) => this.leadTargets(index));
+      const clear = this.rules.expandSpecialClearTargets(this.cells, clearSeed, (index) => this.leadTargets(index));
       for (const creation of creations.keys()) {
         if (!specialActivations.includes(creation)) clear.delete(creation);
       }
@@ -537,7 +532,7 @@ export class Match3Game {
 
   private scorePotentialMove(groups: readonly MatchGroup[], activatedSpecials: readonly number[]): number {
     const matched = new Set(groups.flatMap((group) => [...group.indices]));
-    const projectedClear = expandSpecialClearTargets(
+    const projectedClear = this.rules.expandSpecialClearTargets(
       this.cells,
       new Set<number>([...matched, ...activatedSpecials]),
       (index) => this.leadTargets(index),
@@ -568,12 +563,12 @@ export class Match3Game {
         if (remaining <= 0) continue;
         const usefulBlockers = new Set<number>();
         for (const index of projectedClear) {
-          const row = rowOf(index);
-          const column = colOf(index);
-          for (const neighbour of [index, index - 1, index + 1, index - BOARD_SIZE, index + BOARD_SIZE]) {
+          const row = this.rules.rowOf(index);
+          const column = this.rules.colOf(index);
+          for (const neighbour of [index, index - 1, index + 1, index - this.geometry.columns, index + this.geometry.columns]) {
             if (neighbour < 0 || neighbour >= this.cells.length) continue;
-            const neighbourRow = rowOf(neighbour);
-            const neighbourColumn = colOf(neighbour);
+            const neighbourRow = this.rules.rowOf(neighbour);
+            const neighbourColumn = this.rules.colOf(neighbour);
             if (Math.abs(neighbourRow - row) + Math.abs(neighbourColumn - column) > 1) continue;
             if (this.cells[neighbour].blockerLayers > 0) usefulBlockers.add(neighbour);
           }
@@ -593,11 +588,11 @@ export class Match3Game {
       for (let ingredientIndex = 0; ingredientIndex < this.cells.length; ingredientIndex += 1) {
         const ingredient = this.cells[ingredientIndex].ingredient;
         if (!ingredient || !ingredientKeys.includes(ingredient)) continue;
-        const ingredientColumn = colOf(ingredientIndex);
-        const ingredientRow = rowOf(ingredientIndex);
+        const ingredientColumn = this.rules.colOf(ingredientIndex);
+        const ingredientRow = this.rules.rowOf(ingredientIndex);
         const clearsBelow = [...projectedClear].filter((index) =>
-          colOf(index) === ingredientColumn
-          && rowOf(index) > ingredientRow
+          this.rules.colOf(index) === ingredientColumn
+          && this.rules.rowOf(index) > ingredientRow
           && Boolean(this.cells[index].tile)
           && !this.isBlockedCell(index)
           && !this.hasLockedBarrierBetween(ingredientIndex, index));
@@ -613,10 +608,10 @@ export class Match3Game {
   }
 
   private hasLockedBarrierBetween(upperIndex: number, lowerIndex: number): boolean {
-    if (colOf(upperIndex) !== colOf(lowerIndex) || rowOf(lowerIndex) <= rowOf(upperIndex)) return true;
-    const column = colOf(upperIndex);
-    for (let row = rowOf(upperIndex) + 1; row <= rowOf(lowerIndex); row += 1) {
-      const index = indexOf(row, column);
+    if (this.rules.colOf(upperIndex) !== this.rules.colOf(lowerIndex) || this.rules.rowOf(lowerIndex) <= this.rules.rowOf(upperIndex)) return true;
+    const column = this.rules.colOf(upperIndex);
+    for (let row = this.rules.rowOf(upperIndex) + 1; row <= this.rules.rowOf(lowerIndex); row += 1) {
+      const index = this.rules.indexOf(row, column);
       if (!this.isActiveCell(index)) continue;
       if (this.isBlockedCell(index)) return true;
     }
@@ -624,14 +619,14 @@ export class Match3Game {
   }
 
   private leadTargets(index: number): number[] {
-    const row = rowOf(index);
-    const column = colOf(index);
+    const row = this.rules.rowOf(index);
+    const column = this.rules.colOf(index);
     const local = [
       index,
-      row > 0 ? indexOf(row - 1, column) : -1,
-      row < BOARD_SIZE - 1 ? indexOf(row + 1, column) : -1,
-      column > 0 ? indexOf(row, column - 1) : -1,
-      column < BOARD_SIZE - 1 ? indexOf(row, column + 1) : -1,
+      row > 0 ? this.rules.indexOf(row - 1, column) : -1,
+      row < this.geometry.rows - 1 ? this.rules.indexOf(row + 1, column) : -1,
+      column > 0 ? this.rules.indexOf(row, column - 1) : -1,
+      column < this.geometry.columns - 1 ? this.rules.indexOf(row, column + 1) : -1,
     ].filter((candidate) => candidate >= 0);
 
     for (const objective of this.level.objectives) {
@@ -663,13 +658,13 @@ export class Match3Game {
   private damageBlockers(cleared: ReadonlySet<number>): number {
     const damaged = new Set<number>();
     for (const index of cleared) {
-      const row = rowOf(index);
-      const column = colOf(index);
-      const neighbours = [index, index - 1, index + 1, index - BOARD_SIZE, index + BOARD_SIZE];
+      const row = this.rules.rowOf(index);
+      const column = this.rules.colOf(index);
+      const neighbours = [index, index - 1, index + 1, index - this.geometry.columns, index + this.geometry.columns];
       for (const neighbour of neighbours) {
         if (neighbour < 0 || neighbour >= this.cells.length) continue;
-        const neighbourRow = rowOf(neighbour);
-        const neighbourColumn = colOf(neighbour);
+        const neighbourRow = this.rules.rowOf(neighbour);
+        const neighbourColumn = this.rules.colOf(neighbour);
         if (Math.abs(neighbourRow - row) + Math.abs(neighbourColumn - column) > 1) continue;
         if (this.cells[neighbour].blockerLayers > 0) damaged.add(neighbour);
       }
@@ -708,11 +703,11 @@ export class Match3Game {
       if (!cell.tile && !cell.ingredient) continue;
       const fromIndex = origins[index];
       if (fromIndex === null) {
-        const row = rowOf(index);
+        const row = this.rules.rowOf(index);
         const segmentTop = this.segmentTopFor(index);
         motions.push({ index, fromIndex: null, kind: 'spawn', rows: Math.max(1, row - segmentTop + 1) });
       } else if (fromIndex !== index) {
-        const rows = rowOf(index) - rowOf(fromIndex);
+        const rows = this.rules.rowOf(index) - this.rules.rowOf(fromIndex);
         if (rows > 0) motions.push({ index, fromIndex, kind: 'fall', rows });
       }
     }
@@ -721,10 +716,10 @@ export class Match3Game {
 
   private compactColumns(origins: Array<number | null>): void {
     if (this.boardHoles.size === 0) {
-      for (let column = 0; column < BOARD_SIZE; column += 1) {
-        let segmentBottom = BOARD_SIZE - 1;
-        for (let row = BOARD_SIZE - 1; row >= -1; row -= 1) {
-          const barrier = row >= 0 && this.isBlockedCell(indexOf(row, column));
+      for (let column = 0; column < this.geometry.columns; column += 1) {
+        let segmentBottom = this.geometry.rows - 1;
+        for (let row = this.geometry.rows - 1; row >= -1; row -= 1) {
+          const barrier = row >= 0 && this.isBlockedCell(this.rules.indexOf(row, column));
           if (row >= 0 && !barrier) continue;
           this.compactSegment(column, row + 1, segmentBottom, origins);
           segmentBottom = row - 1;
@@ -733,14 +728,14 @@ export class Match3Game {
       return;
     }
 
-    for (let column = 0; column < BOARD_SIZE; column += 1) {
+    for (let column = 0; column < this.geometry.columns; column += 1) {
       let segment: number[] = [];
       const flush = (): void => {
         if (segment.length > 0) this.compactActiveSegment(segment, origins);
         segment = [];
       };
-      for (let row = 0; row < BOARD_SIZE; row += 1) {
-        const index = indexOf(row, column);
+      for (let row = 0; row < this.geometry.rows; row += 1) {
+        const index = this.rules.indexOf(row, column);
         if (!this.isActiveCell(index)) continue;
         if (this.isBlockedCell(index)) {
           flush();
@@ -774,12 +769,12 @@ export class Match3Game {
     if (segmentTop > segmentBottom) return;
     const contents: Array<Pick<MutableCell, 'tile' | 'ingredient' | 'special'> & { origin: number | null }> = [];
     for (let row = segmentBottom; row >= segmentTop; row -= 1) {
-      const index = indexOf(row, column);
+      const index = this.rules.indexOf(row, column);
       const cell = this.cells[index];
       if (cell.tile || cell.ingredient) contents.push({ tile: cell.tile, ingredient: cell.ingredient, special: cell.special, origin: origins[index] });
     }
     for (let row = segmentBottom, contentIndex = 0; row >= segmentTop; row -= 1, contentIndex += 1) {
-      const index = indexOf(row, column);
+      const index = this.rules.indexOf(row, column);
       const cell = this.cells[index];
       const content = contents[contentIndex];
       cell.tile = content?.tile ?? null;
@@ -791,13 +786,13 @@ export class Match3Game {
 
   private collectBottomIngredients(origins?: Array<number | null>): number {
     let dropped = 0;
-    for (let column = 0; column < BOARD_SIZE; column += 1) {
-      let index = indexOf(BOARD_SIZE - 1, column);
+    for (let column = 0; column < this.geometry.columns; column += 1) {
+      let index = this.rules.indexOf(this.geometry.rows - 1, column);
       if (this.boardHoles.size > 0) {
-        let row = BOARD_SIZE - 1;
-        while (row >= 0 && !this.isActiveCell(indexOf(row, column))) row -= 1;
+        let row = this.geometry.rows - 1;
+        while (row >= 0 && !this.isActiveCell(this.rules.indexOf(row, column))) row -= 1;
         if (row < 0) continue;
-        index = indexOf(row, column);
+        index = this.rules.indexOf(row, column);
       }
       const cell = this.cells[index];
       if (!cell.ingredient) continue;
@@ -813,16 +808,16 @@ export class Match3Game {
   }
 
   private segmentTopFor(index: number): number {
-    const column = colOf(index);
+    const column = this.rules.colOf(index);
     if (this.boardHoles.size === 0) {
-      for (let row = rowOf(index) - 1; row >= 0; row -= 1) {
-        if (this.isBlockedCell(indexOf(row, column))) return row + 1;
+      for (let row = this.rules.rowOf(index) - 1; row >= 0; row -= 1) {
+        if (this.isBlockedCell(this.rules.indexOf(row, column))) return row + 1;
       }
       return 0;
     }
-    let top = rowOf(index);
-    for (let row = rowOf(index) - 1; row >= 0; row -= 1) {
-      const candidate = indexOf(row, column);
+    let top = this.rules.rowOf(index);
+    for (let row = this.rules.rowOf(index) - 1; row >= 0; row -= 1) {
+      const candidate = this.rules.indexOf(row, column);
       if (!this.isActiveCell(candidate)) continue;
       if (this.isBlockedCell(candidate)) return top;
       top = row;
@@ -862,8 +857,8 @@ export class Match3Game {
 
   private areAdjacent(first: number, second: number): boolean {
     if (!this.isActiveCell(first) || !this.isActiveCell(second)) return false;
-    const rowDistance = Math.abs(rowOf(first) - rowOf(second));
-    const columnDistance = Math.abs(colOf(first) - colOf(second));
+    const rowDistance = Math.abs(this.rules.rowOf(first) - this.rules.rowOf(second));
+    const columnDistance = Math.abs(this.rules.colOf(first) - this.rules.colOf(second));
     return rowDistance + columnDistance === 1;
   }
 

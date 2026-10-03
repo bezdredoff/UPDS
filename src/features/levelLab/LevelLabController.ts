@@ -1,5 +1,5 @@
 import {
-  BOARD_SIZE,
+  levelBoardDimensions,
   blockerPresentation,
   blockerStyles,
   ingredientPresentation,
@@ -101,7 +101,8 @@ export function validateLevelLabDraft(base: LevelDefinition, draft: LevelLabDraf
 export function exportLevelLabDraft(base: LevelDefinition, draft: LevelLabDraft): string {
   const spawnWeights = canonicalSpawnWeights(draft);
   return JSON.stringify({
-    format: 'upds-level-lab-v2',
+    format: base.boardSize ? 'upds-level-lab-v3' : 'upds-level-lab-v2',
+    ...(base.boardSize ? { boardSize: base.boardSize } : {}),
     levelId: base.id,
     moves: draft.moves,
     activeTiles: draft.activeTiles,
@@ -305,15 +306,15 @@ export class LevelLabController {
 
       <div class="level-lab-config-grid">
         <article><small>${t('levelLab.moves')}</small><b>${level.moves}</b><span>${escapeHtml(level.id)}</span></article>
-        <article><small>${t('levelLab.boardShape')}</small><b>${BOARD_SIZE * BOARD_SIZE - (level.boardHoles?.length ?? 0)}</b><span>${t('levelLab.activeCells')} · ${(level.boardHoles?.length ?? 0)} ${t('levelLab.holes')}</span></article>
+        <article><small>${t('levelLab.boardShape')}</small><b>${(levelBoardDimensions(level).rows * levelBoardDimensions(level).columns) - (level.boardHoles?.length ?? 0)}</b><span>${t('levelLab.activeCells')} · ${(level.boardHoles?.length ?? 0)} ${t('levelLab.holes')}</span></article>
         <article><small>${t('levelLab.blockers')}</small><b>${level.blockers.length}</b><span>${t(`levelLab.blocker.${level.blocker}`)} · ${level.blockers.reduce((sum, blocker) => sum + blocker.layers, 0)} ${t('levelLab.layers')}</span></article>
         <article><small>${t('levelLab.ingredients')}</small><b>${level.ingredients.length}</b><span>${level.ingredients.map((item) => `${t(`match3.ingredient.${item.kind}`)} @${item.index}`).join(' · ')}</span></article>
         <article><small>${t('levelLab.objectives')}</small><b>${level.objectives.length}</b><span>${level.objectives.map((objective) => `${escapeHtml(objective.label)} ×${objective.target}`).join(' · ')}</span></article>
       </div>
 
       <section class="level-lab-board-card">
-        <div class="level-lab-section-title"><div><small>${t('levelLab.initialBoard')}</small><b>${escapeHtml(level.shortId)} · seed ${seed}</b></div><span>${BOARD_SIZE}×${BOARD_SIZE}</span></div>
-        ${game ? `<div class="level-lab-board" role="img" aria-label="${t('levelLab.boardAria', { level: level.shortId, seed })}">${this.boardMarkup(level, game.board)}</div>` : `<p class="level-lab-preview-error">${t('levelLab.previewBlocked')}</p>`}
+        <div class="level-lab-section-title"><div><small>${t('levelLab.initialBoard')}</small><b>${escapeHtml(level.shortId)} · seed ${seed}</b></div><span>${levelBoardDimensions(level).columns}×${levelBoardDimensions(level).rows}</span></div>
+        ${game ? `<div class="level-lab-board" style="--board-columns:${levelBoardDimensions(level).columns};--board-rows:${levelBoardDimensions(level).rows}" role="img" aria-label="${t('levelLab.boardAria', { level: level.shortId, seed })}">${this.boardMarkup(level, game.board)}</div>` : `<p class="level-lab-preview-error">${t('levelLab.previewBlocked')}</p>`}
       </section>
 
       <section class="level-lab-details">
