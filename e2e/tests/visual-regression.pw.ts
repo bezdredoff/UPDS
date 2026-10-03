@@ -128,7 +128,7 @@ test.describe('ANM-023G7B mobile Golden Samples', () => {
     await openDeterministicLab(page);
 
     await expect(page.locator(qaSelectors.match3Board)).toBeVisible();
-    await expect(page.locator(qaSelectors.match3Cell)).toHaveCount(64);
+    await expect(page.locator(qaSelectors.match3Cell)).toHaveCount(63);
     await waitForVisualIdle(page);
 
     await expect(page).toHaveScreenshot('golden-match3-seed7.png', goldenOptions);

@@ -133,7 +133,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
 
     await expect(page.locator(qaSelectors.match3StageId)).toHaveText('M3_00');
     await expect(page.locator(qaSelectors.match3Moves)).toHaveText('24');
-    await expect(page.locator(qaSelectors.match3Cell)).toHaveCount(64);
+    await expect(page.locator(qaSelectors.match3Cell)).toHaveCount(63);
     health.assertClean();
   });
 
@@ -149,7 +149,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     const help = page.locator('.match-help-popover');
     await expect(help).toBeVisible();
     await expect(help.locator('.match-help-special')).toHaveCount(5);
-    expect(await help.locator('.match-help-special-image').evaluateAll((images) => images.every((image) => {
+    await expect.poll(() => help.locator('.match-help-special-image').evaluateAll((images) => images.every((image) => {
       const asset = image as HTMLImageElement;
       return asset.complete && asset.naturalWidth === 256 && asset.naturalHeight === 256 && asset.currentSrc.endsWith('.png');
     }))).toBe(true);
@@ -281,7 +281,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     })).toBe(true);
     await expect(match3Cell(page, 2).locator('.tile')).toHaveCount(0);
     await expect(match3Cell(page, 2).locator('.special-base-marker')).toBeVisible();
-    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(63);
+    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(62);
     health.assertClean();
   });
 
@@ -348,7 +348,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     await expect(page.locator(qaSelectors.match3Moves)).toHaveText(String(deterministicLabMoves - 1));
     expect(await firstObjectiveProgress(page)).toEqual([7, 10]);
     await expect(match3Cell(page, 2).locator(qaSelectors.match3Special)).toHaveCount(0);
-    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(64);
+    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(63);
     health.assertClean();
   });
 
@@ -378,7 +378,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     await expect(match3Cell(page, 2).locator('.special.flash-row')).toBeVisible();
     await expect(match3Cell(page, 2).locator('.tile')).toHaveCount(0);
     await expect(match3Cell(page, 2).locator('.special-base-marker')).toBeVisible();
-    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(63);
+    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(62);
 
     const progressBeforeActivation = (await firstObjectiveProgress(page))[0];
     await rememberMatch3Dom(page);
@@ -388,7 +388,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     await expect(page.locator(qaSelectors.match3Moves)).toHaveText(String(deterministicLabMoves - 2));
     expect((await firstObjectiveProgress(page))[0]).toBeGreaterThan(progressBeforeActivation);
     await expect(match3Cell(page, 2).locator(qaSelectors.match3Special)).toHaveCount(0);
-    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(64);
+    await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(63);
     health.assertClean();
   });
 });

@@ -23,7 +23,7 @@ test.describe('Story completion production boundary', () => {
     await expect(page.locator(qaSelectors.match3ObjectiveValue)).toHaveText('0/1');
 
     await page.locator(`${qaSelectors.match3Cell}[data-cell="2"]`).click();
-    await page.locator(`${qaSelectors.match3Cell}[data-cell="10"]`).click();
+    await page.locator(`${qaSelectors.match3Cell}[data-cell="9"]`).click();
 
     await expect(page.locator(qaSelectors.evidenceTransition)).toBeVisible();
     await expect(page.locator(qaSelectors.evidenceContinue)).toBeVisible();
