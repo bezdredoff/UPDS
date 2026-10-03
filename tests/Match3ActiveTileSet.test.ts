@@ -70,5 +70,6 @@ describe('ANM-025C2A active tile set contract', () => {
       expect(tilePresentation[tile].category).toBeTruthy();
     }
     expect(new Set(tileKeys.map((tile) => tilePresentation[tile].asset)).size).toBe(tileKeys.length);
+    expect(tilePresentation.socks.asset).toBe('./assets/match3/tile_socks_sport_cream.png');
   });
 });

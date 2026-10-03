@@ -16,6 +16,34 @@ describe('ANM-025C2C campaign tile-set rollout', () => {
     expect(reused.length).toBeGreaterThanOrEqual(6);
   });
 
+  it('gives every campaign level at least two visually distinct underwear tiles', () => {
+    for (const level of levels) {
+      const panties = level.activeTiles.filter((tile) => tilePresentation[tile].category === 'panties');
+      expect(panties.length, level.shortId).toBeGreaterThanOrEqual(2);
+      expect(new Set(panties.map((tile) => tilePresentation[tile].asset)).size, level.shortId).toBe(panties.length);
+    }
+  });
+
+  it('replaces blue boyshorts with orange sports bikini across the campaign', () => {
+    expect(levels.every((level) => !level.activeTiles.includes('pantiesBoyshortBlue'))).toBe(true);
+    expect(levels.some((level) => level.activeTiles.includes('pantiesSportOrange'))).toBe(true);
+    expect(tilePresentation.pantiesSportOrange.asset).toBe('./assets/match3/tile_panties_sport_orange.png');
+  });
+
+  it('shapes M3_04 as a symmetric H with the crossbar open across the middle', () => {
+    const level = byShortId('M3_04');
+    const holes = new Set(level.boardHoles ?? []);
+    expect([...holes].sort((a, b) => a - b)).toEqual([3, 10, 17, 45, 52, 59]);
+    for (const hole of holes) {
+      const row = Math.floor(hole / 7);
+      const column = hole % 7;
+      expect(holes.has((8 - row) * 7 + column)).toBe(true);
+      expect(holes.has(row * 7 + (6 - column))).toBe(true);
+    }
+    expect(level.blockers.every(({ index }) => !holes.has(index))).toBe(true);
+    expect(level.ingredients.every(({ index }) => !holes.has(index))).toBe(true);
+  });
+
   it('gives the photo-props level a styled three-panties set plus prop-support items', () => {
     expect(byShortId('M3_01').activeTiles).toEqual([
       'pantiesLacePink',
@@ -30,7 +58,7 @@ describe('ANM-025C2C campaign tile-set rollout', () => {
   it('gives the pool-service level a sporty two-panties set plus wet-laundry support items', () => {
     expect(byShortId('M3_02').activeTiles).toEqual([
       'pantiesSportWhite',
-      'pantiesBoyshortBlue',
+      'pantiesSportOrange',
       'sportsBra',
       'towel',
       'laundryTag',
@@ -43,12 +71,14 @@ describe('ANM-025C2C campaign tile-set rollout', () => {
     expect(ordered.activeTiles).toEqual([
       'pantiesSportWhite',
       'pantiesHighWaistBlack',
-      'pantiesBoyshortBlue',
+      'pantiesSportOrange',
       'camisole',
       'socks',
       'laundryTag',
     ]);
     expect(ordered.activeTiles).not.toContain('towel');
+    expect(ordered.activeTiles).not.toContain('pantiesBoyshortBlue');
+    expect(ordered.activeTiles).toContain('pantiesSportOrange');
     expect(ordered.ingredients.some((ingredient) => ingredient.kind === 'damagedTowel')).toBe(true);
     for (const objective of ordered.objectives) {
       if (objective.kind === 'collect') expect(ordered.activeTiles).toContain(objective.tile);

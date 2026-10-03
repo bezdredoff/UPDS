@@ -1210,6 +1210,7 @@ export const ruCatalog = {
   'match3.tile.laundryTag': 'Бирка',
   'match3.tile.panties': 'Комплект',
   'match3.tile.pantiesSportWhite': 'Белые спорт.',
+  'match3.tile.pantiesSportOrange': 'Оранжевые спорт.',
   'match3.tile.pantiesLacePink': 'Розовые',
   'match3.tile.pantiesHighWaistBlack': 'Чёрные',
   'match3.tile.pantiesBoyshortBlue': 'Голубые',

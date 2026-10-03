@@ -8,7 +8,7 @@ const pantiesIds: readonly Match3TileId[] = [
   'pantiesSportWhite',
   'pantiesLacePink',
   'pantiesHighWaistBlack',
-  'pantiesBoyshortBlue',
+  'pantiesSportOrange',
 ];
 
 const publicPathFor = (asset: string): string => resolve(process.cwd(), 'public', asset.replace(/^\.\//, ''));
