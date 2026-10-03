@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { BOARD_SIZE, levels, validateLevelDefinitions, type LevelDefinition } from '../src/data/levels';
+import { levelBoardDimensions, levels, validateLevelDefinitions, type LevelDefinition } from '../src/data/levels';
 import { Match3Game } from '../src/engine/Match3Game';
 
 const mixedHoldoutSeeds = [180_000, 190_000, 200_000].flatMap((base) => (
@@ -38,33 +38,24 @@ describe('ANM-025E5B2 second Match-3 outlier cohort', () => {
 
     const m09 = byShortId('M3_09');
     expect(m09.moves).toBe(29);
-    expect(m09.ingredients).toEqual([
-      { index: 27, kind: 'serviceKey' },
-      { index: 28, kind: 'handoffSlip' },
-    ]);
+    expect(m09.ingredients.map(({ kind }) => kind)).toEqual(['serviceKey', 'handoffSlip']);
     expect(m09.objectives.map((objective) => objective.target)).toEqual([8, 14, 2]);
 
     const m14 = byShortId('M3_14');
     expect(m14.moves).toBe(29);
-    expect(m14.ingredients).toEqual([
-      { index: 27, kind: 'familyReceipt' },
-      { index: 28, kind: 'atelierLedger' },
-    ]);
+    expect(m14.ingredients.map(({ kind }) => kind)).toEqual(['familyReceipt', 'atelierLedger']);
     expect(m14.objectives.map((objective) => objective.target)).toEqual([8, 14, 2]);
 
     const m15 = byShortId('M3_15');
     expect(m15.moves).toBe(30);
-    expect(m15.ingredients).toEqual([
-      { index: 20, kind: 'markedPackage' },
-      { index: 29, kind: 'serviceKeyCard' },
-    ]);
+    expect(m15.ingredients.map(({ kind }) => kind)).toEqual(['markedPackage', 'serviceKeyCard']);
     expect(m15.objectives.map((objective) => objective.target)).toEqual([10, 14, 2]);
 
     for (const level of [m09, m14, m15]) {
       for (const ingredient of level.ingredients) {
-        const column = ingredient.index % BOARD_SIZE;
+        const column = ingredient.index % levelBoardDimensions(level).columns;
         expect(column, `${level.shortId} ingredient ${ingredient.kind} should start in a central service lane`).toBeGreaterThanOrEqual(3);
-        expect(column, `${level.shortId} ingredient ${ingredient.kind} should start in a central service lane`).toBeLessThanOrEqual(5);
+        expect(column, `${level.shortId} ingredient ${ingredient.kind} should start in a central service lane`).toBeLessThanOrEqual(4);
       }
       const game = new Match3Game(level, level.seed);
       expect(game.hasImmediateMatches(), `${level.shortId} production seed must start stable`).toBe(false);

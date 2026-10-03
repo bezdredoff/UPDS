@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { AppNavigation } from '../src/app/AppNavigation';
 import { AppSession } from '../src/app/AppSession';
 import { AppShell } from '../src/app/AppShell';
-import { levels, validateLevelDefinitions } from '../src/data/levels';
+import { levelBoardDimensions, levels, validateLevelDefinitions } from '../src/data/levels';
 import { LevelLabController, levelLabBoardSignature, normalizeLevelLabSeed } from '../src/features/levelLab/LevelLabController';
 import { Match3Controller } from '../src/features/match3/Match3Controller';
 import { createRuntimeServices } from '../src/platform/RuntimeServices';
@@ -54,10 +54,10 @@ describe('ANM-026A Level Lab foundation', () => {
     const first = levelLabBoardSignature(level, 9001);
     expect(levelLabBoardSignature(level, 9001)).toBe(first);
     expect(levelLabBoardSignature(level, 9002)).not.toBe(first);
-    expect(first.split('|')).toHaveLength(64);
+    expect(first.split('|')).toHaveLength(63);
   });
 
-  it('renders a validated 8x8 lab preview for the production level config', () => {
+  it('renders a validated 7×9 lab preview for the production level config', () => {
     expect(validateLevelDefinitions(levels)).toEqual([]);
     const root = new FakeRoot();
     const element = root as unknown as HTMLElement;
@@ -74,7 +74,7 @@ describe('ANM-026A Level Lab foundation', () => {
     expect(root.innerHTML).toContain('CONFIG VALID');
     expect(root.innerHTML).toContain('M3_00');
     expect(root.innerHTML).toContain('seed 9001');
-    expect((root.innerHTML.match(/data-lab-cell=/g) ?? [])).toHaveLength(64);
+    expect((root.innerHTML.match(/data-lab-cell=/g) ?? [])).toHaveLength(levelBoardDimensions(levels[0]).rows * levelBoardDimensions(levels[0]).columns);
     expect(root.innerHTML).toContain('tile_panties_sport_white.png');
     expect(root.innerHTML).toContain('goal_receipt.png');
   });

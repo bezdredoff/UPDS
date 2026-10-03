@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { BOARD_SIZE, levels, validateLevelDefinitions, type LevelDefinition } from '../src/data/levels';
+import { levelBoardDimensions, levels, validateLevelDefinitions, type LevelDefinition } from '../src/data/levels';
 import { Match3Game } from '../src/engine/Match3Game';
 
 const SAMPLE_SEEDS = Array.from({ length: 8 }, (_, index) => 120_000 + index);
@@ -52,7 +52,7 @@ const baselineFor = (level: LevelDefinition): FunBaseline => {
 
   return {
     levelId: level.id,
-    activeCells: BOARD_SIZE * BOARD_SIZE - (level.boardHoles?.length ?? 0),
+    activeCells: levelBoardDimensions(level).rows * levelBoardDimensions(level).columns - (level.boardHoles?.length ?? 0),
     blockerCells: level.blockers.length,
     blockerLayers: level.blockers.reduce((sum, blocker) => sum + blocker.layers, 0),
     ingredients: level.ingredients.length,

@@ -2,8 +2,9 @@ import { LEGACY_BOARD_DIMENSIONS, validBoardDimensions, type BoardDimensions } f
 import type { Match3LevelContext } from './match3Context';
 import { match3TutorialConceptIds, type Match3TutorialConceptId } from './match3Tutorials';
 
-/** Legacy square size. Runtime geometry must come from levelBoardDimensions(). */
+/** Compatibility size for tools and fixtures that still author legacy boards. */
 export const BOARD_SIZE = LEGACY_BOARD_DIMENSIONS.columns;
+export const CAMPAIGN_BOARD_DIMENSIONS: BoardDimensions = Object.freeze({ rows: 9, columns: 7 });
 
 export function levelBoardDimensions(level: Readonly<{ boardSize?: BoardDimensions }>): BoardDimensions {
   return level.boardSize ?? LEGACY_BOARD_DIMENSIONS;
@@ -48,7 +49,7 @@ export function objectiveIngredientKeys(objective: LevelObjective): readonly Ing
 }
 
 export type LevelDefinition = Readonly<{
-  /** Explicit rows/columns; omitted preserves legacy 8×8 indices and seeded behavior. */
+  /** Explicit row-major board geometry. All campaign levels use the 9×7 grid. */
   boardSize?: BoardDimensions;
   id: string;
   shortId: string;
@@ -61,7 +62,7 @@ export type LevelDefinition = Readonly<{
   activeTiles: readonly Match3TileId[];
   /** Optional relative spawn weights for active identities. Missing weights default to 1. */
   spawnWeights?: Readonly<Partial<Record<Match3TileId, number>>>;
-  /** Optional inactive board indices. Omitted means the legacy full 8×8 board. */
+  /** Optional inactive board indices. Omitted means a full board. */
   boardHoles?: readonly number[];
   /** Optional deterministic tile placements applied before seeded fill. */
   initialTiles?: readonly InitialTilePlacement[];
@@ -167,7 +168,64 @@ const positions = (items: readonly (number | readonly [number, 1 | 2])[]): Board
   typeof item === 'number' ? { index: item, layers: 1 } : { index: item[0], layers: item[1] }
 ));
 
-export const levels: readonly LevelDefinition[] = [
+function migrateLegacyCampaignLevel(level: LevelDefinition): LevelDefinition {
+  if (level.boardSize) return level;
+
+  const targetSize = CAMPAIGN_BOARD_DIMENSIONS;
+  const reserved = new Set<number>();
+  const mapping = new Map<number, number>();
+  const nearestFreeTarget = (sourceIndex: number): number => {
+    const sourceRow = Math.floor(sourceIndex / LEGACY_BOARD_DIMENSIONS.columns);
+    const sourceColumn = sourceIndex % LEGACY_BOARD_DIMENSIONS.columns;
+    const sourceX = (sourceColumn + 0.5) / LEGACY_BOARD_DIMENSIONS.columns;
+    const sourceY = (sourceRow + 0.5) / LEGACY_BOARD_DIMENSIONS.rows;
+    let bestIndex = -1;
+    let bestDistance = Number.POSITIVE_INFINITY;
+    for (let index = 0; index < targetSize.rows * targetSize.columns; index += 1) {
+      if (reserved.has(index)) continue;
+      const targetRow = Math.floor(index / targetSize.columns);
+      const targetColumn = index % targetSize.columns;
+      const dx = (targetColumn + 0.5) / targetSize.columns - sourceX;
+      const dy = (targetRow + 0.5) / targetSize.rows - sourceY;
+      const distance = dx * dx + dy * dy;
+      if (distance < bestDistance) {
+        bestIndex = index;
+        bestDistance = distance;
+      }
+    }
+    if (bestIndex < 0) throw new Error(`${level.shortId}: cannot migrate legacy board cell ${sourceIndex}`);
+    reserved.add(bestIndex);
+    mapping.set(sourceIndex, bestIndex);
+    return bestIndex;
+  };
+
+  const boardHoles = [...(level.boardHoles ?? [])].sort((a, b) => a - b);
+  boardHoles.forEach(nearestFreeTarget);
+  const placedCells = [
+    ...level.blockers.map(({ index }) => index),
+    ...level.ingredients.map(({ index }) => index),
+    ...(level.initialTiles ?? []).map(({ index }) => index),
+  ];
+  [...new Set(placedCells)].sort((a, b) => a - b).forEach((index) => {
+    if (!mapping.has(index)) nearestFreeTarget(index);
+  });
+  const remap = (index: number) => {
+    const mapped = mapping.get(index);
+    if (mapped === undefined) throw new Error(`${level.shortId}: missing migrated board cell ${index}`);
+    return mapped;
+  };
+
+  return {
+    ...level,
+    boardSize: targetSize,
+    boardHoles: level.boardHoles ? boardHoles.map(remap) : undefined,
+    blockers: level.blockers.map((placement) => ({ ...placement, index: remap(placement.index) })),
+    ingredients: level.ingredients.map((placement) => ({ ...placement, index: remap(placement.index) })),
+    initialTiles: level.initialTiles?.map((placement) => ({ ...placement, index: remap(placement.index) })),
+  };
+}
+
+const authoredLevels: readonly LevelDefinition[] = [
   {
     id: 'M3_00_LOCKER_TUTORIAL',
     shortId: 'M3_00', title: 'Шкафчик Эми', storyAction: 'Зафиксировать содержимое шкафчика и найти связь с прачечной.',
@@ -378,6 +436,8 @@ export const levels: readonly LevelDefinition[] = [
     startBark: { speaker: 'Оноэ', text: 'Я отмечу каждое возражение, которое мы сейчас убираем. Хотя бы между собой не будем называть это доказательством.' }, winBark: { speaker: 'Аюки', text: 'Слайд идеальный. И теперь я очень хорошо вижу, почему идеальная история может быть неправильной.' }, loseBark: { speaker: 'Мику', text: 'Даже ложная версия развалилась. Пересобираем и смотрим, какие факты приходится скрывать.' },
   },
 ] as const;
+
+export const levels: readonly LevelDefinition[] = authoredLevels.map(migrateLegacyCampaignLevel);
 
 export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: string }>> = {
   CUE_001: { asset: './assets/clues/clue_laundry_receipt.png', label: 'Квитанция прачечной' },

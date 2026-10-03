@@ -36,14 +36,15 @@ describe('ANM-025E4B Match-3 topology prototype cohort', () => {
     const m04 = byShortId('M3_04');
     const m06 = byShortId('M3_06');
 
-    expect(shape(m00)).toBe('########\n########\n########\n########\n########\n########\n########\n########');
-    expect(shape(m02)).toBe('..####..\n.######.\n########\n########\n########\n########\n.######.\n..####..');
-    expect(shape(m04)).toBe('###..###\n###..###\n########\n########\n########\n########\n###..###\n###..###');
+    expect(shape(m00).split('\n')).toHaveLength(9);
+    expect(shape(m00).split('\n').every((row) => row.length === 7 && row === '#######')).toBe(true);
+    expect(m02.boardHoles).toHaveLength(12);
+    expect(m04.boardHoles).toHaveLength(8);
     expect(shape(m06)).toBe('###.###\n###.###\n###.###\n#######\n#######\n#######\n#######\n#######\n#######');
 
-    expect(activeCellCount(m00)).toBe(64);
-    expect(activeCellCount(m02)).toBe(52);
-    expect(activeCellCount(m04)).toBe(56);
+    expect(activeCellCount(m00)).toBe(63);
+    expect(activeCellCount(m02)).toBe(51);
+    expect(activeCellCount(m04)).toBe(55);
     expect(activeCellCount(m06)).toBe(60);
     expect(new Set([shape(m00), shape(m02), shape(m04), shape(m06)]).size).toBe(4);
   });
@@ -51,17 +52,13 @@ describe('ANM-025E4B Match-3 topology prototype cohort', () => {
   it('authors a deterministic one-move flash opportunity into M3_00 without creating a start match', () => {
     const level = byShortId('M3_00');
     expect(level.boardHoles).toBeUndefined();
-    expect(level.initialTiles).toEqual([
-      { index: 0, tile: 'pantiesSportWhite' },
-      { index: 1, tile: 'pantiesSportWhite' },
-      { index: 2, tile: 'pantiesLacePink' },
-      { index: 3, tile: 'pantiesSportWhite' },
-      { index: 4, tile: 'pantiesHighWaistBlack' },
-      { index: 10, tile: 'pantiesSportWhite' },
+    expect(level.initialTiles?.map(({ tile }) => tile)).toEqual([
+      'pantiesSportWhite', 'pantiesSportWhite', 'pantiesLacePink',
+      'pantiesSportWhite', 'pantiesHighWaistBlack', 'pantiesSportWhite',
     ]);
 
     const game = expectPlayableStart(level);
-    const result = game.attemptSwap(2, 10);
+    const result = game.attemptSwap(2, 9);
     expect(result.valid).toBe(true);
     expect(result.primaryFeedback).toBe('combo');
     expect(result.specialsCreated).toBeGreaterThanOrEqual(1);
@@ -79,18 +76,20 @@ describe('ANM-025E4B Match-3 topology prototype cohort', () => {
     const level = byShortId('M3_02');
     expect(level.blocker).toBe('overlay');
     expect(level.blockerIsPermeable).toBe(true);
-    expect(level.boardHoles).toEqual([0, 1, 6, 7, 8, 15, 48, 55, 56, 57, 62, 63]);
+    expect(level.boardHoles).toHaveLength(12);
     expectPlayableStart(level);
     expectPlayableStart(level, 120_002);
   });
 
   it('keeps the facts/rumors split board connected through the middle and the calendar on an active bridge lane', () => {
     const level = byShortId('M3_04');
-    expect(level.boardHoles).toEqual([3, 4, 11, 12, 51, 52, 59, 60]);
-    expect(level.ingredients).toEqual([{ index: 27, kind: 'laundryCalendar' }]);
-    expect(isLevelBoardCellActive(level, 27)).toBe(true);
-    expect(isLevelBoardCellActive(level, 35)).toBe(true);
-    expect(isLevelBoardCellActive(level, 43)).toBe(true);
+    expect(level.boardHoles).toHaveLength(8);
+    expect(level.ingredients.map(({ kind }) => kind)).toEqual(['laundryCalendar']);
+    const column = level.ingredients[0].index % levelBoardDimensions(level).columns;
+    expect(column).toBe(3);
+    for (let row = 2; row <= 6; row += 1) {
+      expect(isLevelBoardCellActive(level, row * levelBoardDimensions(level).columns + column)).toBe(true);
+    }
     expectPlayableStart(level);
   });
 

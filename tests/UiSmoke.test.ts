@@ -3,6 +3,7 @@ import { APP_VERSION, BUILD_LABEL } from '../src/appVersion';
 import { LOCALE_SETTINGS_KEY } from '../src/localization/LocaleSettingsStore';
 import { ruCatalog } from '../src/localization/catalogs/ru';
 import { getScene, type ChoiceId } from '../src/data/narrative';
+import { levelBoardDimensions, levels } from '../src/data/levels';
 import type { AppNavigation } from '../src/app/AppNavigation';
 import { AppSession } from '../src/app/AppSession';
 import { AppShell } from '../src/app/AppShell';
@@ -202,11 +203,11 @@ describe('UI controller render smoke', () => {
     expect(root.innerHTML).toContain(APP_VERSION);
   });
 
-  it('renders a complete 8x8 board with localized runtime chrome', () => {
+  it('renders a complete 7×9 campaign board with localized runtime chrome', () => {
     const { root, match3 } = create();
     match3.startMatch(0);
     expect(root.innerHTML).toContain('match-screen');
-    expect((root.innerHTML.match(/data-cell=/g) ?? [])).toHaveLength(64);
+    expect((root.innerHTML.match(/data-cell=/g) ?? [])).toHaveLength(levelBoardDimensions(levels[0]).rows * levelBoardDimensions(levels[0]).columns);
     expect(root.innerHTML).toContain('tile_');
     expect(root.innerHTML).toContain('obstacle_locked_cell.png');
     expect(root.innerHTML).toContain('goal_receipt.png');
