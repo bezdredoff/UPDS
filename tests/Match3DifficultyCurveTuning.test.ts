@@ -54,7 +54,14 @@ const runCohort = (level: LevelDefinition): CohortMetrics => {
 
 const preE5B1M06 = (current: LevelDefinition): LevelDefinition => ({
   ...current,
+  boardSize: undefined,
+  activeTiles: ['sportsBra', 'camisole', 'laundryTag', 'pantiesSportWhite', 'pantiesLacePink', 'towel'],
   boardHoles: [3, 4, 11, 12, 19, 20, 43, 44, 51, 52, 59, 60],
+  blockers: [
+    { index: 10, layers: 2 }, { index: 13, layers: 1 }, { index: 18, layers: 2 }, { index: 21, layers: 1 },
+    { index: 42, layers: 1 }, { index: 45, layers: 2 }, { index: 50, layers: 1 }, { index: 53, layers: 1 },
+  ],
+  ingredients: [{ index: 26, kind: 'warrantyCard' }, { index: 29, kind: 'silverSpool' }],
   moves: 29,
 });
 

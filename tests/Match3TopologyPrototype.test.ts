@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { BOARD_SIZE, isLevelBoardCellActive, levels, validateLevelDefinitions, type LevelDefinition } from '../src/data/levels';
+import { isLevelBoardCellActive, levelBoardDimensions, levels, validateLevelDefinitions, type LevelDefinition } from '../src/data/levels';
 import { Match3Game } from '../src/engine/Match3Game';
 
 const byShortId = (shortId: string): LevelDefinition => {
@@ -8,11 +8,17 @@ const byShortId = (shortId: string): LevelDefinition => {
   return level;
 };
 
-const shape = (level: LevelDefinition): string => Array.from({ length: BOARD_SIZE }, (_, row) => (
-  Array.from({ length: BOARD_SIZE }, (_, column) => isLevelBoardCellActive(level, row * BOARD_SIZE + column) ? '#' : '.').join('')
+const shape = (level: LevelDefinition): string => {
+  const { rows, columns } = levelBoardDimensions(level);
+  return Array.from({ length: rows }, (_, row) => (
+  Array.from({ length: columns }, (_, column) => isLevelBoardCellActive(level, row * columns + column) ? '#' : '.').join('')
 )).join('\n');
+};
 
-const activeCellCount = (level: LevelDefinition): number => BOARD_SIZE * BOARD_SIZE - (level.boardHoles?.length ?? 0);
+const activeCellCount = (level: LevelDefinition): number => {
+  const { rows, columns } = levelBoardDimensions(level);
+  return rows * columns - (level.boardHoles?.length ?? 0);
+};
 
 const expectPlayableStart = (level: LevelDefinition, seed = level.seed): Match3Game => {
   const game = new Match3Game(level, seed);
@@ -33,12 +39,12 @@ describe('ANM-025E4B Match-3 topology prototype cohort', () => {
     expect(shape(m00)).toBe('########\n########\n########\n########\n########\n########\n########\n########');
     expect(shape(m02)).toBe('..####..\n.######.\n########\n########\n########\n########\n.######.\n..####..');
     expect(shape(m04)).toBe('###..###\n###..###\n########\n########\n########\n########\n###..###\n###..###');
-    expect(shape(m06)).toBe('###..###\n###..###\n###..###\n########\n########\n########\n########\n########');
+    expect(shape(m06)).toBe('###.###\n###.###\n###.###\n#######\n#######\n#######\n#######\n#######\n#######');
 
     expect(activeCellCount(m00)).toBe(64);
     expect(activeCellCount(m02)).toBe(52);
     expect(activeCellCount(m04)).toBe(56);
-    expect(activeCellCount(m06)).toBe(58);
+    expect(activeCellCount(m06)).toBe(60);
     expect(new Set([shape(m00), shape(m02), shape(m04), shape(m06)]).size).toBe(4);
   });
 
@@ -90,12 +96,13 @@ describe('ANM-025E4B Match-3 topology prototype cohort', () => {
 
   it('keeps the two workshop evidence routes on separate left/right lanes behind garment-bag gates', () => {
     const level = byShortId('M3_06');
-    expect(level.boardHoles).toEqual([3, 4, 11, 12, 19, 20]);
+    expect(level.boardSize).toEqual({ rows: 9, columns: 7 });
+    expect(level.boardHoles).toEqual([3, 10, 17]);
     expect(level.moves).toBe(32);
-    expect(level.ingredients.map((ingredient) => ingredient.index)).toEqual([26, 29]);
-    expect(level.ingredients.map((ingredient) => ingredient.index % BOARD_SIZE)).toEqual([2, 5]);
-    expect(level.blockers.filter((blocker) => blocker.index % BOARD_SIZE === 2).length).toBeGreaterThanOrEqual(3);
-    expect(level.blockers.filter((blocker) => blocker.index % BOARD_SIZE === 5).length).toBeGreaterThanOrEqual(3);
+    expect(level.ingredients.map((ingredient) => ingredient.index)).toEqual([23, 25]);
+    expect(level.ingredients.map((ingredient) => ingredient.index % 7)).toEqual([2, 4]);
+    expect(level.blockers.filter((blocker) => blocker.index % 7 === 2).length).toBeGreaterThanOrEqual(3);
+    expect(level.blockers.filter((blocker) => blocker.index % 7 === 4).length).toBeGreaterThanOrEqual(3);
     expectPlayableStart(level);
   });
 });
