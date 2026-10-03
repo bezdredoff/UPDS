@@ -140,7 +140,7 @@ export function match3ObjectiveMarkup(
       ? ` story-object-${objectiveIndex}`
       : '';
   return `<div class="objective${showProgress && current >= objective.target ? ' done' : ''}${storyObjectClass}"${objectiveIndexAttr}>
-<div class="objective-icons ${objectiveIcons.length > 1 ? 'multi' : ''}">${icons}</div><span>${escapeHtml(label)}</span>
+<div class="objective-icons ${objectiveIcons.length > 1 ? 'multi' : ''}">${icons}</div><span${showProgress ? ' class="visually-hidden"' : ''}>${escapeHtml(label)}</span>
 <b>${showProgress ? `${current}/` : ''}${objective.target}</b>
 </div>`;
 }
@@ -366,7 +366,7 @@ ${headerActionMarkup('header-settings', 'settings', t('common.settings'))}
 <div class="match-tooltray match-dialogue-panel">
 <div class="field-bark-slot" aria-live="polite" aria-atomic="true">${match3BarkMarkup(bark, barkEntering, t)}</div>
 <button id="hint" class="hint-button" type="button" data-hint-active="${hintedCells.size > 0}">
-<img src="${specialAsset}" alt=""><span><b>${escapeHtml(t('match3.hint'))}</b><small>${escapeHtml(t('match3.bestMove'))}</small></span>
+<img src="${specialAsset}" alt=""><span><b>${escapeHtml(t('match3.hint'))}</b></span>
 </button>
 </div>
 ${match3StoryObjectGuidanceMarkup(level, objectiveLabels, t)}
