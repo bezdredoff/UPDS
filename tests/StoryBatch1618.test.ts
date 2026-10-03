@@ -30,7 +30,7 @@ describe('ANM-027G episodes 16–18 canonical production batch', () => {
     expect(macro.slots.slice(0, 19).every((slot) => slot.contentStatus === 'authored')).toBe(true);
     expect(macro.slots.slice(16, 19).every((slot) => slot.match3.status === 'production-configured')).toBe(true);
     expect(levels.slice(16, 19).map((level) => level.id)).toEqual(batchLevelIds);
-    expect(levels.slice(16, 19).map((level) => level.moves)).toEqual([29, 30, 31]);
+    expect(levels.slice(16, 19).map((level) => level.moves)).toEqual([29, 31, 31]);
     expect(levels.slice(16, 19).every((level) => level.objectives.length <= 3)).toBe(true);
   });
 

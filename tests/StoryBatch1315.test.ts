@@ -34,7 +34,7 @@ describe('ANM-027G episodes 13–15 canonical production batch', () => {
     expect(macro.slots.slice(0, 16).every((slot) => slot.contentStatus === 'authored')).toBe(true);
     expect(macro.slots.slice(13, 16).every((slot) => slot.match3.status === 'production-configured')).toBe(true);
     expect(levels.slice(13, 16).map((level) => level.id)).toEqual(batchLevelIds);
-    expect(levels.slice(13, 16).map((level) => level.moves)).toEqual([30, 29, 30]);
+    expect(levels.slice(13, 16).map((level) => level.moves)).toEqual([30, 27, 30]);
     expect(levels.slice(13, 16).every((level) => level.objectives.length <= 3)).toBe(true);
   });
 

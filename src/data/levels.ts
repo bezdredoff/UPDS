@@ -321,7 +321,7 @@ const authoredLevels: readonly LevelDefinition[] = [
   {
     id: 'M3_09_MAINTENANCE_KEYS', shortId: 'M3_09', title: 'Журнал универсального ключа', storyAction: 'Разобрать хозяйственный склад, восстановить передачу ключа и транспортную накладную.',
     context: { sourceSceneId: 'VN_SCENE_19_E9_PRE', pageBackground: 'maintenanceRoom', boardSurface: 'service-lanes', boardFrame: 'maintenance-file', narrativeProfile: 'night-containers', tilePresentationProfile: 'maintenance-service', participants: ['miku', 'onoe', 'ayuki', 'gen'], narrativeTags: ['maintenance-room', 'master-key', 'lost-socks', 'asterion-containers'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['socks', 'laundryTag', 'towel', 'sportsBra', 'camisole', 'pantiesSportWhite'], moves: 29,
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['socks', 'laundryTag', 'towel', 'sportsBra', 'camisole', 'pantiesSportWhite'], moves: 28,
     objectives: [{ kind: 'clearBlockers', target: 8, label: 'Преграды' }, { kind: 'collect', tile: 'socks', target: 14, label: 'Пары носков' }, { kind: 'dropGroup', ingredients: ['serviceKey', 'handoffSlip'], target: 2, label: 'Ключ и накладная' }],
     blocker: 'solid', blockers: positions([10, 13, 18, 21, 42, 45, 50, 53]), ingredients: [{ index: 27, kind: 'serviceKey' }, { index: 28, kind: 'handoffSlip' }], seed: 9010,
     clueId: 'CUE_010', clueTitle: 'Ночные контейнеры', clueSummary: 'После закрытия прачечной контейнеры Asterion входят в тот же физический маршрут; накладная связывает ночную передачу с лабораторным префиксом Куросэ.',
@@ -393,7 +393,7 @@ const authoredLevels: readonly LevelDefinition[] = [
   {
     id: 'M3_17_RINA_ARCHIVE_CATALOG', shortId: 'M3_17', title: 'Каталог Рины', storyAction: 'Открыть архивные ряды, отделить реальные цели от контрольных предметов и сверить каталог с подтверждёнными пропажами.',
     context: { sourceSceneId: 'VN_SCENE_35_E17_PRE', pageBackground: 'oldArchive', boardSurface: 'archive-rows', boardFrame: 'warehouse-file', narrativeProfile: 'rina-catalog', tilePresentationProfile: 'rina-archive', participants: ['miku', 'onoe', 'ayuki', 'rina'], narrativeTags: ['old-archive', 'sealed-evidence', 'rina-catalog', 'physical-theft'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesHighWaistBlack', 'pantiesSportWhite'], boardHoles: [2, 3, 10, 11, 12, 13, 60, 61], moves: 30,
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesHighWaistBlack', 'pantiesSportWhite'], boardHoles: [2, 3, 10, 11, 12, 13, 60, 61], moves: 31,
     objectives: [{ kind: 'clearBlockers', target: 10, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Коды целей' }, { kind: 'drop', ingredient: 'rinaCatalog', target: 1, label: 'Каталог' }],
     blocker: 'locked', blockers: positions([[8, 2], 14, [16, 2], 19, 42, [43, 2], 48, 51, 56, 59]), ingredients: [{ index: 28, kind: 'rinaCatalog' }], seed: 9018,
     clueId: 'CUE_018', clueTitle: 'Каталог Рины', clueSummary: 'Запечатанный каталог полностью совпадает с подтверждёнными кражами и отделяет реальные цели Second Skin от случайной маскирующей выборки.',
