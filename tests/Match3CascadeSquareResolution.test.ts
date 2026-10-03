@@ -40,7 +40,7 @@ type Match3Internals = {
 
 describe('ANM-025F4 cascade square resolution', () => {
   it('consumes a 2x2 square created outside a player-authored swap without creating a Lead', () => {
-    const game = new Match3Game(levels[0], 250401);
+    const game = new Match3Game({ ...levels[0], boardSize: { rows: 8, columns: 8 }, blockers: [], ingredients: [], initialTiles: [] }, 250401);
     const internals = game as unknown as Match3Internals;
 
     for (let index = 0; index < internals.cells.length; index += 1) {
@@ -66,7 +66,7 @@ describe('ANM-025F4 cascade square resolution', () => {
   });
 
   it('creates a Flash when falling tiles complete a four-match on the second cascade', () => {
-    const game = new Match3Game(levels[0], 250402);
+    const game = new Match3Game({ ...levels[0], boardSize: { rows: 8, columns: 8 }, blockers: [], ingredients: [], initialTiles: [] }, 250402);
     const internals = game as unknown as Match3Internals;
 
     for (let index = 0; index < internals.cells.length; index += 1) {

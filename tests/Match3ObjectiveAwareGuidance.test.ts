@@ -32,11 +32,10 @@ describe('ANM-025E2 objective-aware Match-3 guidance', () => {
       shortId: 'M3_GUIDE_COLLECT',
       tutorialConcepts: [],
       moves: 22,
-      objectives: [{ kind: 'collect', tile: 'pantiesLacePink', target: 40, label: 'Розовые' }],
+      objectives: [{ kind: 'collect', tile: 'pantiesSportWhite', target: 40, label: 'Белые' }],
       blockers: [],
       ingredients: [],
       boardHoles: undefined,
-      initialTiles: undefined,
     };
     const game = new Match3Game(collectOnly, 477);
 

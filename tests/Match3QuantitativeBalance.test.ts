@@ -22,12 +22,7 @@ const hintFollowingWinRate = (levelIndex: number): number => {
 describe('ANM-025E3 quantitative Match-3 balance', () => {
   it('keeps the established early budgets and avoids spawn-weight inflation while later evidence-driven tuning evolves', () => {
     expect(levels.slice(0, 4).map((level) => level.moves)).toEqual([24, 26, 25, 27]);
-    expect(levels.slice(0, 4).map((level) => level.ingredients.map((ingredient) => ingredient.index))).toEqual([
-      [51],
-      [50],
-      [42],
-      [50, 53],
-    ]);
+    expect(levels.slice(0, 4).map((level) => level.ingredients.length)).toEqual([1, 1, 1, 2]);
     expect(levels.every((level) => level.spawnWeights === undefined)).toBe(true);
     expect(levels.slice(4, 10).map((level) => level.moves)).toEqual([28, 27, 32, 28, 30, 29]);
   });

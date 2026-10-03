@@ -1,7 +1,7 @@
 import { levels, type LevelDefinition } from './levels';
 
 export const STORY_WIN_QA_LEVEL_INDEX = 0;
-export const STORY_WIN_QA_SWAP = { first: 2, second: 10 } as const;
+export const STORY_WIN_QA_SWAP = { first: 2, second: 9 } as const;
 
 const canonicalFirstLevel = levels[STORY_WIN_QA_LEVEL_INDEX];
 if (!canonicalFirstLevel || canonicalFirstLevel.shortId !== 'M3_00') {
@@ -12,7 +12,7 @@ if (!canonicalFirstLevel || canonicalFirstLevel.shortId !== 'M3_00') {
  * Deterministic one-move Story boundary fixture.
  *
  * It keeps the canonical M3_00 identity/context/clue metadata, but narrows the
- * board objective to one locked cell. Swapping 2 ↔ 10 creates a real match
+ * board objective to one locked cell. Swapping 2 ↔ 9 creates a real match
  * beside that blocker, so Match3Game itself produces won=true.
  *
  * The fixture is passed to Match3Controller.startMatch as an explicit
@@ -31,7 +31,8 @@ export const storyWinQaLevel: LevelDefinition = {
     { index: 0, tile: 'pantiesSportWhite' },
     { index: 1, tile: 'pantiesSportWhite' },
     { index: 2, tile: 'pantiesLacePink' },
-    { index: 10, tile: 'pantiesSportWhite' },
+    { index: 3, tile: 'pantiesSportWhite' },
+    { index: 9, tile: 'pantiesSportWhite' },
   ],
   seed: 23081,
 };

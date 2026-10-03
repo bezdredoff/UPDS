@@ -107,10 +107,7 @@ const makeRng = (seed: number): (() => number) => {
 
 const OBJECTIVE_PROGRESS_HINT_PRIORITY = 10_000;
 const OBJECTIVE_COMPLETION_HINT_BONUS = 2_000;
-// Rotate equal-score hints for a stable half of board signatures. This removes aggregate
-// scan-order bias without lowering the established deterministic hint-following win floors.
-const HINT_TIE_ROTATION_BUCKET_MASK = 0xd1;
-
+const LEGACY_HINT_TIE_ROTATION_BUCKET_MASK = 0xd1;
 const emptyMoveResult = (reason: MoveResult['reason'], won: boolean, lost: boolean): MoveResult => ({
   valid: false,
   reason,
@@ -307,8 +304,17 @@ export class Match3Game {
       hash ^= signature.charCodeAt(index);
       hash = Math.imul(hash, 16777619);
     }
-    const rotationBucket = (hash >>> 8) & 7;
-    if ((HINT_TIE_ROTATION_BUCKET_MASK & (1 << rotationBucket)) === 0) return 0;
+    if (this.geometry.rows === 8 && this.geometry.columns === 8) {
+      const rotationBucket = (hash >>> 8) & 7;
+      if ((LEGACY_HINT_TIE_ROTATION_BUCKET_MASK & (1 << rotationBucket)) === 0) return 0;
+      return (hash >>> 0) % candidateCount;
+    }
+
+    hash ^= hash >>> 16;
+    hash = Math.imul(hash, 0x7feb352d);
+    hash ^= hash >>> 15;
+    hash = Math.imul(hash, 0x846ca68b);
+    hash ^= hash >>> 16;
     return (hash >>> 0) % candidateCount;
   }
 

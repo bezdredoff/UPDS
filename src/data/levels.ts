@@ -2,8 +2,9 @@ import { LEGACY_BOARD_DIMENSIONS, validBoardDimensions, type BoardDimensions } f
 import type { Match3LevelContext } from './match3Context';
 import { match3TutorialConceptIds, type Match3TutorialConceptId } from './match3Tutorials';
 
-/** Legacy square size. Runtime geometry must come from levelBoardDimensions(). */
+/** Compatibility size for tools and fixtures that still author legacy boards. */
 export const BOARD_SIZE = LEGACY_BOARD_DIMENSIONS.columns;
+export const CAMPAIGN_BOARD_DIMENSIONS: BoardDimensions = Object.freeze({ rows: 9, columns: 7 });
 
 export function levelBoardDimensions(level: Readonly<{ boardSize?: BoardDimensions }>): BoardDimensions {
   return level.boardSize ?? LEGACY_BOARD_DIMENSIONS;
@@ -48,7 +49,7 @@ export function objectiveIngredientKeys(objective: LevelObjective): readonly Ing
 }
 
 export type LevelDefinition = Readonly<{
-  /** Explicit rows/columns; omitted preserves legacy 8×8 indices and seeded behavior. */
+  /** Explicit row-major board geometry. All campaign levels use the 9×7 grid. */
   boardSize?: BoardDimensions;
   id: string;
   shortId: string;
@@ -61,7 +62,7 @@ export type LevelDefinition = Readonly<{
   activeTiles: readonly Match3TileId[];
   /** Optional relative spawn weights for active identities. Missing weights default to 1. */
   spawnWeights?: Readonly<Partial<Record<Match3TileId, number>>>;
-  /** Optional inactive board indices. Omitted means the legacy full 8×8 board. */
+  /** Optional inactive board indices. Omitted means a full board. */
   boardHoles?: readonly number[];
   /** Optional deterministic tile placements applied before seeded fill. */
   initialTiles?: readonly InitialTilePlacement[];
@@ -167,7 +168,64 @@ const positions = (items: readonly (number | readonly [number, 1 | 2])[]): Board
   typeof item === 'number' ? { index: item, layers: 1 } : { index: item[0], layers: item[1] }
 ));
 
-export const levels: readonly LevelDefinition[] = [
+function migrateLegacyCampaignLevel(level: LevelDefinition): LevelDefinition {
+  if (level.boardSize) return level;
+
+  const targetSize = CAMPAIGN_BOARD_DIMENSIONS;
+  const reserved = new Set<number>();
+  const mapping = new Map<number, number>();
+  const nearestFreeTarget = (sourceIndex: number): number => {
+    const sourceRow = Math.floor(sourceIndex / LEGACY_BOARD_DIMENSIONS.columns);
+    const sourceColumn = sourceIndex % LEGACY_BOARD_DIMENSIONS.columns;
+    const sourceX = (sourceColumn + 0.5) / LEGACY_BOARD_DIMENSIONS.columns;
+    const sourceY = (sourceRow + 0.5) / LEGACY_BOARD_DIMENSIONS.rows;
+    let bestIndex = -1;
+    let bestDistance = Number.POSITIVE_INFINITY;
+    for (let index = 0; index < targetSize.rows * targetSize.columns; index += 1) {
+      if (reserved.has(index)) continue;
+      const targetRow = Math.floor(index / targetSize.columns);
+      const targetColumn = index % targetSize.columns;
+      const dx = (targetColumn + 0.5) / targetSize.columns - sourceX;
+      const dy = (targetRow + 0.5) / targetSize.rows - sourceY;
+      const distance = dx * dx + dy * dy;
+      if (distance < bestDistance) {
+        bestIndex = index;
+        bestDistance = distance;
+      }
+    }
+    if (bestIndex < 0) throw new Error(`${level.shortId}: cannot migrate legacy board cell ${sourceIndex}`);
+    reserved.add(bestIndex);
+    mapping.set(sourceIndex, bestIndex);
+    return bestIndex;
+  };
+
+  const boardHoles = [...(level.boardHoles ?? [])].sort((a, b) => a - b);
+  boardHoles.forEach(nearestFreeTarget);
+  const placedCells = [
+    ...level.blockers.map(({ index }) => index),
+    ...level.ingredients.map(({ index }) => index),
+    ...(level.initialTiles ?? []).map(({ index }) => index),
+  ];
+  [...new Set(placedCells)].sort((a, b) => a - b).forEach((index) => {
+    if (!mapping.has(index)) nearestFreeTarget(index);
+  });
+  const remap = (index: number) => {
+    const mapped = mapping.get(index);
+    if (mapped === undefined) throw new Error(`${level.shortId}: missing migrated board cell ${index}`);
+    return mapped;
+  };
+
+  return {
+    ...level,
+    boardSize: targetSize,
+    boardHoles: level.boardHoles ? boardHoles.map(remap) : undefined,
+    blockers: level.blockers.map((placement) => ({ ...placement, index: remap(placement.index) })),
+    ingredients: level.ingredients.map((placement) => ({ ...placement, index: remap(placement.index) })),
+    initialTiles: level.initialTiles?.map((placement) => ({ ...placement, index: remap(placement.index) })),
+  };
+}
+
+const authoredLevels: readonly LevelDefinition[] = [
   {
     id: 'M3_00_LOCKER_TUTORIAL',
     shortId: 'M3_00', title: 'Шкафчик Эми', storyAction: 'Зафиксировать содержимое шкафчика и найти связь с прачечной.',
@@ -264,8 +322,8 @@ export const levels: readonly LevelDefinition[] = [
     id: 'M3_09_MAINTENANCE_KEYS', shortId: 'M3_09', title: 'Журнал универсального ключа', storyAction: 'Разобрать хозяйственный склад, восстановить передачу ключа и транспортную накладную.',
     context: { sourceSceneId: 'VN_SCENE_19_E9_PRE', pageBackground: 'maintenanceRoom', boardSurface: 'service-lanes', boardFrame: 'maintenance-file', narrativeProfile: 'night-containers', tilePresentationProfile: 'maintenance-service', participants: ['miku', 'onoe', 'ayuki', 'gen'], narrativeTags: ['maintenance-room', 'master-key', 'lost-socks', 'asterion-containers'] },
     tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['socks', 'laundryTag', 'towel', 'sportsBra', 'camisole', 'pantiesSportWhite'], moves: 29,
-    objectives: [{ kind: 'clearBlockers', target: 8, label: 'Преграды' }, { kind: 'collect', tile: 'socks', target: 14, label: 'Пары носков' }, { kind: 'dropGroup', ingredients: ['serviceKey', 'handoffSlip'], target: 2, label: 'Ключ и накладная' }],
-    blocker: 'solid', blockers: positions([10, 13, 18, 21, 42, 45, 50, 53]), ingredients: [{ index: 27, kind: 'serviceKey' }, { index: 28, kind: 'handoffSlip' }], seed: 9010,
+    objectives: [{ kind: 'clearBlockers', target: 10, label: 'Преграды' }, { kind: 'collect', tile: 'socks', target: 14, label: 'Пары носков' }, { kind: 'dropGroup', ingredients: ['serviceKey', 'handoffSlip'], target: 2, label: 'Ключ и накладная' }],
+    blocker: 'solid', blockers: positions([10, 13, 18, 21, 35, 36, 42, 45, 50, 53]), ingredients: [{ index: 27, kind: 'serviceKey' }, { index: 28, kind: 'handoffSlip' }], seed: 9010,
     clueId: 'CUE_010', clueTitle: 'Ночные контейнеры', clueSummary: 'После закрытия прачечной контейнеры Asterion входят в тот же физический маршрут; накладная связывает ночную передачу с лабораторным префиксом Куросэ.',
     startBark: { speaker: 'Гэн', text: 'Ключи слева, возвраты справа. Носки — отдельная система и прошу её уважать.' }, winBark: { speaker: 'Мику', text: 'Гэн не сходится по времени. А контейнер Asterion сходится с маршрутом слишком хорошо.' }, loseBark: { speaker: 'Аюки', text: 'Я проиграла стенду носков. Он требует реванш по форме U.' },
   },
@@ -290,7 +348,7 @@ export const levels: readonly LevelDefinition[] = [
   {
     id: 'M3_12_SECOND_SKIN_SIGNAL', shortId: 'M3_12', title: 'Сигнал Second Skin', storyAction: 'Отделить радиопомехи от повторяющегося сигнала и извлечь активную микрометку из сервисной бирки.',
     context: { sourceSceneId: 'VN_SCENE_25_E12_PRE', pageBackground: 'oldGymNight', boardSurface: 'signal-cross', boardFrame: 'evidence-file', narrativeProfile: 'second-skin-tag', tilePresentationProfile: 'second-skin-signal', participants: ['miku', 'onoe', 'ayuki'], narrativeTags: ['old-gym-night', 'occult-bait', 'radio-signal', 'second-skin'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesLacePink', 'pantiesSportWhite'], boardHoles: [0, 1, 6, 7, 8, 9, 14, 15, 48, 49, 54, 55, 56, 57, 62, 63], moves: 28,
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesLacePink', 'pantiesSportWhite'], boardHoles: [0, 1, 6, 7, 8, 9, 14, 15, 48, 49, 54, 55, 56, 57, 62, 63], moves: 30,
     objectives: [{ kind: 'clearBlockers', target: 10, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Сигнальные узлы' }, { kind: 'drop', ingredient: 'secondSkinTag', target: 1, label: 'Микрометка' }],
     blocker: 'overlay', blockers: positions([11, 19, 25, 26, 27, 28, 29, 30, 35, 43]), ingredients: [{ index: 20, kind: 'secondSkinTag' }], seed: 9013,
     clueId: 'CUE_013', clueTitle: 'Метка Second Skin', clueSummary: 'Активная микрометка передаёт данные под внутренним именем Second Skin и объясняет технический критерий выбора вещей.',
@@ -308,7 +366,7 @@ export const levels: readonly LevelDefinition[] = [
   {
     id: 'M3_14_KUBO_ATELIER_LEDGER', shortId: 'M3_14', title: 'Книга семейного ателье', storyAction: 'Сопоставить квитанции, изделия и книгу заказов, не смешивая записи посторонних клиентов.',
     context: { sourceSceneId: 'VN_SCENE_29_E14_PRE', pageBackground: 'textileWorkshop', boardSurface: 'workbench-clusters', boardFrame: 'workshop-file', narrativeProfile: 'rina-pretheft-search', tilePresentationProfile: 'kubo-atelier', participants: ['miku', 'onoe', 'ayuki', 'kubo', 'kubo-mother'], narrativeTags: ['family-atelier', 'order-ledger', 'pretheft', 'silver-seam'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'pantiesLacePink', 'pantiesSportWhite', 'towel'], moves: 29,
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'pantiesLacePink', 'pantiesSportWhite', 'towel'], moves: 27,
     objectives: [{ kind: 'clearBlockers', target: 8, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Коды заказов' }, { kind: 'dropGroup', ingredients: ['familyReceipt', 'atelierLedger'], target: 2, label: 'Квитанция + книга' }],
     blocker: 'solid', blockers: positions([[10, 2], 13, 18, 21, 42, [45, 2], 50, 53]), ingredients: [{ index: 27, kind: 'familyReceipt' }, { index: 28, kind: 'atelierLedger' }], seed: 9015,
     clueId: 'CUE_015', clueTitle: 'Рина знала заранее', clueSummary: 'Книга заказов доказывает: Рина искала серебристые швы и записывала коды ещё до первых публичных краж.',
@@ -336,8 +394,8 @@ export const levels: readonly LevelDefinition[] = [
     id: 'M3_17_RINA_ARCHIVE_CATALOG', shortId: 'M3_17', title: 'Каталог Рины', storyAction: 'Открыть архивные ряды, отделить реальные цели от контрольных предметов и сверить каталог с подтверждёнными пропажами.',
     context: { sourceSceneId: 'VN_SCENE_35_E17_PRE', pageBackground: 'oldArchive', boardSurface: 'archive-rows', boardFrame: 'warehouse-file', narrativeProfile: 'rina-catalog', tilePresentationProfile: 'rina-archive', participants: ['miku', 'onoe', 'ayuki', 'rina'], narrativeTags: ['old-archive', 'sealed-evidence', 'rina-catalog', 'physical-theft'] },
     tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'sportsBra', 'camisole', 'socks', 'pantiesHighWaistBlack', 'pantiesSportWhite'], boardHoles: [2, 3, 10, 11, 12, 13, 60, 61], moves: 30,
-    objectives: [{ kind: 'clearBlockers', target: 10, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Коды целей' }, { kind: 'drop', ingredient: 'rinaCatalog', target: 1, label: 'Каталог' }],
-    blocker: 'locked', blockers: positions([[8, 2], 14, [16, 2], 19, 42, [43, 2], 48, 51, 56, 59]), ingredients: [{ index: 28, kind: 'rinaCatalog' }], seed: 9018,
+    objectives: [{ kind: 'clearBlockers', target: 8, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Коды целей' }, { kind: 'drop', ingredient: 'rinaCatalog', target: 1, label: 'Каталог' }],
+    blocker: 'locked', blockers: positions([[8, 2], [16, 2], 42, [43, 2], 48, 51, 56, 59]), ingredients: [{ index: 28, kind: 'rinaCatalog' }], seed: 9018,
     clueId: 'CUE_018', clueTitle: 'Каталог Рины', clueSummary: 'Запечатанный каталог полностью совпадает с подтверждёнными кражами и отделяет реальные цели Second Skin от случайной маскирующей выборки.',
     startBark: { speaker: 'Рина', text: 'Сначала коды и пломбы. Мотив не станет точнее, если вы перепутаете контрольную полку с целями.' }, winBark: { speaker: 'Оноэ', text: 'Совпадение полное. Рина физически забирала вещи и каталогизировала каждую цель.' }, loseBark: { speaker: 'Рина', text: 'Вы смешали цели и статистический шум. Архив требует более строгого второго прохода.' },
   },
@@ -378,6 +436,8 @@ export const levels: readonly LevelDefinition[] = [
     startBark: { speaker: 'Оноэ', text: 'Я отмечу каждое возражение, которое мы сейчас убираем. Хотя бы между собой не будем называть это доказательством.' }, winBark: { speaker: 'Аюки', text: 'Слайд идеальный. И теперь я очень хорошо вижу, почему идеальная история может быть неправильной.' }, loseBark: { speaker: 'Мику', text: 'Даже ложная версия развалилась. Пересобираем и смотрим, какие факты приходится скрывать.' },
   },
 ] as const;
+
+export const levels: readonly LevelDefinition[] = authoredLevels.map(migrateLegacyCampaignLevel);
 
 export const cluePresentation: Record<ClueId, Readonly<{ asset: string; label: string }>> = {
   CUE_001: { asset: './assets/clues/clue_laundry_receipt.png', label: 'Квитанция прачечной' },
