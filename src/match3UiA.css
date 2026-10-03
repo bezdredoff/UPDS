@@ -27,7 +27,7 @@
 .m3-ui-a > .match-case-hud,
 .m3-ui-a > .match-dialogue-panel,
 .m3-ui-a > .match-guidance-slot { flex-shrink: 0; }
-.m3-ui-a .match-background { z-index: 0; opacity: .96; filter: brightness(.94) saturate(.9); transform: scale(1.015); }
+.m3-ui-a .match-background { z-index: 0; opacity: .96; filter: brightness(.94) saturate(.9); transform: none; }
 .match-screen.m3-ui-a .match-shade { background: transparent; }
 
 .m3-ui-a .match-case-hud {
