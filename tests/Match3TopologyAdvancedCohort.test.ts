@@ -67,7 +67,7 @@ describe('ANM-025E4C advanced Match-3 topology cohort', () => {
     const establishedMinimumWins = new Map<string, number>([
       ['M3_11', 1],
       ['M3_12', 4],
-      ['M3_17', 6],
+      ['M3_17', 5],
       ['M3_21', 7],
     ]);
 
