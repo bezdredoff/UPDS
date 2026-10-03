@@ -404,7 +404,7 @@
     }
   ],
   "baselineCommit": "01e5ecd9c3fd5ebfabf68a0b69ecde40969d7058",
-  "testedCommit": "5da813b58f0a6ff9da70246f6ad656beb2a69605",
+  "testedCommit": "ab3390c32f287e09834984a45b6524867cc07f2d",
   "capturedAt": "2026-10-03",
   "palettePolicy": {
     "minPantiesMatchTypes": 3,
