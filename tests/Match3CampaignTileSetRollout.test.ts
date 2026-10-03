@@ -8,7 +8,7 @@ describe('ANM-025C2C campaign tile-set rollout', () => {
   it('reuses one shared tile catalog while varying underwear emphasis by narrative', () => {
     expect(pantiesCount(byShortId('M3_00').activeTiles)).toBe(4);
     expect(pantiesCount(byShortId('M3_01').activeTiles)).toBe(3);
-    expect(pantiesCount(byShortId('M3_02').activeTiles)).toBe(2);
+    expect(pantiesCount(byShortId('M3_02').activeTiles)).toBe(3);
     expect(pantiesCount(byShortId('M3_03').activeTiles)).toBe(3);
 
     const allUsed = levels.flatMap((level) => level.activeTiles);
@@ -16,11 +16,25 @@ describe('ANM-025C2C campaign tile-set rollout', () => {
     expect(reused.length).toBeGreaterThanOrEqual(6);
   });
 
-  it('gives every campaign level at least two visually distinct underwear tiles', () => {
+  it('gives every campaign level at least three visually distinct underwear tiles', () => {
     for (const level of levels) {
       const panties = level.activeTiles.filter((tile) => tilePresentation[tile].category === 'panties');
-      expect(panties.length, level.shortId).toBeGreaterThanOrEqual(2);
+      expect(panties.length, level.shortId).toBeGreaterThanOrEqual(3);
       expect(new Set(panties.map((tile) => tilePresentation[tile].asset)).size, level.shortId).toBe(panties.length);
+    }
+  });
+
+  it('limits cool-toned match identities to two per campaign palette', () => {
+    const coolTonedTiles = new Set<Match3TileId>([
+      'pantiesSportWhite',
+      'sportsBra',
+      'towel',
+      'camisole',
+    ]);
+
+    for (const level of levels) {
+      const coolCount = level.activeTiles.filter((tile) => coolTonedTiles.has(tile)).length;
+      expect(coolCount, level.shortId).toBeLessThanOrEqual(2);
     }
   });
 
@@ -55,11 +69,11 @@ describe('ANM-025C2C campaign tile-set rollout', () => {
     ]);
   });
 
-  it('gives the pool-service level a sporty two-panties set plus wet-laundry support items', () => {
+  it('gives the pool-service level three warm panties sets plus wet-laundry support items', () => {
     expect(byShortId('M3_02').activeTiles).toEqual([
-      'pantiesSportWhite',
+      'pantiesLacePink',
       'pantiesSportOrange',
-      'sportsBra',
+      'pantiesHighWaistBlack',
       'towel',
       'laundryTag',
       'socks',
@@ -69,7 +83,7 @@ describe('ANM-025C2C campaign tile-set rollout', () => {
   it('keeps ordered-return readable by separating the damaged-towel ingredient from generic tile clutter', () => {
     const ordered = byShortId('M3_03');
     expect(ordered.activeTiles).toEqual([
-      'pantiesSportWhite',
+      'panties',
       'pantiesHighWaistBlack',
       'pantiesSportOrange',
       'camisole',
