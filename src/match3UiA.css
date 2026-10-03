@@ -14,6 +14,7 @@
   --m3a-hint-icon: 23px;
   --m3a-hint-label-size: 9px;
   --m3a-hud-offset-y: 8px;
+  --m3a-row-half-cell: clamp(10px, 2.5dvh, 22px);
   --m3a-case-offset-y: -18px;
   --m3a-hud-top-gap: 18px;
   --m3a-hud-board-gap: 66px;
@@ -188,8 +189,8 @@
   border-radius: 8px;
   background: rgb(7 19 35 / 62%);
   box-shadow: none;
-  /* Lift the 9-row board by nearly two cells without shifting the hint card below it. */
-  transform: translateY(calc(-6px - 20%));
+  /* Lower the board by one cell while keeping the hint area independently positioned. */
+  transform: translateY(calc(-6px - 8.89%));
 }
 .match-screen.m3-ui-a .board[data-board-shaped='true'] {
   border: 0;
@@ -233,7 +234,7 @@
   background: linear-gradient(180deg, var(--m3-paper-light), var(--m3-paper));
   box-shadow: none;
   font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
-  transform: translateY(var(--m3a-hud-offset-y));
+  transform: translateY(calc(var(--m3a-hud-offset-y) - var(--m3a-row-half-cell)));
 }
 .m3-ui-a .field-bark-slot { height: 100%; min-height: 0; margin: 0; overflow: visible; }
 .m3-ui-a .field-bark-slot .field-bark {
@@ -252,6 +253,12 @@
   color: var(--m3-navy);
   box-shadow: none;
   font-family: 'Comic Sans MS', 'Trebuchet MS', sans-serif;
+}
+.match-screen.m3-ui-a .field-bark-slot .field-bark.reaction-bark[data-emphasis] {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 .m3-ui-a .field-bark > img {
   width: var(--m3a-portrait-size);
@@ -333,8 +340,22 @@
   transform: scale(1.08);
   text-shadow: 0 0 7px var(--m3-gold);
 }
-.m3-ui-a .match-guidance-slot { margin: 0 12px; }
+.m3-ui-a .match-guidance-slot {
+  margin: 0 12px;
+  transform: translateY(calc(0px - var(--m3a-row-half-cell)));
+}
 .m3-ui-a .match-guidance-slot .match-hint { margin: 0; }
+
+@media (hover: none) and (pointer: coarse) {
+  .m3-ui-a .hint-button:is([data-hint-active='true']) img {
+    transform: scale(1.14);
+    filter: drop-shadow(0 0 3px #f3d47c) drop-shadow(0 0 8px #dcae42);
+  }
+  .m3-ui-a .hint-button:is([data-hint-active='true']) b {
+    transform: scale(1.1);
+    text-shadow: 0 0 4px #f3d47c, 0 0 9px #dcae42;
+  }
+}
 
 @media (max-width: 430px) {
   .match-screen.m3-ui-a {
@@ -370,6 +391,4 @@
 @media (prefers-reduced-motion: reduce) {
   .m3-ui-a .hint-button img,
   .m3-ui-a .hint-button b { transition: none; }
-  .m3-ui-a .hint-button:is(:hover, :focus-visible, :active, [data-hint-active='true']) img,
-  .m3-ui-a .hint-button:is(:hover, :focus-visible, :active, [data-hint-active='true']) b { transform: none; }
 }
