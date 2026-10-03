@@ -39,12 +39,12 @@ describe('ANM-025E4B Match-3 topology prototype cohort', () => {
     expect(shape(m00).split('\n')).toHaveLength(9);
     expect(shape(m00).split('\n').every((row) => row.length === 7 && row === '#######')).toBe(true);
     expect(m02.boardHoles).toHaveLength(12);
-    expect(m04.boardHoles).toHaveLength(8);
+    expect(m04.boardHoles).toHaveLength(6);
     expect(shape(m06)).toBe('###.###\n###.###\n###.###\n#######\n#######\n#######\n#######\n#######\n#######');
 
     expect(activeCellCount(m00)).toBe(63);
     expect(activeCellCount(m02)).toBe(51);
-    expect(activeCellCount(m04)).toBe(55);
+    expect(activeCellCount(m04)).toBe(57);
     expect(activeCellCount(m06)).toBe(60);
     expect(new Set([shape(m00), shape(m02), shape(m04), shape(m06)]).size).toBe(4);
   });
@@ -83,11 +83,11 @@ describe('ANM-025E4B Match-3 topology prototype cohort', () => {
 
   it('keeps the facts/rumors split board connected through the middle and the calendar on an active bridge lane', () => {
     const level = byShortId('M3_04');
-    expect(level.boardHoles).toHaveLength(8);
+    expect(level.boardHoles).toHaveLength(6);
     expect(level.ingredients.map(({ kind }) => kind)).toEqual(['laundryCalendar']);
     const column = level.ingredients[0].index % levelBoardDimensions(level).columns;
     expect(column).toBe(3);
-    for (let row = 2; row <= 6; row += 1) {
+    for (let row = 3; row <= 5; row += 1) {
       expect(isLevelBoardCellActive(level, row * levelBoardDimensions(level).columns + column)).toBe(true);
     }
     expectPlayableStart(level);

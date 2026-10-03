@@ -135,6 +135,7 @@ export const beCatalog = {
   'match3.tile.laundryTag': 'Бірка',
   'match3.tile.panties': 'Камплект',
   'match3.tile.pantiesSportWhite': 'Белыя спорт.',
+  'match3.tile.pantiesSportOrange': 'Аранжавыя спорт.',
   'match3.tile.pantiesLacePink': 'Ружовыя',
   'match3.tile.pantiesHighWaistBlack': 'Чорныя',
   'match3.tile.pantiesBoyshortBlue': 'Блакітныя',

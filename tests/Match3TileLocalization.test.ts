@@ -8,9 +8,9 @@ const concreteTileIds = tileKeys.filter((tile) => tile.startsWith('panties') && 
 describe('Match-3 concrete tile localization', () => {
   it('resolves every dynamic tile label through the runtime catalogs', async () => {
     const expectedLocales = {
-      ru: ['Белые спорт.', 'Розовые', 'Чёрные', 'Голубые'],
-      be: ['Белыя спорт.', 'Ружовыя', 'Чорныя', 'Блакітныя'],
-      en: ['White sports', 'Pink lace', 'Black high-waist', 'Blue boyshorts'],
+      ru: ['Белые спорт.', 'Оранжевые спорт.', 'Розовые', 'Чёрные', 'Голубые'],
+      be: ['Белыя спорт.', 'Аранжавыя спорт.', 'Ружовыя', 'Чорныя', 'Блакітныя'],
+      en: ['White sports', 'Orange sports', 'Pink lace', 'Black high-waist', 'Blue boyshorts'],
     } as const;
 
     for (const locale of ['ru', 'be', 'en'] as const) {

@@ -1210,6 +1210,7 @@ export const enCatalog = {
   'match3.tile.laundryTag': 'Tag',
   'match3.tile.panties': 'Set',
   'match3.tile.pantiesSportWhite': 'White sports',
+  'match3.tile.pantiesSportOrange': 'Orange sports',
   'match3.tile.pantiesLacePink': 'Pink lace',
   'match3.tile.pantiesHighWaistBlack': 'Black high-waist',
   'match3.tile.pantiesBoyshortBlue': 'Blue boyshorts',

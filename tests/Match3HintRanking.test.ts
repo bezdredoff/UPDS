@@ -23,12 +23,15 @@ describe('ANM-025G3B spatially neutral hint ranking', () => {
   it('keeps equal-strength hints spatially balanced across deterministic boards', () => {
     const source = byShortId('M3_00');
     const { rows } = levelBoardDimensions(source);
+    const neutralActiveTiles: LevelDefinition['activeTiles'] = [
+      'pantiesSportWhite', 'pantiesLacePink', 'pantiesHighWaistBlack', 'pantiesBoyshortBlue', 'sportsBra', 'laundryTag',
+    ];
     const neutralTieLevel: LevelDefinition = {
       ...source,
       id: 'M3_HINT_TIE_NEUTRAL',
       shortId: 'M3_HINT_TIE_NEUTRAL',
       objectives: [{ kind: 'collect', tile: 'pantiesLacePink', target: 40, label: 'Absent target' }],
-      activeTiles: source.activeTiles.filter((tile) => tile !== 'pantiesLacePink'),
+      activeTiles: neutralActiveTiles.filter((tile) => tile !== 'pantiesLacePink'),
       blockers: [],
       ingredients: [],
       boardHoles: undefined,
