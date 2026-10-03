@@ -279,7 +279,7 @@ const authoredLevels: readonly LevelDefinition[] = [
     tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'pantiesSportWhite', 'pantiesLacePink', 'pantiesHighWaistBlack', 'sportsBra', 'socks'],
     boardSize: { rows: 9, columns: 7 }, boardHoles: [3, 10, 17, 45, 52, 59], moves: 28,
     objectives: [{ kind: 'collect', tile: 'laundryTag', target: 14, label: 'Подтверждённые бирки' }, { kind: 'clearBlockers', target: 8, label: 'Преграды' }, { kind: 'drop', ingredient: 'laundryCalendar', target: 1, label: 'Календарь' }],
-    blocker: 'solid', blockers: positions([9, 18, 21, 22, 42, 46, 49, 54]), ingredients: [{ index: 27, kind: 'laundryCalendar' }], seed: 9005,
+    blocker: 'solid', blockers: positions([8, 16, 18, 19, 44, 46, 50, 54]), ingredients: [{ index: 24, kind: 'laundryCalendar' }], seed: 9005,
     clueId: 'CUE_005', clueTitle: 'Ритм прачечной', clueSummary: 'Все подтверждённые случаи проходят через центральную прачечную за 24–48 часов до пропажи.',
     startBark: { speaker: 'Маю', text: 'Факты отдельно. Слухи отдельно. И никаких скриншотов.' }, winBark: { speaker: 'Мику', text: 'Семь клубов, один повторяющийся маршрут. Теперь это система.' }, loseBark: { speaker: 'Оноэ', text: 'Мы смешали свидетельства и версии. Пересоберём таблицу.' },
   },
