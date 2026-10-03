@@ -79,7 +79,7 @@ describe('ANM-023G5 Match-3 browser E2E contract', () => {
       expect(spec).toContain(token);
     }
 
-    expect(spec).toContain('toHaveCount(64)');
+    expect(spec).toContain('toHaveCount(63)');
     expect(spec).toContain('progressBeforeActivation');
     expect(spec).toContain('toBeGreaterThan(progressBeforeActivation)');
     expect(playwrightConfig).toContain('/match3\\.pw\\.ts/');

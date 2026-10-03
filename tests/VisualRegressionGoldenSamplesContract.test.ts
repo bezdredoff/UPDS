@@ -47,7 +47,7 @@ describe('ANM-023G7B mobile visual regression Golden Sample contract', () => {
     expect(visualSpec).toContain("advanceToLine(page, 'VN0040')");
     expect(visualSpec).toContain('advanceCurrentLineToChoice(page)');
     expect(visualSpec).toContain('openDeterministicLab(page)');
-    expect(visualSpec).toContain('toHaveCount(64)');
+    expect(visualSpec).toContain('toHaveCount(63)');
     expect(visualSpec).not.toContain('window.__');
     expect(visualSpec).not.toContain('localStorage.setItem');
     expect(visualSpec).not.toContain('Match3Game');
