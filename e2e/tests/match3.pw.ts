@@ -285,7 +285,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     health.assertClean();
   });
 
-  test('three long objectives fit the production HUD without horizontal scrolling or clipped labels', async ({ page }) => {
+  test('three long objectives fit the production HUD with accessible labels and no horizontal scrolling', async ({ page }) => {
     const health = observeBrowserHealth(page);
     await openDeterministicLab(page, deterministicLabSeed, responsiveHudObjectives);
 
@@ -304,18 +304,16 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
           return rect.left >= stripRect.left - 1 && rect.right <= stripRect.right + 1;
         }),
         cardsUnclipped: cards.every((card) => card.scrollHeight <= card.clientHeight + 1),
-        labelsUnclipped: labels.every((label) =>
-          label.scrollWidth <= label.clientWidth + 1 && label.scrollHeight <= label.clientHeight + 1,
+        labelsAccessible: labels.every((label) =>
+          label.classList.contains('visually-hidden') && Boolean(label.textContent?.trim()),
         ),
-        labelsWrap: labels.every((label) => getComputedStyle(label).whiteSpace === 'normal'),
       };
     });
 
     expect(geometry.overflow).toBeLessThanOrEqual(1);
     expect(geometry.cardsInside).toBe(true);
     expect(geometry.cardsUnclipped).toBe(true);
-    expect(geometry.labelsUnclipped).toBe(true);
-    expect(geometry.labelsWrap).toBe(true);
+    expect(geometry.labelsAccessible).toBe(true);
     health.assertClean();
   });
 

@@ -132,7 +132,7 @@ test.describe('rapid touch input on text and headers', () => {
       await tutorialTry.tap();
       await expect(tutorialTry).toHaveCount(0);
     }
-    await expectRapidTapsKeepScale(page, ['.match-topbar .app-header-title b', '.match-screen .objective > span']);
+    await expectRapidTapsKeepScale(page, ['.match-topbar .app-header-title b', '.match-screen .objective > b']);
   });
 
   test('protects text and headers on all 22 investigation boards and their help panels', async ({ page }) => {
@@ -150,7 +150,7 @@ test.describe('rapid touch input on text and headers', () => {
       await expect(page.locator(qaSelectors.match3Screen)).toBeVisible();
       if (level === 2) await expect(page.locator('.match-topbar .app-header-title b')).toHaveText('Мокрые показания');
       await expectPlayerGesturePolicy(page);
-      await expectRapidTapsKeepScale(page, ['.match-topbar .app-header-title b', '.objective > span']);
+      await expectRapidTapsKeepScale(page, ['.match-topbar .app-header-title b', '.objective > b']);
       await page.locator('.match-help > summary').click();
       await expect(page.locator('.match-help')).toHaveAttribute('open', '');
       await expectPlayerGesturePolicy(page);
