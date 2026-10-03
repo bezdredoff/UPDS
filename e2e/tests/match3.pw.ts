@@ -105,6 +105,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
       await page.keyboard.press('Enter');
       await expect(hint).toHaveAttribute('data-hint-active', 'true');
       await expect(hint).toBeFocused();
+      expect(await hint.locator('b').evaluate((label) => label.scrollWidth <= label.clientWidth + 1)).toBe(true);
       await page.keyboard.press('Enter');
       expect(await retainedHint?.evaluate((element) => element === document.querySelector('#hint'))).toBe(true);
       const fit = await page.locator('.match-screen').evaluate((screen) => {

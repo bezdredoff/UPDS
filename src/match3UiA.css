@@ -125,7 +125,7 @@
   min-width: 44px;
   min-height: 44px;
   padding: 3px;
-  grid-template-columns: 24px minmax(0, 1fr);
+  grid-template-columns: 20px minmax(0, 1fr);
   border: 0;
   border-radius: 4px;
   background: transparent;
@@ -133,8 +133,8 @@
   color: var(--m3-green-dark);
   transform: none;
 }
-.m3-ui-a .hint-button img { width: 24px; height: 24px; transition: transform 160ms ease, filter 160ms ease; }
-.m3-ui-a .hint-button b { font-size: 11px; line-height: 1.15; letter-spacing: 0; overflow-wrap: anywhere; transition: transform 160ms ease, text-shadow 160ms ease; }
+.m3-ui-a .hint-button img { width: 20px; height: 20px; transition: transform 160ms ease, filter 160ms ease; }
+.m3-ui-a .hint-button b { font-size: 10px; line-height: 1.15; letter-spacing: 0; white-space: nowrap; transition: transform 160ms ease, text-shadow 160ms ease; }
 .m3-ui-a .hint-button small { color: var(--m3-green-dark); font-size: 9px; }
 .m3-ui-a .hint-button:focus-visible { outline: 2px solid var(--m3-green-dark); outline-offset: 2px; }
 .m3-ui-a .hint-button:is(:hover, :focus-visible, :active, [data-hint-active="true"]) img { transform: scale(1.1); filter: drop-shadow(0 0 5px var(--m3-gold)); }
