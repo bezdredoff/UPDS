@@ -9,7 +9,7 @@ describe('level definitions', () => {
   });
 
   it('preserves the current level-0–9 design baseline while enforcing scalable objective limits', () => {
-    expect(levels.slice(0, 10).map((level) => level.moves)).toEqual([24, 26, 25, 27, 28, 27, 32, 28, 30, 26]);
+    expect(levels.slice(0, 10).map((level) => level.moves)).toEqual([24, 26, 25, 27, 28, 27, 32, 28, 30, 29]);
     expect(levels.slice(0, 10).map((level) => level.objectives.length)).toEqual([2, 2, 2, 2, 3, 3, 3, 3, 3, 3]);
     expect(levels[0].objectives.map((objective) => objective.kind)).toEqual(['clearBlockers', 'drop']);
     expect(levels[1].blockers.some((blocker) => blocker.layers === 2)).toBe(true);

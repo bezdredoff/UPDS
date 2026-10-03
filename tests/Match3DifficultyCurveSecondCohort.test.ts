@@ -37,9 +37,9 @@ describe('ANM-025E5B2 second Match-3 outlier cohort', () => {
     expect(validateLevelDefinitions(levels)).toEqual([]);
 
     const m09 = byShortId('M3_09');
-    expect(m09.moves).toBe(26);
+    expect(m09.moves).toBe(29);
     expect(m09.ingredients.map(({ kind }) => kind)).toEqual(['serviceKey', 'handoffSlip']);
-    expect(m09.objectives.map((objective) => objective.target)).toEqual([8, 14, 2]);
+    expect(m09.objectives.map((objective) => objective.target)).toEqual([8, 16, 2]);
 
     const m14 = byShortId('M3_14');
     expect(m14.moves).toBe(27);
