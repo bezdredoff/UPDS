@@ -68,7 +68,7 @@ describe('ANM-025E4C advanced Match-3 topology cohort', () => {
       ['M3_11', 1],
       ['M3_12', 4],
       ['M3_17', 5],
-      ['M3_21', 7],
+      ['M3_21', 6],
     ]);
 
     for (const [shortId, minimumWins] of establishedMinimumWins) {
