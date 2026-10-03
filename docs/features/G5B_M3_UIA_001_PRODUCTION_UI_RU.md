@@ -1,7 +1,7 @@
 # G5b-M3-UIA-001 — production-перенос M3 UI A
 
 Дата: 2026-10-03. Статус: review, локальные проверки пройдены; human/device acceptance pending.
-Baseline: `main` / `533e2f6` (PR #330).
+Baseline: `main` / `919271a` (PR #330 UI foundation, PR #331 pilot, PR #329 feedback fixes).
 
 ## Результат
 
@@ -69,10 +69,8 @@ PR #330 объединил UI-этап с контрактом размеров 
 проверка пилота и авторская матрица переноса остальных уровней с сохранением смыслов
 целей и путей ингредиентов.
 
-PR #329 (`codex/g5b-human-feedback`) остаётся открытым и конфликтующим с PR #330;
-его feedback fixes пока не входят в текущий `main`. Перед следующим production merge
-нужно согласовать его изменения с rectangular engine/UI. Старые E5A/E5B результаты
-относятся к прежним конфигам и не подтверждают баланс 7×9-пилота.
-
-Локальная ветка остаётся `local-ai/upds-setup`, как предписывает AGENTS. PR #330
-влит в GitHub `main`; локальный пилот пока не опубликован и не принят.
+PR #329 смержен в baseline `919271a`; feedback fixes входят в `main` вместе с UI и
+rectangular foundation. Все 22 уровня повторно прогнаны после merge; полные данные
+находятся в `docs/reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-03.json`.
+Агентные метрики не заменяют human/device acceptance. Production pilot M3_06 7×9
+опубликован в `main`, но его human/balance acceptance ещё не получен.

@@ -1,14 +1,14 @@
 # G5b — Match-3 design, balance и variety audit
 
-Дата: 2026-10-02  
-Статус: **ACTIVE · source/design audit завершён; exploratory desktop first pass 8/22 записан; первые исправления готовы к перепроверке; phone pass и E6B sample pending**
+Дата первоначального аудита: 2026-10-02
+Статус: **ACTIVE · fixes смержены и повторно автоаудированы; exploratory desktop pass 8/22; phone pass и E6B sample pending**
 Основание: `docs/release-status.json` → `G5b`  
 Объём: все 22 production levels `M3_00–M3_21`.
 
 ## Что проверено
 
 - Все 22 `LevelDefinition` в `src/data/levels.ts`: production brief, objective contract, move budget, blocker style, tile set, board surface и topology.
-- All-22 deterministic snapshot E5A: 200 seeds на уровень, 4 400 прогонов objective-aware hint policy.
+- Historical E5A и свежий post-merge all-22 snapshot: по 200 seeds на уровень, 4 400 прогонов objective-aware hint policy каждый.
 - Tuning reports E5B1 (`M3_06`, `M3_11`) и E5B2 (`M3_09`, `M3_14`, `M3_15`): по три независимые когорты по 200 seeds на каждый уровень.
 - Канонический human protocol E6B не запускался: human scores, физическое устройство и human telemetry отсутствуют.
 
@@ -21,11 +21,13 @@
 M3_06–07 выглядели слишком синими. Результаты и исходы приведены в пользовательской
 таблице первого прохода и отдельно не трактуются как win-rate или E6B cohort.
 
-После PR #330 rectangular foundation production M3_06 переведён в пилот 9×7 через PR #331: 63 клетки, стабильный ID и seed,
-цели и лимит 32 хода сохранены. В active tile set заменён один towel на
-`pantiesHighWaistBlack`. Остальные 21 level остаются 8×8. E5A/E5B M3_06 и прежний
-human outcome относятся к старой конфигурации и не доказывают баланс пилота.
-См. `docs/features/G5B_M3_RECT_002_PRODUCTION_PILOT_RU.md`.
+После PR #330 и #331 UI и M3_06 7×9 production-пилот вошли в main; PR #329 с
+исправлениями human feedback также смержен (baseline `919271a`). M3_06 сохраняет
+стабильные ID/seed, цели и 32 хода; одно полотенце заменено на
+`pantiesHighWaistBlack`. Остальные 21 level остаются 8×8. Свежий аудит повторно
+выполнен на этой базе (4 400 прогонов); это диагностический сигнал, не human balance.
+См. `docs/reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-03.json` и
+`docs/features/G5B_M3_RECT_002_PRODUCTION_PILOT_RU.md`.
 
 ## Первые исправления обратной связи
 
@@ -60,40 +62,8 @@ human outcome относятся к старой конфигурации и н�
   cohort, но конфигурация также требует human playtest.
 
 Это направленные корректировки по одному desktop-тестеру, а не общее подтверждение
-понятности или баланса. На обновлённом кандидате нужно повторить уровни на телефоне;
-сохранённые E5A/E5B когорты не проверяют изменённую механику и состав фишек.
-
-## Первые исправления обратной связи
-
-### Наблюдения одного пользователя (`N=1`, M3_00–M3_07)
-
-| Уровень | Итог | Наблюдение |
-| --- | --- | --- |
-| M3_00 | win | Вступление не объясняло, что нужно очистить преграды и опустить квитанцию. |
-| M3_01 | win | Числа на коробках непонятны; подсказка опиралась на фишки за коробками; drag по заблокированной клетке двигал скрытое содержимое. Туториал спецфишки повторился. |
-| M3_02 | loss | Непонятные числа и подсказка с объектом под пеной; туториал повторился. Два повтора с подсказками проиграны, третий завершён победой. |
-| M3_03 | win | Туториал спецфишки снова показался. |
-| M3_04 | loss | Туториал повторился; предложено заменить полотенце другим видом белья. Носки показались недостаточно спортивными. Повтор с подсказками пройден. |
-| M3_05 | win | Повторяющиеся замечания к подсказкам и обучению. |
-| M3_06 | loss | Слишком много синего; без подсказок не пройден, повтор с подсказками выигран. |
-| M3_07 | loss | Снова много синего; за закрытыми элементами не видны фишки, на которых основаны подсказки. |
-
-### Candidate fixes
-
-- Match groups и подсказки не учитывают фишки под блокирующими коробками/замками;
-  проницаемая пена M3_02 остаётся исключением. Взаимодействие с закрытыми клетками
-  также не начинает drag/click.
-- Однослойные блокеры не показывают цифру `1`; туториал поясняет количество слоёв
-  и различие между блокирующей и проницаемой преградой.
-- Подтверждение туториала «Активируйте спецфишку» сохраняется между уровнями.
-- Цели и intro M3_00/M3_02 формулируют действия: очистить преграды и опустить предмет;
-  RU/EN/BE строки обновлены.
-- Полотенца заменены в M3_04/M3_06/M3_07 на `pantiesHighWaistBlack`; для socks
-  подготовлен новый спортивный tile asset.
-
-Это направленные корректировки по одному desktop-тестеру, а не общее подтверждение
-понятности или баланса. На обновлённом кандидате нужно повторить уровни на телефоне;
-сохранённые E5A/E5B когорты не проверяют изменённую механику и состав фишек.
+понятности или баланса. Исправления смержены и прошли повторный автоматический аудит;
+нужен human/device pass. Новая агентная когорта не заменяет его.
 
 ## Design и variety по всей кампании
 
@@ -122,7 +92,7 @@ human outcome относятся к старой конфигурации и н�
 | M3_18 | Полная временная линия | преграды ×10; collect ×14; drop ×1 | 31 | ordered-grid · full · solid |
 | M3_19 | Приватный возврат | преграды ×10; collect ×14; drop ×1 | 30 | archive-rows · full · locked |
 | M3_20 | Карта согласий и накопитель | преграды ×10; collect ×14; drop ×1 | 31 | service-lanes · full · locked |
-| M3_21 | Удобный, но ложный финальный случай | collect ×14; преграды ×10; drop ×1 | 29 | ordered-grid · edited-case · solid |
+| M3_21 | Удобный, но ложный финальный случай | collect ×14; преграды ×8; drop ×1 | 29 | ordered-grid · edited-case · solid |
 
 ### Наблюдения по variety
 
@@ -133,7 +103,16 @@ human outcome относятся к старой конфигурации и н�
 
 ## Balance evidence
 
-E5A измеряет поведение одного deterministic hint-following агента на исторической конфигурации до E5B tuning. Это comparative diagnostic, а не human win rate, прогноз вероятности победы игрока или fun score. Пять значений E5B справа относятся к текущим tuned production configs; остальные значения E5A — исторический comparator snapshot.
+Свежий post-merge прогон на baseline `919271aeb5dc2fee2086b52cbe587028500de394`
+выполнен после изменений блокирующих клеток, tile sets и M3_21. Полная таблица:
+`docs/reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-03.json`. По 200 seeds
+на уровень: M3_00–M3_21 — 86.5%, 80.0%, 64.5%, 66.5%, 80.0%, 72.0%, 57.0%, 72.0%,
+78.0%, 58.0%, 62.5%, 48.5%, 71.0%, 75.0%, 54.5%, 56.5%, 77.5%, 70.5%, 67.5%,
+68.0%, 75.0%, 76.5%. Самые низкие агентные результаты: M3_11 (48.5%), M3_14
+(54.5%), M3_15 (56.5%), M3_06 (57.0%), M3_09 (58.0%). Это диагностический срез
+hint-following агента; он не измеряет вероятность победы человека и не заменяет E6B.
+
+Сохранённая таблица ниже — исторический E5A/E5B comparator snapshot. После post-feedback merge актуальные 22 уровня повторно измерены; см. таблицу/JSON выше. Оба среза — диагностические результаты deterministic hint-following агента, а не human win rate или fun score.
 
 | Level | E5A agent win | После tuning, три когорты | Чтение сигнала |
 | --- | ---: | ---: | --- |
@@ -188,7 +167,7 @@ E6B задаёт comparative cohort из восьми уровней на seed `
 ## Источники
 
 - Production configs: `src/data/levels.ts`.
-- E5A all-22 snapshot: `docs/reports/ANM025E5A_MATCH3_AUTO_AUDIT.json`; объяснение метода: `docs/features/ANM025E5A_MATCH3_DIFFICULTY_CURVE_AUDIT_RU.md`.
+- Fresh post-merge all-22 snapshot: `docs/reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-03.json`; historical E5A snapshot: `docs/reports/ANM025E5A_MATCH3_AUTO_AUDIT.json`; объяснение метода: `docs/features/ANM025E5A_MATCH3_DIFFICULTY_CURVE_AUDIT_RU.md`.
 - E5B1: `docs/reports/ANM025E5B1_MATCH3_TUNING.json` и `docs/features/ANM025E5B1_MATCH3_SEVERE_OUTLIER_TUNING_RU.md`.
 - E5B2: `docs/reports/ANM025E5B2_MATCH3_TUNING.json` и `docs/features/ANM025E5B2_MATCH3_ROUTE_TUNING_RU.md`.
 - Human procedure/session form: `docs/process/MATCH3_HUMAN_PLAYTEST_PROTOCOL_RU.md`, `docs/templates/MATCH3_PLAYTEST_SESSION_RU.md`.
