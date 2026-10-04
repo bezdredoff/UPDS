@@ -3,6 +3,7 @@ import { observeBrowserHealth } from '../helpers/browserHealth';
 import {
   activateSpecialByDoubleTap,
   deterministicCascadeSeed,
+  deterministicInitialTiles,
   deterministicFlashSwap,
   deterministicInvalidSwap,
   deterministicLabMoves,
@@ -54,21 +55,42 @@ type Match3DomProbe = Window & {
   __updsMatch3Screen?: Element | null;
   __updsMatch3Board?: Element | null;
   __updsMatch3Cells?: Element[];
-  __updsMatch3BoardRect?: { top: number; left: number; width: number; height: number };
+  __updsMatch3Geometry?: Record<string, { top: number; left: number; width: number; height: number; transform: string }>;
 };
+
+const match3GeometryOwners = [
+  '.match-screen', '.app-header', '.match-case-hud', '.objective-board', '.stage-board',
+  '.match-playfield', '.board[role="grid"]', '.match-dialogue-panel', '.field-bark-slot',
+  '.match-guidance-slot',
+];
+
+async function readMatch3Geometry(page: Page): Promise<Record<string, { top: number; left: number; width: number; height: number; transform: string }>> {
+  return page.evaluate((selectors) => Object.fromEntries(selectors.map((selector) => {
+    const element = document.querySelector<HTMLElement>(selector);
+    if (!element) return [selector, { top: NaN, left: NaN, width: NaN, height: NaN, transform: 'missing' }];
+    const rect = element.getBoundingClientRect();
+    return [selector, {
+      top: rect.top,
+      left: rect.left,
+      width: rect.width,
+      height: rect.height,
+      transform: getComputedStyle(element).transform,
+    }];
+  })), match3GeometryOwners);
+}
 
 async function rememberMatch3Dom(page: Page): Promise<void> {
   await page.evaluate(() => {
     const host = window as Match3DomProbe;
     const board = document.querySelector('.board[role="grid"]');
-    const rect = board?.getBoundingClientRect();
     host.__updsMatch3Screen = document.querySelector('.match-screen');
     host.__updsMatch3Board = board;
     host.__updsMatch3Cells = board ? Array.from(board.children) : [];
-    host.__updsMatch3BoardRect = rect
-      ? { top: rect.top, left: rect.left, width: rect.width, height: rect.height }
-      : undefined;
   });
+  const geometry = await readMatch3Geometry(page);
+  await page.evaluate((snapshot) => {
+    (window as Match3DomProbe).__updsMatch3Geometry = snapshot;
+  }, geometry);
 }
 
 async function expectMatch3DomStable(page: Page): Promise<void> {
@@ -76,16 +98,18 @@ async function expectMatch3DomStable(page: Page): Promise<void> {
     const host = window as Match3DomProbe;
     const board = document.querySelector('.board[role="grid"]');
     const cells = board ? Array.from(board.children) : [];
-    const rect = board?.getBoundingClientRect();
-    const rememberedRect = host.__updsMatch3BoardRect;
-    const geometryStable = Boolean(
-      rect
-      && rememberedRect
-      && Math.abs(rect.top - rememberedRect.top) < 0.5
-      && Math.abs(rect.left - rememberedRect.left) < 0.5
-      && Math.abs(rect.width - rememberedRect.width) < 0.5
-      && Math.abs(rect.height - rememberedRect.height) < 0.5,
-    );
+    const geometry = host.__updsMatch3Geometry;
+    const geometryStable = Boolean(geometry && Object.entries(geometry).every(([selector, before]) => {
+      const element = document.querySelector<HTMLElement>(selector);
+      if (!element) return false;
+      const rect = element.getBoundingClientRect();
+      const after = { top: rect.top, left: rect.left, width: rect.width, height: rect.height, transform: getComputedStyle(element).transform };
+      return Math.abs(after.top - before.top) < 0.5
+        && Math.abs(after.left - before.left) < 0.5
+        && Math.abs(after.width - before.width) < 0.5
+        && Math.abs(after.height - before.height) < 0.5
+        && after.transform === before.transform;
+    }));
     return host.__updsMatch3Screen === document.querySelector('.match-screen')
       && host.__updsMatch3Board === board
       && host.__updsMatch3Cells?.length === cells.length
@@ -352,6 +376,28 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     health.assertClean();
   });
 
+  test('an ingredient drop keeps each Match-3 layout owner at the same geometry', async ({ page }) => {
+    const health = observeBrowserHealth(page);
+    await openDeterministicLab(page, deterministicCascadeSeed, [
+      { kind: 'drop', ingredient: 'receipt', target: 1, label: 'Квитанция' },
+      { kind: 'collect', tile: 'pantiesSportWhite', target: 10, label: 'Бирки' },
+    ], [{ index: 51, kind: 'receipt' }], deterministicInitialTiles.map((cell) => {
+      if (cell.index === 56 || cell.index === 57 || cell.index === 59) return { ...cell, tile: 'pantiesSportWhite' };
+      if (cell.index === 58) return { ...cell, tile: 'pantiesLacePink' };
+      return cell;
+    }));
+
+    await rememberMatch3Dom(page);
+    const before = await readMatch3Geometry(page);
+    await tapSwap(page, 58, 59);
+
+    await expect.poll(async () => firstObjectiveProgress(page)).toEqual([1, 1]);
+    const after = await readMatch3Geometry(page);
+    expect(after).toEqual(before);
+    await expectMatch3DomStable(page);
+    health.assertClean();
+  });
+
   test('invalid swap is side-effect free, then a four-match creates and activates flash-row', async ({ page }) => {
     const health = observeBrowserHealth(page);
     await openDeterministicLab(page);
@@ -359,18 +405,25 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     expect(await tileVariant(page, 4)).toBe('tile:sportsBra');
     expect(await tileVariant(page, 5)).toBe('tile:laundryTag');
 
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
     await tapSwap(page, deterministicInvalidSwap[0], deterministicInvalidSwap[1]);
 
     const invalidFeedback = page.locator(qaSelectors.match3Feedback);
     await expect(invalidFeedback).toHaveClass(/reject-feedback.*visible|visible.*reject-feedback/);
-    await page.waitForTimeout(700);
+    const rejectedStacks = deterministicInvalidSwap.map((index) => match3Cell(page, index).locator('.tile-stack'));
+    await expect.poll(
+      async () => Promise.all(rejectedStacks.map((stack) => stack.getAttribute('class'))),
+      { timeout: 500 },
+    ).toEqual(['tile-stack', 'tile-stack']);
     await expect(invalidFeedback).toHaveClass(/visible/);
+    await page.waitForTimeout(450);
+    await expect(invalidFeedback).toHaveClass(/visible/);
+    await page.waitForTimeout(300);
+    await expect(invalidFeedback).not.toHaveClass(/visible/);
     expect(await movesLeft(page)).toBe(deterministicLabMoves);
     expect(await firstObjectiveProgress(page)).toEqual([0, 10]);
     expect(await tileVariant(page, 4)).toBe('tile:sportsBra');
     expect(await tileVariant(page, 5)).toBe('tile:laundryTag');
-    await expect(invalidFeedback).not.toHaveClass(/visible/);
-
     await tapSwap(page, deterministicFlashSwap[0], deterministicFlashSwap[1]);
 
     await expect(page.locator(qaSelectors.match3Moves)).toHaveText(String(deterministicLabMoves - 1));

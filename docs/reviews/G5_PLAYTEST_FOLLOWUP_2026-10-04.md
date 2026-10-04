@@ -1,6 +1,6 @@
 # G5 / G5b — Playtest follow-up 2026-10-04
 
-Status: **triaged; first R0 slice active**.
+Status: **R0 VN slice merged in PR #342; G5b Match-3 pacing/geometry candidate in review**.
 
 Источник — integrated iPhone playtest после PR #341. Этот документ переводит наблюдения игрока в bounded release work. По умолчанию новые системы не строятся: сначала удаляем misleading/prototype presentation и исправляем воспроизводимые UX-дефекты.
 
@@ -15,8 +15,8 @@ Status: **triaged; first R0 slice active**.
 | G5b-PT2-M3-002 | цифры слоёв мешают визуалу; коробки и цепи перекрывают tile art | **R1.** Убрать player-facing layer numbers. Solid blocker проверить как прозрачный zip-bag/cover; locked — тонкие цепи без тяжёлой подложки. Механику слоёв сохранить. |
 | G5b-PT2-M3-003 | светлый прозрачный top/camisole визуально становится тёмным | **R1.** Исправить art/readability, не меняя match identity. |
 | G5b-PT2-M3-004 | у всех specials остаётся маленькая иконка исходной фишки, хотя special уже является отдельным объектом | **R1.** Удалить misleading `special-base-marker` из production board; directional marker для row/column оставить. |
-| G5b-PT2-M3-005 | `НЕТ СОВПАДЕНИЯ` и возврат невалидного swap ощущаются слишком медленными | **R1.** Текущий `invalidHold` = 1600 ms. Вернуть фишки существенно раньше и не привязывать их возврат к длинному текстовому hold. |
-| G5b-PT2-M3-006 | после drop-цели поле иногда слегка увеличивается/сдвигается вниз | **R1 known issue.** Сначала deterministic repro/capture до и после ingredient drop, затем исправить geometry owner, не маскировать transform-ом. |
+| G5b-PT2-M3-005 | `НЕТ СОВПАДЕНИЯ` и возврат невалидного swap ощущаются слишком медленными | **R1 / review.** Hold сокращён до 700 ms; tile stacks начинают возвращаться после 150 ms обмена и оказываются дома в пределах 500 ms, при этом сообщение остаётся видимым. Reduced-motion сохраняет тот же feedback timing. |
+| G5b-PT2-M3-006 | после drop-цели поле иногда слегка увеличивается/сдвигается вниз | **R1 / review; KI-007 open pending iPhone retest.** Deterministic Chromium capture выявил owner: `.match-guidance-slot` терял 12 px после `display:none` завершённой подсказки; flex playfield забирал освободившуюся высоту. Подсказки уложены в общий grid footprint; без compensating transform. Before/after snapshot проверяет все layout owners. |
 
 ## Foam / blocker distribution
 

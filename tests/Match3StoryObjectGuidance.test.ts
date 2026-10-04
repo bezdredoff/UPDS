@@ -53,4 +53,11 @@ describe('ANM-025C3 contextual story-object guidance', () => {
     expect(guidanceCss).toContain('border-left: 5px solid var(--m3-green);');
     expect(mainSource).toContain("import './match3StoryObjectGuidance.css';");
   });
+
+  it('reserves the guidance layout footprint when objective completion changes the note', () => {
+    expect(guidanceCss).toContain('display: grid;');
+    expect(guidanceCss).toContain('grid-area: 1 / 1;');
+    expect(guidanceCss).toContain('visibility: hidden;');
+    expect(guidanceCss).toContain('visibility: visible;');
+  });
 });

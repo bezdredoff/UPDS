@@ -642,8 +642,6 @@ const noMatch = result.reason === 'no-match';
 if (noMatch) await this.animateSwapStacks(first, second, !reduced);
 cells.forEach((cell) => cell.classList.add('swap-rejected'));
 this.setMatchFeedback(this.t(match3InvalidFeedbackKey(result.reason)), 'reject-feedback');
-await this.matchDelay(matchMotionDuration('invalidHold', reduced));
-cells.forEach((cell) => cell.classList.remove('swap-rejected'));
 if (noMatch && !reduced) {
 const stacks = [this.matchCellStack(first), this.matchCellStack(second)].filter((stack): stack is HTMLElement => Boolean(stack));
 stacks.forEach((stack) => stack.classList.add('swap-return-home'));
@@ -654,6 +652,8 @@ stack.style.removeProperty('--swap-x');
 stack.style.removeProperty('--swap-y');
 });
 }
+await this.matchDelay(matchMotionDuration('invalidHold', reduced));
+cells.forEach((cell) => cell.classList.remove('swap-rejected'));
 this.setMatchFeedback('');
 return;
 }

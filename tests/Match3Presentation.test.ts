@@ -28,9 +28,9 @@ describe('current Match-3 presentation contract', () => {
     expect(MATCH_MOTION_MS.clear).toBe(280);
     expect(MATCH_MOTION_MS.settle).toBe(320);
     expect(MATCH_MOTION_MS.reshuffle).toBe(460);
-    expect(MATCH_MOTION_MS.invalidHold).toBe(1600);
+    expect(MATCH_MOTION_MS.invalidHold).toBe(700);
     expect(matchMotionDuration('clear', true)).toBe(0);
-    expect(matchMotionDuration('invalidHold', true)).toBe(1600);
+    expect(matchMotionDuration('invalidHold', true)).toBe(700);
   });
 
   it('lets production bonus art replace the full tile while retaining a compact type marker', () => {

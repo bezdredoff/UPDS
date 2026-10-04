@@ -49,7 +49,8 @@ describe('ANM-023G8E3 Match-3 render stability', () => {
     expect(browserSpec).toContain('reaction bark settles into an idle last-speaker card without replacing the Match-3 screen or board');
     expect(browserSpec).toContain("[data-reaction-id=\"special-created\"]");
     expect(browserSpec).toContain('__updsMatch3Cells');
-    expect(browserSpec).toContain('__updsMatch3BoardRect');
+    expect(browserSpec).toContain('__updsMatch3Geometry');
+    expect(browserSpec).toContain("'.match-guidance-slot'");
     expect(browserSpec).toContain('await expectMatch3DomStable(page);');
     expect(browserSpec).toContain('a deterministic cascade uses production clear/settle/refill rules');
   });
