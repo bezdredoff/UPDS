@@ -202,8 +202,12 @@ describe('UI controller render smoke', () => {
     expect(variableLine).toBeGreaterThanOrEqual(0);
     vn.openScene(1, variableLine);
     expect(session.save.readLines).toContain('VN0046A');
+    expect(session.save.readLines).toContain('VN0048');
+    expect(root.innerHTML).toContain('VN0049');
+    expect(root.innerHTML).toContain('BG_LOCKER_ATHLETICS_DAY.webp');
     expect(root.innerHTML).not.toContain('VARIABLE');
     expect(root.innerHTML).not.toContain('source_trust');
+    expect(root.innerHTML).not.toContain('CUT TO BG_LOCKER_ATHLETICS_DAY');
 
     const checkpointLine = getScene(9, 'A').findIndex((entry) => entry.id === 'VN0262');
     expect(checkpointLine).toBeGreaterThanOrEqual(0);
