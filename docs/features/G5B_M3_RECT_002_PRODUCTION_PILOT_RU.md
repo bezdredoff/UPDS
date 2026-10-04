@@ -1,7 +1,7 @@
 # G5b-M3-RECT-002 — production-пилот поля 7×9 на M3_06
 
-Дата: 2026-10-03. Статус: **active · код-кандидат, human/balance acceptance pending**.
-GitHub baseline: `main` / `919271a` (PR #330, #331, #329).
+Дата: 2026-10-03; status refreshed 2026-10-04. Статус: **review · production migration merged; human/balance acceptance pending**.
+Initial pilot baseline: `919271a` (PR #330, #331, #329); current merged `main` baseline: `89c7918` (PR #349).
 
 ## Цель
 
@@ -43,7 +43,7 @@ human pass с отмеченной сложностью и визуально с
   `docs/reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-03.json`.
 - Требуется отдельная desktop/mobile проверка именно production route M3_06 и повторный
   human playtest; реальный телефон остаётся главным визуальным gate.
-- После PR #337 геометрия всей кампании 9×7. Не менять move budget по одному лишь числу клеток.
+- После PR #337 геометрия всей кампании 9×7; PR #338 и #340 добавили утверждённые изменения tile/shape/palette. Runtime asset inventory и story audit прошли. Свежий post-feedback 4,400-run report: [`G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json`](../reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json). Auto-agent — диагностический сигнал, не semantic acceptance; human/mobile playtest всей кампании остаётся открытым.
 - Не менять save schema, Story/VN IDs, campaign keys или остальные level IDs.
 
 Связанные документы: `G5B_M3_RECT_001_RECTANGULAR_BOARD_RU.md`,

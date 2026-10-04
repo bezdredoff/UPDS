@@ -1,6 +1,10 @@
 # UPDS — Production Roadmap
 
-2026-10-04 — новый integrated iPhone playtest после PR #341 открыл bounded follow-up tranche. Подтверждены два release-facing дефекта: VN рендерит screenplay/system directives (`VARIABLE`, `CUT TO`, `INSERT`, `FADE IN`, `CHOICE CHECKPOINT`) как обычные игровые экраны, а Match-3 иногда визуально меняет geometry после drop-цели. Дополнительно в G5b поставлены evidence-driven polish-задачи по foam semantics, blocker occlusion/layer numbers, special base markers, invalid-swap pacing и читаемости светлого top; во VN — стабильный trio-scale и только optional edge-glow experiment. Первый R0 slice `G5-PT2-VN-001` активен: внутренние directives должны сохраниться как metadata для background/choice/save semantics, но исчезнуть из player surface. Полная триаж-карта: [G5 playtest follow-up](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
+2026-10-04 — bounded playtest tranche после PR #341 выполнен в PR #342–#349; все три обязательные проверки прошли для каждого PR. Исправления VN directives, Match-3 pacing/geometry, blocker readability, foam rules, special markers, camisole readability и character scale объединены; G5b и VN scale остаются на review до human/device retest. Optional edge-glow experiment #349 отклонён как marginal benefit.
+
+Перед новым human проходом выполнен post-feedback auto audit на `main` `89c7918`: 4 400 прогонов (200 × 22 levels), mean agent win rate 75.8%; M3_02 — 64.5% / median 21 ход, M3_06 — 61.5% / median 27 ход, M3_11 — 43.0%. Это сигнал для повторной проверки, не human win-rate и не основание менять баланс. Runtime asset inventory: 0 path/decode errors; story audit: 6/6.
+
+Следующее действие — focused phone retest исправлений `G5-PT2` и всех 22 уровней по обновлённому листу, затем полный G5 playthrough: Story `0–21`, три финала, campaign retry/progression/saves и shipped asset crawl. `KI-006` и `KI-007` остаются открытыми до проверки merged build на телефоне. Полная карта: [G5 playtest follow-up](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md); [свежий auto audit](reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json).
 
 Technical product version: `0.26.0-dev`.
 

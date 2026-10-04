@@ -55,28 +55,28 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 
 ## G5 / G5b — integrated phone playtest follow-up 2026-10-04
 
-Новый iPhone pass после PR #341 дал конкретный evidence и поэтому открывает ограниченный follow-up, а не новый общий polish milestone. Полная карта и rationale: [`reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
+Итоговый playtest tranche `#342–#349` завершён в коде и документации. Все PR #342–#349 прошли Quality, Chromium full E2E и Mobile WebKit critical E2E; G5b и VN scale всё ещё требуют human/device retest. PR #349 записал решение отклонить почти незаметный edge treatment. После-изменений выполнены asset/story audits и all-22 Match-3 auto audit; он не заменяет ручной pass. Полная карта: [`reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
 
 ### R0
 
-- **`G5-PT2-VN-001` — active:** player runtime не должен показывать screenplay/system directives как игровые VN-экраны. `VARIABLE`, `CUT TO`, `INSERT`, `FADE IN`, `CHOICE CHECKPOINT` и raw payload остаются metadata для существующих runtime semantics, но скрываются из player surface/history. Не строить новые insert/gallery systems ради этих строк.
-- **`KI-006`:** подтверждён скриншотами 2026-10-04; закрыть только после runtime + Browser Gate проверки background/choice/save progression.
+- **`G5-PT2-VN-001` — review · PR #342:** player runtime auto-consumes directives, сохраняет их для background/choice/save semantics и не добавляет их в player history. Browser Gate прошёл; проверить merged build на телефоне.
+- **`KI-006` — open pending device retest:** PR #342 merged; Quality, Chromium full E2E и Mobile WebKit critical E2E прошли. Закрыть только после проверки background/choice/save progression на телефоне.
 
 ### R1
 
-- **`G5b-PT2-M3-006` — review:** воспроизведено и исправлено в candidate: исчезновение подсказки цели сжимало `.match-guidance-slot` на 12 px. Layout footprint теперь сохраняется; deterministic before/after capture проверяет владельцев геометрии. `KI-007` ждёт проверки на iPhone после merge.
-- **`G5b-PT2-M3-005` — review:** no-match feedback hold уменьшен с 1600 до 700 ms; фишки возвращаются сразу после короткого swap-return, независимо от времени чтения сообщения.
-- **`G5b-PT2-M3-002` — review:** candidate убирает числовые badges с production board, сохраняет mechanical layers; CSS-прототип делает solid прозрачнее с пакетом/застёжкой и облегчает locked без тяжёлой рамки/тени. PNG не менялись; визуальное принятие на телефоне ожидается. См. [ANM025D2](features/ANM025D2_BLOCKER_READABILITY_RU.md).
-- **`G5b-PT2-M3-001` — review:** каждый blocker layer блокирует swaps/gravity до снятия. Foam остаётся только на wet/laundry M3_02 и M3_15; M3_12/M3_16 используют существующий solid. Same-seed audit удержал win rate M3_02 на 64.5%, но медиана ходов выросла с 15 до 21; перед принятием нужен human retest. См. [G5b blocker semantics](features/G5B_M3_BLOCKER_SEMANTICS_RU.md).
-- **`G5b-PT2-M3-004` — review:** production specials больше не показывают иконку исходной фишки; directional marker row/column сохранён. Проверки presentation/readability/E2E обновлены; механика и арт не менялись. Ждёт CI и review PR.
-- **`G5b-PT2-M3-003` — review:** для полупрозрачного camisole добавлена адресная яркость в production-поле, чтобы тёмная доска меньше просвечивала сквозь серую ткань. PNG, прозрачность, форма, match identity, механика и баланс не менялись. Визуальная/device-приёмка ожидается.
-- **`G5-PT2-VN-002` — review:** общий масштаб персонажей 0.72 (текущий trio side-actor baseline) применяется к legacy solo и authored solo/duo/trio. X-позиции, eye-line anchors и character calibration multipliers сохранены. VN0008 Linux/WebKit golden обновлён после проверки diff; run 37200106193 прошёл Quality, Chromium и Mobile WebKit. Ожидается мобильная визуальная приёмка.
+- **`G5b-PT2-M3-006` — review · PR #343:** `.match-guidance-slot` сохраняет footprint после drop; deterministic before/after geometry check проходит. `KI-007` ждёт проверки на iPhone.
+- **`G5b-PT2-M3-005` — review · PR #343:** no-match hold — 700 ms; фишки возвращаются после короткой swap animation, максимум за 500 ms.
+- **`G5b-PT2-M3-002` — review · PR #344:** убраны blocker layer numbers, solid/locked presentation облегчена; mechanical layers и PNG сохранены. Ждёт visual/device retest. См. [ANM025D2](features/ANM025D2_BLOCKER_READABILITY_RU.md).
+- **`G5b-PT2-M3-001` — review · PR #345:** все blocker layers блокируют swaps/gravity; foam только на wet/laundry M3_02/M3_15. Свежий auto audit: M3_02 64.5%, median 21/25 ходов, reshuffle 4.62%; нужен human retest. См. [G5b blocker semantics](features/G5B_M3_BLOCKER_SEMANTICS_RU.md) и [all-22 report](reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json).
+- **`G5b-PT2-M3-004` — review · PR #346:** special больше не показывает исходный tile icon; row/column direction cue сохранён. Проверить на реальном поле.
+- **`G5b-PT2-M3-003` — review · PR #347:** camisole tile получил адресную яркость; art identity не менялась. Ждёт проверки на телефоне.
+- **`G5-PT2-VN-002` — review · PR #348:** общий scale 0.72 для solo/duo/trio; golden просмотрен, все browser checks прошли; human visual acceptance ожидается.
 
 ### R2
 
-- **`G5-PT2-VN-003` — проверено, отклонено:** сравнил runtime и очень слабый 1px тёмный edge treatment на solo, duo и trio. Ореол/style drift не заметны, но и улучшение на мобильном размере практически неразличимо. CSS и goldens оставлены без изменений; эксперимент закрыт как marginal benefit.
+- **`G5-PT2-VN-003` — проверено, отклонено · PR #349:** runtime и очень слабый 1px тёмный edge treatment сравнены на solo/duo/trio. Halo/style drift нет, улучшение практически неразличимо; production CSS/goldens не менялись.
 
-Порядок реализации: VN directive leak → invalid-swap + geometry stability → blocker visual cleanup → foam semantics → special marker/light top → character scale → optional glow. Каждый runtime cut — отдельный маленький PR поверх свежего `main`.
+Следующий шаг: заполнить [короткий ретест-лист](templates/G5B_POST_FEEDBACK_RETEST_RU.md) на merged build, затем провести полный G5 campaign/story pass. В G5b решение по balance принимается только после human sample; agent audit остаётся диагностикой. `KI-006` и `KI-007` открыты до device-проверки.
 
 ## G2a — bounded architecture / patch cleanup
 
@@ -359,10 +359,10 @@ Post-launch expansion only. Не расходует base-release capacity.
 
 1. **G4a — ACCEPTED:** все 33 исходные rework-позиции, включая 13 blocker, закрыты PR #314–320; пользователь подтвердил интегрированную проверку в игре и на телефоне. [Отчёт](reviews/G4A_ART_REVIEW_2026-09-30.md). 117 approved сохраняются без нового дефекта.
 2. **G5a — ACCEPTED:** редактура RU/EN/BE завершена и слита в PR #322/#325/#326; quality, localization, Chromium и Mobile WebKit gates пройдены, пользователь проверил на телефоне.
-3. **G5b — human Match-3 playtest:** balance, design и variety всех 22 уровней.
-4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.
-5. **G5c / ANM-033 — финальная release regression:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, public-release packaging/rights. KI-002 остаётся открытым здесь. Принятые G0 contracts повторно проверить на финальном payload, не открывая новый PWA refactor без дефекта.
-6. **G6 — RC:** исправить только найденные release defects, затем packaging/deploy/rollback.
+3. **G5b — review / следующий human action:** ретест PR #343–#347, всех 22 Match-3 levels и E6B representative cohort; не принимать баланс по auto audit.
+4. **G5 — queued:** full playthrough Story `0–21`, три финала, retry/progression/saves и shipped asset crawl; provisional window 12–16 Oct 2026.
+5. **G5c / ANM-033 — queued:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, packaging/rights; KI-002 открыт. Provisional window 19–21 Oct.
+6. **G6 — queued:** исправить только найденные release defects, затем packaging/deploy/rollback; provisional window 22–23 Oct.
 7. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release.
 
 G0 и G3 закрыты явной пользовательской приёмкой 2026-09-30; G2a также закрыт. Они не являются следующими задачами.
