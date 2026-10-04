@@ -33,14 +33,15 @@ describe('current Match-3 presentation contract', () => {
     expect(matchMotionDuration('invalidHold', true)).toBe(700);
   });
 
-  it('lets production bonus art replace the full tile while retaining a compact type marker', () => {
+  it('lets production bonus art replace the full tile while retaining its directional cue', () => {
     const level = levels[0];
     const game = new Match3Game(level, level.seed);
     const board = game.board.map((cell, index) => index === 0 ? { ...cell, special: 'flash-row' as const } : cell);
     const markup = match3BoardCellsMarkup({ level, board, selectedCell: null, hintedCells: new Set(), t });
     const firstCell = markup.slice(0, markup.indexOf('</button>'));
     expect(firstCell).toContain('special flash-row');
-    expect(firstCell).toContain('special-base-marker');
+    expect(firstCell).not.toContain('special-base-marker');
+    expect(firstCell).toContain('data-special-direction="row" aria-hidden="true">↔');
     expect(firstCell).not.toContain('class="tile"');
     expect(style).toContain('width: 128%');
   });
