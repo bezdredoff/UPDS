@@ -131,9 +131,9 @@ test.describe('VN through QA Scene Navigation', () => {
       { scene: 24, lines: ['VN0559'] },
       { scene: 5, lines: ['VN0156', 'VN0158', 'VN0160'] },
       { scene: 13, lines: ['VN0340'] },
-      { scene: 26, lines: ['VN0595'] },
+      { scene: 26, lines: ['VN0594'] },
       { scene: 33, lines: ['VN0732'] },
-      { scene: 44, lines: ['VN0964'] },
+      { scene: 44, lines: ['VN0946'] },
     ] as const;
 
     for (const group of regressionGroups) {

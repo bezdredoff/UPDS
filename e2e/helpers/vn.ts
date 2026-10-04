@@ -26,10 +26,10 @@ export async function advanceToLine(
   maxClicks = 120,
 ): Promise<void> {
   for (let click = 0; click <= maxClicks; click += 1) {
-    if (await currentVnLineId(page) === targetLineId) return;
     if (await page.locator(qaSelectors.vnChoiceScreen).isVisible()) {
       throw new Error(`Reached a choice before VN line ${targetLineId}`);
     }
+    if (await currentVnLineId(page) === targetLineId) return;
     if (click === maxClicks) break;
     await page.locator(qaSelectors.vnNext).click();
   }

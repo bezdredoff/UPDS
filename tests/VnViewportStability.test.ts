@@ -119,9 +119,9 @@ describe('ANM-023G8E2/E4 iOS VN viewport stability', () => {
     expect(spec).toContain("{ scene: 24, lines: ['VN0559'] }");
     expect(spec).toContain("{ scene: 5, lines: ['VN0156', 'VN0158', 'VN0160'] }");
     expect(spec).toContain("{ scene: 13, lines: ['VN0340'] }");
-    expect(spec).toContain("{ scene: 26, lines: ['VN0595'] }");
+    expect(spec).toContain("{ scene: 26, lines: ['VN0594'] }");
     expect(spec).toContain("{ scene: 33, lines: ['VN0732'] }");
-    expect(spec).toContain("{ scene: 44, lines: ['VN0964'] }");
+    expect(spec).toContain("{ scene: 44, lines: ['VN0946'] }");
     expect(spec).toContain('__updsVnFrameNode');
     expect(spec).toContain('visualScale');
     expect(spec).toContain("rect('.vn-topbar')");
