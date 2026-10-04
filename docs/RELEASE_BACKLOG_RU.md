@@ -74,7 +74,7 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 
 ### R2
 
-- **`G5-PT2-VN-003`:** только после scale-fix проверить слабый edge glow/outline как способ скрыть мелкие matte-шероховатости. Если на 2–3 персонажах появляется заметное свечение или character cutouts отделяются от фона — эксперимент отклонить.
+- **`G5-PT2-VN-003` — проверено, отклонено:** сравнил runtime и очень слабый 1px тёмный edge treatment на solo, duo и trio. Ореол/style drift не заметны, но и улучшение на мобильном размере практически неразличимо. CSS и goldens оставлены без изменений; эксперимент закрыт как marginal benefit.
 
 Порядок реализации: VN directive leak → invalid-swap + geometry stability → blocker visual cleanup → foam semantics → special marker/light top → character scale → optional glow. Каждый runtime cut — отдельный маленький PR поверх свежего `main`.
 
