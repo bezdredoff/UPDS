@@ -1,6 +1,6 @@
 export const MATCH_MOTION_MS = {
   swap: 150,
-  invalidHold: 1600,
+  invalidHold: 700,
   clear: 280,
   settle: 320,
   feedbackHold: 420,

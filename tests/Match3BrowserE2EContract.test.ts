@@ -62,7 +62,7 @@ describe('ANM-023G5 Match-3 browser E2E contract', () => {
 
     expect(helper).toContain('deterministicLabSeed = 7');
     expect(helper).toContain('deterministicCascadeSeed = 424242');
-    expect(helper).toContain("fill(JSON.stringify(deterministicInitialTiles))");
+    expect(helper).toContain('initialTiles.filter(({ index }) => !ingredientIndices.has(index))');
     expect(helper).toContain("fill(JSON.stringify(objectives))");
   });
 

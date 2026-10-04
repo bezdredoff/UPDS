@@ -1,15 +1,17 @@
 /* ANM-025C3 contextual guidance for active drop/dropGroup story-object objectives. */
 .match-guidance-slot {
   min-height: 20px;
+  display: grid;
 }
 
 .match-guidance-slot .match-hint {
   margin: 6px 9px 0;
+  grid-area: 1 / 1;
 }
 
 .story-object-guidance,
 .default-input-guidance {
-  display: none;
+  visibility: hidden;
 }
 
 .story-object-guidance {
@@ -27,16 +29,16 @@
 }
 
 .match-screen:has(.objective.story-object-0:not(.done)) .story-object-guidance.story-object-0 {
-  display: block;
+  visibility: visible;
 }
 .match-screen:not(:has(.objective.story-object-0:not(.done))):has(.objective.story-object-1:not(.done)) .story-object-guidance.story-object-1 {
-  display: block;
+  visibility: visible;
 }
 .match-screen:not(:has(.objective.story-object-0:not(.done), .objective.story-object-1:not(.done))):has(.objective.story-object-2:not(.done)) .story-object-guidance.story-object-2 {
-  display: block;
+  visibility: visible;
 }
 .match-screen:not(:has(.objective.story-object-0:not(.done), .objective.story-object-1:not(.done), .objective.story-object-2:not(.done))) .default-input-guidance {
-  display: block;
+  visibility: visible;
 }
 
 @container upds-game (max-width: 340px) {
