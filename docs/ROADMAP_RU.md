@@ -1,5 +1,7 @@
 # UPDS — Production Roadmap
 
+2026-10-04 — новый integrated iPhone playtest после PR #341 открыл bounded follow-up tranche. Подтверждены два release-facing дефекта: VN рендерит screenplay/system directives (`VARIABLE`, `CUT TO`, `INSERT`, `FADE IN`, `CHOICE CHECKPOINT`) как обычные игровые экраны, а Match-3 иногда визуально меняет geometry после drop-цели. Дополнительно в G5b поставлены evidence-driven polish-задачи по foam semantics, blocker occlusion/layer numbers, special base markers, invalid-swap pacing и читаемости светлого top; во VN — стабильный trio-scale и только optional edge-glow experiment. Первый R0 slice `G5-PT2-VN-001` активен: внутренние directives должны сохраниться как metadata для background/choice/save semantics, но исчезнуть из player surface. Полная триаж-карта: [G5 playtest follow-up](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
+
 Technical product version: `0.26.0-dev`.
 
 2026-10-02 — G5a закрыта после слияния PR #325–326 и решения пользователя. Завершены
@@ -203,7 +205,7 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 1. **G4a — ACCEPTED:** все 33 rework-позиции, включая 13 blocker, исправлены и слиты в PR #314–320; пользователь подтвердил интегрированную проверку в игре и на телефоне. [Отчёт](reviews/G4A_ART_REVIEW_2026-09-30.md). Исходные 117 approved не менять без нового дефекта.
 2. **G5a — ACCEPTED:** RU слит в PR #322, EN — #325, BE — #326; локализационные аудиты и браузерные/mobile gates пройдены, пользователь подтвердил проверку на телефоне.
-3. **G5b — ACTIVE:** source/design audit всех 22 уровней, exploratory desktop pass `M3_00–M3_07`, перенос 9×7 и исправления variety/art/topology слиты в PR #337/#338; Quality, Chromium и Mobile WebKit gates прошли. В PR #340 подготовлен следующий палитровый проход: минимум 3 типа белья и максимум 2 холодных match-типа на уровень; 4,400-seed auto-audit обновлён. [Отчёт G5b](reviews/G5B_MATCH3_DESIGN_BALANCE_AUDIT_2026-10-02.md). Следом — human retest палитр, полный phone pass и E6B subjective sessions.
+3. **G5b — ACTIVE:** source/design audit всех 22 уровней, перенос 9×7 и первые variety/art/topology fixes слиты. Phone playtest 2026-10-04 добавил конкретный follow-up: foam semantics/theme, blocker occlusion и layer numbers, special base markers, invalid-swap pacing, light-top readability и post-drop geometry stability. Исправлять малыми independent slices и повторять human/device check; [основной отчёт G5b](reviews/G5B_MATCH3_DESIGN_BALANCE_AUDIT_2026-10-02.md), [новый follow-up](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
 4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.
 5. **G5c / ANM-033 — финальная release regression:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, public-release packaging/rights. KI-002 остаётся открытым здесь. Принятые G0 contracts повторно проверить на финальном payload, не открывая новый PWA refactor без дефекта.
 6. **G6 — RC:** исправить только найденные release defects, затем packaging/deploy/rollback.
