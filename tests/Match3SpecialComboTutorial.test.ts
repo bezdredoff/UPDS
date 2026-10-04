@@ -11,7 +11,7 @@ const comboConcept = 'combine-specials' as const;
 
 describe('ANM-025D4 special combo tutorial', () => {
   it('keeps combo teaching after direct activation and available across the campaign', () => {
-    for (const level of levels) {
+    for (const level of levels.filter((candidate) => candidate.shortId !== 'M3_00')) {
       expect(level.tutorialConcepts).toContain(comboConcept);
       expect(level.tutorialConcepts.indexOf(comboConcept)).toBeGreaterThan(level.tutorialConcepts.indexOf('activate-special'));
     }

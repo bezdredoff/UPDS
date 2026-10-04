@@ -1,6 +1,6 @@
 import { characterRigs } from '../data/characterRigs';
 import { guestWitnessRuntimeAssets } from '../data/guestWitnesses';
-import { blockerPresentation, cluePresentation, ingredientPresentation, specialAsset, specialAssets, specialFallbackAssets, tilePresentation } from '../data/levels';
+import { blockerPresentation, cluePresentation, ingredientPresentation, lockedBlockerAssetsByLayers, specialAsset, specialAssets, specialFallbackAssets, tilePresentation } from '../data/levels';
 import { backgroundAssets } from '../data/narrative';
 import { uniqueAssetList } from './AssetPreloader';
 
@@ -18,6 +18,7 @@ export const runtimeAssetCatalog = uniqueAssetList([
   ...Object.values(tilePresentation).map((item) => item.asset),
   ...Object.values(ingredientPresentation).map((item) => item.asset),
   ...Object.values(blockerPresentation).map((item) => item.asset),
+  ...Object.values(lockedBlockerAssetsByLayers),
   ...Object.values(cluePresentation).map((item) => item.asset),
   specialAsset,
   ...Object.values(specialAssets),

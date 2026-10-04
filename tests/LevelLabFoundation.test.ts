@@ -76,7 +76,7 @@ describe('ANM-026A Level Lab foundation', () => {
     expect(root.innerHTML).toContain('seed 9001');
     expect((root.innerHTML.match(/data-lab-cell=/g) ?? [])).toHaveLength(levelBoardDimensions(levels[0]).rows * levelBoardDimensions(levels[0]).columns);
     expect(root.innerHTML).toContain('tile_panties_sport_white.png');
-    expect(root.innerHTML).toContain('goal_receipt.png');
+    expect(root.innerHTML).toContain('objective');
   });
 
   it('starts a deterministic lab run without mutating story save or tutorial progress', () => {

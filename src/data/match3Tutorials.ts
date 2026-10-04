@@ -1,4 +1,4 @@
-export const match3TutorialConceptIds = ['basic-swap', 'clear-blocker', 'drop-ingredient', 'activate-special', 'combine-specials'] as const;
+export const match3TutorialConceptIds = ['basic-swap', 'clear-blocker', 'clear-package', 'clear-foam', 'clear-lock', 'drop-ingredient', 'activate-special', 'combine-specials'] as const;
 
 export type Match3TutorialConceptId = typeof match3TutorialConceptIds[number];
 export type Match3TutorialCompletionEvent = 'valid-swap' | 'blocker-cleared' | 'ingredient-dropped' | 'special-activated' | 'special-combined';
@@ -13,6 +13,9 @@ export type Match3TutorialDefinition = Readonly<{
 export const match3TutorialDefinitions: Readonly<Record<Match3TutorialConceptId, Match3TutorialDefinition>> = {
   'basic-swap': { id: 'basic-swap', revealOn: 'level-start', completeOn: 'valid-swap' },
   'clear-blocker': { id: 'clear-blocker', revealOn: 'level-start', completeOn: 'blocker-cleared' },
+  'clear-package': { id: 'clear-package', revealOn: 'level-start', completeOn: 'blocker-cleared' },
+  'clear-foam': { id: 'clear-foam', revealOn: 'level-start', completeOn: 'blocker-cleared' },
+  'clear-lock': { id: 'clear-lock', revealOn: 'level-start', completeOn: 'blocker-cleared' },
   'drop-ingredient': { id: 'drop-ingredient', revealOn: 'level-start', completeOn: 'ingredient-dropped' },
   'activate-special': { id: 'activate-special', revealOn: 'special-created', completeOn: 'special-activated' },
   'combine-specials': { id: 'combine-specials', revealOn: 'special-combo-ready', completeOn: 'special-combined' },

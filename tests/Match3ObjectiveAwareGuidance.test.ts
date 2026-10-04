@@ -9,7 +9,6 @@ const rowOf = (index: number): number => Math.floor(index / 8);
 
 describe('ANM-025E2 objective-aware Match-3 guidance', () => {
   it.each([
-    ['M3_00', 63],
     ['M3_03', 89],
   ] as const)('prefers immediate blocker progress over a larger irrelevant match on %s seed %i', (shortId, seed) => {
     const game = new Match3Game(byShortId(shortId), seed);

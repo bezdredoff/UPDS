@@ -232,12 +232,12 @@ describe('UI controller render smoke', () => {
 
   it('renders a complete 7×9 campaign board with localized runtime chrome', () => {
     const { root, match3 } = create();
-    match3.startMatch(0);
+    match3.startMatch(5);
     expect(root.innerHTML).toContain('match-screen');
     expect((root.innerHTML.match(/data-cell=/g) ?? [])).toHaveLength(levelBoardDimensions(levels[0]).rows * levelBoardDimensions(levels[0]).columns);
     expect(root.innerHTML).toContain('tile_');
     expect(root.innerHTML).toContain('obstacle_locked_cell_redraw.png');
-    expect(root.innerHTML).toContain('goal_receipt.png');
+    expect(root.innerHTML).toContain('goal_memory_card.png');
     expect(root.innerHTML).toContain('match-case-hud');
     expect(root.innerHTML).toContain('match-dialogue-panel');
     expect(root.innerHTML.indexOf('class="board"')).toBeLessThan(root.innerHTML.indexOf('class="field-bark-slot"'));

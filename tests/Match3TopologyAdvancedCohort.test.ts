@@ -76,7 +76,7 @@ describe('ANM-025E4C advanced Match-3 topology cohort', () => {
     }
   }, 15_000);
 
-  it('expresses the intended spatial ideas without changing goals or move budgets', () => {
+  it('expresses the intended spatial ideas and budgets the new two-stage locked cells', () => {
     const m11 = byShortId('M3_11');
     expect(m11.boardHoles).toHaveLength(8);
     expect(m11.moves).toBe(33);
@@ -89,7 +89,7 @@ describe('ANM-025E4C advanced Match-3 topology cohort', () => {
 
     const m17 = byShortId('M3_17');
     expect(m17.boardHoles).toHaveLength(8);
-    expect(m17.moves).toBe(30);
+    expect(m17.moves).toBe(42);
     expect(m17.objectives.find((objective) => objective.kind === 'clearBlockers')?.target).toBe(8);
     expect(m17.blockers).toHaveLength(8);
     expect(m17.ingredients.map(({ kind }) => kind)).toEqual(['rinaCatalog']);

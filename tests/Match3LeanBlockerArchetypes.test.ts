@@ -36,8 +36,8 @@ describe('ANM-025G1 lean blocker archetypes', () => {
       .toBe(true);
 
     for (const level of levels) {
-      expect(blockerLocksTileInteraction(1), level.shortId).toBe(true);
-      expect(blockerLocksTileInteraction(0), level.shortId).toBe(false);
+      expect(blockerLocksTileInteraction(1, level.blocker), level.shortId).toBe(level.blocker !== 'overlay');
+      expect(blockerLocksTileInteraction(0, level.blocker), level.shortId).toBe(false);
     }
     expect(validateLevelDefinitions(levels)).toEqual([]);
   });
@@ -53,6 +53,10 @@ describe('ANM-025G1 lean blocker archetypes', () => {
 
     for (const level of levels) {
       const objectiveIndex = level.objectives.findIndex((objective) => objective.kind === 'clearBlockers');
+      if (level.shortId === 'M3_00') {
+        expect(objectiveIndex).toBe(-1);
+        continue;
+      }
       expect(objectiveIndex, level.shortId).toBeGreaterThanOrEqual(0);
       expect(level.objectives[objectiveIndex].label, level.shortId).toBe('Преграды');
       const key = `match3.level.${level.id}.objective.${objectiveIndex}`;

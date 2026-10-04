@@ -10,8 +10,10 @@ describe('level definitions', () => {
 
   it('preserves the current level-0–9 design baseline while enforcing scalable objective limits', () => {
     expect(levels.slice(0, 10).map((level) => level.moves)).toEqual([24, 26, 25, 27, 28, 27, 32, 28, 30, 29]);
-    expect(levels.slice(0, 10).map((level) => level.objectives.length)).toEqual([2, 2, 2, 2, 3, 3, 3, 3, 3, 3]);
-    expect(levels[0].objectives.map((objective) => objective.kind)).toEqual(['clearBlockers', 'drop']);
+    expect(levels.slice(0, 10).map((level) => level.objectives.length)).toEqual([1, 2, 2, 2, 3, 3, 3, 3, 3, 3]);
+    expect(levels[0].objectives.map((objective) => objective.kind)).toEqual(['collect']);
+    expect(levels[0].blockers).toEqual([]);
+    expect(levels[0].ingredients).toEqual([]);
     expect(levels[1].blockers.some((blocker) => blocker.layers === 2)).toBe(true);
     expect(levels[2].blockers).toHaveLength(18);
     expect(levels[3].ingredients).toHaveLength(2);

@@ -83,8 +83,8 @@ export type LevelDefinition = Readonly<{
   loseBark: Readonly<{ speaker: string; text: string }>;
 }>;
 
-export function blockerLocksTileInteraction(blockerLayers: number): boolean {
-  return blockerLayers > 0;
+export function blockerLocksTileInteraction(blockerLayers: number, blockerStyle: BlockerStyle): boolean {
+  return blockerLayers > 0 && blockerStyle !== 'overlay';
 }
 
 export function isLevelBoardCellActive(level: Pick<LevelDefinition, 'boardHoles' | 'boardSize'>, index: number): boolean {
@@ -146,6 +146,11 @@ export const blockerPresentation: Record<BlockerStyle, Readonly<{ label: string;
   overlay: { label: 'Накладка', asset: './assets/match3/obstacle_soap_foam.png' },
 };
 
+export const lockedBlockerAssetsByLayers: Readonly<Record<1 | 2, string>> = {
+  1: './assets/match3/obstacle_chain_cell.png',
+  2: blockerPresentation.locked.asset,
+};
+
 export const specialAsset = './assets/match3/special_observation_magnifier.png';
 export const specialFallbackAssets = {
   'flash-row': './assets/match3/specials/flash-row.svg',
@@ -165,6 +170,11 @@ export const specialAssets = {
 const positions = (items: readonly (number | readonly [number, 1 | 2])[]): BoardPlacement[] => items.map((item) => (
   typeof item === 'number' ? { index: item, layers: 1 } : { index: item[0], layers: item[1] }
 ));
+
+/** Locked cells visibly progress from padlock + chains to chains, then clear. */
+const lockedPositions = (items: readonly (number | readonly [number, 1 | 2])[]): BoardPlacement[] => (
+  positions(items).map(({ index }) => ({ index, layers: 2 }))
+);
 
 function migrateLegacyCampaignLevel(level: LevelDefinition): LevelDefinition {
   if (level.boardSize) return level;
@@ -226,25 +236,20 @@ function migrateLegacyCampaignLevel(level: LevelDefinition): LevelDefinition {
 const authoredLevels: readonly LevelDefinition[] = [
   {
     id: 'M3_00_LOCKER_TUTORIAL',
-    shortId: 'M3_00', title: 'Шкафчик Эми', storyAction: 'Зафиксировать содержимое шкафчика и найти связь с прачечной.',
+    shortId: 'M3_00', title: 'Шкафчик Эми', storyAction: 'Собрать вещи и установить, чего не хватает в шкафчике.',
     context: { sourceSceneId: 'VN_SCENE_01_E0_PRE', pageBackground: 'lockerAthletics', boardSurface: 'locker-bench', boardFrame: 'evidence-file', narrativeProfile: 'locker-search', tilePresentationProfile: 'locker-laundry', participants: ['miku', 'onoe', 'ayuki', 'emi'], narrativeTags: ['locker-room', 'laundry', 'missing-underwear', 'evidence-sort'] },
-    tutorialConcepts: ['basic-swap', 'clear-blocker', 'drop-ingredient', 'activate-special', 'combine-specials'],
+    tutorialConcepts: ['basic-swap'],
     activeTiles: ['pantiesSportWhite', 'pantiesLacePink', 'pantiesHighWaistBlack', 'pantiesSportOrange', 'sportsBra', 'laundryTag'],
-    initialTiles: [
-      { index: 0, tile: 'pantiesSportWhite' }, { index: 1, tile: 'pantiesSportWhite' },
-      { index: 2, tile: 'pantiesLacePink' }, { index: 3, tile: 'pantiesSportWhite' },
-      { index: 4, tile: 'pantiesHighWaistBlack' }, { index: 10, tile: 'pantiesSportWhite' },
-    ],
     moves: 24,
-    objectives: [{ kind: 'clearBlockers', target: 6, label: 'Преграды' }, { kind: 'drop', ingredient: 'receipt', target: 1, label: 'Квитанция' }],
-    blocker: 'locked', blockers: positions([18, 19, 26, 27, 34, 35]), ingredients: [{ index: 51, kind: 'receipt' }], seed: 9001,
+    objectives: [{ kind: 'collect', tile: 'pantiesSportWhite', target: 12, label: 'Белые спортивные трусики' }],
+    blocker: 'locked', blockers: [], ingredients: [], seed: 9001,
     clueId: 'CUE_001', clueTitle: 'Выборочная пропажа', clueSummary: 'Из партии прачечной исчезли не все вещи; цена и заметность не объясняют выбор.',
     startBark: { speaker: 'Оноэ', text: 'Сначала категории. Потом выводы.' }, winBark: { speaker: 'Эми', text: 'Нашли что-нибудь настоящее?' }, loseBark: { speaker: 'Оноэ', text: 'Мы нарушили порядок поиска. Повторим без потери прогресса сцены.' },
   },
   {
     id: 'M3_01_PHOTO_PROPS', shortId: 'M3_01', title: 'Фотореквизит Кэнтаро', storyAction: 'Разобрать реквизит по номерам и найти карту памяти с таймкодами.',
     context: { sourceSceneId: 'VN_SCENE_03_E1_PRE', pageBackground: 'kentaroApartment', boardSurface: 'photo-contact-sheet', boardFrame: 'photo-file', narrativeProfile: 'photo-alibi', tilePresentationProfile: 'photo-props', participants: ['miku', 'onoe', 'ayuki', 'kentaro'], narrativeTags: ['apartment', 'photo-props', 'timeline', 'alibi'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['pantiesLacePink', 'pantiesHighWaistBlack', 'panties', 'camisole', 'sportsBra', 'laundryTag'], moves: 26,
+    tutorialConcepts: ['clear-package', 'activate-special', 'combine-specials'], activeTiles: ['pantiesLacePink', 'pantiesHighWaistBlack', 'panties', 'camisole', 'sportsBra', 'laundryTag'], moves: 26,
     objectives: [{ kind: 'clearBlockers', target: 10, label: 'Преграды' }, { kind: 'drop', ingredient: 'memoryCard', target: 1, label: 'Карта' }],
     blocker: 'solid', blockers: positions([[9, 2], [10, 2], 17, 18, [25, 2], 26, 33, [34, 2], 41, 42]), ingredients: [{ index: 50, kind: 'memoryCard' }], seed: 9002,
     clueId: 'CUE_002', clueTitle: 'Проверяемое алиби', clueSummary: 'Таймкоды съёмки подтверждают алиби Кэнтаро; сервисная тележка остаётся общей связью.',
@@ -253,7 +258,7 @@ const authoredLevels: readonly LevelDefinition[] = [
   {
     id: 'M3_02_POOL_LAUNDRY', shortId: 'M3_02', title: 'Мокрые показания', storyAction: 'Восстановить партию стирки, очистить пену и открыть сервисный шкаф.',
     context: { sourceSceneId: 'VN_SCENE_05_E2_PRE', pageBackground: 'poolLocker', boardSurface: 'pool-service-tile', boardFrame: 'wet-service', narrativeProfile: 'pool-laundry', tilePresentationProfile: 'pool-service', participants: ['miku', 'onoe', 'ayuki', 'norihiro'], narrativeTags: ['pool-locker', 'laundry', 'foam', 'service-access'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['pantiesLacePink', 'pantiesSportOrange', 'pantiesHighWaistBlack', 'towel', 'laundryTag', 'socks'],
+    tutorialConcepts: ['clear-foam', 'activate-special', 'combine-specials'], activeTiles: ['pantiesLacePink', 'pantiesSportOrange', 'pantiesHighWaistBlack', 'towel', 'laundryTag', 'socks'],
     boardHoles: [0, 1, 6, 7, 8, 15, 48, 55, 56, 57, 62, 63], moves: 25,
     objectives: [{ kind: 'clearBlockers', target: 18, label: 'Преграды' }, { kind: 'drop', ingredient: 'serviceKey', target: 1, label: 'Ключ' }],
     blocker: 'overlay', blockers: positions([[16, 2], 17, 18, [19, 2], 20, 21, 24, [25, 2], 26, 29, [30, 2], 31, 34, 35, [36, 2], 37, 38, 39]), ingredients: [{ index: 42, kind: 'serviceKey' }], seed: 9003,
@@ -282,9 +287,9 @@ const authoredLevels: readonly LevelDefinition[] = [
   {
     id: 'M3_05_BASKETBALL_LOCKERS', shortId: 'M3_05', title: 'Высокие шкафчики', storyAction: 'Открыть секции, сверить сервисные бирки и восстановить журнал ремонта.',
     context: { sourceSceneId: 'VN_SCENE_11_E5_PRE', pageBackground: 'basketballLocker', boardSurface: 'locker-columns', boardFrame: 'service-file', narrativeProfile: 'basketball-repair', tilePresentationProfile: 'basketball-service', participants: ['miku', 'onoe', 'ayuki', 'hinata'], narrativeTags: ['basketball-locker', 'repair-log', 'service-stitch', 'false-suspect'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'panties', 'pantiesHighWaistBlack', 'pantiesLacePink', 'camisole', 'socks'], moves: 27,
+    tutorialConcepts: ['clear-lock', 'activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'panties', 'pantiesHighWaistBlack', 'pantiesLacePink', 'camisole', 'socks'], moves: 27,
     objectives: [{ kind: 'clearBlockers', target: 10, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 12, label: 'Сервисные бирки' }, { kind: 'drop', ingredient: 'repairLog', target: 1, label: 'Журнал ремонта' }],
-    blocker: 'locked', blockers: positions([8, 15, 16, 23, 24, 31, 32, 39, 40, 47]), ingredients: [{ index: 28, kind: 'repairLog' }], seed: 9006,
+    blocker: 'locked', blockers: lockedPositions([8, 15, 16, 23, 24, 31, 32, 39, 40, 47]), ingredients: [{ index: 28, kind: 'repairLog' }], seed: 9006,
     clueId: 'CUE_006', clueTitle: 'Сервисная строчка', clueSummary: 'Размер, стиль и владелец не связаны с пропажами; на спорных вещах повторяется одинаковая сервисная строчка.',
     startBark: { speaker: 'Хината', text: 'Сначала журнал и ярлыки. Потом можете подозревать кого угодно.' }, winBark: { speaker: 'Оноэ', text: 'Корреляции с внешним видом нет. А строчка повторяется.' }, loseBark: { speaker: 'Аюки', text: 'Шкафчики выше моей теории. Ещё раз, но теперь по ярлыкам.' },
   },
@@ -303,7 +308,7 @@ const authoredLevels: readonly LevelDefinition[] = [
     context: { sourceSceneId: 'VN_SCENE_15_E7_PRE', pageBackground: 'asterionLab', boardSurface: 'signal-cross', boardFrame: 'lab-file', narrativeProfile: 'asterion-thread', tilePresentationProfile: 'asterion-lab', participants: ['miku', 'onoe', 'ayuki', 'kurose'], narrativeTags: ['asterion-lab', 'conductive-thread', 'serial-code', 'assignment-registry'] },
     tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'camisole', 'pantiesHighWaistBlack', 'socks', 'pantiesSportOrange', 'pantiesLacePink'], moves: 28,
     objectives: [{ kind: 'clearBlockers', target: 8, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Образцы' }, { kind: 'drop', ingredient: 'asterionSpec', target: 1, label: 'Спецификация' }],
-    blocker: 'locked', blockers: positions([9, 12, 18, 21, 42, 45, 50, 53]), ingredients: [{ index: 27, kind: 'asterionSpec' }], seed: 9008,
+    blocker: 'locked', blockers: lockedPositions([9, 12, 18, 21, 42, 45, 50, 53]), ingredients: [{ index: 27, kind: 'asterionSpec' }], seed: 9008,
     clueId: 'CUE_008', clueTitle: 'Нить Asterion', clueSummary: 'Серебристая нить принадлежит Asterion, но открытый реестр не содержит назначений на личные вещи студентов.',
     startBark: { speaker: 'Куросэ', text: 'Состав, шаг шва, код партии. Если образец наш — прибор это покажет.' }, winBark: { speaker: 'Мику', text: 'Нить совпала. А официального назначения на личные вещи всё равно нет.' }, loseBark: { speaker: 'Оноэ', text: 'Мы смешали техническое совпадение и административную запись. Разделим их.' },
   },
@@ -330,7 +335,7 @@ const authoredLevels: readonly LevelDefinition[] = [
     context: { sourceSceneId: 'VN_SCENE_21_E10_PRE', pageBackground: 'combatClubHall', boardSurface: 'locker-columns', boardFrame: 'service-file', narrativeProfile: 'control-sample-gear', tilePresentationProfile: 'karate-control', participants: ['miku', 'onoe', 'ayuki', 'aoi', 'kentaro'], narrativeTags: ['karate-club', 'control-sample', 'sports-monitoring', 'silver-stitch'] },
     tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'socks', 'towel', 'pantiesSportWhite', 'pantiesSportOrange', 'pantiesHighWaistBlack'], moves: 28,
     objectives: [{ kind: 'clearBlockers', target: 10, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 12, label: 'Сервисные ярлыки' }, { kind: 'drop', ingredient: 'stitchedWristband', target: 1, label: 'Напульсник со швом' }],
-    blocker: 'locked', blockers: positions([5, 6, 10, 13, 26, 29, 42, 45, 50, 53]), ingredients: [{ index: 46, kind: 'stitchedWristband' }], seed: 9011,
+    blocker: 'locked', blockers: lockedPositions([5, 6, 10, 13, 26, 29, 42, 45, 50, 53]), ingredients: [{ index: 46, kind: 'stitchedWristband' }], seed: 9011,
     clueId: 'CUE_011', clueTitle: 'Контрольная выборка', clueSummary: 'Серебристая система встречается на белье и внешней экипировке участников мониторинга: бельё — основная выборка, но не единственная.',
     startBark: { speaker: 'Аой', text: 'Открываем секции по порядку. Честь клуба переживёт контрольную выборку.' }, winBark: { speaker: 'Мику', text: 'Шов повторяется на внешней экипировке. Значит, критерий технический, а не личный.' }, loseBark: { speaker: 'Оноэ', text: 'Мы смешали перемещение и пропажу. Разделим выборку и повторим.' },
   },
@@ -391,9 +396,9 @@ const authoredLevels: readonly LevelDefinition[] = [
   {
     id: 'M3_17_RINA_ARCHIVE_CATALOG', shortId: 'M3_17', title: 'Каталог Рины', storyAction: 'Открыть архивные ряды, отделить реальные цели от контрольных предметов и сверить каталог с подтверждёнными пропажами.',
     context: { sourceSceneId: 'VN_SCENE_35_E17_PRE', pageBackground: 'oldArchive', boardSurface: 'archive-rows', boardFrame: 'warehouse-file', narrativeProfile: 'rina-catalog', tilePresentationProfile: 'rina-archive', participants: ['miku', 'onoe', 'ayuki', 'rina'], narrativeTags: ['old-archive', 'sealed-evidence', 'rina-catalog', 'physical-theft'] },
-    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'camisole', 'socks', 'pantiesHighWaistBlack', 'pantiesLacePink', 'pantiesSportOrange'], boardHoles: [2, 3, 10, 11, 12, 13, 60, 61], moves: 30,
+    tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'camisole', 'socks', 'pantiesHighWaistBlack', 'pantiesLacePink', 'pantiesSportOrange'], boardHoles: [2, 3, 10, 11, 12, 13, 60, 61], moves: 42,
     objectives: [{ kind: 'clearBlockers', target: 8, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Коды целей' }, { kind: 'drop', ingredient: 'rinaCatalog', target: 1, label: 'Каталог' }],
-    blocker: 'locked', blockers: positions([[8, 2], [16, 2], 42, [43, 2], 48, 51, 56, 59]), ingredients: [{ index: 28, kind: 'rinaCatalog' }], seed: 9018,
+    blocker: 'locked', blockers: lockedPositions([[8, 2], [16, 2], 42, [43, 2], 48, 51, 56, 59]), ingredients: [{ index: 28, kind: 'rinaCatalog' }], seed: 9018,
     clueId: 'CUE_018', clueTitle: 'Каталог Рины', clueSummary: 'Запечатанный каталог полностью совпадает с подтверждёнными кражами и отделяет реальные цели Second Skin от случайной маскирующей выборки.',
     startBark: { speaker: 'Рина', text: 'Сначала коды и пломбы. Мотив не станет точнее, если вы перепутаете контрольную полку с целями.' }, winBark: { speaker: 'Оноэ', text: 'Совпадение полное. Рина физически забирала вещи и каталогизировала каждую цель.' }, loseBark: { speaker: 'Рина', text: 'Вы смешали цели и статистический шум. Архив требует более строгого второго прохода.' },
   },
@@ -411,7 +416,7 @@ const authoredLevels: readonly LevelDefinition[] = [
     context: { sourceSceneId: 'VN_SCENE_39_E19_PRE', pageBackground: 'anonymousReturnCounter', boardSurface: 'archive-rows', boardFrame: 'warehouse-file', narrativeProfile: 'private-return', tilePresentationProfile: 'private-return', participants: ['miku', 'onoe', 'ayuki', 'rina', 'emi'], narrativeTags: ['anonymous-return', 'privacy', 'case-closed', 'rina'] },
     tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'camisole', 'socks', 'panties', 'pantiesHighWaistBlack', 'pantiesSportOrange'], moves: 30,
     objectives: [{ kind: 'clearBlockers', target: 10, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Анонимные коды' }, { kind: 'drop', ingredient: 'returnConfirmation', target: 1, label: 'Подтверждение' }],
-    blocker: 'locked', blockers: positions([8, 14, 16, 19, 42, 43, 48, 51, 56, 59]), ingredients: [{ index: 28, kind: 'returnConfirmation' }], seed: 9020,
+    blocker: 'locked', blockers: lockedPositions([8, 14, 16, 19, 42, 43, 48, 51, 56, 59]), ingredients: [{ index: 28, kind: 'returnConfirmation' }], seed: 9020,
     clueId: 'CUE_020', clueTitle: 'Формально закрыто', clueSummary: 'Все украденные вещи возвращены приватно, а администрация закрывает серию краж на Рине, не объясняя продолжающийся Second Skin.',
     startBark: { speaker: 'Эми', text: 'Коды — отдельно от имён. Никто не должен платить приватностью за возврат своей вещи.' }, winBark: { speaker: 'Оноэ', text: 'Выдача сходится. Кражи Рины закрыты доказательно и без раскрытия владельцев.' }, loseBark: { speaker: 'Мику', text: 'Мы смешали коды выдачи. Повторяем — здесь ошибка сама станет новым нарушением.' },
   },
@@ -420,7 +425,7 @@ const authoredLevels: readonly LevelDefinition[] = [
     context: { sourceSceneId: 'VN_SCENE_41_E20_PRE', pageBackground: 'serviceTunnel', boardSurface: 'service-lanes', boardFrame: 'lab-file', narrativeProfile: 'server-consent-logs', tilePresentationProfile: 'server-logs', participants: ['miku', 'onoe', 'ayuki', 'rina', 'emi', 'kurose', 'mayu'], narrativeTags: ['service-tunnel', 'server-room', 'consent', 'second-skin'] },
     tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'camisole', 'socks', 'panties', 'pantiesLacePink', 'pantiesSportOrange'], moves: 31,
     objectives: [{ kind: 'clearBlockers', target: 10, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Журналы согласия' }, { kind: 'drop', ingredient: 'backupDrive', target: 1, label: 'Резервная копия' }],
-    blocker: 'locked', blockers: positions([10, 13, 18, 21, 42, 45, 50, 53, 58, 61]), ingredients: [{ index: 26, kind: 'backupDrive' }], seed: 9021,
+    blocker: 'locked', blockers: lockedPositions([10, 13, 18, 21, 42, 45, 50, 53, 58, 61]), ingredients: [{ index: 26, kind: 'backupDrive' }], seed: 9021,
     clueId: 'CUE_021', clueTitle: 'Логи согласия', clueSummary: 'Серверные логи доказывают скрытую маркировку личных вещей, подмену области согласия и продолжение пилота после первых сигналов риска.',
     startBark: { speaker: 'Мику', text: 'Только журнал согласий и резервная копия. Мы расследуем нарушение, а не выгружаем чужую жизнь.' }, winBark: { speaker: 'Эми', text: 'Вот оно. Согласие на форму превратили в разрешение на личные вещи уже после подписи.' }, loseBark: { speaker: 'Оноэ', text: 'Удаление обгоняет копирование. Повторяем и приоритизируем журнал согласий.' },
   },

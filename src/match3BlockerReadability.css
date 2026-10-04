@@ -1,4 +1,4 @@
-/* ANM-025D2 — blocker readability without changing blocker mechanics. */
+/* Blocker archetype readability. Overlay foam keeps the covered tile interactable. */
 
 .board-cell:has(.blocker) .blocker {
   pointer-events: none;

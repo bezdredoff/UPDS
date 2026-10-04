@@ -30,7 +30,7 @@ describe('ANM-026B2 board shape and deterministic start layout', () => {
 
     expect(levels[0].shortId).toBe('M3_00');
     expect(levels[0].boardHoles).toBeUndefined();
-    expect(levels[0].initialTiles?.length).toBeGreaterThan(0);
+    expect(levels[0].initialTiles).toBeUndefined();
     for (const shortId of ['M3_02', 'M3_04', 'M3_06', 'M3_11', 'M3_12', 'M3_17', 'M3_21']) {
       const level = levels.find((candidate) => candidate.shortId === shortId);
       expect(level?.boardHoles?.length).toBeGreaterThan(0);
@@ -82,22 +82,22 @@ describe('ANM-026B2 board shape and deterministic start layout', () => {
   });
 
   it('rejects placements in holes and exports shape/start-layout through Level Lab v3', () => {
-    const base = levels[0];
+    const base = levels[1];
     expect(validateLevelDefinitions([{ ...base, boardHoles: [base.blockers[0].index] }])).toContain(`${base.id}: blocker placed in board hole`);
     expect(validateLevelDefinitions([{ ...base, initialTiles: [{ index: base.ingredients[0].index, tile: 'pantiesSportWhite' }] }])).toContain(`${base.id}: initial tile overlaps ingredient`);
 
     const draft = {
       ...createLevelLabDraft(base),
       boardHoles: [0, 7],
-      initialTiles: [{ index: 1, tile: 'pantiesSportWhite' as const }],
+      initialTiles: [{ index: 1, tile: 'pantiesLacePink' as const }],
     };
     expect(validateLevelLabDraft(base, draft)).toEqual([]);
     const applied = applyLevelLabDraft(base, draft);
     expect(applied.boardHoles).toEqual([0, 7]);
-    expect(applied.initialTiles).toEqual([{ index: 1, tile: 'pantiesSportWhite' }]);
+    expect(applied.initialTiles).toEqual([{ index: 1, tile: 'pantiesLacePink' }]);
     const exported = JSON.parse(exportLevelLabDraft(base, draft)) as Record<string, unknown>;
     expect(exported.format).toBe('upds-level-lab-v3');
     expect(exported.boardHoles).toEqual([0, 7]);
-    expect(exported.initialTiles).toEqual([{ index: 1, tile: 'pantiesSportWhite' }]);
+    expect(exported.initialTiles).toEqual([{ index: 1, tile: 'pantiesLacePink' }]);
   });
 });
