@@ -20,6 +20,7 @@
     "localization:be:audit": "vitest run tests/BelarusianCompletionLocalization.test.ts tests/BelarusianMatch3Localization.test.ts tests/BelarusianVnLocalization.test.ts",
     "docs:audit": "vitest run tests/DocumentationTraceability.test.ts",
     "tooling:audit": "vitest run tests/ToolingIdentityHardening.test.ts tests/VersionIdentity.test.ts tests/DocumentationTraceability.test.ts tests/RepositoryHygiene.test.ts",
+    "version:check": "node scripts/check-app-version-policy.mjs",
     "security:audit": "npm audit --audit-level=high",
     "build": "tsc && node scripts/build-status-dashboard.mjs && vite build",
     "precheck": "npm run security:audit",

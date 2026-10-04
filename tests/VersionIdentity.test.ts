@@ -17,6 +17,25 @@ describe('product version and build identity', () => {
     expect(BUILD_LABEL).not.toContain(APP_VERSION);
   });
 
+  it('documents and enforces a version bump for each production-facing PR', () => {
+    const policy = read('docs/process/VERSIONING_POLICY_RU.md');
+    const developmentGuide = read('docs/process/AI_DEVELOPMENT_RU.md');
+    const pullRequestTemplate = read('.github/PULL_REQUEST_TEMPLATE.md');
+    const workflow = read('.github/workflows/ci.yml');
+    const policyScript = read('scripts/check-app-version-policy.mjs');
+    const packageScripts = JSON.parse(read('package.json')) as { scripts: Record<string, string> };
+
+    expect(policy).toContain('Каждый PR, меняющий player-facing production build, обязан повышать `APP_VERSION`');
+    expect(policy).toContain('Обычный fix');
+    expect(developmentGuide).toContain('VERSIONING_POLICY_RU.md');
+    expect(pullRequestTemplate).toContain('## Versioning');
+    expect(packageScripts.scripts['version:check']).toContain('check-app-version-policy.mjs');
+    expect(workflow).toContain('Enforce player version policy');
+    expect(workflow).toContain('npm run version:check');
+    expect(policyScript).toContain('UPDS_BASE_REF');
+    expect(policyScript).toContain('Production-facing PR must raise APP_VERSION');
+  });
+
   it('keeps product version player-facing while feature/build identity stays in diagnostics', () => {
     const diagnostics = read('src/features/diagnostics/DiagnosticsController.ts');
     const menu = read('src/features/menu/MainMenuController.ts');

@@ -19,3 +19,10 @@
 - [ ] Critical path relevant to this change is checked manually.
 - [ ] Pipeline/docs-only changes are validated against their relevant workflow/contract instead of requiring unrelated visual QA.
 - [ ] No unexpected runtime/console errors for runtime-affecting changes.
+
+## Versioning
+
+- [ ] Player runtime, production assets, localization, or production build behavior changed: `APP_VERSION` was bumped (patch for routine fixes/content/presentation; minor for a new player-facing capability).
+- [ ] No player-facing production change: no `APP_VERSION` bump is needed.
+- [ ] `BUILD_LABEL` identifies the active milestone; update it and the roadmap when the production milestone changes.
+- [ ] `package.json.version` was left alone unless npm package publication/versioning itself is in scope.
