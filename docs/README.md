@@ -27,6 +27,7 @@ If two active documents conflict, prefer the narrower current machine-readable c
 - [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md)
 - [`architecture/ARCHITECTURE_RU.md`](architecture/ARCHITECTURE_RU.md)
 - [`process/AI_DEVELOPMENT_RU.md`](process/AI_DEVELOPMENT_RU.md)
+- [`process/VERSIONING_POLICY_RU.md`](process/VERSIONING_POLICY_RU.md)
 - [`process/TESTING_RU.md`](process/TESTING_RU.md)
 
 ## Current production contracts

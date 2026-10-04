@@ -32,6 +32,14 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      - name: Enforce player version policy
+        env:
+          UPDS_BASE_REF: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [ -n "$UPDS_BASE_REF" ]; then
+            git fetch --no-tags origin "$UPDS_BASE_REF"
+          fi
+          npm run version:check
       - name: Install dependencies without lifecycle scripts
         run: npm ci --ignore-scripts
       - name: Run full project check

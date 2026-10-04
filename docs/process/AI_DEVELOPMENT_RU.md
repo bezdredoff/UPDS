@@ -28,6 +28,8 @@ decision is authored and merged.
 
 `APP_VERSION` is the player-facing product semver and is intentionally independent from `package.json.version`. `BUILD_LABEL` identifies the feature/baseline, `BUILD_ID` identifies a concrete CI build, and save schema versioning has its own lifecycle. Do not infer one of these values from another and do not treat any build/version string as the roadmap status source.
 
+The exact bump cadence and required checks are defined in [`VERSIONING_POLICY_RU.md`](VERSIONING_POLICY_RU.md). For every production-facing PR, explicitly decide and record the version impact; CI rejects a player-facing runtime/assets change unless `APP_VERSION` advances.
+
 Do not copy a “current build” string into multiple READMEs.
 
 ### Release status protocol
