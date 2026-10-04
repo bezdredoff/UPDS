@@ -8,9 +8,11 @@ const main = readFileSync(new URL('../src/main.ts', import.meta.url), 'utf8');
 describe('Match-3 blocker readability', () => {
   it('gives each lean blocker archetype an explicit visual treatment', () => {
     expect(css).toContain('obstacle_locked_cell');
-    expect(css).toContain('obstacle_prop_box_2layer');
+    expect(css).toContain('.board-cell:has(.blocker[data-style="solid"])');
     expect(css).toContain('obstacle_soap_foam');
-    expect(css).toContain('.board-cell:has(.blocker) .blocker b');
+    expect(css).toContain('.board-cell:has(.blocker[data-style="solid"]) .blocker::before');
+    expect(css).toContain('.board-cell:has(.blocker[data-style="locked"][data-layers="1"])');
+    expect(css).not.toContain('.blocker b');
   });
 
   it('keeps the single permeable overlay visually lighter than ordinary blocking overlays', () => {

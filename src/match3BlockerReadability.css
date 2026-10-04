@@ -4,28 +4,63 @@
   pointer-events: none;
 }
 
+/* Keep retained tile art legible around solid blockers. The existing box PNG is
+   only a texture beneath a light plastic-bag treatment; no new art is required. */
+.board-cell:has(.blocker[data-style="solid"]) {
+  box-shadow: inset 0 0 0 1px #f3dca966;
+}
+
+.board-cell:has(.blocker[data-style="solid"]) .blocker img {
+  opacity: .3;
+  filter: saturate(.72) contrast(.92);
+}
+
+.board-cell:has(.blocker[data-style="solid"]) .blocker::before {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  border: 1px solid #f4efdc9c;
+  border-radius: 18% 14% 17% 13%;
+  background: linear-gradient(135deg, #ffffff43 0%, #d7f0f21a 42%, #ffffff0a 70%, #d5e8e824 100%);
+  box-shadow: inset 0 0 0 1px #20394a30, 0 1px 2px #0a172444;
+}
+
+.board-cell:has(.blocker[data-style="solid"]) .blocker::after {
+  content: "";
+  position: absolute;
+  top: 8%;
+  right: 12%;
+  bottom: 8%;
+  width: 7%;
+  border-left: 1px solid #fff9d8bd;
+  border-right: 1px dashed #3452688c;
+  opacity: .82;
+}
+
+/* One remaining layer reads as visibly worn; two layers retain the stronger
+   silhouette. This is presentation only and never drives blocker mechanics. */
+.board-cell:has(.blocker[data-style="solid"][data-layers="1"]) .blocker img {
+  opacity: .2;
+  filter: saturate(.5) contrast(.82) brightness(1.12);
+}
+
+.board-cell:has(.blocker[data-style="solid"][data-layers="1"]) .blocker::before {
+  border-color: #f4efdc72;
+  background: linear-gradient(135deg, #ffffff2a, #d7f0f20c 52%, #ffffff08);
+}
+
 .board-cell:has(.blocker img[src*="obstacle_locked_cell"]) {
-  box-shadow:
-    inset 0 0 0 2px #8f3341,
-    inset 0 0 0 4px #f1cf8b55,
-    inset 0 1px #ffffff24;
+  box-shadow: inset 0 0 0 1px #dfd5bd70;
 }
 
 .board-cell:has(.blocker img[src*="obstacle_locked_cell"]) .blocker img {
-  opacity: .98;
-  filter: contrast(1.16) saturate(1.08) drop-shadow(0 2px 2px #081326c7);
+  opacity: .62;
+  filter: contrast(.94) saturate(.82) brightness(1.08);
 }
 
-.board-cell:has(.blocker img[src*="obstacle_prop_box_2layer"]) {
-  box-shadow:
-    inset 0 0 0 2px #d1ae68,
-    inset 0 0 0 4px #0b1d39b8,
-    inset 0 1px #ffffff22;
-}
-
-.board-cell:has(.blocker img[src*="obstacle_prop_box_2layer"]) .blocker img {
-  opacity: .98;
-  filter: contrast(1.12) saturate(1.06) drop-shadow(0 2px 2px #071326d0);
+.board-cell:has(.blocker[data-style="locked"][data-layers="1"]) .blocker img {
+  opacity: .48;
+  filter: contrast(.86) saturate(.7) brightness(1.18);
 }
 
 /* Overlay blockers keep the retained tile readable instead of visually replacing it. */
@@ -53,22 +88,4 @@
 .match-screen[data-m3-profile="pool-laundry"] .board-cell:has(.blocker img[src*="obstacle_soap_foam"]) .blocker img {
   opacity: .46;
   filter: contrast(.98) saturate(.78) drop-shadow(0 1px 1px #07132670);
-}
-
-/* Layer count stays readable over every blocker asset and at the smallest board scale. */
-.board-cell:has(.blocker) .blocker b {
-  min-width: 18px;
-  height: 18px;
-  padding: 0 4px;
-  display: grid;
-  place-items: center;
-  border: 2px solid #fff4cf;
-  border-radius: 9px;
-  background: #10243df2;
-  color: #fff7dc;
-  box-shadow: 0 1px 4px #050b1ea8;
-  font-size: 10px;
-  font-weight: 950;
-  line-height: 1;
-  text-shadow: 0 1px #0008;
 }

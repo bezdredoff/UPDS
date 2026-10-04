@@ -178,7 +178,7 @@ ${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="" draggab
 ${cell.special ? match3SpecialImageMarkup(cell.special, `special ${cell.special}`, t(`match3.special.${cell.special}`)) : ''}
 ${cell.special && tile ? `<span class="special-base-marker" aria-hidden="true"><img src="${tile.asset}" data-tile-variant="${escapeHtml(tile.variantId)}" alt="" draggable="false"></span>` : ''}
 </span>
-${cell.blockerLayers > 0 ? `<span class="blocker"><img src="${blockerAsset}" alt="" draggable="false">${cell.blockerLayers > 1 ? `<b>${cell.blockerLayers}</b>` : ''}</span>` : ''}
+${cell.blockerLayers > 0 ? `<span class="blocker" data-style="${escapeHtml(level.blocker)}" data-layers="${cell.blockerLayers}"><img src="${blockerAsset}" alt="" draggable="false"></span>` : ''}
 </button>`;
     })
     .join('');
