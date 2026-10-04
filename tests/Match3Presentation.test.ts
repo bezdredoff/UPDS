@@ -46,6 +46,16 @@ describe('current Match-3 presentation contract', () => {
     expect(style).toContain('width: 128%');
   });
 
+  it('brightens the translucent camisole tile without changing its match identity', () => {
+    const level = levels.find((candidate) => candidate.activeTiles.includes('camisole'))!;
+    const game = new Match3Game(level, level.seed);
+    const board = game.board.map((entry, index) => index === 0 ? { ...entry, tile: 'camisole' as const } : entry);
+    const markup = match3BoardCellsMarkup({ level, board, selectedCell: null, hintedCells: new Set(), t });
+    const tileMarkup = markup.slice(0, markup.indexOf('</button>'));
+    expect(tileMarkup).toContain('data-tile-variant="tile:camisole"');
+    expect(style).toContain('.tile[data-tile-variant="tile:camisole"] { filter: brightness(1.38)');
+  });
+
   it('keeps objective-aware hints and staged move feedback', () => {
     expect(matchSource).toContain('getHintMove()');
     expect(matchSource).toContain('playMoveFrames');
