@@ -167,18 +167,21 @@ describe('UI controller render smoke', () => {
     expect(root.innerHTML).toContain('<option value="be" selected>Беларуская</option>');
   });
 
-  it('renders the ANM-019C English VN chrome, scene metadata and choices without translating screenplay lines', async () => {
+  it('renders English VN chrome while keeping screenplay directives out of the player surface', async () => {
     const storage = (globalThis.window as unknown as { localStorage: Storage }).localStorage;
     storage.setItem(LOCALE_SETTINGS_KEY, 'en');
-    const { root, vn } = await createReady();
+    const { root, session, vn } = await createReady();
     vn.openScene(0, 0);
     expect(root.innerHTML).toContain('The Club That Barely Exists');
     expect(root.innerHTML).toContain('aria-label="Dialogue history"');
     expect(root.innerHTML).toContain('aria-label="Settings"');
     expect(root.innerHTML).toContain('aria-label="Visual novel controls"');
-    expect(root.innerHTML).toContain('STAGE DIRECTION');
-    // Dialogue text itself remains authored Russian until ANM-019D.
-    expect(root.innerHTML).toContain('After the bell.');
+    expect(session.save.readLines).toContain('VN0001');
+    expect(session.save.line).toBe(1);
+    expect(root.innerHTML).toContain('VN0002');
+    expect(root.innerHTML).not.toContain('STAGE DIRECTION');
+    expect(root.innerHTML).not.toContain('FADE IN');
+    expect(root.innerHTML).not.toContain('After the bell.');
 
     const choiceLine = getScene(1).findIndex((entry) => entry.id === 'VN0040');
     expect(choiceLine).toBeGreaterThanOrEqual(0);
@@ -189,6 +192,26 @@ describe('UI controller render smoke', () => {
     expect(root.innerHTML).toContain('Find the second victim first');
     expect(root.innerHTML).toContain('Source trust +1');
     expect(root.innerHTML).not.toContain('Сначала найдём вторую пострадавшую');
+  });
+
+  it('consumes VARIABLE and authored choice-checkpoint directives without showing debug-style VN cards', () => {
+    const { root, session, vn } = create();
+    session.save.choice = 'A';
+
+    const variableLine = getScene(1, 'A').findIndex((entry) => entry.id === 'VN0046A');
+    expect(variableLine).toBeGreaterThanOrEqual(0);
+    vn.openScene(1, variableLine);
+    expect(session.save.readLines).toContain('VN0046A');
+    expect(root.innerHTML).not.toContain('VARIABLE');
+    expect(root.innerHTML).not.toContain('source_trust');
+
+    const checkpointLine = getScene(9, 'A').findIndex((entry) => entry.id === 'VN0262');
+    expect(checkpointLine).toBeGreaterThanOrEqual(0);
+    vn.openScene(9, checkpointLine);
+    expect(session.save.readLines).toContain('VN0262');
+    expect(root.innerHTML).toContain('data-story-choice');
+    expect(root.innerHTML).not.toContain('CHOICE CHECKPOINT');
+    expect(root.innerHTML).not.toContain('{CHOICE meeting-tone}');
   });
 
   it('renders save and diagnostics tools', () => {
@@ -218,25 +241,35 @@ describe('UI controller render smoke', () => {
     expect(root.innerHTML).toContain(ruCatalog['match3.inputHint']);
     expect(root.innerHTML).toContain('tile-stack');
   });
-  it('pages compact VN dialogue before advancing the authored line', () => {
+  it('pages compact player dialogue before advancing the authored line', () => {
     Object.assign(globalThis.window as unknown as Record<string, unknown>, { innerWidth: 320, innerHeight: 568 });
     const { root, session, vn } = create();
-    vn.openScene(0, 0);
-    expect(root.innerHTML).toContain('VN0001 · 1/2');
+    let sceneIndex = -1;
+    let lineIndex = -1;
+    for (let scene = 0; scene < 45 && lineIndex < 0; scene += 1) {
+      const candidate = getScene(scene).findIndex((entry) => entry.id === 'VN0111');
+      if (candidate >= 0) {
+        sceneIndex = scene;
+        lineIndex = candidate;
+      }
+    }
+    expect(sceneIndex).toBeGreaterThanOrEqual(0);
+    vn.openScene(sceneIndex, lineIndex);
+    expect(root.innerHTML).toContain('VN0111 · 1/2');
     expect(root.innerHTML).toContain('data-dialogue-page="1"');
 
-    expect(session.save.line).toBe(0);
-    expect(session.save.readLines).not.toContain('VN0001');
+    expect(session.save.line).toBe(lineIndex);
+    expect(session.save.readLines).not.toContain('VN0111');
 
     vn.nextLine();
-    expect(session.save.line).toBe(0);
-    expect(session.save.readLines).not.toContain('VN0001');
-    expect(root.innerHTML).toContain('VN0001 · 2/2');
+    expect(session.save.line).toBe(lineIndex);
+    expect(session.save.readLines).not.toContain('VN0111');
+    expect(root.innerHTML).toContain('VN0111 · 2/2');
     expect(root.innerHTML).toContain('data-dialogue-page="2"');
 
     vn.nextLine();
-    expect(session.save.line).toBe(1);
-    expect(session.save.readLines).toContain('VN0001');
+    expect(session.save.line).toBeGreaterThan(lineIndex);
+    expect(session.save.readLines).toContain('VN0111');
   });
 
 });
