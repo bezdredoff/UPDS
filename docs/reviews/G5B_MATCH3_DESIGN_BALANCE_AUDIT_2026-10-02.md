@@ -119,7 +119,7 @@ match type cap и механика не менялись. `validateLevelDefiniti
 | --- | --- | --- | ---: | --- |
 | M3_00 | Шкафчик Эми · туториал | преграды ×6; drop ×1 | 24 | locker-bench · full · locked |
 | M3_01 | Фотореквизит и таймкоды | преграды ×10; drop ×1 | 26 | photo-contact-sheet · full · solid |
-| M3_02 | Мокрые показания / пена | преграды ×18; drop ×1 | 25 | pool-service-tile · shaped · permeable overlay |
+| M3_02 | Мокрые показания / пена | преграды ×18; drop ×1 | 25 | pool-service-tile · shaped · permeable overlay (до G5b-PT2-M3-001) |
 | M3_03 | Возвращённый мешок и новый шов | преграды ×8; dropGroup ×2 | 27 | ordered-cabinet · full · solid |
 | M3_04 | Семь клубов и календарь | collect ×14; преграды ×8; drop ×1 | 28 | meeting-grid · symmetric H · solid |
 | M3_05 | Баскетбольные шкафчики | преграды ×10; collect ×12; drop ×1 | 27 | locker-columns · full · locked |
@@ -129,11 +129,11 @@ match type cap и механика не менялись. `validateLevelDefiniti
 | M3_09 | Ключ и транспортная накладная | преграды ×8; collect ×14; dropGroup ×2 | 29 | service-lanes · full · solid |
 | M3_10 | Контрольная экипировка / карате | преграды ×10; collect ×12; drop ×1 | 28 | locker-columns · full · locked |
 | M3_11 | Передача контейнера Asterion | преграды ×8; dropGroup ×2; drop ×1 | 33 | service-lanes · transfer checkpoints · solid |
-| M3_12 | Сигнал Second Skin | преграды ×10; collect ×14; drop ×1 | 28 | signal-cross · cross-shaped · blocking overlay |
+| M3_12 | Сигнал Second Skin | преграды ×10; collect ×14; drop ×1 | 28 | signal-cross · cross-shaped · solid (после G5b-PT2-M3-001; прежний overlay не тематичен) |
 | M3_13 | Кэндо и список пилота | преграды ×10; collect ×14; drop ×1 | 30 | locker-columns · full · solid |
 | M3_14 | Семейное ателье / две записи | преграды ×8; collect ×14; dropGroup ×2 | 29 | workbench-clusters · full · solid |
 | M3_15 | Заброшенный сервисный маршрут | преграды ×10; collect ×14; dropGroup ×2 | 30 | service-lanes · full · overlay |
-| M3_16 | Розовые ленты и сканер | преграды ×10; collect ×14; drop ×1 | 29 | signal-cross · full · overlay |
+| M3_16 | Розовые ленты и сканер | преграды ×10; collect ×14; drop ×1 | 29 | signal-cross · full · solid (после G5b-PT2-M3-001; прежний overlay не тематичен) |
 | M3_17 | Каталог Рины | преграды ×10; collect ×14; drop ×1 | 30 | archive-rows · archive-shelves · locked |
 | M3_18 | Полная временная линия | преграды ×10; collect ×14; drop ×1 | 31 | ordered-grid · full · solid |
 | M3_19 | Приватный возврат | преграды ×10; collect ×14; drop ×1 | 30 | archive-rows · full · locked |
@@ -149,7 +149,7 @@ match type cap и механика не менялись. `validateLevelDefiniti
 
 ## Balance evidence
 
-Свежий post-merge прогон на baseline `919271aeb5dc2fee2086b52cbe587028500de394`
+Свежий до G5b-PT2-M3-001 post-merge прогон на baseline `919271aeb5dc2fee2086b52cbe587028500de394`
 выполнен после изменений блокирующих клеток, tile sets и M3_21. Полная таблица:
 `docs/reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-03.json`. По 200 seeds
 на уровень: M3_00–M3_21 — 86.5%, 80.0%, 64.5%, 66.5%, 80.0%, 72.0%, 57.0%, 72.0%,
@@ -164,7 +164,7 @@ hint-following агента; он не измеряет вероятность �
 | --- | ---: | ---: | --- |
 | M3_00 | 76.0% | — | умеренный comparator; tutorial/control |
 | M3_01 | 76.0% | — | умеренный comparator |
-| M3_02 | 56.0% | — | agent-hard; проверить читаемость permeable overlay и целей |
+| M3_02 | 56.0% | — | исторический E5A до 9×7 и до G5b-PT2-M3-001; comparator only |
 | M3_03 | 55.0% | — | agent-hard; два evidence в общей dropGroup цели |
 | M3_04 | 67.0% | — | умеренный comparator; shaped-board read остаётся human вопросом |
 | M3_05 | 65.5% | — | умеренный comparator |

@@ -10,12 +10,12 @@
 - `solid` использует существующий PNG коробки с полупрозрачной заливкой и CSS-слоем, который имитирует прозрачный пакет с застёжкой. Это визуальный прототип zip-bag, не новый арт-ассет.
 - У `locked` сняты тяжёлая цветная рамка клетки, усиленная контрастность и крупная тень. Существующий PNG замка и цепи визуально легче; CSS не меняет толщину отдельных цепей внутри PNG.
 - Однослойный `solid`/`locked` выглядит слегка изношенным через прозрачность/фильтр. Это не используется логикой и не влияет на правила снятия слоя.
-- `overlay` и облегчённое представление permeable M3_02 сохраняются.
+- `overlay` сохраняется для тематических мокрых/laundry-уровней M3_02 и M3_15; после G5b-PT2-M3-001 каждый его слой блокирует tile interaction так же, как остальные преграды.
 - Level Lab по-прежнему показывает layer counts как редакторскую информацию; они удалены только с production board.
 
 ## Что намеренно не меняется
 
-- `clearBlockers`, blocker placements/layers и `blockerIsPermeable`;
+- `clearBlockers`, blocker placements/layers и единое блокирующее поведение каждого слоя;
 - swap legality, gravity, clears, cascades и move budgets;
 - goals, seeds, board geometry, ingredients, specials и campaign order;
 - engine/controller/frame schema и input hit targets;

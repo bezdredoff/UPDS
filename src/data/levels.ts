@@ -72,8 +72,6 @@ export type LevelDefinition = Readonly<{
   objectives: readonly LevelObjective[];
   /** Reusable visual archetype; narrative meaning belongs in level context and barks. */
   blocker: BlockerStyle;
-  /** Existing permeable behavior: blocker layers do not lock tile interaction or gravity. */
-  blockerIsPermeable?: true;
   blockers: readonly BoardPlacement[];
   ingredients: readonly IngredientPlacement[];
   seed: number;
@@ -85,11 +83,8 @@ export type LevelDefinition = Readonly<{
   loseBark: Readonly<{ speaker: string; text: string }>;
 }>;
 
-export function blockerLocksTileInteraction(
-  level: Pick<LevelDefinition, 'blockerIsPermeable'>,
-  blockerLayers: number,
-): boolean {
-  return blockerLayers > 0 && level.blockerIsPermeable !== true;
+export function blockerLocksTileInteraction(blockerLayers: number): boolean {
+  return blockerLayers > 0;
 }
 
 export function isLevelBoardCellActive(level: Pick<LevelDefinition, 'boardHoles' | 'boardSize'>, index: number): boolean {
@@ -261,7 +256,7 @@ const authoredLevels: readonly LevelDefinition[] = [
     tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['pantiesLacePink', 'pantiesSportOrange', 'pantiesHighWaistBlack', 'towel', 'laundryTag', 'socks'],
     boardHoles: [0, 1, 6, 7, 8, 15, 48, 55, 56, 57, 62, 63], moves: 25,
     objectives: [{ kind: 'clearBlockers', target: 18, label: 'Преграды' }, { kind: 'drop', ingredient: 'serviceKey', target: 1, label: 'Ключ' }],
-    blocker: 'overlay', blockerIsPermeable: true, blockers: positions([[16, 2], 17, 18, [19, 2], 20, 21, 24, [25, 2], 26, 29, [30, 2], 31, 34, 35, [36, 2], 37, 38, 39]), ingredients: [{ index: 42, kind: 'serviceKey' }], seed: 9003,
+    blocker: 'overlay', blockers: positions([[16, 2], 17, 18, [19, 2], 20, 21, 24, [25, 2], 26, 29, [30, 2], 31, 34, 35, [36, 2], 37, 38, 39]), ingredients: [{ index: 42, kind: 'serviceKey' }], seed: 9003,
     clueId: 'CUE_003', clueTitle: 'Смешанные цели', clueSummary: 'Тип, цена, цвет и владелец вещей не объясняют выбор; вещи смешали до возврата.',
     startBark: { speaker: 'Норихиро', text: 'Бирки сначала. Мокрые догадки сушатся дольше полотенец.' }, winBark: { speaker: 'Оноэ', text: 'Партия восстановлена. Теперь сравним пропавшее.' }, loseBark: { speaker: 'Норихиро', text: 'Пена победила дедукцию. Начните с краёв.' },
   },
@@ -353,7 +348,7 @@ const authoredLevels: readonly LevelDefinition[] = [
     context: { sourceSceneId: 'VN_SCENE_25_E12_PRE', pageBackground: 'oldGymNight', boardSurface: 'signal-cross', boardFrame: 'evidence-file', narrativeProfile: 'second-skin-tag', tilePresentationProfile: 'second-skin-signal', participants: ['miku', 'onoe', 'ayuki'], narrativeTags: ['old-gym-night', 'occult-bait', 'radio-signal', 'second-skin'] },
     tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'camisole', 'socks', 'pantiesLacePink', 'pantiesHighWaistBlack', 'pantiesSportOrange'], boardHoles: [0, 1, 6, 7, 8, 9, 14, 15, 48, 49, 54, 55, 56, 57, 62, 63], moves: 30,
     objectives: [{ kind: 'clearBlockers', target: 10, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Сигнальные узлы' }, { kind: 'drop', ingredient: 'secondSkinTag', target: 1, label: 'Микрометка' }],
-    blocker: 'overlay', blockers: positions([11, 19, 25, 26, 27, 28, 29, 30, 35, 43]), ingredients: [{ index: 20, kind: 'secondSkinTag' }], seed: 9013,
+    blocker: 'solid', blockers: positions([11, 19, 25, 26, 27, 28, 29, 30, 35, 43]), ingredients: [{ index: 20, kind: 'secondSkinTag' }], seed: 9013,
     clueId: 'CUE_013', clueTitle: 'Метка Second Skin', clueSummary: 'Активная микрометка передаёт данные под внутренним именем Second Skin и объясняет технический критерий выбора вещей.',
     startBark: { speaker: 'Аюки', text: 'Если ПанцуИтер настоящий, сейчас у него будет очень плохая ночь.' }, winBark: { speaker: 'Мику', text: 'Не демон. Активная метка, радиопакет и имя Second Skin.' }, loseBark: { speaker: 'Оноэ', text: 'Шум победил измерение. Повторяем с разделёнными частотами.' },
   },
@@ -389,7 +384,7 @@ const authoredLevels: readonly LevelDefinition[] = [
     context: { sourceSceneId: 'VN_SCENE_33_E16_PRE', pageBackground: 'gymnasticsCostume', boardSurface: 'signal-cross', boardFrame: 'evidence-file', narrativeProfile: 'post-rina-activation', tilePresentationProfile: 'gymnastics-scanner', participants: ['miku', 'onoe', 'ayuki', 'vincent'], narrativeTags: ['gymnastics', 'pink-ribbons', 'scanner', 'post-rina-activation'] },
     tutorialConcepts: ['activate-special', 'combine-specials'], activeTiles: ['laundryTag', 'camisole', 'socks', 'pantiesHighWaistBlack', 'pantiesLacePink', 'pantiesSportOrange'], moves: 29,
     objectives: [{ kind: 'clearBlockers', target: 10, label: 'Преграды' }, { kind: 'collect', tile: 'laundryTag', target: 14, label: 'Коды меток' }, { kind: 'drop', ingredient: 'handheldScanner', target: 1, label: 'Сканер' }],
-    blocker: 'overlay', blockers: positions([11, 12, 18, 21, 42, 45, 50, 53, 58, 61]), ingredients: [{ index: 27, kind: 'handheldScanner' }], seed: 9017,
+    blocker: 'solid', blockers: positions([11, 12, 18, 21, 42, 45, 50, 53, 58, 61]), ingredients: [{ index: 27, kind: 'handheldScanner' }], seed: 9017,
     clueId: 'CUE_017', clueTitle: 'Активация после Рины', clueSummary: 'Новая метка Second Skin активировалась после ухода Рины, а SS-EDGE ответил через действующий кампусный ретранслятор.',
     startBark: { speaker: 'Винсент', text: 'Ленты отдельно, сервисные ярлыки отдельно. Сканер не любит, когда ему помогают догадками.' }, winBark: { speaker: 'Мику', text: 'Новая активация позже доступа Рины. Second Skin продолжает работать без неё.' }, loseBark: { speaker: 'Оноэ', text: 'Мы потеряли время активации в шуме. Повторяем и сохраняем порядок кодов.' },
   },
@@ -488,7 +483,6 @@ export function validateLevelDefinitions(definitions: readonly LevelDefinition[]
     if (new Set(level.context.narrativeTags).size !== level.context.narrativeTags.length) errors.push(`${level.id}: duplicate narrative tag`);
     if (new Set(level.tutorialConcepts).size !== level.tutorialConcepts.length) errors.push(`${level.id}: duplicate tutorial concept`);
     if (!blockerPresentation[level.blocker]) errors.push(`${level.id}: unknown blocker style ${level.blocker}`);
-    if (level.blockerIsPermeable && level.blocker !== 'overlay') errors.push(`${level.id}: only overlay blockers may be permeable`);
     const unknownTutorialConcepts = level.tutorialConcepts.filter((concept) => !match3TutorialConceptIds.includes(concept));
     if (unknownTutorialConcepts.length > 0) errors.push(`${level.id}: unknown tutorial concept ${unknownTutorialConcepts.join(',')}`);
     if (level.activeTiles.length !== ACTIVE_TILE_TYPE_LIMIT) errors.push(`${level.id}: active tile set must contain exactly ${ACTIVE_TILE_TYPE_LIMIT} types`);
