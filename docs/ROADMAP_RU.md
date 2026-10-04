@@ -62,7 +62,7 @@ Changing the release platform or market scope is a separate product decision, no
 
 ### Latest human Match-3 retest — 2026-10-04
 
-The user confirmed the faster no-match recovery, light camisole readability, and clear special direction cues; the new panties/sports-socks variety and M3_04 H silhouette also read well. Three earlier work items can close: `G5b-PT2-M3-003/004/005`. New follow-ups are active for the solid zip-bag / locked-chain PNGs and explicit foam-layer tutorial wording. Full 9×7 campaign comfort/balance, post-drop geometry, VN scale and the rest of the campaign remain unaccepted until directly observed. See [`G5 playtest follow-up`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md) and [`release backlog`](RELEASE_BACKLOG_RU.md).
+The user confirmed the faster no-match recovery, light camisole readability, and clear special direction cues; the new panties/sports-socks variety and M3_04 H silhouette also read well. Three earlier work items can close: `G5b-PT2-M3-003/004/005`. New follow-ups are active for an empty zip-bag with the full underlying tile visible, the locked-chain PNG and explicit foam-layer tutorial wording. Full 9×7 campaign comfort/balance, post-drop geometry, VN scale and the rest of the campaign remain unaccepted until directly observed. See [`G5 playtest follow-up`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md) and [`release backlog`](RELEASE_BACKLOG_RU.md).
 
 ### Completed / stable foundations
 

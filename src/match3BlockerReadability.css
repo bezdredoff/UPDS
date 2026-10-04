@@ -5,15 +5,19 @@
 }
 
 /* The zip-bag asset carries its own silhouette; CSS must not draw a second bag. */
+.board-cell:has(.blocker[data-style="solid"]) .tile-stack {
+  scale: .68;
+}
+
 .board-cell:has(.blocker[data-style="solid"]) .blocker img {
-  opacity: .55;
+  opacity: .84;
   filter: none;
 }
 
 /* One remaining layer reads as visibly worn; two layers retain the stronger
    silhouette. This is presentation only and never drives blocker mechanics. */
 .board-cell:has(.blocker[data-style="solid"][data-layers="1"]) .blocker img {
-  opacity: .38;
+  opacity: .68;
   filter: none;
 }
 
