@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { levels } from '../src/data/levels';
+import { blockerPresentation, levels } from '../src/data/levels';
 
 const css = readFileSync(new URL('../src/match3BlockerReadability.css', import.meta.url), 'utf8');
 const main = readFileSync(new URL('../src/main.ts', import.meta.url), 'utf8');
@@ -10,7 +10,10 @@ describe('Match-3 blocker readability', () => {
     expect(css).toContain('obstacle_locked_cell');
     expect(css).toContain('.board-cell:has(.blocker[data-style="solid"])');
     expect(css).toContain('obstacle_soap_foam');
-    expect(css).toContain('.board-cell:has(.blocker[data-style="solid"]) .blocker::before');
+    expect(blockerPresentation.solid.asset).toBe('./assets/match3/obstacle_zip_bag.png');
+    expect(blockerPresentation.locked.asset).toBe('./assets/match3/obstacle_locked_cell_redraw.png');
+    expect(css).not.toContain('.blocker::before');
+    expect(css).not.toContain('.blocker::after');
     expect(css).toContain('.board-cell:has(.blocker[data-style="locked"][data-layers="1"])');
     expect(css).not.toContain('.blocker b');
   });
