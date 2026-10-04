@@ -26,6 +26,7 @@ const requiredTopicKeys = [
 ] as const;
 
 const requiredSpecials = ['flash-row', 'flash-column', 'evidence', 'lead', 'insight'] as const;
+const requiredBlockers = ['package', 'foam', 'lock-chain'] as const;
 
 describe('ANM-025C2 Match-3 Help / FAQ', () => {
   it('renders an accessible native disclosure with the approved rules reference', () => {
@@ -40,6 +41,13 @@ describe('ANM-025C2 Match-3 Help / FAQ', () => {
     for (const key of requiredTopicKeys) expect(markup, key).toContain(`translated:${key}`);
     expect(markup).toContain('translated:match3.help.specials.title');
     expect(markup).toContain('translated:match3.help.specials.intro');
+    expect(markup).toContain('translated:match3.help.blockers.title');
+    for (const blocker of requiredBlockers) {
+      expect(markup).toContain(`data-blocker="${blocker}"`);
+      expect(markup).toContain(`translated:match3.help.blocker.${blocker}.title`);
+      expect(markup).toContain(`translated:match3.help.blocker.${blocker}.body`);
+      expect(markup).toContain(`obstacle_${blocker === 'package' ? 'zip_bag' : blocker === 'foam' ? 'soap_foam' : 'locked_cell_redraw'}.png`);
+    }
     for (const special of requiredSpecials) {
       expect(markup).toContain(`data-special="${special}"`);
       expect(markup).toContain(`translated:match3.special.${special}`);
