@@ -45,7 +45,7 @@ if (!baseRef) {
 }
 
 const runGit = (args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
-const changedFiles = runGit(['diff', '--name-only', `${baseRef}...HEAD`]).split(/\r?\n/).filter(Boolean);
+const changedFiles = runGit(['diff', '--name-only', `${baseRef}..HEAD`]).split(/\r?\n/).filter(Boolean);
 const changesProduction = changedFiles.some((path) =>
   path.startsWith('src/') || path.startsWith('public/') || path === 'index.html' || path === 'vite.config.ts',
 );
