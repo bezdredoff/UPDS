@@ -10,7 +10,9 @@ describe('Match-3 blocker readability', () => {
     expect(css).toContain('obstacle_locked_cell');
     expect(css).toContain('obstacle_prop_box_2layer');
     expect(css).toContain('obstacle_soap_foam');
-    expect(css).toContain('.board-cell:has(.blocker) .blocker b');
+    expect(css).toContain('.board-cell:has(.blocker[data-style="solid"]) .blocker::before');
+    expect(css).toContain('.board-cell:has(.blocker[data-style="locked"][data-layers="1"])');
+    expect(css).not.toContain('.blocker b');
   });
 
   it('keeps the single permeable overlay visually lighter than ordinary blocking overlays', () => {

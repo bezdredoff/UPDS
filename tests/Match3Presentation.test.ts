@@ -91,6 +91,22 @@ describe('current Match-3 presentation contract', () => {
     expect(board).toContain('data-tile-variant="tile:');
     expect(board).toContain('role="gridcell"');
 
+    const blockerIndex = level.blockers[0]?.index;
+    if (blockerIndex !== undefined) {
+      const blockedBoard = game.board.map((cell, index) => index === blockerIndex
+        ? { ...cell, blockerLayers: 2 }
+        : cell);
+      const blockedMarkup = match3BoardCellsMarkup({
+        level,
+        board: blockedBoard,
+        selectedCell: null,
+        hintedCells: new Set(),
+        t,
+      });
+      expect(blockedMarkup).toContain(`data-style="${level.blocker}" data-layers="2"`);
+      expect(blockedMarkup).not.toContain('<b>2</b>');
+    }
+
     const objective = match3ObjectiveMarkup(level, level.objectives[0], '<objective>', 999, true);
     expect(objective).toContain('class="objective done"');
     expect(objective).toContain('&lt;objective&gt;');
