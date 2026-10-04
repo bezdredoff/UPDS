@@ -304,7 +304,8 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
       return asset.complete && asset.naturalWidth === 256 && asset.naturalHeight === 256 && asset.currentSrc.endsWith('/flash-row.png');
     })).toBe(true);
     await expect(match3Cell(page, 2).locator('.tile')).toHaveCount(0);
-    await expect(match3Cell(page, 2).locator('.special-base-marker')).toBeVisible();
+    await expect(match3Cell(page, 2).locator('.special-base-marker')).toHaveCount(0);
+    await expect(match3Cell(page, 2).locator('.special-direction-marker')).toHaveText('↔');
     await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(62);
     health.assertClean();
   });
@@ -430,7 +431,8 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     expect(await firstObjectiveProgress(page)).toEqual([3, 10]);
     await expect(match3Cell(page, 2).locator('.special.flash-row')).toBeVisible();
     await expect(match3Cell(page, 2).locator('.tile')).toHaveCount(0);
-    await expect(match3Cell(page, 2).locator('.special-base-marker')).toBeVisible();
+    await expect(match3Cell(page, 2).locator('.special-base-marker')).toHaveCount(0);
+    await expect(match3Cell(page, 2).locator('.special-direction-marker')).toHaveText('↔');
     await expect(page.locator(qaSelectors.match3Tile)).toHaveCount(62);
 
     const progressBeforeActivation = (await firstObjectiveProgress(page))[0];

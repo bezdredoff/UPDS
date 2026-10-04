@@ -34,6 +34,7 @@ describe('approved square Match-3 bonus art', () => {
     const t = (key: string) => key;
     for (const markup of [match3BoardCellsMarkup({ level, board, selectedCell: null, hintedCells: new Set(), t }), match3HelpMarkup(t)]) {
       for (const id of ids) expect(markup).toContain(`src="${specialAssets[id]}"`);
+      if (markup.includes('data-cell=')) expect(markup).not.toContain('special-base-marker');
       expect(markup.match(/class="special-direction-marker"/g)).toHaveLength(2);
       expect(markup).toContain('data-special-direction="row" aria-hidden="true">↔');
       expect(markup).toContain('data-special-direction="column" aria-hidden="true">↕');
