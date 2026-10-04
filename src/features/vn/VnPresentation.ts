@@ -10,6 +10,7 @@ import {
   type RuntimeExpression,
 } from '../../data/characterRigs';
 import { SCENE_STAGING_SHARED_ACTOR_SCALE } from '../../data/sceneStaging';
+import { characterProductionManifest } from '../../data/characterProduction';
 import {
   guestWitnessAssetForDirection,
   guestWitnessForSpeaker,
@@ -32,6 +33,7 @@ import {
 import { guestWitnessStageMarkup } from '../../ui/guestWitnessMarkup';
 import type { AutoSpeed, TextScale } from '../../ui/vnPlayback';
 import { escapeHtml, headerActionMarkup, iconMarkup as icon } from '../../ui/viewMarkup';
+import { resolveVnPortraitEyeLineCamera } from '../../ui/vnPortraitGeometry';
 
 export type VnStagePresentation = Readonly<{
   direction: boolean;
@@ -69,11 +71,16 @@ const characterStageMarkup = (
   const rig = characterRigs[character];
   const staging = resolvedCharacterStaging(character);
   const xPercent = resolvedCharacterXPercent(character);
-  const style = `--character-scale:${staging.scale * SCENE_STAGING_SHARED_ACTOR_SCALE};--character-x:${xPercent}%;--character-y:${staging.yPercent}%`;
+  const poseB = usesVnPoseB(character, direction);
+  const geometry = characterProductionManifest.characters[character].proportion.frameGeometry[
+    poseB ? 'neutral' : expression
+  ];
+  const camera = resolveVnPortraitEyeLineCamera(SCENE_STAGING_SHARED_ACTOR_SCALE, geometry.eyeLineYPx);
+  const style = `--portrait-height:${camera.heightPercent}%;--portrait-top:${camera.topPercent}%;--portrait-bottom:${camera.bottomPercent}%;--character-scale:${staging.scale};--character-x:${xPercent}%;--character-y:${staging.yPercent}%`;
   if (usesVnPoseB(character, direction)) {
-    return `<div class="portrait portrait-${side} portrait-static-wrap" data-character="${character}" style="${style}"><img class="portrait-static" src="${poseAsset(character)}" alt="${rig.displayName}"></div>`;
+    return `<div class="portrait portrait-${side} portrait-static-wrap" data-character="${character}" data-vertical-anchor="background-focal-eye-line" style="${style}"><img class="portrait-static" src="${poseAsset(character)}" alt="${rig.displayName}"></div>`;
   }
-  return `<div class="portrait portrait-${side} character-rig" data-character="${character}" data-expression="${expression}" style="${style}">
+  return `<div class="portrait portrait-${side} character-rig" data-character="${character}" data-expression="${expression}" data-vertical-anchor="background-focal-eye-line" style="${style}">
       <img class="portrait-frame" src="${expressionAsset(character, expression)}" alt="${rig.displayName}">
     </div>`;
 };

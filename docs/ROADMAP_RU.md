@@ -2,6 +2,8 @@
 
 2026-10-04 — bounded playtest tranche после PR #341 выполнен в PR #342–#349; все три обязательные проверки прошли для каждого PR. Исправления VN directives, Match-3 pacing/geometry, blocker readability, foam rules, special markers, camisole readability и character scale объединены; G5b и VN scale остаются на review до human/device retest. Optional edge-glow experiment #349 отклонён как marginal benefit.
 
+Human follow-up: в locked blocker прозрачность должна применяться слегка только к предмету под цепями; сами цепи и замок остаются непрозрачными. VN solo-портреты должны стоять на общей focal eye line с duo/trio, сохраняя уже принятый размер; соответствующие правки готовятся в отдельном PR.
+
 Перед новым human проходом выполнен post-feedback auto audit на `main` `89c7918`: 4 400 прогонов (200 × 22 levels), mean agent win rate 75.8%; M3_02 — 64.5% / median 21 ход, M3_06 — 61.5% / median 27 ход, M3_11 — 43.0%. Это сигнал для повторной проверки, не human win-rate и не основание менять баланс. Runtime asset inventory: 0 path/decode errors; story audit: 6/6.
 
 Следующее действие — focused phone retest исправлений `G5-PT2` и всех 22 уровней по обновлённому листу, затем полный G5 playthrough: Story `0–21`, три финала, campaign retry/progression/saves и shipped asset crawl. `KI-006` и `KI-007` остаются открытыми до проверки merged build на телефоне. Полная карта: [G5 playtest follow-up](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md); [свежий auto audit](reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json).
