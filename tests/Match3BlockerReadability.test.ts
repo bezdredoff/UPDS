@@ -15,15 +15,11 @@ describe('Match-3 blocker readability', () => {
     expect(css).not.toContain('.blocker b');
   });
 
-  it('keeps the single permeable overlay visually lighter than ordinary blocking overlays', () => {
-    const permeable = levels.filter((level) => level.blockerIsPermeable === true);
-    expect(permeable).toHaveLength(1);
-    expect(permeable[0]?.shortId).toBe('M3_02');
-    expect(permeable[0]?.context.narrativeProfile).toBe('pool-laundry');
-
-    expect(css).toContain('.match-screen[data-m3-profile="pool-laundry"]');
+  it('keeps foam presentation and interaction consistent across wet/laundry levels', () => {
+    const overlayLevels = levels.filter((level) => level.blocker === 'overlay');
+    expect(overlayLevels.map((level) => level.shortId)).toEqual(['M3_02', 'M3_15']);
+    expect(css).not.toContain('pool-laundry');
     expect(css).toMatch(/obstacle_soap_foam[\s\S]*?opacity:\s*\.72/);
-    expect(css).toMatch(/pool-laundry[\s\S]*?obstacle_soap_foam[\s\S]*?opacity:\s*\.46/);
   });
 
   it('is presentation-only and loaded after the production Match-3 stylesheet', () => {

@@ -12,8 +12,8 @@ import { ruCatalog } from '../src/localization/catalogs/ru';
 
 const expectedLevelsByStyle = {
   locked: ['M3_00', 'M3_05', 'M3_07', 'M3_10', 'M3_17', 'M3_19', 'M3_20'],
-  solid: ['M3_01', 'M3_03', 'M3_04', 'M3_06', 'M3_08', 'M3_09', 'M3_11', 'M3_13', 'M3_14', 'M3_18', 'M3_21'],
-  overlay: ['M3_02', 'M3_12', 'M3_15', 'M3_16'],
+  solid: ['M3_01', 'M3_03', 'M3_04', 'M3_06', 'M3_08', 'M3_09', 'M3_11', 'M3_12', 'M3_13', 'M3_14', 'M3_16', 'M3_18', 'M3_21'],
+  overlay: ['M3_02', 'M3_15'],
 } as const;
 
 describe('ANM-025G1 lean blocker archetypes', () => {
@@ -29,19 +29,17 @@ describe('ANM-025G1 lean blocker archetypes', () => {
     }
   });
 
-  it('separates visual style from the one existing permeable interaction exception', () => {
-    const permeable = levels.filter((level) => level.blockerIsPermeable);
-    expect(permeable.map((level) => level.shortId)).toEqual(['M3_02']);
-    expect(blockerLocksTileInteraction(permeable[0], 1)).toBe(false);
+  it('keeps foam only in wet/laundry contexts and every blocker layer locks interaction', () => {
+    const overlayLevels = levels.filter((level) => level.blocker === 'overlay');
+    expect(overlayLevels.map((level) => level.shortId)).toEqual(['M3_02', 'M3_15']);
+    expect(overlayLevels.every((level) => level.context.narrativeTags.some((tag) => /laundry|foam/.test(tag))))
+      .toBe(true);
 
-    const blockingOverlay = levels.find((level) => level.shortId === 'M3_12');
-    expect(blockingOverlay?.blocker).toBe('overlay');
-    expect(blockerLocksTileInteraction(blockingOverlay!, 1)).toBe(true);
-    expect(blockerLocksTileInteraction(blockingOverlay!, 0)).toBe(false);
-
-    expect(validateLevelDefinitions([{ ...levels[0], blockerIsPermeable: true }])).toContain(
-      `${levels[0].id}: only overlay blockers may be permeable`,
-    );
+    for (const level of levels) {
+      expect(blockerLocksTileInteraction(1), level.shortId).toBe(true);
+      expect(blockerLocksTileInteraction(0), level.shortId).toBe(false);
+    }
+    expect(validateLevelDefinitions(levels)).toEqual([]);
   });
 
   it('uses one short blocker objective term in production data and all release locales', () => {

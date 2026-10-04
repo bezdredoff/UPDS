@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isLevelBoardCellActive, levelBoardDimensions, levels, validateLevelDefinitions, type LevelDefinition } from '../src/data/levels';
+import { blockerLocksTileInteraction, isLevelBoardCellActive, levelBoardDimensions, levels, validateLevelDefinitions, type LevelDefinition } from '../src/data/levels';
 import { Match3Game } from '../src/engine/Match3Game';
 
 const byShortId = (shortId: string): LevelDefinition => {
@@ -72,10 +72,10 @@ describe('ANM-025E4B Match-3 topology prototype cohort', () => {
     }
   });
 
-  it('keeps the rounded foam basin playable on its production seed and a comparative E4A seed', () => {
+  it('keeps the rounded blocking-foam basin playable on production and comparative E4A seeds', () => {
     const level = byShortId('M3_02');
     expect(level.blocker).toBe('overlay');
-    expect(level.blockerIsPermeable).toBe(true);
+    expect(blockerLocksTileInteraction(1)).toBe(true);
     expect(level.boardHoles).toHaveLength(12);
     expectPlayableStart(level);
     expectPlayableStart(level, 120_002);

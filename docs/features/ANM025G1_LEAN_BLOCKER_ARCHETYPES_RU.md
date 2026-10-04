@@ -15,7 +15,7 @@ G1 убирает ложную продуктовую сложность до д
 | 18 сюжетных `BlockerKey` | 3 reusable visual styles: `locked`, `solid`, `overlay` |
 | 4 blocker assets в runtime catalog | 3 assets, по одному на style |
 | отдельное название blocker-цели в каждом уровне | один HUD-термин: `Преграды / Перашкоды / Blockers` |
-| `foam` неявно управлял tile interaction | presentation style и permeability разделены |
+| `foam` неявно управлял tile interaction | styles остаются визуальными; каждый blocker layer одинаково блокирует поле |
 
 Все три style используют одну механику: `clearBlockers`, placements и `blockerLayers`. Style отвечает за presentation, а не за сюжетный тип объекта.
 
@@ -25,14 +25,14 @@ G1 убирает ложную продуктовую сложность до д
 |---|---|---|
 | `locked` | M3_00, M3_05, M3_07, M3_10, M3_17, M3_19, M3_20 | `obstacle_locked_cell.png` |
 | `solid` | M3_01, M3_03, M3_04, M3_06, M3_08, M3_09, M3_11, M3_13, M3_14, M3_18, M3_21 | `obstacle_prop_box_2layer.png` |
-| `overlay` | M3_02, M3_12, M3_15, M3_16 | `obstacle_soap_foam.png` |
+| `overlay` | M3_02, M3_15 | `obstacle_soap_foam.png` |
 
-M3_02 исторически разрешал tile interaction и gravity сквозь blocker layer. Это поведение сохранено явным `blockerIsPermeable: true`. Остальные уровни, включая визуальные overlay M3_12/M3_15/M3_16, остаются blocking. Так G1 не превращается в скрытый balance pass.
+После G5b-PT2-M3-001 каждый оставшийся blocker layer одинаково блокирует перестановку и падение фишки до снятия слоя. Foam/overlay оставлен только в мокрых и laundry-контекстах M3_02 и M3_15. M3_12 и M3_16 используют reusable `solid`; их placements/layers не изменены. Решение снимает исключение M3_02 и требует отдельной проверки его баланса. Подробности — в [G5b blocker semantics](G5B_M3_BLOCKER_SEMANTICS_RU.md).
 
 ## Что намеренно не меняется
 
 - move budgets, objective kinds/targets и порядок целей;
-- blocker placements, количество слоёв и правила их снятия;
+- blocker placements, количество слоёв и правила их снятия (interaction теперь единообразно блокируется каждым слоем);
 - seeds, board holes, initial tiles, active tile sets и spawn weights;
 - ingredient placements, drop routes и special rules;
 - tutorial progress, save schema, telemetry schema и campaign progression;
@@ -46,10 +46,9 @@ G1 также не решает прозрачность blocker art, читае
 
 - ровно три style и три runtime assets;
 - полный mapping всех 22 production levels;
-- единственный permeability exception M3_02;
+- единое блокирующее поведение каждого blocker layer;
 - единый blocker objective term в RU/BE/EN;
 - ровно три blocker option в Level Lab;
-- validator rejection для permeable non-overlay config.
 
 Удаление 15 retired Level Lab aliases симметрично переводит RU/BE/EN base catalogs с `3870` на `3855` keys; exact parity и zero-fallback contract сохраняются.
 
@@ -59,8 +58,8 @@ G1 также не решает прозрачность blocker art, читае
 
 1. Открыть Level Lab и убедиться, что blocker selector содержит только `locked / solid / overlay`.
 2. Проверить M3_06 и M3_11: HUD показывает короткое `Преграды`, solid art совпадает между уровнями, placements и layer counters не изменились.
-3. Проверить M3_12 и M3_16: используется общий overlay art, но blocker cells по-прежнему блокируют прямое перемещение до снятия слоя.
-4. Проверить M3_02: swap, clear и gravity сквозь overlay продолжают работать как в baseline.
+3. Проверить M3_12 и M3_16: используется reusable solid art, placements/layers совпадают с baseline.
+4. Проверить M3_02 и M3_15: foam блокирует перестановку и падение до снятия слоя; совпадения рядом снимают foam layer.
 5. Проверить RU/BE/EN на intro и in-level HUD: blocker label помещается, остальные objective labels не изменены.
 6. Завершить хотя бы один уровень и сделать retry одного уровня: progression, attempts и telemetry export не регрессировали.
 
