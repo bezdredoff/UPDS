@@ -66,13 +66,13 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 
 - **`G5b-PT2-M3-006` — review · PR #343:** `.match-guidance-slot` сохраняет footprint после drop; deterministic before/after geometry check проходит. `KI-007` ждёт проверки на iPhone; post-drop geometry пользователь явно не отметил.
 - **`G5b-PT2-M3-005` — accepted · PR #343:** пользователь подтвердил, что при no-match фишки быстро возвращаются, а сообщение не блокирует поле надолго.
-- **`G5b-PT2-M3-002` — review · PR #344:** числа убраны, tile под blocker теперь лучше виден. Но пользователь увидел двойной/странный контур solid box в M3_01 и квадратную подложку за цепями замка. Новый активный слайс `G5b-PT3-M3-ART-001` заменит box на настоящий zip-bag PNG и перерисует locked PNG без подложки.
+- **`G5b-PT2-M3-002` — review · PR #344/#353:** числа убраны; locked blocker после PR #353 принят пользователем: цепи/замок непрозрачные, tile underneath слегка прозрачный, квадратной подложки нет. Solid zip-bag M3_01 ещё требует visual confirmation.
 - **`G5b-PT2-M3-001` — review · PR #345:** механика единая, foam только в wet/laundry M3_02/M3_15. Пользователь не понял, когда снимается слой; источник проверен: один слой снимается, если clear касается blocker cell либо клетки сверху/снизу/слева/справа; диагонали не считаются. RU/BE/EN tutorial уточнён в активном `G5b-PT3-M3-UX-002`; нужен новый короткий retest.
-- **`G5b-PT3-M3-ART-001` — active:** заменить solid blocker пустым generated zip-bag PNG во всех уровнях; масштабировать вложенную фишку так, чтобы весь предмет оставался в прозрачном окне; убрать квадратную подложку из locked art и провести цепи по диагонали между углами. Цепи и замок остаются полностью непрозрачными; слегка ослабляется прозрачность только у фишки под ними. Candidates сгенерированы, production preview / device acceptance впереди.
+- **`G5b-PT3-M3-ART-001` — active:** locked art принята пользователем в PR #353; остаётся подтвердить пустой zip-bag и fit вложенных предметов (`KI-008`).
 - **`G5b-PT3-M3-UX-002` — active:** уточнить RU/BE/EN foam/blocker tutorial, явно назвать стороны и сказать, что диагональ не снимает слой; затем проверить текст и механику на M3_02.
 - **`G5b-PT2-M3-004` — accepted · PR #346:** пользователь подтвердил, что special больше не показывает исходную tile icon и направление line-clear понятно.
 - **`G5b-PT2-M3-003` — accepted · PR #347:** пользователь подтвердил читаемость светлого transparent top/camisole на поле.
-- **`G5-PT2-VN-002` — review · PR #348 + follow-up:** масштаб 0.72 сохранён, но human retest выявил, что одиночные портреты прижаты к низу. Выравниваем обычный solo runtime и все solo/duo/trio presets по общей focal eye line; human visual acceptance ожидается.
+- **`G5-PT2-VN-002` — accepted · PR #353:** общий масштаб 0.72 и focal eye line для solo/duo/trio; пользователь проверил merged вариант и подтвердил, что результат нравится.
 
 ### R2
 
