@@ -66,7 +66,7 @@ Runtime slices PR #342–#349 merged; все три Browser Gate checks прош
 
 ### Follow-up required
 
-- `KI-008` / `G5b-PT3-M3-ART-001`: M3_01 box has a strange doubled/ghost outline. Replace it with a generated EMPTY transparent zip-bag PNG throughout production use; user confirmed bag must contain no clothing and every underlay item must fit fully inside the clear window. Underlay stack is reduced to 68% for the current window geometry.
+- `KI-008` / `G5b-PT3-M3-ART-001`: M3_01 box has a strange doubled/ghost outline. Replace it with a generated EMPTY transparent zip-bag PNG throughout production use; user confirmed bag must contain no clothing and every underlay item must fit fully inside the clear window. At 64%, the sports-socks alpha bounds render at about 118×158 px inside a measured 196×185 px clear window.
 - `KI-009` / `G5b-PT3-M3-ART-001`: remove the backing square from locked blocker art; run chains corner-to-corner and retain the padlock.
 - `KI-010` / `G5b-PT3-M3-UX-002`: clarify foam damage. Runtime rule: one blocker layer per clear when a cleared cell is the blocker or one orthogonal cell away; diagonal adjacency alone does not count. Localized tutorial wording now names directions and excludes diagonal contact.
 - `G5b-PT2-M3-001`, `G5b-PT2-M3-002`, `G5b-PT2-M3-006`, G5b UI/geometry, VN scale, and full campaign balance stay in review where their acceptance was not directly reported.

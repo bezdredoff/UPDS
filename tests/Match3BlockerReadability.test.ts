@@ -12,7 +12,7 @@ describe('Match-3 blocker readability', () => {
     expect(css).toContain('obstacle_soap_foam');
     expect(blockerPresentation.solid.asset).toBe('./assets/match3/obstacle_zip_bag.png');
     expect(blockerPresentation.locked.asset).toBe('./assets/match3/obstacle_locked_cell_redraw.png');
-    expect(css).toContain('scale: .68;');
+    expect(css).toContain('scale: .64;');
     expect(css).not.toContain('.blocker::before');
     expect(css).not.toContain('.blocker::after');
     expect(css).toContain('.board-cell:has(.blocker[data-style="locked"][data-layers="1"])');

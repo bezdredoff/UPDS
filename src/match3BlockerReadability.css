@@ -6,7 +6,7 @@
 
 /* The zip-bag asset carries its own silhouette; CSS must not draw a second bag. */
 .board-cell:has(.blocker[data-style="solid"]) .tile-stack {
-  scale: .68;
+  scale: .64;
 }
 
 .board-cell:has(.blocker[data-style="solid"]) .blocker img {
