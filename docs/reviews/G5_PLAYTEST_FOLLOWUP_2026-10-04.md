@@ -1,6 +1,6 @@
 # G5 / G5b — Playtest follow-up 2026-10-04
 
-Status: **R0 VN slice merged in PR #342; G5b Match-3 pacing, geometry and blocker candidates in review**.
+Status: **PR #342–#349 merged. Runtime candidates passed the Browser Gate; G5b/VN scale human retest remains open.**
 
 Источник — integrated iPhone playtest после PR #341. Этот документ переводит наблюдения игрока в bounded release work. По умолчанию новые системы не строятся: сначала удаляем misleading/prototype presentation и исправляем воспроизводимые UX-дефекты.
 
@@ -8,15 +8,15 @@ Status: **R0 VN slice merged in PR #342; G5b Match-3 pacing, geometry and blocke
 
 | ID | Наблюдение | Решение |
 | --- | --- | --- |
-| G5-PT2-VN-001 | VN показывает `VARIABLE`, `CUT TO`, `INSERT`, `FADE IN`, `CHOICE CHECKPOINT` как полноценные игровые экраны | **R0 / active.** Сохранить authored directives как runtime metadata, но не рендерить их игроку. Choice gates и background transitions должны продолжить работать. Не строить hero-insert/gallery subsystem ради этих ремарок. |
-| G5-PT2-VN-002 | размер персонажей заметно меняется между solo/duo/trio | **R1 / review.** Общий масштаб 0.72 (текущий trio side-actor baseline) применяется к legacy solo и authored solo/duo/trio. X-позиции, eye-line anchors и character calibration multipliers не меняются. Contract tests фиксируют одинаковый 128.16%-ный portrait extent. VN0008 Linux/WebKit golden обновлён после проверки diff из Browser Gate run `37199454837`: изменение сосредоточено на ожидаемом уменьшении центрального персонажа. После baseline refresh весь CI прошёл в run `37200106193`; мобильная визуальная приёмка ожидается. |
-| G5-PT2-VN-003 | в composition preview есть edge glow, в runtime нет | **R2 / проверено, отклонено.** Сравнил текущий runtime и 1px тёмный edge treatment на solo, duo и trio. Заметного halo/style drift нет, но на мобильном размере преимущество практически неразличимо. Production CSS и goldens не меняются: критерий «отклонить при marginal benefit» сработал. |
-| G5b-PT2-M3-001 | foam выглядит как blocker, но M3_02 позволяет двигать/матчить фишки под ним; foam также используется вне мокрых/прачечных сцен | **R1 / review.** Candidate: любой blocker layer блокирует interaction; foam остаётся в M3_02/M3_15, M3_12/M3_16 используют solid. Same-seed 200-run win rate M3_02 остался 64.5%, но медиана использованных ходов выросла 15→21; нужен human/device retest. См. [G5b blocker semantics](../features/G5B_M3_BLOCKER_SEMANTICS_RU.md) и [audit](../reports/G5B_FOAM_SEMANTICS_AUDIT_2026-10-04.json). |
-| G5b-PT2-M3-002 | цифры слоёв мешают визуалу; коробки и цепи перекрывают tile art | **R1 / review.** Candidate убирает player-facing числа, показывает solid как прозрачный CSS-пакет поверх существующего PNG и облегчает locked CSS-обработкой. Слои и механика сохранены; PNG не менялись. Нужна визуальная/device-приёмка. См. [ANM025D2](../features/ANM025D2_BLOCKER_READABILITY_RU.md). |
-| G5b-PT2-M3-003 | светлый прозрачный top/camisole визуально становится тёмным | **R1 / review.** Добавлена адресная яркость production-тайлу `camisole`, чтобы тёмная доска меньше просвечивала сквозь ткань. Исходный PNG, прозрачность, форма, match identity, mechanics и balance не менялись. Визуальная/device-приёмка ожидается. |
-| G5b-PT2-M3-004 | у всех specials остаётся маленькая иконка исходной фишки, хотя special уже является отдельным объектом | **R1 / review.** В production board удалён `special-base-marker`; row/column directional marker сохранён. Обновлены unit/readability/E2E contracts; механика и PNG не менялись. Ожидает PR CI и review. |
-| G5b-PT2-M3-005 | `НЕТ СОВПАДЕНИЯ` и возврат невалидного swap ощущаются слишком медленными | **R1 / review.** Hold сокращён до 700 ms; tile stacks начинают возвращаться после 150 ms обмена и оказываются дома в пределах 500 ms, при этом сообщение остаётся видимым. Reduced-motion сохраняет тот же feedback timing. |
-| G5b-PT2-M3-006 | после drop-цели поле иногда слегка увеличивается/сдвигается вниз | **R1 / review; KI-007 open pending iPhone retest.** Deterministic Chromium capture выявил owner: `.match-guidance-slot` терял 12 px после `display:none` завершённой подсказки; flex playfield забирал освободившуюся высоту. Подсказки уложены в общий grid footprint; без compensating transform. Before/after snapshot проверяет все layout owners. |
+| G5-PT2-VN-001 | VN показывает `VARIABLE`, `CUT TO`, `INSERT`, `FADE IN`, `CHOICE CHECKPOINT` как полноценные игровые экраны | **R0 / review · PR #342.** Authored directives сохранены как runtime metadata и auto-consumed в player VN; Browser Gate прошёл. Проверить на телефоне background transitions, choice gates, history и сохранение progression; `KI-006` открыт до этой проверки. |
+| G5-PT2-VN-002 | размер персонажей заметно меняется между solo/duo/trio | **R1 / review · PR #348.** Общий масштаб 0.72 применяется к legacy solo и authored solo/duo/trio; x-позиции и eye-line anchors сохранены. VN0008 Linux/WebKit golden проверен; Quality, Chromium и Mobile WebKit прошли. Human visual acceptance ожидается. |
+| G5-PT2-VN-003 | в composition preview есть edge glow, в runtime нет | **R2 / проверено, отклонено · PR #349.** Слабый 1px edge treatment сравнен с runtime на solo, duo и trio. Ореол/style drift не заметны, но на мобильном размере преимущество практически неразличимо. Production CSS и goldens не менялись. |
+| G5b-PT2-M3-001 | foam выглядит как blocker, но M3_02 позволяет двигать/матчить фишки под ним; foam также используется вне мокрых/прачечных сцен | **R1 / review · PR #345.** Все blocker layers блокируют interaction; foam остаётся в M3_02/M3_15, M3_12/M3_16 используют solid. На свежем auto audit M3_02: 129/200 побед, медиана 21/25 ходов, reshuffle 4.62%; нужна human/device перепроверка. См. [G5b blocker semantics](../features/G5B_M3_BLOCKER_SEMANTICS_RU.md) и [current all-22 audit](../reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json). |
+| G5b-PT2-M3-002 | цифры слоёв мешают визуалу; коробки и цепи перекрывают tile art | **R1 / review · PR #344.** Player-facing layer numbers удалены, solid стал визуально прозрачнее, locked легче читается. Слои и механика сохранены; PNG не менялись. Нужна visual/device-приёмка. См. [ANM025D2](../features/ANM025D2_BLOCKER_READABILITY_RU.md). |
+| G5b-PT2-M3-003 | светлый прозрачный top/camisole визуально становится тёмным | **R1 / review · PR #347.** Production tile `camisole` получил адресную яркость; PNG, alpha, форма, match identity, mechanics и balance не менялись. Проверить читаемость на телефоне в кампании. |
+| G5b-PT2-M3-004 | у всех specials остаётся маленькая иконка исходной фишки, хотя special уже является отдельным объектом | **R1 / review · PR #346.** Удалён `special-base-marker`, directional marker сохранён; mechanics и PNG не менялись. Проверить production special на реальном поле. |
+| G5b-PT2-M3-005 | `НЕТ СОВПАДЕНИЯ` и возврат невалидного swap ощущаются слишком медленными | **R1 / review · PR #343.** Hold сокращён до 700 ms; tile stacks возвращаются после короткого 150 ms swap-return и оказываются дома в пределах 500 ms. Reduced-motion сохраняет семантику. |
+| G5b-PT2-M3-006 | после drop-цели поле иногда слегка увеличивается/сдвигается вниз | **R1 / review · PR #343; KI-007 open pending iPhone retest.** `.match-guidance-slot` сохраняет общий footprint после drop; deterministic before/after capture проверяет layout owners, без compensating transform. |
 
 ## Foam / blocker distribution
 
@@ -32,7 +32,7 @@ Production campaign содержит 22 уровня:
 
 ### Resolution candidate — G5b-PT2-M3-001
 
-Каждый blocker layer теперь блокирует перестановку и падение фишки до снятия слоя. Foam остаётся только в `M3_02` и `M3_15`; `M3_12` и `M3_16` используют существующий `solid`. Все placements, layers, goals, moves, seeds и board shapes сохранены. Same-seed simulation и human/device acceptance ещё ожидаются.
+Каждый blocker layer теперь блокирует перестановку и падение фишки до снятия слоя; foam остаётся только в `M3_02` и `M3_15`. После PR #345 обновлённый 4,400-run auto audit на текущем main фиксирует M3_02: 129/200 wins (64.5%), median 21/25 moves, reshuffle 4.62%. Это agent-only диагностический сигнал; human/device acceptance и ретест M3_12/M3_16 ещё ожидаются. См. [свежий all-22 audit](../reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json).
 
 ## Scope decisions
 
@@ -52,4 +52,4 @@ Production campaign содержит 22 уровня:
 6. `G5-PT2-VN-002` — character scale baseline.
 7. `G5-PT2-VN-003` — optional edge-glow experiment.
 
-Каждый runtime slice должен идти отдельным маленьким PR поверх свежего `main`; visual baseline обновляется только после проверки intentional visual diff.
+Runtime slices PR #342–#348 merged; все три Browser Gate checks прошли для каждого PR. PR #349 тоже прошёл Quality, Chromium и Mobile WebKit. Следующий release шаг — human retest на текущем merged `main`, начиная с исправлений `G5-PT2` и 22 production Match-3 levels; auto-agent audit не считается human balance evidence. Edge-glow эксперимент закрыт без production CSS/golden diff.
