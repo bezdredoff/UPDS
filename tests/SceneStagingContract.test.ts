@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { characterProductionManifest, productionCharacterKeys } from '../src/data/characterProduction';
 import {
   SCENE_STAGING_FORMAT,
+  SCENE_STAGING_SHARED_ACTOR_SCALE,
   sceneStagingManifest,
   sceneStagingPresetIds,
   validateSceneStagingManifest,
@@ -53,15 +54,36 @@ describe('ANM-028B1 reusable scene staging contract', () => {
     ]);
     expect(resolution.actors).toHaveLength(2);
     expect(resolution.actors.map((actor) => actor.canonicalCharacterScale)).toEqual([1, 1]);
-    expect(resolution.actors.map((actor) => actor.shotScale)).toEqual([0.84, 0.84]);
-    expect(resolution.actors.map((actor) => actor.effectiveScale)).toEqual([0.84, 0.84]);
-    expect(resolution.actors.map((actor) => actor.portraitHeightPercent)).toEqual([149.52, 149.52]);
+    expect(resolution.actors.map((actor) => actor.shotScale)).toEqual([SCENE_STAGING_SHARED_ACTOR_SCALE, SCENE_STAGING_SHARED_ACTOR_SCALE]);
+    expect(resolution.actors.map((actor) => actor.effectiveScale)).toEqual([SCENE_STAGING_SHARED_ACTOR_SCALE, SCENE_STAGING_SHARED_ACTOR_SCALE]);
+    expect(resolution.actors.map((actor) => actor.portraitHeightPercent)).toEqual([128.16, 128.16]);
     expect(resolution.actors.map((actor) => actor.verticalAnchor)).toEqual([
       'background-focal-eye-line',
       'background-focal-eye-line',
     ]);
     expect(resolution.actors.every((actor) => actor.resolvedEyeLinePercent === SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT)).toBe(true);
     expect(resolution.actors[0].safeBox.rightPercent).toBeLessThan(resolution.actors[1].safeBox.leftPercent);
+  });
+
+  it('uses the same trio-sized actor scale in solo, duo and trio compositions', () => {
+    const assignments = [
+      { character: 'miku' as const, expression: 'serious' as const },
+      { character: 'onoe' as const, expression: 'neutral' as const },
+      { character: 'ayuki' as const, expression: 'smile' as const },
+    ];
+    const compositions = [
+      resolveSceneStagingPreset('solo-close', assignments.slice(0, 1)),
+      resolveSceneStagingPreset('two-shot-conflict', assignments.slice(0, 2)),
+      resolveSceneStagingPreset('trio-central-speaker', assignments),
+    ];
+    for (const composition of compositions) {
+      expect(composition.actors.map((actor) => actor.shotScale)).toEqual(
+        composition.actors.map(() => SCENE_STAGING_SHARED_ACTOR_SCALE),
+      );
+      expect(composition.actors.map((actor) => actor.portraitHeightPercent)).toEqual(
+        composition.actors.map(() => 128.16),
+      );
+    }
   });
 
   it('preserves the accepted runtime crop and keeps only solo shots top-anchored', () => {
