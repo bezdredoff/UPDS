@@ -92,6 +92,12 @@ const match3HelpTopics = [
   ['match3.help.reshuffle.title', 'match3.help.reshuffle.body'],
 ] as const;
 
+const match3HelpBlockers = [
+  ['package', './assets/match3/obstacle_zip_bag.png'],
+  ['foam', './assets/match3/obstacle_soap_foam.png'],
+  ['lock-chain', './assets/match3/obstacle_locked_cell_redraw.png'],
+] as const;
+
 type Match3SpecialId = keyof typeof specialAssets;
 
 const match3HelpSpecials = Object.keys(specialAssets) as Match3SpecialId[];
@@ -251,6 +257,12 @@ export function match3HelpMarkup(t: Match3Translate): string {
 <span><b>${escapeHtml(t(`match3.special.${special}`))}</b><small>${escapeHtml(t(`match3.help.special.${special}.body`))}</small></span>
 </li>`)
     .join('');
+  const blockers = match3HelpBlockers
+    .map(([blocker, asset]) => `<li class="match-help-blocker" data-blocker="${blocker}">
+<span class="match-help-blocker-visual" aria-hidden="true"><img src="${asset}" alt="" draggable="false"></span>
+<span><b>${escapeHtml(t(`match3.help.blocker.${blocker}.title`))}</b><small>${escapeHtml(t(`match3.help.blocker.${blocker}.body`))}</small></span>
+</li>`)
+    .join('');
 
   return `<details class="match-help">
 <summary class="app-header-action match-help-trigger" aria-label="${escapeHtml(trigger)}" title="${escapeHtml(trigger)}"><span aria-hidden="true">?</span><span class="visually-hidden">${escapeHtml(trigger)}</span></summary>
@@ -258,6 +270,10 @@ export function match3HelpMarkup(t: Match3Translate): string {
 <span class="case-tab">${escapeHtml(t('match3.help.label'))}</span>
 <h2 id="match-help-title">${escapeHtml(t('match3.help.title'))}</h2>
 <p class="match-help-intro">${escapeHtml(t('match3.help.intro'))}</p>
+<section class="match-help-blockers" aria-labelledby="match-help-blockers-title">
+<h3 id="match-help-blockers-title">${escapeHtml(t('match3.help.blockers.title'))}</h3>
+<ul class="match-help-blocker-list">${blockers}</ul>
+</section>
 <section class="match-help-specials" aria-labelledby="match-help-specials-title">
 <h3 id="match-help-specials-title">${escapeHtml(t('match3.help.specials.title'))}</h3>
 <p>${escapeHtml(t('match3.help.specials.intro'))}</p>

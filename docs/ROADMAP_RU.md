@@ -8,7 +8,9 @@ Human follow-up PR #353 merged and visually accepted: locked blocker keeps chain
 
 Следующее действие — focused phone retest исправлений `G5-PT2` и всех 22 уровней по обновлённому листу, затем полный G5 playthrough: Story `0–21`, три финала, campaign retry/progression/saves и shipped asset crawl. `KI-006` и `KI-007` остаются открытыми до проверки merged build на телефоне. Полная карта: [G5 playtest follow-up](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md); [свежий auto audit](reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json).
 
-Technical product version: `0.27.1-dev`.
+После замечания пользователя постоянная справка Match-3 дополнена правилами zip-пакета, проницаемой пены и двухэтапного замка с цепями с отдельными иллюстрациями на RU/BE/EN. `G5b-PT3-M3-HELP-005`: локальные lint/typecheck, version policy, production build и docs audit прошли; GitHub Quality и человеческий визуальный просмотр ожидаются.
+
+Technical product version: `0.27.2-dev`.
 
 2026-10-02 — G5a закрыта после слияния PR #325–326 и решения пользователя. Завершены
 английская и белорусская редактура: в BE вычитаны 976 сюжетных реплик, 601 строка
