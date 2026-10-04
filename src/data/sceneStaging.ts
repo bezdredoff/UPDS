@@ -1,4 +1,5 @@
 export const SCENE_STAGING_FORMAT = 'upds-scene-staging-v1' as const;
+export const SCENE_STAGING_SHARED_ACTOR_SCALE = 0.72;
 
 export const sceneStagingPresetIds = [
   'solo-close',
@@ -125,45 +126,45 @@ export const sceneStagingManifest: SceneStagingManifest = {
   presets: {
     'solo-close': {
       id: 'solo-close',
-      slots: [actor('primary', 'primary', 50, 1, box(31, 6, 69, 50), 'focus', 3)],
+      slots: [actor('primary', 'primary', 50, SCENE_STAGING_SHARED_ACTOR_SCALE, box(31, 6, 69, 50), 'focus', 3)],
       budget: zeroArtBudget(1),
     },
     'solo-medium': {
       id: 'solo-medium',
-      slots: [actor('primary', 'primary', 50, 0.9, box(33, 6, 67, 50), 'focus', 3)],
+      slots: [actor('primary', 'primary', 50, SCENE_STAGING_SHARED_ACTOR_SCALE, box(33, 6, 67, 50), 'focus', 3)],
       budget: zeroArtBudget(1),
     },
     'two-shot-conflict': {
       id: 'two-shot-conflict',
       slots: [
-        actor('primary', 'primary', 25, 0.84, box(8, 42, 42, 68), 'equal', 3, 'background-focal-eye-line'),
-        actor('secondary', 'secondary', 75, 0.84, box(58, 42, 92, 68), 'equal', 3, 'background-focal-eye-line'),
+        actor('primary', 'primary', 25, SCENE_STAGING_SHARED_ACTOR_SCALE, box(8, 42, 42, 68), 'equal', 3, 'background-focal-eye-line'),
+        actor('secondary', 'secondary', 75, SCENE_STAGING_SHARED_ACTOR_SCALE, box(58, 42, 92, 68), 'equal', 3, 'background-focal-eye-line'),
       ],
       budget: zeroArtBudget(2),
     },
     'two-shot-alliance': {
       id: 'two-shot-alliance',
       slots: [
-        actor('primary', 'primary', 31, 0.8, box(14, 42, 46, 68), 'equal', 3, 'background-focal-eye-line'),
-        actor('secondary', 'secondary', 69, 0.8, box(54, 42, 86, 68), 'equal', 3, 'background-focal-eye-line'),
+        actor('primary', 'primary', 31, SCENE_STAGING_SHARED_ACTOR_SCALE, box(14, 42, 46, 68), 'equal', 3, 'background-focal-eye-line'),
+        actor('secondary', 'secondary', 69, SCENE_STAGING_SHARED_ACTOR_SCALE, box(54, 42, 86, 68), 'equal', 3, 'background-focal-eye-line'),
       ],
       budget: zeroArtBudget(2),
     },
     'trio-central-speaker': {
       id: 'trio-central-speaker',
       slots: [
-        actor('primary', 'primary', 50, 0.78, box(38, 42, 62, 68), 'focus', 4, 'background-focal-eye-line'),
-        actor('secondary', 'secondary', 18, 0.72, box(5, 42, 31, 68), 'support', 2, 'background-focal-eye-line'),
-        actor('tertiary', 'tertiary', 82, 0.72, box(69, 42, 95, 68), 'support', 2, 'background-focal-eye-line'),
+        actor('primary', 'primary', 50, SCENE_STAGING_SHARED_ACTOR_SCALE, box(38, 42, 62, 68), 'focus', 4, 'background-focal-eye-line'),
+        actor('secondary', 'secondary', 18, SCENE_STAGING_SHARED_ACTOR_SCALE, box(5, 42, 31, 68), 'support', 2, 'background-focal-eye-line'),
+        actor('tertiary', 'tertiary', 82, SCENE_STAGING_SHARED_ACTOR_SCALE, box(69, 42, 95, 68), 'support', 2, 'background-focal-eye-line'),
       ],
       budget: zeroArtBudget(3),
     },
     'trio-reaction': {
       id: 'trio-reaction',
       slots: [
-        actor('primary', 'primary', 19, 0.76, box(5, 42, 33, 68), 'focus', 4, 'background-focal-eye-line'),
-        actor('secondary', 'secondary', 51, 0.72, box(38, 42, 64, 68), 'support', 3, 'background-focal-eye-line'),
-        actor('tertiary', 'tertiary', 82, 0.7, box(69, 42, 95, 68), 'support', 2, 'background-focal-eye-line'),
+        actor('primary', 'primary', 19, SCENE_STAGING_SHARED_ACTOR_SCALE, box(5, 42, 33, 68), 'focus', 4, 'background-focal-eye-line'),
+        actor('secondary', 'secondary', 51, SCENE_STAGING_SHARED_ACTOR_SCALE, box(38, 42, 64, 68), 'support', 3, 'background-focal-eye-line'),
+        actor('tertiary', 'tertiary', 82, SCENE_STAGING_SHARED_ACTOR_SCALE, box(69, 42, 95, 68), 'support', 2, 'background-focal-eye-line'),
       ],
       budget: zeroArtBudget(3),
     },

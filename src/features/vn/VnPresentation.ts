@@ -9,6 +9,7 @@ import {
   type CharacterKey,
   type RuntimeExpression,
 } from '../../data/characterRigs';
+import { SCENE_STAGING_SHARED_ACTOR_SCALE } from '../../data/sceneStaging';
 import {
   guestWitnessAssetForDirection,
   guestWitnessForSpeaker,
@@ -68,7 +69,7 @@ const characterStageMarkup = (
   const rig = characterRigs[character];
   const staging = resolvedCharacterStaging(character);
   const xPercent = resolvedCharacterXPercent(character);
-  const style = `--character-scale:${staging.scale};--character-x:${xPercent}%;--character-y:${staging.yPercent}%`;
+  const style = `--character-scale:${staging.scale * SCENE_STAGING_SHARED_ACTOR_SCALE};--character-x:${xPercent}%;--character-y:${staging.yPercent}%`;
   if (usesVnPoseB(character, direction)) {
     return `<div class="portrait portrait-${side} portrait-static-wrap" data-character="${character}" style="${style}"><img class="portrait-static" src="${poseAsset(character)}" alt="${rig.displayName}"></div>`;
   }
