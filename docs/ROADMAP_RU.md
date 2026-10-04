@@ -8,7 +8,7 @@ Human follow-up PR #353 merged and visually accepted: locked blocker keeps chain
 
 Следующее действие — focused phone retest исправлений `G5-PT2` и всех 22 уровней по обновлённому листу, затем полный G5 playthrough: Story `0–21`, три финала, campaign retry/progression/saves и shipped asset crawl. `KI-006` и `KI-007` остаются открытыми до проверки merged build на телефоне. Полная карта: [G5 playtest follow-up](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md); [свежий auto audit](reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json).
 
-Technical product version: `0.26.0-dev`.
+Technical product version: `0.27.0-dev`.
 
 2026-10-02 — G5a закрыта после слияния PR #325–326 и решения пользователя. Завершены
 английская и белорусская редактура: в BE вычитаны 976 сюжетных реплик, 601 строка
@@ -44,7 +44,7 @@ Status: **G0 device accepted / G3 guest presentation accepted / release validati
 
 This roadmap is intentionally a strategic status map, not a transcript of every historical sub-feature. Detailed implementation history lives in feature docs and Git. The actionable remaining-work authority is [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md); the approved full-game scope/reuse ceilings remain [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md); machine-readable art inventory remains `src/content/art/ANM030A.asset-gap-audit.json`. Production budgets are ceilings, not an obligation to spend every planned asset slot.
 
-`APP_VERSION` in `src/appVersion.ts` is the canonical player-facing product semver dev-line. npm `package.json.version` remains internal package metadata. `BUILD_LABEL` is separate feature/baseline identity; the current candidate is **ANM-030B1C2 iOS PWA Interaction**. `BUILD_ID` identifies a concrete CI build.
+`APP_VERSION` in `src/appVersion.ts` is the canonical player-facing product semver dev-line; `0.27.0-dev` starts the next accumulated development cycle after `0.26.0-dev`. npm `package.json.version` remains internal package metadata. `BUILD_LABEL` is separate feature/baseline identity; the current candidate is **ANM-025G5B Match-3 Design & Balance**. `BUILD_ID` identifies a concrete CI build.
 
 ## Base-release target
 
