@@ -55,7 +55,7 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 
 ## G5 / G5b — integrated phone playtest follow-up 2026-10-04
 
-Итоговый playtest tranche `#342–#349` завершён в коде и документации. Все PR #342–#349 прошли Quality, Chromium full E2E и Mobile WebKit critical E2E; G5b и VN scale всё ещё требуют human/device retest. PR #349 записал решение отклонить почти незаметный edge treatment. После-изменений выполнены asset/story audits и all-22 Match-3 auto audit; он не заменяет ручной pass. Полная карта: [`reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
+Итоговый playtest tranche `#342–#349` завершён в коде и документации. Все PR #342–#349 прошли Quality, Chromium full E2E и Mobile WebKit critical E2E. Первый human retest Match-3 теперь выполнен: пользователь подтвердил исправления pacing, special marker и читаемости camisole; подтвердил разнообразие белья/носков и читаемость H-поля. Выявлены три остаточных пункта: box PNG/CSS читается как артефакт, у locked art лишняя квадратная подложка, правило снятия слоя foam недостаточно ясно. VN scale и полный campaign pass не проверялись этим retest. Полная карта: [`reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
 
 ### R0
 
@@ -64,19 +64,21 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 
 ### R1
 
-- **`G5b-PT2-M3-006` — review · PR #343:** `.match-guidance-slot` сохраняет footprint после drop; deterministic before/after geometry check проходит. `KI-007` ждёт проверки на iPhone.
-- **`G5b-PT2-M3-005` — review · PR #343:** no-match hold — 700 ms; фишки возвращаются после короткой swap animation, максимум за 500 ms.
-- **`G5b-PT2-M3-002` — review · PR #344:** убраны blocker layer numbers, solid/locked presentation облегчена; mechanical layers и PNG сохранены. Ждёт visual/device retest. См. [ANM025D2](features/ANM025D2_BLOCKER_READABILITY_RU.md).
-- **`G5b-PT2-M3-001` — review · PR #345:** все blocker layers блокируют swaps/gravity; foam только на wet/laundry M3_02/M3_15. Свежий auto audit: M3_02 64.5%, median 21/25 ходов, reshuffle 4.62%; нужен human retest. См. [G5b blocker semantics](features/G5B_M3_BLOCKER_SEMANTICS_RU.md) и [all-22 report](reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json).
-- **`G5b-PT2-M3-004` — review · PR #346:** special больше не показывает исходный tile icon; row/column direction cue сохранён. Проверить на реальном поле.
-- **`G5b-PT2-M3-003` — review · PR #347:** camisole tile получил адресную яркость; art identity не менялась. Ждёт проверки на телефоне.
+- **`G5b-PT2-M3-006` — review · PR #343:** `.match-guidance-slot` сохраняет footprint после drop; deterministic before/after geometry check проходит. `KI-007` ждёт проверки на iPhone; post-drop geometry пользователь явно не отметил.
+- **`G5b-PT2-M3-005` — accepted · PR #343:** пользователь подтвердил, что при no-match фишки быстро возвращаются, а сообщение не блокирует поле надолго.
+- **`G5b-PT2-M3-002` — review · PR #344:** числа убраны, tile под blocker теперь лучше виден. Но пользователь увидел двойной/странный контур solid box в M3_01 и квадратную подложку за цепями замка. Новый активный слайс `G5b-PT3-M3-ART-001` заменит box на настоящий zip-bag PNG и перерисует locked PNG без подложки.
+- **`G5b-PT2-M3-001` — review · PR #345:** механика единая, foam только в wet/laundry M3_02/M3_15. Пользователь не понял, когда снимается слой; источник проверен: один слой снимается, если clear касается blocker cell либо клетки сверху/снизу/слева/справа; диагонали не считаются. RU/BE/EN tutorial уточнён в активном `G5b-PT3-M3-UX-002`; нужен новый короткий retest.
+- **`G5b-PT3-M3-ART-001` — active:** заменить solid blocker пустым generated zip-bag PNG во всех уровнях; масштабировать вложенную фишку так, чтобы весь предмет оставался в прозрачном окне; убрать квадратную подложку из locked art и провести цепи по диагонали между углами. Candidates сгенерированы, production preview / device acceptance впереди.
+- **`G5b-PT3-M3-UX-002` — active:** уточнить RU/BE/EN foam/blocker tutorial, явно назвать стороны и сказать, что диагональ не снимает слой; затем проверить текст и механику на M3_02.
+- **`G5b-PT2-M3-004` — accepted · PR #346:** пользователь подтвердил, что special больше не показывает исходную tile icon и направление line-clear понятно.
+- **`G5b-PT2-M3-003` — accepted · PR #347:** пользователь подтвердил читаемость светлого transparent top/camisole на поле.
 - **`G5-PT2-VN-002` — review · PR #348:** общий scale 0.72 для solo/duo/trio; golden просмотрен, все browser checks прошли; human visual acceptance ожидается.
 
 ### R2
 
 - **`G5-PT2-VN-003` — проверено, отклонено · PR #349:** runtime и очень слабый 1px тёмный edge treatment сравнены на solo/duo/trio. Halo/style drift нет, улучшение практически неразличимо; production CSS/goldens не менялись.
 
-Следующий шаг: заполнить [короткий ретест-лист](templates/G5B_POST_FEEDBACK_RETEST_RU.md) на merged build, затем провести полный G5 campaign/story pass. В G5b решение по balance принимается только после human sample; agent audit остаётся диагностикой. `KI-006` и `KI-007` открыты до device-проверки.
+Следующий шаг: закончить `G5b-PT3-M3-ART-001` и проверить его вместе с tutorial-copy change `G5b-PT3-M3-UX-002`, обновить этот лист результатом, затем закрыть оставшийся короткий campaign/device retest и полный G5 campaign/story pass. В G5b решение по balance принимается только после human sample; agent audit остаётся диагностикой. `KI-006` и `KI-007` не затрагивались этим Match-3 тестом и остаются открытыми до отдельных device-проверок.
 
 ## G2a — bounded architecture / patch cleanup
 

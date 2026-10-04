@@ -1155,7 +1155,7 @@ export const enCatalog = {
   'match3.tutorial.basic-swap.title': 'Match identical items',
   'match3.tutorial.basic-swap.body': 'Make a line of three or more identical tiles. Drag a tile onto a neighboring cell, or tap two neighboring tiles one after another.',
   'match3.tutorial.clear-blocker.title': 'Clear obstacles',
-  'match3.tutorial.clear-blocker.body': 'Matches on or next to an obstacle remove a layer. Tiles under an obstacle cannot be swapped until it is cleared.',
+  'match3.tutorial.clear-blocker.body': 'A match on or directly above, below, left, or right of an obstacle removes 1 layer; diagonals do not. Tiles under it cannot move.',
   'match3.tutorial.drop-ingredient.title': 'Drop story items',
   'match3.tutorial.drop-ingredient.body': 'Story items cannot be swapped. Clear cells below them so they fall, and guide each item to the bottom edge of the board.',
   'match3.tutorial.activate-special.title': 'Activate a special tile',

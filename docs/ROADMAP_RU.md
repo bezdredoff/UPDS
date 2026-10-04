@@ -60,6 +60,10 @@ Changing the release platform or market scope is a separate product decision, no
 
 ## Current state
 
+### Latest human Match-3 retest — 2026-10-04
+
+The user confirmed the faster no-match recovery, light camisole readability, and clear special direction cues; the new panties/sports-socks variety and M3_04 H silhouette also read well. Three earlier work items can close: `G5b-PT2-M3-003/004/005`. New follow-ups are active for an empty zip-bag with the full underlying tile visible, the locked-chain PNG and explicit foam-layer tutorial wording. Full 9×7 campaign comfort/balance, post-drop geometry, VN scale and the rest of the campaign remain unaccepted until directly observed. See [`G5 playtest follow-up`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md) and [`release backlog`](RELEASE_BACKLOG_RU.md).
+
 ### Completed / stable foundations
 
 - mobile ZIP → GitHub candidate → CI → preview → manual merge pipeline plus bounded direct GitHub branch/PR lane for non-visual work;
@@ -209,7 +213,7 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 1. **G4a — ACCEPTED:** все 33 rework-позиции, включая 13 blocker, исправлены и слиты в PR #314–320; пользователь подтвердил интегрированную проверку в игре и на телефоне. [Отчёт](reviews/G4A_ART_REVIEW_2026-09-30.md). Исходные 117 approved не менять без нового дефекта.
 2. **G5a — ACCEPTED:** RU слит в PR #322, EN — #325, BE — #326; локализационные аудиты и браузерные/mobile gates пройдены, пользователь подтвердил проверку на телефоне.
-3. **G5b — ACTIVE:** source/design audit всех 22 уровней, exploratory desktop pass `M3_00–M3_07`, перенос 9×7 и исправления variety/art/topology слиты в PR #337/#338; Quality, Chromium и Mobile WebKit gates прошли. В PR #340 подготовлен следующий палитровый проход: минимум 3 типа белья и максимум 2 холодных match-типа на уровень; 4,400-seed auto-audit обновлён. [Отчёт G5b](reviews/G5B_MATCH3_DESIGN_BALANCE_AUDIT_2026-10-02.md). Следом — human retest палитр, полный phone pass и E6B subjective sessions.
+3. **G5b — ACTIVE:** source/design audit всех 22 уровней, 9×7 и исправления variety/art/topology слиты; human retest подтвердил no-match pacing, camisole readability и specials direction cue, а также различимость новых трусиков/носков и читаемость H-поля. Остались конкретные исправления blocker PNG и понятности foam rule; полная campaign balance/geometry и E6B subjective sessions остаются отдельными проверками. [Аудит](reviews/G5B_MATCH3_DESIGN_BALANCE_AUDIT_2026-10-02.md), [актуальный human feedback](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
 4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.
 5. **G5c / ANM-033 — финальная release regression:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, public-release packaging/rights. KI-002 остаётся открытым здесь. Принятые G0 contracts повторно проверить на финальном payload, не открывая новый PWA refactor без дефекта.
 6. **G6 — RC:** исправить только найденные release defects, затем packaging/deploy/rollback.

@@ -236,7 +236,7 @@ describe('UI controller render smoke', () => {
     expect(root.innerHTML).toContain('match-screen');
     expect((root.innerHTML.match(/data-cell=/g) ?? [])).toHaveLength(levelBoardDimensions(levels[0]).rows * levelBoardDimensions(levels[0]).columns);
     expect(root.innerHTML).toContain('tile_');
-    expect(root.innerHTML).toContain('obstacle_locked_cell.png');
+    expect(root.innerHTML).toContain('obstacle_locked_cell_redraw.png');
     expect(root.innerHTML).toContain('goal_receipt.png');
     expect(root.innerHTML).toContain('match-case-hud');
     expect(root.innerHTML).toContain('match-dialogue-panel');

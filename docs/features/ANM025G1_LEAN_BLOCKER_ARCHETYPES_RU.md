@@ -23,8 +23,8 @@ G1 убирает ложную продуктовую сложность до д
 
 | Style | Уровни | Runtime asset |
 |---|---|---|
-| `locked` | M3_00, M3_05, M3_07, M3_10, M3_17, M3_19, M3_20 | `obstacle_locked_cell.png` |
-| `solid` | M3_01, M3_03, M3_04, M3_06, M3_08, M3_09, M3_11, M3_13, M3_14, M3_18, M3_21 | `obstacle_prop_box_2layer.png` |
+| `locked` | M3_00, M3_05, M3_07, M3_10, M3_17, M3_19, M3_20 | `obstacle_locked_cell_redraw.png` |
+| `solid` | M3_01, M3_03, M3_04, M3_06, M3_08, M3_09, M3_11, M3_13, M3_14, M3_18, M3_21 | `obstacle_zip_bag.png` |
 | `overlay` | M3_02, M3_15 | `obstacle_soap_foam.png` |
 
 После G5b-PT2-M3-001 каждый оставшийся blocker layer одинаково блокирует перестановку и падение фишки до снятия слоя. Foam/overlay оставлен только в мокрых и laundry-контекстах M3_02 и M3_15. M3_12 и M3_16 используют reusable `solid`; их placements/layers не изменены. Решение снимает исключение M3_02 и требует отдельной проверки его баланса. Подробности — в [G5b blocker semantics](G5B_M3_BLOCKER_SEMANTICS_RU.md).

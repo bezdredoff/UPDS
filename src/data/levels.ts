@@ -141,8 +141,8 @@ export const ingredientPresentation: Record<IngredientKey, Readonly<{ label: str
 };
 
 export const blockerPresentation: Record<BlockerStyle, Readonly<{ label: string; asset: string }>> = {
-  locked: { label: 'Замок', asset: './assets/match3/obstacle_locked_cell.png' },
-  solid: { label: 'Преграда', asset: './assets/match3/obstacle_prop_box_2layer.png' },
+    locked: { label: 'Замок', asset: './assets/match3/obstacle_locked_cell_redraw.png' },
+    solid: { label: 'Преграда', asset: './assets/match3/obstacle_zip_bag.png' },
   overlay: { label: 'Накладка', asset: './assets/match3/obstacle_soap_foam.png' },
 };
 
