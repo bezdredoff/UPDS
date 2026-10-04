@@ -116,7 +116,7 @@ describe('ANM-023G8E2/E4 iOS VN viewport stability', () => {
 
     expect(config).toContain('/vn-navigation\\.pw\\.ts/');
     expect(spec).toContain("test.skip(testInfo.project.name !== 'webkit-mobile', 'iOS/WebKit-specific paging corpus')");
-    expect(spec).toContain("{ scene: 0, lines: ['VN0001'] }");
+    expect(spec).toContain("{ scene: 24, lines: ['VN0559'] }");
     expect(spec).toContain("{ scene: 5, lines: ['VN0156', 'VN0158', 'VN0160'] }");
     expect(spec).toContain("{ scene: 13, lines: ['VN0340'] }");
     expect(spec).toContain("{ scene: 26, lines: ['VN0595'] }");
