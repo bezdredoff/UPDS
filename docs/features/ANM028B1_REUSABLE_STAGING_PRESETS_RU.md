@@ -31,8 +31,9 @@ R4 доказал рабочую focal-eye-line модель на trio, но о�
 `serious/smile/surprised/embarrassed` кадра.
 
 R4.1 сохраняет восемь preset IDs, реальный frame, viewport/background calibration и zero-new-art
-contract. Solo сохраняют принятую runtime-top камеру; каждый duo/trio actor использует
-`background-focal-eye-line`. `upds-character-production-v2` теперь хранит alpha bounds и eye line
+contract. После human retest общий `background-focal-eye-line` используется во всех solo/duo/trio
+сценах: единый масштаб должен сохранять одну линию лиц, а не оставлять уменьшенный одиночный
+портрет прижатым к нижнему краю из-за старой bottom-anchored камеры. `upds-character-production-v2` хранит alpha bounds и eye line
 для каждого из пяти expression frames. Studio рисует отдельные guides из трёх честно обозначенных
 coordinate spaces: background calibration, preset face lane и selected-frame image geometry.
 Полный master-canvas разрешён только в lineup QA.
@@ -52,8 +53,10 @@ Canonical source: `src/data/sceneStaging.ts`, format `upds-scene-staging-v1`.
 - `canonicalCharacterScale` остаётся частью `upds-character-production-v2`;
 - actor `shotScale` измеряется относительно принятой runtime camera и не может быть меньше `0.68`;
   он не может исправлять плохой character master;
-- solo actors используют `runtime-top`; каждый actor в duo/trio обязан использовать
-  `background-focal-eye-line`;
+- каждый actor во всех solo/duo/trio использует `background-focal-eye-line`, рассчитанный по eye-line
+  текущего expression frame (или neutral frame для Pose B);
+- каждый duo/trio actor сохраняет тот же focal-eye-line контракт; solo следует ему для единого
+  вертикального baseline;
 - validator проверяет exact preset/slot set, camera-anchor mode, finite coordinates, containment,
   non-overlap и budget.
 
@@ -188,7 +191,8 @@ detail. Поэтому Emi остаётся runtime fallback, но имеет `v
 В 028B1 R4.1 не входят:
 
 - автоматическая миграция authored VN lines на presets;
-- изменение текущей single-active-speaker runtime presentation;
+- migration authored dialogue lines to multi-actor composition; legacy single-active-speaker markup
+  remains, with its solo portrait camera aligned to the shared focal eye line;
 - свободный drag/scale как production source;
 - background/actor/expression/Pose B authoring и production config export — 028B2;
 - guest/witness schema, renderer и validator — 028B3;
@@ -200,8 +204,8 @@ detail. Поэтому Emi остаётся runtime fallback, но имеет `v
 
 ## Automated coverage
 
-- `tests/SceneStagingContract.test.ts` — eight-preset registry, face-lane semantics, runtime-top и
-  focal-eye-line camera derivation, duo/trio headroom, selected-frame geometry resolver,
+- `tests/SceneStagingContract.test.ts` — eight-preset registry, face-lane semantics, shared
+  focal-eye-line camera derivation, solo/duo/trio headroom, selected-frame geometry resolver,
   viewport/calibration matrix, contain
   geometry и measurable lineup warnings;
 - `tests/SceneStudioFoundation.test.ts` — shared VN frame, real dialogue/chrome, multi-actor,
@@ -216,8 +220,8 @@ detail. Поэтому Emi остаётся runtime fallback, но имеет `v
 До merge проверить `/preview/` на iPhone portrait:
 
 1. Scene Studio открывается из главного меню, скроллится и возвращается назад.
-2. Default `390×844` frame показывает тот же header/dialogue/controls и тот же крупный
-   bottom-anchored solo portrait crop, что playable VN; персонаж не виден целиком и не висит над полом.
+  2. Default `390×844` frame показывает тот же header/dialogue/controls и крупный solo portrait crop,
+    выровненный по focal eye line; персонаж не виден целиком и не висит над полом.
 3. Переключаются все пять viewport profiles; `320×568` включает compact layout, ничего критичное не
    обрезано safe area.
 4. Все восемь presets и пять backgrounds переключаются без broken images/layout jump; two-shot и

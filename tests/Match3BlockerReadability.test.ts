@@ -16,6 +16,9 @@ describe('Match-3 blocker readability', () => {
     expect(css).not.toContain('.blocker::before');
     expect(css).not.toContain('.blocker::after');
     expect(css).toContain('.board-cell:has(.blocker[data-style="locked"][data-layers="1"])');
+    expect(css).toMatch(/\.board-cell:has\(\.blocker\[data-style="locked"\]\) \.tile-stack \{\s*opacity:\s*\.84;/);
+    expect(css).toMatch(/\.board-cell:has\(\.blocker img\[src\*="obstacle_locked_cell"\]\) \.blocker img \{\s*opacity:\s*1;\s*filter:\s*none;/);
+    expect(css).toMatch(/\.board-cell:has\(\.blocker\[data-style="locked"\]\[data-layers="1"\]\) \.blocker img \{\s*opacity:\s*1;\s*filter:\s*none;/);
     expect(css).not.toContain('.blocker b');
   });
 

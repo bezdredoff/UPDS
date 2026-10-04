@@ -344,7 +344,7 @@ img { display: block; }
   left: var(--scene-x);
   z-index: var(--scene-z);
 }
-.vn-authored-runtime-portrait[data-vertical-anchor="background-focal-eye-line"] {
+.portrait[data-vertical-anchor="background-focal-eye-line"] {
   top: var(--portrait-top);
   bottom: auto;
 }

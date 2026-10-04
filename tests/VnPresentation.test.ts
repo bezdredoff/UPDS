@@ -30,7 +30,7 @@ describe('current VN presentation contract', () => {
     expect(presentationSource).toContain('vnAuthoredShotMarkup(authoredShot, character)');
     expect(presentationSource).toContain('resolveVnStaging(input.story, input.lineIndex)');
     expect(style).toContain('.vn-authored-actor-slot {');
-    expect(style).toContain('.vn-authored-runtime-portrait[data-vertical-anchor="background-focal-eye-line"]');
+    expect(style).toContain('.portrait[data-vertical-anchor="background-focal-eye-line"]');
   });
 
   it('keeps the nameplate above the stage/dialogue seam and the lower portrait behind the dialogue card', () => {
@@ -83,7 +83,9 @@ describe('current VN presentation contract', () => {
     expect(stage.stageSide).toBe('left');
     expect(stage.stageMarkup).toContain('data-character="miku"');
     expect(stage.stageMarkup).toContain('portrait-frame');
-    expect(stage.stageMarkup).toContain('--character-scale:0.72;');
+    expect(stage.stageMarkup).toContain('--portrait-height:128.16%;');
+    expect(stage.stageMarkup).toContain('data-vertical-anchor="background-focal-eye-line"');
+    expect(stage.stageMarkup).toContain('--character-scale:1;');
     expect(stage.preloadAssets).toHaveLength(1);
     expect(usesVnPoseB('miku', 'С БЛОКНОТОМ')).toBe(true);
     expect(usesVnPoseB('ayuki', 'БЕРЁТСЯ ЗА ТЕЛЕФОН')).toBe(true);

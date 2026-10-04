@@ -9,6 +9,7 @@ import {
   type SceneStagingManifest,
 } from '../src/data/sceneStaging';
 import { resolveSceneStagingPreset } from '../src/ui/sceneStaging';
+import { resolveVnStagePresentation } from '../src/features/vn/VnPresentation';
 import {
   VN_RUNTIME_PORTRAIT_BOTTOM_PERCENT,
   VN_RUNTIME_PORTRAIT_HEIGHT_PERCENT,
@@ -86,7 +87,7 @@ describe('ANM-028B1 reusable scene staging contract', () => {
     }
   });
 
-  it('preserves the accepted runtime crop and keeps only solo shots top-anchored', () => {
+  it('preserves the accepted runtime crop and aligns every actor composition to the focal eye line', () => {
     expect(resolveVnPortraitCamera()).toEqual({
       shotScale: 1,
       heightPercent: VN_RUNTIME_PORTRAIT_HEIGHT_PERCENT,
@@ -94,15 +95,14 @@ describe('ANM-028B1 reusable scene staging contract', () => {
       bottomPercent: VN_RUNTIME_PORTRAIT_BOTTOM_PERCENT,
     });
     for (const preset of Object.values(sceneStagingManifest.presets)) {
-      const actorSlots = preset.slots.filter((slot) => slot.kind === 'actor');
       for (const slot of preset.slots) {
         if (slot.kind !== 'actor') continue;
-        const camera = resolveVnPortraitCamera(slot.shotScale);
-        expect(camera.heightPercent + camera.bottomPercent, `${preset.id}:${slot.id}`).toBeCloseTo(100, 8);
+        const camera = slot.verticalAnchor === 'background-focal-eye-line'
+          ? resolveVnPortraitEyeLineCamera(slot.shotScale, characterProductionManifest.characters.miku.proportion.frameGeometry.neutral.eyeLineYPx)
+          : resolveVnPortraitCamera(slot.shotScale);
+        expect(camera.topPercent + camera.heightPercent + camera.bottomPercent, `${preset.id}:${slot.id}`).toBeCloseTo(100, 8);
         expect(camera.heightPercent, `${preset.id}:${slot.id}`).toBeGreaterThan(120);
-        expect(slot.verticalAnchor, `${preset.id}:${slot.id}`).toBe(
-          actorSlots.length > 1 ? 'background-focal-eye-line' : 'runtime-top',
-        );
+        expect(slot.verticalAnchor, `${preset.id}:${slot.id}`).toBe('background-focal-eye-line');
       }
     }
   });
@@ -132,6 +132,18 @@ describe('ANM-028B1 reusable scene staging contract', () => {
     }
     expect(resolveVnPortraitEyeLineCamera(0.72, 158).resolvedEyeLinePercent)
       .toBe(SCENE_STUDIO_DEFAULT_EYE_LINE_PERCENT);
+  });
+
+  it('anchors the ordinary single-speaker VN portrait to the same focal eye line as duo/trio', () => {
+    const entry = { id: 'TEST0001', speaker: 'МИКУ', emotion: 'серьёзно', text: 'Тест.' } as const;
+    const presentation = resolveVnStagePresentation({
+      story: [entry], sceneIndex: 0, lineIndex: 0, entry,
+      localizedEmotion: 'serious', directionLabel: 'Direction', dossierUpdatedLabel: 'Dossier', pendingClue: null,
+    });
+    expect(presentation.stageMarkup).toContain('data-vertical-anchor="background-focal-eye-line"');
+    expect(presentation.stageMarkup).toContain('--portrait-height:128.16%;');
+    expect(presentation.stageMarkup).toContain('--portrait-top:');
+    expect(presentation.stageMarkup).toContain('--character-scale:1;');
   });
 
   it('requires exact actor assignments instead of silently dropping a counterpart', () => {

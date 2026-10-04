@@ -126,12 +126,12 @@ export const sceneStagingManifest: SceneStagingManifest = {
   presets: {
     'solo-close': {
       id: 'solo-close',
-      slots: [actor('primary', 'primary', 50, SCENE_STAGING_SHARED_ACTOR_SCALE, box(31, 6, 69, 50), 'focus', 3)],
+      slots: [actor('primary', 'primary', 50, SCENE_STAGING_SHARED_ACTOR_SCALE, box(31, 6, 69, 50), 'focus', 3, 'background-focal-eye-line')],
       budget: zeroArtBudget(1),
     },
     'solo-medium': {
       id: 'solo-medium',
-      slots: [actor('primary', 'primary', 50, SCENE_STAGING_SHARED_ACTOR_SCALE, box(33, 6, 67, 50), 'focus', 3)],
+      slots: [actor('primary', 'primary', 50, SCENE_STAGING_SHARED_ACTOR_SCALE, box(33, 6, 67, 50), 'focus', 3, 'background-focal-eye-line')],
       budget: zeroArtBudget(1),
     },
     'two-shot-conflict': {
@@ -255,7 +255,6 @@ export function validateSceneStagingManifest(
       issues.push({ code: 'slot-set', preset: id, detail: `${id} contains duplicate slot ids` });
     }
 
-    const presetActorCount = preset.slots.filter((slot) => slot.kind === 'actor').length;
     preset.slots.forEach((slot, index) => {
       const values = [slot.anchorXPercent, slot.anchorYPercent, slot.safeBox.leftPercent, slot.safeBox.topPercent,
         slot.safeBox.rightPercent, slot.safeBox.bottomPercent, slot.zIndex];
@@ -280,7 +279,7 @@ export function validateSceneStagingManifest(
         issues.push({ code: 'shot-scale', preset: id, slot: slot.id, detail: `${slot.id} shot scale must remain between ${minimumShotScale} and 1.2` });
       }
       if (slot.kind === 'actor') {
-        const expectedAnchor = presetActorCount > 1 ? 'background-focal-eye-line' : 'runtime-top';
+        const expectedAnchor = 'background-focal-eye-line';
         if (slot.verticalAnchor !== expectedAnchor) {
           issues.push({ code: 'camera-anchor', preset: id, slot: slot.id, detail: `${slot.id} must use ${expectedAnchor}` });
         }
