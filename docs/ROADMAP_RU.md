@@ -1,8 +1,8 @@
 # UPDS — Production Roadmap
 
-2026-10-04 — bounded playtest tranche после PR #341 выполнен в PR #342–#349; все три обязательные проверки прошли для каждого PR. Исправления VN directives, Match-3 pacing/geometry, blocker readability, foam rules, special markers, camisole readability и character scale объединены; G5b и VN scale остаются на review до human/device retest. Optional edge-glow experiment #349 отклонён как marginal benefit.
+2026-10-04 — bounded playtest tranche PR #342–#349 и follow-up PR #353 прошли Quality, Chromium и Mobile WebKit. Пользователь принял solo/duo/trio character baseline (`G5-PT2-VN-002`) и locked blocker visuals (`KI-009`). G5b остаётся review: нужен visual confirmation пустого zip-bag (`KI-008`), ясности foam и общего Match-3 campaign balance.
 
-Human follow-up: в locked blocker прозрачность должна применяться слегка только к предмету под цепями; сами цепи и замок остаются непрозрачными. VN solo-портреты должны стоять на общей focal eye line с duo/trio, сохраняя уже принятый размер; соответствующие правки готовятся в отдельном PR.
+Human follow-up PR #353 merged and visually accepted: locked blocker keeps chains/padlock opaque while the tile underneath has subtle transparency; solo VN portraits align to the shared duo/trio focal eye line at the accepted scale.
 
 Перед новым human проходом выполнен post-feedback auto audit на `main` `89c7918`: 4 400 прогонов (200 × 22 levels), mean agent win rate 75.8%; M3_02 — 64.5% / median 21 ход, M3_06 — 61.5% / median 27 ход, M3_11 — 43.0%. Это сигнал для повторной проверки, не human win-rate и не основание менять баланс. Runtime asset inventory: 0 path/decode errors; story audit: 6/6.
 
