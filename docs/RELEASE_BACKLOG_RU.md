@@ -69,7 +69,7 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 - **`G5b-PT2-M3-002` — review:** candidate убирает числовые badges с production board, сохраняет mechanical layers; CSS-прототип делает solid прозрачнее с пакетом/застёжкой и облегчает locked без тяжёлой рамки/тени. PNG не менялись; визуальное принятие на телефоне ожидается. См. [ANM025D2](features/ANM025D2_BLOCKER_READABILITY_RU.md).
 - **`G5b-PT2-M3-001` — review:** каждый blocker layer блокирует swaps/gravity до снятия. Foam остаётся только на wet/laundry M3_02 и M3_15; M3_12/M3_16 используют существующий solid. Same-seed audit удержал win rate M3_02 на 64.5%, но медиана ходов выросла с 15 до 21; перед принятием нужен human retest. См. [G5b blocker semantics](features/G5B_M3_BLOCKER_SEMANTICS_RU.md).
 - **`G5b-PT2-M3-004` — review:** production specials больше не показывают иконку исходной фишки; directional marker row/column сохранён. Проверки presentation/readability/E2E обновлены; механика и арт не менялись. Ждёт CI и review PR.
-- **`G5b-PT2-M3-003`:** сделать светлый transparent top/camisole реально светлым на тёмном поле, не меняя match identity.
+- **`G5b-PT2-M3-003` — review:** для полупрозрачного camisole добавлена адресная яркость в production-поле, чтобы тёмная доска меньше просвечивала сквозь серую ткань. PNG, прозрачность, форма, match identity, механика и баланс не менялись. Визуальная/device-приёмка ожидается.
 - **`G5-PT2-VN-002`:** проверить единый playable character scale с текущим trio-size как baseline. Цель — убрать заметный scale jump между solo/duo/trio, а не запретить authored X-positioning.
 
 ### R2

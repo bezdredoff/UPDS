@@ -825,6 +825,7 @@ img { display: block; }
 .tile-stack.swap-return-home { transform: translate3d(0, 0, 0); transition: transform 150ms cubic-bezier(.22,.72,.22,1); }
 .tile, .ingredient, .special, .blocker, .blocker img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .tile { z-index: 1; padding: 2px; filter: drop-shadow(0 1px 1px #10172d66); }
+.tile[data-tile-variant="tile:camisole"] { filter: brightness(1.38) drop-shadow(0 1px 1px #10172d66); }
 .ingredient { z-index: 3; padding: 3px; filter: drop-shadow(0 2px 2px #0008); animation: ingredient-glow 1.4s ease-in-out infinite; }
 .special { z-index: 2; inset: -14%; width: 128%; height: 128%; padding: 0; opacity: 1; filter: drop-shadow(0 0 6px #fff4a1); }
 .special.row { transform: rotate(-18deg); }
