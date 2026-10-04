@@ -85,3 +85,16 @@ Runtime slices PR #342–#349 merged; все три Browser Gate checks прош
 - User confirmed the 9×7 field size and campaign balance are comfortable; retain 9×7.
 
 The tester did not provide device/build/date details; no platform-specific claim is inferred.
+
+## Published-build verification — 2026-10-04
+
+Checked `https://bezdredoff.github.io/UPDS/` on `v0.27.2-dev` in a desktop browser. The temporary `?qa=1` Level Lab was used for isolated M3_02/M3_05 runs and then disabled with `?qa=0`; campaign progress was not changed by those lab runs.
+
+- M3_00 was played to a win; its production field had no blockers.
+- M3_02 resolved a hinted match involving a foam-covered tile; the blocker objective advanced and the visible foam changed. Persistent Help states that covered tiles remain movable, a clear on/orthogonally beside foam removes one layer, and diagonal contact does not count. This closes the foam-mechanics ambiguity (`KI-010`) and confirms `G5b-PT2-M3-001`; first-entry coachmark review remains separate.
+- M3_05 showed padlock-and-chain assets over two-layer blocker placements. Help correctly says the first clear removes the lock and the next clear removes the chain. The actual gameplay transition from padlock to chain-only was not exercised; `G5b-PT3-M3-BLOCKER-004` remains in review.
+- The permanent guide opens during a level and presents all three blocker rules. `G5b-PT3-M3-HELP-005` is accepted. Its zip-bag illustration is almost indistinguishable from the dark thumbnail background at the rendered size (`KI-011`).
+- The board's accessibility name still says “Поле 8 на 8” while runtime geometry and visible board are 7 columns × 9 rows (`KI-012`).
+- Focused suite passed: 8 test files / 93 tests.
+
+This is browser evidence, not an iPhone/PWA retest or a complete 22-level balance pass. No production files were changed during the QA run.
