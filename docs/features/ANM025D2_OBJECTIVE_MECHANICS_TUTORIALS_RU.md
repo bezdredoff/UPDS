@@ -48,3 +48,7 @@ D2 не меняет:
 - save key или save schema (D1 schema 2 уже умеет хранить arbitrary known tutorial concept IDs).
 
 Следующий D-срез может добавить обучение special creation/activation через тот же concept/event contract.
+
+## G5b amendment — first objectives and blocker introductions
+
+M3_00 is now a low-friction first match level: one collect objective, no blockers or story ingredients, and only the `basic-swap` coachmark. The first zip-bag is introduced on M3_01 with a dedicated `clear-package` concept. M3_02 introduces permeable foam through a distinct `clear-foam` concept; covered tiles can move and match, while the foam layer is cleared by matches on it or on an orthogonal neighbor. M3_05 introduces locked cells through the unique `clear-lock` concept: first hit removes the padlock, second removes chains. These concepts have RU/BE/EN copy and separate save IDs so a legacy `clear-blocker` completion cannot suppress them.

@@ -2,6 +2,7 @@ import {
 blockerPresentation,
 cluePresentation,
 ingredientPresentation,
+lockedBlockerAssetsByLayers,
 isLevelBoardCellActive,
 levels,
 specialAsset,
@@ -219,7 +220,8 @@ private preloadMatchAssets(level: LevelDefinition): void {
 if (typeof Image === 'undefined') return;
 const assets = [
 backgroundAssets[level.context.pageBackground],
-blockerPresentation[level.blocker].asset,
+  blockerPresentation[level.blocker].asset,
+...(level.blocker === 'locked' ? Object.values(lockedBlockerAssetsByLayers) : []),
 specialAsset,
 ...Object.values(specialAssets),
 ...Object.values(specialFallbackAssets),

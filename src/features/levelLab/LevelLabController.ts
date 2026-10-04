@@ -4,6 +4,7 @@ import {
   blockerStyles,
   ingredientPresentation,
   isLevelBoardCellActive,
+  lockedBlockerAssetsByLayers,
   levels,
   tileKeys,
   validateLevelDefinitions,
@@ -410,10 +411,13 @@ export class LevelLabController {
       if (!isLevelBoardCellActive(level, index)) return `<span class="level-lab-cell is-hole" data-lab-cell="${index}" aria-hidden="true"></span>`;
       const tile = cell.tile ? resolveMatch3TilePresentation(level.context.tilePresentationProfile, cell.tile) : null;
       const ingredient = cell.ingredient ? ingredientPresentation[cell.ingredient] : null;
+      const cellBlockerAsset = level.blocker === 'locked'
+        ? lockedBlockerAssetsByLayers[cell.blockerLayers === 1 ? 1 : 2]
+        : blockerAsset;
       return `<span class="level-lab-cell" data-lab-cell="${index}">
         ${tile ? `<img class="level-lab-tile" src="${tile.asset}" alt="">` : ''}
         ${ingredient ? `<img class="level-lab-ingredient" src="${ingredient.asset}" alt="">` : ''}
-        ${cell.blockerLayers > 0 ? `<span class="level-lab-blocker"><img src="${blockerAsset}" alt="">${cell.blockerLayers > 1 ? `<b>${cell.blockerLayers}</b>` : ''}</span>` : ''}
+        ${cell.blockerLayers > 0 ? `<span class="level-lab-blocker"><img src="${cellBlockerAsset}" alt="">${cell.blockerLayers > 1 ? `<b>${cell.blockerLayers}</b>` : ''}</span>` : ''}
       </span>`;
     }).join('');
   }

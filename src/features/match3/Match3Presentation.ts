@@ -3,6 +3,7 @@ import { productionCharacterKeys } from '../../data/characterProduction';
 import { guestWitnessKeys, guestWitnessMedallionAsset } from '../../data/guestWitnesses';
 import {
   blockerPresentation,
+  lockedBlockerAssetsByLayers,
   ingredientPresentation,
   isLevelBoardCellActive,
   levelBoardDimensions,
@@ -164,6 +165,9 @@ export function match3BoardCellsMarkup(input: Match3BoardMarkupInput): string {
         ? resolveMatch3TilePresentation(level.context.tilePresentationProfile, cell.tile)
         : null;
       const ingredient = cell.ingredient ? ingredientPresentation[cell.ingredient] : null;
+      const cellBlockerAsset = level.blocker === 'locked'
+        ? lockedBlockerAssetsByLayers[cell.blockerLayers === 1 ? 1 : 2]
+        : blockerAsset;
       const cellLabel = cell.ingredient
         ? t(`match3.ingredient.${cell.ingredient}`)
         : cell.tile
@@ -177,7 +181,7 @@ ${tile && !cell.special ? `<img class="tile" src="${tile.asset}" data-tile-varia
 ${ingredient ? `<img class="ingredient" src="${ingredient.asset}" alt="" draggable="false">` : ''}
 ${cell.special ? match3SpecialImageMarkup(cell.special, `special ${cell.special}`, t(`match3.special.${cell.special}`)) : ''}
 </span>
-${cell.blockerLayers > 0 ? `<span class="blocker" data-style="${escapeHtml(level.blocker)}" data-layers="${cell.blockerLayers}"><img src="${blockerAsset}" alt="" draggable="false"></span>` : ''}
+${cell.blockerLayers > 0 ? `<span class="blocker" data-style="${escapeHtml(level.blocker)}" data-layers="${cell.blockerLayers}"><img src="${cellBlockerAsset}" alt="" draggable="false"></span>` : ''}
 </button>`;
     })
     .join('');

@@ -13,7 +13,7 @@ const t = (key: string, params?: Readonly<Record<string, string | number>>): str
 
 describe('ANM-025C3 contextual story-object guidance', () => {
   it('names the actual localized drop objective instead of repeating generic Help copy', () => {
-    const level = levels[0];
+    const level = levels[1];
     const markup = match3StoryObjectGuidanceMarkup(level, ['Blockers', 'Receipt from locker'], t);
 
     expect(markup).toContain('data-guidance="story-object"');
@@ -23,7 +23,7 @@ describe('ANM-025C3 contextual story-object guidance', () => {
   });
 
   it('marks only drop and dropGroup objective cards as story-object state sources', () => {
-    const level = levels[0];
+    const level = levels[1];
     const blocker = match3ObjectiveMarkup(level, level.objectives[0], 'Blockers', 0, true, 0);
     const drop = match3ObjectiveMarkup(level, level.objectives[1], 'Receipt', 0, true, 1);
 

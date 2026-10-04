@@ -11,7 +11,7 @@ const specialConcept = 'activate-special' as const;
 
 describe('ANM-025D3 special activation tutorial', () => {
   it('lets every campaign level introduce the special concept but keeps it hidden until a special is created', () => {
-    for (const level of levels) expect(level.tutorialConcepts).toContain(specialConcept);
+    for (const level of levels.filter((candidate) => candidate.shortId !== 'M3_00')) expect(level.tutorialConcepts).toContain(specialConcept);
     expect(nextPendingMatch3Tutorial([specialConcept], [])).toBeNull();
     expect(nextPendingMatch3Tutorial([specialConcept], [], ['level-start', 'special-created'])).toBe(specialConcept);
     expect(validateLevelDefinitions(levels)).toEqual([]);

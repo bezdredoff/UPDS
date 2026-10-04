@@ -1,6 +1,6 @@
 # UPDS — Production Roadmap
 
-2026-10-04 — bounded playtest tranche PR #342–#349 и follow-up PR #353 прошли Quality, Chromium и Mobile WebKit. Пользователь принял solo/duo/trio character baseline (`G5-PT2-VN-002`) и locked blocker visuals (`KI-009`). G5b остаётся review: нужен visual confirmation пустого zip-bag (`KI-008`), ясности foam и общего Match-3 campaign balance.
+2026-10-04 — bounded playtest tranche PR #342–#349 и follow-up PR #353 прошли Quality, Chromium и Mobile WebKit. Пользователь принял solo/duo/trio character baseline (`G5-PT2-VN-002`), locked blocker visuals (`KI-009`) и zip-bag для M3_01 (`KI-008`). Новый feedback реализуется в локальном G5b candidate: M3_00 упрощён до collect-цели; foam проницаема для перемещения и мэтчей; отдельные RU/BE/EN объяснения вводят пакет (M3_01), пену (M3_02) и двухэтапный замок → цепь (M3_05). Пользователь подтвердил двухэтапное поведение; campaign retest pending.
 
 Human follow-up PR #353 merged and visually accepted: locked blocker keeps chains/padlock opaque while the tile underneath has subtle transparency; solo VN portraits align to the shared duo/trio focal eye line at the accepted scale.
 
@@ -8,7 +8,7 @@ Human follow-up PR #353 merged and visually accepted: locked blocker keeps chain
 
 Следующее действие — focused phone retest исправлений `G5-PT2` и всех 22 уровней по обновлённому листу, затем полный G5 playthrough: Story `0–21`, три финала, campaign retry/progression/saves и shipped asset crawl. `KI-006` и `KI-007` остаются открытыми до проверки merged build на телефоне. Полная карта: [G5 playtest follow-up](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md); [свежий auto audit](reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json).
 
-Technical product version: `0.27.0-dev`.
+Technical product version: `0.27.1-dev`.
 
 2026-10-02 — G5a закрыта после слияния PR #325–326 и решения пользователя. Завершены
 английская и белорусская редактура: в BE вычитаны 976 сюжетных реплик, 601 строка
@@ -44,7 +44,7 @@ Status: **G0 device accepted / G3 guest presentation accepted / release validati
 
 This roadmap is intentionally a strategic status map, not a transcript of every historical sub-feature. Detailed implementation history lives in feature docs and Git. The actionable remaining-work authority is [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md); the approved full-game scope/reuse ceilings remain [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md); machine-readable art inventory remains `src/content/art/ANM030A.asset-gap-audit.json`. Production budgets are ceilings, not an obligation to spend every planned asset slot.
 
-`APP_VERSION` in `src/appVersion.ts` is the canonical player-facing product semver dev-line; `0.27.0-dev` starts the next accumulated development cycle after `0.26.0-dev`. npm `package.json.version` remains internal package metadata. `BUILD_LABEL` is separate feature/baseline identity; the current candidate is **ANM-025G5B Match-3 Design & Balance**. `BUILD_ID` identifies a concrete CI build.
+`APP_VERSION` in `src/appVersion.ts` is the canonical player-facing product semver dev-line; `0.27.0-dev` starts the current accumulated development cycle after `0.26.0-dev`, and `0.27.1-dev` records this Match-3 rules/tutorial follow-up. npm `package.json.version` remains internal package metadata. `BUILD_LABEL` is separate feature/baseline identity; the current candidate is **ANM-025G5B Match-3 Design & Balance**. `BUILD_ID` identifies a concrete CI build.
 
 ## Base-release target
 
@@ -64,7 +64,7 @@ Changing the release platform or market scope is a separate product decision, no
 
 ### Latest human Match-3 retest — 2026-10-04
 
-The user confirmed the faster no-match recovery, light camisole readability, and clear special direction cues; the new panties/sports-socks variety and M3_04 H silhouette also read well. Three earlier work items can close: `G5b-PT2-M3-003/004/005`. New follow-ups are active for an empty zip-bag with the full underlying tile visible, the locked-chain PNG and explicit foam-layer tutorial wording. Full 9×7 campaign comfort/balance, post-drop geometry, VN scale and the rest of the campaign remain unaccepted until directly observed. See [`G5 playtest follow-up`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md) and [`release backlog`](RELEASE_BACKLOG_RU.md).
+The user confirmed faster no-match recovery, light camisole readability, clear special direction cues, the new panties/sports-socks variety, the M3_04 H silhouette, locked art and the empty zip-bag. The current candidate simplifies M3_00, gives foam its intended permeable rule, and adds first-encounter blocker teaching in RU/BE/EN. Locked cells now take two clears: padlock first, then chain; each campaign locked cell is authored with two layers. Full 9×7 campaign balance and the rest of the campaign still need direct observation. See [`G5 playtest follow-up`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md) and [`release backlog`](RELEASE_BACKLOG_RU.md).
 
 ### Completed / stable foundations
 
@@ -215,7 +215,7 @@ Post-launch expansion only. It must not consume base-release capacity.
 
 1. **G4a — ACCEPTED:** все 33 rework-позиции, включая 13 blocker, исправлены и слиты в PR #314–320; пользователь подтвердил интегрированную проверку в игре и на телефоне. [Отчёт](reviews/G4A_ART_REVIEW_2026-09-30.md). Исходные 117 approved не менять без нового дефекта.
 2. **G5a — ACCEPTED:** RU слит в PR #322, EN — #325, BE — #326; локализационные аудиты и браузерные/mobile gates пройдены, пользователь подтвердил проверку на телефоне.
-3. **G5b — ACTIVE:** source/design audit всех 22 уровней, 9×7 и исправления variety/art/topology слиты; human retest подтвердил no-match pacing, camisole readability и specials direction cue, а также различимость новых трусиков/носков и читаемость H-поля. Остались конкретные исправления blocker PNG и понятности foam rule; полная campaign balance/geometry и E6B subjective sessions остаются отдельными проверками. [Аудит](reviews/G5B_MATCH3_DESIGN_BALANCE_AUDIT_2026-10-02.md), [актуальный human feedback](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
+3. **G5b — ACTIVE:** source/design audit всех 22 уровней, 9×7 и исправления variety/art/topology слиты; human retest подтвердил no-match pacing, camisole readability, specials direction cue, разнообразие трусиков/носков, H-поле, zip-bag и locked art. Новый focused slice упрощает M3_00, уточняет foam как проницаемый blocker, задаёт два слоя для locked blocker (замок → цепь) и вводит RU/BE/EN обучение при первом появлении каждого типа. Полная campaign balance/geometry остаётся отдельной проверкой. [Аудит](reviews/G5B_MATCH3_DESIGN_BALANCE_AUDIT_2026-10-02.md), [актуальный human feedback](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
 4. **G5 — full playthrough и asset crawl:** Story `0–21`, три финала, progression и загруженная графика.
 5. **G5c / ANM-033 — финальная release regression:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, public-release packaging/rights. KI-002 остаётся открытым здесь. Принятые G0 contracts повторно проверить на финальном payload, не открывая новый PWA refactor без дефекта.
 6. **G6 — RC:** исправить только найденные release defects, затем packaging/deploy/rollback.

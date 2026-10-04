@@ -1,6 +1,6 @@
 # G5 / G5b — Playtest follow-up 2026-10-04
 
-Status: **PR #342–#349 merged. First Match-3 human retest complete; three fixes accepted, blocker-art/foam-clarity follow-ups active; VN-scale acceptance remains open.**
+Status: **PR #342–#349 and #353 merged. Current follow-up candidate includes M3_00 simplification, permeable foam and two-stage lock → chain; technical checks and focused human retest pending.**
 
 Источник — integrated iPhone playtest после PR #341. Этот документ переводит наблюдения игрока в bounded release work. По умолчанию новые системы не строятся: сначала удаляем misleading/prototype presentation и исправляем воспроизводимые UX-дефекты.
 
@@ -36,6 +36,8 @@ Production campaign содержит 22 уровня:
 
 ## Scope decisions
 
+- User selected the two-step locked blocker: first adjacent/on-cell clear removes the padlock; the next clear removes the diagonal chains. Campaign placements use two layers; the covered tile stays locked until both are gone. M3_05 introduces the rule with a unique localized tutorial.
+
 - Screenplay directives остаются authoritative metadata и stable VN IDs не удаляются.
 - Player-facing `VARIABLE/CUT TO/INSERT/FADE IN/CHOICE CHECKPOINT` presentation удаляется.
 - Не реализовывать memory-card gallery, phone-photo insert, close-up system или другие новые renderer'ы только потому, что такие режиссёрские ремарки существуют в screenplay. Это optional future work, если позднее будет отдельная product need.
@@ -68,9 +70,18 @@ Runtime slices PR #342–#349 merged; все три Browser Gate checks прош
 
 ### Follow-up required
 
-- `KI-008` / `G5b-PT3-M3-ART-001`: M3_01 box has a strange doubled/ghost outline. Replace it with a generated EMPTY transparent zip-bag PNG throughout production use; user confirmed bag must contain no clothing and every underlay item must fit fully inside the clear window. At 64%, the sports-socks alpha bounds render at about 118×158 px inside a measured 196×185 px clear window.
+- `KI-008` / `G5b-PT3-M3-ART-001`: **closed by user confirmation after PR #353.** Empty transparent zip-bag at M3_01 is accepted; the contents fit fully inside its clear window. At 64%, the sports-socks alpha bounds render at about 118×158 px inside a measured 196×185 px clear window.
 - `KI-009` / `G5b-PT3-M3-ART-001`: **closed · PR #353.** Backing square absent; chains/padlock remain opaque; only the tile beneath receives subtle transparency (`opacity: .84`). User visually accepted the merged result.
-- `KI-010` / `G5b-PT3-M3-UX-002`: clarify foam damage. Runtime rule: one blocker layer per clear when a cleared cell is the blocker or one orthogonal cell away; diagonal adjacency alone does not count. Localized tutorial wording now names directions and excludes diagonal contact.
-- `G5b-PT2-M3-001`, `G5b-PT2-M3-002`, `G5b-PT2-M3-006`, G5b UI/geometry, and full campaign balance stay in review where their acceptance was not directly reported. `G5-PT2-VN-002` is accepted; the empty zip-bag in `KI-008` still needs visual confirmation.
+- `KI-010` / `G5b-PT3-M3-UX-002`: foam currently blocks movement in the merged build, but the user now prefers it to allow moving/matching covered tiles while slightly obscuring them. Preserve the established damage condition: one layer per clear on the foam or one orthogonal cell away; diagonal contact does not count. Add a separate localized first-encounter popup.
+- `G5b-PT2-M3-001`, `G5b-PT2-M3-002`, `G5b-PT2-M3-006`, G5b UI/geometry, and full campaign balance stay in review where acceptance was not directly reported. `G5-PT2-VN-002` and `KI-008` are accepted.
+
+## Follow-up design feedback — first blocker levels
+
+- M3_00 should teach only the basic swap and have one goal: collect a set quantity of items. Remove blocker and ingredient objectives from this first level.
+- Keep the empty zip-bag at M3_01 as the first hard blocker and explain how to remove it in RU/BE/EN.
+- Foam is the lightest blocker: it slightly reduces visibility, but does not prevent moving or matching its covered tile. A match on foam or in a side-adjacent cell removes one layer; a diagonal match does not.
+- Add a separate first-encounter explanation for foam at M3_02 in RU/BE/EN. Unique tutorial IDs prevent legacy completion state from hiding it.
+- The user chose two visible locked-blocker stages (padlock first, chain second). Both stages use the shared adjacent/on-cell clear rule, while the first clear swaps the visual to the chain-only asset.
+- User confirmed the 9×7 field size and campaign balance are comfortable; retain 9×7.
 
 The tester did not provide device/build/date details; no platform-specific claim is inferred.

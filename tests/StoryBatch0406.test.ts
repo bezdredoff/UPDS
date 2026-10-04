@@ -41,7 +41,7 @@ describe('ANM-027G episodes 4–6 canonical production batch', () => {
     expect(macro.slots.slice(4, 7).every((slot) => slot.match3.status === 'production-configured')).toBe(true);
     expect(levels.slice(4, 7).map((level) => level.id)).toEqual(batchLevelIds);
     expect(levels.slice(4, 7).every((level) => level.objectives.length <= 3)).toBe(true);
-    expect(levels.slice(4, 7).every((level) => level.tutorialConcepts.every((concept) => concept === 'activate-special' || concept === 'combine-specials'))).toBe(true);
+    expect(levels.slice(4, 7).every((level) => level.tutorialConcepts.every((concept) => ['clear-lock', 'activate-special', 'combine-specials'].includes(concept)))).toBe(true);
   });
 
   it('keeps adopted episode 4–6 backgrounds on dedicated production assets', () => {

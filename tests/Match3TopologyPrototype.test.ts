@@ -49,19 +49,15 @@ describe('ANM-025E4B Match-3 topology prototype cohort', () => {
     expect(new Set([shape(m00), shape(m02), shape(m04), shape(m06)]).size).toBe(4);
   });
 
-  it('authors a deterministic one-move flash opportunity into M3_00 without creating a start match', () => {
+  it('keeps the first level focused on collecting a single item type', () => {
     const level = byShortId('M3_00');
     expect(level.boardHoles).toBeUndefined();
-    expect(level.initialTiles?.map(({ tile }) => tile)).toEqual([
-      'pantiesSportWhite', 'pantiesSportWhite', 'pantiesLacePink',
-      'pantiesSportWhite', 'pantiesHighWaistBlack', 'pantiesSportWhite',
-    ]);
+    expect(level.initialTiles).toBeUndefined();
+    expect(level.objectives).toEqual([{ kind: 'collect', tile: 'pantiesSportWhite', target: 12, label: 'Белые спортивные трусики' }]);
+    expect(level.blockers).toEqual([]);
+    expect(level.ingredients).toEqual([]);
 
-    const game = expectPlayableStart(level);
-    const result = game.attemptSwap(2, 9);
-    expect(result.valid).toBe(true);
-    expect(result.primaryFeedback).toBe('combo');
-    expect(result.specialsCreated).toBeGreaterThanOrEqual(1);
+    expectPlayableStart(level);
   });
 
   it('keeps every authored blocker and ingredient on active cells in the three shaped production levels', () => {
@@ -72,10 +68,10 @@ describe('ANM-025E4B Match-3 topology prototype cohort', () => {
     }
   });
 
-  it('keeps the rounded blocking-foam basin playable on production and comparative E4A seeds', () => {
+  it('keeps the rounded permeable-foam basin playable on production and comparative E4A seeds', () => {
     const level = byShortId('M3_02');
     expect(level.blocker).toBe('overlay');
-    expect(blockerLocksTileInteraction(1)).toBe(true);
+    expect(blockerLocksTileInteraction(1, level.blocker)).toBe(false);
     expect(level.boardHoles).toHaveLength(12);
     expectPlayableStart(level);
     expectPlayableStart(level, 120_002);

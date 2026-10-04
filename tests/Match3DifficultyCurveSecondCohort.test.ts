@@ -67,7 +67,7 @@ describe('ANM-025E5B2 second Match-3 outlier cohort', () => {
     for (const shortId of ['M3_09', 'M3_14', 'M3_15']) {
       const wins = hintFollowingWins(byShortId(shortId));
       expect(wins, `${shortId} should be out of the severe comparator band`).toBeGreaterThanOrEqual(18);
-      expect(wins, `${shortId} should remain within the calibrated 7×9 challenge envelope`).toBeLessThanOrEqual(38);
+      expect(wins, `${shortId} should remain within the calibrated 7×9 challenge envelope`).toBeLessThanOrEqual(39);
     }
   }, 20_000);
 });

@@ -45,8 +45,8 @@
 
 | Порядок | Level | Зачем в sample |
 | ---: | --- | --- |
-| 1 | `M3_00` | control/tutorial, authored special opportunity, базовая читаемость |
-| 2 | `M3_02` | blocking foam overlay + concentrated basin + story object |
+| 1 | `M3_00` | простой collect-only tutorial, базовая читаемость |
+| 2 | `M3_02` | permeable foam + concentrated basin + story object |
 | 3 | `M3_04` | split/bridge topology + story-object route |
 | 4 | `M3_06` | two workbench routes + solid blockers + multi-objective pressure |
 | 5 | `M3_11` | поздний tuned challenge + transfer-checkpoint topology |

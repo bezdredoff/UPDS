@@ -11,12 +11,15 @@ import {
 const locker = levels.find((level) => level.shortId === 'M3_00')!;
 
 describe('ANM-025D2 objective mechanics tutorials', () => {
-  it('introduces base interaction, blocker and ingredient concepts in a stable sequence on M3_00', () => {
-    expect(match3TutorialConceptIds.slice(0, 3)).toEqual(['basic-swap', 'clear-blocker', 'drop-ingredient']);
-    expect(locker.tutorialConcepts.slice(0, 3)).toEqual(['basic-swap', 'clear-blocker', 'drop-ingredient']);
+  it('keeps M3_00 focused on the basic swap and introduces each blocker at its first level', () => {
+    expect(match3TutorialConceptIds.slice(0, 4)).toEqual(['basic-swap', 'clear-blocker', 'clear-package', 'clear-foam']);
+    expect(locker.tutorialConcepts).toEqual(['basic-swap']);
+    expect(levels.find((level) => level.shortId === 'M3_01')?.tutorialConcepts).toContain('clear-package');
+    expect(levels.find((level) => level.shortId === 'M3_02')?.tutorialConcepts).toContain('clear-foam');
     expect(nextPendingMatch3Tutorial(locker.tutorialConcepts, [])).toBe('basic-swap');
-    expect(nextPendingMatch3Tutorial(locker.tutorialConcepts, ['basic-swap'])).toBe('clear-blocker');
-    expect(nextPendingMatch3Tutorial(locker.tutorialConcepts, ['basic-swap', 'clear-blocker'])).toBe('drop-ingredient');
+    expect(nextPendingMatch3Tutorial(locker.tutorialConcepts, ['basic-swap'])).toBeNull();
+    expect(nextPendingMatch3Tutorial(['clear-package'], [])).toBe('clear-package');
+    expect(nextPendingMatch3Tutorial(['clear-foam'], [])).toBe('clear-foam');
     expect(validateLevelDefinitions(levels)).toEqual([]);
   });
 
@@ -33,17 +36,17 @@ describe('ANM-025D2 objective mechanics tutorials', () => {
   });
 
   it('skips redundant coachmarks when the player demonstrates a later mechanic before its prompt', () => {
-    const concepts = locker.tutorialConcepts;
+    const concepts = ['basic-swap', 'clear-package', 'drop-ingredient'] as const;
     const masteredInOneMove = tutorialConceptsCompletedByEvents(concepts, [], [
       'valid-swap',
       'blocker-cleared',
       'ingredient-dropped',
     ]);
-    expect(masteredInOneMove).toEqual(['basic-swap', 'clear-blocker', 'drop-ingredient']);
+    expect(masteredInOneMove).toEqual(['basic-swap', 'clear-package', 'drop-ingredient']);
     expect(nextPendingMatch3Tutorial(concepts, masteredInOneMove)).toBeNull();
 
     const ingredientFirst = tutorialConceptsCompletedByEvents(concepts, ['basic-swap'], ['ingredient-dropped']);
     expect(ingredientFirst).toEqual(['drop-ingredient']);
-    expect(nextPendingMatch3Tutorial(concepts, ['basic-swap', ...ingredientFirst])).toBe('clear-blocker');
+    expect(nextPendingMatch3Tutorial(concepts, ['basic-swap', ...ingredientFirst])).toBe('clear-package');
   });
 });

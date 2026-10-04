@@ -880,7 +880,7 @@ export class Match3Game {
   }
 
   private isBlockedCell(index: number): boolean {
-    return blockerLocksTileInteraction(this.cells[index].blockerLayers);
+    return blockerLocksTileInteraction(this.cells[index].blockerLayers, this.level.blocker);
   }
 
   private swapContents(first: number, second: number): void {
