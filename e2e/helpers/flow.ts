@@ -11,7 +11,7 @@ export async function startNewStory(page: Page): Promise<void> {
   await resetBrowserState(page);
   await page.locator(qaSelectors.newGame).click();
   await expect(page.locator(qaSelectors.vnRuntimeFrame)).toBeVisible();
-  expect(await currentVnLineId(page)).toBe('VN0001');
+  expect(await currentVnLineId(page)).toBe('VN0002');
 }
 
 export async function persistAtVn0002AndReload(page: Page): Promise<void> {
@@ -67,7 +67,7 @@ export async function reachFirstStoryMatch(page: Page): Promise<void> {
   await expect(page.locator(qaSelectors.vnRuntimeFrame)).toBeVisible();
   expect(await currentVnLineId(page)).toBe('VN0041B');
 
-  await advanceToLine(page, 'VN0057', 180);
+  await advanceToLine(page, 'VN0056', 180);
 
   for (let click = 0; click < 16; click += 1) {
     if (await page.locator(qaSelectors.matchIntro).isVisible()) break;
