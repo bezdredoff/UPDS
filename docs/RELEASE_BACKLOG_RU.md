@@ -53,6 +53,31 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 - **R2 — post-release / optional:** не задерживает base release.
 - **DROP / evidence-only:** не строить без новой доказанной потребности.
 
+## G5 / G5b — integrated phone playtest follow-up 2026-10-04
+
+Новый iPhone pass после PR #341 дал конкретный evidence и поэтому открывает ограниченный follow-up, а не новый общий polish milestone. Полная карта и rationale: [`reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
+
+### R0
+
+- **`G5-PT2-VN-001` — active:** player runtime не должен показывать screenplay/system directives как игровые VN-экраны. `VARIABLE`, `CUT TO`, `INSERT`, `FADE IN`, `CHOICE CHECKPOINT` и raw payload остаются metadata для существующих runtime semantics, но скрываются из player surface/history. Не строить новые insert/gallery systems ради этих строк.
+- **`KI-006`:** подтверждён скриншотами 2026-10-04; закрыть только после runtime + Browser Gate проверки background/choice/save progression.
+
+### R1
+
+- **`G5b-PT2-M3-006`:** воспроизвести и устранить post-drop board geometry shift (`KI-007`) через before/after geometry capture.
+- **`G5b-PT2-M3-005`:** ускорить invalid swap. Сейчас `invalidHold = 1600 ms`, а no-match возвращает tile stacks только после hold; tile return и readable message timing нужно развязать.
+- **`G5b-PT2-M3-002`:** убрать layer-number badges из player board; механические 1/2 layers сохранить. Solid blocker сделать менее закрывающим (первый кандидат — прозрачный zip-bag/cover), locked — тоньше цепи и без тяжёлой подложки.
+- **`G5b-PT2-M3-001`:** foam semantics. `overlay` используется на 4/22 уровнях (**18.2%**), против `locked` 7/22 (**31.8%**) и `solid` 11/22 (**50%**). Только `M3_02` permeable — **1/22** всей кампании и **1/4** foam-levels. Тематически foam естественен на `M3_02` и `M3_15`; `M3_12` и `M3_16` должны получить более подходящий reusable blocker. Убрать ситуацию, где одинаковый visual обещает разные interaction rules.
+- **`G5b-PT2-M3-004`:** убрать `special-base-marker` с production special tiles; исходная match-фишка не должна выглядеть как дополнительная цель/эффект special. Row/column direction marker остаётся.
+- **`G5b-PT2-M3-003`:** сделать светлый transparent top/camisole реально светлым на тёмном поле, не меняя match identity.
+- **`G5-PT2-VN-002`:** проверить единый playable character scale с текущим trio-size как baseline. Цель — убрать заметный scale jump между solo/duo/trio, а не запретить authored X-positioning.
+
+### R2
+
+- **`G5-PT2-VN-003`:** только после scale-fix проверить слабый edge glow/outline как способ скрыть мелкие matte-шероховатости. Если на 2–3 персонажах появляется заметное свечение или character cutouts отделяются от фона — эксперимент отклонить.
+
+Порядок реализации: VN directive leak → invalid-swap + geometry stability → blocker visual cleanup → foam semantics → special marker/light top → character scale → optional glow. Каждый runtime cut — отдельный маленький PR поверх свежего `main`.
+
 ## G2a — bounded architecture / patch cleanup
 
 Полный engineering plan: [`architecture/G2A_CLEANUP_PLAN_RU.md`](architecture/G2A_CLEANUP_PLAN_RU.md).

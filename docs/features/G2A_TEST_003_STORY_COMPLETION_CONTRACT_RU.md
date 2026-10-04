@@ -21,7 +21,7 @@ Contract остаётся полезным и проверяет только у
 
 - `story-completion.pw.ts` использует публичный QA selector и проходит player-visible Match-3 → Evidence → VN → reload → Continue flow;
 - journey проходит через rendered Match-3 cells, а не через `localStorage`, `window.__UPDS_TEST__`, `forceWin` или прямой доступ к `Match3Controller`;
-- canonical post-win boundary остаётся `VN0058`;
+- canonical post-win boundary остаётся `VN0059`;
 - QA fixture отдельно проверяется `StoryWinQaFixture.test.ts` через настоящий `Match3Game.attemptSwap()` с `won: true` и без мутации canonical level registry;
 - Chromium автоматически обнаруживает spec через общий `*.pw.ts` testMatch;
 - текущая осознанная политика lane сохраняется: этот cross-system flow не входит в mobile-critical WebKit set.

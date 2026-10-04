@@ -38,10 +38,10 @@ describe('ANM-023G4 VN browser E2E contract', () => {
   });
 
   it('covers measured paging, authored staging and real choice branching in the browser', () => {
-    expect(spec).toContain("currentVnLineId(page)).toBe('VN0001')");
+    expect(spec).toContain("currentVnLineId(page)).toBe('VN0559')");
     expect(spec).toContain('data-dialogue-pages');
     expect(spec).toContain("endsWith('…')");
-    expect(spec).toContain("advanceToLine(page, 'VN0002')");
+    expect(spec).toContain("advanceToLine(page, 'VN0559', 60)");
     expect(spec).toContain('data-character="miku"');
     expect(spec).toContain("advanceToLine(page, 'VN0008')");
     expect(spec).toContain('data-authored-shot="VN0008"');

@@ -100,11 +100,12 @@ async function expectStableDialoguePageAdvance(page: Page, lineId: string): Prom
 test.describe('VN through QA Scene Navigation', () => {
   test('uses real browser-measured paging on the production VN frame', async ({ page }) => {
     const health = observeBrowserHealth(page);
-    await openQaScene(page, 0);
+    await openQaScene(page, 24);
+    await advanceToLine(page, 'VN0559', 60);
 
-    expect(await currentVnLineId(page)).toBe('VN0001');
+    expect(await currentVnLineId(page)).toBe('VN0559');
     await expectPlayerGesturePolicy(page);
-    await expect(page.locator(qaSelectors.vnDirectionCard)).toBeVisible();
+    await expect(page.locator(qaSelectors.vnDirectionCard)).toHaveCount(0);
     await expectImageLoaded(page.locator(qaSelectors.vnBackgroundFit));
 
     const dialogue = page.locator(qaSelectors.vnDialogue);
@@ -118,7 +119,7 @@ test.describe('VN through QA Scene Navigation', () => {
     await page.locator(qaSelectors.vnNext).click();
 
     await expect(dialogue).toHaveAttribute('data-dialogue-page', '2');
-    expect(await currentVnLineId(page)).toBe('VN0001');
+    expect(await currentVnLineId(page)).toBe('VN0559');
     health.assertClean();
   });
 
@@ -127,12 +128,12 @@ test.describe('VN through QA Scene Navigation', () => {
     test.slow();
     const health = observeBrowserHealth(page);
     const regressionGroups = [
-      { scene: 0, lines: ['VN0001'] },
+      { scene: 24, lines: ['VN0559'] },
       { scene: 5, lines: ['VN0156', 'VN0158', 'VN0160'] },
       { scene: 13, lines: ['VN0340'] },
-      { scene: 26, lines: ['VN0595'] },
+      { scene: 26, lines: ['VN0594'] },
       { scene: 33, lines: ['VN0732'] },
-      { scene: 44, lines: ['VN0964'] },
+      { scene: 44, lines: ['VN0946'] },
     ] as const;
 
     for (const group of regressionGroups) {

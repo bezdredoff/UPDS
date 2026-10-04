@@ -142,14 +142,32 @@ export class VnController {
     this.renderVN();
   }
 
+  private consumePlayerHiddenDirectives(): StoryLine | null {
+    while (this.session.save.line < this.story.length) {
+      const entry = this.story[this.session.save.line];
+      if (!entry || !isDirection(entry)) return entry ?? null;
+
+      if (!this.session.save.readLines.includes(entry.id)) this.session.save.readLines.push(entry.id);
+      const gate = storyChoiceGateForLine(entry.id);
+      if (gate && !this.session.save.storyChoices[gate.id]) {
+        this.session.persist();
+        this.renderStoryChoice(gate);
+        return null;
+      }
+
+      this.session.save.line += 1;
+      this.session.persist();
+    }
+
+    this.advanceScene();
+    return null;
+  }
+
   private renderVN(): void {
     viewportDebugEvent('VnController.renderVN', { scene: this.session.save.scene, line: this.session.save.line }, true);
     this.services.audio.setScene('vn');
-    const entry = this.story[this.session.save.line];
-    if (!entry) {
-      this.advanceScene();
-      return;
-    }
+    const entry = this.consumePlayerHiddenDirectives();
+    if (!entry) return;
 
     this.services.telemetry.trackScreen('vn', entry.id);
     if (this.trackedVnLineId !== entry.id) {
@@ -350,8 +368,8 @@ export class VnController {
   private renderHistoryOverlay(): void {
     this.shell.clearTimers();
     const current = this.story[this.session.save.line];
-    const history = getReadHistory(this.session.save.readLines, this.session.save.choice);
-    const lines = current && !history.some((line) => line.id === current.id) ? [...history, current] : history;
+    const history = getReadHistory(this.session.save.readLines, this.session.save.choice).filter((line) => !isDirection(line));
+    const lines = current && !isDirection(current) && !history.some((line) => line.id === current.id) ? [...history, current] : history;
     const phone = this.root.querySelector<HTMLElement>('.phone');
     if (!phone) return;
     phone.insertAdjacentHTML('beforeend', vnHistoryOverlayMarkup({

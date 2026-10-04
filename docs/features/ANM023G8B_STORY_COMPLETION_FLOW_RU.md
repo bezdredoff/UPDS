@@ -8,7 +8,7 @@ Browser inventory with this candidate: **8 specs / 21 Chromium cases / 15 Mobile
 
 Добавить один короткий Playwright journey, который доказывает production boundary после настоящей победы Story Match-3:
 
-`M3_00 real win → clue/save → evidence → VN0058 → reload → Continue → VN0058`.
+`M3_00 real win → clue/save → evidence → VN0059 → reload → Continue → VN0059`.
 
 Тест не должен превращаться в Match-3 bot и не должен иметь `forceWin`/`window.__UPDS_TEST__`.
 
@@ -38,11 +38,11 @@ Production `Match3Controller.startMatch()` получает необязател
 6. сохраняет `scene=2`, `line=0`;
 7. показывает настоящий evidence transition;
 8. Evidence остаётся на экране без автоперехода и ждёт явного `continue-story`;
-9. `continue-story` открывает canonical post-win VN, первая строка `VN0058`.
+9. `continue-story` открывает canonical post-win VN, первая строка `VN0059`.
 
 R1.3 удаляет прежний production auto-advance `shell.schedule(..., 1800)`: игрок должен успеть прочитать найденную улику и сам решить, когда продолжить.
 
-После reload Main Menu → Continue обязан вернуть `VN0058`.
+После reload Main Menu → Continue обязан вернуть `VN0059`.
 
 ## QA UX
 

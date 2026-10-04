@@ -47,7 +47,7 @@ G8E2 меняет этот boundary:
 
 После ручного отчёта по VN0156/VN0160 был отдельно проверен весь белорусский каталог (976 VN-линий) на production dialogue geometry. Результат подтверждает, что дефект не привязан к scene 5: сотни реплик являются многостраничными в мобильной геометрии, а точный набор зависит от browser/font metrics. Поэтому runtime fix остаётся общим для любого `dialoguePageIndex` внутри той же VN-линии.
 
-Mobile WebKit regression corpus теперь охватывает раннюю, среднюю и позднюю часть истории: VN0001; VN0156/VN0158/VN0160; VN0340; VN0595; VN0732; VN0964. Это representative contract, а не hardcoded runtime whitelist: production code не содержит специальных VN ID.
+Mobile WebKit regression corpus теперь охватывает раннюю, среднюю и позднюю часть истории только на player-facing репликах: VN0559; VN0156/VN0158/VN0160; VN0340; VN0594; VN0732; VN0946. Служебные VN0595 и VN0964 пропускаются runtime и не должны быть целями интерактивного paging-теста. Это representative contract, а не hardcoded runtime whitelist: production code не содержит специальных VN ID.
 
 ## Localization paging regression (R1.2)
 

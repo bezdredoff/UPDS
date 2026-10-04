@@ -43,7 +43,7 @@ describe('ANM-023G6 browser journey integrity contract', () => {
     expect(helper).toContain('export async function startFirstStoryMatchAndVerifyResumeBoundary');
     expect(helper).toContain("advanceToLine(page, 'VN0040', 240)");
     expect(helper).toContain('data-choice="B"');
-    expect(helper).toContain("advanceToLine(page, 'VN0057', 180)");
+    expect(helper).toContain("advanceToLine(page, 'VN0056', 180)");
     expect(helper).toContain("toHaveText('M3_00_LOCKER_TUTORIAL')");
     expect(helper).toContain("toHaveText('M3_00')");
     expect(helper).toContain('page.reload()');

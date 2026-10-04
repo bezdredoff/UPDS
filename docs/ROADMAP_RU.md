@@ -1,5 +1,7 @@
 # UPDS — Production Roadmap
 
+2026-10-04 — новый integrated iPhone playtest после PR #341 открыл bounded follow-up tranche. Подтверждены два release-facing дефекта: VN рендерит screenplay/system directives (`VARIABLE`, `CUT TO`, `INSERT`, `FADE IN`, `CHOICE CHECKPOINT`) как обычные игровые экраны, а Match-3 иногда визуально меняет geometry после drop-цели. Дополнительно в G5b поставлены evidence-driven polish-задачи по foam semantics, blocker occlusion/layer numbers, special base markers, invalid-swap pacing и читаемости светлого top; во VN — стабильный trio-scale и только optional edge-glow experiment. Первый R0 slice `G5-PT2-VN-001` активен: внутренние directives должны сохраниться как metadata для background/choice/save semantics, но исчезнуть из player surface. Полная триаж-карта: [G5 playtest follow-up](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
+
 Technical product version: `0.26.0-dev`.
 
 2026-10-02 — G5a закрыта после слияния PR #325–326 и решения пользователя. Завершены

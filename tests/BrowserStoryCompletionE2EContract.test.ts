@@ -39,7 +39,7 @@ describe('ANM-023G8B Story completion browser contract', () => {
       expect(spec).toContain(`qaSelectors.${selector}`);
     }
 
-    expect(spec).toContain("toBe('VN0058')");
+    expect(spec).toContain("toBe('VN0059')");
     expect(spec).toContain('page.reload()');
     expect(selectors).toContain("storyWinQaButton: '#story-win-qa'");
     expect(config).toContain('testMatch: /.*\\.pw\\.ts/');

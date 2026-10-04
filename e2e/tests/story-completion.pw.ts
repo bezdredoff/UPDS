@@ -35,7 +35,7 @@ test.describe('Story completion production boundary', () => {
 
     await page.locator(qaSelectors.evidenceContinue).click();
     await expect(page.locator(qaSelectors.vnRuntimeFrame)).toBeVisible();
-    expect(await currentVnLineId(page)).toBe('VN0058');
+    expect(await currentVnLineId(page)).toBe('VN0059');
 
     await page.reload();
     await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
@@ -43,7 +43,7 @@ test.describe('Story completion production boundary', () => {
     await page.locator(qaSelectors.continueGame).click();
 
     await expect(page.locator(qaSelectors.vnRuntimeFrame)).toBeVisible();
-    expect(await currentVnLineId(page)).toBe('VN0058');
+    expect(await currentVnLineId(page)).toBe('VN0059');
     health.assertClean();
   });
 });
