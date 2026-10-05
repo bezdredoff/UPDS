@@ -55,7 +55,7 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 
 ## G5 / G5b — integrated phone playtest follow-up 2026-10-04
 
-Итоговый playtest tranche `#342–#359` завершён в коде и документации. Все PR #342–#349 прошли Quality, Chromium full E2E и Mobile WebKit critical E2E; PR #359 прошёл quality gate и опубликован как `v0.27.3-dev`. Live browser QA подтвердил исправления `KI-011`/`KI-012`, RU/BE/EN first-entry lessons и их независимость от legacy tutorial flag `clear-blocker`. Восемь комбинаций BE/EN × M3_02/M3_05 × fresh/legacy save показали ожидаемые уроки. Campaign-wide 9×7 удобство пользователь ранее явно одобрил; это не заменяет человеческую оценку сложности и variety каждого из 22 уровней. Полная карта: [`reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
+Итоговый playtest tranche `#342–#359` завершён в коде и документации. Все PR #342–#349 прошли Quality, Chromium full E2E и Mobile WebKit critical E2E; PR #359 прошёл quality gate и опубликован как `v0.27.3-dev`. Live browser QA подтвердил исправления `KI-011`/`KI-012`, RU/BE/EN first-entry lessons и их независимость от legacy tutorial flag `clear-blocker`. Восемь комбинаций BE/EN × M3_02/M3_05 × fresh/legacy save показали ожидаемые уроки. 2026-10-05 пользователь подтвердил, что пена понятна, а разнообразие и сложность Match-3 кампании достаточны для продолжения; G5b принят. Отдельные телефонные release checks KI-006/KI-007 остаются в G5/G5c. Полная карта: [`reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
 
 ### R0
 
@@ -69,7 +69,7 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 - **`G5b-PT2-M3-002` — accepted · PR #353:** цифры отсутствуют; пользователь принял zip-bag и locked art. Повторно осмотрено в опубликованной игре 2026-10-04; `KI-008`/`KI-009` закрыты. Двухэтапная игровая проверка учитывается отдельно в `G5b-PT3-M3-BLOCKER-004`.
 - **`G5b-PT2-M3-001` — accepted · PR #345 + current build check:** M3_02 подтвердил совпадение с фишкой под пеной и снятие слоёв от совпадения; справка точно объясняет подвижность, ортогональное соседство и исключение диагонали. Автотесты и live QA прошли. First-encounter coachmark остаётся в `G5b-PT3-M3-UX-002`.
 - **`G5b-PT3-M3-ART-001` — accepted:** пустой zip-bag и fit предметов внутри одобрены пользователем после PR #353; `KI-008` закрыт.
-- **`G5b-PT3-M3-UX-002` — review:** live published story-path checks 2026-10-05 подтвердили foam tutorial на M3_02 в RU/BE/EN; BE/EN также проверены с legacy `clear-blocker` в save. Human comprehension/field-playtest остаётся.
+- **`G5b-PT3-M3-UX-002` — accepted 2026-10-05:** live published story-path checks подтвердили foam tutorial на M3_02 в RU/BE/EN; BE/EN также проверены с legacy `clear-blocker` в save. Пользователь подтвердил, что правило пены понятно.
 - **`G5b-PT3-M3-TUT-003` — accepted:** M3_00 остаётся без blocker; пена M3_02 и замок→цепь M3_05 обучаются в RU/BE/EN. В live BE/EN проверены fresh и legacy `clear-blocker` saves: новые уроки не пропускаются.
 - **`G5b-PT3-M3-BLOCKER-004` — accepted:** на live authored M3_05 2026-10-05 подтверждён gameplay переход `layers=2`/padlock+chain → `layers=1`/chain-only → удалённый blocker; нижняя фишка остаётся доступна.
 - **`G5b-PT3-M3-HELP-005` — accepted:** в опубликованной игре справка открывается из уровня и ясно объясняет все три блокера. Локальный focused suite: 8 файлов / 93 теста прошли. Новый низкоконтрастный рисунок пакета в справке зарегистрирован отдельно как `KI-011`.
@@ -83,7 +83,7 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 
 - **`G5-PT2-VN-003` — проверено, отклонено · PR #349:** runtime и очень слабый 1px тёмный edge treatment сравнены на solo/duo/trio. Halo/style drift нет, улучшение практически неразличимо; production CSS/goldens не менялись.
 
-Дальше нужны человеческая проверка понимания foam tutorial и полный playtest сложности/разнообразия 22 production-уровней. Первый live match3 suite дал 11/13: две проверки оказались чувствительны к загрузке PNG и таймингу no-match сообщения. После ожидания decode и переноса timing assertions на надёжные точки повторный live suite прошёл 13/13. `KI-006` и `KI-007` остаются открытыми до интегрированной device-проверки на реальном iPhone.
+G5b принят 2026-10-05 по прямой человеческой оценке понимания пены, разнообразия и сложности. Story и runtime asset preflight для старта G5 прошли на merged `main` `d3e67f2`: story audit 6/6; inventory — 23 фона, 63 character assets, 5 bonus PNG + 5 SVG fallback, 24 guest PNG, ноль path/decode и guest-contract ошибок. Первый live Match-3 browser suite дал 11/13 из-за двух timing/load-sensitive assertions; после ожидания decode и более надёжного sampling повторный suite прошёл 13/13. Это не заменяет интегрированный release pass: Story `0–21`, три финала, 22 Match-3 перехода, retry/progression/saves и browser asset loading ещё нужно пройти. `KI-006` и `KI-007` остаются открытыми до проверки на реальном iPhone.
 
 ## G2a — bounded architecture / patch cleanup
 
@@ -366,8 +366,8 @@ Post-launch expansion only. Не расходует base-release capacity.
 
 1. **G4a — ACCEPTED:** все 33 исходные rework-позиции, включая 13 blocker, закрыты PR #314–320; пользователь подтвердил интегрированную проверку в игре и на телефоне. [Отчёт](reviews/G4A_ART_REVIEW_2026-09-30.md). 117 approved сохраняются без нового дефекта.
 2. **G5a — ACCEPTED:** редактура RU/EN/BE завершена и слита в PR #322/#325/#326; quality, localization, Chromium и Mobile WebKit gates пройдены, пользователь проверил на телефоне.
-3. **G5b — review / следующий human action:** ретест PR #343–#347, всех 22 Match-3 levels и E6B representative cohort; не принимать баланс по auto audit.
-4. **G5 — queued:** full playthrough Story `0–21`, три финала, retry/progression/saves и shipped asset crawl; provisional window 12–16 Oct 2026.
+3. **G5b — ACCEPTED 2026-10-05:** пользователь подтвердил ясность правила пены и достаточность разнообразия/сложности кампании. Человеческая оценка имеет приоритет над auto audit.
+4. **G5 — ACTIVE:** интегрированный playthrough Story `0–21`, три финала, 22 Match-3 перехода, retry/progression/saves и shipped asset crawl; target window 12–16 Oct 2026. Story audit и runtime inventory уже прошли на `d3e67f2`; полная ручная проверка продолжается.
 5. **G5c / ANM-033 — queued:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, packaging/rights; KI-002 открыт. Provisional window 19–21 Oct.
 6. **G6 — queued:** исправить только найденные release defects, затем packaging/deploy/rollback; provisional window 22–23 Oct.
 7. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release.
