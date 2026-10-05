@@ -83,7 +83,7 @@ export const beCatalog = {
   'match3.movesStageAria': 'Хады і этап',
   'match3.movesUpper': 'ХАДЫ',
   'match3.stage': 'ЭТАП {current}/{total}',
-  'match3.boardAria': 'Поле 8 на 8',
+  'match3.boardAria': 'Гульнявое поле: {rows} радкоў, {columns} слупкоў',
   'match3.teamAria': 'Каманда расследавання',
   'match3.hint': 'ПАДКАЗКА',
   'match3.bestMove': 'Найлепшы ход',

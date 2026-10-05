@@ -117,6 +117,9 @@
   height: 100%;
   object-fit: contain;
 }
+.match-help-blocker[data-blocker='package'] .match-help-blocker-visual {
+  background: #55766c;
+}
 .match-help-blocker b,
 .match-help-blocker small {
   display: block;

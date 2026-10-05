@@ -1146,7 +1146,7 @@ export const ruCatalog = {
   'match3.movesStageAria': 'Ходы и этап',
   'match3.movesUpper': 'ХОДЫ',
   'match3.stage': 'ЭТАП {current}/{total}',
-  'match3.boardAria': 'Поле 8 на 8',
+  'match3.boardAria': 'Игровое поле: {rows} строк, {columns} столбцов',
   'match3.teamAria': 'Команда расследования',
   'match3.hint': 'ПОДСКАЗКА',
   'match3.bestMove': 'Лучший ход',

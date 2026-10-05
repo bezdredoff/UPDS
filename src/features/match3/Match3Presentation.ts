@@ -417,7 +417,7 @@ ${headerActionMarkup('header-settings', 'settings', t('common.settings'))}
 </div>
 <div id="match-feedback" class="match-feedback" aria-live="polite"></div>
 <div class="match-playfield" style="${boardStyle}">
-<div class="board"${boardMask ? ' data-board-shaped="true"' : ''} style="${boardStyle}" role="grid" aria-rowcount="${boardDimensions.rows}" aria-colcount="${boardDimensions.columns}" aria-label="${escapeHtml(t('match3.boardAria'))}">${match3BoardCellsMarkup({ level, board, selectedCell, hintedCells, t })}</div>
+<div class="board"${boardMask ? ' data-board-shaped="true"' : ''} style="${boardStyle}" role="grid" aria-rowcount="${boardDimensions.rows}" aria-colcount="${boardDimensions.columns}" aria-label="${escapeHtml(t('match3.boardAria', { rows: boardDimensions.rows, columns: boardDimensions.columns }))}">${match3BoardCellsMarkup({ level, board, selectedCell, hintedCells, t })}</div>
 </div>
 <div class="match-tooltray match-dialogue-panel">
 <div class="field-bark-slot" aria-live="polite" aria-atomic="true">${match3BarkMarkup(bark, barkEntering, t)}</div>

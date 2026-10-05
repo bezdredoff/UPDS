@@ -169,6 +169,40 @@ describe('current Match-3 presentation contract', () => {
     expect(screen).toContain('id="dossier"');
     expect(screen).toContain('&lt;bark&gt;');
     expect(screen).toContain('field-bark-slot');
+    expect(screen).toContain('role="grid" aria-rowcount="9" aria-colcount="7" aria-label="match3.boardAria:rows=9,columns=7"');
+  });
+
+  it('keeps the accessible board name synchronized with both production and legacy geometry', () => {
+    const screenForLevel = (level: typeof levels[number]): string => {
+      const game = new Match3Game(level, level.seed);
+      const objectiveLabels = level.objectives.map((_, index) => `objective-${index}`);
+      return match3ScreenMarkup({
+        level,
+        board: game.board,
+        selectedCell: null,
+        hintedCells: new Set<number>(),
+        movesLeft: game.movesLeft,
+        activeLevelIndex: 0,
+        totalLevels: levels.length,
+        runMode: 'story',
+        labSeed: null,
+        clueCount: 0,
+        bark: { speaker: t('character.miku'), text: '…' },
+        barkEntering: false,
+        tutorialConcept: null,
+        tutorialDismissed: false,
+        t,
+        levelTitle: 'test level',
+        objectiveLabels,
+        objectiveValues: level.objectives.map((_, index) => game.objectiveValue(index)),
+      });
+    };
+    const productionMarkup = screenForLevel(levels[0]);
+    const legacyLevel: typeof levels[number] = { ...levels[0], boardSize: { rows: 8, columns: 8 } };
+    const legacyMarkup = screenForLevel(legacyLevel);
+
+    expect(productionMarkup).toContain('role="grid" aria-rowcount="9" aria-colcount="7" aria-label="match3.boardAria:rows=9,columns=7"');
+    expect(legacyMarkup).toContain('role="grid" aria-rowcount="8" aria-colcount="8" aria-label="match3.boardAria:rows=8,columns=8"');
   });
 
 
