@@ -48,6 +48,8 @@ describe('ANM-025C2 Match-3 Help / FAQ', () => {
       expect(markup).toContain(`translated:match3.help.blocker.${blocker}.body`);
       expect(markup).toContain(`obstacle_${blocker === 'package' ? 'zip_bag' : blocker === 'foam' ? 'soap_foam' : 'locked_cell_redraw'}.png`);
     }
+    expect(helpCss).toContain(".match-help-blocker[data-blocker='package'] .match-help-blocker-visual");
+    expect(helpCss).toContain('background: #55766c;');
     for (const special of requiredSpecials) {
       expect(markup).toContain(`data-special="${special}"`);
       expect(markup).toContain(`translated:match3.special.${special}`);

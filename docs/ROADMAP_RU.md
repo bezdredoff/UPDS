@@ -1,16 +1,16 @@
 # UPDS — Production Roadmap
 
-2026-10-04 — опубликованная `v0.27.2-dev` проверена в браузере. M3_00 успешно пройден без блокеров; в M3_02 подтверждена работа проницаемой пены и её правила в справке; на M3_05 подтверждены двухслойные визуалы замка/цепи и правильное описание в справке. Пользователь ранее принял zip-bag и locked art; соответствующие задачи закрыты. Справка по трем блокерам принята. Gameplay-переход padlock → chain-only и first-encounter уроки M3_02/M3_05 остаются на проверку. Найдены новые задачи `KI-011` (контраст значка пакета в справке) и `KI-012` (a11y-подпись ошибочно говорит 8×8 для поля 7×9). Полный баланс всех уровней не подтверждён.
+2026-10-05 — кандидат `v0.27.3-dev` исправляет низкий контраст миниатюры zip-пакета в справке и передаёт размеры поля в RU/BE/EN accessible name. Live QA на опубликованной `v0.27.2-dev`: first-entry обучение пены M3_02 и замка M3_05 показано по сюжетному пути на RU; в авторском M3_05 gameplay ход снял замок, оставил цепь и последующий ход снял цепь. Поле сообщает 9 строк и 7 столбцов в ARIA-размерах, но имя всё ещё ошибочно говорит «Поле 8 на 8»; контраст пакета в справке также ниже соседних иконок. `G5b-PT3-M3-BLOCKER-004` получил live evidence; `KI-011`/`KI-012` исправляются в этом кандидате. RU runtime проверен; BE/EN first-entry, legacy tutorial-save, mobile/device acceptance и полный human balance pass остаются открыты.
 
 Human follow-up PR #353 merged and visually accepted: locked blocker keeps chains/padlock opaque while the tile underneath has subtle transparency; solo VN portraits align to the shared duo/trio focal eye line at the accepted scale.
 
 Перед новым human проходом выполнен post-feedback auto audit на `main` `89c7918`: 4 400 прогонов (200 × 22 levels), mean agent win rate 75.8%; M3_02 — 64.5% / median 21 ход, M3_06 — 61.5% / median 27 ход, M3_11 — 43.0%. Это сигнал для повторной проверки, не human win-rate и не основание менять баланс. Runtime asset inventory: 0 path/decode errors; story audit: 6/6.
 
-Следующее действие G5b — проверить сюжетные first-encounter подсказки на M3_02/M3_05 и реально увидеть переход padlock → chain-only; затем продолжить human balance pass всех 22 уровней. Новые `KI-011`/`KI-012` требуют небольших UI/a11y исправлений. Отдельно для полного G5 остаются phone retest VN/geometry (`KI-006`/`KI-007`), Story `0–21`, три финала, campaign retry/progression/saves и shipped asset crawl. Полная карта: [G5 playtest follow-up](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md); [свежий auto audit](reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json).
+Следующее действие G5b — принять кандидат исправлений `KI-011`/`KI-012`, проверить RU/BE/EN first-entry и legacy tutorial-save, затем продолжить human balance pass всех 22 уровней. Отдельно для полного G5 остаются phone retest VN/geometry (`KI-006`/`KI-007`), Story `0–21`, три финала, campaign retry/progression/saves и shipped asset crawl. Полная карта: [G5 playtest follow-up](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md); [свежий auto audit](reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json).
 
-Постоянная справка Match-3 с правилами zip-пакета, проницаемой пены и двухэтапного замка проверена в опубликованной сборке; `G5b-PT3-M3-HELP-005` принят. Точечная автоматическая проверка: 8 файлов / 93 теста прошли. В справке остаётся низкоконтрастная иконка пакета (`KI-011`).
+Постоянная справка Match-3 с правилами zip-пакета, проницаемой пены и двухэтапного замка проверена в опубликованной сборке; `G5b-PT3-M3-HELP-005` принят. Новая teal-подложка миниатюры пакета и динамическое RU/BE/EN имя поля 9×7 находятся на review в кандидатной сборке. G5b balance и mobile/device acceptance по-прежнему не завершены.
 
-Technical product version: `0.27.2-dev`.
+Technical product version: `0.27.3-dev`.
 
 2026-10-02 — G5a закрыта после слияния PR #325–326 и решения пользователя. Завершены
 английская и белорусская редактура: в BE вычитаны 976 сюжетных реплик, 601 строка

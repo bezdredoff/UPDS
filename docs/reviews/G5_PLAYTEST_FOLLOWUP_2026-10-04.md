@@ -98,3 +98,19 @@ Checked `https://bezdredoff.github.io/UPDS/` on `v0.27.2-dev` in a desktop brows
 - Focused suite passed: 8 test files / 93 tests.
 
 This is browser evidence, not an iPhone/PWA retest or a complete 22-level balance pass. No production files were changed during the QA run.
+
+## Independent published-build recheck — 2026-10-05
+
+The previous QA report could not open the public site in its browser session. A separate Codex session rechecked `https://bezdredoff.github.io/UPDS/?qa=1` in the in-app Chromium browser; the published menu reported `v0.27.2-dev`. QA Scene Navigation was used to enter the authored story routes. These observations are live evidence for the current published build, not evidence from the candidate branch.
+
+- **M3_02 first-entry, RU:** the story route reached `M3_02_POOL_LAUNDRY` and showed `clear-foam` on the first level start. The copy says tiles under foam can move and match; a match on the foam or orthogonally beside it removes a layer; diagonals do not count.
+- **M3_05 first-entry, RU:** the story route reached `M3_05_BASKETBALL_LOCKERS` and showed `clear-lock` on the first level start. The copy explains padlock first, chain next, orthogonal adjacency only and that the covered tile cannot move.
+- **M3_05 actual authored gameplay:** the production board started with ten locked placements at two layers. A legal hinted play changed an authored cell from `data-layers="2"` / `obstacle_locked_cell_redraw.png` to `data-layers="1"` / `obstacle_chain_cell.png`. A later legal hinted play/cascade removed that blocker; the underlying tile remained in the cell. `G5b-PT3-M3-BLOCKER-004` is accepted on this direct runtime evidence.
+- **Accessibility defect confirmed:** the same production board exposed `aria-rowcount="9"` and `aria-colcount="7"`, while its accessible name was still `Поле 8 на 8`. This is `KI-012`.
+- **Help thumbnail issue confirmed:** the package illustration's dark navy shape is visibly less distinct against its thumbnail than the foam and lock illustrations. This is `KI-011`.
+
+The production candidate addresses the two defects without changing board rules or approved in-board blocker art. A first cream thumbnail backing was rejected during local visual inspection because the clear bag outline disappeared against it. The current candidate gives only the Help thumbnail a muted teal backing; the board renderer passes its actual row/column counts to the accessible-name localization template in RU/BE/EN. The candidate is `v0.27.3-dev`; `KI-011` and `KI-012` remain open for the published `v0.27.2-dev` until merge/deployment and review.
+
+Local production-preview check on 2026-10-05 confirmed the M3_05 board's accessible name is `Игровое поле: 9 строк, 7 столбцов`, matching its 9×7 ARIA dimensions. The Help screenshot shows the transparent package outline separated from the muted teal thumbnail and distinguishable from foam/lock icons. Final automated check: `npm run check` passed lint, all 153 test files / 777 tests, TypeScript and production build. `git diff --check` and JSON parsing of the three release data files passed. Build emitted the existing >500 kB chunk advisory; npm audit reported two moderate Vitest-chain advisories below the configured high threshold.
+
+Runtime first-entry was verified only in RU. BE/EN first-entry, a legacy save containing the old `clear-blocker` completion flag, real-phone/PWA behavior, and full human balance across all 22 levels remain unverified. This evidence does not close umbrella G5b.

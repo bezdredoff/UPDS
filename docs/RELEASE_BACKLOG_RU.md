@@ -55,7 +55,7 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 
 ## G5 / G5b — integrated phone playtest follow-up 2026-10-04
 
-Итоговый playtest tranche `#342–#349` завершён в коде и документации. Все PR #342–#349 прошли Quality, Chromium full E2E и Mobile WebKit critical E2E. Первый human retest Match-3 подтвердил исправления pacing, special marker, читаемость camisole, разнообразие белья/носков и H-поля. Последующая проверка опубликованной `v0.27.2-dev` 2026-10-04 подтвердила M3_00 без блокеров, механику проницаемой пены на M3_02 и постоянную справку по трём блокерам. Отдельно принятые zip-bag и locked art закрыты. Остались проверка отдельных first-encounter coachmarks и полного перехода замок → цепь; полный campaign balance pass не выполнен. Найдены две новые UI-проблемы: слабоконтрастный значок пакета в справке и неверная a11y-подпись размеров поля 7×9. Полная карта: [`reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
+Итоговый playtest tranche `#342–#349` завершён в коде и документации. Все PR #342–#349 прошли Quality, Chromium full E2E и Mobile WebKit critical E2E. Первый human retest Match-3 подтвердил исправления pacing, special marker, читаемость camisole, разнообразие белья/носков и H-поля. Независимый live recheck `v0.27.2-dev` 2026-10-05 подтвердил RU first-entry coachmarks на M3_02/M3_05 и фактический переход padlock → chain-only с полным снятием цепи на авторском M3_05. Найдены и исправляются `KI-011` (контраст пакета в справке) и `KI-012` (неверная a11y-подпись 7×9). Первый production-кандидат после merge получает версию `v0.27.3-dev`. BE/EN first-entry, legacy tutorial-save, mobile/device acceptance и полный campaign balance pass остаются открыты. Полная карта: [`reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
 
 ### R0
 
@@ -69,10 +69,12 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 - **`G5b-PT2-M3-002` — accepted · PR #353:** цифры отсутствуют; пользователь принял zip-bag и locked art. Повторно осмотрено в опубликованной игре 2026-10-04; `KI-008`/`KI-009` закрыты. Двухэтапная игровая проверка учитывается отдельно в `G5b-PT3-M3-BLOCKER-004`.
 - **`G5b-PT2-M3-001` — accepted · PR #345 + current build check:** M3_02 подтвердил совпадение с фишкой под пеной и снятие слоёв от совпадения; справка точно объясняет подвижность, ортогональное соседство и исключение диагонали. Автотесты и live QA прошли. First-encounter coachmark остаётся в `G5b-PT3-M3-UX-002`.
 - **`G5b-PT3-M3-ART-001` — accepted:** пустой zip-bag и fit предметов внутри одобрены пользователем после PR #353; `KI-008` закрыт.
-- **`G5b-PT3-M3-UX-002` — review:** mechanics и понятный текст в постоянной справке проверены в живой сборке. Отдельный first-encounter coachmark пены на M3_02 ещё нужно проверить при первом сюжетном входе.
-- **`G5b-PT3-M3-TUT-003` — review:** M3_00 проверен без блокеров; на M3_01 показан урок про пакет. First-encounter уроки пены на M3_02 и замка → цепи на M3_05 требуют отдельной проверки сюжетного прохождения и RU/BE/EN.
-- **`G5b-PT3-M3-BLOCKER-004` — review:** правила и двухслойная визуальная конфигурация M3_05 совпадают со справкой; переход в gameplay с padlock на chain-only ещё не проверен ходом игрока.
+- **`G5b-PT3-M3-UX-002` — review:** в live RU сюжетном проходе 2026-10-05 первое обучение пены на M3_02 показалось и точно объяснило стороны/исключение диагонали. BE/EN и human comprehension pass остаются.
+- **`G5b-PT3-M3-TUT-003` — review:** live RU сюжетный проход показал first-entry уроки пены M3_02 и замка/цепи M3_05. BE/EN и прохождение с legacy `clear-blocker` tutorial flag ещё не проверены.
+- **`G5b-PT3-M3-BLOCKER-004` — accepted:** на live authored M3_05 2026-10-05 подтверждён gameplay переход `layers=2`/padlock+chain → `layers=1`/chain-only → удалённый blocker; нижняя фишка остаётся доступна.
 - **`G5b-PT3-M3-HELP-005` — accepted:** в опубликованной игре справка открывается из уровня и ясно объясняет все три блокера. Локальный focused suite: 8 файлов / 93 теста прошли. Новый низкоконтрастный рисунок пакета в справке зарегистрирован отдельно как `KI-011`.
+- **`G5b-PT3-M3-HELP-006` / `KI-011` — review / open:** кандидат меняет только фон миниатюры прозрачного пакета на приглушённый teal; game-board asset сохраняется. Требуется визуальный просмотр кандидата/merged build.
+- **`G5b-PT3-M3-A11Y-007` / `KI-012` — review / open:** board `aria-label` теперь получает runtime rows/columns и локализованные RU/BE/EN параметры; добавлен regression test parity с `aria-rowcount`/`aria-colcount`. KI остаётся open, пока исправление не попадёт в опубликованную сборку.
 - **`G5b-PT2-M3-004` — accepted · PR #346:** пользователь подтвердил, что special больше не показывает исходную tile icon и направление line-clear понятно.
 - **`G5b-PT2-M3-003` — accepted · PR #347:** пользователь подтвердил читаемость светлого transparent top/camisole на поле.
 - **`G5-PT2-VN-002` — accepted · PR #353:** общий масштаб 0.72 и focal eye line для solo/duo/trio; пользователь проверил merged вариант и подтвердил, что результат нравится.
@@ -81,7 +83,7 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 
 - **`G5-PT2-VN-003` — проверено, отклонено · PR #349:** runtime и очень слабый 1px тёмный edge treatment сравнены на solo/duo/trio. Halo/style drift нет, улучшение практически неразличимо; production CSS/goldens не менялись.
 
-Следующий шаг: проверить first-encounter уроки пены и цепи при сюжетном входе, затем подтвердить gameplay-переход padlock → chain-only. Исправить новые `KI-011` (контраст иконки пакета в справке) и `KI-012` (a11y-имя поля 7×9). Полный G5 campaign/story pass и баланс всех 22 уровней остаются отдельной работой; agent audit не заменяет human sample. `KI-006` и `KI-007` остаются открытыми до отдельных device-проверок.
+Следующий шаг: просмотреть UI-кандидат `KI-011`/`KI-012`, после merge проверить published accessibility tree и `Help` thumbnail; затем пройти BE/EN first-entry и legacy tutorial-save cases. Полный G5 campaign/story pass и human balance всех 22 уровней остаются отдельной работой; agent audit не заменяет human sample. `KI-006` и `KI-007` остаются открытыми до отдельных device-проверок.
 
 ## G2a — bounded architecture / patch cleanup
 

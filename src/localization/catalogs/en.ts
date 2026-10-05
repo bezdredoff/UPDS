@@ -1146,7 +1146,7 @@ export const enCatalog = {
   'match3.movesStageAria': 'Moves and stage',
   'match3.movesUpper': 'MOVES',
   'match3.stage': 'STAGE {current}/{total}',
-  'match3.boardAria': '8 by 8 board',
+  'match3.boardAria': 'Match-3 board: {rows} rows, {columns} columns',
   'match3.teamAria': 'Investigation team',
   'match3.hint': 'HINT',
   'match3.bestMove': 'Best move',
