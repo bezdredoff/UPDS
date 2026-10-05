@@ -59,12 +59,13 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 
 ### R0
 
-- **`G5-PT2-VN-001` — review · PR #342:** player runtime auto-consumes directives, сохраняет их для background/choice/save semantics и не добавляет их в player history. Browser Gate прошёл; проверить merged build на телефоне.
+- **`G5-PT2-VN-001` — accepted 2026-10-05 · PR #342:** player runtime auto-consumes directives, сохраняет их для background/choice/save semantics и не добавляет их в player history. Quality и Browser Gate прошли; пользователь попросил закрыть задачу. `KI-006` отдельно остаётся open до real-iPhone проверки переходов, choices, history и progression.
 - **`KI-006` — open pending device retest:** PR #342 merged; Quality, Chromium full E2E и Mobile WebKit critical E2E прошли. Закрыть только после проверки background/choice/save progression на телефоне.
 
 ### R1
 
-- **`G5b-PT2-M3-006` — review · PR #343:** `.match-guidance-slot` сохраняет footprint после drop; deterministic before/after geometry check проходит. `KI-007` ждёт проверки на iPhone; post-drop geometry пользователь явно не отметил.
+- **`G5b-PT2-M3-006` — accepted 2026-10-05 · PR #343:** `.match-guidance-slot` сохраняет footprint после drop; deterministic before/after geometry check проходит. Пользователь попросил закрыть задачу; `KI-007` отдельно остаётся open до real-iPhone ретеста.
+- **`G5b-M3-UIA-001` — accepted 2026-10-05 · PR #330/#337/#338/#343–#347:** production Match-3 UI, адаптивные размеры, общая геометрия и Browser Gate проверки приняты пользователем; пользователь попросил закрыть оставшийся review статус.
 - **`G5b-PT2-M3-005` — accepted · PR #343:** пользователь подтвердил, что при no-match фишки быстро возвращаются, а сообщение не блокирует поле надолго.
 - **`G5b-PT2-M3-002` — accepted · PR #353:** цифры отсутствуют; пользователь принял zip-bag и locked art. Повторно осмотрено в опубликованной игре 2026-10-04; `KI-008`/`KI-009` закрыты. Двухэтапная игровая проверка учитывается отдельно в `G5b-PT3-M3-BLOCKER-004`.
 - **`G5b-PT2-M3-001` — accepted · PR #345 + current build check:** M3_02 подтвердил совпадение с фишкой под пеной и снятие слоёв от совпадения; справка точно объясняет подвижность, ортогональное соседство и исключение диагонали. Автотесты и live QA прошли. First-encounter coachmark остаётся в `G5b-PT3-M3-UX-002`.
