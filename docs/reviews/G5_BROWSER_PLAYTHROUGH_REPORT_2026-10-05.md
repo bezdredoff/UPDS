@@ -64,14 +64,14 @@ The clean New Game B route was later rerun successfully as described above; all 
 - All three endings were reached on their respective clean New Game routes: A (`ENDING_A_FULL_TRUTH`), B (`ENDING_B_CASE_CLOSED`) and C (`ENDING_C_PERFECT_SUSPECT`).
 - A Chromium runtime image crawl loaded and decoded all 184 shipped PNG, WebP and SVG files under `public/assets`; there were no decode failures, zero-dimension images or page errors. This checks image decoding, not visual review of every story composition.
 - Each route used hint-directed match moves, so these automated wins do not measure human win rate or replace device QA.
-- An exhaustive clean New Game B persistence pass was run on the published build. Before starting each of 20 Match-3 levels, reload + Continue restored the exact level intro (**20/20**). After each of the 20 wins, reload + Continue restored the exact expected VN line (**20/20**). All six loss/retry paths restored the correct level intro after reload (**6/6**). The route reached `ENDING_B_CASE_CLOSED`; reload persistence of the ending screen itself was not checked. No page errors or failed requests. Device checks KI-006/KI-007 on a real iPhone remain unverified.
+- An exhaustive clean New Game B persistence pass was run on the published build. Before starting each of 20 Match-3 levels, reload + Continue restored the exact level intro (**20/20**). After each of the 20 wins, reload + Continue restored the exact expected VN line (**20/20**). All six loss/retry paths restored the correct level intro after reload (**6/6**). The route reached `ENDING_B_CASE_CLOSED`. A separate targeted browser check with a persisted terminal B save confirmed: Continue opens `ENDING_B_CASE_CLOSED`, reload returns to the main menu, and Continue restores the same ending again. No page errors or failed requests. Device checks KI-006/KI-007 on a real iPhone remain unverified.
 - Logs are in `%TEMP%\upds-g5-full-playthrough.ndjson`, `%TEMP%\upds-g5-end-branches.ndjson`, `%TEMP%\upds-g5-ending-c.ndjson`, `%TEMP%\upds-g5-clean-ending-b.ndjson` and `%TEMP%\upds-g5-persistence-b.ndjson` on the test workstation; they are evidence files outside the repository, not release artifacts.
 
 ## Still open in G5
 This pass materially reduces the outstanding scope, but does **not** close G5:
 
 1. Run integrated iPhone checks `KI-006` and `KI-007`. Mobile Chromium emulation is not iOS Safari/PWA.
-2. Optionally verify reload persistence on the ending screen itself; level-intro, win→VN, and retry boundaries are covered on clean route B.
+
 
 G5b's Match-3 design/balance/variety acceptance remains accepted by the user; this report does not reopen it. No production gameplay files were changed during this audit.
 
