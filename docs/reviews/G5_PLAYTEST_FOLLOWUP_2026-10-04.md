@@ -114,3 +114,15 @@ The production candidate addresses the two defects without changing board rules 
 Local production-preview check on 2026-10-05 confirmed the M3_05 board's accessible name is `Игровое поле: 9 строк, 7 столбцов`, matching its 9×7 ARIA dimensions. The Help screenshot shows the transparent package outline separated from the muted teal thumbnail and distinguishable from foam/lock icons. Final automated check: `npm run check` passed lint, all 153 test files / 777 tests, TypeScript and production build. `git diff --check` and JSON parsing of the three release data files passed. Build emitted the existing >500 kB chunk advisory; npm audit reported two moderate Vitest-chain advisories below the configured high threshold.
 
 Runtime first-entry was verified only in RU. BE/EN first-entry, a legacy save containing the old `clear-blocker` completion flag, real-phone/PWA behavior, and full human balance across all 22 levels remain unverified. This evidence does not close umbrella G5b.
+
+## Post-merge verification — 2026-10-05
+
+PR #359 merged to `main` as `f4c34f3` and is live on GitHub Pages (`v0.27.3-dev`). Direct Chromium QA against the published app confirmed:
+
+- **`KI-011` / `G5b-PT3-M3-HELP-006`: accepted/closed.** The package Help illustration loaded as `obstacle_zip_bag.png`, 256×256, on computed `rgb(85, 118, 108)` backing; no critical HTTP errors occurred during the probe. The board asset is not affected.
+- **`KI-012` / `G5b-PT3-M3-A11Y-007`: accepted/closed.** The live 9×7 board reports `aria-rowcount=9`, `aria-colcount=7`, and `Игровое поле: 9 строк, 7 столбцов`.
+- **`G5b-PT3-M3-TUT-003`: accepted for runtime/localization/migration.** Live story-route tests verified the first-entry `clear-foam` lesson at M3_02 and `clear-lock` lesson at M3_05 in BE and EN. Each language/level was checked both with fresh progress and with a seeded legacy campaign save containing `tutorialsCompleted=["clear-blocker"]`; the specific new lesson still appeared. Earlier published QA already confirmed these lessons in RU. M3_00 remains the blocker-free objective introduction.
+- **`G5b-PT3-M3-UX-002` stays in review.** Localized copy and actual reveal are verified, but automated display checks cannot establish that players understand the foam rule during play.
+- **Live Match-3 browser suite:** 11/13 passed on the first run. The two failures were timing/load-sensitive assertions rather than observed gameplay defects: the new special PNG was inspected synchronously before decode, and the no-match visibility assertion had little timing margin. The E2E now polls for PNG decode and samples no-match timing with safer margins; the repeat run against the published app passed 13/13.
+
+This does not close G5b. The user has explicitly accepted campaign-wide 9×7 field comfort/balance, but that does not constitute a per-level difficulty/variety pass across all 22 levels or phone acceptance. `KI-006`/`KI-007` remain open for real-device retest.

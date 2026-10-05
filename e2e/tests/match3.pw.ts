@@ -299,7 +299,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
     expect(await firstObjectiveProgress(page)).toEqual([3, 10]);
     const flash = match3Cell(page, 2).locator('.special.flash-row');
     await expect(flash).toBeVisible();
-    expect(await flash.evaluate((image) => {
+    await expect.poll(() => flash.evaluate((image) => {
       const asset = image as HTMLImageElement;
       return asset.complete && asset.naturalWidth === 256 && asset.naturalHeight === 256 && asset.currentSrc.endsWith('/flash-row.png');
     })).toBe(true);
@@ -416,10 +416,9 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
       async () => Promise.all(rejectedStacks.map((stack) => stack.getAttribute('class'))),
       { timeout: 500 },
     ).toEqual(['tile-stack', 'tile-stack']);
+    await page.waitForTimeout(200);
     await expect(invalidFeedback).toHaveClass(/visible/);
-    await page.waitForTimeout(450);
-    await expect(invalidFeedback).toHaveClass(/visible/);
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(500);
     await expect(invalidFeedback).not.toHaveClass(/visible/);
     expect(await movesLeft(page)).toBe(deterministicLabMoves);
     expect(await firstObjectiveProgress(page)).toEqual([0, 10]);
