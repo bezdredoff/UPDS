@@ -55,16 +55,16 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 
 ## G5 / G5b — integrated phone playtest follow-up 2026-10-04
 
-Итоговый playtest tranche `#342–#359` завершён в коде и документации. Все PR #342–#349 прошли Quality, Chromium full E2E и Mobile WebKit critical E2E; PR #359 прошёл quality gate и опубликован как `v0.27.3-dev`. Live browser QA подтвердил исправления `KI-011`/`KI-012`, RU/BE/EN first-entry lessons и их независимость от legacy tutorial flag `clear-blocker`. Восемь комбинаций BE/EN × M3_02/M3_05 × fresh/legacy save показали ожидаемые уроки. 2026-10-05 пользователь подтвердил, что пена понятна, а разнообразие и сложность Match-3 кампании достаточны для продолжения; G5b принят. Отдельные телефонные release checks KI-006/KI-007 остаются в G5/G5c. Полная карта: [`reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
+Итоговый playtest tranche `#342–#359` завершён в коде и документации. Все PR #342–#349 прошли Quality, Chromium full E2E и Mobile WebKit critical E2E; PR #359 прошёл quality gate и опубликован как `v0.27.3-dev`. Live browser QA подтвердил исправления `KI-011`/`KI-012`, RU/BE/EN first-entry lessons и их независимость от legacy tutorial flag `clear-blocker`. Восемь комбинаций BE/EN × M3_02/M3_05 × fresh/legacy save показали ожидаемые уроки. 2026-10-05 пользователь подтвердил, что пена понятна, а разнообразие и сложность Match-3 кампании достаточны для продолжения; G5b принят. Пользователь подтвердил прохождение KI-006/KI-007 на реальном iPhone 2026-10-05; оба пункта закрыты, G5 принят. Полная карта: [`reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md`](reviews/G5_PLAYTEST_FOLLOWUP_2026-10-04.md).
 
 ### R0
 
-- **`G5-PT2-VN-001` — accepted 2026-10-05 · PR #342:** player runtime auto-consumes directives, сохраняет их для background/choice/save semantics и не добавляет их в player history. Quality и Browser Gate прошли; пользователь попросил закрыть задачу. `KI-006` отдельно остаётся open до real-iPhone проверки переходов, choices, history и progression.
-- **`KI-006` — open pending device retest:** PR #342 merged; Quality, Chromium full E2E и Mobile WebKit critical E2E прошли. Закрыть только после проверки background/choice/save progression на телефоне.
+- **`G5-PT2-VN-001` — accepted 2026-10-05 · PR #342:** player runtime auto-consumes directives, сохраняет их для background/choice/save semantics и не добавляет их в player history. Quality и Browser Gate прошли; пользователь попросил закрыть задачу. `KI-006` закрыт после подтверждённого iPhone-ретеста 2026-10-05.
+- **`KI-006` — closed 2026-10-05:** пользователь прошёл реальную iPhone-проверку VN-переходов, choices, history и progression по чек-листу G5.
 
 ### R1
 
-- **`G5b-PT2-M3-006` — accepted 2026-10-05 · PR #343:** `.match-guidance-slot` сохраняет footprint после drop; deterministic before/after geometry check проходит. Пользователь попросил закрыть задачу; `KI-007` отдельно остаётся open до real-iPhone ретеста.
+- **`G5b-PT2-M3-006` — accepted 2026-10-05 · PR #343:** `.match-guidance-slot` сохраняет footprint после drop; deterministic before/after geometry check проходит. Пользователь попросил закрыть задачу; `KI-007` закрыт после подтверждённого iPhone-ретеста 2026-10-05.
 - **`G5b-M3-UIA-001` — accepted 2026-10-05 · PR #330/#337/#338/#343–#347:** production Match-3 UI, адаптивные размеры, общая геометрия и Browser Gate проверки приняты пользователем; пользователь попросил закрыть оставшийся review статус.
 - **`G5b-PT2-M3-005` — accepted · PR #343:** пользователь подтвердил, что при no-match фишки быстро возвращаются, а сообщение не блокирует поле надолго.
 - **`G5b-PT2-M3-002` — accepted · PR #353:** цифры отсутствуют; пользователь принял zip-bag и locked art. Повторно осмотрено в опубликованной игре 2026-10-04; `KI-008`/`KI-009` закрыты. Двухэтапная игровая проверка учитывается отдельно в `G5b-PT3-M3-BLOCKER-004`.
@@ -84,7 +84,7 @@ docs audit — 11/11; Quality, Chromium full E2E и Mobile WebKit critical E2E �
 
 - **`G5-PT2-VN-003` — проверено, отклонено · PR #349:** runtime и очень слабый 1px тёмный edge treatment сравнены на solo/duo/trio. Halo/style drift нет, улучшение практически неразличимо; production CSS/goldens не менялись.
 
-G5b принят 2026-10-05 по прямой человеческой оценке понимания пены, разнообразия и сложности. Story и runtime asset preflight для старта G5 прошли на merged `main` `d3e67f2`: story audit 6/6; inventory — 23 фона, 63 character assets, 5 bonus PNG + 5 SVG fallback, 24 guest PNG, ноль path/decode и guest-contract ошибок. Первый live Match-3 browser suite дал 11/13 из-за двух timing/load-sensitive assertions; после ожидания decode и более надёжного sampling повторный suite прошёл 13/13. Это не заменяет интегрированный release pass: Story `0–21`, три финала, 22 Match-3 перехода, retry/progression/saves и browser asset loading ещё нужно пройти. `KI-006` и `KI-007` остаются открытыми до проверки на реальном iPhone.
+G5b принят 2026-10-05 по прямой человеческой оценке понимания пены, разнообразия и сложности. G5 browser playthrough, save boundaries и 184/184 runtime image crawl завершены; пользователь подтвердил KI-006/KI-007 на реальном iPhone. G5 принят; оставшиеся release проверки относятся к G5c.
 
 ## G2a — bounded architecture / patch cleanup
 
@@ -368,7 +368,7 @@ Post-launch expansion only. Не расходует base-release capacity.
 1. **G4a — ACCEPTED:** все 33 исходные rework-позиции, включая 13 blocker, закрыты PR #314–320; пользователь подтвердил интегрированную проверку в игре и на телефоне. [Отчёт](reviews/G4A_ART_REVIEW_2026-09-30.md). 117 approved сохраняются без нового дефекта.
 2. **G5a — ACCEPTED:** редактура RU/EN/BE завершена и слита в PR #322/#325/#326; quality, localization, Chromium и Mobile WebKit gates пройдены, пользователь проверил на телефоне.
 3. **G5b — ACCEPTED 2026-10-05:** пользователь подтвердил ясность правила пены и достаточность разнообразия/сложности кампании. Человеческая оценка имеет приоритет над auto audit.
-4. **G5 — ACTIVE:** browser playthrough всех трёх финалов, всех 22 Match-3 уровней/переходов и shipped asset crawl завершён; automated persistence: 20/20 level intro, 20/20 win→VN, 6/6 retry boundaries restored after reload. Реальные iPhone-проверки `KI-006`/`KI-007` остаются. Это не заменяет human/device QA. [Отчёт](reviews/G5_BROWSER_PLAYTHROUGH_REPORT_2026-10-05.md).
+4. **G5 — ACCEPTED 2026-10-05:** browser playthrough всех трёх финалов и 22 Match-3 уровней; persistence 20/20 intro, 20/20 win→VN, 6/6 retry; 184/184 runtime images; пользователь подтвердил KI-006/KI-007 на реальном iPhone. [Отчёт](reviews/G5_BROWSER_PLAYTHROUGH_REPORT_2026-10-05.md).
 5. **G5c / ANM-033 — queued:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, packaging/rights; KI-002 открыт. Provisional window 19–21 Oct.
 6. **G6 — queued:** исправить только найденные release defects, затем packaging/deploy/rollback; provisional window 22–23 Oct.
 7. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release.

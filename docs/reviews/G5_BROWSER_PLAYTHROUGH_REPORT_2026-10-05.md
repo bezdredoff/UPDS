@@ -64,13 +64,13 @@ The clean New Game B route was later rerun successfully as described above; all 
 - All three endings were reached on their respective clean New Game routes: A (`ENDING_A_FULL_TRUTH`), B (`ENDING_B_CASE_CLOSED`) and C (`ENDING_C_PERFECT_SUSPECT`).
 - A Chromium runtime image crawl loaded and decoded all 184 shipped PNG, WebP and SVG files under `public/assets`; there were no decode failures, zero-dimension images or page errors. This checks image decoding, not visual review of every story composition.
 - Each route used hint-directed match moves, so these automated wins do not measure human win rate or replace device QA.
-- An exhaustive clean New Game B persistence pass was run on the published build. Before starting each of 20 Match-3 levels, reload + Continue restored the exact level intro (**20/20**). After each of the 20 wins, reload + Continue restored the exact expected VN line (**20/20**). All six loss/retry paths restored the correct level intro after reload (**6/6**). The route reached `ENDING_B_CASE_CLOSED`. A separate targeted browser check with a persisted terminal B save confirmed: Continue opens `ENDING_B_CASE_CLOSED`, reload returns to the main menu, and Continue restores the same ending again. No page errors or failed requests. Device checks KI-006/KI-007 on a real iPhone remain unverified.
+- An exhaustive clean New Game B persistence pass was run on the published build. Before starting each of 20 Match-3 levels, reload + Continue restored the exact level intro (**20/20**). After each of the 20 wins, reload + Continue restored the exact expected VN line (**20/20**). All six loss/retry paths restored the correct level intro after reload (**6/6**). The route reached `ENDING_B_CASE_CLOSED`. A separate targeted browser check with a persisted terminal B save confirmed: Continue opens `ENDING_B_CASE_CLOSED`, reload returns to the main menu, and Continue restores the same ending again. No page errors or failed requests. User reported that KI-006 and KI-007 passed on a real iPhone on 2026-10-05 after following the checklist; model/iOS version and detailed observations were not provided.
 - Logs are in `%TEMP%\upds-g5-full-playthrough.ndjson`, `%TEMP%\upds-g5-end-branches.ndjson`, `%TEMP%\upds-g5-ending-c.ndjson`, `%TEMP%\upds-g5-clean-ending-b.ndjson` and `%TEMP%\upds-g5-persistence-b.ndjson` on the test workstation; they are evidence files outside the repository, not release artifacts.
 
-## Still open in G5
-This pass materially reduces the outstanding scope, but does **not** close G5:
+## G5 closeout
+G5 is complete as of 2026-10-05: the integrated browser routes, save boundaries, shipped image crawl, and user-reported iPhone checks have all passed.
 
-1. Run integrated iPhone checks `KI-006` and `KI-007`. Mobile Chromium emulation is not iOS Safari/PWA.
+No further G5 checks are currently open. The device pass is recorded from the user’s confirmation; detailed screenshots/device metadata were not supplied.
 
 
 G5b's Match-3 design/balance/variety acceptance remains accepted by the user; this report does not reopen it. No production gameplay files were changed during this audit.
