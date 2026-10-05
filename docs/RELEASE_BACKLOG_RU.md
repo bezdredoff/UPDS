@@ -368,7 +368,7 @@ Post-launch expansion only. Не расходует base-release capacity.
 1. **G4a — ACCEPTED:** все 33 исходные rework-позиции, включая 13 blocker, закрыты PR #314–320; пользователь подтвердил интегрированную проверку в игре и на телефоне. [Отчёт](reviews/G4A_ART_REVIEW_2026-09-30.md). 117 approved сохраняются без нового дефекта.
 2. **G5a — ACCEPTED:** редактура RU/EN/BE завершена и слита в PR #322/#325/#326; quality, localization, Chromium и Mobile WebKit gates пройдены, пользователь проверил на телефоне.
 3. **G5b — ACCEPTED 2026-10-05:** пользователь подтвердил ясность правила пены и достаточность разнообразия/сложности кампании. Человеческая оценка имеет приоритет над auto audit.
-4. **G5 — ACTIVE:** интегрированный playthrough Story `0–21`, три финала, 22 Match-3 перехода, retry/progression/saves и shipped asset crawl; target window 12–16 Oct 2026. Story audit и runtime inventory уже прошли на `d3e67f2`; полная ручная проверка продолжается.
+4. **G5 — ACTIVE:** browser playthrough всех трёх финалов, всех 22 Match-3 уровней/переходов и shipped asset crawl завершён; automated persistence: 20/20 level intro, 20/20 win→VN, 6/6 retry boundaries restored after reload. Проверка ending-screen reload и реального iPhone `KI-006`/`KI-007` остаётся. Это не заменяет human/device QA. [Отчёт](reviews/G5_BROWSER_PLAYTHROUGH_REPORT_2026-10-05.md).
 5. **G5c / ANM-033 — queued:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, packaging/rights; KI-002 открыт. Provisional window 19–21 Oct.
 6. **G6 — queued:** исправить только найденные release defects, затем packaging/deploy/rollback; provisional window 22–23 Oct.
 7. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release.
