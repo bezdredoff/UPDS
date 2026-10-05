@@ -1,6 +1,6 @@
 # G5 / G5b — Playtest follow-up 2026-10-04
 
-Status: **PR #342–#349 and #353 merged. Current follow-up candidate includes M3_00 simplification, permeable foam and two-stage lock → chain; technical checks and focused human retest pending.**
+Status: **G5b accepted by the user on 2026-10-05; G5 full playthrough and asset crawl are active.** PR #342–#359 are merged. The user confirms foam clarity and Match-3 campaign variety/difficulty are satisfactory to continue. Automated Story/asset preflight passed on main `d3e67f2`; integrated human route, endings, retry/save checks and phone retests `KI-006`/`KI-007` remain.
 
 Источник — integrated iPhone playtest после PR #341. Этот документ переводит наблюдения игрока в bounded release work. По умолчанию новые системы не строятся: сначала удаляем misleading/prototype presentation и исправляем воспроизводимые UX-дефекты.
 
@@ -11,8 +11,8 @@ Status: **PR #342–#349 and #353 merged. Current follow-up candidate includes M
 | G5-PT2-VN-001 | VN показывает `VARIABLE`, `CUT TO`, `INSERT`, `FADE IN`, `CHOICE CHECKPOINT` как полноценные игровые экраны | **R0 / review · PR #342.** Authored directives сохранены как runtime metadata и auto-consumed в player VN; Browser Gate прошёл. Проверить на телефоне background transitions, choice gates, history и сохранение progression; `KI-006` открыт до этой проверки. |
 | G5-PT2-VN-002 | размер/вертикальный baseline персонажей различается между solo/duo/trio | **R1 / accepted · PR #353.** Обычный solo runtime и все solo staging presets выровнены по общей focal eye line с duo/trio; масштаб 0.72 и размер кадра сохранены. Пользователь проверил merged результат и подтвердил, что ему нравится. Quality, Chromium full E2E и Mobile WebKit critical E2E прошли. |
 | G5-PT2-VN-003 | в composition preview есть edge glow, в runtime нет | **R2 / проверено, отклонено · PR #349.** Слабый 1px edge treatment сравнен с runtime на solo, duo и trio. Ореол/style drift не заметны, но на мобильном размере преимущество практически неразличимо. Production CSS и goldens не менялись. |
-| G5b-PT2-M3-001 | foam выглядит как blocker, но M3_02 позволяет двигать/матчить фишки под ним; foam также используется вне мокрых/прачечных сцен | **R1 / review · PR #345.** Все blocker layers блокируют interaction; foam остаётся в M3_02/M3_15, M3_12/M3_16 используют solid. Пользователь сообщил, что условие потери слоя неясно. Правило: один слой за clear, если он задел blocker cell или orthogonal neighbor; диагональ не учитывается. Локализованная подсказка уточнена в `G5b-PT3-M3-UX-002`; нужен короткий retest. См. [G5b blocker semantics](../features/G5B_M3_BLOCKER_SEMANTICS_RU.md) и [current all-22 audit](../reports/G5B_POST_FEEDBACK_MATCH3_AUTO_AUDIT_2026-10-04.json). |
-| G5b-PT2-M3-002 | цифры слоёв мешают визуалу; коробки и цепи перекрывают tile art | **R1 / review · PR #344/#353.** Пользователь подтвердил отсутствие чисел, улучшенную видимость tile под blocker, а также принял locked blocker в merged PR #353: цепи/замок opaque, tile underneath слегка transparent. Solid zip-bag M3_01 ещё ожидает отдельной human visual confirmation. См. [ANM025D2](../features/ANM025D2_BLOCKER_READABILITY_RU.md). |
+| G5b-PT2-M3-001 | foam выглядит как blocker, но M3_02 позволяет двигать/матчить фишки под ним; foam также используется вне мокрых/прачечных сцен | **R1 / accepted · PR #345 + user review 2026-10-05.** Все blocker layers блокируют interaction; foam остаётся в M3_02/M3_15, M3_12/M3_16 используют solid. Правило: один слой за clear, если он задел blocker cell или orthogonal neighbor; диагональ не учитывается. Пользователь подтвердил понятность пены в игре. См. [G5b blocker semantics](../features/G5B_M3_BLOCKER_SEMANTICS_RU.md). |
+| G5b-PT2-M3-002 | цифры слоёв мешают визуалу; коробки и цепи перекрывают tile art | **R1 / accepted · PR #344/#353.** Пользователь подтвердил отсутствие чисел и принял пустой zip-bag, посадку тайлов внутри, locked art с непрозрачными цепями/замком и слегка прозрачной фишкой под ними. См. [ANM025D2](../features/ANM025D2_BLOCKER_READABILITY_RU.md). |
 | G5b-PT2-M3-003 | светлый прозрачный top/camisole визуально становится тёмным | **R1 / accepted · PR #347.** Пользователь подтвердил, что transparent top/camisole остаётся читаемым на поле. |
 | G5b-PT2-M3-004 | у всех specials остаётся маленькая иконка исходной фишки, хотя special уже является отдельным объектом | **R1 / accepted · PR #346.** Пользователь подтвердил, что заменённой base tile icon нет, а направление line-clear понятно. |
 | G5b-PT2-M3-005 | `НЕТ СОВПАДЕНИЯ` и возврат невалидного swap ощущаются слишком медленными | **R1 / accepted · PR #343.** Пользователь подтвердил быстрый возврат и короткое сообщение, которое не блокирует поле. |
@@ -125,4 +125,16 @@ PR #359 merged to `main` as `f4c34f3` and is live on GitHub Pages (`v0.27.3-dev`
 - **`G5b-PT3-M3-UX-002` stays in review.** Localized copy and actual reveal are verified, but automated display checks cannot establish that players understand the foam rule during play.
 - **Live Match-3 browser suite:** 11/13 passed on the first run. The two failures were timing/load-sensitive assertions rather than observed gameplay defects: the new special PNG was inspected synchronously before decode, and the no-match visibility assertion had little timing margin. The E2E now polls for PNG decode and samples no-match timing with safer margins; the repeat run against the published app passed 13/13.
 
-This does not close G5b. The user has explicitly accepted campaign-wide 9×7 field comfort/balance, but that does not constitute a per-level difficulty/variety pass across all 22 levels or phone acceptance. `KI-006`/`KI-007` remain open for real-device retest.
+This historical post-merge report preceded the user's next review.
+
+## User review and G5 kickoff — 2026-10-05
+
+The user confirmed that foam is understandable and campaign variety/difficulty are satisfactory and sufficient to continue. This is explicit human acceptance of G5b's design, balance and variety goals; the auto-agent report was not used to infer that acceptance. G5b is accepted in `release-status.json`.
+
+G5 is now active. On merged `main` `d3e67f2078c6d3453ad3a6577f23ac82dfa232d3`:
+
+- `npm run story:audit`: 1 test file, 6 tests passed.
+- `npm run assets:audit`: 1 test passed; 23 production backgrounds, 9 characters / 63 assets, 5 Match-3 bonus PNG + 5 SVG fallbacks, 6 guests / 24 PNG, 0 path/decode errors, 0 guest-contract errors.
+- Focused story/ending, save, route and Match-3 campaign contracts: 4 files, 11 tests passed (`BrowserStoryCompletionE2EContract`, `StoryRuntimeRouting`, `CampaignStore`, `Match3CampaignMode`).
+
+These checks are automated preflight only. Remaining G5 work is the human integrated Story `0–21` common route and all three endings, Match-3 story-route transitions, retry/progression/save/continue/reload, browser verification of shipped asset loading, and real-iPhone retests `KI-006`/`KI-007`. The phone checks and later PWA/device matrix do not overturn G5b acceptance; they remain separate release gates.
