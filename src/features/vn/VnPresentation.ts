@@ -15,7 +15,7 @@ import {
   guestWitnessAssetForDirection,
   guestWitnessForSpeaker,
 } from '../../data/guestWitnesses';
-import { cluePresentation, levels, type ClueId } from '../../data/levels';
+import { cluePresentation, type ClueId } from '../../data/levels';
 import {
   backgroundAssets,
   getBackgroundForLine,
@@ -85,10 +85,9 @@ const characterStageMarkup = (
     </div>`;
 };
 
-const clueToastMarkup = (clueId: ClueId, dossierUpdatedLabel: string): string => {
-  const level = levels.find((candidate) => candidate.clueId === clueId)!;
+const clueToastMarkup = (clueId: ClueId, dossierUpdatedLabel: string, clueTitle: string): string => {
   const clue = cluePresentation[clueId];
-  return `<div class="clue-toast"><img src="${clue.asset}" alt=""><span><small>${escapeHtml(dossierUpdatedLabel)}</small><b>${escapeHtml(level.clueTitle)}</b></span></div>`;
+  return `<div class="clue-toast"><img src="${clue.asset}" alt=""><span><small>${escapeHtml(dossierUpdatedLabel)}</small><b>${escapeHtml(clueTitle)}</b></span></div>`;
 };
 
 const poseBDirectionPatterns: Readonly<Record<CharacterKey, RegExp>> = {
@@ -115,6 +114,7 @@ export function resolveVnStagePresentation(input: Readonly<{
   directionLabel: string;
   dossierUpdatedLabel: string;
   pendingClue: ClueId | null;
+  pendingClueTitle: string;
 }>): VnStagePresentation {
   const direction = isDirection(input.entry);
   const authoredShot = direction ? null : resolveAuthoredVnShot(input.entry.id);
@@ -137,7 +137,7 @@ export function resolveVnStagePresentation(input: Readonly<{
     direction
       ? `<div class="direction-card"><span>${escapeHtml(input.directionLabel)}</span><b>${escapeHtml(input.localizedEmotion)}</b></div>`
       : '',
-    input.pendingClue ? clueToastMarkup(input.pendingClue, input.dossierUpdatedLabel) : '',
+    input.pendingClue ? clueToastMarkup(input.pendingClue, input.dossierUpdatedLabel, input.pendingClueTitle) : '',
   ].join('');
 
   let preloadAssets: readonly string[] = [];

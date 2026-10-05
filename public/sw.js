@@ -18,6 +18,9 @@ const CACHE_WARM_CONCURRENCY = 4;
 
 const cacheOne = async (cache, url) => {
   try {
+    // The warm-up message can be retried while offline. Existing entries are
+    // already ready for offline use and must not be reported as fetch failures.
+    if (await cache.match(url.href)) return true;
     const response = await fetch(url.href, { cache: 'reload' });
     if (!(response.ok || response.type === 'opaque')) return false;
     await cache.put(url.href, response.clone());

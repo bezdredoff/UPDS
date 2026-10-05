@@ -78,6 +78,7 @@ describe('current VN presentation contract', () => {
       directionLabel: 'Direction',
       dossierUpdatedLabel: 'Dossier updated',
       pendingClue: null,
+      pendingClueTitle: '',
     });
 
     expect(stage.stageSide).toBe('left');
@@ -95,6 +96,24 @@ describe('current VN presentation contract', () => {
     expect(usesVnPoseB('rina', 'ПОКАЗЫВАЕТ МАРШРУТ')).toBe(true);
     expect(usesVnPoseB('kurose', 'ПОКАЗЫВАЕТ ПЛАНШЕТ')).toBe(true);
     expect(usesVnPoseB('emi', 'С ТЕЛЕФОНОМ')).toBe(false);
+  });
+
+  it('uses the localized clue title in the dossier update toast', () => {
+    const entry = { id: 'TEST0001', speaker: 'МИКУ', emotion: 'нейтрально', text: 'Тест.' } as const;
+    const stage = resolveVnStagePresentation({
+      story: [entry],
+      sceneIndex: 0,
+      lineIndex: 0,
+      entry,
+      localizedEmotion: 'neutral',
+      directionLabel: 'Direction',
+      dossierUpdatedLabel: 'Dossier updated',
+      pendingClue: 'CUE_001',
+      pendingClueTitle: 'Беларускі загаловак',
+    });
+
+    expect(stage.stageMarkup).toContain('<b>Беларускі загаловак</b>');
+    expect(stage.stageMarkup).not.toContain('<b>Выборочная пропажа</b>');
   });
 
   it('composes choice/config markup without owning event binding or runtime services', () => {
