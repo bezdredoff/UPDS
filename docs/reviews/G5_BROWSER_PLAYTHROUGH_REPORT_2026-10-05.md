@@ -2,7 +2,7 @@
 
 ## Scope
 
-Checked the published stable build at [https://bezdredoff.github.io/UPDS/](https://bezdredoff.github.io/UPDS/) in Chromium. The live app identified itself as `v0.27.3-dev`. The repository baseline used for the report is merged `main` at `922806d051b2f443a4f5b164cf577ebff110d745` (PR #362).
+Checked the published stable build at [https://bezdredoff.github.io/UPDS/](https://bezdredoff.github.io/UPDS/) in Chromium. The live app identified itself as `v0.27.3-dev`. The initial audit baseline was merged `main` at `922806d051b2f443a4f5b164cf577ebff110d745` (PR #362); this follow-up uses current merged `main` at `949b60cd3c0bbc008d7acec231a5fb788c530b3b` (PR #364).
 
 This audit combines the earlier browser QA run with a fresh end-to-end published-game route using Playwright mobile Chromium (402×874, touch enabled). All game actions were taps on visible controls/cells. It is browser automation, not physical-phone QA or a human balance/comprehension study.
 
@@ -44,27 +44,36 @@ From New Game, the common story route reached the final-strategy choice, selecte
 
 Using the visible QA scene-navigation screen at the final-strategy VN scene, selected strategy C, played M3_21 with visible Hint pairs, won on the first attempt after 26 moves, and reached the actual `ENDING_C_PERFECT_SUSPECT` screen. No page errors or failed requests. This validates branch selection, the B/C-style branch M3_21 transition and ending screen, but the QA jump bypasses common story progression. It is not a fully integrated clean-save route to C.
 
-### Ending B / M3_19 — unresolved blocker
+### Ending B / M3_19 — passed with caveat
 
-Selected strategy A from the same visible QA final-strategy scene and entered M3_19. Three hint-only attempts all lost at the 30-move limit; the run stopped rather than treating a hint-only loss as proof the level is impossible. In the detailed first attempt, the hints reached 14/14 anonymous codes by move 16 but only 6/10 blockers and 0/1 return confirmations. From move 20 through move 29, those unfinished objectives did not advance; the level ended in a normal loss screen with Retry. **M3_19 has not been passed, and Ending B has not been reached.** This is a high-priority follow-up: test M3_19 with a human strategy focused on blocker adjacency and opening the ingredient's path, and inspect the level's authored layout/objective feasibility if it remains stuck. Do not infer an engine defect solely from the hint-only failure.
+A first QA-jumped branch run had three hint-only losses. On a fresh QA-jumped branch run, M3_19 succeeded on attempt 4 after three ordinary 30-move losses; the game then continued to `ENDING_B_CASE_CLOSED`. No page errors or failed requests were recorded. Progress snapshots show why the level is easy to stall: in different attempts the hint sequence completed the anonymous codes and all blockers, yet left `Подтверждение` at 0/1 until the move budget expired. On the winning attempt, all three objectives completed by move 21.
+
+I also ran the B strategy from a fresh New Game through the common route. M3_00–M3_18 completed (with Retry on M3_05, M3_15 and M3_18); M3_19 then lost on all three hint-only attempts and the route driver stopped at its configured retry cap. That run did **not** reach Ending B. Therefore branch wiring and the ending screen are verified, but hint-following on a clean B route is not reliable enough to treat as a clean integrated pass. The losses alone do not establish infeasibility or an engine defect.
+
+A fresh 200-seed run of the existing `objective-aware-getHintMove` simulation measured M3_19 at **98/200 wins (49%; agent-hard)**. The older audit document records 70%; treat the new run as the current diagnostic and the old figure as historical. This agent rate is not human balance acceptance, but together with the repeated live hint losses it justifies a focused human/tactical retest of blocker adjacency and the ingredient drop path.
+
+### Clean New Game route C
+
+Ran a second full mobile-Chromium route from `#new`, using the same common-story choices as route A and selecting strategy C at the final choice. M3_00–M3_18 all won; M3_05, M3_15 and M3_18 each required one Retry. M3_21 won on the first attempt after 26 moves; the game reached `ENDING_C_PERFECT_SUSPECT` with 10/4/4 and 20/22 clues. The route log recorded 3,765 VN advances, no page errors and no failed network requests. All boards again reported 9×7.
+
+The clean B route was also attempted from `#new`, but stopped at M3_19 after three hint-only losses as described above. So clean A and C reach their respective endings; clean B does not yet.
 
 ### Coverage summary
 
-- **21 of 22 distinct production Match-3 levels were won:** M3_00–M3_18, M3_20 and M3_21. M3_19 was entered but not won.
-- Ending A was reached through the clean integrated New Game route. Ending C was reached after a QA scene jump. Ending B remains unverified.
-- The entire common route and its 20/22-level A ending path worked; B/C were not independently played from New Game, so all three endings are not a complete integrated playthrough.
-- Autosave/reload, Continue and all individual VN↔Match-3 boundaries were not exhaustively inspected during this pass. Device checks KI-006/KI-007 on a real iPhone remain unverified. Exhaustive runtime loading of all story assets also remains open.
+- **All 22 distinct production Match-3 levels have now been won at least once** across the clean A route, clean C route and QA-jumped B branch. M3_19 required attempt 4 in its successful run.
+- Clean New Game routes reached endings A and C. Ending B was reached only after a QA scene jump; the clean B route reached M3_19 but failed its three hint-only attempts.
+- This verifies all three branch endings and every level at least once, but it is not three successful clean integrated playthroughs because B still fails under the hint-only route.
+- Two targeted live-production Chromium E2E persistence checks were rerun after the playthrough: save/reload restored the exact VN line and Continue resumed it; New Game reached the first Match-3 intro and Continue restored the story boundary. **2 passed.** This is representative coverage only; autosave/reload at every VN↔Match-3/ending boundary was not exhausted. Device checks KI-006/KI-007 on a real iPhone remain unverified. Exhaustive runtime loading of all story assets also remains open.
 - Logs are in `%TEMP%\upds-g5-full-playthrough.ndjson`, `%TEMP%\upds-g5-end-branches.ndjson`, and `%TEMP%\upds-g5-ending-c.ndjson` on the test workstation; they are evidence files outside the repository, not release artifacts.
 
 ## Still open in G5
 
 This pass materially reduces the outstanding scope, but does **not** close G5:
 
-1. Pass M3_19 and reach Ending B. Its hint-only route repeatedly stalls on blockers/drop confirmation after collection is complete.
-2. Play B and C from clean New Game saves, without the QA scene jump, and inspect the complete integrated story/ending transitions.
-3. Exercise persistence at every VN → Match-3 → VN boundary, including Continue/reload and progression after Retry.
-4. Run the integrated iPhone checks `KI-006` and `KI-007`. Mobile Chromium emulation is not iOS Safari/PWA.
-5. Complete an exhaustive browser crawl of assets referenced across all story and Match-3 routes.
+1. Complete a clean B route by revising or tactically playing M3_19; the current hint-only route failed three times even though a separate fourth attempt won.
+2. Exercise persistence at every VN → Match-3 → VN boundary, including Continue/reload and progression after Retry. Existing E2E verifies representative save/reload paths, not every boundary.
+3. Run integrated iPhone checks `KI-006` and `KI-007`. Mobile Chromium emulation is not iOS Safari/PWA.
+4. Complete an exhaustive browser crawl of assets referenced across all story and Match-3 routes; live route play and static inventory checks do not guarantee every referenced asset decoded in-browser.
 
 G5b's Match-3 design/balance/variety acceptance remains accepted by the user; this report does not reopen it. No production gameplay files were changed during this audit.
 
