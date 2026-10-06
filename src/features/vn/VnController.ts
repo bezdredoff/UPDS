@@ -1,4 +1,4 @@
-import { type ClueId } from '../../data/levels';
+import { levels, type ClueId } from '../../data/levels';
 import {
   choices,
   getReadHistory,
@@ -195,6 +195,9 @@ export class VnController {
       directionLabel: this.t('vn.chrome.direction'),
       dossierUpdatedLabel: this.t('vn.chrome.dossierUpdated'),
       pendingClue: this.pendingClue,
+      pendingClueTitle: this.pendingClue
+        ? this.t(`match3.level.${levels.find((level) => level.clueId === this.pendingClue)!.id}.clueTitle`)
+        : '',
     });
     const direction = stage.direction;
     const skipAvailable = this.session.save.readLines.includes(entry.id);

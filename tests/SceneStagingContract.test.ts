@@ -138,7 +138,7 @@ describe('ANM-028B1 reusable scene staging contract', () => {
     const entry = { id: 'TEST0001', speaker: 'МИКУ', emotion: 'серьёзно', text: 'Тест.' } as const;
     const presentation = resolveVnStagePresentation({
       story: [entry], sceneIndex: 0, lineIndex: 0, entry,
-      localizedEmotion: 'serious', directionLabel: 'Direction', dossierUpdatedLabel: 'Dossier', pendingClue: null,
+      localizedEmotion: 'serious', directionLabel: 'Direction', dossierUpdatedLabel: 'Dossier', pendingClue: null, pendingClueTitle: '',
     });
     expect(presentation.stageMarkup).toContain('data-vertical-anchor="background-focal-eye-line"');
     expect(presentation.stageMarkup).toContain('--portrait-height:128.16%;');

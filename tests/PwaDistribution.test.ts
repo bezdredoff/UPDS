@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { runInNewContext } from 'node:vm';
 import { describe, expect, it } from 'vitest';
 
 const read = (path: string): string => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
@@ -33,6 +34,48 @@ describe('PWA distribution contract', () => {
     expect(worker).toContain('cacheUrlsWithConcurrency(cache, urls)');
     expect(worker).toContain('Math.min(CACHE_WARM_CONCURRENCY, urls.length)');
     expect(worker).not.toContain('Promise.allSettled(urls.map');
+  });
+
+  it('counts already-cached assets as ready when an offline warm-up is retried', async () => {
+    type CacheMessageEvent = Readonly<{
+      data: Readonly<{ type: string; urls: string[] }>;
+      waitUntil: (promise: Promise<void>) => void;
+    }>;
+    const worker = read('public/sw.js');
+    const cachedUrl = 'https://game.test/UPDS/assets/ready.png';
+    const missingUrl = 'https://game.test/UPDS/assets/missing.png';
+    const messages: unknown[] = [];
+    const handlers = new Map<string, (event: CacheMessageEvent) => void>();
+    let fetchCalls = 0;
+    let messageWork: Promise<void> | undefined;
+    const cache = {
+      match: async (url: string) => url === cachedUrl ? ({}) : undefined,
+      put: async () => undefined,
+    };
+    const context = {
+      URL,
+      Promise,
+      Set,
+      Math,
+      fetch: async () => { fetchCalls += 1; throw new Error('offline'); },
+      caches: { open: async () => cache },
+      self: {
+        location: { href: 'https://game.test/UPDS/sw.js?v=test', origin: 'https://game.test' },
+        registration: { scope: 'https://game.test/UPDS/', active: {} },
+        clients: { matchAll: async () => [{ postMessage: (message: unknown) => messages.push(message) }] },
+        addEventListener: (name: string, handler: (event: CacheMessageEvent) => void) => handlers.set(name, handler),
+      },
+    };
+
+    runInNewContext(worker, context);
+    handlers.get('message')?.({
+      data: { type: 'CACHE_URLS', urls: [cachedUrl, missingUrl] },
+      waitUntil: (promise: Promise<void>) => { messageWork = promise; },
+    });
+    await messageWork;
+
+    expect(fetchCalls).toBe(1);
+    expect(messages).toEqual([expect.objectContaining({ type: 'CACHE_READY', cached: 1, failed: 1 })]);
   });
 
   it('versions the worker by deployment build id and warms runtime assets without blocking startup', () => {

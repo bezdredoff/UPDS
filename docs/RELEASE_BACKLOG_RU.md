@@ -369,7 +369,7 @@ Post-launch expansion only. Не расходует base-release capacity.
 2. **G5a — ACCEPTED:** редактура RU/EN/BE завершена и слита в PR #322/#325/#326; quality, localization, Chromium и Mobile WebKit gates пройдены, пользователь проверил на телефоне.
 3. **G5b — ACCEPTED 2026-10-05:** пользователь подтвердил ясность правила пены и достаточность разнообразия/сложности кампании. Человеческая оценка имеет приоритет над auto audit.
 4. **G5 — ACCEPTED 2026-10-05:** browser playthrough всех трёх финалов и 22 Match-3 уровней; persistence 20/20 intro, 20/20 win→VN, 6/6 retry; 184/184 runtime images; пользователь подтвердил KI-006/KI-007 на реальном iPhone. [Отчёт](reviews/G5_BROWSER_PLAYTHROUGH_REPORT_2026-10-05.md).
-5. **G5c / ANM-033 — queued:** PWA/update/offline/save, iOS + Android, RU/BE/EN, accessibility/performance, packaging/rights; KI-002 открыт. Provisional window 19–21 Oct.
+5. **G5c / ANM-033 — active:** iPhone IOS-01–03/06–07 и RU прошли по результатам пользователя; офлайн-запуск показал 166 cache errors при работающей игре, а BE/EN уведомление о новом досье сохранило русский заголовок. Исправления `G5c-PWA-001` и `G5c-I18N-001` подготовлены к проверке. Android, update path, accessibility, performance и финальные release details остаются открыты; KI-002 остаётся открытым до проверки полного device lifecycle.
 6. **G6 — queued:** исправить только найденные release defects, затем packaging/deploy/rollback; provisional window 22–23 Oct.
 7. Hero inserts, landscape, extra locales, safe motion, song pipeline и DLC остаются после base release.
 
