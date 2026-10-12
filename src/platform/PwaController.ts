@@ -23,6 +23,8 @@ export type PwaSnapshot = Readonly<{
 type InstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }> };
 type PublishedBuildIdentity = Readonly<{ buildId?: unknown; buildTimestamp?: unknown }>;
 type Listener = (snapshot: PwaSnapshot) => void;
+const CACHE_WARMUP_RETRY_DELAY_MS = 1500;
+const CACHE_WARMUP_MAX_RETRIES = 2;
 
 export const hasPublishedBuildUpdate = (publishedBuild: string, currentBuild = BUILD_ID): boolean =>
   publishedBuild.length > 0 && publishedBuild !== currentBuild;
@@ -40,6 +42,10 @@ export class PwaController {
   private buildCheckSerial = 0;
   private cacheBuild = BUILD_ID;
   private cacheFailed = 0;
+  private runtimeAssetUrls: readonly string[] = [];
+  private cacheWarmupInFlight = false;
+  private cacheWarmupRetryCount = 0;
+  private cacheWarmupRetryTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(private readonly errorLog: ErrorLog, private readonly telemetry: PlaytestTelemetry) {}
 
@@ -75,6 +81,7 @@ export class PwaController {
     viewportDebugEvent('pwa:start');
     if (this.started) return;
     this.started = true;
+    this.runtimeAssetUrls = assetUrls;
     if (typeof window !== 'undefined') {
       window.addEventListener('beforeinstallprompt', (event) => {
         event.preventDefault();
@@ -89,6 +96,7 @@ export class PwaController {
       window.addEventListener('online', () => {
         this.telemetry.track('connectivity_changed', { online: true });
         void this.checkForUpdate();
+        this.retryCacheWarmup();
         this.emit();
       });
       window.addEventListener('offline', () => { this.telemetry.track('connectivity_changed', { online: false }); this.emit(); });
@@ -203,22 +211,67 @@ export class PwaController {
   private warmCache(assetUrls: readonly string[]): void {
     const worker = this.registrationHandle?.active ?? navigator.serviceWorker.controller;
     if (!worker) return;
+    if (this.cacheWarmupInFlight) return;
     const resources = typeof performance !== 'undefined'
       ? performance.getEntriesByType('resource').map((entry) => entry.name).filter((url) => url.startsWith(globalThis.location?.origin ?? ''))
       : [];
     const urls = [...new Set(['./', './index.html', './manifest.webmanifest', './icons/icon-180.png', './icons/icon-192.png', './icons/icon-512.png', ...assetUrls, ...resources])];
-    worker.postMessage({ type: 'CACHE_URLS', urls, build: BUILD_ID });
+    this.cacheWarmupInFlight = true;
+    this.offlineReady = false;
+    this.cacheFailed = 0;
+    this.emit();
+    try {
+      worker.postMessage({ type: 'CACHE_URLS', urls, build: BUILD_ID });
+    } catch (error) {
+      this.cacheWarmupInFlight = false;
+      this.cacheFailed = urls.length;
+      this.errorLog.record('application', `PWA cache warmup could not start: ${String(error)}`);
+      this.emit();
+      this.scheduleCacheWarmupRetry();
+    }
+  }
+
+  private retryCacheWarmup(): void {
+    this.cacheWarmupRetryCount = 0;
+    if (this.cacheWarmupRetryTimer) clearTimeout(this.cacheWarmupRetryTimer);
+    this.cacheWarmupRetryTimer = null;
+    if (this.cacheWarmupInFlight) return;
+    this.warmCache(this.runtimeAssetUrls);
+  }
+
+  private scheduleCacheWarmupRetry(): void {
+    if (this.cacheWarmupRetryTimer || !navigator.onLine || this.cacheWarmupRetryCount >= CACHE_WARMUP_MAX_RETRIES) return;
+    this.cacheWarmupRetryCount += 1;
+    this.cacheWarmupRetryTimer = setTimeout(() => {
+      this.cacheWarmupRetryTimer = null;
+      this.warmCache(this.runtimeAssetUrls);
+    }, CACHE_WARMUP_RETRY_DELAY_MS);
   }
 
   private onMessage(event: MessageEvent): void {
     const data = event.data as { type?: string; build?: string; cached?: number; failed?: number } | undefined;
     if (data?.type === 'CACHE_READY') {
+      this.cacheWarmupInFlight = false;
+      if (data.build && data.build !== BUILD_ID) {
+        this.cacheFailed = 1;
+        this.offlineReady = false;
+        this.cacheBuild = data.build;
+        this.errorLog.record('application', `PWA cache warmup completed for unexpected build ${data.build}; expected ${BUILD_ID}.`);
+        this.emit();
+        this.scheduleCacheWarmupRetry();
+        return;
+      }
       this.cacheFailed = Math.max(0, Number(data.failed) || 0);
       this.offlineReady = this.cacheFailed === 0;
       if (data.build) this.cacheBuild = data.build;
       if (this.offlineReady) this.telemetry.track('pwa_offline_ready', { cacheBuild: this.cacheBuild, cached: Number(data.cached) || 0 });
       else this.errorLog.record('application', `PWA cache warmup incomplete: ${this.cacheFailed} resource(s) failed.`);
       this.emit();
+      if (!this.offlineReady) {
+        this.scheduleCacheWarmupRetry();
+      } else {
+        this.cacheWarmupRetryCount = 0;
+      }
     }
   }
 
