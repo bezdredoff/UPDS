@@ -29,6 +29,9 @@ const goldenOptions = {
 // Only 474 pixels in Rina's region (287,397)-(325,438) differ from merged #318.
 // Layout and all other actors are unchanged; user authorized this baseline update.
 // Provenance: docs/reviews/RINA_POSE_2026-10-01.md.
+// The VN0008 authored trio baseline also reflects the approved G5c opening-copy update.
+// Captured from the Linux Mobile WebKit Browser Gate actual screenshot; only VN0008 dialogue changed.
+// Provenance: Browser Gate run 38249686856 for PR #372.
 const fullCastLineupDigest = '3dd72a6f4299506763bda8bce655cf4b1ad5e4526b7f2eec941750e3ee431c60';
 
 async function waitForVisualIdle(page: Page): Promise<void> {
