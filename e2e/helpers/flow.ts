@@ -11,7 +11,7 @@ export async function startNewStory(page: Page): Promise<void> {
   await resetBrowserState(page);
   await page.locator(qaSelectors.newGame).click();
   await expect(page.locator(qaSelectors.vnRuntimeFrame)).toBeVisible();
-  expect(await currentVnLineId(page)).toBe('VN0002');
+  expect(await currentVnLineId(page)).toBe('VN0001');
 }
 
 export async function persistAtVn0002AndReload(page: Page): Promise<void> {
