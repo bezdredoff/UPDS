@@ -1098,6 +1098,7 @@ export const ruCatalog = {
   'dossier.heading': 'Серийные пропажи',
   'dossier.tab.clues': 'Улики',
   'dossier.tab.theories': 'Версии',
+  'dossier.tab.timeline': 'Хронология',
   'dossier.clueNumber': 'УЛИКА 0{number}',
   'dossier.locked': 'Не открыта',
   'dossier.unlockHint': 'Победите в соответствующем расследовании.',

@@ -3131,6 +3131,7 @@ export const beCatalog = {
   "dossier.heading": "Серыйныя прапажы",
   "dossier.tab.clues": "Доказы",
   "dossier.tab.theories": "Версіі",
+  "dossier.tab.timeline": "Храналогія",
   "dossier.clueNumber": "ДОКАЗ 0{number}",
   "dossier.locked": "Не адкрыта",
   "dossier.unlockHint": "Перамажыце ў адпаведным расследаванні.",
