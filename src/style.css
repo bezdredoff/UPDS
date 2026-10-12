@@ -992,8 +992,10 @@ img { display: block; }
 .scene-list small { margin-top: 2px; color: var(--ink-soft); }
 .placeholder-note { margin-top: 18px; padding: 13px; display: grid; gap: 3px; border-left: 3px solid var(--gold); background: #fff8dc; font-size: 12px; }
 .tabs { margin: 17px 0; display: flex; gap: 18px; border-bottom: 1px solid #d7ccd4; color: var(--ink-soft); font-size: 12px; }
-.tabs > * { padding-bottom: 8px; }
-.tabs b { border-bottom: 3px solid var(--coral); color: var(--coral); }
+.tabs .dossier-tab { min-height: 44px; padding: 0 0 8px; border: 0; border-bottom: 3px solid transparent; background: transparent; color: var(--ink-soft); font: inherit; font-weight: 700; }
+.tabs .dossier-tab[aria-selected="true"] { border-bottom-color: var(--coral); color: var(--coral); }
+.tabs .dossier-tab:focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; }
+.dossier-tab-panel[hidden] { display: none; }
 .clue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 .clue-card { padding: 10px; border: 1px solid #ded3db; border-radius: 9px; background: #fff; }
 .clue-card > div { height: 92px; display: grid; place-items: center; border-radius: 7px; background: #33223a; }
@@ -1003,7 +1005,7 @@ img { display: block; }
 .clue-card b { display: block; margin-top: 2px; font-size: 12px; }
 .clue-card p { margin: 5px 0 0; color: var(--ink-soft); font-size: 9px; line-height: 1.35; }
 .clue-card.locked { filter: grayscale(.8); opacity: .65; }
-.dossier h3 { margin: 22px 0 9px; font: 800 20px Georgia, serif; }
+.dossier h3 { margin: 5px 0 9px; font: 800 20px Georgia, serif; }
 .suspects { display: grid; gap: 7px; }
 .suspects article { padding: 9px; display: flex; align-items: center; gap: 9px; border: 1px solid #e3ced3; border-radius: 8px; background: #fff3f2; }
 .suspects i { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: var(--coral); color: white; font: 800 20px Georgia, serif; }
