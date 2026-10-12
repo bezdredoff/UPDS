@@ -176,9 +176,9 @@ describe('UI controller render smoke', () => {
     expect(root.innerHTML).toContain('aria-label="Dialogue history"');
     expect(root.innerHTML).toContain('aria-label="Settings"');
     expect(root.innerHTML).toContain('aria-label="Visual novel controls"');
-    expect(session.save.readLines).toContain('VN0001');
-    expect(session.save.line).toBe(1);
-    expect(root.innerHTML).toContain('VN0002');
+    expect(session.save.readLines).not.toContain('VN0001');
+    expect(session.save.line).toBe(0);
+    expect(root.innerHTML).toContain('After the bell, Seiran College in Japan was still buzzing');
     expect(root.innerHTML).not.toContain('STAGE DIRECTION');
     expect(root.innerHTML).not.toContain('FADE IN');
     expect(root.innerHTML).not.toContain('After the bell.');
