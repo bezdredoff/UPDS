@@ -47,14 +47,16 @@ export function pwaStatusMarkup(services: RuntimeServices): string {
   const status = pwa.offlineReady ? 'OFFLINE READY' : pwa.cachePreparing ? 'CACHE PREPARING' : pwa.cacheFailed > 0 ? 'CACHE INCOMPLETE' : pwa.supported ? 'CACHE PREPARING' : 'BROWSER MODE';
   const connectivity = pwa.online ? services.localization.t('pwa.online') : services.localization.t('pwa.offline');
   const cacheFailures = pwa.cacheFailed ? ` · ${services.localization.t('pwa.cacheFailures', { count: pwa.cacheFailed })}` : '';
-  const progress = pwa.cacheTotal > 0 ? Math.min(100, Math.floor((pwa.cacheCompleted / pwa.cacheTotal) * 100)) : 0;
-  return `<div class="pwa-status-card"><div><small>PWA / OFFLINE</small><b data-pwa-cache-status>${status}</b><span data-pwa-cache-meta>${escapeHtml(installLabel)} · ${escapeHtml(connectivity)} · ${escapeHtml(pwa.lane)}${escapeHtml(cacheFailures)}</span><div class="pwa-cache-progress" data-pwa-cache-progress ${pwa.supported && !pwa.offlineReady ? '' : 'hidden'}><div><span>${tx(services, 'pwa.cachePreparing')}</span><b data-pwa-cache-percent>${progress}%</b></div><progress data-pwa-cache-bar max="100" value="${progress}" aria-label="${tx(services, 'pwa.cacheProgressAria', { percent: progress })}"></progress></div></div><div class="pwa-status-actions">${pwa.canPromptInstall && !pwa.installed ? `<button data-pwa-install>${tx(services, 'pwa.installAction')}</button>` : ''}<button data-pwa-check>${tx(services, 'pwa.checkUpdate')}</button></div></div>`;
+  const progress = pwa.cacheTotal > 0 ? Math.min(100, Math.floor((pwa.cacheCached / pwa.cacheTotal) * 100)) : 0;
+  const progressCount = pwa.cacheTotal > 0 ? `${pwa.cacheCached}/${pwa.cacheTotal} · ` : '';
+  return `<div class="pwa-status-card"><div><small>PWA / OFFLINE</small><b data-pwa-cache-status>${status}</b><span data-pwa-cache-meta>${escapeHtml(installLabel)} · ${escapeHtml(connectivity)} · ${escapeHtml(pwa.lane)}${escapeHtml(cacheFailures)}</span><div class="pwa-cache-progress" data-pwa-cache-progress ${pwa.supported && !pwa.offlineReady ? '' : 'hidden'}><div><span>${tx(services, 'pwa.cachePreparing')}</span><b data-pwa-cache-percent>${progressCount}${progress}%</b></div><progress data-pwa-cache-bar max="100" value="${progress}" aria-label="${tx(services, 'pwa.cacheProgressAria', { percent: progress })}"></progress></div></div><div class="pwa-status-actions">${pwa.canPromptInstall && !pwa.installed ? `<button data-pwa-install>${tx(services, 'pwa.installAction')}</button>` : ''}<button data-pwa-check>${tx(services, 'pwa.checkUpdate')}</button></div></div>`;
 }
 
 export function bindPwaControls(services: RuntimeServices, scope: ParentNode, rerender: () => void): void {
   pwaStatusSubscriptions.get(scope)?.();
   const unsubscribe = services.pwa.subscribe((pwa) => {
-    const percent = pwa.cacheTotal > 0 ? Math.min(100, Math.floor((pwa.cacheCompleted / pwa.cacheTotal) * 100)) : 0;
+    const percent = pwa.cacheTotal > 0 ? Math.min(100, Math.floor((pwa.cacheCached / pwa.cacheTotal) * 100)) : 0;
+    const progressCount = pwa.cacheTotal > 0 ? `${pwa.cacheCached}/${pwa.cacheTotal} · ` : '';
     const status = scope.querySelector<HTMLElement>('[data-pwa-cache-status]');
     const progress = scope.querySelector<HTMLElement>('[data-pwa-cache-progress]');
     const percentLabel = scope.querySelector<HTMLElement>('[data-pwa-cache-percent]');
@@ -70,7 +72,7 @@ export function bindPwaControls(services: RuntimeServices, scope: ParentNode, re
     if (status) status.textContent = pwa.offlineReady ? 'OFFLINE READY' : pwa.cachePreparing ? 'CACHE PREPARING' : pwa.cacheFailed > 0 ? 'CACHE INCOMPLETE' : pwa.supported ? 'CACHE PREPARING' : 'BROWSER MODE';
     if (meta) meta.textContent = `${installLabel} · ${connectivity} · ${pwa.lane}${failures}`;
     if (progress) progress.hidden = !pwa.supported || pwa.offlineReady;
-    if (percentLabel) percentLabel.textContent = `${percent}%`;
+    if (percentLabel) percentLabel.textContent = `${progressCount}${percent}%`;
     if (progressBar) {
       progressBar.value = percent;
       progressBar.setAttribute('aria-label', services.localization.t('pwa.cacheProgressAria', { percent }));
