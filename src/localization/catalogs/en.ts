@@ -1098,7 +1098,6 @@ export const enCatalog = {
   'dossier.heading': 'Serial Disappearances',
   'dossier.tab.clues': 'Clues',
   'dossier.tab.theories': 'Theories',
-  'dossier.tab.timeline': 'Timeline',
   'dossier.clueNumber': 'CLUE 0{number}',
   'dossier.locked': 'Locked',
   'dossier.unlockHint': 'Win the corresponding investigation to unlock it.',
