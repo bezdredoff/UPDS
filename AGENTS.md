@@ -1,37 +1,36 @@
-# UPDS local development
+# UPDS repository instructions
 
-This is the UPDS game repository (TypeScript, Vite, Vitest), not ComfyUI and not an AI application to build.
+This repository contains the UPDS game: a TypeScript/Vite visual novel and Match-3 PWA.
 
-Work in this checkout: `C:\git\UPDS-local-ai`. The sibling checkout `C:\git\UPDS` contains other work; do not modify it. Do not require a particular local branch name. For a new task, use a clean task branch based on current `origin/main`; continue an existing branch only when the user asks to continue that work. Before switching branches, inspect status and preserve unrelated edits and untracked files. Never reset, clean, overwrite, or stash untracked user files without preserving them.
+## Choose the correct checkout
 
-At the start of a task inspect Git status. Read `README.md`, then the relevant sections of `docs/process/AI_DEVELOPMENT_RU.md` and `docs/architecture/PROJECT_CONTRACTS_RU.md`. Current priorities are in `docs/RELEASE_BACKLOG_RU.md` and `docs/ROADMAP_RU.md`. Read narrowly; archived documents are historical.
+- Do not assume the current directory, clone, branch, IDE or shell is the project checkout. First inspect the current path, `git rev-parse --show-toplevel`, `git status --short --branch` and `git remote -v`.
+- Identify the repository by its Git remote (HTTPS or SSH URL for `bezdredoff/UPDS`) and the user's task context. A folder named for UPDS or its art toolkit is not necessarily a Git checkout.
+- Continue in the checkout/worktree for the active task or attached PR. For a new isolated task, fetch `origin/main` and use a clean task branch/worktree based on it. Do not start over from `main` when the user is continuing an existing branch or PR.
+- There may be several UPDS clones. `C:\git\UPDS` is not categorically off-limits and `C:\git\UPDS-local-ai` is not always the right checkout. Never switch, reset, clean or overwrite a checkout containing user changes. Preserve tracked edits and untracked files; if isolation is needed, make a separate worktree rather than disturbing the user's checkout.
+- If the starting directory is not a Git checkout, locate and verify candidate checkouts before editing. Do not treat the first failed path or tool lookup as proof that the project or capability is unavailable.
 
-For release work, also read `docs/UPDS_RELEASE_MANIFEST_RU.md`, `docs/release-status.json` and `docs/known-issues.json`. Choose the task ID before editing and update its status/evidence in the same PR or ZIP candidate. Do not mark a task `accepted` from CI alone; semantic acceptance needs explicit evidence. ChatGPT includes the update in the ZIP sent through `incoming`; Codex includes it in the direct branch/PR.
+## Source of truth and product constraints
 
-Use your actual file-search/read/edit tools. Never claim to have read, changed, or tested something without a successful tool result. If a tool fails, report the exact limitation. Do not propose installing Ollama, models, packages or another agent as a substitute for using this repository.
+- GitHub `origin/main` is authoritative for merged code and current release state. Fetch it before reviewing or starting a separate task; a local branch name or dashboard copy does not establish currency.
+- Read `README.md` and the relevant sections of `docs/process/AI_DEVELOPMENT_RU.md` and `docs/architecture/PROJECT_CONTRACTS_RU.md`. For release work, also inspect `docs/UPDS_RELEASE_MANIFEST_RU.md`, `docs/release-status.json`, `docs/known-issues.json`, `docs/RELEASE_BACKLOG_RU.md` and `docs/ROADMAP_RU.md`. Read narrowly; archived documents are historical.
+- Select the release task ID before editing and update its status/evidence in the same PR. Do not mark semantic work accepted from CI alone; human, visual, content and device acceptance require direct evidence.
+- Preserve stable VN IDs, Story 0–21 and its three endings, save keys/schema, RU/BE/EN catalog parity and placeholders, approved art, and production contracts. Keep feature logic out of the composition root.
+- Check the exact app version/build and deployment before describing player-facing behavior or directing the user to a screen. Do not ask the user to use Diagnostics, settings, controls or features unless they exist in the specific build they have installed. Distinguish local candidates, open PRs, merged commits and deployed builds.
 
-This is a Windows checkout. Use the available native shell/command tool for Git, npm, and project scripts; use file tools for source edits. Do not use Python subprocess/os.system for project commands. A Git warning about `/tmp` or line-ending conversion is not a failed command when its exit code is 0.
+## Tools and verification
 
-The assistant runs outside the game. Do not add an LLM/API client, model dependencies, or retrieval infrastructure to UPDS unless the user explicitly asks for an in-game AI feature. Report pre-existing untracked files as pre-existing, not as files you created. Do not mark a check successful when the underlying tool returned an error.
+- Use the available native shell and file tools for repository work. Do not use Python subprocesses for project commands. Treat a Git line-ending warning as a warning, not a failed command, when the exit code is successful.
+- Do not infer that browsers, network access or a site are unavailable from one failed tool call. Inspect available browser/app surfaces, try an appropriate fallback (including a local preview or direct request when suitable), and report only the specific capability that remains unavailable. For computer use, inspect available surfaces before selecting a browser.
+- Use the repository's installed dependencies and scripts: `npm.cmd run check:fast`, `npm.cmd run test -- tests/<RelevantTest>.test.ts`, `npm.cmd run check`, `npm.cmd run build`, and `npm.cmd run version:check` as appropriate. Inspect `package.json` and the current workflow files instead of relying on old script or CI descriptions.
+- Do not use `npm exec` to compensate for a missing local executable; it may fetch an unrelated version. Check whether the current checkout has the expected `node_modules` or a safe shared dependency link. Never run `npm ci` against a shared junction. If an isolated worktree lacks dependencies and they cannot safely be reused, rely on the repository's CI and report that local validation was skipped; do not change dependency versions just to make a check run.
+- GitHub Quality Gate is authoritative for CI. Browser Gate is separate when configured; inspect actual PR checks and wait for required jobs. Local checks do not prove remote CI passed. For Windows WebKit/visual regressions, do not update Linux golden snapshots from a Windows run; use the configured GitHub Browser Gate.
 
-Implement one bounded user task at a time. Preserve unrelated edits, stable VN IDs, Story 0–21, the three endings, save keys/schema, RU/BE/EN locale keys/placeholders, approved art and production contracts. Keep feature logic out of the composition root. Follow existing project conventions.
+## Branches, PRs and user data
 
-Checks from this folder:
-- `npm.cmd run check:fast` — lint and TypeScript.
-- `npm.cmd exec -- vitest run tests/<RelevantTest>.test.ts` — focused tests.
-- `npm.cmd run build` — production build when appropriate.
-- For the local CI-equivalent gate, run `pwsh -File scripts/bionic-local-ci.ps1` through Bionic's native Git Bash/PowerShell shell; it uses the existing dependency tree and runs `npm.cmd run check`. Pass `-InstallDependencies` only when the dependency tree is intentionally isolated from the shared junction. Then run the relevant E2E command if its dependencies are already present. Wait for each command and report its exit code and complete relevant output. Do not use the Python/WASM sandbox for commands that spawn processes.
-- When the user asks to prepare, create, or send a PR, that request authorizes pushing the task branch, creating the PR, and running the required GitHub checks for that PR. Do not ask for the same authorization again later in the same task. Review the changed-file list, confirm `git status --short --branch`, run `git diff --check`, publish the branch, create the PR, and wait for its required CI checks. Report the PR URL, final check state, and any failed step. Never claim CI passed from a local check.
-- A PR request does not authorize merging or deploying; do those only when the user explicitly asks. If the user has not asked to publish a PR, keep the work reviewable locally and do not push or create one.
-- Use repository scripts when they match the current workflow; do not require a legacy Bionic GitHub CI script or manually dispatched Browser Gate unless the current project workflow calls for it. GitHub Actions cannot run for an unpushed local branch. Inspect the current workflow files and PR checks instead of relying on historical trigger descriptions.
+- Inspect the changed-file list and Git status before committing or publishing. Stage explicit task files; never include unrelated user files, generated artifacts or untracked work by default.
+- When the user asks to prepare, create or send a PR, that request authorizes commits, pushing the task branch, creating the PR and waiting for its required checks. Do not ask for that authorization again within the same task. Report the URL and actual check results.
+- A PR request does not authorize merging or deploying. Do those only when the user explicitly asks.
+- Never reset, clean, delete, overwrite or discard user changes. Do not modify dependencies, CI, pipeline scripts, generated art, snapshots or visual approvals unless they are part of the requested task.
 
-Installed dependencies are shared through a node_modules junction. Do not install, upgrade, delete, or edit dependencies. Do not modify CI, pipeline scripts, generated art, snapshots or visual approvals for a routine task. Do not commit, push, merge, deploy, reset, clean or discard changes unless the user asks for that action. When publishing is requested, commits/push/PR creation and the checks needed to prepare the PR are part of that authorization; merging and deployment remain separate actions.
-
-## Windows & WebKit Limitations
-- `npm run check` и локальный Chromium E2E можно использовать как локальные проверки.
-- Локальный Playwright WebKit на Windows не является эквивалентом GitHub Browser Gate.
-- WebKit golden snapshots в репозитории рассчитаны на Linux CI; нельзя создавать или коммитить новые `*-win32.png`.
-- Для WebKit и visual regression окончательным источником считается GitHub Browser Gate.
-- При локальном падении WebKit на Windows сначала проверить test-results и не обновлять snapshots автоматически.
-
-Answer in Russian. Finish with the changed files, actual checks/results, and any remaining limitation. For read-only requests, make no file changes.
+Answer in Russian. Finish with changed files, actual checks/results and any remaining limitation. For read-only requests, make no file changes.
