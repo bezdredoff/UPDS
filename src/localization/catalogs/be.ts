@@ -67,6 +67,8 @@ export const beCatalog = {
   'pwa.online': 'анлайн',
   'pwa.offline': 'афлайн',
   'pwa.cacheFailures': '{count} памылак кэша',
+  'pwa.cachePreparing': 'Падрыхтоўка афлайн-кэша',
+  'pwa.cacheProgressAria': 'Падрыхтоўка афлайн-кэша: {percent}%',
   'pwa.installAction': 'Усталяваць',
   'pwa.checkUpdate': 'Праверыць абнаўленне',
 

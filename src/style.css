@@ -1288,6 +1288,12 @@ img { display: block; }
 .pwa-status-card small { color: var(--teal); font-size: 8px; font-weight: 950; letter-spacing: .12em; }
 .pwa-status-card b { color: var(--indigo); font-size: 11px; }
 .pwa-status-card span { color: var(--ink-soft); font-size: 8px; overflow-wrap: anywhere; }
+.pwa-cache-progress { display: grid; gap: 4px; margin-top: 7px; }
+.pwa-cache-progress[hidden] { display: none; }
+.pwa-cache-progress > div { display: flex; justify-content: space-between; gap: 8px; }
+.pwa-cache-progress > div span { font-size: 8px; }
+.pwa-cache-progress > div b { font-size: 9px; font-variant-numeric: tabular-nums; }
+.pwa-cache-progress progress { width: 100%; height: 7px; accent-color: var(--teal); }
 .pwa-status-actions { display: grid; gap: 6px; }
 .pwa-status-actions button {
   min-height: 36px;

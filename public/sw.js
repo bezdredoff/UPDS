@@ -30,14 +30,17 @@ const cacheOne = async (cache, url) => {
   }
 };
 
-const cacheUrlsWithConcurrency = async (cache, urls) => {
+const cacheUrlsWithConcurrency = async (cache, urls, reportProgress) => {
   let cursor = 0;
   let cached = 0;
+  let completed = 0;
   const worker = async () => {
     while (cursor < urls.length) {
       const url = urls[cursor];
       cursor += 1;
       if (await cacheOne(cache, url)) cached += 1;
+      completed += 1;
+      reportProgress(cached, completed, urls.length);
     }
   };
   const workerCount = Math.min(CACHE_WARM_CONCURRENCY, urls.length);
@@ -77,10 +80,21 @@ self.addEventListener('message', (event) => {
     const urls = [...new Set(data.urls)].map((value) => {
       try { return new URL(value, self.registration.scope); } catch { return null; }
     }).filter(Boolean).filter(sameOrigin).filter((url) => !isStablePreviewRequest(url) && !isBuildIdentityRequest(url));
-    const cached = await cacheUrlsWithConcurrency(cache, urls);
-    const failed = Math.max(0, urls.length - cached);
     const clients = await self.clients.matchAll({ includeUncontrolled: true, type: 'window' });
-    for (const client of clients) client.postMessage({ type: 'CACHE_READY', build, lane, cached, failed });
+    let lastProgressAt = 0;
+    const reportProgress = (cached, completed, total) => {
+      const now = Date.now();
+      if (completed !== 1 && completed !== total && now - lastProgressAt < 250) return;
+      lastProgressAt = now;
+      for (const client of clients) {
+        try { client.postMessage({ type: 'CACHE_PROGRESS', build, lane, cached, completed, total }); } catch { /* closed client */ }
+      }
+    };
+    const cached = await cacheUrlsWithConcurrency(cache, urls, reportProgress);
+    const failed = Math.max(0, urls.length - cached);
+    for (const client of clients) {
+      try { client.postMessage({ type: 'CACHE_READY', build, lane, cached, failed, completed: urls.length, total: urls.length }); } catch { /* closed client */ }
+    }
   })());
 });
 

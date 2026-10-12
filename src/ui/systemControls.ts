@@ -4,6 +4,8 @@ import { isSupportedLocale } from '../localization/Locale';
 import { runtimeSelectableLocaleProfiles } from '../localization/LocalizationProduction';
 import { escapeHtml } from './viewMarkup';
 
+const pwaStatusSubscriptions = new WeakMap<ParentNode, () => void>();
+
 const tx = (services: RuntimeServices, key: string, params: Readonly<Record<string, string | number | boolean>> = {}): string =>
   escapeHtml(services.localization.t(key, params));
 
@@ -42,13 +44,39 @@ export function pwaStatusMarkup(services: RuntimeServices): string {
     : pwa.canPromptInstall
       ? services.localization.t('pwa.install.available')
       : services.localization.t('pwa.install.browserMenu');
-  const status = pwa.offlineReady ? 'OFFLINE READY' : pwa.supported ? 'CACHE PREPARING' : 'BROWSER MODE';
+  const status = pwa.offlineReady ? 'OFFLINE READY' : pwa.cachePreparing ? 'CACHE PREPARING' : pwa.cacheFailed > 0 ? 'CACHE INCOMPLETE' : pwa.supported ? 'CACHE PREPARING' : 'BROWSER MODE';
   const connectivity = pwa.online ? services.localization.t('pwa.online') : services.localization.t('pwa.offline');
   const cacheFailures = pwa.cacheFailed ? ` · ${services.localization.t('pwa.cacheFailures', { count: pwa.cacheFailed })}` : '';
-  return `<div class="pwa-status-card"><div><small>PWA / OFFLINE</small><b>${status}</b><span>${escapeHtml(installLabel)} · ${escapeHtml(connectivity)} · ${escapeHtml(pwa.lane)}${escapeHtml(cacheFailures)}</span></div><div class="pwa-status-actions">${pwa.canPromptInstall && !pwa.installed ? `<button data-pwa-install>${tx(services, 'pwa.installAction')}</button>` : ''}<button data-pwa-check>${tx(services, 'pwa.checkUpdate')}</button></div></div>`;
+  const progress = pwa.cacheTotal > 0 ? Math.min(100, Math.floor((pwa.cacheCompleted / pwa.cacheTotal) * 100)) : 0;
+  return `<div class="pwa-status-card"><div><small>PWA / OFFLINE</small><b data-pwa-cache-status>${status}</b><span data-pwa-cache-meta>${escapeHtml(installLabel)} · ${escapeHtml(connectivity)} · ${escapeHtml(pwa.lane)}${escapeHtml(cacheFailures)}</span><div class="pwa-cache-progress" data-pwa-cache-progress ${pwa.supported && !pwa.offlineReady ? '' : 'hidden'}><div><span>${tx(services, 'pwa.cachePreparing')}</span><b data-pwa-cache-percent>${progress}%</b></div><progress data-pwa-cache-bar max="100" value="${progress}" aria-label="${tx(services, 'pwa.cacheProgressAria', { percent: progress })}"></progress></div></div><div class="pwa-status-actions">${pwa.canPromptInstall && !pwa.installed ? `<button data-pwa-install>${tx(services, 'pwa.installAction')}</button>` : ''}<button data-pwa-check>${tx(services, 'pwa.checkUpdate')}</button></div></div>`;
 }
 
 export function bindPwaControls(services: RuntimeServices, scope: ParentNode, rerender: () => void): void {
+  pwaStatusSubscriptions.get(scope)?.();
+  const unsubscribe = services.pwa.subscribe((pwa) => {
+    const percent = pwa.cacheTotal > 0 ? Math.min(100, Math.floor((pwa.cacheCompleted / pwa.cacheTotal) * 100)) : 0;
+    const status = scope.querySelector<HTMLElement>('[data-pwa-cache-status]');
+    const progress = scope.querySelector<HTMLElement>('[data-pwa-cache-progress]');
+    const percentLabel = scope.querySelector<HTMLElement>('[data-pwa-cache-percent]');
+    const progressBar = scope.querySelector<HTMLProgressElement>('[data-pwa-cache-bar]');
+    const meta = scope.querySelector<HTMLElement>('[data-pwa-cache-meta]');
+    const installLabel = pwa.installed
+      ? services.localization.t('pwa.install.installed')
+      : pwa.canPromptInstall
+        ? services.localization.t('pwa.install.available')
+        : services.localization.t('pwa.install.browserMenu');
+    const connectivity = services.localization.t(pwa.online ? 'pwa.online' : 'pwa.offline');
+    const failures = pwa.cacheFailed ? ` · ${services.localization.t('pwa.cacheFailures', { count: pwa.cacheFailed })}` : '';
+    if (status) status.textContent = pwa.offlineReady ? 'OFFLINE READY' : pwa.cachePreparing ? 'CACHE PREPARING' : pwa.cacheFailed > 0 ? 'CACHE INCOMPLETE' : pwa.supported ? 'CACHE PREPARING' : 'BROWSER MODE';
+    if (meta) meta.textContent = `${installLabel} · ${connectivity} · ${pwa.lane}${failures}`;
+    if (progress) progress.hidden = !pwa.supported || pwa.offlineReady;
+    if (percentLabel) percentLabel.textContent = `${percent}%`;
+    if (progressBar) {
+      progressBar.value = percent;
+      progressBar.setAttribute('aria-label', services.localization.t('pwa.cacheProgressAria', { percent }));
+    }
+  });
+  pwaStatusSubscriptions.set(scope, unsubscribe);
   scope.querySelector('[data-pwa-install]')?.addEventListener('click', async () => { await services.pwa.promptInstall(); rerender(); });
   scope.querySelector('[data-pwa-check]')?.addEventListener('click', async () => { await services.pwa.checkForUpdate(); rerender(); });
 }

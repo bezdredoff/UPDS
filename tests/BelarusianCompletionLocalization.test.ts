@@ -16,9 +16,9 @@ import { match3ReactionCatalogs } from '../src/localization/catalogs/match3React
 import { enCatalog } from '../src/localization/catalogs/en';
 import { ruCatalog } from '../src/localization/catalogs/ru';
 
-const SOURCE_KEY_COUNT = 3873;
+const SOURCE_KEY_COUNT = 3875;
 const REACTION_KEY_COUNT = 132;
-const SHELL_KEY_COUNT = 61;
+const SHELL_KEY_COUNT = 63;
 const sourceCatalog: Readonly<Record<string, string>> = ruCatalog;
 const targetCatalog: Readonly<Record<string, string>> = beCatalog;
 const runtimeCatalogs = {

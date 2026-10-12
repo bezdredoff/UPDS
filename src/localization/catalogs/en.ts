@@ -239,6 +239,8 @@ export const enCatalog = {
   'pwa.online': 'online',
   'pwa.offline': 'offline',
   'pwa.cacheFailures': '{count} cache failures',
+  'pwa.cachePreparing': 'Preparing offline cache',
+  'pwa.cacheProgressAria': 'Offline cache preparation: {percent}%',
   'pwa.installAction': 'Install',
   'pwa.checkUpdate': 'Check for update',
 
