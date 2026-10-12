@@ -13,6 +13,7 @@ export type PwaSnapshot = Readonly<{
   offlineReady: boolean;
   cachePreparing: boolean;
   cacheCompleted: number;
+  cacheCached: number;
   cacheTotal: number;
   canPromptInstall: boolean;
   online: boolean;
@@ -39,6 +40,7 @@ export class PwaController {
   private offlineReady = false;
   private cachePreparing = false;
   private cacheCompleted = 0;
+  private cacheCached = 0;
   private cacheTotal = 0;
   private updateAvailable = false;
   private started = false;
@@ -69,6 +71,7 @@ export class PwaController {
       offlineReady: this.offlineReady,
       cachePreparing: this.cachePreparing,
       cacheCompleted: this.cacheCompleted,
+      cacheCached: this.cacheCached,
       cacheTotal: this.cacheTotal,
       canPromptInstall: Boolean(this.installPrompt),
       online: typeof navigator === 'undefined' ? true : navigator.onLine,
@@ -123,6 +126,7 @@ export class PwaController {
       this.observeRegistration(registration);
       navigator.serviceWorker.addEventListener('message', (event) => this.onMessage(event));
       navigator.serviceWorker.addEventListener('controllerchange', () => {
+        this.retryCacheWarmup();
         this.emit();
         if (this.reloadOnControllerChange) this.reloadPage();
       });
@@ -187,6 +191,7 @@ export class PwaController {
       this.emit();
       installing?.addEventListener('statechange', () => {
         if (installing.state === 'installed' && navigator.serviceWorker.controller) void this.refreshPublishedBuild();
+        if (installing.state === 'installed') this.retryCacheWarmup();
         this.emit();
       });
     });
@@ -218,9 +223,19 @@ export class PwaController {
   }
 
   private warmCache(assetUrls: readonly string[]): void {
-    const worker = this.registrationHandle?.active ?? navigator.serviceWorker.controller;
-    if (!worker) return;
     if (this.cacheWarmupInFlight) return;
+    const registration = this.registrationHandle;
+    const workers = [registration?.waiting, registration?.active, navigator.serviceWorker.controller];
+    const worker = workers.find((candidate) => this.isCurrentBuildWorker(candidate));
+    if (!worker) {
+      this.cachePreparing = true;
+      this.cacheCompleted = 0;
+      this.cacheCached = 0;
+      this.cacheTotal = 0;
+      this.offlineReady = false;
+      this.emit();
+      return;
+    }
     const resources = typeof performance !== 'undefined'
       ? performance.getEntriesByType('resource').map((entry) => entry.name).filter((url) => url.startsWith(globalThis.location?.origin ?? ''))
       : [];
@@ -228,6 +243,7 @@ export class PwaController {
     this.cacheWarmupInFlight = true;
     this.cachePreparing = true;
     this.cacheCompleted = 0;
+    this.cacheCached = 0;
     this.cacheTotal = urls.length;
     this.offlineReady = false;
     this.cacheFailed = 0;
@@ -237,10 +253,21 @@ export class PwaController {
     } catch (error) {
       this.cacheWarmupInFlight = false;
       this.cachePreparing = false;
+      this.cacheCompleted = 0;
+      this.cacheCached = 0;
       this.cacheFailed = urls.length;
       this.errorLog.record('application', `PWA cache warmup could not start: ${String(error)}`);
       this.emit();
       this.scheduleCacheWarmupRetry();
+    }
+  }
+
+  private isCurrentBuildWorker(worker: ServiceWorker | null | undefined): worker is ServiceWorker {
+    if (!worker) return false;
+    try {
+      return new URL(worker.scriptURL).searchParams.get('v') === BUILD_ID;
+    } catch {
+      return false;
     }
   }
 
@@ -266,6 +293,7 @@ export class PwaController {
     if (data?.type === 'CACHE_PROGRESS') {
       if ((data.build && data.build !== BUILD_ID) || (data.lane && data.lane !== resolveRuntimeLane())) return;
       this.cacheCompleted = Math.max(0, Number(data.completed) || 0);
+      this.cacheCached = Math.max(0, Number(data.cached) || 0);
       this.cacheTotal = Math.max(0, Number(data.total) || this.cacheTotal);
       this.emit();
       return;
@@ -273,9 +301,9 @@ export class PwaController {
     if (data?.type === 'CACHE_READY') {
       this.cacheWarmupInFlight = false;
       this.cachePreparing = false;
-      this.cacheCompleted = Math.max(0, Number(data.completed) || this.cacheTotal);
-      this.cacheTotal = Math.max(0, Number(data.total) || this.cacheTotal);
       if (data.build && data.build !== BUILD_ID) {
+        this.cacheCompleted = 0;
+        this.cacheCached = 0;
         this.cacheFailed = 1;
         this.offlineReady = false;
         this.cacheBuild = data.build;
@@ -284,6 +312,9 @@ export class PwaController {
         this.scheduleCacheWarmupRetry();
         return;
       }
+      this.cacheCompleted = Math.max(0, Number(data.completed) || this.cacheTotal);
+      this.cacheCached = Math.max(0, Number(data.cached) || 0);
+      this.cacheTotal = Math.max(0, Number(data.total) || this.cacheTotal);
       this.cacheFailed = Math.max(0, Number(data.failed) || 0);
       this.offlineReady = this.cacheFailed === 0;
       if (data.build) this.cacheBuild = data.build;
