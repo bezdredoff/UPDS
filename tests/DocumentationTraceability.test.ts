@@ -380,7 +380,7 @@ describe('active documentation traceability', () => {
     expect(e2ePackage).not.toContain('selenium');
   });
 
-  it('records accepted G0 without silently closing the final offline/device release gate', () => {
+  it('records accepted G0 and confirmed Android offline verification', () => {
     const release = JSON.parse(read('docs/release-status.json'));
     const issues = JSON.parse(read('docs/known-issues.json'));
     const g0 = release.tasks.find((task: { id: string }) => task.id === 'G0');
@@ -389,7 +389,7 @@ describe('active documentation traceability', () => {
     expect(g0.evidence).toContain('Accepted by user');
     expect(g0.evidence).toContain('PR #311');
     expect(issue('KI-004').status).toBe('closed');
-    expect(issue('KI-002').status).toBe('open');
+    expect(issue('KI-002').status).toBe('closed');
     for (const path of ['docs/ROADMAP_RU.md', 'docs/RELEASE_BACKLOG_RU.md']) {
       const source = read(path);
       expect(source).toContain('G0');
