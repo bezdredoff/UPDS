@@ -263,7 +263,7 @@ const authoredLevels: readonly LevelDefinition[] = [
     objectives: [{ kind: 'clearBlockers', target: 18, label: 'Преграды' }, { kind: 'drop', ingredient: 'serviceKey', target: 1, label: 'Ключ' }],
     blocker: 'overlay', blockers: positions([[16, 2], 17, 18, [19, 2], 20, 21, 24, [25, 2], 26, 29, [30, 2], 31, 34, 35, [36, 2], 37, 38, 39]), ingredients: [{ index: 42, kind: 'serviceKey' }], seed: 9003,
     clueId: 'CUE_003', clueTitle: 'Смешанные цели', clueSummary: 'Тип, цена, цвет и владелец вещей не объясняют выбор; вещи смешали до возврата.',
-    startBark: { speaker: 'Норихиро', text: 'Бирки сначала. Мокрые догадки сушатся дольше полотенец.' }, winBark: { speaker: 'Оноэ', text: 'Партия восстановлена. Теперь сравним пропавшее.' }, loseBark: { speaker: 'Норихиро', text: 'Пена победила дедукцию. Начните с краёв.' },
+    startBark: { speaker: 'Норихиро', text: 'Сначала сверим бирки. Бельё само себя не рассортирует.' }, winBark: { speaker: 'Оноэ', text: 'Партия восстановлена. Теперь сравним пропавшее.' }, loseBark: { speaker: 'Норихиро', text: 'Пена победила дедукцию. Начните с краёв.' },
   },
   {
     id: 'M3_03_ORDERED_APARTMENT', shortId: 'M3_03', title: 'Идеальный порядок', storyAction: 'Проверить возвращённый мешок и найти предмет с новым повреждением.',

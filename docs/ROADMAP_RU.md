@@ -18,7 +18,9 @@ G5b принят после человеческой проверки пены, 
 
 2026-10-12 — после слияния PR #369 Browser Gate прошёл, но merge-triggered Quality и Pages Deploy на `4b8abab` упали на `npm audit`: advisories затронули Vitest 3.2.7, его `tinypool`/`@vitest/mocker` и transitive `source-map-js`. `G5c-SEC-001` обновляет dev-only Vitest до 4.1.11 и `source-map-js` до 1.2.2; isolated `npm ci` сообщает 0 vulnerabilities и полный `npm run check` прошёл. Исправление ещё не опубликовано: ждёт PR, main CI и stable Deploy. `KI-015` открыт до этого подтверждения.
 
-Technical product version: `0.27.4-dev`.
+Позже 2026-10-12 PR #370 слит в `b888134`, Quality, Browser Gate и Pages Deploy прошли; опубликован build `build-38225580199-b888134fba35`. Пользователь повторно проверил на iPhone офлайн-цикл IOS-05–07, BE/EN LANG-02/03 и обновление PWA UPDATE-01 — всё прошло. `G5c-PWA-001`/`KI-013`, `G5c-I18N-001`/`KI-014` и `G5c-SEC-001`/`KI-015` закрыты. В той же проверке найдены новые UX/copy замечания к досье, раннему раскрытию Норихиро и формулировкам M3_02/пакетного блокера; follow-up ведётся отдельно. G5c остаётся активным до Android и финальных release-owner checks. [Повторная проверка iPhone](reviews/G5C_PHONE_RETEST_2026-10-12.md).
+
+Technical product version: `0.27.5-dev`.
 
 2026-10-02 — G5a закрыта после слияния PR #325–326 и решения пользователя. Завершены
 английская и белорусская редактура: в BE вычитаны 976 сюжетных реплик, 601 строка
@@ -54,7 +56,7 @@ Status: **G0 device accepted / G3 guest presentation accepted / release validati
 
 This roadmap is intentionally a strategic status map, not a transcript of every historical sub-feature. Detailed implementation history lives in feature docs and Git. The actionable remaining-work authority is [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md); the approved full-game scope/reuse ceilings remain [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md); machine-readable art inventory remains `src/content/art/ANM030A.asset-gap-audit.json`. Production budgets are ceilings, not an obligation to spend every planned asset slot.
 
-`APP_VERSION` in `src/appVersion.ts` is the canonical player-facing product semver dev-line; `0.27.0-dev` starts the current accumulated development cycle after `0.26.0-dev`, and `0.27.4-dev` is the current G5c PWA/localization fix candidate. npm `package.json.version` remains internal package metadata. `BUILD_LABEL` is separate feature/baseline identity; the current candidate is **ANM-033G5C PWA & Localization Fix**. `BUILD_ID` identifies a concrete CI build.
+`APP_VERSION` in `src/appVersion.ts` is the canonical player-facing product semver dev-line; `0.27.0-dev` starts the current accumulated development cycle after `0.26.0-dev`, and `0.27.5-dev` is the current G5c dossier/Match-3 copy candidate. npm `package.json.version` remains internal package metadata. `BUILD_LABEL` is separate feature/baseline identity; the current candidate is **ANM-033G5C Dossier & Match-3 Copy**. `BUILD_ID` identifies a concrete CI build.
 
 ## Base-release target
 
