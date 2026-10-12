@@ -239,6 +239,8 @@ export const ruCatalog = {
   'pwa.online': 'в сети',
   'pwa.offline': 'офлайн',
   'pwa.cacheFailures': '{count} ошибок кэша',
+  'pwa.cachePreparing': 'Подготовка офлайн-кэша',
+  'pwa.cacheProgressAria': 'Подготовка офлайн-кэша: {percent}%',
   'pwa.installAction': 'Установить',
   'pwa.checkUpdate': 'Проверить обновление',
 

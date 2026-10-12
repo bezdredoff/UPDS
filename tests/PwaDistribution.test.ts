@@ -31,7 +31,8 @@ describe('PWA distribution contract', () => {
     expect(worker).toContain("data.type !== 'CACHE_URLS'");
     expect(worker).toContain("type: 'CACHE_READY'");
     expect(worker).toContain('const CACHE_WARM_CONCURRENCY = 4');
-    expect(worker).toContain('cacheUrlsWithConcurrency(cache, urls)');
+    expect(worker).toContain('cacheUrlsWithConcurrency(cache, urls, reportProgress)');
+    expect(worker).toContain("type: 'CACHE_PROGRESS'");
     expect(worker).toContain('Math.min(CACHE_WARM_CONCURRENCY, urls.length)');
     expect(worker).not.toContain('Promise.allSettled(urls.map');
   });
@@ -75,7 +76,11 @@ describe('PWA distribution contract', () => {
     await messageWork;
 
     expect(fetchCalls).toBe(1);
-    expect(messages).toEqual([expect.objectContaining({ type: 'CACHE_READY', cached: 1, failed: 1 })]);
+    expect(messages).toEqual([
+      expect.objectContaining({ type: 'CACHE_PROGRESS', cached: 1, completed: 1, total: 2 }),
+      expect.objectContaining({ type: 'CACHE_PROGRESS', cached: 1, completed: 2, total: 2 }),
+      expect.objectContaining({ type: 'CACHE_READY', cached: 1, failed: 1, completed: 2, total: 2 }),
+    ]);
   });
 
   it('versions the worker by deployment build id and warms runtime assets without blocking startup', () => {

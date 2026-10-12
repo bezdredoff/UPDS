@@ -11,6 +11,9 @@ export type PwaSnapshot = Readonly<{
   registration: 'none' | 'installing' | 'waiting' | 'active';
   updateAvailable: boolean;
   offlineReady: boolean;
+  cachePreparing: boolean;
+  cacheCompleted: number;
+  cacheTotal: number;
   canPromptInstall: boolean;
   online: boolean;
   scope: string;
@@ -34,6 +37,9 @@ export class PwaController {
   private installPrompt: InstallPromptEvent | null = null;
   private listeners = new Set<Listener>();
   private offlineReady = false;
+  private cachePreparing = false;
+  private cacheCompleted = 0;
+  private cacheTotal = 0;
   private updateAvailable = false;
   private started = false;
   private reloadOnControllerChange = false;
@@ -61,6 +67,9 @@ export class PwaController {
       registration: registrationState,
       updateAvailable: this.updateAvailable,
       offlineReady: this.offlineReady,
+      cachePreparing: this.cachePreparing,
+      cacheCompleted: this.cacheCompleted,
+      cacheTotal: this.cacheTotal,
       canPromptInstall: Boolean(this.installPrompt),
       online: typeof navigator === 'undefined' ? true : navigator.onLine,
       scope: registration?.scope ?? '',
@@ -217,6 +226,9 @@ export class PwaController {
       : [];
     const urls = [...new Set(['./', './index.html', './manifest.webmanifest', './icons/icon-180.png', './icons/icon-192.png', './icons/icon-512.png', ...assetUrls, ...resources])];
     this.cacheWarmupInFlight = true;
+    this.cachePreparing = true;
+    this.cacheCompleted = 0;
+    this.cacheTotal = urls.length;
     this.offlineReady = false;
     this.cacheFailed = 0;
     this.emit();
@@ -224,6 +236,7 @@ export class PwaController {
       worker.postMessage({ type: 'CACHE_URLS', urls, build: BUILD_ID });
     } catch (error) {
       this.cacheWarmupInFlight = false;
+      this.cachePreparing = false;
       this.cacheFailed = urls.length;
       this.errorLog.record('application', `PWA cache warmup could not start: ${String(error)}`);
       this.emit();
@@ -249,9 +262,19 @@ export class PwaController {
   }
 
   private onMessage(event: MessageEvent): void {
-    const data = event.data as { type?: string; build?: string; cached?: number; failed?: number } | undefined;
+    const data = event.data as { type?: string; build?: string; lane?: string; cached?: number; failed?: number; completed?: number; total?: number } | undefined;
+    if (data?.type === 'CACHE_PROGRESS') {
+      if ((data.build && data.build !== BUILD_ID) || (data.lane && data.lane !== resolveRuntimeLane())) return;
+      this.cacheCompleted = Math.max(0, Number(data.completed) || 0);
+      this.cacheTotal = Math.max(0, Number(data.total) || this.cacheTotal);
+      this.emit();
+      return;
+    }
     if (data?.type === 'CACHE_READY') {
       this.cacheWarmupInFlight = false;
+      this.cachePreparing = false;
+      this.cacheCompleted = Math.max(0, Number(data.completed) || this.cacheTotal);
+      this.cacheTotal = Math.max(0, Number(data.total) || this.cacheTotal);
       if (data.build && data.build !== BUILD_ID) {
         this.cacheFailed = 1;
         this.offlineReady = false;
