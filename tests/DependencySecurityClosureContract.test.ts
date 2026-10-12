@@ -15,11 +15,14 @@ const feature = read('docs/features/ANM023G8D_DEPENDENCY_SECURITY_CLOSURE_RU.md'
 describe('ANM-023G8D dependency security closure contract', () => {
   it('pins the security-fixed Vite/Vitest toolchain in both package metadata and the lockfile', () => {
     expect(packageMetadata.devDependencies.vite).toBe('6.4.3');
-    expect(packageMetadata.devDependencies.vitest).toBe('3.2.7');
+    expect(packageMetadata.devDependencies.vitest).toBe('4.1.11');
     expect(lock.packages[''].devDependencies?.vite).toBe('6.4.3');
-    expect(lock.packages[''].devDependencies?.vitest).toBe('3.2.7');
+    expect(lock.packages[''].devDependencies?.vitest).toBe('4.1.11');
     expect(lock.packages['node_modules/vite'].version).toBe('6.4.3');
-    expect(lock.packages['node_modules/vitest'].version).toBe('3.2.7');
+    expect(lock.packages['node_modules/vitest'].version).toBe('4.1.11');
+    expect(lock.packages['node_modules/@vitest/mocker'].version).toBe('4.1.11');
+    expect(lock.packages).not.toHaveProperty('node_modules/tinypool');
+    expect(lock.packages['node_modules/source-map-js'].version).toBe('1.2.2');
     expect(lock.packages['node_modules/esbuild'].version).toMatch(/^0\.25\./);
     expect(lock.packages['node_modules/esbuild'].version).not.toBe('0.21.5');
   });

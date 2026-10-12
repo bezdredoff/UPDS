@@ -40,7 +40,11 @@ The release owner reported this first manual pass on the published build above. 
 | REL-01 / REL-03 | Pending | Final title/icon and target distribution platforms are not decided. |
 | REL-02 | Confirmed | User confirmed included materials are cleared and credits are present. |
 
-The reported cache count was caused by offline warm-up retries treating a resource that was already in Cache Storage as a failed network fetch. `G5c-PWA-001` changes the worker to count an existing cache entry as ready. The localized notification fix is tracked as `G5c-I18N-001`: VN now supplies the active-locale `match3.level.<level-id>.clueTitle` to the toast. Both changes are candidate fixes only; the iPhone offline and BE/EN phone checks must be repeated after publication. Known issues `KI-013` and `KI-014` therefore remain open pending that retest.
+The reported cache count was caused by offline warm-up retries treating a resource that was already in Cache Storage as a failed network fetch. PR #369 merged `G5c-PWA-001` (check existing entries first) and `G5c-I18N-001` (supply the active-locale `match3.level.<level-id>.clueTitle` to the VN toast). PR Quality and Browser Gate checks passed, but the merge-triggered Quality and stable Pages deployment failed on npm audit advisories in the development toolchain. The fixes are not yet in the published build; repeat the iPhone offline and BE/EN phone checks after deployment. `KI-013` and `KI-014` remain open pending retest, and `KI-015` / `G5c-SEC-001` track the security gate failure.
+
+## Post-merge security gate follow-up — 2026-10-12
+
+The failed main workflows reported four advisories in the development toolchain: one moderate `@vitest/mocker`, one high `source-map-js`, and two critical `tinypool` advisories, all reachable through Vitest 3.2.7. `G5c-SEC-001` upgrades Vitest to 4.1.11, which uses the fixed `@vitest/mocker` and no longer depends on `tinypool`, and advances the lockfile's `source-map-js` to 1.2.2. In an isolated worktree with a clean `npm ci`, `npm audit` reported zero vulnerabilities; full Quality completed successfully with 153 suites / 779 tests and a production build. This is candidate evidence only. The PR, GitHub main Quality, and stable Pages Deploy must pass before `KI-015` is closed or the updated build is used for the pending phone retest.
 
 ## Checks still required from release owner
 
