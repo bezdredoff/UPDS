@@ -13,3 +13,10 @@ in small, verifiable slices.
 Open this directory as a project in Godot. The first gameplay slice should replace the
 bootstrap status screen only when its interaction and content contract are ready to be
 ported and compared with the web reference.
+
+## Command-line validation
+
+On Windows, run `.\godot\check.ps1 -GodotPath "C:\path\to\Godot_v4.x-stable_win64.exe"`.
+The script imports the project, parses the bootstrap GDScript, and loads the scene in a
+headless smoke test. The editor bridge is a separate optional setup for live scene
+inspection and runtime interaction.
