@@ -25,6 +25,10 @@ reuse the same save rules while supplying its own storage and user-facing error 
 and persisted-envelope construction. `Match3CampaignStore` only reads/writes/removes data through
 `KeyValueStorage`, keeping both campaigns aligned around the same adapter boundary.
 
+`src/engine/SeededRandom.ts` defines the version-1 seeded random stream used by Match-3 board
+generation. Keeping the algorithm in one tested module makes seed-based board reproduction explicit
+for debugging and future Godot parity checks; gameplay continues to use the same sequence.
+
 ## Planned simplification track — ANM-023F
 
 ANM-029H does not change ownership boundaries. It records the bounded maintenance sequence now completed:

@@ -7,6 +7,7 @@ import {
   type Match3TileId,
 } from '../data/levels';
 import { createBoardGeometry } from './BoardGeometry';
+import { createSeededRandom } from './SeededRandom';
 import {
   createMatch3Rules,
   type DirectSpecialCombo,
@@ -94,17 +95,6 @@ type ResolutionTotals = {
   ingredientsDropped: number;
 };
 
-const makeRng = (seed: number): (() => number) => {
-  let value = seed >>> 0;
-  return () => {
-    value += 0x6d2b79f5;
-    let result = value;
-    result = Math.imul(result ^ (result >>> 15), result | 1);
-    result ^= result + Math.imul(result ^ (result >>> 7), result | 61);
-    return ((result ^ (result >>> 14)) >>> 0) / 4294967296;
-  };
-};
-
 const OBJECTIVE_PROGRESS_HINT_PRIORITY = 10_000;
 const OBJECTIVE_COMPLETION_HINT_BONUS = 2_000;
 const LEGACY_HINT_TIE_ROTATION_BUCKET_MASK = 0xd1;
@@ -140,7 +130,7 @@ export class Match3Game {
     this.geometry = createBoardGeometry(levelBoardDimensions(level));
     this.rules = createMatch3Rules(this.geometry);
     this.movesLeft = level.moves;
-    this.random = makeRng(seed);
+    this.random = createSeededRandom(seed);
     this.boardHoles = new Set(level.boardHoles ?? []);
     this.cells = Array.from({ length: this.geometry.cellCount }, () => ({
       tile: null,

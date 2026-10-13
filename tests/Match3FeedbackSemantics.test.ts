@@ -42,7 +42,7 @@ describe('ANM-022C Match-3 feedback semantics', () => {
   it('keeps primary feedback on MoveResult rather than resolution totals', async () => {
     const engine = await readFile(new URL('../src/engine/Match3Game.ts', import.meta.url), 'utf8');
     const resultType = engine.slice(engine.indexOf('export type MoveResult'), engine.indexOf('type ResolutionTotals'));
-    const totalsType = engine.slice(engine.indexOf('type ResolutionTotals'), engine.indexOf('const makeRng'));
+    const totalsType = engine.slice(engine.indexOf('type ResolutionTotals'), engine.indexOf('const OBJECTIVE_PROGRESS_HINT_PRIORITY'));
     expect(resultType).toContain('primaryFeedback: MatchFeedbackKind | null');
     expect(totalsType).not.toContain('primaryFeedback');
     expect(engine).toContain('primaryFeedback: null');
