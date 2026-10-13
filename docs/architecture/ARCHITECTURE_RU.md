@@ -16,6 +16,11 @@ stores, localization and audio settings depend on this interface; browser storag
 fallback remain implementations in `src/platform/SafeStorage.ts`. A future Godot adapter can map the
 same `get/set/remove` semantics without making the game-state code depend on browser `Storage`.
 
+`src/engine/CampaignSaveFormat.ts` owns Story save normalization, validation, schema decoding and
+export-bundle construction. It has no persistence adapter dependency. `CampaignStore` owns reads,
+writes, corruption recovery and import side effects through `KeyValueStorage`; a future runtime can
+reuse the same save rules while supplying its own storage and user-facing error presentation.
+
 ## Planned simplification track — ANM-023F
 
 ANM-029H does not change ownership boundaries. It records the bounded maintenance sequence now completed:
