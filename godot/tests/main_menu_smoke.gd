@@ -11,6 +11,8 @@ func _run_smoke() -> void:
 	var packed_scene: PackedScene = load("res://scenes/main_menu.tscn")
 	assert(packed_scene != null, "Main menu scene could not be loaded")
 	var menu: Control = packed_scene.instantiate()
+	menu.preferences = preload("res://scripts/player_preferences.gd").new(
+		"user://main_menu_smoke_%s.cfg" % Time.get_ticks_usec())
 	root.add_child(menu)
 	await process_frame
 

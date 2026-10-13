@@ -28,6 +28,7 @@ This repository contains the UPDS game: a TypeScript/Vite visual novel and Match
 
 ## Branches, PRs and user data
 
+- Standing user instruction (2026-10-13): after each implementation task, commit and push its focused branch, create a PR, and wait for every configured PR test/check on the latest head SHA. Diagnose failures, fix task-related problems, push corrections, and wait again until all checks pass. Do not stop at a local candidate or PR creation. This instruction authorizes that publication cycle for subsequent UPDS tasks without asking again. Report the PR URL, final head SHA and actual results; if an external blocker prevents completion, state the specific blocker and pending checks. Merging and deployment still require explicit user authorization.
 - Inspect the changed-file list and Git status before committing or publishing. Stage explicit task files; never include unrelated user files, generated artifacts or untracked work by default.
 - When the user asks to prepare, create or send a PR, that request authorizes commits, pushing the task branch, creating the PR and waiting for its required checks. Do not ask for that authorization again within the same task. Report the URL and actual check results.
 - A PR request does not authorize merging or deploying. Do those only when the user explicitly asks.

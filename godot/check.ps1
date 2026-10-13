@@ -48,3 +48,5 @@ Invoke-GodotCheck -Stage 'Bootstrap scene smoke test' -ExpectedOutput 'UPDS Godo
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/port_bootstrap_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'Main menu smoke test' -ExpectedOutput 'UPDS Godot main menu smoke test passed (locale:' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/main_menu_smoke.gd', '--quit-after', '120')
+Invoke-GodotCheck -Stage 'Settings smoke test' -ExpectedOutput 'UPDS Godot settings smoke test passed.' `
+	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/settings_smoke.gd', '--quit-after', '120')
