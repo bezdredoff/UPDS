@@ -1,0 +1,17 @@
+import { readFileSync } from 'node:fs';
+import { describe, expect, it } from 'vitest';
+import { getCueDefinition } from '../src/audio/AudioCues';
+import { getMusicTheme } from '../src/audio/MusicTheme';
+
+describe('Godot menu audio source parity', () => {
+  const definitions = JSON.parse(readFileSync('godot/data/menu_audio.json', 'utf8'));
+
+  it('preserves the authored menu melody, timing, waveforms and gains', () => {
+    expect(definitions.menu).toEqual(getMusicTheme('menu'));
+  });
+
+  it('preserves the settings preview and menu click effects', () => {
+    expect(definitions.match).toEqual(getCueDefinition('match'));
+    expect(definitions.uiClick).toEqual(getCueDefinition('uiClick'));
+  });
+});

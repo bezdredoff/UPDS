@@ -29,6 +29,9 @@ function Invoke-GodotCheck {
 		if ($process.ExitCode -ne 0) {
 			throw "$Stage failed (exit $($process.ExitCode)).`n$stdout`n$stderr"
 		}
+		if ($stderr -match 'SCRIPT ERROR:') {
+			throw "$Stage reported a GDScript error.`n$stdout`n$stderr"
+		}
 		if ($ExpectedOutput -and -not $stdout.Contains($ExpectedOutput)) {
 			throw "$Stage did not report success marker '$ExpectedOutput'.`n$stdout`n$stderr"
 		}
@@ -44,9 +47,13 @@ Invoke-GodotCheck -Stage 'Project import' -Arguments @('--headless', '--editor',
 Invoke-GodotCheck -Stage 'Bootstrap script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/port_bootstrap.gd')
 Invoke-GodotCheck -Stage 'Menu copy script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/menu_copy.gd')
 Invoke-GodotCheck -Stage 'Main menu script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/main_menu.gd')
+Invoke-GodotCheck -Stage 'Audio synthesis script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/audio_synthesis.gd')
+Invoke-GodotCheck -Stage 'Audio runtime script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/menu_audio.gd')
 Invoke-GodotCheck -Stage 'Bootstrap scene smoke test' -ExpectedOutput 'UPDS Godot bootstrap smoke test passed.' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/port_bootstrap_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'Main menu smoke test' -ExpectedOutput 'UPDS Godot main menu smoke test passed (locale:' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/main_menu_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'Settings smoke test' -ExpectedOutput 'UPDS Godot settings smoke test passed.' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/settings_smoke.gd', '--quit-after', '120')
+Invoke-GodotCheck -Stage 'Audio smoke test' -ExpectedOutput 'UPDS Godot audio smoke test passed.' `
+	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/audio_smoke.gd', '--quit-after', '120')
