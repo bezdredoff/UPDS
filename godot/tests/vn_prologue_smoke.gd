@@ -25,6 +25,9 @@ func _run() -> void:
 	var screen: Control = menu.get_node("StoryScreen")
 	assert(not menu.get_node("Content").visible)
 	assert(session.current_line().id == "VN0001")
+	menu.audio_runtime.activate()
+	assert(menu.audio_runtime.music.playing)
+	assert(menu.audio_runtime.music.stream.get_length() > 12.6 and menu.audio_runtime.music.stream.get_length() < 12.7)
 	assert(screen.stage.get_child_count() == 1)
 	for locale in ["ru", "be", "en"]:
 		assert(menu.preferences.set_locale(locale) == OK)
@@ -41,6 +44,7 @@ func _run() -> void:
 	assert(not menu.get_node("Content").visible)
 	screen.menu_button.pressed.emit()
 	assert(not menu.has_node("StoryScreen") and menu.get_node("Content").visible)
+	assert(menu.audio_runtime.music.stream.get_length() > 11.1 and menu.audio_runtime.music.stream.get_length() < 11.2)
 	assert(not menu.get_node("Content/Actions/Continue").disabled)
 	var restored := Session.new(session.store)
 	restored.reload()
