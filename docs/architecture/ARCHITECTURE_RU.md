@@ -46,6 +46,10 @@ a Godot runtime can provide its monotonic tick source without changing feature l
 adapts browser timeouts and animation frames; `AppShell`, VN reflow and Match-3 feedback consume the
 contract through the composition root instead of accessing `window` timer APIs directly.
 
+`src/contracts/AssetWarmupRuntime.ts` lets VN and Match-3 request contextual asset warming without
+owning browser `Image` loading. `BrowserAssetWarmup` preserves deduplication, bounded concurrency,
+and `AssetHealth` reporting; another runtime can map the authored asset list to its native loader.
+
 ## Planned simplification track — ANM-023F
 
 ANM-029H does not change ownership boundaries. It records the bounded maintenance sequence now completed:

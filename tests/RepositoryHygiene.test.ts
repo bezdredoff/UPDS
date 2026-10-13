@@ -174,6 +174,23 @@ describe('UI architecture boundaries', () => {
     }
   });
 
+  it('keeps optional asset warming behind a runtime contract', () => {
+    const services = sourceFor('src/platform/RuntimeServices.ts');
+    const contract = sourceFor('src/contracts/AssetWarmupRuntime.ts');
+    const implementation = sourceFor('src/platform/BrowserAssetWarmup.ts');
+    const match3 = sourceFor('src/features/match3/Match3Controller.ts');
+    const vn = sourceFor('src/features/vn/VnController.ts');
+
+    expect(services).toContain('assetWarmup: AssetWarmupRuntime;');
+    expect(contract).toContain('warm(assets: readonly string[]): Promise<void>;');
+    expect(implementation).toContain('implements AssetWarmupRuntime');
+    for (const source of [match3, vn]) {
+      expect(source).toContain('this.services.assetWarmup.warm(');
+      expect(source).not.toContain('preloadImageAssets');
+      expect(source).not.toContain('typeof Image');
+    }
+  });
+
   it('keeps application campaign sessions independent from browser RuntimeServices', () => {
     const appSession = sourceFor('src/app/AppSession.ts');
     const match3Session = sourceFor('src/app/Match3CampaignSession.ts');

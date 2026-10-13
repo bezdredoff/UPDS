@@ -47,7 +47,7 @@ describe('ANM-022D R1 narrative special assets', () => {
     const controller = await readFile(new URL('../src/features/match3/Match3Controller.ts', import.meta.url), 'utf8');
     expect(controller).toContain('...Object.values(specialAssets)');
     expect(controller).toContain('...Object.values(specialFallbackAssets)');
-    const preload = controller.slice(controller.indexOf('const assets = ['), controller.indexOf('void preloadImageAssets'));
+    const preload = controller.slice(controller.indexOf('const assets = ['), controller.indexOf('void this.services.assetWarmup.warm'));
     expect(preload).not.toContain('\n  specialAssets,\n');
   });
 
