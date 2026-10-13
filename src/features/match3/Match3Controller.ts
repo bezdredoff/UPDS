@@ -17,7 +17,6 @@ import { resolveMatch3Reaction, type Match3ReactionId, type Match3ReactionSpeake
 import { nextPendingMatch3Tutorial, tutorialCompletionEventsForMove, tutorialConceptsCompletedByEvents, tutorialRevealEventsForBoard, tutorialRevealEventsForMove, type Match3TutorialConceptId, type Match3TutorialRevealEvent } from '../../data/match3Tutorials';
 import { storyWinSceneIndexForLevelId } from '../../data/storyGraph';
 import { Match3Game, type Match3Frame, type MoveResult } from '../../engine/Match3Game';
-import { preloadImageAssets } from '../../platform/AssetPreloader';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
 import type { AppNavigation } from '../../app/AppNavigation';
 import type { AppSession } from '../../app/AppSession';
@@ -217,7 +216,6 @@ progress: game.progress,
 this.matchAttemptStartedAt = null;
 }
 private preloadMatchAssets(level: LevelDefinition): void {
-if (typeof Image === 'undefined') return;
 const assets = [
 backgroundAssets[level.context.pageBackground],
   blockerPresentation[level.blocker].asset,
@@ -228,7 +226,7 @@ specialAsset,
 ...tilePresentationAssetsForActiveSet(level.context.tilePresentationProfile, level.activeTiles),
 ...Object.values(ingredientPresentation).map((presentation) => presentation.asset),
 ];
-void preloadImageAssets(assets, this.services.assetHealth);
+void this.services.assetWarmup.warm(assets);
 }
 renderMatchIntro(levelIndex: number): void {
 this.clearAutoHintTimer();

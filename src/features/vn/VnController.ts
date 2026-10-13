@@ -21,7 +21,6 @@ import {
   type StoryChoiceOptionId,
 } from '../../data/storyChoices';
 import { meetsStoryEndingRequirement, storyOutcomeMetrics } from '../../data/storyOutcome';
-import { preloadImageAssets } from '../../platform/AssetPreloader';
 import { viewportDebugEvent } from '../../platform/ViewportDebug';
 import { subscribeViewportRuntime } from '../../platform/ViewportRuntime';
 import type { RuntimeServices } from '../../platform/RuntimeServices';
@@ -202,7 +201,7 @@ export class VnController {
     const direction = stage.direction;
     const skipAvailable = this.session.save.readLines.includes(entry.id);
     if (stage.preloadAssets.length > 0) {
-      void preloadImageAssets(stage.preloadAssets, this.services.assetHealth);
+      void this.services.assetWarmup.warm(stage.preloadAssets);
     }
     this.shell.render(vnFrameMarkup({
       frameContext: 'runtime',
@@ -362,10 +361,9 @@ export class VnController {
   }
 
   private preloadNextVnAssets(): void {
-    if (typeof Image === 'undefined') return;
     const nextIndex = Math.min(this.story.length - 1, this.session.save.line + 1);
     const assets = vnPreloadAssetsForLine(this.story, this.session.save.scene, nextIndex);
-    if (assets.length > 0) void preloadImageAssets(assets, this.services.assetHealth);
+    if (assets.length > 0) void this.services.assetWarmup.warm(assets);
   }
 
   private renderHistoryOverlay(): void {
