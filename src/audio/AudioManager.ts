@@ -3,11 +3,12 @@ import { AudioSettingsStore, type AudioSettings } from './AudioSettings';
 import { beatDurationSeconds, getMusicTheme, loopDurationSeconds, type AudioScene } from './MusicTheme';
 import type { ErrorLog } from '../platform/ErrorLog';
 import type { KeyValueStorage } from '../contracts/KeyValueStorage';
+import type { AudioRuntime } from '../contracts/AudioRuntime';
 
 type AudioHostWindow = Window & typeof globalThis & { webkitAudioContext?: typeof AudioContext };
 type HapticNavigator = Navigator & { vibrate?: (pattern: number | number[]) => boolean };
 
-export class AudioManager {
+export class AudioManager implements AudioRuntime {
   private context: AudioContext | null = null;
   private effectsGain: GainNode | null = null;
   private musicGain: GainNode | null = null;

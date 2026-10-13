@@ -117,6 +117,18 @@ describe('repository maintenance contract', () => {
 const animeAppSource = sourceFor('src/ui/AnimeDetectiveApp.ts');
 
 describe('UI architecture boundaries', () => {
+  it('exposes audio controls through a runtime-neutral contract', () => {
+    const services = sourceFor('src/platform/RuntimeServices.ts');
+    const manager = sourceFor('src/audio/AudioManager.ts');
+    const contract = sourceFor('src/contracts/AudioRuntime.ts');
+    expect(services).toContain('audio: AudioRuntime;');
+    expect(services).not.toContain('audio: AudioManager;');
+    expect(manager).toContain('implements AudioRuntime');
+    expect(contract).toContain('play(cue: AudioCue): void;');
+    expect(contract).not.toContain('AudioContext');
+    expect(contract).not.toContain('Navigator');
+  });
+
   it('keeps application campaign sessions independent from browser RuntimeServices', () => {
     const appSession = sourceFor('src/app/AppSession.ts');
     const match3Session = sourceFor('src/app/Match3CampaignSession.ts');
