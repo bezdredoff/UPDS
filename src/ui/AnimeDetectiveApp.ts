@@ -41,7 +41,8 @@ export class AnimeDetectiveApp {
 
   constructor(private readonly root: HTMLElement, services: RuntimeServices = createRuntimeServices()) {
     this.services = services;
-    this.session = new AppSession(services);
+    const reportSaveError = (message: string): void => services.errorLog.record('application', message);
+    this.session = new AppSession(services.store, reportSaveError);
     this.shell = new AppShell(root, () => this.renderPwaUpdateBanner());
 
     const navigation: AppNavigation = {
@@ -66,7 +67,7 @@ export class AnimeDetectiveApp {
       this.match3.startLabMatch(levelIndex, seed, () => this.levelLab.render(levelIndex, seed), level);
     });
     this.sceneStudio = new SceneStudioController(root, services, this.shell, navigation);
-    this.match3CampaignSession = new Match3CampaignSession(services.match3CampaignStore, services);
+    this.match3CampaignSession = new Match3CampaignSession(services.match3CampaignStore, reportSaveError);
     this.match3Campaign = new Match3CampaignController(root, services, this.match3CampaignSession, this.shell, navigation, (levelIndex) => {
       this.match3.startCampaignMatch(levelIndex, this.match3CampaignSession, () => this.match3Campaign.render());
     });

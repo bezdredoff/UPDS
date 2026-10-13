@@ -35,6 +35,8 @@ If two active documents conflict, prefer the narrower current machine-readable c
 
 - [`features/PG001A_STORAGE_PORT_RU.md`](features/PG001A_STORAGE_PORT_RU.md) — перенос общего
   persistence contract из browser platform в runtime-neutral слой для подготовки PG-001.
+- [`features/PG001B_APP_SESSION_PORT_RU.md`](features/PG001B_APP_SESSION_PORT_RU.md) — сужение
+  зависимости campaign sessions с browser RuntimeServices до store и callback отчёта о save error.
 
 ### Release and device status
 

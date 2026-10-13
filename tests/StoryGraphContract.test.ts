@@ -34,7 +34,7 @@ describe('ANM-027A story graph contract', () => {
       expect(sceneId).toBe(expectedIds[legacyIndex]);
       expect(legacySceneIndexFromStoryId(sceneId as StorySceneId)).toBe(legacyIndex);
     }
-    expect(readFileSync(resolve(process.cwd(), 'src/engine/CampaignStore.ts'), 'utf8')).toContain('export const SAVE_SCHEMA_VERSION = 2');
+    expect(readFileSync(resolve(process.cwd(), 'src/engine/CampaignSaveFormat.ts'), 'utf8')).toContain('export const SAVE_SCHEMA_VERSION = 2');
   });
 
   it('models every VN -> Match-3 -> VN handoff explicitly by stable level id', () => {

@@ -52,7 +52,7 @@ describe('UI controller render smoke', () => {
   const create = (services = createRuntimeServices()) => {
     const root = new FakeRoot();
     const element = root as unknown as HTMLElement;
-    const session = new AppSession(services);
+    const session = new AppSession(services.store, (message) => services.errorLog.record('application', message));
     const shell = new AppShell(element, () => undefined);
     const navigation = {} as AppNavigation;
     const vn = new VnController(element, services, session, shell, navigation);

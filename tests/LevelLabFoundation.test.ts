@@ -83,7 +83,7 @@ describe('ANM-026A Level Lab foundation', () => {
     const root = new FakeRoot();
     const element = root as unknown as HTMLElement;
     const services = createRuntimeServices();
-    const session = new AppSession(services);
+    const session = new AppSession(services.store, (message) => services.errorLog.record('application', message));
     const match3 = new Match3Controller(
       element,
       services,
