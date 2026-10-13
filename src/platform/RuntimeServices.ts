@@ -13,6 +13,7 @@ import { PlaytestTelemetry } from './PlaytestTelemetry';
 import { PwaController } from './PwaController';
 import { getSafeStorage, type SafeStorageHandle } from './SafeStorage';
 import type { AudioRuntime } from '../contracts/AudioRuntime';
+import type { LocalizationRuntime } from '../contracts/LocalizationRuntime';
 
 export type RuntimeServices = Readonly<{
   storage: SafeStorageHandle;
@@ -23,7 +24,7 @@ export type RuntimeServices = Readonly<{
   audio: AudioRuntime;
   telemetry: PlaytestTelemetry;
   pwa: PwaController;
-  localization: LocalizationService;
+  localization: LocalizationRuntime;
   localeSettings: LocaleSettingsStore;
   ready: Promise<void>;
 }>;

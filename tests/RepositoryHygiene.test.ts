@@ -129,6 +129,18 @@ describe('UI architecture boundaries', () => {
     expect(contract).not.toContain('Navigator');
   });
 
+  it('exposes localization through a runtime-neutral contract', () => {
+    const services = sourceFor('src/platform/RuntimeServices.ts');
+    const implementation = sourceFor('src/localization/LocalizationService.ts');
+    const contract = sourceFor('src/contracts/LocalizationRuntime.ts');
+    expect(services).toContain('localization: LocalizationRuntime;');
+    expect(services).not.toContain('localization: LocalizationService;');
+    expect(implementation).toContain('implements LocalizationRuntime');
+    expect(contract).toContain('activateLocale(locale: Locale): Promise<void>;');
+    expect(contract).not.toContain('document');
+    expect(contract).not.toContain('window');
+  });
+
   it('keeps application campaign sessions independent from browser RuntimeServices', () => {
     const appSession = sourceFor('src/app/AppSession.ts');
     const match3Session = sourceFor('src/app/Match3CampaignSession.ts');
