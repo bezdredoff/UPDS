@@ -14,7 +14,7 @@ Do not maintain an independent build number in this README:
 - protected product/runtime contracts: [`docs/architecture/PROJECT_CONTRACTS_RU.md`](docs/architecture/PROJECT_CONTRACTS_RU.md);
 - machine-readable character production status: [`src/data/characterProduction.ts`](src/data/characterProduction.ts).
 
-At the current repository baseline, ANM-025 Match-3 production, ANM-026 tooling and the ANM-027 story import/runtime pipeline support the complete authored `0–21` case, including three final branches. Character art remains on the separate ANM-028/external production track; the roadmap remains the authoritative feature-status source.
+Game development is complete: the authored `0–21` case, three endings and Match-3 campaign form the finished product scope. Current work prepares the game for Playgama publication through codebase simplification, refactoring, a Godot port, Playgama SDK integration, any required ad SDKs, platform review and release-page preparation. See [`docs/ROADMAP_RU.md`](docs/ROADMAP_RU.md) for the active roadmap.
 
 ## Quick start
 
@@ -34,7 +34,7 @@ npm run docs:audit
 
 GitHub CI running `npm run check` is the authoritative automated gate.
 
-The live release dashboard is generated during every production build from the tracked release status and known-issues data. Semantic task status is updated explicitly with the corresponding PR or ZIP candidate; CI and preview provide technical evidence but do not infer acceptance.
+The repository's existing web/PWA build is the source product used during refactoring and porting. Playgama is the selected publication target; the Godot build, SDK integration, platform review and store-page materials are part of the current release-preparation work.
 
 ## Documentation
 

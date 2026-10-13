@@ -8,10 +8,10 @@ import {
   PlaytestTelemetry,
   summarizePlaytest,
 } from '../src/platform/PlaytestTelemetry';
-import type { StorageLike } from '../src/platform/SafeStorage';
+import type { KeyValueStorage } from '../src/contracts/KeyValueStorage';
 import { match3ObjectiveDeltas } from '../src/features/match3/Match3Telemetry';
 
-class MemoryStorage implements StorageLike {
+class MemoryStorage implements KeyValueStorage {
   readonly values = new Map<string, string>();
   getItem(key: string): string | null { return this.values.get(key) ?? null; }
   setItem(key: string, value: string): void { this.values.set(key, value); }

@@ -31,7 +31,7 @@ describe('ANM-025G2 auto-hint pacing', () => {
 
   it('documents the playtest evidence, bounded scope and iPhone preview gate', () => {
     const feature = read('docs/features/ANM025G2_AUTO_HINT_PACING_RU.md');
-    const roadmap = read('docs/ROADMAP_RU.md');
+    const roadmap = read('docs/archive/ROADMAP_HISTORY_2026-10-13_RU.md');
     const mechanics = read('docs/design/MATCH3_MECHANICS_TARGET_RU.md');
 
     expect(feature).toContain('94 автоматических и только один ручной');

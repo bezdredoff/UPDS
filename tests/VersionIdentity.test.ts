@@ -34,6 +34,7 @@ describe('product version and build identity', () => {
     expect(workflow).toContain('npm run version:check');
     expect(policyScript).toContain('UPDS_BASE_REF');
     expect(policyScript).toContain('Production-facing PR must raise APP_VERSION');
+    expect(policyScript).not.toContain('docs/ROADMAP_RU.md');
   });
 
   it('keeps product version player-facing while feature/build identity stays in diagnostics', () => {

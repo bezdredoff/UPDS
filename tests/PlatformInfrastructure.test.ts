@@ -4,9 +4,10 @@ import { ANM009_SAVE_KEY, MANUAL_SAVE_KEY, CampaignStore, SAVE_RECOVERY_KEY, SAV
 import { uniqueAssetList } from '../src/platform/AssetPreloader';
 import { ERROR_LOG_MAX_ENTRIES, ErrorLog } from '../src/platform/ErrorLog';
 import { runtimeAssetCatalog } from '../src/platform/RuntimeAssets';
-import { getSafeStorage, type StorageLike } from '../src/platform/SafeStorage';
+import { getSafeStorage } from '../src/platform/SafeStorage';
+import type { KeyValueStorage } from '../src/contracts/KeyValueStorage';
 
-class MemoryStorage implements StorageLike {
+class MemoryStorage implements KeyValueStorage {
   readonly values = new Map<string, string>();
   getItem(key: string): string | null { return this.values.get(key) ?? null; }
   setItem(key: string, value: string): void { this.values.set(key, value); }

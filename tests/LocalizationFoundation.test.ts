@@ -6,9 +6,9 @@ import { LocalizationService } from '../src/localization/LocalizationService';
 import { LOCALE_SETTINGS_KEY, LocaleSettingsStore } from '../src/localization/LocaleSettingsStore';
 import { initialAppCatalogs, loadRuntimeLocaleCatalog } from '../src/localization/catalogs';
 import { formatMessage } from '../src/localization/MessageCatalog';
-import type { StorageLike } from '../src/platform/SafeStorage';
+import type { KeyValueStorage } from '../src/contracts/KeyValueStorage';
 
-class MemoryStorage implements StorageLike {
+class MemoryStorage implements KeyValueStorage {
   readonly values = new Map<string, string>();
   getItem(key: string): string | null { return this.values.get(key) ?? null; }
   setItem(key: string, value: string): void { this.values.set(key, value); }

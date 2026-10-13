@@ -33,9 +33,12 @@ If two active documents conflict, prefer the narrower current machine-readable c
 
 ## Current production contracts
 
+- [`features/PG001A_STORAGE_PORT_RU.md`](features/PG001A_STORAGE_PORT_RU.md) — перенос общего
+  persistence contract из browser platform в runtime-neutral слой для подготовки PG-001.
+
 ### Release and device status
 
-- [`UPDS_RELEASE_MANIFEST_RU.md`](UPDS_RELEASE_MANIFEST_RU.md) — release scope, acceptance rule and dashboard authority
+- [`UPDS_RELEASE_MANIFEST_RU.md`](UPDS_RELEASE_MANIFEST_RU.md) — Playgama publication target and completed game scope
 - [`release-status.json`](release-status.json) — machine-readable release tasks and dependencies
 - [`known-issues.json`](known-issues.json) — reproducible open release blockers
 - [`reviews/G4A_ART_REVIEW_2026-09-30.md`](reviews/G4A_ART_REVIEW_2026-09-30.md) — completed 150-image review, 33 rework / 13 blockers and Mayu-first remediation

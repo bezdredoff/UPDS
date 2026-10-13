@@ -5,7 +5,7 @@ const read = (path: string): string => readFileSync(path, 'utf8');
 
 describe('ANM-023G8 closeout contract', () => {
   it('keeps G8 closed and Campaign completion E2E explicitly deferred', () => {
-    const roadmap = read('docs/ROADMAP_RU.md');
+    const roadmap = read('docs/archive/ROADMAP_HISTORY_2026-10-13_RU.md');
     const testing = read('docs/process/TESTING_RU.md');
     const e2e = read('e2e/README.md');
     const closeout = read('docs/features/ANM023G8F_CLOSEOUT_RU.md');
@@ -22,7 +22,7 @@ describe('ANM-023G8 closeout contract', () => {
 
   it('preserves the post-G8 production-signal priority order', () => {
     const closeout = read('docs/features/ANM023G8F_CLOSEOUT_RU.md');
-    const roadmap = read('docs/ROADMAP_RU.md');
+    const roadmap = read('docs/archive/ROADMAP_HISTORY_2026-10-13_RU.md');
 
     for (const marker of [
       'RU/BE/EN mobile locale × viewport matrix',

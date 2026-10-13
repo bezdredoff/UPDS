@@ -1,4 +1,4 @@
-import type { StorageLike } from '../platform/SafeStorage';
+import type { KeyValueStorage } from '../contracts/KeyValueStorage';
 
 export type AudioSettings = Readonly<{
   muted: boolean;
@@ -35,7 +35,7 @@ export const restoreAudioSettings = (value: unknown): AudioSettings => {
 export class AudioSettingsStore {
   private current: AudioSettings;
 
-  constructor(private readonly storage: StorageLike) {
+  constructor(private readonly storage: KeyValueStorage) {
     this.current = this.load();
   }
 

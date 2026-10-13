@@ -1,4 +1,4 @@
-import type { StorageLike } from './SafeStorage';
+import type { KeyValueStorage } from '../contracts/KeyValueStorage';
 import { getSafeStorage } from './SafeStorage';
 
 export type ErrorLogSource = 'window-error' | 'unhandled-rejection' | 'application' | 'asset';
@@ -35,7 +35,7 @@ const isEntry = (value: unknown): value is ErrorLogEntry => {
 export class ErrorLog {
   private entries: ErrorLogEntry[];
 
-  constructor(private readonly storage: StorageLike = getSafeStorage().storage) {
+  constructor(private readonly storage: KeyValueStorage = getSafeStorage().storage) {
     this.entries = this.load();
   }
 

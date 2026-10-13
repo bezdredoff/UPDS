@@ -1,13 +1,13 @@
-export type StorageLike = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
+import type { KeyValueStorage } from '../contracts/KeyValueStorage';
 
 export type StorageMode = 'persistent' | 'memory';
 
 export type SafeStorageHandle = Readonly<{
-  storage: StorageLike;
+  storage: KeyValueStorage;
   mode: StorageMode;
 }>;
 
-class MemoryStorage implements StorageLike {
+class MemoryStorage implements KeyValueStorage {
   private readonly values = new Map<string, string>();
 
   getItem(key: string): string | null {
@@ -26,7 +26,7 @@ class MemoryStorage implements StorageLike {
 const memoryFallback = new MemoryStorage();
 const PROBE_KEY = '__upds_storage_probe__';
 
-export const getSafeStorage = (provider: () => StorageLike = () => globalThis.localStorage): SafeStorageHandle => {
+export const getSafeStorage = (provider: () => KeyValueStorage = () => globalThis.localStorage): SafeStorageHandle => {
   try {
     const storage = provider();
     storage.setItem(PROBE_KEY, '1');

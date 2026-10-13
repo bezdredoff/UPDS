@@ -4,9 +4,9 @@ import { audioCueNames, getCueDefinition } from '../src/audio/AudioCues';
 import { AUDIO_SETTINGS_KEY, AudioSettingsStore, DEFAULT_AUDIO_SETTINGS, clampVolume, restoreAudioSettings } from '../src/audio/AudioSettings';
 import { beatDurationSeconds, getMusicTheme, loopDurationSeconds } from '../src/audio/MusicTheme';
 import { ErrorLog } from '../src/platform/ErrorLog';
-import type { StorageLike } from '../src/platform/SafeStorage';
+import type { KeyValueStorage } from '../src/contracts/KeyValueStorage';
 
-class MemoryStorage implements StorageLike {
+class MemoryStorage implements KeyValueStorage {
   readonly values = new Map<string, string>();
   getItem(key: string): string | null { return this.values.get(key) ?? null; }
   setItem(key: string, value: string): void { this.values.set(key, value); }

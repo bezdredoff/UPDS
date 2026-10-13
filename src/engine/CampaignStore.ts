@@ -4,7 +4,7 @@ import { levels, type ClueId } from '../data/levels';
 import { storySceneIds } from '../data/storyGraph';
 import { storyChoiceGateIds, type StoryChoiceGateId, type StoryChoiceSelections } from '../data/storyChoices';
 import { match3TutorialConceptIds, type Match3TutorialConceptId } from '../data/match3Tutorials';
-import type { StorageLike } from '../platform/SafeStorage';
+import type { KeyValueStorage } from '../contracts/KeyValueStorage';
 
 export type CampaignSave = {
   scene: number;
@@ -94,7 +94,7 @@ const importStateFromUnknown = (value: unknown): { state: CampaignSave; schemaVe
 
 export class CampaignStore {
   private lastLoadReport: SaveLoadReport = { status: 'fresh', detail: 'not-loaded' };
-  constructor(private readonly storage: StorageLike, private readonly key = ANM009_SAVE_KEY) {}
+  constructor(private readonly storage: KeyValueStorage, private readonly key = ANM009_SAVE_KEY) {}
 
   load(): CampaignSave {
     let raw: string | null;
