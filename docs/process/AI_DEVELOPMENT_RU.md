@@ -18,6 +18,24 @@ Status: active workflow aligned with the complete canonical `0–21` story, merg
 If personal/chat context conflicts with GitHub `main`, GitHub wins until an explicit new product
 decision is authored and merged.
 
+## Task delivery through a verified PR
+
+Standing user instruction, 2026-10-13: each implementation task finishes with a
+published, verified PR. Commit the focused change, push its task branch, create the
+PR, and wait for all configured checks on its latest head SHA. This includes the
+Quality gate and both Browser Gate jobs when configured, plus any other PR checks.
+Local Godot checks remain necessary for Godot changes because the current GitHub
+workflows do not run the engine smoke tests.
+
+If a check fails, inspect its diagnostics, correct the cause within the authorized
+task, push the fix, and wait for all checks on the new head. Rerun an infrastructure
+failure only when evidence supports it; do not hide failures by weakening checks.
+Do not report completion while checks are queued or running. Report the PR URL,
+final head SHA and actual results, with any specific external blocker if one remains.
+This publication cycle is authorized for future UPDS tasks without asking again.
+User review, visual/device acceptance, merging and deployment remain separate;
+never merge or deploy without explicit authorization.
+
 ## Authority map
 
 ### Status and build identity
