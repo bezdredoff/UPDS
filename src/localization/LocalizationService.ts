@@ -1,10 +1,11 @@
 import { DEFAULT_LOCALE, type Locale } from './Locale';
 import { formatMessage, type LocaleCatalogs, type MessageCatalog, type MessageParams } from './MessageCatalog';
+import type { LocalizationRuntime } from '../contracts/LocalizationRuntime';
 
 export type LocaleListener = (locale: Locale) => void;
 export type LocaleCatalogLoader = (locale: Locale) => Promise<MessageCatalog>;
 
-export class LocalizationService {
+export class LocalizationService implements LocalizationRuntime {
   private currentLocale: Locale;
   private readonly catalogs: Partial<Record<Locale, MessageCatalog>>;
   private readonly listeners = new Set<LocaleListener>();

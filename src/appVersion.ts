@@ -1,4 +1,4 @@
-export const APP_VERSION = '0.27.16-dev';
-export const BUILD_LABEL = 'ANM-035 · Audio Runtime Contract';
+export const APP_VERSION = '0.27.17-dev';
+export const BUILD_LABEL = 'ANM-035 · Localization Runtime Contract';
 export const BUILD_ID = typeof __UPDS_BUILD_ID__ === 'string' ? __UPDS_BUILD_ID__ : 'local';
 export const BUILD_TIMESTAMP = typeof __UPDS_BUILD_TIMESTAMP__ === 'string' ? __UPDS_BUILD_TIMESTAMP__ : 'unknown';

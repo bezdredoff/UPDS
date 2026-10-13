@@ -34,6 +34,10 @@ current `AudioManager` implements this interface using Web Audio and browser hap
 composition can provide another implementation without making the feature-facing service type depend
 on browser APIs.
 
+`src/contracts/LocalizationRuntime.ts` defines locale selection, subscription, and translated message
+lookup. `LocalizationService` implements it with the current TS catalogs and async web loader; a
+Godot composition can expose the same operations with native translation resources.
+
 ## Planned simplification track — ANM-023F
 
 ANM-029H does not change ownership boundaries. It records the bounded maintenance sequence now completed:
