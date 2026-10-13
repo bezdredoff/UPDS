@@ -1,0 +1,146 @@
+{
+  "menu": {
+    "bpm": 86,
+    "beatsPerLoop": 16,
+    "tones": [
+      {
+        "beat": 0,
+        "frequency": 220,
+        "durationBeats": 3.7,
+        "gain": 0.018475208614068026,
+        "wave": "sine"
+      },
+      {
+        "beat": 0,
+        "frequency": 277.18,
+        "durationBeats": 3.7,
+        "gain": 0.018475208614068026,
+        "wave": "sine"
+      },
+      {
+        "beat": 0,
+        "frequency": 329.63,
+        "durationBeats": 3.7,
+        "gain": 0.018475208614068026,
+        "wave": "sine"
+      },
+      {
+        "beat": 4,
+        "frequency": 196,
+        "durationBeats": 3.7,
+        "gain": 0.017320508075688773,
+        "wave": "sine"
+      },
+      {
+        "beat": 4,
+        "frequency": 246.94,
+        "durationBeats": 3.7,
+        "gain": 0.017320508075688773,
+        "wave": "sine"
+      },
+      {
+        "beat": 4,
+        "frequency": 293.66,
+        "durationBeats": 3.7,
+        "gain": 0.017320508075688773,
+        "wave": "sine"
+      },
+      {
+        "beat": 8,
+        "frequency": 174.61,
+        "durationBeats": 3.7,
+        "gain": 0.017320508075688773,
+        "wave": "sine"
+      },
+      {
+        "beat": 8,
+        "frequency": 220,
+        "durationBeats": 3.7,
+        "gain": 0.017320508075688773,
+        "wave": "sine"
+      },
+      {
+        "beat": 8,
+        "frequency": 261.63,
+        "durationBeats": 3.7,
+        "gain": 0.017320508075688773,
+        "wave": "sine"
+      },
+      {
+        "beat": 12,
+        "frequency": 196,
+        "durationBeats": 3.7,
+        "gain": 0.0178978583448784,
+        "wave": "sine"
+      },
+      {
+        "beat": 12,
+        "frequency": 246.94,
+        "durationBeats": 3.7,
+        "gain": 0.0178978583448784,
+        "wave": "sine"
+      },
+      {
+        "beat": 12,
+        "frequency": 329.63,
+        "durationBeats": 3.7,
+        "gain": 0.0178978583448784,
+        "wave": "sine"
+      },
+      {
+        "beat": 2,
+        "frequency": 659.25,
+        "durationBeats": 0.45,
+        "gain": 0.013,
+        "wave": "triangle"
+      },
+      {
+        "beat": 6,
+        "frequency": 587.33,
+        "durationBeats": 0.45,
+        "gain": 0.012,
+        "wave": "triangle"
+      },
+      {
+        "beat": 10,
+        "frequency": 523.25,
+        "durationBeats": 0.45,
+        "gain": 0.012,
+        "wave": "triangle"
+      },
+      {
+        "beat": 14,
+        "frequency": 659.25,
+        "durationBeats": 0.7,
+        "gain": 0.013,
+        "wave": "triangle"
+      }
+    ]
+  },
+  "match": {
+    "frequencies": [
+      523,
+      659,
+      784
+    ],
+    "durationMs": 190,
+    "gain": 0.075,
+    "wave": "triangle",
+    "haptic": [
+      9,
+      18,
+      10
+    ]
+  },
+  "uiClick": {
+    "frequencies": [
+      520
+    ],
+    "durationMs": 54,
+    "gain": 0.055,
+    "wave": "sine",
+    "haptic": [
+      8
+    ]
+  }
+}

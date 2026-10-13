@@ -11,9 +11,13 @@ const SettingsScreen = preload("res://scripts/settings_screen.gd")
 
 var preferences: RefCounted = PlayerPreferences.new()
 var settings_screen: PanelContainer
+var audio_runtime := preload("res://scripts/menu_audio.gd").new()
 
 
 func _ready() -> void:
+	audio_runtime.name = "MenuAudio"
+	audio_runtime.preferences = preferences
+	add_child(audio_runtime)
 	preferences.locale_changed.connect(_refresh_copy)
 	_refresh_copy(preferences.locale)
 	$Content/Actions/Continue.disabled = true
@@ -22,6 +26,8 @@ func _ready() -> void:
 	_style_button($Content/Actions/Continue)
 	_style_button($Content/Actions/Campaign)
 	_style_button($Content/Actions/Settings)
+	for button in [$Content/Actions/NewGame, $Content/Actions/Continue, $Content/Actions/Campaign, $Content/Actions/Settings]:
+		button.pressed.connect(audio_runtime.play_effect)
 
 	$Content/Actions/NewGame.pressed.connect(func() -> void: new_game_requested.emit())
 	$Content/Actions/Continue.pressed.connect(func() -> void: continue_requested.emit())
@@ -48,6 +54,7 @@ func _open_settings() -> void:
 	settings_screen = SettingsScreen.new()
 	settings_screen.name = "SettingsScreen"
 	settings_screen.preferences = preferences
+	settings_screen.audio_runtime = audio_runtime
 	settings_screen.back_requested.connect(_close_settings)
 	$Content.hide()
 	add_child(settings_screen)

@@ -29,5 +29,10 @@ The main menu localizes to English, Russian or Belarusian. Settings opens a nati
 language selector; the choice is saved separately from campaign progress in
 `user://player_preferences.cfg` and immediately updates the menu. Without a valid
 saved choice the system locale is used. Back or Escape returns to the menu.
-Audio settings and previews remain a subsequent slice. The Continue action remains
-unavailable until Godot save support is ported.
+Settings also includes music/effects volume, mute, haptics preference and working
+music/SFX previews. Defaults match the web game (32% music, 72% effects).
+Menu music and preview effects are synthesized locally from the existing web
+definitions; `tests/GodotAudioParity.test.ts` guards their source parity.
+Mute and zero volume stop playback; focus loss stops audio until focus returns.
+Haptics are enabled only on native Android/iOS; hardware verification is pending.
+The Continue action remains unavailable until Godot save support is ported.
