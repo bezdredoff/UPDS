@@ -12,6 +12,7 @@ import { ErrorLog } from './ErrorLog';
 import { PlaytestTelemetry } from './PlaytestTelemetry';
 import { PwaController } from './PwaController';
 import { getSafeStorage, type SafeStorageHandle } from './SafeStorage';
+import type { AudioRuntime } from '../contracts/AudioRuntime';
 
 export type RuntimeServices = Readonly<{
   storage: SafeStorageHandle;
@@ -19,7 +20,7 @@ export type RuntimeServices = Readonly<{
   match3CampaignStore: Match3CampaignStore;
   errorLog: ErrorLog;
   assetHealth: AssetHealth;
-  audio: AudioManager;
+  audio: AudioRuntime;
   telemetry: PlaytestTelemetry;
   pwa: PwaController;
   localization: LocalizationService;

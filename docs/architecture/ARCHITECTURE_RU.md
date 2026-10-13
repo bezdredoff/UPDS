@@ -29,6 +29,11 @@ and persisted-envelope construction. `Match3CampaignStore` only reads/writes/rem
 generation. Keeping the algorithm in one tested module makes seed-based board reproduction explicit
 for debugging and future Godot parity checks; gameplay continues to use the same sequence.
 
+`src/contracts/AudioRuntime.ts` defines the audio controls consumed by application features. The
+current `AudioManager` implements this interface using Web Audio and browser haptics; a future Godot
+composition can provide another implementation without making the feature-facing service type depend
+on browser APIs.
+
 ## Planned simplification track — ANM-023F
 
 ANM-029H does not change ownership boundaries. It records the bounded maintenance sequence now completed:
