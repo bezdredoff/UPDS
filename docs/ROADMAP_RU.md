@@ -20,7 +20,7 @@ G5b принят после человеческой проверки пены, 
 
 Позже 2026-10-12 PR #370 слит в `b888134`, Quality, Browser Gate и Pages Deploy прошли; опубликован build `build-38225580199-b888134fba35`. Пользователь повторно проверил на iPhone офлайн-цикл IOS-05–07, BE/EN LANG-02/03 и обновление PWA UPDATE-01 — всё прошло. `G5c-PWA-001`/`KI-013`, `G5c-I18N-001`/`KI-014` и `G5c-SEC-001`/`KI-015` закрыты. Исправления UX/copy досье, M3_02 и пакетного блокера слиты и приняты в PR #371 (`3a56ded`); вступление о колледже Сэйран и поводе визита Мику слито и принято в PR #372 (`4f93282`). Пользователь подтвердил Android-установку и онлайн-работу на Xiaomi Redmi Note 7 или 8, затем сообщил о ненадёжном запуске в авиарежиме. PR #378 исправил выбор service worker и отображение успешного прогресса, опубликован build `build-38268846741-95045807a69c`. Пользователь подтвердил, что прогрев работает и холодный запуск в авиарежиме проходит; `G5c-ANDROID-001/002` приняты, `KI-002` закрыта. Пользователь отметил A11Y-01–03 как ненужные для этого релиза (это не accessibility-приёмка) и подтвердил REL-02 по правам/кредитам. Открыты только финальные название/иконка и platform-specific уведомления после выбора площадок. [Повторная проверка устройств](reviews/G5C_PHONE_RETEST_2026-10-12.md).
 
-Technical product version: `0.27.9-dev`.
+Technical product version: `0.27.10-dev`.
 
 2026-10-02 — G5a закрыта после слияния PR #325–326 и решения пользователя. Завершены
 английская и белорусская редактура: в BE вычитаны 976 сюжетных реплик, 601 строка
@@ -56,7 +56,7 @@ Status: **G0 device accepted / G3 guest presentation accepted / release validati
 
 This roadmap is intentionally a strategic status map, not a transcript of every historical sub-feature. Detailed implementation history lives in feature docs and Git. The actionable remaining-work authority is [`RELEASE_BACKLOG_RU.md`](RELEASE_BACKLOG_RU.md); the approved full-game scope/reuse ceilings remain [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md); machine-readable art inventory remains `src/content/art/ANM030A.asset-gap-audit.json`. Production budgets are ceilings, not an obligation to spend every planned asset slot.
 
-`APP_VERSION` in `src/appVersion.ts` is the canonical player-facing product semver dev-line; `0.27.0-dev` starts the current accumulated development cycle after `0.26.0-dev`, and `0.27.9-dev` is the current G5c Android offline-cache integrity candidate. npm `package.json.version` remains internal package metadata. `BUILD_LABEL` is separate feature/baseline identity; the current candidate is **ANM-034G5C Android Cache Warmup Integrity**. `BUILD_ID` identifies a concrete CI build.
+`APP_VERSION` in `src/appVersion.ts` is the canonical player-facing product semver dev-line; `0.27.0-dev` starts the current accumulated development cycle after `0.26.0-dev`, and `0.27.10-dev` is the current G5c Android offline-cache integrity candidate with the approved Class U Mysteries branding. npm `package.json.version` remains internal package metadata. `BUILD_LABEL` is separate feature/baseline identity; the current candidate is **ANM-034G5C Android Cache Warmup Integrity**. `BUILD_ID` identifies a concrete CI build.
 
 ## Base-release target
 

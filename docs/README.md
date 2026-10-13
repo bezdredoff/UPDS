@@ -22,6 +22,7 @@ If two active documents conflict, prefer the narrower current machine-readable c
 
 ## Read first
 
+- [`brand/BRAND_IDENTITY_RU.md`](brand/BRAND_IDENTITY_RU.md) — утверждённые универсальное название серии, русская локализация и основная иконка
 - [`architecture/PROJECT_CONTRACTS_RU.md`](architecture/PROJECT_CONTRACTS_RU.md)
 - [`ROADMAP_RU.md`](ROADMAP_RU.md)
 - [`content/CONTENT_PRODUCTION_STRATEGY_RU.md`](content/CONTENT_PRODUCTION_STRATEGY_RU.md)
