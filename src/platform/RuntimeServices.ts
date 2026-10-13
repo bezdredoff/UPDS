@@ -13,7 +13,9 @@ import { PlaytestTelemetry } from './PlaytestTelemetry';
 import { PwaController } from './PwaController';
 import { getSafeStorage, type SafeStorageHandle } from './SafeStorage';
 import type { AudioRuntime } from '../contracts/AudioRuntime';
+import type { ClockRuntime } from '../contracts/ClockRuntime';
 import type { LocalizationRuntime } from '../contracts/LocalizationRuntime';
+import { BrowserClock } from './BrowserClock';
 
 export type RuntimeServices = Readonly<{
   storage: SafeStorageHandle;
@@ -22,6 +24,7 @@ export type RuntimeServices = Readonly<{
   errorLog: ErrorLog;
   assetHealth: AssetHealth;
   audio: AudioRuntime;
+  clock: ClockRuntime;
   telemetry: PlaytestTelemetry;
   pwa: PwaController;
   localization: LocalizationRuntime;
@@ -64,6 +67,7 @@ export const createRuntimeServices = (): RuntimeServices => {
     errorLog,
     assetHealth: new AssetHealth(),
     audio: new AudioManager(storage.storage, errorLog),
+    clock: new BrowserClock(),
     telemetry,
     pwa,
     localization,

@@ -38,6 +38,10 @@ on browser APIs.
 lookup. `LocalizationService` implements it with the current TS catalogs and async web loader; a
 Godot composition can expose the same operations with native translation resources.
 
+`src/contracts/ClockRuntime.ts` supplies monotonic elapsed time to VN and Match-3 interactions,
+attempt duration and reaction cooldowns. `BrowserClock` adapts `performance.now()` for the web build;
+a Godot runtime can provide its monotonic tick source without changing feature logic.
+
 ## Planned simplification track — ANM-023F
 
 ANM-029H does not change ownership boundaries. It records the bounded maintenance sequence now completed:

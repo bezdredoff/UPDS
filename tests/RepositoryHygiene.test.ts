@@ -141,6 +141,22 @@ describe('UI architecture boundaries', () => {
     expect(contract).not.toContain('window');
   });
 
+  it('keeps elapsed-time reads behind the runtime clock contract', () => {
+    const services = sourceFor('src/platform/RuntimeServices.ts');
+    const clock = sourceFor('src/contracts/ClockRuntime.ts');
+    const implementation = sourceFor('src/platform/BrowserClock.ts');
+    const match3 = sourceFor('src/features/match3/Match3Controller.ts');
+    const vn = sourceFor('src/features/vn/VnController.ts');
+
+    expect(services).toContain('clock: ClockRuntime;');
+    expect(clock).toContain('now(): number;');
+    expect(implementation).toContain('implements ClockRuntime');
+    expect(match3).toContain('this.services.clock.now()');
+    expect(match3).not.toMatch(/(?:Date|performance)\.now\(\)/);
+    expect(vn).toContain('this.services.clock.now()');
+    expect(vn).not.toMatch(/(?:Date|performance)\.now\(\)/);
+  });
+
   it('keeps application campaign sessions independent from browser RuntimeServices', () => {
     const appSession = sourceFor('src/app/AppSession.ts');
     const match3Session = sourceFor('src/app/Match3CampaignSession.ts');
