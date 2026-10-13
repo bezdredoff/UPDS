@@ -38,7 +38,7 @@ const bootstrap = async (): Promise<void> => {
   viewportDebugEvent('bootstrap:after-services-ready');
 
   const initialPwa = services.pwa.snapshot();
-  services.telemetry.startSession({
+  services.playtestTelemetry.startSession({
     path: pathname || 'unknown',
     online: globalThis.navigator?.onLine ?? true,
     installed: initialPwa.installed,

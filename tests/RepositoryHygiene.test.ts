@@ -191,6 +191,20 @@ describe('UI architecture boundaries', () => {
     }
   });
 
+  it('separates feature telemetry events from local playtest reporting', () => {
+    const services = sourceFor('src/platform/RuntimeServices.ts');
+    const contract = sourceFor('src/contracts/TelemetryRuntime.ts');
+    const implementation = sourceFor('src/platform/PlaytestTelemetry.ts');
+    const pwa = sourceFor('src/platform/PwaController.ts');
+
+    expect(services).toContain('telemetry: TelemetryRuntime;');
+    expect(services).toContain('playtestTelemetry: PlaytestTelemetry;');
+    expect(contract).toContain('track(name: TelemetryEventName');
+    expect(implementation).toContain('implements TelemetryRuntime');
+    expect(pwa).toContain('TelemetryRuntime');
+    expect(pwa).not.toContain('PlaytestTelemetry');
+  });
+
   it('keeps application campaign sessions independent from browser RuntimeServices', () => {
     const appSession = sourceFor('src/app/AppSession.ts');
     const match3Session = sourceFor('src/app/Match3CampaignSession.ts');

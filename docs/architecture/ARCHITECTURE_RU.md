@@ -50,6 +50,11 @@ contract through the composition root instead of accessing `window` timer APIs d
 owning browser `Image` loading. `BrowserAssetWarmup` preserves deduplication, bounded concurrency,
 and `AssetHealth` reporting; another runtime can map the authored asset list to its native loader.
 
+`src/contracts/TelemetryRuntime.ts` owns the event names and `track` / `trackScreen` surface used by
+features and PWA lifecycle. `PlaytestTelemetry` is the current web implementation; its session
+management, local summary and export remain available as `RuntimeServices.playtestTelemetry` for QA,
+separate from the runtime event sink that a Godot/Playgama composition can replace.
+
 ## Planned simplification track — ANM-023F
 
 ANM-029H does not change ownership boundaries. It records the bounded maintenance sequence now completed:

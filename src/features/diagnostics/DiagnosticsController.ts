@@ -54,7 +54,7 @@ export class DiagnosticsController {
     const recovery = store.getRecoveryBackup();
     const assetHealth = this.services.assetHealth.snapshot();
     const errors = this.services.errorLog.getEntries();
-    const playtest = this.services.telemetry.snapshot();
+    const playtest = this.services.playtestTelemetry.snapshot();
     const pwa = this.services.pwa.snapshot();
     const viewport = collectViewportMetrics();
     const storageLabel = this.services.storage.mode === 'persistent' ? 'localStorage · persistent' : 'memory fallback · текущая вкладка';
@@ -134,15 +134,15 @@ export class DiagnosticsController {
         save: this.session.save, storageMode: this.services.storage.mode, loadReport: store.getLastLoadReport(),
         recoveryBackup: store.getRecoveryBackup(), errorLog: this.services.errorLog, assetHealth: this.services.assetHealth,
         audio: { supported: this.services.audio.supported, hapticsSupported: this.services.audio.hapticsSupported, scene: this.services.audio.scene, settings: this.services.audio.settings },
-        playtest: this.services.telemetry.snapshot(), pwa: this.services.pwa.snapshot(),
+        playtest: this.services.playtestTelemetry.snapshot(), pwa: this.services.pwa.snapshot(),
       }));
     });
     this.root.querySelector('#export-recovery')?.addEventListener('click', () => downloadJson(`UPDS_recovery_${APP_VERSION}.json`, store.getRecoveryBackup()));
-    this.root.querySelector('#export-playtest')?.addEventListener('click', () => downloadJson(`UPDS_playtest_${APP_VERSION}.json`, this.services.telemetry.createExportBundle()));
+    this.root.querySelector('#export-playtest')?.addEventListener('click', () => downloadJson(`UPDS_playtest_${APP_VERSION}.json`, this.services.playtestTelemetry.createExportBundle()));
     this.root.querySelector('#clear-playtest')?.addEventListener('click', () => {
       if (typeof window.confirm === 'function' && !window.confirm('Очистить локальную playtest telemetry? Игровое сохранение останется.')) return;
-      this.services.telemetry.clear();
-      this.services.telemetry.startSession({ reset: true, online: navigator.onLine, installed: this.services.pwa.snapshot().installed });
+      this.services.playtestTelemetry.clear();
+      this.services.playtestTelemetry.startSession({ reset: true, online: navigator.onLine, installed: this.services.pwa.snapshot().installed });
       this.render('Playtest telemetry очищена. Начата новая локальная сессия.');
     });
     this.root.querySelector('#clear-errors')?.addEventListener('click', () => { this.services.errorLog.clear(); this.render('Журнал runtime-ошибок очищен.'); });
