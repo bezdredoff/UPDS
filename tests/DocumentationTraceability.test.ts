@@ -10,17 +10,18 @@ describe('active documentation traceability', () => {
     const readme = read('README.md');
     const index = read('docs/README.md');
     const roadmap = read('docs/ROADMAP_RU.md');
-    const buildFeature = BUILD_LABEL.split(' · ')[0];
-    const tick = String.fromCharCode(96);
+    const appVersion = read('src/appVersion.ts');
 
     expect(readme).toContain('docs/ROADMAP_RU.md');
     expect(readme).toContain('src/appVersion.ts');
     expect(readme).not.toContain('Current build:');
     expect(index).toContain('## Authority order');
-    expect(roadmap).toContain('Technical product version: ' + tick + APP_VERSION + tick);
-    expect(buildFeature).toMatch(/^ANM-/);
-    expect(roadmap).toContain(buildFeature);
-    expect(roadmap).toContain('ANM-023G Playwright Browser Automation is COMPLETE through G8 closeout');
+    expect(roadmap).toContain('разработка игры завершена');
+    expect(roadmap).toContain('Playgama');
+    expect(roadmap).toContain('перенести игру в Godot');
+    expect(roadmap).toContain('обратную связь менеджеров Playgama');
+    expect(appVersion).toContain(APP_VERSION);
+    expect(appVersion).toContain(BUILD_LABEL);
   });
 
   it('aligns protected character prose with the canonical precomposed v2 manifest', () => {
@@ -71,7 +72,7 @@ describe('active documentation traceability', () => {
 
   it('locks the lean full-content scope and keeps guest/offline production boundaries explicit', () => {
     const strategy = read('docs/content/CONTENT_PRODUCTION_STRATEGY_RU.md');
-    const roadmap = read('docs/ROADMAP_RU.md');
+    const roadmap = read('docs/archive/ROADMAP_HISTORY_2026-10-13_RU.md');
     const index = read('docs/README.md');
     const aiWorkflow = read('docs/process/AI_DEVELOPMENT_RU.md');
     const characterContract = read('docs/art/CHARACTER_PRODUCTION_CONTRACT_RU.md');
@@ -128,7 +129,7 @@ describe('active documentation traceability', () => {
   });
 
   it('keeps current phase/index/brief traceability free from known stale markers', () => {
-    const roadmap = read('docs/ROADMAP_RU.md');
+    const roadmap = read('docs/archive/ROADMAP_HISTORY_2026-10-13_RU.md');
     const index = read('docs/README.md');
     const briefs = read('docs/art/CHARACTER_BRIEFS_RU.md');
     const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
@@ -153,7 +154,7 @@ describe('active documentation traceability', () => {
   });
 
   it('keeps durable production foundations and historical character provenance traceable', () => {
-    const roadmap = read('docs/ROADMAP_RU.md');
+    const roadmap = read('docs/archive/ROADMAP_HISTORY_2026-10-13_RU.md');
     const index = read('docs/README.md');
     const architecture = read('docs/architecture/ARCHITECTURE_RU.md');
     const protectedContracts = read('docs/architecture/PROJECT_CONTRACTS_RU.md');
@@ -358,7 +359,7 @@ describe('active documentation traceability', () => {
   });
 
   it('keeps Playwright as the sole browser automation stack and G8 closeout traceable', () => {
-    const roadmap = read('docs/ROADMAP_RU.md');
+    const roadmap = read('docs/archive/ROADMAP_HISTORY_2026-10-13_RU.md');
     const testing = read('docs/process/TESTING_RU.md');
     const ai = read('docs/process/AI_DEVELOPMENT_RU.md');
     const e2eReadme = read('e2e/README.md');
@@ -390,7 +391,7 @@ describe('active documentation traceability', () => {
     expect(g0.evidence).toContain('PR #311');
     expect(issue('KI-004').status).toBe('closed');
     expect(issue('KI-002').status).toBe('closed');
-    for (const path of ['docs/ROADMAP_RU.md', 'docs/RELEASE_BACKLOG_RU.md']) {
+    for (const path of ['docs/archive/ROADMAP_HISTORY_2026-10-13_RU.md', 'docs/RELEASE_BACKLOG_RU.md']) {
       const source = read(path);
       expect(source).toContain('G0');
       expect(source).toContain('G5c');
@@ -421,7 +422,7 @@ describe('active documentation traceability', () => {
     expect(task('G3').status).toBe('accepted');
     const issues = JSON.parse(read('docs/known-issues.json'));
     expect(issues.issues.find((item: { id: string }) => item.id === 'KI-005').status).toBe('closed');
-    for (const path of ['docs/ROADMAP_RU.md', 'docs/RELEASE_BACKLOG_RU.md']) {
+    for (const path of ['docs/archive/ROADMAP_HISTORY_2026-10-13_RU.md', 'docs/RELEASE_BACKLOG_RU.md']) {
       expect(read(path)).toContain('G4a-MAYU');
       expect(read(path)).toContain('G4A_ART_REVIEW_2026-09-30.md');
     }

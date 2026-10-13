@@ -6,11 +6,14 @@ import { backgroundAssets } from '../src/data/narrative';
 const read = (path: string): string => readFileSync(resolve(process.cwd(), path), 'utf8');
 
 describe('release backlog prioritization', () => {
-  it('keeps the actionable release backlog separate from historical roadmap detail', () => {
+  it('marks the old PWA release backlog as historical and points to the Playgama roadmap', () => {
     const roadmap = read('docs/ROADMAP_RU.md');
     const backlog = read('docs/RELEASE_BACKLOG_RU.md');
 
-    expect(roadmap).toContain('RELEASE_BACKLOG_RU.md');
+    expect(roadmap).toContain('подготовки существующей игры к публикации через Playgama');
+    expect(roadmap).toContain('перенести игру в Godot');
+    expect(roadmap).toContain('исторических feature docs');
+    expect(backlog).toContain('historical web/PWA release backlog; superseded for current planning');
     expect(backlog).toContain('portrait-first **web/PWA**');
     expect(backlog).toContain('production locales: **RU / BE / EN**');
     expect(backlog).toContain('R0 — release blocker');
