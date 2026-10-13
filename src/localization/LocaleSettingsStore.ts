@@ -1,10 +1,10 @@
-import type { StorageLike } from '../platform/SafeStorage';
+import type { KeyValueStorage } from '../contracts/KeyValueStorage';
 import { DEFAULT_LOCALE, resolveLocale, type Locale } from './Locale';
 
 export const LOCALE_SETTINGS_KEY = 'seiran-detectives-locale-v1';
 
 export class LocaleSettingsStore {
-  constructor(private readonly storage: StorageLike) {}
+  constructor(private readonly storage: KeyValueStorage) {}
 
   load(): Locale {
     try {
@@ -19,7 +19,7 @@ export class LocaleSettingsStore {
       this.storage.setItem(LOCALE_SETTINGS_KEY, locale);
     } catch {
       // SafeStorage normally prevents storage failures. Keep locale changes usable
-      // even when a custom/test StorageLike becomes unavailable at runtime.
+      // even when a custom/test KeyValueStorage becomes unavailable at runtime.
     }
   }
 }

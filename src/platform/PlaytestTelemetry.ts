@@ -1,5 +1,5 @@
 import { APP_VERSION, BUILD_ID } from '../appVersion';
-import type { StorageLike } from './SafeStorage';
+import type { KeyValueStorage } from '../contracts/KeyValueStorage';
 
 export const PLAYTEST_STORAGE_KEY = 'seiran-detectives-playtest-v2';
 export const PLAYTEST_LEGACY_STORAGE_KEY = 'seiran-detectives-playtest-v1';
@@ -270,7 +270,7 @@ export class PlaytestTelemetry {
   private activeHint: Readonly<{ id: string; boardRevision: number; first: number; second: number }> | null = null;
   private lastMatchMoveTrackedAt: number | null = null;
 
-  constructor(private readonly storage: StorageLike, private readonly key = PLAYTEST_STORAGE_KEY) {
+  constructor(private readonly storage: KeyValueStorage, private readonly key = PLAYTEST_STORAGE_KEY) {
     const current = this.read(this.key, [PLAYTEST_SCHEMA_VERSION]);
     const legacy = this.key === PLAYTEST_STORAGE_KEY && !current
       ? this.read(PLAYTEST_LEGACY_STORAGE_KEY, [1])

@@ -9,6 +9,13 @@ Status: active architecture through completed ANM-027G `0–21` canonical story,
 Presentation may animate an engine result, but must not redefine Match-3 rules, story IDs,
 character production metadata or persistence semantics.
 
+### Cross-platform contracts
+
+`src/contracts/KeyValueStorage.ts` defines the runtime-neutral key/value persistence port. Engine
+stores, localization and audio settings depend on this interface; browser storage and its failure
+fallback remain implementations in `src/platform/SafeStorage.ts`. A future Godot adapter can map the
+same `get/set/remove` semantics without making the game-state code depend on browser `Storage`.
+
 ## Planned simplification track — ANM-023F
 
 ANM-029H does not change ownership boundaries. It records the bounded maintenance sequence now completed:

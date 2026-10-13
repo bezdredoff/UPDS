@@ -2,7 +2,7 @@ import { getCueDefinition, type AudioCue } from './AudioCues';
 import { AudioSettingsStore, type AudioSettings } from './AudioSettings';
 import { beatDurationSeconds, getMusicTheme, loopDurationSeconds, type AudioScene } from './MusicTheme';
 import type { ErrorLog } from '../platform/ErrorLog';
-import type { StorageLike } from '../platform/SafeStorage';
+import type { KeyValueStorage } from '../contracts/KeyValueStorage';
 
 type AudioHostWindow = Window & typeof globalThis & { webkitAudioContext?: typeof AudioContext };
 type HapticNavigator = Navigator & { vibrate?: (pattern: number | number[]) => boolean };
@@ -22,7 +22,7 @@ export class AudioManager {
   private readonly settingsStore: AudioSettingsStore;
 
   constructor(
-    storage: StorageLike,
+    storage: KeyValueStorage,
     private readonly errorLog: ErrorLog,
     private readonly hostWindow: AudioHostWindow = window as AudioHostWindow,
     private readonly hostNavigator: HapticNavigator = navigator as HapticNavigator,

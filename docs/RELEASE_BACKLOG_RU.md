@@ -1,6 +1,6 @@
 # UPDS — Release Backlog
 
-Status: **active release-planning source**, ANM-030B0H + ANM-030B0I + ANM-030B1B1–B1B8. G2a bounded architecture cleanup завершён.
+Status: **historical web/PWA release backlog; superseded for current planning**. Game development is complete. The active scope is codebase simplification/refactoring, Godot port, Playgama SDK and any required ad SDK integration, Playgama review, publication-page preparation and manager feedback. See [`ROADMAP_RU.md`](ROADMAP_RU.md).
 
 Этот документ отвечает только на два вопроса:
 

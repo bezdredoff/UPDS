@@ -1,6 +1,6 @@
 import { levels } from '../data/levels';
 import { match3TutorialConceptIds, type Match3TutorialConceptId } from '../data/match3Tutorials';
-import type { StorageLike } from '../platform/SafeStorage';
+import type { KeyValueStorage } from '../contracts/KeyValueStorage';
 
 export type Match3CampaignSave = {
   completed: string[];
@@ -41,7 +41,7 @@ export function normalizeMatch3CampaignSave(value: unknown): Match3CampaignSave 
 }
 
 export class Match3CampaignStore {
-  constructor(private readonly storage: StorageLike, private readonly key = MATCH3_CAMPAIGN_SAVE_KEY) {}
+  constructor(private readonly storage: KeyValueStorage, private readonly key = MATCH3_CAMPAIGN_SAVE_KEY) {}
 
   load(): Match3CampaignSave {
     try {
