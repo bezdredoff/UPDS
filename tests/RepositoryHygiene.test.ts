@@ -117,6 +117,16 @@ describe('repository maintenance contract', () => {
 const animeAppSource = sourceFor('src/ui/AnimeDetectiveApp.ts');
 
 describe('UI architecture boundaries', () => {
+  it('keeps application campaign sessions independent from browser RuntimeServices', () => {
+    const appSession = sourceFor('src/app/AppSession.ts');
+    const match3Session = sourceFor('src/app/Match3CampaignSession.ts');
+    for (const source of [appSession, match3Session]) {
+      expect(source).not.toContain('RuntimeServices');
+      expect(source).not.toContain('../platform/');
+      expect(source).toContain('reportSaveError');
+    }
+  });
+
   it('keeps AnimeDetectiveApp as a small composition root', () => {
     expect(animeAppSource.split('\n').length).toBeLessThanOrEqual(200);
     expect(animeAppSource).toContain('new VnController');

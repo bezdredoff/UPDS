@@ -84,7 +84,7 @@ describe('ANM-026C standalone Match-3 campaign', () => {
     const root = new FakeRoot();
     const element = root as unknown as HTMLElement;
     const services = createRuntimeServices();
-    const session = new Match3CampaignSession(services.match3CampaignStore, services);
+    const session = new Match3CampaignSession(services.match3CampaignStore, (message) => services.errorLog.record('application', message));
     const campaign = new Match3CampaignController(
       element,
       services,
@@ -114,11 +114,11 @@ describe('ANM-026C standalone Match-3 campaign', () => {
     const root = new FakeRoot();
     const element = root as unknown as HTMLElement;
     const services = createRuntimeServices();
-    const campaignSession = new Match3CampaignSession(services.match3CampaignStore, services);
+    const campaignSession = new Match3CampaignSession(services.match3CampaignStore, (message) => services.errorLog.record('application', message));
     const match3 = new Match3Controller(
       element,
       services,
-      new AppSession(services),
+      new AppSession(services.store, (message) => services.errorLog.record('application', message)),
       new AppShell(element, () => undefined),
       {} as AppNavigation,
       () => undefined,

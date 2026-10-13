@@ -59,6 +59,11 @@ prevent controller construction elsewhere.
 - `AppShell.ts` — one-screen DOM shell and disposable UI timers;
 - `AppNavigation.ts` — navigation surface shared by controllers.
 
+Campaign sessions depend on their engine store and receive save-failure reporting as a callback;
+they do not accept the browser `RuntimeServices` composition object. The web composition root wires
+that callback to `ErrorLog`. This keeps application save/progression ownership independent from the
+current platform service container.
+
 Controllers do not import or instantiate sibling feature controllers. Cross-feature transitions go
 through `AppNavigation` or a narrow callback supplied by the composition root. The awarded-clue
 handoff remains one intentional callback; a second independent transient payload would trigger a

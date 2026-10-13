@@ -1,14 +1,16 @@
-import { freshSave, type CampaignSave } from '../engine/CampaignStore';
-import type { RuntimeServices } from '../platform/RuntimeServices';
+import { freshSave, type CampaignSave, type CampaignStore } from '../engine/CampaignStore';
 
 /** Shared mutable campaign state. Feature controllers never access storage directly. */
 export class AppSession {
   save: CampaignSave = freshSave();
 
-  constructor(private readonly services: RuntimeServices) {}
+  constructor(
+    private readonly store: CampaignStore,
+    private readonly reportSaveError: (message: string) => void,
+  ) {}
 
   reload(): CampaignSave {
-    this.save = this.services.store.load();
+    this.save = this.store.load();
     return this.save;
   }
 
@@ -19,13 +21,13 @@ export class AppSession {
   }
 
   clearProgress(): CampaignSave {
-    this.save = this.services.store.reset();
+    this.save = this.store.reset();
     return this.save;
   }
 
   persist(): void {
-    if (!this.services.store.save(this.save)) {
-      this.services.errorLog.record('application', 'Campaign save failed; runtime progress continues in memory.');
+    if (!this.store.save(this.save)) {
+      this.reportSaveError('Campaign save failed; runtime progress continues in memory.');
     }
   }
 }
