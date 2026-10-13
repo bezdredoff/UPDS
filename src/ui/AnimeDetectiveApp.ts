@@ -43,7 +43,7 @@ export class AnimeDetectiveApp {
     this.services = services;
     const reportSaveError = (message: string): void => services.errorLog.record('application', message);
     this.session = new AppSession(services.store, reportSaveError);
-    this.shell = new AppShell(root, () => this.renderPwaUpdateBanner());
+    this.shell = new AppShell(root, () => this.renderPwaUpdateBanner(), services.scheduler);
 
     const navigation: AppNavigation = {
       openScene: (scene, line = 0) => this.openScene(scene, line),

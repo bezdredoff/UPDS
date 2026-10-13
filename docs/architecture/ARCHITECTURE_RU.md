@@ -42,6 +42,10 @@ Godot composition can expose the same operations with native translation resourc
 attempt duration and reaction cooldowns. `BrowserClock` adapts `performance.now()` for the web build;
 a Godot runtime can provide its monotonic tick source without changing feature logic.
 
+`src/contracts/SchedulerRuntime.ts` owns feature-facing timers and frame scheduling. `BrowserScheduler`
+adapts browser timeouts and animation frames; `AppShell`, VN reflow and Match-3 feedback consume the
+contract through the composition root instead of accessing `window` timer APIs directly.
+
 ## Planned simplification track — ANM-023F
 
 ANM-029H does not change ownership boundaries. It records the bounded maintenance sequence now completed:

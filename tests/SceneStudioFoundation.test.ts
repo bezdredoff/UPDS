@@ -27,7 +27,7 @@ const style = readFileSync(new URL('../src/style.css', import.meta.url), 'utf8')
 
 const createStudio = (root: FakeRoot): SceneStudioController => {
   const services = createRuntimeServices();
-  const shell = new AppShell(root as unknown as HTMLElement, () => undefined);
+  const shell = new AppShell(root as unknown as HTMLElement, () => undefined, services.scheduler);
   return new SceneStudioController(root as unknown as HTMLElement, services, shell, {} as AppNavigation);
 };
 

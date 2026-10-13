@@ -353,10 +353,10 @@ export class VnController {
     if (typeof window === 'undefined') return;
     subscribeViewportRuntime(() => {
       if (!this.root.querySelector('.vn-screen')) return;
-      if (this.dialogueReflowTimer !== null) window.clearTimeout(this.dialogueReflowTimer);
-      this.dialogueReflowTimer = window.setTimeout(() => {
+      if (this.dialogueReflowTimer !== null) this.services.scheduler.clearTimeout(this.dialogueReflowTimer);
+      this.dialogueReflowTimer = this.services.scheduler.setTimeout(() => {
         this.dialogueReflowTimer = null;
-        window.requestAnimationFrame(() => window.requestAnimationFrame(() => this.remeasureDialogueInPlace()));
+        this.services.scheduler.requestFrame(() => this.services.scheduler.requestFrame(() => this.remeasureDialogueInPlace()));
       }, 80);
     });
   }

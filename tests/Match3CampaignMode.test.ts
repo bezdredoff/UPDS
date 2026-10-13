@@ -89,7 +89,7 @@ describe('ANM-026C standalone Match-3 campaign', () => {
       element,
       services,
       session,
-      new AppShell(element, () => undefined),
+      new AppShell(element, () => undefined, services.scheduler),
       {} as AppNavigation,
       () => undefined,
     );
@@ -119,7 +119,7 @@ describe('ANM-026C standalone Match-3 campaign', () => {
       element,
       services,
       new AppSession(services.store, (message) => services.errorLog.record('application', message)),
-      new AppShell(element, () => undefined),
+      new AppShell(element, () => undefined, services.scheduler),
       {} as AppNavigation,
       () => undefined,
     );

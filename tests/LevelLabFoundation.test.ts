@@ -65,7 +65,7 @@ describe('ANM-026A Level Lab foundation', () => {
     const lab = new LevelLabController(
       element,
       services,
-      new AppShell(element, () => undefined),
+      new AppShell(element, () => undefined, services.scheduler),
       {} as AppNavigation,
       () => undefined,
     );
@@ -88,7 +88,7 @@ describe('ANM-026A Level Lab foundation', () => {
       element,
       services,
       session,
-      new AppShell(element, () => undefined),
+      new AppShell(element, () => undefined, services.scheduler),
       {} as AppNavigation,
       () => undefined,
     );
