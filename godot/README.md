@@ -35,4 +35,18 @@ Menu music and preview effects are synthesized locally from the existing web
 definitions; `tests/GodotAudioParity.test.ts` guards their source parity.
 Mute and zero volume stop playback; focus loss stops audio until focus returns.
 Haptics are enabled only on native Android/iOS; hardware verification is pending.
-The Continue action remains unavailable until Godot save support is ported.
+The Continue action remains unavailable until the Story screen/session is ported.
+
+## Native campaign persistence
+
+`scripts/campaign_store.gd` supplies independent Story and Match-3 storage,
+manual Story saves, recovery and Story export/import text. The native adapter
+writes URI-encoded logical save keys under `user://campaign_saves` using a
+temporary file and rename. Existing keys and schema versions are preserved.
+Preferences remain in their separate config file; browser storage is not migrated
+automatically. Continue stays disabled until the Story screen/session is ported.
+
+`node scripts/export-godot-save-fixtures.cjs` regenerates the save contract and
+web-derived parity vectors after relevant web source changes. Vitest guards the
+snapshots; `godot/check.ps1` executes their native counterparts and filesystem
+failure/recovery checks without touching player saves.
