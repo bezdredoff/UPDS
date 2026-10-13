@@ -21,6 +21,10 @@ export-bundle construction. It has no persistence adapter dependency. `CampaignS
 writes, corruption recovery and import side effects through `KeyValueStorage`; a future runtime can
 reuse the same save rules while supplying its own storage and user-facing error presentation.
 
+`src/engine/Match3CampaignSaveFormat.ts` owns Match-3 campaign save normalization, schema validation
+and persisted-envelope construction. `Match3CampaignStore` only reads/writes/removes data through
+`KeyValueStorage`, keeping both campaigns aligned around the same adapter boundary.
+
 ## Planned simplification track — ANM-023F
 
 ANM-029H does not change ownership boundaries. It records the bounded maintenance sequence now completed:
