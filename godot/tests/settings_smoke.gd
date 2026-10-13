@@ -14,6 +14,7 @@ func _run_smoke() -> void:
 	assert(preferences.locale == MenuCopy.system_locale())
 	assert(preferences.set_locale("unsupported") == ERR_INVALID_PARAMETER)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
+	menu.session = preload("res://tests/memory_storage.gd").story_session()
 	menu.preferences = preferences
 	root.add_child(menu)
 	menu.get_node("Content/Actions/Settings").emit_signal("pressed")

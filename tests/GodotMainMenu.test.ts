@@ -25,7 +25,7 @@ describe('Godot main menu slice', () => {
 		for (const signal of ['new_game_requested', 'continue_requested', 'campaign_requested', 'settings_requested']) {
 			expect(script).toContain(`signal ${signal}`);
 		}
-		expect(script).toContain('$Content/Actions/Continue.disabled = true');
+		expect(script).toContain('$Content/Actions/Continue.disabled = not session.has_progress() or not session.supports_position()');
 		expect(smoke).toContain('UPDS Godot main menu smoke test passed (locale: %s).');
 		expect(checkScript).toContain('res://tests/main_menu_smoke.gd');
 	});

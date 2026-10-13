@@ -14,6 +14,7 @@ func _run_smoke() -> void:
 	assert(preferences.audio == PlayerPreferences.DEFAULT_AUDIO)
 	assert(preferences.set_locale("be") == OK)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
+	menu.session = preload("res://tests/memory_storage.gd").story_session()
 	menu.preferences = preferences
 	root.add_child(menu)
 	menu.get_node("Content/Actions/Settings").emit_signal("pressed")

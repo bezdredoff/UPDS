@@ -1,0 +1,768 @@
+{
+  "sceneId": "VN_SCENE_00_PROLOGUE",
+  "sceneIndex": 0,
+  "nextSceneId": "VN_SCENE_01_E0_PRE",
+  "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+  "titles": {
+    "ru": "Клуб, которого почти нет",
+    "en": "The Club That Barely Exists",
+    "be": "Клуб, якога амаль няма"
+  },
+  "lines": [
+    {
+      "id": "VN0001",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "ОСТОРОЖНАЯ",
+          "text": "После звонка кампус японского колледжа Сэйран не затихал: спортивные клубы расходились на тренировки. Я же искала детективный клуб."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "CAUTIOUS",
+          "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to practice. I was looking for the detective club."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "АСЦЯРОЖНАЯ",
+          "text": "Пасля званка кампус японскага каледжа Сэйран не сціхаў: спартыўныя клубы разыходзіліся на трэніроўкі. А я шукала дэтэктыўны клуб."
+        }
+      }
+    },
+    {
+      "id": "VN0002",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "ЗАИНТЕРЕСОВАННАЯ",
+          "text": "Я согласилась нарисовать ему афишу — и надеялась наконец заняться чем-то настоящим."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "CURIOUS",
+          "text": "I’d agreed to draw its poster—and hoped I could finally do something real."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "ЗАЦІКАЎЛЕНАЯ",
+          "text": "Я пагадзілася намаляваць для яго афішу — і спадзявалася нарэшце заняцца чымсьці сапраўдным."
+        }
+      }
+    },
+    {
+      "id": "VN0003",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "ИРОНИЧНАЯ",
+          "text": "Табличку клуба приклеили на дверь поверх слова «Инвентарь». В буклете эту комнату назвали «пространством для студенческих инициатив», но про швабру за занавеской не сказали ни слова."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "IRONIC",
+          "text": "The club sign was taped over “Equipment” on the door. The brochure called the room “a space for student initiatives” but said nothing about the mop behind the curtain."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "ІРАНІЧНАЯ",
+          "text": "Шыльду клуба наклеілі на дзверы паверх слова «Інвентар». У буклеце гэты пакой назвалі «прасторай для студэнцкіх ініцыятыў», але пра швабру за фіранкай не сказалі ні слова."
+        }
+      }
+    },
+    {
+      "id": "VN0004",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СОСРЕДОТОЧЕННАЯ",
+          "text": "Пункт четвёртый: клуб обязуется не проводить допросы без согласия участника."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "FOCUSED",
+          "text": "Clause four: the club agrees not to conduct interrogations without the participant’s consent."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАСЯРОДЖАНАЯ",
+          "text": "Пункт чацвёрты: клуб абавязваецца не праводзіць допыты без згоды ўдзельніка."
+        }
+      }
+    },
+    {
+      "id": "VN0005",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ВЕСЁЛАЯ",
+          "text": "Слишком негативно. Напиши: «Мы уважаем право подозреваемого на эффектное появление»."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "CHEERFUL",
+          "text": "Too negative. Write: “We respect a suspect’s right to a dramatic entrance”."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ВЯСЁЛАЯ",
+          "text": "Занадта негатыўна. Напішы: «Мы паважаем права падазраванага на эфектнае з’яўленне»."
+        }
+      }
+    },
+    {
+      "id": "VN0006",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕ ПОДНИМАЯ ГЛАЗ",
+          "text": "Это не право."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "WITHOUT LOOKING UP",
+          "text": "That is not a right."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕ ПАДЫМАЮЧЫ ВАЧЭЙ",
+          "text": "Гэта не права."
+        }
+      }
+    },
+    {
+      "id": "VN0007",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ЗАДУМЧИВАЯ",
+          "text": "Пока не право."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "THOUGHTFUL",
+          "text": "Not yet."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗАДУМЕННАЯ",
+          "text": "Пакуль не права."
+        }
+      }
+    },
+    {
+      "id": "VN0008",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 18,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "НЕУВЕРЕННАЯ",
+          "text": "Простите… я пришла насчёт афиши. Вы уже решили, как назовёте клуб?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "UNCERTAIN",
+          "text": "Excuse me… I’m here about the poster. Have you decided what to call the club?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "НЯЎПЭЎНЕНАЯ",
+          "text": "Прабачце… я наконт афішы. Вы ўжо вырашылі, як назавяце клуб?"
+        }
+      }
+    },
+    {
+      "id": "VN0009",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПОВОРОТ К МИКУ",
+          "text": "Зависит. Ты клиент, свидетель или долгожданный третий участник?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "TURNS TO MIKU",
+          "text": "Depends. Are you a client, a witness, or our long-awaited third member?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПАВАРОТ ДА МІКУ",
+          "text": "Залежыць. Ты кліент, сведка ці доўгачаканы трэці ўдзельнік?"
+        }
+      }
+    },
+    {
+      "id": "VN0010",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-embarrassed.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМУЩЁННАЯ",
+          "text": "Я думала только помочь с афишей."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "EMBARRASSED",
+          "text": "I thought I was only helping with the poster."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЗБЯНТЭЖАНАЯ",
+          "text": "Я думала толькі дапамагчы з афішай."
+        }
+      }
+    },
+    {
+      "id": "VN0011",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ОЦЕНИВАЮЩАЯ",
+          "text": "Наблюдение — допустимая специализация."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "APPRAISING",
+          "text": "Observation is an acceptable specialization."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "АЦЭНЬВАЕ",
+          "text": "Назіранне — дапушчальная спецыялізацыя."
+        }
+      }
+    },
+    {
+      "id": "VN0012",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТЕАТРАЛЬНАЯ",
+          "text": "Принята единогласно."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "THEATRICAL",
+          "text": "Accepted unanimously."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ТЭАТРАЛЬНАЯ",
+          "text": "Прынята аднагалосна."
+        }
+      }
+    },
+    {
+      "id": "VN0013",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-surprised.png",
+          "x": 19,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 51,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 3
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "УДИВЛЁННАЯ",
+          "text": "Вы ещё не голосовали."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "SURPRISED",
+          "text": "You have not voted yet."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЗДЗІЎЛЕНАЯ",
+          "text": "Вы яшчэ не галасавалі."
+        }
+      }
+    },
+    {
+      "id": "VN0014",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕЙТРАЛЬНАЯ",
+          "text": "Нас двое. Единогласие возникает быстро."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "NEUTRAL",
+          "text": "There are two of us. Unanimity happens quickly."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕЙТРАЛЬНАЯ",
+          "text": "Нас двое. Аднагалоссе ўзнікае хутка."
+        }
+      }
+    },
+    {
+      "id": "VN0015",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "ИРОНИЧНАЯ",
+          "text": "Я пришла рисовать афишу. Через сорок секунд получила должность."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "IRONIC",
+          "text": "I came to draw a poster. Forty seconds later I had a position."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "ІРАНІЧНАЯ",
+          "text": "Я прыйшла маляваць афішу. Праз сорак секунд атрымала пасаду."
+        }
+      }
+    },
+    {
+      "id": "VN0016",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "С ЛИСТОМ",
+          "text": "Осталось выбрать название: «Око Сэйрана», «Три алиби» или «Красотки дедукции»."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "HOLDING A SHEET",
+          "text": "We only need a name: “The Eye of Seiran”, “Three Alibis”, or “Beauties of Deduction”."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "З ЛІСТОМ",
+          "text": "Засталося выбраць назву: «Вока Сэйрана», «Тры алібі» або «Красуні дэдукцыі»."
+        }
+      }
+    },
+    {
+      "id": "VN0017",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ХОЛОДНО",
+          "text": "Последнее название снижает нашу доказательную ценность."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "COLD",
+          "text": "The last name reduces our evidentiary value."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ХОЛАДНА",
+          "text": "Апошняя назва зніжае нашу доказную каштоўнасць."
+        }
+      }
+    },
+    {
+      "id": "VN0018",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "РАССМАТРИВАЕТ ТАБЛИЧКУ",
+          "text": "А официальный статус у клуба есть?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "LOOKS AT THE SIGN",
+          "text": "Does the club have official status?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "РАЗГЛЯДАЕ ТАБЛІЧКУ",
+          "text": "А афіцыйны статус у клуба ёсць?"
+        }
+      }
+    },
+    {
+      "id": "VN0019",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАУЗА",
+          "text": "Заявление почти готово."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "PAUSE",
+          "text": "The application is almost ready."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАЎЗА",
+          "text": "Заяўка амаль гатовая."
+        }
+      }
+    },
+    {
+      "id": "VN0020",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТИХО К МИКУ",
+          "text": "Это химически точное «нет»."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "QUIETLY TO MIKU",
+          "text": "That is a chemically precise “no”."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЦІХА ДА МІКУ",
+          "text": "Гэта хімічна дакладнае «не»."
+        }
+      }
+    },
+    {
+      "id": "VN0021",
+      "hidden": true,
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "SFX: ТРИ БЫСТРЫХ СТУКА",
+          "text": "Дверь открывается раньше, чем Оноэ отвечает."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "SFX: THREE QUICK KNOCKS",
+          "text": "The door opens before Onoe can answer."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "SFX: ТРЫ ХУТКІЯ СТУКІ",
+          "text": "Дзверы адчыняюцца раней, чым Оноэ паспявае адказаць."
+        }
+      }
+    },
+    {
+      "id": "VN0022",
+      "hidden": false,
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-surprised.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "ВСТРЕВОЖЕННАЯ",
+          "text": "Мне сказали, вы находите вещи, которые администрация предпочитает не замечать."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "ANXIOUS",
+          "text": "I was told you find things the administration prefers not to notice."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "УСТРЫВОЖАНАЯ",
+          "text": "Мне сказалі, вы знаходзіце рэчы, якіх адміністрацыя аддае перавагу не заўважаць."
+        }
+      }
+    }
+  ]
+}

@@ -11,6 +11,7 @@ func _run_smoke() -> void:
 	var packed_scene: PackedScene = load("res://scenes/main_menu.tscn")
 	assert(packed_scene != null, "Main menu scene could not be loaded")
 	var menu: Control = packed_scene.instantiate()
+	menu.session = preload("res://tests/memory_storage.gd").story_session()
 	menu.preferences = preload("res://scripts/player_preferences.gd").new(
 		"user://main_menu_smoke_%s.cfg" % Time.get_ticks_usec())
 	root.add_child(menu)
@@ -34,8 +35,9 @@ func _run_smoke() -> void:
 	menu.get_node("Content/Actions/NewGame").emit_signal("pressed")
 	menu.get_node("Content/Actions/Continue").emit_signal("pressed")
 	menu.get_node("Content/Actions/Campaign").emit_signal("pressed")
+	menu._close_story()
 	menu.get_node("Content/Actions/Settings").emit_signal("pressed")
-	assert(events == ["new_game", "continue", "campaign", "settings"], "Menu navigation signals changed")
+	assert(events == ["new_game", "campaign", "settings"], "Unavailable Continue must not navigate")
 
 	for supported_locale in ["en", "ru", "be"]:
 		assert(not MenuCopy.text("new_game", supported_locale).is_empty())
