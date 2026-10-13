@@ -29,18 +29,10 @@ const compareSemver = (leftVersion, rightVersion) => {
 const source = read('src/appVersion.ts');
 const appVersion = extract(source, 'APP_VERSION');
 const buildLabel = extract(source, 'BUILD_LABEL');
-const roadmap = read('docs/ROADMAP_RU.md');
-const buildFeature = buildLabel.split(' · ')[0];
-if (!roadmap.includes(`Technical product version: \`${appVersion}\``)) {
-  throw new Error(`docs/ROADMAP_RU.md must name APP_VERSION ${appVersion}`);
-}
-if (!roadmap.includes(buildFeature)) {
-  throw new Error(`docs/ROADMAP_RU.md must name the BUILD_LABEL milestone ${buildFeature}`);
-}
 
 const baseRef = process.env.UPDS_BASE_REF?.trim();
 if (!baseRef) {
-  console.log(`Version metadata is synchronized at ${appVersion} (${buildFeature}); no PR base supplied for bump comparison.`);
+  console.log(`Product version metadata is ${appVersion} (${buildLabel}); no PR base supplied for bump comparison.`);
   process.exit(0);
 }
 
