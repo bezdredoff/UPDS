@@ -102,12 +102,12 @@ this.matchInputLocked = false;
 }
 private clearAutoHintTimer(): void {
 if (this.autoHintTimer === null) return;
-window.clearTimeout(this.autoHintTimer);
+this.services.scheduler.clearTimeout(this.autoHintTimer);
 this.autoHintTimer = null;
 }
 private clearReactionPresentationTimer(): void {
 if (this.reactionPresentationTimer === null) return;
-window.clearTimeout(this.reactionPresentationTimer);
+this.services.scheduler.clearTimeout(this.reactionPresentationTimer);
 this.reactionPresentationTimer = null;
 }
 private resetReactionPresentation(): void {
@@ -118,7 +118,7 @@ private armReactionPresentationTimer(): void {
 const reaction = this.matchBark?.reaction;
 if (!reaction || this.reactionPresentationTimer !== null) return;
 const reactionId = reaction.id;
-this.reactionPresentationTimer = window.setTimeout(() => {
+this.reactionPresentationTimer = this.services.scheduler.setTimeout(() => {
 this.reactionPresentationTimer = null;
 if (this.matchBark?.reaction?.id !== reactionId) return;
 const speaker = this.matchBark.speaker;
@@ -133,14 +133,14 @@ showIdleBark();
 return;
 }
 barkElement.classList.add('is-dismissing');
-window.setTimeout(showIdleBark, 180);
+this.services.scheduler.setTimeout(showIdleBark, 180);
 }, reaction.durationMs);
 }
 private armAutoHint(): void {
 this.clearAutoHintTimer();
 const game = this.activeMatch;
 if (!game || this.matchInputLocked || game.won || game.lost || this.tutorialPromptVisible) return;
-this.autoHintTimer = window.setTimeout(() => {
+this.autoHintTimer = this.services.scheduler.setTimeout(() => {
 this.autoHintTimer = null;
 this.showObjectiveHint('inactivity');
 }, MATCH_AUTO_HINT_DELAY_MS);
@@ -519,7 +519,7 @@ return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 }
 private matchDelay(milliseconds: number): Promise<void> {
 if (milliseconds <= 0) return Promise.resolve();
-return new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+return new Promise((resolve) => this.services.scheduler.setTimeout(resolve, milliseconds));
 }
 private setMatchFeedback(text: string, kind = ''): void {
 const feedback = this.root.querySelector<HTMLElement>('#match-feedback');

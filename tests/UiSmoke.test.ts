@@ -53,7 +53,7 @@ describe('UI controller render smoke', () => {
     const root = new FakeRoot();
     const element = root as unknown as HTMLElement;
     const session = new AppSession(services.store, (message) => services.errorLog.record('application', message));
-    const shell = new AppShell(element, () => undefined);
+    const shell = new AppShell(element, () => undefined, services.scheduler);
     const navigation = {} as AppNavigation;
     const vn = new VnController(element, services, session, shell, navigation);
     const match3 = new Match3Controller(element, services, session, shell, navigation, () => undefined);

@@ -157,6 +157,23 @@ describe('UI architecture boundaries', () => {
     expect(vn).not.toMatch(/(?:Date|performance)\.now\(\)/);
   });
 
+  it('keeps feature timers behind the runtime scheduler contract', () => {
+    const services = sourceFor('src/platform/RuntimeServices.ts');
+    const contract = sourceFor('src/contracts/SchedulerRuntime.ts');
+    const implementation = sourceFor('src/platform/BrowserScheduler.ts');
+    const shell = sourceFor('src/app/AppShell.ts');
+    const match3 = sourceFor('src/features/match3/Match3Controller.ts');
+    const vn = sourceFor('src/features/vn/VnController.ts');
+
+    expect(services).toContain('scheduler: SchedulerRuntime;');
+    expect(contract).toContain('requestFrame(callback: () => void): number;');
+    expect(implementation).toContain('implements SchedulerRuntime');
+    for (const source of [shell, match3, vn]) {
+      expect(source).toContain('scheduler.');
+      expect(source).not.toMatch(/window\.(?:setTimeout|clearTimeout|requestAnimationFrame)\(/);
+    }
+  });
+
   it('keeps application campaign sessions independent from browser RuntimeServices', () => {
     const appSession = sourceFor('src/app/AppSession.ts');
     const match3Session = sourceFor('src/app/Match3CampaignSession.ts');

@@ -1,5 +1,6 @@
 import { viewportDebugEvent } from '../platform/ViewportDebug';
 import { installRapidTapZoomGuard } from '../platform/RapidTapZoomGuard';
+import type { SchedulerRuntime } from '../contracts/SchedulerRuntime';
 
 const persistentShellMarkup = '<div class="viewport-shell" data-viewport-shell="physical"><main class="phone game-viewport" data-game-viewport="compat-edge-to-edge"><div class="app-screen-host" data-screen-host="primary"></div></main></div>';
 const fallbackShellMarkup = (content: string): string => `<div class="viewport-shell" data-viewport-shell="physical"><main class="phone game-viewport" data-game-viewport="compat-edge-to-edge">${content}</main></div>`;
@@ -14,6 +15,7 @@ export class AppShell {
   constructor(
     readonly root: HTMLElement,
     private readonly afterRender: () => void,
+    private readonly scheduler: SchedulerRuntime,
   ) {
     this.resetRapidTapGuard = installRapidTapZoomGuard(root);
   }
@@ -61,16 +63,13 @@ export class AppShell {
   }
 
   clearTimers(): void {
-    if (typeof window !== 'undefined') {
-      for (const timer of this.timers) window.clearTimeout(timer);
-    }
+    for (const timer of this.timers) this.scheduler.clearTimeout(timer);
     this.timers = [];
   }
 
   schedule(callback: () => void, milliseconds: number): number {
-    if (typeof window === 'undefined') return -1;
-    const timer = window.setTimeout(callback, milliseconds);
-    this.timers.push(timer);
+    const timer = this.scheduler.setTimeout(callback, milliseconds);
+    if (timer >= 0) this.timers.push(timer);
     return timer;
   }
 }

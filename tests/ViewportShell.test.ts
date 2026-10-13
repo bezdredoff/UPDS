@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { AppShell } from '../src/app/AppShell';
+import { BrowserScheduler } from '../src/platform/BrowserScheduler';
 import { resolveViewportGeometry, viewportLayoutTokens } from '../src/platform/ViewportRuntime';
 
 class FakeElement {
@@ -72,7 +73,7 @@ describe('ANM-024B shared game viewport shell', () => {
     let afterRenderCount = 0;
     const shell = new AppShell(root as unknown as HTMLElement, () => {
       afterRenderCount += 1;
-    });
+    }, new BrowserScheduler());
 
     shell.render('<section class="screen first">first</section>');
     const persistentScreenHost = root.screenHost;

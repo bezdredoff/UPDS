@@ -15,7 +15,9 @@ import { getSafeStorage, type SafeStorageHandle } from './SafeStorage';
 import type { AudioRuntime } from '../contracts/AudioRuntime';
 import type { ClockRuntime } from '../contracts/ClockRuntime';
 import type { LocalizationRuntime } from '../contracts/LocalizationRuntime';
+import type { SchedulerRuntime } from '../contracts/SchedulerRuntime';
 import { BrowserClock } from './BrowserClock';
+import { BrowserScheduler } from './BrowserScheduler';
 
 export type RuntimeServices = Readonly<{
   storage: SafeStorageHandle;
@@ -25,6 +27,7 @@ export type RuntimeServices = Readonly<{
   assetHealth: AssetHealth;
   audio: AudioRuntime;
   clock: ClockRuntime;
+  scheduler: SchedulerRuntime;
   telemetry: PlaytestTelemetry;
   pwa: PwaController;
   localization: LocalizationRuntime;
@@ -68,6 +71,7 @@ export const createRuntimeServices = (): RuntimeServices => {
     assetHealth: new AssetHealth(),
     audio: new AudioManager(storage.storage, errorLog),
     clock: new BrowserClock(),
+    scheduler: new BrowserScheduler(),
     telemetry,
     pwa,
     localization,
