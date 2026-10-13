@@ -2,7 +2,7 @@ import { BUILD_ID } from '../appVersion';
 import { resolveDisplayMode, resolveRuntimeLane, type RuntimeDisplayMode, type RuntimeLane } from './PlatformIdentity';
 import { viewportDebugEvent, viewportDebugRegistration } from './ViewportDebug';
 import type { ErrorLog } from './ErrorLog';
-import type { PlaytestTelemetry } from './PlaytestTelemetry';
+import type { TelemetryRuntime } from '../contracts/TelemetryRuntime';
 
 export type PwaSnapshot = Readonly<{
   supported: boolean;
@@ -55,7 +55,7 @@ export class PwaController {
   private cacheWarmupRetryCount = 0;
   private cacheWarmupRetryTimer: ReturnType<typeof setTimeout> | null = null;
 
-  constructor(private readonly errorLog: ErrorLog, private readonly telemetry: PlaytestTelemetry) {}
+  constructor(private readonly errorLog: ErrorLog, private readonly telemetry: TelemetryRuntime) {}
 
   snapshot(): PwaSnapshot {
     const supported = typeof navigator !== 'undefined' && 'serviceWorker' in navigator;

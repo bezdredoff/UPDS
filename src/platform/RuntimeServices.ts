@@ -18,6 +18,7 @@ import type { AssetWarmupRuntime } from '../contracts/AssetWarmupRuntime';
 import type { ClockRuntime } from '../contracts/ClockRuntime';
 import type { LocalizationRuntime } from '../contracts/LocalizationRuntime';
 import type { SchedulerRuntime } from '../contracts/SchedulerRuntime';
+import type { TelemetryRuntime } from '../contracts/TelemetryRuntime';
 import { BrowserClock } from './BrowserClock';
 import { BrowserScheduler } from './BrowserScheduler';
 
@@ -31,7 +32,8 @@ export type RuntimeServices = Readonly<{
   audio: AudioRuntime;
   clock: ClockRuntime;
   scheduler: SchedulerRuntime;
-  telemetry: PlaytestTelemetry;
+  telemetry: TelemetryRuntime;
+  playtestTelemetry: PlaytestTelemetry;
   pwa: PwaController;
   localization: LocalizationRuntime;
   localeSettings: LocaleSettingsStore;
@@ -78,6 +80,7 @@ export const createRuntimeServices = (): RuntimeServices => {
     clock: new BrowserClock(),
     scheduler: new BrowserScheduler(),
     telemetry,
+    playtestTelemetry: telemetry,
     pwa,
     localization,
     localeSettings,

@@ -87,7 +87,7 @@ export class AnimeDetectiveApp {
     if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
       window.addEventListener('pagehide', () => {
         if (this.match3.hasActiveMatch) this.match3.endActiveAttempt('abandon', 'pagehide');
-        this.services.telemetry.endSession('pagehide');
+        this.services.playtestTelemetry.endSession('pagehide');
       }, { once: true });
     }
     this.renderMenu();

@@ -1,18 +1,12 @@
 import { APP_VERSION, BUILD_ID } from '../appVersion';
 import type { KeyValueStorage } from '../contracts/KeyValueStorage';
+import type { TelemetryEventName as PlaytestEventName, TelemetryRuntime } from '../contracts/TelemetryRuntime';
+export type { TelemetryEventName as PlaytestEventName } from '../contracts/TelemetryRuntime';
 
 export const PLAYTEST_STORAGE_KEY = 'seiran-detectives-playtest-v2';
 export const PLAYTEST_LEGACY_STORAGE_KEY = 'seiran-detectives-playtest-v1';
 export const PLAYTEST_SCHEMA_VERSION = 2;
 export const PLAYTEST_EVENT_LIMIT = 2500;
-
-export type PlaytestEventName =
-  | 'session_start' | 'session_end' | 'screen_view'
-  | 'vn_line' | 'vn_paging' | 'vn_skip' | 'vn_auto' | 'vn_log_open'
-  | 'choice_selected'
-  | 'match_start' | 'match_move' | 'match_hint' | 'match_tutorial' | 'match_reaction' | 'match_end'
-  | 'vertical_slice_complete'
-  | 'pwa_registered' | 'pwa_offline_ready' | 'pwa_update_available' | 'pwa_update_applied' | 'pwa_installed' | 'connectivity_changed';
 
 export type PlaytestEvent = Readonly<{
   seq: number;
@@ -256,7 +250,7 @@ export const summarizePlaytest = (events: readonly PlaytestEvent[]): PlaytestSum
   };
 };
 
-export class PlaytestTelemetry {
+export class PlaytestTelemetry implements TelemetryRuntime {
   private currentSessionId = sessionId();
   private state: PersistedPlaytest;
   private ended = false;
