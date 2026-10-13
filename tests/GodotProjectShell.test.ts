@@ -14,7 +14,7 @@ describe('Godot port project shell', () => {
 
 	it('pins a stable portrait project entry point and compatible renderer', () => {
 		expect(project).toContain('config/features=PackedStringArray("4.7", "GL Compatibility")');
-		expect(project).toContain('run/main_scene="res://scenes/port_bootstrap.tscn"');
+		expect(project).toContain('run/main_scene="res://scenes/main_menu.tscn"');
 		expect(project).toContain('window/size/viewport_width=480');
 		expect(project).toContain('window/size/viewport_height=854');
 		expect(project).toContain('renderer/rendering_method="gl_compatibility"');
@@ -26,6 +26,6 @@ describe('Godot port project shell', () => {
 		expect(script).toContain('const PORT_STAGE := "project_shell"');
 		expect(smoke).toContain('res://scenes/port_bootstrap.tscn');
 		expect(checkScript).toContain('res://tests/port_bootstrap_smoke.gd');
-		expect(readme).toContain('not a playable game');
+		expect(readme).toContain('first ported screen');
 	});
 });
