@@ -1,0 +1,22 @@
+; Engine configuration file.
+; UPDS Godot port shell. Gameplay scenes are added in subsequent porting steps.
+config_version=5
+
+[application]
+
+config/name="UPDS Godot Port"
+run/main_scene="res://scenes/port_bootstrap.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[display]
+
+window/size/viewport_width=480
+window/size/viewport_height=854
+window/handheld/orientation=1
+window/stretch/mode="canvas_items"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.0352941, 0.0470588, 0.0705882, 1)
