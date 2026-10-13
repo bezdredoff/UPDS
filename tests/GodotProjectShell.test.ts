@@ -8,6 +8,8 @@ describe('Godot port project shell', () => {
 	const project = read('godot/project.godot');
 	const scene = read('godot/scenes/port_bootstrap.tscn');
 	const script = read('godot/scripts/port_bootstrap.gd');
+	const smoke = read('godot/tests/port_bootstrap_smoke.gd');
+	const checkScript = read('godot/check.ps1');
 	const readme = read('godot/README.md');
 
 	it('pins a stable portrait project entry point and compatible renderer', () => {
@@ -22,6 +24,8 @@ describe('Godot port project shell', () => {
 		expect(scene).toContain('path="res://scripts/port_bootstrap.gd"');
 		expect(scene).toContain('UPDS · Godot port shell');
 		expect(script).toContain('const PORT_STAGE := "project_shell"');
+		expect(smoke).toContain('res://scenes/port_bootstrap.tscn');
+		expect(checkScript).toContain('res://tests/port_bootstrap_smoke.gd');
 		expect(readme).toContain('not a playable game');
 	});
 });
