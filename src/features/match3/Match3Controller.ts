@@ -209,7 +209,7 @@ mode: this.runMode,
 seed: this.labRun?.seed ?? null,
 outcome,
 reason,
-durationMs: Math.max(0, Date.now() - this.matchAttemptStartedAt),
+durationMs: Math.max(0, this.services.clock.now() - this.matchAttemptStartedAt),
 movesLeft: game.movesLeft,
 moveBudget: level.moves,
 progress: game.progress,
@@ -264,7 +264,7 @@ this.session.save.attempts[level.id] = attempt;
 this.session.persist();
 this.activeLevelIndex = levelIndex;
 this.activeMatch = new Match3Game(level, level.seed + attempt * 101);
-this.matchAttemptStartedAt = Date.now();
+this.matchAttemptStartedAt = this.services.clock.now();
 this.services.telemetry.track('match_start', { levelId: level.id, levelIndex, attempt, moveBudget: level.moves, narrativeProfile: level.context.narrativeProfile, pageBackground: level.context.pageBackground, boardSurface: level.context.boardSurface, tilePresentationProfile: level.context.tilePresentationProfile });
 this.selectedCell = null;
 this.matchInputLocked = false;
@@ -295,7 +295,7 @@ campaignSession.save.attempts[level.id] = attempt;
 campaignSession.persist();
 this.activeLevelIndex = levelIndex;
 this.activeMatch = new Match3Game(level, level.seed + attempt * 101);
-this.matchAttemptStartedAt = Date.now();
+this.matchAttemptStartedAt = this.services.clock.now();
 this.services.telemetry.track('match_start', {
 levelId: level.id, levelIndex, attempt, mode: 'campaign', moveBudget: level.moves,
 narrativeProfile: level.context.narrativeProfile, pageBackground: level.context.pageBackground,
@@ -325,7 +325,7 @@ const seed = (Number.isFinite(parsedSeed) ? Math.max(0, Math.min(0xffffffff, Mat
 this.labRun = { levelIndex, seed, level, onExit };
 this.activeLevelIndex = levelIndex;
 this.activeMatch = new Match3Game(level, seed);
-this.matchAttemptStartedAt = Date.now();
+this.matchAttemptStartedAt = this.services.clock.now();
 this.services.telemetry.track('match_start', {
 levelId: level.id, levelIndex, attempt: 0, mode: 'lab', seed, moveBudget: level.moves,
 narrativeProfile: level.context.narrativeProfile, pageBackground: level.context.pageBackground,
@@ -715,7 +715,7 @@ return cell && board.contains(cell) ? cell : null;
 };
 board.addEventListener('click', (event) => {
 const cell = eventCell(event.target);
-if (!cell || performance.now() < this.suppressBoardClickUntil) return;
+if (!cell || this.services.clock.now() < this.suppressBoardClickUntil) return;
 const index = Number(cell.dataset.cell);
 if (this.selectedCell === null && this.activeMatch?.isCellBlocked(index)) return;
 this.noteMatchActivity();
@@ -780,7 +780,7 @@ const committed = drag.committed || swipe.committed;
 const targetIndex = drag.committed ? drag.targetIndex : swipe.targetIndex;
 if (!committed) return;
 event.preventDefault();
-this.suppressBoardClickUntil = performance.now() + 500;
+this.suppressBoardClickUntil = this.services.clock.now() + 500;
 this.hintedCells.clear();
 this.selectedCell = null;
 this.lastTappedSpecial = null;
@@ -798,7 +798,7 @@ private handleCell(index: number): void {
 const game = this.activeMatch;
 if (!game || this.matchInputLocked) return;
 this.hintedCells.clear();
-const now = performance.now();
+const now = this.services.clock.now();
 const isSpecial = Boolean(game.board[index]?.special);
 if (
 isSpecial
@@ -951,7 +951,7 @@ lost: result.lost,
 triggered: this.triggeredReactions,
 });
 if (!reaction) return;
-const now = Date.now();
+const now = this.services.clock.now();
 const presentation = resolveMatch3ReactionPresentation(reaction, now, this.reactionPresentedAt.get(reaction.id));
 const telemetryBase = {
 reactionId: reaction.id,

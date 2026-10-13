@@ -259,7 +259,7 @@ export class VnController {
       this.renderHistoryOverlay();
     });
     this.root.querySelector('#next')?.addEventListener('click', (event) => {
-      const now = performance.now();
+      const now = this.services.clock.now();
       const clickCount = event instanceof MouseEvent ? event.detail : 0;
       const repeatedSameControl = event.currentTarget === this.lastAdvanceTapTarget
         && !acceptsVnAdvanceTap(now, this.lastAdvanceTapAt);
