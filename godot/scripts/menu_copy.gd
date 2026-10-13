@@ -12,6 +12,10 @@ const COPY := {
 		"continue": "Continue",
 		"campaign": "Match-3 Campaign",
 		"settings": "Settings",
+		"back": "Back",
+		"language": "Language",
+		"language_help": "Interface language is saved on this device separately from game progress.",
+		"settings_save_error": "Could not save settings. Please try again.",
 		"version": "UPDS · Godot port",
 	},
 	"ru": {
@@ -23,6 +27,10 @@ const COPY := {
 		"continue": "Продолжить",
 		"campaign": "Кампания «три в ряд»",
 		"settings": "Настройки",
+		"back": "Назад",
+		"language": "Язык",
+		"language_help": "Язык интерфейса сохраняется на этом устройстве отдельно от игрового прогресса.",
+		"settings_save_error": "Не удалось сохранить настройки. Попробуйте ещё раз.",
 		"version": "UPDS · порт на Godot",
 	},
 	"be": {
@@ -34,6 +42,10 @@ const COPY := {
 		"continue": "Працягнуць",
 		"campaign": "Кампанія «тры ў шэраг»",
 		"settings": "Налады",
+		"back": "Назад",
+		"language": "Мова",
+		"language_help": "Мова інтэрфейсу захоўваецца на гэтай прыладзе асобна ад гульнявога прагрэсу.",
+		"settings_save_error": "Не ўдалося захаваць налады. Паспрабуйце яшчэ раз.",
 		"version": "UPDS · порт на Godot",
 	},
 }

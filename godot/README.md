@@ -25,5 +25,9 @@ headless smoke test. The editor bridge listens on localhost port 6510 and is int
 for development, not exported builds. Keep this editor open while using Codex Godot
 tools for live scene inspection and runtime interaction.
 
-The main menu currently localizes to English, Russian or Belarusian using the system
-locale. The Continue action remains unavailable until Godot save support is ported.
+The main menu localizes to English, Russian or Belarusian. Settings opens a native
+language selector; the choice is saved separately from campaign progress in
+`user://player_preferences.cfg` and immediately updates the menu. Without a valid
+saved choice the system locale is used. Back or Escape returns to the menu.
+Audio settings and previews remain a subsequent slice. The Continue action remains
+unavailable until Godot save support is ported.
