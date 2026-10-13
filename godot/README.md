@@ -35,7 +35,10 @@ Menu music and preview effects are synthesized locally from the existing web
 definitions; `tests/GodotAudioParity.test.ts` guards their source parity.
 Mute and zero volume stop playback; focus loss stops audio until focus returns.
 Haptics are enabled only on native Android/iOS; hardware verification is pending.
-The Continue action remains unavailable until the Story screen/session is ported.
+New Game opens the first playable prologue (`VN0001–VN0022`), with RU/BE/EN
+copy, approved portraits and VN music. Continue resumes supported prologue
+progress; saves from later scenes remain intact and unavailable until those scenes
+are ported. Replacing existing progress through New Game requires confirmation.
 
 ## Native campaign persistence
 
@@ -44,9 +47,22 @@ manual Story saves, recovery and Story export/import text. The native adapter
 writes URI-encoded logical save keys under `user://campaign_saves` using a
 temporary file and rename. Existing keys and schema versions are preserved.
 Preferences remain in their separate config file; browser storage is not migrated
-automatically. Continue stays disabled until the Story screen/session is ported.
+automatically. Story session persists on advance and retains in-memory progress
+with a visible warning when writes fail.
 
 `node scripts/export-godot-save-fixtures.cjs` regenerates the save contract and
 web-derived parity vectors after relevant web source changes. Vitest guards the
 snapshots; `godot/check.ps1` executes their native counterparts and filesystem
 failure/recovery checks without touching player saves.
+
+## Prologue source and preview
+
+`node scripts/export-godot-prologue.cjs` refreshes the audited prologue content,
+locale/staging snapshot, original art copies and VN audio definitions. Vitest
+guards their parity with the web source. The native reader stops at the available
+fragment boundary without advancing the save into an unported scene.
+
+For isolated visual review, run `tests/vn_preview.tscn` in the editor: campaign
+progress is in memory and player saves remain untouched. The native reader supports
+Next, menu/settings return and keyboard controls; paging/history/auto and the
+following scene/choice/Match-3 flow are subsequent slices.

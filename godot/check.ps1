@@ -52,6 +52,8 @@ Invoke-GodotCheck -Stage 'Audio runtime script parse' -Arguments @('--headless',
 Invoke-GodotCheck -Stage 'Save format script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/save_format.gd')
 Invoke-GodotCheck -Stage 'Save storage script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/save_storage.gd')
 Invoke-GodotCheck -Stage 'Campaign store script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/campaign_store.gd')
+Invoke-GodotCheck -Stage 'Story session script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/story_session.gd')
+Invoke-GodotCheck -Stage 'VN screen script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/vn_screen.gd')
 Invoke-GodotCheck -Stage 'Bootstrap scene smoke test' -ExpectedOutput 'UPDS Godot bootstrap smoke test passed.' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/port_bootstrap_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'Main menu smoke test' -ExpectedOutput 'UPDS Godot main menu smoke test passed (locale:' `
@@ -64,3 +66,5 @@ Invoke-GodotCheck -Stage 'Save format parity' -ExpectedOutput 'UPDS Godot save f
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/save_format_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'Save storage smoke test' -ExpectedOutput 'UPDS Godot save storage smoke test passed.' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/save_storage_smoke.gd', '--quit-after', '120')
+Invoke-GodotCheck -Stage 'VN prologue smoke test' -ExpectedOutput 'UPDS Godot VN prologue smoke test passed.' `
+	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/vn_prologue_smoke.gd', '--quit-after', '120')

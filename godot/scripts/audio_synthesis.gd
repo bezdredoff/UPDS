@@ -5,8 +5,8 @@ const DEFINITIONS = preload("res://data/menu_audio.json")
 const SAMPLE_RATE := 22050
 
 
-static func music() -> AudioStreamWAV:
-	var theme: Dictionary = DEFINITIONS.data.menu
+static func music(scene: String = "menu") -> AudioStreamWAV:
+	var theme: Dictionary = DEFINITIONS.data[scene]
 	var beat := 60.0 / float(theme.bpm)
 	var samples := PackedFloat32Array()
 	samples.resize(ceili(float(theme.beatsPerLoop) * beat * SAMPLE_RATE))

@@ -142,5 +142,132 @@
     "haptic": [
       8
     ]
+  },
+  "vn": {
+    "bpm": 76,
+    "beatsPerLoop": 16,
+    "tones": [
+      {
+        "beat": 0,
+        "frequency": 196,
+        "durationBeats": 3.8,
+        "gain": 0.01501110699893027,
+        "wave": "sine"
+      },
+      {
+        "beat": 0,
+        "frequency": 246.94,
+        "durationBeats": 3.8,
+        "gain": 0.01501110699893027,
+        "wave": "sine"
+      },
+      {
+        "beat": 0,
+        "frequency": 293.66,
+        "durationBeats": 3.8,
+        "gain": 0.01501110699893027,
+        "wave": "sine"
+      },
+      {
+        "beat": 4,
+        "frequency": 220,
+        "durationBeats": 3.8,
+        "gain": 0.01501110699893027,
+        "wave": "sine"
+      },
+      {
+        "beat": 4,
+        "frequency": 261.63,
+        "durationBeats": 3.8,
+        "gain": 0.01501110699893027,
+        "wave": "sine"
+      },
+      {
+        "beat": 4,
+        "frequency": 329.63,
+        "durationBeats": 3.8,
+        "gain": 0.01501110699893027,
+        "wave": "sine"
+      },
+      {
+        "beat": 8,
+        "frequency": 174.61,
+        "durationBeats": 3.8,
+        "gain": 0.014433756729740645,
+        "wave": "sine"
+      },
+      {
+        "beat": 8,
+        "frequency": 220,
+        "durationBeats": 3.8,
+        "gain": 0.014433756729740645,
+        "wave": "sine"
+      },
+      {
+        "beat": 8,
+        "frequency": 293.66,
+        "durationBeats": 3.8,
+        "gain": 0.014433756729740645,
+        "wave": "sine"
+      },
+      {
+        "beat": 12,
+        "frequency": 196,
+        "durationBeats": 3.8,
+        "gain": 0.01501110699893027,
+        "wave": "sine"
+      },
+      {
+        "beat": 12,
+        "frequency": 246.94,
+        "durationBeats": 3.8,
+        "gain": 0.01501110699893027,
+        "wave": "sine"
+      },
+      {
+        "beat": 12,
+        "frequency": 311.13,
+        "durationBeats": 3.8,
+        "gain": 0.01501110699893027,
+        "wave": "sine"
+      },
+      {
+        "beat": 1.5,
+        "frequency": 440,
+        "durationBeats": 0.55,
+        "gain": 0.009,
+        "wave": "sine"
+      },
+      {
+        "beat": 5.5,
+        "frequency": 493.88,
+        "durationBeats": 0.55,
+        "gain": 0.009,
+        "wave": "sine"
+      },
+      {
+        "beat": 9.5,
+        "frequency": 440,
+        "durationBeats": 0.55,
+        "gain": 0.009,
+        "wave": "sine"
+      },
+      {
+        "beat": 13.5,
+        "frequency": 392,
+        "durationBeats": 0.65,
+        "gain": 0.009,
+        "wave": "sine"
+      }
+    ]
+  },
+  "vnAdvance": {
+    "frequencies": [
+      390,
+      520
+    ],
+    "durationMs": 74,
+    "gain": 0.035,
+    "wave": "triangle"
   }
 }

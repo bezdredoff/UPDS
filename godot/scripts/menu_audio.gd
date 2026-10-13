@@ -8,6 +8,8 @@ var effects := AudioStreamPlayer.new()
 var _activated := false
 var _focused := true
 var _haptic_generation := 0
+var _scene := "menu"
+var _music_cache := {}
 var haptics_supported: bool:
 	get:
 		return OS.get_name() in ["Android", "iOS"]
@@ -29,6 +31,15 @@ func _input(event: InputEvent) -> void:
 
 func activate() -> void:
 	_activated = true
+	_apply_settings()
+
+
+func set_scene(scene: String) -> void:
+	if scene == _scene or scene not in ["menu", "vn"]:
+		return
+	_scene = scene
+	music.stop()
+	music.stream = null
 	_apply_settings()
 
 
@@ -89,7 +100,9 @@ func _apply_settings() -> void:
 		music.stop()
 	elif _activated and not music.playing:
 		if music.stream == null:
-			music.stream = Synthesis.music()
+			if not _music_cache.has(_scene):
+				_music_cache[_scene] = Synthesis.music(_scene)
+			music.stream = _music_cache[_scene]
 		music.play()
 
 
