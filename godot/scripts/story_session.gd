@@ -14,8 +14,10 @@ const PoolScene = preload("res://data/pool_scene.json")
 const PostPoolScene = preload("res://data/post_pool_scene.json")
 const OrderedInspectionScene = preload("res://data/ordered_inspection_scene.json")
 const PostOrderedInspectionScene = preload("res://data/post_ordered_inspection_scene.json")
+const EmergencyMeetingScene = preload("res://data/emergency_meeting_scene.json")
+const PostEmergencyMeetingScene = preload("res://data/post_emergency_meeting_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 8
+const MAX_PORTED_SCENE_INDEX := 10
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -109,6 +111,8 @@ func scene_data() -> Dictionary:
 		6: return PostPoolScene.data
 		7: return OrderedInspectionScene.data
 		8: return PostOrderedInspectionScene.data
+		9: return EmergencyMeetingScene.data
+		10: return PostEmergencyMeetingScene.data
 	return {}
 
 
@@ -138,6 +142,7 @@ func advance() -> bool:
 	elif int(scene_data().get("nextSceneIndex", -1)) >= 0 and int(scene_data().get("nextSceneIndex", -1)) <= MAX_PORTED_SCENE_INDEX:
 		state.scene = int(scene_data().nextSceneIndex)
 		state.line = 0
+		_skip_hidden()
 		moved = true
 	persist()
 	changed.emit()
@@ -183,4 +188,8 @@ func _scene_lines() -> Array:
 		return OrderedInspectionScene.data.lines
 	if state.scene == 8:
 		return PostOrderedInspectionScene.data.lines
+	if state.scene == 9:
+		return EmergencyMeetingScene.data.lines
+	if state.scene == 10:
+		return PostEmergencyMeetingScene.data.lines
 	return []

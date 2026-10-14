@@ -1,0 +1,582 @@
+{
+  "sceneId": "VN_SCENE_10_E4_POST",
+  "sceneIndex": 10,
+  "nextSceneId": "VN_SCENE_11_E5_PRE",
+  "nextSceneIndex": 11,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+  "titles": {
+    "ru": "Ритм прачечной",
+    "en": "Laundry Rhythm",
+    "be": "Рытм пральні"
+  },
+  "lines": [
+    {
+      "id": "VN0271",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: LAUNDRY CALENDAR",
+          "text": "После сортировки на доске остаются только подтверждённые заявления и семь отметок центральной прачечной."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "INSERT: LAUNDRY CALENDAR",
+          "text": "After sorting, only verified reports and seven central-laundry marks remain on the board."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: LAUNDRY CALENDAR",
+          "text": "Пасля сартавання на дошцы застаюцца толькі пацверджаныя заявы і сем адзнак цэнтральнай пральні."
+        }
+      }
+    },
+    {
+      "id": "VN0272",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "У ДОСКИ",
+          "text": "Интервал повторяется: обработка, возврат, затем пропажа в пределах одного-двух дней."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "AT THE BOARD",
+          "text": "The interval repeats: processing, return, then disappearance within one or two days."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "КАЛЯ ДОШКІ",
+          "text": "Інтэрвал паўтараецца: апрацоўка, вяртанне, потым знікненне на працягу аднаго-двух дзён."
+        }
+      }
+    },
+    {
+      "id": "VN0273",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-surprised.png",
+          "x": 19,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 51,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 3
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 82,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ВОЗМУЩЁННАЯ",
+          "text": "То есть версия о нескольких независимых фетишистах статистически проиграла прачечной?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "OFFENDED",
+          "text": "So the multiple-independent-fetishists theory just lost statistically to a laundry?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "АБУРАНАЯ",
+          "text": "То бок версія пра некалькіх незалежных фетышыстаў статыстычна прайграла пральні?"
+        }
+      }
+    },
+    {
+      "id": "VN0274",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ТВЁРДАЯ",
+          "text": "Версия проиграла фактам. Прачечная пока только общий маршрут."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "FIRM",
+          "text": "The theory lost to the facts. The laundry is only a shared route for now."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЦВЁРДАЯ",
+          "text": "Версія прайграла фактам. Пральня пакуль толькі агульны маршрут."
+        }
+      }
+    },
+    {
+      "id": "VN0275",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ПРЕДСТАВИТЕЛЬ ТЕННИСА",
+          "emotion": "СОМНЕВАЕТСЯ",
+          "text": "У нас пропал самый обычный запасной комплект. Если кто-то выбирает по вкусу, вкус у него странный."
+        },
+        "en": {
+          "speaker": "TENNIS REPRESENTATIVE",
+          "emotion": "DOUBTFUL",
+          "text": "We lost the most ordinary spare set we had. If someone is choosing by taste, their taste is strange."
+        },
+        "be": {
+          "speaker": "ПРАДСТАЎНІК ТЭНІСА",
+          "emotion": "СУМНЯВАЕЦЦА",
+          "text": "У нас знік самы звычайны запасны камплект. Калі нехта выбірае паводле густу, густ у яго дзіўны."
+        }
+      }
+    },
+    {
+      "id": "VN0276",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "ТИШЕ",
+          "text": "Именно поэтому никакие списки пострадавших не выходят из этой комнаты."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "QUIETER",
+          "text": "Which is exactly why no victim list leaves this room."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "ЦІШЭЙ",
+          "text": "Менавіта таму ніякія спісы пацярпелых не выходзяць з гэтага пакоя."
+        }
+      }
+    },
+    {
+      "id": "VN0277",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВНИМАТЕЛЬНАЯ",
+          "text": "Подтверждена только одна цепочка: спортивный клуб, централизованная стирка и повторяющийся временной ритм."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "ATTENTIVE",
+          "text": "Only three things are confirmed: sports club, central laundry, and a repeating time pattern."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УВАЖЛІВАЯ",
+          "text": "Пацверджана толькі гэта: спартыўны клуб, цэнтральная пральня і паўтаральны часавы рытм."
+        }
+      }
+    },
+    {
+      "id": "VN0278",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_005}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_005}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_005}"
+        }
+      }
+    },
+    {
+      "id": "VN0279",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "С ГРАФИКОМ",
+          "text": "Я всё же оставлю таблицу «тип белья / вероятность исчезновения» как отрицательное доказательство корреляции."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "WITH CHART",
+          "text": "I am still keeping the “underwear type / disappearance probability” table as negative evidence for correlation."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "З ГРАФІКАМ",
+          "text": "Я ўсё ж пакіну табліцу «тып бялізны / верагоднасць знікнення» як адмоўны доказ карэляцыі."
+        }
+      }
+    },
+    {
+      "id": "VN0280",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ПРЕДСТАВИТЕЛЬ КЭНДО",
+          "emotion": "СУХО",
+          "text": "А треугольник?"
+        },
+        "en": {
+          "speaker": "KENDO REPRESENTATIVE",
+          "emotion": "DRY",
+          "text": "And the triangle?"
+        },
+        "be": {
+          "speaker": "ПРАДСТАЎНІК КЭНДО",
+          "emotion": "СУХА",
+          "text": "А трохвугольнік?"
+        }
+      }
+    },
+    {
+      "id": "VN0281",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ЗАКРЫВАЕТ ПРОЕКТОР",
+          "text": "Треугольник особенно останется внутри комнаты."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "SHUTS OFF PROJECTOR",
+          "text": "The triangle is especially staying inside this room."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ВЫКЛЮЧАЕ ПРАЕКТАР",
+          "text": "Трохвугольнік тым больш застанецца ў гэтым пакоі."
+        }
+      }
+    },
+    {
+      "id": "VN0282",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "С УЛЫБКОЙ",
+          "text": "История потеряла призрака, но получила расписание. Я учусь ценить взрослые компромиссы."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "WITH A SMILE",
+          "text": "The story lost a ghost and gained a schedule. I am learning to appreciate adult compromises."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "З УСМЕШКАЙ",
+          "text": "Гісторыя страціла прывіда, але атрымала расклад. Я вучуся цаніць дарослыя кампрамісы."
+        }
+      }
+    },
+    {
+      "id": "VN0283",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "ВЕЖЛИВО-НАПРЯЖЁННАЯ",
+          "text": "Цени их молча."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "POLITE, TENSE",
+          "text": "Appreciate them quietly."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "ВЕТЛІВА-НАПРУЖАНАЯ",
+          "text": "Цані іх моўчкі."
+        }
+      }
+    },
+    {
+      "id": "VN0284",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "SFX: MESSAGE",
+          "text": "Телефон Маю вибрирует. На экране — сообщение от капитана баскетбольной команды."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "SFX: MESSAGE",
+          "text": "Mayu’s phone vibrates. A message from the basketball captain appears on screen."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "SFX: MESSAGE",
+          "text": "Тэлефон Маю вібруе. На экране — паведамленне ад капітана баскетбольнай каманды."
+        }
+      }
+    },
+    {
+      "id": "VN0285",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "ЧИТАЕТ",
+          "text": "«Пропал комплект из закрытого командного шкафа. Он покидал шкаф только в день централизованной стирки»."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "READS",
+          "text": "“A set disappeared from a locked team cabinet. It left the cabinet only on central-laundry day.”"
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "ЧЫТАЕ",
+          "text": "«Знік камплект з закрытай каманднай шафы. Ён пакідаў шафу толькі ў дзень цэнтралізаванага мыцця»."
+        }
+      }
+    },
+    {
+      "id": "VN0286",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "РЕШИТЕЛЬНАЯ",
+          "text": "Тогда у нас есть случай, где можно проверить маршрут почти без посторонних переменных."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "DETERMINED",
+          "text": "Then we have a case where we can test the route with almost no extra variables."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "РАШУЧАЯ",
+          "text": "Тады ў нас ёсць выпадак, дзе можна праверыць маршрут амаль без старонніх зменных."
+        }
+      }
+    },
+    {
+      "id": "VN0287",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СОСРЕДОТОЧЕННАЯ",
+          "text": "Следующая точка — баскетбольная раздевалка. Сначала шкаф, потом люди."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "FOCUSED",
+          "text": "Next stop: the basketball locker room. Cabinet first, people second."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАСЯРОДЖАНАЯ",
+          "text": "Наступны пункт — баскетбольная распранальня. Спачатку шафа, потым людзі."
+        }
+      }
+    },
+    {
+      "id": "VN0288",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпизод 5 — Заслон для вора»"
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "EPISODE CARD",
+          "text": "“Episode 5 — Blocking the Thief”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпізод 5 — Заслон для злодзея»"
+        }
+      }
+    }
+  ]
+}
