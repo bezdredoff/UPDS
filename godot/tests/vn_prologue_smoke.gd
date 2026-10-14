@@ -84,6 +84,10 @@ func _run() -> void:
 	var idle_portrait: TextureRect = screen.stage.get_child(0)
 	assert(idle_portrait.get_global_rect().end.y > screen.dialogue_panel.position.y,
 		"The portrait must continue underneath the overlayed VN dialogue card")
+	assert(screen._portrait_should_breathe("./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"),
+		"Rig portraits should retain the source idle-breathe animation")
+	assert(not screen._portrait_should_breathe("./assets/characters/ayuki/poses/pose_b_phone_theory.png"),
+		"Authored prop poses should remain still like the source static portrait wrapper")
 	assert(screen.nameplate.size.x >= 180.0 and screen.nameplate.size.x < screen.dialogue_panel.size.x,
 		"The dialogue nameplate must keep its compact horizontal shape")
 	var resting_position := idle_portrait.position

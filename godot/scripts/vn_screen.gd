@@ -374,7 +374,8 @@ func _refresh() -> void:
 		stage.add_child(portrait)
 		portrait.resized.connect(func() -> void: _portrait_width(portrait))
 		_portrait_width(portrait)
-		_animate_portrait(portrait, stage.size.y * height * 0.0035)
+		if _portrait_should_breathe(str(actor.asset)):
+			_animate_portrait(portrait, stage.size.y * height * 0.0035)
 	if _boundary and not _gate_requested:
 		_gate_requested = true
 		match3_requested.emit(str(session.scene_data().get("nextLevelId", "")))
@@ -385,6 +386,10 @@ func _portrait_width(portrait: TextureRect) -> void:
 	var width := portrait.size.y * 1024.0 / 1536.0
 	portrait.offset_left = -width / 2.0
 	portrait.offset_right = width / 2.0
+
+
+func _portrait_should_breathe(asset_path: String) -> bool:
+	return not asset_path.contains("/poses/pose_b_")
 
 
 func _set_background(asset_path: String) -> void:
