@@ -38,8 +38,10 @@ const KuboAtelierScene = preload("res://data/kubo_atelier_scene.json")
 const PostKuboAtelierScene = preload("res://data/post_kubo_atelier_scene.json")
 const AbandonedLaundryScene = preload("res://data/abandoned_laundry_scene.json")
 const PostAbandonedLaundryScene = preload("res://data/post_abandoned_laundry_scene.json")
+const PinkRibbonScannerScene = preload("res://data/pink_ribbon_scanner_scene.json")
+const PostPinkRibbonScannerScene = preload("res://data/post_pink_ribbon_scanner_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 32
+const MAX_PORTED_SCENE_INDEX := 34
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -167,6 +169,8 @@ func scene_data() -> Dictionary:
 		30: return PostKuboAtelierScene.data
 		31: return AbandonedLaundryScene.data
 		32: return PostAbandonedLaundryScene.data
+		33: return PinkRibbonScannerScene.data
+		34: return PostPinkRibbonScannerScene.data
 	return {}
 
 
@@ -299,4 +303,8 @@ func _scene_lines() -> Array:
 		return AbandonedLaundryScene.data.lines
 	if state.scene == 32:
 		return PostAbandonedLaundryScene.data.lines
+	if state.scene == 33:
+		return PinkRibbonScannerScene.data.lines
+	if state.scene == 34:
+		return PostPinkRibbonScannerScene.data.lines
 	return []

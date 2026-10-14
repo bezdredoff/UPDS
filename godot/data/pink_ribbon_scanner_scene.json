@@ -1,0 +1,564 @@
+{
+  "sceneId": "VN_SCENE_33_E16_PRE",
+  "sceneIndex": 33,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_16_PINK_RIBBON_SCANNER",
+  "onWinSceneIndex": 34,
+  "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+  "titles": {
+    "ru": "Розовые ленты не лгут",
+    "en": "Pink Ribbons Do Not Lie",
+    "be": "Ружовыя стужкі не хлусяць"
+  },
+  "lines": [
+    {
+      "id": "VN0727",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "BG_GYMNASTICS_COSTUME / ESTABLISHING",
+          "text": "Зал художественной гимнастики после тренировки. На полу тянутся розовые ленты, у костюмерной открыты два пустых сервисных пакета."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "BG_GYMNASTICS_COSTUME / ESTABLISHING",
+          "text": "The rhythmic-gymnastics hall after practice. Pink ribbons trail across the floor and two empty service bags sit open by wardrobe."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "BG_GYMNASTICS_COSTUME / ESTABLISHING",
+          "text": "Зала мастацкай гімнастыкі пасля трэніроўкі. Па падлозе цягнуцца ружовыя стужкі, каля касцюмернай адкрыты два пустыя сэрвісныя пакеты."
+        }
+      }
+    },
+    {
+      "id": "VN0728",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГИМНАСТКА",
+          "emotion": "РАЗДРАЖЁННО",
+          "text": "Ленты нашлись. Два комплекта белья — нет. И я отказываюсь объяснять администрации, почему это снова звучит как сюжет вашего клуба."
+        },
+        "en": {
+          "speaker": "GYMNAST",
+          "emotion": "BEAT",
+          "text": "The ribbons turned up. Two underwear sets did not. And I refuse to explain to administration why this sounds like your club again."
+        },
+        "be": {
+          "speaker": "ГІМНАСТКА",
+          "emotion": "РАЗДРАЖНЁНА",
+          "text": "Стужкі знайшліся. Два камплекты бялізны — не. І я адмаўляюся тлумачыць адміністрацыі, чаму гэта зноў гучыць як сюжэт вашага клуба."
+        }
+      }
+    },
+    {
+      "id": "VN0729",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПОДНИМАЕТ ЛЕНТУ",
+          "text": "Розовые ленты не лгут. Обычно они просто очень выразительно путаются."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Pink ribbons do not lie. They usually just get tangled with exceptional dramatic commitment."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПАДЫМАЕ СТУЖКУ",
+          "text": "Ружовыя стужкі не хлусяць. Звычайна яны проста вельмі выразна заблытваюцца."
+        }
+      }
+    },
+    {
+      "id": "VN0730",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРОВЕРЯЕТ СПИСОК",
+          "text": "Пропали вещи двух участниц пилота Second Skin. Ленты в списке имущества есть, но к пилоту не относятся."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "The missing items belong to two Second Skin pilot participants. The ribbons are in the inventory, but not in the pilot."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРАВЯРАЕ СПІС",
+          "text": "Зніклі рэчы дзвюх удзельніц пілота Second Skin. Стужкі ёсць у спісе маёмасці, але да пілота не адносяцца."
+        }
+      }
+    },
+    {
+      "id": "VN0731",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "GUEST TESTIMONY / VINCENT",
+          "text": "Из костюмерной выходит Винсент Мори с набором игл, эластичной лентой и прозрачным пакетом спортивной формы."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "GUEST TESTIMONY / VINCENT",
+          "text": "Vincent Mori steps out of wardrobe carrying needles, elastic tape, and a clear bag of sports garments."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "GUEST TESTIMONY / VINCENT",
+          "text": "З касцюмернай выходзіць Вінсент Моры з наборам іголак, эластычнай стужкай і празрыстым пакетам спартыўнай формы."
+        }
+      }
+    },
+    {
+      "id": "VN0732",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ВИНСЕНТ",
+          "emotion": "РАЗДРАЖЁННО",
+          "text": "Я чиню сценические костюмы и поддерживающие элементы. Потому что половина людей здесь умеет растянуть эластичную ткань, но не умеет вернуть ей форму."
+        },
+        "en": {
+          "speaker": "VINCENT",
+          "emotion": "BEAT",
+          "text": "I repair stage costumes and support structures because half the people here can stretch elastic fabric but cannot return it to shape."
+        },
+        "be": {
+          "speaker": "ВІНСЕНТ",
+          "emotion": "РАЗДРАЖНЁНА",
+          "text": "Я рамантую сцэнічныя касцюмы і падтрымліваючыя элементы. Бо палова людзей тут умее расцягнуць эластычную тканіну, але не ўмее вярнуць ёй форму."
+        }
+      }
+    },
+    {
+      "id": "VN0733",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ХИХИКАЕТ",
+          "text": "Поддерживающие элементы."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Support structures."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ХІХІКАЕ",
+          "text": "Падтрымліваючыя элементы."
+        }
+      }
+    },
+    {
+      "id": "VN0734",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ВИНСЕНТ",
+          "emotion": "СМОТРИТ НА НЕЁ",
+          "text": "Кто из нас здесь взрослый?"
+        },
+        "en": {
+          "speaker": "VINCENT",
+          "emotion": "BEAT",
+          "text": "Which one of us is supposed to be the adult here?"
+        },
+        "be": {
+          "speaker": "ВІНСЕНТ",
+          "emotion": "ГЛЯДЗІЦЬ НА ЯЕ",
+          "text": "Хто з нас тут дарослы?"
+        }
+      }
+    },
+    {
+      "id": "VN0735",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПОСЛЕ ПАУЗЫ",
+          "text": "Справедливый вопрос. Продолжайте."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Fair question. Please continue."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПАСЛЯ ПАЎЗЫ",
+          "text": "Справядлівае пытанне. Працягвайце."
+        }
+      }
+    },
+    {
+      "id": "VN0736",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ВИНСЕНТ",
+          "emotion": "ПОКАЗЫВАЕТ ШОВ",
+          "text": "На лентах я восстанавливал край. На спортивных топах — распределение нагрузки. Серебристую нить я не добавлял."
+        },
+        "en": {
+          "speaker": "VINCENT",
+          "emotion": "BEAT",
+          "text": "I repaired the ribbon edge and load distribution on the sports tops. I did not add the silver thread."
+        },
+        "be": {
+          "speaker": "ВІНСЕНТ",
+          "emotion": "ПАКАЗВАЕ ШВО",
+          "text": "На стужках я аднаўляў край. На спартыўных топах — размеркаванне нагрузкі. Серабрыстую нітку я не дадаваў."
+        }
+      }
+    },
+    {
+      "id": "VN0737",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НА ПАКЕТ",
+          "text": "Почему эти вещи у вас?"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Then why do you have these items?"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НА ПАКЕТ",
+          "text": "Чаму гэтыя рэчы ў вас?"
+        }
+      }
+    },
+    {
+      "id": "VN0738",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ВИНСЕНТ",
+          "emotion": "СУХО",
+          "text": "Три вещи принесли на ремонт. В пакете сейчас пять. Если вы хотите подозревать меня, начните хотя бы с арифметики."
+        },
+        "en": {
+          "speaker": "VINCENT",
+          "emotion": "BEAT",
+          "text": "Three items were brought for repair. There are five in the bag now. If you want to suspect me, at least begin with arithmetic."
+        },
+        "be": {
+          "speaker": "ВІНСЕНТ",
+          "emotion": "СУХА",
+          "text": "Тры рэчы прынеслі на рамонт. У пакеце цяпер пяць. Калі хочаце падазраваць мяне, пачніце хаця б з арыфметыкі."
+        }
+      }
+    },
+    {
+      "id": "VN0739",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГИМНАСТКА",
+          "emotion": "ПОДТВЕРЖДАЕТ",
+          "text": "Три — наши костюмные ремонты. Два лишних комплекта появились после тренировки."
+        },
+        "en": {
+          "speaker": "GYMNAST",
+          "emotion": "BEAT",
+          "text": "Three are our costume repairs. The two extra sets appeared after practice."
+        },
+        "be": {
+          "speaker": "ГІМНАСТКА",
+          "emotion": "ПАЦВЯРДЖАЕ",
+          "text": "Тры — нашы касцюмныя рамонты. Два лішнія камплекты з'явіліся пасля трэніроўкі."
+        }
+      }
+    },
+    {
+      "id": "VN0740",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМОТРИТ НА ЯРЛЫКИ",
+          "text": "На двух лишних одинаковая серебристая отметка рядом с сервисным кодом."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "The two extra items have the same silver mark beside the service code."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ГЛЯДЗІЦЬ НА БІРКІ",
+          "text": "На двух лішніх аднолькавая серабрыстая пазнака побач з сэрвісным кодам."
+        }
+      }
+    },
+    {
+      "id": "VN0741",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ВИНСЕНТ",
+          "emotion": "СЕРЬЁЗНЕЕТ",
+          "text": "Тогда не трогайте шов. У нас есть ручной сканер проводящих элементов."
+        },
+        "en": {
+          "speaker": "VINCENT",
+          "emotion": "BEAT",
+          "text": "Then do not touch the seam. We have a handheld scanner for conductive elements."
+        },
+        "be": {
+          "speaker": "ВІНСЕНТ",
+          "emotion": "СТАНОВІЦЦА СУР'ЁЗНЕЙ",
+          "text": "Тады не чапайце шво. У нас ёсць ручны сканер праводных элементаў."
+        }
+      }
+    },
+    {
+      "id": "VN0742",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-surprised.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "УДИВЛЕНА",
+          "text": "В костюмерной?"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "In wardrobe?"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗДЗІЎЛЕНАЯ",
+          "text": "У касцюмернай?"
+        }
+      }
+    },
+    {
+      "id": "VN0743",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ВИНСЕНТ",
+          "emotion": "ОТКРЫВАЕТ ФУТЛЯР",
+          "text": "Сценические костюмы тоже бывают с датчиками. Техника не становится менее техникой только потому, что на ней блёстки."
+        },
+        "en": {
+          "speaker": "VINCENT",
+          "emotion": "BEAT",
+          "text": "Stage costumes can carry sensors too. Technology does not stop being technology because it has sequins on it."
+        },
+        "be": {
+          "speaker": "ВІНСЕНТ",
+          "emotion": "АДКРЫВАЕ ФУТЛЯР",
+          "text": "Сцэнічныя касцюмы таксама бываюць з датчыкамі. Тэхніка не перастае быць тэхнікай толькі таму, што на ёй бліскаўкі."
+        }
+      }
+    },
+    {
+      "id": "VN0744",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФОРМУЛИРУЕТ",
+          "text": "Распутываем ленты, проверяем комплекты и читаем только сервисные ярлыки. Потом сравниваем протокол и время активации."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Untangle the ribbons, check the sets, and read only the service tags. Then compare protocol and activation time."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФАРМУЛЮЕ",
+          "text": "Разблытваем стужкі, правяраем камплекты і чытаем толькі сэрвісныя біркі. Потым параўноўваем пратакол і час актывацыі."
+        }
+      }
+    },
+    {
+      "id": "VN0745",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Ленты перекрывают центральные линии, сервисные бирки смешаны с костюмными карточками, сканер лежит в верхнем футляре."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Ribbons cross the central lanes, service tags are mixed with costume cards, and the scanner rests in the upper case."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Стужкі перакрываюць цэнтральныя лініі, сэрвісныя біркі змяшаныя з касцюмнымі карткамі, сканер ляжыць у верхнім футарале."
+        }
+      }
+    },
+    {
+      "id": "VN0746",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Поле собирается в сигнальный крест: убрать ленточные узлы, собрать коды меток и опустить ручной сканер."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "The board forms a signal cross: clear ribbon tangles, collect tag codes, and drop the handheld scanner."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Поле складаецца ў сігнальны крыж: прыбраць вузлы стужак, сабраць коды метак і апусціць ручны сканер."
+        }
+      }
+    }
+  ]
+}

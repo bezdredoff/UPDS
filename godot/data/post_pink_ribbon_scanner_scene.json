@@ -1,0 +1,614 @@
+{
+  "sceneId": "VN_SCENE_34_E16_POST",
+  "sceneIndex": 34,
+  "nextSceneId": "VN_SCENE_35_E17_PRE",
+  "nextSceneIndex": 35,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "choiceGate": {
+    "id": "trust-vincent",
+    "checkpointLineId": "VN0756",
+    "prompt": {
+      "ru": "Насколько открыть Винсенту технический результат сканера?",
+      "en": "How much of the scanner result should Vincent see?",
+      "be": "Наколькі адкрыць Вінсенту тэхнічны вынік сканера?"
+    },
+    "choices": {
+      "A": {
+        "ru": {
+          "title": "Показать полный лог Second Skin",
+          "effect": "Доверие источника +1 · Винсент даёт техническую деталь SS-EDGE"
+        },
+        "en": {
+          "title": "Show the full Second Skin log",
+          "effect": "Source Trust +1 · Vincent provides the SS-EDGE technical detail"
+        },
+        "be": {
+          "title": "Паказаць поўны журнал Second Skin",
+          "effect": "Давер да крыніцы +1 · Вінсент дае тэхнічную дэталь SS-EDGE"
+        }
+      },
+      "B": {
+        "ru": {
+          "title": "Показать только время активации",
+          "effect": "Осторожность +1 · результат остаётся проверяемым"
+        },
+        "en": {
+          "title": "Show only the activation time",
+          "effect": "Caution +1 · the result remains independently verifiable"
+        },
+        "be": {
+          "title": "Паказаць толькі час актывацыі",
+          "effect": "Асцярожнасць +1 · вынік застаецца правяральным"
+        }
+      },
+      "C": {
+        "ru": {
+          "title": "Сохранить имя протокола внутри клуба",
+          "effect": "Оноэ +1 · источник раскрывается минимально"
+        },
+        "en": {
+          "title": "Keep the protocol name inside the club",
+          "effect": "Onoe +1 · minimum source exposure"
+        },
+        "be": {
+          "title": "Захаваць назву пратакола ўнутры клуба",
+          "effect": "Оноэ +1 · крыніца раскрываецца мінімальна"
+        }
+      }
+    }
+  },
+  "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+  "titles": {
+    "ru": "Активация после Рины",
+    "en": "Activation After Rina",
+    "be": "Актывацыя пасля Рыны"
+  },
+  "lines": [
+    {
+      "id": "VN0747",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: SCANNER RESULT",
+          "text": "Сканер читает знакомый пакет данных. На экране появляется внутреннее имя протокола: SECOND SKIN."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: SCANNER RESULT",
+          "text": "The scanner reads a familiar data packet. The internal protocol name appears on screen: SECOND SKIN."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: SCANNER RESULT",
+          "text": "Сканер чытае знаёмы пакет даных. На экране з'яўляецца ўнутраная назва пратакола: SECOND SKIN."
+        }
+      }
+    },
+    {
+      "id": "VN0748",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СРАВНИВАЕТ",
+          "text": "Формат тот же, что у метки из старого спортзала."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Same format as the tag from the old gym."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАРАЎНОЎВАЕ",
+          "text": "Фармат той жа, што ў меткі са старой спартыўнай залы."
+        }
+      }
+    },
+    {
+      "id": "VN0749",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ВИНСЕНТ",
+          "emotion": "ПОКАЗЫВАЕТ ВРЕМЯ",
+          "text": "Но эта метка активировалась сегодня в 17:54. Лог свежий."
+        },
+        "en": {
+          "speaker": "VINCENT",
+          "emotion": "BEAT",
+          "text": "But this tag activated today at 17:54. The log is fresh."
+        },
+        "be": {
+          "speaker": "ВІНСЕНТ",
+          "emotion": "ПАКАЗВАЕ ЧАС",
+          "text": "Але гэтая метка актывавалася сёння а 17:54. Журнал свежы."
+        }
+      }
+    },
+    {
+      "id": "VN0750",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "НАПРЯЖЁННО",
+          "text": "Рина уже несколько дней не выходит на обычные смены и потеряла доступ к сервисным зонам."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Rina has been off regular shifts for days and lost access to the service areas."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "НАПРУЖАНА",
+          "text": "Рына ўжо некалькі дзён не выходзіць на звычайныя змены і страціла доступ да сэрвісных зон."
+        }
+      }
+    },
+    {
+      "id": "VN0751",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГИМНАСТКА",
+          "emotion": "ВСПОМИНАЕТ",
+          "text": "В 17:30 оба комплекта ещё были в раздевалке. Я сама убирала форму."
+        },
+        "en": {
+          "speaker": "GYMNAST",
+          "emotion": "BEAT",
+          "text": "Both sets were still in the locker room at 17:30. I put the practice gear away myself."
+        },
+        "be": {
+          "speaker": "ГІМНАСТКА",
+          "emotion": "УСПАМІНАЕ",
+          "text": "А 17:30 абодва камплекты яшчэ былі ў распранальні. Я сама прыбірала форму."
+        }
+      }
+    },
+    {
+      "id": "VN0752",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "БЕЗ ШУТОК",
+          "text": "То есть новая метка и новая пропажа случились уже без Рины."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "So the new tag and the new disappearance happened after Rina was out of the route."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "БЕЗ ЖАРТАЎ",
+          "text": "Значыць, новая метка і новая прапажа адбыліся ўжо без Рыны."
+        }
+      }
+    },
+    {
+      "id": "VN0753",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 18,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФИКСИРУЕТ",
+          "text": "Программа продолжается независимо от её текущих действий."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "The program is continuing independently of her current actions."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФІКСУЕ",
+          "text": "Праграма працягваецца незалежна ад яе цяперашніх дзеянняў."
+        }
+      }
+    },
+    {
+      "id": "VN0754",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_017}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_017}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_017}"
+        }
+      }
+    },
+    {
+      "id": "VN0755",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ВИНСЕНТ",
+          "emotion": "СМОТРИТ НА ТРОИЦУ",
+          "text": "Теперь объясните, почему вы узнали название протокола раньше меня."
+        },
+        "en": {
+          "speaker": "VINCENT",
+          "emotion": "BEAT",
+          "text": "Now explain why you recognized the protocol name before I did."
+        },
+        "be": {
+          "speaker": "ВІНСЕНТ",
+          "emotion": "ГЛЯДЗІЦЬ НА ТРОІЦУ",
+          "text": "Цяпер растлумачце, чаму вы даведаліся назву пратакола раней за мяне."
+        }
+      }
+    },
+    {
+      "id": "VN0756",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE trust-vincent}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE trust-vincent}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE trust-vincent}"
+        }
+      }
+    },
+    {
+      "id": "VN0757",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПОСЛЕ ВЫБОРА",
+          "text": "Что бы мы ни раскрыли Винсенту, сам лог остаётся уликой. Разница только в том, насколько открыто мы делимся источниками."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Whatever we disclose to Vincent, the log remains evidence. The difference is how openly we share our sources."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПАСЛЯ ВЫБАРУ",
+          "text": "Што б мы ні раскрылі Вінсенту, сам журнал застаецца доказам. Розніца толькі ў тым, наколькі адкрыта мы дзелімся крыніцамі."
+        }
+      }
+    },
+    {
+      "id": "VN0758",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ВИНСЕНТ",
+          "emotion": "ПОКАЗЫВАЕТ ТЕХДЕТАЛЬ",
+          "text": "Смотрите на префикс SS-EDGE. Сканер уловил не только сигнал метки, но и ответ ближайшего ретранслятора. Значит, метка не автономная и не пассивная."
+        },
+        "en": {
+          "speaker": "VINCENT",
+          "emotion": "BEAT",
+          "text": "Look at the SS-EDGE prefix. The scanner picked up not just the tag’s signal, but a reply from the nearest relay. The tag isn’t autonomous or passive."
+        },
+        "be": {
+          "speaker": "ВІНСЕНТ",
+          "emotion": "ПАКАЗВАЕ ТЭХДЭТАЛЬ",
+          "text": "Глядзіце на прэфікс SS-EDGE. Сканер злавіў не толькі сігнал меткі, але і адказ найбліжэйшага рэтранслятара. Значыць, метка не аўтаномная і не пасіўная."
+        }
+      }
+    },
+    {
+      "id": "VN0759",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОНИМАЕТ",
+          "text": "Значит, инфраструктура Second Skin всё ещё отвечает на кампусе."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Then Second Skin infrastructure is still responding on campus."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "РАЗУМЕЕ",
+          "text": "Значыць, інфраструктура Second Skin усё яшчэ адказвае на кампусе."
+        }
+      }
+    },
+    {
+      "id": "VN0760",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "КЛЮЧ ПОД ФУТЛЯРОМ",
+          "text": "Винсент снимает футляр сканера со стола. Под ним обнаруживается небольшой латунный ключ."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "CASE CLOSE",
+          "text": "Vincent closes the scanner case. A small brass key falls from an inner pocket."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "CASE CLOSE",
+          "text": "Вінсент закрывае футляр сканера. З унутранай кішэні выпадае маленькі латунны ключ."
+        }
+      }
+    },
+    {
+      "id": "VN0761",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ВИНСЕНТ",
+          "emotion": "СРАЗУ",
+          "text": "Не мой. И когда я ставил футляр, ключа там не было."
+        },
+        "en": {
+          "speaker": "VINCENT",
+          "emotion": "BEAT",
+          "text": "Not mine. And I did not open that pocket today."
+        },
+        "be": {
+          "speaker": "ВІНСЕНТ",
+          "emotion": "АДРАЗУ",
+          "text": "Не мой. І гэтую кішэню я сёння не адкрываў."
+        }
+      }
+    },
+    {
+      "id": "VN0762",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: RINA NOTE",
+          "text": "К ключу приклеена короткая записка: «Если готовы увидеть всё — старый архив, 22:00. Рина»."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: RINA NOTE",
+          "text": "A short note is taped to the key: “If you are ready to see everything — old archive, 22:00. Rina.”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: RINA NOTE",
+          "text": "Да ключа прылепленая кароткая запіска: «Калі гатовыя ўбачыць усё — стары архіў, 22:00. Рына»."
+        }
+      }
+    },
+    {
+      "id": "VN0763",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СВЕРЯЕТ",
+          "text": "Старый архив находится в том же закрытом корпусе, куда нас привёл Рэй."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "The old archive is in the same closed building Ray led us to."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗВЯРАЕ",
+          "text": "Стары архіў знаходзіцца ў тым жа закрытым корпусе, куды нас прывёў Рэй."
+        }
+      }
+    },
+    {
+      "id": "VN0764",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "РЕШИТЕЛЬНО",
+          "text": "Тогда в 22:00 мы узнаем, что именно Рина сохраняла и от кого."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Then at 22:00 we find out what Rina was preserving, and from whom."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "РАШУЧА",
+          "text": "Тады а 22:00 мы даведаемся, што менавіта Рына захоўвала і ад каго."
+        }
+      }
+    },
+    {
+      "id": "VN0765",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпизод 17 — Самый аккуратный преступник»"
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "EPISODE CARD",
+          "text": "“Episode 17 — The Neatest Criminal”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпізод 17 — Самы акуратны злачынец»"
+        }
+      }
+    }
+  ]
+}
