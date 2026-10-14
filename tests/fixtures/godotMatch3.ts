@@ -8,6 +8,7 @@ import {
   tilePresentation,
 } from '../../src/data/levels';
 import { Match3Game } from '../../src/engine/Match3Game';
+import { match3TutorialConceptIds } from '../../src/data/match3Tutorials';
 import { godotM3Evidence } from './godotPrologue';
 import { beCatalog } from '../../src/localization/catalogs/be';
 import { enCatalog } from '../../src/localization/catalogs/en';
@@ -28,6 +29,7 @@ export function godotCampaignLevel(level: (typeof levels)[number]) {
     rows: level.boardSize?.rows ?? 8,
     columns: level.boardSize?.columns ?? 8,
     moves: level.moves,
+    tutorialConcepts: level.tutorialConcepts,
     activeTiles: level.activeTiles,
     spawnWeights: level.spawnWeights ?? {},
     boardHoles: level.boardHoles ?? [],
@@ -99,6 +101,13 @@ export function godotCampaignBundle() {
       attempts: catalog['match3Campaign.attempts'], best: catalog['match3Campaign.best'],
       replay: catalog['match3Campaign.replay'], play: catalog['match3Campaign.play'],
       back: catalog['common.back'],
+    }])),
+    tutorials: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
+      try: catalog['match3.tutorial.try'],
+      concepts: Object.fromEntries(match3TutorialConceptIds.map((concept) => [concept, {
+        title: catalog[`match3.tutorial.${concept}.title`],
+        body: catalog[`match3.tutorial.${concept}.body`],
+      }])),
     }])),
     assets: {
       tiles: tileAssets,

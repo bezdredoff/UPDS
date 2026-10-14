@@ -28,6 +28,8 @@ var match3_session: RefCounted
 var confirmation := ConfirmationDialog.new()
 var status: Label
 var _settings_from_story := false
+var _settings_from_match3 := false
+var _settings_from_campaign := false
 
 
 func _ready() -> void:
@@ -95,7 +97,9 @@ func _refresh_copy(locale: String) -> void:
 
 
 func _update_continue() -> void:
-	$Content/Actions/Continue.disabled = not session.has_progress() or not session.supports_position()
+	var continue_button: Button = $Content/Actions/Continue
+	continue_button.disabled = not session.has_progress() or not session.supports_position()
+	continue_button.modulate = Color(1, 1, 1, 0.38) if continue_button.disabled else Color.WHITE
 	if status == null:
 		return
 	status.text = ""
@@ -178,6 +182,10 @@ func _open_match3_level(level_id: String, standalone_campaign: bool) -> void:
 	match3_screen.level_id = level_id
 	match3_screen.campaign_mode = standalone_campaign
 	match3_screen.story_requested.connect(_close_match3)
+	match3_screen.clue_awarded.connect(_set_pending_story_clue)
+	match3_screen.campaign_next_requested.connect(_start_next_campaign_level)
+	match3_screen.settings_requested.connect(_open_settings_from_match3)
+	match3_screen.dossier_requested.connect(_open_dossier_from_match3)
 	if is_instance_valid(story_screen):
 		story_screen.hide()
 	if is_instance_valid(match3_campaign_screen): match3_campaign_screen.hide()
@@ -205,7 +213,12 @@ func _close_match3() -> void:
 		audio_runtime.set_scene("menu")
 	elif is_instance_valid(story_screen):
 		story_screen.show()
+		story_screen.call("_refresh")
 		audio_runtime.set_scene("vn")
+
+
+func _set_pending_story_clue(clue_id: String) -> void:
+	if is_instance_valid(story_screen): story_screen.call("set_pending_clue", clue_id)
 
 
 func _open_campaign() -> void:
@@ -215,6 +228,7 @@ func _open_campaign() -> void:
 	match3_campaign_screen.preferences = preferences
 	match3_campaign_screen.session = match3_session
 	match3_campaign_screen.back_requested.connect(_close_campaign)
+	match3_campaign_screen.settings_requested.connect(_open_settings_from_campaign)
 	match3_campaign_screen.level_requested.connect(_start_campaign_level)
 	$Content.hide()
 	add_child(match3_campaign_screen)
@@ -225,6 +239,12 @@ func _start_campaign_level(level_id: String) -> void:
 	if not is_instance_valid(match3_campaign_screen): return
 	match3_campaign_screen.hide()
 	_open_match3_level(level_id, true)
+
+
+func _start_next_campaign_level(level_id: String) -> void:
+	if level_id.is_empty(): return
+	_close_match3()
+	_start_campaign_level(level_id)
 
 
 func _close_campaign() -> void:
@@ -250,19 +270,43 @@ func _close_story() -> void:
 		$Content/Actions/NewGame.grab_focus()
 
 
-func _open_settings() -> void:
+func _open_settings_from_match3() -> void:
+	_open_settings(true)
+
+
+func _open_settings_from_campaign() -> void:
+	_open_settings(false, true)
+
+
+func _open_dossier_from_match3() -> void:
+	if not is_instance_valid(story_screen) or not is_instance_valid(match3_screen): return
+	match3_screen.hide()
+	story_screen.show()
+	story_screen.overlay_closed.connect(_resume_match3_after_dossier, CONNECT_ONE_SHOT)
+	story_screen.call("_show_dossier")
+
+
+func _resume_match3_after_dossier() -> void:
+	if is_instance_valid(story_screen): story_screen.hide()
+	if is_instance_valid(match3_screen): match3_screen.show()
+
+
+func _open_settings(from_match3: bool = false, from_campaign: bool = false) -> void:
 	if is_instance_valid(settings_screen):
 		return
 	settings_requested.emit()
 	_settings_from_story = is_instance_valid(story_screen) and story_screen.visible
+	_settings_from_match3 = from_match3 and is_instance_valid(match3_screen) and match3_screen.visible
+	_settings_from_campaign = from_campaign and is_instance_valid(match3_campaign_screen) and match3_campaign_screen.visible
 	if _settings_from_story:
 		story_screen.hide()
+	elif not _settings_from_match3 and not _settings_from_campaign:
+		$Content.hide()
 	settings_screen = SettingsScreen.new()
 	settings_screen.name = "SettingsScreen"
 	settings_screen.preferences = preferences
 	settings_screen.audio_runtime = audio_runtime
 	settings_screen.back_requested.connect(_close_settings)
-	$Content.hide()
 	add_child(settings_screen)
 
 
@@ -273,10 +317,26 @@ func _close_settings() -> void:
 	if _settings_from_story and is_instance_valid(story_screen):
 		story_screen.show()
 		story_screen.settings_button.grab_focus()
+	elif _settings_from_match3 and is_instance_valid(match3_screen):
+		match3_screen.show()
+		match3_screen.settings_button.grab_focus()
+	elif _settings_from_campaign and is_instance_valid(match3_campaign_screen):
+		match3_campaign_screen.show()
+		match3_campaign_screen.refresh_screen()
+		match3_campaign_screen.grab_focus()
 	else:
 		$Content.show()
 		$Content/Actions/Settings.grab_focus()
+	_settings_from_match3 = false
+	_settings_from_campaign = false
 
 
 func _style_button(button: Button, primary: bool = false) -> void:
 	preload("res://scripts/menu_theme.gd").style_button(button, primary)
+	var font_color := Color.WHITE if primary else Color("#29243d")
+	button.add_theme_color_override("font_disabled_color", font_color)
+	button.add_theme_stylebox_override("disabled", button.get_theme_stylebox("normal"))
+	var font := SystemFont.new()
+	font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+	font.font_weight = 850 if primary else 700
+	button.add_theme_font_override("font", font)

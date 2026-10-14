@@ -31,8 +31,20 @@ func _run() -> void:
 	assert(game.tiles.size() == 63)
 	assert(game.tiles == Level.data.seededOpeningBoard, "Godot opening board differs from the canonical web seed layout")
 	assert(game.moves_left == 24 and game.collected == 0)
+	var columns := int(Level.data.columns)
 	assert(game.find_matches().is_empty(), "Initial board has an immediate match")
 	assert(game.has_available_move(), "Initial board has no legal swap")
+	var invalid_pair := []
+	for index in game.tiles.size():
+		for candidate in [index + 1, index + columns]:
+			if candidate >= game.tiles.size() or (candidate == index + 1 and index % columns == columns - 1): continue
+			if not game._swap_creates_match(index, candidate):
+				invalid_pair = [index, candidate]
+				break
+		if not invalid_pair.is_empty(): break
+	var rejected_move: Dictionary = game.attempt_swap(int(invalid_pair[0]), int(invalid_pair[1]))
+	assert(not rejected_move.valid and rejected_move.frames.size() == 1 and rejected_move.frames[0].phase == "swap", "Rejected move did not export its swap animation frame")
+	game.reset()
 	var invalid_special_activation: Dictionary = game.attempt_special_activation(0)
 	assert(not invalid_special_activation.valid and invalid_special_activation.reason == "no-special", "Cell without a special was activated")
 	assert(game.moves_left == 24, "Invalid special activation consumed a move")
@@ -41,7 +53,6 @@ func _run() -> void:
 	assert(game.moves_left == 24, "Invalid swap consumed a move")
 	var first := -1
 	var second := -1
-	var columns := int(Level.data.columns)
 	for index in game.tiles.size():
 		for candidate in [index + 1, index + columns]:
 			if candidate >= game.tiles.size() or (candidate == index + 1 and index % columns == columns - 1):
@@ -52,7 +63,11 @@ func _run() -> void:
 				break
 		if first >= 0:
 			break
-	assert(first >= 0 and game.attempt_swap(first, second).valid, "A legal swap did not resolve")
+	var accepted_move: Dictionary = game.attempt_swap(first, second)
+	assert(first >= 0 and accepted_move.valid, "A legal swap did not resolve")
+	assert(accepted_move.frames.size() >= 3 and accepted_move.frames[0].phase == "swap", "Accepted move omitted its swap frame")
+	assert(accepted_move.frames[1].phase == "clear" and accepted_move.frames[2].phase == "settle", "Accepted move omitted clear/settle animation phases")
+	assert(accepted_move.frames[1].cleared.size() > 0 and accepted_move.frames[2].motions is Array, "Clear or fall/spawn animation data is missing")
 	assert(game.moves_left == 23 and game.find_matches().is_empty(), "Move resolution did not settle the board")
 	game.reset()
 	assert(game.tiles == starting_board, "Same seed did not produce a repeatable initial board")
@@ -138,7 +153,7 @@ func _run() -> void:
 		if game.tiles[index] == str(Level.data.objectiveTile):
 			combo_objective_count += 1
 	var combo_move: Dictionary = game.attempt_swap(24, 25)
-	assert(combo_move.valid and game.moves_left == 23, "Direct special combo did not resolve as one move")
+	assert(combo_move.valid and game.moves_left == 23 and combo_move.specialsCombined, "Direct special combo did not resolve as one tagged move")
 	assert(game.collected >= combo_objective_count, "Direct special combo missed objective tiles in its clear cross")
 	game.reset()
 	game.tiles[0] = str(Level.data.objectiveTile)
@@ -146,6 +161,22 @@ func _run() -> void:
 	var special_swap: Dictionary = game.attempt_swap(0, 1)
 	assert(special_swap.valid and game.moves_left == 23, "Swapping a special did not activate it as a move")
 	assert(game.specials.size() == game.tiles.size(), "Special state became detached from tiles")
+	game.reset()
+	var first_tile := str(Level.data.activeTiles[0])
+	var second_tile := str(Level.data.activeTiles[1])
+	game.tiles.clear()
+	game.specials.clear()
+	for row in range(int(Level.data.rows)):
+		for column in range(columns):
+			game.tiles.append(first_tile if (row + column) % 2 == 0 else second_tile)
+			game.specials.append("")
+	game.tiles[0] = first_tile
+	game.tiles[1] = first_tile
+	game.tiles[2] = first_tile
+	game.tiles[3] = second_tile
+	game.tiles[4] = first_tile
+	var creation_move: Dictionary = game.attempt_swap(3, 4)
+	assert(creation_move.valid and int(creation_move.specialsCreated) > 0, "A valid four-tile match did not export its special creation event")
 	game.tiles.clear()
 	game.specials.clear()
 	var other_tiles: Array = Level.data.activeTiles.filter(func(tile: Variant) -> bool: return str(tile) != str(Level.data.objectiveTile))

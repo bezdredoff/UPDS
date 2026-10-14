@@ -1,13 +1,25 @@
 extends Control
 
 signal story_requested
+signal dossier_requested
+signal settings_requested
+signal clue_awarded(clue_id: String)
+signal campaign_next_requested(level_id: String)
 
 const Level = preload("res://data/locker_match3.json")
 const Game = preload("res://scripts/match3_game.gd")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
+const Tutorials = preload("res://scripts/match3_tutorials.gd")
+const CssMotion = preload("res://scripts/css_motion.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
+const SWAP_MOTION_SECONDS := 0.15
+const CLEAR_MOTION_SECONDS := 0.28
+const SETTLE_MOTION_SECONDS := 0.32
+const RESHUFFLE_MOTION_SECONDS := 0.46
+const FEEDBACK_HOLD_SECONDS := 0.42
+const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
 
 var preferences: RefCounted
 var session: RefCounted
@@ -25,27 +37,70 @@ var last_tapped_special_at := -1
 var last_feedback := ""
 var background: TextureRect
 var title: Label
+var title_short: Label
 var bark: Label
+var bark_speaker: Label
+var bark_portrait: TextureRect
 var tutorial_panel: PanelContainer
+var tutorial_frame: PanelContainer
+var tutorial_overlay: Control
+var tutorial_badge: PanelContainer
+var tutorial_eyebrow: Label
 var tutorial_title: Label
 var tutorial_body: Label
 var tutorial_button: Button
 var objective: Label
+var objective_heading: Label
+var objective_icon: TextureRect
 var moves: Label
+var moves_heading: Label
 var hint_button: Button
+var hint_label: Label
+var dossier_button: Button
+var help_button: Button
+var settings_button: Button
+var help_dialog: AcceptDialog
+var match_feedback_panel: PanelContainer
+var match_feedback_label: Label
+var match_feedback_tween: Tween
+var match_feedback_key := ""
+var match_feedback_kind := "match"
+var match_feedback_cascade := 1
 var warning: Label
 var board: GridContainer
-var result_box: HBoxContainer
-var result_label: Label
-var retry_button: Button
+var board_center: CenterContainer
+var board_frame: PanelContainer
 var back_button: Button
-var result_back_button: Button
-var evidence_panel: PanelContainer
-var evidence_kicker: Label
-var evidence_image: TextureRect
-var evidence_title: Label
-var evidence_label: Label
-var evidence_continue: Button
+var evidence_transition_overlay: Control
+var evidence_transition_image: TextureRect
+var evidence_transition_kicker: Label
+var evidence_transition_title: Label
+var evidence_transition_copy: RichTextLabel
+var evidence_transition_continue: Button
+var story_evidence_visible := false
+var campaign_result_overlay: Control
+var campaign_result_back: Button
+var campaign_result_eyebrow: Label
+var campaign_result_level: Label
+var campaign_result_mark: Label
+var campaign_result_kicker: Label
+var campaign_result_heading: Label
+var campaign_result_detail: Label
+var campaign_result_loss_quote: RichTextLabel
+var campaign_result_next: Button
+var campaign_result_retry: Button
+var campaign_result_hub: Button
+var input_locked := false
+var drag_start_index := -1
+var drag_start_position := Vector2.ZERO
+var drag_start_cell_size := 1.0
+var drag_target_index := -1
+var suppress_drag_click_index := -1
+var bottom_spacer: Control
+var guidance_labels: Array[Label] = []
+var tutorial_reveal_events: Array[String] = []
+var active_tutorial := ""
+var tutorial_prompt_dismissed := false
 
 
 func _ready() -> void:
@@ -56,8 +111,8 @@ func _ready() -> void:
 	level_data = CampaignData.get_level(campaign_bundle, level_id)
 	assert(not level_data.is_empty(), "Match-3 level is unavailable: " + level_id)
 	level_presentation = campaign_bundle.levelPresentations[level_id]
-	game = Game.new(level_data)
 	session.start_level(level_id)
+	game = _new_game_for_attempt()
 	background = TextureRect.new()
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background.texture = load("res://assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp")
@@ -74,44 +129,162 @@ func _ready() -> void:
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	margin.add_theme_constant_override("margin_left", 12)
 	margin.add_theme_constant_override("margin_right", 12)
-	margin.add_theme_constant_override("margin_top", 12)
+	margin.add_theme_constant_override("margin_top", 0)
 	margin.add_theme_constant_override("margin_bottom", 12)
 	add_child(margin)
 	var content := VBoxContainer.new()
 	content.add_theme_constant_override("separation", 7)
 	margin.add_child(content)
+	var header_panel := PanelContainer.new()
+	header_panel.custom_minimum_size.y = 60
+	var header_style := StyleBoxFlat.new()
+	header_style.bg_color = Color("#10243d")
+	header_style.border_color = Color("#d3b068")
+	header_style.border_width_bottom = 2
+	header_style.content_margin_left = 0
+	header_style.content_margin_right = 0
+	header_style.content_margin_top = 0
+	header_style.content_margin_bottom = 0
+	header_panel.add_theme_stylebox_override("panel", header_style)
+	content.add_child(header_panel)
 	var header := HBoxContainer.new()
-	content.add_child(header)
+	header.add_theme_constant_override("separation", 7)
+	header.custom_minimum_size.y = 60
+	header_panel.add_child(header)
 	back_button = _button(header)
+	back_button.custom_minimum_size = Vector2(44, 44)
+	back_button.text = ""
+	_add_header_icon(back_button, "back")
+	_style_header_button(back_button, Color("#283750"))
 	back_button.pressed.connect(func() -> void: story_requested.emit())
-	title = _label(header, 19, Color.WHITE)
+	var title_stack := VBoxContainer.new()
+	title_stack.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_stack.alignment = BoxContainer.ALIGNMENT_CENTER
+	title_stack.add_theme_constant_override("separation", 1)
+	header.add_child(title_stack)
+	title_short = _label(title_stack, 7, Color("#f0d69b"))
+	title_short.text = str(level_data.get("shortId", ""))
+	title = _label(title_stack, 11, Color.WHITE)
+	title.add_theme_font_size_override("font_size", 11)
+	var title_serif := SystemFont.new()
+	title_serif.font_names = PackedStringArray(["Georgia", "serif"])
+	title.add_theme_font_override("font", title_serif)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var spacer := Control.new()
-	spacer.custom_minimum_size.x = 72
-	header.add_child(spacer)
+	var actions := HBoxContainer.new()
+	actions.add_theme_constant_override("separation", 5)
+	header.add_child(actions)
+	if story_session != null:
+		dossier_button = _header_icon_button(actions, "dossier")
+		dossier_button.pressed.connect(func() -> void: dossier_requested.emit())
+	help_button = _header_text_button(actions, "?")
+	help_button.add_theme_font_size_override("font_size", 20)
+	help_button.pressed.connect(_show_help)
+	settings_button = _header_icon_button(actions, "settings")
+	settings_button.pressed.connect(func() -> void: settings_requested.emit())
 	bark = _label(content, 15, Color.WHITE)
 	bark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	bark.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	bark.add_theme_font_size_override("font_size", 12)
+	bark.add_theme_color_override("font_color", Color("#29243d"))
 	tutorial_panel = PanelContainer.new()
 	var tutorial_style := StyleBoxFlat.new()
-	tutorial_style.bg_color = Color(0.99, 0.98, 0.94, 0.95)
-	tutorial_style.set_corner_radius_all(10)
-	tutorial_style.content_margin_left = 10
-	tutorial_style.content_margin_right = 10
-	tutorial_style.content_margin_top = 7
-	tutorial_style.content_margin_bottom = 7
+	tutorial_style.bg_color = Color("#fff7df")
+	tutorial_style.border_color = Color("#d5b269")
+	tutorial_style.set_border_width_all(3)
+	tutorial_style.border_width_left = 8
+	tutorial_style.set_corner_radius_all(7)
+	tutorial_style.content_margin_left = 20
+	tutorial_style.content_margin_right = 20
+	tutorial_style.content_margin_top = 30
+	tutorial_style.content_margin_bottom = 18
 	tutorial_panel.add_theme_stylebox_override("panel", tutorial_style)
 	content.add_child(tutorial_panel)
+	var tutorial_content_layer := Control.new()
+	tutorial_content_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	tutorial_panel.add_child(tutorial_content_layer)
 	var tutorial_content := VBoxContainer.new()
-	tutorial_content.add_theme_constant_override("separation", 3)
-	tutorial_panel.add_child(tutorial_content)
-	tutorial_title = _label(tutorial_content, 15, Color("#a24762"))
-	tutorial_body = _label(tutorial_content, 12, Color("#29243d"))
+	tutorial_content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	tutorial_content.add_theme_constant_override("separation", 0)
+	tutorial_content_layer.add_child(tutorial_content)
+	tutorial_badge = PanelContainer.new()
+	tutorial_badge.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	tutorial_badge.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	tutorial_badge.position = Vector2(-18, -33)
+	tutorial_badge.custom_minimum_size = Vector2(102, 18)
+	var tutorial_badge_style := StyleBoxFlat.new()
+	tutorial_badge_style.bg_color = Color("#2f6549")
+	tutorial_badge_style.corner_radius_bottom_left = 10
+	tutorial_badge_style.corner_radius_bottom_right = 10
+	tutorial_badge_style.content_margin_left = 13
+	tutorial_badge_style.content_margin_right = 13
+	tutorial_badge_style.content_margin_top = 4
+	tutorial_badge_style.content_margin_bottom = 5
+	tutorial_badge.add_theme_stylebox_override("panel", tutorial_badge_style)
+	tutorial_content_layer.add_child(tutorial_badge)
+	tutorial_eyebrow = _label(tutorial_badge, 9, Color.WHITE)
+	tutorial_eyebrow.autowrap_mode = TextServer.AUTOWRAP_OFF
+	tutorial_eyebrow.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(preferences.locale, "HOW TO PLAY")
+	tutorial_title = _label(tutorial_content, 24, Color("#102744"))
+	tutorial_title.add_theme_font_size_override("font_size", 24)
+	var tutorial_serif := SystemFont.new()
+	tutorial_serif.font_names = PackedStringArray(["Georgia", "serif"])
+	tutorial_serif.font_weight = 850
+	tutorial_title.add_theme_font_override("font", tutorial_serif)
+	var tutorial_title_top_gap := Control.new()
+	tutorial_title_top_gap.custom_minimum_size.y = 7
+	tutorial_content.add_child(tutorial_title_top_gap)
+	tutorial_content.move_child(tutorial_title, tutorial_content.get_child_count() - 1)
+	var tutorial_title_body_gap := Control.new()
+	tutorial_title_body_gap.custom_minimum_size.y = 8
+	tutorial_body = _label(tutorial_content, 13, Color("#5c513e"))
 	tutorial_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	tutorial_body.add_theme_font_size_override("font_size", 13)
+	tutorial_body.add_theme_constant_override("line_spacing", 5)
+	var tutorial_sans := SystemFont.new()
+	tutorial_sans.font_names = PackedStringArray(["Comic Sans MS", "Trebuchet MS", "Arial"])
+	tutorial_sans.font_weight = 700
+	tutorial_body.add_theme_font_override("font", tutorial_sans)
+	tutorial_content.add_child(tutorial_title_body_gap)
+	tutorial_content.move_child(tutorial_body, tutorial_content.get_child_count() - 1)
 	tutorial_button = _button(tutorial_content)
-	tutorial_button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_style_tutorial_button(tutorial_button)
+	var tutorial_button_gap := Control.new()
+	tutorial_button_gap.custom_minimum_size.y = 10
+	tutorial_content.add_child(tutorial_button_gap)
+	tutorial_content.move_child(tutorial_button, tutorial_content.get_child_count() - 1)
 	tutorial_button.pressed.connect(_dismiss_tutorial)
+	content.remove_child(tutorial_panel)
+	tutorial_overlay = Control.new()
+	tutorial_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	tutorial_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	var tutorial_shade := ColorRect.new()
+	tutorial_shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	tutorial_shade.color = Color("#0714279e")
+	tutorial_shade.mouse_filter = Control.MOUSE_FILTER_STOP
+	tutorial_overlay.add_child(tutorial_shade)
+	var tutorial_center := CenterContainer.new()
+	tutorial_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	tutorial_overlay.add_child(tutorial_center)
+	tutorial_frame = PanelContainer.new()
+	tutorial_frame.name = "TutorialNavyOutline"
+	tutorial_frame.custom_minimum_size = Vector2(0, 0)
+	var frame_style := StyleBoxFlat.new()
+	frame_style.bg_color = Color("#102744")
+	frame_style.set_corner_radius_all(7)
+	frame_style.content_margin_left = 3
+	frame_style.content_margin_right = 3
+	frame_style.content_margin_top = 3
+	frame_style.content_margin_bottom = 3
+	frame_style.shadow_color = Color("#020914c7")
+	frame_style.shadow_size = 22
+	frame_style.shadow_offset = Vector2(0, 18)
+	tutorial_frame.add_theme_stylebox_override("panel", frame_style)
+	tutorial_center.add_child(tutorial_frame)
+	tutorial_panel.custom_minimum_size.x = 0
+	tutorial_panel.custom_maximum_size.x = 350
+	tutorial_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	tutorial_frame.add_child(tutorial_panel)
 	var objective_panel := PanelContainer.new()
 	var objective_style := StyleBoxFlat.new()
 	objective_style.bg_color = Color(0.99, 0.98, 0.94, 0.96)
@@ -121,185 +294,1153 @@ func _ready() -> void:
 	objective_style.content_margin_top = 6
 	objective_style.content_margin_bottom = 6
 	objective_panel.add_theme_stylebox_override("panel", objective_style)
-	content.add_child(objective_panel)
-	objective = _label(objective_panel, 14, Color("#29243d"))
-	var board_center := CenterContainer.new()
+	var hud := HBoxContainer.new()
+	hud.add_theme_constant_override("separation", 8)
+	hud.custom_minimum_size.y = 51
+	content.add_child(hud)
+	objective_panel.custom_minimum_size.x = 234
+	objective_panel.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	hud.add_child(objective_panel)
+	var objective_content := VBoxContainer.new()
+	objective_content.add_theme_constant_override("separation", 1)
+	objective_panel.add_child(objective_content)
+	objective_heading = _label(objective_content, 9, Color("#326349"))
+	objective_heading.text = {"ru": "ЦЕЛЬ", "be": "МЭТА", "en": "GOAL"}.get(preferences.locale, "GOAL")
+	var objective_row := HBoxContainer.new()
+	objective_row.add_theme_constant_override("separation", 4)
+	objective_content.add_child(objective_row)
+	objective_icon = TextureRect.new()
+	objective_icon.custom_minimum_size = Vector2(24, 24)
+	objective_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	objective_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	objective_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	objective_row.add_child(objective_icon)
+	objective = _label(objective_row, 14, Color("#326349"))
+	objective.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	objective.add_theme_font_size_override("font_size", 14)
+	var hud_spacer := Control.new()
+	hud_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hud.add_child(hud_spacer)
+	var stage_panel := PanelContainer.new()
+	stage_panel.custom_minimum_size.x = 72
+	stage_panel.add_theme_stylebox_override("panel", objective_style.duplicate())
+	hud.add_child(stage_panel)
+	var stage_content := VBoxContainer.new()
+	stage_content.alignment = BoxContainer.ALIGNMENT_CENTER
+	stage_content.add_theme_constant_override("separation", 1)
+	stage_panel.add_child(stage_content)
+	moves_heading = _label(stage_content, 9, Color("#326349"))
+	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(preferences.locale, "MOVES")
+	moves = _label(stage_content, 14, Color("#326349"))
+	moves.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	moves.add_theme_font_size_override("font_size", 14)
+	board_center = CenterContainer.new()
 	board_center.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(board_center)
+	board_frame = PanelContainer.new()
+	board_frame.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var board_style := StyleBoxFlat.new()
+	board_style.bg_color = Color("#243354")
+	board_style.border_color = Color("#53694f")
+	board_style.set_border_width_all(3)
+	board_style.set_corner_radius_all(14)
+	board_style.content_margin_left = 6
+	board_style.content_margin_right = 6
+	board_style.content_margin_top = 6
+	board_style.content_margin_bottom = 6
+	board_frame.add_theme_stylebox_override("panel", board_style)
+	board_center.add_child(board_frame)
 	board = GridContainer.new()
 	board.columns = int(level_data.columns)
 	board.add_theme_constant_override("h_separation", 3)
 	board.add_theme_constant_override("v_separation", 3)
-	board_center.add_child(board)
-	evidence_panel = PanelContainer.new()
-	evidence_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	content.add_child(evidence_panel)
-	var evidence_content := VBoxContainer.new()
-	evidence_content.alignment = BoxContainer.ALIGNMENT_CENTER
-	evidence_content.add_theme_constant_override("separation", 5)
-	evidence_panel.add_child(evidence_content)
-	evidence_kicker = _label(evidence_content, 13, Color("#a24762"))
-	evidence_kicker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	evidence_image = TextureRect.new()
-	evidence_image.custom_minimum_size = Vector2(128, 110)
-	evidence_image.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
-	evidence_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	evidence_content.add_child(evidence_image)
-	evidence_title = _label(evidence_content, 18, Color("#29243d"))
-	evidence_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	evidence_label = _label(evidence_content, 13, Color("#29243d"))
-	evidence_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	evidence_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	evidence_continue = _button(evidence_content)
-	evidence_continue.pressed.connect(_continue_story)
-	var footer := HBoxContainer.new()
-	content.add_child(footer)
-	moves = _label(footer, 15, Color.WHITE)
-	moves.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hint_button = _button(footer)
+	board_frame.add_child(board)
+	var bark_style := StyleBoxFlat.new()
+	bark_style.bg_color = Color("#fff7df")
+	bark_style.border_color = Color("#66755d")
+	bark_style.set_border_width_all(1)
+	bark_style.border_width_left = 4
+	bark_style.set_corner_radius_all(9)
+	bark_style.content_margin_left = 9
+	bark_style.content_margin_right = 9
+	bark_style.content_margin_top = 6
+	bark_style.content_margin_bottom = 6
+	var bark_panel := PanelContainer.new()
+	bark_panel.custom_minimum_size.y = 62
+	bark_panel.add_theme_stylebox_override("panel", bark_style)
+	content.remove_child(bark)
+	content.add_child(bark_panel)
+	var bark_row := HBoxContainer.new()
+	bark_row.add_theme_constant_override("separation", 7)
+	bark_panel.add_child(bark_row)
+	bark_portrait = TextureRect.new()
+	bark_portrait.custom_minimum_size = Vector2(40, 40)
+	bark_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	bark_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	bark_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bark_row.add_child(bark_portrait)
+	var bark_lines := VBoxContainer.new()
+	bark_lines.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bark_lines.alignment = BoxContainer.ALIGNMENT_CENTER
+	bark_lines.add_theme_constant_override("separation", 1)
+	bark_row.add_child(bark_lines)
+	bark_speaker = _label(bark_lines, 9, Color("#326349"))
+	bark_speaker.add_theme_color_override("font_color", Color("#326349"))
+	bark_lines.add_child(bark)
+	hint_button = _button(bark_row)
+	hint_button.custom_minimum_size = Vector2(94, 48)
+	hint_button.text = ""
+	_style_hint_button(hint_button)
+	var hint_content := HBoxContainer.new()
+	hint_content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	hint_content.offset_left = 3
+	hint_content.offset_right = -3
+	hint_content.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hint_content.add_theme_constant_override("separation", 3)
+	hint_button.add_child(hint_content)
+	var hint_icon := TextureRect.new()
+	hint_icon.custom_minimum_size = Vector2(23, 23)
+	hint_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	hint_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	hint_icon.texture = load(HINT_ICON)
+	hint_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hint_content.add_child(hint_icon)
+	hint_label = _label(hint_content, 9, Color("#326349"))
+	hint_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hint_button.pressed.connect(_show_hint)
 	warning = _label(content, 12, Color("#ffd7a5"))
 	warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	result_label = _label(content, 15, Color.WHITE)
-	result_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	result_box = HBoxContainer.new()
-	result_box.alignment = BoxContainer.ALIGNMENT_CENTER
-	content.add_child(result_box)
-	retry_button = _button(result_box)
-	retry_button.pressed.connect(_retry)
-	result_back_button = _button(result_box)
-	result_back_button.pressed.connect(func() -> void: story_requested.emit())
+	bottom_spacer = VBoxContainer.new()
+	bottom_spacer.name = "MatchGuidance"
+	bottom_spacer.add_theme_constant_override("separation", 1)
+	bottom_spacer.custom_minimum_size.y = 42
+	content.add_child(bottom_spacer)
+	var input_guidance := _label(bottom_spacer, 8, Color("#363f43"))
+	input_guidance.name = "InputGuidance"
+	input_guidance.text = MenuCopy.text("match3_input_hint", preferences.locale)
+	input_guidance.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	input_guidance.add_theme_font_size_override("font_size", 8)
+	input_guidance.add_theme_constant_override("shadow_offset_y", 1)
+	input_guidance.add_theme_color_override("font_shadow_color", Color("#fff7d7"))
+	guidance_labels.append(input_guidance)
+	for index in level_data.objectives.size():
+		var objective_data: Dictionary = level_data.objectives[index]
+		var objective_kind := str(objective_data.get("kind", ""))
+		if objective_kind != "drop" and objective_kind != "dropGroup": continue
+		var label := _label(bottom_spacer, 8, Color("#363f43"))
+		label.name = "StoryObjectGuidance%d" % index
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.add_theme_font_size_override("font_size", 8)
+		label.add_theme_constant_override("shadow_offset_y", 1)
+		label.add_theme_color_override("font_shadow_color", Color("#fff7d7"))
+		guidance_labels.append(label)
+	add_child(tutorial_overlay)
+	var feedback_center := CenterContainer.new()
+	feedback_center.anchor_left = 0
+	feedback_center.anchor_right = 1
+	feedback_center.anchor_top = 0.48
+	feedback_center.anchor_bottom = 0.48
+	feedback_center.offset_top = -23
+	feedback_center.offset_bottom = 23
+	feedback_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	feedback_center.z_index = 10
+	add_child(feedback_center)
+	match_feedback_panel = PanelContainer.new()
+	match_feedback_panel.custom_minimum_size.x = 150
+	match_feedback_panel.custom_maximum_size.x = 336
+	match_feedback_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	match_feedback_panel.pivot_offset = Vector2(168, 23)
+	match_feedback_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	match_feedback_panel.visible = false
+	feedback_center.add_child(match_feedback_panel)
+	match_feedback_label = _label(match_feedback_panel, 13, Color("#fff9df"))
+	match_feedback_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	match_feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	match_feedback_label.add_theme_font_size_override("font_size", 13)
+	match_feedback_label.add_theme_color_override("font_color", Color("#fff9df"))
+	var feedback_serif := SystemFont.new()
+	feedback_serif.font_names = PackedStringArray(["Georgia", "serif"])
+	feedback_serif.font_weight = 900
+	match_feedback_label.add_theme_font_override("font", feedback_serif)
+	match_feedback_label.add_theme_constant_override("shadow_offset_x", 1)
+	match_feedback_label.add_theme_constant_override("shadow_offset_y", 2)
+	match_feedback_label.add_theme_color_override("font_shadow_color", Color("#161a2d72"))
+	var feedback_style := StyleBoxFlat.new()
+	feedback_style.bg_color = Color("#326349eb")
+	feedback_style.border_color = Color("#fff4cf")
+	feedback_style.set_border_width_all(2)
+	feedback_style.set_corner_radius_all(999)
+	feedback_style.content_margin_left = 14
+	feedback_style.content_margin_right = 14
+	feedback_style.content_margin_top = 7
+	feedback_style.content_margin_bottom = 7
+	feedback_style.shadow_color = Color("#161a2d72")
+	feedback_style.shadow_size = 12
+	feedback_style.shadow_offset = Vector2(0, 7)
+	match_feedback_panel.add_theme_stylebox_override("panel", feedback_style)
+	_build_evidence_transition()
+	_build_campaign_result()
 	preferences.locale_changed.connect(func(_locale: String) -> void: _refresh())
+	_sync_tutorial_prompt()
 	_refresh()
 
 
 func _refresh() -> void:
+	_fit_tutorial_card()
 	var locale: String = preferences.locale
 	var copy: Dictionary = level_presentation.localized.get(locale, level_presentation.localized.en)
 	title.text = copy.title
-	back_button.text = copy.back
+	title_short.text = str(level_data.get("shortId", ""))
+	back_button.tooltip_text = str(copy.back)
+	if is_instance_valid(dossier_button): dossier_button.tooltip_text = MenuCopy.text("dossier_title", locale)
+	settings_button.tooltip_text = MenuCopy.text("settings", locale)
+	objective_heading.text = {"ru": "ЦЕЛЬ", "be": "МЭТА", "en": "GOAL"}.get(locale, "GOAL")
+	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(locale, "MOVES")
+	var speaker: String
 	if game.state == "playing":
-		bark.text = copy.noMatchBark if not last_feedback.is_empty() else "%s: %s" % [copy.startSpeaker, copy.startText]
+		speaker = str(copy.startSpeaker)
+		bark.text = str(copy.noMatchBark) if not last_feedback.is_empty() else str(copy.startText)
 	else:
-		bark.text = "%s: %s" % [copy.winSpeaker, copy.winText] if game.state == "won" else "%s: %s" % [copy.loseSpeaker, copy.loseText]
-	tutorial_title.text = str(Level.data.localized[locale].tutorialTitle)
-	tutorial_body.text = str(Level.data.localized[locale].tutorialBody)
-	tutorial_button.text = str(Level.data.localized[locale].tutorialTry)
-	tutorial_panel.visible = level_id == str(Level.data.id) and not session.save.tutorialsCompleted.has("basic-swap")
+		speaker = str(copy.winSpeaker) if game.state == "won" else str(copy.loseSpeaker)
+		bark.text = str(copy.winText) if game.state == "won" else str(copy.loseText)
+	bark_speaker.text = speaker
+	bark_portrait.texture = _speaker_portrait(speaker)
+	var tutorial_locale: Dictionary = campaign_bundle.get("tutorials", {}).get(locale, campaign_bundle.get("tutorials", {}).get("en", {}))
+	var tutorial_copy: Dictionary = tutorial_locale.get("concepts", {}).get(active_tutorial, {})
+	tutorial_title.text = str(tutorial_copy.get("title", ""))
+	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(locale, "HOW TO PLAY")
+	tutorial_body.text = str(tutorial_copy.get("body", ""))
+	tutorial_button.text = str(tutorial_locale.get("try", Level.data.localized[locale].tutorialTry))
 	var objective_lines := PackedStringArray()
 	for index in level_data.objectives.size():
 		var objective_data: Dictionary = level_data.objectives[index]
-		var objective_names: Array = copy.get("objectives", [])
-		var objective_name: String = str(objective_names[index]) if index < objective_names.size() else str(objective_data.get("label", "Objective"))
-		objective_lines.append("%s %d/%d" % [objective_name, game.objective_value(index), int(objective_data.target)])
-	objective.text = "  ·  ".join(objective_lines)
-	moves.text = "%s · %d" % [copy.moves, game.moves_left]
-	hint_button.text = MenuCopy.text("match3_hint", locale)
+		objective_lines.append("%d/%d" % [game.objective_value(index), int(objective_data.target)])
+	objective.text = " · ".join(objective_lines)
+	objective_icon.texture = _objective_texture(level_data.objectives[0]) if not level_data.objectives.is_empty() else null
+	moves.text = str(game.moves_left)
+	hint_label.text = MenuCopy.text("match3_hint", locale)
+	guidance_labels[0].text = MenuCopy.text("match3_input_hint", locale)
+	var guidance_index := 1
+	for index in level_data.objectives.size():
+		var objective_data: Dictionary = level_data.objectives[index]
+		var objective_kind := str(objective_data.get("kind", ""))
+		if objective_kind != "drop" and objective_kind != "dropGroup": continue
+		var object_label := str(copy.objectives[index]) if index < copy.objectives.size() else str(objective_data.get("label", ""))
+		guidance_labels[guidance_index].text = MenuCopy.text("match3_story_object_guidance", locale).replace("{object}", object_label)
+		guidance_index += 1
 	hint_button.disabled = game.state != "playing" or tutorial_panel.visible
 	warning.text = "" if session.last_write_ok and (story_session == null or story_session.last_write_ok) else MenuCopy.text("story_save_error", locale)
 	warning.visible = not warning.text.is_empty()
-	result_label.text = copy.win if game.state == "won" else copy.lose if game.state == "lost" else ""
-	result_label.visible = game.state == "lost"
-	result_box.visible = game.state == "lost"
-	retry_button.text = copy.retry
-	result_back_button.text = copy.back
+	if not match_feedback_key.is_empty():
+		match_feedback_label.text = _feedback_text(match_feedback_key, match_feedback_cascade)
+	bottom_spacer.visible = game.state == "playing"
 	var won: bool = game.state == "won"
-	board.get_parent().visible = not won
-	tutorial_panel.visible = not won and level_id == str(Level.data.id) and not session.save.tutorialsCompleted.has("basic-swap")
+	board_center.visible = not won
+	tutorial_panel.visible = game.state == "playing" and not active_tutorial.is_empty() and not tutorial_prompt_dismissed
+	tutorial_overlay.visible = tutorial_panel.visible
 	objective.visible = not won
 	moves.visible = not won
-	evidence_panel.visible = won
-	if campaign_mode:
-		evidence_kicker.visible = false
-		evidence_image.visible = false
-		evidence_title.text = str(copy.win)
-		evidence_label.text = str(copy.resultDetail).replace("{movesLeft}", str(game.moves_left))
-		evidence_continue.text = str(copy.backToCampaign)
-	else:
-		var evidence: Dictionary = level_data.evidence
-		var clue_copy: Dictionary = evidence.localized[locale]
-		evidence_kicker.visible = true
-		evidence_image.visible = true
-		evidence_kicker.text = clue_copy.evidenceFound
-		evidence_image.texture = load("res://" + str(evidence.asset).trim_prefix("./"))
-		evidence_title.text = clue_copy.title
-		evidence_label.text = clue_copy.label
-		evidence_continue.text = clue_copy.continueStory
+	if won and not campaign_mode and story_session != null:
+		story_evidence_visible = true
+	if story_evidence_visible:
+		_show_story_evidence_transition()
+	evidence_transition_overlay.visible = won and not campaign_mode and story_evidence_visible
 	_render_board()
+	if campaign_mode:
+		campaign_result_overlay.visible = game.state != "playing"
+		if game.state != "playing": _refresh_campaign_result(locale)
+	else:
+		campaign_result_overlay.visible = game.state == "lost"
+		if game.state == "lost": _refresh_story_loss_result(locale, copy)
 
 
 func _render_board() -> void:
+	_clear_drag_preview()
 	for child in board.get_children():
 		board.remove_child(child)
 		child.queue_free()
 	for index in game.tiles.size():
-		var tile_button := TextureButton.new()
-		tile_button.ignore_texture_size = true
-		tile_button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
-		tile_button.custom_minimum_size = Vector2(44, 44)
+		var tile_button := Button.new()
+		tile_button.custom_minimum_size = Vector2(54, 54)
+		tile_button.clip_contents = false
+		tile_button.focus_mode = Control.FOCUS_NONE
+		var cell_style := StyleBoxFlat.new()
+		cell_style.bg_color = Color("#2e4266")
+		cell_style.border_color = Color(0.45, 0.52, 0.46, 0.57)
+		cell_style.set_border_width_all(1)
+		cell_style.set_corner_radius_all(4)
+		var selected_style := cell_style.duplicate() as StyleBoxFlat
+		selected_style.border_color = Color("#fff6cf")
+		selected_style.set_border_width_all(3)
+		var hinted_style := cell_style.duplicate() as StyleBoxFlat
+		hinted_style.border_color = Color("#7ddfd8")
+		hinted_style.set_border_width_all(3)
+		hinted_style.shadow_color = Color("#6ce2d3")
+		hinted_style.shadow_size = 12
+		hinted_style.shadow_offset = Vector2.ZERO
+		var hover_style := cell_style.duplicate() as StyleBoxFlat
+		hover_style.bg_color = Color("#3a5278")
+		tile_button.add_theme_stylebox_override("normal", selected_style if index == selected_index else hinted_style if hinted_indices.has(index) else cell_style)
+		tile_button.add_theme_stylebox_override("hover", hover_style)
+		tile_button.add_theme_stylebox_override("pressed", selected_style)
+		tile_button.add_theme_stylebox_override("disabled", cell_style)
+		tile_button.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+		tile_button.add_theme_color_override("font_color", Color.TRANSPARENT)
+		tile_button.add_theme_color_override("font_disabled_color", Color.TRANSPARENT)
+		tile_button.text = ""
+		tile_button.gui_input.connect(_on_tile_gui_input.bind(index))
+		var tile_stack := Control.new()
+		tile_stack.name = "TileStack"
+		tile_stack.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		tile_stack.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		tile_stack.clip_contents = false
+		tile_stack.z_index = 0
 		var tile_asset := str(campaign_bundle.assets.tiles.get(game.tiles[index], ""))
-		if not tile_asset.is_empty(): tile_button.texture_normal = load("res://" + tile_asset.trim_prefix("./"))
-		var tile_tint := Color(1.25, 1.25, 1, 1) if index == selected_index else Color(1.2, 0.95, 0.5, 1) if hinted_indices.has(index) else Color.WHITE
-		tile_button.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else tile_tint
+		if not tile_asset.is_empty():
+			var tile := TextureRect.new()
+			tile.name = "Tile"
+			tile.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			tile.offset_left = 2
+			tile.offset_top = 2
+			tile.offset_right = -2
+			tile.offset_bottom = -2
+			tile.texture = load("res://" + tile_asset.trim_prefix("./"))
+			tile.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			tile.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			tile_stack.add_child(tile)
+		var tile_tint := Color(1.25, 1.25, 1, 1) if index == selected_index else Color.WHITE
+		tile_stack.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else tile_tint
 		tile_button.disabled = game.state != "playing" or tutorial_panel.visible or game.tiles[index].is_empty() or game.blocker_layers[index] > 0
 		tile_button.pressed.connect(_select_cell.bind(index))
+		tile_button.add_child(tile_stack)
+		if hinted_indices.has(index):
+			tile_button.pivot_offset = Vector2(27, 27)
+			var hint_tween := tile_button.create_tween().set_loops()
+			hint_tween.tween_property(tile_button, "scale", Vector2(0.91, 0.91), 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			hint_tween.parallel().tween_property(tile_button, "modulate", Color(1.18, 1.18, 1.18, 1.0), 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			hint_tween.tween_property(tile_button, "scale", Vector2.ONE, 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			hint_tween.parallel().tween_property(tile_button, "modulate", Color.WHITE, 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		if game.blocker_layers[index] > 0:
 			var blocker_asset := str(campaign_bundle.assets.blockers.get(str(level_data.blockerStyle), ""))
 			if str(level_data.blockerStyle) == "locked": blocker_asset = str(campaign_bundle.assets.lockedBlockers.get(str(game.blocker_layers[index]), blocker_asset))
 			if not blocker_asset.is_empty():
 				var blocker := TextureRect.new()
 				blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+				blocker.offset_left = 1
+				blocker.offset_top = 1
+				blocker.offset_right = -1
+				blocker.offset_bottom = -1
 				blocker.texture = load("res://" + blocker_asset.trim_prefix("./"))
 				blocker.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-				blocker.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+				blocker.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				blocker.modulate = Color(1, 1, 1, 0.66)
 				blocker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_button.add_child(blocker)
+				if game.blocker_layers[index] > 1:
+					var layer_badge := Label.new()
+					layer_badge.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
+					layer_badge.offset_left = -17
+					layer_badge.offset_top = -17
+					layer_badge.offset_right = -1
+					layer_badge.offset_bottom = -1
+					layer_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+					layer_badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+					layer_badge.text = str(game.blocker_layers[index])
+					layer_badge.add_theme_font_size_override("font_size", 9)
+					layer_badge.add_theme_color_override("font_color", Color.WHITE)
+					layer_badge.add_theme_color_override("font_shadow_color", Color("#182238"))
+					layer_badge.add_theme_constant_override("shadow_offset_x", 1)
+					layer_badge.add_theme_constant_override("shadow_offset_y", 1)
+					layer_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+					tile_button.add_child(layer_badge)
 		if not game.ingredients[index].is_empty():
 			var ingredient_asset := str(campaign_bundle.assets.ingredients.get(game.ingredients[index], ""))
 			if not ingredient_asset.is_empty():
+				var ingredient_texture: Texture2D = load("res://" + ingredient_asset.trim_prefix("./"))
+				var ingredient_glow := TextureRect.new()
+				ingredient_glow.name = "IngredientGlow"
+				ingredient_glow.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+				ingredient_glow.texture = ingredient_texture
+				ingredient_glow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				ingredient_glow.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				ingredient_glow.modulate = Color("#fff2a080")
+				ingredient_glow.pivot_offset = Vector2(27, 27)
+				ingredient_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				tile_stack.add_child(ingredient_glow)
 				var ingredient := TextureRect.new()
-				ingredient.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-				ingredient.offset_left = -22
-				ingredient.offset_top = -22
-				ingredient.offset_right = -2
-				ingredient.offset_bottom = -2
-				ingredient.texture = load("res://" + ingredient_asset.trim_prefix("./"))
+				ingredient.name = "Ingredient"
+				ingredient.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+				ingredient.offset_left = 3
+				ingredient.offset_top = 3
+				ingredient.offset_right = -3
+				ingredient.offset_bottom = -3
+				ingredient.texture = ingredient_texture
 				ingredient.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				ingredient.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				ingredient.mouse_filter = Control.MOUSE_FILTER_IGNORE
-				tile_button.add_child(ingredient)
+				tile_stack.add_child(ingredient)
+				var ingredient_bob := tile_button.create_tween().set_loops()
+				ingredient_bob.tween_property(ingredient, "offset_top", 1.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -5.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.parallel().tween_property(ingredient_glow, "modulate:a", 0.26, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.parallel().tween_property(ingredient_glow, "scale", Vector2(1.12, 1.12), 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.tween_property(ingredient, "offset_top", 3.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -3.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.parallel().tween_property(ingredient_glow, "modulate:a", 0.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.parallel().tween_property(ingredient_glow, "scale", Vector2.ONE, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		if not game.specials[index].is_empty():
-			var badge := Label.new()
-			badge.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-			badge.offset_left = -21
-			badge.offset_top = 0
-			badge.offset_right = -1
-			badge.offset_bottom = 20
-			badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-			badge.add_theme_font_size_override("font_size", 15)
-			badge.add_theme_color_override("font_color", Color("#fff2a8"))
-			badge.add_theme_color_override("font_shadow_color", Color("#24213c"))
-			badge.add_theme_constant_override("shadow_offset_x", 1)
-			badge.add_theme_constant_override("shadow_offset_y", 1)
-			badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			badge.text = _special_glyph(game.specials[index])
-			tile_button.add_child(badge)
+			var special_kind: String = game.specials[index]
+			var special_asset := str(campaign_bundle.assets.get("specials", {}).get(special_kind, ""))
+			if not special_asset.is_empty():
+				var special_texture: Texture2D = load("res://" + special_asset.trim_prefix("./"))
+				var special_glow := TextureRect.new()
+				special_glow.name = "SpecialGlow"
+				special_glow.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+				special_glow.offset_left = -3
+				special_glow.offset_top = -3
+				special_glow.offset_right = 3
+				special_glow.offset_bottom = 3
+				special_glow.texture = special_texture
+				special_glow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				special_glow.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				special_glow.modulate = Color("#fff0bd66")
+				special_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				tile_stack.add_child(special_glow)
+				var special := TextureRect.new()
+				special.name = "Special"
+				special.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+				# Keep the original web presentation: directional line specials fill
+				# their cell, while the three silhouette specials extend by 14%.
+				if special_kind in ["flash-row", "flash-column", "evidence"]:
+					special.offset_left = 0
+					special.offset_top = 0
+					special.offset_right = 0
+					special.offset_bottom = 0
+				else:
+					special.offset_left = -7
+					special.offset_top = -7
+					special.offset_right = 7
+					special.offset_bottom = 7
+				special.texture = special_texture
+				special.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				special.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				special.rotation_degrees = -18.0 if special_kind == "flash-row" else 72.0 if special_kind == "flash-column" else 0.0
+				special.pivot_offset = Vector2(27, 27)
+				special.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				tile_stack.add_child(special)
+				if special_kind == "flash-row" or special_kind == "flash-column":
+					var direction_marker := PanelContainer.new()
+					direction_marker.name = "SpecialDirectionMarker"
+					direction_marker.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
+					direction_marker.offset_left = 1
+					direction_marker.offset_top = -16
+					direction_marker.offset_right = 16
+					direction_marker.offset_bottom = -1
+					var marker_style := StyleBoxFlat.new()
+					marker_style.bg_color = Color("#10243deb")
+					marker_style.border_color = Color("#fff0bd")
+					marker_style.set_border_width_all(1)
+					marker_style.set_corner_radius_all(3)
+					direction_marker.add_theme_stylebox_override("panel", marker_style)
+					var direction_label := Label.new()
+					direction_label.text = "↔" if special_kind == "flash-row" else "↕"
+					direction_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+					direction_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+					direction_label.add_theme_font_size_override("font_size", 11)
+					direction_label.add_theme_color_override("font_color", Color("#fff0bd"))
+					direction_marker.add_child(direction_label)
+					direction_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+					tile_stack.add_child(direction_marker)
 		board.add_child(tile_button)
 
 
-func _special_glyph(kind: String) -> String:
-	match kind:
-		"flash-row": return "↔"
-		"flash-column": return "↕"
-		"evidence": return "◎"
-		"lead": return "⌖"
-		"insight": return "✦"
+func _render_frame(frame: Dictionary) -> void:
+	var old_tiles: Array[String] = game.tiles
+	var old_specials: Array[String] = game.specials
+	var old_blockers: Array[int] = game.blocker_layers
+	var old_ingredients: Array[String] = game.ingredients
+	game.tiles = frame.tiles.duplicate()
+	game.specials = frame.specials.duplicate()
+	game.blocker_layers = frame.blockers.duplicate()
+	game.ingredients = frame.ingredients.duplicate()
+	_render_board()
+	game.tiles = old_tiles
+	game.specials = old_specials
+	game.blocker_layers = old_blockers
+	game.ingredients = old_ingredients
+	if str(frame.phase) == "clear":
+		_show_match_feedback(str(frame.get("feedback", "match")), int(frame.get("cascade", 1)))
+		_animate_special_impact(frame)
+		for index_value in frame.cleared:
+			var cell := board.get_child(int(index_value)) as Control
+			var tile_stack := cell.get_node_or_null("TileStack") as Control
+			if tile_stack == null: continue
+			var clear_ease := Callable(self, "_css_cubic_bezier").bind(0.2, 0.72, 0.18, 1.0)
+			var tween := create_tween()
+			tween.tween_property(tile_stack, "scale", Vector2(1.1, 1.1), CLEAR_MOTION_SECONDS * 0.48).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(clear_ease)
+			tween.parallel().tween_property(tile_stack, "modulate", Color(1.55, 1.55, 1.55, 1.0), CLEAR_MOTION_SECONDS * 0.48).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(clear_ease)
+			tween.tween_property(tile_stack, "scale", Vector2(0.18, 0.18), CLEAR_MOTION_SECONDS * 0.52).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(clear_ease)
+			tween.parallel().tween_property(tile_stack, "modulate", Color(1.8, 1.8, 1.8, 0.0), CLEAR_MOTION_SECONDS * 0.52).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(clear_ease)
+	elif str(frame.phase) == "settle":
+		for motion_value in frame.motions:
+			var motion: Dictionary = motion_value
+			var cell := board.get_child(int(motion.index)) as Control
+			var tile_stack := cell.get_node_or_null("TileStack") as Control
+			if tile_stack == null: continue
+			var distance := float(motion.rows) * cell.size.y
+			var is_spawn := bool(motion.spawn)
+			var settle_mark := 0.78 if is_spawn else 0.72
+			var settle_scale := 1.02 if is_spawn else 1.015
+			var bezier := Callable(self, "_css_cubic_bezier").bind(0.18, 0.82, 0.28, 1.0)
+			tile_stack.offset_top = -distance
+			tile_stack.offset_bottom = -distance
+			tile_stack.scale = Vector2(0.86, 0.86) if is_spawn else Vector2(0.98, 0.98)
+			tile_stack.modulate.a = 0.05 if is_spawn else 1.0
+			var tween := create_tween()
+			tween.tween_property(tile_stack, "offset_top", cell.size.y * 0.03, SETTLE_MOTION_SECONDS * settle_mark).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+			tween.parallel().tween_property(tile_stack, "offset_bottom", cell.size.y * 0.03, SETTLE_MOTION_SECONDS * settle_mark).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+			tween.parallel().tween_property(tile_stack, "scale", Vector2(settle_scale, settle_scale), SETTLE_MOTION_SECONDS * settle_mark).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+			tween.tween_property(tile_stack, "offset_top", 0.0, SETTLE_MOTION_SECONDS * (1.0 - settle_mark)).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+			tween.parallel().tween_property(tile_stack, "offset_bottom", 0.0, SETTLE_MOTION_SECONDS * (1.0 - settle_mark)).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+			var settle_back := tween.parallel().tween_property(tile_stack, "scale", Vector2.ONE, SETTLE_MOTION_SECONDS * (1.0 - settle_mark)).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+			settle_back.from(Vector2(settle_scale, settle_scale))
+			if is_spawn:
+				var opacity := create_tween()
+				opacity.tween_property(tile_stack, "modulate:a", 1.0, SETTLE_MOTION_SECONDS * 0.68).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+	elif str(frame.phase) == "reshuffle":
+		_show_match_feedback("reshuffled")
+		for cell_value in board.get_children():
+			var cell := cell_value as Control
+			var tile_stack := cell.get_node_or_null("TileStack") as Control
+			if tile_stack == null: continue
+			tile_stack.scale = Vector2(0.82, 0.82)
+			tile_stack.rotation_degrees = -2.0
+			tile_stack.modulate.a = 0.45
+			var tween := create_tween()
+			tween.tween_property(tile_stack, "scale", Vector2(1.04, 1.04), RESHUFFLE_MOTION_SECONDS * 0.65).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			tween.parallel().tween_property(tile_stack, "rotation_degrees", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65)
+			tween.parallel().tween_property(tile_stack, "modulate:a", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65)
+			tween.tween_property(tile_stack, "scale", Vector2.ONE, RESHUFFLE_MOTION_SECONDS * 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			tween.parallel().tween_property(tile_stack, "rotation_degrees", 0.0, RESHUFFLE_MOTION_SECONDS * 0.35)
+
+
+func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: float) -> float:
+	return CssMotion.cubic_bezier(progress, x1, y1, x2, y2)
+
+
+func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
+	if first == second or first < 0 or second < 0 or first >= board.get_child_count() or second >= board.get_child_count():
+		await get_tree().create_timer(SWAP_MOTION_SECONDS).timeout
+		return
+	var first_cell := board.get_child(first) as Control
+	var second_cell := board.get_child(second) as Control
+	var first_stack := first_cell.get_node_or_null("TileStack") as Control
+	var second_stack := second_cell.get_node_or_null("TileStack") as Control
+	if first_stack == null or second_stack == null: return
+	var offset := second_cell.position - first_cell.position
+	first_stack.z_index = 8
+	second_stack.z_index = 8
+	var tween := create_tween()
+	tween.set_parallel(true)
+	_tween_stack_offsets(tween, first_stack, offset, SWAP_MOTION_SECONDS)
+	_tween_stack_offsets(tween, second_stack, -offset, SWAP_MOTION_SECONDS)
+	await tween.finished
+	if return_to_start:
+		var rejected_cells: Array[int] = [first, second]
+		_shake_rejected_cells(rejected_cells)
+		var back := create_tween()
+		back.set_parallel(true)
+		_tween_stack_offsets(back, first_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
+		_tween_stack_offsets(back, second_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
+		await back.finished
+		await get_tree().create_timer(0.07).timeout
+	first_stack.offset_left = 0.0
+	first_stack.offset_top = 0.0
+	first_stack.offset_right = 0.0
+	first_stack.offset_bottom = 0.0
+	second_stack.offset_left = 0.0
+	second_stack.offset_top = 0.0
+	second_stack.offset_right = 0.0
+	second_stack.offset_bottom = 0.0
+	first_stack.z_index = 0
+	second_stack.z_index = 0
+
+
+func _tween_stack_offsets(tween: Tween, stack: Control, target: Vector2, duration: float) -> void:
+	var transition := Tween.TRANS_CUBIC
+	tween.tween_property(stack, "offset_left", target.x, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(stack, "offset_right", target.x, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(stack, "offset_top", target.y, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(stack, "offset_bottom", target.y, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
+
+
+func _shake_rejected_cells(indices: Array) -> void:
+	for index in indices:
+		if index < 0 or index >= board.get_child_count(): continue
+		var cell := board.get_child(index) as Control
+		var start_x := cell.position.x
+		var tween := create_tween()
+		for offset in [-5.0, 5.0, -3.0, 0.0]:
+			tween.tween_property(cell, "position:x", start_x + offset, 0.055)
+
+
+func _feedback_text(key: String, count: int = 1) -> String:
+	var copy_key := "match3_feedback_" + key
+	return MenuCopy.text(copy_key, preferences.locale).replace("{count}", str(count))
+
+
+func _show_match_feedback(kind: String, cascade: int = 1, localized_key: String = "") -> void:
+	if not is_instance_valid(match_feedback_panel) or not is_instance_valid(match_feedback_label): return
+	if match_feedback_tween != null and match_feedback_tween.is_valid(): match_feedback_tween.kill()
+	match_feedback_key = localized_key if not localized_key.is_empty() else kind
+	match_feedback_kind = kind
+	match_feedback_cascade = cascade
+	match_feedback_label.text = _feedback_text(match_feedback_key, cascade)
+	var colors := {
+		"match": Color("#326349eb"), "special": Color("#c07f35ef"), "combo": Color("#c07f35ef"),
+		"chain": Color("#c07f35ef"), "reshuffled": Color("#4c5577ef"), "reject": Color("#9a4955eb"),
+		"win": Color("#28715aec"), "loss": Color("#803f4dec"),
+	}
+	var feedback_style := match_feedback_panel.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
+	feedback_style.bg_color = colors.get(kind, colors.match)
+	match_feedback_panel.add_theme_stylebox_override("panel", feedback_style)
+	match_feedback_panel.visible = true
+	match_feedback_panel.scale = Vector2(0.86, 0.86)
+	match_feedback_panel.modulate.a = 0.0
+	match_feedback_tween = create_tween()
+	match_feedback_tween.set_parallel(true)
+	match_feedback_tween.tween_property(match_feedback_panel, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	match_feedback_tween.tween_property(match_feedback_panel, "modulate:a", 1.0, 0.1)
+
+
+func _clear_match_feedback() -> void:
+	if match_feedback_tween != null and match_feedback_tween.is_valid(): match_feedback_tween.kill()
+	match_feedback_key = ""
+	match_feedback_panel.visible = false
+
+
+func _build_evidence_transition() -> void:
+	evidence_transition_overlay = Control.new()
+	evidence_transition_overlay.name = "EvidenceTransition"
+	evidence_transition_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	evidence_transition_overlay.z_index = 20
+	evidence_transition_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	evidence_transition_overlay.visible = false
+	add_child(evidence_transition_overlay)
+	var blurred_background := TextureRect.new()
+	blurred_background.name = "EvidenceBackground"
+	blurred_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	blurred_background.texture = background.texture
+	blurred_background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	blurred_background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	blurred_background.material = _evidence_blur_material()
+	blurred_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	evidence_transition_overlay.add_child(blurred_background)
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	center.offset_left = 22
+	center.offset_right = -22
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	evidence_transition_overlay.add_child(center)
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var paper := StyleBoxFlat.new()
+	paper.bg_color = Color("#fffaf2f2")
+	paper.set_corner_radius_all(14)
+	paper.content_margin_left = 24
+	paper.content_margin_right = 24
+	paper.content_margin_top = 27
+	paper.content_margin_bottom = 27
+	paper.shadow_color = Color("#0a0c18a3")
+	paper.shadow_size = 24
+	paper.shadow_offset = Vector2(0, 12)
+	panel.add_theme_stylebox_override("panel", paper)
+	center.add_child(panel)
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 8)
+	panel.add_child(content)
+	evidence_transition_kicker = _label(content, 10, Color("#d96279"))
+	evidence_transition_kicker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	evidence_transition_image = TextureRect.new()
+	evidence_transition_image.custom_minimum_size = Vector2(150, 150)
+	evidence_transition_image.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	evidence_transition_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	content.add_child(evidence_transition_image)
+	evidence_transition_title = _label(content, 29, Color("#29243d"))
+	evidence_transition_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var title_serif := SystemFont.new()
+	title_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
+	title_serif.font_weight = 800
+	evidence_transition_title.add_theme_font_override("font", title_serif)
+	evidence_transition_copy = RichTextLabel.new()
+	evidence_transition_copy.bbcode_enabled = true
+	evidence_transition_copy.fit_content = true
+	evidence_transition_copy.scroll_active = false
+	evidence_transition_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	evidence_transition_copy.add_theme_color_override("default_color", Color("#746d7c"))
+	evidence_transition_copy.add_theme_font_size_override("normal_font_size", 15)
+	var copy_serif := SystemFont.new()
+	copy_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
+	evidence_transition_copy.add_theme_font_override("normal_font", copy_serif)
+	content.add_child(evidence_transition_copy)
+	evidence_transition_continue = Button.new()
+	Style.style_button(evidence_transition_continue, true)
+	evidence_transition_continue.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.add_child(evidence_transition_continue)
+	evidence_transition_continue.pressed.connect(_continue_story)
+
+
+func _build_campaign_result() -> void:
+	campaign_result_overlay = Control.new()
+	campaign_result_overlay.name = "CampaignResult"
+	campaign_result_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	campaign_result_overlay.z_index = 30
+	campaign_result_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	campaign_result_overlay.visible = false
+	add_child(campaign_result_overlay)
+	var background_fill := ColorRect.new()
+	background_fill.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background_fill.color = Color("#fffaf2")
+	background_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	campaign_result_overlay.add_child(background_fill)
+	var background_wash := TextureRect.new()
+	background_wash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background_wash.texture = _campaign_result_wash()
+	background_wash.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	background_wash.stretch_mode = TextureRect.STRETCH_SCALE
+	background_wash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	campaign_result_overlay.add_child(background_wash)
+	var header_panel := PanelContainer.new()
+	header_panel.anchor_right = 1
+	header_panel.offset_bottom = 60
+	header_panel.custom_minimum_size.y = 60
+	var header_style := StyleBoxFlat.new()
+	header_style.bg_color = Color("#10243d")
+	header_style.border_color = Color("#d3b068")
+	header_style.border_width_bottom = 2
+	header_style.content_margin_left = 6
+	header_style.content_margin_right = 6
+	header_style.content_margin_top = 5
+	header_style.content_margin_bottom = 5
+	header_panel.add_theme_stylebox_override("panel", header_style)
+	campaign_result_overlay.add_child(header_panel)
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 7)
+	header_panel.add_child(header)
+	campaign_result_back = _button(header)
+	campaign_result_back.text = ""
+	_add_header_icon(campaign_result_back, "back")
+	_style_header_button(campaign_result_back)
+	campaign_result_back.pressed.connect(func() -> void: story_requested.emit())
+	var header_copy := VBoxContainer.new()
+	header_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header_copy.alignment = BoxContainer.ALIGNMENT_CENTER
+	header_copy.add_theme_constant_override("separation", 1)
+	header.add_child(header_copy)
+	campaign_result_eyebrow = _label(header_copy, 7, Color("#f0d69b"))
+	campaign_result_eyebrow.add_theme_font_size_override("font_size", 7)
+	campaign_result_eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	campaign_result_level = _label(header_copy, 11, Color.WHITE)
+	var header_serif := SystemFont.new()
+	header_serif.font_names = PackedStringArray(["Georgia", "serif"])
+	header_serif.font_weight = 800
+	campaign_result_level.add_theme_font_override("font", header_serif)
+	campaign_result_level.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	var header_spacer := Control.new()
+	header_spacer.custom_minimum_size.x = 44
+	header.add_child(header_spacer)
+	var content := VBoxContainer.new()
+	content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	content.offset_left = 28
+	content.offset_right = -28
+	content.offset_top = 68
+	content.offset_bottom = -24
+	content.alignment = BoxContainer.ALIGNMENT_CENTER
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.add_theme_constant_override("separation", 11)
+	campaign_result_overlay.add_child(content)
+	var mark_center := CenterContainer.new()
+	mark_center.custom_minimum_size.y = 82
+	content.add_child(mark_center)
+	var mark_panel := PanelContainer.new()
+	mark_panel.custom_minimum_size = Vector2(82, 82)
+	var mark_style := StyleBoxFlat.new()
+	mark_style.bg_color = Color("#d96279")
+	mark_style.set_corner_radius_all(41)
+	mark_panel.add_theme_stylebox_override("panel", mark_style)
+	mark_center.add_child(mark_panel)
+	campaign_result_mark = _label(mark_panel, 44, Color.WHITE)
+	campaign_result_mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	campaign_result_mark.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	campaign_result_kicker = _label(content, 10, Color("#a24762"))
+	campaign_result_kicker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	campaign_result_heading = _label(content, 29, Color("#29243d"))
+	campaign_result_heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	campaign_result_heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	campaign_result_heading.add_theme_font_size_override("font_size", 29)
+	var heading_serif := SystemFont.new()
+	heading_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
+	heading_serif.font_weight = 800
+	campaign_result_heading.add_theme_font_override("font", heading_serif)
+	campaign_result_detail = _label(content, 12, Color("#5f5866"))
+	campaign_result_detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	campaign_result_detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var quote_panel := PanelContainer.new()
+	var quote_style := StyleBoxFlat.new()
+	quote_style.bg_color = Color.WHITE
+	quote_style.content_margin_left = 14
+	quote_style.content_margin_right = 14
+	quote_style.content_margin_top = 14
+	quote_style.content_margin_bottom = 14
+	quote_panel.add_theme_stylebox_override("panel", quote_style)
+	content.add_child(quote_panel)
+	campaign_result_loss_quote = RichTextLabel.new()
+	campaign_result_loss_quote.name = "LossQuote"
+	campaign_result_loss_quote.bbcode_enabled = true
+	campaign_result_loss_quote.fit_content = true
+	campaign_result_loss_quote.scroll_active = false
+	campaign_result_loss_quote.custom_minimum_size.y = 52
+	campaign_result_loss_quote.add_theme_color_override("default_color", Color("#5f5866"))
+	campaign_result_loss_quote.add_theme_font_size_override("normal_font_size", 14)
+	var quote_serif := SystemFont.new()
+	quote_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
+	campaign_result_loss_quote.add_theme_font_override("normal_font", quote_serif)
+	quote_panel.add_child(campaign_result_loss_quote)
+	campaign_result_next = _button(content)
+	campaign_result_next.pressed.connect(func() -> void: campaign_next_requested.emit(_next_campaign_level_id()))
+	campaign_result_retry = _button(content)
+	campaign_result_retry.pressed.connect(_retry)
+	campaign_result_hub = _button(content)
+	campaign_result_hub.pressed.connect(func() -> void: story_requested.emit())
+
+
+func _campaign_result_wash() -> Texture2D:
+	var gradient := Gradient.new()
+	gradient.set_color(0, Color("#fffaf2"))
+	gradient.add_point(1.0, Color("#eadce4"))
+	var texture := GradientTexture2D.new()
+	texture.gradient = gradient
+	texture.width = 1
+	texture.height = 512
+	return texture
+
+
+func _refresh_campaign_result(locale: String) -> void:
+	var copy: Dictionary = campaign_bundle.campaignLocalized.get(locale, campaign_bundle.campaignLocalized.en)
+	var won: bool = game.state == "won"
+	campaign_result_loss_quote.get_parent().visible = false
+	campaign_result_detail.visible = true
+	campaign_result_back.tooltip_text = str(copy.back)
+	campaign_result_eyebrow.text = str(copy.eyebrow)
+	campaign_result_level.text = str(level_data.shortId)
+	campaign_result_mark.text = "✓" if won else "↻"
+	campaign_result_kicker.text = MenuCopy.text("campaign_win_eyebrow" if won else "campaign_loss_eyebrow", locale)
+	campaign_result_heading.text = MenuCopy.text("campaign_win_heading" if won else "campaign_loss_heading", locale)
+	campaign_result_detail.text = MenuCopy.text("campaign_result_detail", locale).replace("{movesLeft}", str(game.moves_left))
+	campaign_result_next.text = MenuCopy.text("campaign_next_level", locale)
+	campaign_result_retry.text = MenuCopy.text("campaign_retry_level", locale)
+	campaign_result_hub.text = MenuCopy.text("campaign_back_to_hub", locale)
+	campaign_result_next.visible = won and not _next_campaign_level_id().is_empty()
+	Style.style_button(campaign_result_next, true)
+	Style.style_button(campaign_result_retry, not campaign_result_next.visible)
+	Style.style_button(campaign_result_hub, false)
+	campaign_result_retry.visible = true
+	campaign_result_hub.visible = true
+
+
+func _refresh_story_loss_result(locale: String, copy: Dictionary) -> void:
+	campaign_result_back.tooltip_text = MenuCopy.text("match3_back_to_investigation", locale)
+	campaign_result_eyebrow.text = str(level_data.get("shortId", ""))
+	campaign_result_level.text = MenuCopy.text("match3_result_title", locale)
+	campaign_result_mark.text = "↻"
+	campaign_result_kicker.text = MenuCopy.text("match3_feedback_out_of_moves", locale)
+	campaign_result_heading.text = MenuCopy.text("match3_loss_heading", locale)
+	campaign_result_detail.visible = false
+	campaign_result_loss_quote.get_parent().visible = true
+	var speaker := str(copy.get("loseSpeaker", ""))
+	var lose_text := str(copy.get("loseText", "")).replace("[", "[lb]")
+	campaign_result_loss_quote.text = "[b][color=#d96279]%s[/color][/b]\n%s" % [speaker, lose_text]
+	campaign_result_next.visible = false
+	campaign_result_retry.text = MenuCopy.text("match3_retry_level", locale)
+	campaign_result_hub.visible = false
+	Style.style_button(campaign_result_retry, true)
+
+
+func _next_campaign_level_id() -> String:
+	var levels: Array = campaign_bundle.get("levels", [])
+	for index in levels.size():
+		if str(levels[index].get("id", "")) != level_id: continue
+		return str(levels[index + 1].get("id", "")) if index + 1 < levels.size() else ""
 	return ""
 
 
+func _evidence_blur_material() -> ShaderMaterial:
+	var shader := Shader.new()
+	shader.code = """
+	shader_type canvas_item;
+	void fragment() {
+		vec2 blur = TEXTURE_PIXEL_SIZE * 3.0;
+		vec3 color = texture(TEXTURE, UV).rgb * 0.20;
+		color += texture(TEXTURE, UV + vec2(blur.x, 0.0)).rgb * 0.10;
+		color += texture(TEXTURE, UV - vec2(blur.x, 0.0)).rgb * 0.10;
+		color += texture(TEXTURE, UV + vec2(0.0, blur.y)).rgb * 0.10;
+		color += texture(TEXTURE, UV - vec2(0.0, blur.y)).rgb * 0.10;
+		color += texture(TEXTURE, UV + blur).rgb * 0.10;
+		color += texture(TEXTURE, UV - blur).rgb * 0.10;
+		color += texture(TEXTURE, UV + vec2(blur.x, -blur.y)).rgb * 0.10;
+		color += texture(TEXTURE, UV + vec2(-blur.x, blur.y)).rgb * 0.10;
+		COLOR = vec4(color * 0.45, 1.0);
+	}
+	"""
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	return material
+
+
+func _show_story_evidence_transition() -> void:
+	if campaign_mode or story_session == null: return
+	var locale: String = preferences.locale
+	var evidence: Dictionary = level_data.get("evidence", {})
+	var localized: Dictionary = evidence.get("localized", {}).get(locale, evidence.get("localized", {}).get("en", {}))
+	var copy: Dictionary = level_presentation.localized.get(locale, level_presentation.localized.en)
+	evidence_transition_overlay.get_node("EvidenceBackground").texture = background.texture
+	evidence_transition_kicker.text = str(localized.get("evidenceFound", MenuCopy.text("dossier_updated", locale)))
+	evidence_transition_image.texture = load("res://" + str(evidence.get("asset", "")).trim_prefix("./"))
+	evidence_transition_title.text = str(localized.get("title", ""))
+	var win_speaker := str(copy.get("winSpeaker", ""))
+	var win_text := str(copy.get("winText", "")).replace("[", "[lb]")
+	evidence_transition_copy.text = "[b]%s:[/b] %s" % [win_speaker, win_text]
+	evidence_transition_continue.text = str(localized.get("continueStory", MenuCopy.text("vn_next", locale)))
+	story_evidence_visible = true
+	evidence_transition_overlay.visible = true
+
+
+func _invalid_feedback_key(reason: String) -> String:
+	return {
+		"no-match": "no_match", "blocked": "move_blocked", "ingredient": "story_object_locked",
+		"not-adjacent": "adjacent_only",
+	}.get(reason, "swap_unavailable")
+
+
+func _animate_special_impact(frame: Dictionary) -> void:
+	var special_kinds: Array = frame.get("specials", [])
+	var cleared: Array = frame.get("cleared", [])
+	var activated_sources: Array[int] = []
+	for index_value in cleared:
+		var index := int(index_value)
+		if index >= 0 and index < special_kinds.size() and not str(special_kinds[index]).is_empty():
+			activated_sources.append(index)
+	if activated_sources.is_empty(): return
+	var impact_curve := Callable(self, "_css_cubic_bezier").bind(0.18, 0.82, 0.28, 1.0)
+	for index_value in cleared:
+		var index := int(index_value)
+		if index < 0 or index >= board.get_child_count(): continue
+		var cell := board.get_child(index) as Control
+		var is_source := activated_sources.has(index)
+		var flash := ColorRect.new()
+		flash.name = "SpecialImpactFlash"
+		flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		flash.pivot_offset = cell.size * 0.5
+		flash.scale = Vector2(0.72, 0.72)
+		flash.material = _special_impact_flash_material()
+		flash.modulate.a = 0.0
+		flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		flash.z_index = 8
+		cell.add_child(flash)
+		var flash_tween := create_tween()
+		flash_tween.tween_property(flash, "modulate:a", 1.0, 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.04, 1.04), 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		flash_tween.tween_property(flash, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.12, 1.12), 0.185).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		flash_tween.finished.connect(flash.queue_free)
+		var outline := Panel.new()
+		outline.name = "SpecialImpactSourceOutline" if is_source else "SpecialImpactTargetOutline"
+		outline.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		outline.offset_left = -1.0 if is_source else 1.0
+		outline.offset_top = -1.0 if is_source else 1.0
+		outline.offset_right = 1.0 if is_source else -1.0
+		outline.offset_bottom = 1.0 if is_source else -1.0
+		outline.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		outline.z_index = 9
+		var outline_style := StyleBoxFlat.new()
+		outline_style.bg_color = Color(0, 0, 0, 0)
+		outline_style.border_color = Color("#fff2a8")
+		outline_style.set_border_width_all(3 if is_source else 2)
+		outline_style.set_corner_radius_all(3)
+		outline_style.shadow_color = Color("#6ce2d388" if is_source else "#6ce2d355")
+		outline_style.shadow_size = 18 if is_source else 8
+		outline.add_theme_stylebox_override("panel", outline_style)
+		outline.modulate.a = 0.0
+		cell.add_child(outline)
+		var outline_tween := create_tween()
+		outline_tween.tween_property(outline, "modulate:a", 1.0, 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		outline_tween.tween_property(outline, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		outline_tween.finished.connect(outline.queue_free)
+		var impact_tween := create_tween()
+		var peak_scale := 1.11 if is_source else 1.055
+		impact_tween.tween_property(cell, "scale", Vector2(peak_scale, peak_scale), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+		if not is_source:
+			impact_tween.parallel().tween_property(cell, "modulate", Color(1.42, 1.42, 1.42, 1.0), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+		var return_impact := impact_tween.tween_property(cell, "scale", Vector2.ONE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+		return_impact.from(Vector2(peak_scale, peak_scale))
+		if not is_source:
+			var return_brightness := impact_tween.parallel().tween_property(cell, "modulate", Color.WHITE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			return_brightness.from(Color(1.42, 1.42, 1.42, 1.0))
+		var special_kind := str(special_kinds[index]) if index < special_kinds.size() else ""
+		if special_kind.is_empty(): continue
+		var tile_stack := cell.get_node_or_null("TileStack") as Control
+		var special_icon := tile_stack.get_node_or_null("Special") as Control if tile_stack != null else null
+		if special_icon != null:
+			special_icon.pivot_offset = special_icon.size * 0.5
+			special_icon.scale = Vector2(0.82, 0.82)
+			special_icon.rotation_degrees = -8.0
+			var icon_tween := create_tween()
+			icon_tween.tween_property(special_icon, "scale", Vector2(1.24, 1.24), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 4.0, 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.tween_property(special_icon, "scale", Vector2.ONE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 0.0, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+		if special_kind == "flash-row" or special_kind == "flash-column":
+			var beam := ColorRect.new()
+			beam.name = "SpecialImpactBeam"
+			beam.pivot_offset = cell.size * 0.5
+			beam.material = _special_impact_beam_material(special_kind == "flash-column")
+			beam.modulate.a = 0.0
+			beam.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			beam.z_index = 10
+			if special_kind == "flash-row":
+				beam.anchor_left = -0.18
+				beam.anchor_right = 1.18
+				beam.anchor_top = 0.44
+				beam.anchor_bottom = 0.56
+			else:
+				beam.anchor_left = 0.44
+				beam.anchor_right = 0.56
+				beam.anchor_top = -0.18
+				beam.anchor_bottom = 1.18
+			cell.add_child(beam)
+			beam.scale = Vector2(1.0, 0.25) if special_kind == "flash-column" else Vector2(0.25, 1.0)
+			var beam_tween := create_tween()
+			beam_tween.tween_property(beam, "modulate:a", 1.0, 0.098).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			beam_tween.parallel().tween_property(beam, "scale", Vector2(1.0, 1.15) if special_kind == "flash-column" else Vector2(1.15, 1.0), 0.098).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			beam_tween.tween_property(beam, "modulate:a", 0.0, 0.182).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			beam_tween.parallel().tween_property(beam, "scale", Vector2.ONE, 0.182).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			beam_tween.finished.connect(beam.queue_free)
+
+
+func _special_impact_flash_material() -> ShaderMaterial:
+	var shader := Shader.new()
+	shader.code = """
+	shader_type canvas_item;
+	void fragment() {
+		float radius = distance(UV, vec2(0.5));
+		float glow = 1.0 - smoothstep(0.12, 0.72, radius);
+		COLOR = vec4(vec3(1.0, 0.965, 0.75), glow) * COLOR;
+	}
+	"""
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	return material
+
+
+func _special_impact_beam_material(vertical: bool) -> ShaderMaterial:
+	var shader := Shader.new()
+	shader.code = """
+	shader_type canvas_item;
+	uniform bool vertical_gradient = false;
+	void fragment() {
+		float point = vertical_gradient ? UV.y : UV.x;
+		float edge_alpha = smoothstep(0.0, 0.2, point) * (1.0 - smoothstep(0.8, 1.0, point));
+		float teal = 1.0 - min(abs(point - 0.5) * 5.0, 1.0);
+		vec3 gold = vec3(1.0, 0.96, 0.74);
+		vec3 aqua = vec3(0.42, 0.89, 0.83);
+		COLOR = vec4(mix(gold, aqua, teal), edge_alpha) * COLOR;
+	}
+	"""
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	material.set_shader_parameter("vertical_gradient", vertical)
+	return material
+
+
+func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
+	input_locked = true
+	var valid := bool(result.valid)
+	if valid:
+		_clear_match_feedback()
+		for frame_value in result.get("frames", []):
+			var frame: Dictionary = frame_value
+			if str(frame.phase) == "swap":
+				await _animate_swap(first, second, false)
+				_render_frame(frame)
+			elif str(frame.phase) == "clear":
+				_render_frame(frame)
+				await get_tree().create_timer(CLEAR_MOTION_SECONDS).timeout
+			elif str(frame.phase) == "settle":
+				_render_frame(frame)
+				await get_tree().create_timer(SETTLE_MOTION_SECONDS).timeout
+			elif str(frame.phase) == "reshuffle":
+				_render_frame(frame)
+				await get_tree().create_timer(RESHUFFLE_MOTION_SECONDS).timeout
+		_render_board()
+		if bool(result.get("reshuffled", false)):
+			_show_match_feedback("reshuffled")
+			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
+		elif int(result.get("cascades", 0)) >= 2:
+			_show_match_feedback("chain", int(result.cascades))
+			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
+		elif int(result.get("ingredientsDropped", 0)) > 0:
+			_show_match_feedback("match", 1, "clue_collected")
+			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
+		elif game.state == "lost":
+			_show_match_feedback("loss", 1, "out_of_moves")
+			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
+		elif game.state == "won":
+			_show_match_feedback("win", 1, "clue_collected")
+			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
+		_clear_match_feedback()
+	else:
+		_show_match_feedback("reject", 1, _invalid_feedback_key(str(result.get("reason", ""))))
+		if str(result.get("reason", "")) == "no-match":
+			await _animate_swap(first, second, true)
+		else:
+			_shake_rejected_cells([first, second])
+		await get_tree().create_timer(0.70).timeout
+		_clear_match_feedback()
+	_render_board()
+	input_locked = false
+
+
+func _speaker_portrait(speaker: String) -> Texture2D:
+	var normalized := speaker.to_lower()
+	var character := "miku"
+	if ["onoe", "оноэ", "онoэ"].any(func(name: String) -> bool: return normalized.contains(name)):
+		character = "onoe"
+	elif ["ayuki", "аюки"].any(func(name: String) -> bool: return normalized.contains(name)):
+		character = "ayuki"
+	var path := "res://assets/characters/%s/portrait_neutral_256.png" % character
+	return load(path) as Texture2D if ResourceLoader.exists(path) else null
+
+
+func _new_game_for_attempt() -> RefCounted:
+	var runtime_level: Dictionary = level_data.duplicate(true)
+	runtime_level.erase("openingBoard")
+	runtime_level.erase("seededOpeningBoard")
+	var attempt := int(session.save.attempts.get(level_id, 0))
+	runtime_level.seed = int(level_data.seed) + attempt * 101
+	tutorial_reveal_events = ["level-start"]
+	active_tutorial = ""
+	tutorial_prompt_dismissed = false
+	return Game.new(runtime_level)
+
+
 func _select_cell(index: int) -> void:
-	if game.state != "playing" or tutorial_panel.visible:
+	if suppress_drag_click_index == index:
+		suppress_drag_click_index = -1
+		return
+	if input_locked or game.state != "playing" or tutorial_panel.visible:
 		return
 	var now := Time.get_ticks_msec()
 	if not game.specials[index].is_empty() and selected_index == index and last_tapped_special_index == index and now - last_tapped_special_at <= 360:
@@ -309,9 +1450,13 @@ func _select_cell(index: int) -> void:
 		hinted_indices.clear()
 		var special_result: Dictionary = game.attempt_special_activation(index)
 		last_feedback = "" if special_result.valid else str(special_result.reason)
+		if special_result.valid:
+			await _play_move_frames(special_result, index, index)
+		_record_tutorial_move(special_result, true)
 		if special_result.valid and game.state == "won":
 			session.complete_level(level_id, game.moves_left)
 			if not campaign_mode and story_session != null: story_session.complete_match3(level_id)
+			_show_story_evidence_transition()
 		_refresh()
 		return
 	if selected_index < 0:
@@ -326,7 +1471,8 @@ func _select_cell(index: int) -> void:
 		last_tapped_special_at = -1
 		_render_board()
 		return
-	var result: Dictionary = game.attempt_swap(selected_index, index)
+	var first_index := selected_index
+	var result: Dictionary = game.attempt_swap(first_index, index)
 	hinted_indices.clear()
 	last_tapped_special_index = -1
 	last_tapped_special_at = -1
@@ -339,7 +1485,148 @@ func _select_cell(index: int) -> void:
 	else:
 		selected_index = index
 		last_feedback = str(result.reason)
+	await _play_move_frames(result, first_index, index)
+	_record_tutorial_move(result)
+	if result.valid and game.state == "won":
+		_show_story_evidence_transition()
 	_refresh()
+
+
+func _on_tile_gui_input(event: InputEvent, index: int) -> void:
+	if input_locked or game == null or game.state != "playing" or tutorial_panel.visible:
+		return
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			_begin_tile_drag(index, _tile_event_position(event, index))
+		else:
+			_end_tile_drag(_tile_event_position(event, index))
+	elif event is InputEventMouseMotion and drag_start_index >= 0 and (event.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
+		_update_tile_drag(_tile_event_position(event, index))
+	elif event is InputEventScreenTouch:
+		if event.pressed:
+			_begin_tile_drag(index, _tile_event_position(event, index))
+		else:
+			_end_tile_drag(_tile_event_position(event, index))
+	elif event is InputEventScreenDrag and drag_start_index >= 0:
+		_update_tile_drag(_tile_event_position(event, index))
+
+
+func _tile_event_position(event: InputEvent, index: int) -> Vector2:
+	if event is InputEventMouse:
+		return get_global_mouse_position()
+	if index < 0 or index >= board.get_child_count(): return Vector2.ZERO
+	var cell := board.get_child(index) as Control
+	return cell.get_global_transform_with_canvas() * event.position
+
+
+func _begin_tile_drag(index: int, position: Vector2) -> void:
+	if index < 0 or index >= game.tiles.size() or game.tiles[index].is_empty() or game.blocker_layers[index] > 0:
+		return
+	drag_start_index = index
+	drag_start_position = position
+	drag_target_index = -1
+	var cell := board.get_child(index) as Control
+	drag_start_cell_size = maxf(1.0, cell.size.x)
+	hinted_indices.clear()
+
+
+func _update_tile_drag(position: Vector2) -> void:
+	if drag_start_index < 0 or input_locked:
+		return
+	var delta := position - drag_start_position
+	var horizontal := absf(delta.x)
+	var vertical := absf(delta.y)
+	var direction := ""
+	if horizontal >= vertical * 1.08:
+		direction = "left" if delta.x < 0.0 else "right"
+	elif vertical >= horizontal * 1.08:
+		direction = "up" if delta.y < 0.0 else "down"
+	var target := _drag_neighbour(drag_start_index, direction) if not direction.is_empty() else -1
+	var distance := absf(delta.x) if direction in ["left", "right"] else absf(delta.y) if direction in ["up", "down"] else 0.0
+	var signed_distance := delta.x if direction in ["left", "right"] else delta.y
+	var visual_limit := drag_start_cell_size * 0.94
+	var travel := clampf(signed_distance, -visual_limit, visual_limit)
+	var reacting := target >= 0 and distance >= drag_start_cell_size * 0.035
+	var source := board.get_child(drag_start_index) as Control
+	var source_stack := source.get_node_or_null("TileStack") as Control
+	if source_stack != null:
+		source.z_index = 9
+		_set_stack_translation(source_stack, Vector2(travel, 0.0) if direction in ["left", "right"] else Vector2(0.0, travel))
+		source_stack.scale = Vector2.ONE * 1.06
+		source_stack.modulate = Color(1.08, 1.08, 1.08, 1.0)
+	if drag_target_index >= 0 and drag_target_index < board.get_child_count():
+		var previous := board.get_child(drag_target_index) as Control
+		var previous_stack := previous.get_node_or_null("TileStack") as Control
+		if previous_stack != null:
+			_set_stack_translation(previous_stack, Vector2.ZERO)
+			previous_stack.scale = Vector2.ONE
+	if reacting:
+		var target_cell := board.get_child(target) as Control
+		var target_stack := target_cell.get_node_or_null("TileStack") as Control
+		if target_stack != null:
+			var reaction := minf(drag_start_cell_size * 0.18, distance * 0.18) * (-1.0 if signed_distance > 0.0 else 1.0)
+			_set_stack_translation(target_stack, Vector2(reaction, 0.0) if direction in ["left", "right"] else Vector2(0.0, reaction))
+			target_stack.scale = Vector2.ONE * 0.97
+	drag_target_index = target if reacting else -1
+
+
+func _end_tile_drag(position: Vector2) -> void:
+	if drag_start_index < 0:
+		return
+	var start := drag_start_index
+	var delta := position - drag_start_position
+	var horizontal := absf(delta.x)
+	var vertical := absf(delta.y)
+	var direction := ""
+	if horizontal >= vertical * 1.08:
+		direction = "left" if delta.x < 0.0 else "right"
+	elif vertical >= horizontal * 1.08:
+		direction = "up" if delta.y < 0.0 else "down"
+	var target := _drag_neighbour(start, direction) if not direction.is_empty() else -1
+	var should_swap := target >= 0 and maxf(horizontal, vertical) >= drag_start_cell_size * 0.24
+	_clear_drag_preview()
+	if should_swap and not input_locked:
+		selected_index = start
+		suppress_drag_click_index = start
+		await _select_cell(target)
+		await get_tree().process_frame
+		suppress_drag_click_index = -1
+
+
+func _drag_neighbour(index: int, direction: String) -> int:
+	if direction.is_empty(): return -1
+	var columns := int(level_data.get("columns", 8))
+	var rows := int(level_data.get("rows", 8))
+	var row := index / columns
+	var column := index % columns
+	if direction == "left": column -= 1
+	elif direction == "right": column += 1
+	elif direction == "up": row -= 1
+	else: row += 1
+	if row < 0 or row >= rows or column < 0 or column >= columns: return -1
+	var target := row * columns + column
+	return target if game._is_active(target) else -1
+
+
+func _clear_drag_preview() -> void:
+	for index in [drag_start_index, drag_target_index]:
+		if index < 0 or index >= board.get_child_count(): continue
+		var cell := board.get_child(index) as Control
+		cell.z_index = 0
+		var stack := cell.get_node_or_null("TileStack") as Control
+		if stack != null:
+			_set_stack_translation(stack, Vector2.ZERO)
+			stack.scale = Vector2.ONE
+			stack.modulate = Color.WHITE
+	drag_start_index = -1
+	drag_target_index = -1
+
+
+func _set_stack_translation(stack: Control, translation: Vector2) -> void:
+	stack.offset_left = translation.x
+	stack.offset_right = translation.x
+	stack.offset_top = translation.y
+	stack.offset_bottom = translation.y
 
 
 func _show_hint() -> void:
@@ -354,21 +1641,67 @@ func _show_hint() -> void:
 
 
 func _dismiss_tutorial() -> void:
-	if not session.save.tutorialsCompleted.has("basic-swap"):
-		session.save.tutorialsCompleted.append("basic-swap")
-		session.persist()
+	if active_tutorial.is_empty(): return
+	if active_tutorial == "activate-special":
+		var progress := _tutorial_progress()
+		if not progress.has(active_tutorial):
+			progress.append(active_tutorial)
+			_persist_tutorial_progress()
+	tutorial_prompt_dismissed = true
 	_refresh()
 
 
+func _tutorial_progress() -> Array:
+	if story_session != null:
+		return story_session.state.tutorialsCompleted
+	return session.save.tutorialsCompleted
+
+
+func _persist_tutorial_progress() -> void:
+	if story_session != null:
+		story_session.persist()
+	else:
+		session.persist()
+
+
+func _sync_tutorial_prompt() -> void:
+	var revealed := tutorial_reveal_events.duplicate()
+	var board_events: Array[String] = Tutorials.board_reveal_events(game.specials, int(level_data.rows), int(level_data.columns))
+	for event in board_events:
+		if not revealed.has(event): revealed.append(event)
+	var next := Tutorials.next_pending(level_data.get("tutorialConcepts", []), _tutorial_progress(), revealed)
+	if next != active_tutorial:
+		active_tutorial = next
+		tutorial_prompt_dismissed = false
+
+
+func _record_tutorial_move(result: Dictionary, direct_activation := false) -> void:
+	if not bool(result.get("valid", false)): return
+	for event in Tutorials.reveal_events_for_move(result):
+		if not tutorial_reveal_events.has(event): tutorial_reveal_events.append(event)
+	var events := Tutorials.completion_events(result, direct_activation, bool(result.get("specialsCombined", false)))
+	var progress := _tutorial_progress()
+	var completed := Tutorials.completed_by_events(level_data.get("tutorialConcepts", []), progress, events)
+	if not completed.is_empty():
+		for concept in completed:
+			progress.append(concept)
+		_persist_tutorial_progress()
+	_sync_tutorial_prompt()
+
+
 func _retry() -> void:
-	game.reset()
+	session.start_level(level_id)
+	game = _new_game_for_attempt()
 	selected_index = -1
 	last_feedback = ""
-	session.start_level(level_id)
+	_sync_tutorial_prompt()
 	_refresh()
 
 
 func _continue_story() -> void:
+	if story_evidence_visible and story_session != null:
+		clue_awarded.emit(str(level_data.get("evidence", {}).get("id", "")))
+		story_evidence_visible = false
 	story_requested.emit()
 
 
@@ -386,3 +1719,152 @@ func _button(parent: Node) -> Button:
 	Style.style_button(button)
 	parent.add_child(button)
 	return button
+
+
+func _header_icon_button(parent: Node, icon_name: String) -> Button:
+	var button := _button(parent)
+	button.custom_minimum_size = Vector2(44, 44)
+	button.text = ""
+	_add_header_icon(button, icon_name)
+	_style_header_button(button)
+	return button
+
+
+func _add_header_icon(button: Button, icon_name: String) -> void:
+	var icon := TextureRect.new()
+	icon.name = "HeaderIcon"
+	icon.anchor_left = 0.5
+	icon.anchor_right = 0.5
+	icon.anchor_top = 0.5
+	icon.anchor_bottom = 0.5
+	icon.offset_left = -10.5
+	icon.offset_right = 10.5
+	icon.offset_top = -10.5
+	icon.offset_bottom = 10.5
+	icon.texture = load("res://assets/ui/icon_%s.svg" % icon_name)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	button.add_child(icon)
+
+
+func _header_text_button(parent: Node, text: String) -> Button:
+	var button := _button(parent)
+	button.custom_minimum_size = Vector2(44, 44)
+	button.text = text
+	button.add_theme_color_override("font_color", Color.WHITE)
+	button.add_theme_color_override("font_hover_color", Color.WHITE)
+	_style_header_button(button)
+	return button
+
+
+func _style_header_button(button: Button, background: Color = Color("#0b2038")) -> void:
+	button.custom_minimum_size = Vector2(44, 44)
+	button.add_theme_font_size_override("font_size", 15)
+	button.add_theme_color_override("font_color", Color.WHITE)
+	button.add_theme_color_override("font_hover_color", Color.WHITE)
+	button.add_theme_color_override("font_pressed_color", Color.WHITE)
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = background
+	normal.border_color = Color("#e3ca84")
+	normal.set_border_width_all(1)
+	normal.set_corner_radius_all(10)
+	var hover := normal.duplicate() as StyleBoxFlat
+	hover.bg_color = Color("#294a69")
+	var pressed := normal.duplicate() as StyleBoxFlat
+	pressed.bg_color = Color("#1d3551")
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed)
+
+
+func _style_hint_button(button: Button) -> void:
+	button.custom_minimum_size = Vector2(94, 48)
+	button.add_theme_font_size_override("font_size", 9)
+	button.add_theme_color_override("font_color", Color("#326349"))
+	button.add_theme_color_override("font_hover_color", Color("#244d39"))
+	var transparent := StyleBoxFlat.new()
+	transparent.bg_color = Color.TRANSPARENT
+	transparent.set_border_width_all(0)
+	button.add_theme_stylebox_override("normal", transparent)
+	button.add_theme_stylebox_override("hover", transparent)
+	button.add_theme_stylebox_override("pressed", transparent)
+
+
+func _objective_texture(objective_data: Dictionary) -> Texture2D:
+	var assets: Dictionary = campaign_bundle.get("assets", {})
+	var asset_group := ""
+	var asset_key := ""
+	match str(objective_data.get("kind", "")):
+		"collect":
+			asset_group = "tiles"
+			asset_key = str(objective_data.get("tile", ""))
+		"drop":
+			asset_group = "ingredients"
+			asset_key = str(objective_data.get("ingredient", ""))
+		"dropGroup":
+			asset_group = "ingredients"
+			var ingredients_group: Array = objective_data.get("ingredients", [])
+			asset_key = str(ingredients_group[0]) if not ingredients_group.is_empty() else ""
+		"clearBlockers":
+			asset_group = "blockers"
+			asset_key = str(level_data.get("blockerStyle", "solid"))
+	var asset_path := str(assets.get(asset_group, {}).get(asset_key, ""))
+	if asset_path.is_empty(): return null
+	return load("res://" + asset_path.trim_prefix("./")) as Texture2D
+
+
+func _show_help() -> void:
+	if is_instance_valid(help_dialog):
+		help_dialog.popup_centered()
+		return
+	help_dialog = AcceptDialog.new()
+	help_dialog.title = MenuCopy.text("match3_help_title", preferences.locale)
+	help_dialog.dialog_text = MenuCopy.text("match3_help_body", preferences.locale)
+	help_dialog.min_size = Vector2i(350, 260)
+	add_child(help_dialog)
+	help_dialog.confirmed.connect(func() -> void:
+		help_dialog.queue_free()
+		help_dialog = null
+	)
+	help_dialog.close_requested.connect(func() -> void:
+		help_dialog.queue_free()
+		help_dialog = null
+	)
+	help_dialog.popup_centered()
+
+
+func _style_tutorial_button(button: Button) -> void:
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.custom_minimum_size.y = 48
+	button.add_theme_font_size_override("font_size", 15)
+	button.add_theme_color_override("font_color", Color("#fff7dc"))
+	button.add_theme_color_override("font_hover_color", Color("#fff7dc"))
+	button.add_theme_color_override("font_pressed_color", Color("#fff7dc"))
+	var tutorial_button_font := SystemFont.new()
+	tutorial_button_font.font_names = PackedStringArray(["Arial", "sans-serif"])
+	tutorial_button_font.font_weight = 950
+	button.add_theme_font_override("font", tutorial_button_font)
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color("#2f6549")
+	normal.border_color = Color("#d5b269")
+	normal.set_border_width_all(2)
+	normal.set_corner_radius_all(5)
+	var hover := normal.duplicate() as StyleBoxFlat
+	hover.bg_color = Color("#244d39")
+	var pressed := normal.duplicate() as StyleBoxFlat
+	pressed.bg_color = Color("#1c402f")
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed)
+
+
+func _fit_tutorial_card() -> void:
+	if not is_instance_valid(tutorial_panel) or not is_instance_valid(tutorial_frame): return
+	var card_width := minf(350.0, maxf(0.0, size.x - 28.0))
+	tutorial_panel.custom_minimum_size.x = card_width
+	tutorial_panel.custom_maximum_size.x = card_width
+	tutorial_frame.custom_minimum_size.x = card_width + 6.0
+	var compact := size.x <= 340.0
+	tutorial_title.add_theme_font_size_override("font_size", 20 if compact else 24)
+	tutorial_body.add_theme_font_size_override("font_size", 11 if compact else 13)
