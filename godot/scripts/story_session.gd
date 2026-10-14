@@ -44,8 +44,10 @@ const RinaArchiveCatalogScene = preload("res://data/rina_archive_catalog_scene.j
 const PostRinaArchiveCatalogScene = preload("res://data/post_rina_archive_catalog_scene.json")
 const FullTimelineProofScene = preload("res://data/full_timeline_proof_scene.json")
 const PostFullTimelineProofScene = preload("res://data/post_full_timeline_proof_scene.json")
+const PrivateReturnScene = preload("res://data/private_return_scene.json")
+const PostPrivateReturnScene = preload("res://data/post_private_return_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 38
+const MAX_PORTED_SCENE_INDEX := 40
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -179,6 +181,8 @@ func scene_data() -> Dictionary:
 		36: return PostRinaArchiveCatalogScene.data
 		37: return FullTimelineProofScene.data
 		38: return PostFullTimelineProofScene.data
+		39: return PrivateReturnScene.data
+		40: return PostPrivateReturnScene.data
 	return {}
 
 
@@ -333,4 +337,8 @@ func _scene_lines() -> Array:
 		return FullTimelineProofScene.data.lines
 	if state.scene == 38:
 		return PostFullTimelineProofScene.data.lines
+	if state.scene == 39:
+		return PrivateReturnScene.data.lines
+	if state.scene == 40:
+		return PostPrivateReturnScene.data.lines
 	return []

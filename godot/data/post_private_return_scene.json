@@ -1,0 +1,642 @@
+{
+  "sceneId": "VN_SCENE_40_E19_POST",
+  "sceneIndex": 40,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "ending": {
+    "endingId": "ENDING_B_CASE_CLOSED"
+  },
+  "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+  "titles": {
+    "ru": "Формально закрыто",
+    "en": "Formally Closed",
+    "be": "Фармальна закрыта"
+  },
+  "lines": [
+    {
+      "id": "VN0866",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: LAST LOCKER CLOSES",
+          "text": "Последняя ячейка закрывается. На доске все анонимные коды отмечены как выданные."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "The last locker closes. Every anonymous code on the board is marked as collected."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: LAST LOCKER CLOSES",
+          "text": "Апошняя ячэйка зачыняецца. На дошцы ўсе ананімныя коды адзначаныя як выдадзеныя."
+        }
+      }
+    },
+    {
+      "id": "VN0867",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРОВЕРЯЕТ",
+          "text": "Все подтверждения сходятся. Ни один код не раскрыт постороннему."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "All confirmations match. No code was exposed to anyone else."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРАВЯРАЕ",
+          "text": "Усе пацверджанні сыходзяцца. Ніводны код не раскрыты старонняму."
+        }
+      }
+    },
+    {
+      "id": "VN0868",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "ВЫДЫХАЕТ",
+          "text": "Тогда хотя бы эта часть закончена правильно."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "Then at least this part ended correctly."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "ВЫДЫХАЕ",
+          "text": "Тады хаця б гэтая частка скончаная правільна."
+        }
+      }
+    },
+    {
+      "id": "VN0869",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "ОФИЦИАЛЬНО",
+          "text": "Рина Сираиси отстранена от служебных зон до дисциплинарного решения. Администрация считает серию краж раскрытой."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "BEAT",
+          "text": "Rina Shiraishi is suspended from service areas pending discipline. The administration considers the theft series solved."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "АФІЦЫЙНА",
+          "text": "Рына Сіраісі адхіленая ад службовых зон да дысцыплінарнага рашэння. Адміністрацыя лічыць серыю крадзяжоў раскрытай."
+        }
+      }
+    },
+    {
+      "id": "VN0870",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "БЕЗ СПОРА",
+          "text": "Я понимаю."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "I understand."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "БЕЗ СПРЭЧКІ",
+          "text": "Я разумею."
+        }
+      }
+    },
+    {
+      "id": "VN0871",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "РОВНО",
+          "text": "Серебристые метки были частью неудачного сервисного теста. Мы уже корректируем процедуру."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "BEAT",
+          "text": "The silver tags were part of a failed service test. We are already correcting the procedure."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "РОЎНА",
+          "text": "Серабрыстыя меткі былі часткай няўдалага сэрвіснага тэсту. Мы ўжо карэктуем працэдуру."
+        }
+      }
+    },
+    {
+      "id": "VN0872",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТИХО К МИКУ",
+          "text": "Слишком гладкая фраза для человека, которому только что показали действующий протокол."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "That is a very smooth sentence for someone who was just shown an active protocol."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЦІХА ДА МІКУ",
+          "text": "Занадта гладкая фраза для чалавека, якому толькі што паказалі дзейны пратакол."
+        }
+      }
+    },
+    {
+      "id": "VN0873",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ТИХО",
+          "text": "Потому что мы выбрали закрыть только то, что можем доказать сейчас."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Because we chose to close only what we can prove now."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЦІХА",
+          "text": "Бо мы выбралі закрыць толькі тое, што можам даказаць цяпер."
+        }
+      }
+    },
+    {
+      "id": "VN0874",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "НА ВЫХОДЕ",
+          "text": "Закрытое дело и решённое дело — не одно и то же."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "A closed case and a solved case are not the same thing."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "НА ВЫХАДЗЕ",
+          "text": "Закрытая справа і вырашаная справа — не адно і тое ж."
+        }
+      }
+    },
+    {
+      "id": "VN0875",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "BG_CLUBROOM_DAY",
+          "text": "Позже. На стене клуба появляется аккуратный штамп «ДЕЛО ЗАКРЫТО» рядом с папкой дела класса U."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "Later. A neat DOCKET CLOSED stamp appears beside the Class U file on the club wall."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "BG_CLUBROOM_DAY",
+          "text": "Пазней. На сцяне клуба з'яўляецца акуратны штамп «СПРАВА ЗАКРЫТА» побач з папкай справы класа U."
+        }
+      }
+    },
+    {
+      "id": "VN0876",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СМОТРИТ НА ШТАМП",
+          "text": "Он хотя бы мог быть красным и драматичным."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "At least the stamp could have been red and dramatic."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ГЛЯДЗІЦЬ НА ШТАМП",
+          "text": "Ён хаця б мог быць чырвоным і драматычным."
+        }
+      }
+    },
+    {
+      "id": "VN0877",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУХО",
+          "text": "Формальная доказанность не обязана быть драматичной."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Formal proof is not required to be dramatic."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУХА",
+          "text": "Фармальная даказанасць не абавязана быць драматычнай."
+        }
+      }
+    },
+    {
+      "id": "VN0878",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 25,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 3
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 75,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 3
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМОТРИТ НА ДОСКУ",
+          "text": "Мы остановили кражи. Но не доказали, кто продолжал Second Skin."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "We stopped the thefts. We did not prove who kept Second Skin running."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ГЛЯДЗІЦЬ НА ДОШКУ",
+          "text": "Мы спынілі крадзяжы. Але не даказалі, хто працягваў Second Skin."
+        }
+      }
+    },
+    {
+      "id": "VN0879",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "ВХОДИТ С ФОРМОЙ",
+          "text": "Мне выдали замену. На этот раз я проверила всё сама."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "They gave me a replacement. This time I checked everything myself."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "УВАХОДЗІЦЬ З ФОРМАЙ",
+          "text": "Мне выдалі замену. Гэтым разам я ўсё праверыла сама."
+        }
+      }
+    },
+    {
+      "id": "VN0880",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "УЛЫБАЕТСЯ",
+          "text": "Вот. Нормальный финал. Никто ничего не потерял."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "There. A normal ending. Nobody lost anything."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "УСМІХАЕЦЦА",
+          "text": "Вось. Нармальны фінал. Ніхто нічога не страціў."
+        }
+      }
+    },
+    {
+      "id": "VN0881",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: NEW UNIFORM SEAM",
+          "text": "На новой форме Эми возле внутреннего ярлыка проходит тонкий серебристо-бирюзовый стежок."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "A thin silver-turquoise stitch runs beside the inner label of Emi's new uniform."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: NEW UNIFORM SEAM",
+          "text": "На новай форме Эмі каля ўнутранай біркі праходзіць тонкі серабрыста-бірузовы шывок."
+        }
+      }
+    },
+    {
+      "id": "VN0882",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ЗАМИРАЕТ",
+          "text": "Эми. Не снимай ярлык."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Emi. Do not remove the label."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЗАМІРАЕ",
+          "text": "Эмі. Не здымай бірку."
+        }
+      }
+    },
+    {
+      "id": "VN0883",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СМОТРИТ НА ШТАМП",
+          "text": "Официально дело уже закрыто."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Officially, the case is already closed."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ГЛЯДЗІЦЬ НА ШТАМП",
+          "text": "Афіцыйна справа ўжо закрытая."
+        }
+      }
+    },
+    {
+      "id": "VN0884",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ХОЛОДНО",
+          "text": "Официально — да."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Officially, yes."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ХОЛАДНА",
+          "text": "Афіцыйна — так."
+        }
+      }
+    }
+  ]
+}
