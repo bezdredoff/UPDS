@@ -51,6 +51,19 @@ func _run() -> void:
 	assert(match3.settings_button.custom_minimum_size == Vector2(44, 44), "Match-3 settings control should match the source button size")
 	assert(match3.objective_icon.custom_minimum_size == Vector2(24, 24), "Objective art should use the compact source HUD size")
 	assert(match3.hint_button.custom_minimum_size == Vector2(94, 48), "Hint control should preserve the source tool tray size")
+	var tutorial_style := match3.tutorial_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(is_equal_approx(match3.tutorial_panel.custom_maximum_size.x, 350.0), "Tutorial card width should match the source 350px maximum")
+	assert(tutorial_style.border_width_top == 3 and tutorial_style.border_width_left == 8, "Tutorial card border should match the source gold frame and green spine")
+	assert(tutorial_style.bg_color.to_html(false) == Color("#fff7df").to_html(false), "Tutorial card paper color should match the source palette")
+	assert(match3.tutorial_frame.custom_minimum_size.x == 356.0 and (match3.tutorial_frame.get_theme_stylebox("panel") as StyleBoxFlat).bg_color.to_html(false) == Color("#102744").to_html(false), "Tutorial card should have the source 3px navy outline")
+	var tutorial_button_style := match3.tutorial_button.get_theme_stylebox("normal") as StyleBoxFlat
+	assert(tutorial_button_style.border_width_top == 2 and tutorial_button_style.bg_color.to_html(false) == Color("#2f6549").to_html(false), "Tutorial action button should match the source green and 2px gold border")
+	var original_screen_width := match3.size.x
+	match3.size.x = 320.0
+	match3._fit_tutorial_card()
+	assert(match3.tutorial_panel.custom_minimum_size.x == 292.0 and match3.tutorial_frame.custom_minimum_size.x == 298.0, "Tutorial card did not keep the source 14px responsive overlay inset")
+	match3.size.x = original_screen_width
+	match3._fit_tutorial_card()
 	assert(match3.bottom_spacer.name == "MatchGuidance" and match3.guidance_labels[0].name == "InputGuidance", "Match-3 input guidance slot is missing")
 	assert(match3.guidance_labels[0].text == MenuCopy.text("match3_input_hint", "ru"), "Match-3 input guidance did not use the selected locale")
 	assert(match3.bottom_spacer.visible, "Match-3 guidance should be visible while the board is active")

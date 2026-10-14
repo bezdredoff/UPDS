@@ -41,6 +41,7 @@ var bark: Label
 var bark_speaker: Label
 var bark_portrait: TextureRect
 var tutorial_panel: PanelContainer
+var tutorial_frame: PanelContainer
 var tutorial_overlay: Control
 var tutorial_badge: PanelContainer
 var tutorial_eyebrow: Label
@@ -178,54 +179,71 @@ func _ready() -> void:
 	bark.add_theme_color_override("font_color", Color("#29243d"))
 	tutorial_panel = PanelContainer.new()
 	var tutorial_style := StyleBoxFlat.new()
-	tutorial_style.bg_color = Color("#fff4d7")
-	tutorial_style.border_color = Color("#326349")
-	tutorial_style.set_border_width_all(2)
+	tutorial_style.bg_color = Color("#fff7df")
+	tutorial_style.border_color = Color("#d5b269")
+	tutorial_style.set_border_width_all(3)
 	tutorial_style.border_width_left = 8
-	tutorial_style.set_corner_radius_all(9)
-	tutorial_style.shadow_color = Color(0.06, 0.1, 0.14, 0.35)
-	tutorial_style.shadow_size = 14
-	tutorial_style.shadow_offset = Vector2(0, 5)
-	tutorial_style.content_margin_left = 16
-	tutorial_style.content_margin_right = 19
-	tutorial_style.content_margin_top = 12
-	tutorial_style.content_margin_bottom = 14
+	tutorial_style.set_corner_radius_all(7)
+	tutorial_style.content_margin_left = 20
+	tutorial_style.content_margin_right = 20
+	tutorial_style.content_margin_top = 30
+	tutorial_style.content_margin_bottom = 18
 	tutorial_panel.add_theme_stylebox_override("panel", tutorial_style)
 	content.add_child(tutorial_panel)
+	var tutorial_content_layer := Control.new()
+	tutorial_content_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	tutorial_panel.add_child(tutorial_content_layer)
 	var tutorial_content := VBoxContainer.new()
-	tutorial_content.add_theme_constant_override("separation", 5)
-	tutorial_panel.add_child(tutorial_content)
+	tutorial_content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	tutorial_content.add_theme_constant_override("separation", 0)
+	tutorial_content_layer.add_child(tutorial_content)
 	tutorial_badge = PanelContainer.new()
 	tutorial_badge.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	tutorial_badge.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	tutorial_badge.custom_minimum_size = Vector2(90, 22)
+	tutorial_badge.position = Vector2(-18, -33)
+	tutorial_badge.custom_minimum_size = Vector2(102, 18)
 	var tutorial_badge_style := StyleBoxFlat.new()
-	tutorial_badge_style.bg_color = Color("#326349")
-	tutorial_badge_style.set_corner_radius_all(3)
-	tutorial_badge_style.content_margin_left = 10
-	tutorial_badge_style.content_margin_right = 10
-	tutorial_badge_style.content_margin_top = 3
-	tutorial_badge_style.content_margin_bottom = 3
+	tutorial_badge_style.bg_color = Color("#2f6549")
+	tutorial_badge_style.corner_radius_bottom_left = 10
+	tutorial_badge_style.corner_radius_bottom_right = 10
+	tutorial_badge_style.content_margin_left = 13
+	tutorial_badge_style.content_margin_right = 13
+	tutorial_badge_style.content_margin_top = 4
+	tutorial_badge_style.content_margin_bottom = 5
 	tutorial_badge.add_theme_stylebox_override("panel", tutorial_badge_style)
-	tutorial_content.add_child(tutorial_badge)
+	tutorial_content_layer.add_child(tutorial_badge)
 	tutorial_eyebrow = _label(tutorial_badge, 9, Color.WHITE)
 	tutorial_eyebrow.autowrap_mode = TextServer.AUTOWRAP_OFF
 	tutorial_eyebrow.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(preferences.locale, "HOW TO PLAY")
-	tutorial_title = _label(tutorial_content, 24, Color("#172b49"))
+	tutorial_title = _label(tutorial_content, 24, Color("#102744"))
 	tutorial_title.add_theme_font_size_override("font_size", 24)
 	var tutorial_serif := SystemFont.new()
 	tutorial_serif.font_names = PackedStringArray(["Georgia", "serif"])
-	tutorial_serif.font_weight = 800
+	tutorial_serif.font_weight = 850
 	tutorial_title.add_theme_font_override("font", tutorial_serif)
-	tutorial_body = _label(tutorial_content, 14, Color("#29243d"))
+	var tutorial_title_top_gap := Control.new()
+	tutorial_title_top_gap.custom_minimum_size.y = 7
+	tutorial_content.add_child(tutorial_title_top_gap)
+	tutorial_content.move_child(tutorial_title, tutorial_content.get_child_count() - 1)
+	var tutorial_title_body_gap := Control.new()
+	tutorial_title_body_gap.custom_minimum_size.y = 8
+	tutorial_body = _label(tutorial_content, 13, Color("#5c513e"))
 	tutorial_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	tutorial_body.add_theme_font_size_override("font_size", 13)
+	tutorial_body.add_theme_constant_override("line_spacing", 5)
 	var tutorial_sans := SystemFont.new()
 	tutorial_sans.font_names = PackedStringArray(["Comic Sans MS", "Trebuchet MS", "Arial"])
 	tutorial_sans.font_weight = 700
 	tutorial_body.add_theme_font_override("font", tutorial_sans)
+	tutorial_content.add_child(tutorial_title_body_gap)
+	tutorial_content.move_child(tutorial_body, tutorial_content.get_child_count() - 1)
 	tutorial_button = _button(tutorial_content)
 	_style_tutorial_button(tutorial_button)
+	var tutorial_button_gap := Control.new()
+	tutorial_button_gap.custom_minimum_size.y = 10
+	tutorial_content.add_child(tutorial_button_gap)
+	tutorial_content.move_child(tutorial_button, tutorial_content.get_child_count() - 1)
 	tutorial_button.pressed.connect(_dismiss_tutorial)
 	content.remove_child(tutorial_panel)
 	tutorial_overlay = Control.new()
@@ -233,15 +251,31 @@ func _ready() -> void:
 	tutorial_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	var tutorial_shade := ColorRect.new()
 	tutorial_shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	tutorial_shade.color = Color(0.05, 0.08, 0.14, 0.62)
+	tutorial_shade.color = Color("#0714279e")
 	tutorial_shade.mouse_filter = Control.MOUSE_FILTER_STOP
 	tutorial_overlay.add_child(tutorial_shade)
 	var tutorial_center := CenterContainer.new()
 	tutorial_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	tutorial_overlay.add_child(tutorial_center)
-	tutorial_panel.custom_minimum_size.x = 354
+	tutorial_frame = PanelContainer.new()
+	tutorial_frame.name = "TutorialNavyOutline"
+	tutorial_frame.custom_minimum_size = Vector2(0, 0)
+	var frame_style := StyleBoxFlat.new()
+	frame_style.bg_color = Color("#102744")
+	frame_style.set_corner_radius_all(7)
+	frame_style.content_margin_left = 3
+	frame_style.content_margin_right = 3
+	frame_style.content_margin_top = 3
+	frame_style.content_margin_bottom = 3
+	frame_style.shadow_color = Color("#020914c7")
+	frame_style.shadow_size = 22
+	frame_style.shadow_offset = Vector2(0, 18)
+	tutorial_frame.add_theme_stylebox_override("panel", frame_style)
+	tutorial_center.add_child(tutorial_frame)
+	tutorial_panel.custom_minimum_size.x = 0
+	tutorial_panel.custom_maximum_size.x = 350
 	tutorial_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	tutorial_center.add_child(tutorial_panel)
+	tutorial_frame.add_child(tutorial_panel)
 	var objective_panel := PanelContainer.new()
 	var objective_style := StyleBoxFlat.new()
 	objective_style.bg_color = Color(0.99, 0.98, 0.94, 0.96)
@@ -444,6 +478,7 @@ func _ready() -> void:
 
 
 func _refresh() -> void:
+	_fit_tutorial_card()
 	var locale: String = preferences.locale
 	var copy: Dictionary = level_presentation.localized.get(locale, level_presentation.localized.en)
 	title.text = copy.title
@@ -1602,13 +1637,17 @@ func _style_tutorial_button(button: Button) -> void:
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.custom_minimum_size.y = 48
 	button.add_theme_font_size_override("font_size", 15)
-	button.add_theme_color_override("font_color", Color.WHITE)
-	button.add_theme_color_override("font_hover_color", Color.WHITE)
-	button.add_theme_color_override("font_pressed_color", Color.WHITE)
+	button.add_theme_color_override("font_color", Color("#fff7dc"))
+	button.add_theme_color_override("font_hover_color", Color("#fff7dc"))
+	button.add_theme_color_override("font_pressed_color", Color("#fff7dc"))
+	var tutorial_button_font := SystemFont.new()
+	tutorial_button_font.font_names = PackedStringArray(["Arial", "sans-serif"])
+	tutorial_button_font.font_weight = 950
+	button.add_theme_font_override("font", tutorial_button_font)
 	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color("#326349")
-	normal.border_color = Color("#d3b068")
-	normal.set_border_width_all(1)
+	normal.bg_color = Color("#2f6549")
+	normal.border_color = Color("#d5b269")
+	normal.set_border_width_all(2)
 	normal.set_corner_radius_all(5)
 	var hover := normal.duplicate() as StyleBoxFlat
 	hover.bg_color = Color("#244d39")
@@ -1617,3 +1656,14 @@ func _style_tutorial_button(button: Button) -> void:
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("pressed", pressed)
+
+
+func _fit_tutorial_card() -> void:
+	if not is_instance_valid(tutorial_panel) or not is_instance_valid(tutorial_frame): return
+	var card_width := minf(350.0, maxf(0.0, size.x - 28.0))
+	tutorial_panel.custom_minimum_size.x = card_width
+	tutorial_panel.custom_maximum_size.x = card_width
+	tutorial_frame.custom_minimum_size.x = card_width + 6.0
+	var compact := size.x <= 340.0
+	tutorial_title.add_theme_font_size_override("font_size", 20 if compact else 24)
+	tutorial_body.add_theme_font_size_override("font_size", 11 if compact else 13)
