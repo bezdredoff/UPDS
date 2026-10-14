@@ -1,0 +1,653 @@
+{
+  "sceneId": "VN_SCENE_44_E21_POST",
+  "sceneIndex": 44,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "ending": {
+    "endingId": "ENDING_C_PERFECT_SUSPECT"
+  },
+  "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+  "titles": {
+    "ru": "Известность вместо истины",
+    "en": "Fame Instead of Truth",
+    "be": "Вядомасць замест праўды"
+  },
+  "lines": [
+    {
+      "id": "VN0945",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "PRESENTATION START",
+          "text": "Свет гаснет. На экране появляется драматический силуэт «Бельевого призрака» и стрелки к каждому фасону."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "The lights go down. A dramatic 'Underwear Ghost' silhouette appears with arrows pointing to every style."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "PRESENTATION START",
+          "text": "Святло гасне. На экране з'яўляецца драматычны сілуэт «Бялізнавага прывіда» і стрэлкі да кожнага фасону."
+        }
+      }
+    },
+    {
+      "id": "VN0946",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СО СЦЕНЫ",
+          "text": "Совпадение первое! Возможность. Совпадение второе! Мотив. Совпадение третье! Очень подозрительная композиция обстоятельств!"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Coincidence one! Opportunity. Coincidence two! Motive. Coincidence three! A highly suspicious composition of circumstances!"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "СА СЦЭНЫ",
+          "text": "Супадзенне першае! Магчымасць. Супадзенне другое! Матыў. Супадзенне трэцяе! Вельмі падазроная кампазіцыя абставін!"
+        }
+      }
+    },
+    {
+      "id": "VN0947",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ШЁПОТОМ ЗА КУЛИСАМИ",
+          "text": "Третья формулировка не является доказательной категорией."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "The third phrase is not an evidentiary category."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ШЭПТАМ ЗА КУЛІСАМІ",
+          "text": "Трэцяя фармулёўка не з'яўляецца доказнай катэгорыяй."
+        }
+      }
+    },
+    {
+      "id": "VN0948",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ТИХО",
+          "text": "Но зал уже аплодирует."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "But the hall is already applauding."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЦІХА",
+          "text": "Але зала ўжо апладзіруе."
+        }
+      }
+    },
+    {
+      "id": "VN0949",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "AFTER PRESENTATION",
+          "text": "Через сутки формальная проверка опровергает выбранную версию: прямых доказательств против удобного подозреваемого нет."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "Within a day, the chosen version collapses under formal review: there is no direct evidence against the convenient suspect."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "AFTER PRESENTATION",
+          "text": "Праз суткі выбраная версія развальваецца пры фармальнай праверцы: прамых доказаў супраць зручнага падазраванага няма."
+        }
+      }
+    },
+    {
+      "id": "VN0950",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "С ПЛАНШЕТОМ",
+          "text": "Наказание снято. Но имя уже разошлось по студенческим каналам."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "BEAT",
+          "text": "The punishment was lifted. But the name has already spread through student channels."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "З ПЛАНШЭТАМ",
+          "text": "Пакаранне знятае. Але імя ўжо разышлося па студэнцкіх каналах."
+        }
+      }
+    },
+    {
+      "id": "VN0951",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "БЕЗ ПРЕЖНЕГО ВОСТОРГА",
+          "text": "Мы получили известность быстрее, чем опровержение."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "We became famous faster than the correction did."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "БЕЗ РАНЕЙШАГА ЗАХАПЛЕННЯ",
+          "text": "Мы атрымалі вядомасць хутчэй за абвяржэнне."
+        }
+      }
+    },
+    {
+      "id": "VN0952",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУХО",
+          "text": "И это было предсказуемо до презентации."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "And that was predictable before the presentation."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУХА",
+          "text": "І гэта было прадказальна яшчэ да прэзентацыі."
+        }
+      }
+    },
+    {
+      "id": "VN0953",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМОТРИТ НА ПУСТУЮ ДОСКУ",
+          "text": "Мы удалили противоречия не из дела. Только со слайда."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "We removed contradictions from the slide, not from the case."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ГЛЯДЗІЦЬ НА ПУСТУЮ ДОШКУ",
+          "text": "Мы выдалілі супярэчнасці не са справы. Толькі са слайда."
+        }
+      }
+    },
+    {
+      "id": "VN0954",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "BG_CLUBROOM_DAY",
+          "text": "Новая, более просторная комната детективного клуба. На двери висит официальный знак, полученный после громкого «раскрытия»."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "A newer, larger detective-club room. An official sign on the door was awarded after the famous 'solution.'"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "BG_CLUBROOM_DAY",
+          "text": "Новая, больш прасторная кімната дэтэктыўнага клуба. На дзвярах вісіць афіцыйны знак, атрыманы пасля гучнага «раскрыцця»."
+        }
+      }
+    },
+    {
+      "id": "VN0955",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ОГЛЯДЫВАЕТСЯ",
+          "text": "Я мечтала о комнате побольше. В мечте она почему-то не пахла моральным компромиссом."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "I dreamed of a bigger room. Somehow it did not smell like moral compromise in the dream."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "АЗІРАЕЦЦА",
+          "text": "Я марыла пра большую кімнату. У мары яна чамусьці не пахла маральным кампрамісам."
+        }
+      }
+    },
+    {
+      "id": "VN0956",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "РАССТАВЛЯЕТ ПАПКИ",
+          "text": "Моральный компромисс не имеет запаха. Это метафора."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Moral compromise has no smell. That is a metaphor."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "РАССТАЎЛЯЕ ПАПКІ",
+          "text": "Маральны кампраміс не мае паху. Гэта метафара."
+        }
+      }
+    },
+    {
+      "id": "VN0957",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 19,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 51,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 3
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-embarrassed.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "УСТАЛО",
+          "text": "Спасибо, Оноэ."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Thank you, Onoe."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СТОМЛЕНА",
+          "text": "Дзякуй, Оноэ."
+        }
+      }
+    },
+    {
+      "id": "VN0958",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "CUTAWAY: KUROSE LAB",
+          "text": "Куросэ закрывает старую папку Second Skin и открывает новую с маркировкой PHASE II."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "Kurose closes the old Second Skin folder and opens a new one marked PHASE II."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "CUTAWAY: KUROSE LAB",
+          "text": "Куросэ закрывае старую папку Second Skin і адкрывае новую з пазнакай PHASE II."
+        }
+      }
+    },
+    {
+      "id": "VN0959",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ТИХО",
+          "text": "Значит, внешний риск локализован."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "BEAT",
+          "text": "Then the external risk has been localized."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ЦІХА",
+          "text": "Значыць, знешняя рызыка лакалізаваная."
+        }
+      }
+    },
+    {
+      "id": "VN0960",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "BACK TO CLUB",
+          "text": "Под дверью клуба лежит непрозрачный пакет."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "Back at the club, an opaque package lies under the door."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "BACK TO CLUB",
+          "text": "Пад дзвярыма клуба ляжыць непразрысты пакет."
+        }
+      }
+    },
+    {
+      "id": "VN0961",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ОСТОРОЖНО",
+          "text": "Пожалуйста, пусть там будет просто носок."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Please let it be just a sock."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "АСЦЯРОЖНА",
+          "text": "Калі ласка, няхай там будзе проста шкарпэтка."
+        }
+      }
+    },
+    {
+      "id": "VN0962",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЧИТАЕТ ЗАПИСКУ",
+          "text": "«Вы искали того, кого было удобно показать»."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "'You searched for the person it was convenient to show.'"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЧЫТАЕ ЗАПІСКУ",
+          "text": "«Вы шукалі таго, каго было зручна паказаць»."
+        }
+      }
+    },
+    {
+      "id": "VN0963",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМОТРИТ НА ПОМЕЧЕННЫЙ ПРЕДМЕТ",
+          "text": "А настоящая система всё это время продолжала работать."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "And the real system kept running the entire time."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ГЛЯДЗІЦЬ НА ПАЗНАЧАНЫ ПРАДМЕТ",
+          "text": "А сапраўдная сістэма ўвесь гэты час працягвала працаваць."
+        }
+      }
+    },
+    {
+      "id": "VN0964",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ENDING C",
+          "text": "Камера задерживается на серебристой метке и официальной табличке клуба — известность получена, истина — нет."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "The camera lingers on the silver tag beside the club’s official sign: the club is famous now, but no closer to the truth."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ENDING C",
+          "text": "Камера затрымліваецца на серабрыстай метцы побач з афіцыйнай шыльдай клуба: цяпер клуб вядомы, але да ісціны ён не наблізіўся."
+        }
+      }
+    }
+  ]
+}

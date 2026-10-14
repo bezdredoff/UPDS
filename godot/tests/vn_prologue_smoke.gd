@@ -43,6 +43,8 @@ const PrivateReturnScene = preload("res://data/private_return_scene.json")
 const PostPrivateReturnScene = preload("res://data/post_private_return_scene.json")
 const FullTruthScene = preload("res://data/full_truth_scene.json")
 const PostFullTruthScene = preload("res://data/post_full_truth_scene.json")
+const ConvenientCaseScene = preload("res://data/convenient_case_scene.json")
+const PostConvenientCaseScene = preload("res://data/post_convenient_case_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
 
 
@@ -738,6 +740,7 @@ func _run() -> void:
 	_choice_routes()
 	_final_strategy_routes()
 	await _full_truth_outcomes()
+	await _perfect_suspect_ending()
 	var hidden_session := Memory.story_session()
 	assert(hidden_session.store.save_story({"scene": 0, "line": 20}))
 	hidden_session.reload()
@@ -751,7 +754,7 @@ func _run() -> void:
 func _unsupported_save() -> void:
 	var memory := Memory.new()
 	var store := Store.new(memory)
-	assert(store.save_story({"scene": 43, "line": 3, "completed": [1]}))
+	assert(store.save_story({"scene": 44, "line": 999, "completed": [1]}))
 	var raw: String = memory.get_item(Format.CONTRACT.data.storyKey)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(store)
@@ -767,7 +770,7 @@ func _unsupported_save() -> void:
 
 func _future_save() -> void:
 	var memory := Memory.new()
-	var raw := '{"schemaVersion":99,"scene":43,"line":3}'
+	var raw := '{"schemaVersion":99,"scene":45,"line":3}'
 	assert(memory.set_item(Format.CONTRACT.data.storyKey, raw))
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(Store.new(memory))
@@ -874,10 +877,7 @@ func _final_strategy_routes() -> void:
 			assert(session.advance())
 		var routes: Dictionary = session.scene_data().get("nextSceneIndices", {})
 		assert(routes.get(option, -1) == expected_routes[option], "Final-strategy option %s lost its route: scene=%s routes=%s" % [option, session.state.scene, routes])
-		if option in ["A", "B"]:
-			assert(not session.at_port_boundary() and session.advance() and session.state.scene == expected_routes[option])
-		else:
-			assert(session.at_port_boundary() and not session.advance())
+		assert(not session.at_port_boundary() and session.advance() and session.state.scene == expected_routes[option])
 
 
 func _full_truth_outcomes() -> void:
@@ -919,3 +919,40 @@ func _full_truth_outcomes() -> void:
 	var case_closed: Dictionary = fallback.ending_result()
 	assert(case_closed.endingId == "ENDING_B_CASE_CLOSED" and case_closed.copyKey == "fallbackCopy")
 	assert(case_closed.metrics == {"evidence": 0, "teamTrust": 0, "sourceTrust": 0})
+
+
+func _perfect_suspect_ending() -> void:
+	var session := Memory.story_session()
+	session.state.scene = 43
+	session.state.line = ConvenientCaseScene.data.lines.size() - 1
+	session.state.storyChoices = {"final-strategy": "C"}
+	assert(session.at_match3_gate())
+	assert(session.scene_data().nextLevelId == "M3_21_CONVENIENT_CASE")
+	assert(session.complete_match3("M3_21_CONVENIENT_CASE"))
+	assert(session.state.scene == 44 and session.current_line().id == "VN0946")
+	assert(session.state.clues.has("CUE_022"))
+	var restored_route := Session.new(session.store)
+	restored_route.reload()
+	assert(restored_route.state.scene == 44 and restored_route.state.clues.has("CUE_022"))
+	while session.current_line().id != "VN0964":
+		assert(session.advance())
+	assert(session.advance())
+	var result: Dictionary = session.ending_result()
+	assert(result.endingId == "ENDING_C_PERFECT_SUSPECT")
+	assert(result.metrics.evidence == 0 and session.state.clues.has("CUE_022"))
+	var preferences_path := "user://perfect_suspect_smoke_%s.cfg" % Time.get_ticks_usec()
+	var screen = load("res://scripts/vn_screen.gd").new()
+	screen.session = session
+	screen.preferences = preload("res://scripts/player_preferences.gd").new(preferences_path)
+	screen.preferences.set_locale("en")
+	root.add_child(screen)
+	await process_frame
+	assert(screen.ending_panel.visible)
+	assert(screen.ending_heading.text == "Fame Instead of Truth")
+	assert(screen.ending_summary.text.contains("Give the college a suspect it will accept"))
+	var restored_ending := Session.new(session.store)
+	restored_ending.reload()
+	assert(restored_ending.ending_result().endingId == "ENDING_C_PERFECT_SUSPECT")
+	screen.queue_free()
+	await process_frame
+	DirAccess.remove_absolute(preferences_path)

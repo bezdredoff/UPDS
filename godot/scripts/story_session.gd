@@ -50,7 +50,9 @@ const FullTruthScene = preload("res://data/full_truth_scene.json")
 const PostFullTruthScene = preload("res://data/post_full_truth_scene.json")
 const EndingOutcomes = preload("res://data/ending_outcomes.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 42
+const ConvenientCaseScene = preload("res://data/convenient_case_scene.json")
+const PostConvenientCaseScene = preload("res://data/post_convenient_case_scene.json")
+const MAX_PORTED_SCENE_INDEX := 44
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -208,6 +210,8 @@ func scene_data() -> Dictionary:
 		40: return PostPrivateReturnScene.data
 		41: return FullTruthScene.data
 		42: return PostFullTruthScene.data
+		43: return ConvenientCaseScene.data
+		44: return PostConvenientCaseScene.data
 	return {}
 
 
@@ -396,4 +400,8 @@ func _scene_lines() -> Array:
 		return FullTruthScene.data.lines
 	if state.scene == 42:
 		return PostFullTruthScene.data.lines
+	if state.scene == 43:
+		return ConvenientCaseScene.data.lines
+	if state.scene == 44:
+		return PostConvenientCaseScene.data.lines
 	return []

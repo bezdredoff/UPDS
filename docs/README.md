@@ -49,9 +49,11 @@ If two active documents conflict, prefer the narrower current machine-readable c
 - [`features/G0_PWA_002_IOS_RAPID_TAP_SCALE_GUARD_RU.md`](features/G0_PWA_002_IOS_RAPID_TAP_SCALE_GUARD_RU.md) — accepted rapid-tap smart-zoom guard; G0 device closeout after PR #311
 - [`features/ANM030B1B9_IOS_PWA_VIEWPORT_STATUS_RU.md`](features/ANM030B1B9_IOS_PWA_VIEWPORT_STATUS_RU.md) — historical triage superseded by G0-PWA-001
 
-### Godot port\n\n- [`features/PG003AK_GODOT_STORY_CASE_CLOSED_RU.md`](features/PG003AK_GODOT_STORY_CASE_CLOSED_RU.md) — first final-strategy route through M3_19 and VN0884.\n\n### Godot port
+### Godot port
 
-- [`features/PG003AL_GODOT_STORY_FULL_TRUTH_ENDINGS_RU.md`](features/PG003AL_GODOT_STORY_FULL_TRUTH_ENDINGS_RU.md) — Ending A attempt, M3_20 and shared localized outcome screen.
+- [`features/PG003AK_GODOT_STORY_CASE_CLOSED_RU.md`](features/PG003AK_GODOT_STORY_CASE_CLOSED_RU.md) — маршрут A и Ending B через M3_19.
+- [`features/PG003AL_GODOT_STORY_FULL_TRUTH_ENDINGS_RU.md`](features/PG003AL_GODOT_STORY_FULL_TRUTH_ENDINGS_RU.md) — маршрут B, M3_20 и общий экран исхода.
+- [`features/PG003AM_GODOT_STORY_PERFECT_SUSPECT_RU.md`](features/PG003AM_GODOT_STORY_PERFECT_SUSPECT_RU.md) — маршрут C, M3_21 и Ending C.
 
 ### Story and content
 
