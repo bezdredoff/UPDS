@@ -1,41 +1,111 @@
 extends RefCounted
 
-const Level = preload("res://data/locker_match3.json")
+const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const SeededRandom = preload("res://scripts/seeded_random.gd")
 const CASCADE_LIMIT := 24
+const DEFAULT_LEVEL_ID := "M3_00_LOCKER_TUTORIAL"
 
+var level_data: Dictionary
 var tiles: Array[String] = []
 var specials: Array[String] = []
+var blocker_layers: Array[int] = []
+var ingredients: Array[String] = []
 var moves_left := 0
 var collected := 0
+var collected_by_tile: Dictionary = {}
+var ingredients_dropped: Dictionary = {}
+var blockers_cleared := 0
+var _last_blockers_cleared := 0
+var _last_ingredients_dropped := 0
+var _last_cleared := 0
+var _last_settle_dropped := 0
 var state := "playing"
 var _random: RefCounted
 var _last_swap: Array[int] = []
 
-func _init() -> void:
+func _init(configured_level: Dictionary = {}) -> void:
+	if configured_level.is_empty():
+		var bundle := CampaignData.load_bundle()
+		level_data = CampaignData.get_level(bundle, DEFAULT_LEVEL_ID)
+	else:
+		level_data = configured_level.duplicate(true)
+	assert(not level_data.is_empty(), "Match-3 level data is unavailable")
 	reset()
 
 func reset() -> void:
-	moves_left = int(Level.data.moves)
+	moves_left = int(level_data.moves)
 	collected = 0
+	collected_by_tile.clear()
+	ingredients_dropped.clear()
+	blockers_cleared = 0
+	_last_blockers_cleared = 0
+	_last_ingredients_dropped = 0
+	_last_cleared = 0
+	_last_settle_dropped = 0
 	state = "playing"
-	_random = SeededRandom.new(int(Level.data.seed))
-	for attempt in range(100):
-		tiles.clear()
-		specials.clear()
-		for _index in range(int(Level.data.rows) * int(Level.data.columns)):
-			tiles.append("")
-			specials.append("")
-		_fill_initial_board()
-		if find_matches().is_empty() and has_available_move():
+	_random = SeededRandom.new(int(level_data.seed))
+	var cell_count := _rows() * _columns()
+	tiles.resize(cell_count)
+	specials.resize(cell_count)
+	blocker_layers.resize(cell_count)
+	ingredients.resize(cell_count)
+	for index in cell_count:
+		tiles[index] = ""
+		specials[index] = ""
+		blocker_layers[index] = 0
+		ingredients[index] = ""
+	for blocker: Dictionary in level_data.get("blockers", []):
+		blocker_layers[int(blocker.index)] = int(blocker.layers)
+	for ingredient: Dictionary in level_data.get("ingredients", []):
+		ingredients[int(ingredient.index)] = str(ingredient.kind)
+	_fill_initial_board()
+	assert(find_matches().is_empty() and has_available_move(), "%s opening board must be playable" % str(level_data.id))
+	_sync_primary_collect_count()
+
+func objective_value(objective_index: int) -> int:
+	var objectives: Array = level_data.get("objectives", [])
+	if objective_index < 0 or objective_index >= objectives.size():
+		return 0
+	var objective: Dictionary = objectives[objective_index]
+	match str(objective.get("kind", "")):
+		"collect":
+			return int(collected_by_tile.get(str(objective.tile), 0))
+		"clearBlockers":
+			return blockers_cleared
+		"drop":
+			return int(ingredients_dropped.get(str(objective.ingredient), 0))
+		"dropGroup":
+			var total := 0
+			for ingredient: String in objective.ingredients:
+				total += int(ingredients_dropped.get(ingredient, 0))
+			return total
+	return 0
+
+func _objectives_complete() -> bool:
+	var objectives: Array = level_data.get("objectives", [])
+	for index in objectives.size():
+		if objective_value(index) < int(objectives[index].target):
+			return false
+	return not objectives.is_empty()
+
+func _sync_primary_collect_count() -> void:
+	collected = 0
+	for objective: Dictionary in level_data.get("objectives", []):
+		if str(objective.get("kind", "")) == "collect":
+			collected = int(collected_by_tile.get(str(objective.tile), 0))
 			return
-	assert(false, "Could not generate a playable M3_00 board")
 
 func attempt_swap(first: int, second: int) -> Dictionary:
 	if state != "playing":
 		return {"valid": false, "reason": "finished"}
+	if first == second:
+		return {"valid": false, "reason": "same-cell"}
 	if not _are_adjacent(first, second):
 		return {"valid": false, "reason": "not-adjacent"}
+	if tiles[first].is_empty() or tiles[second].is_empty():
+		return {"valid": false, "reason": "ingredient"}
+	if _is_blocked(first) or _is_blocked(second):
+		return {"valid": false, "reason": "blocked"}
 	var same_tile := tiles[first] == tiles[second]
 	_swap_tiles(first, second)
 	var groups := find_match_groups()
@@ -50,16 +120,20 @@ func attempt_swap(first: int, second: int) -> Dictionary:
 		_swap_tiles(first, second)
 		return {"valid": false, "reason": "no-match"}
 	moves_left -= 1
+	_last_blockers_cleared = 0
+	_last_ingredients_dropped = 0
+	_last_cleared = 0
 	_last_swap = [first, second]
 	var cascade := _resolve(groups, activated, creations, combo, first, second)
 	_last_swap.clear()
-	if collected >= int(Level.data.target):
+	_sync_primary_collect_count()
+	if _objectives_complete():
 		state = "won"
 	elif moves_left <= 0:
 		state = "lost"
 	elif not has_available_move():
 		_reshuffle_playable_board()
-	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "cascades": cascade}
+	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped}
 
 func find_matches() -> Array[int]:
 	var result: Array[int] = []
@@ -74,15 +148,15 @@ func find_matches() -> Array[int]:
 
 func find_match_groups() -> Array[Dictionary]:
 	var groups: Array[Dictionary] = []
-	var rows := int(Level.data.rows)
-	var columns := int(Level.data.columns)
+	var rows := _rows()
+	var columns := _columns()
 	for row in range(rows):
 		var start := 0
 		while start < columns:
 			var index := row * columns + start
-			var tile := tiles[index]
+			var tile := _matchable_tile(index)
 			var end := start + 1
-			while not tile.is_empty() and end < columns and tiles[row * columns + end] == tile:
+			while not tile.is_empty() and end < columns and _matchable_tile(row * columns + end) == tile:
 				end += 1
 			if not tile.is_empty() and end - start >= 3:
 				var indices: Array[int] = []
@@ -94,9 +168,9 @@ func find_match_groups() -> Array[Dictionary]:
 		var start := 0
 		while start < rows:
 			var index := start * columns + column
-			var tile := tiles[index]
+			var tile := _matchable_tile(index)
 			var end := start + 1
-			while not tile.is_empty() and end < rows and tiles[end * columns + column] == tile:
+			while not tile.is_empty() and end < rows and _matchable_tile(end * columns + column) == tile:
 				end += 1
 			if not tile.is_empty() and end - start >= 3:
 				var indices: Array[int] = []
@@ -107,15 +181,15 @@ func find_match_groups() -> Array[Dictionary]:
 	for row in range(rows - 1):
 		for column in range(columns - 1):
 			var index := row * columns + column
-			var tile := tiles[index]
+			var tile := _matchable_tile(index)
 			if tile.is_empty():
 				continue
-			if tiles[index + 1] == tile and tiles[index + columns] == tile and tiles[index + columns + 1] == tile:
+			if _matchable_tile(index + 1) == tile and _matchable_tile(index + columns) == tile and _matchable_tile(index + columns + 1) == tile:
 				groups.append({"orientation": "square", "indices": [index, index + 1, index + columns, index + columns + 1]})
 	return groups
 
 func has_available_move() -> bool:
-	var columns := int(Level.data.columns)
+	var columns := _columns()
 	for index in tiles.size():
 		if index % columns < columns - 1 and _swap_creates_match(index, index + 1):
 			return true
@@ -124,15 +198,25 @@ func has_available_move() -> bool:
 	return false
 
 func _fill_initial_board() -> void:
-	var seeded_opening: Array = Level.data.get("seededOpeningBoard", [])
+	var opening: Array = level_data.get("openingBoard", [])
+	if opening.size() == tiles.size():
+		for index in tiles.size():
+			var cell: Dictionary = opening[index]
+			tiles[index] = str(cell.get("tile", ""))
+			specials[index] = str(cell.get("special", ""))
+			blocker_layers[index] = int(cell.get("blockerLayers", blocker_layers[index]))
+			ingredients[index] = str(cell.get("ingredient", ingredients[index]))
+		return
+	var seeded_opening: Array = level_data.get("seededOpeningBoard", [])
 	if seeded_opening.size() == tiles.size():
 		for index in tiles.size():
 			tiles[index] = str(seeded_opening[index])
 		return
-	var columns := int(Level.data.columns)
+	var columns := _columns()
 	for index in tiles.size():
-		var candidates: Array = Level.data.activeTiles.duplicate()
-		_shuffle(candidates)
+		if not _is_active(index) or not ingredients[index].is_empty():
+			continue
+		var candidates := _shuffled_tile_keys()
 		for candidate in candidates:
 			var tile := str(candidate)
 			tiles[index] = tile
@@ -141,35 +225,93 @@ func _fill_initial_board() -> void:
 			else:
 				tiles[index] = ""
 		if tiles[index].is_empty():
-			tiles[index] = str(Level.data.activeTiles[_random.index(Level.data.activeTiles.size())])
+			tiles[index] = _random_tile()
 
 func _settle_columns() -> Array[int]:
-	var columns := int(Level.data.columns)
-	var rows := int(Level.data.rows)
+	var rows := _rows()
+	var columns := _columns()
+	var origins: Array[int] = []
+	for index in tiles.size(): origins.append(index if not tiles[index].is_empty() or not ingredients[index].is_empty() else -1)
+	var dropped := _collect_bottom_ingredients(origins)
+	_compact_columns(origins)
+	dropped += _collect_bottom_ingredients(origins)
+	if dropped > 0: _compact_columns(origins)
+	_last_settle_dropped = dropped
+	for index in tiles.size():
+		if not _is_active(index) or _is_blocked(index): continue
+		if tiles[index].is_empty() and ingredients[index].is_empty():
+			tiles[index] = _random_tile()
+			origins[index] = -1
 	var motions: Array[Dictionary] = []
-	for column in range(columns):
-		var remaining: Array[Dictionary] = []
-		for row in range(rows - 1, -1, -1):
-			var index := row * columns + column
-			var tile := tiles[index]
-			if not tile.is_empty():
-				remaining.append({"tile": tile, "special": specials[index], "source": index})
-		while remaining.size() < rows:
-			remaining.append({"tile": _random_tile(), "special": "", "source": -1})
-		for row in range(rows):
-			var index := row * columns + column
-			var cell: Dictionary = remaining[rows - row - 1]
-			tiles[index] = str(cell.tile)
-			specials[index] = str(cell.special)
-			var source := int(cell.source)
-			var rows_moved := rows if source < 0 else row - int(source / columns)
-			if source < 0 or rows_moved > 0:
-				motions.append({"index": index, "spawn": source < 0, "rows": rows_moved})
+	for index in tiles.size():
+		if tiles[index].is_empty() and ingredients[index].is_empty(): continue
+		var origin := origins[index]
+		if origin < 0:
+			motions.append({"index": index, "spawn": true, "rows": maxi(1, int(index / columns) - _segment_top(index) + 1)})
+		elif origin != index and int(index / columns) > int(origin / columns):
+			motions.append({"index": index, "spawn": false, "rows": int(index / columns) - int(origin / columns)})
 	motions.sort_custom(_anchor_precedes)
 	var anchors: Array[int] = []
 	for motion in motions:
 		anchors.append(int(motion.index))
 	return anchors
+
+func _compact_columns(origins: Array[int]) -> void:
+	var columns := _columns()
+	var rows := _rows()
+	for column in columns:
+		var segment: Array[int] = []
+		for row in rows + 1:
+			var index := row * columns + column if row < rows else -1
+			if row < rows and not _is_active(index):
+				continue
+			if row < rows and _is_blocked(index):
+				_compact_segment(segment, origins)
+				segment.clear()
+				continue
+			if row < rows: segment.append(index)
+		_compact_segment(segment, origins)
+
+func _compact_segment(indices: Array[int], origins: Array[int]) -> void:
+	if indices.is_empty(): return
+	var contents: Array[Dictionary] = []
+	for offset in range(indices.size() - 1, -1, -1):
+		var source := indices[offset]
+		if not tiles[source].is_empty() or not ingredients[source].is_empty():
+			contents.append({"tile": tiles[source], "special": specials[source], "ingredient": ingredients[source], "origin": origins[source]})
+	for offset in range(indices.size() - 1, -1, -1):
+		var target := indices[offset]
+		var content_index := indices.size() - 1 - offset
+		var item: Dictionary = contents[content_index] if content_index < contents.size() else {}
+		tiles[target] = str(item.get("tile", ""))
+		specials[target] = str(item.get("special", ""))
+		ingredients[target] = str(item.get("ingredient", ""))
+		origins[target] = int(item.get("origin", -1))
+
+func _collect_bottom_ingredients(origins: Array[int]) -> int:
+	var dropped := 0
+	for column in _columns():
+		var row := _rows() - 1
+		while row >= 0 and not _is_active(row * _columns() + column): row -= 1
+		if row < 0: continue
+		var index := row * _columns() + column
+		if ingredients[index].is_empty(): continue
+		var kind := ingredients[index]
+		ingredients_dropped[kind] = int(ingredients_dropped.get(kind, 0)) + 1
+		ingredients[index] = ""
+		tiles[index] = ""
+		specials[index] = ""
+		origins[index] = -1
+		dropped += 1
+	return dropped
+
+func _segment_top(index: int) -> int:
+	var column := index % _columns()
+	var row := int(index / _columns())
+	for candidate_row in range(row - 1, -1, -1):
+		var candidate := candidate_row * _columns() + column
+		if _is_active(candidate) and _is_blocked(candidate): return candidate_row + 1
+	return 0
 
 func _anchor_precedes(first: Dictionary, second: Dictionary) -> bool:
 	if first.spawn != second.spawn:
@@ -195,6 +337,8 @@ func _reshuffle_playable_board() -> void:
 	specials = original_specials
 
 func _swap_creates_match(first: int, second: int) -> bool:
+	if not _are_adjacent(first, second) or tiles[first].is_empty() or tiles[second].is_empty() or _is_blocked(first) or _is_blocked(second):
+		return false
 	_swap_tiles(first, second)
 	var found := not find_matches().is_empty() or not specials[first].is_empty() or not specials[second].is_empty()
 	_swap_tiles(first, second)
@@ -210,9 +354,9 @@ func _cell_creates_initial_match(index: int, columns: int) -> bool:
 	return horizontal or vertical or square
 
 func _are_adjacent(first: int, second: int) -> bool:
-	if first < 0 or second < 0 or first >= tiles.size() or second >= tiles.size() or first == second:
+	if not _is_active(first) or not _is_active(second) or first == second:
 		return false
-	var columns := int(Level.data.columns)
+	var columns := _columns()
 	var first_row := int(first / columns)
 	var second_row := int(second / columns)
 	var first_column := first % columns
@@ -263,17 +407,20 @@ func _resolve(groups: Array[Dictionary], activated: Array[int], creations: Array
 			if not activated.has(int(index)):
 				clear.erase(index)
 		for index in clear:
-			if index < 0 or index >= tiles.size() or tiles[index].is_empty():
+			if index < 0 or index >= tiles.size() or tiles[index].is_empty() or _is_blocked(index):
 				continue
-			if tiles[index] == str(Level.data.objectiveTile):
-				collected += 1
+			var tile := tiles[index]
+			collected_by_tile[tile] = int(collected_by_tile.get(tile, 0)) + 1
 			tiles[index] = ""
 			specials[index] = ""
+			_last_cleared += 1
+		_last_blockers_cleared += _damage_blockers(clear)
 		for index in by_index:
 			if tiles[index].is_empty() or clear.has(index):
 				continue
 			specials[index] = str(by_index[index].kind)
 		anchors = _settle_columns()
+		_last_ingredients_dropped += _last_settle_dropped
 		groups = find_match_groups()
 		activated.clear()
 	return cascade
@@ -296,13 +443,13 @@ func _find_player_special_creations(groups: Array[Dictionary], first: int, secon
 	if not candidates.is_empty():
 		return _unique_creations(candidates)
 	for anchor in swapped:
-		var row := int(anchor / int(Level.data.columns))
-		var column := anchor % int(Level.data.columns)
+		var row := int(anchor / _columns())
+		var column := anchor % _columns()
 		for top in [row - 1, row]:
 			for left in [column - 1, column]:
-				if top < 0 or left < 0 or top >= int(Level.data.rows) - 1 or left >= int(Level.data.columns) - 1:
+				if top < 0 or left < 0 or top >= _rows() - 1 or left >= _columns() - 1:
 					continue
-				var square: Array[int] = [top * int(Level.data.columns) + left, top * int(Level.data.columns) + left + 1, (top + 1) * int(Level.data.columns) + left, (top + 1) * int(Level.data.columns) + left + 1]
+				var square: Array[int] = [top * _columns() + left, top * _columns() + left + 1, (top + 1) * _columns() + left, (top + 1) * _columns() + left + 1]
 				var tile := tiles[anchor]
 				if square.all(func(index: int) -> bool: return tiles[index] == tile):
 					candidates.append({"index": second if square.has(second) else anchor, "kind": "lead", "consumed": square})
@@ -382,8 +529,8 @@ func _expand_special_clear(clear: Dictionary) -> void:
 		if kind.is_empty():
 			continue
 		var targets: Array[int] = []
-		var rows := int(Level.data.rows)
-		var columns := int(Level.data.columns)
+		var rows := _rows()
+		var columns := _columns()
 		var row := int(index / columns)
 		var column := index % columns
 		match kind:
@@ -410,18 +557,22 @@ func _expand_special_clear(clear: Dictionary) -> void:
 				queue.append(target)
 
 func _lead_targets(index: int) -> Array[int]:
-	var columns := int(Level.data.columns)
+	var columns := _columns()
 	var row := int(index / columns)
 	var column := index % columns
 	var targets: Array[int] = [index]
 	if row > 0: targets.append(index - columns)
-	if row < int(Level.data.rows) - 1: targets.append(index + columns)
+	if row < _rows() - 1: targets.append(index + columns)
 	if column > 0: targets.append(index - 1)
 	if column < columns - 1: targets.append(index + 1)
-	for candidate in tiles.size():
-		if collected < int(Level.data.target) and not targets.has(candidate) and tiles[candidate] == str(Level.data.objectiveTile):
-			targets.append(candidate)
-			return targets
+	for objective: Dictionary in level_data.get("objectives", []):
+		if str(objective.get("kind", "")) != "collect": continue
+		var target_tile := str(objective.tile)
+		if int(collected_by_tile.get(target_tile, 0)) >= int(objective.target): continue
+		for candidate in tiles.size():
+			if not targets.has(candidate) and tiles[candidate] == target_tile and not _is_blocked(candidate):
+				targets.append(candidate)
+				return targets
 	for candidate in tiles.size():
 		if not targets.has(candidate) and not tiles[candidate].is_empty():
 			targets.append(candidate)
@@ -451,8 +602,8 @@ func _resolve_direct_combo(first: String, second: String) -> String:
 
 func _direct_combo_targets(combo: String, first: int, second: int) -> Array[int]:
 	var targets := {}
-	var columns := int(Level.data.columns)
-	var rows := int(Level.data.rows)
+	var columns := _columns()
+	var rows := _rows()
 	var center_row := int(second / columns)
 	var center_column := second % columns
 	if combo == "insight-normal" or combo == "insight-special":
@@ -495,4 +646,72 @@ func _direct_combo_targets(combo: String, first: int, second: int) -> Array[int]
 	return result
 
 func _random_tile() -> String:
-	return str(Level.data.activeTiles[_random.index(Level.data.activeTiles.size())])
+	var active_tiles: Array = level_data.get("activeTiles", [])
+	if active_tiles.is_empty(): return ""
+	var weights: Dictionary = level_data.get("spawnWeights", {})
+	if weights.is_empty(): return str(active_tiles[_random.index(active_tiles.size())])
+	var total := 0.0
+	for tile: String in active_tiles: total += float(weights.get(tile, 1.0))
+	var roll: float = _random.next_float() * total
+	for tile: String in active_tiles:
+		roll -= float(weights.get(tile, 1.0))
+		if roll < 0.0: return tile
+	return str(active_tiles.back())
+
+func _shuffled_tile_keys() -> Array:
+	var remaining: Array = level_data.get("activeTiles", []).duplicate()
+	var ordered: Array = []
+	var weights: Dictionary = level_data.get("spawnWeights", {})
+	if weights.is_empty():
+		_shuffle(remaining)
+		return remaining
+	while not remaining.is_empty():
+		var total := 0.0
+		for tile: String in remaining: total += float(weights.get(tile, 1.0))
+		var roll: float = _random.next_float() * total
+		var selected := remaining.size() - 1
+		for index in remaining.size():
+			roll -= float(weights.get(str(remaining[index]), 1.0))
+			if roll < 0.0:
+				selected = index
+				break
+		ordered.append(remaining.pop_at(selected))
+	return ordered
+
+func _rows() -> int:
+	return int(level_data.get("rows", 0))
+
+func _columns() -> int:
+	return int(level_data.get("columns", 0))
+
+func _is_active(index: int) -> bool:
+	if index < 0 or index >= tiles.size(): return false
+	for hole: Variant in level_data.get("boardHoles", []):
+		if int(hole) == index: return false
+	return true
+
+func _is_blocked(index: int) -> bool:
+	return index >= 0 and index < blocker_layers.size() and blocker_layers[index] > 0 and str(level_data.get("blockerStyle", "solid")) != "overlay"
+
+func _matchable_tile(index: int) -> String:
+	if not _is_active(index) or _is_blocked(index): return ""
+	return tiles[index]
+
+func _damage_blockers(cleared: Dictionary) -> int:
+	var damaged := {}
+	for raw_index: Variant in cleared.keys():
+		var index := int(raw_index)
+		if index < 0 or index >= blocker_layers.size(): continue
+		var row := int(index / _columns())
+		var column := index % _columns()
+		for neighbour in [index, index - 1, index + 1, index - _columns(), index + _columns()]:
+			if neighbour < 0 or neighbour >= blocker_layers.size(): continue
+			if absf(float(int(neighbour / _columns()) - row)) + absf(float(neighbour % _columns() - column)) > 1: continue
+			if blocker_layers[neighbour] > 0: damaged[neighbour] = true
+	var removed := 0
+	for index: int in damaged:
+		blocker_layers[index] -= 1
+		if blocker_layers[index] == 0:
+			blockers_cleared += 1
+			removed += 1
+	return removed

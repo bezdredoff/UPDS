@@ -114,6 +114,7 @@ func _run() -> void:
 	model.tiles[2] = str(other_tiles[0])
 	model.tiles[3] = str(Match3Level.data.objectiveTile)
 	model.collected = 9
+	model.collected_by_tile[str(Match3Level.data.objectiveTile)] = 9
 	model.moves_left = 1
 	match3_screen._refresh()
 	match3_screen._select_cell(2)

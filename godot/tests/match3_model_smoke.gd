@@ -5,6 +5,7 @@ const Session = preload("res://scripts/match3_campaign_session.gd")
 const Store = preload("res://scripts/campaign_store.gd")
 const Memory = preload("res://tests/memory_storage.gd")
 const Level = preload("res://data/locker_match3.json")
+const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const SeededRandom = preload("res://scripts/seeded_random.gd")
 
 
@@ -13,6 +14,15 @@ func _initialize() -> void:
 
 
 func _run() -> void:
+	var bundle := CampaignData.load_bundle()
+	assert(not bundle.has("error"), str(bundle.get("error", "campaign data failed to load")))
+	for level: Dictionary in bundle.levels:
+		var campaign_game: RefCounted = Game.new(level)
+		assert(campaign_game.tiles.size() == int(level.rows) * int(level.columns), "%s board dimensions mismatch" % str(level.id))
+		assert(campaign_game.tiles == level.openingBoard.map(func(cell: Dictionary) -> String: return str(cell.tile)), "%s opening board differs from exported source" % str(level.id))
+		assert(campaign_game.blocker_layers == level.openingBoard.map(func(cell: Dictionary) -> int: return int(cell.blockerLayers)), "%s blockers differ from exported source" % str(level.id))
+		assert(campaign_game.ingredients == level.openingBoard.map(func(cell: Dictionary) -> String: return str(cell.ingredient)), "%s ingredients differ from exported source" % str(level.id))
+		assert(campaign_game.find_matches().is_empty() and campaign_game.has_available_move(), "%s opening board is not playable" % str(level.id))
 	var random: RefCounted = SeededRandom.new(9001)
 	var expected := [0.8673377186059952, 0.42265214351937175, 0.5292259221896529, 0.40202159946784377, 0.07498880056664348]
 	for value in expected:
@@ -145,6 +155,7 @@ func _run() -> void:
 	game.tiles[2] = str(other_tiles[0])
 	game.tiles[3] = str(Level.data.objectiveTile)
 	game.collected = 9
+	game.collected_by_tile["pantiesSportWhite"] = 9
 	game.moves_left = 1
 	var win: Dictionary = game.attempt_swap(2, 3)
 	assert(win.valid and game.state == "won" and game.collected >= int(Level.data.target))

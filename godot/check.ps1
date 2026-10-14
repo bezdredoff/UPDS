@@ -57,6 +57,7 @@ Invoke-GodotCheck -Stage 'VN screen script parse' -Arguments @('--headless', '--
 Invoke-GodotCheck -Stage 'Seeded random script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/seeded_random.gd')
 Invoke-GodotCheck -Stage 'Match-3 game script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_game.gd')
 Invoke-GodotCheck -Stage 'Match-3 campaign data script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_campaign_data.gd')
+Invoke-GodotCheck -Stage 'Match-3 runtime parity smoke script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://tests/match3_runtime_parity_smoke.gd')
 Invoke-GodotCheck -Stage 'Match-3 campaign session script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_campaign_session.gd')
 Invoke-GodotCheck -Stage 'Match-3 screen script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_screen.gd')
 Invoke-GodotCheck -Stage 'Bootstrap scene smoke test' -ExpectedOutput 'UPDS Godot bootstrap smoke test passed.' `
@@ -77,3 +78,5 @@ Invoke-GodotCheck -Stage 'Match-3 game smoke test' -ExpectedOutput 'UPDS Godot M
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_model_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'Match-3 campaign data smoke test' -ExpectedOutput 'UPDS Godot campaign Match-3 data smoke test passed (22 levels, schema 1).' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_campaign_data_smoke.gd', '--quit-after', '120')
+Invoke-GodotCheck -Stage 'Match-3 runtime parity test' -ExpectedOutput 'UPDS Godot Match-3 runtime parity passed (6 TypeScript oracle scenarios).' `
+	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_runtime_parity_smoke.gd', '--quit-after', '120')
