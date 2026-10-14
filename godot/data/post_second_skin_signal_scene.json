@@ -1,0 +1,658 @@
+{
+  "sceneId": "VN_SCENE_26_E12_POST",
+  "sceneIndex": 26,
+  "nextSceneId": "VN_SCENE_27_E13_PRE",
+  "nextSceneIndex": 27,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "choiceGate": {
+    "id": "publish-tag",
+    "checkpointLineId": "VN0601",
+    "prompt": {
+      "ru": "Что делать с названием Second Skin и активной меткой?",
+      "en": "What should the team do with the Second Skin name and active tag?",
+      "be": "Што рабіць з назвай Second Skin і актыўнай меткай?"
+    },
+    "choices": {
+      "A": {
+        "ru": {
+          "title": "Выложить метку и протокол в чат",
+          "effect": "Аюки +1 · Куросэ заранее узнает о раскрытии"
+        },
+        "en": {
+          "title": "Post the tag and protocol name to the chat",
+          "effect": "Ayuki +1 · Kurose is warned that the protocol is exposed"
+        },
+        "be": {
+          "title": "Выкласці метку і назву пратакола ў чат",
+          "effect": "Аюкі +1 · Куросэ загадзя даведаецца пра раскрыццё"
+        }
+      },
+      "B": {
+        "ru": {
+          "title": "Сохранить метку в тайне",
+          "effect": "Оноэ +1 · Доказательства +1"
+        },
+        "en": {
+          "title": "Keep the tag secret",
+          "effect": "Onoe +1 · Evidence +1"
+        },
+        "be": {
+          "title": "Захаваць метку ў таямніцы",
+          "effect": "Оноэ +1 · Доказы +1"
+        }
+      },
+      "C": {
+        "ru": {
+          "title": "Опровергнуть слух без имени протокола",
+          "effect": "Компромисс: слух закрыт, технический ID не опубликован"
+        },
+        "en": {
+          "title": "Debunk the rumor without the protocol ID",
+          "effect": "Balanced: rumor closed, technical ID stays private"
+        },
+        "be": {
+          "title": "Абвергнуць чутку без назвы пратакола",
+          "effect": "Кампраміс: чутка закрытая, тэхнічны ID не апублікаваны"
+        }
+      }
+    }
+  },
+  "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+  "titles": {
+    "ru": "Second Skin",
+    "en": "Second Skin",
+    "be": "Second Skin"
+  },
+  "lines": [
+    {
+      "id": "VN0589",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: SIGNAL TRACE",
+          "text": "Три независимых приёмника показывают один и тот же короткий пакет данных. Источник локализован в сервисной бирке."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: SIGNAL TRACE",
+          "text": "Three independent receivers show the same short data packet. The source is localized inside the service tag."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: SIGNAL TRACE",
+          "text": "Тры незалежныя прыёмнікі паказваюць адзін і той жа кароткі пакет даных. Крыніца лакалізаваная ў сэрвіснай бірцы."
+        }
+      }
+    },
+    {
+      "id": "VN0590",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "УВЕРЕННО",
+          "text": "Никакой магии. В ярлык вшита активная микрометка с собственным идентификатором."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CONFIDENT",
+          "text": "No magic. The tag contains an active microtag with its own identifier."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "УПЭЎНЕНА",
+          "text": "Ніякай магіі. У бірку ўшытая актыўная мікраметка з уласным ідэнтыфікатарам."
+        }
+      }
+    },
+    {
+      "id": "VN0591",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ОБЛЕГЧЁННО И РАЗОЧАРОВАННО",
+          "text": "Я одновременно рада за физику и немного обижена за ПанцуИтера."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "RELIEVED AND DISAPPOINTED",
+          "text": "I am simultaneously happy for physics and slightly offended on behalf of the Panty-Eater."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "З ПАЛЁГКАЙ І РАСЧАРАВАННЕМ",
+          "text": "Я адначасова рада за фізіку і крыху пакрыўджаная за ПанцуІтэра."
+        }
+      }
+    },
+    {
+      "id": "VN0592",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМОТРИТ ДЕКОДИРОВАНИЕ",
+          "text": "В заголовке пакета есть текстовая метка. `Second Skin`."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "READING DECODE",
+          "text": "The packet header contains a text label. `Second Skin`."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ГЛЯДЗІЦЬ ДЭКАДАВАННЕ",
+          "text": "У загалоўку пакета ёсць тэкставая метка. `Second Skin`."
+        }
+      }
+    },
+    {
+      "id": "VN0593",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Идентификатор связан с сенсорным контуром. Это не просто инвентарная бирка — она передаёт данные."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SERIOUS",
+          "text": "The identifier is tied to a sensor circuit. This is not just an inventory tag — it transmits data."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Ідэнтыфікатар звязаны з сэнсарным контурам. Гэта не проста інвентарная бірка — яна перадае даныя."
+        }
+      }
+    },
+    {
+      "id": "VN0594",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 18,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-surprised.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФИКСИРУЕТ СМЫСЛ",
+          "text": "Теперь технический критерий выбора вещей становится понятнее: нужен стабильный контакт с телом, а внешняя форма служит контролем."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "RECORDING MEANING",
+          "text": "Now the technical selection criterion is clearer: stable body contact is useful, while outer gear serves as a control."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФІКСУЕ СЭНС",
+          "text": "Цяпер тэхнічны крытэрый выбару рэчаў становіцца зразумелей: патрэбны стабільны кантакт з целам, а знешняя экіпіроўка служыць кантролем."
+        }
+      }
+    },
+    {
+      "id": "VN0595",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "УЛИКА: МЕТКА SECOND SKIN",
+          "text": "Досье показывает увеличенную бирку, бирюзовый индикатор, ID микрометки и декодированный заголовок `Second Skin`."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "HERO EVIDENCE / SECOND SKIN TAG",
+          "text": "The dossier shows the enlarged tag, turquoise indicator, microtag ID, and decoded `Second Skin` header."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "HERO EVIDENCE / SECOND SKIN TAG",
+          "text": "У дасье павялічаная бірка, бірузовы індыкатар, ID мікраметкі і дэкадаваны загаловак `Second Skin`."
+        }
+      }
+    },
+    {
+      "id": "VN0596",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФИКСИРУЕТ УЛИКУ",
+          "text": "Активная метка `Second Skin` передаёт данные и объясняет, почему бельё является основной, но не единственной выборкой."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "RECORDING CLUE",
+          "text": "The active `Second Skin` tag transmits data and explains why underwear is the primary, but not the only, sample."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФІКСУЕ ЎЛІКУ",
+          "text": "Актыўная метка `Second Skin` перадае даныя і тлумачыць, чаму бялізна — асноўная, але не адзіная выбарка."
+        }
+      }
+    },
+    {
+      "id": "VN0597",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_013}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_013}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_013}"
+        }
+      }
+    },
+    {
+      "id": "VN0598",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СМОТРИТ НА ЧАТ",
+          "text": "Если мы сейчас выложим фото метки, ПанцуИтер умрёт за тридцать секунд."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "LOOKING AT CHAT",
+          "text": "If we post the tag photo now, the Panty-Eater dies in thirty seconds."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ГЛЯДЗІЦЬ НА ЧАТ",
+          "text": "Калі мы зараз выкладзем фота меткі, ПанцуІтэр памрэ за трыццаць секунд."
+        }
+      }
+    },
+    {
+      "id": "VN0599",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕ СОГЛАСНА",
+          "text": "И Куросэ узнает, что мы декодировали протокол. Это тоже произойдёт за тридцать секунд."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "DISAGREEING",
+          "text": "And Kurose will know we decoded the protocol. That will also happen in thirty seconds."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕ ЗГОДНАЯ",
+          "text": "І Куросэ даведаецца, што мы дэкадавалі пратакол. Гэта таксама адбудзецца за трыццаць секунд."
+        }
+      }
+    },
+    {
+      "id": "VN0600",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВЗВЕШИВАЕТ",
+          "text": "Можно опубликовать всё, сохранить метку в тайне или дать только техническое опровержение слуха без идентификатора."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "WEIGHING OPTIONS",
+          "text": "We can publish everything, keep the tag secret, or issue only a technical correction to the rumor without the identifier."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УЗВАЖВАЕ",
+          "text": "Можна апублікаваць усё, захаваць метку ў таямніцы або даць толькі тэхнічнае абвяржэнне чуткі без ідэнтыфікатара."
+        }
+      }
+    },
+    {
+      "id": "VN0601",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE publish-tag}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE publish-tag}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE publish-tag}"
+        }
+      }
+    },
+    {
+      "id": "VN0602",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ПОСЛЕ ВЫБОРА",
+          "text": "Решение меняет публичность улики и направление доверия, но активная метка и протокол `Second Skin` остаются подтверждёнными фактами."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "AFTER CHOICE",
+          "text": "The decision changes the clue’s publicity and trust direction, but the active tag and `Second Skin` protocol remain confirmed facts."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ПАСЛЯ ВЫБАРУ",
+          "text": "Рашэнне змяняе публічнасць улікі і кірунак даверу, але актыўная метка і пратакол `Second Skin` застаюцца пацверджанымі фактамі."
+        }
+      }
+    },
+    {
+      "id": "VN0603",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "SFX: MESSAGE",
+          "text": "Телефон Оноэ получает сообщение ещё до того, как команда собирает датчики."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "SFX: MESSAGE",
+          "text": "Onoe’s phone receives a message before the team has even packed the sensors."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "SFX: MESSAGE",
+          "text": "Тэлефон Оноэ атрымлівае паведамленне яшчэ да таго, як каманда збірае датчыкі."
+        }
+      }
+    },
+    {
+      "id": "VN0604",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "СООБЩЕНИЕ НА ЭКРАНЕ",
+          "text": "Похоже, у вас оказался утраченный лабораторный компонент. Пожалуйста, сохраните его целым и верните для учёта."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "MESSAGE ON SCREEN",
+          "text": "It appears you have recovered a lost laboratory component. Please keep it intact and return it for inventory."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ПАВЕДАМЛЕННЕ НА ЭКРАНЕ",
+          "text": "Падобна, у вас апынуўся страчаны лабараторны кампанент. Калі ласка, захавайце яго цэлым і вярніце для ўліку."
+        }
+      }
+    },
+    {
+      "id": "VN0605",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "НАСТОРОЖЕННО",
+          "text": "Мы ещё никому не сообщили, что нашли компонент."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "WARY",
+          "text": "We have not told anyone yet that we found a component."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "НАСЦЯРОЖАНА",
+          "text": "Мы яшчэ нікому не паведамлялі, што знайшлі кампанент."
+        }
+      }
+    },
+    {
+      "id": "VN0606",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СМОТРИТ НА ВРЕМЯ",
+          "text": "Сообщение пришло через девяносто секунд после последнего импульса метки. Это новая проверяемая связь."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CHECKING TIME",
+          "text": "The message arrived ninety seconds after the tag’s last pulse. That is a new testable connection."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ГЛЯДЗІЦЬ НА ЧАС",
+          "text": "Паведамленне прыйшло праз дзевяноста секунд пасля апошняга імпульсу меткі. Гэта новая правяральная сувязь."
+        }
+      }
+    },
+    {
+      "id": "VN0607",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "КАРТОЧКА СЛЕДУЮЩЕГО ЭПИЗОДА",
+          "text": "«Следующий эпизод — Под бронёй»"
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "EPISODE CARD / FRONTIER",
+          "text": "“Next episode — Under the Armor.”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD / FRONTIER",
+          "text": "«Наступны эпізод — Пад даспехамі»"
+        }
+      }
+    }
+  ]
+}

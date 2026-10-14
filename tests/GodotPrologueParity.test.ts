@@ -83,6 +83,8 @@ describe('Godot story source parity', () => {
       [22, 'godot/data/post_control_sample_gear_scene.json', 'VN0509', 'VN0527', '', -1],
       [23, 'godot/data/asterion_transfer_scene.json', 'VN0528', 'VN0547', 'M3_11_ASTERION_TRANSFER', 24],
       [24, 'godot/data/post_asterion_transfer_scene.json', 'VN0548', 'VN0567', '', -1],
+      [25, 'godot/data/second_skin_signal_scene.json', 'VN0568', 'VN0588', 'M3_12_SECOND_SKIN_SIGNAL', 26],
+      [26, 'godot/data/post_second_skin_signal_scene.json', 'VN0589', 'VN0607', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -145,7 +147,12 @@ describe('Godot story source parity', () => {
     expect(asterionTransferLevel.evidence.localized.ru.title).toBeTruthy();
     expect(asterionTransferLevel.evidence.localized.be.label).toBeTruthy();
     expect(asterionTransferLevel.evidence.localized.en.continueStory).toBeTruthy();
-    for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source'], [24, 'photo-permission']] as const) {
+    const secondSkinLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_12_SECOND_SKIN_SIGNAL');
+    expect(secondSkinLevel.evidence.id).toBe('CUE_013');
+    expect(secondSkinLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(secondSkinLevel.evidence.localized.be.label).toBeTruthy();
+    expect(secondSkinLevel.evidence.localized.en.continueStory).toBeTruthy();
+    for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source'], [24, 'photo-permission'], [26, 'publish-tag']] as const) {
       const gate = godotStoryScene(sceneIndex).choiceGate;
       expect(gate.id).toBe(gateId);
       expect(gate.choices.A.ru.title).toBeTruthy();
