@@ -133,13 +133,13 @@ func _refresh() -> void:
 	emotion.text = copy.emotion
 	dialogue.text = copy.text
 	dialogue.scroll_to_line(0)
-	var lines: Array = Prologue.data.lines if session.state.scene == 0 else LockerScene.data.variants[session.state.choice]
+	var lines: Array = Prologue.data.lines if session.state.scene == 0 else LockerScene.data.variants[session.state.choice] if session.state.scene == 1 else data.lines
 	progress.text = "%d / %d" % [int(session.state.line) + 1, lines.size()]
 	menu_button.text = Copy.text("vn_menu", locale)
 	settings_button.text = Copy.text("settings", locale)
 	next_button.text = Copy.text("vn_next", locale)
 	var choosing: bool = session.state.scene == 1 and line.id == "VN0040"
-	_boundary = session.at_match3_gate()
+	_boundary = session.at_match3_gate() or session.at_port_boundary()
 	choice_box.visible = choosing
 	speaker.visible = not choosing and not _boundary
 	emotion.visible = not choosing and not _boundary
@@ -155,7 +155,7 @@ func _refresh() -> void:
 		next_button.disabled = true
 	warning.text = "" if session.last_write_ok else Copy.text("story_save_error", locale)
 	warning.visible = not session.last_write_ok
-	boundary.text = Copy.text("match3_boundary", locale) if session.state.scene == 1 else Copy.text("prologue_boundary", locale)
+	boundary.text = Copy.text("match3_boundary", locale) if session.at_match3_gate() else Copy.text("prologue_boundary", locale)
 	boundary.visible = _boundary
 	for child in stage.get_children():
 		stage.remove_child(child)

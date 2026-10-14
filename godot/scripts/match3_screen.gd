@@ -9,6 +9,7 @@ const Style = preload("res://scripts/menu_theme.gd")
 
 var preferences: RefCounted
 var session: RefCounted
+var story_session: RefCounted
 var game: RefCounted
 var selected_index := -1
 var last_feedback := ""
@@ -28,6 +29,12 @@ var result_label: Label
 var retry_button: Button
 var back_button: Button
 var result_back_button: Button
+var evidence_panel: PanelContainer
+var evidence_kicker: Label
+var evidence_image: TextureRect
+var evidence_title: Label
+var evidence_label: Label
+var evidence_continue: Button
 
 
 func _ready() -> void:
@@ -107,6 +114,27 @@ func _ready() -> void:
 	board.add_theme_constant_override("h_separation", 3)
 	board.add_theme_constant_override("v_separation", 3)
 	board_center.add_child(board)
+	evidence_panel = PanelContainer.new()
+	evidence_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content.add_child(evidence_panel)
+	var evidence_content := VBoxContainer.new()
+	evidence_content.alignment = BoxContainer.ALIGNMENT_CENTER
+	evidence_content.add_theme_constant_override("separation", 5)
+	evidence_panel.add_child(evidence_content)
+	evidence_kicker = _label(evidence_content, 13, Color("#a24762"))
+	evidence_kicker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	evidence_image = TextureRect.new()
+	evidence_image.custom_minimum_size = Vector2(128, 110)
+	evidence_image.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	evidence_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	evidence_content.add_child(evidence_image)
+	evidence_title = _label(evidence_content, 18, Color("#29243d"))
+	evidence_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	evidence_label = _label(evidence_content, 13, Color("#29243d"))
+	evidence_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	evidence_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	evidence_continue = _button(evidence_content)
+	evidence_continue.pressed.connect(_continue_story)
 	var footer := HBoxContainer.new()
 	content.add_child(footer)
 	moves = _label(footer, 15, Color.WHITE)
@@ -141,13 +169,26 @@ func _refresh() -> void:
 	tutorial_panel.visible = not session.save.tutorialsCompleted.has("basic-swap")
 	objective.text = "%s  %s · %d / %d" % [copy.collected, copy.objective, game.collected, int(Level.data.target)]
 	moves.text = "%s · %d" % [copy.moves, game.moves_left]
-	warning.text = "" if session.last_write_ok else MenuCopy.text("story_save_error", locale)
-	warning.visible = not session.last_write_ok
+	warning.text = "" if session.last_write_ok and story_session.last_write_ok else MenuCopy.text("story_save_error", locale)
+	warning.visible = not warning.text.is_empty()
 	result_label.text = copy.win if game.state == "won" else copy.lose if game.state == "lost" else ""
-	result_label.visible = game.state != "playing"
-	result_box.visible = game.state != "playing"
+	result_label.visible = game.state == "lost"
+	result_box.visible = game.state == "lost"
 	retry_button.text = copy.retry
 	result_back_button.text = copy.back
+	var won: bool = game.state == "won"
+	board.get_parent().visible = not won
+	tutorial_panel.visible = not won and not session.save.tutorialsCompleted.has("basic-swap")
+	objective.visible = not won
+	moves.visible = not won
+	evidence_panel.visible = won
+	var evidence: Dictionary = Level.data.evidence
+	var clue_copy: Dictionary = evidence.localized[locale]
+	evidence_kicker.text = clue_copy.evidenceFound
+	evidence_image.texture = load("res://" + str(evidence.asset).trim_prefix("./"))
+	evidence_title.text = clue_copy.title
+	evidence_label.text = clue_copy.label
+	evidence_continue.text = clue_copy.continueStory
 	_render_board()
 
 
@@ -211,6 +252,7 @@ func _select_cell(index: int) -> void:
 		last_feedback = ""
 		if game.state == "won":
 			session.complete_level(str(Level.data.id), game.moves_left)
+			story_session.complete_match3(str(Level.data.id))
 	else:
 		selected_index = index
 		last_feedback = str(result.reason)
@@ -230,6 +272,10 @@ func _retry() -> void:
 	last_feedback = ""
 	session.start_level(str(Level.data.id))
 	_refresh()
+
+
+func _continue_story() -> void:
+	story_requested.emit()
 
 
 func _label(parent: Node, size: int, color: Color) -> Label:

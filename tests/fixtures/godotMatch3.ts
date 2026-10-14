@@ -3,6 +3,7 @@ import { Match3Game } from '../../src/engine/Match3Game';
 import { beCatalog } from '../../src/localization/catalogs/be';
 import { enCatalog } from '../../src/localization/catalogs/en';
 import { ruCatalog } from '../../src/localization/catalogs/ru';
+import { godotM3Evidence } from './godotPrologue';
 
 const catalogs = { en: enCatalog, ru: ruCatalog, be: beCatalog } as const;
 const level = levels[0];
@@ -23,6 +24,7 @@ export function godotMatch3Level() {
     objectiveTile: level.objectives[0]?.kind === 'collect' ? level.objectives[0].tile : '',
     activeTiles: level.activeTiles,
     seededOpeningBoard,
+    evidence: godotM3Evidence(),
     assets: Object.fromEntries(level.activeTiles.map((tile) => [tile, tilePresentation[tile].asset])),
     localized: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
       title: catalog[`${key}.title`],

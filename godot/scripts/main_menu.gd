@@ -141,6 +141,7 @@ func _open_match3(level_id: String) -> void:
 	match3_screen.name = "Match3Screen"
 	match3_screen.preferences = preferences
 	match3_screen.session = match3_session
+	match3_screen.story_session = session
 	match3_screen.story_requested.connect(_close_match3)
 	if is_instance_valid(story_screen):
 		story_screen.hide()

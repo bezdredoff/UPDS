@@ -8,6 +8,8 @@ const Match3Session = preload("res://scripts/match3_campaign_session.gd")
 const Copy = preload("res://scripts/menu_copy.gd")
 const Prologue = preload("res://data/prologue.json")
 const LockerScene = preload("res://data/locker_scene.json")
+const PostMatchScene = preload("res://data/post_match_scene.json")
+const Match3Level = preload("res://data/locker_match3.json")
 
 
 func _initialize() -> void:
@@ -94,6 +96,51 @@ func _run() -> void:
 	assert(menu.match3_screen == null and screen.visible, "Match-3 back did not restore the story gate")
 	assert(session.state.scene == 1 and session.state.line == LockerScene.data.variants.B.size() - 1, "Advanced into an unavailable scene")
 	assert(session.state.readLines.has("VN0041B") and not session.state.readLines.has("VN0041A"))
+	menu._handle_match3_request("M3_00_LOCKER_TUTORIAL")
+	await process_frame
+	var match3_screen: Control = menu.match3_screen
+	var model: RefCounted = match3_screen.game
+	var rows := int(Match3Level.data.rows)
+	var columns := int(Match3Level.data.columns)
+	var other_tiles: Array = Match3Level.data.activeTiles.filter(func(tile: Variant) -> bool: return str(tile) != str(Match3Level.data.objectiveTile))
+	model.tiles.clear()
+	model.specials.clear()
+	for row in range(rows):
+		for column in range(columns):
+			model.tiles.append(str(Match3Level.data.activeTiles[(row * 2 + column) % Match3Level.data.activeTiles.size()]))
+			model.specials.append("")
+	model.tiles[0] = str(Match3Level.data.objectiveTile)
+	model.tiles[1] = str(Match3Level.data.objectiveTile)
+	model.tiles[2] = str(other_tiles[0])
+	model.tiles[3] = str(Match3Level.data.objectiveTile)
+	model.collected = 9
+	model.moves_left = 1
+	match3_screen._refresh()
+	match3_screen._select_cell(2)
+	match3_screen._select_cell(3)
+	assert(model.state == "won" and match3_screen.evidence_panel.visible, "Match-3 win did not show its clue")
+	assert(session.state.scene == 2 and session.current_line().id == "VN0059")
+	assert(session.state.readLines.has("VN0058"), "Post-match direction line was not consumed")
+	assert(session.state.completed == [0] and session.state.clues == ["CUE_001"], "Win progress or clue was not saved")
+	assert(menu.match3_session.save.completed == ["M3_00_LOCKER_TUTORIAL"])
+	assert(match3_screen.evidence_image.texture != null)
+	for locale in ["ru", "be", "en"]:
+		assert(menu.preferences.set_locale(locale) == OK)
+		assert(match3_screen.evidence_title.text == Match3Level.data.evidence.localized[locale].title)
+		assert(match3_screen.evidence_continue.text == Match3Level.data.evidence.localized[locale].continueStory)
+	match3_screen.evidence_continue.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible, "Continue Story did not return to the post-match VN")
+	assert(screen.speaker.text == PostMatchScene.data.lines[1].localized.en.speaker)
+	assert(session.current_line().id == "VN0059")
+	assert(screen.dialogue.text == PostMatchScene.data.lines[1].localized.en.text)
+	var restored_post_match := Session.new(session.store)
+	restored_post_match.reload()
+	assert(restored_post_match.current_line().id == "VN0059", "Continue did not restore post-win VN progress")
+	while session.state.line < PostMatchScene.data.lines.size() - 1:
+		assert(session.advance())
+	assert(session.current_line().id == "VN0084" and session.at_port_boundary())
+	assert(not session.advance(), "Advanced beyond the ported post-match scene")
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
@@ -101,7 +148,7 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.scene == 1 and session.current_line().id == "VN0057")
+	assert(session.state.scene == 2 and session.current_line().id == "VN0084")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()

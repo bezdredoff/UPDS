@@ -3,6 +3,7 @@ const path = require('node:path');
 const Module = require('node:module');
 const ts = require('typescript');
 const root = path.resolve(__dirname, '..');
+require.extensions['.md'] = (module, filename) => { module.exports = fs.readFileSync(filename, 'utf8'); };
 const resolve = Module._resolveFilename;
 Module._resolveFilename = function (name, ...args) {
   return resolve.call(this, name.endsWith('?raw') ? name.slice(0, -4) : name, ...args);
@@ -14,9 +15,9 @@ require.extensions['.ts'] = (module, filename) => module._compile(ts.transpileMo
 const { godotMatch3Level } = require('../tests/fixtures/godotMatch3.ts');
 const level = godotMatch3Level();
 fs.writeFileSync(path.join(root, 'godot/data/locker_match3.json'), `${JSON.stringify(level, null, 2)}\n`);
-for (const asset of Object.values(level.assets)) {
-  if (typeof asset !== 'string' || !asset.startsWith('./assets/match3/') || asset.includes('..')) {
-    throw new Error(`Unexpected Match-3 tile asset: ${asset}`);
+for (const asset of [...Object.values(level.assets), level.evidence.asset]) {
+  if (typeof asset !== 'string' || !asset.startsWith('./assets/') || asset.includes('..')) {
+    throw new Error(`Unexpected Match-3 asset: ${asset}`);
   }
   const target = path.join(root, 'godot', asset);
   fs.mkdirSync(path.dirname(target), { recursive: true });

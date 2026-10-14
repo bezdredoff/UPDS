@@ -1,0 +1,807 @@
+{
+  "sceneId": "VN_SCENE_02_E0_POST",
+  "sceneIndex": 2,
+  "nextSceneId": "VN_SCENE_03_E1_PRE",
+  "titles": {
+    "ru": "То, что вор оставил",
+    "en": "What the Thief Left Behind",
+    "be": "Тое, што пакінуў злодзей"
+  },
+  "lines": [
+    {
+      "id": "VN0058",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "CLOSE UP: SERVICE TAG",
+          "text": "На внутренней стороне оставшегося предмета — свежая сервисная бирка центральной прачечной."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "CLOSE UP: SERVICE TAG",
+          "text": "A fresh central-laundry service tag is attached to the inside of one remaining item."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "CLOSE UP: SERVICE TAG",
+          "text": "На ўнутраным баку прадмета, што застаўся, — свежая сэрвісная бірка цэнтральнай пральні."
+        }
+      }
+    },
+    {
+      "id": "VN0059",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СОСРЕДОТОЧЕННАЯ",
+          "text": "Квитанция подтверждает одну партию. Но из неё исчезли только два предмета."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "FOCUSED",
+          "text": "The receipt confirms one batch. But only two items disappeared from it."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАСЯРОДЖАНАЯ",
+          "text": "Квітанцыя пацвярджае адну партыю. Але з яе зніклі толькі два прадметы."
+        }
+      }
+    },
+    {
+      "id": "VN0060",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "С КРУЖЕВНЫМ ПАКЕТОМ-УЛИКОЙ",
+          "text": "Значит, у преступника удивительно специфический вкус."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "WITH LACE EVIDENCE BAG",
+          "text": "So the criminal has remarkably specific taste."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "З КАРУНКАВЫМ ПАКЕТАМ-ДОКАЗАМ",
+          "text": "Значыць, у злачынцы дзіўна спецыфічны густ."
+        }
+      }
+    },
+    {
+      "id": "VN0061",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Версия: личная эстетическая селекция."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SERIOUS",
+          "text": "Theory: personal aesthetic selection."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Версія: асабістая эстэтычная селекцыя."
+        }
+      }
+    },
+    {
+      "id": "VN0062",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ВОСХИЩЁННАЯ",
+          "text": "Ты только что научно сказала «вор выбирает трусики по вкусу»."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "DELIGHTED",
+          "text": "You just said “the thief picks panties by taste” scientifically."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗАХОПЛЕНАЯ",
+          "text": "Ты толькі што навукова сказала «злодзей выбірае трусікі на свой густ»."
+        }
+      }
+    },
+    {
+      "id": "VN0063",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМОТРИТ В ШКАФЧИК",
+          "text": "Но самый дорогой комплект остался. И самый заметный тоже."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "LOOKS INTO THE LOCKER",
+          "text": "But the most expensive set is still here. So is the most noticeable one."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ГЛЯДЗІЦЬ У ШАФКУ",
+          "text": "Але самы дарагі камплект застаўся. І самы прыкметны таксама."
+        }
+      }
+    },
+    {
+      "id": "VN0064",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "СУХО",
+          "text": "Спасибо, что оценили ассортимент."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "DRY",
+          "text": "Thank you for reviewing the selection."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "СУХА",
+          "text": "Дзякуй, што ацанілі асартымент."
+        }
+      }
+    },
+    {
+      "id": "VN0065",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-embarrassed.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМУЩЁННАЯ",
+          "text": "Прости. Я о выборе вора, не о твоём."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "EMBARRASSED",
+          "text": "Sorry. I meant the thief’s choice, not yours."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЗБЯНТЭЖАНАЯ",
+          "text": "Прабач. Я пра выбар злодзея, не пра твой."
+        }
+      }
+    },
+    {
+      "id": "VN0066",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "МЯГЧЕ",
+          "text": "Понимаю. Просто… запишите это без характеристик."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "SOFTER",
+          "text": "I know. Just… write it down without commentary."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "МЯКЧЭЙ",
+          "text": "Разумею. Проста… запішыце гэта без характарыстык."
+        }
+      }
+    },
+    {
+      "id": "VN0067",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ИСПРАВЛЯЕТ ЗАПИСЬ",
+          "text": "Факт: пропажа выборочная. Цена, цвет и заметность её не объясняют."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CORRECTS THE NOTE",
+          "text": "Fact: the theft is selective. Price, color, and visibility do not explain it."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ВЫПРАЎЛЯЕ ЗАПІС",
+          "text": "Факт: знікненне выбарачнае. Цана, колер і прыкметнасць яго не тлумачаць."
+        }
+      }
+    },
+    {
+      "id": "VN0068",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "DOSSIER UNLOCK",
+          "text": "Открывается экран досье; карточка улики закрепляется отдельно от версии."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "DOSSIER UNLOCK",
+          "text": "The dossier opens; the clue card is pinned separately from the theory."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "DOSSIER UNLOCK",
+          "text": "Адкрываецца экран дасье; картка доказу замацоўваецца асобна ад версіі."
+        }
+      }
+    },
+    {
+      "id": "VN0069",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{dossier_unlocked=true; ADD CUE_001_SELECTIVE_THEFT}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{dossier_unlocked=true; ADD CUE_001_SELECTIVE_THEFT}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{dossier_unlocked=true; ADD CUE_001_SELECTIVE_THEFT}"
+        }
+      }
+    },
+    {
+      "id": "VN0070",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "С ТЕЛЕФОНОМ",
+          "text": "Эми прислала фотографии с утренней тренировки. На одной есть кое-что полезное."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "WITH PHONE",
+          "text": "Emi sent photos from morning practice. One of them has something useful."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "З ТЭЛЕФОНАМ",
+          "text": "Эмі даслала фотаздымкі з ранішняй трэніроўкі. На адным ёсць нешта карыснае."
+        }
+      }
+    },
+    {
+      "id": "VN0071",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: PHONE PHOTO",
+          "text": "На снимке Кэнтаро стоит у служебного коридора и смотрит на тележку прачечной."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "INSERT: PHONE PHOTO",
+          "text": "In the photo, Kentaro stands by the service corridor, looking at the laundry cart."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: PHONE PHOTO",
+          "text": "На здымку Кэнтаро стаіць каля службовага калідора і глядзіць на каляску пральні."
+        }
+      }
+    },
+    {
+      "id": "VN0072",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "НАПРЯЖЁННАЯ",
+          "text": "Он снимал нас всю неделю."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "TENSE",
+          "text": "He was photographing us all week."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "НАПРУЖАНАЯ",
+          "text": "Ён здымаў нас увесь тыдзень."
+        }
+      }
+    },
+    {
+      "id": "VN0073",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "АНАЛИТИЧЕСКАЯ",
+          "text": "Доступ к расписанию, присутствие у места и профессиональный интерес к изображению одежды."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "ANALYTICAL",
+          "text": "Access to the schedule, presence near the location, and a professional interest in images of clothing."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "АНАЛІТЫЧНАЯ",
+          "text": "Доступ да раскладу, прысутнасць каля месца і прафесійная цікавасць да выявы адзення."
+        }
+      }
+    },
+    {
+      "id": "VN0074",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СОМНЕВАЕТСЯ",
+          "text": "Последний пункт звучит шире, чем доказывает фотография."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "DOUBTFUL",
+          "text": "That last point sounds broader than the photo proves."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СУМНЯВАЕЦЦА",
+          "text": "Апошні пункт гучыць шырэй, чым даказвае фотаздымак."
+        }
+      }
+    },
+    {
+      "id": "VN0075",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПРИБЛИЖАЕТ ФОТО",
+          "text": "Зато его взгляд говорит: «Я знаю, что в этой тележке»."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "ZOOMS THE PHOTO",
+          "text": "But his expression says, “I know what is in that cart.”"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "НАБЛІЖАЕ ФОТА",
+          "text": "Затое яго погляд кажа: «Я ведаю, што ў гэтай калясцы»."
+        }
+      }
+    },
+    {
+      "id": "VN0076",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "ИРОНИЧНАЯ",
+          "text": "Возможно, его взгляд говорил: «Почему меня снова фотографируют на мою же камеру»."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "IRONIC",
+          "text": "Or maybe it said, “Why am I being photographed with my own camera again?”"
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "ІРАНІЧНАЯ",
+          "text": "Магчыма, яго погляд казаў: «Чаму мяне зноў фатаграфуюць на маю ж камеру»."
+        }
+      }
+    },
+    {
+      "id": "VN0077",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "ДОВЕРИТЕЛЬНАЯ",
+          "text": "Соседка подтвердила: её вещи тоже были в утренней партии. Я перешлю номер тележки."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "CONFIDING",
+          "text": "My teammate confirmed it: her things were in the morning batch too. I will send the cart number."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "ДАВЕРЛІВАЯ",
+          "text": "Суседка пацвердзіла: яе рэчы таксама былі ў ранішняй партыі. Я перашлю нумар каляскі."
+        }
+      }
+    },
+    {
+      "id": "VN0080",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "РЕШИТЕЛЬНАЯ",
+          "text": "Поговорим с ним до того, как версия станет приговором."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "DETERMINED",
+          "text": "We talk to him before a theory becomes a sentence."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "РАШУЧАЯ",
+          "text": "Пагаворым з ім да таго, як версія стане прысудам."
+        }
+      }
+    },
+    {
+      "id": "VN0081",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ДЕЛОВИТО",
+          "text": "И до того, как он успеет убрать коллекцию."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BRISK",
+          "text": "And before he has time to hide the collection."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПА-ДЗЕЛАВОМУ",
+          "text": "І да таго, як ён паспее прыбраць калекцыю."
+        }
+      }
+    },
+    {
+      "id": "VN0082",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ТИХО",
+          "text": "Мы пока не знаем, что коллекция существует."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "QUIETLY",
+          "text": "We do not know there is a collection."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЦІХА",
+          "text": "Мы пакуль не ведаем, што калекцыя існуе."
+        }
+      }
+    },
+    {
+      "id": "VN0083",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "УЖЕ У ДВЕРИ",
+          "text": "Поэтому и идём проверять."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "ALREADY AT THE DOOR",
+          "text": "That is why we are going to check."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "УЖО КАЛЯ ДЗВЯРЭЙ",
+          "text": "Таму і ідзём правяраць."
+        }
+      }
+    },
+    {
+      "id": "VN0084",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпизод 1 — Чужая коллекция»"
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "EPISODE CARD",
+          "text": "“Episode 1 — Someone Else’s Collection”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпізод 1 — Чужая калекцыя»"
+        }
+      }
+    }
+  ]
+}

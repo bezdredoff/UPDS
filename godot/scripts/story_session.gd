@@ -7,6 +7,7 @@ const Store = preload("res://scripts/campaign_store.gd")
 const Format = preload("res://scripts/save_format.gd")
 const Prologue = preload("res://data/prologue.json")
 const LockerScene = preload("res://data/locker_scene.json")
+const PostMatchScene = preload("res://data/post_match_scene.json")
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -31,7 +32,7 @@ func has_progress() -> bool:
 
 func supports_position() -> bool:
 	return state.scene == 0 and state.line >= 0 and state.line < Prologue.data.lines.size() \
-		or state.scene == 1 and state.line >= 0 and state.line < _scene_lines().size()
+		or (state.scene == 1 or state.scene == 2) and state.line >= 0 and state.line < _scene_lines().size()
 
 
 func new_game() -> void:
@@ -58,8 +59,27 @@ func at_match3_gate() -> bool:
 	return state.scene == 1 and supports_position() and current_line().id == "VN0057"
 
 
+func at_port_boundary() -> bool:
+	return state.scene == 2 and supports_position() and state.line == _scene_lines().size() - 1
+
+
+func complete_match3(level_id: String) -> bool:
+	if not at_match3_gate() or level_id != LockerScene.data.nextLevelId:
+		return false
+	if not state.completed.has(0):
+		state.completed.append(0)
+	if not state.clues.has("CUE_001"):
+		state.clues.append("CUE_001")
+	state.scene = int(PostMatchScene.data.sceneIndex)
+	state.line = 0
+	_skip_hidden()
+	persist()
+	changed.emit()
+	return true
+
+
 func scene_data() -> Dictionary:
-	return Prologue.data if state.scene == 0 else LockerScene.data if state.scene == 1 else {}
+	return Prologue.data if state.scene == 0 else LockerScene.data if state.scene == 1 else PostMatchScene.data if state.scene == 2 else {}
 
 
 func choose(option: String) -> bool:
@@ -119,4 +139,6 @@ func _scene_lines() -> Array:
 		return Prologue.data.lines
 	if state.scene == 1:
 		return LockerScene.data.variants.get(state.choice, LockerScene.data.variants.A)
+	if state.scene == 2:
+		return PostMatchScene.data.lines
 	return []
