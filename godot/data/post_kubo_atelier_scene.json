@@ -1,0 +1,606 @@
+{
+  "sceneId": "VN_SCENE_30_E14_POST",
+  "sceneIndex": 30,
+  "nextSceneId": "VN_SCENE_31_E15_PRE",
+  "nextSceneIndex": 31,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "choiceGate": {
+    "id": "family-ledger-permission",
+    "checkpointLineId": "VN0678",
+    "prompt": {
+      "ru": "Как использовать семейную книгу заказов Кубо?",
+      "en": "How should the Kubo family order book be used?",
+      "be": "Як выкарыстаць сямейную кнігу заказаў Кубо?"
+    },
+    "choices": {
+      "A": {
+        "ru": {
+          "title": "Оставить имена семьи и клиентов вне досье",
+          "effect": "Доверие источника +1 · подтверждённые даты сохраняются"
+        },
+        "en": {
+          "title": "Keep family and client names out of the dossier",
+          "effect": "Source Trust +1 · confirmed dates remain usable"
+        },
+        "be": {
+          "title": "Пакінуць імёны сям'і і кліентаў па-за дасье",
+          "effect": "Давер да крыніцы +1 · пацверджаныя даты захоўваюцца"
+        }
+      },
+      "B": {
+        "ru": {
+          "title": "Приложить полный разворот книги",
+          "effect": "Доказательства +1 · доверие семьи снижается"
+        },
+        "en": {
+          "title": "Attach the full ledger spread",
+          "effect": "Evidence +1 · family trust decreases"
+        },
+        "be": {
+          "title": "Далучыць поўны разварот кнігі",
+          "effect": "Доказы +1 · давер сям'і зніжаецца"
+        }
+      },
+      "C": {
+        "ru": {
+          "title": "Запечатать копию как закрытое приложение",
+          "effect": "Компромисс: проверяемость без публичного раскрытия клиентов"
+        },
+        "en": {
+          "title": "Seal a copy as a restricted appendix",
+          "effect": "Compromise: verifiable without public client disclosure"
+        },
+        "be": {
+          "title": "Запячатаць копію як закрыты дадатак",
+          "effect": "Кампраміс: правяральнасць без публічнага раскрыцця кліентаў"
+        }
+      }
+    }
+  },
+  "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+  "titles": {
+    "ru": "Рина знала раньше",
+    "en": "Rina Knew Earlier",
+    "be": "Рына ведала раней"
+  },
+  "lines": [
+    {
+      "id": "VN0667",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: RESTORED LEDGER",
+          "text": "Заказы выстроены по датам. Записи Рины образуют отдельную последовательность до начала публичных пропаж."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: RESTORED LEDGER",
+          "text": "Orders are restored by date. Rina’s entries form a separate sequence before the public disappearances began."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: RESTORED LEDGER",
+          "text": "Заказы выстаўлены па датах. Запісы Рыны ўтвараюць асобную паслядоўнасць яшчэ да пачатку публічных знікненняў."
+        }
+      }
+    },
+    {
+      "id": "VN0668",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "УВЕРЕННО",
+          "text": "Первая просьба — за двадцать два дня до заявления Эми. Потом ещё четыре. Каждый раз серебристый шов и код ярлыка."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "The first request is twenty-two days before Emi’s report. Then four more. Every time: silver seam and label code."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "УПЭЎНЕНА",
+          "text": "Першая просьба — за дваццаць два дні да заявы Эмі. Потым яшчэ чатыры. Кожны раз серабрыстае шво і код біркі."
+        }
+      }
+    },
+    {
+      "id": "VN0669",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФИКСИРУЕТ",
+          "text": "Рина знала о метках заранее и искала их систематически."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Rina knew about the tags in advance and searched for them systematically."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФІКСУЕ",
+          "text": "Рына ведала пра меткі загадзя і шукала іх сістэматычна."
+        }
+      }
+    },
+    {
+      "id": "VN0670",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КУБО",
+          "emotion": "СПОКОЙНЕЕ",
+          "text": "Значит, семейное ателье не было частью сети похищений."
+        },
+        "en": {
+          "speaker": "KUBO",
+          "emotion": "BEAT",
+          "text": "Then the family atelier was not part of a theft network."
+        },
+        "be": {
+          "speaker": "КУБО",
+          "emotion": "СПАКАЙНЕЙ",
+          "text": "Значыць, сямейнае атэлье не было часткай сеткі выкраданняў."
+        }
+      }
+    },
+    {
+      "id": "VN0671",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТОРЖЕСТВЕННО",
+          "text": "Поздравляю. Вторая комната с большим количеством белья официально получила алиби."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Congratulations. The second room with a large amount of underwear officially has an alibi."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "УРАЧЫСТА",
+          "text": "Віншую. Другі пакой з вялікай колькасцю бялізны афіцыйна атрымаў алібі."
+        }
+      }
+    },
+    {
+      "id": "VN0672",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "МАТЬ КУБО",
+          "emotion": "НЕ ВПЕЧАТЛЕНА",
+          "text": "У комнат нет алиби. У людей есть документы. Поэтому я храню документы."
+        },
+        "en": {
+          "speaker": "KUBO'S MOTHER",
+          "emotion": "BEAT",
+          "text": "Rooms do not have alibis. People have documents. That is why I keep documents."
+        },
+        "be": {
+          "speaker": "МАЦІ КУБО",
+          "emotion": "НЕ ЎРАЖАНА",
+          "text": "У пакояў няма алібі. У людзей ёсць дакументы. Таму я захоўваю дакументы."
+        }
+      }
+    },
+    {
+      "id": "VN0673",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_015}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_015}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_015}"
+        }
+      }
+    },
+    {
+      "id": "VN0674",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НА КНИГУ",
+          "text": "Для доказательства хронологии полезно приложить разворот целиком."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "For the evidence timeline, attaching the entire spread would be useful."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НА КНІГУ",
+          "text": "Для доказу храналогіі карысна далучыць увесь разварот."
+        }
+      }
+    },
+    {
+      "id": "VN0675",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "МАТЬ КУБО",
+          "emotion": "ЖЁСТЧЕ",
+          "text": "На развороте ещё семь клиентов, которые не соглашались становиться частью вашего дела."
+        },
+        "en": {
+          "speaker": "KUBO'S MOTHER",
+          "emotion": "BEAT",
+          "text": "That spread contains seven other clients who never agreed to become part of your case."
+        },
+        "be": {
+          "speaker": "МАЦІ КУБО",
+          "emotion": "ЖАРСЦЕЙ",
+          "text": "На развароце яшчэ сем кліентаў, якія не згаджаліся станавіцца часткай вашай справы."
+        }
+      }
+    },
+    {
+      "id": "VN0676",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СОГЛАСНА",
+          "text": "Тогда решаем отдельно: доказать последовательность и не превратить чужие заказы в побочный ущерб."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Then we decide separately: prove the sequence without turning other people’s orders into collateral damage."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЗГОДНАЯ",
+          "text": "Тады вырашаем асобна: даказаць паслядоўнасць і не ператварыць чужыя заказы ў пабочную шкоду."
+        }
+      }
+    },
+    {
+      "id": "VN0677",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КУБО",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Я поддержу любой вариант, в котором семья помогает расследованию добровольно, а не узнаёт об этом из отчёта."
+        },
+        "en": {
+          "speaker": "KUBO",
+          "emotion": "BEAT",
+          "text": "I support any option where the family helps voluntarily instead of learning about it from the report."
+        },
+        "be": {
+          "speaker": "КУБО",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Я падтрымаю любы варыянт, у якім сям'я дапамагае расследаванню добраахвотна, а не даведваецца пра гэта са справаздачы."
+        }
+      }
+    },
+    {
+      "id": "VN0678",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE family-ledger-permission}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE family-ledger-permission}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE family-ledger-permission}"
+        }
+      }
+    },
+    {
+      "id": "VN0679",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ПОСЛЕ ВЫБОРА",
+          "text": "Решение меняет оформление источника и доверие семьи Кубо, но даты визитов Рины, коды и содержание её просьб остаются подтверждёнными фактами."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "BEAT",
+          "text": "The choice changes source handling and the Kubo family’s trust, but Rina’s visit dates, codes, and requests remain confirmed facts."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ПАСЛЯ ВЫБАРУ",
+          "text": "Рашэнне змяняе афармленне крыніцы і давер сям'і Кубо, але даты візітаў Рыны, коды і змест яе просьбаў застаюцца пацверджанымі фактамі."
+        }
+      }
+    },
+    {
+      "id": "VN0680",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "МАТЬ КУБО",
+          "emotion": "ВОЗВРАЩАЕТ КНИГУ НА СТОЛ",
+          "text": "Хорошо. Теперь можете посмотреть последний пакет, который она просила проверить."
+        },
+        "en": {
+          "speaker": "KUBO'S MOTHER",
+          "emotion": "BEAT",
+          "text": "Good. Now you can see the last package she asked us to inspect."
+        },
+        "be": {
+          "speaker": "МАЦІ КУБО",
+          "emotion": "ВЯРТАЕ КНІГУ НА СТОЛ",
+          "text": "Добра. Цяпер можаце паглядзець апошні пакет, які яна прасіла праверыць."
+        }
+      }
+    },
+    {
+      "id": "VN0681",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: MARKED SAMPLE BAG",
+          "text": "Прозрачный сервисный пакет лежит у открытого окна. На ярлыке видна знакомая серебристая отметка."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: MARKED SAMPLE BAG",
+          "text": "A clear service bag lies by the open window. The familiar silver mark is visible on the label."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: MARKED SAMPLE BAG",
+          "text": "Празрысты сэрвісны пакет ляжыць каля адкрытага акна. На бірцы відаць знаёмую серабрыстую пазнаку."
+        }
+      }
+    },
+    {
+      "id": "VN0682",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "НАКЛОНЯЕТСЯ",
+          "text": "Это новый код?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Is that a new code?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "НАХІЛЯЕЦЦА",
+          "text": "Гэта новы код?"
+        }
+      }
+    },
+    {
+      "id": "VN0683",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "SFX: CAT LEAP",
+          "text": "Серый кампусный кот Рэй одним прыжком хватает пакет зубами и вылетает через окно."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "SFX: CAT LEAP",
+          "text": "A gray campus cat, Ray, leaps up, grabs the bag in his teeth, and shoots out through the window."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "SFX: CAT LEAP",
+          "text": "Шэры кампусны кот Рэй адным скачком хапае пакет зубамі і вылятае праз акно."
+        }
+      }
+    },
+    {
+      "id": "VN0684",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КУБО",
+          "emotion": "ПОСЛЕ ПАУЗЫ",
+          "text": "Прошу зафиксировать: кот не действует по поручению нашей семьи."
+        },
+        "en": {
+          "speaker": "KUBO",
+          "emotion": "BEAT",
+          "text": "Please record that the cat is not acting on behalf of our family."
+        },
+        "be": {
+          "speaker": "КУБО",
+          "emotion": "ПАСЛЯ ПАЎЗЫ",
+          "text": "Прашу зафіксаваць: кот не дзейнічае па даручэнні нашай сям'і."
+        }
+      }
+    },
+    {
+      "id": "VN0685",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "УЖЕ БЕЖИТ",
+          "text": "Фиксируем позже. Сейчас он уносит вещественное доказательство."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Record it later. Right now he is carrying away physical evidence."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УЖО БЯЖЫЦЬ",
+          "text": "Зафіксуем пазней. Цяпер ён уносіць рэчавы доказ."
+        }
+      }
+    },
+    {
+      "id": "VN0686",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпизод 15 — Кот с вещественным доказательством»"
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "EPISODE CARD",
+          "text": "Episode 15 — The Cat with Physical Evidence"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпізод 15 — Кот з рэчавым доказам»"
+        }
+      }
+    }
+  ]
+}

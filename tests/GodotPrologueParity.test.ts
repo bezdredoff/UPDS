@@ -87,6 +87,8 @@ describe('Godot story source parity', () => {
       [26, 'godot/data/post_second_skin_signal_scene.json', 'VN0589', 'VN0607', '', -1],
       [27, 'godot/data/kendo_pilot_list_scene.json', 'VN0608', 'VN0627', 'M3_13_KENDO_PILOT_LIST', 28],
       [28, 'godot/data/post_kendo_pilot_list_scene.json', 'VN0628', 'VN0646', '', -1],
+      [29, 'godot/data/kubo_atelier_scene.json', 'VN0647', 'VN0666', 'M3_14_KUBO_ATELIER_LEDGER', 30],
+      [30, 'godot/data/post_kubo_atelier_scene.json', 'VN0667', 'VN0686', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -159,7 +161,12 @@ describe('Godot story source parity', () => {
     expect(kendoPilotLevel.evidence.localized.ru.title).toBeTruthy();
     expect(kendoPilotLevel.evidence.localized.be.label).toBeTruthy();
     expect(kendoPilotLevel.evidence.localized.en.continueStory).toBeTruthy();
-    for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source'], [24, 'photo-permission'], [26, 'publish-tag']] as const) {
+    const kuboAtelierLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_14_KUBO_ATELIER_LEDGER');
+    expect(kuboAtelierLevel.evidence.id).toBe('CUE_015');
+    expect(kuboAtelierLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(kuboAtelierLevel.evidence.localized.be.label).toBeTruthy();
+    expect(kuboAtelierLevel.evidence.localized.en.continueStory).toBeTruthy();
+    for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source'], [24, 'photo-permission'], [26, 'publish-tag'], [30, 'family-ledger-permission']] as const) {
       const gate = godotStoryScene(sceneIndex).choiceGate;
       expect(gate.id).toBe(gateId);
       expect(gate.choices.A.ru.title).toBeTruthy();

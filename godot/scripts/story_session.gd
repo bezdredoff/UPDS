@@ -34,8 +34,10 @@ const SecondSkinSignalScene = preload("res://data/second_skin_signal_scene.json"
 const PostSecondSkinSignalScene = preload("res://data/post_second_skin_signal_scene.json")
 const KendoPilotListScene = preload("res://data/kendo_pilot_list_scene.json")
 const PostKendoPilotListScene = preload("res://data/post_kendo_pilot_list_scene.json")
+const KuboAtelierScene = preload("res://data/kubo_atelier_scene.json")
+const PostKuboAtelierScene = preload("res://data/post_kubo_atelier_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 28
+const MAX_PORTED_SCENE_INDEX := 30
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -159,6 +161,8 @@ func scene_data() -> Dictionary:
 		26: return PostSecondSkinSignalScene.data
 		27: return KendoPilotListScene.data
 		28: return PostKendoPilotListScene.data
+		29: return KuboAtelierScene.data
+		30: return PostKuboAtelierScene.data
 	return {}
 
 
@@ -283,4 +287,8 @@ func _scene_lines() -> Array:
 		return KendoPilotListScene.data.lines
 	if state.scene == 28:
 		return PostKendoPilotListScene.data.lines
+	if state.scene == 29:
+		return KuboAtelierScene.data.lines
+	if state.scene == 30:
+		return PostKuboAtelierScene.data.lines
 	return []
