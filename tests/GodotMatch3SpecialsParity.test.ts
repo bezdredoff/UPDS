@@ -23,11 +23,14 @@ describe("PG-003K Godot Match-3 special parity", () => {
 
   it("gives each special a visible Godot board marker and a smoke assertion", async () => {
     const screen = await readFile(new URL("../godot/scripts/match3_screen.gd", import.meta.url), "utf8");
+    const campaign = await readFile(new URL("../godot/data/campaign_match3_levels.json", import.meta.url), "utf8");
     const smoke = await readFile(new URL("../godot/tests/match3_model_smoke.gd", import.meta.url), "utf8");
     for (const kind of ["flash-row", "flash-column", "evidence", "lead", "insight"]) {
-      expect(screen).toContain(`"${kind}"`);
+      expect(campaign).toContain(`"${kind}": "./assets/match3/specials/${kind}.png"`);
       expect(smoke).toContain(kind);
     }
+    expect(screen).toContain('campaign_bundle.assets.get("specials", {}).get(game.specials[index], "")');
+    expect(screen).toContain('special.name = "Special"');
     expect(smoke).toContain("Direct special combo did not resolve as one move");
   });
 

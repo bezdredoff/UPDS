@@ -8,6 +8,10 @@ const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
+const SWAP_MOTION_SECONDS := 0.15
+const CLEAR_MOTION_SECONDS := 0.28
+const SETTLE_MOTION_SECONDS := 0.32
+const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
 
 var preferences: RefCounted
 var session: RefCounted
@@ -26,7 +30,12 @@ var last_feedback := ""
 var background: TextureRect
 var title: Label
 var bark: Label
+var bark_speaker: Label
+var bark_portrait: TextureRect
 var tutorial_panel: PanelContainer
+var tutorial_overlay: Control
+var tutorial_badge: PanelContainer
+var tutorial_eyebrow: Label
 var tutorial_title: Label
 var tutorial_body: Label
 var tutorial_button: Button
@@ -35,6 +44,8 @@ var moves: Label
 var hint_button: Button
 var warning: Label
 var board: GridContainer
+var board_center: CenterContainer
+var board_frame: PanelContainer
 var result_box: HBoxContainer
 var result_label: Label
 var retry_button: Button
@@ -46,6 +57,8 @@ var evidence_image: TextureRect
 var evidence_title: Label
 var evidence_label: Label
 var evidence_continue: Button
+var input_locked := false
+var bottom_spacer: Control
 
 
 func _ready() -> void:
@@ -56,8 +69,8 @@ func _ready() -> void:
 	level_data = CampaignData.get_level(campaign_bundle, level_id)
 	assert(not level_data.is_empty(), "Match-3 level is unavailable: " + level_id)
 	level_presentation = campaign_bundle.levelPresentations[level_id]
-	game = Game.new(level_data)
 	session.start_level(level_id)
+	game = _new_game_for_attempt()
 	background = TextureRect.new()
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background.texture = load("res://assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp")
@@ -74,13 +87,14 @@ func _ready() -> void:
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	margin.add_theme_constant_override("margin_left", 12)
 	margin.add_theme_constant_override("margin_right", 12)
-	margin.add_theme_constant_override("margin_top", 12)
+	margin.add_theme_constant_override("margin_top", 0)
 	margin.add_theme_constant_override("margin_bottom", 12)
 	add_child(margin)
 	var content := VBoxContainer.new()
 	content.add_theme_constant_override("separation", 7)
 	margin.add_child(content)
 	var header := HBoxContainer.new()
+	header.custom_minimum_size.y = 60
 	content.add_child(header)
 	back_button = _button(header)
 	back_button.pressed.connect(func() -> void: story_requested.emit())
@@ -93,25 +107,69 @@ func _ready() -> void:
 	bark = _label(content, 15, Color.WHITE)
 	bark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	bark.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	bark.add_theme_font_size_override("font_size", 12)
+	bark.add_theme_color_override("font_color", Color("#29243d"))
 	tutorial_panel = PanelContainer.new()
 	var tutorial_style := StyleBoxFlat.new()
-	tutorial_style.bg_color = Color(0.99, 0.98, 0.94, 0.95)
-	tutorial_style.set_corner_radius_all(10)
-	tutorial_style.content_margin_left = 10
-	tutorial_style.content_margin_right = 10
-	tutorial_style.content_margin_top = 7
-	tutorial_style.content_margin_bottom = 7
+	tutorial_style.bg_color = Color("#fff4d7")
+	tutorial_style.border_color = Color("#326349")
+	tutorial_style.set_border_width_all(2)
+	tutorial_style.border_width_left = 8
+	tutorial_style.set_corner_radius_all(9)
+	tutorial_style.shadow_color = Color(0.06, 0.1, 0.14, 0.35)
+	tutorial_style.shadow_size = 14
+	tutorial_style.shadow_offset = Vector2(0, 5)
+	tutorial_style.content_margin_left = 16
+	tutorial_style.content_margin_right = 19
+	tutorial_style.content_margin_top = 12
+	tutorial_style.content_margin_bottom = 14
 	tutorial_panel.add_theme_stylebox_override("panel", tutorial_style)
 	content.add_child(tutorial_panel)
 	var tutorial_content := VBoxContainer.new()
-	tutorial_content.add_theme_constant_override("separation", 3)
+	tutorial_content.add_theme_constant_override("separation", 5)
 	tutorial_panel.add_child(tutorial_content)
-	tutorial_title = _label(tutorial_content, 15, Color("#a24762"))
-	tutorial_body = _label(tutorial_content, 12, Color("#29243d"))
+	tutorial_badge = PanelContainer.new()
+	tutorial_badge.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	tutorial_badge.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	tutorial_badge.custom_minimum_size = Vector2(90, 22)
+	var tutorial_badge_style := StyleBoxFlat.new()
+	tutorial_badge_style.bg_color = Color("#326349")
+	tutorial_badge_style.set_corner_radius_all(3)
+	tutorial_badge_style.content_margin_left = 10
+	tutorial_badge_style.content_margin_right = 10
+	tutorial_badge_style.content_margin_top = 3
+	tutorial_badge_style.content_margin_bottom = 3
+	tutorial_badge.add_theme_stylebox_override("panel", tutorial_badge_style)
+	tutorial_content.add_child(tutorial_badge)
+	tutorial_eyebrow = _label(tutorial_badge, 9, Color.WHITE)
+	tutorial_eyebrow.autowrap_mode = TextServer.AUTOWRAP_OFF
+	tutorial_eyebrow.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(preferences.locale, "HOW TO PLAY")
+	tutorial_title = _label(tutorial_content, 23, Color("#172b49"))
+	tutorial_title.add_theme_font_size_override("font_size", 23)
+	var tutorial_serif := SystemFont.new()
+	tutorial_serif.font_names = PackedStringArray(["Georgia", "serif"])
+	tutorial_title.add_theme_font_override("font", tutorial_serif)
+	tutorial_body = _label(tutorial_content, 14, Color("#29243d"))
 	tutorial_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tutorial_button = _button(tutorial_content)
-	tutorial_button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_style_tutorial_button(tutorial_button)
 	tutorial_button.pressed.connect(_dismiss_tutorial)
+	content.remove_child(tutorial_panel)
+	tutorial_overlay = Control.new()
+	tutorial_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	tutorial_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	var tutorial_shade := ColorRect.new()
+	tutorial_shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	tutorial_shade.color = Color(0.05, 0.08, 0.14, 0.62)
+	tutorial_shade.mouse_filter = Control.MOUSE_FILTER_STOP
+	tutorial_overlay.add_child(tutorial_shade)
+	var tutorial_center := CenterContainer.new()
+	tutorial_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	tutorial_overlay.add_child(tutorial_center)
+	tutorial_panel.custom_minimum_size.x = 354
+	tutorial_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	tutorial_center.add_child(tutorial_panel)
 	var objective_panel := PanelContainer.new()
 	var objective_style := StyleBoxFlat.new()
 	objective_style.bg_color = Color(0.99, 0.98, 0.94, 0.96)
@@ -121,16 +179,72 @@ func _ready() -> void:
 	objective_style.content_margin_top = 6
 	objective_style.content_margin_bottom = 6
 	objective_panel.add_theme_stylebox_override("panel", objective_style)
-	content.add_child(objective_panel)
+	var hud := HBoxContainer.new()
+	hud.add_theme_constant_override("separation", 8)
+	hud.custom_minimum_size.y = 51
+	content.add_child(hud)
+	objective_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hud.add_child(objective_panel)
 	objective = _label(objective_panel, 14, Color("#29243d"))
-	var board_center := CenterContainer.new()
+	var stage_panel := PanelContainer.new()
+	stage_panel.custom_minimum_size.x = 105
+	stage_panel.add_theme_stylebox_override("panel", objective_style.duplicate())
+	hud.add_child(stage_panel)
+	moves = _label(stage_panel, 15, Color("#29243d"))
+	moves.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	board_center = CenterContainer.new()
 	board_center.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(board_center)
+	board_frame = PanelContainer.new()
+	board_frame.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var board_style := StyleBoxFlat.new()
+	board_style.bg_color = Color("#243354")
+	board_style.border_color = Color("#53694f")
+	board_style.set_border_width_all(3)
+	board_style.set_corner_radius_all(14)
+	board_style.content_margin_left = 6
+	board_style.content_margin_right = 6
+	board_style.content_margin_top = 6
+	board_style.content_margin_bottom = 6
+	board_frame.add_theme_stylebox_override("panel", board_style)
+	board_center.add_child(board_frame)
 	board = GridContainer.new()
 	board.columns = int(level_data.columns)
 	board.add_theme_constant_override("h_separation", 3)
 	board.add_theme_constant_override("v_separation", 3)
-	board_center.add_child(board)
+	board_frame.add_child(board)
+	var bark_style := StyleBoxFlat.new()
+	bark_style.bg_color = Color("#fff7df")
+	bark_style.border_color = Color("#66755d")
+	bark_style.set_border_width_all(1)
+	bark_style.border_width_left = 4
+	bark_style.set_corner_radius_all(9)
+	bark_style.content_margin_left = 9
+	bark_style.content_margin_right = 9
+	bark_style.content_margin_top = 6
+	bark_style.content_margin_bottom = 6
+	var bark_panel := PanelContainer.new()
+	bark_panel.custom_minimum_size.y = 62
+	bark_panel.add_theme_stylebox_override("panel", bark_style)
+	content.remove_child(bark)
+	content.add_child(bark_panel)
+	var bark_row := HBoxContainer.new()
+	bark_row.add_theme_constant_override("separation", 7)
+	bark_panel.add_child(bark_row)
+	bark_portrait = TextureRect.new()
+	bark_portrait.custom_minimum_size = Vector2(40, 40)
+	bark_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	bark_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	bark_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bark_row.add_child(bark_portrait)
+	var bark_lines := VBoxContainer.new()
+	bark_lines.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bark_lines.alignment = BoxContainer.ALIGNMENT_CENTER
+	bark_lines.add_theme_constant_override("separation", 1)
+	bark_row.add_child(bark_lines)
+	bark_speaker = _label(bark_lines, 9, Color("#326349"))
+	bark_speaker.add_theme_color_override("font_color", Color("#326349"))
+	bark_lines.add_child(bark)
 	evidence_panel = PanelContainer.new()
 	evidence_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(evidence_panel)
@@ -152,11 +266,10 @@ func _ready() -> void:
 	evidence_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	evidence_continue = _button(evidence_content)
 	evidence_continue.pressed.connect(_continue_story)
-	var footer := HBoxContainer.new()
-	content.add_child(footer)
-	moves = _label(footer, 15, Color.WHITE)
-	moves.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hint_button = _button(footer)
+	hint_button = _button(bark_row)
+	hint_button.custom_minimum_size = Vector2(94, 48)
+	hint_button.icon = load(HINT_ICON)
+	hint_button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint_button.pressed.connect(_show_hint)
 	warning = _label(content, 12, Color("#ffd7a5"))
 	warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -169,6 +282,10 @@ func _ready() -> void:
 	retry_button.pressed.connect(_retry)
 	result_back_button = _button(result_box)
 	result_back_button.pressed.connect(func() -> void: story_requested.emit())
+	bottom_spacer = Control.new()
+	bottom_spacer.custom_minimum_size.y = 42
+	content.add_child(bottom_spacer)
+	add_child(tutorial_overlay)
 	preferences.locale_changed.connect(func(_locale: String) -> void: _refresh())
 	_refresh()
 
@@ -178,11 +295,17 @@ func _refresh() -> void:
 	var copy: Dictionary = level_presentation.localized.get(locale, level_presentation.localized.en)
 	title.text = copy.title
 	back_button.text = copy.back
+	var speaker: String
 	if game.state == "playing":
-		bark.text = copy.noMatchBark if not last_feedback.is_empty() else "%s: %s" % [copy.startSpeaker, copy.startText]
+		speaker = str(copy.startSpeaker)
+		bark.text = str(copy.noMatchBark) if not last_feedback.is_empty() else str(copy.startText)
 	else:
-		bark.text = "%s: %s" % [copy.winSpeaker, copy.winText] if game.state == "won" else "%s: %s" % [copy.loseSpeaker, copy.loseText]
+		speaker = str(copy.winSpeaker) if game.state == "won" else str(copy.loseSpeaker)
+		bark.text = str(copy.winText) if game.state == "won" else str(copy.loseText)
+	bark_speaker.text = speaker
+	bark_portrait.texture = _speaker_portrait(speaker)
 	tutorial_title.text = str(Level.data.localized[locale].tutorialTitle)
+	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(locale, "HOW TO PLAY")
 	tutorial_body.text = str(Level.data.localized[locale].tutorialBody)
 	tutorial_button.text = str(Level.data.localized[locale].tutorialTry)
 	tutorial_panel.visible = level_id == str(Level.data.id) and not session.save.tutorialsCompleted.has("basic-swap")
@@ -201,11 +324,13 @@ func _refresh() -> void:
 	result_label.text = copy.win if game.state == "won" else copy.lose if game.state == "lost" else ""
 	result_label.visible = game.state == "lost"
 	result_box.visible = game.state == "lost"
+	bottom_spacer.visible = game.state == "playing"
 	retry_button.text = copy.retry
 	result_back_button.text = copy.back
 	var won: bool = game.state == "won"
-	board.get_parent().visible = not won
+	board_center.visible = not won
 	tutorial_panel.visible = not won and level_id == str(Level.data.id) and not session.save.tutorialsCompleted.has("basic-swap")
+	tutorial_overlay.visible = tutorial_panel.visible
 	objective.visible = not won
 	moves.visible = not won
 	evidence_panel.visible = won
@@ -233,16 +358,60 @@ func _render_board() -> void:
 		board.remove_child(child)
 		child.queue_free()
 	for index in game.tiles.size():
-		var tile_button := TextureButton.new()
-		tile_button.ignore_texture_size = true
-		tile_button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
-		tile_button.custom_minimum_size = Vector2(44, 44)
+		var tile_button := Button.new()
+		tile_button.custom_minimum_size = Vector2(54, 54)
+		tile_button.clip_contents = false
+		tile_button.focus_mode = Control.FOCUS_NONE
+		var cell_style := StyleBoxFlat.new()
+		cell_style.bg_color = Color("#2e4266")
+		cell_style.border_color = Color(0.45, 0.52, 0.46, 0.57)
+		cell_style.set_border_width_all(1)
+		cell_style.set_corner_radius_all(4)
+		var selected_style := cell_style.duplicate() as StyleBoxFlat
+		selected_style.border_color = Color("#fff6cf")
+		selected_style.set_border_width_all(3)
+		var hinted_style := cell_style.duplicate() as StyleBoxFlat
+		hinted_style.border_color = Color("#7ddfd8")
+		hinted_style.set_border_width_all(3)
+		var hover_style := cell_style.duplicate() as StyleBoxFlat
+		hover_style.bg_color = Color("#3a5278")
+		tile_button.add_theme_stylebox_override("normal", selected_style if index == selected_index else hinted_style if hinted_indices.has(index) else cell_style)
+		tile_button.add_theme_stylebox_override("hover", hover_style)
+		tile_button.add_theme_stylebox_override("pressed", selected_style)
+		tile_button.add_theme_stylebox_override("disabled", cell_style)
+		tile_button.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+		tile_button.add_theme_color_override("font_color", Color.TRANSPARENT)
+		tile_button.add_theme_color_override("font_disabled_color", Color.TRANSPARENT)
+		tile_button.text = ""
+		var tile_stack := Control.new()
+		tile_stack.name = "TileStack"
+		tile_stack.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		tile_stack.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		tile_stack.clip_contents = false
+		tile_stack.z_index = 0
 		var tile_asset := str(campaign_bundle.assets.tiles.get(game.tiles[index], ""))
-		if not tile_asset.is_empty(): tile_button.texture_normal = load("res://" + tile_asset.trim_prefix("./"))
+		if not tile_asset.is_empty():
+			var tile := TextureRect.new()
+			tile.name = "Tile"
+			tile.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			tile.offset_left = 2
+			tile.offset_top = 2
+			tile.offset_right = -2
+			tile.offset_bottom = -2
+			tile.texture = load("res://" + tile_asset.trim_prefix("./"))
+			tile.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			tile.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			tile_stack.add_child(tile)
 		var tile_tint := Color(1.25, 1.25, 1, 1) if index == selected_index else Color(1.2, 0.95, 0.5, 1) if hinted_indices.has(index) else Color.WHITE
-		tile_button.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else tile_tint
+		tile_stack.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else tile_tint
 		tile_button.disabled = game.state != "playing" or tutorial_panel.visible or game.tiles[index].is_empty() or game.blocker_layers[index] > 0
 		tile_button.pressed.connect(_select_cell.bind(index))
+		tile_button.add_child(tile_stack)
+		if hinted_indices.has(index):
+			var hint_tween := create_tween().set_loops()
+			hint_tween.tween_property(tile_stack, "scale", Vector2(0.91, 0.91), 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			hint_tween.tween_property(tile_stack, "scale", Vector2.ONE, 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		if game.blocker_layers[index] > 0:
 			var blocker_asset := str(campaign_bundle.assets.blockers.get(str(level_data.blockerStyle), ""))
 			if str(level_data.blockerStyle) == "locked": blocker_asset = str(campaign_bundle.assets.lockedBlockers.get(str(game.blocker_layers[index]), blocker_asset))
@@ -254,6 +423,23 @@ func _render_board() -> void:
 				blocker.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 				blocker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_button.add_child(blocker)
+				if game.blocker_layers[index] > 1:
+					var layer_badge := Label.new()
+					layer_badge.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
+					layer_badge.offset_left = -17
+					layer_badge.offset_top = -17
+					layer_badge.offset_right = -1
+					layer_badge.offset_bottom = -1
+					layer_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+					layer_badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+					layer_badge.text = str(game.blocker_layers[index])
+					layer_badge.add_theme_font_size_override("font_size", 9)
+					layer_badge.add_theme_color_override("font_color", Color.WHITE)
+					layer_badge.add_theme_color_override("font_shadow_color", Color("#182238"))
+					layer_badge.add_theme_constant_override("shadow_offset_x", 1)
+					layer_badge.add_theme_constant_override("shadow_offset_y", 1)
+					layer_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+					tile_button.add_child(layer_badge)
 		if not game.ingredients[index].is_empty():
 			var ingredient_asset := str(campaign_bundle.assets.ingredients.get(game.ingredients[index], ""))
 			if not ingredient_asset.is_empty():
@@ -267,39 +453,148 @@ func _render_board() -> void:
 				ingredient.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				ingredient.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				ingredient.mouse_filter = Control.MOUSE_FILTER_IGNORE
-				tile_button.add_child(ingredient)
+				tile_stack.add_child(ingredient)
 		if not game.specials[index].is_empty():
-			var badge := Label.new()
-			badge.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-			badge.offset_left = -21
-			badge.offset_top = 0
-			badge.offset_right = -1
-			badge.offset_bottom = 20
-			badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-			badge.add_theme_font_size_override("font_size", 15)
-			badge.add_theme_color_override("font_color", Color("#fff2a8"))
-			badge.add_theme_color_override("font_shadow_color", Color("#24213c"))
-			badge.add_theme_constant_override("shadow_offset_x", 1)
-			badge.add_theme_constant_override("shadow_offset_y", 1)
-			badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			badge.text = _special_glyph(game.specials[index])
-			tile_button.add_child(badge)
+			var special_asset := str(campaign_bundle.assets.get("specials", {}).get(game.specials[index], ""))
+			if not special_asset.is_empty():
+				var special := TextureRect.new()
+				special.name = "Special"
+				special.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+				special.offset_left = -7
+				special.offset_top = -7
+				special.offset_right = 7
+				special.offset_bottom = 7
+				special.texture = load("res://" + special_asset.trim_prefix("./"))
+				special.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				special.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				special.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				tile_stack.add_child(special)
 		board.add_child(tile_button)
 
 
-func _special_glyph(kind: String) -> String:
-	match kind:
-		"flash-row": return "↔"
-		"flash-column": return "↕"
-		"evidence": return "◎"
-		"lead": return "⌖"
-		"insight": return "✦"
-	return ""
+func _render_frame(frame: Dictionary) -> void:
+	var old_tiles: Array[String] = game.tiles
+	var old_specials: Array[String] = game.specials
+	var old_blockers: Array[int] = game.blocker_layers
+	var old_ingredients: Array[String] = game.ingredients
+	game.tiles = frame.tiles.duplicate()
+	game.specials = frame.specials.duplicate()
+	game.blocker_layers = frame.blockers.duplicate()
+	game.ingredients = frame.ingredients.duplicate()
+	_render_board()
+	game.tiles = old_tiles
+	game.specials = old_specials
+	game.blocker_layers = old_blockers
+	game.ingredients = old_ingredients
+	if str(frame.phase) == "clear":
+		for index_value in frame.cleared:
+			var cell := board.get_child(int(index_value)) as Control
+			var tile_stack := cell.get_node_or_null("TileStack") as Control
+			if tile_stack == null: continue
+			var tween := create_tween()
+			tween.tween_property(tile_stack, "scale", Vector2(1.1, 1.1), CLEAR_MOTION_SECONDS * 0.48).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			tween.parallel().tween_property(tile_stack, "modulate", Color(1.55, 1.55, 1.55, 1.0), CLEAR_MOTION_SECONDS * 0.48)
+			tween.tween_property(tile_stack, "scale", Vector2(0.18, 0.18), CLEAR_MOTION_SECONDS * 0.52).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+			tween.parallel().tween_property(tile_stack, "modulate", Color(1.8, 1.8, 1.8, 0.0), CLEAR_MOTION_SECONDS * 0.52)
+	elif str(frame.phase) == "settle":
+		for motion_value in frame.motions:
+			var motion: Dictionary = motion_value
+			var cell := board.get_child(int(motion.index)) as Control
+			var tile_stack := cell.get_node_or_null("TileStack") as Control
+			if tile_stack == null: continue
+			var distance := float(motion.rows) * (cell.size.y + float(board.get_theme_constant("v_separation")))
+			tile_stack.position.y = -distance
+			tile_stack.modulate.a = 0.05 if bool(motion.spawn) else 1.0
+			var tween := create_tween()
+			tween.tween_property(tile_stack, "position:y", 0.0, SETTLE_MOTION_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			tween.parallel().tween_property(tile_stack, "modulate:a", 1.0, SETTLE_MOTION_SECONDS * 0.68)
+			tween.parallel().tween_property(tile_stack, "scale", Vector2(1.015, 1.015), SETTLE_MOTION_SECONDS * 0.72)
+			tween.tween_property(tile_stack, "scale", Vector2.ONE, SETTLE_MOTION_SECONDS * 0.28)
+
+
+func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
+	if first == second or first < 0 or second < 0 or first >= board.get_child_count() or second >= board.get_child_count():
+		await get_tree().create_timer(SWAP_MOTION_SECONDS).timeout
+		return
+	var first_cell := board.get_child(first) as Control
+	var second_cell := board.get_child(second) as Control
+	var first_stack := first_cell.get_node_or_null("TileStack") as Control
+	var second_stack := second_cell.get_node_or_null("TileStack") as Control
+	if first_stack == null or second_stack == null: return
+	var offset := second_cell.position - first_cell.position
+	first_stack.z_index = 8
+	second_stack.z_index = 8
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(first_stack, "position", offset, SWAP_MOTION_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(second_stack, "position", -offset, SWAP_MOTION_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await tween.finished
+	if return_to_start:
+		var back := create_tween()
+		back.set_parallel(true)
+		back.tween_property(first_stack, "position", Vector2.ZERO, SWAP_MOTION_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		back.tween_property(second_stack, "position", Vector2.ZERO, SWAP_MOTION_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		await back.finished
+	first_stack.position = Vector2.ZERO
+	second_stack.position = Vector2.ZERO
+	first_stack.z_index = 0
+	second_stack.z_index = 0
+
+
+func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
+	input_locked = true
+	var valid := bool(result.valid)
+	if valid:
+		for frame_value in result.get("frames", []):
+			var frame: Dictionary = frame_value
+			if str(frame.phase) == "swap":
+				await _animate_swap(first, second, false)
+				_render_frame(frame)
+			elif str(frame.phase) == "clear":
+				_render_frame(frame)
+				await get_tree().create_timer(CLEAR_MOTION_SECONDS).timeout
+			else:
+				_render_frame(frame)
+				await get_tree().create_timer(SETTLE_MOTION_SECONDS).timeout
+		_render_board()
+	else:
+		if str(result.get("reason", "")) == "no-match":
+			await _animate_swap(first, second, true)
+		var rejected := [board.get_child(first), board.get_child(second)]
+		for cell_value in rejected:
+			var cell := cell_value as Control
+			var tile_stack := cell.get_node_or_null("TileStack") as Control
+			if tile_stack == null: continue
+			var tween := create_tween()
+			for offset in [-5.0, 5.0, -3.0, 0.0]:
+				tween.tween_property(tile_stack, "position:x", offset, 0.055)
+		await get_tree().create_timer(0.22).timeout
+	_render_board()
+	input_locked = false
+
+
+func _speaker_portrait(speaker: String) -> Texture2D:
+	var normalized := speaker.to_lower()
+	var character := "miku"
+	if ["onoe", "оноэ", "онoэ"].any(func(name: String) -> bool: return normalized.contains(name)):
+		character = "onoe"
+	elif ["ayuki", "аюки"].any(func(name: String) -> bool: return normalized.contains(name)):
+		character = "ayuki"
+	var path := "res://assets/characters/%s/portrait_neutral_256.png" % character
+	return load(path) as Texture2D if ResourceLoader.exists(path) else null
+
+
+func _new_game_for_attempt() -> RefCounted:
+	var runtime_level: Dictionary = level_data.duplicate(true)
+	runtime_level.erase("openingBoard")
+	runtime_level.erase("seededOpeningBoard")
+	var attempt := int(session.save.attempts.get(level_id, 0))
+	runtime_level.seed = int(level_data.seed) + attempt * 101
+	return Game.new(runtime_level)
 
 
 func _select_cell(index: int) -> void:
-	if game.state != "playing" or tutorial_panel.visible:
+	if input_locked or game.state != "playing" or tutorial_panel.visible:
 		return
 	var now := Time.get_ticks_msec()
 	if not game.specials[index].is_empty() and selected_index == index and last_tapped_special_index == index and now - last_tapped_special_at <= 360:
@@ -309,6 +604,8 @@ func _select_cell(index: int) -> void:
 		hinted_indices.clear()
 		var special_result: Dictionary = game.attempt_special_activation(index)
 		last_feedback = "" if special_result.valid else str(special_result.reason)
+		if special_result.valid:
+			await _play_move_frames(special_result, index, index)
 		if special_result.valid and game.state == "won":
 			session.complete_level(level_id, game.moves_left)
 			if not campaign_mode and story_session != null: story_session.complete_match3(level_id)
@@ -326,7 +623,8 @@ func _select_cell(index: int) -> void:
 		last_tapped_special_at = -1
 		_render_board()
 		return
-	var result: Dictionary = game.attempt_swap(selected_index, index)
+	var first_index := selected_index
+	var result: Dictionary = game.attempt_swap(first_index, index)
 	hinted_indices.clear()
 	last_tapped_special_index = -1
 	last_tapped_special_at = -1
@@ -339,6 +637,7 @@ func _select_cell(index: int) -> void:
 	else:
 		selected_index = index
 		last_feedback = str(result.reason)
+	await _play_move_frames(result, first_index, index)
 	_refresh()
 
 
@@ -361,10 +660,10 @@ func _dismiss_tutorial() -> void:
 
 
 func _retry() -> void:
-	game.reset()
+	session.start_level(level_id)
+	game = _new_game_for_attempt()
 	selected_index = -1
 	last_feedback = ""
-	session.start_level(level_id)
 	_refresh()
 
 
@@ -386,3 +685,24 @@ func _button(parent: Node) -> Button:
 	Style.style_button(button)
 	parent.add_child(button)
 	return button
+
+
+func _style_tutorial_button(button: Button) -> void:
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.custom_minimum_size.y = 48
+	button.add_theme_font_size_override("font_size", 15)
+	button.add_theme_color_override("font_color", Color.WHITE)
+	button.add_theme_color_override("font_hover_color", Color.WHITE)
+	button.add_theme_color_override("font_pressed_color", Color.WHITE)
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color("#326349")
+	normal.border_color = Color("#d3b068")
+	normal.set_border_width_all(1)
+	normal.set_corner_radius_all(5)
+	var hover := normal.duplicate() as StyleBoxFlat
+	hover.bg_color = Color("#244d39")
+	var pressed := normal.duplicate() as StyleBoxFlat
+	pressed.bg_color = Color("#1c402f")
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed)

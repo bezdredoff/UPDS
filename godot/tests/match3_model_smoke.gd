@@ -31,8 +31,20 @@ func _run() -> void:
 	assert(game.tiles.size() == 63)
 	assert(game.tiles == Level.data.seededOpeningBoard, "Godot opening board differs from the canonical web seed layout")
 	assert(game.moves_left == 24 and game.collected == 0)
+	var columns := int(Level.data.columns)
 	assert(game.find_matches().is_empty(), "Initial board has an immediate match")
 	assert(game.has_available_move(), "Initial board has no legal swap")
+	var invalid_pair := []
+	for index in game.tiles.size():
+		for candidate in [index + 1, index + columns]:
+			if candidate >= game.tiles.size() or (candidate == index + 1 and index % columns == columns - 1): continue
+			if not game._swap_creates_match(index, candidate):
+				invalid_pair = [index, candidate]
+				break
+		if not invalid_pair.is_empty(): break
+	var rejected_move: Dictionary = game.attempt_swap(int(invalid_pair[0]), int(invalid_pair[1]))
+	assert(not rejected_move.valid and rejected_move.frames.size() == 1 and rejected_move.frames[0].phase == "swap", "Rejected move did not export its swap animation frame")
+	game.reset()
 	var invalid_special_activation: Dictionary = game.attempt_special_activation(0)
 	assert(not invalid_special_activation.valid and invalid_special_activation.reason == "no-special", "Cell without a special was activated")
 	assert(game.moves_left == 24, "Invalid special activation consumed a move")
@@ -41,7 +53,6 @@ func _run() -> void:
 	assert(game.moves_left == 24, "Invalid swap consumed a move")
 	var first := -1
 	var second := -1
-	var columns := int(Level.data.columns)
 	for index in game.tiles.size():
 		for candidate in [index + 1, index + columns]:
 			if candidate >= game.tiles.size() or (candidate == index + 1 and index % columns == columns - 1):
@@ -52,7 +63,11 @@ func _run() -> void:
 				break
 		if first >= 0:
 			break
-	assert(first >= 0 and game.attempt_swap(first, second).valid, "A legal swap did not resolve")
+	var accepted_move: Dictionary = game.attempt_swap(first, second)
+	assert(first >= 0 and accepted_move.valid, "A legal swap did not resolve")
+	assert(accepted_move.frames.size() >= 3 and accepted_move.frames[0].phase == "swap", "Accepted move omitted its swap frame")
+	assert(accepted_move.frames[1].phase == "clear" and accepted_move.frames[2].phase == "settle", "Accepted move omitted clear/settle animation phases")
+	assert(accepted_move.frames[1].cleared.size() > 0 and accepted_move.frames[2].motions is Array, "Clear or fall/spawn animation data is missing")
 	assert(game.moves_left == 23 and game.find_matches().is_empty(), "Move resolution did not settle the board")
 	game.reset()
 	assert(game.tiles == starting_board, "Same seed did not produce a repeatable initial board")

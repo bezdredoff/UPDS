@@ -22,6 +22,7 @@ var _last_settle_dropped := 0
 var state := "playing"
 var _random: RefCounted
 var _last_swap: Array[int] = []
+var _last_frames: Array[Dictionary] = []
 
 func _init(configured_level: Dictionary = {}) -> void:
 	if configured_level.is_empty():
@@ -33,6 +34,7 @@ func _init(configured_level: Dictionary = {}) -> void:
 	reset()
 
 func reset() -> void:
+	_last_frames.clear()
 	moves_left = int(level_data.moves)
 	collected = 0
 	collected_by_tile.clear()
@@ -96,6 +98,7 @@ func _sync_primary_collect_count() -> void:
 			return
 
 func attempt_swap(first: int, second: int) -> Dictionary:
+	_last_frames.clear()
 	if state != "playing":
 		return {"valid": false, "reason": "finished"}
 	if first == second:
@@ -108,6 +111,7 @@ func attempt_swap(first: int, second: int) -> Dictionary:
 		return {"valid": false, "reason": "blocked"}
 	var same_tile := tiles[first] == tiles[second]
 	_swap_tiles(first, second)
+	_last_frames.append({"phase": "swap", "tiles": tiles.duplicate(), "specials": specials.duplicate(), "blockers": blocker_layers.duplicate(), "ingredients": ingredients.duplicate(), "swap": [first, second]})
 	var groups := find_match_groups()
 	var activated: Array[int] = []
 	if not specials[first].is_empty():
@@ -118,7 +122,7 @@ func attempt_swap(first: int, second: int) -> Dictionary:
 	var creations: Array = [] if same_tile and activated.is_empty() else _find_player_special_creations(groups, first, second)
 	if groups.is_empty() and activated.is_empty() and combo.is_empty() and creations.is_empty():
 		_swap_tiles(first, second)
-		return {"valid": false, "reason": "no-match"}
+		return {"valid": false, "reason": "no-match", "frames": _last_frames.duplicate(true)}
 	moves_left -= 1
 	_last_blockers_cleared = 0
 	_last_ingredients_dropped = 0
@@ -134,9 +138,10 @@ func attempt_swap(first: int, second: int) -> Dictionary:
 		state = "lost"
 	elif not has_available_move():
 		reshuffled = _reshuffle_playable_board()
-	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "reshuffled": reshuffled, "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped}
+	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "reshuffled": reshuffled, "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped, "frames": _last_frames.duplicate(true)}
 
 func attempt_special_activation(index: int) -> Dictionary:
+	_last_frames.clear()
 	if state != "playing": return _empty_move_result("finished")
 	if index < 0 or index >= tiles.size() or tiles[index].is_empty(): return _empty_move_result("ingredient")
 	if _is_blocked(index): return _empty_move_result("blocked")
@@ -150,7 +155,7 @@ func attempt_special_activation(index: int) -> Dictionary:
 	_last_swap.clear()
 	_sync_primary_collect_count()
 	var reshuffled := _update_game_state()
-	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "reshuffled": reshuffled, "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped}
+	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "reshuffled": reshuffled, "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped, "frames": _last_frames.duplicate(true)}
 
 func _empty_move_result(reason: String) -> Dictionary:
 	return {"valid": false, "reason": reason, "won": state == "won", "lost": state == "lost", "reshuffled": false, "cascades": 0, "cleared": 0, "blockersCleared": 0, "ingredientsDropped": 0}
@@ -382,7 +387,7 @@ func _fill_initial_board() -> void:
 		if tiles[index].is_empty():
 			tiles[index] = _random_tile()
 
-func _settle_columns() -> Array[int]:
+func _settle_columns() -> Array[Dictionary]:
 	var rows := _rows()
 	var columns := _columns()
 	var origins: Array[int] = []
@@ -406,10 +411,7 @@ func _settle_columns() -> Array[int]:
 		elif origin != index and int(index / columns) > int(origin / columns):
 			motions.append({"index": index, "spawn": false, "rows": int(index / columns) - int(origin / columns)})
 	motions.sort_custom(_anchor_precedes)
-	var anchors: Array[int] = []
-	for motion in motions:
-		anchors.append(int(motion.index))
-	return anchors
+	return motions
 
 func _compact_columns(origins: Array[int]) -> void:
 	var columns := _columns()
@@ -567,6 +569,12 @@ func _resolve(groups: Array[Dictionary], activated: Array[int], creations: Array
 		for index in by_index:
 			if not activated.has(int(index)):
 				clear.erase(index)
+		var visible_clear: Array[int] = []
+		for index in clear:
+			if index >= 0 and index < tiles.size() and not tiles[index].is_empty() and not _is_blocked(index):
+				visible_clear.append(int(index))
+		visible_clear.sort()
+		_last_frames.append({"phase": "clear", "cascade": cascade, "tiles": tiles.duplicate(), "specials": specials.duplicate(), "blockers": blocker_layers.duplicate(), "ingredients": ingredients.duplicate(), "cleared": visible_clear})
 		for index in clear:
 			if index < 0 or index >= tiles.size() or tiles[index].is_empty() or _is_blocked(index):
 				continue
@@ -580,8 +588,12 @@ func _resolve(groups: Array[Dictionary], activated: Array[int], creations: Array
 			if tiles[index].is_empty() or clear.has(index):
 				continue
 			specials[index] = str(by_index[index].kind)
-		anchors = _settle_columns()
+		var motions := _settle_columns()
+		anchors.clear()
+		for motion in motions:
+			anchors.append(int(motion.index))
 		_last_ingredients_dropped += _last_settle_dropped
+		_last_frames.append({"phase": "settle", "cascade": cascade, "tiles": tiles.duplicate(), "specials": specials.duplicate(), "blockers": blocker_layers.duplicate(), "ingredients": ingredients.duplicate(), "motions": motions})
 		groups = _find_resolution_match_groups()
 		activated.clear()
 	return cascade
@@ -824,7 +836,7 @@ func _shuffled_tile_keys() -> Array:
 	var ordered: Array = []
 	var weights: Dictionary = level_data.get("spawnWeights", {})
 	if weights.is_empty():
-		_shuffle(remaining)
+		_sort_random_comparator_like_v8(remaining)
 		return remaining
 	while not remaining.is_empty():
 		var total := 0.0
@@ -838,6 +850,39 @@ func _shuffled_tile_keys() -> Array:
 				break
 		ordered.append(remaining.pop_at(selected))
 	return ordered
+
+func _sort_random_comparator_like_v8(values: Array) -> void:
+	if values.size() < 2:
+		return
+	# V8 uses a natural run plus binary insertion for arrays shorter than 64.
+	# The source comparator consumes one seeded value for every comparison.
+	var run_length := 2
+	var descending: bool = _random.next_float() - 0.5 < 0.0
+	if descending:
+		while run_length < values.size() and _random.next_float() - 0.5 < 0.0:
+			run_length += 1
+		for offset in int(run_length / 2):
+			var opposite := run_length - offset - 1
+			var previous: Variant = values[offset]
+			values[offset] = values[opposite]
+			values[opposite] = previous
+	else:
+		while run_length < values.size() and _random.next_float() - 0.5 >= 0.0:
+			run_length += 1
+	var minimum_run := values.size()
+	for start in range(run_length, minimum_run):
+		var pivot: Variant = values[start]
+		var left := 0
+		var right := start
+		while left < right:
+			var middle := (left + right) >> 1
+			if _random.next_float() - 0.5 < 0.0:
+				right = middle
+			else:
+				left = middle + 1
+		for index in range(start, left, -1):
+			values[index] = values[index - 1]
+		values[left] = pivot
 
 func _rows() -> int:
 	return int(level_data.get("rows", 0))

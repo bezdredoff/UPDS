@@ -194,6 +194,8 @@ func _run() -> void:
 	match3_screen._refresh()
 	match3_screen._select_cell(2)
 	match3_screen._select_cell(3)
+	while match3_screen.input_locked:
+		await process_frame
 	assert(model.state == "won" and match3_screen.evidence_panel.visible, "Match-3 win did not show its clue")
 	assert(session.state.scene == 2 and session.current_line().id == "VN0059")
 	assert(session.state.readLines.has("VN0058"), "Post-match direction line was not consumed")
