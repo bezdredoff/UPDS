@@ -1,0 +1,618 @@
+{
+  "sceneId": "VN_SCENE_18_E8_POST",
+  "sceneIndex": 18,
+  "nextSceneId": "VN_SCENE_19_E9_PRE",
+  "nextSceneIndex": 19,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+  "titles": {
+    "ru": "Пропавшие диапазоны",
+    "en": "Missing Ranges",
+    "be": "Зніклыя дыяпазоны"
+  },
+  "lines": [
+    {
+      "id": "VN0430",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: RESTORED LEDGER",
+          "text": "После сортировки номера выстраиваются в последовательность. В нескольких местах остаются аккуратные пустые диапазоны."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: RESTORED LEDGER",
+          "text": "After sorting, the numbers form a sequence. Several neat empty ranges remain."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: RESTORED LEDGER",
+          "text": "Пасля сартавання нумары складаюцца ў паслядоўнасць. У некалькіх месцах застаюцца акуратныя пустыя дыяпазоны."
+        }
+      }
+    },
+    {
+      "id": "VN0431",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПОКАЗЫВАЕТ ПРОПУСКИ",
+          "text": "Это не одиночные ошибки. Здесь исчезают группы подряд."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "POINTING TO GAPS",
+          "text": "These are not isolated errors. Whole consecutive groups disappear here."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПАКАЗВАЕ ПРАПУСКІ",
+          "text": "Гэта не адзінкавыя памылкі. Тут знікаюць цэлыя групы запар."
+        }
+      }
+    },
+    {
+      "id": "VN0432",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "АНАЛИТИЧЕСКАЯ",
+          "text": "Три диапазона. Каждый начинается после сервисной обработки и заканчивается до обычной выдачи."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "ANALYTICAL",
+          "text": "Three ranges. Each starts after service processing and ends before normal pickup."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "АНАЛІТЫЧНАЯ",
+          "text": "Тры дыяпазоны. Кожны пачынаецца пасля сэрвіснай апрацоўкі і заканчваецца да звычайнай выдачы."
+        }
+      }
+    },
+    {
+      "id": "VN0433",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "НАПРЯЖЁННАЯ",
+          "text": "Случайная потеря пакетов должна быть шумной. Это слишком аккуратно."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "TENSE",
+          "text": "Randomly lost packages should be noisy. This is too neat."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "НАПРУЖАНАЯ",
+          "text": "Выпадковыя страты пакетаў далі б больш хаосу. Тут усё занадта акуратна."
+        }
+      }
+    },
+    {
+      "id": "VN0434",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "СМОТРИТ В ЖУРНАЛ",
+          "text": "Я не удаляла эти строки. Во вчерашней вечерней копии их уже не было."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "LOOKING AT LEDGER",
+          "text": "I did not delete these rows. They were already missing from last night’s copy."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ГЛЯДЗІЦЬ У ЖУРНАЛ",
+          "text": "Я не выдаляла гэтыя радкі. Ва ўчорашняй вячэрняй копіі іх ужо не было."
+        }
+      }
+    },
+    {
+      "id": "VN0435",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВНИМАТЕЛЬНАЯ",
+          "text": "Какие пакеты попадают в эти диапазоны?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "ATTENTIVE",
+          "text": "Which packages fall inside those ranges?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УВАЖЛІВАЯ",
+          "text": "Якія пакеты трапляюць у гэтыя дыяпазоны?"
+        }
+      }
+    },
+    {
+      "id": "VN0436",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ПРОВЕРЯЕТ КОДЫ",
+          "text": "Спортивный корпус. Центральная прачечная. Несколько возвратов из ремонта. Все с сервисным префиксом."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "CHECKING CODES",
+          "text": "Athletics building. Central laundry. Several returns from repair. All with the service prefix."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ПРАВЯРАЕ КОДЫ",
+          "text": "Спартыўны корпус. Цэнтральная пральня. Некалькі вяртанняў з рамонту. Усе з сэрвісным прэфіксам."
+        }
+      }
+    },
+    {
+      "id": "VN0437",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПОДОЗРИТЕЛЬНАЯ",
+          "text": "Звучит как схема перепродажи. Удалить номер, забрать пакет, сделать вид, что его не существовало."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "SUSPICIOUS",
+          "text": "Sounds like a resale scheme. Delete the number, take the package, pretend it never existed."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПАДАЗРОНАЯ",
+          "text": "Гучыць як схема перапродажу. Выдаліць нумар, забраць пакет, зрабіць выгляд, што яго ніколі не існавала."
+        }
+      }
+    },
+    {
+      "id": "VN0438",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "СПОКОЙНО",
+          "text": "Тогда должны исчезать и записи возврата денег, претензии и невостребованные сроки. Они на месте."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "CALM",
+          "text": "Then refund records, claims, and unclaimed deadlines should disappear too. They are still here."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "СПАКОЙНА",
+          "text": "Тады павінны знікаць і запісы пра вяртанне грошай, прэтэнзіі і тэрміны захоўвання незапатрабаваных рэчаў. Яны на месцы."
+        }
+      }
+    },
+    {
+      "id": "VN0439",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФИКСИРУЕТ",
+          "text": "Подтверждённые пропажи снова проходят через прачечную. А спорные номера удалены из обычной последовательности целыми блоками."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "RECORDING",
+          "text": "Confirmed disappearances again pass through the laundry, and disputed numbers are removed from the normal sequence in blocks."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФІКСУЕ",
+          "text": "Пацверджаныя знікненні зноў праходзяць праз пральню. А спрэчныя нумары выдаленыя са звычайнай паслядоўнасці цэлымі блокамі."
+        }
+      }
+    },
+    {
+      "id": "VN0440",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_009}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_009}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_009}"
+        }
+      }
+    },
+    {
+      "id": "VN0441",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СВЕРЯЕТ",
+          "text": "Диапазоны совпадают с датами заявлений из семи клубов с погрешностью в одну смену."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CROSS-CHECKING",
+          "text": "The ranges match the seven clubs’ reports within one shift."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗВЯРАЕ",
+          "text": "Дыяпазоны супадаюць з датамі заяў з сямі клубаў з пахібнасцю ў адну змену."
+        }
+      }
+    },
+    {
+      "id": "VN0442",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ТИХО",
+          "text": "Если ищете физический пакет, проверьте сервисную полку за F-30. Там иногда остаются вещи после ночной передачи."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "QUIET",
+          "text": "If you are looking for a physical package, check the service shelf behind F-30. Things sometimes remain there after a night handoff."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ЦІХА",
+          "text": "Калі шукаеце фізічны пакет, праверце сэрвісную паліцу за F-30. Там часам застаюцца рэчы пасля начной перадачы."
+        }
+      }
+    },
+    {
+      "id": "VN0443",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: AFTER-MIDNIGHT SEAL",
+          "text": "За полкой лежит пустая пломба контейнера с отметкой 00:43 и сервисным кодом Asterion."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: AFTER-MIDNIGHT SEAL",
+          "text": "Behind the shelf lies an empty container seal stamped 00:43 with an Asterion service code."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: AFTER-MIDNIGHT SEAL",
+          "text": "За паліцай ляжыць пустая пломба кантэйнера з пазнакай 00:43 і сэрвісным кодам Asterion."
+        }
+      }
+    },
+    {
+      "id": "VN0444",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Склад закрыт с двадцати двух. После полуночи сюда не должна входить обычная смена."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "SERIOUS",
+          "text": "The warehouse closes at twenty-two hundred. Ordinary staff should not enter after midnight."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Склад зачынены з дваццаць другой гадзіны. Пасля поўначы сюды не павінна заходзіць звычайная змена."
+        }
+      }
+    },
+    {
+      "id": "VN0445",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "СДЕРЖАННО",
+          "text": "Хозяйственная служба может открыть помещение универсальным ключом при аварийной заявке."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "RESTRAINED",
+          "text": "Maintenance can open the room with a master key for an emergency request."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "СТРЫМАНА",
+          "text": "Гаспадарчая служба можа адкрыць памяшканне ўніверсальным ключом па аварыйнай заяўцы."
+        }
+      }
+    },
+    {
+      "id": "VN0446",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СМОТРИТ ДОСТУП",
+          "text": "В журнале доступа стоит именно универсальный ключ, без персонального идентификатора."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CHECKING ACCESS",
+          "text": "The access log records only the master key, without a personal identifier."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРАВЯРАЕ ДОСТУП",
+          "text": "У журнале доступу адзначаны менавіта ўніверсальны ключ, без асабістага ідэнтыфікатара."
+        }
+      }
+    },
+    {
+      "id": "VN0447",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "РЕШИТЕЛЬНАЯ",
+          "text": "Тогда проверяем не человека, а ключ: у кого он хранится, кому и когда его передают и какие заявки дают право войти."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "DETERMINED",
+          "text": "Then we trace the key, not the person: who holds it, who it’s passed to and when, and which requests authorize entry."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "РАШУЧАЯ",
+          "text": "Тады расследуем ключ, а не чалавека: хто яго захоўвае, каму і калі перадае і якія заяўкі дазваляюць уваход."
+        }
+      }
+    },
+    {
+      "id": "VN0448",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпизод 9 — Король потерянных носков»"
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "EPISODE CARD",
+          "text": "“Episode 9 — King of Lost Socks”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпізод 9 — Кароль згубленых шкарпэтак»"
+        }
+      }
+    }
+  ]
+}

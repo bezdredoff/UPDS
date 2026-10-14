@@ -1,0 +1,683 @@
+{
+  "sceneId": "VN_SCENE_17_E8_PRE",
+  "sceneIndex": 17,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_08_LOST_FOUND_LEDGER",
+  "onWinSceneIndex": 18,
+  "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+  "titles": {
+    "ru": "Восемьдесят семь пакетов",
+    "en": "Eighty-Seven Packages",
+    "be": "Восемдзесят сем пакетаў"
+  },
+  "lines": [
+    {
+      "id": "VN0410",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "СКЛАД БЮРО НАХОДОК",
+          "text": "Центральный склад бюро находок. Ряды металлических полок, запечатанные пакеты, тележки и крупные номера секций."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "ESTABLISHING / LOST-AND-FOUND",
+          "text": "Central lost-and-found warehouse. Rows of metal shelving, sealed packages, carts, and large section numbers."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ESTABLISHING / LOST-AND-FOUND",
+          "text": "Цэнтральны склад знаходак. Шэрагі металічных паліц, запячатаныя пакеты, каляскі і буйныя нумары секцый."
+        }
+      }
+    },
+    {
+      "id": "VN0411",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "С ПРОПУСКОМ",
+          "text": "У вас временный доступ на сорок минут. Ничего не вскрывать без записи и ничего не фотографировать."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "WITH ACCESS PASS",
+          "text": "You have temporary access for forty minutes. Open nothing without a record and photograph nothing."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "З ПРАПУСКАМ",
+          "text": "У вас часовы доступ на сорак хвілін. Нічога не адкрываць без запісу і нічога не фатаграфаваць."
+        }
+      }
+    },
+    {
+      "id": "VN0412",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "СПОКОЙНАЯ",
+          "text": "Рина Сираиси. Вечерняя смена. Если назовёте номер пакета, я скажу полку и статус."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "CALM",
+          "text": "Rina Shiraishi. Evening shift. Give me a package number and I will tell you the shelf and status."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "СПАКОЙНАЯ",
+          "text": "Рына Сіраісі. Вячэрняя змена. Калі назавяце нумар пакета, я скажу паліцу і статус."
+        }
+      }
+    },
+    {
+      "id": "VN0413",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВЕЖЛИВО",
+          "text": "Нам нужна последовательность сервисных кодов, связанных со спортивными клубами."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "POLITE",
+          "text": "We need the sequence of service codes linked to the athletic clubs."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ВЕТЛІВА",
+          "text": "Нам патрэбная паслядоўнасць сэрвісных кодаў, звязаных са спартыўнымі клубамі."
+        }
+      }
+    },
+    {
+      "id": "VN0414",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ОСМАТРИВАЕТ РЯДЫ",
+          "text": "Это музей решений, которые никто не хотел принимать."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "LOOKING AT THE ROWS",
+          "text": "This is a museum of decisions nobody wanted to make."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "АГЛЯДАЕ ШЭРАГІ",
+          "text": "Гэта музей рашэнняў, якія ніхто не хацеў прымаць."
+        }
+      }
+    },
+    {
+      "id": "VN0415",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "НЕ МЕНЯЯ ТОНА",
+          "text": "Музей хотя бы закрывался бы вовремя."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "DEADPAN",
+          "text": "A museum would at least close on time."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "НЕ МЯНЯЮЧЫ ТОНУ",
+          "text": "Музей хаця б закрываўся б своечасова."
+        }
+      }
+    },
+    {
+      "id": "VN0416",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРОВЕРЯЕТ",
+          "text": "Пакет L-1842."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "TESTING",
+          "text": "Package L-1842."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРАВЯРАЕ",
+          "text": "Пакет L-1842."
+        }
+      }
+    },
+    {
+      "id": "VN0417",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-surprised.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "МГНОВЕННО",
+          "text": "Ряд C, секция двенадцать, верхняя полка. Белое хлопковое бельё, найдено у бассейна, срок хранения ещё девять дней."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "INSTANTLY",
+          "text": "Row C, section twelve, top shelf. White cotton underwear, found near the pool, nine days of storage remaining."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ІМГНЕННА",
+          "text": "Шэраг C, секцыя дванаццаць, верхняя паліца. Белая баваўняная бялізна, знойдзеная каля басейна, да канца тэрміну захоўвання яшчэ дзевяць дзён."
+        }
+      }
+    },
+    {
+      "id": "VN0418",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ИСКРЕННЕ ВПЕЧАТЛЕНА",
+          "text": "Вы помните содержимое по номеру?"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "GENUINELY IMPRESSED",
+          "text": "You remember the contents from the number?"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ШЧЫРА ЎРАЖАНАЯ",
+          "text": "Вы памятаеце змесціва па нумары?"
+        }
+      }
+    },
+    {
+      "id": "VN0419",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ДЕЛОВАЯ",
+          "text": "Я помню место. Содержимое написано в карточке. Предполагать владельца запрещено правилами."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BUSINESSLIKE",
+          "text": "I remember the location. The contents are on the card. Guessing the owner is prohibited by policy."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ДЗЕЛАВАЯ",
+          "text": "Я памятаю месца. Змесціва пазначана ў картцы. Правілы забараняюць здагадвацца, хто ўладальнік."
+        }
+      }
+    },
+    {
+      "id": "VN0420",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "ВНИМАТЕЛЬНАЯ",
+          "text": "Рина произносила самые неловкие категории вещей с интонацией человека, который сортирует гайки."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "ATTENTIVE",
+          "text": "Rina named the most awkward categories with the tone of someone sorting bolts."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "УВАЖЛІВАЯ",
+          "text": "Рына называла самыя няёмкія катэгорыі рэчаў з інтанацыяй чалавека, які сартуе гайкі."
+        }
+      }
+    },
+    {
+      "id": "VN0421",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "С ЖУРНАЛОМ",
+          "text": "По обычным пакетам журнал сходится с приёмкой. Проблема начинается на сервисных кодах спортивного корпуса."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "WITH LEDGER",
+          "text": "For ordinary packages, the ledger matches intake. The problem begins with service codes from the athletics building."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "З ЖУРНАЛАМ",
+          "text": "Па звычайных пакетах журнал супадае з прыёмкай. Праблема пачынаецца на сэрвісных кодах спартыўнага корпуса."
+        }
+      }
+    },
+    {
+      "id": "VN0422",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "PAN: SEALED PACKAGES",
+          "text": "Камера проходит вдоль десятков запечатанных пакетов с бельём, полотенцами и формой."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "PAN: SEALED PACKAGES",
+          "text": "The camera moves along dozens of sealed packages containing underwear, towels, and uniforms."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "PAN: SEALED PACKAGES",
+          "text": "Камера праходзіць уздоўж дзясяткаў запячатаных пакетаў з бялізнай, ручнікамі і формай."
+        }
+      }
+    },
+    {
+      "id": "VN0423",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СЧИТАЕТ",
+          "text": "Восемьдесят семь. Я насчитала восемьдесят семь пакетов."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "COUNTING",
+          "text": "Eighty-seven. I counted eighty-seven packages."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЛІЧЫЦЬ",
+          "text": "Восемдзесят сем. Я налічыла восемдзесят сем пакетаў."
+        }
+      }
+    },
+    {
+      "id": "VN0424",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "АВТОМАТИЧЕСКИ ПОПРАВЛЯЕТ",
+          "text": "Восемьдесят семь запечатанных. Ещё шесть ожидают подтверждения выдачи и два — пересортировки."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "AUTOMATIC CORRECTION",
+          "text": "Eighty-seven sealed. Six more await pickup confirmation and two await re-sorting."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "АЎТАМАТЫЧНА ПАПРАЎЛЯЕ",
+          "text": "Восемдзесят сем запячатаных. Яшчэ шэсць чакаюць пацвярджэння выдачы і два — перасартыроўкі."
+        }
+      }
+    },
+    {
+      "id": "VN0425",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "С ТАБЛИЦЕЙ",
+          "text": "Белое хлопковое бельё статистически подозрительно."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "WITH TABLE",
+          "text": "White cotton underwear is statistically suspicious."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "З ТАБЛІЦАЙ",
+          "text": "Белая баваўняная бялізна статыстычна падазроная."
+        }
+      }
+    },
+    {
+      "id": "VN0426",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМОТРИТ НА НЕЁ",
+          "text": "Это не может быть нормальным предложением."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "STARING AT HER",
+          "text": "That cannot be a normal sentence."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ГЛЯДЗІЦЬ НА ЯЕ",
+          "text": "Гэта не можа быць нармальным сказам."
+        }
+      }
+    },
+    {
+      "id": "VN0427",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 50,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 18,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОКАЗЫВАЕТ ТАБЛИЦУ",
+          "text": "К сожалению, может. Но только как сигнал смещения выборки, не как характеристика владельцев."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SHOWING TABLE",
+          "text": "Unfortunately, it can. But only as a sampling-bias signal, not as a characteristic of the owners."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАКАЗВАЕ ТАБЛІЦУ",
+          "text": "На жаль, можа. Але толькі як сігнал зрушэння выбаркі, а не як характарыстыка ўладальнікаў."
+        }
+      }
+    },
+    {
+      "id": "VN0428",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "УКАЗЫВАЕТ НА ПОЛКУ",
+          "text": "Начните с ряда F. Там сервисные коды идут плотнее. Я не знаю почему."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "POINTING TO A SHELF",
+          "text": "Start with row F. Service codes are denser there. I do not know why."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ПАКАЗВАЕ НА ПАЛІЦУ",
+          "text": "Пачніце з шэрагу F. Там сэрвісныя коды ідуць шчыльней. Я не ведаю чаму."
+        }
+      }
+    },
+    {
+      "id": "VN0429",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_LOST_FOUND_WAREHOUSE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Полки превращаются в сервисные полосы поля; запечатанные пакеты закрывают часть номеров, а лист пропусков опускается вниз."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "The shelves become service lanes on the board; sealed packages cover part of the numbering while the missing-number sheet drops downward."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Паліцы ператвараюцца ў сэрвісныя палосы поля; запячатаныя пакеты закрываюць частку нумароў, а ліст з прапускамі апускаецца ўніз."
+        }
+      }
+    }
+  ]
+}
