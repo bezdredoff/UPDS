@@ -91,6 +91,11 @@ var campaign_result_next: Button
 var campaign_result_retry: Button
 var campaign_result_hub: Button
 var input_locked := false
+var drag_start_index := -1
+var drag_start_position := Vector2.ZERO
+var drag_start_cell_size := 1.0
+var drag_target_index := -1
+var suppress_drag_click_index := -1
 var bottom_spacer: Control
 var guidance_labels: Array[Label] = []
 var tutorial_reveal_events: Array[String] = []
@@ -552,6 +557,7 @@ func _refresh() -> void:
 
 
 func _render_board() -> void:
+	_clear_drag_preview()
 	for child in board.get_children():
 		board.remove_child(child)
 		child.queue_free()
@@ -584,6 +590,7 @@ func _render_board() -> void:
 		tile_button.add_theme_color_override("font_color", Color.TRANSPARENT)
 		tile_button.add_theme_color_override("font_disabled_color", Color.TRANSPARENT)
 		tile_button.text = ""
+		tile_button.gui_input.connect(_on_tile_gui_input.bind(index))
 		var tile_stack := Control.new()
 		tile_stack.name = "TileStack"
 		tile_stack.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -1430,6 +1437,9 @@ func _new_game_for_attempt() -> RefCounted:
 
 
 func _select_cell(index: int) -> void:
+	if suppress_drag_click_index == index:
+		suppress_drag_click_index = -1
+		return
 	if input_locked or game.state != "playing" or tutorial_panel.visible:
 		return
 	var now := Time.get_ticks_msec()
@@ -1480,6 +1490,143 @@ func _select_cell(index: int) -> void:
 	if result.valid and game.state == "won":
 		_show_story_evidence_transition()
 	_refresh()
+
+
+func _on_tile_gui_input(event: InputEvent, index: int) -> void:
+	if input_locked or game == null or game.state != "playing" or tutorial_panel.visible:
+		return
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			_begin_tile_drag(index, _tile_event_position(event, index))
+		else:
+			_end_tile_drag(_tile_event_position(event, index))
+	elif event is InputEventMouseMotion and drag_start_index >= 0 and (event.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
+		_update_tile_drag(_tile_event_position(event, index))
+	elif event is InputEventScreenTouch:
+		if event.pressed:
+			_begin_tile_drag(index, _tile_event_position(event, index))
+		else:
+			_end_tile_drag(_tile_event_position(event, index))
+	elif event is InputEventScreenDrag and drag_start_index >= 0:
+		_update_tile_drag(_tile_event_position(event, index))
+
+
+func _tile_event_position(event: InputEvent, index: int) -> Vector2:
+	if event is InputEventMouse:
+		return get_global_mouse_position()
+	if index < 0 or index >= board.get_child_count(): return Vector2.ZERO
+	var cell := board.get_child(index) as Control
+	return cell.get_global_transform_with_canvas() * event.position
+
+
+func _begin_tile_drag(index: int, position: Vector2) -> void:
+	if index < 0 or index >= game.tiles.size() or game.tiles[index].is_empty() or game.blocker_layers[index] > 0:
+		return
+	drag_start_index = index
+	drag_start_position = position
+	drag_target_index = -1
+	var cell := board.get_child(index) as Control
+	drag_start_cell_size = maxf(1.0, cell.size.x)
+	hinted_indices.clear()
+
+
+func _update_tile_drag(position: Vector2) -> void:
+	if drag_start_index < 0 or input_locked:
+		return
+	var delta := position - drag_start_position
+	var horizontal := absf(delta.x)
+	var vertical := absf(delta.y)
+	var direction := ""
+	if horizontal >= vertical * 1.08:
+		direction = "left" if delta.x < 0.0 else "right"
+	elif vertical >= horizontal * 1.08:
+		direction = "up" if delta.y < 0.0 else "down"
+	var target := _drag_neighbour(drag_start_index, direction) if not direction.is_empty() else -1
+	var distance := absf(delta.x) if direction in ["left", "right"] else absf(delta.y) if direction in ["up", "down"] else 0.0
+	var signed_distance := delta.x if direction in ["left", "right"] else delta.y
+	var visual_limit := drag_start_cell_size * 0.94
+	var travel := clampf(signed_distance, -visual_limit, visual_limit)
+	var reacting := target >= 0 and distance >= drag_start_cell_size * 0.035
+	var source := board.get_child(drag_start_index) as Control
+	var source_stack := source.get_node_or_null("TileStack") as Control
+	if source_stack != null:
+		source.z_index = 9
+		_set_stack_translation(source_stack, Vector2(travel, 0.0) if direction in ["left", "right"] else Vector2(0.0, travel))
+		source_stack.scale = Vector2.ONE * 1.06
+		source_stack.modulate = Color(1.08, 1.08, 1.08, 1.0)
+	if drag_target_index >= 0 and drag_target_index < board.get_child_count():
+		var previous := board.get_child(drag_target_index) as Control
+		var previous_stack := previous.get_node_or_null("TileStack") as Control
+		if previous_stack != null:
+			_set_stack_translation(previous_stack, Vector2.ZERO)
+			previous_stack.scale = Vector2.ONE
+	if reacting:
+		var target_cell := board.get_child(target) as Control
+		var target_stack := target_cell.get_node_or_null("TileStack") as Control
+		if target_stack != null:
+			var reaction := minf(drag_start_cell_size * 0.18, distance * 0.18) * (-1.0 if signed_distance > 0.0 else 1.0)
+			_set_stack_translation(target_stack, Vector2(reaction, 0.0) if direction in ["left", "right"] else Vector2(0.0, reaction))
+			target_stack.scale = Vector2.ONE * 0.97
+	drag_target_index = target if reacting else -1
+
+
+func _end_tile_drag(position: Vector2) -> void:
+	if drag_start_index < 0:
+		return
+	var start := drag_start_index
+	var delta := position - drag_start_position
+	var horizontal := absf(delta.x)
+	var vertical := absf(delta.y)
+	var direction := ""
+	if horizontal >= vertical * 1.08:
+		direction = "left" if delta.x < 0.0 else "right"
+	elif vertical >= horizontal * 1.08:
+		direction = "up" if delta.y < 0.0 else "down"
+	var target := _drag_neighbour(start, direction) if not direction.is_empty() else -1
+	var should_swap := target >= 0 and maxf(horizontal, vertical) >= drag_start_cell_size * 0.24
+	_clear_drag_preview()
+	if should_swap and not input_locked:
+		selected_index = start
+		suppress_drag_click_index = start
+		await _select_cell(target)
+		await get_tree().process_frame
+		suppress_drag_click_index = -1
+
+
+func _drag_neighbour(index: int, direction: String) -> int:
+	if direction.is_empty(): return -1
+	var columns := int(level_data.get("columns", 8))
+	var rows := int(level_data.get("rows", 8))
+	var row := index / columns
+	var column := index % columns
+	if direction == "left": column -= 1
+	elif direction == "right": column += 1
+	elif direction == "up": row -= 1
+	else: row += 1
+	if row < 0 or row >= rows or column < 0 or column >= columns: return -1
+	var target := row * columns + column
+	return target if game._is_active(target) else -1
+
+
+func _clear_drag_preview() -> void:
+	for index in [drag_start_index, drag_target_index]:
+		if index < 0 or index >= board.get_child_count(): continue
+		var cell := board.get_child(index) as Control
+		cell.z_index = 0
+		var stack := cell.get_node_or_null("TileStack") as Control
+		if stack != null:
+			_set_stack_translation(stack, Vector2.ZERO)
+			stack.scale = Vector2.ONE
+			stack.modulate = Color.WHITE
+	drag_start_index = -1
+	drag_target_index = -1
+
+
+func _set_stack_translation(stack: Control, translation: Vector2) -> void:
+	stack.offset_left = translation.x
+	stack.offset_right = translation.x
+	stack.offset_top = translation.y
+	stack.offset_bottom = translation.y
 
 
 func _show_hint() -> void:

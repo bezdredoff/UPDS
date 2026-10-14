@@ -81,6 +81,19 @@ func _run() -> void:
 	assert(match3.bottom_spacer.name == "MatchGuidance" and match3.guidance_labels[0].name == "InputGuidance", "Match-3 input guidance slot is missing")
 	assert(match3.guidance_labels[0].text == MenuCopy.text("match3_input_hint", "ru"), "Match-3 input guidance did not use the selected locale")
 	assert(match3.bottom_spacer.visible, "Match-3 guidance should be visible while the board is active")
+	var drag_source := -1
+	for index in match3.game.tiles.size():
+		if not match3.game.tiles[index].is_empty() and match3.game.blocker_layers[index] == 0 and match3._drag_neighbour(index, "right") >= 0:
+			drag_source = index
+			break
+	assert(drag_source >= 0, "Match-3 screen has no movable source cell for drag preview")
+	match3._begin_tile_drag(drag_source, Vector2.ZERO)
+	match3._update_tile_drag(Vector2(match3.drag_start_cell_size * 0.08, 0.0))
+	var drag_source_stack: Control = match3.board.get_child(drag_source).get_node("TileStack")
+	var drag_target_stack: Control = match3.board.get_child(match3._drag_neighbour(drag_source, "right")).get_node("TileStack")
+	assert(match3.drag_target_index == match3._drag_neighbour(drag_source, "right"), "Drag preview did not react the adjacent cell at the source threshold")
+	assert(drag_source_stack.offset_left > 0.0 and drag_target_stack.offset_left < 0.0, "Drag preview did not move the source and neighboring tile stacks")
+	match3._clear_drag_preview()
 	for locale in ["ru", "be", "en"]:
 		assert(menu.preferences.set_locale(locale) == OK)
 		assert(match3.guidance_labels[0].text == MenuCopy.text("match3_input_hint", locale), "Match-3 input guidance did not update for %s" % locale)
