@@ -27,6 +27,8 @@ const AsterionTransferScene = preload("res://data/asterion_transfer_scene.json")
 const PostAsterionTransferScene = preload("res://data/post_asterion_transfer_scene.json")
 const SecondSkinSignalScene = preload("res://data/second_skin_signal_scene.json")
 const PostSecondSkinSignalScene = preload("res://data/post_second_skin_signal_scene.json")
+const KendoPilotListScene = preload("res://data/kendo_pilot_list_scene.json")
+const PostKendoPilotListScene = preload("res://data/post_kendo_pilot_list_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
 
 
@@ -487,6 +489,28 @@ func _run() -> void:
 	assert(restored_publish_tag.current_line().id == "VN0604" and restored_publish_tag.state.storyChoices["publish-tag"] == "B")
 	while session.current_line().id != "VN0607":
 		assert(session.advance())
+	assert(not session.at_port_boundary() and session.advance())
+	assert(session.state.scene == 27 and session.current_line().id == "VN0609")
+	assert(session.state.readLines.has("VN0608"), "Kendo-hall opening direction was not consumed")
+	assert(screen.title.text == KendoPilotListScene.data.titles.en)
+	while session.current_line().id != "VN0627":
+		assert(session.advance())
+	assert(session.at_match3_gate() and session.scene_data().nextLevelId == "M3_13_KENDO_PILOT_LIST")
+	await process_frame
+	assert(menu.match3_screen != null and menu.match3_screen.level_id == "M3_13_KENDO_PILOT_LIST")
+	assert(reached_levels.size() == 14 and reached_levels[-1] == "M3_13_KENDO_PILOT_LIST")
+	assert(session.complete_match3("M3_13_KENDO_PILOT_LIST"))
+	assert(session.state.scene == 28 and session.current_line().id == "VN0629")
+	assert(session.state.completed.size() == 14 and session.state.clues[-1] == "CUE_014")
+	menu.match3_screen.game.state = "won"
+	menu.match3_screen._refresh()
+	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_continue.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible)
+	assert(screen.title.text == PostKendoPilotListScene.data.titles.en)
+	while session.current_line().id != "VN0646":
+		assert(session.advance())
 	assert(session.at_port_boundary() and not session.advance())
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
@@ -495,7 +519,7 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.scene == 26 and session.current_line().id == "VN0607")
+	assert(session.state.scene == 28 and session.current_line().id == "VN0646")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()
@@ -527,7 +551,7 @@ func _run() -> void:
 func _unsupported_save() -> void:
 	var memory := Memory.new()
 	var store := Store.new(memory)
-	assert(store.save_story({"scene": 27, "line": 3, "completed": [1]}))
+	assert(store.save_story({"scene": 29, "line": 3, "completed": [1]}))
 	var raw: String = memory.get_item(Format.CONTRACT.data.storyKey)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(store)
@@ -543,7 +567,7 @@ func _unsupported_save() -> void:
 
 func _future_save() -> void:
 	var memory := Memory.new()
-	var raw := '{"schemaVersion":99,"scene":27,"line":3}'
+	var raw := '{"schemaVersion":99,"scene":29,"line":3}'
 	assert(memory.set_item(Format.CONTRACT.data.storyKey, raw))
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(Store.new(memory))

@@ -1,0 +1,595 @@
+{
+  "sceneId": "VN_SCENE_27_E13_PRE",
+  "sceneIndex": 27,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_13_KENDO_PILOT_LIST",
+  "onWinSceneIndex": 28,
+  "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+  "titles": {
+    "ru": "Под бронёй",
+    "en": "Under the Armor",
+    "be": "Пад даспехамі"
+  },
+  "lines": [
+    {
+      "id": "VN0608",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ESTABLISHING / COMBAT CLUB HALL",
+          "text": "Зал кэндо после тренировки. На стойках сохнет броня, возле служебной двери лежат два опечатанных мешка с формой и личными вещами."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "ESTABLISHING / COMBAT CLUB HALL",
+          "text": "The kendo hall after practice. Armor dries on racks; two sealed bags of uniforms and personal items sit by the service door."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ESTABLISHING / COMBAT CLUB HALL",
+          "text": "Зала кэндо пасля трэніроўкі. На стойках сохнуць даспехі, каля службовых дзвярэй ляжаць два апячатаныя мяшкі з формай і асабістымі рэчамі."
+        }
+      }
+    },
+    {
+      "id": "VN0609",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КАПИТАН КЭНДО",
+          "emotion": "МРАЧНО",
+          "text": "Вор ударил под бронёй. Это нарушение последней линии обороны и, вероятно, кодекса чести."
+        },
+        "en": {
+          "speaker": "KENDO CAPTAIN",
+          "emotion": "BEAT",
+          "text": "The thief struck under the armor. That violates our final line of defense and probably the code of honor."
+        },
+        "be": {
+          "speaker": "КАПІТАН КЭНДО",
+          "emotion": "ЗМРОЧНА",
+          "text": "Злодзей ударыў пад даспехамі. Гэта парушае апошнюю лінію абароны і, верагодна, кодэкс гонару."
+        }
+      }
+    },
+    {
+      "id": "VN0610",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ВОСХИЩЁННО",
+          "text": "«Удар под бронёй» немедленно входит в словарь расследования."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "‘Strike under the armor’ enters the investigation vocabulary immediately."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "З ЗАХАПЛЕННЕМ",
+          "text": "«Удар пад даспехамі» неадкладна ўваходзіць у слоўнік расследавання."
+        }
+      }
+    },
+    {
+      "id": "VN0611",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "УЖЕ ПИШЕТ",
+          "text": "Не входит. Я заменяю это на «несанкционированное изъятие личных вещей из сервисного контура»."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "It does not. I am replacing it with ‘unauthorized removal of personal items from the service chain.’"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "УЖО ПІША",
+          "text": "Не ўваходзіць. Я замяняю гэта на «несанкцыянаванае выняцце асабістых рэчаў з сэрвіснага контуру»."
+        }
+      }
+    },
+    {
+      "id": "VN0612",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КАПИТАН КЭНДО",
+          "emotion": "НЕ ОДОБРЯЕТ",
+          "text": "Звучит так, будто преступление совершил принтер."
+        },
+        "en": {
+          "speaker": "KENDO CAPTAIN",
+          "emotion": "BEAT",
+          "text": "That sounds as if a printer committed the crime."
+        },
+        "be": {
+          "speaker": "КАПІТАН КЭНДО",
+          "emotion": "НЕ ЎХВАЛЯЕ",
+          "text": "Гучыць так, быццам злачынства здзейсніў прынтар."
+        }
+      }
+    },
+    {
+      "id": "VN0613",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПЕРЕВОДИТ К ФАКТАМ",
+          "text": "Кто видел мешки последним до того, как появились пропажи?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Who saw the bags last before the disappearances were noticed?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ВЯРТАЕ ДА ФАКТАЎ",
+          "text": "Хто апошнім бачыў мяшкі да таго, як заўважылі знікненні?"
+        }
+      }
+    },
+    {
+      "id": "VN0614",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "GUEST TESTIMONY / KUBO",
+          "text": "Кохэй Кубо стоит рядом с мешками настолько прямо, будто его уже вызвали на формальную церемонию."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "GUEST TESTIMONY / KUBO",
+          "text": "Kohei Kubo stands beside the bags so straight that he looks ready for a formal ceremony."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "GUEST TESTIMONY / KUBO",
+          "text": "Кохэй Кубо стаіць побач з мяшкамі так роўна, быццам яго ўжо выклікалі на афіцыйную цырымонію."
+        }
+      }
+    },
+    {
+      "id": "VN0615",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КУБО",
+          "emotion": "ТОРЖЕСТВЕННО",
+          "text": "Я переместил оба мешка к служебному входу по просьбе Сираиси Рины. Причина — возможное загрязнение партии."
+        },
+        "en": {
+          "speaker": "KUBO",
+          "emotion": "BEAT",
+          "text": "I moved both bags to the service entrance at Rina Shiraishi’s request. The stated reason was possible batch contamination."
+        },
+        "be": {
+          "speaker": "КУБО",
+          "emotion": "УРАЧЫСТА",
+          "text": "Я перамясціў абодва мяшкі да службовага ўваходу па просьбе Рыны Сіраісі. Прычына — магчымае забруджванне партыі."
+        }
+      }
+    },
+    {
+      "id": "VN0616",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ШЁПОТОМ МИКУ",
+          "text": "Он всегда говорит так, будто сейчас вручит нам меч?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Does he always talk like he is about to hand us a sword?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ШЭПТАМ МІКУ",
+          "text": "Ён заўсёды гаворыць так, быццам зараз уручыць нам меч?"
+        }
+      }
+    },
+    {
+      "id": "VN0617",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КУБО",
+          "emotion": "СЛЫШАЛ",
+          "text": "Только когда речь идёт о логистике, ответственности или мечах."
+        },
+        "en": {
+          "speaker": "KUBO",
+          "emotion": "BEAT",
+          "text": "Only when logistics, responsibility, or swords are involved."
+        },
+        "be": {
+          "speaker": "КУБО",
+          "emotion": "ПАЧУЎ",
+          "text": "Толькі калі гаворка ідзе пра лагістыку, адказнасць або мячы."
+        }
+      }
+    },
+    {
+      "id": "VN0618",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОКАЗЫВАЕТ СПИСОК",
+          "text": "В этой партии пропали вещи четырёх человек. Что их объединяет?"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Four people lost items from this batch. What do they have in common?"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАКАЗВАЕ СПІС",
+          "text": "У гэтай партыі зніклі рэчы чатырох чалавек. Што іх аб'ядноўвае?"
+        }
+      }
+    },
+    {
+      "id": "VN0619",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КАПИТАН КЭНДО",
+          "emotion": "СЧИТАЕТ",
+          "text": "Двое старших, двое младших. Разные размеры. Разные шкафчики. Один вообще хранит форму идеально, что подозрительно само по себе."
+        },
+        "en": {
+          "speaker": "KENDO CAPTAIN",
+          "emotion": "BEAT",
+          "text": "Two seniors, two juniors. Different sizes, different lockers. One even keeps his uniform perfectly, which is suspicious by itself."
+        },
+        "be": {
+          "speaker": "КАПІТАН КЭНДО",
+          "emotion": "ЛІЧЫЦЬ",
+          "text": "Двое старэйшых, двое малодшых. Розныя памеры. Розныя шафкі. Адзін увогуле захоўвае форму ідэальна, што падазрона само па сабе."
+        }
+      }
+    },
+    {
+      "id": "VN0620",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМОТРИТ НА КОДЫ",
+          "text": "Но на сервисных ярлыках у всех есть одинаковый блок номера перед индивидуальным кодом."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "But every service label has the same number block before the individual code."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ГЛЯДЗІЦЬ НА КОДЫ",
+          "text": "Але на сэрвісных бірках ва ўсіх ёсць аднолькавы блок нумара перад індывідуальным кодам."
+        }
+      }
+    },
+    {
+      "id": "VN0621",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КУБО",
+          "emotion": "КИВАЕТ",
+          "text": "Такой блок ставили участникам спортивного мониторинга. Нам сказали, что он относится к нагрузке и восстановлению."
+        },
+        "en": {
+          "speaker": "KUBO",
+          "emotion": "BEAT",
+          "text": "That block was assigned to participants in the sports monitoring program. We were told it concerned workload and recovery."
+        },
+        "be": {
+          "speaker": "КУБО",
+          "emotion": "КІВАЕ",
+          "text": "Такі блок ставілі ўдзельнікам спартыўнага маніторынгу. Нам сказалі, што ён датычыцца нагрузкі і аднаўлення."
+        }
+      }
+    },
+    {
+      "id": "VN0622",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НАПРЯЖЁННО",
+          "text": "Нам говорили, что Second Skin не назначался личному белью официально. Значит, нужно сравнить закрытый список участников с фактическими кодами вещей."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "We were told Second Skin was never officially assigned to personal underwear. We need to compare the closed participant list with the actual item codes."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НАПРУЖАНА",
+          "text": "Нам казалі, што Second Skin афіцыйна не прызначаўся асабістай бялізне. Значыць, трэба параўнаць закрыты спіс удзельнікаў з фактычнымі кодамі рэчаў."
+        }
+      }
+    },
+    {
+      "id": "VN0623",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КАПИТАН КЭНДО",
+          "emotion": "УКАЗЫВАЕТ НА КЛАДОВУЮ",
+          "text": "Реестр выдачи под стойкой. Мешки закрыты складскими пломбами. Броня сверху — потому что порядок сегодня явно решил умереть."
+        },
+        "en": {
+          "speaker": "KENDO CAPTAIN",
+          "emotion": "BEAT",
+          "text": "The issue ledger is under the rack. The bags are warehouse-sealed. The armor is on top because order apparently chose to die today."
+        },
+        "be": {
+          "speaker": "КАПІТАН КЭНДО",
+          "emotion": "ПАКАЗВАЕ НА КЛАДОЎКУ",
+          "text": "Рэестр выдачы пад стойкай. Мяшкі закрыты складскімі пломбамі. Даспехі зверху — таму што парадак сёння відавочна вырашыў памерці."
+        }
+      }
+    },
+    {
+      "id": "VN0624",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "РЕШИТЕЛЬНО",
+          "text": "Тогда возвращаем порядок и честь одновременно. Но в протоколе оставим хотя бы одну строку про последнюю линию обороны."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Then we restore order and honor at once. But the report keeps at least one line about the final line of defense."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "РАШУЧА",
+          "text": "Тады аднаўляем парадак і гонар адначасова. Але ў пратаколе пакінем хаця б адзін радок пра апошнюю лінію абароны."
+        }
+      }
+    },
+    {
+      "id": "VN0625",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 18,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФОРМУЛИРУЕТ ЗАДАЧУ",
+          "text": "Открываем мешки, сверяем выданные вещи и собираем коды только подтверждённых владельцев. Никаких выводов по личности Кубо до списка."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Open the bags, verify the issued items, and collect codes only for confirmed owners. No conclusions about Kubo until we have the list."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФАРМУЛЮЕ ЗАДАЧУ",
+          "text": "Адкрываем мяшкі, звяраем выдадзеныя рэчы і збіраем коды толькі пацверджаных уладальнікаў. Ніякіх высноў пра асобу Кубо да спіса."
+        }
+      }
+    },
+    {
+      "id": "VN0626",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Стойки с бронёй перекрывают вертикальные секции. Сервисные ярлыки перемешаны, а закрытый список пилота лежит в нижней части реестра."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Armor racks block the vertical sections. Service labels are mixed up, while the closed pilot list sits at the bottom of the ledger."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Стойкі з даспехамі перакрываюць вертыкальныя секцыі. Сэрвісныя біркі перамяшаныя, а закрыты спіс пілота ляжыць у ніжняй частцы рэестра."
+        }
+      }
+    },
+    {
+      "id": "VN0627",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Поле собирается в секции кэндо: расчистить стойки, собрать сервисные ярлыки и опустить закрытый список пилота."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "The board forms kendo sections: clear the racks, collect service labels, and drop the closed pilot list."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Поле збіраецца ў секцыі кэндо: расчысціць стойкі, сабраць сэрвісныя біркі і апусціць закрыты спіс пілота."
+        }
+      }
+    }
+  ]
+}
