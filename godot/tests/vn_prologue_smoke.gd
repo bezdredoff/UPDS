@@ -31,6 +31,8 @@ const KendoPilotListScene = preload("res://data/kendo_pilot_list_scene.json")
 const PostKendoPilotListScene = preload("res://data/post_kendo_pilot_list_scene.json")
 const KuboAtelierScene = preload("res://data/kubo_atelier_scene.json")
 const PostKuboAtelierScene = preload("res://data/post_kubo_atelier_scene.json")
+const AbandonedLaundryScene = preload("res://data/abandoned_laundry_scene.json")
+const PostAbandonedLaundryScene = preload("res://data/post_abandoned_laundry_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
 
 
@@ -550,6 +552,28 @@ func _run() -> void:
 	assert(restored_family_permission.current_line().id == "VN0680" and restored_family_permission.state.storyChoices["family-ledger-permission"] == "B")
 	while session.current_line().id != "VN0686":
 		assert(session.advance())
+	assert(not session.at_port_boundary() and session.advance())
+	assert(session.state.scene == 31 and session.current_line().id == "VN0688")
+	assert(session.state.readLines.has("VN0687"), "Campus-chase opening direction was not consumed")
+	assert(screen.title.text == AbandonedLaundryScene.data.titles.en)
+	while session.current_line().id != "VN0707":
+		assert(session.advance())
+	assert(session.at_match3_gate() and session.scene_data().nextLevelId == "M3_15_ABANDONED_LAUNDRY_ROUTE")
+	await process_frame
+	assert(menu.match3_screen != null and menu.match3_screen.level_id == "M3_15_ABANDONED_LAUNDRY_ROUTE")
+	assert(reached_levels.size() == 16 and reached_levels[-1] == "M3_15_ABANDONED_LAUNDRY_ROUTE")
+	assert(session.complete_match3("M3_15_ABANDONED_LAUNDRY_ROUTE"))
+	assert(session.state.scene == 32 and session.current_line().id == "VN0709")
+	assert(session.state.completed.size() == 16 and session.state.clues[-1] == "CUE_016")
+	menu.match3_screen.game.state = "won"
+	menu.match3_screen._refresh()
+	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_continue.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible)
+	assert(screen.title.text == PostAbandonedLaundryScene.data.titles.en)
+	while session.current_line().id != "VN0726":
+		assert(session.advance())
 	assert(session.at_port_boundary() and not session.advance())
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
@@ -558,7 +582,7 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.scene == 30 and session.current_line().id == "VN0686")
+	assert(session.state.scene == 32 and session.current_line().id == "VN0726")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()
@@ -590,7 +614,7 @@ func _run() -> void:
 func _unsupported_save() -> void:
 	var memory := Memory.new()
 	var store := Store.new(memory)
-	assert(store.save_story({"scene": 31, "line": 3, "completed": [1]}))
+	assert(store.save_story({"scene": 33, "line": 3, "completed": [1]}))
 	var raw: String = memory.get_item(Format.CONTRACT.data.storyKey)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(store)
@@ -606,7 +630,7 @@ func _unsupported_save() -> void:
 
 func _future_save() -> void:
 	var memory := Memory.new()
-	var raw := '{"schemaVersion":99,"scene":31,"line":3}'
+	var raw := '{"schemaVersion":99,"scene":33,"line":3}'
 	assert(memory.set_item(Format.CONTRACT.data.storyKey, raw))
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(Store.new(memory))

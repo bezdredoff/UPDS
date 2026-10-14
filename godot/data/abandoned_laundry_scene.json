@@ -1,0 +1,642 @@
+{
+  "sceneId": "VN_SCENE_31_E15_PRE",
+  "sceneIndex": 31,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_15_ABANDONED_LAUNDRY_ROUTE",
+  "onWinSceneIndex": 32,
+  "background": "./assets/backgrounds/BG_CAMPUS_PATH.webp",
+  "titles": {
+    "ru": "Кот с вещественным доказательством",
+    "en": "The Cat with Physical Evidence",
+    "be": "Кот з рэчавым доказам"
+  },
+  "lines": [
+    {
+      "id": "VN0687",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CAMPUS_PATH.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "BG_CAMPUS_PATH / CHASE",
+          "text": "Рэй несётся по дорожке кампуса с прозрачным пакетом в зубах. Троица преследует его между студентами и велосипедами."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "BG_CAMPUS_PATH / CHASE",
+          "text": "Ray races along the campus path with the clear bag in his teeth. The trio chases him between students and bicycles."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "BG_CAMPUS_PATH / CHASE",
+          "text": "Рэй імчыцца па дарожцы кампуса з празрыстым пакетам у зубах. Троіца гоніцца за ім паміж студэнтамі і веласіпедамі."
+        }
+      }
+    },
+    {
+      "id": "VN0688",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_PATH.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "НА БЕГУ",
+          "text": "Это не наше бельё! Повторяю: не наше!"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "That is not our underwear! I repeat: not ours!"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "НА БЯГУ",
+          "text": "Гэта не наша бялізна! Паўтараю: не наша!"
+        }
+      }
+    },
+    {
+      "id": "VN0689",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CAMPUS_PATH.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "CROWD REACTION",
+          "text": "Несколько прохожих одновременно оборачиваются и начинают смотреть гораздо внимательнее."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "CROWD REACTION",
+          "text": "Several passersby turn at once and begin watching much more carefully."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "CROWD REACTION",
+          "text": "Некалькі мінакоў адначасова абарочваюцца і пачынаюць глядзець значна больш уважліва."
+        }
+      }
+    },
+    {
+      "id": "VN0690",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_PATH.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "НА БЕГУ",
+          "text": "Больше ничего не объясняй."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Do not explain anything else."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "НА БЯГУ",
+          "text": "Больш нічога не тлумач."
+        }
+      }
+    },
+    {
+      "id": "VN0691",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_PATH.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ОБИЖЕННО",
+          "text": "Но сейчас они думают хуже."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "But now they think something worse."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПАКРЫЎДЖАНА",
+          "text": "Але цяпер яны думаюць горш."
+        }
+      }
+    },
+    {
+      "id": "VN0692",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_PATH.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕ СБИВАЯ ТЕМП",
+          "text": "Каждое дополнительное предложение статистически увеличивает ущерб."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Every additional sentence statistically increases the damage."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕ ЗБІВАЮЧЫ ТЭМП",
+          "text": "Кожны дадатковы сказ статыстычна павялічвае шкоду."
+        }
+      }
+    },
+    {
+      "id": "VN0693",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CAMPUS_PATH.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "CAMPUS EDGE",
+          "text": "Рэй сворачивает с главной дорожки к старому служебному двору, где за сеткой виден закрытый корпус прачечной."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "CAMPUS EDGE",
+          "text": "Ray turns off the main path toward the old service yard, where a closed laundry building stands behind a fence."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "CAMPUS EDGE",
+          "text": "Рэй збочвае з галоўнай дарожкі да старога службовага двара, дзе за сеткай відаць закрыты корпус пральні."
+        }
+      }
+    },
+    {
+      "id": "VN0694",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_PATH.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ОСТАНАВЛИВАЕТСЯ",
+          "text": "Этот корпус закрыли после реконструкции. Обычный маршрут сюда не идёт."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "That building was closed after the renovation. The normal route does not come here."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СПЫНЯЕЦЦА",
+          "text": "Гэты корпус закрылі пасля рэканструкцыі. Звычайны маршрут сюды не ідзе."
+        }
+      }
+    },
+    {
+      "id": "VN0695",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_PATH.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОКАЗЫВАЕТ СЛЕДЫ",
+          "text": "Но следы свежие. От тележки, обуви и кошачьих лап."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "But the fresh tracks say otherwise: cart wheels, shoes, and cat paws."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАКАЗВАЕ СЛЯДЫ",
+          "text": "Але свежыя сляды ідуць. Каляска, абутак і каціныя лапы."
+        }
+      }
+    },
+    {
+      "id": "VN0696",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_PATH.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ГОРДО",
+          "text": "Наконец-то улика, которую я могу определить без таблицы."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Finally, evidence I can identify without a spreadsheet."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ГАНАРЛІВА",
+          "text": "Нарэшце ўліка, якую я магу вызначыць без табліцы."
+        }
+      }
+    },
+    {
+      "id": "VN0697",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "BG_ABANDONED_LAUNDRY / INTERIOR",
+          "text": "Внутри старого корпуса пыль прервана свежими полосами от колёс. На полу лежат пустые сервисные упаковки и обрывки серебристой нити."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "BG_ABANDONED_LAUNDRY / INTERIOR",
+          "text": "Inside the old building, dust is cut by fresh wheel tracks. Empty service packaging and scraps of silver thread lie on the floor."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "BG_ABANDONED_LAUNDRY / INTERIOR",
+          "text": "Унутры старога корпуса пыл перарваны свежымі палосамі ад колаў. На падлозе ляжаць пустыя сэрвісныя ўпакоўкі і абрыўкі серабрыстай ніткі."
+        }
+      }
+    },
+    {
+      "id": "VN0698",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ТИХО",
+          "text": "Здесь кто-то бывает регулярно."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Someone comes here regularly."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЦІХА",
+          "text": "Тут нехта бывае рэгулярна."
+        }
+      }
+    },
+    {
+      "id": "VN0699",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ОСМАТРИВАЕТ УПАКОВКИ",
+          "text": "И использует тот же формат пакетов, что центральная прачечная."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "And they use the same packaging format as central laundry."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "АГЛЯДАЕ ЎПАКОЎКІ",
+          "text": "І выкарыстоўвае той жа фармат пакетаў, што і цэнтральная пральня."
+        }
+      }
+    },
+    {
+      "id": "VN0700",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "CAT DROP",
+          "text": "Рэй выпускает пакет возле старого сервисного шкафа и садится рядом, как будто выполнил контракт."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "CAT DROP",
+          "text": "Ray drops the bag beside an old service cabinet and sits down as if he completed a contract."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "CAT DROP",
+          "text": "Рэй выпускае пакет каля старой сэрвіснай шафы і садзіцца побач, быццам выканаў кантракт."
+        }
+      }
+    },
+    {
+      "id": "VN0701",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "КОТУ",
+          "text": "Если ты тайный агент, моргни дважды."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "If you are a secret agent, blink twice."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "КАТУ",
+          "text": "Калі ты тайны агент, міргні двойчы."
+        }
+      }
+    },
+    {
+      "id": "VN0702",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "CAT",
+          "text": "Рэй зевает."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "CAT",
+          "text": "Ray yawns."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "CAT",
+          "text": "Рэй пазяхае."
+        }
+      }
+    },
+    {
+      "id": "VN0703",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУХО",
+          "text": "Получен отрицательный ответ."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Negative response received."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУХА",
+          "text": "Атрыманы адмоўны адказ."
+        }
+      }
+    },
+    {
+      "id": "VN0704",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "НАХОДИТ ЗАПИСКУ",
+          "text": "Под дверцей что-то есть. Бумага свежая."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "There is something under the cabinet door. Fresh paper."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЗНАХОДЗІЦЬ ЗАПІСКУ",
+          "text": "Пад дзверцамі нешта ёсць. Папера свежая."
+        }
+      }
+    },
+    {
+      "id": "VN0705",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: ANONYMOUS NOTE",
+          "text": "На записке напечатано: «Спросите не кто забирает вещи, а на что согласились владельцы»."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: ANONYMOUS NOTE",
+          "text": "The note reads: ‘Ask not who takes the items, but what their owners consented to.’"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: ANONYMOUS NOTE",
+          "text": "На запісцы надрукавана: «Пытайцеся не хто забірае рэчы, а на што пагадзіліся ўладальнікі»."
+        }
+      }
+    },
+    {
+      "id": "VN0706",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НАПРЯЖЁННО",
+          "text": "Автор знает, что мы уже связали вещи с пилотом. И хочет переключить наше внимание с краж на вопрос согласия."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "The writer knows we already connected the items to the pilot and wants to move us from theft to consent."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НАПРУЖАНА",
+          "text": "Аўтар ведае, што мы ўжо звязалі рэчы з пілотам, і хоча пераключыць нашу ўвагу з крадзяжоў на пытанне згоды."
+        }
+      }
+    },
+    {
+      "id": "VN0707",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Проход к шкафу завален мусором. Нужно расчистить сервисные полосы, собрать следы нити и опустить пакет вместе с ключ-картой."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Debris blocks the cabinet route. Clear the service lanes, collect thread traces, and drop the package together with the key card."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Праход да шафы завалены смеццем. Трэба расчысціць сэрвісныя палосы, сабраць сляды ніткі і апусціць пакет разам з ключ-картай."
+        }
+      }
+    }
+  ]
+}
