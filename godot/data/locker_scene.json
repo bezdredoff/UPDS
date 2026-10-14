@@ -55,6 +55,8 @@
     }
   },
   "nextLevelId": "M3_00_LOCKER_TUTORIAL",
+  "onWinSceneIndex": 2,
+  "nextSceneIndex": -1,
   "variants": {
     "A": [
       {

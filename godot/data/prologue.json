@@ -2,6 +2,7 @@
   "sceneId": "VN_SCENE_00_PROLOGUE",
   "sceneIndex": 0,
   "nextSceneId": "VN_SCENE_01_E0_PRE",
+  "nextSceneIndex": 1,
   "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
   "titles": {
     "ru": "Клуб, которого почти нет",

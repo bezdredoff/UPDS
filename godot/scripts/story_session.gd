@@ -8,6 +8,9 @@ const Format = preload("res://scripts/save_format.gd")
 const Prologue = preload("res://data/prologue.json")
 const LockerScene = preload("res://data/locker_scene.json")
 const PostMatchScene = preload("res://data/post_match_scene.json")
+const PhotoScene = preload("res://data/photo_scene.json")
+const PostPhotoScene = preload("res://data/post_photo_scene.json")
+const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -31,8 +34,7 @@ func has_progress() -> bool:
 
 
 func supports_position() -> bool:
-	return state.scene == 0 and state.line >= 0 and state.line < Prologue.data.lines.size() \
-		or (state.scene == 1 or state.scene == 2) and state.line >= 0 and state.line < _scene_lines().size()
+	return state.scene >= 0 and state.scene <= 4 and state.line >= 0 and state.line < _scene_lines().size()
 
 
 func new_game() -> void:
@@ -56,21 +58,34 @@ func current_line() -> Dictionary:
 
 
 func at_match3_gate() -> bool:
-	return state.scene == 1 and supports_position() and current_line().id == "VN0057"
+	return supports_position() and not str(scene_data().get("nextLevelId", "")).is_empty() \
+		and state.line == _scene_lines().size() - 1
 
 
 func at_port_boundary() -> bool:
-	return state.scene == 2 and supports_position() and state.line == _scene_lines().size() - 1
+	var next_scene_index: int = int(scene_data().get("nextSceneIndex", -1))
+	return supports_position() and state.line == _scene_lines().size() - 1 and not at_match3_gate() \
+		and (next_scene_index < 0 or next_scene_index > 4)
 
 
 func complete_match3(level_id: String) -> bool:
-	if not at_match3_gate() or level_id != LockerScene.data.nextLevelId:
+	if not at_match3_gate() or level_id != str(scene_data().get("nextLevelId", "")):
 		return false
-	if not state.completed.has(0):
-		state.completed.append(0)
-	if not state.clues.has("CUE_001"):
-		state.clues.append("CUE_001")
-	state.scene = int(PostMatchScene.data.sceneIndex)
+	var level_index: int = Format.CONTRACT.data.levelIds.find(level_id)
+	if level_index < 0:
+		return false
+	var next_scene_index: int = int(scene_data().get("onWinSceneIndex", -1))
+	if next_scene_index < 0 or next_scene_index > 4:
+		return false
+	if not state.completed.has(level_index):
+		state.completed.append(level_index)
+	var bundle: Dictionary = CampaignData.load_bundle()
+	var level: Dictionary = CampaignData.get_level(bundle, level_id)
+	var evidence: Dictionary = level.get("evidence", {})
+	var clue_id: String = str(evidence.get("id", ""))
+	if not clue_id.is_empty() and not state.clues.has(clue_id):
+		state.clues.append(clue_id)
+	state.scene = next_scene_index
 	state.line = 0
 	_skip_hidden()
 	persist()
@@ -79,7 +94,13 @@ func complete_match3(level_id: String) -> bool:
 
 
 func scene_data() -> Dictionary:
-	return Prologue.data if state.scene == 0 else LockerScene.data if state.scene == 1 else PostMatchScene.data if state.scene == 2 else {}
+	match state.scene:
+		0: return Prologue.data
+		1: return LockerScene.data
+		2: return PostMatchScene.data
+		3: return PhotoScene.data
+		4: return PostPhotoScene.data
+	return {}
 
 
 func choose(option: String) -> bool:
@@ -105,8 +126,8 @@ func advance() -> bool:
 	if moved:
 		state.line += 1
 		_skip_hidden()
-	elif state.scene == 0:
-		state.scene = 1
+	elif int(scene_data().get("nextSceneIndex", -1)) >= 0 and int(scene_data().get("nextSceneIndex", -1)) <= 4:
+		state.scene = int(scene_data().nextSceneIndex)
 		state.line = 0
 		moved = true
 	persist()
@@ -141,4 +162,8 @@ func _scene_lines() -> Array:
 		return LockerScene.data.variants.get(state.choice, LockerScene.data.variants.A)
 	if state.scene == 2:
 		return PostMatchScene.data.lines
+	if state.scene == 3:
+		return PhotoScene.data.lines
+	if state.scene == 4:
+		return PostPhotoScene.data.lines
 	return []

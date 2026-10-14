@@ -214,7 +214,7 @@ func _refresh() -> void:
 		evidence_label.text = str(copy.resultDetail).replace("{movesLeft}", str(game.moves_left))
 		evidence_continue.text = str(copy.backToCampaign)
 	else:
-		var evidence: Dictionary = Level.data.evidence
+		var evidence: Dictionary = level_data.evidence
 		var clue_copy: Dictionary = evidence.localized[locale]
 		evidence_kicker.visible = true
 		evidence_image.visible = true

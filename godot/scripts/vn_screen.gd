@@ -140,6 +140,8 @@ func _refresh() -> void:
 	next_button.text = Copy.text("vn_next", locale)
 	var choosing: bool = session.state.scene == 1 and line.id == "VN0040"
 	_boundary = session.at_match3_gate() or session.at_port_boundary()
+	if not _boundary:
+		_gate_requested = false
 	choice_box.visible = choosing
 	speaker.visible = not choosing and not _boundary
 	emotion.visible = not choosing and not _boundary
@@ -179,7 +181,7 @@ func _refresh() -> void:
 		_portrait_width(portrait)
 	if _boundary and not _gate_requested:
 		_gate_requested = true
-		match3_requested.emit(LockerScene.data.nextLevelId)
+		match3_requested.emit(str(session.scene_data().get("nextLevelId", "")))
 
 
 func _portrait_width(portrait: TextureRect) -> void:

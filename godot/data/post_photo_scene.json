@@ -1,0 +1,891 @@
+{
+  "sceneId": "VN_SCENE_04_E1_POST",
+  "sceneIndex": 4,
+  "nextSceneId": "VN_SCENE_05_E2_PRE",
+  "nextSceneIndex": 5,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+  "titles": {
+    "ru": "Манекен с лучшим алиби",
+    "en": "The Mannequin with the Best Alibi",
+    "be": "Манекен з найлепшым алібі"
+  },
+  "lines": [
+    {
+      "id": "VN0114",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: MEMORY CARD GALLERY",
+          "text": "На экране — съёмочные листы, таймкоды и кадры с манекенами."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "INSERT: MEMORY CARD GALLERY",
+          "text": "The screen shows shot lists, timecodes, and mannequin photos."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: ГАЛЕРЭЯ КАРТЫ ПАМЯЦІ",
+          "text": "На экране — здымачныя лісты, таймкоды і кадры з манекенамі."
+        }
+      }
+    },
+    {
+      "id": "VN0115",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "СКРЕЩИВАЕТ РУКИ",
+          "text": "Мешок `PS-14`. Кампания магазина спортивной одежды. Дата, владелец, возврат."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "CROSSES ARMS",
+          "text": "Bag `PS-14`. Sportswear-store campaign. Date, owner, return."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "СКРЭШЧВАЕ РУКІ",
+          "text": "Мяшок `PS-14`. Кампанія крамы спартыўнага адзення. Дата, уладальнік, вяртанне."
+        }
+      }
+    },
+    {
+      "id": "VN0116",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ДОСТАЁТ СПОРТИВНЫЙ БЮСТГАЛЬТЕР В ПАКЕТЕ",
+          "text": "А главный трофей обыска?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "HOLDS UP A BAGGED SPORTS BRA",
+          "text": "And the grand trophy of the search?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ДАСТАЕ СПАРТЫЎНЫ БЮСТГАЛЬТАР У ПАКЕЦЕ",
+          "text": "А галоўны трафей ператрусу?"
+        }
+      }
+    },
+    {
+      "id": "VN0117",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ЛИСТАЕТ ФОТО",
+          "text": "Костюм талисмана. Кадр сорок семь."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "FLIPS THROUGH PHOTOS",
+          "text": "Mascot costume. Frame forty-seven."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ГАРТАЕ ФОТА",
+          "text": "Касцюм талісмана. Кадр сорак сем."
+        }
+      }
+    },
+    {
+      "id": "VN0118",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: MASCOT MANNEQUIN",
+          "text": "На фото спортивный бюстгальтер надет поверх майки на угловатый манекен-талисман."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "INSERT: MASCOT MANNEQUIN",
+          "text": "The photo shows the sports bra worn over a shirt on an angular mascot mannequin."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: МАНЕКЕН-ТАЛІСМАН",
+          "text": "На фота спартыўны бюстгальтар надзеты паверх майкі на вуглаваты манекен-талісман."
+        }
+      }
+    },
+    {
+      "id": "VN0119",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "НЕЙТРАЛЬНО",
+          "text": "Манекен выглядит увереннее всех нас."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "NEUTRAL",
+          "text": "The mannequin looks more confident than any of us."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "НЕЙТРАЛЬНА",
+          "text": "Манекен выглядае ўпэўненей за ўсіх нас."
+        }
+      }
+    },
+    {
+      "id": "VN0120",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ОЦЕНИВАЕТ",
+          "text": "У него правильная осанка и чистая совесть."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "APPRAISING",
+          "text": "Good posture and a clear conscience."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "АЦЭНЬВАЕ",
+          "text": "У яго правільная пастава і чыстае сумленне."
+        }
+      }
+    },
+    {
+      "id": "VN0121",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРОВЕРЯЕТ ТАЙМКОД",
+          "text": "В момент пропажи Кэнтаро снимал теннисный корт. Двадцать минут непрерывных кадров."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CHECKS TIMECODE",
+          "text": "At the time of the theft, Kentaro was filming the tennis court. Twenty minutes of uninterrupted footage."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРАВЯРАЕ ТАЙМКОД",
+          "text": "У момант знікнення Кэнтаро здымаў тэнісны корт. Дваццаць хвілін бесперапынных кадраў."
+        }
+      }
+    },
+    {
+      "id": "VN0122",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "КОРОТКО",
+          "text": "Значит?"
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "CURT",
+          "text": "So?"
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "КОРОТКА",
+          "text": "І?"
+        }
+      }
+    },
+    {
+      "id": "VN0123",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "С ДОСКОЙ НА ТЕЛЕФОНЕ",
+          "text": "Вероятность личного участия снижается с 87 до 12 процентов."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "WITH BOARD ON PHONE",
+          "text": "Probability of direct involvement drops from 87 to 12 percent."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "З ДОШКАЙ НА ТЭЛЕФОНЕ",
+          "text": "Верагоднасць асабістага ўдзелу зніжаецца з 87 да 12 працэнтаў."
+        }
+      }
+    },
+    {
+      "id": "VN0124",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-surprised.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "НЕ ВЕРИТ",
+          "text": "Это твоё извинение?"
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "DISBELIEVING",
+          "text": "Is that your apology?"
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "НЕ ВЕРЫЦЬ",
+          "text": "Гэта тваё прабачэнне?"
+        }
+      }
+    },
+    {
+      "id": "VN0125",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Это существенное исправление."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SERIOUS",
+          "text": "It is a substantial correction."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Гэта істотнае выпраўленне."
+        }
+      }
+    },
+    {
+      "id": "VN0126",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ТВЁРДО",
+          "text": "Мы ошиблись. Прости."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "FIRMLY",
+          "text": "We were wrong. Sorry."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЦВЁРДА",
+          "text": "Мы памыліліся. Прабач."
+        }
+      }
+    },
+    {
+      "id": "VN0128",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ЧУТЬ ТИШЕ",
+          "text": "И я не буду делать заголовок из того, чего мы не доказали."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "A LITTLE QUIETER",
+          "text": "And I will not make a headline out of something we have not proved."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "КРЫХУ ЦІШЭЙ",
+          "text": "І я не буду рабіць загаловак з таго, чаго мы не даказалі."
+        }
+      }
+    },
+    {
+      "id": "VN0129",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "МЯГЧЕ",
+          "text": "Тогда посмотрите последние кадры у служебного входа."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "SOFTER",
+          "text": "Then look at the last shots by the service entrance."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "МЯКЧЭЙ",
+          "text": "Тады паглядзіце апошнія кадры каля службовага ўваходу."
+        }
+      }
+    },
+    {
+      "id": "VN0130",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: SERVICE CART SEQUENCE",
+          "text": "Три последовательных снимка: тележка прачечной подъезжает до тренировки и уезжает после неё."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "INSERT: SERVICE CART SEQUENCE",
+          "text": "Three consecutive photos: the laundry cart arrives before practice and leaves after it."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: ПАСЛЯДОЎНАСЦЬ З СЭРВІСНАЙ КАЛЯСКАЙ",
+          "text": "Тры паслядоўныя здымкі: каляска пральні пад'язджае да трэніроўкі і ад'язджае пасля яе."
+        }
+      }
+    },
+    {
+      "id": "VN0131",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВНИМАТЕЛЬНАЯ",
+          "text": "На первом кадре мешок полный. На втором пломба уже другого цвета."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "ATTENTIVE",
+          "text": "The bag is full in the first shot. In the second, the seal is already a different color."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УВАЖЛІВАЯ",
+          "text": "На першым кадры мяшок поўны. На другім пломба ўжо іншага колеру."
+        }
+      }
+    },
+    {
+      "id": "VN0132",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАИНТЕРЕСОВАННАЯ",
+          "text": "Между кадрами прошло девять минут. Тележка — часть временной линии."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "INTERESTED",
+          "text": "Nine minutes passed between the shots. The cart is part of the timeline."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАЦІКАЎЛЕНАЯ",
+          "text": "Паміж кадрамі прайшло дзевяць хвілін. Каляска — частка часовай лініі."
+        }
+      }
+    },
+    {
+      "id": "VN0133",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "УКАЗЫВАЕТ",
+          "text": "Я смотрел на неё, потому что сотрудник задел мою стойку и даже не остановился."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "POINTING",
+          "text": "I was looking at it because the worker hit my stand and did not even stop."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ПАКАЗВАЕ",
+          "text": "Я глядзеў на яе, бо супрацоўнік зачапіў маю стойку і нават не спыніўся."
+        }
+      }
+    },
+    {
+      "id": "VN0134",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ВЗДЫХАЕТ",
+          "text": "Самое невинное объяснение снова оказалось самым скучным."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "SIGHS",
+          "text": "The most innocent explanation is the most boring one again."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "УЗДЫХАЕ",
+          "text": "Самае нявіннае тлумачэнне зноў аказалася самым сумным."
+        }
+      }
+    },
+    {
+      "id": "VN0135",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-smile.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "С ЛЁГКОЙ УЛЫБКОЙ",
+          "text": "Зато фотография полезная."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "SLIGHT SMILE",
+          "text": "At least the photo is useful."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "З ЛЁГКАЙ УСМЕШКАЙ",
+          "text": "Затое фатаграфія карысная."
+        }
+      }
+    },
+    {
+      "id": "VN0136",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_002_SERVICE_CART; SET SUS_KENTARO=cleared}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_002_SERVICE_CART; SET SUS_KENTARO=cleared}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_002_SERVICE_CART; SET SUS_KENTARO=cleared}"
+        }
+      }
+    },
+    {
+      "id": "VN0137",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "SFX: MESSAGE",
+          "text": "На телефоне Аюки появляется срочное сообщение от клуба плавания."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "SFX: MESSAGE",
+          "text": "An urgent message from the swimming club appears on Ayuki’s phone."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "SFX: MESSAGE",
+          "text": "На тэлефоне Аюкі з'яўляецца тэрміновае паведамленне ад клуба плавання."
+        }
+      }
+    },
+    {
+      "id": "VN0138",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ЧИТАЕТ",
+          "text": "«После вечерней тренировки пропало бельё. Снова. И много»."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "READING",
+          "text": "“Underwear disappeared after evening practice. Again. A lot of it.”"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЧЫТАЕ",
+          "text": "«Пасля вячэрняй трэніроўкі знікла бялізна. Зноў. І шмат»."
+        }
+      }
+    },
+    {
+      "id": "VN0139",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "УЖЕ СОБИРАЕТСЯ",
+          "text": "Новый случай окончательно исключает Кэнтаро из числа подозреваемых."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "ALREADY GETTING READY",
+          "text": "A new incident clears Kentaro completely."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "УЖО ЗБІРАЕЦЦА",
+          "text": "Новы выпадак канчаткова здымае падазрэнні з Кэнтаро."
+        }
+      }
+    },
+    {
+      "id": "VN0140",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "СУХО",
+          "text": "Рад, что настоящий вор соблюдает дедлайны."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "DRY",
+          "text": "Glad the real thief respects deadlines."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "СУХА",
+          "text": "Рады, што сапраўдны злодзей выконвае дэдлайны."
+        }
+      }
+    },
+    {
+      "id": "VN0141",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпизод 2 — Мокрые показания»"
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "EPISODE CARD",
+          "text": "“Episode 2 — Wet Testimony”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпізод 2 — Мокрыя паказанні»"
+        }
+      }
+    },
+    {
+      "id": "VN0142",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "FADE IN / AMBIENT POOL",
+          "text": "Пустая раздевалка после тренировки. На скамьях мокрые полотенца, из душевой ползёт пена."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "FADE IN / AMBIENT POOL",
+          "text": "An empty locker room after practice. Wet towels cover the benches; foam creeps out of the showers."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "FADE IN / AMBIENT POOL",
+          "text": "Пустая распранальня пасля трэніроўкі. На лаўках мокрыя ручнікі, з душавой паўзе пена."
+        }
+      }
+    }
+  ]
+}

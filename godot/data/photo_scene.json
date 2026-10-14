@@ -1,0 +1,856 @@
+{
+  "sceneId": "VN_SCENE_03_E1_PRE",
+  "sceneIndex": 3,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_01_PHOTO_PROPS",
+  "onWinSceneIndex": 4,
+  "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+  "titles": {
+    "ru": "Комната, которая всё объясняет слишком плохо",
+    "en": "The Room That Explains Too Little",
+    "be": "Пакой, які ўсё тлумачыць занадта дрэнна"
+  },
+  "lines": [
+    {
+      "id": "VN0085",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "FADE IN",
+          "text": "Маленькая квартира одновременно служит фотостудией. Коробки, стойки света, чехлы и два непрозрачных мешка с одеждой."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "FADE IN",
+          "text": "A small apartment doubles as a photo studio. Boxes, light stands, cases, and two opaque bags of clothing."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "FADE IN",
+          "text": "Невялікая кватэра адначасова служыць фотастудыяй. Скрынкі, стойкі для святла, чахлы і два непразрыстыя мяшкі з адзеннем."
+        }
+      }
+    },
+    {
+      "id": "VN0086",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ОБОРОНЯЕТСЯ",
+          "text": "Я уже сказал: это не моё."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "DEFENSIVE",
+          "text": "I already told you: it is not mine."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "АБАРАНЯЕЦЦА",
+          "text": "Я ўжо сказаў: гэта не маё."
+        }
+      }
+    },
+    {
+      "id": "VN0087",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СИЯЕТ",
+          "text": "Потрясающее начало объяснения."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAMING",
+          "text": "Amazing start to an explanation."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗЗЯЕ",
+          "text": "Цудоўны пачатак тлумачэння."
+        }
+      }
+    },
+    {
+      "id": "VN0088",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "МРАЧНО",
+          "text": "Мне это дали."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "GRIM",
+          "text": "It was given to me."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ПАНУРА",
+          "text": "Мне гэта далі."
+        }
+      }
+    },
+    {
+      "id": "VN0089",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "К МИКУ",
+          "text": "И оно становится лучше."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "TO MIKU",
+          "text": "And it keeps getting better."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ДА МІКУ",
+          "text": "І становіцца ўсё лепш."
+        }
+      }
+    },
+    {
+      "id": "VN0090",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ПЫТАЕТСЯ ОБЪЯСНИТЬ",
+          "text": "Для съёмки. Я собирался снять это ночью."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "TRYING TO EXPLAIN",
+          "text": "For a shoot. I was going to shoot it tonight."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "СПРАБУЕ ТЛУМАЧЫЦЬ",
+          "text": "Для здымкі. Я збіраўся зняць гэта ўначы."
+        }
+      }
+    },
+    {
+      "id": "VN0091",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "КОМЕДИЙНАЯ ПАУЗА",
+          "text": "Все трое молча смотрят на него."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "COMEDIC PAUSE",
+          "text": "All three stare at him in silence."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "КАМЕДЫЙНАЯ ПАЎЗА",
+          "text": "Усе трое моўчкі глядзяць на яго."
+        }
+      }
+    },
+    {
+      "id": "VN0092",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-embarrassed.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ЗАКРЫВАЕТ ЛИЦО",
+          "text": "Одежду. На манекенах. Ночную рекламную съёмку."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "COVERS FACE",
+          "text": "The clothes. On mannequins. A nighttime advertising shoot."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ЗАКРЫВАЕ ТВАР",
+          "text": "Адзенне. На манекенах. Начную рэкламную здымку."
+        }
+      }
+    },
+    {
+      "id": "VN0093",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "С СОЧУВСТВИЕМ",
+          "text": "У Кэнтаро был редкий талант: каждое новое уточнение звучало как очередное обвинение."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "SYMPATHETIC",
+          "text": "Kentaro had a rare talent: every clarification sounded like a fresh accusation."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "СА СПАЧУВАННЕМ",
+          "text": "У Кэнтаро быў рэдкі талент: кожнае наступнае ўдакладненне гучала як новае абвінавачанне."
+        }
+      }
+    },
+    {
+      "id": "VN0094",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "С БЛОКНОТОМ",
+          "text": "Почему мешки находятся дома, а не в студии?"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "WITH NOTEBOOK",
+          "text": "Why are the bags at home instead of the studio?"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "З НАТАТНІКАМ",
+          "text": "Чаму мяшкі дома, а не ў студыі?"
+        }
+      }
+    },
+    {
+      "id": "VN0095",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "УКАЗЫВАЕТ НА КОРОБКИ",
+          "text": "Студию затопило. Я вывез реквизит и потерял карту памяти с описью."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "POINTS AT BOXES",
+          "text": "The studio flooded. I moved the props out and lost the memory card with the inventory."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ПАКАЗВАЕ НА СКРЫНКІ",
+          "text": "Студыю затапіла. Я вывез рэквізіт і згубіў карту памяці з вопісам."
+        }
+      }
+    },
+    {
+      "id": "VN0096",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПРИЩУРИЛАСЬ",
+          "text": "Очень удобная потеря."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "NARROWS EYES",
+          "text": "A very convenient loss."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПРЫЖМУРЫЛАСЯ",
+          "text": "Вельмі зручная страта."
+        }
+      }
+    },
+    {
+      "id": "VN0097",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "РАССМАТРИВАЕТ МЕШОК",
+          "text": "Здесь номер `PS-14`. Такой же шрифт на оборудовании колледжа."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "EXAMINES THE BAG",
+          "text": "This says `PS-14`. The college equipment uses the same lettering."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "РАЗГЛЯДАЕ МЯШОК",
+          "text": "Тут нумар `PS-14`. Такі ж шрыфт на абсталяванні каледжа."
+        }
+      }
+    },
+    {
+      "id": "VN0098",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "С ОБЛЕГЧЕНИЕМ",
+          "text": "Потому что это инвентарь фотостудии!"
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "RELIEVED",
+          "text": "Because it belongs to the photo studio!"
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "З ПАЛЁГКАЙ",
+          "text": "Бо гэта інвентар фотастудыі!"
+        }
+      }
+    },
+    {
+      "id": "VN0099",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СДЕРЖАННО",
+          "text": "Номер подтверждает происхождение мешка, но не каждого предмета."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "RESTRAINED",
+          "text": "The number confirms where the bag came from, not every item inside it."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СТРЫМАНА",
+          "text": "Нумар пацвярджае паходжанне мяшка, але не кожнага прадмета ў ім."
+        }
+      }
+    },
+    {
+      "id": "VN0100",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "РАЗДРАЖЁННЫЙ",
+          "text": "Найдите карту — получите опись, таймкоды и исходники. Тогда уберёте моё имя из вашего дела."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "IRRITATED",
+          "text": "Find the card and you get the inventory, timecodes, and originals. Then remove my name from your case."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "РАЗДРАЖНЁНЫ",
+          "text": "Знойдзеце карту — атрымаеце вопіс, таймкоды і арыгіналы. Тады прыбераце маё імя з вашай справы."
+        }
+      }
+    },
+    {
+      "id": "VN0103",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПОКАЗЫВАЕТ НОМЕР ТЕЛЕЖКИ",
+          "text": "Эми дала номер партии. Мы проверим только вещи из нужного промежутка."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "SHOWS CART NUMBER",
+          "text": "Emi gave us the batch number. We will only check items from the relevant window."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПАКАЗВАЕ НУМАР КАЛЯСКІ",
+          "text": "Эмі дала нумар партыі. Мы праверым толькі рэчы з патрэбнага прамежку."
+        }
+      }
+    },
+    {
+      "id": "VN0105",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ВЗДЫХАЕТ",
+          "text": "Не открывайте красную коробку резко."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "SIGHS",
+          "text": "Do not open the red box too quickly."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "УЗДЫХАЕ",
+          "text": "Не адкрывайце чырвоную скрынку рэзка."
+        }
+      }
+    },
+    {
+      "id": "VN0106",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПОДОЗРИТЕЛЬНАЯ",
+          "text": "Почему?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "SUSPICIOUS",
+          "text": "Why?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПАДАЗРОНАЯ",
+          "text": "Чаму?"
+        }
+      }
+    },
+    {
+      "id": "VN0107",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "УСТАЛО",
+          "text": "Там пружинный фон. И он уже победил двух первокурсников."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "TIRED",
+          "text": "There is a spring backdrop inside. It has already defeated two freshmen."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "СТОМЛЕНА",
+          "text": "Там спружынны фон. І ён ужо перамог двух першакурснікаў."
+        }
+      }
+    },
+    {
+      "id": "VN0108",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "SFX: ЩЕЛЧОК / РАСКРЫВАЕТСЯ ФОН",
+          "text": "Аюки касается защёлки; розовый фон раскрывается и прижимает её к стене."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "SFX: CLICK / BACKDROP SPRINGS OPEN",
+          "text": "Ayuki touches the latch; a pink backdrop bursts open and pins her to the wall."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "SFX: ШЧАЛК / ФОН РАСКРЫВАЕЦЦА",
+          "text": "Аюкі дакранаецца да зашчапкі; ружовы фон раскрываецца і прыціскае яе да сцяны."
+        }
+      }
+    },
+    {
+      "id": "VN0109",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ИЗ-ЗА ФОНА",
+          "text": "Подозреваемый вооружён декорациями."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "FROM BEHIND THE BACKDROP",
+          "text": "The suspect is armed with scenery."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "З-ЗА ФОНУ",
+          "text": "Падазраваны ўзброены дэкарацыямі."
+        }
+      }
+    },
+    {
+      "id": "VN0110",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СДЕРЖИВАЕТ СМЕХ",
+          "text": "Запишем после инвентаризации."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "HOLDING BACK LAUGHTER",
+          "text": "We will record that after the inventory."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СТРЫМЛІВАЕ СМЕХ",
+          "text": "Запішам пасля інвентарызацыі."
+        }
+      }
+    },
+    {
+      "id": "VN0111",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "РАСПРЕДЕЛЯЕТ ЗОНЫ",
+          "text": "Мику — маркирует. Аюки — разбирает коробки. Я — восстанавливаю хронологию. Ищем карту памяти, а не подтверждение любимой версии."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "ASSIGNS AREAS",
+          "text": "Miku labels. Ayuki sorts the boxes. I’ll reconstruct the timeline. We’re looking for the memory card, not confirmation of our favorite theory."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "РАЗМЯРКОЎВАЕ ЗОНЫ",
+          "text": "Міку маркіруе. Аюкі сартуе скрынкі. Я аднаўляю часовую лінію. Шукаем карту памяці, а не пацвярджэнне любімай версіі."
+        }
+      }
+    },
+    {
+      "id": "VN0112",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ВЫБИРАЕТСЯ",
+          "text": "Моя любимая версия только что напала на меня."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "CLIMBING FREE",
+          "text": "My favorite theory just attacked me."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ВЫБІРАЕЦЦА",
+          "text": "Мая любімая версія толькі што на мяне напала."
+        }
+      }
+    },
+    {
+      "id": "VN0113",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_KENTARO_APARTMENT_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Кадр проходит по коробкам и превращается в игровое поле."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "The camera moves across the boxes and turns into the game board."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Камера праходзіць па скрынках і ператвараецца ў гульнявое поле."
+        }
+      }
+    }
+  ]
+}
