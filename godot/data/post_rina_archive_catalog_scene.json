@@ -1,0 +1,673 @@
+{
+  "sceneId": "VN_SCENE_36_E17_POST",
+  "sceneIndex": 36,
+  "nextSceneId": "VN_SCENE_37_E18_PRE",
+  "nextSceneIndex": 37,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+  "titles": {
+    "ru": "Каталог Рины",
+    "en": "Rina's Catalog",
+    "be": "Каталог Рыны"
+  },
+  "lines": [
+    {
+      "id": "VN0786",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: RESTORED CATALOG",
+          "text": "Каталог совпадает с каждым подтверждённым случаем по владельцу, дате и коду метки."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: RESTORED CATALOG",
+          "text": "The catalog matches every confirmed case by owner, date, and tag code."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: RESTORED CATALOG",
+          "text": "Каталог супадае з кожным пацверджаным выпадкам паводле ўладальніка, даты і кода меткі."
+        }
+      }
+    },
+    {
+      "id": "VN0787",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "УВЕРЕННО",
+          "text": "Пропавшие вещи и каталог совпадают без исключений. Рина физически изымала их."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "The missing items and the catalog match without exception. Rina physically removed them."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "УПЭЎНЕНА",
+          "text": "Зніклыя рэчы і каталог супадаюць без выключэнняў. Рына фізічна забірала іх."
+        }
+      }
+    },
+    {
+      "id": "VN0788",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "НА КОНТРОЛЬНУЮ ПОЛКУ",
+          "text": "А случайные вещи не входят в список пилота и не содержат активных меток."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "And the random items are not on the pilot list and contain no active tags."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "НА КАНТРОЛЬНУЮ ПАЛІЦУ",
+          "text": "А выпадковыя рэчы не ўваходзяць у спіс пілота і не ўтрымліваюць актыўных метак."
+        }
+      }
+    },
+    {
+      "id": "VN0789",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "СУХО",
+          "text": "Статистический шум. Чтобы критерий изъятия не стал очевиден сразу."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "Statistical noise. So the removal criterion would not become obvious immediately."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "СУХА",
+          "text": "Статыстычны шум. Каб крытэрый канфіскацыі не стаў відавочным адразу."
+        }
+      }
+    },
+    {
+      "id": "VN0790",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "НЕ УДЕРЖАЛАСЬ",
+          "text": "То есть маскирующее бельё."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "So, camouflage underwear."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "НЕ СТРЫМАЛАСЯ",
+          "text": "То бок маскіровачная бялізна."
+        }
+      }
+    },
+    {
+      "id": "VN0791",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ОДНОВРЕМЕННО",
+          "text": "Контрольные предметы."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Control items."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "АДНАЧАСОВА",
+          "text": "Кантрольныя прадметы."
+        }
+      }
+    },
+    {
+      "id": "VN0792",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ОБРЫВАЕТ",
+          "text": "Это чужие личные вещи. Хватит терминологии."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "They are other people’s personal belongings. Enough terminology."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "АБРЫВАЕ",
+          "text": "Гэта чужыя асабістыя рэчы. Досыць тэрміналогіі."
+        }
+      }
+    },
+    {
+      "id": "VN0793",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ТИШЕ",
+          "text": "Согласна."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "Agreed."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ЦІШЭЙ",
+          "text": "Згодная."
+        }
+      }
+    },
+    {
+      "id": "VN0794",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_018}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_018}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_018}"
+        }
+      }
+    },
+    {
+      "id": "VN0795",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 25,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 3
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 75,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 3
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПРЯМО",
+          "text": "Каталог доказывает кражи. Теперь скажите, зачем вы это делали."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "The catalog proves the thefts. Now tell us why you did it."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПРАМА",
+          "text": "Каталог даказвае крадзяжы. Цяпер скажыце, навошта вы гэта зрабілі."
+        }
+      }
+    },
+    {
+      "id": "VN0796",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "БЕЗ ЗАЩИТЫ",
+          "text": "Потому что до меня кто-то уже положил в эти вещи кое-что своё."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "Because before I touched them, someone had already put something of their own into those items."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "БЕЗ АБАРОНЫ",
+          "text": "Бо да мяне нехта ўжо паклаў у гэтыя рэчы сёе-тое сваё."
+        }
+      }
+    },
+    {
+      "id": "VN0797",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ТИХО",
+          "text": "Метки и проводящую нить."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "The tags and conductive thread."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЦІХА",
+          "text": "Меткі і праводную нітку."
+        }
+      }
+    },
+    {
+      "id": "VN0798",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "КИВАЕТ",
+          "text": "Я увидела повторяющийся шов, проверила несколько вещей и попыталась сообщить об этом внутри проекта."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "I saw the repeating seam, checked several items, and tried to report it inside the project."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "КІВАЕ",
+          "text": "Я ўбачыла паўтаральны шво, праверыла некалькі рэчаў і паспрабавала паведаміць пра гэта ўнутры праекта."
+        }
+      }
+    },
+    {
+      "id": "VN0799",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СЛУШАЕТ",
+          "text": "Что произошло после сообщения?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "What happened after you reported it?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СЛУХАЕ",
+          "text": "Што адбылося пасля паведамлення?"
+        }
+      }
+    },
+    {
+      "id": "VN0800",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ГОРЬКО",
+          "text": "Мне объяснили, что остановка пилота сорвёт грант, а вопросы о согласии можно «уточнить позже»."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "I was told that stopping the pilot would endanger the grant, and consent questions could be “clarified later.”"
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ГОРКА",
+          "text": "Мне растлумачылі, што спыненне пілота сарве грант, а пытанні пра згоду можна «ўдакладніць пазней»."
+        }
+      }
+    },
+    {
+      "id": "VN0801",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЖЁСТКО",
+          "text": "И вы решили тайно изымать вещи."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "So you chose to remove the items in secret."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЖОРСТКА",
+          "text": "І вы вырашылі таемна забіраць рэчы."
+        }
+      }
+    },
+    {
+      "id": "VN0802",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ПРЯМО",
+          "text": "Да. Чтобы остановить сбор данных и сохранить физические образцы. Это было неправильно, даже если причина была реальной."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "Yes. To stop data collection and preserve physical samples. It was wrong even if the reason was real."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ПРАМА",
+          "text": "Так. Каб спыніць збор даных і захаваць фізічныя ўзоры. Гэта было няправільна, нават калі прычына была рэальнай."
+        }
+      }
+    },
+    {
+      "id": "VN0803",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФИКСИРУЕТ",
+          "text": "Значит, мы установили, кто забирал вещи. Но кто ставил метки и почему программа продолжила работу — отдельные вопросы."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "So we’ve established who took the items. But who placed the tags, and why the program continued, are separate questions."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФІКСУЕ",
+          "text": "Значыць, мы высветлілі, хто забіраў рэчы. Але хто ставіў меткі і чаму праграма працягвалася — асобныя пытанні."
+        }
+      }
+    },
+    {
+      "id": "VN0804",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "СМОТРИТ НА МИКУ",
+          "text": "Именно поэтому я позвала вас."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "That is exactly why I called you here."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ГЛЯДЗІЦЬ НА МІКУ",
+          "text": "Менавіта таму я паклікала вас."
+        }
+      }
+    },
+    {
+      "id": "VN0805",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпизод 18 — Вор, который пытался остановить кражу»"
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "EPISODE CARD",
+          "text": "“Episode 18 — The Thief Who Tried to Stop the Theft”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпізод 18 — Злодзей, які спрабаваў спыніць крадзеж»"
+        }
+      }
+    }
+  ]
+}

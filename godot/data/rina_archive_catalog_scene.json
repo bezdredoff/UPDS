@@ -1,0 +1,641 @@
+{
+  "sceneId": "VN_SCENE_35_E17_PRE",
+  "sceneIndex": 35,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_17_RINA_ARCHIVE_CATALOG",
+  "onWinSceneIndex": 36,
+  "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+  "titles": {
+    "ru": "Самый аккуратный преступник",
+    "en": "The Neatest Criminal",
+    "be": "Самы акуратны злачынец"
+  },
+  "lines": [
+    {
+      "id": "VN0766",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "BG_OLD_ARCHIVE / 22:00",
+          "text": "Латунный ключ открывает тяжёлую дверь старого архива. За ней — ровные ряды прозрачных запечатанных пакетов."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "BG_OLD_ARCHIVE / 22:00",
+          "text": "The brass key opens the heavy old-archive door. Behind it are neat rows of clear sealed bags."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "BG_OLD_ARCHIVE / 22:00",
+          "text": "Латунны ключ адмыкае цяжкія дзверы старога архіва. За імі — роўныя рады празрыстых запячатаных пакетаў."
+        }
+      }
+    },
+    {
+      "id": "VN0767",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТИХО",
+          "text": "Это либо самое аккуратное преступное логово, либо худший бельевой бутик в мире."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "This is either the neatest criminal lair or the worst underwear boutique in the world."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЦІХА",
+          "text": "Гэта альбо самае акуратнае злачыннае логава, альбо найгоршы магазін бялізны ў свеце."
+        }
+      }
+    },
+    {
+      "id": "VN0768",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЧИТАЕТ ЭТИКЕТКИ",
+          "text": "Имя владельца, дата, место изъятия, тип шва, код метки. На каждом пакете поля расположены одинаково."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Owner, date, removal location, seam type, tag code. Every bag follows the same structure."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЧЫТАЕ БІРКІ",
+          "text": "Імя ўладальніка, дата, месца канфіскацыі, тып шва, код меткі. На кожным пакеце аднолькавая структура."
+        }
+      }
+    },
+    {
+      "id": "VN0769",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ОГЛЯДЫВАЕТ РЯДЫ",
+          "text": "Здесь почти все подтверждённые пропажи."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Almost every confirmed disappearance is here."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "АГЛЯДАЕ РАДЫ",
+          "text": "Тут амаль усе пацверджаныя прапажы."
+        }
+      }
+    },
+    {
+      "id": "VN0770",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "SIDE SHELF",
+          "text": "На отдельной полке лежат непомеченные вещи с ярлыком «КОНТРОЛЬ / НЕ ЦЕЛЬ»."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "SIDE SHELF",
+          "text": "A separate shelf holds untagged items labeled “CONTROL / NOT TARGET.”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "SIDE SHELF",
+          "text": "На асобнай паліцы ляжаць непазначаныя рэчы з біркай «КАНТРОЛЬ / НЕ МЭТА»."
+        }
+      }
+    },
+    {
+      "id": "VN0771",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "МОРЩИТСЯ",
+          "text": "«Маскирующее бельё» звучало бы короче."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "“Camouflage underwear” would be shorter."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "МОРШЧЫЦЦА",
+          "text": "«Маскіровачная бялізна» гучала б карацей."
+        }
+      }
+    },
+    {
+      "id": "VN0772",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "АВТОМАТИЧЕСКИ",
+          "text": "Контрольные предметы."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Control items."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "АЎТАМАТЫЧНА",
+          "text": "Кантрольныя прадметы."
+        }
+      }
+    },
+    {
+      "id": "VN0773",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ИЗ ДВЕРНОГО ПРОЁМА",
+          "text": "Статистический шум. И обе ваши версии хуже."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "Statistical noise. And both of your labels are worse."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "З ДЗВЯРНОГА ПРАЁМУ",
+          "text": "Статыстычны шум. І абедзве вашы версіі горшыя."
+        }
+      }
+    },
+    {
+      "id": "VN0774",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "RINA ENTERS",
+          "text": "Рина остаётся у двери, не приближаясь к полкам."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "RINA ENTERS",
+          "text": "Rina stays by the doorway and does not approach the shelves."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "RINA ENTERS",
+          "text": "Рына застаецца каля дзвярэй, не набліжаючыся да паліц."
+        }
+      }
+    },
+    {
+      "id": "VN0775",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СПОКОЙНО",
+          "text": "Ничего не трогаем. Сначала вы объясните, почему этот архив существует."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Nobody touches anything. First you explain why this archive exists."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СПАКОЙНА",
+          "text": "Нічога не чапаем. Спачатку вы растлумачыце, навошта існуе гэты архіў."
+        }
+      }
+    },
+    {
+      "id": "VN0776",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ПРЯМО",
+          "text": "Если вопрос — кто физически забирал вещи, ответ: я."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "If the question is who physically took the items, the answer is me."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ПРАМА",
+          "text": "Калі пытанне — хто фізічна забіраў рэчы, адказ: я."
+        }
+      }
+    },
+    {
+      "id": "VN0777",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СЕРЬЁЗНЕЕТ",
+          "text": "Без «но»?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "No “but”?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "СТАНОВІЦЦА СУР'ЁЗНЕЙ",
+          "text": "Без «але»?"
+        }
+      }
+    },
+    {
+      "id": "VN0778",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "СМОТРИТ НА ПАКЕТЫ",
+          "text": "«Но» будет позже. Кража остаётся кражей. Я это понимаю."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "The “but” comes later. Theft remains theft. I understand that."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ГЛЯДЗІЦЬ НА ПАКЕТЫ",
+          "text": "Але будзе пазней. Крадзеж застаецца крадзяжом. Я гэта разумею."
+        }
+      }
+    },
+    {
+      "id": "VN0779",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НА КАТАЛОГ",
+          "text": "Почему всё запечатано и каталогизировано?"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Why is everything sealed and catalogued?"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НА КАТАЛОГ",
+          "text": "Чаму ўсё запячатана і каталогізавана?"
+        }
+      }
+    },
+    {
+      "id": "VN0780",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ДЕЛОВИТО",
+          "text": "Чтобы сохранить образцы, цепочку изъятия и возможность вернуть каждую вещь конкретному владельцу."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "To preserve samples, the removal chain, and the ability to return every item to its specific owner."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ПА-ДЗЕЛАВОМУ",
+          "text": "Каб захаваць узоры, ланцужок канфіскацыі і магчымасць вярнуць кожную рэч канкрэтнаму ўладальніку."
+        }
+      }
+    },
+    {
+      "id": "VN0781",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ЖЁСТКО",
+          "text": "То, что вы сохраняли улики, не отменяет того, что владельцы не соглашались на изъятие вещей."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Preserving evidence does not erase the fact that the owners never consented to removal."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЖОРСТКА",
+          "text": "Захаванне доказаў не адмяняе таго, што ўладальнікі не згаджаліся на канфіскацыю."
+        }
+      }
+    },
+    {
+      "id": "VN0782",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "КИВАЕТ",
+          "text": "Не отменяет."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "It does not."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "КІВАЕ",
+          "text": "Не адмяняе."
+        }
+      }
+    },
+    {
+      "id": "VN0783",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ФОРМУЛИРУЕТ ПРОВЕРКУ",
+          "text": "Сверяем каталог с заявлениями и отдельно проверяем полку контрольных предметов. Никаких выводов по мотиву до совпадения кодов."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Match the catalog to the reports and verify the control shelf separately. No motive conclusions until the codes reconcile."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ФАРМУЛЮЕ ПРАВЕРКУ",
+          "text": "Звяраем каталог з заявамі і асобна правяраем паліцу кантрольных прадметаў. Ніякіх высноў пра матыў да супадзення кодаў."
+        }
+      }
+    },
+    {
+      "id": "VN0784",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Архивные ряды закрыты пломбами. Коды меток перемешаны с контрольными карточками, каталог Рины лежит в верхнем ящике."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Archive rows are sealed. Tag codes are mixed with control cards, and Rina’s catalog is in the upper drawer."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Архіўныя рады закрыты пломбамі. Коды метак змяшаныя з кантрольнымі карткамі, каталог Рыны ляжыць у верхняй шуфлядзе."
+        }
+      }
+    },
+    {
+      "id": "VN0785",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Поле раскрывается горизонтальными рядами: снять пломбы, собрать коды целей и опустить каталог."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "The board opens into archive rows: clear seals, collect target codes, and drop the catalog."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Поле раскрываецца гарызантальнымі радамі: зняць пломбы, сабраць коды мэт і апусціць каталог."
+        }
+      }
+    }
+  ]
+}

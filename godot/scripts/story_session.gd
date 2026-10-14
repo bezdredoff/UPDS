@@ -40,8 +40,10 @@ const AbandonedLaundryScene = preload("res://data/abandoned_laundry_scene.json")
 const PostAbandonedLaundryScene = preload("res://data/post_abandoned_laundry_scene.json")
 const PinkRibbonScannerScene = preload("res://data/pink_ribbon_scanner_scene.json")
 const PostPinkRibbonScannerScene = preload("res://data/post_pink_ribbon_scanner_scene.json")
+const RinaArchiveCatalogScene = preload("res://data/rina_archive_catalog_scene.json")
+const PostRinaArchiveCatalogScene = preload("res://data/post_rina_archive_catalog_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 34
+const MAX_PORTED_SCENE_INDEX := 36
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -171,6 +173,8 @@ func scene_data() -> Dictionary:
 		32: return PostAbandonedLaundryScene.data
 		33: return PinkRibbonScannerScene.data
 		34: return PostPinkRibbonScannerScene.data
+		35: return RinaArchiveCatalogScene.data
+		36: return PostRinaArchiveCatalogScene.data
 	return {}
 
 
@@ -307,4 +311,8 @@ func _scene_lines() -> Array:
 		return PinkRibbonScannerScene.data.lines
 	if state.scene == 34:
 		return PostPinkRibbonScannerScene.data.lines
+	if state.scene == 35:
+		return RinaArchiveCatalogScene.data.lines
+	if state.scene == 36:
+		return PostRinaArchiveCatalogScene.data.lines
 	return []
