@@ -16,7 +16,9 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]
 
+Bridge="*res://addons/playgama_bridge/bridge.gd"
 McpRuntime="*res://addons/godot-mcp/mcp_runtime.gd"
+PlaygamaRuntime="*res://scripts/playgama_runtime.gd"
 
 [display]
 
@@ -27,7 +29,7 @@ window/handheld/orientation=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot-mcp/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot-mcp/plugin.cfg", "res://addons/playgama_bridge/plugin.cfg")
 
 [godot_mcp]
 

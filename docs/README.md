@@ -51,6 +51,7 @@ If two active documents conflict, prefer the narrower current machine-readable c
 
 ### Godot port
 
+- [`features/PG003AN_PLAYGAMA_BRIDGE_GODOT_RU.md`](features/PG003AN_PLAYGAMA_BRIDGE_GODOT_RU.md) — official Bridge SDK bootstrap and platform lifecycle adapter.
 - [`features/PG003AK_GODOT_STORY_CASE_CLOSED_RU.md`](features/PG003AK_GODOT_STORY_CASE_CLOSED_RU.md) — маршрут A и Ending B через M3_19.
 - [`features/PG003AL_GODOT_STORY_FULL_TRUTH_ENDINGS_RU.md`](features/PG003AL_GODOT_STORY_FULL_TRUTH_ENDINGS_RU.md) — маршрут B, M3_20 и общий экран исхода.
 - [`features/PG003AM_GODOT_STORY_PERFECT_SUSPECT_RU.md`](features/PG003AM_GODOT_STORY_PERFECT_SUSPECT_RU.md) — маршрут C, M3_21 и Ending C.

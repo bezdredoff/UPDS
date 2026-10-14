@@ -13,7 +13,7 @@ describe('Godot MCP bridge setup', () => {
 		const addonLicense = read('godot/addons/godot-mcp/LICENSE');
 		const readme = read('godot/README.md');
 
-		expect(project).toContain('enabled=PackedStringArray("res://addons/godot-mcp/plugin.cfg")');
+		expect(project).toContain('enabled=PackedStringArray("res://addons/godot-mcp/plugin.cfg", "res://addons/playgama_bridge/plugin.cfg")');
 		expect(project).toContain('McpRuntime="*res://addons/godot-mcp/mcp_runtime.gd"');
 		expect(project).toContain('bridge_port=6510');
 		expect(plugin).toContain('name="Godot MCP Bridge"');
