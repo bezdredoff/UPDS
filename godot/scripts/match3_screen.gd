@@ -164,7 +164,34 @@ func _render_board() -> void:
 		tile_button.modulate = Color(1.25, 1.25, 1.25, 1) if index == selected_index else Color.WHITE
 		tile_button.disabled = game.state != "playing" or tutorial_panel.visible
 		tile_button.pressed.connect(_select_cell.bind(index))
+		if not game.specials[index].is_empty():
+			var badge := Label.new()
+			badge.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+			badge.offset_left = -21
+			badge.offset_top = 0
+			badge.offset_right = -1
+			badge.offset_bottom = 20
+			badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			badge.add_theme_font_size_override("font_size", 15)
+			badge.add_theme_color_override("font_color", Color("#fff2a8"))
+			badge.add_theme_color_override("font_shadow_color", Color("#24213c"))
+			badge.add_theme_constant_override("shadow_offset_x", 1)
+			badge.add_theme_constant_override("shadow_offset_y", 1)
+			badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			badge.text = _special_glyph(game.specials[index])
+			tile_button.add_child(badge)
 		board.add_child(tile_button)
+
+
+func _special_glyph(kind: String) -> String:
+	match kind:
+		"flash-row": return "↔"
+		"flash-column": return "↕"
+		"evidence": return "◎"
+		"lead": return "⌖"
+		"insight": return "✦"
+	return ""
 
 
 func _select_cell(index: int) -> void:
