@@ -29,7 +29,8 @@ describe("PG-003K Godot Match-3 special parity", () => {
       expect(campaign).toContain(`"${kind}": "./assets/match3/specials/${kind}.png"`);
       expect(smoke).toContain(kind);
     }
-    expect(screen).toContain('campaign_bundle.assets.get("specials", {}).get(game.specials[index], "")');
+    expect(screen).toContain('var special_kind: String = game.specials[index]');
+    expect(screen).toContain('campaign_bundle.assets.get("specials", {}).get(special_kind, "")');
     expect(screen).toContain('special.name = "Special"');
     expect(smoke).toContain("Direct special combo did not resolve as one move");
   });
