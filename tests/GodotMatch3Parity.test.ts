@@ -28,5 +28,9 @@ describe('Godot first Match-3 level source parity', () => {
       const ported = readFileSync(resolve(root, 'godot', asset.replace(/^\.\//, '')));
       expect(ported.equals(source), `${asset} changed during export`).toBe(true);
     }
+    const evidence = level.evidence;
+    const evidenceSource = readFileSync(resolve(root, 'public', evidence.asset.replace(/^\.\//, '')));
+    const evidencePort = readFileSync(resolve(root, 'godot', evidence.asset.replace(/^\.\//, '')));
+    expect(evidencePort.equals(evidenceSource)).toBe(true);
   });
 });

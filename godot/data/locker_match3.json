@@ -80,6 +80,30 @@
     "pantiesSportOrange",
     "pantiesHighWaistBlack"
   ],
+  "evidence": {
+    "id": "CUE_001",
+    "asset": "./assets/clues/clue_laundry_receipt.png",
+    "localized": {
+      "ru": {
+        "label": "Квитанция прачечной",
+        "title": "Выборочная пропажа",
+        "evidenceFound": "УЛИКА НАЙДЕНА",
+        "continueStory": "Продолжить сцену"
+      },
+      "en": {
+        "label": "Laundry receipt",
+        "title": "Selective Disappearance",
+        "evidenceFound": "CLUE FOUND",
+        "continueStory": "Continue Scene"
+      },
+      "be": {
+        "label": "Квітанцыя пральні",
+        "title": "Выбарачная прапажа",
+        "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+        "continueStory": "Працягнуць сцэну"
+      }
+    }
+  },
   "assets": {
     "pantiesSportWhite": "./assets/match3/tile_panties_sport_white.png",
     "pantiesLacePink": "./assets/match3/tile_panties_lace_pink.png",

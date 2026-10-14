@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { godotLockerScene, godotPrologue, godotVnAudio } from './fixtures/godotPrologue';
+import { godotLockerScene, godotPostMatchScene, godotPrologue, godotVnAudio } from './fixtures/godotPrologue';
 
 describe('Godot prologue source parity', () => {
   const source = godotPrologue();
@@ -25,6 +25,18 @@ describe('Godot prologue source parity', () => {
         expect(readFileSync(`godot/${line.background}`).equals(readFileSync(`public/${line.background}`))).toBe(true);
         for (const actor of line.actors) expect(readFileSync(`godot/${actor.asset}`).equals(readFileSync(`public/${actor.asset}`))).toBe(true);
       }
+    }
+  });
+  it('keeps the first post-match scene VN0058–VN0084 and its original art aligned', () => {
+    const source = godotPostMatchScene();
+    expect(JSON.parse(readFileSync('godot/data/post_match_scene.json', 'utf8'))).toEqual(source);
+    expect(source.sceneId).toBe('VN_SCENE_02_E0_POST');
+    expect(source.lines[0]?.id).toBe('VN0058');
+    expect(source.lines.some((line) => line.id === 'VN0059')).toBe(true);
+    expect(source.lines.at(-1)?.id).toBe('VN0084');
+    for (const line of source.lines) {
+      expect(readFileSync(`godot/${line.background}`).equals(readFileSync(`public/${line.background}`))).toBe(true);
+      for (const actor of line.actors) expect(readFileSync(`godot/${actor.asset}`).equals(readFileSync(`public/${actor.asset}`))).toBe(true);
     }
   });
 });

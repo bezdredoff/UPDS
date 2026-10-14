@@ -1,4 +1,5 @@
 import { getScene, sceneMeta, backgroundAssets, getBackgroundForLine, isDirection } from '../../src/data/narrative';
+import { levels, cluePresentation } from '../../src/data/levels';
 import { characterForSpeaker, expressionForDirection, expressionAsset, poseAsset, characterStaging, resolvedCharacterXPercent } from '../../src/data/characterRigs';
 import { authoredVnShotForLine } from '../../src/data/authoredVnShots';
 import { characterProductionManifest } from '../../src/data/characterProduction';
@@ -93,5 +94,60 @@ export function godotLockerScene() {
     }]))])),
     nextLevelId: 'M3_00_LOCKER_TUTORIAL',
     variants,
+  };
+}
+
+export function godotPostMatchScene() {
+  const lines = getScene(2);
+  const catalogs: Record<string, MessageCatalog> = { ru: ruCatalog, en: enCatalog, be: beCatalog };
+  return {
+    sceneId: sceneMeta[2].id,
+    sceneIndex: 2,
+    nextSceneId: sceneMeta[3].id,
+    titles: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, catalog[`vn.scene.${sceneMeta[2].id}.title`]])),
+    lines: lines.map((line, index) => {
+      const shot = authoredVnShotForLine(line.id);
+      const actors = shot
+        ? resolveSceneStagingPreset(shot.presetId, shot.actors).actors.map((actor) => ({
+          character: actor.character, asset: actor.pose === 'pose-b' ? poseAsset(actor.character) : expressionAsset(actor.character, actor.expression),
+          x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent,
+          scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex,
+        }))
+        : (() => {
+          const character = characterForSpeaker(line.speaker);
+          if (!character || isDirection(line)) return [];
+          const expression = expressionForDirection(line.emotion);
+          const geometry = characterProductionManifest.characters[character].proportion.frameGeometry[expression];
+          const camera = resolveVnPortraitEyeLineCamera(SCENE_STAGING_SHARED_ACTOR_SCALE, geometry.eyeLineYPx);
+          const side = resolveVnStaging(lines, index)?.side;
+          return [{ character, asset: expressionAsset(character, expression),
+            x: (side === 'left' ? 29 : side === 'right' ? 71 : 50) + resolvedCharacterXPercent(character),
+            top: camera.topPercent, height: camera.heightPercent, scale: characterStaging[character].scale,
+            y: characterStaging[character].yPercent, z: 0 }];
+        })();
+      const background = backgroundAssets[getBackgroundForLine(2, index, lines)];
+      return { id: line.id, hidden: isDirection(line), background, actors,
+        localized: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
+          speaker: catalog[`vn.line.${line.id}.speaker`] ?? line.speaker,
+          emotion: catalog[`vn.line.${line.id}.emotion`] ?? line.emotion,
+          text: catalog[`vn.line.${line.id}.text`] ?? line.text,
+        }])) };
+    }),
+  };
+}
+
+export function godotM3Evidence() {
+  const level = levels[0];
+  const catalogs: Record<string, MessageCatalog> = { ru: ruCatalog, en: enCatalog, be: beCatalog };
+  const clue = cluePresentation[level.clueId];
+  return {
+    id: level.clueId,
+    asset: clue.asset,
+    localized: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
+      label: catalog[`match3.clue.${level.clueId}`],
+      title: catalog[`match3.level.${level.id}.clueTitle`],
+      evidenceFound: catalog['match3.evidenceFound'],
+      continueStory: catalog['match3.continueStory'],
+    }])),
   };
 }
