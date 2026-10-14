@@ -149,7 +149,7 @@ func _open_match3_level(level_id: String, standalone_campaign: bool) -> void:
 		return
 	var bundle := Match3CampaignData.load_bundle()
 	if Match3CampaignData.get_level(bundle, level_id).is_empty(): return
-	if not standalone_campaign and level_id != "M3_00_LOCKER_TUTORIAL": return
+	if not standalone_campaign and (not session.at_match3_gate() or str(session.scene_data().get("nextLevelId", "")) != level_id): return
 	if standalone_campaign and not _campaign_level_unlocked(bundle, level_id): return
 	match3_screen = Match3Screen.new()
 	match3_screen.name = "Match3Screen"

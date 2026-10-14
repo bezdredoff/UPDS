@@ -2,6 +2,7 @@
   "sceneId": "VN_SCENE_02_E0_POST",
   "sceneIndex": 2,
   "nextSceneId": "VN_SCENE_03_E1_PRE",
+  "nextSceneIndex": 3,
   "titles": {
     "ru": "То, что вор оставил",
     "en": "What the Thief Left Behind",

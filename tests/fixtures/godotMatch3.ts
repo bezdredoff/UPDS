@@ -2,6 +2,7 @@ import {
   blockerPresentation,
   ingredientPresentation,
   levels,
+  cluePresentation,
   lockedBlockerAssetsByLayers,
   specialAssets,
   tilePresentation,
@@ -18,6 +19,8 @@ const tutorial = 'match3.tutorial.basic-swap';
 /** A runtime-neutral campaign level contract generated from the canonical web level. */
 export function godotCampaignLevel(level: (typeof levels)[number]) {
   const game = new Match3Game(level);
+  const clue = cluePresentation[level.clueId];
+  const key = `match3.level.${level.id}`;
   return {
     id: level.id,
     shortId: level.shortId,
@@ -33,6 +36,17 @@ export function godotCampaignLevel(level: (typeof levels)[number]) {
     blockerStyle: level.blocker,
     ingredients: level.ingredients,
     objectives: level.objectives,
+    evidence: {
+      id: level.clueId,
+      asset: clue.asset,
+      localized: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
+        label: catalog[`match3.clue.${level.clueId}`],
+        title: catalog[`${key}.clueTitle`],
+        summary: catalog[`${key}.clueSummary`],
+        evidenceFound: catalog['match3.evidenceFound'],
+        continueStory: catalog['match3.continueStory'],
+      }])),
+    },
     openingBoard: game.board.map((cell) => ({
       tile: cell.tile ?? '',
       ingredient: cell.ingredient ?? '',

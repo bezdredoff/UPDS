@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { godotLockerScene, godotPostMatchScene, godotPrologue, godotVnAudio } from './fixtures/godotPrologue';
+import { godotLockerScene, godotPostMatchScene, godotPrologue, godotStoryScene, godotVnAudio } from './fixtures/godotPrologue';
 
 describe('Godot prologue source parity', () => {
   const source = godotPrologue();
@@ -38,5 +38,29 @@ describe('Godot prologue source parity', () => {
       expect(readFileSync(`godot/${line.background}`).equals(readFileSync(`public/${line.background}`))).toBe(true);
       for (const actor of line.actors) expect(readFileSync(`godot/${actor.asset}`).equals(readFileSync(`public/${actor.asset}`))).toBe(true);
     }
+  });
+
+  it('keeps the photo chapter, M3_01 gate, post-match chapter and next port boundary aligned', () => {
+    for (const [sceneIndex, path, first, last, nextLevelId, onWinSceneIndex] of [
+      [3, 'godot/data/photo_scene.json', 'VN0085', 'VN0113', 'M3_01_PHOTO_PROPS', 4],
+      [4, 'godot/data/post_photo_scene.json', 'VN0114', 'VN0142', '', -1],
+    ] as const) {
+      const source = godotStoryScene(sceneIndex);
+      expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
+      expect(source.lines[0]?.id).toBe(first);
+      expect(source.lines.at(-1)?.id).toBe(last);
+      expect(source.nextLevelId).toBe(nextLevelId);
+      expect(source.onWinSceneIndex).toBe(onWinSceneIndex);
+      for (const line of source.lines) {
+        expect(readFileSync(`godot/${line.background}`).equals(readFileSync(`public/${line.background}`))).toBe(true);
+        for (const actor of line.actors) expect(readFileSync(`godot/${actor.asset}`).equals(readFileSync(`public/${actor.asset}`))).toBe(true);
+      }
+    }
+    const bundle = JSON.parse(readFileSync('godot/data/campaign_match3_levels.json', 'utf8'));
+    const photoLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_01_PHOTO_PROPS');
+    expect(photoLevel.evidence.id).toBe('CUE_002');
+    expect(photoLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(photoLevel.evidence.localized.be.label).toBeTruthy();
+    expect(photoLevel.evidence.localized.en.continueStory).toBeTruthy();
   });
 });

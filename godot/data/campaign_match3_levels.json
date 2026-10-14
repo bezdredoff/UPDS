@@ -30,6 +30,33 @@
           "label": "Белые спортивные трусики"
         }
       ],
+      "evidence": {
+        "id": "CUE_001",
+        "asset": "./assets/clues/clue_laundry_receipt.png",
+        "localized": {
+          "en": {
+            "label": "Laundry receipt",
+            "title": "Selective Disappearance",
+            "summary": "Not everything vanished from the laundry batch; price and visibility do not explain the selection.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Квитанция прачечной",
+            "title": "Выборочная пропажа",
+            "summary": "Из партии прачечной исчезли не все вещи; цена и заметность не объясняют выбор.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Квітанцыя пральні",
+            "title": "Выбарачная прапажа",
+            "summary": "З партыі пральні зніклі не ўсе рэчы; цана і прыкметнасць не тлумачаць выбар.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "sportsBra",
@@ -491,6 +518,33 @@
           "label": "Карта"
         }
       ],
+      "evidence": {
+        "id": "CUE_002",
+        "asset": "./assets/clues/clue_memory_card.png",
+        "localized": {
+          "en": {
+            "label": "Memory card",
+            "title": "Verifiable Alibi",
+            "summary": "The shoot timecodes confirm Kentaro's alibi; the service cart remains the common link.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Карта памяти",
+            "title": "Проверяемое алиби",
+            "summary": "Таймкоды съёмки подтверждают алиби Кэнтаро; сервисная тележка остаётся общей связью.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Карта памяці",
+            "title": "Правяральнае алібі",
+            "summary": "Таймкоды здымкі пацвярджаюць алібі Кэнтаро; сэрвісная каляска застаецца агульнай сувяззю.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "pantiesLacePink",
@@ -997,6 +1051,33 @@
           "label": "Ключ"
         }
       ],
+      "evidence": {
+        "id": "CUE_003",
+        "asset": "./assets/clues/clue_service_key.png",
+        "localized": {
+          "en": {
+            "label": "Service key",
+            "title": "Mixed Targets",
+            "summary": "Item type, price, color, and owner do not explain the selection; the items were mixed before they were returned.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Сервисный ключ",
+            "title": "Смешанные цели",
+            "summary": "Тип, цена, цвет и владелец вещей не объясняют выбор; вещи смешали до возврата.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Сэрвісны ключ",
+            "title": "Змешаныя мэты",
+            "summary": "Тып, цана, колер і ўладальнік рэчаў не тлумачаць выбар; рэчы змяшалі яшчэ да вяртання.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "",
@@ -1457,6 +1538,33 @@
           "label": "Улики"
         }
       ],
+      "evidence": {
+        "id": "CUE_004",
+        "asset": "./assets/clues/clue_towel_conductive_seam.png",
+        "localized": {
+          "en": {
+            "label": "Conductive seam",
+            "title": "Silver Thread",
+            "summary": "Nothing was stolen, but a new conductive seam appeared beneath the service tag.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Проводящий шов",
+            "title": "Серебристая нить",
+            "summary": "Ничего не украли, но под сервисной биркой появился новый проводящий шов.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Электраправодны шво",
+            "title": "Серабрыстая нітка",
+            "summary": "Нічога не скралі, але пад сэрвіснай біркай з'явілася новае электраправоднае шво.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "pantiesHighWaistBlack",
@@ -1923,6 +2031,33 @@
           "label": "Календарь"
         }
       ],
+      "evidence": {
+        "id": "CUE_005",
+        "asset": "./assets/clues/clue_laundry_receipt.png",
+        "localized": {
+          "en": {
+            "label": "Laundry rhythm",
+            "title": "Laundry Rhythm",
+            "summary": "Every confirmed case passes through central laundry 24–48 hours before the disappearance.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Ритм прачечной",
+            "title": "Ритм прачечной",
+            "summary": "Все подтверждённые случаи проходят через центральную прачечную за 24–48 часов до пропажи.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Рытм пральні",
+            "title": "Рытм пральні",
+            "summary": "Усе пацверджаныя выпадкі праходзяць праз цэнтральную пральню за 24–48 гадзін да прапажы.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "laundryTag",
@@ -2390,6 +2525,33 @@
           "label": "Журнал ремонта"
         }
       ],
+      "evidence": {
+        "id": "CUE_006",
+        "asset": "./assets/clues/clue_service_key.png",
+        "localized": {
+          "en": {
+            "label": "Service stitch",
+            "title": "Service Stitch",
+            "summary": "Size, style, and owner do not correlate with disappearances; the same service stitch repeats on disputed items.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Сервисная строчка",
+            "title": "Сервисная строчка",
+            "summary": "Размер, стиль и владелец не связаны с пропажами; на спорных вещах повторяется одинаковая сервисная строчка.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Сэрвісная строчка",
+            "title": "Сэрвісная строчка",
+            "summary": "Памер, стыль і ўладальнік не звязаныя з прапажамі; на спрэчных рэчах паўтараецца аднолькавая сэрвісная строчка.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "panties",
@@ -2860,6 +3022,33 @@
           "label": "Проверка машины"
         }
       ],
+      "evidence": {
+        "id": "CUE_007",
+        "asset": "./assets/clues/clue_towel_conductive_seam.png",
+        "localized": {
+          "en": {
+            "label": "Post-repair seam",
+            "title": "Post-Repair Seam",
+            "summary": "The silver seam did not exist before central laundry; Hinata’s equipment cannot handle that conductive thread.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Шов после ремонта",
+            "title": "Шов после ремонта",
+            "summary": "До центральной прачечной серебристого шва не было; оборудование Хинаты не поддерживает такую проводящую нить.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Шво пасля рамонту",
+            "title": "Шво пасля рамонту",
+            "summary": "Да цэнтральнай пральні серабрыстага шва не было; абсталяванне Хінаты не падтрымлівае такую электраправодную нітку.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "camisole",
@@ -3319,6 +3508,33 @@
           "label": "Спецификация"
         }
       ],
+      "evidence": {
+        "id": "CUE_008",
+        "asset": "./assets/clues/clue_towel_conductive_seam.png",
+        "localized": {
+          "en": {
+            "label": "Asterion Thread",
+            "title": "Asterion Thread",
+            "summary": "The silver thread belongs to Asterion, but the open registry contains no assignments to students’ personal items.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Нить Asterion",
+            "title": "Нить Asterion",
+            "summary": "Серебристая нить принадлежит Asterion, но открытый реестр не содержит назначений на личные вещи студентов.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Нітка Asterion",
+            "title": "Нітка Asterion",
+            "summary": "Серабрыстая нітка належыць Asterion, але адкрыты рэестр не змяшчае прызначэнняў на асабістыя рэчы студэнтаў.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "pantiesHighWaistBlack",
@@ -3786,6 +4002,33 @@
           "label": "Пропуски"
         }
       ],
+      "evidence": {
+        "id": "CUE_009",
+        "asset": "./assets/clues/clue_laundry_receipt.png",
+        "localized": {
+          "en": {
+            "label": "Ledger Gaps",
+            "title": "Ledger Gaps",
+            "summary": "Disputed packages vanish from the normal sequence in whole ranges that match the dates of confirmed disappearances.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Пропуски в журнале",
+            "title": "Пропуски в журнале",
+            "summary": "Спорные пакеты удалены из обычной последовательности целыми диапазонами, совпадающими с датами подтверждённых пропаж.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Прапускі ў журнале",
+            "title": "Прапускі ў журнале",
+            "summary": "Спрэчныя пакеты выдаленыя са звычайнай паслядоўнасці цэлымі дыяпазонамі, якія супадаюць з датамі пацверджаных знікненняў.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "pantiesHighWaistBlack",
@@ -4260,6 +4503,33 @@
           "label": "Ключ и накладная"
         }
       ],
+      "evidence": {
+        "id": "CUE_010",
+        "asset": "./assets/clues/clue_service_key.png",
+        "localized": {
+          "en": {
+            "label": "Night Containers",
+            "title": "Night Containers",
+            "summary": "After laundry closes, Asterion containers enter the same physical route; the slip links the night handoff to Kurose’s laboratory prefix.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Ночные контейнеры",
+            "title": "Ночные контейнеры",
+            "summary": "После закрытия прачечной контейнеры Asterion входят в тот же физический маршрут; накладная связывает ночную передачу с лабораторным префиксом Куросэ.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Начныя кантэйнеры",
+            "title": "Начныя кантэйнеры",
+            "summary": "Пасля закрыцця пральні кантэйнеры Asterion уваходзяць у той самы фізічны маршрут; накладная звязвае начную перадачу з лабараторным прэфіксам Куросэ.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "laundryTag",
@@ -4727,6 +4997,33 @@
           "label": "Напульсник со швом"
         }
       ],
+      "evidence": {
+        "id": "CUE_011",
+        "asset": "./assets/clues/clue_towel_conductive_seam.png",
+        "localized": {
+          "en": {
+            "label": "Control Sample",
+            "title": "Control Sample",
+            "summary": "The silver system appears on underwear and outer gear worn by monitoring participants: underwear is the main sample, not the only one.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Контрольная выборка",
+            "title": "Контрольная выборка",
+            "summary": "Серебристая система встречается на белье и внешней экипировке участников мониторинга: бельё — основная выборка, но не единственная.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Кантрольная выбарка",
+            "title": "Кантрольная выбарка",
+            "summary": "Серабрыстая сістэма сустракаецца на бялізне і знешняй экіпіроўцы ўдзельнікаў маніторынгу: бялізна — асноўная выбарка, але не адзіная.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "laundryTag",
@@ -5206,6 +5503,33 @@
           "label": "Манифест"
         }
       ],
+      "evidence": {
+        "id": "CUE_012",
+        "asset": "./assets/match3/goal_memory_card.png",
+        "localized": {
+          "en": {
+            "label": "Asterion Transfer Chain",
+            "title": "Asterion Transfer Chain",
+            "summary": "Photographs, seals, and the manifest prove the route of disputed items from the laundry into the Asterion laboratory circuit and back.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Цепочка передачи Asterion",
+            "title": "Цепочка передачи Asterion",
+            "summary": "Фотографии, пломбы и манифест доказывают маршрут спорных вещей из прачечной в лабораторный контур Asterion и обратно.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Ланцужок перадачы Asterion",
+            "title": "Ланцужок перадачы Asterion",
+            "summary": "Фатаграфіі, пломбы і маніфест даказваюць маршрут спрэчных рэчаў з пральні ў лабараторны контур Asterion і назад.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "pantiesSportOrange",
@@ -5690,6 +6014,33 @@
           "label": "Микрометка"
         }
       ],
+      "evidence": {
+        "id": "CUE_013",
+        "asset": "./assets/clues/clue_towel_conductive_seam.png",
+        "localized": {
+          "en": {
+            "label": "Second Skin Tag",
+            "title": "Second Skin Tag",
+            "summary": "An active microtag transmits data under the internal name Second Skin and explains the technical selection criterion.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Метка Second Skin",
+            "title": "Метка Second Skin",
+            "summary": "Активная микрометка передаёт данные под внутренним именем Second Skin и объясняет технический критерий выбора вещей.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Метка Second Skin",
+            "title": "Метка Second Skin",
+            "summary": "Актыўная мікраметка перадае даныя пад унутраным імем Second Skin і тлумачыць тэхнічны крытэрый выбару рэчаў.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "",
@@ -6157,6 +6508,33 @@
           "label": "Список пилота"
         }
       ],
+      "evidence": {
+        "id": "CUE_014",
+        "asset": "./assets/match3/goal_memory_card.png",
+        "localized": {
+          "en": {
+            "label": "Closed Pilot List",
+            "title": "Closed Pilot List",
+            "summary": "Every confirmed owner of a missing item appears on the closed Second Skin participant list.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Закрытый список пилота",
+            "title": "Закрытый список пилота",
+            "summary": "Все подтверждённые владельцы пропавших вещей входят в закрытый список участников Second Skin.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Закрыты спіс пілота",
+            "title": "Закрыты спіс пілота",
+            "summary": "Усе пацверджаныя ўладальнікі зніклых рэчаў уваходзяць у закрыты спіс удзельнікаў Second Skin.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "socks",
@@ -6623,6 +7001,33 @@
           "label": "Квитанция + книга"
         }
       ],
+      "evidence": {
+        "id": "CUE_015",
+        "asset": "./assets/match3/goal_receipt.png",
+        "localized": {
+          "en": {
+            "label": "Rina Knew Earlier",
+            "title": "Rina Knew Earlier",
+            "summary": "The order book proves Rina searched for silver seams and recorded codes before the first public thefts.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Рина знала заранее",
+            "title": "Рина знала заранее",
+            "summary": "Книга заказов доказывает: Рина искала серебристые швы и записывала коды ещё до первых публичных краж.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Рына ведала загадзя",
+            "title": "Рына ведала загадзя",
+            "summary": "Кніга заказаў даказвае: Рына шукала серабрыстыя швы і запісвала коды яшчэ да першых публічных крадзяжоў.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "pantiesLacePink",
@@ -7097,6 +7502,33 @@
           "label": "Пакет + ключ-карта"
         }
       ],
+      "evidence": {
+        "id": "CUE_016",
+        "asset": "./assets/clues/clue_service_key.png",
+        "localized": {
+          "en": {
+            "label": "Consent Route",
+            "title": "Consent Route",
+            "summary": "The old building remains an active service route; the anonymous source knows about participant consent and leads the club toward Rina.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Маршрут согласия",
+            "title": "Маршрут согласия",
+            "summary": "Старый корпус остаётся действующим служебным маршрутом; анонимный источник знает о согласиях участников и ведёт клуб по следу Рины.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Маршрут згоды",
+            "title": "Маршрут згоды",
+            "summary": "Стары корпус застаецца дзейным службовым маршрутам; ананімная крыніца ведае пра згоду ўдзельнікаў і вядзе клуб па следзе Рыны.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "laundryTag",
@@ -7564,6 +7996,33 @@
           "label": "Сканер"
         }
       ],
+      "evidence": {
+        "id": "CUE_017",
+        "asset": "./assets/match3/goal_memory_card.png",
+        "localized": {
+          "en": {
+            "label": "Activation After Rina",
+            "title": "Activation After Rina",
+            "summary": "A new Second Skin tag activated after Rina left, and SS-EDGE answered through a live campus relay.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Активация после Рины",
+            "title": "Активация после Рины",
+            "summary": "Новая метка Second Skin активировалась после ухода Рины, а SS-EDGE ответил через действующий кампусный ретранслятор.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Актывацыя пасля Рыны",
+            "title": "Актывацыя пасля Рыны",
+            "summary": "Новая метка Second Skin актывавалася пасля сыходу Рыны, а SS-EDGE адказаў праз дзейны кампусны рэтранслятар.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "laundryTag",
@@ -8032,6 +8491,33 @@
           "label": "Каталог"
         }
       ],
+      "evidence": {
+        "id": "CUE_018",
+        "asset": "./assets/match3/goal_receipt.png",
+        "localized": {
+          "en": {
+            "label": "Rina's Catalog",
+            "title": "Rina's Catalog",
+            "summary": "The sealed catalog matches every confirmed theft and separates genuine Second Skin targets from the random masking sample.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Каталог Рины",
+            "title": "Каталог Рины",
+            "summary": "Запечатанный каталог полностью совпадает с подтверждёнными кражами и отделяет реальные цели Second Skin от случайной маскирующей выборки.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Каталог Рыны",
+            "title": "Каталог Рыны",
+            "summary": "Запячатаны каталог цалкам супадае з пацверджанымі крадзяжамі і аддзяляе рэальныя мэты Second Skin ад выпадковай маскіруючай выбаркі.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "pantiesHighWaistBlack",
@@ -8499,6 +8985,33 @@
           "label": "Новый предмет"
         }
       ],
+      "evidence": {
+        "id": "CUE_019",
+        "asset": "./assets/clues/clue_towel_conductive_seam.png",
+        "localized": {
+          "en": {
+            "label": "Second Skin Continues",
+            "title": "Second Skin Continues",
+            "summary": "New tags and SS-EDGE continue to operate after Rina's access was revoked. Her thefts are established, but responsibility for the system's continued operation remains unproven.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Продолжение Second Skin",
+            "title": "Продолжение Second Skin",
+            "summary": "Новая маркировка и SS-EDGE продолжают работать после отзыва доступа Рины; её кражи доказаны, но ответственность за дальнейшую работу системы ещё не установлена.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Працяг Second Skin",
+            "title": "Працяг Second Skin",
+            "summary": "Новыя меткі і SS-EDGE працягваюць працаваць пасля адклікання доступу Рыны. Яе крадзяжы даказаныя, але адказнасць за далейшую працу сістэмы яшчэ не ўстаноўленая.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "laundryTag",
@@ -8966,6 +9479,33 @@
           "label": "Подтверждение"
         }
       ],
+      "evidence": {
+        "id": "CUE_020",
+        "asset": "./assets/match3/goal_receipt.png",
+        "localized": {
+          "en": {
+            "label": "Formally Closed",
+            "title": "Formally Closed",
+            "summary": "Every stolen item is returned privately, while the administration closes the theft series on Rina without explaining the continuing Second Skin system.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Формально закрыто",
+            "title": "Формально закрыто",
+            "summary": "Все украденные вещи возвращены приватно, а администрация закрывает дело, возлагая ответственность за серию краж на Рину и не объясняя продолжающийся Second Skin.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Фармальна закрыта",
+            "title": "Фармальна закрыта",
+            "summary": "Усе скрадзеныя рэчы вернутыя прыватна, а адміністрацыя закрывае серыю крадзяжоў, усклаўшы адказнасць на Рыну, не тлумачачы Second Skin, які працягвае працаваць.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "panties",
@@ -9433,6 +9973,33 @@
           "label": "Резервная копия"
         }
       ],
+      "evidence": {
+        "id": "CUE_021",
+        "asset": "./assets/match3/goal_memory_card.png",
+        "localized": {
+          "en": {
+            "label": "Consent Logs",
+            "title": "Consent Logs",
+            "summary": "Server logs prove hidden tagging of personal items, substituted consent scope, and continuation of the pilot after the first risk signals.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Логи согласия",
+            "title": "Логи согласия",
+            "summary": "Серверные логи доказывают скрытую маркировку личных вещей, подмену области согласия и продолжение пилота после первых сигналов риска.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Журналы згоды",
+            "title": "Журналы згоды",
+            "summary": "Серверныя журналы даказваюць схаваную маркіроўку асабістых рэчаў, падмену межаў згоды і працяг пілота пасля першых сігналаў рызыкі.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "laundryTag",
@@ -9905,6 +10472,33 @@
           "label": "Финальный слайд"
         }
       ],
+      "evidence": {
+        "id": "CUE_022",
+        "asset": "./assets/match3/goal_receipt.png",
+        "localized": {
+          "en": {
+            "label": "Discarded Contradictions",
+            "title": "Discarded Contradictions",
+            "summary": "The public version becomes persuasive only after consciously removing facts that clear the convenient suspect and point back to Second Skin.",
+            "evidenceFound": "CLUE FOUND",
+            "continueStory": "Continue Scene"
+          },
+          "ru": {
+            "label": "Удалённые противоречия",
+            "title": "Удалённые противоречия",
+            "summary": "Публичная версия выглядит убедительно только после сознательного удаления фактов, которые оправдывают удобного подозреваемого и указывают на Second Skin.",
+            "evidenceFound": "УЛИКА НАЙДЕНА",
+            "continueStory": "Продолжить сцену"
+          },
+          "be": {
+            "label": "Выдаленыя супярэчнасці",
+            "title": "Выдаленыя супярэчнасці",
+            "summary": "Публічная версія выглядае пераканаўча толькі пасля свядомага выдалення фактаў, якія здымаюць віну са зручнага падазраванага і ўказваюць на Second Skin.",
+            "evidenceFound": "ДОКАЗ ЗНОЙДЗЕНЫ",
+            "continueStory": "Працягнуць сцэну"
+          }
+        }
+      },
       "openingBoard": [
         {
           "tile": "",
