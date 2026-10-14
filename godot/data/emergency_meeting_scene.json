@@ -5,6 +5,59 @@
   "nextSceneIndex": -1,
   "nextLevelId": "M3_04_EMERGENCY_MEETING",
   "onWinSceneIndex": 10,
+  "choiceGate": {
+    "id": "meeting-tone",
+    "checkpointLineId": "VN0262",
+    "prompt": {
+      "ru": "Как Мику проведёт закрытое совещание?",
+      "en": "How should Miku run the closed meeting?",
+      "be": "Як Міку правядзе закрытую нараду?"
+    },
+    "choices": {
+      "A": {
+        "ru": {
+          "title": "Клинически и по фактам",
+          "effect": "Доверие Оноэ +1"
+        },
+        "en": {
+          "title": "Clinical and factual",
+          "effect": "Onoe trust +1"
+        },
+        "be": {
+          "title": "Клінічна і па фактах",
+          "effect": "Давер Оноэ +1"
+        }
+      },
+      "B": {
+        "ru": {
+          "title": "Снять напряжение юмором",
+          "effect": "Доверие Аюки +1"
+        },
+        "en": {
+          "title": "Defuse it with humor",
+          "effect": "Ayuki trust +1"
+        },
+        "be": {
+          "title": "Зняць напружанне гумарам",
+          "effect": "Давер Аюкі +1"
+        }
+      },
+      "C": {
+        "ru": {
+          "title": "Собрать показания по одному",
+          "effect": "Доверие источников +1"
+        },
+        "en": {
+          "title": "Take statements one by one",
+          "effect": "Source trust +1"
+        },
+        "be": {
+          "title": "Сабраць паказанні па адным",
+          "effect": "Давер крыніц +1"
+        }
+      }
+    }
+  },
   "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
   "titles": {
     "ru": "Чрезвычайное бельевое совещание",

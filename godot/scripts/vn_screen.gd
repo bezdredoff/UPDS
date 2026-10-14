@@ -114,7 +114,7 @@ func _ready() -> void:
 	_refresh()
 	if session.at_match3_gate():
 		menu_button.grab_focus()
-	elif session.state.scene == 1 and session.current_line().id == "VN0040":
+	elif session.at_choice_gate():
 		choice_buttons[0].grab_focus()
 	else:
 		next_button.grab_focus()
@@ -138,7 +138,7 @@ func _refresh() -> void:
 	menu_button.text = Copy.text("vn_menu", locale)
 	settings_button.text = Copy.text("settings", locale)
 	next_button.text = Copy.text("vn_next", locale)
-	var choosing: bool = session.state.scene == 1 and line.id == "VN0040"
+	var choosing: bool = session.at_choice_gate()
 	_boundary = session.at_match3_gate() or session.at_port_boundary()
 	if not _boundary:
 		_gate_requested = false
@@ -149,10 +149,13 @@ func _refresh() -> void:
 	next_button.visible = not choosing
 	next_button.disabled = _boundary
 	if choosing:
-		choice_prompt.text = LockerScene.data.choicePrompt[locale]
+		var gate: Dictionary = data.get("choiceGate", {})
+		var prompt: Dictionary = LockerScene.data.choicePrompt if session.state.scene == 1 else gate.prompt
+		var choices: Dictionary = LockerScene.data.choices if session.state.scene == 1 else gate.choices
+		choice_prompt.text = prompt[locale]
 		for index in range(choice_buttons.size()):
 			var option: String = ["A", "B", "C"][index]
-			var localized: Dictionary = LockerScene.data.choices[option][locale]
+			var localized: Dictionary = choices[option][locale]
 			choice_buttons[index].text = "%s\n%s" % [localized.title, localized.effect]
 		next_button.disabled = true
 	warning.text = "" if session.last_write_ok else Copy.text("story_save_error", locale)
