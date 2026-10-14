@@ -54,6 +54,10 @@ Invoke-GodotCheck -Stage 'Save storage script parse' -Arguments @('--headless', 
 Invoke-GodotCheck -Stage 'Campaign store script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/campaign_store.gd')
 Invoke-GodotCheck -Stage 'Story session script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/story_session.gd')
 Invoke-GodotCheck -Stage 'VN screen script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/vn_screen.gd')
+Invoke-GodotCheck -Stage 'Seeded random script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/seeded_random.gd')
+Invoke-GodotCheck -Stage 'Match-3 game script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_game.gd')
+Invoke-GodotCheck -Stage 'Match-3 campaign session script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_campaign_session.gd')
+Invoke-GodotCheck -Stage 'Match-3 screen script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_screen.gd')
 Invoke-GodotCheck -Stage 'Bootstrap scene smoke test' -ExpectedOutput 'UPDS Godot bootstrap smoke test passed.' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/port_bootstrap_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'Main menu smoke test' -ExpectedOutput 'UPDS Godot main menu smoke test passed (locale:' `
@@ -68,3 +72,5 @@ Invoke-GodotCheck -Stage 'Save storage smoke test' -ExpectedOutput 'UPDS Godot s
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/save_storage_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'VN prologue smoke test' -ExpectedOutput 'UPDS Godot VN prologue smoke test passed.' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/vn_prologue_smoke.gd', '--quit-after', '120')
+Invoke-GodotCheck -Stage 'Match-3 game smoke test' -ExpectedOutput 'UPDS Godot Match-3 model smoke test passed.' `
+	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_model_smoke.gd', '--quit-after', '120')

@@ -40,8 +40,10 @@ New Game opens the playable prologue (`VN0001–VN0022`) and continues into scen
 `CHOICE_00` A/B/C is persisted through the existing Story `choice` field. Continue
 resumes positions in these two scenes; saves from later scenes remain intact and
 unavailable until those scenes are ported. Scene 1 ends at an explicit request for
-`M3_00_LOCKER_TUTORIAL`; the Match-3 runtime and post-win scene are subsequent
-slices. Replacing existing progress through New Game requires confirmation.
+`M3_00_LOCKER_TUTORIAL`. The first 9×7 Match-3 level is now playable with its base
+swap tutorial, source tile art, collect objective, move limit and campaign retry
+statistics. Special tiles, the post-win story scene and remaining campaign levels
+are subsequent slices. Replacing existing progress through New Game requires confirmation.
 
 ## Native campaign persistence
 
