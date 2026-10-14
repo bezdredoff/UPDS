@@ -13,10 +13,13 @@ require.extensions['.ts'] = (module, filename) => module._compile(ts.transpileMo
 }).outputText, filename);
 
 const { godotCampaignBundle, godotMatch3Level } = require('../tests/fixtures/godotMatch3.ts');
+const { godotMatch3ParityScenarios } = require('../tests/fixtures/godotMatch3Parity.ts');
 const level = godotMatch3Level();
 fs.writeFileSync(path.join(root, 'godot/data/locker_match3.json'), `${JSON.stringify(level, null, 2)}\n`);
 const bundle = godotCampaignBundle();
 fs.writeFileSync(path.join(root, 'godot/data/campaign_match3_levels.json'), `${JSON.stringify(bundle, null, 2)}\n`);
+const parityCases = godotMatch3ParityScenarios();
+fs.writeFileSync(path.join(root, 'godot/tests/fixtures/match3_parity_cases.json'), `${JSON.stringify(parityCases, null, 2)}\n`);
 const assets = new Set([
   ...Object.values(bundle.assets).flatMap((group) => Object.values(group)),
   ...Object.values(level.assets),
@@ -30,4 +33,4 @@ for (const asset of assets) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.copyFileSync(path.join(root, 'public', asset), target);
 }
-console.log(`Exported ${bundle.levels.length} campaign levels, ${assets.size} gameplay assets, and ${Object.keys(level.localized).length} locales.`);
+console.log(`Exported ${bundle.levels.length} campaign levels, ${assets.size} gameplay assets, ${parityCases.length} gameplay parity cases, and ${Object.keys(level.localized).length} locales.`);
