@@ -20,4 +20,4 @@
 
 ## Границы
 
-Godot story gate по-прежнему открывает M3_00. Кампания и выбор следующего уровня остаются отдельной задачей; reshuffle parity добавлен в PG-003Q. Browser Level Lab остаётся авторским инструментом TypeScript.
+На момент этого среза Godot story gate открывал M3_00. Reshuffle parity добавлен в PG-003Q, отдельный Match-3 campaign hub и выбор уровней — в PG-003R. Browser Level Lab остаётся авторским инструментом TypeScript.

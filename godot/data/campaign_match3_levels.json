@@ -10287,6 +10287,1712 @@
       ]
     }
   ],
+  "levelPresentations": {
+    "M3_00_LOCKER_TUTORIAL": {
+      "localized": {
+        "en": {
+          "title": "Emi's Locker",
+          "storyAction": "Collect 12 white sports briefs to compare the locker contents.",
+          "objectives": [
+            "Collect white sports briefs"
+          ],
+          "startSpeaker": "Onoe",
+          "startText": "Categories first. Conclusions second.",
+          "winSpeaker": "Emi",
+          "winText": "Did you find anything real?",
+          "loseSpeaker": "Onoe",
+          "loseText": "We broke the search order. We will repeat without losing scene progress.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Шкафчик Эми",
+          "storyAction": "Соберите 12 белых спортивных трусиков, чтобы сравнить содержимое шкафчика.",
+          "objectives": [
+            "Собрать белые спортивные трусики"
+          ],
+          "startSpeaker": "Оноэ",
+          "startText": "Сначала категории. Потом выводы.",
+          "winSpeaker": "Эми",
+          "winText": "Нашли что-нибудь настоящее?",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Мы нарушили порядок поиска. Повторим без потери прогресса сцены.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Шафка Эмі",
+          "storyAction": "Збярыце 12 белых спартыўных трусікаў, каб параўнаць змесціва шафкі.",
+          "objectives": [
+            "Сабраць белыя спартыўныя трусікі"
+          ],
+          "startSpeaker": "Оноэ",
+          "startText": "Спачатку катэгорыі. Потым высновы.",
+          "winSpeaker": "Эмі",
+          "winText": "Знайшлі што-небудзь сапраўднае?",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Мы парушылі парадак пошуку. Паўторым без страты прагрэсу сцэны.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_01_PHOTO_PROPS": {
+      "localized": {
+        "en": {
+          "title": "Kentaro's Photo Props",
+          "storyAction": "Sort the props by number and find the memory card with timecodes.",
+          "objectives": [
+            "Blockers",
+            "Memory card"
+          ],
+          "startSpeaker": "Kentaro",
+          "startText": "Numbers first. And do not wear anything — those are props.",
+          "winSpeaker": "Miku",
+          "winText": "Found it. Now we look at the time, not the room.",
+          "loseSpeaker": "Ayuki",
+          "loseText": "The room won. I demand a rematch and narrower box specialization.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Фотореквизит Кэнтаро",
+          "storyAction": "Разобрать реквизит по номерам и найти карту памяти с таймкодами.",
+          "objectives": [
+            "Преграды",
+            "Карта памяти"
+          ],
+          "startSpeaker": "Кэнтаро",
+          "startText": "Сначала номера. И ничего не надевайте — это реквизит.",
+          "winSpeaker": "Мику",
+          "winText": "Нашла. Теперь посмотрим не на комнату, а на время.",
+          "loseSpeaker": "Аюки",
+          "loseText": "Комната победила. Требую реванш и более узкую специализацию коробок.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Фотарэквізіт Кэнтаро",
+          "storyAction": "Разабраць рэквізіт па нумарах і знайсці карту памяці з таймкодамі.",
+          "objectives": [
+            "Перашкоды",
+            "Карта памяці"
+          ],
+          "startSpeaker": "Кэнтаро",
+          "startText": "Спачатку нумары. І нічога не апранайце — гэта рэквізіт.",
+          "winSpeaker": "Міку",
+          "winText": "Знайшла. Цяпер паглядзім не на пакой, а на час.",
+          "loseSpeaker": "Аюкі",
+          "loseText": "Пакой перамог. Патрабую рэваншу і вузейшай спецыялізацыі скрынь.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_02_POOL_LAUNDRY": {
+      "localized": {
+        "en": {
+          "title": "Wet Testimony",
+          "storyAction": "Clear all 18 blockers with matches, then drop the service key to the bottom of the board.",
+          "objectives": [
+            "Clear blockers",
+            "Drop service key"
+          ],
+          "startSpeaker": "Norihiro",
+          "startText": "Tags first. The laundry will not sort itself.",
+          "winSpeaker": "Onoe",
+          "winText": "The batch is reconstructed. Now compare what went missing.",
+          "loseSpeaker": "Norihiro",
+          "loseText": "Foam defeated deduction. Start from the edges.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Мокрые показания",
+          "storyAction": "Снимите 18 преград совпадениями, затем опустите сервисный ключ к нижнему краю поля.",
+          "objectives": [
+            "Очистить преграды",
+            "Опустить сервисный ключ"
+          ],
+          "startSpeaker": "Норихиро",
+          "startText": "Сначала сверим бирки. Бельё само себя не рассортирует.",
+          "winSpeaker": "Оноэ",
+          "winText": "Партия восстановлена. Теперь сравним пропавшее.",
+          "loseSpeaker": "Норихиро",
+          "loseText": "Пена победила дедукцию. Начните с краёв.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Мокрыя паказанні",
+          "storyAction": "Прыбярыце ўсе 18 перашкод супадзеннямі, затым апусціце сэрвісны ключ да ніжняга краю поля.",
+          "objectives": [
+            "Прыбраць перашкоды",
+            "Апусціць сэрвісны ключ"
+          ],
+          "startSpeaker": "Норыхіра",
+          "startText": "Спачатку звяраем біркі. Бялізна сама сябе не рассартуе.",
+          "winSpeaker": "Оноэ",
+          "winText": "Партыя адноўлена. Цяпер параўнаем зніклае.",
+          "loseSpeaker": "Норыхіра",
+          "loseText": "Пена перамагла дэдукцыю. Пачніце з краёў.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_03_ORDERED_APARTMENT": {
+      "localized": {
+        "en": {
+          "title": "Perfect Order",
+          "storyAction": "Check the returned bag and find the item with new damage.",
+          "objectives": [
+            "Blockers",
+            "Evidence"
+          ],
+          "startSpeaker": "Norihiro",
+          "startText": "Left to right. If you disturb the order, you will restore it.",
+          "winSpeaker": "Miku",
+          "winText": "Nothing was stolen here. But something was added.",
+          "loseSpeaker": "Norihiro",
+          "loseText": "You lost to the cabinet. It agrees to another inspection.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Идеальный порядок",
+          "storyAction": "Проверить возвращённый мешок и найти предмет с новым повреждением.",
+          "objectives": [
+            "Преграды",
+            "Улики"
+          ],
+          "startSpeaker": "Норихиро",
+          "startText": "Слева направо. Если нарушите порядок, вы его восстановите.",
+          "winSpeaker": "Мику",
+          "winText": "Здесь ничего не украли. Но кое-что добавили.",
+          "loseSpeaker": "Норихиро",
+          "loseText": "Вы проиграли шкафу. Он согласен на повторную проверку.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Ідэальны парадак",
+          "storyAction": "Праверыць вернуты мяшок і знайсці прадмет з новым пашкоджаннем.",
+          "objectives": [
+            "Перашкоды",
+            "Доказы"
+          ],
+          "startSpeaker": "Норыхіра",
+          "startText": "Злева направа. Калі парушыце парадак, самі яго адновіце.",
+          "winSpeaker": "Міку",
+          "winText": "Тут нічога не скралі. Але сёе-тое дадалі.",
+          "loseSpeaker": "Норыхіра",
+          "loseText": "Вы прайгралі шафе. Яна згодная на паўторную праверку.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_04_EMERGENCY_MEETING": {
+      "localized": {
+        "en": {
+          "title": "Seven Clubs, One Calendar",
+          "storyAction": "Separate confirmed reports from rumors and reconstruct the shared laundry calendar.",
+          "objectives": [
+            "Confirmed tags",
+            "Blockers",
+            "Calendar"
+          ],
+          "startSpeaker": "Mayu",
+          "startText": "Facts separate. Rumors separate. And no screenshots.",
+          "winSpeaker": "Miku",
+          "winText": "Seven clubs, one repeating route. Now it is a system.",
+          "loseSpeaker": "Onoe",
+          "loseText": "We mixed statements with theories. Rebuild the table.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Семь клубов, один календарь",
+          "storyAction": "Отделить подтверждённые заявления от слухов и восстановить общий календарь стирки.",
+          "objectives": [
+            "Подтверждённые бирки",
+            "Преграды",
+            "Календарь"
+          ],
+          "startSpeaker": "Маю",
+          "startText": "Факты отдельно. Слухи отдельно. И никаких скриншотов.",
+          "winSpeaker": "Мику",
+          "winText": "Семь клубов, один повторяющийся маршрут. Теперь это система.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Мы смешали свидетельства и версии. Пересоберём таблицу.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Сем клубаў, адзін каляндар",
+          "storyAction": "Аддзяліць пацверджаныя заявы ад чутак і аднавіць агульны каляндар мыцця.",
+          "objectives": [
+            "Пацверджаныя біркі",
+            "Перашкоды",
+            "Каляндар"
+          ],
+          "startSpeaker": "Маю",
+          "startText": "Факты асобна. Чуткі асобна. І ніякіх скрыншотаў.",
+          "winSpeaker": "Міку",
+          "winText": "Сем клубаў, адзін маршрут, які паўтараецца. Цяпер гэта сістэма.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Мы змяшалі сведчанні і версіі. Збяром табліцу нанова.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_05_BASKETBALL_LOCKERS": {
+      "localized": {
+        "en": {
+          "title": "Tall Lockers",
+          "storyAction": "Open the sections, verify service tags, and reconstruct the repair log.",
+          "objectives": [
+            "Blockers",
+            "Service tags",
+            "Repair log"
+          ],
+          "startSpeaker": "Hinata",
+          "startText": "Log and tags first. Then you can suspect whoever you want.",
+          "winSpeaker": "Onoe",
+          "winText": "No correlation with appearance. But the stitch repeats.",
+          "loseSpeaker": "Ayuki",
+          "loseText": "The lockers are taller than my theory. Again, but with tags this time.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Высокие шкафчики",
+          "storyAction": "Открыть секции, сверить сервисные бирки и восстановить журнал ремонта.",
+          "objectives": [
+            "Преграды",
+            "Сервисные бирки",
+            "Журнал ремонта"
+          ],
+          "startSpeaker": "Хината",
+          "startText": "Сначала журнал и ярлыки. Потом можете подозревать кого угодно.",
+          "winSpeaker": "Оноэ",
+          "winText": "Корреляции с внешним видом нет. А строчка повторяется.",
+          "loseSpeaker": "Аюки",
+          "loseText": "Шкафчики выше моей теории. Ещё раз, но теперь по ярлыкам.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Высокія шафкі",
+          "storyAction": "Адкрыць секцыі, зверыць сэрвісныя біркі і аднавіць журнал рамонту.",
+          "objectives": [
+            "Перашкоды",
+            "Сэрвісныя біркі",
+            "Журнал рамонту"
+          ],
+          "startSpeaker": "Хіната",
+          "startText": "Спачатку журнал і ярлыкі. Потым можаце падазраваць каго заўгодна.",
+          "winSpeaker": "Оноэ",
+          "winText": "Карэляцыі са знешнім выглядам няма. А строчка паўтараецца.",
+          "loseSpeaker": "Аюкі",
+          "loseText": "Шафкі вышэйшыя за маю тэорыю. Яшчэ раз, але цяпер па ярлыках.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_06_TEXTILE_WORKSHOP": {
+      "localized": {
+        "en": {
+          "title": "Hinata Workshop",
+          "storyAction": "Match orders, clear garment bags, and find the warranty card together with the silver spool.",
+          "objectives": [
+            "Blockers",
+            "Orders",
+            "Machine check"
+          ],
+          "startSpeaker": "Hinata",
+          "startText": "Orders left, samples right. Do not accuse the machine without its specifications.",
+          "winSpeaker": "Miku",
+          "winText": "Hinata is cleared. The seam appeared after her workshop, on the laundry route.",
+          "loseSpeaker": "Hinata",
+          "loseText": "You mixed orders with samples. In a workshop, that is worse than a bad hypothesis.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Мастерская Хинаты",
+          "storyAction": "Сопоставить заказы, убрать чехлы и найти гарантийную карту вместе с серебристой катушкой.",
+          "objectives": [
+            "Преграды",
+            "Заказы",
+            "Проверка машины"
+          ],
+          "startSpeaker": "Хината",
+          "startText": "Заказы слева, образцы справа. Машину не обвиняйте без спецификации.",
+          "winSpeaker": "Мику",
+          "winText": "Хината исключена. Шов появился после её мастерской — на маршруте прачечной.",
+          "loseSpeaker": "Хината",
+          "loseText": "Вы смешали заказы и образцы. В мастерской это хуже плохой гипотезы.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Майстэрня Хінаты",
+          "storyAction": "Супаставіць заказы, прыбраць чахлы і знайсці гарантыйную картку разам з серабрыстай шпулькай.",
+          "objectives": [
+            "Перашкоды",
+            "Заказы",
+            "Праверка машыны"
+          ],
+          "startSpeaker": "Хіната",
+          "startText": "Заказы злева, узоры справа. Не абвінавачвайце машыну без спецыфікацыі.",
+          "winSpeaker": "Міку",
+          "winText": "Хіната выключаная. Шво з'явілася пасля яе майстэрні — на маршруце пральні.",
+          "loseSpeaker": "Хіната",
+          "loseText": "Вы змяшалі заказы і ўзоры. У майстэрні гэта горш за кепскую гіпотэзу.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_07_ASTERION_THREAD": {
+      "localized": {
+        "en": {
+          "title": "Asterion Samples",
+          "storyAction": "Match the silver thread, laboratory cards, and official specification.",
+          "objectives": [
+            "Blockers",
+            "Samples",
+            "Specification"
+          ],
+          "startSpeaker": "Kurose",
+          "startText": "Composition, stitch pitch, batch code. If the sample is ours, the instrument will show it.",
+          "winSpeaker": "Miku",
+          "winText": "The thread matches. There is still no official assignment to personal items.",
+          "loseSpeaker": "Onoe",
+          "loseText": "We mixed a technical match with an administrative record. Separate them.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Образцы Asterion",
+          "storyAction": "Сопоставить серебристую нить, лабораторные карточки и официальную спецификацию.",
+          "objectives": [
+            "Преграды",
+            "Образцы",
+            "Спецификация"
+          ],
+          "startSpeaker": "Куросэ",
+          "startText": "Состав, шаг шва, код партии. Если образец наш — прибор это покажет.",
+          "winSpeaker": "Мику",
+          "winText": "Нить совпала. А официального назначения на личные вещи всё равно нет.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Мы смешали техническое совпадение и административную запись. Разделим их.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Узоры Asterion",
+          "storyAction": "Супаставіць серабрыстую нітку, лабараторныя карткі і афіцыйную спецыфікацыю.",
+          "objectives": [
+            "Перашкоды",
+            "Узоры",
+            "Спецыфікацыя"
+          ],
+          "startSpeaker": "Куросэ",
+          "startText": "Склад, крок шва, код партыі. Калі ўзор наш — прыбор гэта пакажа.",
+          "winSpeaker": "Міку",
+          "winText": "Нітка супала. А афіцыйнага прызначэння на асабістыя рэчы ўсё роўна няма.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Мы змяшалі тэхнічнае супадзенне і адміністрацыйны запіс. Раздзелім іх.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_08_LOST_FOUND_LEDGER": {
+      "localized": {
+        "en": {
+          "title": "Eighty-Seven Packages",
+          "storyAction": "Restore the warehouse service lanes and the sequence of missing package numbers.",
+          "objectives": [
+            "Blockers",
+            "Service codes",
+            "Gaps"
+          ],
+          "startSpeaker": "Rina",
+          "startText": "Numbers matter more than contents. If the sequence is broken, find the break first.",
+          "winSpeaker": "Onoe",
+          "winText": "These are not random losses. Whole ranges from one service chain were cut from the ledger.",
+          "loseSpeaker": "Rina",
+          "loseText": "You mixed sections with statuses. A warehouse forgives that less than a museum does.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Восемьдесят семь пакетов",
+          "storyAction": "Восстановить сервисные ряды склада и последовательность пропущенных номеров.",
+          "objectives": [
+            "Преграды",
+            "Сервисные коды",
+            "Пропуски"
+          ],
+          "startSpeaker": "Рина",
+          "startText": "Номера важнее содержимого. Если последовательность сломана, сначала найдите место разрыва.",
+          "winSpeaker": "Оноэ",
+          "winText": "Это не случайные потери. Из журнала вырезаны диапазоны одной сервисной цепочки.",
+          "loseSpeaker": "Рина",
+          "loseText": "Вы смешали секции и статусы. Склад прощает это хуже, чем музей.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Восемдзесят сем пакетаў",
+          "storyAction": "Аднавіць сэрвісныя шэрагі склада і паслядоўнасць прапушчаных нумароў.",
+          "objectives": [
+            "Перашкоды",
+            "Сэрвісныя коды",
+            "Прапускі"
+          ],
+          "startSpeaker": "Рына",
+          "startText": "Нумары важнейшыя за змесціва. Калі паслядоўнасць парушаная, спачатку знайдзіце месца разрыву.",
+          "winSpeaker": "Оноэ",
+          "winText": "Гэта не выпадковыя страты. З журнала выразаныя цэлыя дыяпазоны аднаго сэрвіснага ланцужка.",
+          "loseSpeaker": "Рына",
+          "loseText": "Вы змяшалі секцыі і статусы. Склад даруе гэта горш, чым музей.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_09_MAINTENANCE_KEYS": {
+      "localized": {
+        "en": {
+          "title": "Master-Key Ledger",
+          "storyAction": "Sort the maintenance store, reconstruct the key handoff, and recover the transport slip.",
+          "objectives": [
+            "Blockers",
+            "Sock pairs",
+            "Key and slip"
+          ],
+          "startSpeaker": "Gen",
+          "startText": "Keys left, returns right. Socks are a separate system, and I ask that you respect it.",
+          "winSpeaker": "Miku",
+          "winText": "Gen does not fit the timeline. The Asterion container fits the route far too well.",
+          "loseSpeaker": "Ayuki",
+          "loseText": "I lost to the sock wall. It demands a rematch under Form U.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Журнал универсального ключа",
+          "storyAction": "Разобрать хозяйственный склад, восстановить передачу ключа и транспортную накладную.",
+          "objectives": [
+            "Преграды",
+            "Пары носков",
+            "Ключ и накладная"
+          ],
+          "startSpeaker": "Гэн",
+          "startText": "Ключи слева, возвраты справа. Носки — отдельная система и прошу её уважать.",
+          "winSpeaker": "Мику",
+          "winText": "Гэн не сходится по времени. А контейнер Asterion сходится с маршрутом слишком хорошо.",
+          "loseSpeaker": "Аюки",
+          "loseText": "Я проиграла стенду носков. Он требует реванш по форме U.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Журнал універсальнага ключа",
+          "storyAction": "Разабраць гаспадарчы склад, аднавіць перадачу ключа і транспартную накладную.",
+          "objectives": [
+            "Перашкоды",
+            "Пары шкарпэтак",
+            "Ключ і накладная"
+          ],
+          "startSpeaker": "Гэн",
+          "startText": "Ключы злева, вяртанні справа. Шкарпэткі — асобная сістэма, і прашу яе паважаць.",
+          "winSpeaker": "Міку",
+          "winText": "Гэн не сыходзіцца па часе. А кантэйнер Asterion сыходзіцца з маршрутам занадта добра.",
+          "loseSpeaker": "Аюкі",
+          "loseText": "Я прайграла стэнду шкарпэтак. Ён патрабуе рэваншу па форме U.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_10_CONTROL_SAMPLE_GEAR": {
+      "localized": {
+        "en": {
+          "title": "Control Gear Sample",
+          "storyAction": "Open the karate-club sections, separate moved gear, and verify the repeating silver stitch.",
+          "objectives": [
+            "Blockers",
+            "Service tags",
+            "Stitched wristband"
+          ],
+          "startSpeaker": "Aoi",
+          "startText": "Open the sections in order. The honor of the club will survive a control sample.",
+          "winSpeaker": "Miku",
+          "winText": "The stitch repeats on outer gear. The criterion is technical, not personal.",
+          "loseSpeaker": "Onoe",
+          "loseText": "We mixed relocation with disappearance. Separate the sample and repeat.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Контрольная экипировка",
+          "storyAction": "Открыть секции клуба карате, отделить перемещённую экипировку и проверить повторяющийся серебристый шов.",
+          "objectives": [
+            "Преграды",
+            "Сервисные ярлыки",
+            "Напульсник со швом"
+          ],
+          "startSpeaker": "Аой",
+          "startText": "Открываем секции по порядку. Честь клуба переживёт контрольную выборку.",
+          "winSpeaker": "Мику",
+          "winText": "Шов повторяется на внешней экипировке. Значит, критерий технический, а не личный.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Мы смешали перемещение и пропажу. Разделим выборку и повторим.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Кантрольная экіпіроўка",
+          "storyAction": "Адкрыць секцыі клуба каратэ, аддзяліць перамешчаную экіпіроўку і праверыць паўторны серабрысты шво.",
+          "objectives": [
+            "Перашкоды",
+            "Сэрвісныя біркі",
+            "Напульснік са швом"
+          ],
+          "startSpeaker": "Аоі",
+          "startText": "Адкрываем секцыі па парадку. Гонар клуба перажыве кантрольную выбарку.",
+          "winSpeaker": "Міку",
+          "winText": "Шво паўтараецца на знешняй экіпіроўцы. Значыць, крытэрый тэхнічны, а не асабісты.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Мы змяшалі перамяшчэнне і знікненне. Раздзелім выбарку і паўторым.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_11_ASTERION_TRANSFER": {
+      "localized": {
+        "en": {
+          "title": "Container Transfer Chain",
+          "storyAction": "Match seals, route, and manifest across the laundry, transfer point, and Asterion laboratory.",
+          "objectives": [
+            "Blockers",
+            "Seal and route",
+            "Manifest"
+          ],
+          "startSpeaker": "Kentaro",
+          "startText": "The container number is in the original. Now prove the whole route, not just a good shot.",
+          "winSpeaker": "Onoe",
+          "winText": "The chain is continuous. The laboratory is part of the physical route of the items.",
+          "loseSpeaker": "Miku",
+          "loseText": "We have pieces of the route, not a continuous chain. Build it again.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Цепочка контейнера",
+          "storyAction": "Сопоставить пломбы, маршрут и манифест между прачечной, перегрузочным пунктом и лабораторией Asterion.",
+          "objectives": [
+            "Преграды",
+            "Пломба и маршрут",
+            "Манифест"
+          ],
+          "startSpeaker": "Кэнтаро",
+          "startText": "Номер контейнера есть в оригинале. Теперь докажем весь путь, а не только красивый кадр.",
+          "winSpeaker": "Оноэ",
+          "winText": "Цепочка непрерывна. Лаборатория входит в физический маршрут вещей.",
+          "loseSpeaker": "Мику",
+          "loseText": "У нас есть части маршрута, но нет непрерывной цепочки. Соберём её заново.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Ланцужок кантэйнера",
+          "storyAction": "Супаставіць пломбы, маршрут і маніфест паміж пральняй, перагрузачным пунктам і лабараторыяй Asterion.",
+          "objectives": [
+            "Перашкоды",
+            "Пломба і маршрут",
+            "Маніфест"
+          ],
+          "startSpeaker": "Кэнтаро",
+          "startText": "Нумар кантэйнера ёсць у арыгінале. Цяпер дакажам увесь шлях, а не толькі прыгожы кадр.",
+          "winSpeaker": "Оноэ",
+          "winText": "Ланцужок бесперапынны. Лабараторыя ўваходзіць у фізічны маршрут рэчаў.",
+          "loseSpeaker": "Міку",
+          "loseText": "У нас ёсць часткі маршруту, але няма бесперапыннага ланцужка. Збяром яго нанова.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_12_SECOND_SKIN_SIGNAL": {
+      "localized": {
+        "en": {
+          "title": "Second Skin Signal",
+          "storyAction": "Separate radio interference from the repeating signal and extract the active microtag from the service label.",
+          "objectives": [
+            "Blockers",
+            "Signal nodes",
+            "Microtag"
+          ],
+          "startSpeaker": "Ayuki",
+          "startText": "If the Panty Eater is real, it is about to have a very bad night.",
+          "winSpeaker": "Miku",
+          "winText": "Not a demon. An active tag, a radio packet, and the name Second Skin.",
+          "loseSpeaker": "Onoe",
+          "loseText": "Noise beat the measurement. Repeat with separated frequencies.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Сигнал Second Skin",
+          "storyAction": "Отделить радиопомехи от повторяющегося сигнала и извлечь активную микрометку из сервисной бирки.",
+          "objectives": [
+            "Преграды",
+            "Сигнальные узлы",
+            "Микрометка"
+          ],
+          "startSpeaker": "Аюки",
+          "startText": "Если ПанцуИтер настоящий, сейчас у него будет очень плохая ночь.",
+          "winSpeaker": "Мику",
+          "winText": "Не демон. Активная метка, радиопакет и имя Second Skin.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Шум победил измерение. Повторяем с разделёнными частотами.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Сігнал Second Skin",
+          "storyAction": "Аддзяліць радыёперашкоды ад паўторнага сігналу і выняць актыўную мікраметку з сэрвіснай біркі.",
+          "objectives": [
+            "Перашкоды",
+            "Сігнальныя вузлы",
+            "Мікраметка"
+          ],
+          "startSpeaker": "Аюкі",
+          "startText": "Калі ПанцуІтэр сапраўдны, зараз у яго будзе вельмі дрэнная ноч.",
+          "winSpeaker": "Міку",
+          "winText": "Не дэман. Актыўная метка, радыёпакет і імя Second Skin.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Шум перамог вымярэнне. Паўторым з падзеленымі частотамі.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_13_KENDO_PILOT_LIST": {
+      "localized": {
+        "en": {
+          "title": "Under the Armor",
+          "storyAction": "Clear the kendo racks and match service codes against the closed pilot participant list.",
+          "objectives": [
+            "Blockers",
+            "Participant codes",
+            "Pilot list"
+          ],
+          "startSpeaker": "Kubo",
+          "startText": "Please separate my bag movements from what was inside them.",
+          "winSpeaker": "Miku",
+          "winText": "Everything matches. The disappearances follow the pilot participant list.",
+          "loseSpeaker": "Onoe",
+          "loseText": "The list is not restored. Repeat without conclusions about the intermediary.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Под бронёй",
+          "storyAction": "Расчистить стойки кэндо и сопоставить сервисные коды с закрытым списком участников пилота.",
+          "objectives": [
+            "Преграды",
+            "Коды участников",
+            "Список пилота"
+          ],
+          "startSpeaker": "Кубо",
+          "startText": "Прошу отделить мои перемещения мешков от того, что было внутри них.",
+          "winSpeaker": "Мику",
+          "winText": "Совпало всё. Пропажи следуют списку участников пилота.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Список не восстановлен. Повторяем без выводов о посреднике.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Пад даспехамі",
+          "storyAction": "Расчысціць стойкі кэндо і супаставіць сэрвісныя коды з закрытым спісам удзельнікаў пілота.",
+          "objectives": [
+            "Перашкоды",
+            "Коды ўдзельнікаў",
+            "Спіс пілота"
+          ],
+          "startSpeaker": "Кубо",
+          "startText": "Прашу аддзяліць мае перамяшчэнні мяшкоў ад таго, што было ўнутры іх.",
+          "winSpeaker": "Міку",
+          "winText": "Усё супала. Знікненні ідуць паводле спіса ўдзельнікаў пілота.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Спіс не адноўлены. Паўтараем без высноў пра пасрэдніка.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_14_KUBO_ATELIER_LEDGER": {
+      "localized": {
+        "en": {
+          "title": "Family Atelier Ledger",
+          "storyAction": "Match receipts, garments, and the order ledger without mixing in unrelated client records.",
+          "objectives": [
+            "Blockers",
+            "Order codes",
+            "Receipt + ledger"
+          ],
+          "startSpeaker": "Kubo's Mother",
+          "startText": "Dates and garments first. Other people’s names do not enter your case automatically.",
+          "winSpeaker": "Onoe",
+          "winText": "Timeline complete. Rina searched for tags before the public disappearances began.",
+          "loseSpeaker": "Kubo",
+          "loseText": "The family ledger deserves a more careful second pass.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Книга семейного ателье",
+          "storyAction": "Сопоставить квитанции, изделия и книгу заказов, не смешивая записи посторонних клиентов.",
+          "objectives": [
+            "Преграды",
+            "Коды заказов",
+            "Квитанция + книга"
+          ],
+          "startSpeaker": "Мать Кубо",
+          "startText": "Сначала даты и изделия. Чужие имена в расследование не входят автоматически.",
+          "winSpeaker": "Оноэ",
+          "winText": "Хронология готова. Рина искала метки до начала публичных пропаж.",
+          "loseSpeaker": "Кубо",
+          "loseText": "Семейная книга заслуживает более аккуратного второго прохода.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Кніга сямейнага атэлье",
+          "storyAction": "Супаставіць квітанцыі, вырабы і кнігу заказаў, не змешваючы запісы старонніх кліентаў.",
+          "objectives": [
+            "Перашкоды",
+            "Коды заказаў",
+            "Квітанцыя + кніга"
+          ],
+          "startSpeaker": "Маці Кубо",
+          "startText": "Спачатку даты і вырабы. Чужыя імёны не трапляюць у расследаванне аўтаматычна.",
+          "winSpeaker": "Оноэ",
+          "winText": "Храналогія гатовая. Рына шукала меткі да пачатку публічных знікненняў.",
+          "loseSpeaker": "Кубо",
+          "loseText": "Сямейная кніга заслугоўвае больш акуратнага другога праходу.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_15_ABANDONED_LAUNDRY_ROUTE": {
+      "localized": {
+        "en": {
+          "title": "Old Service Route",
+          "storyAction": "Clear the abandoned laundry, collect thread traces, and extract the marked package with the active key card.",
+          "objectives": [
+            "Blockers",
+            "Thread traces",
+            "Package + key card"
+          ],
+          "startSpeaker": "Ayuki",
+          "startText": "If the cat opens the cabinet too, I am putting him on staff.",
+          "winSpeaker": "Miku",
+          "winText": "The route is active. And the note shifts the case from theft to consent.",
+          "loseSpeaker": "Onoe",
+          "loseText": "Debris hid the chain. Repeat and keep the package separate from the theory.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Старый сервисный маршрут",
+          "storyAction": "Расчистить заброшенную прачечную, собрать следы нити и вывести помеченный пакет с действующей ключ-картой.",
+          "objectives": [
+            "Преграды",
+            "Следы нити",
+            "Пакет + ключ-карта"
+          ],
+          "startSpeaker": "Аюки",
+          "startText": "Если кот сейчас ещё и откроет шкаф, я внесу его в штат.",
+          "winSpeaker": "Мику",
+          "winText": "Маршрут действующий. И записка переводит дело от краж к вопросу согласия.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Мусор скрыл цепочку. Повторяем и держим пакет отдельно от версии.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Стары сэрвісны маршрут",
+          "storyAction": "Расчысціць закінутую пральню, сабраць сляды ніткі і вывесці пазначаны пакет з дзейнай ключ-картай.",
+          "objectives": [
+            "Перашкоды",
+            "Сляды ніткі",
+            "Пакет + ключ-карта"
+          ],
+          "startSpeaker": "Аюкі",
+          "startText": "Калі кот зараз яшчэ і адкрые шафу, я залічу яго ў штат.",
+          "winSpeaker": "Міку",
+          "winText": "Маршрут дзейны. І запіска пераводзіць справу ад крадзяжоў да пытання згоды.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Смецце схавала ланцужок. Паўтараем і трымаем пакет асобна ад версіі.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_16_PINK_RIBBON_SCANNER": {
+      "localized": {
+        "en": {
+          "title": "Pink Ribbons Do Not Lie",
+          "storyAction": "Untangle the ribbons, restore service codes, and confirm the fresh Second Skin activation with the handheld scanner.",
+          "objectives": [
+            "Blockers",
+            "Tag codes",
+            "Scanner"
+          ],
+          "startSpeaker": "Vincent",
+          "startText": "Ribbons apart, service labels apart. The scanner dislikes being helped by guesses.",
+          "winSpeaker": "Miku",
+          "winText": "The new activation is later than Rina's access. Second Skin is still running without her.",
+          "loseSpeaker": "Onoe",
+          "loseText": "We lost the activation time in the noise. Repeat and preserve the code order.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Розовые ленты не лгут",
+          "storyAction": "Распутать ленты, восстановить сервисные коды и подтвердить свежую активацию Second Skin ручным сканером.",
+          "objectives": [
+            "Преграды",
+            "Коды меток",
+            "Сканер"
+          ],
+          "startSpeaker": "Винсент",
+          "startText": "Ленты отдельно, сервисные ярлыки отдельно. Сканер не любит, когда ему помогают догадками.",
+          "winSpeaker": "Мику",
+          "winText": "Новая активация позже доступа Рины. Second Skin продолжает работать без неё.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Мы потеряли время активации в шуме. Повторяем и сохраняем порядок кодов.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Ружовыя стужкі не хлусяць",
+          "storyAction": "Разблытаць стужкі, аднавіць сэрвісныя коды і пацвердзіць свежую актывацыю Second Skin ручным сканерам.",
+          "objectives": [
+            "Перашкоды",
+            "Коды метак",
+            "Сканер"
+          ],
+          "startSpeaker": "Вінсент",
+          "startText": "Стужкі асобна, сэрвісныя ярлыкі асобна. Сканер не любіць, калі яму дапамагаюць здагадкамі.",
+          "winSpeaker": "Міку",
+          "winText": "Новая актывацыя пазнейшая за доступ Рыны. Second Skin працягвае працаваць без яе.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Мы згубілі час актывацыі ў шуме. Паўтараем і захоўваем парадак кодаў.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_17_RINA_ARCHIVE_CATALOG": {
+      "localized": {
+        "en": {
+          "title": "Rina's Catalog",
+          "storyAction": "Open the archive rows, separate real targets from control items, and match the catalog against confirmed disappearances.",
+          "objectives": [
+            "Blockers",
+            "Target codes",
+            "Catalog"
+          ],
+          "startSpeaker": "Rina",
+          "startText": "Codes and seals first. Motive will not become more accurate if you mix the control shelf with the targets.",
+          "winSpeaker": "Onoe",
+          "winText": "Complete match. Rina physically took the items and cataloged every target.",
+          "loseSpeaker": "Rina",
+          "loseText": "You mixed targets with statistical noise. The archive needs a stricter second pass.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Каталог Рины",
+          "storyAction": "Открыть архивные ряды, отделить реальные цели от контрольных предметов и сверить каталог с подтверждёнными пропажами.",
+          "objectives": [
+            "Преграды",
+            "Коды целей",
+            "Каталог"
+          ],
+          "startSpeaker": "Рина",
+          "startText": "Сначала коды и пломбы. Мотив не станет точнее, если вы перепутаете контрольную полку с целями.",
+          "winSpeaker": "Оноэ",
+          "winText": "Совпадение полное. Рина физически забирала вещи и каталогизировала каждую цель.",
+          "loseSpeaker": "Рина",
+          "loseText": "Вы смешали цели и статистический шум. Архив требует более строгого второго прохода.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Каталог Рыны",
+          "storyAction": "Адкрыць архіўныя шэрагі, аддзяліць рэальныя мэты ад кантрольных прадметаў і зверыць каталог з пацверджанымі знікненнямі.",
+          "objectives": [
+            "Перашкоды",
+            "Коды мэт",
+            "Каталог"
+          ],
+          "startSpeaker": "Рына",
+          "startText": "Спачатку коды і пломбы. Матыў не стане дакладнейшым, калі вы пераблытаеце кантрольную паліцу з мэтамі.",
+          "winSpeaker": "Оноэ",
+          "winText": "Супадзенне поўнае. Рына фізічна забірала рэчы і каталогізавала кожную мэту.",
+          "loseSpeaker": "Рына",
+          "loseText": "Вы змяшалі мэты і статыстычны шум. Архіў патрабуе больш строгага другога праходу.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_18_FULL_TIMELINE_PROOF": {
+      "localized": {
+        "en": {
+          "title": "Full Timeline",
+          "storyAction": "Remove disproven theories, align key evidence by date, and prove Second Skin continued after Rina lost access.",
+          "objectives": [
+            "Blockers",
+            "Key codes",
+            "New item"
+          ],
+          "startSpeaker": "Emi",
+          "startText": "Mark separately everything the project and Rina decided for the owners. Do not merge the harms.",
+          "winSpeaker": "Miku",
+          "winText": "The timeline closes. Rina is the thief, but Second Skin continued independently of her.",
+          "loseSpeaker": "Onoe",
+          "loseText": "We mixed proven actions with the organizer hypothesis. Rebuild the timeline.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Полная временная линия",
+          "storyAction": "Убрать опровергнутые версии, свести ключевые улики по датам и доказать продолжение Second Skin после отзыва доступа Рины.",
+          "objectives": [
+            "Преграды",
+            "Ключевые коды",
+            "Новый предмет"
+          ],
+          "startSpeaker": "Эми",
+          "startText": "Отмечайте отдельно всё, что проект и Рина решили за владельцев. Не смешивайте вред.",
+          "winSpeaker": "Мику",
+          "winText": "Линия сходится. Рина — похититель, но Second Skin продолжился независимо от неё.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Мы смешали доказанные действия и гипотезу об организаторе. Пересобираем временную линию.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Поўная часовая лінія",
+          "storyAction": "Прыбраць абвергнутыя версіі, звесці ключавыя доказы па датах і даказаць працяг Second Skin пасля адклікання доступу Рыны.",
+          "objectives": [
+            "Перашкоды",
+            "Ключавыя коды",
+            "Новы прадмет"
+          ],
+          "startSpeaker": "Эмі",
+          "startText": "Адзначайце асобна ўсё, што праект і Рына вырашылі за ўладальнікаў. Не змешвайце шкоду.",
+          "winSpeaker": "Міку",
+          "winText": "Лінія сыходзіцца. Рына — выкрадальніца, але Second Skin працягнуўся незалежна ад яе.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Мы змяшалі даказаныя дзеянні і гіпотэзу пра арганізатара. Перазбіраем часовую лінію.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_19_PRIVATE_RETURN": {
+      "localized": {
+        "en": {
+          "title": "Private Return",
+          "storyAction": "Return every package to the correct owner by anonymous code without exposing anyone else’s data.",
+          "objectives": [
+            "Blockers",
+            "Anonymous codes",
+            "Confirmation"
+          ],
+          "startSpeaker": "Emi",
+          "startText": "Codes apart from names. Nobody should pay with privacy just to get their item back.",
+          "winSpeaker": "Onoe",
+          "winText": "The return ledger reconciles. Rina’s thefts are closed with proof and without exposing owners.",
+          "loseSpeaker": "Miku",
+          "loseText": "We mixed issue codes. Repeat — an error here would become another violation.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Приватный возврат",
+          "storyAction": "Вернуть пакеты правильным владельцам по анонимным кодам, не раскрывая чужие данные.",
+          "objectives": [
+            "Преграды",
+            "Анонимные коды",
+            "Подтверждение"
+          ],
+          "startSpeaker": "Эми",
+          "startText": "Коды — отдельно от имён. Никто не должен платить приватностью за возврат своей вещи.",
+          "winSpeaker": "Оноэ",
+          "winText": "Выдача сходится. Кражи Рины закрыты доказательно и без раскрытия владельцев.",
+          "loseSpeaker": "Мику",
+          "loseText": "Мы смешали коды выдачи. Повторяем — здесь ошибка сама станет новым нарушением.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Прыватнае вяртанне",
+          "storyAction": "Вярнуць пакеты правільным уладальнікам па ананімных кодах, не раскрываючы чужыя даныя.",
+          "objectives": [
+            "Перашкоды",
+            "Ананімныя коды",
+            "Пацвярджэнне"
+          ],
+          "startSpeaker": "Эмі",
+          "startText": "Коды — асобна ад імёнаў. Ніхто не павінен плаціць прыватнасцю за вяртанне сваёй рэчы.",
+          "winSpeaker": "Оноэ",
+          "winText": "Выдача сыходзіцца. Крадзяжы Рыны закрытыя доказамі і без раскрыцця ўладальнікаў.",
+          "loseSpeaker": "Міку",
+          "loseText": "Мы змяшалі коды выдачы. Паўтараем — тут памылка сама стане новым парушэннем.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_20_SERVER_CONSENT_LOGS": {
+      "localized": {
+        "en": {
+          "title": "Consent Map",
+          "storyAction": "Preserve the Second Skin server logs before deletion and move the backup drive out of the service zone.",
+          "objectives": [
+            "Blockers",
+            "Consent logs",
+            "Backup"
+          ],
+          "startSpeaker": "Miku",
+          "startText": "Consent map and backup only. We are investigating a violation, not dumping other people’s lives.",
+          "winSpeaker": "Emi",
+          "winText": "There it is. Consent for a uniform was turned into permission for personal items after the signature.",
+          "loseSpeaker": "Onoe",
+          "loseText": "Deletion is outrunning the copy. Repeat and prioritize the consent map.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Карта согласий",
+          "storyAction": "Сохранить серверные журналы Second Skin до удаления и вывести резервный накопитель из сервисной зоны.",
+          "objectives": [
+            "Преграды",
+            "Журналы согласия",
+            "Резервная копия"
+          ],
+          "startSpeaker": "Мику",
+          "startText": "Только журнал согласий и резервная копия. Мы расследуем нарушение, а не выгружаем чужую жизнь.",
+          "winSpeaker": "Эми",
+          "winText": "Вот оно. Согласие на форму превратили в разрешение на личные вещи уже после подписи.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Удаление обгоняет копирование. Повторяем и приоритизируем журнал согласий.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Карта згоды",
+          "storyAction": "Захаваць серверныя журналы Second Skin да выдалення і вывесці рэзервовы назапашвальнік з сэрвіснай зоны.",
+          "objectives": [
+            "Перашкоды",
+            "Журналы згоды",
+            "Рэзервовая копія"
+          ],
+          "startSpeaker": "Міку",
+          "startText": "Толькі журнал згоды і рэзервовая копія. Мы расследуем парушэнне, а не выгружаем чужое жыццё.",
+          "winSpeaker": "Эмі",
+          "winText": "Вось яно. Згоду на форму ператварылі ў дазвол на асабістыя рэчы ўжо пасля подпісу.",
+          "loseSpeaker": "Оноэ",
+          "loseText": "Выдаленне апярэджвае капіраванне. Паўтараем і аддаём прыярытэт журналу згоды.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    },
+    "M3_21_CONVENIENT_CASE": {
+      "localized": {
+        "en": {
+          "title": "The Perfect Suspect",
+          "storyAction": "Collect convenient coincidences, remove contradiction cards, and prepare a dramatic but false final slide.",
+          "objectives": [
+            "Convenient matches",
+            "Blockers",
+            "Final slide"
+          ],
+          "startSpeaker": "Onoe",
+          "startText": "I will mark every objection we remove. At least among ourselves, we will not call this evidence.",
+          "winSpeaker": "Ayuki",
+          "winText": "The slide is perfect. And now I can see exactly why a perfect story can still be wrong.",
+          "loseSpeaker": "Miku",
+          "loseText": "Even the false version collapsed. Rebuild it and notice which facts have to disappear.",
+          "noMatchBark": "That swap does not make a row. Check the neighboring categories.",
+          "back": "Back",
+          "retry": "Replay",
+          "moves": "moves",
+          "hint": "HINT",
+          "win": "Investigation board solved",
+          "lose": "Try the board again",
+          "resultDetail": "Moves left: {movesLeft}. Campaign progress is saved separately from the story.",
+          "backToCampaign": "Back to Campaign"
+        },
+        "ru": {
+          "title": "Идеальный подозреваемый",
+          "storyAction": "Собрать удобные совпадения, убрать противоречащие карточки и подготовить эффектный, но ложный финальный слайд.",
+          "objectives": [
+            "Удобные совпадения",
+            "Преграды",
+            "Финальный слайд"
+          ],
+          "startSpeaker": "Оноэ",
+          "startText": "Я отмечу каждое возражение, которое мы сейчас убираем. Хотя бы между собой не будем называть это доказательством.",
+          "winSpeaker": "Аюки",
+          "winText": "Слайд идеальный. И теперь я очень хорошо вижу, почему идеальная история может быть неправильной.",
+          "loseSpeaker": "Мику",
+          "loseText": "Даже ложная версия развалилась. Пересобираем и смотрим, какие факты приходится скрывать.",
+          "noMatchBark": "Этот обмен не образует ряд. Проверим соседние категории.",
+          "back": "Назад",
+          "retry": "Повторить",
+          "moves": "ходов",
+          "hint": "ПОДСКАЗКА",
+          "win": "Доска расследования решена",
+          "lose": "Попробуйте уровень ещё раз",
+          "resultDetail": "Осталось ходов: {movesLeft}. Прогресс match-3 кампании сохраняется отдельно от сюжета.",
+          "backToCampaign": "Назад в кампанию"
+        },
+        "be": {
+          "title": "Ідэальны падазраваны",
+          "storyAction": "Сабраць зручныя супадзенні, прыбраць карткі з супярэчнасцямі і падрыхтаваць эфектны, але ілжывы фінальны слайд.",
+          "objectives": [
+            "Зручныя супадзенні",
+            "Перашкоды",
+            "Фінальны слайд"
+          ],
+          "startSpeaker": "Оноэ",
+          "startText": "Я адзначу кожнае пярэчанне, якое мы цяпер прыбіраем. Хаця б паміж сабой не будзем называць гэта доказам.",
+          "winSpeaker": "Аюкі",
+          "winText": "Слайд ідэальны. І цяпер я вельмі добра бачу, чаму ідэальная гісторыя можа быць няправільнай.",
+          "loseSpeaker": "Міку",
+          "loseText": "Нават ілжывая версія развалілася. Перазбіраем і глядзім, якія факты даводзіцца хаваць.",
+          "noMatchBark": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+          "back": "Назад",
+          "retry": "Паўтарыць",
+          "moves": "хадоў",
+          "hint": "ПАДКАЗКА",
+          "win": "Дошка расследавання вырашана",
+          "lose": "Паспрабуйце ўзровень яшчэ раз",
+          "resultDetail": "Засталося хадоў: {movesLeft}. Прагрэс кампаніі «тры ў шэраг» захоўваецца асобна ад сюжэту.",
+          "backToCampaign": "Назад у кампанію"
+        }
+      }
+    }
+  },
+  "campaignLocalized": {
+    "en": {
+      "eyebrow": "MATCH-3 CAMPAIGN",
+      "title": "Case Board",
+      "summary": "Play the investigations as a standalone match-3 campaign. Its progress is separate from the visual novel.",
+      "progress": "Completed {completed}/{total}",
+      "complete": "CAMPAIGN CLEARED · ALL LEVELS AVAILABLE FOR REPLAY",
+      "locked": "LOCKED",
+      "completed": "CLEARED",
+      "available": "AVAILABLE",
+      "attempts": "Attempts: {count}",
+      "best": "Best: {moves} moves left",
+      "replay": "Replay",
+      "play": "Play Level",
+      "back": "Back"
+    },
+    "ru": {
+      "eyebrow": "MATCH-3 КАМПАНИЯ",
+      "title": "Доска дел",
+      "summary": "Проходите расследования как отдельную кампанию «три в ряд». Её прогресс не связан с сохранением визуальной новеллы.",
+      "progress": "Пройдено {completed}/{total}",
+      "complete": "КАМПАНИЯ ПРОЙДЕНА · ВСЕ УРОВНИ ДОСТУПНЫ ДЛЯ ПОВТОРА",
+      "locked": "ЗАКРЫТО",
+      "completed": "ПРОЙДЕНО",
+      "available": "ДОСТУПНО",
+      "attempts": "Попыток: {count}",
+      "best": "Лучший результат: {moves} ходов осталось",
+      "replay": "Повторить",
+      "play": "Играть уровень",
+      "back": "Назад"
+    },
+    "be": {
+      "eyebrow": "КАМПАНІЯ «ТРЫ Ў ШЭРАГ»",
+      "title": "Дошка спраў",
+      "summary": "Праходзьце расследаванні ў асобнай кампаніі «тры ў шэраг». Яе прагрэс не звязаны з захаваннем візуальнай навелы.",
+      "progress": "Пройдзена {completed}/{total}",
+      "complete": "КАМПАНІЯ ПРОЙДЗЕНА · УСЕ ЎЗРОЎНІ ДАСТУПНЫЯ ДЛЯ ПАЎТОРУ",
+      "locked": "ЗАЧЫНЕНА",
+      "completed": "ПРОЙДЗЕНА",
+      "available": "ДАСТУПНА",
+      "attempts": "Спроб: {count}",
+      "best": "Найлепшы вынік: засталося {moves} хадоў",
+      "replay": "Паўтарыць",
+      "play": "Пачаць узровень",
+      "back": "Назад"
+    }
+  },
   "assets": {
     "tiles": {
       "pantiesSportWhite": "./assets/match3/tile_panties_sport_white.png",
