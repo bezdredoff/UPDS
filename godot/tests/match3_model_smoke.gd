@@ -153,7 +153,7 @@ func _run() -> void:
 		if game.tiles[index] == str(Level.data.objectiveTile):
 			combo_objective_count += 1
 	var combo_move: Dictionary = game.attempt_swap(24, 25)
-	assert(combo_move.valid and game.moves_left == 23, "Direct special combo did not resolve as one move")
+	assert(combo_move.valid and game.moves_left == 23 and combo_move.specialsCombined, "Direct special combo did not resolve as one tagged move")
 	assert(game.collected >= combo_objective_count, "Direct special combo missed objective tiles in its clear cross")
 	game.reset()
 	game.tiles[0] = str(Level.data.objectiveTile)
@@ -161,6 +161,22 @@ func _run() -> void:
 	var special_swap: Dictionary = game.attempt_swap(0, 1)
 	assert(special_swap.valid and game.moves_left == 23, "Swapping a special did not activate it as a move")
 	assert(game.specials.size() == game.tiles.size(), "Special state became detached from tiles")
+	game.reset()
+	var first_tile := str(Level.data.activeTiles[0])
+	var second_tile := str(Level.data.activeTiles[1])
+	game.tiles.clear()
+	game.specials.clear()
+	for row in range(int(Level.data.rows)):
+		for column in range(columns):
+			game.tiles.append(first_tile if (row + column) % 2 == 0 else second_tile)
+			game.specials.append("")
+	game.tiles[0] = first_tile
+	game.tiles[1] = first_tile
+	game.tiles[2] = first_tile
+	game.tiles[3] = second_tile
+	game.tiles[4] = first_tile
+	var creation_move: Dictionary = game.attempt_swap(3, 4)
+	assert(creation_move.valid and int(creation_move.specialsCreated) > 0, "A valid four-tile match did not export its special creation event")
 	game.tiles.clear()
 	game.specials.clear()
 	var other_tiles: Array = Level.data.activeTiles.filter(func(tile: Variant) -> bool: return str(tile) != str(Level.data.objectiveTile))

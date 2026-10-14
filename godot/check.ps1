@@ -58,6 +58,7 @@ Invoke-GodotCheck -Stage 'VN screen script parse' -Arguments @('--headless', '--
 Invoke-GodotCheck -Stage 'CSS motion script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/css_motion.gd')
 Invoke-GodotCheck -Stage 'Seeded random script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/seeded_random.gd')
 Invoke-GodotCheck -Stage 'Match-3 game script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_game.gd')
+Invoke-GodotCheck -Stage 'Match-3 tutorials script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_tutorials.gd')
 Invoke-GodotCheck -Stage 'Match-3 campaign data script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_campaign_data.gd')
 Invoke-GodotCheck -Stage 'Match-3 runtime parity smoke script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://tests/match3_runtime_parity_smoke.gd')
 Invoke-GodotCheck -Stage 'Match-3 campaign session script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_campaign_session.gd')
@@ -82,6 +83,8 @@ Invoke-GodotCheck -Stage 'VN prologue smoke test' -ExpectedOutput 'UPDS Godot VN
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/vn_prologue_smoke.gd', '--quit-after', '600')
 Invoke-GodotCheck -Stage 'Match-3 game smoke test' -ExpectedOutput 'UPDS Godot Match-3 model smoke test passed.' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_model_smoke.gd', '--quit-after', '120')
+Invoke-GodotCheck -Stage 'Match-3 tutorial progression smoke test' -ExpectedOutput 'UPDS Godot Match-3 tutorial progression smoke test passed.' `
+	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_tutorials_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'Match-3 campaign data smoke test' -ExpectedOutput 'UPDS Godot campaign Match-3 data smoke test passed (22 levels, schema 1).' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_campaign_data_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'Match-3 campaign screen smoke test' -ExpectedOutput 'UPDS Godot Match-3 campaign screen smoke test passed (sequential unlock and level routing).' `

@@ -32,7 +32,7 @@ describe("PG-003K Godot Match-3 special parity", () => {
     expect(screen).toContain('var special_kind: String = game.specials[index]');
     expect(screen).toContain('campaign_bundle.assets.get("specials", {}).get(special_kind, "")');
     expect(screen).toContain('special.name = "Special"');
-    expect(smoke).toContain("Direct special combo did not resolve as one move");
+    expect(smoke).toContain("Direct special combo did not resolve as one tagged move");
   });
 
   it("records the Godot port slice and retains the production-art follow-up boundary", async () => {

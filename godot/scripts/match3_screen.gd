@@ -9,6 +9,7 @@ signal campaign_next_requested(level_id: String)
 const Level = preload("res://data/locker_match3.json")
 const Game = preload("res://scripts/match3_game.gd")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
+const Tutorials = preload("res://scripts/match3_tutorials.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
@@ -92,6 +93,9 @@ var campaign_result_hub: Button
 var input_locked := false
 var bottom_spacer: Control
 var guidance_labels: Array[Label] = []
+var tutorial_reveal_events: Array[String] = []
+var active_tutorial := ""
+var tutorial_prompt_dismissed := false
 
 
 func _ready() -> void:
@@ -474,6 +478,7 @@ func _ready() -> void:
 	_build_evidence_transition()
 	_build_campaign_result()
 	preferences.locale_changed.connect(func(_locale: String) -> void: _refresh())
+	_sync_tutorial_prompt()
 	_refresh()
 
 
@@ -497,11 +502,12 @@ func _refresh() -> void:
 		bark.text = str(copy.winText) if game.state == "won" else str(copy.loseText)
 	bark_speaker.text = speaker
 	bark_portrait.texture = _speaker_portrait(speaker)
-	tutorial_title.text = str(Level.data.localized[locale].tutorialTitle)
+	var tutorial_locale: Dictionary = campaign_bundle.get("tutorials", {}).get(locale, campaign_bundle.get("tutorials", {}).get("en", {}))
+	var tutorial_copy: Dictionary = tutorial_locale.get("concepts", {}).get(active_tutorial, {})
+	tutorial_title.text = str(tutorial_copy.get("title", ""))
 	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(locale, "HOW TO PLAY")
-	tutorial_body.text = str(Level.data.localized[locale].tutorialBody)
-	tutorial_button.text = str(Level.data.localized[locale].tutorialTry)
-	tutorial_panel.visible = level_id == str(Level.data.id) and not session.save.tutorialsCompleted.has("basic-swap")
+	tutorial_body.text = str(tutorial_copy.get("body", ""))
+	tutorial_button.text = str(tutorial_locale.get("try", Level.data.localized[locale].tutorialTry))
 	var objective_lines := PackedStringArray()
 	for index in level_data.objectives.size():
 		var objective_data: Dictionary = level_data.objectives[index]
@@ -527,7 +533,7 @@ func _refresh() -> void:
 	bottom_spacer.visible = game.state == "playing"
 	var won: bool = game.state == "won"
 	board_center.visible = not won
-	tutorial_panel.visible = not won and level_id == str(Level.data.id) and not session.save.tutorialsCompleted.has("basic-swap")
+	tutorial_panel.visible = game.state == "playing" and not active_tutorial.is_empty() and not tutorial_prompt_dismissed
 	tutorial_overlay.visible = tutorial_panel.visible
 	objective.visible = not won
 	moves.visible = not won
@@ -1417,6 +1423,9 @@ func _new_game_for_attempt() -> RefCounted:
 	runtime_level.erase("seededOpeningBoard")
 	var attempt := int(session.save.attempts.get(level_id, 0))
 	runtime_level.seed = int(level_data.seed) + attempt * 101
+	tutorial_reveal_events = ["level-start"]
+	active_tutorial = ""
+	tutorial_prompt_dismissed = false
 	return Game.new(runtime_level)
 
 
@@ -1433,6 +1442,7 @@ func _select_cell(index: int) -> void:
 		last_feedback = "" if special_result.valid else str(special_result.reason)
 		if special_result.valid:
 			await _play_move_frames(special_result, index, index)
+		_record_tutorial_move(special_result, true)
 		if special_result.valid and game.state == "won":
 			session.complete_level(level_id, game.moves_left)
 			if not campaign_mode and story_session != null: story_session.complete_match3(level_id)
@@ -1466,6 +1476,7 @@ func _select_cell(index: int) -> void:
 		selected_index = index
 		last_feedback = str(result.reason)
 	await _play_move_frames(result, first_index, index)
+	_record_tutorial_move(result)
 	if result.valid and game.state == "won":
 		_show_story_evidence_transition()
 	_refresh()
@@ -1483,10 +1494,52 @@ func _show_hint() -> void:
 
 
 func _dismiss_tutorial() -> void:
-	if not session.save.tutorialsCompleted.has("basic-swap"):
-		session.save.tutorialsCompleted.append("basic-swap")
-		session.persist()
+	if active_tutorial.is_empty(): return
+	if active_tutorial == "activate-special":
+		var progress := _tutorial_progress()
+		if not progress.has(active_tutorial):
+			progress.append(active_tutorial)
+			_persist_tutorial_progress()
+	tutorial_prompt_dismissed = true
 	_refresh()
+
+
+func _tutorial_progress() -> Array:
+	if story_session != null:
+		return story_session.state.tutorialsCompleted
+	return session.save.tutorialsCompleted
+
+
+func _persist_tutorial_progress() -> void:
+	if story_session != null:
+		story_session.persist()
+	else:
+		session.persist()
+
+
+func _sync_tutorial_prompt() -> void:
+	var revealed := tutorial_reveal_events.duplicate()
+	var board_events: Array[String] = Tutorials.board_reveal_events(game.specials, int(level_data.rows), int(level_data.columns))
+	for event in board_events:
+		if not revealed.has(event): revealed.append(event)
+	var next := Tutorials.next_pending(level_data.get("tutorialConcepts", []), _tutorial_progress(), revealed)
+	if next != active_tutorial:
+		active_tutorial = next
+		tutorial_prompt_dismissed = false
+
+
+func _record_tutorial_move(result: Dictionary, direct_activation := false) -> void:
+	if not bool(result.get("valid", false)): return
+	for event in Tutorials.reveal_events_for_move(result):
+		if not tutorial_reveal_events.has(event): tutorial_reveal_events.append(event)
+	var events := Tutorials.completion_events(result, direct_activation, bool(result.get("specialsCombined", false)))
+	var progress := _tutorial_progress()
+	var completed := Tutorials.completed_by_events(level_data.get("tutorialConcepts", []), progress, events)
+	if not completed.is_empty():
+		for concept in completed:
+			progress.append(concept)
+		_persist_tutorial_progress()
+	_sync_tutorial_prompt()
 
 
 func _retry() -> void:
@@ -1494,6 +1547,7 @@ func _retry() -> void:
 	game = _new_game_for_attempt()
 	selected_index = -1
 	last_feedback = ""
+	_sync_tutorial_prompt()
 	_refresh()
 
 

@@ -173,7 +173,8 @@ func _run() -> void:
 	assert(menu.match3_session.save.attempts.M3_00_LOCKER_TUTORIAL == 1)
 	menu.match3_screen.tutorial_button.pressed.emit()
 	assert(not menu.match3_screen.tutorial_panel.visible)
-	assert(menu.match3_session.save.tutorialsCompleted == ["basic-swap"])
+	assert(menu.match3_session.save.tutorialsCompleted.is_empty(), "Story tutorial progress leaked into the standalone Match-3 campaign save")
+	assert(session.state.tutorialsCompleted.is_empty(), "Acknowledging the story tutorial incorrectly marked its mechanic complete")
 	menu.match3_screen.back_button.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible, "Match-3 back did not restore the story gate")
@@ -182,6 +183,12 @@ func _run() -> void:
 	menu._handle_match3_request("M3_00_LOCKER_TUTORIAL")
 	await process_frame
 	var match3_screen: Control = menu.match3_screen
+	assert(match3_screen.tutorial_panel.visible, "An acknowledged but uncompleted tutorial should return when its level is restarted")
+	match3_screen._record_tutorial_move({"valid": true})
+	assert(session.state.tutorialsCompleted == ["basic-swap"], "A valid story swap did not complete the story tutorial in the story save")
+	assert(menu.match3_session.save.tutorialsCompleted.is_empty(), "Completing a story tutorial changed standalone campaign tutorial progress")
+	match3_screen._refresh()
+	assert(not match3_screen.tutorial_panel.visible, "Completed story tutorial was not dismissed after its completion event")
 	var model: RefCounted = match3_screen.game
 	assert(menu.preferences.set_locale("ru") == OK)
 	model.state = "lost"

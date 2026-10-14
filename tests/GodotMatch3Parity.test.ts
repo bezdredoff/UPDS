@@ -1,7 +1,9 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { godotMatch3Level } from './fixtures/godotMatch3';
+import { godotCampaignBundle, godotMatch3Level } from './fixtures/godotMatch3';
+import { levels } from '../src/data/levels';
+import { match3TutorialConceptIds } from '../src/data/match3Tutorials';
 
 const root = resolve(process.cwd());
 const readJson = (path: string) => JSON.parse(readFileSync(resolve(root, path), 'utf8'));
@@ -19,6 +21,18 @@ describe('Godot first Match-3 level source parity', () => {
     expect(exported.seededOpeningBoard).toHaveLength(exported.rows * exported.columns);
     expect(exported.seededOpeningBoard).toEqual(godotMatch3Level().seededOpeningBoard);
     expect(Object.keys(exported.localized).sort()).toEqual(['be', 'en', 'ru']);
+  });
+
+  it('exports every Match-3 tutorial concept and its complete RU/BE/EN copy', () => {
+    const bundle = godotCampaignBundle();
+    expect(bundle.levels.map((level) => level.tutorialConcepts)).toEqual(levels.map((level) => level.tutorialConcepts));
+    for (const locale of ['ru', 'be', 'en'] as const) {
+      expect(bundle.tutorials[locale].try).toBeTruthy();
+      for (const concept of match3TutorialConceptIds) {
+        expect(bundle.tutorials[locale].concepts[concept].title, `${locale}/${concept} title`).toBeTruthy();
+        expect(bundle.tutorials[locale].concepts[concept].body, `${locale}/${concept} body`).toBeTruthy();
+      }
+    }
   });
 
   it('copies each approved tile image byte for byte from the web source', () => {
