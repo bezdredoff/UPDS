@@ -23,7 +23,7 @@ fs.writeFileSync(path.join(root, 'godot/tests/fixtures/match3_parity_cases.json'
 const assets = new Set([
   ...Object.values(bundle.assets).flatMap((group) => Object.values(group)),
   ...Object.values(level.assets),
-  level.evidence.asset,
+  ...bundle.levels.map((campaignLevel) => campaignLevel.evidence.asset),
 ]);
 for (const asset of assets) {
   if (typeof asset !== 'string' || !asset.startsWith('./assets/') || asset.includes('..')) {
@@ -33,4 +33,4 @@ for (const asset of assets) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.copyFileSync(path.join(root, 'public', asset), target);
 }
-console.log(`Exported ${bundle.levels.length} campaign levels, ${assets.size} gameplay assets, ${parityCases.length} gameplay parity cases, and ${Object.keys(level.localized).length} locales.`);
+console.log(`Exported ${bundle.levels.length} campaign levels, ${assets.size} gameplay assets and evidence images, ${parityCases.length} gameplay parity cases, and ${Object.keys(level.localized).length} locales.`);

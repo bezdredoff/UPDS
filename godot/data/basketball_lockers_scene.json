@@ -1,0 +1,586 @@
+{
+  "sceneId": "VN_SCENE_11_E5_PRE",
+  "sceneIndex": 11,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_05_BASKETBALL_LOCKERS",
+  "onWinSceneIndex": 12,
+  "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+  "titles": {
+    "ru": "Заслон для вора",
+    "en": "Screen for a Thief",
+    "be": "Заслон для злодзея"
+  },
+  "lines": [
+    {
+      "id": "VN0289",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ESTABLISHING / LOCKER ROOM",
+          "text": "Баскетбольная раздевалка. Высокие шкафчики, длинная скамья и пакет с биркой ремонта на верхней полке."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "ESTABLISHING / LOCKER ROOM",
+          "text": "Basketball locker room. Tall cabinets, a long bench, and a repair-tagged bag on the top shelf."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ESTABLISHING / LOCKER ROOM",
+          "text": "Баскетбольная распранальня. Высокія шафкі, доўгая лава і пакет з біркай рамонту на верхняй паліцы."
+        }
+      }
+    },
+    {
+      "id": "VN0290",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СМЕЛАЯ ТЕОРИЯ",
+          "text": "Если вор постоянно берёт с верхних полок, можно оценить его рост по зоне доступа."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BOLD THEORY",
+          "text": "If the thief keeps taking things from the top shelves, we can estimate their height from the access zone."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "СМЕЛАЯ ТЭОРЫЯ",
+          "text": "Калі злодзей пастаянна бярэ з верхніх паліц, можна ацаніць яго рост па зоне доступу."
+        }
+      }
+    },
+    {
+      "id": "VN0291",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "БАСКЕТБОЛИСТКА",
+          "emotion": "МОЛЧА",
+          "text": "Без слов достаёт пакет с верхней полки и передаёт его Аюки."
+        },
+        "en": {
+          "speaker": "BASKETBALL PLAYER",
+          "emotion": "SILENTLY",
+          "text": "Without a word, she reaches the top shelf and hands the bag to Ayuki."
+        },
+        "be": {
+          "speaker": "БАСКЕТБАЛІСТКА",
+          "emotion": "МОЎЧКІ",
+          "text": "Моўчкі дастае пакет з верхняй паліцы і перадае яго Аюкі."
+        }
+      }
+    },
+    {
+      "id": "VN0292",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "ИРОНИЧНАЯ",
+          "text": "Теория прожила меньше времени, чем понадобилось ей, чтобы дотянуться."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "IRONIC",
+          "text": "The theory survived for less time than it took her to reach the shelf."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "ІРАНІЧНАЯ",
+          "text": "Тэорыя пражыла менш часу, чым ёй спатрэбілася, каб дацягнуцца."
+        }
+      }
+    },
+    {
+      "id": "VN0293",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "С ИНВЕНТАРЁМ",
+          "text": "Пропали простые и декоративные комплекты, мужское и женское бельё и один компрессионный топ. Общего внешнего признака нет."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "WITH INVENTORY",
+          "text": "Missing items include plain and decorative sets, men’s and women’s underwear, and one compression top. No shared visual trait."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "З ІНВЕНТАРОМ",
+          "text": "Зніклі простыя і дэкаратыўныя камплекты, мужчынская і жаночая бялізна і адзін кампрэсійны топ. Агульнай знешняй прыкметы няма."
+        }
+      }
+    },
+    {
+      "id": "VN0294",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "ВХОДИТ",
+          "text": "Если вы пришли по ремонту, журнал у меня. Если по слухам — сначала выключите камеры."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "ENTERS",
+          "text": "If you are here about repairs, I have the log. If you are here about rumors, turn the cameras off first."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "УВАХОДЗІЦЬ",
+          "text": "Калі вы прыйшлі наконт рамонту, журнал у мяне. Калі наконт чутак — спачатку выключыце камеры."
+        }
+      }
+    },
+    {
+      "id": "VN0295",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПРЯМО",
+          "text": "Тихару Хината? Нам нужно восстановить, кто держал вещи между шкафчиком и прачечной."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "DIRECT",
+          "text": "Chiharu Hinata? We need to reconstruct who handled the items between the cabinet and the laundry."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "НАПРАМУЮ",
+          "text": "Ціхару Хіната? Нам трэба аднавіць, хто трымаў рэчы паміж шафкай і пральняй."
+        }
+      }
+    },
+    {
+      "id": "VN0296",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПОДОЗРИТЕЛЬНАЯ",
+          "text": "Нам сказали, что часть чужой экипировки вы храните дома."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "SUSPICIOUS",
+          "text": "We were told you keep some other people’s gear at home."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПАДАЗРОНАЯ",
+          "text": "Нам сказалі, што частку чужой экіпіроўкі вы захоўваеце дома."
+        }
+      }
+    },
+    {
+      "id": "VN0297",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "ПРОФЕССИОНАЛЬНО",
+          "text": "По подписанным заказам. Я подгоняю форму и чиню спортивное бельё для команды. Это не коллекция."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "PROFESSIONAL",
+          "text": "Under signed work orders. I alter uniforms and repair sports underwear for the team. It is not a collection."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "ПРАФЕСІЙНА",
+          "text": "Па падпісаных заказах. Я падганяю форму і рамантую спартыўную бялізну для каманды. Гэта не калекцыя."
+        }
+      }
+    },
+    {
+      "id": "VN0298",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВНИМАТЕЛЬНАЯ",
+          "text": "Когда вы в последний раз держали пропавшие вещи?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "ATTENTIVE",
+          "text": "When did you last handle the missing items?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УВАЖЛІВАЯ",
+          "text": "Калі вы апошні раз трымалі зніклыя рэчы?"
+        }
+      }
+    },
+    {
+      "id": "VN0299",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "С ПАПКОЙ",
+          "text": "После ремонта. Потом я передала их в центральную прачечную вместе с остальной партией."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "WITH A FOLDER",
+          "text": "After repairs. Then I sent them to the central laundry with the rest of the batch."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "З ПАПКАЙ",
+          "text": "Пасля рамонту. Потым я перадала іх у цэнтральную пральню разам з астатняй партыяй."
+        }
+      }
+    },
+    {
+      "id": "VN0300",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОКАЗЫВАЕТ ШОВ",
+          "text": "На нескольких вещах одинаковая сервисная строчка. Это ваша работа?"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SHOWS THE SEAM",
+          "text": "Several items have the same service stitch. Is this your work?"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАКАЗВАЕ ШВО",
+          "text": "На некалькіх рэчах аднолькавая сэрвісная строчка. Гэта ваша праца?"
+        }
+      }
+    },
+    {
+      "id": "VN0301",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КАПИТАН МУЖСКОЙ КОМАНДЫ",
+          "emotion": "ДЕЛОВАЯ",
+          "text": "Компрессионный топ точно был у Хинаты на ремонте. Остальные вещи — не все."
+        },
+        "en": {
+          "speaker": "MEN’S TEAM CAPTAIN",
+          "emotion": "BUSINESSLIKE",
+          "text": "The compression top definitely went to Hinata for repair. Not all of the other items did."
+        },
+        "be": {
+          "speaker": "КАПІТАН МУЖЧЫНСКАЙ КАМАНДЫ",
+          "emotion": "ДЗЕЛАВАЯ",
+          "text": "Кампрэсійны топ дакладна быў у Хінаты на рамонце. Астатнія рэчы — не ўсе."
+        }
+      }
+    },
+    {
+      "id": "VN0302",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Все спорные вещи могли проходить через мою комнату как часть заказов, но я не меняю швы без записи."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "SERIOUS",
+          "text": "All disputed items may have passed through my room as work orders, but I do not alter seams without logging it."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Усе спрэчныя рэчы маглі праходзіць праз мой пакой як частка заказаў, але я не змяняю швы без запісу."
+        }
+      }
+    },
+    {
+      "id": "VN0303",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПЫТАЕТСЯ ОБОБЩИТЬ",
+          "text": "То есть у преступника всё-таки может быть атлетический вкус?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "TRIES TO GENERALIZE",
+          "text": "So the culprit could still have athletic taste?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "СПРАБУЕ АБАГУЛЬНІЦЬ",
+          "text": "То бок у злачынцы ўсё ж можа быць атлетычны густ?"
+        }
+      }
+    },
+    {
+      "id": "VN0304",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НАЧИНАЕТ ЛЕКЦИЮ",
+          "text": "Категория «атлетический вкус» статистически бессмысленна без контрольной группы, базовой частоты и определения…"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "STARTS A LECTURE",
+          "text": "The category “athletic taste” is statistically meaningless without a control group, a base rate, and a definition…"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАЧЫНАЕ ЛЕКЦЫЮ",
+          "text": "Катэгорыя «атлетычны густ» статыстычна бессэнсоўная без кантрольнай групы, базавай частаты і азначэння…"
+        }
+      }
+    },
+    {
+      "id": "VN0305",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: TOWEL OVER CHART",
+          "text": "Баскетболистка накрывает график Оноэ полотенцем."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "INSERT: TOWEL OVER CHART",
+          "text": "The basketball player covers Onoe’s chart with a towel."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: TOWEL OVER CHART",
+          "text": "Баскетбалістка накрывае графік Оноэ ручніком."
+        }
+      }
+    },
+    {
+      "id": "VN0306",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ДЕЛОВАЯ",
+          "text": "Откроем шкафчики, сверим сервисные ярлыки и восстановим партии. Никаких выводов до состава."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BUSINESSLIKE",
+          "text": "We open the cabinets, compare service tags, and reconstruct the batches. No conclusions before the inventory."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ДЗЕЛАВАЯ",
+          "text": "Адкрыем шафкі, зверым сэрвісныя біркі і адновім партыі. Ніякіх высноў да інвентарызацыі."
+        }
+      }
+    },
+    {
+      "id": "VN0307",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "СОГЛАСНА",
+          "text": "Согласна. И всё найденное сначала возвращается владельцу, а не становится реквизитом расследования."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "AGREES",
+          "text": "Agreed. And anything you find goes back to its owner first, not into the investigation as a prop."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "ЗГОДНАЯ",
+          "text": "Згодна. І ўсё знойдзенае спачатку вяртаецца ўладальніку, а не становіцца рэквізітам расследавання."
+        }
+      }
+    },
+    {
+      "id": "VN0308",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Высокие шкафчики превращаются в вертикальные колонки поля; журнал ремонта опускается между секциями."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "The tall cabinets become vertical board columns; the repair log drops between the sections."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Высокія шафкі ператвараюцца ў вертыкальныя калонкі поля; журнал рамонту апускаецца паміж секцыямі."
+        }
+      }
+    }
+  ]
+}

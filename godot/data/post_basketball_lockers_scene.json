@@ -1,0 +1,540 @@
+{
+  "sceneId": "VN_SCENE_12_E5_POST",
+  "sceneIndex": 12,
+  "nextSceneId": "VN_SCENE_13_E6_PRE",
+  "nextSceneIndex": 13,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+  "titles": {
+    "ru": "Сервисная строчка",
+    "en": "Service Stitch",
+    "be": "Сэрвісная строчка"
+  },
+  "lines": [
+    {
+      "id": "VN0309",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: REPAIR LOG",
+          "text": "Журнал ремонта открыт рядом с сервисными ярлыками из разных шкафчиков."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "INSERT: REPAIR LOG",
+          "text": "The repair log lies open beside service tags from different cabinets."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: REPAIR LOG",
+          "text": "Журнал рамонту адкрыты побач з сэрвіснымі біркамі з розных шафак."
+        }
+      }
+    },
+    {
+      "id": "VN0310",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СВЕРЯЕТ",
+          "text": "Размер — корреляции нет. Стиль — нет. Гендер владельца — нет. Положение в шкафу — тоже нет."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "COMPARES",
+          "text": "Size: no correlation. Style: none. Owner gender: none. Cabinet position: none either."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗВЯРАЕ",
+          "text": "Памер — карэляцыі няма. Стыль — няма. Пол уладальніка — няма. Становішча ў шафе — таксама няма."
+        }
+      }
+    },
+    {
+      "id": "VN0311",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПОКАЗЫВАЕТ ШОВ",
+          "text": "Но на несвязанных предметах повторяется один тип сервисной строчки."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "SHOWS THE SEAM",
+          "text": "But the same service-stitch pattern repeats across otherwise unrelated items."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПАКАЗВАЕ ШВО",
+          "text": "Але на не звязаных паміж сабой рэчах паўтараецца адзін тып сэрвіснай строчкі."
+        }
+      }
+    },
+    {
+      "id": "VN0312",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "РАЗОЧАРОВАННАЯ",
+          "text": "Моя теория вкуса умерла второй раз за один вечер."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "DISAPPOINTED",
+          "text": "My taste theory has died for the second time tonight."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "РАСЧАРАВАНАЯ",
+          "text": "Мая тэорыя густу памерла другі раз за адзін вечар."
+        }
+      }
+    },
+    {
+      "id": "VN0313",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "СДЕРЖАННО",
+          "text": "Если строчка моя, в журнале будет операция. Если записи нет — ищите следующий этап обработки."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "RESTRAINED",
+          "text": "If the stitch is mine, the operation will be in the log. If there is no entry, look at the next processing step."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "СТРЫМАНА",
+          "text": "Калі строчка мая, у журнале будзе аперацыя. Калі запісу няма — шукайце наступны этап апрацоўкі."
+        }
+      }
+    },
+    {
+      "id": "VN0314",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СВЕРЯЕТ",
+          "text": "Для трёх спорных вещей записи о такой строчке нет."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "COMPARES",
+          "text": "For three disputed items, there is no record of that stitch."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗВЯРАЕ",
+          "text": "Для трох спрэчных рэчаў запісу пра такую строчку няма."
+        }
+      }
+    },
+    {
+      "id": "VN0315",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "БАСКЕТБОЛИСТКА",
+          "emotion": "ВНИМАТЕЛЬНО",
+          "text": "И один комплект вообще не ремонтировали в этом месяце."
+        },
+        "en": {
+          "speaker": "BASKETBALL PLAYER",
+          "emotion": "CAREFULLY",
+          "text": "And one set was not repaired at all this month."
+        },
+        "be": {
+          "speaker": "БАСКЕТБАЛІСТКА",
+          "emotion": "УВАЖЛІВА",
+          "text": "І адзін камплект увогуле не рамантавалі ў гэтым месяцы."
+        }
+      }
+    },
+    {
+      "id": "VN0316",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ОБОЗНАЧАЕТ ГРАНИЦУ",
+          "text": "Ремонт у Хинаты — необязательный этап. Общий для всех участок — центральная прачечная."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "SETS A BOUNDARY",
+          "text": "So Hinata’s workshop was only one possible step. The central laundry was the step they all shared."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "АБАЗНАЧАЕ МЯЖУ",
+          "text": "Значыць, майстэрня Хінаты была толькі адным з магчымых этапаў. Агульным для ўсіх этапам была цэнтральная пральня."
+        }
+      }
+    },
+    {
+      "id": "VN0317",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПОДОЗРИТЕЛЬНАЯ",
+          "text": "Но часть спорных вещей всё-таки была у Хинаты дома. Для невиновного человека это очень неудобный факт."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "SUSPICIOUS",
+          "text": "But some of the disputed items were still at Hinata’s home. That is an inconvenient fact for an innocent person."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПАДАЗРОНАЯ",
+          "text": "Але частка спрэчных рэчаў усё ж была ў Хінаты дома. Для невінаватага чалавека гэта вельмі нязручны факт."
+        }
+      }
+    },
+    {
+      "id": "VN0318",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "НЕВПЕЧАТЛЁННАЯ",
+          "text": "Неудобство не делает факт обвинением."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "UNIMPRESSED",
+          "text": "Inconvenience does not turn a fact into an accusation."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "НЕЎРАЖАНАЯ",
+          "text": "Нязручнасць не ператварае факт у абвінавачанне."
+        }
+      }
+    },
+    {
+      "id": "VN0319",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Согласна. Журнал подтверждает маршрут, но не присвоение вещей."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SERIOUS",
+          "text": "Agreed. The log confirms the route, not that she kept anything."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Згодна. Журнал пацвярджае маршрут, але не прысваенне рэчаў."
+        }
+      }
+    },
+    {
+      "id": "VN0320",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "ПРЯМО",
+          "text": "Хотите закрыть вопрос — приходите в мастерскую. Заказы, фотографии и машина на месте."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "DIRECT",
+          "text": "If you want to settle it, come to my workshop. The orders, photos, and machine are all there."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "НАПРАМУЮ",
+          "text": "Хочаце закрыць пытанне — прыходзьце ў майстэрню. Заказы, фатаграфіі і машына на месцы."
+        }
+      }
+    },
+    {
+      "id": "VN0321",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-smile.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "МЯГЧЕ",
+          "text": "Вы не обязаны приглашать нас домой."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "SOFTER",
+          "text": "You are not required to invite us into your home."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "МЯКЧЭЙ",
+          "text": "Вы не абавязаныя запрашаць нас дадому."
+        }
+      }
+    },
+    {
+      "id": "VN0322",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "СПОКОЙНО",
+          "text": "Не обязана. Но команда уже шепчется. Мне выгоднее один аккуратный осмотр, чем неделя аккуратных слухов."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "CALMLY",
+          "text": "I am not. But the team is already whispering. One careful inspection is better for me than a week of careful rumors."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "СПАКОЙНА",
+          "text": "Не абавязаная. Але каманда ўжо шэпчацца. Мне выгадней адзін акуратны агляд, чым тыдзень акуратных чутак."
+        }
+      }
+    },
+    {
+      "id": "VN0323",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_006}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_006}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_006}"
+        }
+      }
+    },
+    {
+      "id": "VN0324",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "ВНИМАТЕЛЬНАЯ",
+          "text": "Мы снова заподозрили человека не из-за улик кражи, а потому, что её объяснение показалось слишком удобным."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "ATTENTIVE",
+          "text": "Once again, we suspected someone not because the evidence pointed to theft, but because her explanation seemed too convenient."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "УВАЖЛІВАЯ",
+          "text": "Мы зноў западозрылі чалавека не таму, што доказы паказвалі на крадзеж, а таму, што яе тлумачэнне здавалася занадта зручным."
+        }
+      }
+    },
+    {
+      "id": "VN0325",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТИХО",
+          "text": "Квартира, чужое бельё, швейная машина. Если это не финальная локация дела, я разочаруюсь."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "QUIETLY",
+          "text": "Apartment, other people’s underwear, sewing machine. If this is not the final location of the case, I will be disappointed."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЦІХА",
+          "text": "Кватэра, чужая бялізна, швейная машына. Калі гэта не фінальная лакацыя справы, я расчаруюся."
+        }
+      }
+    },
+    {
+      "id": "VN0326",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпизод 6 — Мастерская подозрительного размера»"
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "EPISODE CARD",
+          "text": "“Episode 6 — A Workshop of Suspicious Size”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпізод 6 — Майстэрня падазронага памеру»"
+        }
+      }
+    }
+  ]
+}

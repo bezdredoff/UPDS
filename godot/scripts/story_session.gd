@@ -16,8 +16,10 @@ const OrderedInspectionScene = preload("res://data/ordered_inspection_scene.json
 const PostOrderedInspectionScene = preload("res://data/post_ordered_inspection_scene.json")
 const EmergencyMeetingScene = preload("res://data/emergency_meeting_scene.json")
 const PostEmergencyMeetingScene = preload("res://data/post_emergency_meeting_scene.json")
+const BasketballLockersScene = preload("res://data/basketball_lockers_scene.json")
+const PostBasketballLockersScene = preload("res://data/post_basketball_lockers_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 10
+const MAX_PORTED_SCENE_INDEX := 12
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -113,6 +115,8 @@ func scene_data() -> Dictionary:
 		8: return PostOrderedInspectionScene.data
 		9: return EmergencyMeetingScene.data
 		10: return PostEmergencyMeetingScene.data
+		11: return BasketballLockersScene.data
+		12: return PostBasketballLockersScene.data
 	return {}
 
 
@@ -192,4 +196,8 @@ func _scene_lines() -> Array:
 		return EmergencyMeetingScene.data.lines
 	if state.scene == 10:
 		return PostEmergencyMeetingScene.data.lines
+	if state.scene == 11:
+		return BasketballLockersScene.data.lines
+	if state.scene == 12:
+		return PostBasketballLockersScene.data.lines
 	return []
