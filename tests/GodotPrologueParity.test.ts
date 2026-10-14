@@ -69,6 +69,8 @@ describe('Godot story source parity', () => {
       [8, 'godot/data/post_ordered_inspection_scene.json', 'VN0217', 'VN0250', '', -1],
       [9, 'godot/data/emergency_meeting_scene.json', 'VN0251', 'VN0270', 'M3_04_EMERGENCY_MEETING', 10],
       [10, 'godot/data/post_emergency_meeting_scene.json', 'VN0271', 'VN0288', '', -1],
+      [11, 'godot/data/basketball_lockers_scene.json', 'VN0289', 'VN0308', 'M3_05_BASKETBALL_LOCKERS', 12],
+      [12, 'godot/data/post_basketball_lockers_scene.json', 'VN0309', 'VN0326', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -96,5 +98,10 @@ describe('Godot story source parity', () => {
     expect(meetingLevel.evidence.localized.ru.title).toBeTruthy();
     expect(meetingLevel.evidence.localized.be.label).toBeTruthy();
     expect(meetingLevel.evidence.localized.en.continueStory).toBeTruthy();
+    const basketballLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_05_BASKETBALL_LOCKERS');
+    expect(basketballLevel.evidence.id).toBe('CUE_006');
+    expect(basketballLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(basketballLevel.evidence.localized.be.label).toBeTruthy();
+    expect(basketballLevel.evidence.localized.en.continueStory).toBeTruthy();
   });
 });

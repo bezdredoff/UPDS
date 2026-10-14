@@ -231,6 +231,27 @@ func _run() -> void:
 	assert(screen.title.text == session.scene_data().titles.en)
 	while session.current_line().id != "VN0288":
 		assert(session.advance())
+	assert(not session.at_port_boundary() and session.advance())
+	assert(session.state.scene == 11 and session.current_line().id == "VN0290")
+	assert(session.state.readLines.has("VN0289"), "Basketball chapter opening direction was not consumed")
+	while session.current_line().id != "VN0308":
+		assert(session.advance())
+	assert(session.at_match3_gate() and session.scene_data().nextLevelId == "M3_05_BASKETBALL_LOCKERS")
+	await process_frame
+	assert(menu.match3_screen != null and menu.match3_screen.level_id == "M3_05_BASKETBALL_LOCKERS")
+	assert(reached_levels == ["M3_00_LOCKER_TUTORIAL", "M3_01_PHOTO_PROPS", "M3_02_POOL_LAUNDRY", "M3_03_ORDERED_APARTMENT", "M3_04_EMERGENCY_MEETING", "M3_05_BASKETBALL_LOCKERS"])
+	assert(session.complete_match3("M3_05_BASKETBALL_LOCKERS"))
+	assert(session.state.scene == 12 and session.current_line().id == "VN0310")
+	assert(session.state.completed == [0, 1, 2, 3, 4, 5] and session.state.clues == ["CUE_001", "CUE_002", "CUE_003", "CUE_004", "CUE_005", "CUE_006"])
+	menu.match3_screen.game.state = "won"
+	menu.match3_screen._refresh()
+	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_continue.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible)
+	assert(screen.title.text == session.scene_data().titles.en)
+	while session.current_line().id != "VN0326":
+		assert(session.advance())
 	assert(session.at_port_boundary() and not session.advance())
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
@@ -239,7 +260,7 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.scene == 10 and session.current_line().id == "VN0288")
+	assert(session.state.scene == 12 and session.current_line().id == "VN0326")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()
@@ -271,7 +292,7 @@ func _run() -> void:
 func _unsupported_save() -> void:
 	var memory := Memory.new()
 	var store := Store.new(memory)
-	assert(store.save_story({"scene": 12, "line": 3, "completed": [1]}))
+	assert(store.save_story({"scene": 13, "line": 3, "completed": [1]}))
 	var raw: String = memory.get_item(Format.CONTRACT.data.storyKey)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(store)

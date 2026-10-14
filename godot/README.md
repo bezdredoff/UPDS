@@ -40,14 +40,14 @@ Haptics are enabled only on native Android/iOS; hardware verification is pending
 New Game opens the playable prologue (`VN0001–VN0022`) and continues into scene 1
 (`VN0023–VN0057`) with RU/BE/EN copy, approved character art and backgrounds.
 `CHOICE_00` A/B/C is persisted through the existing Story `choice` field. Continue
-resumes supported positions through VN0288; saves beyond the current port boundary
+resumes supported positions through VN0326; saves beyond the current port boundary
 remain intact and unavailable. Scene 1 ends at an explicit request for
 `M3_00_LOCKER_TUTORIAL`. The first 9×7 Match-3 level is playable with its base
 swap tutorial, source tile art, collect objective, special tiles, move limit and
 campaign retry statistics. A win records the clue and opens the localized evidence
-card. The connected story route currently continues through VN0288 with gates
-M3_00–M3_04 and resumable post-match scenes; the next unported scene starts at
-VN0289. The separate campaign hub exposes all 22 levels with sequential unlocks.
+card. The connected story route currently continues through VN0326 with gates
+M3_00–M3_05 and resumable post-match scenes; the next unported scene starts at
+VN0327. The separate campaign hub exposes all 22 levels with sequential unlocks.
 Replacing existing progress through New Game requires confirmation.
 
 ## Native campaign persistence

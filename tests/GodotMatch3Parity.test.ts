@@ -33,4 +33,15 @@ describe('Godot first Match-3 level source parity', () => {
     const evidencePort = readFileSync(resolve(root, 'godot', evidence.asset.replace(/^\.\//, '')));
     expect(evidencePort.equals(evidenceSource)).toBe(true);
   });
+
+  it('copies every campaign evidence image required by the Godot win card', () => {
+    const bundle = JSON.parse(readFileSync(resolve(root, 'godot/data/campaign_match3_levels.json'), 'utf8'));
+    const assets = new Set<string>(bundle.levels.map((entry: { evidence: { asset: string } }) => entry.evidence.asset));
+    expect(assets.size).toBeGreaterThan(1);
+    for (const asset of assets) {
+      const source = readFileSync(resolve(root, 'public', asset.replace(/^\.\//, '')));
+      const ported = readFileSync(resolve(root, 'godot', asset.replace(/^\.\//, '')));
+      expect(ported.equals(source), `${asset} changed during export`).toBe(true);
+    }
+  });
 });

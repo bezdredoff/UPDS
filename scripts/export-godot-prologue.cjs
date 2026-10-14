@@ -34,6 +34,10 @@ const emergencyMeetingScene = godotStoryScene(9);
 fs.writeFileSync(path.join(root, 'godot/data/emergency_meeting_scene.json'), `${JSON.stringify(emergencyMeetingScene, null, 2)}\n`);
 const postEmergencyMeetingScene = godotStoryScene(10);
 fs.writeFileSync(path.join(root, 'godot/data/post_emergency_meeting_scene.json'), `${JSON.stringify(postEmergencyMeetingScene, null, 2)}\n`);
+const basketballLockersScene = godotStoryScene(11);
+fs.writeFileSync(path.join(root, 'godot/data/basketball_lockers_scene.json'), `${JSON.stringify(basketballLockersScene, null, 2)}\n`);
+const postBasketballLockersScene = godotStoryScene(12);
+fs.writeFileSync(path.join(root, 'godot/data/post_basketball_lockers_scene.json'), `${JSON.stringify(postBasketballLockersScene, null, 2)}\n`);
 const audioPath = path.join(root, 'godot/data/menu_audio.json');
 const audio = JSON.parse(fs.readFileSync(audioPath, 'utf8'));
 fs.writeFileSync(audioPath, `${JSON.stringify({ ...audio, ...godotVnAudio() }, null, 2)}\n`);
@@ -42,7 +46,7 @@ for (const line of postMatchScene.lines) {
   assets.add(line.background);
   for (const actor of line.actors) assets.add(actor.asset);
 }
-for (const scene of [photoScene, postPhotoScene, poolScene, postPoolScene, orderedInspectionScene, postOrderedInspectionScene, emergencyMeetingScene, postEmergencyMeetingScene]) {
+for (const scene of [photoScene, postPhotoScene, poolScene, postPoolScene, orderedInspectionScene, postOrderedInspectionScene, emergencyMeetingScene, postEmergencyMeetingScene, basketballLockersScene, postBasketballLockersScene]) {
   assets.add(scene.background);
   for (const line of scene.lines) {
     assets.add(line.background);
@@ -61,4 +65,4 @@ for (const asset of assets) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.copyFileSync(path.join(root, 'public', asset), target);
 }
-console.log(`Exported Godot story scene data through scene 10, 3 locales, and ${assets.size} original assets.`);
+console.log(`Exported Godot story scene data through scene 12, 3 locales, and ${assets.size} original assets.`);
