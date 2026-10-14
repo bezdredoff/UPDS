@@ -1,0 +1,584 @@
+{
+  "sceneId": "VN_SCENE_29_E14_PRE",
+  "sceneIndex": 29,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_14_KUBO_ATELIER_LEDGER",
+  "onWinSceneIndex": 30,
+  "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+  "titles": {
+    "ru": "Дом, где бельё ни при чём",
+    "en": "The House Where Underwear Has Nothing to Do with It",
+    "be": "Дом, дзе бялізна ні пры чым"
+  },
+  "lines": [
+    {
+      "id": "VN0647",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ESTABLISHING / TEXTILE WORKSHOP",
+          "text": "Первый этаж дома Кубо превращён в семейное ателье: манекены, выкройки, спортивная форма, эластичные ленты и десятки подписанных заказов."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "ESTABLISHING / TEXTILE WORKSHOP",
+          "text": "The ground floor of the Kubo home is a family atelier: mannequins, patterns, sports uniforms, elastic bands, and dozens of labeled orders."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ESTABLISHING / TEXTILE WORKSHOP",
+          "text": "Першы паверх дома Кубо ператвораны ў сямейнае атэлье: манекены, выкрайкі, спартыўная форма, эластычныя стужкі і дзясяткі падпісаных заказаў."
+        }
+      }
+    },
+    {
+      "id": "VN0648",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "МАТЬ КУБО",
+          "emotion": "ДЕЛОВИТО",
+          "text": "Новые клиентки? Если срочно, начнём с мерок и уверенности. Второе иногда важнее первого."
+        },
+        "en": {
+          "speaker": "KUBO'S MOTHER",
+          "emotion": "BEAT",
+          "text": "New customers? If it is urgent, we start with measurements and confidence. The second is sometimes more important."
+        },
+        "be": {
+          "speaker": "МАЦІ КУБО",
+          "emotion": "ПА-ДЗЕЛАВОМУ",
+          "text": "Новыя кліенткі? Калі тэрмінова, пачнём з мерак і ўпэўненасці. Другое часам важней за першае."
+        }
+      }
+    },
+    {
+      "id": "VN0649",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КУБО",
+          "emotion": "ВПЕРВЫЕ СМУЩЁН",
+          "text": "Мама. Это детективный клуб."
+        },
+        "en": {
+          "speaker": "KUBO",
+          "emotion": "BEAT",
+          "text": "Mom. This is the detective club."
+        },
+        "be": {
+          "speaker": "КУБО",
+          "emotion": "УПЕРШЫНЮ ЗБЯНТЭЖАНЫ",
+          "text": "Мама. Гэта дэтэктыўны клуб."
+        }
+      }
+    },
+    {
+      "id": "VN0650",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "МАТЬ КУБО",
+          "emotion": "ЕЩЁ ДЕЛОВИТЕЕ",
+          "text": "Тогда мерки позже. Что украли и кто неправильно стирал?"
+        },
+        "en": {
+          "speaker": "KUBO'S MOTHER",
+          "emotion": "BEAT",
+          "text": "Measurements later, then. What was stolen, and who washed it incorrectly?"
+        },
+        "be": {
+          "speaker": "МАЦІ КУБО",
+          "emotion": "ЯШЧЭ БОЛЬШ ПА-ДЗЕЛАВОМУ",
+          "text": "Тады меркі пазней. Што скралі і хто няправільна мыў?"
+        }
+      }
+    },
+    {
+      "id": "VN0651",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "МИКУ, ТИХО",
+          "text": "Я уже доверяю ей больше половины администрации."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "I already trust her more than half the administration."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "МІКУ, ЦІХА",
+          "text": "Я ўжо давяраю ёй больш, чым палове адміністрацыі."
+        }
+      }
+    },
+    {
+      "id": "VN0652",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОКАЗЫВАЕТ КВИТАНЦИЮ",
+          "text": "Нам нужна запись по этим заказам. Особенно просьбы Рины Сираиси проверять серебристые швы."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "We need the record for these orders, especially Rina Shiraishi’s requests to inspect silver seams."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАКАЗВАЕ КВІТАНЦЫЮ",
+          "text": "Нам патрэбны запіс па гэтых заказах. Асабліва просьбы Рыны Сіраісі правяраць серабрыстыя швы."
+        }
+      }
+    },
+    {
+      "id": "VN0653",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "МАТЬ КУБО",
+          "emotion": "УЗНАЁТ",
+          "text": "Конечно. Очень вежливая девушка. Всегда просила записывать код ярлыка и не менять сам шов."
+        },
+        "en": {
+          "speaker": "KUBO'S MOTHER",
+          "emotion": "BEAT",
+          "text": "Of course. Very polite girl. She always asked us to record the label code and leave the seam itself untouched."
+        },
+        "be": {
+          "speaker": "МАЦІ КУБО",
+          "emotion": "ПАЗНАЕ",
+          "text": "Вядома. Вельмі ветлівая дзяўчына. Заўсёды прасіла запісваць код біркі і не змяняць само шво."
+        }
+      }
+    },
+    {
+      "id": "VN0654",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "УТОЧНЯЕТ",
+          "text": "Когда это началось?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "When did that begin?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УДАКЛАДНЯЕ",
+          "text": "Калі гэта пачалося?"
+        }
+      }
+    },
+    {
+      "id": "VN0655",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "МАТЬ КУБО",
+          "emotion": "ЛИСТАЕТ КНИГУ",
+          "text": "Раньше, чем ваш шум вокруг пропаж. Вот первая запись."
+        },
+        "en": {
+          "speaker": "KUBO'S MOTHER",
+          "emotion": "BEAT",
+          "text": "Before all your noise about the missing items. Here is the first entry."
+        },
+        "be": {
+          "speaker": "МАЦІ КУБО",
+          "emotion": "ГАРТАЕ КНІГУ",
+          "text": "Раней, чым ваш шум вакол знікненняў. Вось першы запіс."
+        }
+      }
+    },
+    {
+      "id": "VN0656",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: ORDER BOOK",
+          "text": "В книге стоят дата, описание изделия, код сервисной бирки и пометка «серебристая нить — не трогать»."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: ORDER BOOK",
+          "text": "The book lists the date, garment description, service-label code, and the note ‘silver thread — do not alter.’"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: ORDER BOOK",
+          "text": "У кнізе пазначаныя дата, апісанне вырабу, код сэрвіснай біркі і нататка «серабрыстая нітка — не чапаць»."
+        }
+      }
+    },
+    {
+      "id": "VN0657",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СМОТРИТ НА МАНЕКЕНЫ",
+          "text": "Я хочу официально отметить, что комната, полная чужого белья, второй раз оказывается нормальным рабочим местом."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "I would like the record to show that a room full of other people’s underwear has turned out to be a normal workplace for the second time."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ГЛЯДЗІЦЬ НА МАНЕКЕНЫ",
+          "text": "Я хачу афіцыйна адзначыць, што пакой, поўны чужой бялізны, ужо другі раз аказваецца нармальным працоўным месцам."
+        }
+      }
+    },
+    {
+      "id": "VN0658",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КУБО",
+          "emotion": "СУХО",
+          "text": "Для нашей семьи это значительный прогресс репутации."
+        },
+        "en": {
+          "speaker": "KUBO",
+          "emotion": "BEAT",
+          "text": "For our family, that is significant reputational progress."
+        },
+        "be": {
+          "speaker": "КУБО",
+          "emotion": "СУХА",
+          "text": "Для нашай сям'і гэта значны прагрэс рэпутацыі."
+        }
+      }
+    },
+    {
+      "id": "VN0659",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "МАТЬ КУБО",
+          "emotion": "БЕРЁТ СПОРТИВНЫЙ ТОП",
+          "text": "Кстати, если расследуете спортивное бельё, главная ошибка — думать только о размере. Конструкция поддержки важнее цифры на ярлыке."
+        },
+        "en": {
+          "speaker": "KUBO'S MOTHER",
+          "emotion": "BEAT",
+          "text": "Also, if you are investigating sports underwear, the biggest mistake is thinking only about size. Support construction matters more than the number on the label."
+        },
+        "be": {
+          "speaker": "МАЦІ КУБО",
+          "emotion": "БЯРЭ СПАРТЫЎНЫ ТОП",
+          "text": "Дарэчы, калі расследуеце спартыўную бялізну, галоўная памылка — думаць толькі пра памер. Канструкцыя падтрымкі важней за лічбу на бірцы."
+        }
+      }
+    },
+    {
+      "id": "VN0660",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-surprised.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "МГНОВЕННО ПРЯЧЕТСЯ ЗА МАНЕКЕНОМ",
+          "text": "Мы можем вернуться к преступлению? Оно внезапно стало менее личным."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Can we go back to the crime? It suddenly feels less personal."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ІМГНЕННА ХАВАЕЦЦА ЗА МАНЕКЕНАМ",
+          "text": "Мы можам вярнуцца да злачынства? Яно раптам стала менш асабістым."
+        }
+      }
+    },
+    {
+      "id": "VN0661",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "МАТЬ КУБО",
+          "emotion": "ПОКАЗЫВАЕТ НА МАНЕКЕН",
+          "text": "Этот манекен как раз вашей размерной группы. Не точный размер. Группа."
+        },
+        "en": {
+          "speaker": "KUBO'S MOTHER",
+          "emotion": "BEAT",
+          "text": "That mannequin is actually your size group. Not your exact size. Group."
+        },
+        "be": {
+          "speaker": "МАЦІ КУБО",
+          "emotion": "ПАКАЗВАЕ НА МАНЕКЕН",
+          "text": "Гэты манекен якраз вашай памернай групы. Не дакладны памер. Група."
+        }
+      }
+    },
+    {
+      "id": "VN0662",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ИЗ-ЗА МАНЕКЕНА",
+          "text": "Это уточнение почему-то не помогло."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "That clarification somehow did not help."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "З-ЗА МАНЕКЕНА",
+          "text": "Гэта ўдакладненне чамусьці не дапамагло."
+        }
+      }
+    },
+    {
+      "id": "VN0663",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 50,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 18,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-embarrassed.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СОХРАНЯЕТ ФОКУС",
+          "text": "Нам нужно сопоставить квитанции, изделия и даты ремонта. Отдельно — все записи с просьбой Рины сохранить шов."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "We need to match receipts, garments, and repair dates. Separately, every entry where Rina asked to preserve the seam."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАХОЎВАЕ ФОКУС",
+          "text": "Нам трэба супаставіць квітанцыі, вырабы і даты рамонту. Асобна — усе запісы з просьбай Рыны захаваць шво."
+        }
+      }
+    },
+    {
+      "id": "VN0664",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "К МАТЕРИ КУБО",
+          "text": "Можно работать с книгой здесь, не вынося её из ателье?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Can we work with the book here without taking it out of the atelier?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ДА МАЦІ КУБО",
+          "text": "Можна працаваць з кнігай тут, не выносячы яе з атэлье?"
+        }
+      }
+    },
+    {
+      "id": "VN0665",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "МАТЬ КУБО",
+          "emotion": "СОГЛАСНА",
+          "text": "Можно. Но никаких фотографий клиентов без отдельного разрешения."
+        },
+        "en": {
+          "speaker": "KUBO'S MOTHER",
+          "emotion": "BEAT",
+          "text": "Yes. But no photographs of clients without separate permission."
+        },
+        "be": {
+          "speaker": "МАЦІ КУБО",
+          "emotion": "ЗГОДНАЯ",
+          "text": "Можна. Але ніякіх фотаздымкаў кліентаў без асобнага дазволу."
+        }
+      }
+    },
+    {
+      "id": "VN0666",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Рабочий стол раскладывается в кластеры: убрать стопки ткани, собрать сервисные бирки и опустить квитанцию вместе с журналом заказов."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "The workbench becomes clustered sections: clear fabric stacks, collect service labels, and drop the receipt together with the order ledger."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Працоўны стол раскладваецца на кластары: прыбраць стосы тканіны, сабраць сэрвісныя біркі і апусціць квітанцыю разам з кнігай заказаў."
+        }
+      }
+    }
+  ]
+}
