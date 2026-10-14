@@ -16,6 +16,8 @@ describe('Godot first Match-3 level source parity', () => {
     expect(exported.moves).toBe(24);
     expect(exported.objectiveTile).toBe('pantiesSportWhite');
     expect(exported.target).toBe(12);
+    expect(exported.seededOpeningBoard).toHaveLength(exported.rows * exported.columns);
+    expect(exported.seededOpeningBoard).toEqual(godotMatch3Level().seededOpeningBoard);
     expect(Object.keys(exported.localized).sort()).toEqual(['be', 'en', 'ru']);
   });
 

@@ -124,6 +124,11 @@ func has_available_move() -> bool:
 	return false
 
 func _fill_initial_board() -> void:
+	var seeded_opening: Array = Level.data.get("seededOpeningBoard", [])
+	if seeded_opening.size() == tiles.size():
+		for index in tiles.size():
+			tiles[index] = str(seeded_opening[index])
+		return
 	var columns := int(Level.data.columns)
 	for index in tiles.size():
 		var candidates: Array = Level.data.activeTiles.duplicate()
