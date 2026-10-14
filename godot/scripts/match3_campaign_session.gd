@@ -18,6 +18,12 @@ func reload() -> void:
 	last_write_ok = true
 
 
+func reset() -> bool:
+	save = Format.fresh_match3()
+	last_write_ok = store.reset_match3()
+	return last_write_ok
+
+
 func start_level(level_id: String) -> void:
 	save.attempts[level_id] = int(save.attempts.get(level_id, 0)) + 1
 	persist()

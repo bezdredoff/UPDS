@@ -7,6 +7,7 @@ const Game = preload("res://scripts/match3_game.gd")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
+const PhoneFrame = preload("res://scripts/phone_frame.gd")
 
 var preferences: RefCounted
 var session: RefCounted
@@ -49,6 +50,7 @@ var evidence_continue: Button
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	PhoneFrame.fit(self)
 	campaign_bundle = CampaignData.load_bundle()
 	if level_id.is_empty(): level_id = str(Level.data.id)
 	level_data = CampaignData.get_level(campaign_bundle, level_id)

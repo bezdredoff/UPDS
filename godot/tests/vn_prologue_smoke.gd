@@ -33,6 +33,7 @@ const KuboAtelierScene = preload("res://data/kubo_atelier_scene.json")
 const PostKuboAtelierScene = preload("res://data/post_kubo_atelier_scene.json")
 const AbandonedLaundryScene = preload("res://data/abandoned_laundry_scene.json")
 const PostAbandonedLaundryScene = preload("res://data/post_abandoned_laundry_scene.json")
+
 const PinkRibbonScannerScene = preload("res://data/pink_ribbon_scanner_scene.json")
 const PostPinkRibbonScannerScene = preload("res://data/post_pink_ribbon_scanner_scene.json")
 const RinaArchiveCatalogScene = preload("res://data/rina_archive_catalog_scene.json")
@@ -46,6 +47,9 @@ const PostFullTruthScene = preload("res://data/post_full_truth_scene.json")
 const ConvenientCaseScene = preload("res://data/convenient_case_scene.json")
 const PostConvenientCaseScene = preload("res://data/post_convenient_case_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
+
+var _test_dossier_reset_requested := false
+var _test_menu_requested := false
 
 
 func _initialize() -> void:
@@ -63,25 +67,60 @@ func _run() -> void:
 	await process_frame
 	assert(menu.get_node("Content/Actions/Continue").disabled)
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
+	await process_frame
 	var screen: Control = menu.get_node("StoryScreen")
+	assert(absf(screen.size.x - 430.0) < 1.0, "Story screens must share the web phone frame width")
+	assert(not screen.stage.clip_contents, "Authored characters must continue behind the VN dialogue panel")
+	assert(screen.background_rect.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		and screen.background_fill.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		and screen.background_fill.material != null,
+		"VN backgrounds should mirror the original fit image and blurred fill layers")
 	assert(not menu.get_node("Content").visible)
 	assert(session.current_line().id == "VN0001")
 	menu.audio_runtime.activate()
 	assert(menu.audio_runtime.music.playing)
 	assert(menu.audio_runtime.music.stream.get_length() > 12.6 and menu.audio_runtime.music.stream.get_length() < 12.7)
 	assert(screen.stage.get_child_count() == 1)
+	var idle_portrait: TextureRect = screen.stage.get_child(0)
+	assert(idle_portrait.get_global_rect().end.y > screen.dialogue_panel.position.y,
+		"The portrait must continue underneath the overlayed VN dialogue card")
+	assert(screen.nameplate.size.x >= 180.0 and screen.nameplate.size.x < screen.dialogue_panel.size.x,
+		"The dialogue nameplate must keep its compact horizontal shape")
+	var resting_position := idle_portrait.position
+	await create_timer(0.8).timeout
+	assert(absf(idle_portrait.position.y - resting_position.y) > 0.1,
+		"The production idle-breathe motion must move the authored VN portrait")
+	await _vn_reading_controls(menu)
 	for locale in ["ru", "be", "en"]:
 		assert(menu.preferences.set_locale(locale) == OK)
-		assert(screen.dialogue.text == Prologue.data.lines[0].localized[locale].text)
+		var source_dialogue: String = Prologue.data.lines[0].localized[locale].text
+		assert(" ".join(screen._dialogue_pages) == " ".join(source_dialogue.split(" ", false)),
+			"VN pages must preserve the complete localized line")
 		assert(screen.speaker.text == Prologue.data.lines[0].localized[locale].speaker)
-	screen.next_button.pressed.emit()
-	screen.next_button.pressed.emit()
-	assert(session.current_line().id == "VN0002", "Rapid taps skipped a line")
+		assert(screen.skip_button.tooltip_text == Copy.text("vn_skip", locale))
+	if screen._dialogue_pages.size() > 1:
+		screen.next_button.pressed.emit()
+		assert(screen._dialogue_page_index == 1 and session.current_line().id == "VN0001",
+			"The first advance must reveal the next page without changing the story line")
+		screen.next_button.pressed.emit()
+		assert(screen._dialogue_page_index == 1 and session.current_line().id == "VN0001",
+			"Rapid taps must not skip a dialogue page")
+		while screen._dialogue_page_index + 1 < screen._dialogue_pages.size():
+			await create_timer(0.3).timeout
+			screen.next_button.pressed.emit()
+		await create_timer(0.3).timeout
+		screen.next_button.pressed.emit()
+	else:
+		screen.next_button.pressed.emit()
+		screen.next_button.pressed.emit()
+	assert(session.current_line().id == "VN0002", "The final page must advance to the next story line")
 	assert(session.state.readLines == ["VN0001"])
 	screen.settings_button.pressed.emit()
-	assert(not screen.visible and menu.has_node("SettingsScreen"))
-	menu.get_node("SettingsScreen").back.pressed.emit()
-	assert(screen.visible and screen.settings_button.has_focus())
+	assert(screen.overlay_title.text == Copy.text("vn_config_title", menu.preferences.locale))
+	assert(screen.overlay.find_child("AutoSpeedNormal", true, false) != null,
+		"VN settings should open the reading configuration in place")
+	screen._close_overlay()
+	assert(screen.visible and not menu.has_node("SettingsScreen"))
 	assert(not menu.get_node("Content").visible)
 	screen.menu_button.pressed.emit()
 	assert(not menu.has_node("StoryScreen") and menu.get_node("Content").visible)
@@ -732,6 +771,14 @@ func _run() -> void:
 	assert(not menu.get_node("Content/Actions/Continue").disabled and menu.status.visible)
 	menu.get_node("Content/Actions/Continue").pressed.emit()
 	assert(session.current_line().id == "VN0002")
+	menu.match3_session.save.completed.append("M3_01")
+	menu.match3_session.persist()
+	var active_story: Control = menu.get_node("StoryScreen")
+	active_story.case_button.pressed.emit()
+	active_story.overlay.find_child("ResetDossierProgress", true, false).pressed.emit()
+	assert(not menu.has_node("StoryScreen") and menu.get_node("Content/Actions/Continue").disabled,
+		"Dossier reset should clear story progress and return to the main menu")
+	assert(menu.match3_session.save.completed.is_empty(), "Dossier reset should clear standalone Match-3 progress too")
 	menu.queue_free()
 	await process_frame
 	DirAccess.remove_absolute(preferences_path)
@@ -749,6 +796,101 @@ func _run() -> void:
 	await process_frame
 	print("UPDS Godot VN prologue smoke test passed.")
 	quit()
+
+
+func _vn_reading_controls(menu: Control) -> void:
+	var session := Memory.story_session()
+	session.state.line = 2
+	assert(session.resume() and session.current_line().id == "VN0003")
+	var screen = load("res://scripts/vn_screen.gd").new()
+	screen.session = session
+	screen.preferences = menu.preferences
+	screen.audio_runtime = menu.audio_runtime
+	root.add_child(screen)
+	await process_frame
+	assert(screen.controls_panel.visible and screen.skip_button.disabled)
+	assert(screen.case_button.visible and screen.history_button.visible and screen.settings_button.visible,
+		"VN chrome should expose dossier, history, and settings actions in the source header layout")
+	assert(is_equal_approx(screen.get_node("HeaderBackground").offset_bottom, 60.0),
+		"VN header should match the 60px source chrome")
+	assert(screen.nameplate.get_parent() == screen and screen.nameplate.position.y < screen.dialogue_panel.position.y,
+		"VN speaker nameplate should overlap the dialogue card's top edge like the source")
+	assert(screen._dialogue_pages.size() > 1 and screen.page_progress.get_child_count() == screen._dialogue_pages.size() + 1,
+		"Long dialogue must show one progress dot per page and the animated advance cue")
+	screen.next_button.pressed.emit()
+	assert(screen._dialogue_page_index == 1 and session.current_line().id == "VN0003")
+	screen.auto_button.pressed.emit()
+	assert(screen._auto_mode, "Auto should turn on from the reading controls")
+	screen.auto_button.pressed.emit()
+	assert(not screen._auto_mode, "Auto should turn off from the reading controls")
+	screen.load_button.pressed.emit()
+	assert(screen.status.visible and screen.status_label.text == Copy.text("vn_empty_slot", menu.preferences.locale),
+		"An empty manual slot should show the localized source status")
+	screen.save_button.pressed.emit()
+	assert(screen.status.visible and session.store.load_manual().line == 2,
+		"Manual save should persist the current story position and show confirmation")
+	session.state.line = 3
+	assert(session.resume() and session.current_line().id == "VN0004")
+	screen.load_button.pressed.emit()
+	assert(session.current_line().id == "VN0003", "Manual load should restore its saved story position")
+	session.state.readLines.append("VN0003")
+	session.state.readLines.append("VN0004")
+	screen._refresh()
+	assert(not screen.skip_button.disabled)
+	screen.skip_button.pressed.emit()
+	assert(session.current_line().id == "VN0005", "Skip should stop on the first unread story line")
+	screen.case_button.pressed.emit()
+	assert(screen.overlay_title.text == Copy.text("dossier_title", menu.preferences.locale))
+	assert(screen.dossier_clues.get_child_count() == 22, "The dossier should render all campaign clue cards")
+	screen._select_dossier_tab("theories")
+	assert(screen.dossier_theories.visible and not screen.dossier_clues.visible)
+	screen._close_overlay()
+	screen.history_button.pressed.emit()
+	assert(screen.overlay_title.text == Copy.text("vn_history", menu.preferences.locale))
+	assert(screen.overlay_body.get_child_count() >= 3, "Dialogue history should include read lines and the current line")
+	screen._close_overlay()
+	screen.settings_button.pressed.emit()
+	assert(screen.overlay.find_child("Audio_musicVolume", true, false) != null)
+	assert(screen.overlay.find_child("VnMainMenu", true, false) != null)
+	screen.config_speed_buttons.fast.pressed.emit()
+	assert(screen._auto_speed == "fast", "Reading configuration should change AUTO speed")
+	assert(is_equal_approx(screen._auto_delay_for_text(28), 1750.0))
+	screen._select_auto_speed("slow", false)
+	assert(is_equal_approx(screen._auto_delay_for_text(28), 3400.0))
+	screen._select_auto_speed("normal", false)
+	assert(is_equal_approx(screen._auto_delay_for_text(60), 3076.0),
+		"AUTO delay should match the source base speed and text-length allowance")
+	screen.config_text_buttons.large.pressed.emit()
+	assert(screen._text_scale == "large" and screen.dialogue.get_theme_font_size("normal_font_size") == 19,
+		"Reading configuration should apply the large dialogue text size")
+	var music_slider: HSlider = screen.overlay.find_child("Audio_musicVolume", true, false).get_node("Slider")
+	music_slider.value = 63
+	assert(is_equal_approx(menu.preferences.audio.musicVolume, 0.63),
+		"Reading configuration should apply audio settings through shared preferences")
+	var mute_button: Button = screen.overlay.find_child("MuteAudio", true, false)
+	mute_button.toggled.emit(true)
+	assert(menu.preferences.audio.muted)
+	mute_button.toggled.emit(false)
+	assert(not menu.preferences.audio.muted, "Audio toggle should update the shared preference and restore it")
+	screen._close_overlay()
+	screen.case_button.pressed.emit()
+	_test_dossier_reset_requested = false
+	_test_menu_requested = false
+	screen.progress_reset_requested.connect(_record_dossier_reset)
+	screen.menu_requested.connect(_record_menu_request)
+	screen.overlay.find_child("ResetDossierProgress", true, false).pressed.emit()
+	assert(_test_dossier_reset_requested and _test_menu_requested,
+		"Resetting dossier progress should emit both reset and return-to-menu actions")
+	screen.queue_free()
+	await process_frame
+
+
+func _record_dossier_reset() -> void:
+	_test_dossier_reset_requested = true
+
+
+func _record_menu_request() -> void:
+	_test_menu_requested = true
 
 
 func _unsupported_save() -> void:

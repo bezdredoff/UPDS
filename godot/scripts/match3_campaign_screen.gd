@@ -6,6 +6,7 @@ signal level_requested(level_id: String)
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
+const PhoneFrame = preload("res://scripts/phone_frame.gd")
 
 var preferences: RefCounted
 var session: RefCounted
@@ -21,6 +22,7 @@ var back_button: Button
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	PhoneFrame.fit(self)
 	bundle = CampaignData.load_bundle()
 	var background := TextureRect.new()
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

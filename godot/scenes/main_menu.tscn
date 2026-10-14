@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/BG_CLUBROOM_DAY.webp" id="2_background"]
@@ -7,13 +7,32 @@
 [ext_resource type="Texture2D" path="res://assets/characters/ayuki/portrait_neutral_256.png" id="5_ayuki"]
 
 [sub_resource type="Gradient" id="Gradient_wash"]
-offsets = PackedFloat32Array(0.0, 0.48, 1.0)
-colors = PackedColorArray(1.0, 0.992157, 0.956863, 0.91, 0.972549, 0.92549, 0.921569, 0.84, 0.141176, 0.156863, 0.258824, 0.93)
+offsets = PackedFloat32Array(0.0, 0.05, 0.48, 1.0)
+colors = PackedColorArray(1.0, 0.992157, 0.956863, 0.91, 1.0, 0.992157, 0.956863, 0.91, 0.972549, 0.92549, 0.921569, 0.84, 0.141176, 0.156863, 0.258824, 0.93)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_wash"]
 gradient = SubResource("Gradient_wash")
+width = 1
+height = 1024
 fill_from = Vector2(0.0, 0.0)
 fill_to = Vector2(0.0, 1.0)
+
+[sub_resource type="Shader" id="Shader_backdrop"]
+code = "shader_type canvas_item;\nvoid fragment() {\n\tvec2 point = UV - vec2(0.5, 0.0);\n\tfloat distance_from_center = length(point) + UV.y * 0.65;\n\tfloat shade = smoothstep(0.35, 1.05, distance_from_center);\n\tCOLOR = mix(vec4(0.333, 0.318, 0.431, 1.0), vec4(0.09, 0.102, 0.184, 1.0), shade);\n}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
+shader = SubResource("Shader_backdrop")
+
+[sub_resource type="SystemFont" id="SystemFont_ui_sans"]
+font_names = PackedStringArray("Inter", "Segoe UI", "Arial", "sans-serif")
+
+[sub_resource type="SystemFont" id="SystemFont_menu_serif"]
+font_names = PackedStringArray("Georgia", "Noto Serif", "Liberation Serif", "serif")
+font_weight = 800
+
+[sub_resource type="Theme" id="Theme_runtime"]
+default_font = SubResource("SystemFont_ui_sans")
+default_font_size = 16
 
 [sub_resource type="Shader" id="Shader_medallion"]
 code = "shader_type canvas_item;\nvoid fragment() {\n\tvec2 point = UV * 2.0 - 1.0;\n\tfloat radius = length(point);\n\tif (radius > 1.0) { discard; }\n\tCOLOR = texture(TEXTURE, UV);\n\tif (radius > 0.9) { COLOR = vec4(1.0, 0.97, 0.91, 1.0); }\n}"
@@ -29,11 +48,25 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
+theme = SubResource("Theme_runtime")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Backdrop" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_backdrop")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -215.0
+offset_right = 215.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -44,8 +77,11 @@ mouse_filter = 2
 
 [node name="Wash" type="TextureRect" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -215.0
+offset_right = 215.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -56,49 +92,49 @@ mouse_filter = 2
 
 [node name="Content" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.06
-anchor_top = 0.04
-anchor_right = 0.94
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -187.0
+anchor_top = 0.0
+offset_top = 42.0
+offset_right = 187.0
 anchor_bottom = 0.97
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 alignment = 1
 
 [node name="Eyebrow" type="Label" parent="Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.851, 0.384, 0.475, 1)
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 10
 text = "SEIRAN COLLEGE · CASE 001"
 horizontal_alignment = 1
 
 [node name="Title" type="Label" parent="Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.122, 0.137, 0.251, 1)
-theme_override_font_sizes/font_size = 42
+theme_override_fonts/font = SubResource("SystemFont_menu_serif")
+theme_override_font_sizes/font_size = 44
 text = "Class U"
 horizontal_alignment = 1
 
 [node name="Accent" type="Label" parent="Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.851, 0.384, 0.475, 1)
-theme_override_font_sizes/font_size = 38
+theme_override_fonts/font = SubResource("SystemFont_menu_serif")
+theme_override_font_sizes/font_size = 44
 text = "Detectives"
 horizontal_alignment = 1
 
 [node name="Tagline" type="Label" parent="Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.298, 0.275, 0.345, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 16
 text = "Comedy visual novel × match-3"
 horizontal_alignment = 1
 autowrap_mode = 2
-
-[node name="Spacer" type="Control" parent="Content"]
-custom_minimum_size = Vector2(0, 8)
-layout_mode = 2
-size_flags_vertical = 3
 
 [node name="Hero" type="HBoxContainer" parent="Content"]
 custom_minimum_size = Vector2(0, 78)
@@ -133,6 +169,11 @@ stretch_mode = 5
 material = SubResource("ShaderMaterial_medallion")
 mouse_filter = 2
 
+[node name="Spacer" type="Control" parent="Content"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="Actions" type="VBoxContainer" parent="Content"]
 layout_mode = 2
 theme_override_constants/separation = 9
@@ -153,6 +194,10 @@ text = "Match-3 Campaign"
 [node name="Settings" type="Button" parent="Content/Actions"]
 layout_mode = 2
 text = "Settings"
+
+[node name="FooterSpacer" type="Control" parent="Content"]
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
 
 [node name="Footer" type="Label" parent="Content"]
 layout_mode = 2
