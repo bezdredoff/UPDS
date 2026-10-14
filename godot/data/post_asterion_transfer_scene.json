@@ -1,0 +1,672 @@
+{
+  "sceneId": "VN_SCENE_24_E11_POST",
+  "sceneIndex": 24,
+  "nextSceneId": "VN_SCENE_25_E12_PRE",
+  "nextSceneIndex": 25,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "choiceGate": {
+    "id": "photo-permission",
+    "checkpointLineId": "VN0560",
+    "prompt": {
+      "ru": "Как использовать фотографии Кэнтаро в доказательстве маршрута?",
+      "en": "How should Kentaro's photographs be used to prove the route?",
+      "be": "Як выкарыстаць фатаграфіі Кэнтаро ў доказе маршруту?"
+    },
+    "choices": {
+      "A": {
+        "ru": {
+          "title": "Спросить разрешение и указать Кэнтаро",
+          "effect": "Доверие источника +1 · происхождение доказательства открыто"
+        },
+        "en": {
+          "title": "Ask permission and credit Kentaro",
+          "effect": "Source Trust +1 · evidence provenance stays public"
+        },
+        "be": {
+          "title": "Папрасіць дазвол і пазначыць Кэнтаро",
+          "effect": "Давер крыніц +1 · паходжанне доказу адкрыта"
+        }
+      },
+      "B": {
+        "ru": {
+          "title": "Использовать копии без имени",
+          "effect": "Приватность +1 · маршрут остаётся проверяемым"
+        },
+        "en": {
+          "title": "Use anonymized copies",
+          "effect": "Privacy +1 · the route remains verifiable"
+        },
+        "be": {
+          "title": "Выкарыстаць копіі без імя",
+          "effect": "Прыватнасць +1 · маршрут застаецца правяральным"
+        }
+      },
+      "C": {
+        "ru": {
+          "title": "Запечатать оригиналы в досье",
+          "effect": "Доказательства +1 · источник защищён осторожнее"
+        },
+        "en": {
+          "title": "Seal the originals in the dossier",
+          "effect": "Evidence +1 · the source is protected more cautiously"
+        },
+        "be": {
+          "title": "Запячатаць арыгіналы ў дасье",
+          "effect": "Доказы +1 · крыніца абаронена больш асцярожна"
+        }
+      }
+    }
+  },
+  "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+  "titles": {
+    "ru": "Цепочка передачи",
+    "en": "Transfer Chain",
+    "be": "Ланцужок перадачы"
+  },
+  "lines": [
+    {
+      "id": "VN0548",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: TRANSFER CHAIN",
+          "text": "Фотографии, номера пломб и манифест выстроены в одну последовательность: прачечная → Asterion → лаборатория → возврат."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: TRANSFER CHAIN",
+          "text": "Photos, seal numbers, and the manifest form one sequence: laundry → Asterion → laboratory → return."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: TRANSFER CHAIN",
+          "text": "Фатаграфіі, нумары пломбаў і маніфест выбудаваны ў адну паслядоўнасць: пральня → Asterion → лабараторыя → вяртанне."
+        }
+      }
+    },
+    {
+      "id": "VN0549",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "УВЕРЕННО",
+          "text": "Цепочка непрерывна. Спорные партии физически уходили в лабораторный контур и возвращались без отдельной отметки."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CONFIDENT",
+          "text": "The chain is continuous. Disputed batches physically entered the laboratory route and returned without a separate notation."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "УПЭЎНЕНА",
+          "text": "Ланцужок бесперапынны. Спрэчныя партыі фізічна траплялі ў лабараторны контур і вярталіся без асобнай пазнакі."
+        }
+      }
+    },
+    {
+      "id": "VN0550",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ПОКАЗЫВАЕТ ОРИГИНАЛ",
+          "text": "Этот кадр закрывает разрыв между двором и пунктом. В метаданных есть время и координаты."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "SHOWING ORIGINAL",
+          "text": "This frame closes the gap between the yard and transfer point. The metadata includes time and location."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ПАКАЗВАЕ АРЫГІНАЛ",
+          "text": "Гэты кадр закрывае разрыў паміж дваром і пунктам. У метаданых ёсць час і каардынаты."
+        }
+      }
+    },
+    {
+      "id": "VN0551",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СРАВНИВАЕТ",
+          "text": "И тот же контейнер возвращается через сорок три минуты после отметки лаборатории."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "COMPARING",
+          "text": "And the same container returns forty-three minutes after the laboratory scan."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПАРАЎНОЎВАЕ",
+          "text": "І той жа кантэйнер вяртаецца праз сорак тры хвіліны пасля пазнакі лабараторыі."
+        }
+      }
+    },
+    {
+      "id": "VN0552",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СОТРУДНИК ПУНКТА",
+          "emotion": "ОБЪЯСНЯЕТ",
+          "text": "Для обычной формы это может быть быстрый тест ткани. Так иногда делают."
+        },
+        "en": {
+          "speaker": "TRANSFER WORKER",
+          "emotion": "EXPLAINING",
+          "text": "For ordinary uniforms, that can be a quick fabric test. It happens sometimes."
+        },
+        "be": {
+          "speaker": "СУПРАЦОЎНІК ПУНКТА",
+          "emotion": "ТЛУМАЧЫЦЬ",
+          "text": "Для звычайнай формы гэта можа быць хуткі тэст тканіны. Так часам робяць."
+        }
+      }
+    },
+    {
+      "id": "VN0553",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПРОБУЕТ ПРОСТОЕ ОБЪЯСНЕНИЕ",
+          "text": "То есть всё ещё возможно, что Asterion просто очень странно обслуживает спортивную форму."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "TRYING SIMPLE EXPLANATION",
+          "text": "So it is still possible that Asterion simply services sports uniforms in a very strange way."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "СПРАБУЕ ПРОСТАЕ ТЛУМАЧЭННЕ",
+          "text": "То бок усё яшчэ магчыма, што Asterion проста вельмі дзіўна абслугоўвае спартыўную форму."
+        }
+      }
+    },
+    {
+      "id": "VN0554",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СДЕРЖАННО",
+          "text": "Возможно. Но это уже проверяемая версия, потому что маршрут доказан."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "MEASURED",
+          "text": "Possible. But now it is a testable theory, because the route is proven."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СТРЫМАНА",
+          "text": "Магчыма. Але цяпер гэта ўжо правяральная версія, бо маршрут даказаны."
+        }
+      }
+    },
+    {
+      "id": "VN0555",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "УЛИКА: ЦЕПОЧКА ПЕРЕДАЧИ ASTERION",
+          "text": "На экране досье крупно собраны фото контейнера, две пломбы, временные отметки и стрелки маршрута."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "HERO EVIDENCE / ASTERION TRANSFER CHAIN",
+          "text": "The dossier shows a close-up of the container photo, two seals, timestamps, and route arrows."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "HERO EVIDENCE / ASTERION TRANSFER CHAIN",
+          "text": "На экране дасье — буйны план фота кантэйнера, дзвюх пломбаў, часавых пазнак і стрэлак маршруту."
+        }
+      }
+    },
+    {
+      "id": "VN0556",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФИКСИРУЕТ УЛИКУ",
+          "text": "Фотографии и манифест доказывают передачу вещей из прачечной в лабораторию Asterion и обратно."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "RECORDING CLUE",
+          "text": "The photographs and manifest prove that items moved from the laundry into the Asterion laboratory route and back."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФІКСУЕ ЎЛІКУ",
+          "text": "Фатаграфіі і маніфест даказваюць перадачу рэчаў з пральні ў лабараторыю Asterion і назад."
+        }
+      }
+    },
+    {
+      "id": "VN0557",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_012}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_012}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_012}"
+        }
+      }
+    },
+    {
+      "id": "VN0558",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "СМОТРИТ НА МИКУ",
+          "text": "Тогда про фотографии. Я хочу понимать, как именно вы их используете."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "LOOKING AT MIKU",
+          "text": "Then about the photos. I want to know exactly how you plan to use them."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ГЛЯДЗІЦЬ НА МІКУ",
+          "text": "Тады пра фатаграфіі. Я хачу разумець, як менавіта вы іх выкарыстоўваеце."
+        }
+      }
+    },
+    {
+      "id": "VN0559",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "КИВАЕТ",
+          "text": "Это справедливо. Мы можем закрепить оригиналы с вашим разрешением, использовать копии без имени или запечатать источник в досье."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "NODDING",
+          "text": "That is fair. We can attach originals with your permission, use copies without your name, or seal the source inside the case file."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "КІВАЕ",
+          "text": "Гэта справядліва. Мы можам далучыць арыгіналы з вашага дазволу, выкарыстаць копіі без імя або запячатаць крыніцу ў дасье."
+        }
+      }
+    },
+    {
+      "id": "VN0560",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE photo-permission}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE photo-permission}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE photo-permission}"
+        }
+      }
+    },
+    {
+      "id": "VN0561",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ПОСЛЕ ВЫБОРА",
+          "text": "Решение меняет оформление источника и направление доверия, но не меняет подтверждённые номера, время и маршрут контейнера."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "AFTER CHOICE",
+          "text": "The decision changes source handling and trust direction, but not the confirmed numbers, times, or container route."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ПАСЛЯ ВЫБАРУ",
+          "text": "Рашэнне змяняе афармленне крыніцы і кірунак даверу, але не змяняе пацверджаныя нумары, час і маршрут кантэйнера."
+        }
+      }
+    },
+    {
+      "id": "VN0562",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "СПОКОЙНЕЕ",
+          "text": "Хорошо. Главное, что фотография наконец объясняет, где я был, а не почему я подозрительный."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "CALMER",
+          "text": "Good. The important part is that the photo finally explains where I was, not why I look suspicious."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "СПАКАЙНЕЙ",
+          "text": "Добра. Галоўнае, што фатаграфія нарэшце тлумачыць, дзе я быў, а не чаму я падазроны."
+        }
+      }
+    },
+    {
+      "id": "VN0563",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СМОТРИТ НА ТЕЛЕФОН",
+          "text": "Подождите. Один из возвращённых пакетов даёт слабый беспроводной отклик."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "LOOKING AT PHONE",
+          "text": "Wait. One of the returned packages is giving off a weak wireless response."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ГЛЯДЗІЦЬ НА ТЭЛЕФОН",
+          "text": "Пачакайце. Адзін з вернутых пакетаў дае слабы бесправадны водгук."
+        }
+      }
+    },
+    {
+      "id": "VN0564",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "НАПРЯЖЁННО",
+          "text": "От обычной сервисной бирки?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "TENSE",
+          "text": "From an ordinary service tag?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "НАПРУЖАНА",
+          "text": "Ад звычайнай сэрвіснай біркі?"
+        }
+      }
+    },
+    {
+      "id": "VN0565",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "КАЧАЕТ ГОЛОВОЙ",
+          "text": "Нет. Сигнал короткий, периодический и слишком структурированный для помехи."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SHAKING HER HEAD",
+          "text": "No. The signal is brief, periodic, and far too structured to be interference."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ХІТАЕ ГАЛАВОЙ",
+          "text": "Не. Сігнал кароткі, перыядычны і занадта структураваны для перашкод."
+        }
+      }
+    },
+    {
+      "id": "VN0566",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "УЖЕ РАДА",
+          "text": "Я знаю идеальное место для проверки странного сигнала ночью. И у меня совершенно научный план."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "ALREADY DELIGHTED",
+          "text": "I know the perfect place to test a strange signal at night. And I have a completely scientific plan."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "УЖО РАДА",
+          "text": "Я ведаю ідэальнае месца, каб праверыць дзіўны сігнал ноччу. І ў мяне цалкам навуковы план."
+        }
+      }
+    },
+    {
+      "id": "VN0567",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпизод 12 — ПанцуИтер существует?!»"
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "EPISODE CARD",
+          "text": "“Episode 12 — Does the Panty-Eater Exist?!”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпізод 12 — ПанцуІтэр існуе?!»"
+        }
+      }
+    }
+  ]
+}
