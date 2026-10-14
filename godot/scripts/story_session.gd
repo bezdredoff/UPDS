@@ -405,3 +405,17 @@ func _scene_lines() -> Array:
 	if state.scene == 44:
 		return PostConvenientCaseScene.data.lines
 	return []
+
+
+func read_history() -> Array:
+	var saved_state: Dictionary = state
+	var history: Array = []
+	for scene_index in range(MAX_PORTED_SCENE_INDEX + 1):
+		state = saved_state.duplicate(true)
+		state.scene = scene_index
+		state.line = 0
+		for line in _scene_lines():
+			if not line.get("hidden", false) and saved_state.readLines.has(str(line.id)):
+				history.append(line)
+	state = saved_state
+	return history
