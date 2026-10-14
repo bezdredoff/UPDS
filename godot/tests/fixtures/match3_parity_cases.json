@@ -390,6 +390,11 @@
       }
     ],
     "expected": {
+      "initialHint": {
+        "first": 37,
+        "second": 38,
+        "score": 30124
+      },
       "state": "playing",
       "movesLeft": 23,
       "progress": {
@@ -1182,6 +1187,11 @@
       }
     ],
     "expected": {
+      "initialHint": {
+        "first": 28,
+        "second": 35,
+        "score": 20112
+      },
       "state": "playing",
       "movesLeft": 25,
       "progress": {
@@ -2025,6 +2035,11 @@
       }
     ],
     "expected": {
+      "initialHint": {
+        "first": 28,
+        "second": 35,
+        "score": 20112
+      },
       "state": "won",
       "movesLeft": 12,
       "progress": {
@@ -2839,6 +2854,11 @@
       }
     ],
     "expected": {
+      "initialHint": {
+        "first": 24,
+        "second": 25,
+        "score": 20112
+      },
       "state": "playing",
       "movesLeft": 22,
       "progress": {
@@ -3637,6 +3657,11 @@
       }
     ],
     "expected": {
+      "initialHint": {
+        "first": 38,
+        "second": 39,
+        "score": 50112
+      },
       "state": "playing",
       "movesLeft": 24,
       "progress": {
@@ -4429,6 +4454,11 @@
       }
     ],
     "expected": {
+      "initialHint": {
+        "first": 38,
+        "second": 39,
+        "score": 50112
+      },
       "state": "playing",
       "movesLeft": 24,
       "progress": {
@@ -4823,6 +4853,800 @@
         },
         {
           "tile": "",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        }
+      ]
+    }
+  },
+  {
+    "name": "special-activation",
+    "levelId": "M3_00_LOCKER_TUTORIAL",
+    "randomSeed": 7331,
+    "initialBoard": [
+      {
+        "tile": "sportsBra",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": "flash-row"
+      },
+      {
+        "tile": "pantiesSportOrange",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportOrange",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "sportsBra",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "laundryTag",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "sportsBra",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "laundryTag",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesHighWaistBlack",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesLacePink",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesHighWaistBlack",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesHighWaistBlack",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesHighWaistBlack",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesHighWaistBlack",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "laundryTag",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "laundryTag",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportOrange",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesLacePink",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportOrange",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "laundryTag",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "sportsBra",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportOrange",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesHighWaistBlack",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportOrange",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "sportsBra",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportOrange",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesLacePink",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportOrange",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "sportsBra",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "sportsBra",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "sportsBra",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesLacePink",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesHighWaistBlack",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "laundryTag",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "sportsBra",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "laundryTag",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesLacePink",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesLacePink",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesHighWaistBlack",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesLacePink",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesLacePink",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesHighWaistBlack",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportWhite",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesLacePink",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesSportOrange",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      },
+      {
+        "tile": "pantiesHighWaistBlack",
+        "ingredient": "",
+        "blockerLayers": 0,
+        "special": ""
+      }
+    ],
+    "specialIndex": 0,
+    "hint": {
+      "first": 37,
+      "second": 38,
+      "score": 30124
+    },
+    "expected": {
+      "state": "playing",
+      "movesLeft": 23,
+      "progress": {
+        "collected": {
+          "sportsBra": 2,
+          "pantiesSportOrange": 2,
+          "pantiesSportWhite": 2,
+          "laundryTag": 1
+        },
+        "blockersCleared": 0,
+        "ingredientsDropped": {}
+      },
+      "result": {
+        "valid": true,
+        "won": false,
+        "lost": false,
+        "cleared": 7,
+        "cascades": 1,
+        "blockersCleared": 0,
+        "ingredientsDropped": 0
+      },
+      "board": [
+        {
+          "tile": "laundryTag",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportOrange",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesLacePink",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportOrange",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesHighWaistBlack",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "laundryTag",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "sportsBra",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "laundryTag",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesHighWaistBlack",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesLacePink",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesHighWaistBlack",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesHighWaistBlack",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesHighWaistBlack",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesHighWaistBlack",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "laundryTag",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "laundryTag",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportOrange",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesLacePink",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportOrange",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "laundryTag",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "sportsBra",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportOrange",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesHighWaistBlack",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportOrange",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "sportsBra",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportOrange",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesLacePink",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportOrange",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "sportsBra",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "sportsBra",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "sportsBra",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesLacePink",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesHighWaistBlack",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "laundryTag",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "sportsBra",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "laundryTag",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesLacePink",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesLacePink",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesHighWaistBlack",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesLacePink",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesLacePink",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesHighWaistBlack",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportWhite",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesLacePink",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesSportOrange",
+          "ingredient": "",
+          "blockerLayers": 0,
+          "special": ""
+        },
+        {
+          "tile": "pantiesHighWaistBlack",
           "ingredient": "",
           "blockerLayers": 0,
           "special": ""
