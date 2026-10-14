@@ -1,0 +1,664 @@
+{
+  "sceneId": "VN_SCENE_25_E12_PRE",
+  "sceneIndex": 25,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_12_SECOND_SKIN_SIGNAL",
+  "onWinSceneIndex": 26,
+  "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+  "titles": {
+    "ru": "ПанцуИтер существует?!",
+    "en": "Panty Eater Exists?!",
+    "be": "ПанцуІтэр існуе?!"
+  },
+  "lines": [
+    {
+      "id": "VN0568",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ESTABLISHING / OLD GYM NIGHT",
+          "text": "Старый спортивный зал ночью. Половина ламп выключена, вентиляция постукивает в шкафчиках, а на полу мелом нарисован подозрительно аккуратный круг датчиков."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "ESTABLISHING / OLD GYM NIGHT",
+          "text": "The old gym at night. Half the lights are off, ventilation taps inside the lockers, and a suspiciously neat circle of sensors is drawn on the floor in chalk."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ESTABLISHING / OLD GYM NIGHT",
+          "text": "Стары спартыўны зал ноччу. Палова лямпаў выключана, вентыляцыя пастуквае ў шафках, а на падлозе крэйдай намалявана падазрона акуратнае кола датчыкаў."
+        }
+      }
+    },
+    {
+      "id": "VN0569",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТОРЖЕСТВУЮЩЕ",
+          "text": "Студенческий чат официально считает, что семь клубов одновременной стиркой вызвали ПанцуИтера."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "TRIUMPHANT",
+          "text": "The student chat officially believes seven clubs doing laundry at once summoned the Panty-Eater."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "УРАЧЫСТА",
+          "text": "Студэнцкі чат афіцыйна лічыць, што адначасовае мыццё рэчаў сямі клубаў выклікала ПанцуІтэра."
+        }
+      }
+    },
+    {
+      "id": "VN0570",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУХО",
+          "text": "Студенческий чат не является рецензируемым источником."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "DRYLY",
+          "text": "The student chat is not a peer-reviewed source."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУХА",
+          "text": "Студэнцкі чат не з'яўляецца рэцэнзаванай крыніцай."
+        }
+      }
+    },
+    {
+      "id": "VN0571",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПОКАЗЫВАЕТ ПАКЕТ",
+          "text": "Поэтому мы используем слух как приманку. «Легендарное лимитированное бельё Lucky Seven». Запечатано. Никем не ношено."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "SHOWING PACKAGE",
+          "text": "That is why we use the rumor as bait. “Legendary Limited Lucky Seven Underwear.” Sealed. Never worn."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПАКАЗВАЕ ПАКЕТ",
+          "text": "Таму мы выкарыстоўваем чутку як прынаду. «Легендарная лімітаваная бялізна Lucky Seven». Запячатана. Ніхто не насіў."
+        }
+      }
+    },
+    {
+      "id": "VN0572",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПОДОЗРИТЕЛЬНО",
+          "text": "Откуда у тебя это?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "SUSPICIOUS",
+          "text": "Where did you get that?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПАДАЗРОНА",
+          "text": "Адкуль у цябе гэта?"
+        }
+      }
+    },
+    {
+      "id": "VN0573",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "НЕМЕДЛЕННО",
+          "text": "Источник добровольно не установлен."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "IMMEDIATELY",
+          "text": "The source is voluntarily unidentified."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "АДРАЗУ",
+          "text": "Крыніца добраахвотна не вызначаная."
+        }
+      }
+    },
+    {
+      "id": "VN0574",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАПИСЫВАЕТ",
+          "text": "Я уже внесла именно эту формулировку в протокол."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "WRITING IT DOWN",
+          "text": "I have already entered that exact wording into the log."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАПІСВАЕ",
+          "text": "Я ўжо ўнесла менавіта гэтую фармулёўку ў пратакол."
+        }
+      }
+    },
+    {
+      "id": "VN0575",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "МЫСЛИ / УСТАЛО",
+          "text": "В этот момент я поняла, что сопротивляться жанру поздно. Оставалось хотя бы измерять его частоты."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "THOUGHT / WEARY",
+          "text": "At that point I understood it was too late to resist the genre. The least we could do was measure its frequencies."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ДУМКІ / СТОМЛЕНА",
+          "text": "У гэты момант я зразумела, што супраціўляцца жанру позна. Заставалася хаця б вымяраць яго частоты."
+        }
+      }
+    },
+    {
+      "id": "VN0576",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "УЧАСТНИК ОККУЛЬТНОГО КЛУБА",
+          "emotion": "ШЁПОТОМ",
+          "text": "ПанцуИтер приходит туда, где семь забытых вещей зовут восьмую."
+        },
+        "en": {
+          "speaker": "OCCULT CLUB MEMBER",
+          "emotion": "WHISPERING",
+          "text": "The Panty-Eater comes where seven forgotten garments call for an eighth."
+        },
+        "be": {
+          "speaker": "УДЗЕЛЬНІК АКУЛЬТНАГА КЛУБА",
+          "emotion": "ШЭПТАМ",
+          "text": "ПанцуІтэр прыходзіць туды, дзе сем забытых рэчаў клічуць восьмую."
+        }
+      }
+    },
+    {
+      "id": "VN0577",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ВОСХИЩЁННО",
+          "text": "Очень хорошо. Можно ещё что-нибудь про запретную сушилку?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "DELIGHTED",
+          "text": "Very good. Can you add something about a forbidden dryer?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗАХОПЛЕНА",
+          "text": "Вельмі добра. Можна яшчэ што-небудзь пра забароненую сушылку?"
+        }
+      }
+    },
+    {
+      "id": "VN0578",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРОВЕРЯЕТ ДАТЧИКИ",
+          "text": "Три приёмника. Частоты записываются независимо. Если сигнал повторится, легенда не понадобится."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CHECKING SENSORS",
+          "text": "Three receivers. Frequencies are logged independently. If the signal repeats, we will not need the legend."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРАВЯРАЕ ДАТЧЫКІ",
+          "text": "Тры прыёмнікі. Частоты запісваюцца незалежна. Калі сігнал паўторыцца, легенда не спатрэбіцца."
+        }
+      }
+    },
+    {
+      "id": "VN0579",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: LUCKY SEVEN BAIT",
+          "text": "Запечатанный пакет Lucky Seven кладут в пустой шкафчик. Рядом закреплена обычная сервисная бирка и три пассивных датчика."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: LUCKY SEVEN BAIT",
+          "text": "The sealed Lucky Seven package is placed in an empty locker. An ordinary service tag and three passive sensors are attached nearby."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: LUCKY SEVEN BAIT",
+          "text": "Запячатаны пакет Lucky Seven кладуць у пустую шафку. Побач замацаваныя звычайная сэрвісная бірка і тры пасіўныя датчыкі."
+        }
+      }
+    },
+    {
+      "id": "VN0580",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ТИХО",
+          "text": "Если кто-то действительно использует слух как прикрытие, он должен отреагировать на объявление."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "QUIETLY",
+          "text": "If someone is really using the rumor as cover, they should react to the announcement."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЦІХА",
+          "text": "Калі нехта сапраўды выкарыстоўвае чутку як прыкрыццё, ён павінен адрэагаваць на аб'яву."
+        }
+      }
+    },
+    {
+      "id": "VN0581",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ШЁПОТОМ",
+          "text": "А если отреагирует демон, я забираю право сказать «я же говорила»."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "WHISPERING",
+          "text": "And if a demon reacts, I reserve the right to say “I told you so.”"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ШЭПТАМ",
+          "text": "А калі адрэагуе дэман, я забіраю права сказаць «я ж казала»."
+        }
+      }
+    },
+    {
+      "id": "VN0582",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "SFX: PHONE VIBRATION",
+          "text": "Сразу три телефона вибрируют. В дальнем ряду шкафчиков что-то глухо стучит."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "SFX: PHONE VIBRATION",
+          "text": "All three phones vibrate at once. Something knocks dully inside the far row of lockers."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "SFX: PHONE VIBRATION",
+          "text": "Адразу тры тэлефоны вібруюць. У далёкім радзе шафак нешта глуха стукае."
+        }
+      }
+    },
+    {
+      "id": "VN0583",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "НА СЕКУНДУ ЗАМИРАЕТ",
+          "text": "...Оноэ?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "FREEZING FOR A SECOND",
+          "text": "...Onoe?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "НА СЕКУНДУ ЗАМІРАЕ",
+          "text": "...Оноэ?"
+        }
+      }
+    },
+    {
+      "id": "VN0584",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СМОТРИТ НА ГРАФИК",
+          "text": "Вентиляция объясняет стук. Телефоны — нет. Есть повторяющийся пакет импульсов."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "READING GRAPH",
+          "text": "Ventilation explains the knocking. It does not explain the phones. There is a repeating pulse packet."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ГЛЯДЗІЦЬ НА ГРАФІК",
+          "text": "Вентыляцыя тлумачыць стук. Тэлефоны — не. Ёсць паўторны пакет імпульсаў."
+        }
+      }
+    },
+    {
+      "id": "VN0585",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TURQUOISE INDICATOR",
+          "text": "На краю сервисной бирки на мгновение вспыхивает бирюзовая точка."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "TURQUOISE INDICATOR",
+          "text": "A turquoise point flashes for an instant at the edge of the service tag."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TURQUOISE INDICATOR",
+          "text": "На краі сэрвіснай біркі на імгненне ўспыхвае бірузовая кропка."
+        }
+      }
+    },
+    {
+      "id": "VN0586",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ОЧЕНЬ ТИХО",
+          "text": "У демона Bluetooth."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "VERY QUIETLY",
+          "text": "The demon has Bluetooth."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ВЕЛЬМІ ЦІХА",
+          "text": "У дэмана Bluetooth."
+        }
+      }
+    },
+    {
+      "id": "VN0587",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "РАЗДРАЖЁННО",
+          "text": "У демона радиопротокол. Это разные уровни недопустимого вывода."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "IRRITATED",
+          "text": "The demon has a radio protocol. Those are different levels of unacceptable inference."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "РАЗДРАЖНЁНА",
+          "text": "У дэмана радыёпратакол. Гэта розныя ўзроўні недапушчальных высноў."
+        }
+      }
+    },
+    {
+      "id": "VN0588",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_GYM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Сигнальные помехи собираются крестом вокруг центра поля. Нужно очистить шум, собрать узлы сигнала и опустить активную микрометку."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Signal interference forms a cross around the center of the board. Clear the noise, collect signal nodes, and drop the active microtag."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Сігнальныя перашкоды збіраюцца крыжам вакол цэнтра поля. Трэба ачысціць шум, сабраць сігнальныя вузлы і апусціць актыўную мікраметку."
+        }
+      }
+    }
+  ]
+}

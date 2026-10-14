@@ -25,6 +25,8 @@ const ControlSampleGearScene = preload("res://data/control_sample_gear_scene.jso
 const PostControlSampleGearScene = preload("res://data/post_control_sample_gear_scene.json")
 const AsterionTransferScene = preload("res://data/asterion_transfer_scene.json")
 const PostAsterionTransferScene = preload("res://data/post_asterion_transfer_scene.json")
+const SecondSkinSignalScene = preload("res://data/second_skin_signal_scene.json")
+const PostSecondSkinSignalScene = preload("res://data/post_second_skin_signal_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
 
 
@@ -448,6 +450,43 @@ func _run() -> void:
 	assert(restored_photo_permission.current_line().id == "VN0562" and restored_photo_permission.state.storyChoices["photo-permission"] == "B")
 	while session.current_line().id != "VN0567":
 		assert(session.advance())
+	assert(not session.at_port_boundary() and session.advance())
+	assert(session.state.scene == 25 and session.current_line().id == "VN0569")
+	assert(session.state.readLines.has("VN0568"), "Second-Skin opening direction was not consumed")
+	assert(screen.title.text == SecondSkinSignalScene.data.titles.en)
+	while session.current_line().id != "VN0588":
+		assert(session.advance())
+	assert(session.at_match3_gate() and session.scene_data().nextLevelId == "M3_12_SECOND_SKIN_SIGNAL")
+	await process_frame
+	assert(menu.match3_screen != null and menu.match3_screen.level_id == "M3_12_SECOND_SKIN_SIGNAL")
+	assert(reached_levels.size() == 13 and reached_levels[-1] == "M3_12_SECOND_SKIN_SIGNAL")
+	assert(session.complete_match3("M3_12_SECOND_SKIN_SIGNAL"))
+	assert(session.state.scene == 26 and session.current_line().id == "VN0590")
+	assert(session.state.completed.size() == 13 and session.state.clues[-1] == "CUE_013")
+	menu.match3_screen.game.state = "won"
+	menu.match3_screen._refresh()
+	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_continue.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible)
+	assert(screen.title.text == PostSecondSkinSignalScene.data.titles.en)
+	while session.current_line().id != "VN0601":
+		assert(session.advance())
+	assert(session.at_choice_gate() and not session.advance(), "Publish-tag checkpoint was skipped")
+	await process_frame
+	for locale in ["ru", "be", "en"]:
+		assert(menu.preferences.set_locale(locale) == OK)
+		assert(screen.choice_prompt.text == PostSecondSkinSignalScene.data.choiceGate.prompt[locale])
+		assert(screen.choice_buttons[1].text.begins_with(PostSecondSkinSignalScene.data.choiceGate.choices.B[locale].title))
+	screen.choice_buttons[1].pressed.emit()
+	assert(session.state.storyChoices["publish-tag"] == "B")
+	assert(session.current_line().id == "VN0604", "Publish-tag advanced to %s" % session.current_line().id)
+	assert(session.state.readLines.has("VN0601") and session.state.readLines.has("VN0602") and session.state.readLines.has("VN0603"))
+	var restored_publish_tag := Session.new(session.store)
+	restored_publish_tag.reload()
+	assert(restored_publish_tag.current_line().id == "VN0604" and restored_publish_tag.state.storyChoices["publish-tag"] == "B")
+	while session.current_line().id != "VN0607":
+		assert(session.advance())
 	assert(session.at_port_boundary() and not session.advance())
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
@@ -456,7 +495,7 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.scene == 24 and session.current_line().id == "VN0567")
+	assert(session.state.scene == 26 and session.current_line().id == "VN0607")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()
@@ -488,7 +527,7 @@ func _run() -> void:
 func _unsupported_save() -> void:
 	var memory := Memory.new()
 	var store := Store.new(memory)
-	assert(store.save_story({"scene": 25, "line": 3, "completed": [1]}))
+	assert(store.save_story({"scene": 27, "line": 3, "completed": [1]}))
 	var raw: String = memory.get_item(Format.CONTRACT.data.storyKey)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(store)
@@ -504,7 +543,7 @@ func _unsupported_save() -> void:
 
 func _future_save() -> void:
 	var memory := Memory.new()
-	var raw := '{"schemaVersion":99,"scene":25,"line":3}'
+	var raw := '{"schemaVersion":99,"scene":27,"line":3}'
 	assert(memory.set_item(Format.CONTRACT.data.storyKey, raw))
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(Store.new(memory))
@@ -561,3 +600,14 @@ func _choice_routes() -> void:
 		assert(choice_session.state.readLines.has("VN0560") and choice_session.state.readLines.has("VN0561"))
 		choice_session.reload()
 		assert(choice_session.current_line().id == "VN0562" and choice_session.state.storyChoices["photo-permission"] == option)
+	for option in ["A", "B", "C"]:
+		var choice_session := Memory.story_session()
+		choice_session.state.scene = 26
+		choice_session.state.line = PostSecondSkinSignalScene.data.lines.find_custom(func(line: Dictionary) -> bool: return line.id == "VN0601")
+		assert(choice_session.at_choice_gate() and not choice_session.advance(), "Publish-tag checkpoint was not guarded")
+		assert(choice_session.choose(option), "Publish-tag option %s was rejected" % option)
+		assert(choice_session.state.storyChoices["publish-tag"] == option)
+		assert(choice_session.current_line().id == "VN0604")
+		assert(choice_session.state.readLines.has("VN0601") and choice_session.state.readLines.has("VN0602") and choice_session.state.readLines.has("VN0603"))
+		choice_session.reload()
+		assert(choice_session.current_line().id == "VN0604" and choice_session.state.storyChoices["publish-tag"] == option)

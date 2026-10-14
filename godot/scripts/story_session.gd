@@ -30,8 +30,10 @@ const ControlSampleGearScene = preload("res://data/control_sample_gear_scene.jso
 const PostControlSampleGearScene = preload("res://data/post_control_sample_gear_scene.json")
 const AsterionTransferScene = preload("res://data/asterion_transfer_scene.json")
 const PostAsterionTransferScene = preload("res://data/post_asterion_transfer_scene.json")
+const SecondSkinSignalScene = preload("res://data/second_skin_signal_scene.json")
+const PostSecondSkinSignalScene = preload("res://data/post_second_skin_signal_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 24
+const MAX_PORTED_SCENE_INDEX := 26
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -151,6 +153,8 @@ func scene_data() -> Dictionary:
 		22: return PostControlSampleGearScene.data
 		23: return AsterionTransferScene.data
 		24: return PostAsterionTransferScene.data
+		25: return SecondSkinSignalScene.data
+		26: return PostSecondSkinSignalScene.data
 	return {}
 
 
@@ -267,4 +271,8 @@ func _scene_lines() -> Array:
 		return AsterionTransferScene.data.lines
 	if state.scene == 24:
 		return PostAsterionTransferScene.data.lines
+	if state.scene == 25:
+		return SecondSkinSignalScene.data.lines
+	if state.scene == 26:
+		return PostSecondSkinSignalScene.data.lines
 	return []
