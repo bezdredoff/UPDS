@@ -9,7 +9,7 @@ const Cases = preload("res://tests/fixtures/match3_parity_cases.json")
 func _initialize() -> void:
 	var bundle := CampaignData.load_bundle()
 	assert(not bundle.has("error"), str(bundle.get("error", "campaign data failed to load")))
-	assert(Cases.data.size() == 6, "Expected six TypeScript gameplay oracle cases")
+	assert(Cases.data.size() == 7, "Expected seven TypeScript gameplay oracle cases")
 	for scenario: Dictionary in Cases.data:
 		_run_scenario(bundle, scenario)
 	print("UPDS Godot Match-3 runtime parity passed (%d TypeScript oracle scenarios)." % Cases.data.size())
@@ -33,12 +33,19 @@ func _run_scenario(bundle: Dictionary, scenario: Dictionary) -> void:
 		game.specials[index] = str(cell.special)
 		game.blocker_layers[index] = int(cell.blockerLayers)
 		game.ingredients[index] = str(cell.ingredient)
+	var actual_hint: Dictionary = game.get_hint_move()
+	var expected_hint: Variant = scenario.expected.get("initialHint", scenario.get("hint", null))
+	assert(_normalize(actual_hint) == _normalize(expected_hint), "%s initial hint mismatch: %s != %s" % [str(scenario.name), str(actual_hint), str(expected_hint)])
 	var totals := {"cleared": 0, "cascades": 0, "blockersCleared": 0, "ingredientsDropped": 0}
-	for swap: Dictionary in scenario.swaps:
-		var move: Dictionary = game.attempt_swap(int(swap.first), int(swap.second))
-		assert(bool(move.valid), "%s: oracle swap was rejected" % str(scenario.name))
-		for key: String in totals:
-			totals[key] += int(move.get(key, 0))
+	if scenario.has("specialIndex"):
+		var special_move: Dictionary = game.attempt_special_activation(int(scenario.specialIndex))
+		assert(bool(special_move.valid), "%s: oracle special activation was rejected" % str(scenario.name))
+		for key: String in totals: totals[key] += int(special_move.get(key, 0))
+	else:
+		for swap: Dictionary in scenario.swaps:
+			var move: Dictionary = game.attempt_swap(int(swap.first), int(swap.second))
+			assert(bool(move.valid), "%s: oracle swap was rejected" % str(scenario.name))
+			for key: String in totals: totals[key] += int(move.get(key, 0))
 	var actual_result := {
 		"valid": true,
 		"won": game.state == "won",

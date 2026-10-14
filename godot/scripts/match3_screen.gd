@@ -12,6 +12,9 @@ var session: RefCounted
 var story_session: RefCounted
 var game: RefCounted
 var selected_index := -1
+var hinted_indices: Array[int] = []
+var last_tapped_special_index := -1
+var last_tapped_special_at := -1
 var last_feedback := ""
 var background: TextureRect
 var title: Label
@@ -22,6 +25,7 @@ var tutorial_body: Label
 var tutorial_button: Button
 var objective: Label
 var moves: Label
+var hint_button: Button
 var warning: Label
 var board: GridContainer
 var result_box: HBoxContainer
@@ -139,6 +143,8 @@ func _ready() -> void:
 	content.add_child(footer)
 	moves = _label(footer, 15, Color.WHITE)
 	moves.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hint_button = _button(footer)
+	hint_button.pressed.connect(_show_hint)
 	warning = _label(content, 12, Color("#ffd7a5"))
 	warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	result_label = _label(content, 15, Color.WHITE)
@@ -169,6 +175,8 @@ func _refresh() -> void:
 	tutorial_panel.visible = not session.save.tutorialsCompleted.has("basic-swap")
 	objective.text = "%s  %s · %d / %d" % [copy.collected, copy.objective, game.collected, int(Level.data.target)]
 	moves.text = "%s · %d" % [copy.moves, game.moves_left]
+	hint_button.text = MenuCopy.text("match3_hint", locale)
+	hint_button.disabled = game.state != "playing" or tutorial_panel.visible
 	warning.text = "" if session.last_write_ok and story_session.last_write_ok else MenuCopy.text("story_save_error", locale)
 	warning.visible = not warning.text.is_empty()
 	result_label.text = copy.win if game.state == "won" else copy.lose if game.state == "lost" else ""
@@ -202,7 +210,7 @@ func _render_board() -> void:
 		tile_button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
 		tile_button.custom_minimum_size = Vector2(44, 44)
 		tile_button.texture_normal = load("res://" + str(Level.data.assets[game.tiles[index]]).trim_prefix("./"))
-		tile_button.modulate = Color(1.25, 1.25, 1.25, 1) if index == selected_index else Color.WHITE
+		tile_button.modulate = Color(1.25, 1.25, 1, 1) if index == selected_index else Color(1.2, 0.95, 0.5, 1) if hinted_indices.has(index) else Color.WHITE
 		tile_button.disabled = game.state != "playing" or tutorial_panel.visible
 		tile_button.pressed.connect(_select_cell.bind(index))
 		if not game.specials[index].is_empty():
@@ -238,15 +246,35 @@ func _special_glyph(kind: String) -> String:
 func _select_cell(index: int) -> void:
 	if game.state != "playing" or tutorial_panel.visible:
 		return
+	var now := Time.get_ticks_msec()
+	if not game.specials[index].is_empty() and selected_index == index and last_tapped_special_index == index and now - last_tapped_special_at <= 360:
+		selected_index = -1
+		last_tapped_special_index = -1
+		last_tapped_special_at = -1
+		hinted_indices.clear()
+		var special_result: Dictionary = game.attempt_special_activation(index)
+		last_feedback = "" if special_result.valid else str(special_result.reason)
+		if special_result.valid and game.state == "won":
+			session.complete_level(str(Level.data.id), game.moves_left)
+			story_session.complete_match3(str(Level.data.id))
+		_refresh()
+		return
 	if selected_index < 0:
 		selected_index = index
+		last_tapped_special_index = index if not game.specials[index].is_empty() else -1
+		last_tapped_special_at = now if last_tapped_special_index >= 0 else -1
 		_render_board()
 		return
 	if selected_index == index:
 		selected_index = -1
+		last_tapped_special_index = -1
+		last_tapped_special_at = -1
 		_render_board()
 		return
 	var result: Dictionary = game.attempt_swap(selected_index, index)
+	hinted_indices.clear()
+	last_tapped_special_index = -1
+	last_tapped_special_at = -1
 	if result.valid:
 		selected_index = -1
 		last_feedback = ""
@@ -257,6 +285,17 @@ func _select_cell(index: int) -> void:
 		selected_index = index
 		last_feedback = str(result.reason)
 	_refresh()
+
+
+func _show_hint() -> void:
+	if game.state != "playing" or tutorial_panel.visible: return
+	var hint: Dictionary = game.get_hint_move()
+	hinted_indices.clear()
+	if not hint.is_empty(): hinted_indices = [int(hint.first), int(hint.second)]
+	selected_index = -1
+	last_tapped_special_index = -1
+	last_tapped_special_at = -1
+	_render_board()
 
 
 func _dismiss_tutorial() -> void:

@@ -15,13 +15,13 @@
 
 ## Поведенческий parity
 
-`godot/data/match3_parity_cases.json` генерируется тем же exporter из production TypeScript `Match3Game`. Шесть кейсов фиксируют одинаковый seed, стартовое состояние и последовательность ходов для collect, layered blockers, ingredient drop, dropGroup, irregular board holes и overlay blockers. Godot smoke исполняет ходы в нативной модели и сравнивает результат, каскады, прогресс всех целей и полное финальное состояние доски с TypeScript oracle.
+`godot/tests/fixtures/match3_parity_cases.json` генерируется тем же exporter из production TypeScript `Match3Game`. Шесть кейсов фиксируют одинаковый seed, стартовое состояние и последовательность ходов для collect, layered blockers, ingredient drop, dropGroup, irregular board holes и overlay blockers. Godot smoke исполняет ходы в нативной модели и сравнивает результат, каскады, прогресс всех целей и полное финальное состояние доски с TypeScript oracle.
 
 Полный check также создаёт Godot-модель для всех 22 уровней и проверяет паритет стартовой доски, blockers/ingredients, отсутствие начальных совпадений и доступность хода.
 
 ## Что ещё не завершено
 
-Текущий Godot UI по story gate всё ещё запускает только M3_00. Следующие срезы должны добавить campaign routing/выбор следующего уровня, parity для специальных комбинаций/refill/reshuffle и подсказок, а затем удалить старый M3_00 fixture после перевода экрана на общий bundle. Browser Level Lab остаётся авторским инструментом TypeScript; production-уровни в нём экспортируются из единого источника, а не редактируются независимо в Godot.
+Текущий Godot UI по story gate всё ещё запускает только M3_00. Campaign routing/выбор следующего уровня и parity перемешивания остаются следующими срезами. Browser Level Lab остаётся авторским инструментом TypeScript; production-уровни в нём экспортируются из единого источника, а не редактируются независимо в Godot.
 
 ## Проверка
 

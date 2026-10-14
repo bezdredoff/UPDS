@@ -124,7 +124,7 @@ func attempt_swap(first: int, second: int) -> Dictionary:
 	_last_ingredients_dropped = 0
 	_last_cleared = 0
 	_last_swap = [first, second]
-	var cascade := _resolve(groups, activated, creations, combo, first, second)
+	var cascade := _resolve(_find_resolution_match_groups(), activated, creations, combo, first, second)
 	_last_swap.clear()
 	_sync_primary_collect_count()
 	if _objectives_complete():
@@ -134,6 +134,151 @@ func attempt_swap(first: int, second: int) -> Dictionary:
 	elif not has_available_move():
 		_reshuffle_playable_board()
 	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped}
+
+func attempt_special_activation(index: int) -> Dictionary:
+	if state != "playing": return _empty_move_result("finished")
+	if index < 0 or index >= tiles.size() or tiles[index].is_empty(): return _empty_move_result("ingredient")
+	if _is_blocked(index): return _empty_move_result("blocked")
+	if specials[index].is_empty(): return _empty_move_result("no-special")
+	moves_left -= 1
+	_last_blockers_cleared = 0
+	_last_ingredients_dropped = 0
+	_last_cleared = 0
+	_last_swap = [index, index]
+	var cascade := _resolve([], [index], [], "", index, index)
+	_last_swap.clear()
+	_sync_primary_collect_count()
+	_update_game_state()
+	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped}
+
+func _empty_move_result(reason: String) -> Dictionary:
+	return {"valid": false, "reason": reason, "won": state == "won", "lost": state == "lost", "cascades": 0, "cleared": 0, "blockersCleared": 0, "ingredientsDropped": 0}
+
+func _update_game_state() -> void:
+	if _objectives_complete():
+		state = "won"
+	elif moves_left <= 0:
+		state = "lost"
+	elif not has_available_move():
+		_reshuffle_playable_board()
+
+func get_hint_move() -> Dictionary:
+	var best_score := -1
+	var best_moves: Array[Dictionary] = []
+	for index in tiles.size():
+		for candidate in [index + 1, index + _columns()]:
+			var evaluation := _evaluate_swap(index, int(candidate))
+			if not bool(evaluation.valid): continue
+			var score := _score_hint_evaluation(index, int(candidate), evaluation)
+			var hint := {"first": index, "second": int(candidate), "score": score}
+			if score > best_score:
+				best_score = score
+				best_moves = [hint]
+			elif score == best_score:
+				best_moves.append(hint)
+	if best_moves.is_empty(): return {}
+	return best_moves[_hint_tie_break_index(best_moves.size())]
+
+func _evaluate_swap(first: int, second: int) -> Dictionary:
+	var empty := {"valid": false, "groups": [], "activated": [], "creations": [], "combo": ""}
+	if first < 0 or second < 0 or first >= tiles.size() or second >= tiles.size(): return empty
+	if first == second or not _are_adjacent(first, second): return empty
+	if tiles[first].is_empty() or tiles[second].is_empty() or _is_blocked(first) or _is_blocked(second): return empty
+	var original_first := tiles[first]
+	_swap_tiles(first, second)
+	var groups := find_match_groups()
+	var activated: Array[int] = []
+	if not specials[first].is_empty(): activated.append(first)
+	if not specials[second].is_empty(): activated.append(second)
+	var combo := _resolve_direct_combo(specials[first], specials[second])
+	var creations: Array = [] if original_first == tiles[first] and activated.is_empty() else _find_player_special_creations(groups, first, second)
+	_swap_tiles(first, second)
+	if groups.is_empty() and activated.is_empty() and combo.is_empty() and creations.is_empty(): return empty
+	return {"valid": true, "groups": groups, "activated": activated, "creations": creations, "combo": combo}
+
+func _score_hint_evaluation(first: int, second: int, evaluation: Dictionary) -> int:
+	_swap_tiles(first, second)
+	var clear := {}
+	for group: Dictionary in evaluation.groups:
+		for index in group.indices: clear[int(index)] = true
+	for index in evaluation.activated: clear[int(index)] = true
+	_expand_special_clear(clear)
+	var matched := {}
+	for group: Dictionary in evaluation.groups:
+		for index in group.indices: matched[int(index)] = true
+	var tactical: int = 100 + matched.size() * 4 + evaluation.activated.size() * 90
+	for group: Dictionary in evaluation.groups:
+		if group.indices.size() >= 4: tactical += 24 + (group.indices.size() - 4) * 8
+	var objective_progress := 0
+	var completion_bonus := 0
+	for objective: Dictionary in level_data.get("objectives", []):
+		var objective_index: int = level_data.objectives.find(objective)
+		var remaining := maxi(0, int(objective.target) - objective_value(objective_index))
+		if remaining == 0: continue
+		var useful := 0
+		if str(objective.kind) == "collect":
+			for index in clear:
+				if tiles[int(index)] == str(objective.tile) and not _is_blocked(int(index)): useful += 1
+		elif str(objective.kind) == "clearBlockers":
+			var affected := {}
+			for index in clear:
+				var row := int(int(index) / _columns())
+				var column := int(index) % _columns()
+				for neighbour in [int(index), int(index) - 1, int(index) + 1, int(index) - _columns(), int(index) + _columns()]:
+					if neighbour < 0 or neighbour >= tiles.size(): continue
+					if abs(int(neighbour / _columns()) - row) + abs(neighbour % _columns() - column) == 1 and blocker_layers[neighbour] > 0: affected[neighbour] = true
+			useful = affected.size()
+			if mini(remaining, useful) >= remaining and affected.keys().all(func(index: Variant) -> bool: return blocker_layers[int(index)] == 1): completion_bonus += 1
+		else:
+			var ingredient_keys: Array = [str(objective.ingredient)] if str(objective.kind) == "drop" else objective.ingredients
+			for ingredient_index in ingredients.size():
+				if not ingredient_keys.has(ingredients[ingredient_index]): continue
+				var ingredient_row := int(ingredient_index / _columns())
+				var ingredient_column := ingredient_index % _columns()
+				for index in clear:
+					var clear_index := int(index)
+					if clear_index % _columns() != ingredient_column or int(clear_index / _columns()) <= ingredient_row or tiles[clear_index].is_empty() or _is_blocked(clear_index): continue
+					if _has_locked_barrier_between(ingredient_index, clear_index): continue
+					useful += 1
+		if str(objective.kind) == "collect":
+			useful = mini(remaining, useful)
+			if useful >= remaining: completion_bonus += 1
+		elif str(objective.kind) == "clearBlockers":
+			useful = mini(remaining, useful)
+		objective_progress += useful
+	_swap_tiles(first, second)
+	return objective_progress * 10000 + completion_bonus * 2000 + tactical
+
+func _has_locked_barrier_between(upper_index: int, lower_index: int) -> bool:
+	if upper_index % _columns() != lower_index % _columns() or int(lower_index / _columns()) <= int(upper_index / _columns()): return true
+	var column := upper_index % _columns()
+	for row in range(int(upper_index / _columns()) + 1, int(lower_index / _columns()) + 1):
+		var index := row * _columns() + column
+		if _is_active(index) and _is_blocked(index): return true
+	return false
+
+func _hint_tie_break_index(candidate_count: int) -> int:
+	if candidate_count <= 1: return 0
+	var signature := "%s|" % str(level_data.id)
+	for index in tiles.size():
+		var tile_key := tiles[index] if not tiles[index].is_empty() else "-"
+		var ingredient_key := ingredients[index] if not ingredients[index].is_empty() else "-"
+		var special_key := specials[index] if not specials[index].is_empty() else "-"
+		if index > 0: signature += ";"
+		signature += "%s,%s,%d,%s" % [tile_key, ingredient_key, blocker_layers[index], special_key]
+	var hash_value: int = 0x811c9dc5
+	for byte in signature.to_utf8_buffer():
+		hash_value = int((hash_value ^ byte) * 16777619) & 0xffffffff
+	if _rows() == 8 and _columns() == 8:
+		var bucket := (hash_value >> 8) & 7
+		if (0xd1 & (1 << bucket)) == 0: return 0
+	else:
+		hash_value = int(hash_value ^ (hash_value >> 16))
+		hash_value = int(hash_value * 0x7feb352d) & 0xffffffff
+		hash_value = int(hash_value ^ (hash_value >> 15))
+		hash_value = int(hash_value * 0x846ca68b) & 0xffffffff
+		hash_value = int(hash_value ^ (hash_value >> 16)) & 0xffffffff
+	return hash_value % candidate_count
 
 func find_matches() -> Array[int]:
 	var result: Array[int] = []
@@ -178,6 +323,12 @@ func find_match_groups() -> Array[Dictionary]:
 					indices.append(row * columns + column)
 				groups.append({"orientation": "column", "indices": indices})
 			start = end
+	return groups
+
+func _find_resolution_match_groups() -> Array[Dictionary]:
+	var groups := find_match_groups()
+	var rows := _rows()
+	var columns := _columns()
 	for row in range(rows - 1):
 		for column in range(columns - 1):
 			var index := row * columns + column
@@ -421,7 +572,7 @@ func _resolve(groups: Array[Dictionary], activated: Array[int], creations: Array
 			specials[index] = str(by_index[index].kind)
 		anchors = _settle_columns()
 		_last_ingredients_dropped += _last_settle_dropped
-		groups = find_match_groups()
+		groups = _find_resolution_match_groups()
 		activated.clear()
 	return cascade
 

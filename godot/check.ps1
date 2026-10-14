@@ -78,5 +78,5 @@ Invoke-GodotCheck -Stage 'Match-3 game smoke test' -ExpectedOutput 'UPDS Godot M
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_model_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'Match-3 campaign data smoke test' -ExpectedOutput 'UPDS Godot campaign Match-3 data smoke test passed (22 levels, schema 1).' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_campaign_data_smoke.gd', '--quit-after', '120')
-Invoke-GodotCheck -Stage 'Match-3 runtime parity test' -ExpectedOutput 'UPDS Godot Match-3 runtime parity passed (6 TypeScript oracle scenarios).' `
+Invoke-GodotCheck -Stage 'Match-3 runtime parity test' -ExpectedOutput 'UPDS Godot Match-3 runtime parity passed (7 TypeScript oracle scenarios).' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_runtime_parity_smoke.gd', '--quit-after', '120')
