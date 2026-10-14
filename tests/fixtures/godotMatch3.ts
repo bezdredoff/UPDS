@@ -54,6 +54,38 @@ export function godotCampaignBundle() {
   return {
     schemaVersion: 1,
     levels: levels.map(godotCampaignLevel),
+    levelPresentations: Object.fromEntries(levels.map((level) => {
+      const key = `match3.level.${level.id}`;
+      return [level.id, { localized: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
+        title: catalog[`${key}.title`],
+        storyAction: catalog[`${key}.storyAction`],
+        objectives: level.objectives.map((_, index) => catalog[`${key}.objective.${index}`]),
+        startSpeaker: catalog[`${key}.startBark.speaker`],
+        startText: catalog[`${key}.startBark.text`],
+        winSpeaker: catalog[`${key}.winBark.speaker`],
+        winText: catalog[`${key}.winBark.text`],
+        loseSpeaker: catalog[`${key}.loseBark.speaker`],
+        loseText: catalog[`${key}.loseBark.text`],
+        noMatchBark: catalog['match3.bark.noMatchInvalid'],
+        back: catalog['common.back'],
+        retry: catalog['match3Campaign.replay'],
+        moves: catalog['match3.moves'],
+        hint: catalog['match3.hint'],
+        win: catalog['match3Campaign.winHeading'],
+        lose: catalog['match3Campaign.lossHeading'],
+        resultDetail: catalog['match3Campaign.resultDetail'],
+        backToCampaign: catalog['match3Campaign.backToCampaign'],
+      }])) }];
+    })),
+    campaignLocalized: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
+      eyebrow: catalog['match3Campaign.eyebrow'], title: catalog['match3Campaign.title'],
+      summary: catalog['match3Campaign.summary'], progress: catalog['match3Campaign.progress'],
+      complete: catalog['match3Campaign.complete'], locked: catalog['match3Campaign.locked'],
+      completed: catalog['match3Campaign.completed'], available: catalog['match3Campaign.available'],
+      attempts: catalog['match3Campaign.attempts'], best: catalog['match3Campaign.best'],
+      replay: catalog['match3Campaign.replay'], play: catalog['match3Campaign.play'],
+      back: catalog['common.back'],
+    }])),
     assets: {
       tiles: tileAssets,
       ingredients: ingredientAssets,

@@ -12,6 +12,8 @@ const SettingsScreen = preload("res://scripts/settings_screen.gd")
 const StorySession = preload("res://scripts/story_session.gd")
 const VnScreen = preload("res://scripts/vn_screen.gd")
 const Match3CampaignSession = preload("res://scripts/match3_campaign_session.gd")
+const Match3CampaignScreen = preload("res://scripts/match3_campaign_screen.gd")
+const Match3CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const Match3Screen = preload("res://scripts/match3_screen.gd")
 
 var preferences: RefCounted = PlayerPreferences.new()
@@ -20,6 +22,7 @@ var audio_runtime := preload("res://scripts/menu_audio.gd").new()
 var session: RefCounted
 var story_screen: Control
 var match3_screen: Control
+var match3_campaign_screen: Control
 var match3_session: RefCounted
 var confirmation := ConfirmationDialog.new()
 var status: Label
@@ -57,7 +60,10 @@ func _ready() -> void:
 
 	$Content/Actions/NewGame.pressed.connect(_request_new_game)
 	$Content/Actions/Continue.pressed.connect(_continue_game)
-	$Content/Actions/Campaign.pressed.connect(func() -> void: campaign_requested.emit())
+	$Content/Actions/Campaign.pressed.connect(func() -> void:
+		campaign_requested.emit()
+		_open_campaign()
+	)
 	$Content/Actions/Settings.pressed.connect(_open_settings)
 
 
@@ -135,18 +141,37 @@ func _handle_match3_request(level_id: String) -> void:
 
 
 func _open_match3(level_id: String) -> void:
-	if level_id != "M3_00_LOCKER_TUTORIAL" or is_instance_valid(match3_screen):
+	_open_match3_level(level_id, false)
+
+
+func _open_match3_level(level_id: String, standalone_campaign: bool) -> void:
+	if is_instance_valid(match3_screen):
 		return
+	var bundle := Match3CampaignData.load_bundle()
+	if Match3CampaignData.get_level(bundle, level_id).is_empty(): return
+	if not standalone_campaign and level_id != "M3_00_LOCKER_TUTORIAL": return
+	if standalone_campaign and not _campaign_level_unlocked(bundle, level_id): return
 	match3_screen = Match3Screen.new()
 	match3_screen.name = "Match3Screen"
 	match3_screen.preferences = preferences
 	match3_screen.session = match3_session
-	match3_screen.story_session = session
+	match3_screen.story_session = null if standalone_campaign else session
+	match3_screen.level_id = level_id
+	match3_screen.campaign_mode = standalone_campaign
 	match3_screen.story_requested.connect(_close_match3)
 	if is_instance_valid(story_screen):
 		story_screen.hide()
+	if is_instance_valid(match3_campaign_screen): match3_campaign_screen.hide()
 	add_child(match3_screen)
 	audio_runtime.set_scene("vn")
+
+
+func _campaign_level_unlocked(bundle: Dictionary, level_id: String) -> bool:
+	var levels: Array = bundle.get("levels", [])
+	for index in levels.size():
+		if str(levels[index].id) != level_id: continue
+		return index == 0 or match3_session.save.completed.has(str(levels[index - 1].id))
+	return false
 
 
 func _close_match3() -> void:
@@ -155,9 +180,42 @@ func _close_match3() -> void:
 	remove_child(match3_screen)
 	match3_screen.queue_free()
 	match3_screen = null
-	if is_instance_valid(story_screen):
+	if is_instance_valid(match3_campaign_screen):
+		match3_campaign_screen.show()
+		match3_campaign_screen.refresh_screen()
+		audio_runtime.set_scene("menu")
+	elif is_instance_valid(story_screen):
 		story_screen.show()
 		audio_runtime.set_scene("vn")
+
+
+func _open_campaign() -> void:
+	if is_instance_valid(match3_campaign_screen): return
+	match3_campaign_screen = Match3CampaignScreen.new()
+	match3_campaign_screen.name = "Match3CampaignScreen"
+	match3_campaign_screen.preferences = preferences
+	match3_campaign_screen.session = match3_session
+	match3_campaign_screen.back_requested.connect(_close_campaign)
+	match3_campaign_screen.level_requested.connect(_start_campaign_level)
+	$Content.hide()
+	add_child(match3_campaign_screen)
+	audio_runtime.set_scene("menu")
+
+
+func _start_campaign_level(level_id: String) -> void:
+	if not is_instance_valid(match3_campaign_screen): return
+	match3_campaign_screen.hide()
+	_open_match3_level(level_id, true)
+
+
+func _close_campaign() -> void:
+	if not is_instance_valid(match3_campaign_screen): return
+	remove_child(match3_campaign_screen)
+	match3_campaign_screen.queue_free()
+	match3_campaign_screen = null
+	$Content.show()
+	audio_runtime.set_scene("menu")
+	$Content/Actions/Campaign.grab_focus()
 
 
 func _close_story() -> void:

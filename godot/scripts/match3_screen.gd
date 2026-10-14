@@ -4,6 +4,7 @@ signal story_requested
 
 const Level = preload("res://data/locker_match3.json")
 const Game = preload("res://scripts/match3_game.gd")
+const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 
@@ -11,6 +12,11 @@ var preferences: RefCounted
 var session: RefCounted
 var story_session: RefCounted
 var game: RefCounted
+var level_id := ""
+var campaign_mode := false
+var level_data: Dictionary
+var level_presentation: Dictionary
+var campaign_bundle: Dictionary
 var selected_index := -1
 var hinted_indices: Array[int] = []
 var last_tapped_special_index := -1
@@ -43,8 +49,13 @@ var evidence_continue: Button
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	game = Game.new()
-	session.start_level(str(Level.data.id))
+	campaign_bundle = CampaignData.load_bundle()
+	if level_id.is_empty(): level_id = str(Level.data.id)
+	level_data = CampaignData.get_level(campaign_bundle, level_id)
+	assert(not level_data.is_empty(), "Match-3 level is unavailable: " + level_id)
+	level_presentation = campaign_bundle.levelPresentations[level_id]
+	game = Game.new(level_data)
+	session.start_level(level_id)
 	background = TextureRect.new()
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background.texture = load("res://assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp")
@@ -114,7 +125,7 @@ func _ready() -> void:
 	board_center.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(board_center)
 	board = GridContainer.new()
-	board.columns = int(Level.data.columns)
+	board.columns = int(level_data.columns)
 	board.add_theme_constant_override("h_separation", 3)
 	board.add_theme_constant_override("v_separation", 3)
 	board_center.add_child(board)
@@ -162,22 +173,28 @@ func _ready() -> void:
 
 func _refresh() -> void:
 	var locale: String = preferences.locale
-	var copy: Dictionary = Level.data.localized[locale]
+	var copy: Dictionary = level_presentation.localized.get(locale, level_presentation.localized.en)
 	title.text = copy.title
 	back_button.text = copy.back
 	if game.state == "playing":
 		bark.text = copy.noMatchBark if not last_feedback.is_empty() else "%s: %s" % [copy.startSpeaker, copy.startText]
 	else:
 		bark.text = "%s: %s" % [copy.winSpeaker, copy.winText] if game.state == "won" else "%s: %s" % [copy.loseSpeaker, copy.loseText]
-	tutorial_title.text = copy.tutorialTitle
-	tutorial_body.text = copy.tutorialBody
-	tutorial_button.text = copy.tutorialTry
-	tutorial_panel.visible = not session.save.tutorialsCompleted.has("basic-swap")
-	objective.text = "%s  %s · %d / %d" % [copy.collected, copy.objective, game.collected, int(Level.data.target)]
+	tutorial_title.text = str(Level.data.localized[locale].tutorialTitle)
+	tutorial_body.text = str(Level.data.localized[locale].tutorialBody)
+	tutorial_button.text = str(Level.data.localized[locale].tutorialTry)
+	tutorial_panel.visible = level_id == str(Level.data.id) and not session.save.tutorialsCompleted.has("basic-swap")
+	var objective_lines := PackedStringArray()
+	for index in level_data.objectives.size():
+		var objective_data: Dictionary = level_data.objectives[index]
+		var objective_names: Array = copy.get("objectives", [])
+		var objective_name: String = str(objective_names[index]) if index < objective_names.size() else str(objective_data.get("label", "Objective"))
+		objective_lines.append("%s %d/%d" % [objective_name, game.objective_value(index), int(objective_data.target)])
+	objective.text = "  ·  ".join(objective_lines)
 	moves.text = "%s · %d" % [copy.moves, game.moves_left]
 	hint_button.text = MenuCopy.text("match3_hint", locale)
 	hint_button.disabled = game.state != "playing" or tutorial_panel.visible
-	warning.text = "" if session.last_write_ok and story_session.last_write_ok else MenuCopy.text("story_save_error", locale)
+	warning.text = "" if session.last_write_ok and (story_session == null or story_session.last_write_ok) else MenuCopy.text("story_save_error", locale)
 	warning.visible = not warning.text.is_empty()
 	result_label.text = copy.win if game.state == "won" else copy.lose if game.state == "lost" else ""
 	result_label.visible = game.state == "lost"
@@ -186,17 +203,26 @@ func _refresh() -> void:
 	result_back_button.text = copy.back
 	var won: bool = game.state == "won"
 	board.get_parent().visible = not won
-	tutorial_panel.visible = not won and not session.save.tutorialsCompleted.has("basic-swap")
+	tutorial_panel.visible = not won and level_id == str(Level.data.id) and not session.save.tutorialsCompleted.has("basic-swap")
 	objective.visible = not won
 	moves.visible = not won
 	evidence_panel.visible = won
-	var evidence: Dictionary = Level.data.evidence
-	var clue_copy: Dictionary = evidence.localized[locale]
-	evidence_kicker.text = clue_copy.evidenceFound
-	evidence_image.texture = load("res://" + str(evidence.asset).trim_prefix("./"))
-	evidence_title.text = clue_copy.title
-	evidence_label.text = clue_copy.label
-	evidence_continue.text = clue_copy.continueStory
+	if campaign_mode:
+		evidence_kicker.visible = false
+		evidence_image.visible = false
+		evidence_title.text = str(copy.win)
+		evidence_label.text = str(copy.resultDetail).replace("{movesLeft}", str(game.moves_left))
+		evidence_continue.text = str(copy.backToCampaign)
+	else:
+		var evidence: Dictionary = Level.data.evidence
+		var clue_copy: Dictionary = evidence.localized[locale]
+		evidence_kicker.visible = true
+		evidence_image.visible = true
+		evidence_kicker.text = clue_copy.evidenceFound
+		evidence_image.texture = load("res://" + str(evidence.asset).trim_prefix("./"))
+		evidence_title.text = clue_copy.title
+		evidence_label.text = clue_copy.label
+		evidence_continue.text = clue_copy.continueStory
 	_render_board()
 
 
@@ -209,10 +235,37 @@ func _render_board() -> void:
 		tile_button.ignore_texture_size = true
 		tile_button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
 		tile_button.custom_minimum_size = Vector2(44, 44)
-		tile_button.texture_normal = load("res://" + str(Level.data.assets[game.tiles[index]]).trim_prefix("./"))
-		tile_button.modulate = Color(1.25, 1.25, 1, 1) if index == selected_index else Color(1.2, 0.95, 0.5, 1) if hinted_indices.has(index) else Color.WHITE
-		tile_button.disabled = game.state != "playing" or tutorial_panel.visible
+		var tile_asset := str(campaign_bundle.assets.tiles.get(game.tiles[index], ""))
+		if not tile_asset.is_empty(): tile_button.texture_normal = load("res://" + tile_asset.trim_prefix("./"))
+		var tile_tint := Color(1.25, 1.25, 1, 1) if index == selected_index else Color(1.2, 0.95, 0.5, 1) if hinted_indices.has(index) else Color.WHITE
+		tile_button.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else tile_tint
+		tile_button.disabled = game.state != "playing" or tutorial_panel.visible or game.tiles[index].is_empty() or game.blocker_layers[index] > 0
 		tile_button.pressed.connect(_select_cell.bind(index))
+		if game.blocker_layers[index] > 0:
+			var blocker_asset := str(campaign_bundle.assets.blockers.get(str(level_data.blockerStyle), ""))
+			if str(level_data.blockerStyle) == "locked": blocker_asset = str(campaign_bundle.assets.lockedBlockers.get(str(game.blocker_layers[index]), blocker_asset))
+			if not blocker_asset.is_empty():
+				var blocker := TextureRect.new()
+				blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+				blocker.texture = load("res://" + blocker_asset.trim_prefix("./"))
+				blocker.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				blocker.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+				blocker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				tile_button.add_child(blocker)
+		if not game.ingredients[index].is_empty():
+			var ingredient_asset := str(campaign_bundle.assets.ingredients.get(game.ingredients[index], ""))
+			if not ingredient_asset.is_empty():
+				var ingredient := TextureRect.new()
+				ingredient.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
+				ingredient.offset_left = -22
+				ingredient.offset_top = -22
+				ingredient.offset_right = -2
+				ingredient.offset_bottom = -2
+				ingredient.texture = load("res://" + ingredient_asset.trim_prefix("./"))
+				ingredient.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				ingredient.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				ingredient.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				tile_button.add_child(ingredient)
 		if not game.specials[index].is_empty():
 			var badge := Label.new()
 			badge.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
@@ -255,8 +308,8 @@ func _select_cell(index: int) -> void:
 		var special_result: Dictionary = game.attempt_special_activation(index)
 		last_feedback = "" if special_result.valid else str(special_result.reason)
 		if special_result.valid and game.state == "won":
-			session.complete_level(str(Level.data.id), game.moves_left)
-			story_session.complete_match3(str(Level.data.id))
+			session.complete_level(level_id, game.moves_left)
+			if not campaign_mode and story_session != null: story_session.complete_match3(level_id)
 		_refresh()
 		return
 	if selected_index < 0:
@@ -279,8 +332,8 @@ func _select_cell(index: int) -> void:
 		selected_index = -1
 		last_feedback = ""
 		if game.state == "won":
-			session.complete_level(str(Level.data.id), game.moves_left)
-			story_session.complete_match3(str(Level.data.id))
+			session.complete_level(level_id, game.moves_left)
+			if not campaign_mode and story_session != null: story_session.complete_match3(level_id)
 	else:
 		selected_index = index
 		last_feedback = str(result.reason)
@@ -309,7 +362,7 @@ func _retry() -> void:
 	game.reset()
 	selected_index = -1
 	last_feedback = ""
-	session.start_level(str(Level.data.id))
+	session.start_level(level_id)
 	_refresh()
 
 
