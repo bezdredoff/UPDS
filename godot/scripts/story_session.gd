@@ -32,8 +32,10 @@ const AsterionTransferScene = preload("res://data/asterion_transfer_scene.json")
 const PostAsterionTransferScene = preload("res://data/post_asterion_transfer_scene.json")
 const SecondSkinSignalScene = preload("res://data/second_skin_signal_scene.json")
 const PostSecondSkinSignalScene = preload("res://data/post_second_skin_signal_scene.json")
+const KendoPilotListScene = preload("res://data/kendo_pilot_list_scene.json")
+const PostKendoPilotListScene = preload("res://data/post_kendo_pilot_list_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 26
+const MAX_PORTED_SCENE_INDEX := 28
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -155,6 +157,8 @@ func scene_data() -> Dictionary:
 		24: return PostAsterionTransferScene.data
 		25: return SecondSkinSignalScene.data
 		26: return PostSecondSkinSignalScene.data
+		27: return KendoPilotListScene.data
+		28: return PostKendoPilotListScene.data
 	return {}
 
 
@@ -275,4 +279,8 @@ func _scene_lines() -> Array:
 		return SecondSkinSignalScene.data.lines
 	if state.scene == 26:
 		return PostSecondSkinSignalScene.data.lines
+	if state.scene == 27:
+		return KendoPilotListScene.data.lines
+	if state.scene == 28:
+		return PostKendoPilotListScene.data.lines
 	return []

@@ -1,0 +1,563 @@
+{
+  "sceneId": "VN_SCENE_28_E13_POST",
+  "sceneIndex": 28,
+  "nextSceneId": "VN_SCENE_29_E14_PRE",
+  "nextSceneIndex": 29,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+  "titles": {
+    "ru": "Закрытый список пилота",
+    "en": "Closed Pilot List",
+    "be": "Закрыты спіс пілота"
+  },
+  "lines": [
+    {
+      "id": "VN0628",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: PILOT LIST",
+          "text": "Код каждого пропавшего предмета совмещён с закрытым списком участников. Совпадения идут подряд без исключений."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: PILOT LIST",
+          "text": "Each missing item code is aligned with the closed participant list. Every one matches."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: PILOT LIST",
+          "text": "Код кожнага зніклага прадмета сумешчаны з закрытым спісам удзельнікаў. Супадзенні ідуць запар без выключэнняў."
+        }
+      }
+    },
+    {
+      "id": "VN0629",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "УВЕРЕННО",
+          "text": "Четыре владельца, четыре участника пилота. Случайная выборка теперь практически исключена."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Four owners, four pilot participants. A random sample is now effectively ruled out."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "УПЭЎНЕНА",
+          "text": "Чатыры ўладальнікі, чатыры ўдзельнікі пілота. Выпадковая выбарка цяпер практычна выключаная."
+        }
+      }
+    },
+    {
+      "id": "VN0630",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФИКСИРУЕТ",
+          "text": "Second Skin связывает не только тип ткани. Он связывает конкретных людей из закрытого списка."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Second Skin connects more than fabric type. It connects specific people from a closed list."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФІКСУЕ",
+          "text": "Second Skin звязвае не толькі тып тканіны. Ён звязвае канкрэтных людзей з закрытага спіса."
+        }
+      }
+    },
+    {
+      "id": "VN0631",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КАПИТАН КЭНДО",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Значит, удар был направлен не по клубу, а по участникам программы."
+        },
+        "en": {
+          "speaker": "KENDO CAPTAIN",
+          "emotion": "BEAT",
+          "text": "Then the strike targeted the program participants, not the club."
+        },
+        "be": {
+          "speaker": "КАПІТАН КЭНДО",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Значыць, удар быў накіраваны не па клубе, а па ўдзельніках праграмы."
+        }
+      }
+    },
+    {
+      "id": "VN0632",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ДОВОЛЬНО",
+          "text": "Оноэ, это почти твоя формулировка, только лучше."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Onoe, that is almost your wording, only better."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗАДАВОЛЕНА",
+          "text": "Оноэ, гэта амаль твая фармулёўка, толькі лепшая."
+        }
+      }
+    },
+    {
+      "id": "VN0633",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕ РЕАГИРУЕТ",
+          "text": "Почти — не юридическая категория."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Almost is not a legal category."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕ РЭАГУЕ",
+          "text": "Амаль — не юрыдычная катэгорыя."
+        }
+      }
+    },
+    {
+      "id": "VN0634",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_014}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_014}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_014}"
+        }
+      }
+    },
+    {
+      "id": "VN0635",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "К КУБО",
+          "text": "Теперь про Рину. Она объяснила, что именно загрязнено?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Now about Rina. Did she explain what exactly was contaminated?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ДА КУБО",
+          "text": "Цяпер пра Рыну. Яна патлумачыла, што менавіта забруджана?"
+        }
+      }
+    },
+    {
+      "id": "VN0636",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КУБО",
+          "emotion": "ОТРИЦАЕТ",
+          "text": "Нет. Попросила изолировать мешки и передать их через обычный сервисный вход. Я счёл просьбу процедурной."
+        },
+        "en": {
+          "speaker": "KUBO",
+          "emotion": "BEAT",
+          "text": "No. She asked me to isolate the bags and pass them through the normal service entrance. I treated it as a procedural request."
+        },
+        "be": {
+          "speaker": "КУБО",
+          "emotion": "АДМАЎЛЯЕ",
+          "text": "Не. Папрасіла ізаляваць мяшкі і перадаць іх праз звычайны службовы ўваход. Я палічыў просьбу працэдурнай."
+        }
+      }
+    },
+    {
+      "id": "VN0637",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРОВЕРЯЕТ КВИТАНЦИИ",
+          "text": "И вы делали это раньше?"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "And had you done that before?"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРАВЯРАЕ КВІТАНЦЫІ",
+          "text": "І вы рабілі гэта раней?"
+        }
+      }
+    },
+    {
+      "id": "VN0638",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КУБО",
+          "emotion": "ДОСТАЁТ БУМАГУ",
+          "text": "Я делал другое. Несколько раз отвозил вещи в семейное ателье до прачечной. Вот квитанции."
+        },
+        "en": {
+          "speaker": "KUBO",
+          "emotion": "BEAT",
+          "text": "Something else. Several times I took items to our family atelier before laundry. Here are the receipts."
+        },
+        "be": {
+          "speaker": "КУБО",
+          "emotion": "ДАСТАЕ ПАПЕРУ",
+          "text": "Я рабіў іншае. Некалькі разоў адвозіў рэчы ў сямейнае атэлье да пральні. Вось квітанцыі."
+        }
+      }
+    },
+    {
+      "id": "VN0639",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: ATELIER RECEIPT",
+          "text": "На квитанции отдельной строкой написано: «проверить серебристый шов / записать код ярлыка». Заказчик — Р. Сираиси."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: ATELIER RECEIPT",
+          "text": "The receipt has a separate line: ‘inspect silver seam / record label code.’ Customer: R. Shiraishi."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: ATELIER RECEIPT",
+          "text": "На квітанцыі асобным радком напісана: «праверыць серабрыстае шво / запісаць код біркі». Заказчык — Р. Сіраісі."
+        }
+      }
+    },
+    {
+      "id": "VN0640",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВНИМАТЕЛЬНО",
+          "text": "Дата — за три недели до первого публичного сообщения о пропаже."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "The date is three weeks before the first public missing-item report."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УВАЖЛІВА",
+          "text": "Дата — за тры тыдні да першага публічнага паведамлення пра знікненне."
+        }
+      }
+    },
+    {
+      "id": "VN0641",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "МЕДЛЕННО",
+          "text": "То есть Рина искала именно серебристые швы до того, как кражи стали заметны."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "So Rina was looking specifically for silver seams before the thefts became visible."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАВОЛЬНА",
+          "text": "То-бок Рына шукала менавіта серабрыстыя швы да таго, як крадзяжы сталі заўважныя."
+        }
+      }
+    },
+    {
+      "id": "VN0642",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КУБО",
+          "emotion": "СПОКОЙНО",
+          "text": "Если это делает меня посредником, я приму формулировку. Если вором — прошу сначала посетить ателье."
+        },
+        "en": {
+          "speaker": "KUBO",
+          "emotion": "BEAT",
+          "text": "If that makes me an intermediary, I accept the wording. If it makes me a thief, please visit the atelier first."
+        },
+        "be": {
+          "speaker": "КУБО",
+          "emotion": "СПАКОЙНА",
+          "text": "Калі гэта робіць мяне пасярэднікам, я прыму фармулёўку. Калі злодзеем — прашу спачатку наведаць атэлье."
+        }
+      }
+    },
+    {
+      "id": "VN0643",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "КИВАЕТ",
+          "text": "Это удивительно разумная просьба для человека, который разговаривает как финальный босс логистики."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "That is an impressively reasonable request from someone who talks like the final boss of logistics."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "КІВАЕ",
+          "text": "Гэта дзіўна разумная просьба для чалавека, які размаўляе як фінальны бос лагістыкі."
+        }
+      }
+    },
+    {
+      "id": "VN0644",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КАПИТАН КЭНДО",
+          "emotion": "КУБО",
+          "text": "Честь восстановлена условно. До конца расследования."
+        },
+        "en": {
+          "speaker": "KENDO CAPTAIN",
+          "emotion": "BEAT",
+          "text": "Honor conditionally restored. Until the investigation is complete."
+        },
+        "be": {
+          "speaker": "КАПІТАН КЭНДО",
+          "emotion": "КУБО",
+          "text": "Гонар умоўна адноўлены. Да канца расследавання."
+        }
+      }
+    },
+    {
+      "id": "VN0645",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "РЕШИТЕЛЬНО",
+          "text": "Едем в ателье. Нам нужна книга заказов и даты всех просьб Рины о серебристых швах."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "We are going to the atelier. We need the order book and every date Rina asked for a silver-seam inspection."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "РАШУЧА",
+          "text": "Едзем у атэлье. Нам патрэбныя кніга заказаў і даты ўсіх просьбаў Рыны праверыць серабрыстыя швы."
+        }
+      }
+    },
+    {
+      "id": "VN0646",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпизод 14 — Дом, где бельё ни при чём»"
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "EPISODE CARD",
+          "text": "Episode 14 — The House Where Underwear Has Nothing to Do with It"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпізод 14 — Дом, дзе бялізна ні пры чым»"
+        }
+      }
+    }
+  ]
+}

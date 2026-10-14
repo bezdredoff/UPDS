@@ -85,6 +85,8 @@ describe('Godot story source parity', () => {
       [24, 'godot/data/post_asterion_transfer_scene.json', 'VN0548', 'VN0567', '', -1],
       [25, 'godot/data/second_skin_signal_scene.json', 'VN0568', 'VN0588', 'M3_12_SECOND_SKIN_SIGNAL', 26],
       [26, 'godot/data/post_second_skin_signal_scene.json', 'VN0589', 'VN0607', '', -1],
+      [27, 'godot/data/kendo_pilot_list_scene.json', 'VN0608', 'VN0627', 'M3_13_KENDO_PILOT_LIST', 28],
+      [28, 'godot/data/post_kendo_pilot_list_scene.json', 'VN0628', 'VN0646', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -152,6 +154,11 @@ describe('Godot story source parity', () => {
     expect(secondSkinLevel.evidence.localized.ru.title).toBeTruthy();
     expect(secondSkinLevel.evidence.localized.be.label).toBeTruthy();
     expect(secondSkinLevel.evidence.localized.en.continueStory).toBeTruthy();
+    const kendoPilotLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_13_KENDO_PILOT_LIST');
+    expect(kendoPilotLevel.evidence.id).toBe('CUE_014');
+    expect(kendoPilotLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(kendoPilotLevel.evidence.localized.be.label).toBeTruthy();
+    expect(kendoPilotLevel.evidence.localized.en.continueStory).toBeTruthy();
     for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source'], [24, 'photo-permission'], [26, 'publish-tag']] as const) {
       const gate = godotStoryScene(sceneIndex).choiceGate;
       expect(gate.id).toBe(gateId);

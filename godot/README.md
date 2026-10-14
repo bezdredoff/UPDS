@@ -40,14 +40,14 @@ Haptics are enabled only on native Android/iOS; hardware verification is pending
 New Game opens the playable prologue (`VN0001–VN0022`) and continues into scene 1
 (`VN0023–VN0057`) with RU/BE/EN copy, approved character art and backgrounds.
 `CHOICE_00` A/B/C is persisted through the existing Story `choice` field. Continue
-resumes supported positions through VN0607; saves beyond the current port boundary
+resumes supported positions through VN0646; saves beyond the current port boundary
 remain intact and unavailable. Scene 1 ends at an explicit request for
 `M3_00_LOCKER_TUTORIAL`. The first 9×7 Match-3 level is playable with its base
 swap tutorial, source tile art, collect objective, special tiles, move limit and
 campaign retry statistics. A win records the clue and opens the localized evidence
-card. The connected story route currently continues through VN0607 with gates
-M3_00–M3_12, localized story choice gates and resumable post-match scenes; the
-next unported scene starts at VN0608. The separate campaign hub exposes all 22
+card. The connected story route currently continues through VN0646 with gates
+M3_00–M3_13, localized story choice gates and resumable post-match scenes; the
+next unported scene starts at VN0647. The separate campaign hub exposes all 22
 levels with sequential unlocks.
 Replacing existing progress through New Game requires confirmation.
 
@@ -68,12 +68,12 @@ failure/recovery checks without touching player saves.
 
 ## Prologue source and preview
 
-`node scripts/export-godot-prologue.cjs` refreshes the audited prologue and scene 1
-content, locale/staging snapshots, original art copies and VN audio definitions.
-Vitest guards their parity with the web source. The reader stops at the explicit
-first Match-3 gate without advancing the save into an unported gameplay scene.
+`node scripts/export-godot-prologue.cjs` refreshes the audited prologue, scenes 1–28,
+locale/staging snapshots, original art copies and VN audio definitions. Vitest
+guards their parity with the web source. The story reader follows the connected
+campaign through M3_13 and stops before the first unported scene.
 
 For isolated visual review, run `tests/vn_preview.tscn` in the editor: campaign
 progress is in memory and player saves remain untouched. The native reader supports
-Next, menu/settings return and keyboard controls; paging/history/auto and the
-following scene/choice/Match-3 flow are subsequent slices.
+Next, menu/settings return and keyboard controls; paging/history/auto remain later
+reader improvements.
