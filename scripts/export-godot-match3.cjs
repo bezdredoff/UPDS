@@ -13,12 +13,12 @@ require.extensions['.ts'] = (module, filename) => module._compile(ts.transpileMo
 }).outputText, filename);
 
 const { godotCampaignBundle, godotMatch3Level } = require('../tests/fixtures/godotMatch3.ts');
-const { godotMatch3ParityScenarios, godotMatch3SpecialActionScenario } = require('../tests/fixtures/godotMatch3Parity.ts');
+const { godotMatch3ParityScenarios, godotMatch3SpecialActionScenario, godotMatch3ReshuffleScenario } = require('../tests/fixtures/godotMatch3Parity.ts');
 const level = godotMatch3Level();
 fs.writeFileSync(path.join(root, 'godot/data/locker_match3.json'), `${JSON.stringify(level, null, 2)}\n`);
 const bundle = godotCampaignBundle();
 fs.writeFileSync(path.join(root, 'godot/data/campaign_match3_levels.json'), `${JSON.stringify(bundle, null, 2)}\n`);
-const parityCases = [...godotMatch3ParityScenarios(), godotMatch3SpecialActionScenario()];
+const parityCases = [...godotMatch3ParityScenarios(), godotMatch3SpecialActionScenario(), godotMatch3ReshuffleScenario()];
 fs.writeFileSync(path.join(root, 'godot/tests/fixtures/match3_parity_cases.json'), `${JSON.stringify(parityCases, null, 2)}\n`);
 const assets = new Set([
   ...Object.values(bundle.assets).flatMap((group) => Object.values(group)),

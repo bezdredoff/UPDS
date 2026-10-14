@@ -127,13 +127,14 @@ func attempt_swap(first: int, second: int) -> Dictionary:
 	var cascade := _resolve(_find_resolution_match_groups(), activated, creations, combo, first, second)
 	_last_swap.clear()
 	_sync_primary_collect_count()
+	var reshuffled := false
 	if _objectives_complete():
 		state = "won"
 	elif moves_left <= 0:
 		state = "lost"
 	elif not has_available_move():
-		_reshuffle_playable_board()
-	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped}
+		reshuffled = _reshuffle_playable_board()
+	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "reshuffled": reshuffled, "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped}
 
 func attempt_special_activation(index: int) -> Dictionary:
 	if state != "playing": return _empty_move_result("finished")
@@ -148,19 +149,22 @@ func attempt_special_activation(index: int) -> Dictionary:
 	var cascade := _resolve([], [index], [], "", index, index)
 	_last_swap.clear()
 	_sync_primary_collect_count()
-	_update_game_state()
-	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped}
+	var reshuffled := _update_game_state()
+	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "reshuffled": reshuffled, "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped}
 
 func _empty_move_result(reason: String) -> Dictionary:
-	return {"valid": false, "reason": reason, "won": state == "won", "lost": state == "lost", "cascades": 0, "cleared": 0, "blockersCleared": 0, "ingredientsDropped": 0}
+	return {"valid": false, "reason": reason, "won": state == "won", "lost": state == "lost", "reshuffled": false, "cascades": 0, "cleared": 0, "blockersCleared": 0, "ingredientsDropped": 0}
 
-func _update_game_state() -> void:
+func _update_game_state() -> bool:
 	if _objectives_complete():
 		state = "won"
+		return false
 	elif moves_left <= 0:
 		state = "lost"
+		return false
 	elif not has_available_move():
-		_reshuffle_playable_board()
+		return _reshuffle_playable_board()
+	return false
 
 func get_hint_move() -> Dictionary:
 	var best_score := -1
@@ -471,21 +475,27 @@ func _anchor_precedes(first: Dictionary, second: Dictionary) -> bool:
 		return int(first.rows) > int(second.rows)
 	return int(first.index) < int(second.index)
 
-func _reshuffle_playable_board() -> void:
-	var original_tiles := tiles.duplicate()
-	var original_specials := specials.duplicate()
-	var contents: Array[Dictionary] = []
+func _reshuffle_playable_board() -> bool:
+	var tile_indices: Array[int] = []
+	var shuffled_tiles: Array = []
 	for index in tiles.size():
-		contents.append({"tile": tiles[index], "special": specials[index]})
+		if tiles[index].is_empty(): continue
+		tile_indices.append(index)
+		shuffled_tiles.append(tiles[index])
 	for attempt in range(100):
-		_shuffle(contents)
-		for index in contents.size():
-			tiles[index] = str(contents[index].tile)
-			specials[index] = str(contents[index].special)
-		if find_matches().is_empty() and has_available_move():
-			return
-	tiles = original_tiles
-	specials = original_specials
+		_shuffle(shuffled_tiles)
+		for offset in tile_indices.size():
+			tiles[tile_indices[offset]] = str(shuffled_tiles[offset])
+			specials[tile_indices[offset]] = ""
+		if _find_resolution_match_groups().is_empty() and has_available_move(): return true
+	for index in tile_indices:
+		tiles[index] = _random_tile()
+		specials[index] = ""
+	while not _find_resolution_match_groups().is_empty():
+		for group: Dictionary in _find_resolution_match_groups():
+			var indices: Array = group.indices
+			tiles[int(indices.back())] = _random_tile()
+	return true
 
 func _swap_creates_match(first: int, second: int) -> bool:
 	if not _are_adjacent(first, second) or tiles[first].is_empty() or tiles[second].is_empty() or _is_blocked(first) or _is_blocked(second):
