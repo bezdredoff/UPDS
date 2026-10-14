@@ -753,19 +753,46 @@ func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
 	second_stack.z_index = 8
 	var tween := create_tween()
 	tween.set_parallel(true)
-	tween.tween_property(first_stack, "position", offset, SWAP_MOTION_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	tween.tween_property(second_stack, "position", -offset, SWAP_MOTION_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	_tween_stack_offsets(tween, first_stack, offset, SWAP_MOTION_SECONDS)
+	_tween_stack_offsets(tween, second_stack, -offset, SWAP_MOTION_SECONDS)
 	await tween.finished
 	if return_to_start:
+		var rejected_cells: Array[int] = [first, second]
+		_shake_rejected_cells(rejected_cells)
 		var back := create_tween()
 		back.set_parallel(true)
-		back.tween_property(first_stack, "position", Vector2.ZERO, SWAP_MOTION_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		back.tween_property(second_stack, "position", Vector2.ZERO, SWAP_MOTION_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		_tween_stack_offsets(back, first_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
+		_tween_stack_offsets(back, second_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
 		await back.finished
-	first_stack.position = Vector2.ZERO
-	second_stack.position = Vector2.ZERO
+		await get_tree().create_timer(0.07).timeout
+	first_stack.offset_left = 0.0
+	first_stack.offset_top = 0.0
+	first_stack.offset_right = 0.0
+	first_stack.offset_bottom = 0.0
+	second_stack.offset_left = 0.0
+	second_stack.offset_top = 0.0
+	second_stack.offset_right = 0.0
+	second_stack.offset_bottom = 0.0
 	first_stack.z_index = 0
 	second_stack.z_index = 0
+
+
+func _tween_stack_offsets(tween: Tween, stack: Control, target: Vector2, duration: float) -> void:
+	var transition := Tween.TRANS_CUBIC
+	tween.tween_property(stack, "offset_left", target.x, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(stack, "offset_right", target.x, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(stack, "offset_top", target.y, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(stack, "offset_bottom", target.y, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
+
+
+func _shake_rejected_cells(indices: Array) -> void:
+	for index in indices:
+		if index < 0 or index >= board.get_child_count(): continue
+		var cell := board.get_child(index) as Control
+		var start_x := cell.position.x
+		var tween := create_tween()
+		for offset in [-5.0, 5.0, -3.0, 0.0]:
+			tween.tween_property(cell, "position:x", start_x + offset, 0.055)
 
 
 func _feedback_text(key: String, count: int = 1) -> String:
@@ -1213,14 +1240,8 @@ func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
 		_show_match_feedback("reject", 1, _invalid_feedback_key(str(result.get("reason", ""))))
 		if str(result.get("reason", "")) == "no-match":
 			await _animate_swap(first, second, true)
-		var rejected := [board.get_child(first), board.get_child(second)]
-		for cell_value in rejected:
-			var cell := cell_value as Control
-			var tile_stack := cell.get_node_or_null("TileStack") as Control
-			if tile_stack == null: continue
-			var tween := create_tween()
-			for offset in [-5.0, 5.0, -3.0, 0.0]:
-				tween.tween_property(tile_stack, "position:x", offset, 0.055)
+		else:
+			_shake_rejected_cells([first, second])
 		await get_tree().create_timer(0.70).timeout
 		_clear_match_feedback()
 	_render_board()

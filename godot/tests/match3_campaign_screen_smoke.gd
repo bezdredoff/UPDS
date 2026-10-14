@@ -94,6 +94,16 @@ func _run() -> void:
 	await create_timer(0.1).timeout
 	assert(is_zero_approx(settle_stack.offset_top) and is_zero_approx(settle_stack.offset_bottom) and settle_stack.scale.is_equal_approx(Vector2.ONE) and is_equal_approx(settle_stack.modulate.a, 1.0), "Spawn animation did not settle to its source end state")
 	match3._render_board()
+	var columns := int(match3.game.level_data.columns)
+	var rejected_first := settle_index
+	var rejected_second := settle_index + 1 if (settle_index + 1) % columns != 0 else settle_index - 1
+	var rejected_cell: Control = match3.board.get_child(rejected_first)
+	var rejected_home_x := rejected_cell.position.x
+	match3._shake_rejected_cells([rejected_first, rejected_second])
+	await create_timer(0.12).timeout
+	assert(absf(rejected_cell.position.x - rejected_home_x) > 1.0, "Rejected swap did not shake the whole source cell")
+	await create_timer(0.12).timeout
+	assert(is_equal_approx(rejected_cell.position.x, rejected_home_x), "Rejected cell did not return to its source position")
 	match3.story_session = menu.session
 	menu._open_story()
 	await process_frame
