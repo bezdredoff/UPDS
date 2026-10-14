@@ -11,8 +11,10 @@ in small, verifiable slices.
 - `scenes/main_menu.tscn` is the first ported screen. Its buttons expose navigation
   signals for the story, Match-3 campaign and settings slices as those are ported.
 - `scenes/port_bootstrap.tscn` remains a minimal engine smoke-test fixture.
-- The editor-only Godot MCP Bridge is pinned to upstream commit
-  `88fe614fbbd26f1d49cb3a5905fdd1a7bc3e35c7` (MIT) and enabled for this project.
+- Godot MCP Bridge is pinned to upstream commit
+  `88fe614fbbd26f1d49cb3a5905fdd1a7bc3e35c7` (MIT). The editor plugin and the
+  `McpRuntime` capture autoload are enabled; the project and Codex MCP server both
+  use localhost port `6510`.
 
 Open this directory as a project in Godot. The current main menu is the first vertical
 slice; the bootstrap scene remains available for headless import and parser checks.
@@ -20,10 +22,10 @@ slice; the bootstrap scene remains available for headless import and parser chec
 ## Command-line validation
 
 On Windows, run `.\godot\check.ps1 -GodotPath "C:\path\to\Godot_v4.x-stable_win64.exe"`.
-The script imports the project, parses the bootstrap GDScript, and loads the scene in a
-headless smoke test. The editor bridge listens on localhost port 6510 and is intended
-for development, not exported builds. Keep this editor open while using Codex Godot
-tools for live scene inspection and runtime interaction.
+The script imports the project, parses GDScript and runs native smoke tests. The editor
+bridge listens on localhost port 6510 and is intended for development, not exported
+builds. Keep this editor open while using Codex Godot tools for live scene inspection
+and runtime interaction.
 
 The main menu localizes to English, Russian or Belarusian. Settings opens a native
 language selector; the choice is saved separately from campaign progress in

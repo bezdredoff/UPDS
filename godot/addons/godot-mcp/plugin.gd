@@ -48,10 +48,9 @@ var _collector  # ErrorCollector (error_collector.gd)
 var _assets  # McpAssets (mcp_assets.gd) — editor-time asset queries (mode ③)
 var _output_collector  # OutputCollector (output_collector.gd) — print/console-log source for get_console_output
 
-# True only when WE registered the autoload (this session) OR it was already
-# pointing at our path (a previous session). Used so _exit_tree cleans up only
-# our own autoload and never clobbers a user's same-named autoload.
-var _owns_autoload := false
+# True only when this plugin instance added the autoload. A project-managed
+# setting is left intact when a headless editor check loads and unloads the plugin.
+var _registered_autoload := false
 
 
 func _enter_tree() -> void:
@@ -121,26 +120,26 @@ func _register_autoload() -> void:
 	var existing := String(ProjectSettings.get_setting(key, ""))
 	var wanted := "*" + _AUTOLOAD_PATH
 	if existing == wanted:
-		_owns_autoload = true  # ours from a prior session — claim for cleanup
+		# The project explicitly owns this setting; preserve it when the editor
+		# closes or a headless import check exits.
 		return
 	if existing != "":
 		push_warning("[godot-mcp] autoload '%s' already set to %s (not our path); leaving it untouched" % [_AUTOLOAD_NAME, existing])
 		return
 	ProjectSettings.set_setting(key, wanted)
 	ProjectSettings.save()
-	_owns_autoload = true
+	_registered_autoload = true
 	McpLog.log("[godot-mcp] registered autoload %s -> %s" % [_AUTOLOAD_NAME, _AUTOLOAD_PATH])
 
 
-# Remove the autoload we registered. Only acts if _owns_autoload (so disabling
-# the plugin cleans up after itself, but we never delete an autoload we didn't
-# create / claim).
+# Remove only an autoload added by this plugin instance. A project-managed
+# autoload is persistent configuration and must survive plugin unload.
 func _unregister_autoload() -> void:
-	if not _owns_autoload:
+	if not _registered_autoload:
 		return
 	ProjectSettings.clear("autoload/" + _AUTOLOAD_NAME)
 	ProjectSettings.save()
-	_owns_autoload = false
+	_registered_autoload = false
 	McpLog.log("[godot-mcp] unregistered autoload %s" % _AUTOLOAD_NAME)
 
 
