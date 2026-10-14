@@ -1,0 +1,833 @@
+{
+  "sceneId": "VN_SCENE_07_E3_PRE",
+  "sceneIndex": 7,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_03_ORDERED_APARTMENT",
+  "onWinSceneIndex": 8,
+  "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+  "titles": {
+    "ru": "Розовое признание",
+    "en": "A Pink Confession",
+    "be": "Ружовае прызнанне"
+  },
+  "lines": [
+    {
+      "id": "VN0192",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ШЁПОТОМ",
+          "text": "Ты только что считала беспорядок уликой."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "WHISPERING",
+          "text": "You just treated mess as evidence."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ШЭПТАМ",
+          "text": "Ты толькі што лічыла беспарадак доказам."
+        }
+      }
+    },
+    {
+      "id": "VN0193",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ШЁПОТОМ",
+          "text": "Я адаптируюсь к уликам."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "WHISPERING",
+          "text": "I adapt to the evidence."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ШЭПТАМ",
+          "text": "Я адаптуюся да доказаў."
+        }
+      }
+    },
+    {
+      "id": "VN0194",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "СНИМАЕТ ОБУВЬ",
+          "text": "Мешок у шкафа. Перчатки на полке. Ничего не переставляйте без вопроса."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "TAKES OFF SHOES",
+          "text": "The bag is by the cabinet. Gloves are on the shelf. Do not move anything without asking."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "ЗДЫМАЕ АБУТАК",
+          "text": "Мяшок каля шафы. Пальчаткі на паліцы. Нічога не перасоўвайце без пытання."
+        }
+      }
+    },
+    {
+      "id": "VN0195",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ОФИЦИАЛЬНАЯ",
+          "text": "Подтвердите согласие на осмотр шкафа и мешка."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "FORMAL",
+          "text": "Confirm your consent to inspect the cabinet and the bag."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "АФІЦЫЙНАЯ",
+          "text": "Пацвердзіце згоду на агляд шафы і мяшка."
+        }
+      }
+    },
+    {
+      "id": "VN0196",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "РОВНО",
+          "text": "Подтверждаю. При условии, что Аюки перестанет фотографировать мой коридор."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "EVENLY",
+          "text": "Confirmed. On condition that Ayuki stops photographing my hallway."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "РОЎНА",
+          "text": "Пацвярджаю. Пры ўмове, што Аюкі перастане фатаграфаваць мой калідор."
+        }
+      }
+    },
+    {
+      "id": "VN0197",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "УБИРАЕТ ТЕЛЕФОН",
+          "text": "Я проверяла освещение."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "PUTS PHONE AWAY",
+          "text": "I was checking the lighting."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПРЫБІРАЕ ТЭЛЕФОН",
+          "text": "Я правярала асвятленне."
+        }
+      }
+    },
+    {
+      "id": "VN0198",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "CLOSE UP: PINK SLIPPERS",
+          "text": "Из-под низкой полки видны большие ярко-розовые тапочки."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "CLOSE UP: PINK SLIPPERS",
+          "text": "Large bright-pink slippers are visible beneath the low shelf."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "CLOSE UP: PINK SLIPPERS",
+          "text": "З-пад нізкай паліцы відаць вялікія ярка-ружовыя тапачкі."
+        }
+      }
+    },
+    {
+      "id": "VN0199",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТОРЖЕСТВУЮЩАЯ",
+          "text": "А вот и она."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "TRIUMPHANT",
+          "text": "There she is."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПЕРАМОЖНАЯ",
+          "text": "А вось і яна."
+        }
+      }
+    },
+    {
+      "id": "VN0200",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-surprised.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "НЕ ПОНИМАЕТ",
+          "text": "Полка?"
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "CONFUSED",
+          "text": "The shelf?"
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "НЕ РАЗУМЕЕ",
+          "text": "Паліца?"
+        }
+      }
+    },
+    {
+      "id": "VN0201",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "УКАЗЫВАЕТ",
+          "text": "Тайная сообщница. Розовые тапочки в квартире мужчины, который живёт один."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "POINTING",
+          "text": "The secret accomplice. Pink slippers in the apartment of a man who lives alone."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПАКАЗВАЕ",
+          "text": "Таемная саўдзельніца. Ружовыя тапачкі ў кватэры мужчыны, які жыве адзін."
+        }
+      }
+    },
+    {
+      "id": "VN0202",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СОМНЕВАЕТСЯ",
+          "text": "Они выглядят… большими."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "DOUBTFUL",
+          "text": "They look… large."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СУМНЯВАЕЦЦА",
+          "text": "Яны выглядаюць… вялікімі."
+        }
+      }
+    },
+    {
+      "id": "VN0203",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "АНАЛИТИЧЕСКАЯ",
+          "text": "Вероятен регулярный визит человека с доступом к квартире и прачечной."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "ANALYTICAL",
+          "text": "A regular visitor with access to both the apartment and the laundry is likely."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "АНАЛІТЫЧНАЯ",
+          "text": "Верагодны рэгулярны візіт чалавека з доступам да кватэры і пральні."
+        }
+      }
+    },
+    {
+      "id": "VN0204",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "БЕРЁТ ТАПОЧКИ",
+          "text": "Размер сорок пять. Мои."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "PICKS UP SLIPPERS",
+          "text": "Size forty-five. Mine."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "БЯРЭ ТАПАЧКІ",
+          "text": "Памер сорак пяць. Мае."
+        }
+      }
+    },
+    {
+      "id": "VN0205",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: RECEIPT",
+          "text": "Он достаёт электронный чек."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "INSERT: RECEIPT",
+          "text": "He pulls up an electronic receipt."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: RECEIPT",
+          "text": "Ён дастае электронны чэк."
+        }
+      }
+    },
+    {
+      "id": "VN0206",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "СПОКОЙНЫЙ",
+          "text": "Скидка семьдесят процентов. Серые отличались только цветом и отсутствием скидки."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "CALM",
+          "text": "Seventy-percent discount. The gray ones differed only in color and lack of discount."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "СПАКОЙНЫ",
+          "text": "Зніжка семдзесят працэнтаў. Шэрыя адрозніваліся толькі колерам і адсутнасцю зніжкі."
+        }
+      }
+    },
+    {
+      "id": "VN0207",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-surprised.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СБИТА С ТОЛКУ",
+          "text": "Но розовые."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BAFFLED",
+          "text": "But they are pink."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗБЯНТЭЖАНАЯ",
+          "text": "Але ружовыя."
+        }
+      }
+    },
+    {
+      "id": "VN0208",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "СМОТРИТ ПРЯМО",
+          "text": "Это цвет, не показание свидетеля."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "LOOKS STRAIGHT AHEAD",
+          "text": "That is a color, not witness testimony."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "ГЛЯДЗІЦЬ ПРАМА",
+          "text": "Гэта колер, а не паказанне сведкі."
+        }
+      }
+    },
+    {
+      "id": "VN0209",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-embarrassed.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "НЕУДОБНО",
+          "text": "В эту секунду наше расследование стало хуже тапочек: ярким, уверенным и совершенно пустым внутри."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "UNCOMFORTABLE",
+          "text": "At that moment our investigation became worse than the slippers: bright, confident, and completely empty inside."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "НЯЗРУЧНА",
+          "text": "У гэтую секунду наша расследаванне стала горшым за тапачкі: яркім, упэўненым і зусім пустым унутры."
+        }
+      }
+    },
+    {
+      "id": "VN0210",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОСЛЕ ПАУЗЫ",
+          "text": "Тапочки исключаем. Проверим мешок и фактическое содержимое."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "AFTER A PAUSE",
+          "text": "The slippers are excluded. We inspect the bag and its actual contents."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАСЛЯ ПАЎЗЫ",
+          "text": "Тапачкі выключаем. Праверым мяшок і фактычнае змесціва."
+        }
+      }
+    },
+    {
+      "id": "VN0211",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "ОТКРЫВАЕТ ШКАФ",
+          "text": "Полотенца сверху. Комплекты рассортированы ниже."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "OPENS THE CABINET",
+          "text": "Towels on top. Sets sorted below."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "АДЧЫНЯЕ ШАФУ",
+          "text": "Ручнікі зверху. Камплекты рассартаваныя ніжэй."
+        }
+      }
+    },
+    {
+      "id": "VN0212",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ЗАГЛЯДЫВАЕТ",
+          "text": "Ты всегда сортируешь бельё по цвету?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "PEERS INSIDE",
+          "text": "Do you always sort underwear by color?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗАЗІРАЕ",
+          "text": "Ты заўсёды сартуеш бялізну па колеры?"
+        }
+      }
+    },
+    {
+      "id": "VN0213",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "СУХО",
+          "text": "Нет. Сегодня — по степени вашего разочарования."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "DRY",
+          "text": "No. Today I sorted it by degree of your disappointment."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "СУХА",
+          "text": "Не. Сёння — па ступені вашага расчаравання."
+        }
+      }
+    },
+    {
+      "id": "VN0214",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СДЕРЖИВАЕТ СМЕХ",
+          "text": "Тогда розовая секция переполнена."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "HOLDING BACK LAUGHTER",
+          "text": "Then the pink section is overflowing."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СТРЫМЛІВАЕ СМЕХ",
+          "text": "Тады ружовая секцыя перапоўненая."
+        }
+      }
+    },
+    {
+      "id": "VN0215",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ДЕЛОВАЯ",
+          "text": "Работаем аккуратно. Проверяем комплекты, сверяем чек и ищем повреждения после стирки."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BUSINESSLIKE",
+          "text": "Carefully. Check the sets, compare the receipt, and look for damage from washing."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПА-ДЗЕЛАВОМУ",
+          "text": "Працуем акуратна. Правяраем камплекты, звяраем чэк і шукаем пашкоджанні пасля мыцця."
+        }
+      }
+    },
+    {
+      "id": "VN0216",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Ровные секции шкафа складываются в сетку поля."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "The neat cabinet sections fold into the game grid."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Роўныя секцыі шафы складаюцца ў сетку поля."
+        }
+      }
+    }
+  ]
+}

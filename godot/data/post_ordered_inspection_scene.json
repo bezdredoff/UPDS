@@ -1,0 +1,1073 @@
+{
+  "sceneId": "VN_SCENE_08_E3_POST",
+  "sceneIndex": 8,
+  "nextSceneId": "VN_SCENE_09_E4_PRE",
+  "nextSceneIndex": 9,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+  "titles": {
+    "ru": "Это не ткань",
+    "en": "That's Not Fabric",
+    "be": "Гэта не тканіна"
+  },
+  "lines": [
+    {
+      "id": "VN0217",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TABLE CLOSE UP",
+          "text": "Чек, полотенце и розовые тапочки лежат рядом. Украденных вещей в квартире нет."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "TABLE CLOSE UP",
+          "text": "The receipt, towel, and pink slippers lie side by side. None of the stolen items are in the apartment."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TABLE CLOSE UP",
+          "text": "Чэк, ручнік і ружовыя тапачкі ляжаць побач. Скрадзеных рэчаў у кватэры няма."
+        }
+      }
+    },
+    {
+      "id": "VN0218",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СДЕРЖАННО",
+          "text": "Состав мешка совпадает с журналом возврата. Пропавших предметов здесь нет."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "RESTRAINED",
+          "text": "The bag contents match the return log. The missing items are not here."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СТРЫМАНА",
+          "text": "Склад мяшка супадае з журналам вяртання. Зніклых прадметаў тут няма."
+        }
+      }
+    },
+    {
+      "id": "VN0219",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СМОТРИТ НА ТАПОЧКИ",
+          "text": "Сообщницы тоже."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "LOOKS AT THE SLIPPERS",
+          "text": "Neither is the accomplice."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ГЛЯДЗІЦЬ НА ТАПАЧКІ",
+          "text": "Саўдзельніцы таксама."
+        }
+      }
+    },
+    {
+      "id": "VN0220",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "РОВНО",
+          "text": "Рад, что её отсутствие наконец задокументировано."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "EVENLY",
+          "text": "Glad her absence has finally been documented."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "РОЎНА",
+          "text": "Рады, што яе адсутнасць нарэшце задакументаваная."
+        }
+      }
+    },
+    {
+      "id": "VN0221",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "УБИРАЕТ ВЕРСИЮ",
+          "text": "Норихиро исключён из списка подозреваемых."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "REMOVES THE THEORY",
+          "text": "Norihiro is removed from the suspect list."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРЫБІРАЕ ВЕРСІЮ",
+          "text": "Норыхіра выключаны са спіса падазраваных."
+        }
+      }
+    },
+    {
+      "id": "VN0222",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "КОРОТКО",
+          "text": "И всё?"
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "CURT",
+          "text": "And that is it?"
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "КОРОТКА",
+          "text": "І ўсё?"
+        }
+      }
+    },
+    {
+      "id": "VN0223",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-surprised.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕ ПОНИМАЕТ",
+          "text": "Факты проверены."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CONFUSED",
+          "text": "The facts have been checked."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕ РАЗУМЕЕ",
+          "text": "Факты правераныя."
+        }
+      }
+    },
+    {
+      "id": "VN0224",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ТВЁРДАЯ",
+          "text": "Нет. Не всё."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "FIRM",
+          "text": "No. That is not all."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЦВЁРДАЯ",
+          "text": "Не. Не ўсё."
+        }
+      }
+    },
+    {
+      "id": "VN0225",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "SPRITE CHANGE: ONOE SURPRISED / AYUKI QUIET",
+          "text": "Мику встаёт между Норихиро и подругами."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "SPRITE CHANGE: ONOE SURPRISED / AYUKI QUIET",
+          "text": "Miku steps between Norihiro and her friends."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "SPRITE CHANGE: ONOE SURPRISED / AYUKI QUIET",
+          "text": "Міку ўстае паміж Норыхіра і сяброўкамі."
+        }
+      }
+    },
+    {
+      "id": "VN0226",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПРЯМО К ОНОЭ И АЮКИ",
+          "text": "Мы решили, что беспорядок указывает на вину Кэнтаро, а порядок делает подозрительным Норихиро."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "DIRECTLY TO ONOE AND AYUKI",
+          "text": "We decided Kentaro’s mess made him guilty, and Norihiro’s order made him suspicious."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПРАМА ДА ОНОЭ І АЮКІ",
+          "text": "Мы вырашылі, што беспарадак робіць Кэнтаро вінаватым, а парадак — Норыхіра падазроным."
+        }
+      }
+    },
+    {
+      "id": "VN0227",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПРОДОЛЖАЕТ",
+          "text": "Потом превратили цвет его обуви в доказательство человека, которого не существует."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "CONTINUES",
+          "text": "Then we turned the color of his shoes into evidence of a person who does not exist."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПРАЦЯГВАЕ",
+          "text": "Потым ператварылі колер яго абутку ў доказ чалавека, якога не існуе."
+        }
+      }
+    },
+    {
+      "id": "VN0228",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "БЕЗ УЛЫБКИ",
+          "text": "Это была плохая версия."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "NO SMILE",
+          "text": "It was a bad theory."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "БЕЗ УСМЕШКІ",
+          "text": "Гэта была дрэнная версія."
+        }
+      }
+    },
+    {
+      "id": "VN0229",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СПОКОЙНЕЕ",
+          "text": "Она была смешной, пока отвечать за неё должен был не он."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "CALMER",
+          "text": "It was funny while he was not the one who had to answer for it."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СПАКАЙНЕЙ",
+          "text": "Яна была смешнай, пакуль адказваць за яе мусіў не ён."
+        }
+      }
+    },
+    {
+      "id": "VN0230",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАУЗА, ЗАТЕМ КИВАЕТ",
+          "text": "Согласна. Я внесу в протокол не только опровержение, но и ошибку метода."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "PAUSE, THEN NODS",
+          "text": "Agreed. I will record not only the refutation, but the methodological error."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАЎЗА, ПОТЫМ КІВАЕ",
+          "text": "Згодная. Я ўнясу ў пратакол не толькі абвяржэнне, але і памылку метаду."
+        }
+      }
+    },
+    {
+      "id": "VN0231",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "К НОРИХИРО",
+          "text": "Прости. Тапочки отличные. Теория — нет."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "TO NORIHIRO",
+          "text": "Sorry. The slippers are excellent. The theory was not."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ДА НОРЫХІРА",
+          "text": "Прабач. Тапачкі выдатныя. Тэорыя — не."
+        }
+      }
+    },
+    {
+      "id": "VN0232",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "МЯГЧЕ",
+          "text": "Извинение принято. Тапочки не нуждались в оправдании."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "SOFTER",
+          "text": "Apology accepted. The slippers never needed a defense."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "МЯКЧЭЙ",
+          "text": "Прабачэнне прынята. Тапачкі не патрабавалі апраўдання."
+        }
+      }
+    },
+    {
+      "id": "VN0233",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ПАУЗА БЕЗ ШУТКИ / CLOSE ON TOWEL",
+          "text": "Мику проводит пальцем в перчатке вдоль края полотенца."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "SOBER PAUSE / CLOSE ON TOWEL",
+          "text": "Miku runs a gloved finger along the edge of the towel."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ПАЎЗА БЕЗ ЖАРТУ / CLOSE ON TOWEL",
+          "text": "Міку праводзіць пальцам у пальчатцы ўздоўж краю ручніка."
+        }
+      }
+    },
+    {
+      "id": "VN0234",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СОСРЕДОТОЧЕННАЯ",
+          "text": "Этот шов отличается. Он свежее ткани и слишком ровный для ремонта."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "FOCUSED",
+          "text": "This seam is different. It is newer than the fabric and too even to be a repair."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЗАСЯРОДЖАНАЯ",
+          "text": "Гэтае шво адрозніваецца. Яно навейшае за тканіну і занадта роўнае для рамонту."
+        }
+      }
+    },
+    {
+      "id": "VN0235",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "НАКЛОНЯЕТСЯ",
+          "text": "У нашей формы нет серебристой отделки."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "LEANS IN",
+          "text": "Our uniforms do not have silver trim."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "НАХІЛЯЕЦЦА",
+          "text": "У нашай формы няма серабрыстай аздобы."
+        }
+      }
+    },
+    {
+      "id": "VN0236",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "БЕРЁТ ПИНЦЕТ",
+          "text": "Это не отделка. Нить введена под сервисный ярлык."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "TAKES TWEEZERS",
+          "text": "It is not trim. The thread was inserted beneath the service label."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "БЯРЭ ПІНЦЭТ",
+          "text": "Гэта не аздоба. Нітка ўведзена пад сэрвісны ярлык."
+        }
+      }
+    },
+    {
+      "id": "VN0237",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ОСТОРОЖНО",
+          "text": "Её могли добавить в прачечной?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "CAREFULLY",
+          "text": "Could it have been added at the laundry?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "АСЦЯРОЖНА",
+          "text": "Яе маглі дадаць у пральні?"
+        }
+      }
+    },
+    {
+      "id": "VN0238",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВСПОМИНАЕТ",
+          "text": "Все три случая связаны с партиями стирки. Но исчезают только отдельные вещи."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "REMEMBERING",
+          "text": "All three incidents involve laundry batches. But only selected items disappear."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УСПАМІНАЕ",
+          "text": "Усе тры выпадкі звязаныя з партыямі мыцця. Але знікаюць толькі асобныя рэчы."
+        }
+      }
+    },
+    {
+      "id": "VN0239",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ВОЗБУЖДЁННО-СОСРЕДОТОЧЕННАЯ",
+          "text": "Если такой шов есть и на пропавших предметах, вор выбирает не бельё. Он выбирает то, что в него добавили."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "EXCITED, FOCUSED",
+          "text": "If the missing items have the same seam, the thief is not choosing underwear. They are choosing what was added to it."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "УЗБУДЖАНА-ЗАСЯРОДЖАНАЯ",
+          "text": "Калі такое шво ёсць і на зніклых прадметах, злодзей выбірае не бялізну. Ён выбірае тое, што ў яе дадалі."
+        }
+      }
+    },
+    {
+      "id": "VN0240",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТИХО",
+          "text": "То есть всё это время мы искали чей-то вкус, а нужно было искать технологию?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "QUIETLY",
+          "text": "So all this time we were looking for someone’s taste, when we should have been looking for technology?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЦІХА",
+          "text": "То бок увесь гэты час мы шукалі чыйсьці густ, а трэба было шукаць тэхналогію?"
+        }
+      }
+    },
+    {
+      "id": "VN0241",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "КИВАЕТ",
+          "text": "И человека, который знает, где она спрятана."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "NODS",
+          "text": "And for the person who knows where it is hidden."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "КІВАЕ",
+          "text": "І чалавека, які ведае, дзе яна схаваная."
+        }
+      }
+    },
+    {
+      "id": "VN0242",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_004_SILVER_THREAD; SET SUS_NORIHIRO=cleared}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_004_SILVER_THREAD; SET SUS_NORIHIRO=cleared}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_004_SILVER_THREAD; SET SUS_NORIHIRO=cleared}"
+        }
+      }
+    },
+    {
+      "id": "VN0243",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "LIGHTS DOWN / PHONE FLASHLIGHT",
+          "text": "Норихиро выключает верхний свет. Оноэ направляет фонарик телефона на нить."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "LIGHTS DOWN / PHONE FLASHLIGHT",
+          "text": "Norihiro turns off the ceiling light. Onoe points her phone flashlight at the thread."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "LIGHTS DOWN / PHONE FLASHLIGHT",
+          "text": "Норыхіра выключае верхняе святло. Оноэ накіроўвае ліхтарык тэлефона на нітку."
+        }
+      }
+    },
+    {
+      "id": "VN0244",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "HERO INSERT",
+          "text": "Серебристая нить даёт тонкий бирюзовый отблеск."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "HERO INSERT",
+          "text": "The silver thread gives off a faint turquoise glint."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "HERO INSERT",
+          "text": "Серабрыстая нітка дае тонкі бірузовы водбліск."
+        }
+      }
+    },
+    {
+      "id": "VN0245",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "ТРЕВОЖНО-ЗАИНТЕРЕСОВАННАЯ",
+          "text": "Дело о пропавшем белье впервые перестало казаться незначительным."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "ANXIOUS, INTRIGUED",
+          "text": "For the first time, the case of the missing underwear stopped looking small."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "ТРАВОЖНА-ЗАЦІКАЎЛЕНАЯ",
+          "text": "Справа пра зніклую бялізну ўпершыню перастала здавацца нязначнай."
+        }
+      }
+    },
+    {
+      "id": "VN0246",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ТИХО, ТОЧНО",
+          "text": "Это не ткань."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "QUIET, PRECISE",
+          "text": "That is not fabric."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЦІХА, ДАКЛАДНА",
+          "text": "Гэта не тканіна."
+        }
+      }
+    },
+    {
+      "id": "VN0247",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "КРУПНЫЙ ПЛАН",
+          "text": "Это проводник."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CLOSE UP",
+          "text": "It is a conductor."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "БУЙНЫ ПЛАН",
+          "text": "Гэта праваднік."
+        }
+      }
+    },
+    {
+      "id": "VN0248",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "CUT TO BLACK / MUSIC STING",
+          "text": "На экране остаётся бирюзовая линия, складывающаяся в знак вопроса."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "CUT TO BLACK / MUSIC STING",
+          "text": "A turquoise line remains on screen, curling into a question mark."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "CUT TO BLACK / MUSIC STING",
+          "text": "На экране застаецца бірузовая лінія, якая складваецца ў знак пытання."
+        }
+      }
+    },
+    {
+      "id": "VN0249",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "CHAPTER COMPLETE",
+          "text": "«Первая нить найдена»"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "CHAPTER COMPLETE",
+          "text": "“The First Thread Is Found”"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "CHAPTER COMPLETE",
+          "text": "«Першая нітка знойдзена»"
+        }
+      }
+    },
+    {
+      "id": "VN0250",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "OPTIONAL TEASER",
+          "text": "Доска клуба. Семь пустых карточек спортивных клубов; на одной мигает новое сообщение."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "OPTIONAL TEASER",
+          "text": "The club board. Seven empty sports-club cards; a new message blinks on one of them."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "OPTIONAL TEASER",
+          "text": "Дошка клуба. Сем пустых картак спартыўных клубаў; на адной міргае новае паведамленне."
+        }
+      }
+    }
+  ]
+}

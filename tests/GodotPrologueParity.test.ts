@@ -65,6 +65,8 @@ describe('Godot story source parity', () => {
     for (const [sceneIndex, path, first, last, nextLevelId, onWinSceneIndex] of [
       [5, 'godot/data/pool_scene.json', 'VN0143', 'VN0166', 'M3_02_POOL_LAUNDRY', 6],
       [6, 'godot/data/post_pool_scene.json', 'VN0167', 'VN0191', '', -1],
+      [7, 'godot/data/ordered_inspection_scene.json', 'VN0192', 'VN0216', 'M3_03_ORDERED_APARTMENT', 8],
+      [8, 'godot/data/post_ordered_inspection_scene.json', 'VN0217', 'VN0250', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -82,5 +84,10 @@ describe('Godot story source parity', () => {
     expect(poolLevel.evidence.localized.ru.title).toBeTruthy();
     expect(poolLevel.evidence.localized.be.label).toBeTruthy();
     expect(poolLevel.evidence.localized.en.continueStory).toBeTruthy();
+    const apartmentLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_03_ORDERED_APARTMENT');
+    expect(apartmentLevel.evidence.id).toBe('CUE_004');
+    expect(apartmentLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(apartmentLevel.evidence.localized.be.label).toBeTruthy();
+    expect(apartmentLevel.evidence.localized.en.continueStory).toBeTruthy();
   });
 });
