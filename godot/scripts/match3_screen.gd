@@ -579,17 +579,38 @@ func _render_board() -> void:
 		if not game.ingredients[index].is_empty():
 			var ingredient_asset := str(campaign_bundle.assets.ingredients.get(game.ingredients[index], ""))
 			if not ingredient_asset.is_empty():
+				var ingredient_texture: Texture2D = load("res://" + ingredient_asset.trim_prefix("./"))
+				var ingredient_glow := TextureRect.new()
+				ingredient_glow.name = "IngredientGlow"
+				ingredient_glow.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+				ingredient_glow.texture = ingredient_texture
+				ingredient_glow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				ingredient_glow.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				ingredient_glow.modulate = Color("#fff2a080")
+				ingredient_glow.pivot_offset = Vector2(27, 27)
+				ingredient_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				tile_stack.add_child(ingredient_glow)
 				var ingredient := TextureRect.new()
-				ingredient.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-				ingredient.offset_left = -22
-				ingredient.offset_top = -22
-				ingredient.offset_right = -2
-				ingredient.offset_bottom = -2
-				ingredient.texture = load("res://" + ingredient_asset.trim_prefix("./"))
+				ingredient.name = "Ingredient"
+				ingredient.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+				ingredient.offset_left = 3
+				ingredient.offset_top = 3
+				ingredient.offset_right = -3
+				ingredient.offset_bottom = -3
+				ingredient.texture = ingredient_texture
 				ingredient.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				ingredient.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				ingredient.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_stack.add_child(ingredient)
+				var ingredient_bob := tile_button.create_tween().set_loops()
+				ingredient_bob.tween_property(ingredient, "offset_top", 1.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -5.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.parallel().tween_property(ingredient_glow, "modulate:a", 0.26, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.parallel().tween_property(ingredient_glow, "scale", Vector2(1.12, 1.12), 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.tween_property(ingredient, "offset_top", 3.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -3.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.parallel().tween_property(ingredient_glow, "modulate:a", 0.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				ingredient_bob.parallel().tween_property(ingredient_glow, "scale", Vector2.ONE, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		if not game.specials[index].is_empty():
 			var special_kind: String = game.specials[index]
 			var special_asset := str(campaign_bundle.assets.get("specials", {}).get(special_kind, ""))
@@ -736,8 +757,8 @@ func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: flo
 		var derivative := 3.0 * inverse * inverse * x1 + 6.0 * inverse * t * (x2 - x1) + 3.0 * t * t * (1.0 - x2)
 		if absf(derivative) < 0.00001: break
 		t = clampf(t - (x - progress) / derivative, 0.0, 1.0)
-	var inverse := 1.0 - t
-	return 3.0 * inverse * inverse * t * y1 + 3.0 * inverse * t * t * y2 + t * t * t
+	var final_inverse := 1.0 - t
+	return 3.0 * final_inverse * final_inverse * t * y1 + 3.0 * final_inverse * t * t * y2 + t * t * t
 
 
 func _animate_swap(first: int, second: int, return_to_start: bool) -> void:

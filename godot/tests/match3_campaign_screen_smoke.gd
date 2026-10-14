@@ -94,6 +94,27 @@ func _run() -> void:
 	await create_timer(0.1).timeout
 	assert(is_zero_approx(settle_stack.offset_top) and is_zero_approx(settle_stack.offset_bottom) and settle_stack.scale.is_equal_approx(Vector2.ONE) and is_equal_approx(settle_stack.modulate.a, 1.0), "Spawn animation did not settle to its source end state")
 	match3._render_board()
+	var ingredient_kinds: Array = bundle.assets.ingredients.keys()
+	assert(not ingredient_kinds.is_empty(), "Campaign bundle has no Match-3 ingredient artwork")
+	var visual_ingredients: Array[String] = match3.game.ingredients.duplicate()
+	visual_ingredients[settle_index] = str(ingredient_kinds[0])
+	match3._render_frame({
+		"phase": "settle",
+		"tiles": match3.game.tiles.duplicate(),
+		"specials": match3.game.specials.duplicate(),
+		"blockers": match3.game.blocker_layers.duplicate(),
+		"ingredients": visual_ingredients,
+		"motions": [],
+	})
+	var ingredient_cell: Control = match3.board.get_child(settle_index)
+	var ingredient_icon: TextureRect = ingredient_cell.get_node("TileStack/Ingredient")
+	var ingredient_glow: TextureRect = ingredient_cell.get_node("TileStack/IngredientGlow")
+	assert(ingredient_icon.anchor_right == 1.0 and ingredient_icon.anchor_bottom == 1.0 and ingredient_icon.offset_left == 3.0, "Ingredient artwork did not fill the source cell with its 3px inset")
+	await create_timer(0.71).timeout
+	assert(ingredient_icon.offset_top < 2.0 and ingredient_glow.modulate.a > 0.2 and ingredient_glow.scale.x > 1.1, "Ingredient idle did not reach its source lift and gold glow")
+	await create_timer(0.72).timeout
+	assert(ingredient_icon.offset_top > 2.5 and ingredient_glow.modulate.a < 0.05 and ingredient_glow.scale.x < 1.02, "Ingredient idle did not return near its source resting state")
+	match3._render_board()
 	match3._render_frame({
 		"phase": "clear",
 		"tiles": match3.game.tiles.duplicate(),
