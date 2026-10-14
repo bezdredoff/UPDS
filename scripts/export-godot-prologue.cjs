@@ -50,6 +50,10 @@ const lostFoundScene = godotStoryScene(17);
 fs.writeFileSync(path.join(root, 'godot/data/lost_found_scene.json'), `${JSON.stringify(lostFoundScene, null, 2)}\n`);
 const postLostFoundScene = godotStoryScene(18);
 fs.writeFileSync(path.join(root, 'godot/data/post_lost_found_scene.json'), `${JSON.stringify(postLostFoundScene, null, 2)}\n`);
+const maintenanceKeysScene = godotStoryScene(19);
+fs.writeFileSync(path.join(root, 'godot/data/maintenance_keys_scene.json'), `${JSON.stringify(maintenanceKeysScene, null, 2)}\n`);
+const postMaintenanceKeysScene = godotStoryScene(20);
+fs.writeFileSync(path.join(root, 'godot/data/post_maintenance_keys_scene.json'), `${JSON.stringify(postMaintenanceKeysScene, null, 2)}\n`);
 const audioPath = path.join(root, 'godot/data/menu_audio.json');
 const audio = JSON.parse(fs.readFileSync(audioPath, 'utf8'));
 fs.writeFileSync(audioPath, `${JSON.stringify({ ...audio, ...godotVnAudio() }, null, 2)}\n`);
@@ -58,7 +62,7 @@ for (const line of postMatchScene.lines) {
   assets.add(line.background);
   for (const actor of line.actors) assets.add(actor.asset);
 }
-for (const scene of [photoScene, postPhotoScene, poolScene, postPoolScene, orderedInspectionScene, postOrderedInspectionScene, emergencyMeetingScene, postEmergencyMeetingScene, basketballLockersScene, postBasketballLockersScene, textileWorkshopScene, postTextileWorkshopScene, asterionLabScene, postAsterionLabScene, lostFoundScene, postLostFoundScene]) {
+for (const scene of [photoScene, postPhotoScene, poolScene, postPoolScene, orderedInspectionScene, postOrderedInspectionScene, emergencyMeetingScene, postEmergencyMeetingScene, basketballLockersScene, postBasketballLockersScene, textileWorkshopScene, postTextileWorkshopScene, asterionLabScene, postAsterionLabScene, lostFoundScene, postLostFoundScene, maintenanceKeysScene, postMaintenanceKeysScene]) {
   assets.add(scene.background);
   for (const line of scene.lines) {
     assets.add(line.background);
@@ -77,4 +81,4 @@ for (const asset of assets) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.copyFileSync(path.join(root, 'public', asset), target);
 }
-console.log(`Exported Godot story scene data through scene 18, 3 locales, and ${assets.size} original assets.`);
+console.log(`Exported Godot story scene data through scene 20, 3 locales, and ${assets.size} original assets.`);

@@ -1,0 +1,609 @@
+{
+  "sceneId": "VN_SCENE_19_E9_PRE",
+  "sceneIndex": 19,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_09_MAINTENANCE_KEYS",
+  "onWinSceneIndex": 20,
+  "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+  "titles": {
+    "ru": "Король потерянных носков",
+    "en": "King of the Lost Socks",
+    "be": "Кароль згубленых шкарпэтак"
+  },
+  "lines": [
+    {
+      "id": "VN0449",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ESTABLISHING / MAINTENANCE ROOM",
+          "text": "Хозяйственная комната. На стене — аккуратные ряды одиночных носков с датой и местом находки, рядом стенд ключей и сервисные журналы."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "ESTABLISHING / MAINTENANCE ROOM",
+          "text": "Maintenance room. Neat rows of single socks labeled by date and location cover one wall beside a key board and service logs."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ESTABLISHING / MAINTENANCE ROOM",
+          "text": "Гаспадарчы пакой. На сцяне — акуратныя рады адзінокіх шкарпэтак з датай і месцам знаходкі, побач стэнд ключоў і сэрвісныя журналы."
+        }
+      }
+    },
+    {
+      "id": "VN0450",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПОТРЯСЁННАЯ",
+          "text": "Мы нашли коллекцию серийного вора. Только вместо трофеев — носки."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "STUNNED",
+          "text": "We found a serial thief’s collection. Except the trophies are socks."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "УРАЖАНАЯ",
+          "text": "Мы знайшлі калекцыю серыйнага злодзея. Толькі замест трафеяў — шкарпэткі."
+        }
+      }
+    },
+    {
+      "id": "VN0451",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГЭН",
+          "emotion": "ОСКОРБЛЁННО ДОСТОИНСТВО",
+          "text": "Это архив возвратов. И если уж обвиняете, не называйте систему бессистемной."
+        },
+        "en": {
+          "speaker": "GEN",
+          "emotion": "OFFENDED DIGNITY",
+          "text": "This is a return archive. And if you are going to accuse me, do not call the system unsystematic."
+        },
+        "be": {
+          "speaker": "ГЭН",
+          "emotion": "З АБРАЖАНАЙ ГОДНАСЦЮ",
+          "text": "Гэта архіў вяртанняў. І калі ўжо абвінавачваеце, не называйце сістэму бессістэмнай."
+        }
+      }
+    },
+    {
+      "id": "VN0452",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВЕЖЛИВО",
+          "text": "Гэн Исида? За вами закреплён универсальный ключ хозяйственной службы?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "POLITE",
+          "text": "Gen Ishida? Is the maintenance master key assigned to you?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ВЕТЛІВА",
+          "text": "Гэн Ісіда? За вамі замацаваны ўніверсальны ключ гаспадарчай службы?"
+        }
+      }
+    },
+    {
+      "id": "VN0453",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГЭН",
+          "emotion": "ДЕЛОВО",
+          "text": "Да. Я старший по вечернему обходу. Передача записывается в журнал. Обычно."
+        },
+        "en": {
+          "speaker": "GEN",
+          "emotion": "BUSINESSLIKE",
+          "text": "Yes. I supervise the evening rounds. Transfers go in the log. Usually."
+        },
+        "be": {
+          "speaker": "ГЭН",
+          "emotion": "ДЗЕЛАВА",
+          "text": "Так. Я старшы па вячэрнім абходзе. Перадача запісваецца ў журнал. Звычайна."
+        }
+      }
+    },
+    {
+      "id": "VN0454",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СМОТРИТ НА ПАПКИ",
+          "text": "У вас шесть лет записей по потерянным вещам."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "LOOKING AT FILES",
+          "text": "You have six years of lost-property records."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ГЛЯДЗІЦЬ НА ПАПКІ",
+          "text": "У вас шэсць гадоў запісаў пра згубленыя рэчы."
+        }
+      }
+    },
+    {
+      "id": "VN0455",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГЭН",
+          "emotion": "С ГОРДОСТЬЮ",
+          "text": "Семь с половиной. Первые полтора года были в тетради. Я перепечатал их зимой."
+        },
+        "en": {
+          "speaker": "GEN",
+          "emotion": "PROUD",
+          "text": "Seven and a half. The first year and a half were in a notebook. I typed them up over winter."
+        },
+        "be": {
+          "speaker": "ГЭН",
+          "emotion": "З ГОНАРАМ",
+          "text": "Сем з паловай. Першыя паўтара года былі ў сшытку. Я перадрукаваў іх зімой."
+        }
+      }
+    },
+    {
+      "id": "VN0456",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: CATEGORY U FORM",
+          "text": "Гэн достаёт форму «Категория U — выдавать только по точному описанию». Внизу три страницы полей."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: CATEGORY U FORM",
+          "text": "Gen produces a form labeled “Category U — release only after exact description.” Three pages of fields follow."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: CATEGORY U FORM",
+          "text": "Гэн дастае форму «Катэгорыя U — выдаваць толькі па дакладным апісанні». Унізе тры старонкі палёў."
+        }
+      }
+    },
+    {
+      "id": "VN0457",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ОСТОРОЖНО",
+          "text": "Насколько точному описанию?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "CAUTIOUS",
+          "text": "How exact a description?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "АСЦЯРОЖНА",
+          "text": "Наколькі дакладным?"
+        }
+      }
+    },
+    {
+      "id": "VN0458",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГЭН",
+          "emotion": "ПРОТЯГИВАЕТ ФОРМУ",
+          "text": "Материал, цвет, размер, шов, особые признаки, место и приблизительное время потери. Подпись на третьей странице."
+        },
+        "en": {
+          "speaker": "GEN",
+          "emotion": "HANDING OVER FORM",
+          "text": "Material, color, size, seam, identifying features, location, and approximate time lost. Signature on page three."
+        },
+        "be": {
+          "speaker": "ГЭН",
+          "emotion": "ПРАЦЯГВАЕ ФОРМУ",
+          "text": "Матэрыял, колер, памер, шво, асаблівыя прыкметы, месца і прыблізны час страты. Подпіс на трэцяй старонцы."
+        }
+      }
+    },
+    {
+      "id": "VN0459",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СДАЁТСЯ",
+          "text": "Я добровольно прекращаю эту линию допроса."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "SURRENDERING",
+          "text": "I voluntarily end this line of questioning."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗДАЕЦЦА",
+          "text": "Я добраахвотна спыняю гэтую лінію допыту."
+        }
+      }
+    },
+    {
+      "id": "VN0460",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПРЯМО",
+          "text": "Нас интересует вход на склад после полуночи. Ваш ключ использовали в 00:43."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "DIRECT",
+          "text": "We are interested in warehouse entry after midnight. Your key was used at 00:43."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПРАМА",
+          "text": "Нас цікавіць уваход на склад пасля поўначы. Ваш ключ выкарысталі ў 00:43."
+        }
+      }
+    },
+    {
+      "id": "VN0461",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГЭН",
+          "emotion": "ВСПОМИНАЕТ",
+          "text": "Была срочная заявка на сервисную тележку. Заклинило колесо у погрузочной двери."
+        },
+        "en": {
+          "speaker": "GEN",
+          "emotion": "REMEMBERING",
+          "text": "There was an urgent request for a service cart. A wheel jammed near the loading door."
+        },
+        "be": {
+          "speaker": "ГЭН",
+          "emotion": "УСПАМІНАЕ",
+          "text": "Была тэрміновая заяўка на сэрвісную каляску. Заклініла кола каля пагрузачных дзвярэй."
+        }
+      }
+    },
+    {
+      "id": "VN0462",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Ключ всё время оставался у вас?"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SERIOUS",
+          "text": "Did the key remain with you the entire time?"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Ключ увесь час заставаўся ў вас?"
+        }
+      }
+    },
+    {
+      "id": "VN0463",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГЭН",
+          "emotion": "ЗАМЕШКАЛСЯ",
+          "text": "Не совсем. Рина из вечерней смены попросила универсальный ключ и тележку, чтобы не держать партию в коридоре."
+        },
+        "en": {
+          "speaker": "GEN",
+          "emotion": "HESITATING",
+          "text": "Not exactly. Rina from the evening shift asked for the master key and a cart so the batch would not sit in the corridor."
+        },
+        "be": {
+          "speaker": "ГЭН",
+          "emotion": "ЗАМЯШАЎСЯ",
+          "text": "Не зусім. Рына з вячэрняй змены папрасіла ўніверсальны ключ і каляску, каб не трымаць партыю ў калідоры."
+        }
+      }
+    },
+    {
+      "id": "VN0464",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "МЯГКО",
+          "text": "Имя важно только если связано с маршрутом. Мы можем сначала проверить саму передачу."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "GENTLY",
+          "text": "The name matters only if it connects to the route. We can verify the handoff itself first."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "МЯККА",
+          "text": "Імя важнае толькі калі звязана з маршрутам. Мы можам спачатку праверыць сам факт перадачы."
+        }
+      }
+    },
+    {
+      "id": "VN0465",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГЭН",
+          "emotion": "ТИШЕ",
+          "text": "Я передал Рине и ключ, и тележку. Тележку записал в журнал, а её имя — нет."
+        },
+        "en": {
+          "speaker": "GEN",
+          "emotion": "QUIETER",
+          "text": "I handed Rina both the key and the cart. I logged the cart, but not her name."
+        },
+        "be": {
+          "speaker": "ГЭН",
+          "emotion": "ЦІШЭЙ",
+          "text": "Рына атрымала ад мяне і ключ, і каляску. Каляску запісаў у журнал, а яе імя — не."
+        }
+      }
+    },
+    {
+      "id": "VN0466",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СРАЗУ",
+          "text": "Человек со складом, пропущенными номерами и ночной тележкой — это уже три очень громких совпадения."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "IMMEDIATE",
+          "text": "A person linked to the warehouse, missing numbers, and a night cart is already three very loud coincidences."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "АДРАЗУ",
+          "text": "Чалавек са складам, прапушчанымі нумарамі і начной каляскай — гэта ўжо тры вельмі гучныя супадзенні."
+        }
+      }
+    },
+    {
+      "id": "VN0467",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГЭН",
+          "emotion": "КАЧАЕТ ГОЛОВОЙ",
+          "text": "Я видел и другое. Ночью к служебному входу несколько раз ставили контейнеры Asterion. Не Рина их привозила."
+        },
+        "en": {
+          "speaker": "GEN",
+          "emotion": "SHAKING HIS HEAD",
+          "text": "I saw something else. Asterion containers were left at the service entrance several nights. Rina was not the one delivering them."
+        },
+        "be": {
+          "speaker": "ГЭН",
+          "emotion": "ХІТАЕ ГАЛАВОЙ",
+          "text": "Я бачыў і іншае. Ноччу да службовага ўваходу некалькі разоў ставілі кантэйнеры Asterion. Не Рына іх прывозіла."
+        }
+      }
+    },
+    {
+      "id": "VN0468",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФИКСИРУЕТ ГРАНИЦУ",
+          "text": "Отдельно: неформальная передача тележки. Отдельно: контейнеры Asterion. Сначала восстановим журнал ключей и накладные."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "SETTING THE BOUNDARY",
+          "text": "Separate facts: an informal cart handoff, and Asterion containers. First we reconstruct the key log and transport slips."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФІКСУЕ МЯЖУ",
+          "text": "Асобна: нефармальная перадача каляскі. Асобна: кантэйнеры Asterion. Спачатку адновім журнал ключоў і накладныя."
+        }
+      }
+    },
+    {
+      "id": "VN0469",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Коробки и сложенные полотенца закрывают сервисные полосы; журнал ключей и транспортная накладная опускаются через поле."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Boxes and folded towels block the service lanes; the key log and transport slip drop through the board."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Скрынкі і складзеныя ручнікі закрываюць сэрвісныя палосы; журнал ключоў і транспартная накладная апускаюцца праз поле."
+        }
+      }
+    }
+  ]
+}

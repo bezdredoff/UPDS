@@ -24,8 +24,10 @@ const AsterionLabScene = preload("res://data/asterion_lab_scene.json")
 const PostAsterionLabScene = preload("res://data/post_asterion_lab_scene.json")
 const LostFoundScene = preload("res://data/lost_found_scene.json")
 const PostLostFoundScene = preload("res://data/post_lost_found_scene.json")
+const MaintenanceKeysScene = preload("res://data/maintenance_keys_scene.json")
+const PostMaintenanceKeysScene = preload("res://data/post_maintenance_keys_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 18
+const MAX_PORTED_SCENE_INDEX := 20
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -139,6 +141,8 @@ func scene_data() -> Dictionary:
 		16: return PostAsterionLabScene.data
 		17: return LostFoundScene.data
 		18: return PostLostFoundScene.data
+		19: return MaintenanceKeysScene.data
+		20: return PostMaintenanceKeysScene.data
 	return {}
 
 
@@ -243,4 +247,8 @@ func _scene_lines() -> Array:
 		return LostFoundScene.data.lines
 	if state.scene == 18:
 		return PostLostFoundScene.data.lines
+	if state.scene == 19:
+		return MaintenanceKeysScene.data.lines
+	if state.scene == 20:
+		return PostMaintenanceKeysScene.data.lines
 	return []

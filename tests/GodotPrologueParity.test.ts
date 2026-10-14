@@ -77,6 +77,8 @@ describe('Godot story source parity', () => {
       [16, 'godot/data/post_asterion_lab_scene.json', 'VN0391', 'VN0409', '', -1],
       [17, 'godot/data/lost_found_scene.json', 'VN0410', 'VN0429', 'M3_08_LOST_FOUND_LEDGER', 18],
       [18, 'godot/data/post_lost_found_scene.json', 'VN0430', 'VN0448', '', -1],
+      [19, 'godot/data/maintenance_keys_scene.json', 'VN0449', 'VN0469', 'M3_09_MAINTENANCE_KEYS', 20],
+      [20, 'godot/data/post_maintenance_keys_scene.json', 'VN0470', 'VN0488', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -124,7 +126,12 @@ describe('Godot story source parity', () => {
     expect(lostFoundLevel.evidence.localized.ru.title).toBeTruthy();
     expect(lostFoundLevel.evidence.localized.be.label).toBeTruthy();
     expect(lostFoundLevel.evidence.localized.en.continueStory).toBeTruthy();
-    for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata']] as const) {
+    const maintenanceLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_09_MAINTENANCE_KEYS');
+    expect(maintenanceLevel.evidence.id).toBe('CUE_010');
+    expect(maintenanceLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(maintenanceLevel.evidence.localized.be.label).toBeTruthy();
+    expect(maintenanceLevel.evidence.localized.en.continueStory).toBeTruthy();
+    for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source']] as const) {
       const gate = godotStoryScene(sceneIndex).choiceGate;
       expect(gate.id).toBe(gateId);
       expect(gate.choices.A.ru.title).toBeTruthy();

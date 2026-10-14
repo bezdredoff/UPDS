@@ -1,0 +1,615 @@
+{
+  "sceneId": "VN_SCENE_20_E9_POST",
+  "sceneIndex": 20,
+  "nextSceneId": "VN_SCENE_21_E10_PRE",
+  "nextSceneIndex": 21,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "choiceGate": {
+    "id": "protect-gen-source",
+    "checkpointLineId": "VN0480",
+    "prompt": {
+      "ru": "Как оформить неформальную передачу ключа Гэном?",
+      "en": "How should the team record Gen’s informal key handoff?",
+      "be": "Як камандзе аформіць нефармальную перадачу ключа Гэнам?"
+    },
+    "choices": {
+      "A": {
+        "ru": {
+          "title": "Записать имя и нарушение процедуры",
+          "effect": "Доверие Оноэ +1 · Гэн станет осторожнее"
+        },
+        "en": {
+          "title": "Record his name and the procedure breach",
+          "effect": "Onoe Trust +1 · Gen becomes more cautious"
+        },
+        "be": {
+          "title": "Запісаць яго імя і парушэнне працэдуры",
+          "effect": "Давер Оноэ +1 · Гэн стане асцярожней"
+        }
+      },
+      "B": {
+        "ru": {
+          "title": "Сохранить имя источника",
+          "effect": "Доверие источников +1"
+        },
+        "en": {
+          "title": "Protect the source’s name",
+          "effect": "Source Trust +1"
+        },
+        "be": {
+          "title": "Не раскрываць імя крыніцы",
+          "effect": "Давер крыніц +1"
+        }
+      },
+      "C": {
+        "ru": {
+          "title": "Зафиксировать факт, имя оставить закрытым",
+          "effect": "Компромисс: процедура без публичного источника"
+        },
+        "en": {
+          "title": "Record the fact, keep the name sealed",
+          "effect": "Compromise: procedure documented without a public source"
+        },
+        "be": {
+          "title": "Зафіксаваць факт, імя пакінуць закрытым",
+          "effect": "Кампраміс: працэдура зафіксавана без публічнай крыніцы"
+        }
+      }
+    }
+  },
+  "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+  "titles": {
+    "ru": "Ночные контейнеры",
+    "en": "Night Containers",
+    "be": "Начныя кантэйнеры"
+  },
+  "lines": [
+    {
+      "id": "VN0470",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: KEY LOG + HANDOFF SLIP",
+          "text": "Журнал ключей, срочная заявка и накладная выстроены в одну временную линию."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: KEY LOG + HANDOFF SLIP",
+          "text": "The key log, emergency request, and transport slip line up into one timeline."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: KEY LOG + HANDOFF SLIP",
+          "text": "Журнал ключоў, тэрміновая заяўка і накладная выбудоўваюцца ў адну часовую лінію."
+        }
+      }
+    },
+    {
+      "id": "VN0471",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "УВЕРЕННО",
+          "text": "В часы подтверждённых краж Гэн находился в другом корпусе. Отметки обхода и вызов совпадают."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CONFIDENT",
+          "text": "During the confirmed theft windows, Gen was in another building. Patrol stamps and the service call agree."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "УПЭЎНЕНА",
+          "text": "У гадзіны пацверджаных крадзяжоў Гэн знаходзіўся ў іншым корпусе. Адзнакі абходу і выклік супадаюць."
+        }
+      }
+    },
+    {
+      "id": "VN0472",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СПОКОЙНАЯ",
+          "text": "Универсальный ключ объясняет, как можно было попасть внутрь, но не доказывает, кто им воспользовался. Гэн не мог быть основным вором: он находился в другом месте."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "CALM",
+          "text": "The master key explains how someone could get inside, but not who used it. Gen could not have been the main thief; he was elsewhere."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СПАКОЙНАЯ",
+          "text": "Універсальны ключ тлумачыць, як можна было трапіць унутр, але не даказвае, хто ім скарыстаўся. Гэн не мог быць галоўным злодзеем: ён быў у іншым месцы."
+        }
+      }
+    },
+    {
+      "id": "VN0473",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГЭН",
+          "emotion": "ОБЛЕГЧЁННО",
+          "text": "Спасибо. Носки я всё равно оставлю под наблюдением. Они склонны к рецидиву."
+        },
+        "en": {
+          "speaker": "GEN",
+          "emotion": "RELIEVED",
+          "text": "Thank you. I will still keep the socks under observation. They are prone to repeat offenses."
+        },
+        "be": {
+          "speaker": "ГЭН",
+          "emotion": "З ПАЛЁГКАЙ",
+          "text": "Дзякуй. Шкарпэткі я ўсё роўна пакіну пад наглядам. Яны схільныя да рэцыдыву."
+        }
+      }
+    },
+    {
+      "id": "VN0474",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: ASTERION PREFIX",
+          "text": "На накладной срочной тележки — сервисный префикс Asterion и отметка «возврат после теста»."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: ASTERION PREFIX",
+          "text": "The emergency-cart slip carries an Asterion service prefix and the note “return after test.”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: ASTERION PREFIX",
+          "text": "На накладной тэрміновай каляскі — сэрвісны прэфікс Asterion і пазнака «вяртанне пасля тэсту»."
+        }
+      }
+    },
+    {
+      "id": "VN0475",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ВОЗМУЩЁННО",
+          "text": "То есть ночью через прачечную ездили лабораторные контейнеры, и никто не считал это достойным отдельной строки?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "INDIGNANT",
+          "text": "So laboratory containers moved through the laundry at night and nobody thought that deserved its own line?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "АБУРАНАЯ",
+          "text": "То бок ноччу праз пральню ездзілі лабараторныя кантэйнеры, і ніхто не палічыў гэта вартым асобнага радка?"
+        }
+      }
+    },
+    {
+      "id": "VN0476",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СВЕРЯЕТ НОМЕР",
+          "text": "Накладная подтверждает контейнер. Время совпадает с одним из исчезнувших диапазонов пакетов."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CHECKING NUMBER",
+          "text": "The slip confirms the container. Its time matches one of the missing package ranges."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗВЯРАЕ НУМАР",
+          "text": "Накладная пацвярджае кантэйнер. Час супадае з адным са зніклых дыяпазонаў пакетаў."
+        }
+      }
+    },
+    {
+      "id": "VN0477",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГЭН",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Рина тогда сказала, что иначе партия останется в коридоре до утра. Я решил, что помогаю не потерять вещи."
+        },
+        "en": {
+          "speaker": "GEN",
+          "emotion": "SERIOUS",
+          "text": "Rina said the batch would otherwise sit in the corridor until morning. I thought I was helping keep things from getting lost."
+        },
+        "be": {
+          "speaker": "ГЭН",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Рына тады сказала, што інакш партыя застанецца ў калідоры да раніцы. Я вырашыў, што дапамагаю не згубіць рэчы."
+        }
+      }
+    },
+    {
+      "id": "VN0478",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВНИМАТЕЛЬНАЯ",
+          "text": "Почему вы не внесли её имя после передачи?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "ATTENTIVE",
+          "text": "Why did you not add her name after the handoff?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УВАЖЛІВАЯ",
+          "text": "Чаму вы не ўнеслі яе імя пасля перадачы?"
+        }
+      }
+    },
+    {
+      "id": "VN0479",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГЭН",
+          "emotion": "НЕУДОБНО",
+          "text": "Потому что это было нарушение процедуры без происшествия. Я не хотел подставлять человека за то, что всё закончилось нормально."
+        },
+        "en": {
+          "speaker": "GEN",
+          "emotion": "UNCOMFORTABLE",
+          "text": "Because it was a procedural violation without an incident. I did not want to expose someone over something that seemed to end normally."
+        },
+        "be": {
+          "speaker": "ГЭН",
+          "emotion": "НЯЁМКА",
+          "text": "Таму што гэта было парушэнне працэдуры без здарэння. Я не хацеў падстаўляць чалавека за тое, што ўсё скончылася нармальна."
+        }
+      }
+    },
+    {
+      "id": "VN0480",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE protect-gen-source}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE protect-gen-source}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE protect-gen-source}"
+        }
+      }
+    },
+    {
+      "id": "VN0481",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ПОСЛЕ ВЫБОРА",
+          "text": "Решение Мику влияет на то, как команда укажет источник, но не меняет подтверждённую цепочку событий с ключом, тележкой и контейнером."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "AFTER CHOICE",
+          "text": "Miku’s decision changes how the team records the source, but not the confirmed chain of events involving the key, cart, and container."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ПАСЛЯ ВЫБАРУ",
+          "text": "Рашэнне Міку змяняе, як каманда аформіць крыніцу, але не змяняе пацверджаны ланцужок падзей з ключом, каляскай і кантэйнерам."
+        }
+      }
+    },
+    {
+      "id": "VN0482",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 25,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 3
+        },
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 75,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 3
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ДЕЛОВАЯ",
+          "text": "В материалы дела идёт только проверяемое: время ключа, номер заявки, номер контейнера и факт передачи тележки."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BUSINESSLIKE",
+          "text": "Only verifiable facts enter the case file: key time, request number, container number, and the cart handoff."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ДЗЕЛАВАЯ",
+          "text": "У матэрыялы справы ідзе толькі тое, што можна праверыць: час ключа, нумар заяўкі, нумар кантэйнера і факт перадачы каляскі."
+        }
+      }
+    },
+    {
+      "id": "VN0483",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СОСРЕДОТОЧЕННАЯ",
+          "text": "А имя источника укажем только в той мере, которую выбрали сейчас."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "FOCUSED",
+          "text": "And we’ll identify the source only as fully as we agreed just now."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЗАСЯРОДЖАНАЯ",
+          "text": "А асобу крыніцы назавём толькі настолькі адкрыта, наколькі дамовіліся цяпер."
+        }
+      }
+    },
+    {
+      "id": "VN0484",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФИКСИРУЕТ УЛИКУ",
+          "text": "После закрытия прачечной сервисные контейнеры Asterion регулярно входят в тот же физический маршрут, что и спорные вещи."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "RECORDING CLUE",
+          "text": "After the laundry closes, Asterion service containers regularly enter the same physical route as the disputed items."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФІКСУЕ ЎЛІКУ",
+          "text": "Пасля закрыцця пральні сэрвісныя кантэйнеры Asterion рэгулярна ўваходзяць у той жа фізічны маршрут, што і спрэчныя рэчы."
+        }
+      }
+    },
+    {
+      "id": "VN0485",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_010}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_010}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_010}"
+        }
+      }
+    },
+    {
+      "id": "VN0486",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ГЭН",
+          "emotion": "ПОКАЗЫВАЕТ НАКЛАДНУЮ",
+          "text": "Вот полный номер. Префикс один и тот же на трёх ночных контейнерах."
+        },
+        "en": {
+          "speaker": "GEN",
+          "emotion": "SHOWING SLIP",
+          "text": "Here is the full number. The prefix is the same on three night containers."
+        },
+        "be": {
+          "speaker": "ГЭН",
+          "emotion": "ПАКАЗВАЕ НАКЛАДНУЮ",
+          "text": "Вось поўны нумар. Прэфікс адзін і той жа на трох начных кантэйнерах."
+        }
+      }
+    },
+    {
+      "id": "VN0487",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СМОТРИТ НА КОД",
+          "text": "Префикс принадлежит лабораторной группе Куросэ. Та же группа, что в серийном коде нити."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "LOOKING AT CODE",
+          "text": "The prefix belongs to Kurose’s laboratory group. The same group as the thread serial code."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ГЛЯДЗІЦЬ НА КОД",
+          "text": "Прэфікс належыць лабараторнай групе Куросэ. Той жа групе, што і ў серыйным кодзе ніткі."
+        }
+      }
+    },
+    {
+      "id": "VN0488",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "КАРТОЧКА СЛЕДУЮЩЕГО ЭПИЗОДА",
+          "text": "«Следующий эпизод — Чёрный пояс, белые трусы»"
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "EPISODE CARD / FRONTIER",
+          "text": "“Next episode — Black Belt, White Underwear.”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD / FRONTIER",
+          "text": "«Наступны эпізод — Чорны пояс, белыя трусы»"
+        }
+      }
+    }
+  ]
+}
