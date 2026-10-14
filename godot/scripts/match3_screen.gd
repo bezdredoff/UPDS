@@ -1158,53 +1158,88 @@ func _invalid_feedback_key(reason: String) -> String:
 func _animate_special_impact(frame: Dictionary) -> void:
 	var special_kinds: Array = frame.get("specials", [])
 	var cleared: Array = frame.get("cleared", [])
-	var has_activated_special := false
+	var activated_sources: Array[int] = []
 	for index_value in cleared:
 		var index := int(index_value)
 		if index >= 0 and index < special_kinds.size() and not str(special_kinds[index]).is_empty():
-			has_activated_special = true
-			break
-	if not has_activated_special: return
+			activated_sources.append(index)
+	if activated_sources.is_empty(): return
+	var impact_curve := Callable(self, "_css_cubic_bezier").bind(0.18, 0.82, 0.28, 1.0)
 	for index_value in cleared:
 		var index := int(index_value)
 		if index < 0 or index >= board.get_child_count(): continue
 		var cell := board.get_child(index) as Control
+		var is_source := activated_sources.has(index)
 		var flash := ColorRect.new()
 		flash.name = "SpecialImpactFlash"
 		flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		flash.color = Color("#fff2a8")
+		flash.pivot_offset = cell.size * 0.5
+		flash.scale = Vector2(0.72, 0.72)
+		flash.material = _special_impact_flash_material()
 		flash.modulate.a = 0.0
 		flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		flash.z_index = 7
+		flash.z_index = 8
 		cell.add_child(flash)
 		var flash_tween := create_tween()
-		flash_tween.tween_property(flash, "modulate:a", 0.45, 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		flash_tween.tween_property(flash, "modulate:a", 1.0, 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.04, 1.04), 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		flash_tween.tween_property(flash, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.12, 1.12), 0.185).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		flash_tween.finished.connect(flash.queue_free)
+		var outline := Panel.new()
+		outline.name = "SpecialImpactSourceOutline" if is_source else "SpecialImpactTargetOutline"
+		outline.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		outline.offset_left = -1.0 if is_source else 1.0
+		outline.offset_top = -1.0 if is_source else 1.0
+		outline.offset_right = 1.0 if is_source else -1.0
+		outline.offset_bottom = 1.0 if is_source else -1.0
+		outline.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		outline.z_index = 9
+		var outline_style := StyleBoxFlat.new()
+		outline_style.bg_color = Color(0, 0, 0, 0)
+		outline_style.border_color = Color("#fff2a8")
+		outline_style.set_border_width_all(3 if is_source else 2)
+		outline_style.set_corner_radius_all(3)
+		outline_style.shadow_color = Color("#6ce2d388" if is_source else "#6ce2d355")
+		outline_style.shadow_size = 18 if is_source else 8
+		outline.add_theme_stylebox_override("panel", outline_style)
+		outline.modulate.a = 0.0
+		cell.add_child(outline)
+		var outline_tween := create_tween()
+		outline_tween.tween_property(outline, "modulate:a", 1.0, 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		outline_tween.tween_property(outline, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		outline_tween.finished.connect(outline.queue_free)
 		var impact_tween := create_tween()
-		impact_tween.tween_property(cell, "scale", Vector2(1.055, 1.055), 0.118).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		impact_tween.tween_property(cell, "scale", Vector2.ONE, 0.162).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		var peak_scale := 1.11 if is_source else 1.055
+		impact_tween.tween_property(cell, "scale", Vector2(peak_scale, peak_scale), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+		if not is_source:
+			impact_tween.parallel().tween_property(cell, "modulate", Color(1.42, 1.42, 1.42, 1.0), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+		var return_impact := impact_tween.tween_property(cell, "scale", Vector2.ONE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+		return_impact.from(Vector2(peak_scale, peak_scale))
+		if not is_source:
+			var return_brightness := impact_tween.parallel().tween_property(cell, "modulate", Color.WHITE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			return_brightness.from(Color(1.42, 1.42, 1.42, 1.0))
 		var special_kind := str(special_kinds[index]) if index < special_kinds.size() else ""
 		if special_kind.is_empty(): continue
 		var tile_stack := cell.get_node_or_null("TileStack") as Control
 		var special_icon := tile_stack.get_node_or_null("Special") as Control if tile_stack != null else null
 		if special_icon != null:
-			var resting_rotation := -18.0 if special_kind == "flash-row" else 72.0 if special_kind == "flash-column" else 0.0
 			special_icon.pivot_offset = special_icon.size * 0.5
 			special_icon.scale = Vector2(0.82, 0.82)
-			special_icon.rotation_degrees = resting_rotation - 8.0
+			special_icon.rotation_degrees = -8.0
 			var icon_tween := create_tween()
-			icon_tween.tween_property(special_icon, "scale", Vector2(1.24, 1.24), 0.118).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", resting_rotation + 4.0, 0.118)
-			icon_tween.tween_property(special_icon, "scale", Vector2.ONE, 0.162).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", resting_rotation, 0.162)
+			icon_tween.tween_property(special_icon, "scale", Vector2(1.24, 1.24), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 4.0, 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.tween_property(special_icon, "scale", Vector2.ONE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 0.0, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 		if special_kind == "flash-row" or special_kind == "flash-column":
 			var beam := ColorRect.new()
 			beam.name = "SpecialImpactBeam"
-			beam.color = Color("#6ce2d3")
+			beam.pivot_offset = cell.size * 0.5
+			beam.material = _special_impact_beam_material(special_kind == "flash-column")
 			beam.modulate.a = 0.0
 			beam.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			beam.z_index = 8
+			beam.z_index = 10
 			if special_kind == "flash-row":
 				beam.anchor_left = -0.18
 				beam.anchor_right = 1.18
@@ -1216,10 +1251,48 @@ func _animate_special_impact(frame: Dictionary) -> void:
 				beam.anchor_top = -0.18
 				beam.anchor_bottom = 1.18
 			cell.add_child(beam)
+			beam.scale = Vector2(1.0, 0.25) if special_kind == "flash-column" else Vector2(0.25, 1.0)
 			var beam_tween := create_tween()
-			beam_tween.tween_property(beam, "modulate:a", 0.95, 0.098).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			beam_tween.tween_property(beam, "modulate:a", 1.0, 0.098).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			beam_tween.parallel().tween_property(beam, "scale", Vector2(1.0, 1.15) if special_kind == "flash-column" else Vector2(1.15, 1.0), 0.098).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			beam_tween.tween_property(beam, "modulate:a", 0.0, 0.182).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			beam_tween.parallel().tween_property(beam, "scale", Vector2.ONE, 0.182).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			beam_tween.finished.connect(beam.queue_free)
+
+
+func _special_impact_flash_material() -> ShaderMaterial:
+	var shader := Shader.new()
+	shader.code = """
+	shader_type canvas_item;
+	void fragment() {
+		float radius = distance(UV, vec2(0.5));
+		float glow = 1.0 - smoothstep(0.12, 0.72, radius);
+		COLOR = vec4(vec3(1.0, 0.965, 0.75), glow) * COLOR;
+	}
+	"""
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	return material
+
+
+func _special_impact_beam_material(vertical: bool) -> ShaderMaterial:
+	var shader := Shader.new()
+	shader.code = """
+	shader_type canvas_item;
+	uniform bool vertical_gradient = false;
+	void fragment() {
+		float point = vertical_gradient ? UV.y : UV.x;
+		float edge_alpha = smoothstep(0.0, 0.2, point) * (1.0 - smoothstep(0.8, 1.0, point));
+		float teal = 1.0 - min(abs(point - 0.5) * 5.0, 1.0);
+		vec3 gold = vec3(1.0, 0.96, 0.74);
+		vec3 aqua = vec3(0.42, 0.89, 0.83);
+		COLOR = vec4(mix(gold, aqua, teal), edge_alpha) * COLOR;
+	}
+	"""
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	material.set_shader_parameter("vertical_gradient", vertical)
+	return material
 
 
 func _play_move_frames(result: Dictionary, first: int, second: int) -> void:

@@ -158,13 +158,14 @@ func _run() -> void:
 	assert(special_index >= 0, "Match-3 board has no open cell for the special impact sample")
 	var special_frame_specials: Array[String] = match3.game.specials.duplicate()
 	special_frame_specials[special_index] = "flash-row"
+	var impact_target := special_index + 1 if (special_index + 1) % columns != 0 else special_index - 1
 	match3._render_frame({
 		"phase": "clear",
 		"tiles": match3.game.tiles.duplicate(),
 		"specials": special_frame_specials,
 		"blockers": match3.game.blocker_layers.duplicate(),
 		"ingredients": match3.game.ingredients.duplicate(),
-		"cleared": [special_index],
+		"cleared": [special_index, impact_target],
 		"cascade": 1,
 		"feedback": "special",
 	})
@@ -174,15 +175,19 @@ func _run() -> void:
 	assert(feedback_style.bg_color == Color("#c07f35ef"), "Special feedback did not use the source amber treatment")
 	var special_cell: Control = match3.board.get_child(special_index)
 	assert(special_cell.get_node_or_null("SpecialImpactFlash") != null, "Special clear did not create its visual impact flash")
+	assert(special_cell.get_node_or_null("SpecialImpactSourceOutline") != null, "Activated special did not receive its source outline")
 	assert(special_cell.get_node_or_null("SpecialImpactBeam") != null, "Line special did not create its directional beam")
+	var target_cell: Control = match3.board.get_child(impact_target)
+	assert(target_cell.get_node_or_null("SpecialImpactTargetOutline") != null, "Affected clear target did not receive its target outline")
+	assert(target_cell.get_node_or_null("SpecialImpactFlash") != null, "Affected clear target did not receive its impact flash")
 	var special_stack: Control = special_cell.get_node("TileStack")
 	var special_icon: TextureRect = special_stack.get_node("Special")
 	var special_glow: TextureRect = special_stack.get_node("SpecialGlow")
 	var direction_marker: PanelContainer = special_stack.get_node("SpecialDirectionMarker")
-	assert(is_equal_approx(special_icon.rotation_degrees, -26.0), "Flash Row activation did not start from its source angle")
+	assert(is_equal_approx(special_icon.rotation_degrees, -8.0), "Flash Row activation did not start from the source impact keyframe")
 	assert(direction_marker.get_child(0).text == "↔" and special_glow.modulate.a < 1.0, "Flash Row missed its direction marker or translucent gold glow")
 	await create_timer(0.3).timeout
-	assert(is_equal_approx(special_icon.rotation_degrees, -18.0), "Flash Row activation did not return to its source angle")
+	assert(is_equal_approx(special_icon.rotation_degrees, 0.0), "Flash Row activation did not return to neutral rotation")
 	match3._render_board()
 	match3._render_frame({
 		"phase": "reshuffle",
