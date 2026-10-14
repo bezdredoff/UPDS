@@ -489,7 +489,9 @@ func _reshuffle_playable_board() -> bool:
 		for offset in tile_indices.size():
 			tiles[tile_indices[offset]] = str(shuffled_tiles[offset])
 			specials[tile_indices[offset]] = ""
-		if _find_resolution_match_groups().is_empty() and has_available_move(): return true
+		if _find_resolution_match_groups().is_empty() and has_available_move():
+			_record_reshuffle_frame()
+			return true
 	for index in tile_indices:
 		tiles[index] = _random_tile()
 		specials[index] = ""
@@ -497,7 +499,21 @@ func _reshuffle_playable_board() -> bool:
 		for group: Dictionary in _find_resolution_match_groups():
 			var indices: Array = group.indices
 			tiles[int(indices.back())] = _random_tile()
+	_record_reshuffle_frame()
 	return true
+
+
+func _record_reshuffle_frame() -> void:
+	var cascade := int(_last_frames.back().get("cascade", 0)) if not _last_frames.is_empty() else 0
+	_last_frames.append({
+		"phase": "reshuffle",
+		"cascade": cascade,
+		"tiles": tiles.duplicate(),
+		"specials": specials.duplicate(),
+		"blockers": blocker_layers.duplicate(),
+		"ingredients": ingredients.duplicate(),
+		"motions": [],
+	})
 
 func _swap_creates_match(first: int, second: int) -> bool:
 	if not _are_adjacent(first, second) or tiles[first].is_empty() or tiles[second].is_empty() or _is_blocked(first) or _is_blocked(second):

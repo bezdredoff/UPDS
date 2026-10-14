@@ -13,6 +13,7 @@ const PhoneFrame = preload("res://scripts/phone_frame.gd")
 const SWAP_MOTION_SECONDS := 0.15
 const CLEAR_MOTION_SECONDS := 0.28
 const SETTLE_MOTION_SECONDS := 0.32
+const RESHUFFLE_MOTION_SECONDS := 0.46
 const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
 
 var preferences: RefCounted
@@ -473,6 +474,9 @@ func _render_board() -> void:
 		var hinted_style := cell_style.duplicate() as StyleBoxFlat
 		hinted_style.border_color = Color("#7ddfd8")
 		hinted_style.set_border_width_all(3)
+		hinted_style.shadow_color = Color("#6ce2d3")
+		hinted_style.shadow_size = 12
+		hinted_style.shadow_offset = Vector2.ZERO
 		var hover_style := cell_style.duplicate() as StyleBoxFlat
 		hover_style.bg_color = Color("#3a5278")
 		tile_button.add_theme_stylebox_override("normal", selected_style if index == selected_index else hinted_style if hinted_indices.has(index) else cell_style)
@@ -503,24 +507,32 @@ func _render_board() -> void:
 			tile.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			tile_stack.add_child(tile)
-		var tile_tint := Color(1.25, 1.25, 1, 1) if index == selected_index else Color(1.2, 0.95, 0.5, 1) if hinted_indices.has(index) else Color.WHITE
+		var tile_tint := Color(1.25, 1.25, 1, 1) if index == selected_index else Color.WHITE
 		tile_stack.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else tile_tint
 		tile_button.disabled = game.state != "playing" or tutorial_panel.visible or game.tiles[index].is_empty() or game.blocker_layers[index] > 0
 		tile_button.pressed.connect(_select_cell.bind(index))
 		tile_button.add_child(tile_stack)
 		if hinted_indices.has(index):
-			var hint_tween := create_tween().set_loops()
-			hint_tween.tween_property(tile_stack, "scale", Vector2(0.91, 0.91), 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-			hint_tween.tween_property(tile_stack, "scale", Vector2.ONE, 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			tile_button.pivot_offset = Vector2(27, 27)
+			var hint_tween := tile_button.create_tween().set_loops()
+			hint_tween.tween_property(tile_button, "scale", Vector2(0.91, 0.91), 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			hint_tween.parallel().tween_property(tile_button, "modulate", Color(1.18, 1.18, 1.18, 1.0), 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			hint_tween.tween_property(tile_button, "scale", Vector2.ONE, 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			hint_tween.parallel().tween_property(tile_button, "modulate", Color.WHITE, 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		if game.blocker_layers[index] > 0:
 			var blocker_asset := str(campaign_bundle.assets.blockers.get(str(level_data.blockerStyle), ""))
 			if str(level_data.blockerStyle) == "locked": blocker_asset = str(campaign_bundle.assets.lockedBlockers.get(str(game.blocker_layers[index]), blocker_asset))
 			if not blocker_asset.is_empty():
 				var blocker := TextureRect.new()
 				blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+				blocker.offset_left = 1
+				blocker.offset_top = 1
+				blocker.offset_right = -1
+				blocker.offset_bottom = -1
 				blocker.texture = load("res://" + blocker_asset.trim_prefix("./"))
 				blocker.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-				blocker.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+				blocker.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				blocker.modulate = Color(1, 1, 1, 0.66)
 				blocker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_button.add_child(blocker)
 				if game.blocker_layers[index] > 1:
@@ -587,6 +599,7 @@ func _render_frame(frame: Dictionary) -> void:
 	game.blocker_layers = old_blockers
 	game.ingredients = old_ingredients
 	if str(frame.phase) == "clear":
+		_animate_special_impact(frame)
 		for index_value in frame.cleared:
 			var cell := board.get_child(int(index_value)) as Control
 			var tile_stack := cell.get_node_or_null("TileStack") as Control
@@ -610,6 +623,20 @@ func _render_frame(frame: Dictionary) -> void:
 			tween.parallel().tween_property(tile_stack, "modulate:a", 1.0, SETTLE_MOTION_SECONDS * 0.68)
 			tween.parallel().tween_property(tile_stack, "scale", Vector2(1.015, 1.015), SETTLE_MOTION_SECONDS * 0.72)
 			tween.tween_property(tile_stack, "scale", Vector2.ONE, SETTLE_MOTION_SECONDS * 0.28)
+	elif str(frame.phase) == "reshuffle":
+		for cell_value in board.get_children():
+			var cell := cell_value as Control
+			var tile_stack := cell.get_node_or_null("TileStack") as Control
+			if tile_stack == null: continue
+			tile_stack.scale = Vector2(0.82, 0.82)
+			tile_stack.rotation_degrees = -2.0
+			tile_stack.modulate.a = 0.45
+			var tween := create_tween()
+			tween.tween_property(tile_stack, "scale", Vector2(1.04, 1.04), RESHUFFLE_MOTION_SECONDS * 0.65).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			tween.parallel().tween_property(tile_stack, "rotation_degrees", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65)
+			tween.parallel().tween_property(tile_stack, "modulate:a", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65)
+			tween.tween_property(tile_stack, "scale", Vector2.ONE, RESHUFFLE_MOTION_SECONDS * 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			tween.parallel().tween_property(tile_stack, "rotation_degrees", 0.0, RESHUFFLE_MOTION_SECONDS * 0.35)
 
 
 func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
@@ -641,6 +668,72 @@ func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
 	second_stack.z_index = 0
 
 
+func _animate_special_impact(frame: Dictionary) -> void:
+	var special_kinds: Array = frame.get("specials", [])
+	var cleared: Array = frame.get("cleared", [])
+	var has_activated_special := false
+	for index_value in cleared:
+		var index := int(index_value)
+		if index >= 0 and index < special_kinds.size() and not str(special_kinds[index]).is_empty():
+			has_activated_special = true
+			break
+	if not has_activated_special: return
+	for index_value in cleared:
+		var index := int(index_value)
+		if index < 0 or index >= board.get_child_count(): continue
+		var cell := board.get_child(index) as Control
+		var flash := ColorRect.new()
+		flash.name = "SpecialImpactFlash"
+		flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		flash.color = Color("#fff2a8")
+		flash.modulate.a = 0.0
+		flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		flash.z_index = 7
+		cell.add_child(flash)
+		var flash_tween := create_tween()
+		flash_tween.tween_property(flash, "modulate:a", 0.45, 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		flash_tween.tween_property(flash, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		flash_tween.finished.connect(flash.queue_free)
+		var impact_tween := create_tween()
+		impact_tween.tween_property(cell, "scale", Vector2(1.055, 1.055), 0.118).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		impact_tween.tween_property(cell, "scale", Vector2.ONE, 0.162).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		var special_kind := str(special_kinds[index]) if index < special_kinds.size() else ""
+		if special_kind.is_empty(): continue
+		var tile_stack := cell.get_node_or_null("TileStack") as Control
+		var special_icon := tile_stack.get_node_or_null("Special") as Control if tile_stack != null else null
+		if special_icon != null:
+			special_icon.pivot_offset = special_icon.size * 0.5
+			special_icon.scale = Vector2(0.82, 0.82)
+			special_icon.rotation_degrees = -8.0
+			var icon_tween := create_tween()
+			icon_tween.tween_property(special_icon, "scale", Vector2(1.24, 1.24), 0.118).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 4.0, 0.118)
+			icon_tween.tween_property(special_icon, "scale", Vector2.ONE, 0.162).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 0.0, 0.162)
+		if special_kind == "flash-row" or special_kind == "flash-column":
+			var beam := ColorRect.new()
+			beam.name = "SpecialImpactBeam"
+			beam.color = Color("#6ce2d3")
+			beam.modulate.a = 0.0
+			beam.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			beam.z_index = 8
+			if special_kind == "flash-row":
+				beam.anchor_left = -0.18
+				beam.anchor_right = 1.18
+				beam.anchor_top = 0.44
+				beam.anchor_bottom = 0.56
+			else:
+				beam.anchor_left = 0.44
+				beam.anchor_right = 0.56
+				beam.anchor_top = -0.18
+				beam.anchor_bottom = 1.18
+			cell.add_child(beam)
+			var beam_tween := create_tween()
+			beam_tween.tween_property(beam, "modulate:a", 0.95, 0.098).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			beam_tween.tween_property(beam, "modulate:a", 0.0, 0.182).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			beam_tween.finished.connect(beam.queue_free)
+
+
 func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
 	input_locked = true
 	var valid := bool(result.valid)
@@ -653,9 +746,12 @@ func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
 			elif str(frame.phase) == "clear":
 				_render_frame(frame)
 				await get_tree().create_timer(CLEAR_MOTION_SECONDS).timeout
-			else:
+			elif str(frame.phase) == "settle":
 				_render_frame(frame)
 				await get_tree().create_timer(SETTLE_MOTION_SECONDS).timeout
+			elif str(frame.phase) == "reshuffle":
+				_render_frame(frame)
+				await get_tree().create_timer(RESHUFFLE_MOTION_SECONDS).timeout
 		_render_board()
 	else:
 		if str(result.get("reason", "")) == "no-match":

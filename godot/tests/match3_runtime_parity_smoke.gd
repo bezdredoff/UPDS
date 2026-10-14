@@ -35,6 +35,7 @@ func _run_scenario(bundle: Dictionary, scenario: Dictionary) -> void:
 		game.ingredients[index] = str(cell.ingredient)
 	if str(scenario.get("action", "")) == "reshuffle":
 		assert(game._reshuffle_playable_board(), "Reshuffle did not produce a playable board")
+		assert(not game._last_frames.is_empty() and str(game._last_frames.back().phase) == "reshuffle", "Reshuffle did not export its animation frame")
 		assert(game.moves_left == int(scenario.expected.movesLeft), "Reshuffle changed moves-left")
 		assert(game.state == str(scenario.expected.state), "Reshuffle changed game state")
 		assert(game._find_resolution_match_groups().is_empty() and bool(scenario.expected.hasImmediateMatches) == false, "Reshuffle left immediate matches")

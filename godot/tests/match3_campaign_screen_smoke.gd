@@ -52,6 +52,15 @@ func _run() -> void:
 	menu.settings_screen.back_requested.emit()
 	await process_frame
 	assert(menu.settings_screen == null and match3.visible, "Closing settings did not return to the live Match-3 board")
+	match3._show_hint()
+	assert(match3.hinted_indices.size() == 2, "Hint action did not mark the two source cells")
+	var hinted_cell: Control = match3.board.get_child(match3.hinted_indices[0])
+	var hinted_style := hinted_cell.get_theme_stylebox("normal") as StyleBoxFlat
+	assert(hinted_style.shadow_size == 12, "Hinted cell did not receive the source glow")
+	await create_timer(0.42).timeout
+	assert(hinted_cell.scale.x < 0.99 and hinted_cell.modulate.r > 1.0, "Hint pulse did not animate the cell and its brightness")
+	match3.hinted_indices.clear()
+	match3._render_board()
 	match3.story_session = menu.session
 	menu._open_story()
 	await process_frame
@@ -61,6 +70,41 @@ func _run() -> void:
 	menu.story_screen._close_overlay()
 	await process_frame
 	assert(match3.visible and not menu.story_screen.visible, "Closing the dossier did not return to the live Match-3 board")
+	var special_index := -1
+	for index in match3.game.tiles.size():
+		if not match3.game.tiles[index].is_empty() and match3.game.blocker_layers[index] == 0:
+			special_index = index
+			break
+	assert(special_index >= 0, "Match-3 board has no open cell for the special impact sample")
+	var special_frame_specials: Array[String] = match3.game.specials.duplicate()
+	special_frame_specials[special_index] = "flash-row"
+	match3._render_frame({
+		"phase": "clear",
+		"tiles": match3.game.tiles.duplicate(),
+		"specials": special_frame_specials,
+		"blockers": match3.game.blocker_layers.duplicate(),
+		"ingredients": match3.game.ingredients.duplicate(),
+		"cleared": [special_index],
+		"cascade": 1,
+	})
+	var special_cell: Control = match3.board.get_child(special_index)
+	assert(special_cell.get_node_or_null("SpecialImpactFlash") != null, "Special clear did not create its visual impact flash")
+	assert(special_cell.get_node_or_null("SpecialImpactBeam") != null, "Line special did not create its directional beam")
+	await create_timer(0.3).timeout
+	match3._render_board()
+	match3._render_frame({
+		"phase": "reshuffle",
+		"tiles": match3.game.tiles.duplicate(),
+		"specials": match3.game.specials.duplicate(),
+		"blockers": match3.game.blocker_layers.duplicate(),
+		"ingredients": match3.game.ingredients.duplicate(),
+		"cascade": 0,
+	})
+	var reshuffled_stack: Control = match3.board.get_child(0).get_node("TileStack")
+	assert(reshuffled_stack.scale.is_equal_approx(Vector2(0.82, 0.82)), "Reshuffle animation did not start at its source scale")
+	await create_timer(0.5).timeout
+	assert(reshuffled_stack.scale.is_equal_approx(Vector2.ONE), "Reshuffle animation did not return tiles to their resting scale")
+	match3._render_board()
 	assert(menu.session.state.completed.is_empty(), "Standalone Match-3 campaign changed VN completion")
 	match3.story_requested.emit()
 	await process_frame
