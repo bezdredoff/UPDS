@@ -1,0 +1,574 @@
+{
+  "sceneId": "VN_SCENE_22_E10_POST",
+  "sceneIndex": 22,
+  "nextSceneId": "VN_SCENE_23_E11_PRE",
+  "nextSceneIndex": 23,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+  "titles": {
+    "ru": "Контрольная выборка",
+    "en": "Control Sample",
+    "be": "Кантрольная выбарка"
+  },
+  "lines": [
+    {
+      "id": "VN0509",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: SORTED GEAR",
+          "text": "Экипировка разложена на проверенные группы. Напульсник и защитный топ лежат рядом под увеличителем."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: SORTED GEAR",
+          "text": "The equipment is sorted into verified groups. The wristband and protective top sit side by side under a magnifier."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: SORTED GEAR",
+          "text": "Экіпіроўка раскладзена па правераных групах. Напульснік і ахоўны топ ляжаць побач пад павелічальным шклом."
+        }
+      }
+    },
+    {
+      "id": "VN0510",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОДТВЕРЖДАЕТ",
+          "text": "Одинаковая серебристая нить, одинаковый шаг шва. И оба предмета относятся к внешней экипировке."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CONFIRMING",
+          "text": "Same silver thread, same stitch pitch. And both items are outer equipment."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАЦВЯРДЖАЕ",
+          "text": "Аднолькавая серабрыстая нітка, аднолькавы крок шва. І абодва прадметы належаць да знешняй экіпіроўкі."
+        }
+      }
+    },
+    {
+      "id": "VN0511",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "АОЙ",
+          "emotion": "ХМУРИТСЯ",
+          "text": "То есть дело уже не только в белье."
+        },
+        "en": {
+          "speaker": "AOI",
+          "emotion": "FROWNING",
+          "text": "So this is no longer only about underwear."
+        },
+        "be": {
+          "speaker": "АОІ",
+          "emotion": "ХМУРЫЦЦА",
+          "text": "Значыць, справа ўжо не толькі ў бялізне."
+        }
+      }
+    },
+    {
+      "id": "VN0512",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ТОЧНО",
+          "text": "Бельё остаётся основной выборкой, но не единственной. Контрольные вещи подтверждают технический критерий, а не вкус похитителя."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "PRECISE",
+          "text": "Underwear remains the primary sample, but not the only one. Control items support a technical criterion, not the thief’s taste."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ДАКЛАДНА",
+          "text": "Бялізна застаецца асноўнай выбаркай, але не адзінай. Кантрольныя рэчы пацвярджаюць тэхнічны крытэрый, а не густ выкрадальніка."
+        }
+      }
+    },
+    {
+      "id": "VN0513",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ЛИСТАЕТ ФОТО",
+          "text": "На старых снимках у клуба уже были такие же сервисные ярлыки. И вот здесь — контейнер на заднем плане."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "FLIPPING THROUGH PHOTOS",
+          "text": "The club already had the same service tags in older photos. And here — there is a container in the background."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ГАРТАЕ ФОТА",
+          "text": "На старых здымках клуба ўжо былі такія ж сэрвісныя біркі. І вось тут — кантэйнер на заднім плане."
+        }
+      }
+    },
+    {
+      "id": "VN0514",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПРОБУЕТ ВЕРСИЮ",
+          "text": "А если появился подражатель и решил расширить ассортимент?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "TESTING A THEORY",
+          "text": "What if a copycat appeared and decided to broaden the selection?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПРАБУЕ ВЕРСІЮ",
+          "text": "А калі з'явіўся пераймальнік і вырашыў пашырыць асартымент?"
+        }
+      }
+    },
+    {
+      "id": "VN0515",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ОТРИЦАЕТ",
+          "text": "Тогда ему пришлось бы независимо воспроизвести технический шов и выбрать участников той же программы мониторинга. Эта версия сложнее, чем объяснение через общую систему."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "REJECTING",
+          "text": "Then they would have to independently reproduce the technical seam and select members of the same monitoring program. That theory requires more assumptions than a shared-system explanation."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "АДХІЛЯЕ",
+          "text": "Тады яму давялося б незалежна ўзнавіць тэхнічнае шво і выбіраць удзельнікаў той жа праграмы маніторынгу. Гэтая версія патрабуе больш здагадак, чым тлумачэнне праз агульную сістэму."
+        }
+      }
+    },
+    {
+      "id": "VN0516",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФИКСИРУЕТ УЛИКУ",
+          "text": "Система затрагивает бельё как основной сенсорный слой и внешнюю экипировку как контрольную выборку."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "RECORDING CLUE",
+          "text": "The system uses underwear as the primary sensor layer and outer equipment as a control sample."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФІКСУЕ ЎЛІКУ",
+          "text": "Сістэма закранае бялізну як асноўны сэнсарны пласт і знешнюю экіпіроўку як кантрольную выбарку."
+        }
+      }
+    },
+    {
+      "id": "VN0517",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_011}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_011}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_011}"
+        }
+      }
+    },
+    {
+      "id": "VN0518",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "АОЙ",
+          "emotion": "ВОЗВРАЩАЕТСЯ К НАЗВАНИЮ",
+          "text": "Теперь о названии операции. Я по-прежнему считаю его сильным."
+        },
+        "en": {
+          "speaker": "AOI",
+          "emotion": "RETURNING TO THE TITLE",
+          "text": "Now, about the operation title. I still consider it strong."
+        },
+        "be": {
+          "speaker": "АОІ",
+          "emotion": "ВЯРТАЕЦЦА ДА НАЗВЫ",
+          "text": "Цяпер пра назву аперацыі. Я па-ранейшаму лічу яе моцнай."
+        }
+      }
+    },
+    {
+      "id": "VN0519",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "НЕВИННО",
+          "text": "Отлично. Особенно учитывая, что белая пара из списка ваша."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "INNOCENTLY",
+          "text": "Excellent. Especially considering the white pair on the list is yours."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "НЯВІННА",
+          "text": "Выдатна. Асабліва з улікам таго, што белая пара са спіса — ваша."
+        }
+      }
+    },
+    {
+      "id": "VN0520",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "АОЙ",
+          "emotion": "ПОСЛЕ ПАУЗЫ",
+          "text": "Рабочее название немедленно засекречивается."
+        },
+        "en": {
+          "speaker": "AOI",
+          "emotion": "AFTER A PAUSE",
+          "text": "The working title is classified effective immediately."
+        },
+        "be": {
+          "speaker": "АОІ",
+          "emotion": "ПАСЛЯ ПАЎЗЫ",
+          "text": "Рабочая назва неадкладна засакрэчваецца."
+        }
+      }
+    },
+    {
+      "id": "VN0521",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "С ТРУДОМ СЕРЬЁЗНО",
+          "text": "Мы обещаем вернуть хотя бы журнал выдачи в состояние, достойное клубной чести."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BARELY SERIOUS",
+          "text": "We promise to restore at least the issue log to a condition worthy of club honor."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЛЕДЗЬ СУР'ЁЗНА",
+          "text": "Мы абяцаем вярнуць хаця б журнал выдачы ў стан, варты клубнага гонару."
+        }
+      }
+    },
+    {
+      "id": "VN0522",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "АОЙ",
+          "emotion": "ТОРЖЕСТВЕННО",
+          "text": "Этого будет достаточно для первого этапа возвращения достоинства."
+        },
+        "en": {
+          "speaker": "AOI",
+          "emotion": "SOLEMN",
+          "text": "That will suffice for the first stage of restoring dignity."
+        },
+        "be": {
+          "speaker": "АОІ",
+          "emotion": "УРАЧЫСТА",
+          "text": "Гэтага будзе дастаткова для першага этапу вяртання годнасці."
+        }
+      }
+    },
+    {
+      "id": "VN0523",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ПОКАЗЫВАЕТ ЭКРАН",
+          "text": "Смотрите на контейнер. Я увеличил пломбу и сохранил исходный кадр."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "SHOWING SCREEN",
+          "text": "Look at the container. I enlarged the seal and kept the original frame."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ПАКАЗВАЕ ЭКРАН",
+          "text": "Паглядзіце на кантэйнер. Я павялічыў пломбу і захаваў зыходны кадр."
+        }
+      }
+    },
+    {
+      "id": "VN0524",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: OLD PHOTO CONTAINER",
+          "text": "На фотографии за стойкой клуба стоит серый контейнер Asterion. На пломбе читается тот же префикс, что на ночной накладной Гэна."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: OLD PHOTO CONTAINER",
+          "text": "In the photo, a gray Asterion container sits behind the club desk. Its seal carries the same prefix as Gen’s night handoff slip."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: OLD PHOTO CONTAINER",
+          "text": "На фотаздымку за стойкай клуба стаіць шэры кантэйнер Asterion. На пломбе чытаецца той жа прэфікс, што і на начной накладной Гэна."
+        }
+      }
+    },
+    {
+      "id": "VN0525",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СОПОСТАВЛЯЕТ",
+          "text": "Префикс совпадает. Фотография сделана за две недели до первого официального сообщения о пропаже."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "MATCHING",
+          "text": "The prefix matches. The photo was taken two weeks before the first official missing-item report."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУПАСТАЎЛЯЕ",
+          "text": "Прэфікс супадае. Фотаздымак зроблены за два тыдні да першага афіцыйнага паведамлення пра знікненне рэчаў."
+        }
+      }
+    },
+    {
+      "id": "VN0526",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "РЕШИТЕЛЬНО",
+          "text": "Нужны оригиналы всей серии. Если контейнеры повторяются, восстановим их физический маршрут."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "DETERMINED",
+          "text": "We need the originals from the whole series. If the containers repeat, we reconstruct their physical route."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "РАШУЧА",
+          "text": "Патрэбныя арыгіналы ўсёй серыі. Калі кантэйнеры паўтараюцца, адновім іх фізічны маршрут."
+        }
+      }
+    },
+    {
+      "id": "VN0527",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпизод 11 — Самый заметный тайный груз»"
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "EPISODE CARD",
+          "text": "“Episode 11 — The Most Obvious Secret Cargo”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпізод 11 — Самы прыкметны таемны груз»"
+        }
+      }
+    }
+  ]
+}

@@ -21,6 +21,8 @@ const LostFoundScene = preload("res://data/lost_found_scene.json")
 const PostLostFoundScene = preload("res://data/post_lost_found_scene.json")
 const MaintenanceKeysScene = preload("res://data/maintenance_keys_scene.json")
 const PostMaintenanceKeysScene = preload("res://data/post_maintenance_keys_scene.json")
+const ControlSampleGearScene = preload("res://data/control_sample_gear_scene.json")
+const PostControlSampleGearScene = preload("res://data/post_control_sample_gear_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
 
 
@@ -386,6 +388,28 @@ func _run() -> void:
 	assert(restored_protect_gen.current_line().id == "VN0482" and restored_protect_gen.state.storyChoices["protect-gen-source"] == "B")
 	while session.current_line().id != "VN0488":
 		assert(session.advance())
+	assert(not session.at_port_boundary() and session.advance())
+	assert(session.state.scene == 21 and session.current_line().id == "VN0490")
+	assert(session.state.readLines.has("VN0489"), "Control-sample opening direction was not consumed")
+	assert(screen.title.text == ControlSampleGearScene.data.titles.en)
+	while session.current_line().id != "VN0508":
+		assert(session.advance())
+	assert(session.at_match3_gate() and session.scene_data().nextLevelId == "M3_10_CONTROL_SAMPLE_GEAR")
+	await process_frame
+	assert(menu.match3_screen != null and menu.match3_screen.level_id == "M3_10_CONTROL_SAMPLE_GEAR")
+	assert(reached_levels == ["M3_00_LOCKER_TUTORIAL", "M3_01_PHOTO_PROPS", "M3_02_POOL_LAUNDRY", "M3_03_ORDERED_APARTMENT", "M3_04_EMERGENCY_MEETING", "M3_05_BASKETBALL_LOCKERS", "M3_06_TEXTILE_WORKSHOP", "M3_07_ASTERION_THREAD", "M3_08_LOST_FOUND_LEDGER", "M3_09_MAINTENANCE_KEYS", "M3_10_CONTROL_SAMPLE_GEAR"])
+	assert(session.complete_match3("M3_10_CONTROL_SAMPLE_GEAR"))
+	assert(session.state.scene == 22 and session.current_line().id == "VN0510")
+	assert(session.state.completed.size() == 11 and session.state.clues[-1] == "CUE_011")
+	menu.match3_screen.game.state = "won"
+	menu.match3_screen._refresh()
+	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_continue.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible)
+	assert(screen.title.text == PostControlSampleGearScene.data.titles.en)
+	while session.current_line().id != "VN0527":
+		assert(session.advance())
 	assert(session.at_port_boundary() and not session.advance())
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
@@ -394,7 +418,7 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.scene == 20 and session.current_line().id == "VN0488")
+	assert(session.state.scene == 22 and session.current_line().id == "VN0527")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()
@@ -426,7 +450,7 @@ func _run() -> void:
 func _unsupported_save() -> void:
 	var memory := Memory.new()
 	var store := Store.new(memory)
-	assert(store.save_story({"scene": 21, "line": 3, "completed": [1]}))
+	assert(store.save_story({"scene": 23, "line": 3, "completed": [1]}))
 	var raw: String = memory.get_item(Format.CONTRACT.data.storyKey)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(store)
@@ -442,7 +466,7 @@ func _unsupported_save() -> void:
 
 func _future_save() -> void:
 	var memory := Memory.new()
-	var raw := '{"schemaVersion":99,"scene":21,"line":3}'
+	var raw := '{"schemaVersion":99,"scene":23,"line":3}'
 	assert(memory.set_item(Format.CONTRACT.data.storyKey, raw))
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(Store.new(memory))

@@ -79,6 +79,8 @@ describe('Godot story source parity', () => {
       [18, 'godot/data/post_lost_found_scene.json', 'VN0430', 'VN0448', '', -1],
       [19, 'godot/data/maintenance_keys_scene.json', 'VN0449', 'VN0469', 'M3_09_MAINTENANCE_KEYS', 20],
       [20, 'godot/data/post_maintenance_keys_scene.json', 'VN0470', 'VN0488', '', -1],
+      [21, 'godot/data/control_sample_gear_scene.json', 'VN0489', 'VN0508', 'M3_10_CONTROL_SAMPLE_GEAR', 22],
+      [22, 'godot/data/post_control_sample_gear_scene.json', 'VN0509', 'VN0527', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -131,6 +133,11 @@ describe('Godot story source parity', () => {
     expect(maintenanceLevel.evidence.localized.ru.title).toBeTruthy();
     expect(maintenanceLevel.evidence.localized.be.label).toBeTruthy();
     expect(maintenanceLevel.evidence.localized.en.continueStory).toBeTruthy();
+    const controlSampleLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_10_CONTROL_SAMPLE_GEAR');
+    expect(controlSampleLevel.evidence.id).toBe('CUE_011');
+    expect(controlSampleLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(controlSampleLevel.evidence.localized.be.label).toBeTruthy();
+    expect(controlSampleLevel.evidence.localized.en.continueStory).toBeTruthy();
     for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source']] as const) {
       const gate = godotStoryScene(sceneIndex).choiceGate;
       expect(gate.id).toBe(gateId);
