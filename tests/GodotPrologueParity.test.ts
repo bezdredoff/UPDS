@@ -73,6 +73,8 @@ describe('Godot story source parity', () => {
       [12, 'godot/data/post_basketball_lockers_scene.json', 'VN0309', 'VN0326', '', -1],
       [13, 'godot/data/textile_workshop_scene.json', 'VN0327', 'VN0347', 'M3_06_TEXTILE_WORKSHOP', 14],
       [14, 'godot/data/post_textile_workshop_scene.json', 'VN0348', 'VN0369', '', -1],
+      [15, 'godot/data/asterion_lab_scene.json', 'VN0370', 'VN0390', 'M3_07_ASTERION_THREAD', 16],
+      [16, 'godot/data/post_asterion_lab_scene.json', 'VN0391', 'VN0409', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -110,6 +112,11 @@ describe('Godot story source parity', () => {
     expect(workshopLevel.evidence.localized.ru.title).toBeTruthy();
     expect(workshopLevel.evidence.localized.be.label).toBeTruthy();
     expect(workshopLevel.evidence.localized.en.continueStory).toBeTruthy();
+    const asterionLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_07_ASTERION_THREAD');
+    expect(asterionLevel.evidence.id).toBe('CUE_008');
+    expect(asterionLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(asterionLevel.evidence.localized.be.label).toBeTruthy();
+    expect(asterionLevel.evidence.localized.en.continueStory).toBeTruthy();
     for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata']] as const) {
       const gate = godotStoryScene(sceneIndex).choiceGate;
       expect(gate.id).toBe(gateId);

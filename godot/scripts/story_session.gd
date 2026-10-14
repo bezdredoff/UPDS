@@ -20,8 +20,10 @@ const BasketballLockersScene = preload("res://data/basketball_lockers_scene.json
 const PostBasketballLockersScene = preload("res://data/post_basketball_lockers_scene.json")
 const TextileWorkshopScene = preload("res://data/textile_workshop_scene.json")
 const PostTextileWorkshopScene = preload("res://data/post_textile_workshop_scene.json")
+const AsterionLabScene = preload("res://data/asterion_lab_scene.json")
+const PostAsterionLabScene = preload("res://data/post_asterion_lab_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 14
+const MAX_PORTED_SCENE_INDEX := 16
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -131,6 +133,8 @@ func scene_data() -> Dictionary:
 		12: return PostBasketballLockersScene.data
 		13: return TextileWorkshopScene.data
 		14: return PostTextileWorkshopScene.data
+		15: return AsterionLabScene.data
+		16: return PostAsterionLabScene.data
 	return {}
 
 
@@ -227,4 +231,8 @@ func _scene_lines() -> Array:
 		return TextileWorkshopScene.data.lines
 	if state.scene == 14:
 		return PostTextileWorkshopScene.data.lines
+	if state.scene == 15:
+		return AsterionLabScene.data.lines
+	if state.scene == 16:
+		return PostAsterionLabScene.data.lines
 	return []

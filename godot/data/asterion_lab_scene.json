@@ -1,0 +1,707 @@
+{
+  "sceneId": "VN_SCENE_15_E7_PRE",
+  "sceneIndex": 15,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_07_ASTERION_THREAD",
+  "onWinSceneIndex": 16,
+  "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+  "titles": {
+    "ru": "Человек, у которого есть объяснение",
+    "en": "The Man With an Explanation",
+    "be": "Чалавек, у якога ёсць тлумачэнне"
+  },
+  "lines": [
+    {
+      "id": "VN0370",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ESTABLISHING / ASTERION LAB",
+          "text": "Лаборатория спортивных данных Asterion. Демонстрационные манекены, катушки серебристой нити и стенд Second Skin за стеклом."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "ESTABLISHING / ASTERION LAB",
+          "text": "Asterion sports-data laboratory. Demo mannequins, spools of silver thread, and a Second Skin display behind glass."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ESTABLISHING / ASTERION LAB",
+          "text": "Лабараторыя спартыўных даных Asterion. Дэманстрацыйныя манекены, шпулькі серабрыстай ніткі і стэнд Second Skin за шклом."
+        }
+      }
+    },
+    {
+      "id": "VN0371",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "СПОКОЙНО-ДЕЛОВОЙ",
+          "text": "Рэйдзи Куросэ. Спасибо, что приняли приглашение. Покажите нить — начнём с того, что можно измерить."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "CALM AND PROFESSIONAL",
+          "text": "Reiji Kurose. Thank you for accepting the invitation. Show me the thread; we will start with what can be measured."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "СПАКОЙНА-ДЗЕЛАВЫ",
+          "text": "Рэйдзі Куросэ. Дзякуй, што прынялі запрашэнне. Пакажыце нітку — пачнём з таго, што можна вымераць."
+        }
+      }
+    },
+    {
+      "id": "VN0372",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАИНТЕРЕСОВАННАЯ",
+          "text": "Наконец-то человек, который предлагает спектральный анализ до психологического профилирования."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "INTERESTED",
+          "text": "Finally, someone who proposes spectral analysis before psychological profiling."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАЦІКАЎЛЕНАЯ",
+          "text": "Нарэшце чалавек, які прапануе спектральны аналіз да псіхалагічнага прафілявання."
+        }
+      }
+    },
+    {
+      "id": "VN0373",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ОГЛЯДЫВАЕТСЯ",
+          "text": "Я просто проверю, нет ли здесь скрытой камеры, которая фиксирует наш восторг от спектрального анализа."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "LOOKING AROUND",
+          "text": "I am only checking whether there is a hidden camera recording our excitement about spectral analysis."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "АЗІРАЕЦЦА",
+          "text": "Я проста праверу, ці няма тут схаванай камеры, якая фіксуе наша захапленне спектральным аналізам."
+        }
+      }
+    },
+    {
+      "id": "VN0374",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "СУХО",
+          "text": "Камеры отмечены на плане эвакуации. Скрывать их в лаборатории с аудитом было бы административно утомительно."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "DRY",
+          "text": "The cameras are marked on the evacuation plan. Hiding them in an audited laboratory would be administratively exhausting."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "СУХА",
+          "text": "Камеры пазначаныя на плане эвакуацыі. Хаваць іх у лабараторыі з аўдытам было б адміністрацыйна стомна."
+        }
+      }
+    },
+    {
+      "id": "VN0375",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "ВНИМАТЕЛЬНАЯ",
+          "text": "Он отвечал быстро, точно и так, будто заранее знал, какие вопросы будут звучать подозрительно."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "ATTENTIVE",
+          "text": "He answered quickly and precisely, as if he already knew which questions would sound suspicious."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "УВАЖЛІВАЯ",
+          "text": "Ён адказваў хутка, дакладна і так, нібы загадзя ведаў, якія пытанні будуць гучаць падазрона."
+        }
+      }
+    },
+    {
+      "id": "VN0376",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "РАССМАТРИВАЕТ ОБРАЗЕЦ",
+          "text": "Да. Это наша нить. Серебристое покрытие и структура сердечника характерны для Asterion."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "EXAMINING SAMPLE",
+          "text": "Yes. This is our thread. The silver coating and core structure are characteristic of Asterion."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "РАЗГЛЯДАЕ ЎЗОР",
+          "text": "Так. Гэта наша нітка. Серабрыстае пакрыццё і структура стрыжня характэрныя для Asterion."
+        }
+      }
+    },
+    {
+      "id": "VN0377",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПРЯМО",
+          "text": "Для чего она официально используется в колледже?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "DIRECT",
+          "text": "What is it officially used for at the college?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "НАПРАМУЮ",
+          "text": "Для чаго яна афіцыйна выкарыстоўваецца ў каледжы?"
+        }
+      }
+    },
+    {
+      "id": "VN0378",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ОБЪЯСНЯЕТ",
+          "text": "Антистатические и сенсорные прототипы внешней спортивной формы. Майки, защитные слои, иногда тренировочные ремни."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "EXPLAINING",
+          "text": "Antistatic and sensor prototypes for outer athletic wear. Shirts, protective layers, sometimes training straps."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ТЛУМАЧЫЦЬ",
+          "text": "Антыстатычныя і сэнсарныя прататыпы верхняй спартыўнай формы. Майкі, ахоўныя слаі, часам трэніровачныя рамяні."
+        }
+      }
+    },
+    {
+      "id": "VN0379",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ТЕХНИЧЕСКИ",
+          "text": "Проводимость стабильна после обычной стирки?"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "TECHNICAL",
+          "text": "Does the conductivity remain stable after ordinary washing?"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ТЭХНІЧНА",
+          "text": "Праводнасць стабільная пасля звычайнага мыцця?"
+        }
+      }
+    },
+    {
+      "id": "VN0380",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "С УВАЖЕНИЕМ",
+          "text": "Если шов сделан правильно — да. Падение сопротивления после пяти циклов обычно меньше восьми процентов."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "RESPECTFUL",
+          "text": "If the seam is made correctly, yes. Resistance drift after five cycles is usually under eight percent."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "З ПАВАГАЙ",
+          "text": "Калі шво зроблены правільна — так. Падзенне супраціву пасля пяці цыклаў звычайна меншае за восем працэнтаў."
+        }
+      }
+    },
+    {
+      "id": "VN0381",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СЛИШКОМ КОНКРЕТНО",
+          "text": "А если датчику нужен, скажем, очень стабильный контакт с телом — чем ближе ткань, тем точнее?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "TOO SPECIFIC",
+          "text": "And if the sensor needs, say, very stable body contact, is the reading more accurate the closer the fabric sits?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗАНАДТА КАНКРЭТНА",
+          "text": "А калі датчыку патрэбны, скажам, вельмі стабільны кантакт з целам — чым бліжэй тканіна, тым дакладней?"
+        }
+      }
+    },
+    {
+      "id": "VN0382",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "КЛИНИЧЕСКИ",
+          "text": "В общем случае да. Артефактов движения меньше на плотно прилегающем слое. Это вопрос сигнала, не категории одежды."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "CLINICAL",
+          "text": "In general, yes. Motion artifacts are lower on a close-fitting layer. That is a signal problem, not a clothing-category problem."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "КЛІНІЧНА",
+          "text": "У агульным выпадку так. Артэфактаў руху менш на шчыльна прылеглым слоі. Гэта пытанне сігналу, а не катэгорыі адзення."
+        }
+      }
+    },
+    {
+      "id": "VN0383",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЕЩЁ ТЕХНИЧНЕЕ",
+          "text": "Значит, базовый слой статистически предпочтительнее свободной формы при одинаковой площади сенсора."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "EVEN MORE TECHNICAL",
+          "text": "Then a base layer is statistically preferable to loose apparel at equal sensor area."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЯШЧЭ БОЛЬШ ТЭХНІЧНА",
+          "text": "Значыць, базавы слой статыстычна пераважнейшы за свабодную форму пры аднолькавай плошчы датчыка."
+        }
+      }
+    },
+    {
+      "id": "VN0384",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-embarrassed.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "СМУЩЁННО-ИРОНИЧНАЯ",
+          "text": "Я наблюдала дуэль двух людей, неспособных первыми признать, что разговор стал неловким."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "EMBARRASSED, IRONIC",
+          "text": "I was watching a duel between two people incapable of admitting first that the conversation had become awkward."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "ЗБЯНТЭЖАНА-ІРАНІЧНАЯ",
+          "text": "Я назірала дуэль двух людзей, няздольных першымі прызнаць, што размова стала няёмкай."
+        }
+      }
+    },
+    {
+      "id": "VN0385",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ВОЗВРАЩАЕТСЯ К ДЕЛУ",
+          "text": "Но случайная сервисная строчка возможна. Если мастер использовал катушку из экспериментальной партии при мелком ремонте."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "BACK TO BUSINESS",
+          "text": "But an accidental service seam is possible. A technician could have used a spool from an experimental batch for a minor repair."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ВЯРТАЕЦЦА ДА СПРАВЫ",
+          "text": "Але выпадковая сэрвісная строчка магчымая. Калі майстар выкарыстаў шпульку з эксперыментальнай партыі пры дробным рамонце."
+        }
+      }
+    },
+    {
+      "id": "VN0386",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВНИМАТЕЛЬНАЯ",
+          "text": "На личных вещах студентов — без отметки владельцу?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "ATTENTIVE",
+          "text": "On students’ personal items, without notifying the owner?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УВАЖЛІВАЯ",
+          "text": "На асабістых рэчах студэнтаў — без паведамлення ўладальніку?"
+        }
+      }
+    },
+    {
+      "id": "VN0387",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ОСТОРОЖНО",
+          "text": "Это уже вопрос назначения материала и документации. Сначала установим, совпадает ли образец технически."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "CAREFUL",
+          "text": "That becomes a question of material assignment and documentation. First let us establish whether the sample matches technically."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "АСЦЯРОЖНА",
+          "text": "Гэта ўжо пытанне прызначэння матэрыялу і дакументацыі. Спачатку ўсталюем, ці супадае ўзор тэхнічна."
+        }
+      }
+    },
+    {
+      "id": "VN0388",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: SAMPLE BENCH",
+          "text": "Куросэ выкладывает эталонную нить, спорный шов, лабораторные карточки и открывает реестр назначений материалов."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: SAMPLE BENCH",
+          "text": "Kurose lays out reference thread, the disputed seam, laboratory cards, and opens the material-assignment registry."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: SAMPLE BENCH",
+          "text": "Куросэ выкладвае эталонную нітку, спрэчны шво, лабараторныя карткі і адкрывае рэестр прызначэнняў матэрыялаў."
+        }
+      }
+    },
+    {
+      "id": "VN0389",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 31,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 3
+        },
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 69,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 3
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СОСРЕДОТОЧЕННАЯ",
+          "text": "Сравним состав, шаг шва, серийный код и официальное назначение. По отдельности и вместе."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "FOCUSED",
+          "text": "We compare composition, stitch pitch, serial code, and official assignment. Separately and together."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАСЯРОДЖАНАЯ",
+          "text": "Параўнаем склад, крок шва, серыйны код і афіцыйнае прызначэнне. Асобна і разам."
+        }
+      }
+    },
+    {
+      "id": "VN0390",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Защитные крышки закрывают часть образцов; спецификация Asterion опускается к нижней границе поля."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Protective covers obscure part of the samples; the Asterion specification drops toward the bottom of the board."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Ахоўныя вечкі закрываюць частку ўзораў; спецыфікацыя Asterion апускаецца да ніжняй мяжы поля."
+        }
+      }
+    }
+  ]
+}
