@@ -4,6 +4,7 @@ signal story_requested
 signal dossier_requested
 signal settings_requested
 signal clue_awarded(clue_id: String)
+signal campaign_next_requested(level_id: String)
 
 const Level = preload("res://data/locker_match3.json")
 const Game = preload("res://scripts/match3_game.gd")
@@ -84,6 +85,17 @@ var evidence_transition_title: Label
 var evidence_transition_copy: RichTextLabel
 var evidence_transition_continue: Button
 var story_evidence_visible := false
+var campaign_result_overlay: Control
+var campaign_result_back: Button
+var campaign_result_eyebrow: Label
+var campaign_result_level: Label
+var campaign_result_mark: Label
+var campaign_result_kicker: Label
+var campaign_result_heading: Label
+var campaign_result_detail: Label
+var campaign_result_next: Button
+var campaign_result_retry: Button
+var campaign_result_hub: Button
 var input_locked := false
 var bottom_spacer: Control
 
@@ -442,6 +454,7 @@ func _ready() -> void:
 	feedback_style.shadow_offset = Vector2(0, 7)
 	match_feedback_panel.add_theme_stylebox_override("panel", feedback_style)
 	_build_evidence_transition()
+	_build_campaign_result()
 	preferences.locale_changed.connect(func(_locale: String) -> void: _refresh())
 	_refresh()
 
@@ -499,7 +512,7 @@ func _refresh() -> void:
 		story_evidence_visible = true
 	if story_evidence_visible:
 		_show_story_evidence_transition()
-	evidence_panel.visible = won and campaign_mode
+	evidence_panel.visible = false
 	evidence_transition_overlay.visible = won and not campaign_mode and story_evidence_visible
 	if campaign_mode:
 		evidence_kicker.visible = false
@@ -507,6 +520,7 @@ func _refresh() -> void:
 		evidence_title.text = str(copy.win)
 		evidence_label.text = str(copy.resultDetail).replace("{movesLeft}", str(game.moves_left))
 		evidence_continue.text = str(copy.backToCampaign)
+		_refresh_campaign_result(locale)
 	else:
 		var evidence: Dictionary = level_data.evidence
 		var clue_copy: Dictionary = evidence.localized[locale]
@@ -518,6 +532,8 @@ func _refresh() -> void:
 		evidence_label.text = clue_copy.label
 		evidence_continue.text = clue_copy.continueStory
 	_render_board()
+	if campaign_mode:
+		campaign_result_overlay.visible = game.state != "playing"
 
 
 func _render_board() -> void:
@@ -840,6 +856,147 @@ func _build_evidence_transition() -> void:
 	evidence_transition_continue.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_child(evidence_transition_continue)
 	evidence_transition_continue.pressed.connect(_continue_story)
+
+
+func _build_campaign_result() -> void:
+	campaign_result_overlay = Control.new()
+	campaign_result_overlay.name = "CampaignResult"
+	campaign_result_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	campaign_result_overlay.z_index = 30
+	campaign_result_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	campaign_result_overlay.visible = false
+	add_child(campaign_result_overlay)
+	var background_fill := ColorRect.new()
+	background_fill.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background_fill.color = Color("#fffaf2")
+	background_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	campaign_result_overlay.add_child(background_fill)
+	var background_wash := TextureRect.new()
+	background_wash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background_wash.texture = _campaign_result_wash()
+	background_wash.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	background_wash.stretch_mode = TextureRect.STRETCH_SCALE
+	background_wash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	campaign_result_overlay.add_child(background_wash)
+	var header_panel := PanelContainer.new()
+	header_panel.anchor_right = 1
+	header_panel.offset_bottom = 60
+	header_panel.custom_minimum_size.y = 60
+	var header_style := StyleBoxFlat.new()
+	header_style.bg_color = Color("#10243d")
+	header_style.border_color = Color("#d3b068")
+	header_style.border_width_bottom = 2
+	header_style.content_margin_left = 6
+	header_style.content_margin_right = 6
+	header_style.content_margin_top = 5
+	header_style.content_margin_bottom = 5
+	header_panel.add_theme_stylebox_override("panel", header_style)
+	campaign_result_overlay.add_child(header_panel)
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 7)
+	header_panel.add_child(header)
+	campaign_result_back = _button(header)
+	campaign_result_back.text = ""
+	_add_header_icon(campaign_result_back, "back")
+	_style_header_button(campaign_result_back)
+	campaign_result_back.pressed.connect(func() -> void: story_requested.emit())
+	var header_copy := VBoxContainer.new()
+	header_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header_copy.alignment = BoxContainer.ALIGNMENT_CENTER
+	header_copy.add_theme_constant_override("separation", 1)
+	header.add_child(header_copy)
+	campaign_result_eyebrow = _label(header_copy, 7, Color("#f0d69b"))
+	campaign_result_eyebrow.add_theme_font_size_override("font_size", 7)
+	campaign_result_eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	campaign_result_level = _label(header_copy, 11, Color.WHITE)
+	var header_serif := SystemFont.new()
+	header_serif.font_names = PackedStringArray(["Georgia", "serif"])
+	header_serif.font_weight = 800
+	campaign_result_level.add_theme_font_override("font", header_serif)
+	campaign_result_level.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	var header_spacer := Control.new()
+	header_spacer.custom_minimum_size.x = 44
+	header.add_child(header_spacer)
+	var content := VBoxContainer.new()
+	content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	content.offset_left = 28
+	content.offset_right = -28
+	content.offset_top = 68
+	content.offset_bottom = -24
+	content.alignment = BoxContainer.ALIGNMENT_CENTER
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.add_theme_constant_override("separation", 11)
+	campaign_result_overlay.add_child(content)
+	var mark_center := CenterContainer.new()
+	mark_center.custom_minimum_size.y = 82
+	content.add_child(mark_center)
+	var mark_panel := PanelContainer.new()
+	mark_panel.custom_minimum_size = Vector2(82, 82)
+	var mark_style := StyleBoxFlat.new()
+	mark_style.bg_color = Color("#d96279")
+	mark_style.set_corner_radius_all(41)
+	mark_panel.add_theme_stylebox_override("panel", mark_style)
+	mark_center.add_child(mark_panel)
+	campaign_result_mark = _label(mark_panel, 44, Color.WHITE)
+	campaign_result_mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	campaign_result_mark.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	campaign_result_kicker = _label(content, 10, Color("#a24762"))
+	campaign_result_kicker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	campaign_result_heading = _label(content, 29, Color("#29243d"))
+	campaign_result_heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	campaign_result_heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	campaign_result_heading.add_theme_font_size_override("font_size", 29)
+	var heading_serif := SystemFont.new()
+	heading_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
+	heading_serif.font_weight = 800
+	campaign_result_heading.add_theme_font_override("font", heading_serif)
+	campaign_result_detail = _label(content, 12, Color("#5f5866"))
+	campaign_result_detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	campaign_result_detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	campaign_result_next = _button(content)
+	campaign_result_next.pressed.connect(func() -> void: campaign_next_requested.emit(_next_campaign_level_id()))
+	campaign_result_retry = _button(content)
+	campaign_result_retry.pressed.connect(_retry)
+	campaign_result_hub = _button(content)
+	campaign_result_hub.pressed.connect(func() -> void: story_requested.emit())
+
+
+func _campaign_result_wash() -> Texture2D:
+	var gradient := Gradient.new()
+	gradient.set_color(0, Color("#fffaf2"))
+	gradient.add_point(1.0, Color("#eadce4"))
+	var texture := GradientTexture2D.new()
+	texture.gradient = gradient
+	texture.width = 1
+	texture.height = 512
+	return texture
+
+
+func _refresh_campaign_result(locale: String) -> void:
+	var copy: Dictionary = campaign_bundle.campaignLocalized.get(locale, campaign_bundle.campaignLocalized.en)
+	var won: bool = game.state == "won"
+	campaign_result_back.tooltip_text = str(copy.back)
+	campaign_result_eyebrow.text = str(copy.eyebrow)
+	campaign_result_level.text = str(level_data.shortId)
+	campaign_result_mark.text = "✓" if won else "↻"
+	campaign_result_kicker.text = MenuCopy.text("campaign_win_eyebrow" if won else "campaign_loss_eyebrow", locale)
+	campaign_result_heading.text = MenuCopy.text("campaign_win_heading" if won else "campaign_loss_heading", locale)
+	campaign_result_detail.text = MenuCopy.text("campaign_result_detail", locale).replace("{movesLeft}", str(game.moves_left))
+	campaign_result_next.text = MenuCopy.text("campaign_next_level", locale)
+	campaign_result_retry.text = MenuCopy.text("campaign_retry_level", locale)
+	campaign_result_hub.text = MenuCopy.text("campaign_back_to_hub", locale)
+	campaign_result_next.visible = won and not _next_campaign_level_id().is_empty()
+	Style.style_button(campaign_result_next, true)
+	Style.style_button(campaign_result_retry, not campaign_result_next.visible)
+	Style.style_button(campaign_result_hub, false)
+
+
+func _next_campaign_level_id() -> String:
+	var levels: Array = campaign_bundle.get("levels", [])
+	for index in levels.size():
+		if str(levels[index].get("id", "")) != level_id: continue
+		return str(levels[index + 1].get("id", "")) if index + 1 < levels.size() else ""
+	return ""
 
 
 func _evidence_blur_material() -> ShaderMaterial:

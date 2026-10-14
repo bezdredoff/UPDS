@@ -3,6 +3,7 @@ extends SceneTree
 const Memory = preload("res://tests/memory_storage.gd")
 const Match3Session = preload("res://scripts/match3_campaign_session.gd")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
+const MenuCopy = preload("res://scripts/menu_copy.gd")
 
 
 func _initialize() -> void:
@@ -122,7 +123,35 @@ func _run() -> void:
 	assert(reshuffled_stack.scale.is_equal_approx(Vector2.ONE), "Reshuffle animation did not return tiles to their resting scale")
 	match3._render_board()
 	assert(menu.session.state.completed.is_empty(), "Standalone Match-3 campaign changed VN completion")
-	match3.story_requested.emit()
+	match3.game.state = "won"
+	match3.session.complete_level(second_id, match3.game.moves_left)
+	match3._refresh()
+	await process_frame
+	assert(match3.campaign_result_overlay.visible, "Campaign win did not open its dedicated result screen")
+	assert(match3.campaign_result_next.visible and match3.campaign_result_heading.text == "Доска расследования решена", "Campaign win result omitted its next-level action or localized heading")
+	assert(match3.campaign_result_heading.size.x >= 330 and match3.campaign_result_next.size.x >= 330, "Campaign result content did not stretch to the source phone-frame width")
+	assert(match3.campaign_result_detail.text.contains(str(match3.game.moves_left)), "Campaign result omitted the remaining moves")
+	assert(match3.session.save.completed.has(second_id), "Campaign win did not persist its completion")
+	for locale in ["ru", "be", "en"]:
+		assert(menu.preferences.set_locale(locale) == OK)
+		assert(match3.campaign_result_heading.text == MenuCopy.text("campaign_win_heading", locale), "Campaign result heading did not update for %s" % locale)
+	assert(menu.preferences.set_locale("ru") == OK)
+	match3.campaign_result_next.pressed.emit()
+	await process_frame
+	match3 = menu.match3_screen
+	var third_id := str(bundle.levels[2].id)
+	assert(match3 != null and match3.level_id == third_id, "Next Level did not start the following campaign board")
+	match3.game.state = "lost"
+	match3._refresh()
+	assert(match3.campaign_result_overlay.visible and not match3.campaign_result_next.visible, "Campaign loss did not show the loss result state")
+	assert(match3.campaign_result_heading.text == "Попробуйте уровень ещё раз", "Campaign loss heading was not localized")
+	var retries_before := int(match3.session.save.attempts.get(third_id, 0))
+	match3.campaign_result_retry.pressed.emit()
+	assert(match3.game.state == "playing" and not match3.campaign_result_overlay.visible, "Retry did not return to a fresh campaign board")
+	assert(int(match3.session.save.attempts.get(third_id, 0)) == retries_before + 1, "Retry did not increment the campaign attempt")
+	match3.game.state = "lost"
+	match3._refresh()
+	match3.campaign_result_hub.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and campaign.visible, "Returning from a level did not restore the campaign hub")
 	campaign.back_button.pressed.emit()

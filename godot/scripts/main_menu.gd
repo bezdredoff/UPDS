@@ -181,6 +181,7 @@ func _open_match3_level(level_id: String, standalone_campaign: bool) -> void:
 	match3_screen.campaign_mode = standalone_campaign
 	match3_screen.story_requested.connect(_close_match3)
 	match3_screen.clue_awarded.connect(_set_pending_story_clue)
+	match3_screen.campaign_next_requested.connect(_start_next_campaign_level)
 	match3_screen.settings_requested.connect(_open_settings_from_match3)
 	match3_screen.dossier_requested.connect(_open_dossier_from_match3)
 	if is_instance_valid(story_screen):
@@ -236,6 +237,12 @@ func _start_campaign_level(level_id: String) -> void:
 	if not is_instance_valid(match3_campaign_screen): return
 	match3_campaign_screen.hide()
 	_open_match3_level(level_id, true)
+
+
+func _start_next_campaign_level(level_id: String) -> void:
+	if level_id.is_empty(): return
+	_close_match3()
+	_start_campaign_level(level_id)
 
 
 func _close_campaign() -> void:
