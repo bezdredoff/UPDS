@@ -42,8 +42,10 @@ const PinkRibbonScannerScene = preload("res://data/pink_ribbon_scanner_scene.jso
 const PostPinkRibbonScannerScene = preload("res://data/post_pink_ribbon_scanner_scene.json")
 const RinaArchiveCatalogScene = preload("res://data/rina_archive_catalog_scene.json")
 const PostRinaArchiveCatalogScene = preload("res://data/post_rina_archive_catalog_scene.json")
+const FullTimelineProofScene = preload("res://data/full_timeline_proof_scene.json")
+const PostFullTimelineProofScene = preload("res://data/post_full_timeline_proof_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 36
+const MAX_PORTED_SCENE_INDEX := 38
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -106,7 +108,7 @@ func at_choice_gate() -> bool:
 
 
 func at_port_boundary() -> bool:
-	var next_scene_index: int = int(scene_data().get("nextSceneIndex", -1))
+	var next_scene_index := _next_scene_index()
 	return supports_position() and state.line == _scene_lines().size() - 1 and not at_match3_gate() \
 		and (next_scene_index < 0 or next_scene_index > MAX_PORTED_SCENE_INDEX)
 
@@ -137,7 +139,7 @@ func complete_match3(level_id: String) -> bool:
 
 
 func scene_data() -> Dictionary:
-	match state.scene:
+	match int(state.scene):
 		0: return Prologue.data
 		1: return LockerScene.data
 		2: return PostMatchScene.data
@@ -175,6 +177,8 @@ func scene_data() -> Dictionary:
 		34: return PostPinkRibbonScannerScene.data
 		35: return RinaArchiveCatalogScene.data
 		36: return PostRinaArchiveCatalogScene.data
+		37: return FullTimelineProofScene.data
+		38: return PostFullTimelineProofScene.data
 	return {}
 
 
@@ -210,8 +214,8 @@ func advance() -> bool:
 	if moved:
 		state.line += 1
 		_skip_hidden()
-	elif int(scene_data().get("nextSceneIndex", -1)) >= 0 and int(scene_data().get("nextSceneIndex", -1)) <= MAX_PORTED_SCENE_INDEX:
-		state.scene = int(scene_data().nextSceneIndex)
+	elif _next_scene_index() >= 0 and _next_scene_index() <= MAX_PORTED_SCENE_INDEX:
+		state.scene = _next_scene_index()
 		state.line = 0
 		_skip_hidden()
 		moved = true
@@ -230,6 +234,16 @@ func _mark_read() -> void:
 	var id: String = current_line().id
 	if not state.readLines.has(id):
 		state.readLines.append(id)
+
+
+func _next_scene_index() -> int:
+	var data := scene_data()
+	var routes: Dictionary = data.get("nextSceneIndices", {})
+	if not routes.is_empty():
+		var choice_id := str(data.get("branchChoiceId", ""))
+		var option := str(state.storyChoices.get(choice_id, ""))
+		return int(routes.get(option, -1))
+	return int(data.get("nextSceneIndex", -1))
 
 
 func _skip_hidden() -> void:
@@ -315,4 +329,8 @@ func _scene_lines() -> Array:
 		return RinaArchiveCatalogScene.data.lines
 	if state.scene == 36:
 		return PostRinaArchiveCatalogScene.data.lines
+	if state.scene == 37:
+		return FullTimelineProofScene.data.lines
+	if state.scene == 38:
+		return PostFullTimelineProofScene.data.lines
 	return []

@@ -95,6 +95,8 @@ describe('Godot story source parity', () => {
       [34, 'godot/data/post_pink_ribbon_scanner_scene.json', 'VN0747', 'VN0765', '', -1],
       [35, 'godot/data/rina_archive_catalog_scene.json', 'VN0766', 'VN0785', 'M3_17_RINA_ARCHIVE_CATALOG', 36],
       [36, 'godot/data/post_rina_archive_catalog_scene.json', 'VN0786', 'VN0805', '', -1],
+      [37, 'godot/data/full_timeline_proof_scene.json', 'VN0806', 'VN0826', 'M3_18_FULL_TIMELINE_PROOF', 38],
+      [38, 'godot/data/post_full_timeline_proof_scene.json', 'VN0827', 'VN0845', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -187,7 +189,15 @@ describe('Godot story source parity', () => {
     expect(rinaArchiveLevel.evidence.localized.ru.title).toBeTruthy();
     expect(rinaArchiveLevel.evidence.localized.be.label).toBeTruthy();
     expect(rinaArchiveLevel.evidence.localized.en.continueStory).toBeTruthy();
-    for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source'], [24, 'photo-permission'], [26, 'publish-tag'], [30, 'family-ledger-permission'], [34, 'trust-vincent']] as const) {
+    const timelineLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_18_FULL_TIMELINE_PROOF');
+    expect(timelineLevel.evidence.id).toBe('CUE_019');
+    expect(timelineLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(timelineLevel.evidence.localized.be.label).toBeTruthy();
+    expect(timelineLevel.evidence.localized.en.continueStory).toBeTruthy();
+    const strategyScene = godotStoryScene(38);
+    expect(strategyScene.branchChoiceId).toBe('final-strategy');
+    expect(strategyScene.nextSceneIndices).toEqual({ A: 39, B: 41, C: 43 });
+    for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source'], [24, 'photo-permission'], [26, 'publish-tag'], [30, 'family-ledger-permission'], [34, 'trust-vincent'], [38, 'final-strategy']] as const) {
       const gate = godotStoryScene(sceneIndex).choiceGate;
       expect(gate.id).toBe(gateId);
       expect(gate.choices.A.ru.title).toBeTruthy();

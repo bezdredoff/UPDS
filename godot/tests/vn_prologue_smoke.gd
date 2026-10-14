@@ -37,6 +37,8 @@ const PinkRibbonScannerScene = preload("res://data/pink_ribbon_scanner_scene.jso
 const PostPinkRibbonScannerScene = preload("res://data/post_pink_ribbon_scanner_scene.json")
 const RinaArchiveCatalogScene = preload("res://data/rina_archive_catalog_scene.json")
 const PostRinaArchiveCatalogScene = preload("res://data/post_rina_archive_catalog_scene.json")
+const FullTimelineProofScene = preload("res://data/full_timeline_proof_scene.json")
+const PostFullTimelineProofScene = preload("res://data/post_full_timeline_proof_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
 
 
@@ -638,7 +640,46 @@ func _run() -> void:
 	assert(screen.title.text == PostRinaArchiveCatalogScene.data.titles.en)
 	while session.current_line().id != "VN0805":
 		assert(session.advance())
-	assert(session.at_port_boundary() and not session.advance(), "Port advanced past VN0805")
+	assert(session.state.scene == 36 and session.current_line().id == "VN0805")
+	assert(session.advance())
+	assert(session.state.scene == 37 and session.current_line().id == "VN0807")
+	assert(session.state.readLines.has("VN0806"), "Episode 18 opening direction was not consumed")
+	assert(screen.title.text == FullTimelineProofScene.data.titles.en)
+	while session.current_line().id != "VN0826":
+		assert(session.advance())
+	assert(session.at_match3_gate() and session.scene_data().nextLevelId == "M3_18_FULL_TIMELINE_PROOF")
+	await process_frame
+	assert(menu.match3_screen != null and menu.match3_screen.level_id == "M3_18_FULL_TIMELINE_PROOF")
+	assert(reached_levels.size() == 19 and reached_levels[-1] == "M3_18_FULL_TIMELINE_PROOF")
+	assert(session.complete_match3("M3_18_FULL_TIMELINE_PROOF"))
+	assert(session.state.scene == 38 and session.current_line().id == "VN0828")
+	assert(session.state.completed.size() == 19 and session.state.clues[-1] == "CUE_019")
+	menu.match3_screen.game.state = "won"
+	menu.match3_screen._refresh()
+	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_continue.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible)
+	assert(screen.title.text == PostFullTimelineProofScene.data.titles.en)
+	while session.current_line().id != "VN0841":
+		assert(session.advance())
+	assert(session.at_choice_gate() and not session.advance(), "Final-strategy checkpoint was skipped")
+	await process_frame
+	for locale in ["ru", "be", "en"]:
+		assert(menu.preferences.set_locale(locale) == OK)
+		assert(screen.choice_prompt.text == PostFullTimelineProofScene.data.choiceGate.prompt[locale])
+		assert(screen.choice_buttons[1].text.begins_with(PostFullTimelineProofScene.data.choiceGate.choices.B[locale].title))
+	screen.choice_buttons[1].pressed.emit()
+	assert(session.state.storyChoices["final-strategy"] == "B" and session.current_line().id == "VN0842")
+	var restored_final_strategy := Session.new(session.store)
+	restored_final_strategy.reload()
+	assert(restored_final_strategy.current_line().id == "VN0842" and restored_final_strategy.state.storyChoices["final-strategy"] == "B")
+	while session.current_line().id != "VN0845":
+		assert(session.advance())
+	assert(session.at_port_boundary() and not session.advance(), "Port advanced into an unported ending")
+	assert(session.scene_data().branchChoiceId == "final-strategy")
+	var final_routes: Dictionary = session.scene_data().nextSceneIndices
+	assert(final_routes.get("A", -1) == 39 and final_routes.get("B", -1) == 41 and final_routes.get("C", -1) == 43)
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
@@ -646,7 +687,7 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.scene == 36 and session.current_line().id == "VN0805")
+	assert(session.state.scene == 38 and session.current_line().id == "VN0845")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()
@@ -665,6 +706,7 @@ func _run() -> void:
 	_unsupported_save()
 	_future_save()
 	_choice_routes()
+	_final_strategy_routes()
 	var hidden_session := Memory.story_session()
 	assert(hidden_session.store.save_story({"scene": 0, "line": 20}))
 	hidden_session.reload()
@@ -678,7 +720,7 @@ func _run() -> void:
 func _unsupported_save() -> void:
 	var memory := Memory.new()
 	var store := Store.new(memory)
-	assert(store.save_story({"scene": 37, "line": 3, "completed": [1]}))
+	assert(store.save_story({"scene": 39, "line": 3, "completed": [1]}))
 	var raw: String = memory.get_item(Format.CONTRACT.data.storyKey)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(store)
@@ -694,7 +736,7 @@ func _unsupported_save() -> void:
 
 func _future_save() -> void:
 	var memory := Memory.new()
-	var raw := '{"schemaVersion":99,"scene":37,"line":3}'
+	var raw := '{"schemaVersion":99,"scene":39,"line":3}'
 	assert(memory.set_item(Format.CONTRACT.data.storyKey, raw))
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(Store.new(memory))
@@ -784,3 +826,21 @@ func _choice_routes() -> void:
 		assert(choice_session.state.readLines.has("VN0756") and not choice_session.state.readLines.has("VN0757"))
 		choice_session.reload()
 		assert(choice_session.current_line().id == "VN0757" and choice_session.state.storyChoices["trust-vincent"] == option)
+
+
+func _final_strategy_routes() -> void:
+	var expected_routes := {"A": 39, "B": 41, "C": 43}
+	for option in ["A", "B", "C"]:
+		var session := Memory.story_session()
+		session.state.scene = 38
+		session.state.line = PostFullTimelineProofScene.data.lines.find_custom(func(line: Dictionary) -> bool: return line.id == "VN0841")
+		assert(session.at_choice_gate() and not session.advance(), "Final-strategy checkpoint was not guarded")
+		assert(session.choose(option), "Final-strategy option %s was rejected" % option)
+		assert(session.state.storyChoices["final-strategy"] == option and session.current_line().id == "VN0842")
+		session.reload()
+		assert(session.current_line().id == "VN0842" and session.state.storyChoices["final-strategy"] == option)
+		while session.current_line().id != "VN0845":
+			assert(session.advance())
+		var routes: Dictionary = session.scene_data().get("nextSceneIndices", {})
+		assert(routes.get(option, -1) == expected_routes[option], "Final-strategy option %s lost its route: scene=%s routes=%s" % [option, session.state.scene, routes])
+		assert(session.at_port_boundary() and not session.advance())
