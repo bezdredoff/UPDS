@@ -14,6 +14,7 @@ const SWAP_MOTION_SECONDS := 0.15
 const CLEAR_MOTION_SECONDS := 0.28
 const SETTLE_MOTION_SECONDS := 0.32
 const RESHUFFLE_MOTION_SECONDS := 0.46
+const FEEDBACK_HOLD_SECONDS := 0.42
 const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
 
 var preferences: RefCounted
@@ -54,6 +55,12 @@ var dossier_button: Button
 var help_button: Button
 var settings_button: Button
 var help_dialog: AcceptDialog
+var match_feedback_panel: PanelContainer
+var match_feedback_label: Label
+var match_feedback_tween: Tween
+var match_feedback_key := ""
+var match_feedback_kind := "match"
+var match_feedback_cascade := 1
 var warning: Label
 var board: GridContainer
 var board_center: CenterContainer
@@ -383,6 +390,49 @@ func _ready() -> void:
 	bottom_spacer.custom_minimum_size.y = 42
 	content.add_child(bottom_spacer)
 	add_child(tutorial_overlay)
+	var feedback_center := CenterContainer.new()
+	feedback_center.anchor_left = 0
+	feedback_center.anchor_right = 1
+	feedback_center.anchor_top = 0.48
+	feedback_center.anchor_bottom = 0.48
+	feedback_center.offset_top = -23
+	feedback_center.offset_bottom = 23
+	feedback_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	feedback_center.z_index = 10
+	add_child(feedback_center)
+	match_feedback_panel = PanelContainer.new()
+	match_feedback_panel.custom_minimum_size.x = 150
+	match_feedback_panel.custom_maximum_size.x = 336
+	match_feedback_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	match_feedback_panel.pivot_offset = Vector2(168, 23)
+	match_feedback_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	match_feedback_panel.visible = false
+	feedback_center.add_child(match_feedback_panel)
+	match_feedback_label = _label(match_feedback_panel, 13, Color("#fff9df"))
+	match_feedback_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	match_feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	match_feedback_label.add_theme_font_size_override("font_size", 13)
+	match_feedback_label.add_theme_color_override("font_color", Color("#fff9df"))
+	var feedback_serif := SystemFont.new()
+	feedback_serif.font_names = PackedStringArray(["Georgia", "serif"])
+	feedback_serif.font_weight = 900
+	match_feedback_label.add_theme_font_override("font", feedback_serif)
+	match_feedback_label.add_theme_constant_override("shadow_offset_x", 1)
+	match_feedback_label.add_theme_constant_override("shadow_offset_y", 2)
+	match_feedback_label.add_theme_color_override("font_shadow_color", Color("#161a2d72"))
+	var feedback_style := StyleBoxFlat.new()
+	feedback_style.bg_color = Color("#326349eb")
+	feedback_style.border_color = Color("#fff4cf")
+	feedback_style.set_border_width_all(2)
+	feedback_style.set_corner_radius_all(999)
+	feedback_style.content_margin_left = 14
+	feedback_style.content_margin_right = 14
+	feedback_style.content_margin_top = 7
+	feedback_style.content_margin_bottom = 7
+	feedback_style.shadow_color = Color("#161a2d72")
+	feedback_style.shadow_size = 12
+	feedback_style.shadow_offset = Vector2(0, 7)
+	match_feedback_panel.add_theme_stylebox_override("panel", feedback_style)
 	preferences.locale_changed.connect(func(_locale: String) -> void: _refresh())
 	_refresh()
 
@@ -422,6 +472,8 @@ func _refresh() -> void:
 	hint_button.disabled = game.state != "playing" or tutorial_panel.visible
 	warning.text = "" if session.last_write_ok and (story_session == null or story_session.last_write_ok) else MenuCopy.text("story_save_error", locale)
 	warning.visible = not warning.text.is_empty()
+	if not match_feedback_key.is_empty():
+		match_feedback_label.text = _feedback_text(match_feedback_key, match_feedback_cascade)
 	result_label.text = copy.win if game.state == "won" else copy.lose if game.state == "lost" else ""
 	result_label.visible = game.state == "lost"
 	result_box.visible = game.state == "lost"
@@ -599,6 +651,7 @@ func _render_frame(frame: Dictionary) -> void:
 	game.blocker_layers = old_blockers
 	game.ingredients = old_ingredients
 	if str(frame.phase) == "clear":
+		_show_match_feedback(str(frame.get("feedback", "match")), int(frame.get("cascade", 1)))
 		_animate_special_impact(frame)
 		for index_value in frame.cleared:
 			var cell := board.get_child(int(index_value)) as Control
@@ -624,6 +677,7 @@ func _render_frame(frame: Dictionary) -> void:
 			tween.parallel().tween_property(tile_stack, "scale", Vector2(1.015, 1.015), SETTLE_MOTION_SECONDS * 0.72)
 			tween.tween_property(tile_stack, "scale", Vector2.ONE, SETTLE_MOTION_SECONDS * 0.28)
 	elif str(frame.phase) == "reshuffle":
+		_show_match_feedback("reshuffled")
 		for cell_value in board.get_children():
 			var cell := cell_value as Control
 			var tile_stack := cell.get_node_or_null("TileStack") as Control
@@ -666,6 +720,48 @@ func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
 	second_stack.position = Vector2.ZERO
 	first_stack.z_index = 0
 	second_stack.z_index = 0
+
+
+func _feedback_text(key: String, count: int = 1) -> String:
+	var copy_key := "match3_feedback_" + key
+	return MenuCopy.text(copy_key, preferences.locale).replace("{count}", str(count))
+
+
+func _show_match_feedback(kind: String, cascade: int = 1, localized_key: String = "") -> void:
+	if not is_instance_valid(match_feedback_panel) or not is_instance_valid(match_feedback_label): return
+	if match_feedback_tween != null and match_feedback_tween.is_valid(): match_feedback_tween.kill()
+	match_feedback_key = localized_key if not localized_key.is_empty() else kind
+	match_feedback_kind = kind
+	match_feedback_cascade = cascade
+	match_feedback_label.text = _feedback_text(match_feedback_key, cascade)
+	var colors := {
+		"match": Color("#326349eb"), "special": Color("#c07f35ef"), "combo": Color("#c07f35ef"),
+		"chain": Color("#c07f35ef"), "reshuffled": Color("#4c5577ef"), "reject": Color("#9a4955eb"),
+		"win": Color("#28715aec"), "loss": Color("#803f4dec"),
+	}
+	var feedback_style := match_feedback_panel.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
+	feedback_style.bg_color = colors.get(kind, colors.match)
+	match_feedback_panel.add_theme_stylebox_override("panel", feedback_style)
+	match_feedback_panel.visible = true
+	match_feedback_panel.scale = Vector2(0.86, 0.86)
+	match_feedback_panel.modulate.a = 0.0
+	match_feedback_tween = create_tween()
+	match_feedback_tween.set_parallel(true)
+	match_feedback_tween.tween_property(match_feedback_panel, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	match_feedback_tween.tween_property(match_feedback_panel, "modulate:a", 1.0, 0.1)
+
+
+func _clear_match_feedback() -> void:
+	if match_feedback_tween != null and match_feedback_tween.is_valid(): match_feedback_tween.kill()
+	match_feedback_key = ""
+	match_feedback_panel.visible = false
+
+
+func _invalid_feedback_key(reason: String) -> String:
+	return {
+		"no-match": "no_match", "blocked": "move_blocked", "ingredient": "story_object_locked",
+		"not-adjacent": "adjacent_only",
+	}.get(reason, "swap_unavailable")
 
 
 func _animate_special_impact(frame: Dictionary) -> void:
@@ -738,6 +834,7 @@ func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
 	input_locked = true
 	var valid := bool(result.valid)
 	if valid:
+		_clear_match_feedback()
 		for frame_value in result.get("frames", []):
 			var frame: Dictionary = frame_value
 			if str(frame.phase) == "swap":
@@ -753,7 +850,24 @@ func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
 				_render_frame(frame)
 				await get_tree().create_timer(RESHUFFLE_MOTION_SECONDS).timeout
 		_render_board()
+		if bool(result.get("reshuffled", false)):
+			_show_match_feedback("reshuffled")
+			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
+		elif int(result.get("cascades", 0)) >= 2:
+			_show_match_feedback("chain", int(result.cascades))
+			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
+		elif int(result.get("ingredientsDropped", 0)) > 0:
+			_show_match_feedback("match", 1, "clue_collected")
+			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
+		elif game.state == "lost":
+			_show_match_feedback("loss", 1, "out_of_moves")
+			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
+		elif game.state == "won":
+			_show_match_feedback("win", 1, "clue_collected")
+			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
+		_clear_match_feedback()
 	else:
+		_show_match_feedback("reject", 1, _invalid_feedback_key(str(result.get("reason", ""))))
 		if str(result.get("reason", "")) == "no-match":
 			await _animate_swap(first, second, true)
 		var rejected := [board.get_child(first), board.get_child(second)]
@@ -764,7 +878,8 @@ func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
 			var tween := create_tween()
 			for offset in [-5.0, 5.0, -3.0, 0.0]:
 				tween.tween_property(tile_stack, "position:x", offset, 0.055)
-		await get_tree().create_timer(0.22).timeout
+		await get_tree().create_timer(0.70).timeout
+		_clear_match_feedback()
 	_render_board()
 	input_locked = false
 

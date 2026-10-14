@@ -120,6 +120,7 @@ func attempt_swap(first: int, second: int) -> Dictionary:
 		activated.append(second)
 	var combo := _resolve_direct_combo(specials[first], specials[second])
 	var creations: Array = [] if same_tile and activated.is_empty() else _find_player_special_creations(groups, first, second)
+	var primary_feedback := _classify_player_feedback(groups, activated, creations)
 	if groups.is_empty() and activated.is_empty() and combo.is_empty() and creations.is_empty():
 		_swap_tiles(first, second)
 		return {"valid": false, "reason": "no-match", "frames": _last_frames.duplicate(true)}
@@ -128,7 +129,7 @@ func attempt_swap(first: int, second: int) -> Dictionary:
 	_last_ingredients_dropped = 0
 	_last_cleared = 0
 	_last_swap = [first, second]
-	var cascade := _resolve(_find_resolution_match_groups(), activated, creations, combo, first, second)
+	var cascade := _resolve(_find_resolution_match_groups(), activated, creations, combo, first, second, primary_feedback)
 	_last_swap.clear()
 	_sync_primary_collect_count()
 	var reshuffled := false
@@ -151,7 +152,7 @@ func attempt_special_activation(index: int) -> Dictionary:
 	_last_ingredients_dropped = 0
 	_last_cleared = 0
 	_last_swap = [index, index]
-	var cascade := _resolve([], [index], [], "", index, index)
+	var cascade := _resolve([], [index], [], "", index, index, "special")
 	_last_swap.clear()
 	_sync_primary_collect_count()
 	var reshuffled := _update_game_state()
@@ -507,6 +508,7 @@ func _record_reshuffle_frame() -> void:
 	var cascade := int(_last_frames.back().get("cascade", 0)) if not _last_frames.is_empty() else 0
 	_last_frames.append({
 		"phase": "reshuffle",
+		"feedback": "reshuffled",
 		"cascade": cascade,
 		"tiles": tiles.duplicate(),
 		"specials": specials.duplicate(),
@@ -557,7 +559,7 @@ func _swap_tiles(first: int, second: int) -> void:
 	specials[first] = specials[second]
 	specials[second] = previous_special
 
-func _resolve(groups: Array[Dictionary], activated: Array[int], creations: Array, combo: String, first: int, second: int) -> int:
+func _resolve(groups: Array[Dictionary], activated: Array[int], creations: Array, combo: String, first: int, second: int, primary_feedback: String) -> int:
 	var cascade := 0
 	var anchors: Array[int] = [first, second]
 	while cascade < CASCADE_LIMIT and (not groups.is_empty() or not activated.is_empty() or (cascade == 0 and not creations.is_empty())):
@@ -590,7 +592,8 @@ func _resolve(groups: Array[Dictionary], activated: Array[int], creations: Array
 			if index >= 0 and index < tiles.size() and not tiles[index].is_empty() and not _is_blocked(index):
 				visible_clear.append(int(index))
 		visible_clear.sort()
-		_last_frames.append({"phase": "clear", "cascade": cascade, "tiles": tiles.duplicate(), "specials": specials.duplicate(), "blockers": blocker_layers.duplicate(), "ingredients": ingredients.duplicate(), "cleared": visible_clear})
+		var feedback := "special" if not activated.is_empty() else "chain" if cascade >= 2 else primary_feedback
+		_last_frames.append({"phase": "clear", "feedback": feedback, "cascade": cascade, "tiles": tiles.duplicate(), "specials": specials.duplicate(), "blockers": blocker_layers.duplicate(), "ingredients": ingredients.duplicate(), "cleared": visible_clear})
 		for index in clear:
 			if index < 0 or index >= tiles.size() or tiles[index].is_empty() or _is_blocked(index):
 				continue
@@ -648,6 +651,18 @@ func _find_player_special_creations(groups: Array[Dictionary], first: int, secon
 		if group.orientation != "square" and group.indices.size() == 4 and _contains_swapped(group.indices, swapped):
 			candidates.append({"index": second if group.indices.has(second) else first, "kind": "flash-row" if group.orientation == "row" else "flash-column"})
 	return _unique_creations(candidates)
+
+
+func _classify_player_feedback(groups: Array[Dictionary], activated: Array[int], creations: Array) -> String:
+	if not activated.is_empty(): return "special"
+	if not creations.is_empty(): return "combo"
+	var seen := {}
+	for group in groups:
+		if group.indices.size() >= 4: return "combo"
+		for index in group.indices:
+			if seen.has(index): return "combo"
+			seen[index] = true
+	return "match"
 
 func _find_automatic_special_creations(groups: Array[Dictionary], preferred: Array[int]) -> Array:
 	var candidates: Array = []

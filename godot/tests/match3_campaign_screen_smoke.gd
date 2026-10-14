@@ -15,6 +15,7 @@ func _run() -> void:
 	menu.session = Memory.story_session()
 	menu.match3_session = Match3Session.new(preload("res://scripts/campaign_store.gd").new(memory))
 	menu.preferences = preload("res://scripts/player_preferences.gd").new("user://campaign_screen_smoke_%s.cfg" % Time.get_ticks_usec())
+	menu.preferences.set_locale("ru")
 	root.add_child(menu)
 	await process_frame
 	menu._open_campaign()
@@ -86,7 +87,12 @@ func _run() -> void:
 		"ingredients": match3.game.ingredients.duplicate(),
 		"cleared": [special_index],
 		"cascade": 1,
+		"feedback": "special",
 	})
+	assert(match3.match_feedback_panel.visible, "Special clear did not show the source feedback pill")
+	assert(match3.match_feedback_label.text == "НАБЛЮДЕНИЕ!", "Special feedback did not use the Russian source copy")
+	var feedback_style := match3.match_feedback_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(feedback_style.bg_color == Color("#c07f35ef"), "Special feedback did not use the source amber treatment")
 	var special_cell: Control = match3.board.get_child(special_index)
 	assert(special_cell.get_node_or_null("SpecialImpactFlash") != null, "Special clear did not create its visual impact flash")
 	assert(special_cell.get_node_or_null("SpecialImpactBeam") != null, "Line special did not create its directional beam")
@@ -99,7 +105,9 @@ func _run() -> void:
 		"blockers": match3.game.blocker_layers.duplicate(),
 		"ingredients": match3.game.ingredients.duplicate(),
 		"cascade": 0,
+		"feedback": "reshuffled",
 	})
+	assert(match3.match_feedback_label.text == "НЕТ ХОДОВ · ПОЛЕ ПЕРЕМЕШАНО", "Reshuffle feedback did not use the localized message")
 	var reshuffled_stack: Control = match3.board.get_child(0).get_node("TileStack")
 	assert(reshuffled_stack.scale.is_equal_approx(Vector2(0.82, 0.82)), "Reshuffle animation did not start at its source scale")
 	await create_timer(0.5).timeout
