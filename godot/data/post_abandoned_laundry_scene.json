@@ -1,0 +1,616 @@
+{
+  "sceneId": "VN_SCENE_32_E15_POST",
+  "sceneIndex": 32,
+  "nextSceneId": "VN_SCENE_33_E16_PRE",
+  "nextSceneIndex": 33,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+  "titles": {
+    "ru": "Маршрут согласия",
+    "en": "Consent Route",
+    "be": "Маршрут згоды"
+  },
+  "lines": [
+    {
+      "id": "VN0708",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: OPEN SERVICE CABINET",
+          "text": "За мусором открывается старый шкаф. Внутри — действующая ключ-карта, пустая упаковка Asterion и свежая сервисная наклейка."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: OPEN SERVICE CABINET",
+          "text": "Behind the debris, the old cabinet opens. Inside are an active key card, empty Asterion packaging, and a fresh service sticker."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: OPEN SERVICE CABINET",
+          "text": "За смеццем адкрываецца старая шафа. Унутры — дзейная ключ-карта, пустая ўпакоўка Asterion і свежая сэрвісная налепка."
+        }
+      }
+    },
+    {
+      "id": "VN0709",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРОВЕРЯЕТ КАРТУ",
+          "text": "Карта активна. Её журнал показывает проходы в те же ночи, когда появлялись анонимные подсказки."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "The card is active. Its log shows entries on the same nights when anonymous leads appeared."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРАВЯРАЕ КАРТУ",
+          "text": "Карта актыўная. Яе журнал паказвае праходы ў тыя ж ночы, калі з'яўляліся ананімныя падказкі."
+        }
+      }
+    },
+    {
+      "id": "VN0710",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СРАВНИВАЕТ ПАКЕТ",
+          "text": "А помеченный образец относится к новому случаю. Значит, маршрут используется сейчас, не только исторически."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "And the marked sample belongs to a new case. The route is being used now, not only historically."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПАРАЎНОЎВАЕ ПАКЕТ",
+          "text": "А пазначаны ўзор адносіцца да новага выпадку. Значыць, маршрут выкарыстоўваецца цяпер, а не толькі гістарычна."
+        }
+      }
+    },
+    {
+      "id": "VN0711",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СМОТРИТ НА РЭЯ",
+          "text": "Кот только что нашёл действующий тайный проход быстрее нас."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "The cat just found an active secret route faster than we did."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ГЛЯДЗІЦЬ НА РЭЯ",
+          "text": "Кот толькі што знайшоў дзейны тайны праход хутчэй за нас."
+        }
+      }
+    },
+    {
+      "id": "VN0712",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОПРАВЛЯЕТ",
+          "text": "Кот переместил пакет по неизвестной мотивации. Проход нашли мы."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "The cat moved a bag for unknown reasons. We found the route."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАПРАЎЛЯЕ",
+          "text": "Кот перамясціў пакет з невядомай матывацыяй. Праход знайшлі мы."
+        }
+      }
+    },
+    {
+      "id": "VN0713",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "РЭЮ",
+          "text": "Не позволяй ей переписывать историю."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Do not let her rewrite history."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "РЭЮ",
+          "text": "Не дазваляй ёй перапісваць гісторыю."
+        }
+      }
+    },
+    {
+      "id": "VN0714",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФИКСИРУЕТ УЛИКУ",
+          "text": "Кто-то с доступом к старой прачечной знает о Second Skin, знает, на что соглашались участники, и сознательно направляет расследование сюда."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Someone with access to the old laundry knows about Second Skin, knows about participant consent, and deliberately led the investigation here."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФІКСУЕ ЎЛІКУ",
+          "text": "Нехта з доступам да старой пральні ведае пра Second Skin, ведае, на што згаджаліся ўдзельнікі, і свядома накіроўвае расследаванне сюды."
+        }
+      }
+    },
+    {
+      "id": "VN0715",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_016}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_016}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_016}"
+        }
+      }
+    },
+    {
+      "id": "VN0716",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОКАЗЫВАЕТ СТАРУЮ КАМЕРУ",
+          "text": "Здесь осталась локальная камера двора. Архив короткий, но кадры за последние недели сохранились."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "There is an old local yard camera. The archive is short, but footage from recent weeks survived."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАКАЗВАЕ СТАРУЮ КАМЕРУ",
+          "text": "Тут засталася лакальная камера двара. Архіў кароткі, але кадры за апошнія тыдні захаваліся."
+        }
+      }
+    },
+    {
+      "id": "VN0717",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: YARD PHOTO STRIP",
+          "text": "На нескольких кадрах у корпуса появляется одна и та же фигура в форме вечерней смены прачечной."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: YARD PHOTO STRIP",
+          "text": "Across several frames, the same figure in an evening-laundry uniform appears by the building."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: YARD PHOTO STRIP",
+          "text": "На некалькіх кадрах каля корпуса з'яўляецца адна і тая ж постаць у форме вячэрняй змены пральні."
+        }
+      }
+    },
+    {
+      "id": "VN0718",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "УВЕЛИЧИВАЕТ",
+          "text": "Рина."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Rina."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПАВЯЛІЧВАЕ",
+          "text": "Рына."
+        }
+      }
+    },
+    {
+      "id": "VN0719",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СЕРЬЁЗНЕЕТ",
+          "text": "В каждый день, когда появлялась новая анонимная подсказка?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "On every day with a new anonymous lead?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "СТАНОВІЦЦА СУР'ЁЗНЕЙ",
+          "text": "У кожны дзень з новай ананімнай падказкай?"
+        }
+      }
+    },
+    {
+      "id": "VN0720",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СВЕРЯЕТ ВРЕМЯ",
+          "text": "Во все дни, за которые сохранились записи. Но пока это доказывает лишь её присутствие, а не авторство записок или мотив."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "On every preserved day. But that proves her presence, not authorship of the notes or motive."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗВЯРАЕ ЧАС",
+          "text": "За ўсе даты, для якіх захаваліся запісы. Але гэта даказвае толькі яе прысутнасць, не аўтарства запісак і не матыў."
+        }
+      }
+    },
+    {
+      "id": "VN0721",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 18,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "КИВАЕТ",
+          "text": "Не превращаем сильную корреляцию в финальный приговор."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Do not turn a strong correlation into a final verdict."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "КІВАЕ",
+          "text": "Не ператвараем моцную карэляцыю ў канчатковы прысуд."
+        }
+      }
+    },
+    {
+      "id": "VN0722",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "SFX: PHONE MESSAGE",
+          "text": "На телефон клуба приходит новое анонимное сообщение с одним адресом и временем."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "SFX: PHONE MESSAGE",
+          "text": "The club phone receives another anonymous message before they leave."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "SFX: PHONE MESSAGE",
+          "text": "На тэлефон клуба прыходзіць новае ананімнае паведамленне з адным адрасам і часам."
+        }
+      }
+    },
+    {
+      "id": "VN0723",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "MESSAGE",
+          "text": "«Если хотите понять, зачем она искала метки, проверьте розовые ленты. Завтра, 18:30.»"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "MESSAGE",
+          "text": "‘If you want to understand why she searched for the tags, check the pink ribbons. Tomorrow, 18:30.’"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "MESSAGE",
+          "text": "«Калі хочаце зразумець, навошта яна шукала меткі, праверце ружовыя стужкі. Заўтра, 18:30.»"
+        }
+      }
+    },
+    {
+      "id": "VN0724",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СМОТРИТ НА МИКУ",
+          "text": "Розовые ленты звучат либо как улика, либо как очень опасная рекомендация магазина."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Pink ribbons sounds either like evidence or a very dangerous shopping recommendation."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ГЛЯДЗІЦЬ НА МІКУ",
+          "text": "Ружовыя стужкі гучаць альбо як уліка, альбо як вельмі небяспечная рэкамендацыя крамы."
+        }
+      }
+    },
+    {
+      "id": "VN0725",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАКРЫВАЕТ ШКАФ",
+          "text": "Завтра узнаем. Сегодня у нас есть маршрут, доступ и вопрос о согласии."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Tomorrow we find out. Today we have a route, access, and the question of consent."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАЧЫНЯЕ ШАФУ",
+          "text": "Заўтра даведаемся. Сёння ў нас ёсць маршрут, доступ і пытанне згоды."
+        }
+      }
+    },
+    {
+      "id": "VN0726",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ABANDONED_LAUNDRY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "КАРТОЧКА СЛЕДУЮЩЕГО ЭПИЗОДА",
+          "text": "«Следующий эпизод — Розовые ленты не лгут»"
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "EPISODE CARD / FRONTIER",
+          "text": "‘Next episode — Pink Ribbons Don’t Lie.’"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD / FRONTIER",
+          "text": "«Наступны эпізод — Ружовыя стужкі не хлусяць»"
+        }
+      }
+    }
+  ]
+}

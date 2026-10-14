@@ -89,6 +89,8 @@ describe('Godot story source parity', () => {
       [28, 'godot/data/post_kendo_pilot_list_scene.json', 'VN0628', 'VN0646', '', -1],
       [29, 'godot/data/kubo_atelier_scene.json', 'VN0647', 'VN0666', 'M3_14_KUBO_ATELIER_LEDGER', 30],
       [30, 'godot/data/post_kubo_atelier_scene.json', 'VN0667', 'VN0686', '', -1],
+      [31, 'godot/data/abandoned_laundry_scene.json', 'VN0687', 'VN0707', 'M3_15_ABANDONED_LAUNDRY_ROUTE', 32],
+      [32, 'godot/data/post_abandoned_laundry_scene.json', 'VN0708', 'VN0726', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -166,6 +168,11 @@ describe('Godot story source parity', () => {
     expect(kuboAtelierLevel.evidence.localized.ru.title).toBeTruthy();
     expect(kuboAtelierLevel.evidence.localized.be.label).toBeTruthy();
     expect(kuboAtelierLevel.evidence.localized.en.continueStory).toBeTruthy();
+    const abandonedLaundryLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_15_ABANDONED_LAUNDRY_ROUTE');
+    expect(abandonedLaundryLevel.evidence.id).toBe('CUE_016');
+    expect(abandonedLaundryLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(abandonedLaundryLevel.evidence.localized.be.label).toBeTruthy();
+    expect(abandonedLaundryLevel.evidence.localized.en.continueStory).toBeTruthy();
     for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source'], [24, 'photo-permission'], [26, 'publish-tag'], [30, 'family-ledger-permission']] as const) {
       const gate = godotStoryScene(sceneIndex).choiceGate;
       expect(gate.id).toBe(gateId);
