@@ -1,6 +1,8 @@
 extends Control
 
 signal story_requested
+signal dossier_requested
+signal settings_requested
 
 const Level = preload("res://data/locker_match3.json")
 const Game = preload("res://scripts/match3_game.gd")
@@ -29,6 +31,7 @@ var last_tapped_special_at := -1
 var last_feedback := ""
 var background: TextureRect
 var title: Label
+var title_short: Label
 var bark: Label
 var bark_speaker: Label
 var bark_portrait: TextureRect
@@ -40,8 +43,16 @@ var tutorial_title: Label
 var tutorial_body: Label
 var tutorial_button: Button
 var objective: Label
+var objective_heading: Label
+var objective_icon: TextureRect
 var moves: Label
+var moves_heading: Label
 var hint_button: Button
+var hint_label: Label
+var dossier_button: Button
+var help_button: Button
+var settings_button: Button
+var help_dialog: AcceptDialog
 var warning: Label
 var board: GridContainer
 var board_center: CenterContainer
@@ -93,17 +104,52 @@ func _ready() -> void:
 	var content := VBoxContainer.new()
 	content.add_theme_constant_override("separation", 7)
 	margin.add_child(content)
+	var header_panel := PanelContainer.new()
+	header_panel.custom_minimum_size.y = 60
+	var header_style := StyleBoxFlat.new()
+	header_style.bg_color = Color("#10243d")
+	header_style.border_color = Color("#d3b068")
+	header_style.border_width_bottom = 2
+	header_style.content_margin_left = 0
+	header_style.content_margin_right = 0
+	header_style.content_margin_top = 0
+	header_style.content_margin_bottom = 0
+	header_panel.add_theme_stylebox_override("panel", header_style)
+	content.add_child(header_panel)
 	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 7)
 	header.custom_minimum_size.y = 60
-	content.add_child(header)
+	header_panel.add_child(header)
 	back_button = _button(header)
+	back_button.custom_minimum_size = Vector2(44, 44)
+	back_button.text = ""
+	_add_header_icon(back_button, "back")
+	_style_header_button(back_button, Color("#283750"))
 	back_button.pressed.connect(func() -> void: story_requested.emit())
-	title = _label(header, 19, Color.WHITE)
+	var title_stack := VBoxContainer.new()
+	title_stack.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_stack.alignment = BoxContainer.ALIGNMENT_CENTER
+	title_stack.add_theme_constant_override("separation", 1)
+	header.add_child(title_stack)
+	title_short = _label(title_stack, 7, Color("#f0d69b"))
+	title_short.text = str(level_data.get("shortId", ""))
+	title = _label(title_stack, 11, Color.WHITE)
+	title.add_theme_font_size_override("font_size", 11)
+	var title_serif := SystemFont.new()
+	title_serif.font_names = PackedStringArray(["Georgia", "serif"])
+	title.add_theme_font_override("font", title_serif)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var spacer := Control.new()
-	spacer.custom_minimum_size.x = 72
-	header.add_child(spacer)
+	var actions := HBoxContainer.new()
+	actions.add_theme_constant_override("separation", 5)
+	header.add_child(actions)
+	if story_session != null:
+		dossier_button = _header_icon_button(actions, "dossier")
+		dossier_button.pressed.connect(func() -> void: dossier_requested.emit())
+	help_button = _header_text_button(actions, "?")
+	help_button.add_theme_font_size_override("font_size", 20)
+	help_button.pressed.connect(_show_help)
+	settings_button = _header_icon_button(actions, "settings")
+	settings_button.pressed.connect(func() -> void: settings_requested.emit())
 	bark = _label(content, 15, Color.WHITE)
 	bark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	bark.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -145,13 +191,18 @@ func _ready() -> void:
 	tutorial_eyebrow.autowrap_mode = TextServer.AUTOWRAP_OFF
 	tutorial_eyebrow.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(preferences.locale, "HOW TO PLAY")
-	tutorial_title = _label(tutorial_content, 23, Color("#172b49"))
-	tutorial_title.add_theme_font_size_override("font_size", 23)
+	tutorial_title = _label(tutorial_content, 24, Color("#172b49"))
+	tutorial_title.add_theme_font_size_override("font_size", 24)
 	var tutorial_serif := SystemFont.new()
 	tutorial_serif.font_names = PackedStringArray(["Georgia", "serif"])
+	tutorial_serif.font_weight = 800
 	tutorial_title.add_theme_font_override("font", tutorial_serif)
 	tutorial_body = _label(tutorial_content, 14, Color("#29243d"))
 	tutorial_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var tutorial_sans := SystemFont.new()
+	tutorial_sans.font_names = PackedStringArray(["Comic Sans MS", "Trebuchet MS", "Arial"])
+	tutorial_sans.font_weight = 700
+	tutorial_body.add_theme_font_override("font", tutorial_sans)
 	tutorial_button = _button(tutorial_content)
 	_style_tutorial_button(tutorial_button)
 	tutorial_button.pressed.connect(_dismiss_tutorial)
@@ -183,15 +234,42 @@ func _ready() -> void:
 	hud.add_theme_constant_override("separation", 8)
 	hud.custom_minimum_size.y = 51
 	content.add_child(hud)
-	objective_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	objective_panel.custom_minimum_size.x = 234
+	objective_panel.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	hud.add_child(objective_panel)
-	objective = _label(objective_panel, 14, Color("#29243d"))
+	var objective_content := VBoxContainer.new()
+	objective_content.add_theme_constant_override("separation", 1)
+	objective_panel.add_child(objective_content)
+	objective_heading = _label(objective_content, 9, Color("#326349"))
+	objective_heading.text = {"ru": "ЦЕЛЬ", "be": "МЭТА", "en": "GOAL"}.get(preferences.locale, "GOAL")
+	var objective_row := HBoxContainer.new()
+	objective_row.add_theme_constant_override("separation", 4)
+	objective_content.add_child(objective_row)
+	objective_icon = TextureRect.new()
+	objective_icon.custom_minimum_size = Vector2(24, 24)
+	objective_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	objective_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	objective_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	objective_row.add_child(objective_icon)
+	objective = _label(objective_row, 14, Color("#326349"))
+	objective.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	objective.add_theme_font_size_override("font_size", 14)
+	var hud_spacer := Control.new()
+	hud_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hud.add_child(hud_spacer)
 	var stage_panel := PanelContainer.new()
-	stage_panel.custom_minimum_size.x = 105
+	stage_panel.custom_minimum_size.x = 72
 	stage_panel.add_theme_stylebox_override("panel", objective_style.duplicate())
 	hud.add_child(stage_panel)
-	moves = _label(stage_panel, 15, Color("#29243d"))
+	var stage_content := VBoxContainer.new()
+	stage_content.alignment = BoxContainer.ALIGNMENT_CENTER
+	stage_content.add_theme_constant_override("separation", 1)
+	stage_panel.add_child(stage_content)
+	moves_heading = _label(stage_content, 9, Color("#326349"))
+	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(preferences.locale, "MOVES")
+	moves = _label(stage_content, 14, Color("#326349"))
 	moves.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	moves.add_theme_font_size_override("font_size", 14)
 	board_center = CenterContainer.new()
 	board_center.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(board_center)
@@ -268,8 +346,26 @@ func _ready() -> void:
 	evidence_continue.pressed.connect(_continue_story)
 	hint_button = _button(bark_row)
 	hint_button.custom_minimum_size = Vector2(94, 48)
-	hint_button.icon = load(HINT_ICON)
-	hint_button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint_button.text = ""
+	_style_hint_button(hint_button)
+	var hint_content := HBoxContainer.new()
+	hint_content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	hint_content.offset_left = 3
+	hint_content.offset_right = -3
+	hint_content.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hint_content.add_theme_constant_override("separation", 3)
+	hint_button.add_child(hint_content)
+	var hint_icon := TextureRect.new()
+	hint_icon.custom_minimum_size = Vector2(23, 23)
+	hint_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	hint_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	hint_icon.texture = load(HINT_ICON)
+	hint_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hint_content.add_child(hint_icon)
+	hint_label = _label(hint_content, 9, Color("#326349"))
+	hint_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hint_button.pressed.connect(_show_hint)
 	warning = _label(content, 12, Color("#ffd7a5"))
 	warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -294,7 +390,12 @@ func _refresh() -> void:
 	var locale: String = preferences.locale
 	var copy: Dictionary = level_presentation.localized.get(locale, level_presentation.localized.en)
 	title.text = copy.title
-	back_button.text = copy.back
+	title_short.text = str(level_data.get("shortId", ""))
+	back_button.tooltip_text = str(copy.back)
+	if is_instance_valid(dossier_button): dossier_button.tooltip_text = MenuCopy.text("dossier_title", locale)
+	settings_button.tooltip_text = MenuCopy.text("settings", locale)
+	objective_heading.text = {"ru": "ЦЕЛЬ", "be": "МЭТА", "en": "GOAL"}.get(locale, "GOAL")
+	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(locale, "MOVES")
 	var speaker: String
 	if game.state == "playing":
 		speaker = str(copy.startSpeaker)
@@ -312,12 +413,11 @@ func _refresh() -> void:
 	var objective_lines := PackedStringArray()
 	for index in level_data.objectives.size():
 		var objective_data: Dictionary = level_data.objectives[index]
-		var objective_names: Array = copy.get("objectives", [])
-		var objective_name: String = str(objective_names[index]) if index < objective_names.size() else str(objective_data.get("label", "Objective"))
-		objective_lines.append("%s %d/%d" % [objective_name, game.objective_value(index), int(objective_data.target)])
-	objective.text = "  ·  ".join(objective_lines)
-	moves.text = "%s · %d" % [copy.moves, game.moves_left]
-	hint_button.text = MenuCopy.text("match3_hint", locale)
+		objective_lines.append("%d/%d" % [game.objective_value(index), int(objective_data.target)])
+	objective.text = " · ".join(objective_lines)
+	objective_icon.texture = _objective_texture(level_data.objectives[0]) if not level_data.objectives.is_empty() else null
+	moves.text = str(game.moves_left)
+	hint_label.text = MenuCopy.text("match3_hint", locale)
 	hint_button.disabled = game.state != "playing" or tutorial_panel.visible
 	warning.text = "" if session.last_write_ok and (story_session == null or story_session.last_write_ok) else MenuCopy.text("story_save_error", locale)
 	warning.visible = not warning.text.is_empty()
@@ -685,6 +785,119 @@ func _button(parent: Node) -> Button:
 	Style.style_button(button)
 	parent.add_child(button)
 	return button
+
+
+func _header_icon_button(parent: Node, icon_name: String) -> Button:
+	var button := _button(parent)
+	button.custom_minimum_size = Vector2(44, 44)
+	button.text = ""
+	_add_header_icon(button, icon_name)
+	_style_header_button(button)
+	return button
+
+
+func _add_header_icon(button: Button, icon_name: String) -> void:
+	var icon := TextureRect.new()
+	icon.name = "HeaderIcon"
+	icon.anchor_left = 0.5
+	icon.anchor_right = 0.5
+	icon.anchor_top = 0.5
+	icon.anchor_bottom = 0.5
+	icon.offset_left = -10.5
+	icon.offset_right = 10.5
+	icon.offset_top = -10.5
+	icon.offset_bottom = 10.5
+	icon.texture = load("res://assets/ui/icon_%s.svg" % icon_name)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	button.add_child(icon)
+
+
+func _header_text_button(parent: Node, text: String) -> Button:
+	var button := _button(parent)
+	button.custom_minimum_size = Vector2(44, 44)
+	button.text = text
+	button.add_theme_color_override("font_color", Color.WHITE)
+	button.add_theme_color_override("font_hover_color", Color.WHITE)
+	_style_header_button(button)
+	return button
+
+
+func _style_header_button(button: Button, background: Color = Color("#0b2038")) -> void:
+	button.custom_minimum_size = Vector2(44, 44)
+	button.add_theme_font_size_override("font_size", 15)
+	button.add_theme_color_override("font_color", Color.WHITE)
+	button.add_theme_color_override("font_hover_color", Color.WHITE)
+	button.add_theme_color_override("font_pressed_color", Color.WHITE)
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = background
+	normal.border_color = Color("#e3ca84")
+	normal.set_border_width_all(1)
+	normal.set_corner_radius_all(10)
+	var hover := normal.duplicate() as StyleBoxFlat
+	hover.bg_color = Color("#294a69")
+	var pressed := normal.duplicate() as StyleBoxFlat
+	pressed.bg_color = Color("#1d3551")
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed)
+
+
+func _style_hint_button(button: Button) -> void:
+	button.custom_minimum_size = Vector2(94, 48)
+	button.add_theme_font_size_override("font_size", 9)
+	button.add_theme_color_override("font_color", Color("#326349"))
+	button.add_theme_color_override("font_hover_color", Color("#244d39"))
+	var transparent := StyleBoxFlat.new()
+	transparent.bg_color = Color.TRANSPARENT
+	transparent.set_border_width_all(0)
+	button.add_theme_stylebox_override("normal", transparent)
+	button.add_theme_stylebox_override("hover", transparent)
+	button.add_theme_stylebox_override("pressed", transparent)
+
+
+func _objective_texture(objective_data: Dictionary) -> Texture2D:
+	var assets: Dictionary = campaign_bundle.get("assets", {})
+	var asset_group := ""
+	var asset_key := ""
+	match str(objective_data.get("kind", "")):
+		"collect":
+			asset_group = "tiles"
+			asset_key = str(objective_data.get("tile", ""))
+		"drop":
+			asset_group = "ingredients"
+			asset_key = str(objective_data.get("ingredient", ""))
+		"dropGroup":
+			asset_group = "ingredients"
+			var ingredients_group: Array = objective_data.get("ingredients", [])
+			asset_key = str(ingredients_group[0]) if not ingredients_group.is_empty() else ""
+		"clearBlockers":
+			asset_group = "blockers"
+			asset_key = str(level_data.get("blockerStyle", "solid"))
+	var asset_path := str(assets.get(asset_group, {}).get(asset_key, ""))
+	if asset_path.is_empty(): return null
+	return load("res://" + asset_path.trim_prefix("./")) as Texture2D
+
+
+func _show_help() -> void:
+	if is_instance_valid(help_dialog):
+		help_dialog.popup_centered()
+		return
+	help_dialog = AcceptDialog.new()
+	help_dialog.title = MenuCopy.text("match3_help_title", preferences.locale)
+	help_dialog.dialog_text = MenuCopy.text("match3_help_body", preferences.locale)
+	help_dialog.min_size = Vector2i(350, 260)
+	add_child(help_dialog)
+	help_dialog.confirmed.connect(func() -> void:
+		help_dialog.queue_free()
+		help_dialog = null
+	)
+	help_dialog.close_requested.connect(func() -> void:
+		help_dialog.queue_free()
+		help_dialog = null
+	)
+	help_dialog.popup_centered()
 
 
 func _style_tutorial_button(button: Button) -> void:

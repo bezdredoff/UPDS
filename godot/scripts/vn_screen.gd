@@ -3,6 +3,7 @@ extends Control
 signal menu_requested
 signal progress_reset_requested
 signal match3_requested(level_id: String)
+signal overlay_closed
 
 const Prologue = preload("res://data/prologue.json")
 const LockerScene = preload("res://data/locker_scene.json")
@@ -1117,6 +1118,7 @@ func _close_overlay() -> void:
 	if is_instance_valid(overlay):
 		overlay.queue_free()
 	overlay = null
+	overlay_closed.emit()
 	if is_instance_valid(overlay_return_focus):
 		overlay_return_focus.grab_focus()
 	else:

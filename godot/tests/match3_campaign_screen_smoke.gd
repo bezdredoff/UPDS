@@ -36,6 +36,31 @@ func _run() -> void:
 	assert(match3 != null and match3.campaign_mode, "Campaign level did not launch in standalone mode")
 	assert(match3.level_id == second_id and match3.game.level_data.id == second_id, "Selected campaign level was not loaded")
 	assert(match3.game.tiles.size() == int(bundle.levels[1].rows) * int(bundle.levels[1].columns), "Selected campaign board dimensions mismatch")
+	assert(match3.back_button.custom_minimum_size == Vector2(44, 44), "Match-3 header back control should match the source button size")
+	assert(match3.help_button.custom_minimum_size == Vector2(44, 44), "Match-3 help control should match the source button size")
+	assert(match3.settings_button.custom_minimum_size == Vector2(44, 44), "Match-3 settings control should match the source button size")
+	assert(match3.objective_icon.custom_minimum_size == Vector2(24, 24), "Objective art should use the compact source HUD size")
+	assert(match3.hint_button.custom_minimum_size == Vector2(94, 48), "Hint control should preserve the source tool tray size")
+	match3.help_button.pressed.emit()
+	await process_frame
+	assert(is_instance_valid(match3.help_dialog) and match3.help_dialog.visible, "Match-3 help action did not open its localized dialog")
+	match3.help_dialog.confirmed.emit()
+	await process_frame
+	match3.settings_requested.emit()
+	await process_frame
+	assert(is_instance_valid(menu.settings_screen) and match3.visible, "Match-3 settings did not open over the board")
+	menu.settings_screen.back_requested.emit()
+	await process_frame
+	assert(menu.settings_screen == null and match3.visible, "Closing settings did not return to the live Match-3 board")
+	match3.story_session = menu.session
+	menu._open_story()
+	await process_frame
+	match3.dossier_requested.emit()
+	await process_frame
+	assert(not match3.visible and menu.story_screen.visible and is_instance_valid(menu.story_screen.overlay), "Match-3 dossier action did not open the story dossier")
+	menu.story_screen._close_overlay()
+	await process_frame
+	assert(match3.visible and not menu.story_screen.visible, "Closing the dossier did not return to the live Match-3 board")
 	assert(menu.session.state.completed.is_empty(), "Standalone Match-3 campaign changed VN completion")
 	match3.story_requested.emit()
 	await process_frame

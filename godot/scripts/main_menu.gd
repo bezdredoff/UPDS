@@ -28,6 +28,7 @@ var match3_session: RefCounted
 var confirmation := ConfirmationDialog.new()
 var status: Label
 var _settings_from_story := false
+var _settings_from_match3 := false
 
 
 func _ready() -> void:
@@ -178,6 +179,8 @@ func _open_match3_level(level_id: String, standalone_campaign: bool) -> void:
 	match3_screen.level_id = level_id
 	match3_screen.campaign_mode = standalone_campaign
 	match3_screen.story_requested.connect(_close_match3)
+	match3_screen.settings_requested.connect(_open_settings_from_match3)
+	match3_screen.dossier_requested.connect(_open_dossier_from_match3)
 	if is_instance_valid(story_screen):
 		story_screen.hide()
 	if is_instance_valid(match3_campaign_screen): match3_campaign_screen.hide()
@@ -250,19 +253,38 @@ func _close_story() -> void:
 		$Content/Actions/NewGame.grab_focus()
 
 
-func _open_settings() -> void:
+func _open_settings_from_match3() -> void:
+	_open_settings(true)
+
+
+func _open_dossier_from_match3() -> void:
+	if not is_instance_valid(story_screen) or not is_instance_valid(match3_screen): return
+	match3_screen.hide()
+	story_screen.show()
+	story_screen.overlay_closed.connect(_resume_match3_after_dossier, CONNECT_ONE_SHOT)
+	story_screen.call("_show_dossier")
+
+
+func _resume_match3_after_dossier() -> void:
+	if is_instance_valid(story_screen): story_screen.hide()
+	if is_instance_valid(match3_screen): match3_screen.show()
+
+
+func _open_settings(from_match3: bool = false) -> void:
 	if is_instance_valid(settings_screen):
 		return
 	settings_requested.emit()
 	_settings_from_story = is_instance_valid(story_screen) and story_screen.visible
+	_settings_from_match3 = from_match3 and is_instance_valid(match3_screen) and match3_screen.visible
 	if _settings_from_story:
 		story_screen.hide()
+	elif not _settings_from_match3:
+		$Content.hide()
 	settings_screen = SettingsScreen.new()
 	settings_screen.name = "SettingsScreen"
 	settings_screen.preferences = preferences
 	settings_screen.audio_runtime = audio_runtime
 	settings_screen.back_requested.connect(_close_settings)
-	$Content.hide()
 	add_child(settings_screen)
 
 
@@ -273,9 +295,13 @@ func _close_settings() -> void:
 	if _settings_from_story and is_instance_valid(story_screen):
 		story_screen.show()
 		story_screen.settings_button.grab_focus()
+	elif _settings_from_match3 and is_instance_valid(match3_screen):
+		match3_screen.show()
+		match3_screen.settings_button.grab_focus()
 	else:
 		$Content.show()
 		$Content/Actions/Settings.grab_focus()
+	_settings_from_match3 = false
 
 
 func _style_button(button: Button, primary: bool = false) -> void:
