@@ -90,6 +90,7 @@ var campaign_result_retry: Button
 var campaign_result_hub: Button
 var input_locked := false
 var bottom_spacer: Control
+var guidance_labels: Array[Label] = []
 
 
 func _ready() -> void:
@@ -368,9 +369,30 @@ func _ready() -> void:
 	hint_button.pressed.connect(_show_hint)
 	warning = _label(content, 12, Color("#ffd7a5"))
 	warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	bottom_spacer = Control.new()
+	bottom_spacer = VBoxContainer.new()
+	bottom_spacer.name = "MatchGuidance"
+	bottom_spacer.add_theme_constant_override("separation", 1)
 	bottom_spacer.custom_minimum_size.y = 42
 	content.add_child(bottom_spacer)
+	var input_guidance := _label(bottom_spacer, 8, Color("#363f43"))
+	input_guidance.name = "InputGuidance"
+	input_guidance.text = MenuCopy.text("match3_input_hint", preferences.locale)
+	input_guidance.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	input_guidance.add_theme_font_size_override("font_size", 8)
+	input_guidance.add_theme_constant_override("shadow_offset_y", 1)
+	input_guidance.add_theme_color_override("font_shadow_color", Color("#fff7d7"))
+	guidance_labels.append(input_guidance)
+	for index in level_data.objectives.size():
+		var objective_data: Dictionary = level_data.objectives[index]
+		var objective_kind := str(objective_data.get("kind", ""))
+		if objective_kind != "drop" and objective_kind != "dropGroup": continue
+		var label := _label(bottom_spacer, 8, Color("#363f43"))
+		label.name = "StoryObjectGuidance%d" % index
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.add_theme_font_size_override("font_size", 8)
+		label.add_theme_constant_override("shadow_offset_y", 1)
+		label.add_theme_color_override("font_shadow_color", Color("#fff7d7"))
+		guidance_labels.append(label)
 	add_child(tutorial_overlay)
 	var feedback_center := CenterContainer.new()
 	feedback_center.anchor_left = 0
@@ -453,6 +475,15 @@ func _refresh() -> void:
 	objective_icon.texture = _objective_texture(level_data.objectives[0]) if not level_data.objectives.is_empty() else null
 	moves.text = str(game.moves_left)
 	hint_label.text = MenuCopy.text("match3_hint", locale)
+	guidance_labels[0].text = MenuCopy.text("match3_input_hint", locale)
+	var guidance_index := 1
+	for index in level_data.objectives.size():
+		var objective_data: Dictionary = level_data.objectives[index]
+		var objective_kind := str(objective_data.get("kind", ""))
+		if objective_kind != "drop" and objective_kind != "dropGroup": continue
+		var object_label := str(copy.objectives[index]) if index < copy.objectives.size() else str(objective_data.get("label", ""))
+		guidance_labels[guidance_index].text = MenuCopy.text("match3_story_object_guidance", locale).replace("{object}", object_label)
+		guidance_index += 1
 	hint_button.disabled = game.state != "playing" or tutorial_panel.visible
 	warning.text = "" if session.last_write_ok and (story_session == null or story_session.last_write_ok) else MenuCopy.text("story_save_error", locale)
 	warning.visible = not warning.text.is_empty()

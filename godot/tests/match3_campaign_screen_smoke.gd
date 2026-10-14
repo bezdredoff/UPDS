@@ -51,6 +51,13 @@ func _run() -> void:
 	assert(match3.settings_button.custom_minimum_size == Vector2(44, 44), "Match-3 settings control should match the source button size")
 	assert(match3.objective_icon.custom_minimum_size == Vector2(24, 24), "Objective art should use the compact source HUD size")
 	assert(match3.hint_button.custom_minimum_size == Vector2(94, 48), "Hint control should preserve the source tool tray size")
+	assert(match3.bottom_spacer.name == "MatchGuidance" and match3.guidance_labels[0].name == "InputGuidance", "Match-3 input guidance slot is missing")
+	assert(match3.guidance_labels[0].text == MenuCopy.text("match3_input_hint", "ru"), "Match-3 input guidance did not use the selected locale")
+	assert(match3.bottom_spacer.visible, "Match-3 guidance should be visible while the board is active")
+	for locale in ["ru", "be", "en"]:
+		assert(menu.preferences.set_locale(locale) == OK)
+		assert(match3.guidance_labels[0].text == MenuCopy.text("match3_input_hint", locale), "Match-3 input guidance did not update for %s" % locale)
+	assert(menu.preferences.set_locale("ru") == OK)
 	match3.help_button.pressed.emit()
 	await process_frame
 	assert(is_instance_valid(match3.help_dialog) and match3.help_dialog.visible, "Match-3 help action did not open its localized dialog")
@@ -210,6 +217,7 @@ func _run() -> void:
 	match3._refresh()
 	await process_frame
 	assert(match3.campaign_result_overlay.visible, "Campaign win did not open its dedicated result screen")
+	assert(not match3.bottom_spacer.visible, "Match-3 guidance should be hidden after a win")
 	assert(match3.campaign_result_next.visible and match3.campaign_result_heading.text == "Доска расследования решена", "Campaign win result omitted its next-level action or localized heading")
 	assert(match3.campaign_result_heading.size.x >= 330 and match3.campaign_result_next.size.x >= 330, "Campaign result content did not stretch to the source phone-frame width")
 	assert(match3.campaign_result_detail.text.contains(str(match3.game.moves_left)), "Campaign result omitted the remaining moves")
@@ -227,6 +235,7 @@ func _run() -> void:
 	match3._refresh()
 	assert(match3.campaign_result_overlay.visible and not match3.campaign_result_next.visible, "Campaign loss did not show the loss result state")
 	assert(match3.campaign_result_heading.text == "Попробуйте уровень ещё раз", "Campaign loss heading was not localized")
+	assert(not match3.bottom_spacer.visible, "Match-3 guidance should be hidden after a loss")
 	var retries_before := int(match3.session.save.attempts.get(third_id, 0))
 	match3.campaign_result_retry.pressed.emit()
 	assert(match3.game.state == "playing" and not match3.campaign_result_overlay.visible, "Retry did not return to a fresh campaign board")
