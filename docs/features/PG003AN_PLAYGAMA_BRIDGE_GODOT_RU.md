@@ -13,7 +13,9 @@
 
 ## Проверки
 
-`godot/check.ps1` проверяет загрузку проекта, парсинг адаптера и работу editor mock для `game_ready`, pause/resume и audio on/off. Установленный Godot распознал `Playgama Web` preset, но пробный export остановился: локально отсутствуют web export templates `4.7.2.stable`. Headless export также сообщил, что активный редактор уже слушает MCP порт 6510. Smoke не эмулирует внешний SDK на реальной Playgama-площадке; повторить export с установленными шаблонами и проверить hosted build остаётся следующим шагом.
+`godot/check.ps1` проверяет загрузку проекта, парсинг адаптера и работу editor mock для `game_ready`, pause/resume и audio on/off. Для Godot `4.7.2.stable` установлен официальный архив Web export templates `Godot_v4.7.2-stable_export_templates.tpz`, SHA-256 `f298490b8d44d934be425a5a65a51bf15f422428b229a06a6e11d9ffea248011`; в пользовательский каталог добавлены используемые preset-ом `web_nothreads_debug.zip` и `web_nothreads_release.zip`.
+
+Release export через preset `Playgama Web` завершился успешно. Сборка запускалась локально в Chrome по HTTP: canvas 480×854, `window.bridge` доступен, page/console errors и неудачных запросов не было. Артефакт проверки находился во временном каталоге `upds-playgama-web-build`. Headless export напечатал ошибку bind MCP порта 6510, занятого открытым редактором, но завершился с exit code 0 и сформировал сборку. Это подтверждает локальную загрузку SDK и запуск игры, но не заменяет внешний Playgama host review; реальные ad placements и события платформы на площадке ещё предстоит проверить.
 
 ## Источники
 
