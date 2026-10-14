@@ -591,20 +591,68 @@ func _render_board() -> void:
 				ingredient.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_stack.add_child(ingredient)
 		if not game.specials[index].is_empty():
-			var special_asset := str(campaign_bundle.assets.get("specials", {}).get(game.specials[index], ""))
+			var special_kind: String = game.specials[index]
+			var special_asset := str(campaign_bundle.assets.get("specials", {}).get(special_kind, ""))
 			if not special_asset.is_empty():
+				var special_texture: Texture2D = load("res://" + special_asset.trim_prefix("./"))
+				var special_glow := TextureRect.new()
+				special_glow.name = "SpecialGlow"
+				special_glow.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+				special_glow.offset_left = -3
+				special_glow.offset_top = -3
+				special_glow.offset_right = 3
+				special_glow.offset_bottom = 3
+				special_glow.texture = special_texture
+				special_glow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				special_glow.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				special_glow.modulate = Color("#fff0bd66")
+				special_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				tile_stack.add_child(special_glow)
 				var special := TextureRect.new()
 				special.name = "Special"
 				special.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-				special.offset_left = -7
-				special.offset_top = -7
-				special.offset_right = 7
-				special.offset_bottom = 7
-				special.texture = load("res://" + special_asset.trim_prefix("./"))
+				# Keep the original web presentation: directional line specials fill
+				# their cell, while the three silhouette specials extend by 14%.
+				if special_kind in ["flash-row", "flash-column", "evidence"]:
+					special.offset_left = 0
+					special.offset_top = 0
+					special.offset_right = 0
+					special.offset_bottom = 0
+				else:
+					special.offset_left = -7
+					special.offset_top = -7
+					special.offset_right = 7
+					special.offset_bottom = 7
+				special.texture = special_texture
 				special.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				special.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				special.rotation_degrees = -18.0 if special_kind == "flash-row" else 72.0 if special_kind == "flash-column" else 0.0
+				special.pivot_offset = Vector2(27, 27)
 				special.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_stack.add_child(special)
+				if special_kind == "flash-row" or special_kind == "flash-column":
+					var direction_marker := PanelContainer.new()
+					direction_marker.name = "SpecialDirectionMarker"
+					direction_marker.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
+					direction_marker.offset_left = 1
+					direction_marker.offset_top = -16
+					direction_marker.offset_right = 16
+					direction_marker.offset_bottom = -1
+					var marker_style := StyleBoxFlat.new()
+					marker_style.bg_color = Color("#10243deb")
+					marker_style.border_color = Color("#fff0bd")
+					marker_style.set_border_width_all(1)
+					marker_style.set_corner_radius_all(3)
+					direction_marker.add_theme_stylebox_override("panel", marker_style)
+					var direction_label := Label.new()
+					direction_label.text = "↔" if special_kind == "flash-row" else "↕"
+					direction_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+					direction_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+					direction_label.add_theme_font_size_override("font_size", 11)
+					direction_label.add_theme_color_override("font_color", Color("#fff0bd"))
+					direction_marker.add_child(direction_label)
+					direction_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+					tile_stack.add_child(direction_marker)
 		board.add_child(tile_button)
 
 
@@ -1066,14 +1114,15 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		var tile_stack := cell.get_node_or_null("TileStack") as Control
 		var special_icon := tile_stack.get_node_or_null("Special") as Control if tile_stack != null else null
 		if special_icon != null:
+			var resting_rotation := -18.0 if special_kind == "flash-row" else 72.0 if special_kind == "flash-column" else 0.0
 			special_icon.pivot_offset = special_icon.size * 0.5
 			special_icon.scale = Vector2(0.82, 0.82)
-			special_icon.rotation_degrees = -8.0
+			special_icon.rotation_degrees = resting_rotation - 8.0
 			var icon_tween := create_tween()
 			icon_tween.tween_property(special_icon, "scale", Vector2(1.24, 1.24), 0.118).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 4.0, 0.118)
+			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", resting_rotation + 4.0, 0.118)
 			icon_tween.tween_property(special_icon, "scale", Vector2.ONE, 0.162).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 0.0, 0.162)
+			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", resting_rotation, 0.162)
 		if special_kind == "flash-row" or special_kind == "flash-column":
 			var beam := ColorRect.new()
 			beam.name = "SpecialImpactBeam"

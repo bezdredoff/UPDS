@@ -105,7 +105,14 @@ func _run() -> void:
 	var special_cell: Control = match3.board.get_child(special_index)
 	assert(special_cell.get_node_or_null("SpecialImpactFlash") != null, "Special clear did not create its visual impact flash")
 	assert(special_cell.get_node_or_null("SpecialImpactBeam") != null, "Line special did not create its directional beam")
+	var special_stack: Control = special_cell.get_node("TileStack")
+	var special_icon: TextureRect = special_stack.get_node("Special")
+	var special_glow: TextureRect = special_stack.get_node("SpecialGlow")
+	var direction_marker: PanelContainer = special_stack.get_node("SpecialDirectionMarker")
+	assert(is_equal_approx(special_icon.rotation_degrees, -26.0), "Flash Row activation did not start from its source angle")
+	assert(direction_marker.get_child(0).text == "↔" and special_glow.modulate.a < 1.0, "Flash Row missed its direction marker or translucent gold glow")
 	await create_timer(0.3).timeout
+	assert(is_equal_approx(special_icon.rotation_degrees, -18.0), "Flash Row activation did not return to its source angle")
 	match3._render_board()
 	match3._render_frame({
 		"phase": "reshuffle",
