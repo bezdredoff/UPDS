@@ -6,6 +6,7 @@ const Store = preload("res://scripts/campaign_store.gd")
 const Format = preload("res://scripts/save_format.gd")
 const Copy = preload("res://scripts/menu_copy.gd")
 const Prologue = preload("res://data/prologue.json")
+const LockerScene = preload("res://data/locker_scene.json")
 
 
 func _initialize() -> void:
@@ -65,9 +66,22 @@ func _run() -> void:
 	assert(screen.speaker.text == Prologue.data.lines[21].localized.en.speaker)
 	await create_timer(0.15).timeout
 	screen.next_button.pressed.emit()
+	assert(session.state.scene == 1 and session.current_line().id == "VN0023", "Prologue did not enter scene 1")
+	var reached_levels: Array[String] = []
+	screen.match3_requested.connect(func(level_id: String) -> void: reached_levels.append(level_id))
+	while session.current_line().id != "VN0040":
+		assert(session.advance())
+	assert(screen.choice_box.visible and screen.choice_prompt.text == "Where do we start?")
+	screen.choice_buttons[1].pressed.emit()
+	assert(session.state.choice == "B" and session.current_line().id == "VN0041B")
+	assert(session.state.readLines.has("VN0040"), "Choice checkpoint was not consumed")
+	while session.current_line().id != "VN0057":
+		assert(session.advance())
+	assert(screen.background_rect.texture.resource_path.ends_with("BG_LOCKER_ATHLETICS_DAY.webp"))
 	assert(screen.boundary.visible and screen.next_button.disabled)
-	assert(session.state.scene == 0 and session.state.line == 21, "Advanced into an unavailable scene")
-	assert(session.state.readLines.size() == 22)
+	assert(reached_levels == ["M3_00_LOCKER_TUTORIAL"], "First Match-3 gate was not requested")
+	assert(session.state.scene == 1 and session.state.line == LockerScene.data.variants.B.size() - 1, "Advanced into an unavailable scene")
+	assert(session.state.readLines.has("VN0041B") and not session.state.readLines.has("VN0041A"))
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
@@ -75,11 +89,11 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.line == 21)
+	assert(session.state.scene == 1 and session.current_line().id == "VN0057")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()
-	assert(session.current_line().id == "VN0001" and session.state.readLines.is_empty())
+	assert(session.current_line().id == "VN0001" and session.state.scene == 0 and session.state.readLines.is_empty())
 	# An unsuccessful write keeps in-memory progress and tells the player.
 	session.store.storage.fail_write = true
 	assert(session.advance())
@@ -93,6 +107,7 @@ func _run() -> void:
 	DirAccess.remove_absolute(preferences_path)
 	_unsupported_save()
 	_future_save()
+	_choice_routes()
 	var hidden_session := Memory.story_session()
 	assert(hidden_session.store.save_story({"scene": 0, "line": 20}))
 	hidden_session.reload()
@@ -133,3 +148,16 @@ func _future_save() -> void:
 	assert(memory.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.queue_free()
+
+
+func _choice_routes() -> void:
+	for option in ["A", "B", "C"]:
+		var session := Memory.story_session()
+		session.state.scene = 1
+		session.state.choice = "A"
+		session.state.line = LockerScene.data.variants.A.find_custom(func(line: Dictionary) -> bool: return line.id == "VN0040")
+		assert(session.choose(option), "CHOICE_00 option %s was rejected" % option)
+		assert(session.current_line().id == "VN0041" + option)
+		assert(session.state.choice == option and session.state.readLines == ["VN0040"])
+		session.reload()
+		assert(session.current_line().id == "VN0041" + option, "CHOICE_00 option %s did not resume" % option)

@@ -2,9 +2,10 @@ extends Control
 
 signal menu_requested
 signal settings_requested
-signal continuation_requested(scene_id: String)
+signal match3_requested(level_id: String)
 
 const Prologue = preload("res://data/prologue.json")
+const LockerScene = preload("res://data/locker_scene.json")
 const Copy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 
@@ -12,6 +13,7 @@ var session: RefCounted
 var preferences: RefCounted
 var audio_runtime: Node
 var stage: Control
+var background_rect: TextureRect
 var title: Label
 var speaker: Label
 var emotion: Label
@@ -22,19 +24,22 @@ var boundary: Label
 var menu_button: Button
 var settings_button: Button
 var next_button: Button
+var choice_box: VBoxContainer
+var choice_prompt: Label
+var choice_buttons: Array[Button] = []
 var _boundary := false
 var _last_advance := -1000
+var _gate_requested := false
 
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var background := TextureRect.new()
-	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	background.texture = load("res://" + str(Prologue.data.background).trim_prefix("./"))
-	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(background)
+	background_rect = TextureRect.new()
+	background_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	background_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	background_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(background_rect)
 	stage = Control.new()
 	stage.name = "Stage"
 	stage.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -77,6 +82,16 @@ func _ready() -> void:
 	panel.add_child(content)
 	speaker = _label(content, 18)
 	emotion = _label(content, 12)
+	choice_box = VBoxContainer.new()
+	choice_box.name = "ChoiceBox"
+	choice_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content.add_child(choice_box)
+	choice_prompt = _label(choice_box, 18)
+	for option in ["A", "B", "C"]:
+		var choice_button := _button(choice_box)
+		choice_button.name = "Choice" + option
+		choice_button.pressed.connect(_choose.bind(option))
+		choice_buttons.append(choice_button)
 	dialogue = RichTextLabel.new()
 	dialogue.name = "Dialogue"
 	dialogue.add_theme_color_override("default_color", Color("#29243d"))
@@ -97,28 +112,50 @@ func _ready() -> void:
 	session.changed.connect(_refresh)
 	preferences.locale_changed.connect(func(_locale: String) -> void: _refresh())
 	_refresh()
-	next_button.grab_focus()
+	if session.at_match3_gate():
+		menu_button.grab_focus()
+	elif session.state.scene == 1 and session.current_line().id == "VN0040":
+		choice_buttons[0].grab_focus()
+	else:
+		next_button.grab_focus()
 
 
 func _refresh() -> void:
 	var line: Dictionary = session.current_line()
 	if line.is_empty():
 		return
+	var data: Dictionary = session.scene_data()
 	var locale: String = preferences.locale
 	var copy: Dictionary = line.localized[locale]
-	title.text = Prologue.data.titles[locale]
+	title.text = data.titles[locale]
+	background_rect.texture = load("res://" + str(line.get("background", data.get("background", "./assets/backgrounds/BG_CLUBROOM_DAY.webp"))).trim_prefix("./"))
 	speaker.text = copy.speaker
 	emotion.text = copy.emotion
 	dialogue.text = copy.text
 	dialogue.scroll_to_line(0)
-	progress.text = "%d / %d" % [int(session.state.line) + 1, Prologue.data.lines.size()]
+	var lines: Array = Prologue.data.lines if session.state.scene == 0 else LockerScene.data.variants[session.state.choice]
+	progress.text = "%d / %d" % [int(session.state.line) + 1, lines.size()]
 	menu_button.text = Copy.text("vn_menu", locale)
 	settings_button.text = Copy.text("settings", locale)
 	next_button.text = Copy.text("vn_next", locale)
+	var choosing: bool = session.state.scene == 1 and line.id == "VN0040"
+	_boundary = session.at_match3_gate()
+	choice_box.visible = choosing
+	speaker.visible = not choosing and not _boundary
+	emotion.visible = not choosing and not _boundary
+	dialogue.visible = not choosing and not _boundary
+	next_button.visible = not choosing
 	next_button.disabled = _boundary
+	if choosing:
+		choice_prompt.text = LockerScene.data.choicePrompt[locale]
+		for index in range(choice_buttons.size()):
+			var option: String = ["A", "B", "C"][index]
+			var localized: Dictionary = LockerScene.data.choices[option][locale]
+			choice_buttons[index].text = "%s\n%s" % [localized.title, localized.effect]
+		next_button.disabled = true
 	warning.text = "" if session.last_write_ok else Copy.text("story_save_error", locale)
 	warning.visible = not session.last_write_ok
-	boundary.text = Copy.text("prologue_boundary", locale)
+	boundary.text = Copy.text("match3_boundary", locale) if session.state.scene == 1 else Copy.text("prologue_boundary", locale)
 	boundary.visible = _boundary
 	for child in stage.get_children():
 		stage.remove_child(child)
@@ -140,6 +177,9 @@ func _refresh() -> void:
 		stage.add_child(portrait)
 		portrait.resized.connect(func() -> void: _portrait_width(portrait))
 		_portrait_width(portrait)
+	if _boundary and not _gate_requested:
+		_gate_requested = true
+		match3_requested.emit(LockerScene.data.nextLevelId)
 
 
 func _portrait_width(portrait: TextureRect) -> void:
@@ -154,10 +194,16 @@ func _next() -> void:
 	_last_advance = Time.get_ticks_msec()
 	audio_runtime.play_effect("vnAdvance")
 	if not session.advance():
-		_boundary = true
 		_refresh()
-		continuation_requested.emit(Prologue.data.nextSceneId)
 		menu_button.grab_focus()
+
+
+func _choose(option: String) -> void:
+	if session.choose(option):
+		_boundary = false
+		audio_runtime.play_effect("choice")
+		_refresh()
+		next_button.grab_focus()
 
 
 func _label(parent: Node, font_size: int) -> Label:

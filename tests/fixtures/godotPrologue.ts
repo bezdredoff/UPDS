@@ -1,4 +1,4 @@
-import { getScene, sceneMeta, backgroundAssets, isDirection } from '../../src/data/narrative';
+import { getScene, sceneMeta, backgroundAssets, getBackgroundForLine, isDirection } from '../../src/data/narrative';
 import { characterForSpeaker, expressionForDirection, expressionAsset, poseAsset, characterStaging, resolvedCharacterXPercent } from '../../src/data/characterRigs';
 import { authoredVnShotForLine } from '../../src/data/authoredVnShots';
 import { characterProductionManifest } from '../../src/data/characterProduction';
@@ -48,4 +48,50 @@ export function godotPrologue() {
   };
 }
 
-export const godotVnAudio = () => ({ vn: getMusicTheme('vn'), vnAdvance: getCueDefinition('vnAdvance') });
+export const godotVnAudio = () => ({ vn: getMusicTheme('vn'), vnAdvance: getCueDefinition('vnAdvance'), choice: getCueDefinition('choice') });
+
+export function godotLockerScene() {
+  const catalogs: Record<string, MessageCatalog> = { ru: ruCatalog, en: enCatalog, be: beCatalog };
+  const choices = ['A', 'B', 'C'] as const;
+  const variants = Object.fromEntries(choices.map((choice) => {
+    const lines = getScene(1, choice);
+    return [choice, lines.map((line, index) => {
+      const shot = authoredVnShotForLine(line.id);
+      const actors = shot
+        ? resolveSceneStagingPreset(shot.presetId, shot.actors).actors.map((actor) => ({
+          character: actor.character, asset: actor.pose === 'pose-b' ? poseAsset(actor.character) : expressionAsset(actor.character, actor.expression),
+          x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent,
+          scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex,
+        }))
+        : (() => {
+          const character = characterForSpeaker(line.speaker);
+          if (!character || isDirection(line)) return [];
+          const expression = expressionForDirection(line.emotion);
+          const geometry = characterProductionManifest.characters[character].proportion.frameGeometry[expression];
+          const camera = resolveVnPortraitEyeLineCamera(SCENE_STAGING_SHARED_ACTOR_SCALE, geometry.eyeLineYPx);
+          const side = resolveVnStaging(lines, index)?.side;
+          return [{ character, asset: expressionAsset(character, expression),
+            x: (side === 'left' ? 29 : side === 'right' ? 71 : 50) + resolvedCharacterXPercent(character),
+            top: camera.topPercent, height: camera.heightPercent, scale: characterStaging[character].scale,
+            y: characterStaging[character].yPercent, z: 0 }];
+        })();
+      const background = backgroundAssets[getBackgroundForLine(1, index, lines)];
+      return { id: line.id, hidden: isDirection(line), background, actors,
+        localized: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
+          speaker: catalog[`vn.line.${line.id}.speaker`] ?? line.speaker,
+          emotion: catalog[`vn.line.${line.id}.emotion`] ?? line.emotion,
+          text: catalog[`vn.line.${line.id}.text`] ?? line.text,
+        }])) };
+    })];
+  }));
+  return {
+    sceneId: sceneMeta[1].id,
+    titles: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, catalog[`vn.scene.${sceneMeta[1].id}.title`]])),
+    choicePrompt: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, catalog['vn.choice.prompt']])),
+    choices: Object.fromEntries(choices.map((id) => [id, Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
+      title: catalog[`vn.choice.${id}.title`], effect: catalog[`vn.choice.${id}.effect`],
+    }]))])),
+    nextLevelId: 'M3_00_LOCKER_TUTORIAL',
+    variants,
+  };
+}
