@@ -35,10 +35,13 @@ Menu music and preview effects are synthesized locally from the existing web
 definitions; `tests/GodotAudioParity.test.ts` guards their source parity.
 Mute and zero volume stop playback; focus loss stops audio until focus returns.
 Haptics are enabled only on native Android/iOS; hardware verification is pending.
-New Game opens the first playable prologue (`VN0001–VN0022`), with RU/BE/EN
-copy, approved portraits and VN music. Continue resumes supported prologue
-progress; saves from later scenes remain intact and unavailable until those scenes
-are ported. Replacing existing progress through New Game requires confirmation.
+New Game opens the playable prologue (`VN0001–VN0022`) and continues into scene 1
+(`VN0023–VN0057`) with RU/BE/EN copy, approved character art and backgrounds.
+`CHOICE_00` A/B/C is persisted through the existing Story `choice` field. Continue
+resumes positions in these two scenes; saves from later scenes remain intact and
+unavailable until those scenes are ported. Scene 1 ends at an explicit request for
+`M3_00_LOCKER_TUTORIAL`; the Match-3 runtime and post-win scene are subsequent
+slices. Replacing existing progress through New Game requires confirmation.
 
 ## Native campaign persistence
 
@@ -57,10 +60,10 @@ failure/recovery checks without touching player saves.
 
 ## Prologue source and preview
 
-`node scripts/export-godot-prologue.cjs` refreshes the audited prologue content,
-locale/staging snapshot, original art copies and VN audio definitions. Vitest
-guards their parity with the web source. The native reader stops at the available
-fragment boundary without advancing the save into an unported scene.
+`node scripts/export-godot-prologue.cjs` refreshes the audited prologue and scene 1
+content, locale/staging snapshots, original art copies and VN audio definitions.
+Vitest guards their parity with the web source. The reader stops at the explicit
+first Match-3 gate without advancing the save into an unported gameplay scene.
 
 For isolated visual review, run `tests/vn_preview.tscn` in the editor: campaign
 progress is in memory and player saves remain untouched. The native reader supports

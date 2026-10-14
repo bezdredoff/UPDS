@@ -4,6 +4,7 @@ signal new_game_requested
 signal continue_requested
 signal campaign_requested
 signal settings_requested
+signal match3_requested(level_id: String)
 
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const PlayerPreferences = preload("res://scripts/player_preferences.gd")
@@ -116,6 +117,7 @@ func _open_story() -> void:
 	story_screen.audio_runtime = audio_runtime
 	story_screen.menu_requested.connect(_close_story)
 	story_screen.settings_requested.connect(_open_settings)
+	story_screen.match3_requested.connect(func(level_id: String) -> void: match3_requested.emit(level_id))
 	$Content.hide()
 	add_child(story_screen)
 	audio_runtime.set_scene("vn")

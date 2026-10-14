@@ -269,5 +269,20 @@
     "durationMs": 74,
     "gain": 0.035,
     "wave": "triangle"
+  },
+  "choice": {
+    "frequencies": [
+      440,
+      554,
+      659
+    ],
+    "durationMs": 190,
+    "gain": 0.075,
+    "wave": "triangle",
+    "haptic": [
+      12,
+      24,
+      18
+    ]
   }
 }

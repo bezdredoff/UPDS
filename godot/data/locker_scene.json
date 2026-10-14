@@ -1,0 +1,3493 @@
+{
+  "sceneId": "VN_SCENE_01_E0_PRE",
+  "titles": {
+    "ru": "Дело класса U",
+    "en": "The Case of Class U",
+    "be": "Справа класа U"
+  },
+  "choicePrompt": {
+    "ru": "С чего начать?",
+    "en": "Where do we start?",
+    "be": "З чаго пачаць?"
+  },
+  "choices": {
+    "A": {
+      "ru": {
+        "title": "Сначала найдём вторую пострадавшую",
+        "effect": "Доверие источников +1"
+      },
+      "en": {
+        "title": "Find the second victim first",
+        "effect": "Source trust +1"
+      },
+      "be": {
+        "title": "Спачатку знойдзем другую пацярпелую",
+        "effect": "Давер крыніц +1"
+      }
+    },
+    "B": {
+      "ru": {
+        "title": "Предупредим анонимно",
+        "effect": "Сила слухов +1"
+      },
+      "en": {
+        "title": "Warn them anonymously",
+        "effect": "Rumor heat +1"
+      },
+      "be": {
+        "title": "Папярэдзім ананімна",
+        "effect": "Сіла чутак +1"
+      }
+    },
+    "C": {
+      "ru": {
+        "title": "Передадим дело администрации",
+        "effect": "Доверие Оноэ +1"
+      },
+      "en": {
+        "title": "Report the case to administration",
+        "effect": "Onoe trust +1"
+      },
+      "be": {
+        "title": "Перададзім справу адміністрацыі",
+        "effect": "Давер Оноэ +1"
+      }
+    }
+  },
+  "nextLevelId": "M3_00_LOCKER_TUTORIAL",
+  "variants": {
+    "A": [
+      {
+        "id": "VN0023",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ДЕЛОВАЯ",
+            "text": "Садитесь. Имя, клуб, время обнаружения пропажи."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "BUSINESSLIKE",
+            "text": "Sit down. Name, club, and when you noticed the loss."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ДЗЕЛАВАЯ",
+            "text": "Сядайце. Імя, клуб, час, калі заўважылі знікненне."
+          }
+        }
+      },
+      {
+        "id": "VN0024",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-embarrassed.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "НЕРВНАЯ",
+            "text": "Эми Такахаси. Лёгкая атлетика. И можно сначала закрыть дверь?"
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "NERVOUS",
+            "text": "Emi Takahashi. Track and field. And could we close the door first?"
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "НЕРВОВАЯ",
+            "text": "Эмі Такахасі. Лёгкая атлетыка. І можна спачатку зачыніць дзверы?"
+          }
+        }
+      },
+      {
+        "id": "VN0025",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "РЕЖИССУРА",
+            "emotion": "CLOSE ON DOOR",
+            "text": "Мику закрывает дверь; Аюки переворачивает табличку чистой стороной наружу."
+          },
+          "en": {
+            "speaker": "STAGE DIRECTION",
+            "emotion": "CLOSE ON DOOR",
+            "text": "Miku closes the door; Ayuki flips the sign so its blank side faces out."
+          },
+          "be": {
+            "speaker": "РЭЖЫСУРА",
+            "emotion": "CLOSE ON DOOR",
+            "text": "Міку зачыняе дзверы; Аюкі пераварочвае таблічку чыстым бокам вонкі."
+          }
+        }
+      },
+      {
+        "id": "VN0026",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+            "x": 25,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          },
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-embarrassed.png",
+            "x": 75,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "СМУЩЁННАЯ",
+            "text": "Из моего шкафчика исчезло бельё. Два комплекта."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "EMBARRASSED",
+            "text": "Underwear disappeared from my locker. Two sets."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "ЗБЯНТЭЖАНАЯ",
+            "text": "З маёй шафкі знікла бялізна. Два камплекты."
+          }
+        }
+      },
+      {
+        "id": "VN0027",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-surprised.png",
+            "x": 29,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "МГНОВЕННО СЕРЬЁЗНАЯ",
+            "text": "Хорошо. Шутки потом. Шкафчик был заперт?"
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "INSTANTLY SERIOUS",
+            "text": "Okay. Jokes later. Was the locker locked?"
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "ІМГНЕННА СУР'ЁЗНАЯ",
+            "text": "Добра. Жарты потым. Шафка была замкнёная?"
+          }
+        }
+      },
+      {
+        "id": "VN0028",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "КИВАЕТ",
+            "text": "Да. Деньги, часы и новые кроссовки остались."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "NODS",
+            "text": "Yes. The money, watch, and new sneakers were still there."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "КІВАЕ",
+            "text": "Так. Грошы, гадзіннік і новыя красоўкі засталіся."
+          }
+        }
+      },
+      {
+        "id": "VN0029",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПИШЕТ",
+            "text": "Предварительная категория — U."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "WRITING",
+            "text": "Preliminary category: U."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПІША",
+            "text": "Папярэдняя катэгорыя — U."
+          }
+        }
+      },
+      {
+        "id": "VN0030",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "ЗАИНТЕРЕСОВАННАЯ",
+            "text": "«Ультраделикатное»?"
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "INTERESTED",
+            "text": "“Ultra-delicate”?"
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "ЗАЦІКАЎЛЕНАЯ",
+            "text": "«Ультрадалікатнае»?"
+          }
+        }
+      },
+      {
+        "id": "VN0031",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "НЕЙТРАЛЬНАЯ",
+            "text": "Undergarment."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "NEUTRAL",
+            "text": "Undergarment."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "НЕЙТРАЛЬНАЯ",
+            "text": "Undergarment."
+          }
+        }
+      },
+      {
+        "id": "VN0032",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-serious.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "РАЗДРАЖЁННАЯ",
+            "text": "Можно хотя бы пять минут не превращать мои трусики в название стрима?"
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "IRRITATED",
+            "text": "Can we go five minutes without turning my panties into a stream title?"
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "РАЗДРАЖНЁНАЯ",
+            "text": "Можна хаця б пяць хвілін не ператвараць мае трусікі ў назву стрыму?"
+          }
+        }
+      },
+      {
+        "id": "VN0033",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "ПРИМИРИТЕЛЬНАЯ",
+            "text": "Можно. Таймер пошёл."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "PLACATING",
+            "text": "We can. Timer started."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "ПРЫМІРАЛЬНАЯ",
+            "text": "Можна. Таймер пайшоў."
+          }
+        }
+      },
+      {
+        "id": "VN0034",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+            "x": 31,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          },
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-embarrassed.png",
+            "x": 69,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ",
+            "emotion": "МЯГКО",
+            "text": "Кто ещё знал код шкафчика?"
+          },
+          "en": {
+            "speaker": "MIKU",
+            "emotion": "GENTLY",
+            "text": "Who else knew the locker code?"
+          },
+          "be": {
+            "speaker": "МІКУ",
+            "emotion": "МЯККА",
+            "text": "Хто яшчэ ведаў код шафкі?"
+          }
+        }
+      },
+      {
+        "id": "VN0035",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "ДУМАЕТ",
+            "text": "Никто. Но утром вещи забирали в центральную прачечную, потом вернули перед тренировкой."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "THINKING",
+            "text": "No one. But the laundry was collected by the central service this morning and returned before practice."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "ДУМАЕ",
+            "text": "Ніхто. Але раніцай рэчы забіралі ў цэнтральную пральню, потым вярнулі перад трэніроўкай."
+          }
+        }
+      },
+      {
+        "id": "VN0036",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПОДНИМАЕТ ГЛАЗ",
+            "text": "Значит, доступ имел не только тот, кто открыл шкафчик."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "LOOKS UP",
+            "text": "Then access was not limited to whoever opened the locker."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПАДЫМАЕ ВОЧЫ",
+            "text": "Значыць, доступ меў не толькі той, хто адкрыў шафку."
+          }
+        }
+      },
+      {
+        "id": "VN0037",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "ТИХО",
+            "text": "Я не хочу, чтобы весь колледж обсуждал, что именно пропало."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "QUIETLY",
+            "text": "I do not want the whole college discussing exactly what went missing."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "ЦІХА",
+            "text": "Я не хачу, каб увесь каледж абмяркоўваў, што менавіта знікла."
+          }
+        }
+      },
+      {
+        "id": "VN0038",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/poses/pose_b_phone_theory.png",
+            "x": 31,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          },
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-embarrassed.png",
+            "x": 69,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "С ТЕЛЕФОНОМ",
+            "text": "Анонимное предупреждение защитит остальных. Без имени и деталей."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "WITH PHONE",
+            "text": "An anonymous warning could protect the others. No name, no details."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "З ТЭЛЕФОНАМ",
+            "text": "Ананімнае папярэджанне абароніць астатніх. Без імя і падрабязнасцяў."
+          }
+        }
+      },
+      {
+        "id": "VN0039",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ВОЗРАЖАЕТ",
+            "text": "Сначала следует зарегистрировать инцидент и уведомить студсовет."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "OBJECTING",
+            "text": "We should register the incident and notify the student council first."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПЯРЭЧЫЦЬ",
+            "text": "Спачатку трэба зарэгістраваць інцыдэнт і паведаміць студсавету."
+          }
+        }
+      },
+      {
+        "id": "VN0040",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+            "x": 50,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ (МЫСЛИ)",
+            "emotion": "НАПРЯЖЁННАЯ",
+            "text": "Минута в клубе — и мне уже предлагают выбрать между слухом, формой и человеком, который боится обоих."
+          },
+          "en": {
+            "speaker": "MIKU (THOUGHTS)",
+            "emotion": "TENSE",
+            "text": "One minute in the club and I am already choosing between a rumor, a form, and a person afraid of both."
+          },
+          "be": {
+            "speaker": "МІКУ (ДУМКІ)",
+            "emotion": "НАПРУЖАНАЯ",
+            "text": "Хвіліна ў клубе — і мне ўжо прапануюць выбіраць паміж чуткай, бланкам і чалавекам, які баіцца і таго, і другога."
+          }
+        }
+      },
+      {
+        "id": "VN0041A",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ",
+            "emotion": "УВЕРЕННЕЕ",
+            "text": "Сначала проверим, единичный ли это случай. Без публикаций и имён."
+          },
+          "en": {
+            "speaker": "MIKU",
+            "emotion": "MORE CONFIDENT",
+            "text": "First we check whether this is an isolated case. No posts and no names."
+          },
+          "be": {
+            "speaker": "МІКУ",
+            "emotion": "БОЛЬШ УПЭЎНЕНА",
+            "text": "Спачатку праверым, ці адзінкавы гэта выпадак. Без публікацый і імёнаў."
+          }
+        }
+      },
+      {
+        "id": "VN0042A",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-smile.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "С ОБЛЕГЧЕНИЕМ",
+            "text": "Я спрошу у соседки по команде. Она вчера странно пересчитывала вещи."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "RELIEVED",
+            "text": "I will ask my teammate next door. She was counting her things strangely yesterday."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "З ПАЛЁГКАЙ",
+            "text": "Я спытаю ў суседкі па камандзе. Учора яна неяк дзіўна пералічвала рэчы."
+          }
+        }
+      },
+      {
+        "id": "VN0043A",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПРИНИМАЕТ",
+            "text": "Независимое подтверждение полезнее слуха."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "ACCEPTING",
+            "text": "Independent confirmation is more useful than a rumor."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПРЫМАЕ",
+            "text": "Незалежнае пацвярджэнне карыснейшае за чутку."
+          }
+        }
+      },
+      {
+        "id": "VN0044A",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "УБИРАЕТ ТЕЛЕФОН",
+            "text": "Хорошо. Мой сенсационный заголовок полежит лицом вниз."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "PUTS PHONE AWAY",
+            "text": "Fine. My sensational headline can lie face down for now."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "ПРЫБІРАЕ ТЭЛЕФОН",
+            "text": "Добра. Мой сенсацыйны загаловак паляжыць тварам уніз."
+          }
+        }
+      },
+      {
+        "id": "VN0045A",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "РЕЖИССУРА",
+            "emotion": "UI MESSAGE",
+            "text": "Эми получает ответ: у другой спортсменки после той же партии стирки исчез один предмет."
+          },
+          "en": {
+            "speaker": "STAGE DIRECTION",
+            "emotion": "UI MESSAGE",
+            "text": "Emi gets a reply: another athlete lost one item after the same laundry batch."
+          },
+          "be": {
+            "speaker": "РЭЖЫСУРА",
+            "emotion": "UI MESSAGE",
+            "text": "Эмі атрымлівае адказ: у другой спартсменкі пасля той жа партыі мыцця знік адзін прадмет."
+          }
+        }
+      },
+      {
+        "id": "VN0046A",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "СИСТЕМА",
+            "emotion": "VARIABLE",
+            "text": "{approach=verify; source_trust+1; bonus_laundry_detail=true}"
+          },
+          "en": {
+            "speaker": "SYSTEM",
+            "emotion": "VARIABLE",
+            "text": "{approach=verify; source_trust+1; bonus_laundry_detail=true}"
+          },
+          "be": {
+            "speaker": "СІСТЭМА",
+            "emotion": "VARIABLE",
+            "text": "{approach=verify; source_trust+1; bonus_laundry_detail=true}"
+          }
+        }
+      },
+      {
+        "id": "VN0048",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "РЕЖИССУРА",
+            "emotion": "CUT TO BG_LOCKER_ATHLETICS_DAY",
+            "text": "Шкафчик Эми открыт. Вещи лежат беспорядочно, но дорогие предметы хорошо видны."
+          },
+          "en": {
+            "speaker": "STAGE DIRECTION",
+            "emotion": "CUT TO BG_LOCKER_ATHLETICS_DAY",
+            "text": "Emi’s locker is open. The contents are messy, but the expensive items are clearly visible."
+          },
+          "be": {
+            "speaker": "РЭЖЫСУРА",
+            "emotion": "CUT TO BG_LOCKER_ATHLETICS_DAY",
+            "text": "Шафка Эмі адкрытая. Рэчы ляжаць бязладна, але дарагія прадметы добра відаць."
+          }
+        }
+      },
+      {
+        "id": "VN0049",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "В ПЕРЧАТКАХ",
+            "text": "Я готова работать с уликами класса U."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "WEARING GLOVES",
+            "text": "I am ready to work with category-U evidence."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "У ПАЛЬЧАТКАХ",
+            "text": "Я гатовая працаваць з доказамі класа U."
+          }
+        }
+      },
+      {
+        "id": "VN0050",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "ПРЕДУПРЕЖДАЮЩАЯ",
+            "text": "Если дашь им имена, я уйду."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "WARNING",
+            "text": "If you give them names, I am leaving."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "ПАПЯРЭДЖВАЕ",
+            "text": "Калі дасі ім імёны, я пайду."
+          }
+        }
+      },
+      {
+        "id": "VN0051",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "ПОКОРНАЯ",
+            "text": "Номера. Только строгие номера."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "COMPLIANT",
+            "text": "Numbers. Strictly numbers."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "ПАКОРЛІВАЯ",
+            "text": "Нумары. Толькі строгія нумары."
+          }
+        }
+      },
+      {
+        "id": "VN0052",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "УКАЗЫВАЕТ НА ШКАФЧИК",
+            "text": "Не ищем «подозрительное». Фиксируем, что осталось, что исчезло и что проходило обработку."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "POINTS AT LOCKER",
+            "text": "We are not looking for “suspicious”. We record what remained, what vanished, and what went through processing."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПАКАЗВАЕ НА ШАФКУ",
+            "text": "Не шукаем «падазронае». Фіксуем, што засталося, што знікла і што праходзіла апрацоўку."
+          }
+        }
+      },
+      {
+        "id": "VN0053",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+            "x": 29,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ",
+            "emotion": "ВНИМАТЕЛЬНАЯ",
+            "text": "Кроссовки новые. Кружевной комплект лежит сверху. Если вор выбирал самое дорогое или заметное, выбор у него странный."
+          },
+          "en": {
+            "speaker": "MIKU",
+            "emotion": "ATTENTIVE",
+            "text": "The sneakers are new. A lace set is right on top. If the thief was after the most expensive or most conspicuous items, they made a strange choice."
+          },
+          "be": {
+            "speaker": "МІКУ",
+            "emotion": "УВАЖЛІВАЯ",
+            "text": "Красоўкі новыя. Карункавы камплект ляжыць зверху. Калі злодзей выбіраў самае дарагое ці прыкметнае, ён выбіраў дзіўна."
+          }
+        }
+      },
+      {
+        "id": "VN0054",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ЗАИНТЕРЕСОВАННАЯ",
+            "text": "Хорошее наблюдение. Проверим каждую категорию."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "INTERESTED",
+            "text": "Good observation. We will check every category."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ЗАЦІКАЎЛЕНАЯ",
+            "text": "Добрае назіранне. Праверым кожную катэгорыю."
+          }
+        }
+      },
+      {
+        "id": "VN0055",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+            "x": 50,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ (МЫСЛИ)",
+            "emotion": "СОСРЕДОТОЧЕННАЯ",
+            "text": "Первое настоящее дело. И первая задача — профессионально рассортировать бельё незнакомой девушки."
+          },
+          "en": {
+            "speaker": "MIKU (THOUGHTS)",
+            "emotion": "FOCUSED",
+            "text": "My first real case. And my first task is to professionally sort a stranger’s underwear."
+          },
+          "be": {
+            "speaker": "МІКУ (ДУМКІ)",
+            "emotion": "ЗАСЯРОДЖАНАЯ",
+            "text": "Першая сапраўдная справа. І першая задача — прафесійна рассартаваць бялізну незнаёмай дзяўчыны."
+          }
+        }
+      },
+      {
+        "id": "VN0056",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+            "x": 50,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ (МЫСЛИ)",
+            "emotion": "СУХО",
+            "text": "В буклете об этом тоже не было."
+          },
+          "en": {
+            "speaker": "MIKU (THOUGHTS)",
+            "emotion": "DRY",
+            "text": "The brochure did not mention this either."
+          },
+          "be": {
+            "speaker": "МІКУ (ДУМКІ)",
+            "emotion": "СУХА",
+            "text": "У буклеце пра гэта таксама не было."
+          }
+        }
+      },
+      {
+        "id": "VN0057",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "РЕЖИССУРА",
+            "emotion": "TRANSITION TO MATCH-3",
+            "text": "Крупный план открытого шкафчика превращается в поле."
+          },
+          "en": {
+            "speaker": "STAGE DIRECTION",
+            "emotion": "TRANSITION TO MATCH-3",
+            "text": "A close-up of the open locker transforms into the game board."
+          },
+          "be": {
+            "speaker": "РЭЖЫСУРА",
+            "emotion": "TRANSITION TO MATCH-3",
+            "text": "Буйны план адкрытай шафкі ператвараецца ў поле."
+          }
+        }
+      }
+    ],
+    "B": [
+      {
+        "id": "VN0023",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ДЕЛОВАЯ",
+            "text": "Садитесь. Имя, клуб, время обнаружения пропажи."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "BUSINESSLIKE",
+            "text": "Sit down. Name, club, and when you noticed the loss."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ДЗЕЛАВАЯ",
+            "text": "Сядайце. Імя, клуб, час, калі заўважылі знікненне."
+          }
+        }
+      },
+      {
+        "id": "VN0024",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-embarrassed.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "НЕРВНАЯ",
+            "text": "Эми Такахаси. Лёгкая атлетика. И можно сначала закрыть дверь?"
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "NERVOUS",
+            "text": "Emi Takahashi. Track and field. And could we close the door first?"
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "НЕРВОВАЯ",
+            "text": "Эмі Такахасі. Лёгкая атлетыка. І можна спачатку зачыніць дзверы?"
+          }
+        }
+      },
+      {
+        "id": "VN0025",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "РЕЖИССУРА",
+            "emotion": "CLOSE ON DOOR",
+            "text": "Мику закрывает дверь; Аюки переворачивает табличку чистой стороной наружу."
+          },
+          "en": {
+            "speaker": "STAGE DIRECTION",
+            "emotion": "CLOSE ON DOOR",
+            "text": "Miku closes the door; Ayuki flips the sign so its blank side faces out."
+          },
+          "be": {
+            "speaker": "РЭЖЫСУРА",
+            "emotion": "CLOSE ON DOOR",
+            "text": "Міку зачыняе дзверы; Аюкі пераварочвае таблічку чыстым бокам вонкі."
+          }
+        }
+      },
+      {
+        "id": "VN0026",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+            "x": 25,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          },
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-embarrassed.png",
+            "x": 75,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "СМУЩЁННАЯ",
+            "text": "Из моего шкафчика исчезло бельё. Два комплекта."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "EMBARRASSED",
+            "text": "Underwear disappeared from my locker. Two sets."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "ЗБЯНТЭЖАНАЯ",
+            "text": "З маёй шафкі знікла бялізна. Два камплекты."
+          }
+        }
+      },
+      {
+        "id": "VN0027",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-surprised.png",
+            "x": 29,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "МГНОВЕННО СЕРЬЁЗНАЯ",
+            "text": "Хорошо. Шутки потом. Шкафчик был заперт?"
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "INSTANTLY SERIOUS",
+            "text": "Okay. Jokes later. Was the locker locked?"
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "ІМГНЕННА СУР'ЁЗНАЯ",
+            "text": "Добра. Жарты потым. Шафка была замкнёная?"
+          }
+        }
+      },
+      {
+        "id": "VN0028",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "КИВАЕТ",
+            "text": "Да. Деньги, часы и новые кроссовки остались."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "NODS",
+            "text": "Yes. The money, watch, and new sneakers were still there."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "КІВАЕ",
+            "text": "Так. Грошы, гадзіннік і новыя красоўкі засталіся."
+          }
+        }
+      },
+      {
+        "id": "VN0029",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПИШЕТ",
+            "text": "Предварительная категория — U."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "WRITING",
+            "text": "Preliminary category: U."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПІША",
+            "text": "Папярэдняя катэгорыя — U."
+          }
+        }
+      },
+      {
+        "id": "VN0030",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "ЗАИНТЕРЕСОВАННАЯ",
+            "text": "«Ультраделикатное»?"
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "INTERESTED",
+            "text": "“Ultra-delicate”?"
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "ЗАЦІКАЎЛЕНАЯ",
+            "text": "«Ультрадалікатнае»?"
+          }
+        }
+      },
+      {
+        "id": "VN0031",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "НЕЙТРАЛЬНАЯ",
+            "text": "Undergarment."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "NEUTRAL",
+            "text": "Undergarment."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "НЕЙТРАЛЬНАЯ",
+            "text": "Undergarment."
+          }
+        }
+      },
+      {
+        "id": "VN0032",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-serious.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "РАЗДРАЖЁННАЯ",
+            "text": "Можно хотя бы пять минут не превращать мои трусики в название стрима?"
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "IRRITATED",
+            "text": "Can we go five minutes without turning my panties into a stream title?"
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "РАЗДРАЖНЁНАЯ",
+            "text": "Можна хаця б пяць хвілін не ператвараць мае трусікі ў назву стрыму?"
+          }
+        }
+      },
+      {
+        "id": "VN0033",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "ПРИМИРИТЕЛЬНАЯ",
+            "text": "Можно. Таймер пошёл."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "PLACATING",
+            "text": "We can. Timer started."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "ПРЫМІРАЛЬНАЯ",
+            "text": "Можна. Таймер пайшоў."
+          }
+        }
+      },
+      {
+        "id": "VN0034",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+            "x": 31,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          },
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-embarrassed.png",
+            "x": 69,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ",
+            "emotion": "МЯГКО",
+            "text": "Кто ещё знал код шкафчика?"
+          },
+          "en": {
+            "speaker": "MIKU",
+            "emotion": "GENTLY",
+            "text": "Who else knew the locker code?"
+          },
+          "be": {
+            "speaker": "МІКУ",
+            "emotion": "МЯККА",
+            "text": "Хто яшчэ ведаў код шафкі?"
+          }
+        }
+      },
+      {
+        "id": "VN0035",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "ДУМАЕТ",
+            "text": "Никто. Но утром вещи забирали в центральную прачечную, потом вернули перед тренировкой."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "THINKING",
+            "text": "No one. But the laundry was collected by the central service this morning and returned before practice."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "ДУМАЕ",
+            "text": "Ніхто. Але раніцай рэчы забіралі ў цэнтральную пральню, потым вярнулі перад трэніроўкай."
+          }
+        }
+      },
+      {
+        "id": "VN0036",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПОДНИМАЕТ ГЛАЗ",
+            "text": "Значит, доступ имел не только тот, кто открыл шкафчик."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "LOOKS UP",
+            "text": "Then access was not limited to whoever opened the locker."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПАДЫМАЕ ВОЧЫ",
+            "text": "Значыць, доступ меў не толькі той, хто адкрыў шафку."
+          }
+        }
+      },
+      {
+        "id": "VN0037",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "ТИХО",
+            "text": "Я не хочу, чтобы весь колледж обсуждал, что именно пропало."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "QUIETLY",
+            "text": "I do not want the whole college discussing exactly what went missing."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "ЦІХА",
+            "text": "Я не хачу, каб увесь каледж абмяркоўваў, што менавіта знікла."
+          }
+        }
+      },
+      {
+        "id": "VN0038",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/poses/pose_b_phone_theory.png",
+            "x": 31,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          },
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-embarrassed.png",
+            "x": 69,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "С ТЕЛЕФОНОМ",
+            "text": "Анонимное предупреждение защитит остальных. Без имени и деталей."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "WITH PHONE",
+            "text": "An anonymous warning could protect the others. No name, no details."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "З ТЭЛЕФОНАМ",
+            "text": "Ананімнае папярэджанне абароніць астатніх. Без імя і падрабязнасцяў."
+          }
+        }
+      },
+      {
+        "id": "VN0039",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ВОЗРАЖАЕТ",
+            "text": "Сначала следует зарегистрировать инцидент и уведомить студсовет."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "OBJECTING",
+            "text": "We should register the incident and notify the student council first."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПЯРЭЧЫЦЬ",
+            "text": "Спачатку трэба зарэгістраваць інцыдэнт і паведаміць студсавету."
+          }
+        }
+      },
+      {
+        "id": "VN0040",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+            "x": 50,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ (МЫСЛИ)",
+            "emotion": "НАПРЯЖЁННАЯ",
+            "text": "Минута в клубе — и мне уже предлагают выбрать между слухом, формой и человеком, который боится обоих."
+          },
+          "en": {
+            "speaker": "MIKU (THOUGHTS)",
+            "emotion": "TENSE",
+            "text": "One minute in the club and I am already choosing between a rumor, a form, and a person afraid of both."
+          },
+          "be": {
+            "speaker": "МІКУ (ДУМКІ)",
+            "emotion": "НАПРУЖАНАЯ",
+            "text": "Хвіліна ў клубе — і мне ўжо прапануюць выбіраць паміж чуткай, бланкам і чалавекам, які баіцца і таго, і другога."
+          }
+        }
+      },
+      {
+        "id": "VN0041B",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+            "x": 29,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ",
+            "emotion": "РЕШИТЕЛЬНАЯ",
+            "text": "Предупреждение нужно. Но без перечня вещей и без версии о виновном."
+          },
+          "en": {
+            "speaker": "MIKU",
+            "emotion": "DETERMINED",
+            "text": "We need a warning. But no list of items and no theory about who did it."
+          },
+          "be": {
+            "speaker": "МІКУ",
+            "emotion": "РАШУЧАЯ",
+            "text": "Папярэджанне патрэбнае. Але без пераліку рэчаў і без версіі пра вінаватага."
+          }
+        }
+      },
+      {
+        "id": "VN0042B",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "ОЖИВЛЁННАЯ",
+            "text": "«Проверьте шкафчики после централизованной стирки». Сухо, полезно, почти без меня."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "ANIMATED",
+            "text": "“Check your lockers after centralized laundry.” Dry, useful, almost no trace of me."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "АЖЫЎЛЕНАЯ",
+            "text": "«Праверце шафкі пасля цэнтралізаванага мыцця». Суха, карысна, амаль без мяне."
+          }
+        }
+      },
+      {
+        "id": "VN0043B",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "ОСТОРОЖНАЯ",
+            "text": "Если правда без имени… ладно."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "CAUTIOUS",
+            "text": "If it really is anonymous… okay."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "АСЦЯРОЖНАЯ",
+            "text": "Калі сапраўды без імя… добра."
+          }
+        }
+      },
+      {
+        "id": "VN0044B",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "РЕЖИССУРА",
+            "emotion": "UI POST / NOTIFICATIONS",
+            "text": "Пост получает несколько ответов; один из них упоминает фотографа Кэнтаро у служебного коридора."
+          },
+          "en": {
+            "speaker": "STAGE DIRECTION",
+            "emotion": "UI POST / NOTIFICATIONS",
+            "text": "The post gets several replies; one mentions photographer Kentaro near the service corridor."
+          },
+          "be": {
+            "speaker": "РЭЖЫСУРА",
+            "emotion": "UI POST / NOTIFICATIONS",
+            "text": "Пост атрымлівае некалькі адказаў; у адным з іх згадваюць фатографа Кэнтаро каля службовага калідора."
+          }
+        }
+      },
+      {
+        "id": "VN0045B",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "НЕОДОБРИТЕЛЬНАЯ",
+            "text": "Теперь у нас есть свидетельство и неконтролируемая интерпретация свидетельства."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "DISAPPROVING",
+            "text": "Now we have testimony and an uncontrolled interpretation of that testimony."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "НЕ ЎХВАЛЯЕ",
+            "text": "Цяпер у нас ёсць сведчанне і некантраляваная інтэрпрэтацыя сведчання."
+          }
+        }
+      },
+      {
+        "id": "VN0046B",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "СИСТЕМА",
+            "emotion": "VARIABLE",
+            "text": "{approach=warn; rumor_heat+1}"
+          },
+          "en": {
+            "speaker": "SYSTEM",
+            "emotion": "VARIABLE",
+            "text": "{approach=warn; rumor_heat+1}"
+          },
+          "be": {
+            "speaker": "СІСТЭМА",
+            "emotion": "VARIABLE",
+            "text": "{approach=warn; rumor_heat+1}"
+          }
+        }
+      },
+      {
+        "id": "VN0048",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "РЕЖИССУРА",
+            "emotion": "CUT TO BG_LOCKER_ATHLETICS_DAY",
+            "text": "Шкафчик Эми открыт. Вещи лежат беспорядочно, но дорогие предметы хорошо видны."
+          },
+          "en": {
+            "speaker": "STAGE DIRECTION",
+            "emotion": "CUT TO BG_LOCKER_ATHLETICS_DAY",
+            "text": "Emi’s locker is open. The contents are messy, but the expensive items are clearly visible."
+          },
+          "be": {
+            "speaker": "РЭЖЫСУРА",
+            "emotion": "CUT TO BG_LOCKER_ATHLETICS_DAY",
+            "text": "Шафка Эмі адкрытая. Рэчы ляжаць бязладна, але дарагія прадметы добра відаць."
+          }
+        }
+      },
+      {
+        "id": "VN0049",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "В ПЕРЧАТКАХ",
+            "text": "Я готова работать с уликами класса U."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "WEARING GLOVES",
+            "text": "I am ready to work with category-U evidence."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "У ПАЛЬЧАТКАХ",
+            "text": "Я гатовая працаваць з доказамі класа U."
+          }
+        }
+      },
+      {
+        "id": "VN0050",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "ПРЕДУПРЕЖДАЮЩАЯ",
+            "text": "Если дашь им имена, я уйду."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "WARNING",
+            "text": "If you give them names, I am leaving."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "ПАПЯРЭДЖВАЕ",
+            "text": "Калі дасі ім імёны, я пайду."
+          }
+        }
+      },
+      {
+        "id": "VN0051",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "ПОКОРНАЯ",
+            "text": "Номера. Только строгие номера."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "COMPLIANT",
+            "text": "Numbers. Strictly numbers."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "ПАКОРЛІВАЯ",
+            "text": "Нумары. Толькі строгія нумары."
+          }
+        }
+      },
+      {
+        "id": "VN0052",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "УКАЗЫВАЕТ НА ШКАФЧИК",
+            "text": "Не ищем «подозрительное». Фиксируем, что осталось, что исчезло и что проходило обработку."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "POINTS AT LOCKER",
+            "text": "We are not looking for “suspicious”. We record what remained, what vanished, and what went through processing."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПАКАЗВАЕ НА ШАФКУ",
+            "text": "Не шукаем «падазронае». Фіксуем, што засталося, што знікла і што праходзіла апрацоўку."
+          }
+        }
+      },
+      {
+        "id": "VN0053",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+            "x": 29,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ",
+            "emotion": "ВНИМАТЕЛЬНАЯ",
+            "text": "Кроссовки новые. Кружевной комплект лежит сверху. Если вор выбирал самое дорогое или заметное, выбор у него странный."
+          },
+          "en": {
+            "speaker": "MIKU",
+            "emotion": "ATTENTIVE",
+            "text": "The sneakers are new. A lace set is right on top. If the thief was after the most expensive or most conspicuous items, they made a strange choice."
+          },
+          "be": {
+            "speaker": "МІКУ",
+            "emotion": "УВАЖЛІВАЯ",
+            "text": "Красоўкі новыя. Карункавы камплект ляжыць зверху. Калі злодзей выбіраў самае дарагое ці прыкметнае, ён выбіраў дзіўна."
+          }
+        }
+      },
+      {
+        "id": "VN0054",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ЗАИНТЕРЕСОВАННАЯ",
+            "text": "Хорошее наблюдение. Проверим каждую категорию."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "INTERESTED",
+            "text": "Good observation. We will check every category."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ЗАЦІКАЎЛЕНАЯ",
+            "text": "Добрае назіранне. Праверым кожную катэгорыю."
+          }
+        }
+      },
+      {
+        "id": "VN0055",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+            "x": 50,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ (МЫСЛИ)",
+            "emotion": "СОСРЕДОТОЧЕННАЯ",
+            "text": "Первое настоящее дело. И первая задача — профессионально рассортировать бельё незнакомой девушки."
+          },
+          "en": {
+            "speaker": "MIKU (THOUGHTS)",
+            "emotion": "FOCUSED",
+            "text": "My first real case. And my first task is to professionally sort a stranger’s underwear."
+          },
+          "be": {
+            "speaker": "МІКУ (ДУМКІ)",
+            "emotion": "ЗАСЯРОДЖАНАЯ",
+            "text": "Першая сапраўдная справа. І першая задача — прафесійна рассартаваць бялізну незнаёмай дзяўчыны."
+          }
+        }
+      },
+      {
+        "id": "VN0056",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+            "x": 50,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ (МЫСЛИ)",
+            "emotion": "СУХО",
+            "text": "В буклете об этом тоже не было."
+          },
+          "en": {
+            "speaker": "MIKU (THOUGHTS)",
+            "emotion": "DRY",
+            "text": "The brochure did not mention this either."
+          },
+          "be": {
+            "speaker": "МІКУ (ДУМКІ)",
+            "emotion": "СУХА",
+            "text": "У буклеце пра гэта таксама не было."
+          }
+        }
+      },
+      {
+        "id": "VN0057",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "РЕЖИССУРА",
+            "emotion": "TRANSITION TO MATCH-3",
+            "text": "Крупный план открытого шкафчика превращается в поле."
+          },
+          "en": {
+            "speaker": "STAGE DIRECTION",
+            "emotion": "TRANSITION TO MATCH-3",
+            "text": "A close-up of the open locker transforms into the game board."
+          },
+          "be": {
+            "speaker": "РЭЖЫСУРА",
+            "emotion": "TRANSITION TO MATCH-3",
+            "text": "Буйны план адкрытай шафкі ператвараецца ў поле."
+          }
+        }
+      }
+    ],
+    "C": [
+      {
+        "id": "VN0023",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ДЕЛОВАЯ",
+            "text": "Садитесь. Имя, клуб, время обнаружения пропажи."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "BUSINESSLIKE",
+            "text": "Sit down. Name, club, and when you noticed the loss."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ДЗЕЛАВАЯ",
+            "text": "Сядайце. Імя, клуб, час, калі заўважылі знікненне."
+          }
+        }
+      },
+      {
+        "id": "VN0024",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-embarrassed.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "НЕРВНАЯ",
+            "text": "Эми Такахаси. Лёгкая атлетика. И можно сначала закрыть дверь?"
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "NERVOUS",
+            "text": "Emi Takahashi. Track and field. And could we close the door first?"
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "НЕРВОВАЯ",
+            "text": "Эмі Такахасі. Лёгкая атлетыка. І можна спачатку зачыніць дзверы?"
+          }
+        }
+      },
+      {
+        "id": "VN0025",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "РЕЖИССУРА",
+            "emotion": "CLOSE ON DOOR",
+            "text": "Мику закрывает дверь; Аюки переворачивает табличку чистой стороной наружу."
+          },
+          "en": {
+            "speaker": "STAGE DIRECTION",
+            "emotion": "CLOSE ON DOOR",
+            "text": "Miku closes the door; Ayuki flips the sign so its blank side faces out."
+          },
+          "be": {
+            "speaker": "РЭЖЫСУРА",
+            "emotion": "CLOSE ON DOOR",
+            "text": "Міку зачыняе дзверы; Аюкі пераварочвае таблічку чыстым бокам вонкі."
+          }
+        }
+      },
+      {
+        "id": "VN0026",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+            "x": 25,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          },
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-embarrassed.png",
+            "x": 75,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "СМУЩЁННАЯ",
+            "text": "Из моего шкафчика исчезло бельё. Два комплекта."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "EMBARRASSED",
+            "text": "Underwear disappeared from my locker. Two sets."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "ЗБЯНТЭЖАНАЯ",
+            "text": "З маёй шафкі знікла бялізна. Два камплекты."
+          }
+        }
+      },
+      {
+        "id": "VN0027",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-surprised.png",
+            "x": 29,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "МГНОВЕННО СЕРЬЁЗНАЯ",
+            "text": "Хорошо. Шутки потом. Шкафчик был заперт?"
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "INSTANTLY SERIOUS",
+            "text": "Okay. Jokes later. Was the locker locked?"
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "ІМГНЕННА СУР'ЁЗНАЯ",
+            "text": "Добра. Жарты потым. Шафка была замкнёная?"
+          }
+        }
+      },
+      {
+        "id": "VN0028",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "КИВАЕТ",
+            "text": "Да. Деньги, часы и новые кроссовки остались."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "NODS",
+            "text": "Yes. The money, watch, and new sneakers were still there."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "КІВАЕ",
+            "text": "Так. Грошы, гадзіннік і новыя красоўкі засталіся."
+          }
+        }
+      },
+      {
+        "id": "VN0029",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПИШЕТ",
+            "text": "Предварительная категория — U."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "WRITING",
+            "text": "Preliminary category: U."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПІША",
+            "text": "Папярэдняя катэгорыя — U."
+          }
+        }
+      },
+      {
+        "id": "VN0030",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "ЗАИНТЕРЕСОВАННАЯ",
+            "text": "«Ультраделикатное»?"
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "INTERESTED",
+            "text": "“Ultra-delicate”?"
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "ЗАЦІКАЎЛЕНАЯ",
+            "text": "«Ультрадалікатнае»?"
+          }
+        }
+      },
+      {
+        "id": "VN0031",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "НЕЙТРАЛЬНАЯ",
+            "text": "Undergarment."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "NEUTRAL",
+            "text": "Undergarment."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "НЕЙТРАЛЬНАЯ",
+            "text": "Undergarment."
+          }
+        }
+      },
+      {
+        "id": "VN0032",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-serious.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "РАЗДРАЖЁННАЯ",
+            "text": "Можно хотя бы пять минут не превращать мои трусики в название стрима?"
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "IRRITATED",
+            "text": "Can we go five minutes without turning my panties into a stream title?"
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "РАЗДРАЖНЁНАЯ",
+            "text": "Можна хаця б пяць хвілін не ператвараць мае трусікі ў назву стрыму?"
+          }
+        }
+      },
+      {
+        "id": "VN0033",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "ПРИМИРИТЕЛЬНАЯ",
+            "text": "Можно. Таймер пошёл."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "PLACATING",
+            "text": "We can. Timer started."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "ПРЫМІРАЛЬНАЯ",
+            "text": "Можна. Таймер пайшоў."
+          }
+        }
+      },
+      {
+        "id": "VN0034",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+            "x": 31,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          },
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-embarrassed.png",
+            "x": 69,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ",
+            "emotion": "МЯГКО",
+            "text": "Кто ещё знал код шкафчика?"
+          },
+          "en": {
+            "speaker": "MIKU",
+            "emotion": "GENTLY",
+            "text": "Who else knew the locker code?"
+          },
+          "be": {
+            "speaker": "МІКУ",
+            "emotion": "МЯККА",
+            "text": "Хто яшчэ ведаў код шафкі?"
+          }
+        }
+      },
+      {
+        "id": "VN0035",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "ДУМАЕТ",
+            "text": "Никто. Но утром вещи забирали в центральную прачечную, потом вернули перед тренировкой."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "THINKING",
+            "text": "No one. But the laundry was collected by the central service this morning and returned before practice."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "ДУМАЕ",
+            "text": "Ніхто. Але раніцай рэчы забіралі ў цэнтральную пральню, потым вярнулі перад трэніроўкай."
+          }
+        }
+      },
+      {
+        "id": "VN0036",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПОДНИМАЕТ ГЛАЗ",
+            "text": "Значит, доступ имел не только тот, кто открыл шкафчик."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "LOOKS UP",
+            "text": "Then access was not limited to whoever opened the locker."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПАДЫМАЕ ВОЧЫ",
+            "text": "Значыць, доступ меў не толькі той, хто адкрыў шафку."
+          }
+        }
+      },
+      {
+        "id": "VN0037",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "ТИХО",
+            "text": "Я не хочу, чтобы весь колледж обсуждал, что именно пропало."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "QUIETLY",
+            "text": "I do not want the whole college discussing exactly what went missing."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "ЦІХА",
+            "text": "Я не хачу, каб увесь каледж абмяркоўваў, што менавіта знікла."
+          }
+        }
+      },
+      {
+        "id": "VN0038",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/poses/pose_b_phone_theory.png",
+            "x": 31,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          },
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-embarrassed.png",
+            "x": 69,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 3
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "С ТЕЛЕФОНОМ",
+            "text": "Анонимное предупреждение защитит остальных. Без имени и деталей."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "WITH PHONE",
+            "text": "An anonymous warning could protect the others. No name, no details."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "З ТЭЛЕФОНАМ",
+            "text": "Ананімнае папярэджанне абароніць астатніх. Без імя і падрабязнасцяў."
+          }
+        }
+      },
+      {
+        "id": "VN0039",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ВОЗРАЖАЕТ",
+            "text": "Сначала следует зарегистрировать инцидент и уведомить студсовет."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "OBJECTING",
+            "text": "We should register the incident and notify the student council first."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПЯРЭЧЫЦЬ",
+            "text": "Спачатку трэба зарэгістраваць інцыдэнт і паведаміць студсавету."
+          }
+        }
+      },
+      {
+        "id": "VN0040",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+            "x": 50,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ (МЫСЛИ)",
+            "emotion": "НАПРЯЖЁННАЯ",
+            "text": "Минута в клубе — и мне уже предлагают выбрать между слухом, формой и человеком, который боится обоих."
+          },
+          "en": {
+            "speaker": "MIKU (THOUGHTS)",
+            "emotion": "TENSE",
+            "text": "One minute in the club and I am already choosing between a rumor, a form, and a person afraid of both."
+          },
+          "be": {
+            "speaker": "МІКУ (ДУМКІ)",
+            "emotion": "НАПРУЖАНАЯ",
+            "text": "Хвіліна ў клубе — і мне ўжо прапануюць выбіраць паміж чуткай, бланкам і чалавекам, які баіцца і таго, і другога."
+          }
+        }
+      },
+      {
+        "id": "VN0041C",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ",
+            "emotion": "ОСТОРОЖНАЯ",
+            "text": "Сначала зарегистрируем пропажу. Если случаи повторяются, бумажный след пригодится."
+          },
+          "en": {
+            "speaker": "MIKU",
+            "emotion": "CAUTIOUS",
+            "text": "First we register the loss. If it happens again, a paper trail will help."
+          },
+          "be": {
+            "speaker": "МІКУ",
+            "emotion": "АСЦЯРОЖНАЯ",
+            "text": "Спачатку зарэгіструем знікненне. Калі выпадкі паўторацца, папяровы след спатрэбіцца."
+          }
+        }
+      },
+      {
+        "id": "VN0042C",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ОДОБРЯЕТ",
+            "text": "Корректно."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "APPROVING",
+            "text": "Correct."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "УХВАЛЯЕ",
+            "text": "Карэктна."
+          }
+        }
+      },
+      {
+        "id": "VN0043C",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "РЕЖИССУРА",
+            "emotion": "PHONE CALL / SPLIT PORTRAIT MAYU",
+            "text": "Оноэ включает громкую связь с Маю Хаясакой из студсовета."
+          },
+          "en": {
+            "speaker": "STAGE DIRECTION",
+            "emotion": "PHONE CALL / SPLIT PORTRAIT MAYU",
+            "text": "Onoe puts Mayu Hayasaka from the student council on speakerphone."
+          },
+          "be": {
+            "speaker": "РЭЖЫСУРА",
+            "emotion": "PHONE CALL / SPLIT PORTRAIT MAYU",
+            "text": "Оноэ ўключае гучную сувязь з Маю Хаясакай са студсавета."
+          }
+        }
+      },
+      {
+        "id": "VN0044C",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "mayu",
+            "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png",
+            "x": 71,
+            "top": 40.32,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МАЮ",
+            "emotion": "ВЕЖЛИВО-НАПРЯЖЁННАЯ",
+            "text": "Зарегистрируйте это как ошибку сортировки. Пожалуйста, не используйте слово «кража», пока нет доказательств."
+          },
+          "en": {
+            "speaker": "MAYU",
+            "emotion": "POLITE, TENSE",
+            "text": "Register it as a sorting error. Please do not use the word “theft” until there is evidence."
+          },
+          "be": {
+            "speaker": "МАЮ",
+            "emotion": "ВЕТЛІВА-НАПРУЖАНАЯ",
+            "text": "Зарэгіструйце гэта як памылку сартавання. Калі ласка, не выкарыстоўвайце слова «крадзеж», пакуль няма доказаў."
+          }
+        }
+      },
+      {
+        "id": "VN0045C",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-serious.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "ХОЛОДНО",
+            "text": "Мой шкафчик сам ошибся?"
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "COLD",
+            "text": "My locker made a mistake by itself?"
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "ХОЛАДНА",
+            "text": "Мая шафка сама памылілася?"
+          }
+        }
+      },
+      {
+        "id": "VN0046C",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [
+          {
+            "character": "mayu",
+            "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 40.32,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МАЮ",
+            "emotion": "ПАУЗА",
+            "text": "Я пришлю журнал доступа. И прошу вести проверку тихо."
+          },
+          "en": {
+            "speaker": "MAYU",
+            "emotion": "PAUSE",
+            "text": "I will send the access log. And please keep the investigation quiet."
+          },
+          "be": {
+            "speaker": "МАЮ",
+            "emotion": "ПАЎЗА",
+            "text": "Я дашлю журнал доступу. І прашу праводзіць праверку ціха."
+          }
+        }
+      },
+      {
+        "id": "VN0047C",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "СИСТЕМА",
+            "emotion": "VARIABLE",
+            "text": "{approach=report; onoe_trust+1}"
+          },
+          "en": {
+            "speaker": "SYSTEM",
+            "emotion": "VARIABLE",
+            "text": "{approach=report; onoe_trust+1}"
+          },
+          "be": {
+            "speaker": "СІСТЭМА",
+            "emotion": "VARIABLE",
+            "text": "{approach=report; onoe_trust+1}"
+          }
+        }
+      },
+      {
+        "id": "VN0048",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "РЕЖИССУРА",
+            "emotion": "CUT TO BG_LOCKER_ATHLETICS_DAY",
+            "text": "Шкафчик Эми открыт. Вещи лежат беспорядочно, но дорогие предметы хорошо видны."
+          },
+          "en": {
+            "speaker": "STAGE DIRECTION",
+            "emotion": "CUT TO BG_LOCKER_ATHLETICS_DAY",
+            "text": "Emi’s locker is open. The contents are messy, but the expensive items are clearly visible."
+          },
+          "be": {
+            "speaker": "РЭЖЫСУРА",
+            "emotion": "CUT TO BG_LOCKER_ATHLETICS_DAY",
+            "text": "Шафка Эмі адкрытая. Рэчы ляжаць бязладна, але дарагія прадметы добра відаць."
+          }
+        }
+      },
+      {
+        "id": "VN0049",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "В ПЕРЧАТКАХ",
+            "text": "Я готова работать с уликами класса U."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "WEARING GLOVES",
+            "text": "I am ready to work with category-U evidence."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "У ПАЛЬЧАТКАХ",
+            "text": "Я гатовая працаваць з доказамі класа U."
+          }
+        }
+      },
+      {
+        "id": "VN0050",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "emi",
+            "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 36.81,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ЭМИ",
+            "emotion": "ПРЕДУПРЕЖДАЮЩАЯ",
+            "text": "Если дашь им имена, я уйду."
+          },
+          "en": {
+            "speaker": "EMI",
+            "emotion": "WARNING",
+            "text": "If you give them names, I am leaving."
+          },
+          "be": {
+            "speaker": "ЭМІ",
+            "emotion": "ПАПЯРЭДЖВАЕ",
+            "text": "Калі дасі ім імёны, я пайду."
+          }
+        }
+      },
+      {
+        "id": "VN0051",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "ayuki",
+            "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 33.39,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "АЮКИ",
+            "emotion": "ПОКОРНАЯ",
+            "text": "Номера. Только строгие номера."
+          },
+          "en": {
+            "speaker": "AYUKI",
+            "emotion": "COMPLIANT",
+            "text": "Numbers. Strictly numbers."
+          },
+          "be": {
+            "speaker": "АЮКІ",
+            "emotion": "ПАКОРЛІВАЯ",
+            "text": "Нумары. Толькі строгія нумары."
+          }
+        }
+      },
+      {
+        "id": "VN0052",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 29,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "УКАЗЫВАЕТ НА ШКАФЧИК",
+            "text": "Не ищем «подозрительное». Фиксируем, что осталось, что исчезло и что проходило обработку."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "POINTS AT LOCKER",
+            "text": "We are not looking for “suspicious”. We record what remained, what vanished, and what went through processing."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ПАКАЗВАЕ НА ШАФКУ",
+            "text": "Не шукаем «падазронае». Фіксуем, што засталося, што знікла і што праходзіла апрацоўку."
+          }
+        }
+      },
+      {
+        "id": "VN0053",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+            "x": 29,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ",
+            "emotion": "ВНИМАТЕЛЬНАЯ",
+            "text": "Кроссовки новые. Кружевной комплект лежит сверху. Если вор выбирал самое дорогое или заметное, выбор у него странный."
+          },
+          "en": {
+            "speaker": "MIKU",
+            "emotion": "ATTENTIVE",
+            "text": "The sneakers are new. A lace set is right on top. If the thief was after the most expensive or most conspicuous items, they made a strange choice."
+          },
+          "be": {
+            "speaker": "МІКУ",
+            "emotion": "УВАЖЛІВАЯ",
+            "text": "Красоўкі новыя. Карункавы камплект ляжыць зверху. Калі злодзей выбіраў самае дарагое ці прыкметнае, ён выбіраў дзіўна."
+          }
+        }
+      },
+      {
+        "id": "VN0054",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "onoe",
+            "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+            "x": 71,
+            "top": 37.9,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "ОНОЭ",
+            "emotion": "ЗАИНТЕРЕСОВАННАЯ",
+            "text": "Хорошее наблюдение. Проверим каждую категорию."
+          },
+          "en": {
+            "speaker": "ONOE",
+            "emotion": "INTERESTED",
+            "text": "Good observation. We will check every category."
+          },
+          "be": {
+            "speaker": "ОНОЭ",
+            "emotion": "ЗАЦІКАЎЛЕНАЯ",
+            "text": "Добрае назіранне. Праверым кожную катэгорыю."
+          }
+        }
+      },
+      {
+        "id": "VN0055",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+            "x": 50,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ (МЫСЛИ)",
+            "emotion": "СОСРЕДОТОЧЕННАЯ",
+            "text": "Первое настоящее дело. И первая задача — профессионально рассортировать бельё незнакомой девушки."
+          },
+          "en": {
+            "speaker": "MIKU (THOUGHTS)",
+            "emotion": "FOCUSED",
+            "text": "My first real case. And my first task is to professionally sort a stranger’s underwear."
+          },
+          "be": {
+            "speaker": "МІКУ (ДУМКІ)",
+            "emotion": "ЗАСЯРОДЖАНАЯ",
+            "text": "Першая сапраўдная справа. І першая задача — прафесійна рассартаваць бялізну незнаёмай дзяўчыны."
+          }
+        }
+      },
+      {
+        "id": "VN0056",
+        "hidden": false,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [
+          {
+            "character": "miku",
+            "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+            "x": 50,
+            "top": 37.14,
+            "height": 128.16,
+            "scale": 1,
+            "y": 0,
+            "z": 0
+          }
+        ],
+        "localized": {
+          "ru": {
+            "speaker": "МИКУ (МЫСЛИ)",
+            "emotion": "СУХО",
+            "text": "В буклете об этом тоже не было."
+          },
+          "en": {
+            "speaker": "MIKU (THOUGHTS)",
+            "emotion": "DRY",
+            "text": "The brochure did not mention this either."
+          },
+          "be": {
+            "speaker": "МІКУ (ДУМКІ)",
+            "emotion": "СУХА",
+            "text": "У буклеце пра гэта таксама не было."
+          }
+        }
+      },
+      {
+        "id": "VN0057",
+        "hidden": true,
+        "background": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
+        "actors": [],
+        "localized": {
+          "ru": {
+            "speaker": "РЕЖИССУРА",
+            "emotion": "TRANSITION TO MATCH-3",
+            "text": "Крупный план открытого шкафчика превращается в поле."
+          },
+          "en": {
+            "speaker": "STAGE DIRECTION",
+            "emotion": "TRANSITION TO MATCH-3",
+            "text": "A close-up of the open locker transforms into the game board."
+          },
+          "be": {
+            "speaker": "РЭЖЫСУРА",
+            "emotion": "TRANSITION TO MATCH-3",
+            "text": "Буйны план адкрытай шафкі ператвараецца ў поле."
+          }
+        }
+      }
+    ]
+  }
+}
