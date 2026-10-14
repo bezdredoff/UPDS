@@ -1,0 +1,663 @@
+{
+  "sceneId": "VN_SCENE_39_E19_PRE",
+  "sceneIndex": 39,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_19_PRIVATE_RETURN",
+  "onWinSceneIndex": 40,
+  "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+  "titles": {
+    "ru": "Вор пойман",
+    "en": "The Thief Is Caught",
+    "be": "Злодзей злоўлены"
+  },
+  "lines": [
+    {
+      "id": "VN0846",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "BG_ANONYMOUS_RETURN_COUNTER / ESTABLISHING",
+          "text": "Закрытая зона центральной прачечной. На стойке стоят непрозрачные возвратные ячейки, конверты с кодами и ни одного имени."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "A closed section of the central laundry. Opaque return lockers, coded envelopes, and not a single name sit on the counter."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "BG_ANONYMOUS_RETURN_COUNTER / ESTABLISHING",
+          "text": "Закрытая зона цэнтральнай пральні. На стойцы стаяць непразрыстыя ячэйкі вяртання, канверты з кодамі і ніводнага імя."
+        }
+      }
+    },
+    {
+      "id": "VN0847",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СПОКОЙНО",
+          "text": "Мы сообщаем только то, что доказали о Рине. Не выдвигаем предположений о системе, которые пока не можем обосновать."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "We report only what we proved about Rina. No claims about the system that we cannot defend right now."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СПАКОЙНА",
+          "text": "Мы паведамляем толькі тое, што даказалі пра Рыну. Ніякіх здагадак пра сістэму, якія цяпер не можам абараніць."
+        }
+      }
+    },
+    {
+      "id": "VN0848",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "С ПАПКОЙ",
+          "text": "Физические кражи, каталог и нарушение служебного доступа доказаны. Этого достаточно для дисциплинарного дела."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "The physical thefts, catalog, and misuse of service access are proven. That is enough for a disciplinary case."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "З ПАПКАЙ",
+          "text": "Фізічныя крадзяжы, каталог і парушэнне службовага доступу даказаныя. Гэтага дастаткова для дысцыплінарнай справы."
+        }
+      }
+    },
+    {
+      "id": "VN0849",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "РАССМАТРИВАЕТ ЯЧЕЙКИ",
+          "text": "Я предлагаю название «Бюро воссоединения». Звучит тепло и не уточняет, с чем именно воссоединяют."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "I propose the name 'Reunion Bureau.' It sounds warm and does not specify what is being reunited."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "РАЗГЛЯДАЕ ЯЧЭЙКІ",
+          "text": "Прапаную назву «Бюро ўз'яднання». Гучыць цёпла і не ўдакладняе, з чым менавіта ўз'ядноўваюць."
+        }
+      }
+    },
+    {
+      "id": "VN0850",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "ХОЛОДНО",
+          "text": "Владельцы сами выбирают способ возврата. Без публичных списков, фотографий и сюрпризов."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "Owners choose how their items are returned. No public lists, photographs, or surprises."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "ХОЛАДНА",
+          "text": "Уладальнікі самі выбіраюць спосаб вяртання. Без публічных спісаў, фатаграфій і сюрпрызаў."
+        }
+      }
+    },
+    {
+      "id": "VN0851",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ДЕЛОВИТО",
+          "text": "Asterion компенсирует последствия сбоя в обслуживании и проведёт внутреннюю техническую проверку. Так можно будет закрыть вопрос без лишнего шума."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "BEAT",
+          "text": "Asterion will compensate for the service failure and conduct an internal technical review. That should let us close the matter without unnecessary noise."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ПА-ДЗЕЛАВОМУ",
+          "text": "Asterion кампенсуе наступствы збою ў абслугоўванні і правядзе ўнутраную тэхнічную праверку. Гэта дазволіць закрыць пытанне без лішняга шуму."
+        }
+      }
+    },
+    {
+      "id": "VN0852",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМОТРИТ НА НЕГО",
+          "text": "Закрыть кражи — да. Закрыть технический вопрос за нас — нет."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Close the thefts, yes. Close the technical question for us, no."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ГЛЯДЗІЦЬ НА ЯГО",
+          "text": "Закрыць крадзяжы — так. Закрыць тэхнічнае пытанне за нас — не."
+        }
+      }
+    },
+    {
+      "id": "VN0853",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "УСТАЛО",
+          "text": "Я подпишу признание по тем вещам, которые забрала. Но серверные логи от этого не перестанут существовать."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "I will sign a confession for the items I took. That will not make the server logs stop existing."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "СТОМЛЕНА",
+          "text": "Я падпішу прызнанне па тых рэчах, якія забрала. Але серверныя журналы ад гэтага не перастануць існаваць."
+        }
+      }
+    },
+    {
+      "id": "VN0854",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "СДЕРЖАННО",
+          "text": "Администрации нужен практический порядок возврата сегодня. Всё остальное формально остаётся отдельным вопросом."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "BEAT",
+          "text": "The administration needs a practical return process today. Everything else formally remains a separate issue."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "СТРЫМАНА",
+          "text": "Адміністрацыі сёння патрэбны практычны парадак вяртання. Усё астатняе фармальна застаецца асобным пытаннем."
+        }
+      }
+    },
+    {
+      "id": "VN0855",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НА СХЕМУ",
+          "text": "Каждый пакет получает случайный код. Код знает только владелец и закрытый список выдачи."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Every package gets a random code. Only the owner and the closed issue list know the code."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НА СХЕМУ",
+          "text": "Кожны пакет атрымлівае выпадковы код. Код ведае толькі ўладальнік і закрыты спіс выдачы."
+        }
+      }
+    },
+    {
+      "id": "VN0856",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "КИВАЕТ",
+          "text": "Уведомление должно говорить только: «Ваша вещь найдена. Выберите способ получения»."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "The notice should say only: 'Your item was found. Choose a collection method.'"
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "КІВАЕ",
+          "text": "Паведамленне павінна казаць толькі: «Ваша рэч знойдзена. Выберыце спосаб атрымання»."
+        }
+      }
+    },
+    {
+      "id": "VN0857",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПОКАЗЫВАЕТ ЭСКИЗ",
+          "text": "А если поставить между двумя кодами маленькое сердечко?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "What if we put a tiny heart between two codes?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПАКАЗВАЕ ЭСКІЗ",
+          "text": "А калі паставіць паміж двума кодамі маленькае сэрцайка?"
+        }
+      }
+    },
+    {
+      "id": "VN0858",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "НЕМЕДЛЕННО",
+          "text": "Нет."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "No."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "АДРАЗУ",
+          "text": "Не."
+        }
+      }
+    },
+    {
+      "id": "VN0859",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "УДОВЛЕТВОРЁННО",
+          "text": "Я уже напечатала табличку «ВЫДАЧА U»."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "I already printed a sign: 'U COLLECTION.'"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАДАВОЛЕНА",
+          "text": "Я ўжо надрукавала шыльду «ВЫДАЧА U»."
+        }
+      }
+    },
+    {
+      "id": "VN0860",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПОРАЖЕНА",
+          "text": "Ты смогла сделать возврат белья административно скучнее налоговой формы."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "You made underwear returns more administratively boring than a tax form."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "УРАЖАНАЯ",
+          "text": "Ты здолела зрабіць вяртанне бялізны адміністрацыйна нуднейшым за падатковую форму."
+        }
+      }
+    },
+    {
+      "id": "VN0861",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: RETURN BOARD",
+          "text": "На доске смешаны анонимные коды, пломбы, подтверждения и закрытые ячейки."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "Anonymous codes, seals, confirmations, and closed lockers are mixed across the board."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: RETURN BOARD",
+          "text": "На дошцы змяшаныя ананімныя коды, пломбы, пацверджанні і закрытыя ячэйкі."
+        }
+      }
+    },
+    {
+      "id": "VN0862",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФОРМУЛИРУЕТ",
+          "text": "Сначала снимаем старые пломбы. Потом сортируем только по анонимным кодам. Подтверждение выдачи опускаем отдельно."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Old seals first. Then sort only by anonymous code. Drop the return confirmation separately."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФАРМУЛЮЕ",
+          "text": "Спачатку здымаем старыя пломбы. Потым сартуем толькі па ананімных кодах. Пацверджанне выдачы апускаем асобна."
+        }
+      }
+    },
+    {
+      "id": "VN0863",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "И ни одной подписи, по которой сосед сможет догадаться, чей это пакет."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "And no label that lets a neighbor guess whose package it is."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "СУР'ЁЗНА",
+          "text": "І ніводнага подпісу, па якім сусед зможа здагадацца, чый гэта пакет."
+        }
+      }
+    },
+    {
+      "id": "VN0864",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ТИХО",
+          "text": "Хотя бы вернуть их правильно я могу помочь."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "At least I can help return them correctly."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ЦІХА",
+          "text": "Хаця б вярнуць іх правільна я магу дапамагчы."
+        }
+      }
+    },
+    {
+      "id": "VN0865",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Архивные ряды превращаются в приватную выдачу: очистить пломбы, собрать коды и опустить подтверждение возврата."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "The archive rows become a private return desk: clear seals, collect codes, and drop the return confirmation."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Архіўныя рады ператвараюцца ў прыватную выдачу: ачысціць пломбы, сабраць коды і апусціць пацверджанне вяртання."
+        }
+      }
+    }
+  ]
+}

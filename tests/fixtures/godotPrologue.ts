@@ -168,8 +168,14 @@ export function godotStoryScene(sceneIndex: number) {
   const onWinSceneIndex = transition.kind === 'match3'
     ? storyGraph.scenes.find((entry) => entry.id === transition.onWinSceneId)?.legacyIndex ?? -1
     : -1;
+  const ending = transition.kind === 'ending' ? {
+    endingId: transition.endingId,
+    ...(transition.fallbackEndingId ? { fallbackEndingId: transition.fallbackEndingId } : {}),
+    ...(transition.successRequirement ? { successRequirement: transition.successRequirement } : {}),
+  } : null;
   return {
     sceneId: scene.id, sceneIndex, nextSceneId, nextSceneIndex, nextLevelId, onWinSceneIndex,
+    ...(ending ? { ending } : {}),
     ...(transition.kind === 'branch' ? { branchChoiceId, nextSceneIndices } : {}),
     ...(choiceGate ? { choiceGate } : {}),
     background: backgroundAssets[scene.defaultBackground],

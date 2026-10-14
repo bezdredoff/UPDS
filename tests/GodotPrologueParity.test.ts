@@ -97,6 +97,8 @@ describe('Godot story source parity', () => {
       [36, 'godot/data/post_rina_archive_catalog_scene.json', 'VN0786', 'VN0805', '', -1],
       [37, 'godot/data/full_timeline_proof_scene.json', 'VN0806', 'VN0826', 'M3_18_FULL_TIMELINE_PROOF', 38],
       [38, 'godot/data/post_full_timeline_proof_scene.json', 'VN0827', 'VN0845', '', -1],
+      [39, 'godot/data/private_return_scene.json', 'VN0846', 'VN0865', 'M3_19_PRIVATE_RETURN', 40],
+      [40, 'godot/data/post_private_return_scene.json', 'VN0866', 'VN0884', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -194,6 +196,11 @@ describe('Godot story source parity', () => {
     expect(timelineLevel.evidence.localized.ru.title).toBeTruthy();
     expect(timelineLevel.evidence.localized.be.label).toBeTruthy();
     expect(timelineLevel.evidence.localized.en.continueStory).toBeTruthy();
+    const privateReturnLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_19_PRIVATE_RETURN');
+    expect(privateReturnLevel.evidence.id).toBe('CUE_020');
+    expect(privateReturnLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(privateReturnLevel.evidence.localized.be.label).toBeTruthy();
+    expect(privateReturnLevel.evidence.localized.en.continueStory).toBeTruthy();
     const strategyScene = godotStoryScene(38);
     expect(strategyScene.branchChoiceId).toBe('final-strategy');
     expect(strategyScene.nextSceneIndices).toEqual({ A: 39, B: 41, C: 43 });
