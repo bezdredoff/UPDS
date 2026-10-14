@@ -94,6 +94,22 @@ func _run() -> void:
 	await create_timer(0.1).timeout
 	assert(is_zero_approx(settle_stack.offset_top) and is_zero_approx(settle_stack.offset_bottom) and settle_stack.scale.is_equal_approx(Vector2.ONE) and is_equal_approx(settle_stack.modulate.a, 1.0), "Spawn animation did not settle to its source end state")
 	match3._render_board()
+	match3._render_frame({
+		"phase": "clear",
+		"tiles": match3.game.tiles.duplicate(),
+		"specials": match3.game.specials.duplicate(),
+		"blockers": match3.game.blocker_layers.duplicate(),
+		"ingredients": match3.game.ingredients.duplicate(),
+		"cleared": [settle_index],
+		"cascade": 1,
+		"feedback": "match",
+	})
+	var clearing_stack: Control = match3.board.get_child(settle_index).get_node("TileStack")
+	await create_timer(0.12).timeout
+	assert(clearing_stack.scale.x > 1.05 and clearing_stack.modulate.r > 1.4, "Clear animation missed its source 1.1 scale and brightness peak")
+	await create_timer(0.19).timeout
+	assert(clearing_stack.scale.is_equal_approx(Vector2(0.18, 0.18)) and clearing_stack.modulate.a < 0.01, "Clear animation missed its source shrink and fade end state")
+	match3._render_board()
 	var columns := int(match3.game.level_data.columns)
 	var rejected_first := settle_index
 	var rejected_second := settle_index + 1 if (settle_index + 1) % columns != 0 else settle_index - 1

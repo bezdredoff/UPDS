@@ -677,11 +677,12 @@ func _render_frame(frame: Dictionary) -> void:
 			var cell := board.get_child(int(index_value)) as Control
 			var tile_stack := cell.get_node_or_null("TileStack") as Control
 			if tile_stack == null: continue
+			var clear_ease := Callable(self, "_css_cubic_bezier").bind(0.2, 0.72, 0.18, 1.0)
 			var tween := create_tween()
-			tween.tween_property(tile_stack, "scale", Vector2(1.1, 1.1), CLEAR_MOTION_SECONDS * 0.48).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			tween.parallel().tween_property(tile_stack, "modulate", Color(1.55, 1.55, 1.55, 1.0), CLEAR_MOTION_SECONDS * 0.48)
-			tween.tween_property(tile_stack, "scale", Vector2(0.18, 0.18), CLEAR_MOTION_SECONDS * 0.52).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-			tween.parallel().tween_property(tile_stack, "modulate", Color(1.8, 1.8, 1.8, 0.0), CLEAR_MOTION_SECONDS * 0.52)
+			tween.tween_property(tile_stack, "scale", Vector2(1.1, 1.1), CLEAR_MOTION_SECONDS * 0.48).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(clear_ease)
+			tween.parallel().tween_property(tile_stack, "modulate", Color(1.55, 1.55, 1.55, 1.0), CLEAR_MOTION_SECONDS * 0.48).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(clear_ease)
+			tween.tween_property(tile_stack, "scale", Vector2(0.18, 0.18), CLEAR_MOTION_SECONDS * 0.52).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(clear_ease)
+			tween.parallel().tween_property(tile_stack, "modulate", Color(1.8, 1.8, 1.8, 0.0), CLEAR_MOTION_SECONDS * 0.52).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(clear_ease)
 	elif str(frame.phase) == "settle":
 		for motion_value in frame.motions:
 			var motion: Dictionary = motion_value
@@ -692,7 +693,7 @@ func _render_frame(frame: Dictionary) -> void:
 			var is_spawn := bool(motion.spawn)
 			var settle_mark := 0.78 if is_spawn else 0.72
 			var settle_scale := 1.02 if is_spawn else 1.015
-			var bezier := Callable(self, "_css_settle_ease")
+			var bezier := Callable(self, "_css_cubic_bezier").bind(0.18, 0.82, 0.28, 1.0)
 			tile_stack.offset_top = -distance
 			tile_stack.offset_bottom = -distance
 			tile_stack.scale = Vector2(0.86, 0.86) if is_spawn else Vector2(0.98, 0.98)
@@ -725,18 +726,18 @@ func _render_frame(frame: Dictionary) -> void:
 			tween.parallel().tween_property(tile_stack, "rotation_degrees", 0.0, RESHUFFLE_MOTION_SECONDS * 0.35)
 
 
-func _css_settle_ease(progress: float) -> float:
-	# CSS cubic-bezier(.18, .82, .28, 1) is defined in x-space; invert x(t)
-	# so Godot's custom interpolator follows the same timing curve.
+func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: float) -> float:
+	# CSS cubic-bezier is defined in x-space; invert x(t) so Godot's custom
+	# interpolator follows the same timing curve for the source animation phase.
 	var t := clampf(progress, 0.0, 1.0)
 	for _iteration in 6:
 		var inverse := 1.0 - t
-		var x := 3.0 * inverse * inverse * t * 0.18 + 3.0 * inverse * t * t * 0.28 + t * t * t
-		var derivative := 3.0 * inverse * inverse * 0.18 + 6.0 * inverse * t * (0.28 - 0.18) + 3.0 * t * t * (1.0 - 0.28)
+		var x := 3.0 * inverse * inverse * t * x1 + 3.0 * inverse * t * t * x2 + t * t * t
+		var derivative := 3.0 * inverse * inverse * x1 + 6.0 * inverse * t * (x2 - x1) + 3.0 * t * t * (1.0 - x2)
 		if absf(derivative) < 0.00001: break
 		t = clampf(t - (x - progress) / derivative, 0.0, 1.0)
 	var inverse := 1.0 - t
-	return 3.0 * inverse * inverse * t * 0.82 + 3.0 * inverse * t * t + t * t * t
+	return 3.0 * inverse * inverse * t * y1 + 3.0 * inverse * t * t * y2 + t * t * t
 
 
 func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
