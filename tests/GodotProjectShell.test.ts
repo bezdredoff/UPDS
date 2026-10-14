@@ -20,12 +20,12 @@ describe('Godot port project shell', () => {
 		expect(project).toContain('renderer/rendering_method="gl_compatibility"');
 	});
 
-	it('keeps the first scene explicitly identified as a non-gameplay bootstrap', () => {
+	it('keeps the bootstrap available as a non-gameplay smoke fixture', () => {
 		expect(scene).toContain('path="res://scripts/port_bootstrap.gd"');
 		expect(scene).toContain('UPDS · Godot port shell');
 		expect(script).toContain('const PORT_STAGE := "project_shell"');
 		expect(smoke).toContain('res://scenes/port_bootstrap.tscn');
 		expect(checkScript).toContain('res://tests/port_bootstrap_smoke.gd');
-		expect(readme).toContain('first ported screen');
+		expect(readme).toContain('main menu is the entry point');
 	});
 });

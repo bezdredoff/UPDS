@@ -8,16 +8,28 @@ in small, verifiable slices.
 
 - Godot 4.7 stable, GDScript, Compatibility renderer.
 - Portrait logical viewport: 480 × 854, scaled with `canvas_items`.
-- `scenes/main_menu.tscn` is the first ported screen. Its buttons expose navigation
-  signals for the story, Match-3 campaign and settings slices as those are ported.
+- `scenes/main_menu.tscn` is the project entry point; the connected story, endings and
+  Match-3 campaign are playable in the native port.
 - `scenes/port_bootstrap.tscn` remains a minimal engine smoke-test fixture.
 - Godot MCP Bridge is pinned to upstream commit
   `88fe614fbbd26f1d49cb3a5905fdd1a7bc3e35c7` (MIT). The editor plugin and the
   `McpRuntime` capture autoload are enabled; the project and Codex MCP server both
   use localhost port `6510`.
+- Playgama Bridge for Godot 4 is pinned to release `v2.3.0` from
+  [Playgama/bridge-godot-4](https://github.com/Playgama/bridge-godot-4/releases/tag/v2.3.0).
+  The official release archive SHA-256 is recorded in
+  `docs/features/PG003AN_PLAYGAMA_BRIDGE_GODOT_RU.md`; its MIT license is included
+  beside the plugin. The plugin autoload is first, followed by the UPDS platform
+  adapter. Editor mocks support native development and headless validation.
+- `export_presets.cfg` defines `Playgama Web` and selects the official Bridge HTML
+  shell. Export requires Godot's Web templates; the published platform package still
+  needs a separate hosted build and platform review.
 
-Open this directory as a project in Godot. The current main menu is the first vertical
-slice; the bootstrap scene remains available for headless import and parser checks.
+Open this directory as a project in Godot. The main menu is the entry point; the
+bootstrap scene remains available for headless import and parser checks. The Playgama
+plugin is enabled. The `Playgama Web` preset uses the custom HTML shell at
+`addons/playgama_bridge/template/index.html`. A hosted platform build and any platform
+credentials are still part of the release packaging step.
 
 ## Command-line validation
 
@@ -54,6 +66,11 @@ ending IDs. Route C reaches `ENDING_C_PERFECT_SUSPECT` through M3_21.
 The separate campaign hub exposes all 22
 levels with sequential unlocks.
 Replacing existing progress through New Game requires confirmation.
+
+The Playgama adapter sends `game_ready` once after startup, maps platform pause state
+to Godot's scene-tree pause, and maps platform audio state to the Master bus. No ad
+placements are active; both ad preload flags are disabled until the publishing model
+and required placements are confirmed.
 
 ## Native campaign persistence
 
