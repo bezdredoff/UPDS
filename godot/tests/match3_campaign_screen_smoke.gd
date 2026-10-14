@@ -22,7 +22,15 @@ func _run() -> void:
 	await process_frame
 	var campaign: Control = menu.match3_campaign_screen
 	assert(campaign.cards.get_child_count() == 22, "Campaign hub did not render all authored levels")
-	assert(campaign.cards.get_child(1).get_child(0).get_child(1).disabled, "Second level should be locked initially")
+	assert(campaign.back_button.custom_minimum_size == Vector2(44, 44), "Campaign back action should match the source header size")
+	assert(campaign.settings_button.custom_minimum_size == Vector2(44, 44), "Campaign settings action should match the source header size")
+	assert(campaign.cards.get_child(1).get_child(0).get_child(3).disabled, "Second level should be locked initially")
+	campaign.settings_button.pressed.emit()
+	await process_frame
+	assert(is_instance_valid(menu.settings_screen) and campaign.visible, "Campaign settings did not open over the campaign hub")
+	menu.settings_screen.back_requested.emit()
+	await process_frame
+	assert(menu.settings_screen == null and campaign.visible, "Closing campaign settings did not return to the campaign hub")
 	var bundle := CampaignData.load_bundle()
 	var first_id := str(bundle.levels[0].id)
 	var second_id := str(bundle.levels[1].id)
@@ -30,8 +38,8 @@ func _run() -> void:
 	assert(menu.match3_screen == null, "Locked level launched through the navigation boundary")
 	menu.match3_session.complete_level(first_id, 5)
 	campaign.refresh_screen()
-	assert(not campaign.cards.get_child(1).get_child(0).get_child(1).disabled, "Completing first level did not unlock the second")
-	campaign.cards.get_child(1).get_child(0).get_child(1).pressed.emit()
+	assert(not campaign.cards.get_child(1).get_child(0).get_child(3).disabled, "Completing first level did not unlock the second")
+	campaign.cards.get_child(1).get_child(0).get_child(3).pressed.emit()
 	await process_frame
 	var match3: Control = menu.match3_screen
 	assert(match3 != null and match3.campaign_mode, "Campaign level did not launch in standalone mode")

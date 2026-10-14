@@ -29,6 +29,7 @@ var confirmation := ConfirmationDialog.new()
 var status: Label
 var _settings_from_story := false
 var _settings_from_match3 := false
+var _settings_from_campaign := false
 
 
 func _ready() -> void:
@@ -218,6 +219,7 @@ func _open_campaign() -> void:
 	match3_campaign_screen.preferences = preferences
 	match3_campaign_screen.session = match3_session
 	match3_campaign_screen.back_requested.connect(_close_campaign)
+	match3_campaign_screen.settings_requested.connect(_open_settings_from_campaign)
 	match3_campaign_screen.level_requested.connect(_start_campaign_level)
 	$Content.hide()
 	add_child(match3_campaign_screen)
@@ -257,6 +259,10 @@ func _open_settings_from_match3() -> void:
 	_open_settings(true)
 
 
+func _open_settings_from_campaign() -> void:
+	_open_settings(false, true)
+
+
 func _open_dossier_from_match3() -> void:
 	if not is_instance_valid(story_screen) or not is_instance_valid(match3_screen): return
 	match3_screen.hide()
@@ -270,15 +276,16 @@ func _resume_match3_after_dossier() -> void:
 	if is_instance_valid(match3_screen): match3_screen.show()
 
 
-func _open_settings(from_match3: bool = false) -> void:
+func _open_settings(from_match3: bool = false, from_campaign: bool = false) -> void:
 	if is_instance_valid(settings_screen):
 		return
 	settings_requested.emit()
 	_settings_from_story = is_instance_valid(story_screen) and story_screen.visible
 	_settings_from_match3 = from_match3 and is_instance_valid(match3_screen) and match3_screen.visible
+	_settings_from_campaign = from_campaign and is_instance_valid(match3_campaign_screen) and match3_campaign_screen.visible
 	if _settings_from_story:
 		story_screen.hide()
-	elif not _settings_from_match3:
+	elif not _settings_from_match3 and not _settings_from_campaign:
 		$Content.hide()
 	settings_screen = SettingsScreen.new()
 	settings_screen.name = "SettingsScreen"
@@ -298,10 +305,15 @@ func _close_settings() -> void:
 	elif _settings_from_match3 and is_instance_valid(match3_screen):
 		match3_screen.show()
 		match3_screen.settings_button.grab_focus()
+	elif _settings_from_campaign and is_instance_valid(match3_campaign_screen):
+		match3_campaign_screen.show()
+		match3_campaign_screen.refresh_screen()
+		match3_campaign_screen.grab_focus()
 	else:
 		$Content.show()
 		$Content/Actions/Settings.grab_focus()
 	_settings_from_match3 = false
+	_settings_from_campaign = false
 
 
 func _style_button(button: Button, primary: bool = false) -> void:
