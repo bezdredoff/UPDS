@@ -200,19 +200,22 @@ func _run() -> void:
 	match3_screen._select_cell(3)
 	while match3_screen.input_locked:
 		await process_frame
-	assert(model.state == "won" and match3_screen.evidence_panel.visible, "Match-3 win did not show its clue")
+	assert(model.state == "won" and match3_screen.evidence_transition_overlay.visible, "Match-3 win did not open the full-screen evidence transition")
 	assert(session.state.scene == 2 and session.current_line().id == "VN0059")
 	assert(session.state.readLines.has("VN0058"), "Post-match direction line was not consumed")
 	assert(session.state.completed == [0] and session.state.clues == ["CUE_001"], "Win progress or clue was not saved")
 	assert(menu.match3_session.save.completed == ["M3_00_LOCKER_TUTORIAL"])
-	assert(match3_screen.evidence_image.texture != null)
+	assert(match3_screen.evidence_transition_image.texture != null)
 	for locale in ["ru", "be", "en"]:
 		assert(menu.preferences.set_locale(locale) == OK)
-		assert(match3_screen.evidence_title.text == Match3Level.data.evidence.localized[locale].title)
-		assert(match3_screen.evidence_continue.text == Match3Level.data.evidence.localized[locale].continueStory)
-	match3_screen.evidence_continue.pressed.emit()
+		assert(match3_screen.evidence_transition_title.text == Match3Level.data.evidence.localized[locale].title)
+		assert(match3_screen.evidence_transition_continue.text == Match3Level.data.evidence.localized[locale].continueStory)
+	match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible, "Continue Story did not return to the post-match VN")
+	var clue_toast := screen.stage.find_child("ClueToast", true, false) as PanelContainer
+	assert(clue_toast != null and clue_toast.visible, "Returning from an earned clue did not show the animated VN toast")
+	assert((clue_toast.find_child("ClueImage", true, false) as TextureRect).texture != null, "VN clue toast did not render its evidence art")
 	assert(screen.speaker.text == PostMatchScene.data.lines[1].localized.en.speaker)
 	assert(session.current_line().id == "VN0059")
 	assert(screen.dialogue.text == PostMatchScene.data.lines[1].localized.en.text)
@@ -237,8 +240,8 @@ func _run() -> void:
 	assert(session.state.completed == [0, 1] and session.state.clues == ["CUE_001", "CUE_002"])
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostPhotoScene.data.titles.en)
@@ -258,8 +261,8 @@ func _run() -> void:
 	assert(session.state.completed == [0, 1, 2] and session.state.clues == ["CUE_001", "CUE_002", "CUE_003"])
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostPoolScene.data.titles.en)
@@ -279,8 +282,8 @@ func _run() -> void:
 	assert(session.state.completed == [0, 1, 2, 3] and session.state.clues == ["CUE_001", "CUE_002", "CUE_003", "CUE_004"])
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == session.scene_data().titles.en)
@@ -313,8 +316,8 @@ func _run() -> void:
 	assert(session.state.completed == [0, 1, 2, 3, 4] and session.state.clues == ["CUE_001", "CUE_002", "CUE_003", "CUE_004", "CUE_005"])
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == session.scene_data().titles.en)
@@ -334,8 +337,8 @@ func _run() -> void:
 	assert(session.state.completed == [0, 1, 2, 3, 4, 5] and session.state.clues == ["CUE_001", "CUE_002", "CUE_003", "CUE_004", "CUE_005", "CUE_006"])
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == session.scene_data().titles.en)
@@ -355,8 +358,8 @@ func _run() -> void:
 	assert(session.state.completed == [0, 1, 2, 3, 4, 5, 6] and session.state.clues == ["CUE_001", "CUE_002", "CUE_003", "CUE_004", "CUE_005", "CUE_006", "CUE_007"])
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	while session.current_line().id != "VN0356":
@@ -390,8 +393,8 @@ func _run() -> void:
 	assert(session.state.completed == [0, 1, 2, 3, 4, 5, 6, 7] and session.state.clues == ["CUE_001", "CUE_002", "CUE_003", "CUE_004", "CUE_005", "CUE_006", "CUE_007", "CUE_008"])
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostAsterionLabScene.data.titles.en)
@@ -412,8 +415,8 @@ func _run() -> void:
 	assert(session.state.completed == [0, 1, 2, 3, 4, 5, 6, 7, 8] and session.state.clues == ["CUE_001", "CUE_002", "CUE_003", "CUE_004", "CUE_005", "CUE_006", "CUE_007", "CUE_008", "CUE_009"])
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostLostFoundScene.data.titles.en)
@@ -434,8 +437,8 @@ func _run() -> void:
 	assert(session.state.completed == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] and session.state.clues == ["CUE_001", "CUE_002", "CUE_003", "CUE_004", "CUE_005", "CUE_006", "CUE_007", "CUE_008", "CUE_009", "CUE_010"])
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostMaintenanceKeysScene.data.titles.en)
@@ -470,8 +473,8 @@ func _run() -> void:
 	assert(session.state.completed.size() == 11 and session.state.clues[-1] == "CUE_011")
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostControlSampleGearScene.data.titles.en)
@@ -492,8 +495,8 @@ func _run() -> void:
 	assert(session.state.completed.size() == 12 and session.state.clues[-1] == "CUE_012")
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostAsterionTransferScene.data.titles.en)
@@ -528,8 +531,8 @@ func _run() -> void:
 	assert(session.state.completed.size() == 13 and session.state.clues[-1] == "CUE_013")
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostSecondSkinSignalScene.data.titles.en)
@@ -565,8 +568,8 @@ func _run() -> void:
 	assert(session.state.completed.size() == 14 and session.state.clues[-1] == "CUE_014")
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostKendoPilotListScene.data.titles.en)
@@ -587,8 +590,8 @@ func _run() -> void:
 	assert(session.state.completed.size() == 15 and session.state.clues[-1] == "CUE_015")
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostKuboAtelierScene.data.titles.en)
@@ -624,8 +627,8 @@ func _run() -> void:
 	assert(session.state.completed.size() == 16 and session.state.clues[-1] == "CUE_016")
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostAbandonedLaundryScene.data.titles.en)
@@ -646,8 +649,8 @@ func _run() -> void:
 	assert(session.state.completed.size() == 17 and session.state.clues[-1] == "CUE_017")
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostPinkRibbonScannerScene.data.titles.en)
@@ -684,8 +687,8 @@ func _run() -> void:
 	assert(session.state.completed.size() == 18 and session.state.clues[-1] == "CUE_018")
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostRinaArchiveCatalogScene.data.titles.en)
@@ -707,8 +710,8 @@ func _run() -> void:
 	assert(session.state.completed.size() == 19 and session.state.clues[-1] == "CUE_019")
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostFullTimelineProofScene.data.titles.en)
@@ -745,8 +748,8 @@ func _run() -> void:
 	assert(session.state.completed.size() == 20 and session.state.clues[-1] == "CUE_020")
 	menu.match3_screen.game.state = "won"
 	menu.match3_screen._refresh()
-	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
-	menu.match3_screen.evidence_continue.pressed.emit()
+	assert(menu.match3_screen.evidence_transition_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_transition_continue.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostPrivateReturnScene.data.titles.en)

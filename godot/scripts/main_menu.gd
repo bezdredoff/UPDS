@@ -180,6 +180,7 @@ func _open_match3_level(level_id: String, standalone_campaign: bool) -> void:
 	match3_screen.level_id = level_id
 	match3_screen.campaign_mode = standalone_campaign
 	match3_screen.story_requested.connect(_close_match3)
+	match3_screen.clue_awarded.connect(_set_pending_story_clue)
 	match3_screen.settings_requested.connect(_open_settings_from_match3)
 	match3_screen.dossier_requested.connect(_open_dossier_from_match3)
 	if is_instance_valid(story_screen):
@@ -209,7 +210,12 @@ func _close_match3() -> void:
 		audio_runtime.set_scene("menu")
 	elif is_instance_valid(story_screen):
 		story_screen.show()
+		story_screen.call("_refresh")
 		audio_runtime.set_scene("vn")
+
+
+func _set_pending_story_clue(clue_id: String) -> void:
+	if is_instance_valid(story_screen): story_screen.call("set_pending_clue", clue_id)
 
 
 func _open_campaign() -> void:

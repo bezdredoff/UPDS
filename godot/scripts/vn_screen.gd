@@ -68,6 +68,7 @@ var _last_advance := -1000
 var _gate_requested := false
 var _dialogue_line_id := ""
 var _dialogue_locale := ""
+var _pending_clue_id := ""
 var _dialogue_pages: Array[String] = []
 var _dialogue_page_index := 0
 var _auto_mode := false
@@ -376,6 +377,9 @@ func _refresh() -> void:
 		_portrait_width(portrait)
 		if _portrait_should_breathe(str(actor.asset)):
 			_animate_portrait(portrait, stage.size.y * height * 0.0035)
+	if not _pending_clue_id.is_empty():
+		_add_clue_toast(_pending_clue_id, locale)
+		_pending_clue_id = ""
 	if _boundary and not _gate_requested:
 		_gate_requested = true
 		match3_requested.emit(str(session.scene_data().get("nextLevelId", "")))
@@ -390,6 +394,77 @@ func _portrait_width(portrait: TextureRect) -> void:
 
 func _portrait_should_breathe(asset_path: String) -> bool:
 	return not asset_path.contains("/poses/pose_b_")
+
+
+func set_pending_clue(clue_id: String) -> void:
+	_pending_clue_id = clue_id
+
+
+func _add_clue_toast(clue_id: String, locale: String) -> void:
+	var bundle := Match3CampaignData.load_bundle()
+	for level: Dictionary in bundle.get("levels", []):
+		var evidence: Dictionary = level.get("evidence", {})
+		if str(evidence.get("id", "")) != clue_id: continue
+		var localized: Dictionary = evidence.get("localized", {}).get(locale, evidence.get("localized", {}).get("en", {}))
+		var toast := PanelContainer.new()
+		toast.name = "ClueToast"
+		toast.anchor_left = 0
+		toast.anchor_right = 1
+		toast.anchor_top = 0
+		toast.anchor_bottom = 0
+		toast.offset_left = 14
+		toast.offset_right = -14
+		toast.offset_top = 0
+		toast.offset_bottom = 62
+		toast.z_index = 8
+		toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color("#f9fff8ed")
+		style.border_color = Color("#f3e8d2")
+		style.set_border_width_all(2)
+		style.set_corner_radius_all(12)
+		style.content_margin_left = 12
+		style.content_margin_right = 12
+		style.content_margin_top = 8
+		style.content_margin_bottom = 8
+		style.shadow_color = Color("#17203c3d")
+		style.shadow_size = 12
+		style.shadow_offset = Vector2(0, 5)
+		toast.add_theme_stylebox_override("panel", style)
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 10)
+		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		toast.add_child(row)
+		var image := TextureRect.new()
+		image.name = "ClueImage"
+		image.custom_minimum_size = Vector2(46, 46)
+		image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		image.texture = load("res://" + str(evidence.get("asset", "")).trim_prefix("./"))
+		image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(image)
+		var copy := VBoxContainer.new()
+		copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		copy.alignment = BoxContainer.ALIGNMENT_CENTER
+		row.add_child(copy)
+		var updated := _label(copy, 8)
+		updated.text = Copy.text("dossier_updated", locale)
+		updated.add_theme_color_override("font_color", Color("#4aa5a3"))
+		var clue_title := _label(copy, 13)
+		clue_title.text = str(localized.get("title", ""))
+		clue_title.add_theme_color_override("font_color", Color("#29243d"))
+		clue_title.add_theme_font_size_override("font_size", 13)
+		var clue_font := SystemFont.new()
+		clue_font.font_names = PackedStringArray(["Inter", "Arial", "sans-serif"])
+		clue_font.font_weight = 700
+		clue_title.add_theme_font_override("font", clue_font)
+		stage.add_child(toast)
+		var tween := create_tween()
+		tween.set_parallel(true)
+		tween.tween_property(toast, "modulate:a", 1.0, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(toast, "offset_top", 8.0, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(toast, "offset_bottom", 70.0, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		return
 
 
 func _set_background(asset_path: String) -> void:

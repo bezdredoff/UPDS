@@ -3,6 +3,7 @@ extends Control
 signal story_requested
 signal dossier_requested
 signal settings_requested
+signal clue_awarded(clue_id: String)
 
 const Level = preload("res://data/locker_match3.json")
 const Game = preload("res://scripts/match3_game.gd")
@@ -76,6 +77,13 @@ var evidence_image: TextureRect
 var evidence_title: Label
 var evidence_label: Label
 var evidence_continue: Button
+var evidence_transition_overlay: Control
+var evidence_transition_image: TextureRect
+var evidence_transition_kicker: Label
+var evidence_transition_title: Label
+var evidence_transition_copy: RichTextLabel
+var evidence_transition_continue: Button
+var story_evidence_visible := false
 var input_locked := false
 var bottom_spacer: Control
 
@@ -433,6 +441,7 @@ func _ready() -> void:
 	feedback_style.shadow_size = 12
 	feedback_style.shadow_offset = Vector2(0, 7)
 	match_feedback_panel.add_theme_stylebox_override("panel", feedback_style)
+	_build_evidence_transition()
 	preferences.locale_changed.connect(func(_locale: String) -> void: _refresh())
 	_refresh()
 
@@ -486,7 +495,12 @@ func _refresh() -> void:
 	tutorial_overlay.visible = tutorial_panel.visible
 	objective.visible = not won
 	moves.visible = not won
-	evidence_panel.visible = won
+	if won and not campaign_mode and story_session != null:
+		story_evidence_visible = true
+	if story_evidence_visible:
+		_show_story_evidence_transition()
+	evidence_panel.visible = won and campaign_mode
+	evidence_transition_overlay.visible = won and not campaign_mode and story_evidence_visible
 	if campaign_mode:
 		evidence_kicker.visible = false
 		evidence_image.visible = false
@@ -757,6 +771,118 @@ func _clear_match_feedback() -> void:
 	match_feedback_panel.visible = false
 
 
+func _build_evidence_transition() -> void:
+	evidence_transition_overlay = Control.new()
+	evidence_transition_overlay.name = "EvidenceTransition"
+	evidence_transition_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	evidence_transition_overlay.z_index = 20
+	evidence_transition_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	evidence_transition_overlay.visible = false
+	add_child(evidence_transition_overlay)
+	var blurred_background := TextureRect.new()
+	blurred_background.name = "EvidenceBackground"
+	blurred_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	blurred_background.texture = background.texture
+	blurred_background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	blurred_background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	blurred_background.material = _evidence_blur_material()
+	blurred_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	evidence_transition_overlay.add_child(blurred_background)
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	center.offset_left = 22
+	center.offset_right = -22
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	evidence_transition_overlay.add_child(center)
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var paper := StyleBoxFlat.new()
+	paper.bg_color = Color("#fffaf2f2")
+	paper.set_corner_radius_all(14)
+	paper.content_margin_left = 24
+	paper.content_margin_right = 24
+	paper.content_margin_top = 27
+	paper.content_margin_bottom = 27
+	paper.shadow_color = Color("#0a0c18a3")
+	paper.shadow_size = 24
+	paper.shadow_offset = Vector2(0, 12)
+	panel.add_theme_stylebox_override("panel", paper)
+	center.add_child(panel)
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 8)
+	panel.add_child(content)
+	evidence_transition_kicker = _label(content, 10, Color("#d96279"))
+	evidence_transition_kicker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	evidence_transition_image = TextureRect.new()
+	evidence_transition_image.custom_minimum_size = Vector2(150, 150)
+	evidence_transition_image.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	evidence_transition_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	content.add_child(evidence_transition_image)
+	evidence_transition_title = _label(content, 29, Color("#29243d"))
+	evidence_transition_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var title_serif := SystemFont.new()
+	title_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
+	title_serif.font_weight = 800
+	evidence_transition_title.add_theme_font_override("font", title_serif)
+	evidence_transition_copy = RichTextLabel.new()
+	evidence_transition_copy.bbcode_enabled = true
+	evidence_transition_copy.fit_content = true
+	evidence_transition_copy.scroll_active = false
+	evidence_transition_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	evidence_transition_copy.add_theme_color_override("default_color", Color("#746d7c"))
+	evidence_transition_copy.add_theme_font_size_override("normal_font_size", 15)
+	var copy_serif := SystemFont.new()
+	copy_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
+	evidence_transition_copy.add_theme_font_override("normal_font", copy_serif)
+	content.add_child(evidence_transition_copy)
+	evidence_transition_continue = Button.new()
+	Style.style_button(evidence_transition_continue, true)
+	evidence_transition_continue.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.add_child(evidence_transition_continue)
+	evidence_transition_continue.pressed.connect(_continue_story)
+
+
+func _evidence_blur_material() -> ShaderMaterial:
+	var shader := Shader.new()
+	shader.code = """
+	shader_type canvas_item;
+	void fragment() {
+		vec2 blur = TEXTURE_PIXEL_SIZE * 3.0;
+		vec3 color = texture(TEXTURE, UV).rgb * 0.20;
+		color += texture(TEXTURE, UV + vec2(blur.x, 0.0)).rgb * 0.10;
+		color += texture(TEXTURE, UV - vec2(blur.x, 0.0)).rgb * 0.10;
+		color += texture(TEXTURE, UV + vec2(0.0, blur.y)).rgb * 0.10;
+		color += texture(TEXTURE, UV - vec2(0.0, blur.y)).rgb * 0.10;
+		color += texture(TEXTURE, UV + blur).rgb * 0.10;
+		color += texture(TEXTURE, UV - blur).rgb * 0.10;
+		color += texture(TEXTURE, UV + vec2(blur.x, -blur.y)).rgb * 0.10;
+		color += texture(TEXTURE, UV + vec2(-blur.x, blur.y)).rgb * 0.10;
+		COLOR = vec4(color * 0.45, 1.0);
+	}
+	"""
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	return material
+
+
+func _show_story_evidence_transition() -> void:
+	if campaign_mode or story_session == null: return
+	var locale: String = preferences.locale
+	var evidence: Dictionary = level_data.get("evidence", {})
+	var localized: Dictionary = evidence.get("localized", {}).get(locale, evidence.get("localized", {}).get("en", {}))
+	var copy: Dictionary = level_presentation.localized.get(locale, level_presentation.localized.en)
+	evidence_transition_overlay.get_node("EvidenceBackground").texture = background.texture
+	evidence_transition_kicker.text = str(localized.get("evidenceFound", MenuCopy.text("dossier_updated", locale)))
+	evidence_transition_image.texture = load("res://" + str(evidence.get("asset", "")).trim_prefix("./"))
+	evidence_transition_title.text = str(localized.get("title", ""))
+	var win_speaker := str(copy.get("winSpeaker", ""))
+	var win_text := str(copy.get("winText", "")).replace("[", "[lb]")
+	evidence_transition_copy.text = "[b]%s:[/b] %s" % [win_speaker, win_text]
+	evidence_transition_continue.text = str(localized.get("continueStory", MenuCopy.text("vn_next", locale)))
+	story_evidence_visible = true
+	evidence_transition_overlay.visible = true
+
+
 func _invalid_feedback_key(reason: String) -> String:
 	return {
 		"no-match": "no_match", "blocked": "move_blocked", "ingredient": "story_object_locked",
@@ -920,6 +1046,7 @@ func _select_cell(index: int) -> void:
 		if special_result.valid and game.state == "won":
 			session.complete_level(level_id, game.moves_left)
 			if not campaign_mode and story_session != null: story_session.complete_match3(level_id)
+			_show_story_evidence_transition()
 		_refresh()
 		return
 	if selected_index < 0:
@@ -949,6 +1076,8 @@ func _select_cell(index: int) -> void:
 		selected_index = index
 		last_feedback = str(result.reason)
 	await _play_move_frames(result, first_index, index)
+	if result.valid and game.state == "won":
+		_show_story_evidence_transition()
 	_refresh()
 
 
@@ -979,6 +1108,9 @@ func _retry() -> void:
 
 
 func _continue_story() -> void:
+	if story_evidence_visible and story_session != null:
+		clue_awarded.emit(str(level_data.get("evidence", {}).get("id", "")))
+		story_evidence_visible = false
 	story_requested.emit()
 
 
