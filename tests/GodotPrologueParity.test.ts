@@ -67,6 +67,8 @@ describe('Godot story source parity', () => {
       [6, 'godot/data/post_pool_scene.json', 'VN0167', 'VN0191', '', -1],
       [7, 'godot/data/ordered_inspection_scene.json', 'VN0192', 'VN0216', 'M3_03_ORDERED_APARTMENT', 8],
       [8, 'godot/data/post_ordered_inspection_scene.json', 'VN0217', 'VN0250', '', -1],
+      [9, 'godot/data/emergency_meeting_scene.json', 'VN0251', 'VN0270', 'M3_04_EMERGENCY_MEETING', 10],
+      [10, 'godot/data/post_emergency_meeting_scene.json', 'VN0271', 'VN0288', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -89,5 +91,10 @@ describe('Godot story source parity', () => {
     expect(apartmentLevel.evidence.localized.ru.title).toBeTruthy();
     expect(apartmentLevel.evidence.localized.be.label).toBeTruthy();
     expect(apartmentLevel.evidence.localized.en.continueStory).toBeTruthy();
+    const meetingLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_04_EMERGENCY_MEETING');
+    expect(meetingLevel.evidence.id).toBe('CUE_005');
+    expect(meetingLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(meetingLevel.evidence.localized.be.label).toBeTruthy();
+    expect(meetingLevel.evidence.localized.en.continueStory).toBeTruthy();
   });
 });

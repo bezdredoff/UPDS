@@ -1,0 +1,639 @@
+{
+  "sceneId": "VN_SCENE_09_E4_PRE",
+  "sceneIndex": 9,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_04_EMERGENCY_MEETING",
+  "onWinSceneIndex": 10,
+  "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+  "titles": {
+    "ru": "Чрезвычайное бельевое совещание",
+    "en": "Emergency Underwear Meeting",
+    "be": "Надзвычайная бялізнавая нарада"
+  },
+  "lines": [
+    {
+      "id": "VN0251",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ESTABLISHING / DAY",
+          "text": "Аудитория студсовета. Семь табличек спортивных клубов, стопки закрытых заявлений и проектор с предупреждением «БЕЗ СКРИНШОТОВ»."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "ESTABLISHING / DAY",
+          "text": "Student council auditorium. Seven sports-club placards, stacks of confidential reports, and a projector warning: “NO SCREENSHOTS”."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ESTABLISHING / DAY",
+          "text": "Аўдыторыя студсавета. Сем таблічак спартыўных клубаў, стосы закрытых заяў і праектар з папярэджаннем «БЕЗ СКРЫНШОТАЎ»."
+        }
+      }
+    },
+    {
+      "id": "VN0252",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "ВЕЖЛИВО-НАПРЯЖЁННАЯ",
+          "text": "Администрация разрешила встречу при двух условиях: без имён за пределами комнаты и без слова «серийный»."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "POLITE, TENSE",
+          "text": "Administration approved this meeting on two conditions: no names leave this room, and nobody uses the word “serial”."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "ВЕТЛІВА-НАПРУЖАНАЯ",
+          "text": "Адміністрацыя дазволіла сустрэчу пры дзвюх умовах: без імёнаў па-за межамі пакоя і без слова «серыйны»."
+        }
+      }
+    },
+    {
+      "id": "VN0253",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "С ТЕЛЕФОНОМ",
+          "text": "Тогда моя презентация «Бельевой призрак Сэйрана: охота началась» формально нарушает только одно условие."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "WITH PHONE",
+          "text": "Then my presentation, “The Seiran Underwear Ghost: The Hunt Begins,” technically violates only one condition."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "З ТЭЛЕФОНАМ",
+          "text": "Тады мая прэзентацыя «Бялізнавы прывід Сэйрана: паляванне пачалося» фармальна парушае толькі адну ўмову."
+        }
+      }
+    },
+    {
+      "id": "VN0254",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 18,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "БЫСТРО",
+          "text": "Я уже переименовала её в «Инвентарные несоответствия в спортивном корпусе»."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "QUICKLY",
+          "text": "I already renamed it “Inventory Discrepancies in the Sports Wing”."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ХУТКА",
+          "text": "Я ўжо перайменавала яе ў «Інвентарныя неадпаведнасці ў спартыўным корпусе»."
+        }
+      }
+    },
+    {
+      "id": "VN0255",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Нейтрально, проверяемо и достаточно скучно, чтобы никто не переслал заголовок."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SERIOUS",
+          "text": "Neutral, verifiable, and boring enough that nobody will forward the title."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Нейтральна, правяральна і досыць сумна, каб ніхто не пераслаў загаловак."
+        }
+      }
+    },
+    {
+      "id": "VN0256",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "С ПРОЕКТОРОМ",
+          "text": "Именно поэтому Мику сегодня отвечает за кнопку показа."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "AT THE PROJECTOR",
+          "text": "That is exactly why Miku controls the projector today."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "З ПРАЕКТАРАМ",
+          "text": "Менавіта таму сёння за кнопку паказу адказвае Міку."
+        }
+      }
+    },
+    {
+      "id": "VN0257",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ПРЕДСТАВИТЕЛЬ КЭНДО",
+          "emotion": "НЕ ПОНИМАЕТ",
+          "text": "Почему мои трусы на графике обозначены треугольником?"
+        },
+        "en": {
+          "speaker": "KENDO REPRESENTATIVE",
+          "emotion": "CONFUSED",
+          "text": "Why are my briefs represented by a triangle on this chart?"
+        },
+        "be": {
+          "speaker": "ПРАДСТАЎНІК КЭНДО",
+          "emotion": "НЕ РАЗУМЕЕ",
+          "text": "Чаму мае трусы на графіку пазначаныя трохвугольнікам?"
+        }
+      }
+    },
+    {
+      "id": "VN0258",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "АНАЛИТИЧЕСКАЯ",
+          "text": "Треугольник обозначает категорию с недостаточной выборкой, а не форму предмета."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "ANALYTICAL",
+          "text": "The triangle marks a category with an insufficient sample size, not the shape of the item."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "АНАЛІТЫЧНАЯ",
+          "text": "Трохвугольнік пазначае катэгорыю з недастатковай выбаркай, а не форму прадмета."
+        }
+      }
+    },
+    {
+      "id": "VN0259",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ЗАКРЫВАЕТ ПРОЕКТОР",
+          "text": "На этом график временно закончен."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "SHUTS OFF PROJECTOR",
+          "text": "And that concludes the chart for now."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ВЫКЛЮЧАЕ ПРАЕКТАР",
+          "text": "На гэтым графік пакуль скончаны."
+        }
+      }
+    },
+    {
+      "id": "VN0260",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "РЕЖИССУРА ВСТРЕЧИ",
+          "text": "Реплики накладываются друг на друга: «только после тренировки», «из закрытого шкафа», «вернули не тот мешок», «это вообще был запасной комплект»."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "MEETING MONTAGE",
+          "text": "Voices overlap: “only after practice,” “from a locked cabinet,” “the wrong bag came back,” “that was only a spare set”."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "МАНТАЖ СУСТРЭЧЫ",
+          "text": "Рэплікі накладаюцца адна на адну: «толькі пасля трэніроўкі», «з закрытай шафы», «вярнулі не той мяшок», «гэта ўвогуле быў запасны камплект»."
+        }
+      }
+    },
+    {
+      "id": "VN0261",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СПОКОЙНАЯ",
+          "text": "По одному факту от каждого клуба. Без версии, без виноватого, без оценки того, насколько вещь была красивой."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "CALM",
+          "text": "One fact from each club. No theory, no culprit, and no rating of how attractive the item was."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СПАКОЙНАЯ",
+          "text": "Па адным факце ад кожнага клуба. Без версіі, без вінаватага, без ацэнкі таго, наколькі рэч была прыгожай."
+        }
+      }
+    },
+    {
+      "id": "VN0262",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE meeting-tone}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE meeting-tone}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE meeting-tone}"
+        }
+      }
+    },
+    {
+      "id": "VN0263",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ПОСЛЕ ВЫБОРА",
+          "text": "Формат встречи меняется по решению Мику, но список проверяемых фактов остаётся общим."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "AFTER CHOICE",
+          "text": "The meeting format shifts according to Miku’s choice, but the list of verifiable facts stays the same."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ПАСЛЯ ВЫБАРУ",
+          "text": "Фармат сустрэчы змяняецца паводле рашэння Міку, але спіс фактаў, якія можна праверыць, застаецца агульным."
+        }
+      }
+    },
+    {
+      "id": "VN0264",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "С ПАПКОЙ",
+          "text": "Вот формы по семи клубам и даты централизованной стирки. Имена я закрыла номерами заявлений."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "WITH A FOLDER",
+          "text": "Here are the forms from all seven clubs and the central-laundry dates. I replaced names with report numbers."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "З ПАПКАЙ",
+          "text": "Вось формы па сямі клубах і даты цэнтралізаванага мыцця. Імёны я замяніла нумарамі заяў."
+        }
+      }
+    },
+    {
+      "id": "VN0265",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СОСРЕДОТОЧЕННАЯ",
+          "text": "Лёгкая атлетика — стирка за сутки до пропажи. Плавание — за двое. Теннис — за сутки."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "FOCUSED",
+          "text": "Track and field: laundry one day before the loss. Swimming: two days. Tennis: one day."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАСЯРОДЖАНАЯ",
+          "text": "Лёгкая атлетыка — мыццё за суткі да знікнення. Плаванне — за двое. Тэніс — за суткі."
+        }
+      }
+    },
+    {
+      "id": "VN0266",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ЗАМЕЧАЕТ РИТМ",
+          "text": "Баскетбол — тоже. Карате — тоже. Это уже не россыпь совпадений."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "NOTICES A PATTERN",
+          "text": "Basketball too. Karate too. This is no longer a scatter of coincidences."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗАЎВАЖАЕ РЫТМ",
+          "text": "Баскетбол — таксама. Каратэ — таксама. Гэта ўжо не россып супадзенняў."
+        }
+      }
+    },
+    {
+      "id": "VN0267",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВНИМАТЕЛЬНАЯ",
+          "text": "Все подтверждённые случаи проходят через центральную прачечную за сорок восемь часов до пропажи."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "ATTENTIVE",
+          "text": "Every confirmed case passes through the central laundry within forty-eight hours before the disappearance."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УВАЖЛІВАЯ",
+          "text": "Усе пацверджаныя выпадкі праходзяць праз цэнтральную пральню за сорак восем гадзін да знікнення."
+        }
+      }
+    },
+    {
+      "id": "VN0268",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "КИВАЕТ",
+          "text": "Все семь клубов пользуются одной сервисной системой. Это первый общий маршрут, а не общий тип белья."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "NODS",
+          "text": "All seven clubs use the same service system. That is our first shared route, not a shared underwear type."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "КІВАЕ",
+          "text": "Усе сем клубаў карыстаюцца адной сэрвіснай сістэмай. Гэта першы агульны маршрут, а не агульны тып бялізны."
+        }
+      }
+    },
+    {
+      "id": "VN0269",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: LAUNDRY CALENDAR",
+          "text": "Формы, клубные жетоны и календарь стирки раскладываются в строгую сетку."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "INSERT: LAUNDRY CALENDAR",
+          "text": "Reports, club tokens, and the laundry calendar arrange themselves into a strict grid."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: LAUNDRY CALENDAR",
+          "text": "Формы, клубныя жэтоны і каляндар мыцця раскладваюцца ў строгую сетку."
+        }
+      }
+    },
+    {
+      "id": "VN0270",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Слухи закрывают часть подтверждённых заявлений; общий календарь опускается к нижней границе поля."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Rumors cover part of the verified reports while the shared calendar drops toward the bottom of the board."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Чуткі закрываюць частку пацверджаных заяў; агульны каляндар апускаецца да ніжняй мяжы поля."
+        }
+      }
+    }
+  ]
+}
