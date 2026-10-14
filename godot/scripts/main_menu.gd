@@ -97,7 +97,9 @@ func _refresh_copy(locale: String) -> void:
 
 
 func _update_continue() -> void:
-	$Content/Actions/Continue.disabled = not session.has_progress() or not session.supports_position()
+	var continue_button: Button = $Content/Actions/Continue
+	continue_button.disabled = not session.has_progress() or not session.supports_position()
+	continue_button.modulate = Color(1, 1, 1, 0.38) if continue_button.disabled else Color.WHITE
 	if status == null:
 		return
 	status.text = ""
@@ -331,3 +333,10 @@ func _close_settings() -> void:
 
 func _style_button(button: Button, primary: bool = false) -> void:
 	preload("res://scripts/menu_theme.gd").style_button(button, primary)
+	var font_color := Color.WHITE if primary else Color("#29243d")
+	button.add_theme_color_override("font_disabled_color", font_color)
+	button.add_theme_stylebox_override("disabled", button.get_theme_stylebox("normal"))
+	var font := SystemFont.new()
+	font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+	font.font_weight = 850 if primary else 700
+	button.add_theme_font_override("font", font)

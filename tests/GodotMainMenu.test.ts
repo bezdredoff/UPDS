@@ -18,6 +18,7 @@ describe('Godot main menu slice', () => {
 		expect(scene).toContain('res://assets/characters/miku/portrait_neutral_256.png');
 		expect(scene).toContain('res://assets/characters/onoe/portrait_neutral_256.png');
 		expect(scene).toContain('res://assets/characters/ayuki/portrait_neutral_256.png');
+		expect(scene.match(/theme_override_styles\/panel = SubResource\("StyleBoxFlat_medallion_shadow"\)/g)).toHaveLength(3);
 	});
 
 	it('keeps copy in supported locales and exposes navigation as signals', () => {
@@ -25,7 +26,11 @@ describe('Godot main menu slice', () => {
 		for (const signal of ['new_game_requested', 'continue_requested', 'campaign_requested', 'settings_requested']) {
 			expect(script).toContain(`signal ${signal}`);
 		}
-		expect(script).toContain('$Content/Actions/Continue.disabled = not session.has_progress() or not session.supports_position()');
+		expect(script).toContain('continue_button.disabled = not session.has_progress() or not session.supports_position()');
+		expect(script).toContain('continue_button.modulate = Color(1, 1, 1, 0.38) if continue_button.disabled else Color.WHITE');
+		expect(script).toContain('button.add_theme_stylebox_override("disabled", button.get_theme_stylebox("normal"))');
+		expect(script).toContain('font.font_weight = 850 if primary else 700');
+		expect(smoke).toContain('Disabled Continue should use the source web opacity');
 		expect(smoke).toContain('UPDS Godot main menu smoke test passed (locale: %s).');
 		expect(checkScript).toContain('res://tests/main_menu_smoke.gd');
 	});

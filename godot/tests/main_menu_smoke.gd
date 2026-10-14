@@ -32,10 +32,25 @@ func _run_smoke() -> void:
 	assert(menu.get_node("Content/Title").text == MenuCopy.text("title", locale))
 	assert(menu.get_node("Content/Accent").text == MenuCopy.text("accent", locale))
 	assert(menu.get_node("Content/Actions/Continue").disabled, "Continue requires a save adapter")
+	var continue_button: Button = menu.get_node("Content/Actions/Continue")
+	assert(is_equal_approx(continue_button.modulate.a, 0.38),
+		"Disabled Continue should use the source web opacity")
+	assert(continue_button.get_theme_color("font_disabled_color") == continue_button.get_theme_color("font_color")
+		and continue_button.get_theme_stylebox("disabled") == continue_button.get_theme_stylebox("normal"),
+		"Disabled Continue should apply only the source opacity, without Godot's extra disabled tint")
+	var new_game_button: Button = menu.get_node("Content/Actions/NewGame")
+	var menu_button_font := new_game_button.get_theme_font("font") as SystemFont
+	var secondary_button_font := continue_button.get_theme_font("font") as SystemFont
+	assert(menu_button_font != null and menu_button_font.font_weight == 850
+		and secondary_button_font != null and secondary_button_font.font_weight == 700,
+		"Main menu buttons should match the source font weights")
 	assert(menu.get_node("Background").texture != null, "Clubroom background is missing")
-	assert(menu.get_node("Content/Hero/Miku").texture != null, "Miku medallion is missing")
-	assert(menu.get_node("Content/Hero/Onoe").texture != null, "Onoe medallion is missing")
-	assert(menu.get_node("Content/Hero/Ayuki").texture != null, "Ayuki medallion is missing")
+	for character in ["Miku", "Onoe", "Ayuki"]:
+		var medallion: Control = menu.get_node("Content/Hero/" + character)
+		assert((medallion.get_node("Portrait") as TextureRect).texture != null,
+			"%s medallion is missing" % character)
+		assert(medallion.get_node("Shadow") is Panel,
+			"%s medallion is missing its source drop shadow" % character)
 
 	var events: Array[String] = []
 	menu.new_game_requested.connect(func() -> void: events.append("new_game"))

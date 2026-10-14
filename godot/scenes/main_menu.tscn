@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/BG_CLUBROOM_DAY.webp" id="2_background"]
@@ -39,6 +39,16 @@ code = "shader_type canvas_item;\nvoid fragment() {\n\tvec2 point = UV * 2.0 - 1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_medallion"]
 shader = SubResource("Shader_medallion")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_medallion_shadow"]
+bg_color = Color(0, 0, 0, 0)
+shadow_color = Color(0.098, 0.125, 0.22, 0.333)
+shadow_size = 14
+shadow_offset = Vector2(0, 5)
+corner_radius_top_left = 39
+corner_radius_top_right = 39
+corner_radius_bottom_right = 39
+corner_radius_bottom_left = 39
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -142,27 +152,81 @@ layout_mode = 2
 theme_override_constants/separation = -10
 alignment = 1
 
-[node name="Miku" type="TextureRect" parent="Content/Hero"]
+[node name="Miku" type="Control" parent="Content/Hero"]
 custom_minimum_size = Vector2(78, 78)
 layout_mode = 2
+
+[node name="Shadow" type="Panel" parent="Content/Hero/Miku"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_medallion_shadow")
+mouse_filter = 2
+
+[node name="Portrait" type="TextureRect" parent="Content/Hero/Miku"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_miku")
 expand_mode = 1
 stretch_mode = 5
 material = SubResource("ShaderMaterial_medallion")
 mouse_filter = 2
 
-[node name="Onoe" type="TextureRect" parent="Content/Hero"]
+[node name="Onoe" type="Control" parent="Content/Hero"]
 custom_minimum_size = Vector2(78, 78)
 layout_mode = 2
+
+[node name="Shadow" type="Panel" parent="Content/Hero/Onoe"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_medallion_shadow")
+mouse_filter = 2
+
+[node name="Portrait" type="TextureRect" parent="Content/Hero/Onoe"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("4_onoe")
 expand_mode = 1
 stretch_mode = 5
 material = SubResource("ShaderMaterial_medallion")
 mouse_filter = 2
 
-[node name="Ayuki" type="TextureRect" parent="Content/Hero"]
+[node name="Ayuki" type="Control" parent="Content/Hero"]
 custom_minimum_size = Vector2(78, 78)
 layout_mode = 2
+
+[node name="Shadow" type="Panel" parent="Content/Hero/Ayuki"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_medallion_shadow")
+mouse_filter = 2
+
+[node name="Portrait" type="TextureRect" parent="Content/Hero/Ayuki"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("5_ayuki")
 expand_mode = 1
 stretch_mode = 5
