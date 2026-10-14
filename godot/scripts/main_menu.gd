@@ -11,12 +11,16 @@ const PlayerPreferences = preload("res://scripts/player_preferences.gd")
 const SettingsScreen = preload("res://scripts/settings_screen.gd")
 const StorySession = preload("res://scripts/story_session.gd")
 const VnScreen = preload("res://scripts/vn_screen.gd")
+const Match3CampaignSession = preload("res://scripts/match3_campaign_session.gd")
+const Match3Screen = preload("res://scripts/match3_screen.gd")
 
 var preferences: RefCounted = PlayerPreferences.new()
 var settings_screen: PanelContainer
 var audio_runtime := preload("res://scripts/menu_audio.gd").new()
 var session: RefCounted
 var story_screen: Control
+var match3_screen: Control
+var match3_session: RefCounted
 var confirmation := ConfirmationDialog.new()
 var status: Label
 var _settings_from_story := false
@@ -28,6 +32,8 @@ func _ready() -> void:
 	add_child(audio_runtime)
 	if session == null:
 		session = StorySession.new()
+	if match3_session == null:
+		match3_session = Match3CampaignSession.new()
 	session.reload()
 	session.changed.connect(_update_continue)
 	confirmation.confirmed.connect(_begin_new_game)
@@ -117,10 +123,40 @@ func _open_story() -> void:
 	story_screen.audio_runtime = audio_runtime
 	story_screen.menu_requested.connect(_close_story)
 	story_screen.settings_requested.connect(_open_settings)
-	story_screen.match3_requested.connect(func(level_id: String) -> void: match3_requested.emit(level_id))
+	story_screen.match3_requested.connect(_handle_match3_request)
 	$Content.hide()
 	add_child(story_screen)
 	audio_runtime.set_scene("vn")
+
+
+func _handle_match3_request(level_id: String) -> void:
+	match3_requested.emit(level_id)
+	call_deferred("_open_match3", level_id)
+
+
+func _open_match3(level_id: String) -> void:
+	if level_id != "M3_00_LOCKER_TUTORIAL" or is_instance_valid(match3_screen):
+		return
+	match3_screen = Match3Screen.new()
+	match3_screen.name = "Match3Screen"
+	match3_screen.preferences = preferences
+	match3_screen.session = match3_session
+	match3_screen.story_requested.connect(_close_match3)
+	if is_instance_valid(story_screen):
+		story_screen.hide()
+	add_child(match3_screen)
+	audio_runtime.set_scene("vn")
+
+
+func _close_match3() -> void:
+	if not is_instance_valid(match3_screen):
+		return
+	remove_child(match3_screen)
+	match3_screen.queue_free()
+	match3_screen = null
+	if is_instance_valid(story_screen):
+		story_screen.show()
+		audio_runtime.set_scene("vn")
 
 
 func _close_story() -> void:

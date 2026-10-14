@@ -4,6 +4,7 @@ const Memory = preload("res://tests/memory_storage.gd")
 const Session = preload("res://scripts/story_session.gd")
 const Store = preload("res://scripts/campaign_store.gd")
 const Format = preload("res://scripts/save_format.gd")
+const Match3Session = preload("res://scripts/match3_campaign_session.gd")
 const Copy = preload("res://scripts/menu_copy.gd")
 const Prologue = preload("res://data/prologue.json")
 const LockerScene = preload("res://data/locker_scene.json")
@@ -18,6 +19,7 @@ func _run() -> void:
 	var session := Memory.story_session()
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = session
+	menu.match3_session = Match3Session.new(Store.new(Memory.new()))
 	menu.preferences = preload("res://scripts/player_preferences.gd").new(preferences_path)
 	root.add_child(menu)
 	await process_frame
@@ -80,6 +82,16 @@ func _run() -> void:
 	assert(screen.background_rect.texture.resource_path.ends_with("BG_LOCKER_ATHLETICS_DAY.webp"))
 	assert(screen.boundary.visible and screen.next_button.disabled)
 	assert(reached_levels == ["M3_00_LOCKER_TUTORIAL"], "First Match-3 gate was not requested")
+	await process_frame
+	assert(menu.match3_screen != null and not screen.visible, "First Match-3 gate did not open the level")
+	assert(menu.match3_screen.game.tiles.size() == 63 and menu.match3_screen.game.moves_left == 24)
+	assert(menu.match3_session.save.attempts.M3_00_LOCKER_TUTORIAL == 1)
+	menu.match3_screen.tutorial_button.pressed.emit()
+	assert(not menu.match3_screen.tutorial_panel.visible)
+	assert(menu.match3_session.save.tutorialsCompleted == ["basic-swap"])
+	menu.match3_screen.back_button.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible, "Match-3 back did not restore the story gate")
 	assert(session.state.scene == 1 and session.state.line == LockerScene.data.variants.B.size() - 1, "Advanced into an unavailable scene")
 	assert(session.state.readLines.has("VN0041B") and not session.state.readLines.has("VN0041A"))
 	screen.menu_button.pressed.emit()
