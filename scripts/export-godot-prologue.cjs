@@ -98,6 +98,10 @@ const fullTruthScene = godotStoryScene(41);
 fs.writeFileSync(path.join(root, 'godot/data/full_truth_scene.json'), `${JSON.stringify(fullTruthScene, null, 2)}\n`);
 const postFullTruthScene = godotStoryScene(42);
 fs.writeFileSync(path.join(root, 'godot/data/post_full_truth_scene.json'), `${JSON.stringify(postFullTruthScene, null, 2)}\n`);
+const convenientCaseScene = godotStoryScene(43);
+fs.writeFileSync(path.join(root, 'godot/data/convenient_case_scene.json'), `${JSON.stringify(convenientCaseScene, null, 2)}\n`);
+const postConvenientCaseScene = godotStoryScene(44);
+fs.writeFileSync(path.join(root, 'godot/data/post_convenient_case_scene.json'), `${JSON.stringify(postConvenientCaseScene, null, 2)}\n`);
 const endingOutcomeData = godotEndingOutcomeData();
 fs.writeFileSync(path.join(root, 'godot/data/ending_outcomes.json'), `${JSON.stringify(endingOutcomeData, null, 2)}\n`);
 const audioPath = path.join(root, 'godot/data/menu_audio.json');
@@ -108,7 +112,7 @@ for (const line of postMatchScene.lines) {
   assets.add(line.background);
   for (const actor of line.actors) assets.add(actor.asset);
 }
-for (const scene of [photoScene, postPhotoScene, poolScene, postPoolScene, orderedInspectionScene, postOrderedInspectionScene, emergencyMeetingScene, postEmergencyMeetingScene, basketballLockersScene, postBasketballLockersScene, textileWorkshopScene, postTextileWorkshopScene, asterionLabScene, postAsterionLabScene, lostFoundScene, postLostFoundScene, maintenanceKeysScene, postMaintenanceKeysScene, controlSampleGearScene, postControlSampleGearScene, asterionTransferScene, postAsterionTransferScene, secondSkinSignalScene, postSecondSkinSignalScene, kendoPilotListScene, postKendoPilotListScene, kuboAtelierScene, postKuboAtelierScene, abandonedLaundryScene, postAbandonedLaundryScene, pinkRibbonScannerScene, postPinkRibbonScannerScene, rinaArchiveCatalogScene, postRinaArchiveCatalogScene, fullTimelineProofScene, postFullTimelineProofScene, privateReturnScene, postPrivateReturnScene, fullTruthScene, postFullTruthScene]) {
+for (const scene of [photoScene, postPhotoScene, poolScene, postPoolScene, orderedInspectionScene, postOrderedInspectionScene, emergencyMeetingScene, postEmergencyMeetingScene, basketballLockersScene, postBasketballLockersScene, textileWorkshopScene, postTextileWorkshopScene, asterionLabScene, postAsterionLabScene, lostFoundScene, postLostFoundScene, maintenanceKeysScene, postMaintenanceKeysScene, controlSampleGearScene, postControlSampleGearScene, asterionTransferScene, postAsterionTransferScene, secondSkinSignalScene, postSecondSkinSignalScene, kendoPilotListScene, postKendoPilotListScene, kuboAtelierScene, postKuboAtelierScene, abandonedLaundryScene, postAbandonedLaundryScene, pinkRibbonScannerScene, postPinkRibbonScannerScene, rinaArchiveCatalogScene, postRinaArchiveCatalogScene, fullTimelineProofScene, postFullTimelineProofScene, privateReturnScene, postPrivateReturnScene, fullTruthScene, postFullTruthScene, convenientCaseScene, postConvenientCaseScene]) {
   assets.add(scene.background);
   for (const line of scene.lines) {
     assets.add(line.background);
@@ -127,4 +131,4 @@ for (const asset of assets) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.copyFileSync(path.join(root, 'public', asset), target);
 }
-console.log(`Exported Godot story scene data through scene 42, ending outcomes, 3 locales, and ${assets.size} original assets.`);
+console.log(`Exported Godot story scene data through scene 44, ending outcomes, 3 locales, and ${assets.size} original assets.`);

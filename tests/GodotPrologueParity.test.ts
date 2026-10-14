@@ -101,6 +101,8 @@ describe('Godot story source parity', () => {
       [40, 'godot/data/post_private_return_scene.json', 'VN0866', 'VN0884', '', -1],
       [41, 'godot/data/full_truth_scene.json', 'VN0885', 'VN0904', 'M3_20_SERVER_CONSENT_LOGS', 42],
       [42, 'godot/data/post_full_truth_scene.json', 'VN0905', 'VN0924', '', -1],
+      [43, 'godot/data/convenient_case_scene.json', 'VN0925', 'VN0944', 'M3_21_CONVENIENT_CASE', 44],
+      [44, 'godot/data/post_convenient_case_scene.json', 'VN0945', 'VN0964', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -208,6 +210,11 @@ describe('Godot story source parity', () => {
     expect(serverConsentLevel.evidence.localized.ru.title).toBeTruthy();
     expect(serverConsentLevel.evidence.localized.be.label).toBeTruthy();
     expect(serverConsentLevel.evidence.localized.en.continueStory).toBeTruthy();
+    const convenientCaseLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_21_CONVENIENT_CASE');
+    expect(convenientCaseLevel.evidence.id).toBe('CUE_022');
+    expect(convenientCaseLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(convenientCaseLevel.evidence.localized.be.label).toBeTruthy();
+    expect(convenientCaseLevel.evidence.localized.en.continueStory).toBeTruthy();
     expect(JSON.parse(readFileSync('godot/data/ending_outcomes.json', 'utf8'))).toEqual(godotEndingOutcomeData());
     const strategyScene = godotStoryScene(38);
     expect(strategyScene.branchChoiceId).toBe('final-strategy');

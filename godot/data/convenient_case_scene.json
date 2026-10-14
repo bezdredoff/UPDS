@@ -1,0 +1,663 @@
+{
+  "sceneId": "VN_SCENE_43_E21_PRE",
+  "sceneIndex": 43,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_21_CONVENIENT_CASE",
+  "onWinSceneIndex": 44,
+  "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+  "titles": {
+    "ru": "Идеальный подозреваемый",
+    "en": "The Perfect Suspect",
+    "be": "Ідэальны падазраваны"
+  },
+  "lines": [
+    {
+      "id": "VN0925",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "BG_DISCIPLINARY_ASSEMBLY / PREP",
+          "text": "За час до визита спонсора актовый зал превращён в пресс-зону. На экране висит пустой шаблон «ДЕЛО РАСКРЫТО»."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "One hour before the sponsor visit, the assembly hall becomes a press area. The screen shows an empty 'CASE SOLVED' template."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "BG_DISCIPLINARY_ASSEMBLY / PREP",
+          "text": "За гадзіну да візіту спонсара актавая зала ператвораная ў прэс-зону. На экране вісіць пусты шаблон «СПРАВА РАСКРЫТА»."
+        }
+      }
+    },
+    {
+      "id": "VN0926",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "НАПРЯЖЁННО",
+          "text": "Колледжу нужен короткий ответ. Не технический отчёт на сорок страниц."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "BEAT",
+          "text": "The college needs a short answer. Not a forty-page technical report."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "НАПРУЖАНА",
+          "text": "Каледжу патрэбны кароткі адказ. Не тэхнічная справаздача на сорак старонак."
+        }
+      }
+    },
+    {
+      "id": "VN0927",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "С БЛЕСКОМ В ГЛАЗАХ",
+          "text": "Короткий ответ — моя специальность. Особенно если разрешить драматическую стрелку."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Short answers are my specialty. Especially if dramatic arrows are allowed."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "З БЛЯСКАМ У ВАЧАХ",
+          "text": "Кароткі адказ — мая спецыяльнасць. Асабліва калі дазволіць драматычную стрэлку."
+        }
+      }
+    },
+    {
+      "id": "VN0928",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СМОТРИТ НА ДОСКУ",
+          "text": "Короткий не означает истинный."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Short does not mean true."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ГЛЯДЗІЦЬ НА ДОШКУ",
+          "text": "Кароткі не азначае праўдзівы."
+        }
+      }
+    },
+    {
+      "id": "VN0929",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СПОКОЙНО",
+          "text": "Мы выбрали удобную версию. Значит, сейчас задача не найти правду, а сделать эту версию убедительной."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "We chose the convenient version. So the task is not to find the truth now, but to make that version persuasive."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СПАКОЙНА",
+          "text": "Мы выбралі зручную версію. Значыць, цяпер задача не знайсці праўду, а зрабіць гэтую версію пераканаўчай."
+        }
+      }
+    },
+    {
+      "id": "VN0930",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ЗАМОЛКАЕТ",
+          "text": "Когда ты произносишь это вслух, звучит хуже."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "It sounds worse when you say it out loud."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗАМАЎКАЕ",
+          "text": "Калі ты прамаўляеш гэта ўслых, гучыць горш."
+        }
+      }
+    },
+    {
+      "id": "VN0931",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СНИМАЕТ КАРТОЧКУ",
+          "text": "Потому что здесь остаются противоречия: сервисный маршрут, свежая активация и каталог Рины."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Because contradictions remain: the service route, the fresh activation, and Rina's catalog."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗДЫМАЕ КАРТКУ",
+          "text": "Бо тут застаюцца супярэчнасці: сэрвісны маршрут, свежая актывацыя і каталог Рыны."
+        }
+      }
+    },
+    {
+      "id": "VN0932",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "ТИХО",
+          "text": "Спонсор не будет разбирать противоречия на сцене."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "BEAT",
+          "text": "The sponsor will not analyze contradictions on stage."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "ЦІХА",
+          "text": "Спонсар не будзе разбіраць супярэчнасці на сцэне."
+        }
+      }
+    },
+    {
+      "id": "VN0933",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "НА РАННИЕ ДОСЬЕ",
+          "text": "Тогда презентацию построим вокруг подозреваемого, которого уже оправдали, и совпадений, которые публика помнит."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Then we’ll build the presentation around a suspect who was already cleared and the coincidences the audience remembers."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "НА РАННІЯ ДАСЬЕ",
+          "text": "Тады мы пабудуем прэзентацыю вакол падазраванага, якога ўжо апраўдалі, і супадзенняў, якія памятае публіка."
+        }
+      }
+    },
+    {
+      "id": "VN0934",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "РИСУЕТ СИЛУЭТ",
+          "text": "«Бельевой призрак». Чёрный контур, красная нить, три вопросительных знака."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "'The Underwear Ghost.' Black silhouette, red thread, three question marks."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "МАЛЮЕ СІЛУЭТ",
+          "text": "«Бялізнавы прывід». Чорны контур, чырвоная нітка, тры пытальнікі."
+        }
+      }
+    },
+    {
+      "id": "VN0935",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "АВТОМАТИЧЕСКИ",
+          "text": "Два вопросительных знака. Третий визуально смещает центр."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Two question marks. The third shifts the visual center."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "АЎТАМАТЫЧНА",
+          "text": "Два пытальнікі. Трэці візуальна зрушвае цэнтр."
+        }
+      }
+    },
+    {
+      "id": "VN0936",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМОТРИТ НА НЕЁ",
+          "text": "Ты сейчас улучшаешь ложную схему."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "You are improving a false diagram."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ГЛЯДЗІЦЬ НА ЯЕ",
+          "text": "Ты цяпер паляпшаеш ілжывую схему."
+        }
+      }
+    },
+    {
+      "id": "VN0937",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОСЛЕ ПАУЗЫ",
+          "text": "Я заметила."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "I noticed."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАСЛЯ ПАЎЗЫ",
+          "text": "Я заўважыла."
+        }
+      }
+    },
+    {
+      "id": "VN0938",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: PRESENTATION BOARD",
+          "text": "На поле лежат слухи, старые совпадения, карточки-возражения и эффектный финальный слайд."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "Rumors, old coincidences, objection cards, and a dramatic final slide cover the board."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: PRESENTATION BOARD",
+          "text": "На полі ляжаць чуткі, старыя супадзенні, карткі-пярэчанні і эфектны фінальны слайд."
+        }
+      }
+    },
+    {
+      "id": "VN0939",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТИХО",
+          "text": "Если убрать три карточки, история станет идеально гладкой."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Remove three cards and the story becomes perfectly smooth."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЦІХА",
+          "text": "Калі прыбраць тры карткі, гісторыя стане ідэальна гладкай."
+        }
+      }
+    },
+    {
+      "id": "VN0940",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ХОЛОДНО",
+          "text": "Именно поэтому их нельзя было бы убирать в настоящем расследовании."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Which is exactly why those cards could not be removed in a real investigation."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ХОЛАДНА",
+          "text": "Менавіта таму іх нельга было б прыбіраць у сапраўдным расследаванні."
+        }
+      }
+    },
+    {
+      "id": "VN0941",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "СМОТРИТ НА ЧАСЫ",
+          "text": "Через двадцать минут зал заполнится."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "BEAT",
+          "text": "The hall fills in twenty minutes."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "ГЛЯДЗІЦЬ НА ГАДЗІННІК",
+          "text": "Праз дваццаць хвілін зала запоўніцца."
+        }
+      }
+    },
+    {
+      "id": "VN0942",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФОРМУЛИРУЕТ",
+          "text": "Собираем выбранные совпадения, убираем возражения и выводим финальный слайд. Мы должны видеть, что именно делаем."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Collect the selected coincidences, remove the objections, and drop the final slide. We need to see exactly what we are doing."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФАРМУЛЮЕ",
+          "text": "Збіраем выбраныя супадзенні, прыбіраем пярэчанні і выводзім фінальны слайд. Мы павінны бачыць, што менавіта робім."
+        }
+      }
+    },
+    {
+      "id": "VN0943",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "МРАЧНО",
+          "text": "Тогда хотя бы не будем называть это дедукцией между собой."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Then at least we will not call it deduction among ourselves."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗМРОЧНА",
+          "text": "Тады хаця б паміж сабой не будзем называць гэта дэдукцыяй."
+        }
+      }
+    },
+    {
+      "id": "VN0944",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Упорядоченная сетка превращается в презентацию: собрать удобные совпадения, разрушить возражения и опустить финальный слайд."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "The ordered grid becomes a presentation: collect convenient matches, break objections, and drop the final slide."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Упарадкаваная сетка ператвараецца ў прэзентацыю: сабраць зручныя супадзенні, разбурыць пярэчанні і апусціць фінальны слайд."
+        }
+      }
+    }
+  ]
+}
