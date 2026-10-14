@@ -15,6 +15,7 @@ const Match3CampaignSession = preload("res://scripts/match3_campaign_session.gd"
 const Match3CampaignScreen = preload("res://scripts/match3_campaign_screen.gd")
 const Match3CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const Match3Screen = preload("res://scripts/match3_screen.gd")
+const PhoneFrame = preload("res://scripts/phone_frame.gd")
 
 var preferences: RefCounted = PlayerPreferences.new()
 var settings_screen: PanelContainer
@@ -30,6 +31,8 @@ var _settings_from_story := false
 
 
 func _ready() -> void:
+	resized.connect(_layout_menu)
+	_layout_menu()
 	audio_runtime.name = "MenuAudio"
 	audio_runtime.preferences = preferences
 	add_child(audio_runtime)
@@ -65,6 +68,17 @@ func _ready() -> void:
 		_open_campaign()
 	)
 	$Content/Actions/Settings.pressed.connect(_open_settings)
+
+
+func _layout_menu() -> void:
+	var phone_width: float = minf(size.x, PhoneFrame.MAX_WIDTH)
+	$Background.offset_left = -phone_width * 0.5
+	$Background.offset_right = phone_width * 0.5
+	$Wash.offset_left = -phone_width * 0.5
+	$Wash.offset_right = phone_width * 0.5
+	var content_width: float = maxf(0.0, phone_width - 56.0)
+	$Content.offset_left = -content_width * 0.5
+	$Content.offset_right = content_width * 0.5
 
 
 func _refresh_copy(locale: String) -> void:

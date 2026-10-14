@@ -3,6 +3,7 @@ extends PanelContainer
 signal back_requested
 
 const MenuCopy = preload("res://scripts/menu_copy.gd")
+const PhoneFrame = preload("res://scripts/phone_frame.gd")
 
 var preferences: RefCounted
 var audio_runtime: Node
@@ -26,6 +27,7 @@ var preview_effects: Button
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	PhoneFrame.fit(self)
 	var background := StyleBoxFlat.new()
 	background.bg_color = Color("#fffdf8")
 	background.content_margin_left = 24

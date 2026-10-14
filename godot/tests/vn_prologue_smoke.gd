@@ -63,13 +63,25 @@ func _run() -> void:
 	await process_frame
 	assert(menu.get_node("Content/Actions/Continue").disabled)
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
+	await process_frame
 	var screen: Control = menu.get_node("StoryScreen")
+	assert(absf(screen.size.x - 430.0) < 1.0, "Story screens must share the web phone frame width")
+	assert(not screen.stage.clip_contents, "Authored characters must continue behind the VN dialogue panel")
 	assert(not menu.get_node("Content").visible)
 	assert(session.current_line().id == "VN0001")
 	menu.audio_runtime.activate()
 	assert(menu.audio_runtime.music.playing)
 	assert(menu.audio_runtime.music.stream.get_length() > 12.6 and menu.audio_runtime.music.stream.get_length() < 12.7)
 	assert(screen.stage.get_child_count() == 1)
+	var idle_portrait: TextureRect = screen.stage.get_child(0)
+	assert(idle_portrait.get_global_rect().end.y > screen.dialogue_panel.position.y,
+		"The portrait must continue underneath the overlayed VN dialogue card")
+	assert(screen.nameplate.size.x >= 180.0 and screen.nameplate.size.x < screen.dialogue_panel.size.x,
+		"The dialogue nameplate must keep its compact horizontal shape")
+	var resting_position := idle_portrait.position
+	await create_timer(0.8).timeout
+	assert(absf(idle_portrait.position.y - resting_position.y) > 0.1,
+		"The production idle-breathe motion must move the authored VN portrait")
 	for locale in ["ru", "be", "en"]:
 		assert(menu.preferences.set_locale(locale) == OK)
 		assert(screen.dialogue.text == Prologue.data.lines[0].localized[locale].text)

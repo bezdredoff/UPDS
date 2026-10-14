@@ -17,6 +17,16 @@ func _run_smoke() -> void:
 	root.add_child(menu)
 	await process_frame
 
+	var menu_width: float = minf(menu.size.x, 430.0)
+	assert(absf(menu.get_node("Background").size.x - menu_width) < 1.0,
+		"The menu art frame must follow the 430 px web phone width")
+	assert(absf(menu.get_node("Content").size.x - (menu_width - 56.0)) < 1.0,
+		"The menu content must retain the web page's 28 px side padding")
+	assert(menu.get_node("Content/Hero").position.y / menu.get_node("Content").size.y < 0.45,
+		"The character medallions must stay with the title block above the flexible spacer")
+	assert(menu.get_node("Wash").texture.get_height() >= 1024,
+		"The menu gradient must keep enough vertical resolution to avoid visible bands")
+
 	var locale := MenuCopy.system_locale()
 	assert(menu.get_node("Content/Eyebrow").text == MenuCopy.text("eyebrow", locale))
 	assert(menu.get_node("Content/Title").text == MenuCopy.text("title", locale))

@@ -9,11 +9,13 @@ const LockerScene = preload("res://data/locker_scene.json")
 const EndingOutcomes = preload("res://data/ending_outcomes.json")
 const Copy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
+const PhoneFrame = preload("res://scripts/phone_frame.gd")
 
 var session: RefCounted
 var preferences: RefCounted
 var audio_runtime: Node
 var stage: Control
+var nameplate: PanelContainer
 var dialogue_panel: PanelContainer
 var background_rect: TextureRect
 var title: Label
@@ -43,6 +45,7 @@ var _gate_requested := false
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	PhoneFrame.fit(self)
 	background_rect = TextureRect.new()
 	background_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -54,43 +57,84 @@ func _ready() -> void:
 	stage.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	stage.anchor_top = 0.12
 	stage.anchor_bottom = 0.60
-	stage.clip_contents = true
+	# Authored character frames extend below the stage into the transparent dialogue overlay.
+	stage.clip_contents = false
 	stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(stage)
+	var header_background := PanelContainer.new()
+	header_background.name = "HeaderBackground"
+	header_background.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
+	header_background.offset_bottom = 66
+	var header_style := StyleBoxFlat.new()
+	header_style.bg_color = Color("#17304d")
+	header_style.border_color = Color("#d3b068")
+	header_style.border_width_bottom = 2
+	header_background.add_theme_stylebox_override("panel", header_style)
+	header_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(header_background)
 	var header := HBoxContainer.new()
 	header.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	header.offset_left = 12
 	header.offset_right = -12
-	header.offset_top = 12
+	header.offset_top = 8
 	header.add_theme_constant_override("separation", 10)
 	add_child(header)
 	menu_button = _button(header)
 	menu_button.pressed.connect(func() -> void: menu_requested.emit())
+	_style_header_button(menu_button)
 	title = _label(header, 17)
+	title.add_theme_color_override("font_color", Color("#fff9ea"))
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	settings_button = _button(header)
 	settings_button.pressed.connect(func() -> void: settings_requested.emit())
+	_style_header_button(settings_button)
 	dialogue_panel = PanelContainer.new()
 	dialogue_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	dialogue_panel.anchor_top = 0.60
+	dialogue_panel.anchor_top = 0.70
 	dialogue_panel.offset_left = 12
 	dialogue_panel.offset_right = -12
 	dialogue_panel.offset_bottom = -12
 	var paper := StyleBoxFlat.new()
-	paper.bg_color = Color("#fffdf8")
-	paper.set_corner_radius_all(12)
-	paper.content_margin_left = 16
-	paper.content_margin_right = 16
-	paper.content_margin_top = 12
-	paper.content_margin_bottom = 12
+	paper.bg_color = Color("#fff8e8f7")
+	paper.border_color = Color("#d9bd83")
+	paper.set_border_width_all(2)
+	paper.set_corner_radius_all(18)
+	paper.content_margin_left = 20
+	paper.content_margin_right = 20
+	paper.content_margin_top = 28
+	paper.content_margin_bottom = 16
 	dialogue_panel.add_theme_stylebox_override("panel", paper)
 	add_child(dialogue_panel)
 	var content := VBoxContainer.new()
 	content.add_theme_constant_override("separation", 6)
 	dialogue_panel.add_child(content)
-	speaker = _label(content, 18)
-	emotion = _label(content, 12)
+	nameplate = PanelContainer.new()
+	nameplate.name = "Nameplate"
+	nameplate.custom_minimum_size.x = 220.0
+	nameplate.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	var nameplate_style := StyleBoxFlat.new()
+	nameplate_style.bg_color = Color("#2a4b76")
+	nameplate_style.border_color = Color("#f3e8d2")
+	nameplate_style.set_border_width_all(2)
+	nameplate_style.set_corner_radius_all(10)
+	nameplate_style.content_margin_left = 12
+	nameplate_style.content_margin_right = 12
+	nameplate_style.content_margin_top = 6
+	nameplate_style.content_margin_bottom = 6
+	nameplate.add_theme_stylebox_override("panel", nameplate_style)
+	var nameplate_row := HBoxContainer.new()
+	nameplate_row.add_theme_constant_override("separation", 7)
+	nameplate.add_child(nameplate_row)
+	speaker = _label(nameplate_row, 13)
+	speaker.autowrap_mode = TextServer.AUTOWRAP_OFF
+	speaker.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	speaker.add_theme_color_override("font_color", Color("#fff9ea"))
+	emotion = _label(nameplate_row, 8)
+	emotion.autowrap_mode = TextServer.AUTOWRAP_OFF
+	emotion.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	emotion.add_theme_color_override("font_color", Color("#e9d5a7"))
+	content.add_child(nameplate)
 	choice_box = VBoxContainer.new()
 	choice_box.name = "ChoiceBox"
 	choice_box.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -104,7 +148,10 @@ func _ready() -> void:
 	dialogue = RichTextLabel.new()
 	dialogue.name = "Dialogue"
 	dialogue.add_theme_color_override("default_color", Color("#29243d"))
-	dialogue.add_theme_font_size_override("normal_font_size", 19)
+	var dialogue_serif := SystemFont.new()
+	dialogue_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
+	dialogue.add_theme_font_override("normal_font", dialogue_serif)
+	dialogue.add_theme_font_size_override("normal_font_size", 17)
 	dialogue.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	dialogue.selection_enabled = true
 	dialogue.scroll_active = true
@@ -165,8 +212,7 @@ func _refresh() -> void:
 	if not _boundary:
 		_gate_requested = false
 	choice_box.visible = choosing
-	speaker.visible = not choosing and not _boundary
-	emotion.visible = not choosing and not _boundary
+	nameplate.visible = not choosing and not _boundary
 	dialogue.visible = not choosing and not _boundary
 	next_button.visible = not choosing
 	next_button.disabled = _boundary
@@ -204,6 +250,7 @@ func _refresh() -> void:
 		stage.add_child(portrait)
 		portrait.resized.connect(func() -> void: _portrait_width(portrait))
 		_portrait_width(portrait)
+		_animate_portrait(portrait, stage.size.y * height * 0.0035)
 	if _boundary and not _gate_requested:
 		_gate_requested = true
 		match3_requested.emit(str(session.scene_data().get("nextLevelId", "")))
@@ -213,6 +260,18 @@ func _portrait_width(portrait: TextureRect) -> void:
 	var width := portrait.size.y * 1024.0 / 1536.0
 	portrait.offset_left = -width / 2.0
 	portrait.offset_right = width / 2.0
+
+
+func _animate_portrait(portrait: TextureRect, travel: float) -> void:
+	if travel <= 0.0:
+		return
+	var resting_position: Vector2 = portrait.position
+	var breathing := portrait.create_tween().set_loops()
+	var rise: PropertyTweener = breathing.tween_property(
+		portrait, "position", resting_position + Vector2.UP * travel, 1.4)
+	rise.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	var fall: PropertyTweener = breathing.tween_property(portrait, "position", resting_position, 1.4)
+	fall.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 
 func _next() -> void:
@@ -311,6 +370,21 @@ func _button(parent: Node) -> Button:
 	Style.style_button(button)
 	parent.add_child(button)
 	return button
+
+
+func _style_header_button(button: Button) -> void:
+	button.custom_minimum_size = Vector2(50, 46)
+	button.add_theme_color_override("font_color", Color("#fff9ea"))
+	button.add_theme_color_override("font_hover_color", Color.WHITE)
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color("#1d3551")
+	normal.border_color = Color("#d3b068")
+	normal.set_border_width_all(1)
+	normal.set_corner_radius_all(10)
+	var hover := normal.duplicate() as StyleBoxFlat
+	hover.bg_color = Color("#2a4b76")
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
