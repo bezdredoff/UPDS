@@ -1,18 +1,97 @@
-import { levels, tilePresentation } from '../../src/data/levels';
+import {
+  blockerPresentation,
+  ingredientPresentation,
+  levels,
+  lockedBlockerAssetsByLayers,
+  specialAssets,
+  tilePresentation,
+} from '../../src/data/levels';
 import { Match3Game } from '../../src/engine/Match3Game';
+import { godotM3Evidence } from './godotPrologue';
 import { beCatalog } from '../../src/localization/catalogs/be';
 import { enCatalog } from '../../src/localization/catalogs/en';
 import { ruCatalog } from '../../src/localization/catalogs/ru';
-import { godotM3Evidence } from './godotPrologue';
 
 const catalogs = { en: enCatalog, ru: ruCatalog, be: beCatalog } as const;
-const level = levels[0];
-if (!level || level.id !== 'M3_00_LOCKER_TUTORIAL') throw new Error('The first Match-3 level changed unexpectedly');
+const tutorial = 'match3.tutorial.basic-swap';
+
+/** A runtime-neutral campaign level contract generated from the canonical web level. */
+export function godotCampaignLevel(level: (typeof levels)[number]) {
+  const game = new Match3Game(level);
+  return {
+    id: level.id,
+    shortId: level.shortId,
+    seed: level.seed,
+    rows: level.boardSize?.rows ?? 8,
+    columns: level.boardSize?.columns ?? 8,
+    moves: level.moves,
+    activeTiles: level.activeTiles,
+    spawnWeights: level.spawnWeights ?? {},
+    boardHoles: level.boardHoles ?? [],
+    initialTiles: level.initialTiles ?? [],
+    blockers: level.blockers,
+    blockerStyle: level.blocker,
+    ingredients: level.ingredients,
+    objectives: level.objectives,
+    openingBoard: game.board.map((cell) => ({
+      tile: cell.tile ?? '',
+      ingredient: cell.ingredient ?? '',
+      blockerLayers: cell.blockerLayers,
+      special: cell.special ?? '',
+    })),
+  };
+}
+
+export function godotCampaignBundle() {
+  const tileAssets = Object.fromEntries(
+    [...new Set(levels.flatMap((level) => level.activeTiles))].map((tile) => [tile, tilePresentation[tile].asset]),
+  );
+  const ingredientAssets = Object.fromEntries(
+    [...new Set(levels.flatMap((level) => level.ingredients.map(({ kind }) => kind)))].map((kind) => [kind, ingredientPresentation[kind].asset]),
+  );
+  const evidenceLevel = levels[0];
+  const evidenceKey = `match3.level.${evidenceLevel.id}`;
+  return {
+    schemaVersion: 1,
+    levels: levels.map(godotCampaignLevel),
+    assets: {
+      tiles: tileAssets,
+      ingredients: ingredientAssets,
+      blockers: Object.fromEntries(Object.entries(blockerPresentation).map(([key, value]) => [key, value.asset])),
+      lockedBlockers: lockedBlockerAssetsByLayers,
+      specials: specialAssets,
+    },
+    firstLevelPresentation: {
+      evidence: godotM3Evidence(),
+      localized: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
+        title: catalog[`${evidenceKey}.title`],
+        storyAction: catalog[`${evidenceKey}.storyAction`],
+        objective: catalog[`${evidenceKey}.objective.0`],
+        tutorialTitle: catalog[`${tutorial}.title`],
+        tutorialBody: catalog[`${tutorial}.body`],
+        tutorialTry: catalog['match3.tutorial.try'],
+        noMatchBark: catalog['match3.bark.noMatchInvalid'],
+        startSpeaker: catalog[`${evidenceKey}.startBark.speaker`],
+        startText: catalog[`${evidenceKey}.startBark.text`],
+        winSpeaker: catalog[`${evidenceKey}.winBark.speaker`],
+        winText: catalog[`${evidenceKey}.winBark.text`],
+        loseSpeaker: catalog[`${evidenceKey}.loseBark.speaker`],
+        loseText: catalog[`${evidenceKey}.loseBark.text`],
+        back: catalog['common.back'],
+        retry: catalog['match3Campaign.replay'],
+        moves: catalog['match3.moves'],
+        collected: catalog['match3.objective'],
+        win: catalog['match3Campaign.winHeading'],
+        lose: catalog['match3Campaign.lossHeading'],
+      }]))
+    },
+  };
+}
 
 export function godotMatch3Level() {
+  const level = levels[0];
+  const game = new Match3Game(level);
   const key = `match3.level.${level.id}`;
-  const tutorial = 'match3.tutorial.basic-swap';
-  const seededOpeningBoard = new Match3Game(level).board.map((cell) => cell.tile);
   return {
     id: level.id,
     shortId: level.shortId,
@@ -23,7 +102,7 @@ export function godotMatch3Level() {
     target: level.objectives[0]?.kind === 'collect' ? level.objectives[0].target : 0,
     objectiveTile: level.objectives[0]?.kind === 'collect' ? level.objectives[0].tile : '',
     activeTiles: level.activeTiles,
-    seededOpeningBoard,
+    seededOpeningBoard: game.board.map((cell) => cell.tile),
     evidence: godotM3Evidence(),
     assets: Object.fromEntries(level.activeTiles.map((tile) => [tile, tilePresentation[tile].asset])),
     localized: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
@@ -46,6 +125,6 @@ export function godotMatch3Level() {
       collected: catalog['match3.objective'],
       win: catalog['match3Campaign.winHeading'],
       lose: catalog['match3Campaign.lossHeading'],
-    }])),
+    }]))
   };
 }

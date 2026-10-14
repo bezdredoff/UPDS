@@ -12,10 +12,17 @@ require.extensions['.ts'] = (module, filename) => module._compile(ts.transpileMo
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
 }).outputText, filename);
 
-const { godotMatch3Level } = require('../tests/fixtures/godotMatch3.ts');
+const { godotCampaignBundle, godotMatch3Level } = require('../tests/fixtures/godotMatch3.ts');
 const level = godotMatch3Level();
 fs.writeFileSync(path.join(root, 'godot/data/locker_match3.json'), `${JSON.stringify(level, null, 2)}\n`);
-for (const asset of [...Object.values(level.assets), level.evidence.asset]) {
+const bundle = godotCampaignBundle();
+fs.writeFileSync(path.join(root, 'godot/data/campaign_match3_levels.json'), `${JSON.stringify(bundle, null, 2)}\n`);
+const assets = new Set([
+  ...Object.values(bundle.assets).flatMap((group) => Object.values(group)),
+  ...Object.values(level.assets),
+  level.evidence.asset,
+]);
+for (const asset of assets) {
   if (typeof asset !== 'string' || !asset.startsWith('./assets/') || asset.includes('..')) {
     throw new Error(`Unexpected Match-3 asset: ${asset}`);
   }
@@ -23,4 +30,4 @@ for (const asset of [...Object.values(level.assets), level.evidence.asset]) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.copyFileSync(path.join(root, 'public', asset), target);
 }
-console.log(`Exported ${level.id}, ${level.activeTiles.length} source tiles and ${Object.keys(level.localized).length} locales.`);
+console.log(`Exported ${bundle.levels.length} campaign levels, ${assets.size} gameplay assets, and ${Object.keys(level.localized).length} locales.`);
