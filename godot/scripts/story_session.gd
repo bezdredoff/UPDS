@@ -12,8 +12,10 @@ const PhotoScene = preload("res://data/photo_scene.json")
 const PostPhotoScene = preload("res://data/post_photo_scene.json")
 const PoolScene = preload("res://data/pool_scene.json")
 const PostPoolScene = preload("res://data/post_pool_scene.json")
+const OrderedInspectionScene = preload("res://data/ordered_inspection_scene.json")
+const PostOrderedInspectionScene = preload("res://data/post_ordered_inspection_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 6
+const MAX_PORTED_SCENE_INDEX := 8
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -105,6 +107,8 @@ func scene_data() -> Dictionary:
 		4: return PostPhotoScene.data
 		5: return PoolScene.data
 		6: return PostPoolScene.data
+		7: return OrderedInspectionScene.data
+		8: return PostOrderedInspectionScene.data
 	return {}
 
 
@@ -175,4 +179,8 @@ func _scene_lines() -> Array:
 		return PoolScene.data.lines
 	if state.scene == 6:
 		return PostPoolScene.data.lines
+	if state.scene == 7:
+		return OrderedInspectionScene.data.lines
+	if state.scene == 8:
+		return PostOrderedInspectionScene.data.lines
 	return []

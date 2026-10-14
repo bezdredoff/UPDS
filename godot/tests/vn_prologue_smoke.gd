@@ -187,6 +187,27 @@ func _run() -> void:
 	assert(screen.title.text == PostPoolScene.data.titles.en)
 	while session.current_line().id != "VN0191":
 		assert(session.advance())
+	assert(not session.at_port_boundary() and session.advance())
+	assert(session.state.scene == 7 and session.current_line().id == "VN0192")
+	assert(screen.title.text == session.scene_data().titles.en)
+	while session.current_line().id != "VN0216":
+		assert(session.advance())
+	assert(session.at_match3_gate() and session.scene_data().nextLevelId == "M3_03_ORDERED_APARTMENT")
+	await process_frame
+	assert(menu.match3_screen != null and menu.match3_screen.level_id == "M3_03_ORDERED_APARTMENT")
+	assert(reached_levels == ["M3_00_LOCKER_TUTORIAL", "M3_01_PHOTO_PROPS", "M3_02_POOL_LAUNDRY", "M3_03_ORDERED_APARTMENT"])
+	assert(session.complete_match3("M3_03_ORDERED_APARTMENT"))
+	assert(session.state.scene == 8 and session.current_line().id == "VN0218")
+	assert(session.state.completed == [0, 1, 2, 3] and session.state.clues == ["CUE_001", "CUE_002", "CUE_003", "CUE_004"])
+	menu.match3_screen.game.state = "won"
+	menu.match3_screen._refresh()
+	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_continue.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible)
+	assert(screen.title.text == session.scene_data().titles.en)
+	while session.current_line().id != "VN0250":
+		assert(session.advance())
 	assert(session.at_port_boundary() and not session.advance())
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
@@ -195,7 +216,7 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.scene == 6 and session.current_line().id == "VN0191")
+	assert(session.state.scene == 8 and session.current_line().id == "VN0250")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()
