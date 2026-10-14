@@ -22,6 +22,10 @@ const photoScene = godotStoryScene(3);
 fs.writeFileSync(path.join(root, 'godot/data/photo_scene.json'), `${JSON.stringify(photoScene, null, 2)}\n`);
 const postPhotoScene = godotStoryScene(4);
 fs.writeFileSync(path.join(root, 'godot/data/post_photo_scene.json'), `${JSON.stringify(postPhotoScene, null, 2)}\n`);
+const poolScene = godotStoryScene(5);
+fs.writeFileSync(path.join(root, 'godot/data/pool_scene.json'), `${JSON.stringify(poolScene, null, 2)}\n`);
+const postPoolScene = godotStoryScene(6);
+fs.writeFileSync(path.join(root, 'godot/data/post_pool_scene.json'), `${JSON.stringify(postPoolScene, null, 2)}\n`);
 const audioPath = path.join(root, 'godot/data/menu_audio.json');
 const audio = JSON.parse(fs.readFileSync(audioPath, 'utf8'));
 fs.writeFileSync(audioPath, `${JSON.stringify({ ...audio, ...godotVnAudio() }, null, 2)}\n`);
@@ -30,7 +34,7 @@ for (const line of postMatchScene.lines) {
   assets.add(line.background);
   for (const actor of line.actors) assets.add(actor.asset);
 }
-for (const scene of [photoScene, postPhotoScene]) {
+for (const scene of [photoScene, postPhotoScene, poolScene, postPoolScene]) {
   assets.add(scene.background);
   for (const line of scene.lines) {
     assets.add(line.background);
@@ -49,4 +53,4 @@ for (const asset of assets) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.copyFileSync(path.join(root, 'public', asset), target);
 }
-console.log(`Exported ${prologue.lines.length} prologue lines, 3 locales, ${assets.size} original assets.`);
+console.log(`Exported Godot story scene data through scene 6, 3 locales, and ${assets.size} original assets.`);

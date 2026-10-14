@@ -1,0 +1,822 @@
+{
+  "sceneId": "VN_SCENE_06_E2_POST",
+  "sceneIndex": 6,
+  "nextSceneId": "VN_SCENE_07_E3_PRE",
+  "nextSceneIndex": 7,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+  "titles": {
+    "ru": "Таблица без вкуса",
+    "en": "A Tasteless Table",
+    "be": "Табліца без густу"
+  },
+  "lines": [
+    {
+      "id": "VN0167",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: LAUNDRY LOG",
+          "text": "На раскрытом журнале один код партии повторяется у всех пропавших вещей."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "INSERT: LAUNDRY LOG",
+          "text": "In the open log, the same batch code appears beside every missing item."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: ЖУРНАЛ ПРАННЯ",
+          "text": "У раскрытым журнале адзін код партыі паўтараецца каля ўсіх зніклых рэчаў."
+        }
+      }
+    },
+    {
+      "id": "VN0168",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "У ДОСКИ",
+          "text": "Фасон — корреляции нет. Цена — нет. Гендер владельца — нет. Цвет — нет."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "AT THE BOARD",
+          "text": "Style: no correlation. Price: none. Owner gender: none. Color: none."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЛЯ ДОШКІ",
+          "text": "Фасон — карэляцыі няма. Цана — няма. Гендар уладальніка — няма. Колер — няма."
+        }
+      }
+    },
+    {
+      "id": "VN0169",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ОСКОРБЛЁННАЯ",
+          "text": "У этого преступления вообще есть художественное направление?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "OFFENDED",
+          "text": "Does this crime have any artistic direction at all?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "АБУРАНАЯ",
+          "text": "У гэтага злачынства ўвогуле ёсць мастацкі кірунак?"
+        }
+      }
+    },
+    {
+      "id": "VN0170",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВНИМАТЕЛЬНАЯ",
+          "text": "Есть общий код стирки. И пропали не все вещи с этим кодом."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "ATTENTIVE",
+          "text": "There is one shared laundry code. And not every item with that code disappeared."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УВАЖЛІВАЯ",
+          "text": "Ёсць агульны код прання. І зніклі не ўсе рэчы з гэтым кодам."
+        }
+      }
+    },
+    {
+      "id": "VN0171",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Почти оскорбительно неряшливая выборка."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SERIOUS",
+          "text": "An almost insultingly sloppy sample."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Амаль абразліва нядбайная выбарка."
+        }
+      }
+    },
+    {
+      "id": "VN0172",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "СУХО",
+          "text": "Передам вору вашу рецензию."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "DRY",
+          "text": "I will pass your review on to the thief."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "СУХА",
+          "text": "Перадам злодзею вашу рэцэнзію."
+        }
+      }
+    },
+    {
+      "id": "VN0173",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПОКАЗЫВАЕТ ЖУРНАЛ",
+          "text": "Мужское, женское, спортивное и полотенце. Значит, дело не в одном типе белья и не в том, кто его носит."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "SHOWS THE LOG",
+          "text": "Men’s, women’s, sportswear, and a towel. So it is not one type of underwear, and not about who wears it."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПАКАЗВАЕ ЖУРНАЛ",
+          "text": "Мужчынскае, жаночае, спартыўнае і ручнік. Значыць, справа не ў адным тыпе бялізны і не ў тым, хто яе носіць."
+        }
+      }
+    },
+    {
+      "id": "VN0174",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ЗАЧЁРКИВАЕТ СХЕМУ",
+          "text": "Прощай, профиль бельевого эстета. Мы почти тебя знали."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "CROSSES OUT THE DIAGRAM",
+          "text": "Farewell, profile of the underwear aesthete. We hardly knew you."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗАКРЭСЛІВАЕ СХЕМУ",
+          "text": "Бывай, профіль бялізнавага эстэта. Мы амаль цябе ведалі."
+        }
+      }
+    },
+    {
+      "id": "VN0175",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_003_MIXED_TARGETS}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_003_MIXED_TARGETS}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_003_MIXED_TARGETS}"
+        }
+      }
+    },
+    {
+      "id": "VN0176",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "К НОРИХИРО",
+          "text": "Остался последний мешок, который вы забрали домой."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "TO NORIHIRO",
+          "text": "That leaves the last bag you took home."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ДА НОРЫХІРА",
+          "text": "Застаецца апошні мяшок, які вы забралі дадому."
+        }
+      }
+    },
+    {
+      "id": "VN0177",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "СПОКОЙНО",
+          "text": "Сухой и сложенный. Я принесу его утром."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "CALMLY",
+          "text": "Dry and folded. I will bring it in the morning."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "СПАКОЙНА",
+          "text": "Сухі і складзены. Я прынясу яго раніцай."
+        }
+      }
+    },
+    {
+      "id": "VN0178",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "БЫСТРО",
+          "text": "Почему не сейчас?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "QUICKLY",
+          "text": "Why not now?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ХУТКА",
+          "text": "Чаму не цяпер?"
+        }
+      }
+    },
+    {
+      "id": "VN0179",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "ПОКАЗЫВАЕТ ВРЕМЯ",
+          "text": "Потому что сейчас двадцать один сорок, а вы стоите в мокрой раздевалке без ордера и статуса клуба."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "SHOWS THE TIME",
+          "text": "Because it is 21:40, and you are standing in a wet locker room without a warrant or official club status."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "ПАКАЗВАЕ ЧАС",
+          "text": "Бо цяпер 21:40, а вы стаіце ў мокрай распранальні без ордара і афіцыйнага статусу клуба."
+        }
+      }
+    },
+    {
+      "id": "VN0180",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАУЗА",
+          "text": "Формально верно."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "PAUSE",
+          "text": "Formally correct."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАЎЗА",
+          "text": "Фармальна правільна."
+        }
+      }
+    },
+    {
+      "id": "VN0181",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТИХО К МИКУ",
+          "text": "Спокойный, с ключами, знает правила. Очень подозрительный набор."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "QUIETLY TO MIKU",
+          "text": "Calm, has keys, knows the rules. A very suspicious combination."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЦІХА ДА МІКУ",
+          "text": "Спакойны, з ключамі, ведае правілы. Вельмі падазроны набор."
+        }
+      }
+    },
+    {
+      "id": "VN0182",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ТИХО",
+          "text": "Или компетентный менеджер."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "QUIETLY",
+          "text": "Or a competent manager."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЦІХА",
+          "text": "Або кампетэнтны менеджар."
+        }
+      }
+    },
+    {
+      "id": "VN0183",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "СЛЫШАЛ",
+          "text": "Можете проверить мешок сегодня, если закончите до десяти. Я живу через дорогу."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "HEARD THAT",
+          "text": "You can inspect the bag tonight if you finish before ten. I live across the road."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "ПАЧУЎ",
+          "text": "Можаце праверыць мяшок сёння, калі скончыце да дзесяці. Я жыву праз дарогу."
+        }
+      }
+    },
+    {
+      "id": "VN0184",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "РЕШИТЕЛЬНАЯ",
+          "text": "При вашем явном согласии."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "DETERMINED",
+          "text": "With your explicit consent."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "РАШУЧАЯ",
+          "text": "Пры вашай выразнай згодзе."
+        }
+      }
+    },
+    {
+      "id": "VN0185",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "НЕВОЗМУТИМО",
+          "text": "При моём явном желании завтра получить форму обратно."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "UNFAZED",
+          "text": "With my explicit desire to get the uniforms back tomorrow."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "НЕЗВАРУШНА",
+          "text": "Пры маім выразным жаданні заўтра атрымаць форму назад."
+        }
+      }
+    },
+    {
+      "id": "VN0186",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "С ТЕЛЕФОНОМ",
+          "text": "Живёт один, забрал вещдок, приглашает детективов домой. Это либо алиби, либо финал второго акта."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "WITH PHONE",
+          "text": "Lives alone, took evidence home, invites detectives over. Either an alibi or the end of act two."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "З ТЭЛЕФОНАМ",
+          "text": "Жыве адзін, забраў рэчавы доказ, запрашае дэтэктываў дадому. Гэта альбо алібі, альбо фінал другога акта."
+        }
+      }
+    },
+    {
+      "id": "VN0187",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "ИРОНИЧНАЯ",
+          "text": "Мы ещё не знали, что там нас ждёт самый розовый аргумент вечера."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "IRONIC",
+          "text": "We did not yet know the pinkest argument of the evening was waiting for us."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "ІРАНІЧНАЯ",
+          "text": "Мы яшчэ не ведалі, што там нас чакае самы ружовы аргумент вечара."
+        }
+      }
+    },
+    {
+      "id": "VN0188",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпизод 3 — Розовые тапочки»"
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "EPISODE CARD",
+          "text": "“Episode 3 — Pink Slippers”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпізод 3 — Ружовыя тапачкі»"
+        }
+      }
+    },
+    {
+      "id": "VN0189",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ESTABLISHING / NIGHT",
+          "text": "За окном темно. Внутри квартиры всё выровнено: обувь, книги, полотенца и подписанные контейнеры."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "ESTABLISHING / NIGHT",
+          "text": "It is dark outside. Inside the apartment everything is aligned: shoes, books, towels, and labeled containers."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ESTABLISHING / NIGHT",
+          "text": "За акном цёмна. Унутры кватэры ўсё выраўнавана: абутак, кнігі, ручнікі і падпісаныя кантэйнеры."
+        }
+      }
+    },
+    {
+      "id": "VN0190",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-surprised.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "УДИВЛЁННАЯ",
+          "text": "После квартиры Кэнтаро это место выглядело как фотография «после»."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "SURPRISED",
+          "text": "After Kentaro’s apartment, this place looked like an “after” photo."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "ЗДЗІЎЛЕНАЯ",
+          "text": "Пасля кватэры Кэнтаро гэта месца выглядала як фатаграфія «пасля»."
+        }
+      }
+    },
+    {
+      "id": "VN0191",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ШЁПОТОМ",
+          "text": "Слишком чисто."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "WHISPERING",
+          "text": "Too clean."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ШЭПТАМ",
+          "text": "Занадта чыста."
+        }
+      }
+    }
+  ]
+}

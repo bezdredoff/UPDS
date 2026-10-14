@@ -11,6 +11,8 @@ const LockerScene = preload("res://data/locker_scene.json")
 const PostMatchScene = preload("res://data/post_match_scene.json")
 const PhotoScene = preload("res://data/photo_scene.json")
 const PostPhotoScene = preload("res://data/post_photo_scene.json")
+const PoolScene = preload("res://data/pool_scene.json")
+const PostPoolScene = preload("res://data/post_pool_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
 
 
@@ -164,8 +166,28 @@ func _run() -> void:
 	assert(screen.title.text == PostPhotoScene.data.titles.en)
 	while session.state.line < PostPhotoScene.data.lines.size() - 1:
 		assert(session.advance())
-	assert(session.current_line().id == "VN0142" and session.at_port_boundary())
-	assert(not session.advance(), "Advanced beyond the current port boundary")
+	assert(session.current_line().id == "VN0142" and not session.at_port_boundary())
+	assert(session.advance() and session.state.scene == 5 and session.current_line().id == "VN0143")
+	assert(screen.title.text == PoolScene.data.titles.en)
+	while session.current_line().id != "VN0166":
+		assert(session.advance())
+	assert(session.at_match3_gate() and session.scene_data().nextLevelId == "M3_02_POOL_LAUNDRY")
+	await process_frame
+	assert(menu.match3_screen != null and menu.match3_screen.level_id == "M3_02_POOL_LAUNDRY")
+	assert(reached_levels == ["M3_00_LOCKER_TUTORIAL", "M3_01_PHOTO_PROPS", "M3_02_POOL_LAUNDRY"])
+	assert(session.complete_match3("M3_02_POOL_LAUNDRY"))
+	assert(session.state.scene == 6 and session.current_line().id == "VN0168")
+	assert(session.state.completed == [0, 1, 2] and session.state.clues == ["CUE_001", "CUE_002", "CUE_003"])
+	menu.match3_screen.game.state = "won"
+	menu.match3_screen._refresh()
+	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_continue.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible)
+	assert(screen.title.text == PostPoolScene.data.titles.en)
+	while session.current_line().id != "VN0191":
+		assert(session.advance())
+	assert(session.at_port_boundary() and not session.advance())
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
@@ -173,7 +195,7 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.scene == 4 and session.current_line().id == "VN0142")
+	assert(session.state.scene == 6 and session.current_line().id == "VN0191")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()

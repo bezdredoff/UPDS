@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { godotLockerScene, godotPostMatchScene, godotPrologue, godotStoryScene, godotVnAudio } from './fixtures/godotPrologue';
 
-describe('Godot prologue source parity', () => {
+describe('Godot story source parity', () => {
   const source = godotPrologue();
   it('keeps canonical lines, locales and authored staging aligned with the web runtime', () => {
     expect(JSON.parse(readFileSync('godot/data/prologue.json', 'utf8'))).toEqual(source);
@@ -62,5 +62,25 @@ describe('Godot prologue source parity', () => {
     expect(photoLevel.evidence.localized.ru.title).toBeTruthy();
     expect(photoLevel.evidence.localized.be.label).toBeTruthy();
     expect(photoLevel.evidence.localized.en.continueStory).toBeTruthy();
+    for (const [sceneIndex, path, first, last, nextLevelId, onWinSceneIndex] of [
+      [5, 'godot/data/pool_scene.json', 'VN0143', 'VN0166', 'M3_02_POOL_LAUNDRY', 6],
+      [6, 'godot/data/post_pool_scene.json', 'VN0167', 'VN0191', '', -1],
+    ] as const) {
+      const source = godotStoryScene(sceneIndex);
+      expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
+      expect(source.lines[0]?.id).toBe(first);
+      expect(source.lines.at(-1)?.id).toBe(last);
+      expect(source.nextLevelId).toBe(nextLevelId);
+      expect(source.onWinSceneIndex).toBe(onWinSceneIndex);
+      for (const line of source.lines) {
+        expect(readFileSync(`godot/${line.background}`).equals(readFileSync(`public/${line.background}`))).toBe(true);
+        for (const actor of line.actors) expect(readFileSync(`godot/${actor.asset}`).equals(readFileSync(`public/${actor.asset}`))).toBe(true);
+      }
+    }
+    const poolLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_02_POOL_LAUNDRY');
+    expect(poolLevel.evidence.id).toBe('CUE_003');
+    expect(poolLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(poolLevel.evidence.localized.be.label).toBeTruthy();
+    expect(poolLevel.evidence.localized.en.continueStory).toBeTruthy();
   });
 });
