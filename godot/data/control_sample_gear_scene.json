@@ -1,0 +1,617 @@
+{
+  "sceneId": "VN_SCENE_21_E10_PRE",
+  "sceneIndex": 21,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_10_CONTROL_SAMPLE_GEAR",
+  "onWinSceneIndex": 22,
+  "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+  "titles": {
+    "ru": "Чёрный пояс, белые трусы",
+    "en": "Black Belt, White Underwear",
+    "be": "Чорны пояс, белыя трусы"
+  },
+  "lines": [
+    {
+      "id": "VN0489",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ESTABLISHING / COMBAT CLUB HALL",
+          "text": "Зал клуба карате после тренировки. Белые ги висят вдоль стены, на скамье лежат пояса, защитные топы и подписанные сервисные пакеты."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "ESTABLISHING / COMBAT CLUB HALL",
+          "text": "The karate club hall after practice. White gi hang along the wall; belts, protective tops, and labeled service bags cover the bench."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ESTABLISHING / COMBAT CLUB HALL",
+          "text": "Зала клуба каратэ пасля трэніроўкі. Белыя гі вісяць уздоўж сцяны, на лаве ляжаць паясы, ахоўныя топы і падпісаныя сэрвісныя пакеты."
+        }
+      }
+    },
+    {
+      "id": "VN0490",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "АОЙ",
+          "emotion": "ТОРЖЕСТВЕННО",
+          "text": "Аой Кагава, капитан. Исчезновение вещей клуба я рассматриваю как вызов порядку, дисциплине и нашей системе шкафчиков."
+        },
+        "en": {
+          "speaker": "AOI",
+          "emotion": "SOLEMN",
+          "text": "Aoi Kagawa, captain. I consider the disappearance of club property a challenge to order, discipline, and our locker system."
+        },
+        "be": {
+          "speaker": "АОІ",
+          "emotion": "УРАЧЫСТА",
+          "text": "Аоі Кагава, капітан. Знікненне рэчаў клуба я разглядаю як выклік парадку, дысцыпліне і нашай сістэме шафак."
+        }
+      }
+    },
+    {
+      "id": "VN0491",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ВДОХНОВЛЁННО",
+          "text": "Предлагаю рабочее название операции: «Чёрный пояс, белые трусы»."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "INSPIRED",
+          "text": "I propose a working title for the operation: “Black Belt, White Underwear.”"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "НАТХНЁНА",
+          "text": "Прапаную рабочую назву аперацыі: «Чорны пояс, белыя трусы»."
+        }
+      }
+    },
+    {
+      "id": "VN0492",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "АОЙ",
+          "emotion": "ОДОБРЯЕТ",
+          "text": "Коротко. Ритмично. Достойно турнирной афиши."
+        },
+        "en": {
+          "speaker": "AOI",
+          "emotion": "APPROVING",
+          "text": "Short. Rhythmic. Worthy of a tournament poster."
+        },
+        "be": {
+          "speaker": "АОІ",
+          "emotion": "УХВАЛЯЕ",
+          "text": "Каротка. Рытмічна. Годна турнірнай афішы."
+        }
+      }
+    },
+    {
+      "id": "VN0493",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ОСТОРОЖНО",
+          "text": "Сначала уточним, что именно пропало. Потом решим, насколько название достойно афиши."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "CAREFUL",
+          "text": "First let us establish exactly what disappeared. Then we can decide how poster-worthy the title is."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "АСЦЯРОЖНА",
+          "text": "Спачатку ўдакладнім, што менавіта знікла. Потым вырашым, наколькі назва вартая афішы."
+        }
+      }
+    },
+    {
+      "id": "VN0494",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "АОЙ",
+          "emotion": "ПЕРЕЧИСЛЯЕТ",
+          "text": "Две пары белья, защитный топ, два напульсника и пояс новичка. Из разных шкафчиков."
+        },
+        "en": {
+          "speaker": "AOI",
+          "emotion": "LISTING",
+          "text": "Two pairs of underwear, one protective top, two wristbands, and a beginner belt. From different lockers."
+        },
+        "be": {
+          "speaker": "АОІ",
+          "emotion": "ПЕРАЛІЧВАЕ",
+          "text": "Дзве пары бялізны, ахоўны топ, два напульснікі і пояс навічка. З розных шафак."
+        }
+      }
+    },
+    {
+      "id": "VN0495",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СМОТРИТ СПИСОК",
+          "text": "Владельцы не совпадают по курсу, размеру или расписанию. Но все участвовали в спортивном мониторинге колледжа."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "READING LIST",
+          "text": "The owners do not match by year, size, or schedule. But all of them took part in the college sports-monitoring program."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ГЛЯДЗІЦЬ СПІС",
+          "text": "Уладальнікі не супадаюць па курсе, памеры або раскладзе. Але ўсе ўдзельнічалі ў спартыўным маніторынгу каледжа."
+        }
+      }
+    },
+    {
+      "id": "VN0496",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "АОЙ",
+          "emotion": "РЕШИТЕЛЬНО",
+          "text": "Я подготовил сетку допросов. Победитель каждой пары свидетелей проходит в следующий раунд."
+        },
+        "en": {
+          "speaker": "AOI",
+          "emotion": "DETERMINED",
+          "text": "I prepared an interview bracket. The winner of each witness pair advances to the next round."
+        },
+        "be": {
+          "speaker": "АОІ",
+          "emotion": "РАШУЧА",
+          "text": "Я падрыхтаваў сетку апытанняў. Пераможца кожнай пары сведкаў праходзіць у наступны раўнд."
+        }
+      }
+    },
+    {
+      "id": "VN0497",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "РАСКЛАДЫВАЕТ СХЕМУ",
+          "text": "Я подготовила цепочку хранения, время стирки, журнал выдачи и сервисные перемещения. Никто никуда не проходит, пока факты не совпадут."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "LAYING OUT CHART",
+          "text": "I prepared the custody chain, laundry times, issue log, and service movements. Nobody advances anywhere until the facts line up."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "РАСКЛАДВАЕ СХЕМУ",
+          "text": "Я падрыхтавала ланцужок захоўвання, час прання, журнал выдачы і сэрвісныя перамяшчэнні. Ніхто нікуды не праходзіць, пакуль факты не супадуць."
+        }
+      }
+    },
+    {
+      "id": "VN0498",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ВПОЛГОЛОСА",
+          "text": "Оноэ только что получила чёрный пояс по ламинированию."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "UNDER HER BREATH",
+          "text": "Onoe just earned a black belt in lamination."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "НАПАЎГОЛАСУ",
+          "text": "Оноэ толькі што атрымала чорны пояс па ламініраванні."
+        }
+      }
+    },
+    {
+      "id": "VN0499",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ПОЯВЛЯЕТСЯ С ПАПКОЙ",
+          "text": "Вы просили старые фотографии клубных мероприятий. Я принёс оригиналы с метаданными, а не красивые экспортированные копии."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "ARRIVING WITH FOLDER",
+          "text": "You asked for old club-event photos. I brought originals with metadata, not pretty exported copies."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "З'ЯЎЛЯЕЦЦА З ПАПКАЙ",
+          "text": "Вы прасілі старыя фотаздымкі клубных мерапрыемстваў. Я прынёс арыгіналы з метаданымі, а не прыгожыя экспартаваныя копіі."
+        }
+      }
+    },
+    {
+      "id": "VN0500",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "БЛАГОДАРНО",
+          "text": "Идеально. Нам важны фон, сервисные пакеты и время, а не композиция кадра."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "GRATEFUL",
+          "text": "Perfect. We care about the background, service bags, and timestamps, not the composition."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "З УДЗЯЧНАСЦЮ",
+          "text": "Ідэальна. Нам важныя фон, сэрвісныя пакеты і час, а не кампазіцыя кадра."
+        }
+      }
+    },
+    {
+      "id": "VN0501",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "С ЛЁГКОЙ БОЛЬЮ",
+          "text": "Это самый жестокий способ похвалить фотографа, который я слышал."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "MILDLY WOUNDED",
+          "text": "That is the cruelest way I have ever heard someone compliment a photographer."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "З ЛЁГКІМ БОЛЕМ",
+          "text": "Гэта самы жорсткі спосаб пахваліць фатографа, які я калі-небудзь чуў."
+        }
+      }
+    },
+    {
+      "id": "VN0502",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: SERVICE TAGS",
+          "text": "Оноэ раскладывает сервисные ярлыки от пропавших вещей рядом с ярлыками обычной формы. На одном напульснике виден едва заметный серебристый отблеск шва."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: SERVICE TAGS",
+          "text": "Onoe lays service tags from the missing items beside tags from ordinary uniforms. One wristband shows a faint silver glint in the seam."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: SERVICE TAGS",
+          "text": "Оноэ раскладвае сэрвісныя біркі ад зніклых рэчаў побач з біркамі звычайнай формы. На адным напульсніку бачны ледзь прыкметны серабрысты водбліск шва."
+        }
+      }
+    },
+    {
+      "id": "VN0503",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТЯНЕТСЯ БЛИЖЕ",
+          "text": "Серебро. Опять. Можно мне хотя бы драматично указать пальцем?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "LEANING CLOSER",
+          "text": "Silver. Again. May I at least point dramatically?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЦЯГНЕЦЦА БЛІЖЭЙ",
+          "text": "Срэбра. Зноў. Можна мне хаця б драматычна паказаць пальцам?"
+        }
+      }
+    },
+    {
+      "id": "VN0504",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕ ПОДНИМАЯ ГЛАЗ",
+          "text": "После контрольной выборки. До неё это блеск, а не улика."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "WITHOUT LOOKING UP",
+          "text": "After the control sample. Until then it is a glint, not evidence."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НЕ ПАДЫМАЮЧЫ ВАЧЭЙ",
+          "text": "Пасля кантрольнай выбаркі. Да яе гэта бляск, а не ўліка."
+        }
+      }
+    },
+    {
+      "id": "VN0505",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 18,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФОРМУЛИРУЕТ",
+          "text": "Отделяем пропавшие вещи от тех, что просто переместили. Проверяем, повторяется ли шов на внешней экипировке."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "FORMULATING",
+          "text": "Separate the missing items from those that were merely moved. Check whether the seam appears on outer gear too."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФАРМУЛЮЕ",
+          "text": "Аддзяляем зніклыя рэчы ад проста перамешчаных. Правяраем, ці паўтараецца шво на знешняй экіпіроўцы."
+        }
+      }
+    },
+    {
+      "id": "VN0506",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "АОЙ",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Если честь клуба требует контрольной выборки, клуб предоставит контрольную выборку."
+        },
+        "en": {
+          "speaker": "AOI",
+          "emotion": "SERIOUS",
+          "text": "If club honor requires a control sample, the club will provide a control sample."
+        },
+        "be": {
+          "speaker": "АОІ",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Калі гонар клуба патрабуе кантрольнай выбаркі, клуб дасць кантрольную выбарку."
+        }
+      }
+    },
+    {
+      "id": "VN0507",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Заклинившие секции шкафчиков закрывают часть экипировки. Сервисные ярлыки перемешаны с обычными вещами, а спорный напульсник остаётся наверху."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Jammed locker sections block part of the equipment. Service tags are mixed with ordinary gear, while the disputed wristband remains at the top."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Закліненыя секцыі шафак закрываюць частку экіпіроўкі. Сэрвісныя біркі перамяшаныя са звычайнымі рэчамі, а спрэчны напульснік застаецца наверсе."
+        }
+      }
+    },
+    {
+      "id": "VN0508",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Поле собирается в вертикальные секции шкафчиков: открыть замки, собрать ярлыки и опустить напульсник со швом."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "The board forms into vertical locker sections: open the locks, collect the tags, and drop the stitched wristband."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Поле збіраецца ў вертыкальныя секцыі шафак: адкрыць замкі, сабраць біркі і апусціць напульснік са швом."
+        }
+      }
+    }
+  ]
+}
