@@ -15,6 +15,8 @@ const PoolScene = preload("res://data/pool_scene.json")
 const PostPoolScene = preload("res://data/post_pool_scene.json")
 const EmergencyMeetingScene = preload("res://data/emergency_meeting_scene.json")
 const PostTextileWorkshopScene = preload("res://data/post_textile_workshop_scene.json")
+const AsterionLabScene = preload("res://data/asterion_lab_scene.json")
+const PostAsterionLabScene = preload("res://data/post_asterion_lab_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
 
 
@@ -300,6 +302,28 @@ func _run() -> void:
 	assert(restored_choice.current_line().id == "VN0358" and restored_choice.state.storyChoices["apology-to-hinata"] == "A")
 	while session.current_line().id != "VN0369":
 		assert(session.advance())
+	assert(not session.at_port_boundary() and session.advance())
+	assert(session.state.scene == 15 and session.current_line().id == "VN0371")
+	assert(session.state.readLines.has("VN0370"), "Asterion lab opening direction was not consumed")
+	assert(screen.title.text == AsterionLabScene.data.titles.en)
+	while session.current_line().id != "VN0390":
+		assert(session.advance())
+	assert(session.at_match3_gate() and session.scene_data().nextLevelId == "M3_07_ASTERION_THREAD")
+	await process_frame
+	assert(menu.match3_screen != null and menu.match3_screen.level_id == "M3_07_ASTERION_THREAD")
+	assert(reached_levels == ["M3_00_LOCKER_TUTORIAL", "M3_01_PHOTO_PROPS", "M3_02_POOL_LAUNDRY", "M3_03_ORDERED_APARTMENT", "M3_04_EMERGENCY_MEETING", "M3_05_BASKETBALL_LOCKERS", "M3_06_TEXTILE_WORKSHOP", "M3_07_ASTERION_THREAD"])
+	assert(session.complete_match3("M3_07_ASTERION_THREAD"))
+	assert(session.state.scene == 16 and session.current_line().id == "VN0392")
+	assert(session.state.completed == [0, 1, 2, 3, 4, 5, 6, 7] and session.state.clues == ["CUE_001", "CUE_002", "CUE_003", "CUE_004", "CUE_005", "CUE_006", "CUE_007", "CUE_008"])
+	menu.match3_screen.game.state = "won"
+	menu.match3_screen._refresh()
+	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_continue.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible)
+	assert(screen.title.text == PostAsterionLabScene.data.titles.en)
+	while session.current_line().id != "VN0409":
+		assert(session.advance())
 	assert(session.at_port_boundary() and not session.advance())
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
@@ -308,7 +332,7 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.scene == 14 and session.current_line().id == "VN0369")
+	assert(session.state.scene == 16 and session.current_line().id == "VN0409")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()
@@ -340,7 +364,7 @@ func _run() -> void:
 func _unsupported_save() -> void:
 	var memory := Memory.new()
 	var store := Store.new(memory)
-	assert(store.save_story({"scene": 15, "line": 3, "completed": [1]}))
+	assert(store.save_story({"scene": 17, "line": 3, "completed": [1]}))
 	var raw: String = memory.get_item(Format.CONTRACT.data.storyKey)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(store)
@@ -356,7 +380,7 @@ func _unsupported_save() -> void:
 
 func _future_save() -> void:
 	var memory := Memory.new()
-	var raw := '{"schemaVersion":99,"scene":15,"line":3}'
+	var raw := '{"schemaVersion":99,"scene":17,"line":3}'
 	assert(memory.set_item(Format.CONTRACT.data.storyKey, raw))
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(Store.new(memory))

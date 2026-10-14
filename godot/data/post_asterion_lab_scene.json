@@ -1,0 +1,618 @@
+{
+  "sceneId": "VN_SCENE_16_E7_POST",
+  "sceneIndex": 16,
+  "nextSceneId": "VN_SCENE_17_E8_PRE",
+  "nextSceneIndex": 17,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+  "titles": {
+    "ru": "Партия, которой не было",
+    "en": "The Batch That Never Arrived",
+    "be": "Партыя, якой не было"
+  },
+  "lines": [
+    {
+      "id": "VN0391",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: ANALYZER RESULT",
+          "text": "Прибор выводит совпадение состава и покрытия. Серийная группа подсвечена рядом с лабораторным реестром."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: ANALYZER RESULT",
+          "text": "The analyzer reports a composition and coating match. The serial group is highlighted beside the lab registry."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: ANALYZER RESULT",
+          "text": "Прыбор паказвае супадзенне складу і пакрыцця. Серыйная група падсвечана побач з лабараторным рэестрам."
+        }
+      }
+    },
+    {
+      "id": "VN0392",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ПОДТВЕРЖДАЕТ",
+          "text": "Совпадение достаточное. Нить действительно из поставки Asterion."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "CONFIRMING",
+          "text": "The match is sufficient. The thread is indeed from an Asterion shipment."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ПАЦВЯРДЖАЕ",
+          "text": "Супадзення дастаткова. Нітка сапраўды з пастаўкі Asterion."
+        }
+      }
+    },
+    {
+      "id": "VN0393",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЛИСТАЕТ РЕЕСТР",
+          "text": "Внешняя форма, тренировочные ремни, два прототипа компрессионной майки."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SCANNING REGISTRY",
+          "text": "Outer uniforms, training straps, two compression-shirt prototypes."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ГАРТАЕ РЭЕСТР",
+          "text": "Верхняя форма, трэніровачныя рамяні, два прататыпы кампрэсійнай майкі."
+        }
+      }
+    },
+    {
+      "id": "VN0394",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ИЩЕТ",
+          "text": "Назначений на личное бельё нет. Вообще ни одного."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "SEARCHING",
+          "text": "There are no assignments to personal underwear. None at all."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ШУКАЕ",
+          "text": "Прызначэнняў на асабістую бялізну няма. Увогуле ніводнага."
+        }
+      }
+    },
+    {
+      "id": "VN0395",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "НЕ СПОРИТ",
+          "text": "Тогда открытый реестр не объясняет ваш образец. Он мог отставать от сервисной операции."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "NOT ARGUING",
+          "text": "Then the public registry does not explain your sample. It may lag behind a service operation."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "НЕ СПРАЧАЕЦЦА",
+          "text": "Тады адкрыты рэестр не тлумачыць ваш узор. Ён мог адставаць ад сэрвіснай аперацыі."
+        }
+      }
+    },
+    {
+      "id": "VN0396",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПРИЩУРИВАЕТСЯ",
+          "text": "У каждого неудобного факта здесь есть очень удобное «мог»."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "SQUINTING",
+          "text": "Every inconvenient fact here seems to have a very convenient “could.”"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПРЫЖМУРВАЕЦЦА",
+          "text": "У кожнага нязручнага факта тут ёсць вельмі зручнае «мог»."
+        }
+      }
+    },
+    {
+      "id": "VN0397",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "СПОКОЙНО",
+          "text": "Поэтому я дам вам выгрузку, а не попрошу поверить слову. Проверяйте."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "CALM",
+          "text": "That is why I will give you the export instead of asking you to trust my word. Check it."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "СПАКОЙНА",
+          "text": "Таму я дам вам выгрузку, а не папрашу паверыць на слова. Правярайце."
+        }
+      }
+    },
+    {
+      "id": "VN0398",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: SERIAL CODE",
+          "text": "Оноэ увеличивает серийный код. Последние четыре цифры не совпадают ни с одной зарегистрированной поставкой колледжа."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: SERIAL CODE",
+          "text": "Onoe enlarges the serial code. The last four digits match no registered shipment to the college."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: SERIAL CODE",
+          "text": "Оноэ павялічвае серыйны код. Апошнія чатыры лічбы не супадаюць ні з адной зарэгістраванай пастаўкай каледжа."
+        }
+      }
+    },
+    {
+      "id": "VN0399",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ХОЛОДНО-ЗАИНТЕРЕСОВАННАЯ",
+          "text": "Партия существует в системе производителя, но формально никогда не поступала сюда."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "COOL, INTERESTED",
+          "text": "The batch exists in the manufacturer’s system, but formally never arrived here."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ХАЛОДНА-ЗАЦІКАЎЛЕНАЯ",
+          "text": "Партыя існуе ў сістэме вытворцы, але фармальна ніколі сюды не паступала."
+        }
+      }
+    },
+    {
+      "id": "VN0400",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФИКСИРУЕТ",
+          "text": "Факт: нить Asterion. Факт: назначения на личные вещи нет. Объяснение про случайный ремонт пока только объяснение."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "RECORDING",
+          "text": "Fact: Asterion thread. Fact: no assignment to personal items. The accidental-repair story is still only an explanation."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФІКСУЕ",
+          "text": "Факт: нітка Asterion. Факт: прызначэння на асабістыя рэчы няма. Тлумачэнне пра выпадковы рамонт пакуль толькі тлумачэнне."
+        }
+      }
+    },
+    {
+      "id": "VN0401",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_008}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_008}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_008}"
+        }
+      }
+    },
+    {
+      "id": "VN0402",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "РАЦИОНАЛЬНО",
+          "text": "Прачечная обрабатывает десятки партий. Смешение сервисных материалов выглядит прозаично, но вероятно."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "RATIONAL",
+          "text": "The laundry processes dozens of batches. Mixing service materials sounds mundane, but plausible."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "РАЦЫЯНАЛЬНА",
+          "text": "Пральня апрацоўвае дзясяткі партый. Змешванне сэрвісных матэрыялаў выглядае празаічна, але верагодна."
+        }
+      }
+    },
+    {
+      "id": "VN0403",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ТИХО",
+          "text": "Вы ни разу не спросили, кому принадлежали изменённые вещи."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "QUIET",
+          "text": "You have not once asked who owned the altered items."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЦІХА",
+          "text": "Вы ні разу не спыталі, каму належалі змененыя рэчы."
+        }
+      }
+    },
+    {
+      "id": "VN0404",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ПОСЛЕ ПАУЗЫ",
+          "text": "Потому что владельцы не меняют химический состав нити. Сначала причина, затем ответственность."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "AFTER A PAUSE",
+          "text": "Because owners do not change the chemical composition of thread. Cause first, responsibility second."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ПАСЛЯ ПАЎЗЫ",
+          "text": "Таму што ўладальнікі не мяняюць хімічны склад ніткі. Спачатку прычына, потым адказнасць."
+        }
+      }
+    },
+    {
+      "id": "VN0405",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПОЛУШЁПОТОМ",
+          "text": "Звучит умно. И почему-то не успокаивает вообще."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "HALF WHISPER",
+          "text": "That sounds smart. Somehow it is not reassuring at all."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПАЎШЭПТАМ",
+          "text": "Гучыць разумна. І чамусьці зусім не супакойвае."
+        }
+      }
+    },
+    {
+      "id": "VN0406",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОКАЗЫВАЕТ ЭКРАН",
+          "text": "Незарегистрированный серийный код проходит через сервисный префикс центральной прачечной. Нам нужен склад выдачи."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SHOWING SCREEN",
+          "text": "The unregistered serial code passes through the central-laundry service prefix. We need the lost-and-found warehouse."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАКАЗВАЕ ЭКРАН",
+          "text": "Незарэгістраваны серыйны код праходзіць праз сэрвісны прэфікс цэнтральнай пральні. Нам патрэбны склад выдачы."
+        }
+      }
+    },
+    {
+      "id": "VN0407",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-surprised.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "СДЕРЖАННО УДИВЛЁН",
+          "text": "Если найдёте ошибку в цепочке поставки, пришлите номер. Мне тоже нужен ответ."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "RESTRAINED SURPRISE",
+          "text": "If you find an error in the supply chain, send me the number. I need an answer too."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "СТРЫМАНА ЗДЗІЎЛЕНЫ",
+          "text": "Калі знойдзеце памылку ў ланцужку пастаўкі, дашліце нумар. Мне таксама патрэбны адказ."
+        }
+      }
+    },
+    {
+      "id": "VN0408",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "НАСТОРОЖЕННАЯ",
+          "text": "Он помогал нам так охотно, что подозревать его было неловко. И так безупречно, что перестать подозревать его не получалось."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "WARY",
+          "text": "He helped us so willingly that it felt awkward to suspect him—and so flawlessly that I couldn’t stop."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "НАСЦЯРОЖАНАЯ",
+          "text": "Ён так ахвотна нам дапамагаў, што падазраваць яго было няёмка. І так бездакорна, што я не магла перастаць падазраваць яго."
+        }
+      }
+    },
+    {
+      "id": "VN0409",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпизод 8 — Восемьдесят семь пакетов»"
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "EPISODE CARD",
+          "text": "“Episode 8 — Eighty-Seven Packages”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "EPISODE CARD",
+          "text": "«Эпізод 8 — Восемдзесят сем пакетаў»"
+        }
+      }
+    }
+  ]
+}
