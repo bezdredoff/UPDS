@@ -55,6 +55,7 @@ Invoke-GodotCheck -Stage 'Save storage script parse' -Arguments @('--headless', 
 Invoke-GodotCheck -Stage 'Campaign store script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/campaign_store.gd')
 Invoke-GodotCheck -Stage 'Story session script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/story_session.gd')
 Invoke-GodotCheck -Stage 'VN screen script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/vn_screen.gd')
+Invoke-GodotCheck -Stage 'CSS motion script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/css_motion.gd')
 Invoke-GodotCheck -Stage 'Seeded random script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/seeded_random.gd')
 Invoke-GodotCheck -Stage 'Match-3 game script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_game.gd')
 Invoke-GodotCheck -Stage 'Match-3 campaign data script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_campaign_data.gd')

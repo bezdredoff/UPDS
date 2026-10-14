@@ -12,6 +12,7 @@ const Copy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
 const Match3CampaignData = preload("res://scripts/match3_campaign_data.gd")
+const CssMotion = preload("res://scripts/css_motion.gd")
 
 var session: RefCounted
 var preferences: RefCounted
@@ -502,11 +503,16 @@ func _animate_portrait(portrait: TextureRect, travel: float) -> void:
 		return
 	var resting_position: Vector2 = portrait.position
 	var breathing := portrait.create_tween().set_loops()
+	var ease_in_out := Callable(self, "_idle_breathe_curve")
 	var rise: PropertyTweener = breathing.tween_property(
 		portrait, "position", resting_position + Vector2.UP * travel, 1.4)
-	rise.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	rise.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(ease_in_out)
 	var fall: PropertyTweener = breathing.tween_property(portrait, "position", resting_position, 1.4)
-	fall.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	fall.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(ease_in_out)
+
+
+func _idle_breathe_curve(progress: float) -> float:
+	return CssMotion.cubic_bezier(progress, 0.42, 0.0, 0.58, 1.0)
 
 
 func _next() -> void:

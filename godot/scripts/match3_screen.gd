@@ -9,6 +9,7 @@ signal campaign_next_requested(level_id: String)
 const Level = preload("res://data/locker_match3.json")
 const Game = preload("res://scripts/match3_game.gd")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
+const CssMotion = preload("res://scripts/css_motion.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
@@ -748,17 +749,7 @@ func _render_frame(frame: Dictionary) -> void:
 
 
 func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: float) -> float:
-	# CSS cubic-bezier is defined in x-space; invert x(t) so Godot's custom
-	# interpolator follows the same timing curve for the source animation phase.
-	var t := clampf(progress, 0.0, 1.0)
-	for _iteration in 6:
-		var inverse := 1.0 - t
-		var x := 3.0 * inverse * inverse * t * x1 + 3.0 * inverse * t * t * x2 + t * t * t
-		var derivative := 3.0 * inverse * inverse * x1 + 6.0 * inverse * t * (x2 - x1) + 3.0 * t * t * (1.0 - x2)
-		if absf(derivative) < 0.00001: break
-		t = clampf(t - (x - progress) / derivative, 0.0, 1.0)
-	var final_inverse := 1.0 - t
-	return 3.0 * final_inverse * final_inverse * t * y1 + 3.0 * final_inverse * t * t * y2 + t * t * t
+	return CssMotion.cubic_bezier(progress, x1, y1, x2, y2)
 
 
 func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
