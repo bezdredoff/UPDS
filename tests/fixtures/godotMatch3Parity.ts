@@ -5,7 +5,7 @@ import { createSeededRandom } from '../../src/engine/SeededRandom';
 const SCENARIO_SEED = 7331;
 
 type MutableCell = { tile: BoardCell['tile']; ingredient: BoardCell['ingredient']; blockerLayers: number; special: BoardCell['special'] };
-type MutableInternals = { cells: MutableCell[]; random: () => number };
+type MutableInternals = { cells: MutableCell[]; random: () => number; shuffle: () => void };
 type ScenarioGoal = (level: LevelDefinition, move: MoveResult, before: readonly BoardCell[], after: readonly BoardCell[]) => boolean;
 const serializeBoard = (board: readonly BoardCell[]) => board.map((cell) => ({
   tile: cell.tile ?? '', ingredient: cell.ingredient ?? '', blockerLayers: cell.blockerLayers, special: cell.special ?? '',
@@ -33,7 +33,7 @@ function chooseScenario(name: string, eligible: (level: LevelDefinition) => bool
       }));
       const initialHint = game.getHintMove();
       const swaps: Array<{ first: number; second: number }> = [];
-      const totals = { cleared: 0, cascades: 0, blockersCleared: 0, ingredientsDropped: 0 };
+      const totals = { cleared: 0, cascades: 0, blockersCleared: 0, ingredientsDropped: 0, reshuffled: false };
       for (let turn = 0; turn < 28 && !game.won && !game.lost; turn += 1) {
         const hint = game.getHintMove();
         if (!hint) break;
@@ -45,6 +45,7 @@ function chooseScenario(name: string, eligible: (level: LevelDefinition) => bool
         totals.cascades += move.cascades;
         totals.blockersCleared += move.blockersCleared;
         totals.ingredientsDropped += move.ingredientsDropped;
+        totals.reshuffled ||= move.reshuffled;
         if (!goal(level, move, before, game.board)) continue;
         return {
           name,
@@ -103,8 +104,37 @@ export function godotMatch3SpecialActionScenario() {
       progress: game.progress,
       result: {
         valid: move.valid, won: move.won, lost: move.lost, cleared: move.cleared, cascades: move.cascades,
-        blockersCleared: move.blockersCleared, ingredientsDropped: move.ingredientsDropped,
+        blockersCleared: move.blockersCleared, ingredientsDropped: move.ingredientsDropped, reshuffled: move.reshuffled,
       },
+      board: serializeBoard(game.board),
+    },
+  };
+}
+
+export function godotMatch3ReshuffleScenario() {
+  const level = levels.find(({ shortId }) => shortId === 'M3_02');
+  if (!level) throw new Error('M3_02 is required for the Match-3 reshuffle parity scenario');
+  const randomSeed = 18427;
+  const game = gameWithScenarioRandom(level);
+  (game as unknown as MutableInternals).random = createSeededRandom(randomSeed);
+  const cells = (game as unknown as MutableInternals).cells;
+  let cursor = 0;
+  for (const kind of ['flash-row', 'lead', 'evidence', 'insight'] as const) {
+    const index = cells.findIndex((cell, candidate) => candidate >= cursor && cell.tile && cell.blockerLayers === 0 && !cell.ingredient);
+    if (index >= 0) {
+      cells[index].special = kind;
+      cursor = index + 1;
+    }
+  }
+  const initialBoard = serializeBoard(game.board);
+  (game as unknown as MutableInternals).shuffle();
+  return {
+    name: 'playable-reshuffle', action: 'reshuffle', levelId: level.id, randomSeed, initialBoard,
+    expected: {
+      state: game.won ? 'won' : game.lost ? 'lost' : 'playing',
+      movesLeft: game.movesLeft,
+      hasImmediateMatches: game.hasImmediateMatches(),
+      hasAvailableMove: game.hasAvailableMove(),
       board: serializeBoard(game.board),
     },
   };
