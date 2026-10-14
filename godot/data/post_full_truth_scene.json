@@ -1,0 +1,681 @@
+{
+  "sceneId": "VN_SCENE_42_E20_POST",
+  "sceneIndex": 42,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "ending": {
+    "endingId": "ENDING_A_FULL_TRUTH",
+    "fallbackEndingId": "ENDING_B_CASE_CLOSED",
+    "successRequirement": {
+      "evidence": 7,
+      "teamTrust": 2,
+      "sourceTrust": 2
+    }
+  },
+  "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+  "titles": {
+    "ru": "Вся правда",
+    "en": "The Whole Truth",
+    "be": "Уся праўда"
+  },
+  "lines": [
+    {
+      "id": "VN0905",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: BACKUP COMPLETE",
+          "text": "Индикатор удаления гаснет. Резервный накопитель показывает контрольную сумму сохранённого журнала."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "The deletion indicator goes dark. The backup drive displays a checksum for the preserved log."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: BACKUP COMPLETE",
+          "text": "Індыкатар выдалення гасне. Рэзервовы назапашвальнік паказвае кантрольную суму захаванага журнала."
+        }
+      }
+    },
+    {
+      "id": "VN0906",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЧИТАЕТ",
+          "text": "Метки зарегистрированы как «внутренний слой экипировки». В форме согласия эта категория подменена общим термином «спортивный текстиль»."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Tags are registered as 'inner equipment layer.' In the consent form that category was replaced with the broad term 'sports textile.'"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЧЫТАЕ",
+          "text": "Меткі зарэгістраваныя як «унутраны слой экіпіроўкі». У форме згоды гэтая катэгорыя падмененая агульным тэрмінам «спартыўны тэкстыль»."
+        }
+      }
+    },
+    {
+      "id": "VN0907",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "ХОЛОДНО",
+          "text": "То есть человек соглашался на мониторинг формы, а система считала это согласием на его личные вещи."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "So someone agreed to monitoring a uniform, and the system treated that as consent for personal items."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "ХОЛАДНА",
+          "text": "То бок чалавек згаджаўся на маніторынг формы, а сістэма лічыла гэта згодай на яго асабістыя рэчы."
+        }
+      }
+    },
+    {
+      "id": "VN0908",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "ЛИСТАЕТ ДОГОВОР",
+          "text": "И финансирование продолжалось после первого внутреннего сообщения о пропажах."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "BEAT",
+          "text": "And funding continued after the first internal report about missing items."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "ГАРТАЕ ДАМОВУ",
+          "text": "І фінансаванне працягвалася пасля першага ўнутранага паведамлення пра прапажы."
+        }
+      }
+    },
+    {
+      "id": "VN0909",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ТИХО",
+          "text": "Вот почему я начала забирать вещи. Я хотела найти метки раньше, чем данные уйдут дальше."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "That is why I started taking things. I wanted to find the tags before the data moved farther."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ЦІХА",
+          "text": "Вось чаму я пачала забіраць рэчы. Я хацела знайсці меткі раней, чым даныя пойдуць далей."
+        }
+      }
+    },
+    {
+      "id": "VN0910",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ЖЁСТКО",
+          "text": "Это объясняет мотив. Не отменяет кражи."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "That explains the motive. It does not erase the thefts."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЖОРСТКА",
+          "text": "Гэта тлумачыць матыў. Не адмяняе крадзяжу."
+        }
+      }
+    },
+    {
+      "id": "VN0911",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "BG_DISCIPLINARY_ASSEMBLY",
+          "text": "Дисциплинарное слушание. На экране отдельно показаны действия Рины и журнал Second Skin."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "Disciplinary hearing. Rina's actions and the Second Skin logs are shown in separate columns."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "BG_DISCIPLINARY_ASSEMBLY",
+          "text": "Дысцыплінарнае слуханне. На экране асобна паказаныя дзеянні Рыны і журнал Second Skin."
+        }
+      }
+    },
+    {
+      "id": "VN0912",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "СПОКОЙНО",
+          "text": "Вы предлагаете уничтожить программу, которая финансирует семь клубов, из-за действий одного сотрудника."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "BEAT",
+          "text": "You propose destroying a program that funds seven clubs because of one employee's actions."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "СПАКОЙНА",
+          "text": "Вы прапануеце знішчыць праграму, якая фінансуе сем клубаў, праз дзеянні аднаго супрацоўніка."
+        }
+      }
+    },
+    {
+      "id": "VN0913",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 18,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "УКАЗЫВАЕТ НА ДВА СТОЛБЦА",
+          "text": "Нет. Рина отвечает за кражи. Вы — за сбор данных без согласия и продолжение пилота после первых сигналов риска."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "No. Rina is accountable for the thefts. You are accountable for collecting data without consent and continuing the pilot after the first warning signs."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПАКАЗВАЕ НА ДВА СЛУПКІ",
+          "text": "Не. Рына адказвае за крадзяжы. Вы адказваеце за збор даных без згоды і працяг пілота пасля першых сігналаў пра рызыку."
+        }
+      }
+    },
+    {
+      "id": "VN0914",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ДОБАВЛЯЕТ",
+          "text": "Эти нарушения доказаны разными цепочками. Одно нельзя использовать как алиби для другого."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Those violations are proven by different chains. One cannot be used as an alibi for the other."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ДАДАЕ",
+          "text": "Гэтыя парушэнні даказаныя рознымі ланцужкамі. Адно нельга выкарыстоўваць як алібі для другога."
+        }
+      }
+    },
+    {
+      "id": "VN0915",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "ПРЯМО",
+          "text": "Я свидетельствую не ради Рины. Я свидетельствую потому, что согласие нельзя переписывать после подписи."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "I am testifying not for Rina. I am testifying because consent cannot be rewritten after it is signed."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "ПРАМА",
+          "text": "Я сведчу не дзеля Рыны. Я сведчу таму, што згоду нельга перапісваць пасля подпісу."
+        }
+      }
+    },
+    {
+      "id": "VN0916",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "КЛАДЁТ ФИНАНСОВЫЙ ПАКЕТ",
+          "text": "Финансовые документы готовы для независимой комиссии."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "BEAT",
+          "text": "The financial documents are ready for an independent commission."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "КЛАДЗЕ ФІНАНСАВЫ ПАКЕТ",
+          "text": "Фінансавыя дакументы гатовыя для незалежнай камісіі."
+        }
+      }
+    },
+    {
+      "id": "VN0917",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ВПЕРВЫЕ ЗЛИТСЯ",
+          "text": "Вы не понимаете, что потеряет колледж."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "BEAT",
+          "text": "You do not understand what the college will lose."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "УПЕРШЫНЮ ЗЛУЕЦЦА",
+          "text": "Вы не разумееце, што страціць каледж."
+        }
+      }
+    },
+    {
+      "id": "VN0918",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "БЕЗ ШУТКИ",
+          "text": "Мы наконец понимаем, что уже потеряли участники."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "We finally understand what the participants already lost."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "БЕЗ ЖАРТУ",
+          "text": "Мы нарэшце разумеем, што ўжо страцілі ўдзельнікі."
+        }
+      }
+    },
+    {
+      "id": "VN0919",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "КОМИССИИ",
+          "text": "Серверный журнал — главное доказательство. Остальное зависит от того, сколько независимых источников мы сохранили."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "The server log is our primary evidence. The rest depends on how many independent sources we preserved along the way."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "КАМІСІІ",
+          "text": "Серверны журнал — наш галоўны доказ. Астатняе залежыць ад таго, колькі незалежных крыніц мы захавалі."
+        }
+      }
+    },
+    {
+      "id": "VN0920",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "VERDICT PENDING",
+          "text": "Комиссия уходит на короткое совещание. На столе остаются договор, журнал согласий и материалы источников."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "The commission leaves for a short recess. The agreement, consent logs, and source materials remain on the table."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "VERDICT PENDING",
+          "text": "Камісія сыходзіць на кароткую нараду. На стале застаюцца дамова, журнал згоды і матэрыялы крыніц."
+        }
+      }
+    },
+    {
+      "id": "VN0921",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ТИХО",
+          "text": "Теперь последний вывод зависит не от красивой версии, а от качества всей цепочки."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Now the final conclusion depends on the quality of the whole chain, not on a neat story."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЦІХА",
+          "text": "Цяпер апошняя выснова залежыць не ад прыгожай версіі, а ад якасці ўсяго ланцужка."
+        }
+      }
+    },
+    {
+      "id": "VN0922",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "КИВАЕТ",
+          "text": "Именно так и должно быть."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Exactly as it should."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "КІВАЕ",
+          "text": "Менавіта так і павінна быць."
+        }
+      }
+    },
+    {
+      "id": "VN0923",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ОЖИДАНИЕ РЕШЕНИЯ",
+          "text": "Комиссия сопоставляет серверный журнал с независимыми уликами и показаниями источников."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "The commission compares the server log with independent evidence and witness statements."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ENDING RESOLUTION",
+          "text": "Камісія супастаўляе серверны журнал з незалежнымі доказамі і сведчаннямі крыніц."
+        }
+      }
+    },
+    {
+      "id": "VN0924",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СПОКОЙНО",
+          "text": "Что бы комиссия ни решила, мы больше не смешиваем правду с удобством."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Whatever the commission decides, we no longer mix truth with convenience."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СПАКОЙНА",
+          "text": "Што б камісія ні вырашыла, мы больш не змешваем праўду са зручнасцю."
+        }
+      }
+    }
+  ]
+}

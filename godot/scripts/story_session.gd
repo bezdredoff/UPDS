@@ -46,8 +46,11 @@ const FullTimelineProofScene = preload("res://data/full_timeline_proof_scene.jso
 const PostFullTimelineProofScene = preload("res://data/post_full_timeline_proof_scene.json")
 const PrivateReturnScene = preload("res://data/private_return_scene.json")
 const PostPrivateReturnScene = preload("res://data/post_private_return_scene.json")
+const FullTruthScene = preload("res://data/full_truth_scene.json")
+const PostFullTruthScene = preload("res://data/post_full_truth_scene.json")
+const EndingOutcomes = preload("res://data/ending_outcomes.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 40
+const MAX_PORTED_SCENE_INDEX := 42
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -71,7 +74,10 @@ func has_progress() -> bool:
 
 
 func supports_position() -> bool:
-	return state.scene >= 0 and state.scene <= MAX_PORTED_SCENE_INDEX and state.line >= 0 and state.line < _scene_lines().size()
+	if state.scene < 0 or state.scene > MAX_PORTED_SCENE_INDEX or state.line < 0:
+		return false
+	var lines := _scene_lines()
+	return state.line < lines.size() or (state.line == lines.size() and not scene_data().get("ending", {}).is_empty())
 
 
 func new_game() -> void:
@@ -91,7 +97,23 @@ func resume() -> bool:
 
 
 func current_line() -> Dictionary:
-	return _scene_lines()[int(state.line)] if supports_position() else {}
+	return _scene_lines()[int(state.line)] if supports_position() and state.line < _scene_lines().size() else {}
+
+
+func ending_result() -> Dictionary:
+	if not supports_position() or state.line != _scene_lines().size():
+		return {}
+	var transition: Dictionary = scene_data().get("ending", {})
+	if transition.is_empty():
+		return {}
+	var metrics := _story_outcome_metrics()
+	var ending_id := str(transition.get("endingId", ""))
+	var requirement: Dictionary = transition.get("successRequirement", {})
+	if not requirement.is_empty() and not _meets_requirement(metrics, requirement):
+		ending_id = str(transition.get("fallbackEndingId", ending_id))
+	var final_strategy := str(state.storyChoices.get("final-strategy", "A"))
+	var fallback_copy := ending_id == "ENDING_B_CASE_CLOSED" and final_strategy == "B"
+	return {"endingId": ending_id, "metrics": metrics, "copyKey": "fallbackCopy" if fallback_copy else "copy"}
 
 
 func at_match3_gate() -> bool:
@@ -112,6 +134,7 @@ func at_choice_gate() -> bool:
 func at_port_boundary() -> bool:
 	var next_scene_index := _next_scene_index()
 	return supports_position() and state.line == _scene_lines().size() - 1 and not at_match3_gate() \
+		and scene_data().get("ending", {}).is_empty() \
 		and (next_scene_index < 0 or next_scene_index > MAX_PORTED_SCENE_INDEX)
 
 
@@ -183,6 +206,8 @@ func scene_data() -> Dictionary:
 		38: return PostFullTimelineProofScene.data
 		39: return PrivateReturnScene.data
 		40: return PostPrivateReturnScene.data
+		41: return FullTruthScene.data
+		42: return PostFullTruthScene.data
 	return {}
 
 
@@ -209,7 +234,7 @@ func choose(option: String) -> bool:
 
 
 func advance() -> bool:
-	if not supports_position():
+	if not supports_position() or not ending_result().is_empty():
 		return false
 	if at_choice_gate():
 		return false
@@ -218,6 +243,9 @@ func advance() -> bool:
 	if moved:
 		state.line += 1
 		_skip_hidden()
+	elif not scene_data().get("ending", {}).is_empty():
+		state.line = _scene_lines().size()
+		moved = true
 	elif _next_scene_index() >= 0 and _next_scene_index() <= MAX_PORTED_SCENE_INDEX:
 		state.scene = _next_scene_index()
 		state.line = 0
@@ -248,6 +276,29 @@ func _next_scene_index() -> int:
 		var option := str(state.storyChoices.get(choice_id, ""))
 		return int(routes.get(option, -1))
 	return int(data.get("nextSceneIndex", -1))
+
+
+func _story_outcome_metrics() -> Dictionary:
+	var rules: Dictionary = EndingOutcomes.data.outcomeRules
+	var evidence := 0
+	for clue_id in rules.evidenceClueIds:
+		if state.clues.has(clue_id): evidence += 1
+	var base: Dictionary = rules.baseTrustByChoice.get(str(state.choice), rules.baseTrustByChoice.A)
+	var team_trust := int(base.teamTrust)
+	var source_trust := int(base.sourceTrust)
+	var effects: Dictionary = rules.storyChoiceEffects
+	for gate_id in state.storyChoices:
+		var gate_effects: Dictionary = effects.get(gate_id, {})
+		var option_effect: Dictionary = gate_effects.get(state.storyChoices[gate_id], {})
+		team_trust += int(option_effect.get("teamTrust", 0))
+		source_trust += int(option_effect.get("sourceTrust", 0))
+	return {"evidence": evidence, "teamTrust": team_trust, "sourceTrust": source_trust}
+
+
+func _meets_requirement(metrics: Dictionary, requirement: Dictionary) -> bool:
+	return int(metrics.evidence) >= int(requirement.get("evidence", 0)) \
+		and int(metrics.teamTrust) >= int(requirement.get("teamTrust", 0)) \
+		and int(metrics.sourceTrust) >= int(requirement.get("sourceTrust", 0))
 
 
 func _skip_hidden() -> void:
@@ -341,4 +392,8 @@ func _scene_lines() -> Array:
 		return PrivateReturnScene.data.lines
 	if state.scene == 40:
 		return PostPrivateReturnScene.data.lines
+	if state.scene == 41:
+		return FullTruthScene.data.lines
+	if state.scene == 42:
+		return PostFullTruthScene.data.lines
 	return []

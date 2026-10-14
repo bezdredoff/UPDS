@@ -6,6 +6,7 @@ signal match3_requested(level_id: String)
 
 const Prologue = preload("res://data/prologue.json")
 const LockerScene = preload("res://data/locker_scene.json")
+const EndingOutcomes = preload("res://data/ending_outcomes.json")
 const Copy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 
@@ -13,6 +14,7 @@ var session: RefCounted
 var preferences: RefCounted
 var audio_runtime: Node
 var stage: Control
+var dialogue_panel: PanelContainer
 var background_rect: TextureRect
 var title: Label
 var speaker: Label
@@ -27,6 +29,13 @@ var next_button: Button
 var choice_box: VBoxContainer
 var choice_prompt: Label
 var choice_buttons: Array[Button] = []
+var ending_panel: PanelContainer
+var ending_eyebrow: Label
+var ending_heading: Label
+var ending_copy: Label
+var ending_summary: Label
+var ending_menu_button: Button
+var ending_replay_button: Button
 var _boundary := false
 var _last_advance := -1000
 var _gate_requested := false
@@ -62,12 +71,12 @@ func _ready() -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	settings_button = _button(header)
 	settings_button.pressed.connect(func() -> void: settings_requested.emit())
-	var panel := PanelContainer.new()
-	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	panel.anchor_top = 0.60
-	panel.offset_left = 12
-	panel.offset_right = -12
-	panel.offset_bottom = -12
+	dialogue_panel = PanelContainer.new()
+	dialogue_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	dialogue_panel.anchor_top = 0.60
+	dialogue_panel.offset_left = 12
+	dialogue_panel.offset_right = -12
+	dialogue_panel.offset_bottom = -12
 	var paper := StyleBoxFlat.new()
 	paper.bg_color = Color("#fffdf8")
 	paper.set_corner_radius_all(12)
@@ -75,11 +84,11 @@ func _ready() -> void:
 	paper.content_margin_right = 16
 	paper.content_margin_top = 12
 	paper.content_margin_bottom = 12
-	panel.add_theme_stylebox_override("panel", paper)
-	add_child(panel)
+	dialogue_panel.add_theme_stylebox_override("panel", paper)
+	add_child(dialogue_panel)
 	var content := VBoxContainer.new()
 	content.add_theme_constant_override("separation", 6)
-	panel.add_child(content)
+	dialogue_panel.add_child(content)
 	speaker = _label(content, 18)
 	emotion = _label(content, 12)
 	choice_box = VBoxContainer.new()
@@ -109,10 +118,13 @@ func _ready() -> void:
 	progress.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	next_button = _button(footer)
 	next_button.pressed.connect(_next)
+	_build_ending_panel()
 	session.changed.connect(_refresh)
 	preferences.locale_changed.connect(func(_locale: String) -> void: _refresh())
 	_refresh()
-	if session.at_match3_gate():
+	if not session.ending_result().is_empty():
+		ending_menu_button.grab_focus()
+	elif session.at_match3_gate():
 		menu_button.grab_focus()
 	elif session.at_choice_gate():
 		choice_buttons[0].grab_focus()
@@ -121,6 +133,16 @@ func _ready() -> void:
 
 
 func _refresh() -> void:
+	var outcome: Dictionary = session.ending_result()
+	if not outcome.is_empty():
+		_refresh_ending(outcome)
+		return
+	ending_panel.hide()
+	dialogue_panel.show()
+	stage.show()
+	menu_button.show()
+	title.show()
+	settings_button.show()
 	var line: Dictionary = session.current_line()
 	if line.is_empty():
 		return
@@ -211,6 +233,70 @@ func _choose(option: String) -> void:
 		next_button.grab_focus()
 
 
+func _build_ending_panel() -> void:
+	ending_panel = PanelContainer.new()
+	ending_panel.name = "EndingPanel"
+	ending_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	ending_panel.anchor_top = 0.22
+	ending_panel.anchor_bottom = 0.86
+	ending_panel.offset_left = 18
+	ending_panel.offset_right = -18
+	var paper := StyleBoxFlat.new()
+	paper.bg_color = Color("#fffdf8")
+	paper.set_corner_radius_all(12)
+	paper.content_margin_left = 18
+	paper.content_margin_right = 18
+	paper.content_margin_top = 16
+	paper.content_margin_bottom = 16
+	ending_panel.add_theme_stylebox_override("panel", paper)
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 10)
+	ending_panel.add_child(content)
+	ending_eyebrow = _label(content, 13)
+	ending_eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	ending_heading = _label(content, 26)
+	ending_heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	ending_copy = _label(content, 17)
+	ending_copy.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	ending_copy.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	ending_summary = _label(content, 14)
+	ending_summary.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	ending_menu_button = _button(content)
+	ending_replay_button = _button(content)
+	ending_menu_button.pressed.connect(func() -> void: menu_requested.emit())
+	ending_replay_button.pressed.connect(func() -> void: session.new_game())
+	ending_panel.hide()
+	add_child(ending_panel)
+
+
+func _refresh_ending(outcome: Dictionary) -> void:
+	var locale: String = preferences.locale
+	var data: Dictionary = EndingOutcomes.data
+	var copy: Dictionary = data.copy[locale]
+	var ending_id: String = outcome.endingId
+	var localized_ending: Dictionary = copy.outcomes[ending_id]
+	var metrics: Dictionary = outcome.metrics
+	var final_strategy: String = str(session.state.storyChoices.get("final-strategy", "A"))
+	background_rect.texture = load("res://" + str(data.backgrounds[ending_id]).trim_prefix("./"))
+	title.hide()
+	menu_button.hide()
+	settings_button.hide()
+	stage.hide()
+	dialogue_panel.hide()
+	ending_eyebrow.text = localized_ending.eyebrow
+	ending_heading.text = localized_ending.heading
+	ending_copy.text = localized_ending[outcome.copyKey]
+	ending_summary.text = "%s: %s\n%s: %d / %d / %d\n%s: %d / %d" % [
+		copy.finalStrategy, copy.strategyTitles[final_strategy], copy.metrics,
+		int(metrics.evidence), int(metrics.teamTrust), int(metrics.sourceTrust),
+		copy.cluesFound, session.state.clues.size(), data.totalClues,
+	]
+	ending_menu_button.text = copy.mainMenu
+	ending_replay_button.text = copy.replay
+	ending_panel.show()
+	ending_menu_button.grab_focus()
+
+
 func _label(parent: Node, font_size: int) -> Label:
 	var label := Label.new()
 	label.add_theme_font_size_override("font_size", font_size)
@@ -233,6 +319,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
 		menu_requested.emit()
-	elif event.is_action_pressed("ui_accept"):
+	elif event.is_action_pressed("ui_accept") and session.ending_result().is_empty():
 		get_viewport().set_input_as_handled()
 		_next()

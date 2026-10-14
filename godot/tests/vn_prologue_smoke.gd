@@ -41,6 +41,8 @@ const FullTimelineProofScene = preload("res://data/full_timeline_proof_scene.jso
 const PostFullTimelineProofScene = preload("res://data/post_full_timeline_proof_scene.json")
 const PrivateReturnScene = preload("res://data/private_return_scene.json")
 const PostPrivateReturnScene = preload("res://data/post_private_return_scene.json")
+const FullTruthScene = preload("res://data/full_truth_scene.json")
+const PostFullTruthScene = preload("res://data/post_full_truth_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
 
 
@@ -702,10 +704,12 @@ func _run() -> void:
 	assert(menu.match3_screen == null and screen.visible)
 	assert(screen.title.text == PostPrivateReturnScene.data.titles.en)
 	while session.current_line().id != "VN0884": assert(session.advance())
-	assert(session.at_port_boundary() and not session.advance())
+	assert(not session.at_port_boundary())
+	assert(session.advance() and session.ending_result().endingId == "ENDING_B_CASE_CLOSED")
+	assert(screen.ending_panel.visible and screen.ending_heading.text == "The Thief Is Caught")
 	var restored_ending_route := Session.new(session.store)
 	restored_ending_route.reload()
-	assert(restored_ending_route.current_line().id == "VN0884")
+	assert(restored_ending_route.ending_result().endingId == "ENDING_B_CASE_CLOSED")
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
@@ -713,7 +717,7 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.scene == 40 and session.current_line().id == "VN0884")
+	assert(session.state.scene == 40 and session.ending_result().endingId == "ENDING_B_CASE_CLOSED")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()
@@ -733,6 +737,7 @@ func _run() -> void:
 	_future_save()
 	_choice_routes()
 	_final_strategy_routes()
+	await _full_truth_outcomes()
 	var hidden_session := Memory.story_session()
 	assert(hidden_session.store.save_story({"scene": 0, "line": 20}))
 	hidden_session.reload()
@@ -746,7 +751,7 @@ func _run() -> void:
 func _unsupported_save() -> void:
 	var memory := Memory.new()
 	var store := Store.new(memory)
-	assert(store.save_story({"scene": 41, "line": 3, "completed": [1]}))
+	assert(store.save_story({"scene": 43, "line": 3, "completed": [1]}))
 	var raw: String = memory.get_item(Format.CONTRACT.data.storyKey)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(store)
@@ -762,7 +767,7 @@ func _unsupported_save() -> void:
 
 func _future_save() -> void:
 	var memory := Memory.new()
-	var raw := '{"schemaVersion":99,"scene":41,"line":3}'
+	var raw := '{"schemaVersion":99,"scene":43,"line":3}'
 	assert(memory.set_item(Format.CONTRACT.data.storyKey, raw))
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(Store.new(memory))
@@ -869,7 +874,48 @@ func _final_strategy_routes() -> void:
 			assert(session.advance())
 		var routes: Dictionary = session.scene_data().get("nextSceneIndices", {})
 		assert(routes.get(option, -1) == expected_routes[option], "Final-strategy option %s lost its route: scene=%s routes=%s" % [option, session.state.scene, routes])
-		if option == "A":
-			assert(not session.at_port_boundary() and session.advance() and session.state.scene == 39)
+		if option in ["A", "B"]:
+			assert(not session.at_port_boundary() and session.advance() and session.state.scene == expected_routes[option])
 		else:
 			assert(session.at_port_boundary() and not session.advance())
+
+
+func _full_truth_outcomes() -> void:
+	var success := Memory.story_session()
+	success.state.scene = 42
+	success.state.line = PostFullTruthScene.data.lines.size() - 1
+	success.state.choice = "A"
+	success.state.clues = ["CUE_010", "CUE_011", "CUE_012", "CUE_013", "CUE_014", "CUE_015", "CUE_016", "CUE_017", "CUE_018", "CUE_019"]
+	success.state.storyChoices = {
+		"final-strategy": "B", "meeting-tone": "A", "apology-to-hinata": "C",
+		"protect-gen-source": "A", "photo-permission": "A", "family-ledger-permission": "A", "trust-vincent": "A",
+	}
+	assert(success.advance())
+	var full_truth: Dictionary = success.ending_result()
+	assert(full_truth.endingId == "ENDING_A_FULL_TRUTH")
+	assert(full_truth.metrics == {"evidence": 10, "teamTrust": 3, "sourceTrust": 4})
+	var preferences_path := "user://ending_smoke_%s.cfg" % Time.get_ticks_usec()
+	var result_screen = load("res://scripts/vn_screen.gd").new()
+	result_screen.session = success
+	result_screen.preferences = preload("res://scripts/player_preferences.gd").new(preferences_path)
+	result_screen.preferences.set_locale("ru")
+	root.add_child(result_screen)
+	await process_frame
+	assert(result_screen.ending_panel.visible)
+	assert(result_screen.ending_heading.text == "Под прачечной")
+	assert(result_screen.ending_summary.text.contains("10 / 3 / 4"))
+	var restored := Session.new(success.store)
+	restored.reload()
+	assert(restored.ending_result().endingId == "ENDING_A_FULL_TRUTH")
+	result_screen.queue_free()
+	await process_frame
+	DirAccess.remove_absolute(preferences_path)
+	var fallback := Memory.story_session()
+	fallback.state.scene = 42
+	fallback.state.line = PostFullTruthScene.data.lines.size() - 1
+	fallback.state.choice = "B"
+	fallback.state.storyChoices = {"final-strategy": "B"}
+	assert(fallback.advance())
+	var case_closed: Dictionary = fallback.ending_result()
+	assert(case_closed.endingId == "ENDING_B_CASE_CLOSED" and case_closed.copyKey == "fallbackCopy")
+	assert(case_closed.metrics == {"evidence": 0, "teamTrust": 0, "sourceTrust": 0})
