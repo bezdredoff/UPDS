@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { godotLockerScene, godotPostMatchScene, godotPrologue, godotStoryScene, godotVnAudio } from './fixtures/godotPrologue';
+import { godotEndingOutcomeData, godotLockerScene, godotPostMatchScene, godotPrologue, godotStoryScene, godotVnAudio } from './fixtures/godotPrologue';
 
 describe('Godot story source parity', () => {
   const source = godotPrologue();
@@ -99,6 +99,8 @@ describe('Godot story source parity', () => {
       [38, 'godot/data/post_full_timeline_proof_scene.json', 'VN0827', 'VN0845', '', -1],
       [39, 'godot/data/private_return_scene.json', 'VN0846', 'VN0865', 'M3_19_PRIVATE_RETURN', 40],
       [40, 'godot/data/post_private_return_scene.json', 'VN0866', 'VN0884', '', -1],
+      [41, 'godot/data/full_truth_scene.json', 'VN0885', 'VN0904', 'M3_20_SERVER_CONSENT_LOGS', 42],
+      [42, 'godot/data/post_full_truth_scene.json', 'VN0905', 'VN0924', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -201,6 +203,12 @@ describe('Godot story source parity', () => {
     expect(privateReturnLevel.evidence.localized.ru.title).toBeTruthy();
     expect(privateReturnLevel.evidence.localized.be.label).toBeTruthy();
     expect(privateReturnLevel.evidence.localized.en.continueStory).toBeTruthy();
+    const serverConsentLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_20_SERVER_CONSENT_LOGS');
+    expect(serverConsentLevel.evidence.id).toBe('CUE_021');
+    expect(serverConsentLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(serverConsentLevel.evidence.localized.be.label).toBeTruthy();
+    expect(serverConsentLevel.evidence.localized.en.continueStory).toBeTruthy();
+    expect(JSON.parse(readFileSync('godot/data/ending_outcomes.json', 'utf8'))).toEqual(godotEndingOutcomeData());
     const strategyScene = godotStoryScene(38);
     expect(strategyScene.branchChoiceId).toBe('final-strategy');
     expect(strategyScene.nextSceneIndices).toEqual({ A: 39, B: 41, C: 43 });

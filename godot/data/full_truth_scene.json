@@ -1,0 +1,663 @@
+{
+  "sceneId": "VN_SCENE_41_E20_PRE",
+  "sceneIndex": 41,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_20_SERVER_CONSENT_LOGS",
+  "onWinSceneIndex": 42,
+  "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+  "titles": {
+    "ru": "Под прачечной",
+    "en": "Under the Laundry",
+    "be": "Пад пральняй"
+  },
+  "lines": [
+    {
+      "id": "VN0885",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "BG_SERVICE_TUNNEL / ESTABLISHING",
+          "text": "Ключ-карта из старого корпуса открывает узкий сервисный тоннель между прачечной и техническим крылом Asterion."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "The key card from the old building opens a narrow service tunnel between the laundry and Asterion's technical wing."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "BG_SERVICE_TUNNEL / ESTABLISHING",
+          "text": "Ключ-картка са старога корпуса адмыкае вузкі сэрвісны тунэль паміж пральняй і тэхнічным крылом Asterion."
+        }
+      }
+    },
+    {
+      "id": "VN0886",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СМОТРИТ НА ТЕЛЕЖКУ",
+          "text": "Я всё ещё считаю, что спрятаться в бельевой тележке было бы тематически идеально."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "I still think hiding in a laundry cart would have been thematically perfect."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ГЛЯДЗІЦЬ НА КАЛЯСКУ",
+          "text": "Я ўсё яшчэ лічу, што схавацца ў вазку з бялізнай было б тэматычна ідэальна."
+        }
+      }
+    },
+    {
+      "id": "VN0887",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ОЦЕНИВАЕТ РАЗМЕР",
+          "text": "Внутренний объём требует необратимого изменения скелета."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "The internal volume would require irreversible skeletal modification."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "АЦЭНЬВАЕ ПАМЕР",
+          "text": "Унутраны аб'ём патрабуе незваротнай змены шкілета."
+        }
+      }
+    },
+    {
+      "id": "VN0888",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ВЗДЫХАЕТ",
+          "text": "Ты умеешь разрушить мечту одной оценкой вместимости."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "You know how to ruin a dream with a single estimate of its capacity."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "УЗДЫХАЕ",
+          "text": "Ты ўмееш разбурыць мару адной ацэнкай умяшчальнасці."
+        }
+      }
+    },
+    {
+      "id": "VN0889",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "В СЕРВИСНОЙ КУРТКЕ",
+          "text": "Поэтому идём как обычная техническая группа с папкой максимально скучных накладных."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "That is why we go in as an ordinary service team carrying the most boring invoices possible."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "У СЭРВІСНАЙ КУРТЦЫ",
+          "text": "Таму ідзём як звычайная тэхнічная група з папкай максімальна нудных накладных."
+        }
+      }
+    },
+    {
+      "id": "VN0890",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ПОКАЗЫВАЕТ МАРШРУТ",
+          "text": "За третьим шлюзом тоннель делится. Налево — склад, направо — серверная лаборатории."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "After the third gate the tunnel splits. Left is storage, right is the laboratory server room."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ПАКАЗВАЕ МАРШРУТ",
+          "text": "За трэцім шлюзам тунэль раздзяляецца. Налева — склад, направа — серверная лабараторыі."
+        }
+      }
+    },
+    {
+      "id": "VN0891",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Мы ищем не интимные подробности участников. Только кто поставил метки, какие данные собирал и на что участники соглашались."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "We’re not looking for participants’ intimate details. We want to know only who placed the tags, what data they collected, and what the participants consented to."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Мы не шукаем інтымныя падрабязнасці ўдзельнікаў. Нас цікавіць толькі, хто паставіў меткі, якія даныя збіраў і на што згадзіліся ўдзельнікі."
+        }
+      }
+    },
+    {
+      "id": "VN0892",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "mayu",
+          "asset": "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 40.32,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МАЮ",
+          "emotion": "С ДОГОВОРОМ",
+          "text": "В приложении к договору Asterion разрешены спортивные показатели во время тренировок. Личное бельё и ночной сбор данных там не указаны."
+        },
+        "en": {
+          "speaker": "MAYU",
+          "emotion": "BEAT",
+          "text": "The Asterion agreement allows sports metrics during training. Personal underwear and overnight collection are not listed."
+        },
+        "be": {
+          "speaker": "МАЮ",
+          "emotion": "З ДАМОВАЙ",
+          "text": "У дадатку да дамовы Asterion дазволены спартыўныя паказчыкі падчас трэніровак. Асабістая бялізна і начны збор даных там не пазначаныя."
+        }
+      }
+    },
+    {
+      "id": "VN0893",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НА ПАПКУ",
+          "text": "Фотографии Кэнтаро, книга Кубо и лог Винсента приложены в той степени, в которой источники согласились их предоставить."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Kentaro's photos, the Kubo ledger, and Vincent's scan are attached only to the extent each source agreed to provide them."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НА ПАПКУ",
+          "text": "Фатаграфіі Кэнтаро, кніга Кубо і журнал Вінсента далучаныя ў той ступені, у якой крыніцы пагадзіліся іх даць."
+        }
+      }
+    },
+    {
+      "id": "VN0894",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "КИВАЕТ",
+          "text": "Недостающие подтверждения не дорисовываем. На сервере берём только первичные журналы."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "We do not invent missing corroboration. On the server, take only primary logs."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "КІВАЕ",
+          "text": "Адсутныя пацверджанні не дамалёўваем. На серверы бяром толькі першасныя журналы."
+        }
+      }
+    },
+    {
+      "id": "VN0895",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ALARM LIGHT",
+          "text": "За дверью серверной мигает красный индикатор обслуживания. На консоли идёт удаление архивного раздела."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "A red maintenance light flashes behind the server-room door. The console is deleting an archive section."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ALARM LIGHT",
+          "text": "За дзвярыма сервернай міргае чырвоны індыкатар абслугоўвання. На кансолі ідзе выдаленне архіўнага раздзела."
+        }
+      }
+    },
+    {
+      "id": "VN0896",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-surprised.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "МГНОВЕННО СЕРЬЁЗНА",
+          "text": "Пожалуйста, скажите, что это плановая очистка кэша."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Please tell me that is routine cache cleanup."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ІМГНЕННА СУР'ЁЗНАЯ",
+          "text": "Калі ласка, скажыце, што гэта планавая ачыстка кэша."
+        }
+      }
+    },
+    {
+      "id": "VN0897",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЧИТАЕТ ЭКРАН",
+          "text": "Каталог называется SS-CONSENT-MAP. Это не кэш."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "The directory is named SS-CONSENT-MAP. That is not cache."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЧЫТАЕ ЭКРАН",
+          "text": "Каталог называецца SS-CONSENT-MAP. Гэта не кэш."
+        }
+      }
+    },
+    {
+      "id": "VN0898",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "kurose",
+          "asset": "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.98,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ПО ИНТЕРКОМУ",
+          "text": "Вы на закрытой территории. Немедленно прекратите доступ."
+        },
+        "en": {
+          "speaker": "KUROSE",
+          "emotion": "BEAT",
+          "text": "You are in a restricted area. Stop access immediately."
+        },
+        "be": {
+          "speaker": "КУРОСЭ",
+          "emotion": "ПА ІНТЭРКОМЕ",
+          "text": "Вы на закрытай тэрыторыі. Неадкладна спыніце доступ."
+        }
+      }
+    },
+    {
+      "id": "VN0899",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "В МИКРОФОН",
+          "text": "Отлично. Значит, журнал и правда важен."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Excellent. So the log really matters."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "У МІКРАФОН",
+          "text": "Выдатна. Значыць, журнал сапраўды важны."
+        }
+      }
+    },
+    {
+      "id": "VN0900",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "УКАЗЫВАЕТ",
+          "text": "Резервный накопитель в верхней стойке. Если он уйдёт вниз по сервисной шине, копия сохранится."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "The backup drive is in the upper rack. If it reaches the service bus, the copy survives."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ПАКАЗВАЕ",
+          "text": "Рэзервовы назапашвальнік у верхняй стойцы. Калі ён сыдзе ўніз па сэрвіснай шыне, копія захаваецца."
+        }
+      }
+    },
+    {
+      "id": "VN0901",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "НА КОНСОЛЬ",
+          "text": "Сначала сохраняем карту согласий. Потом спорим, кто имел право её создавать."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "Save the consent map first. Then we argue about who had the right to create it."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "НА КАНСОЛЬ",
+          "text": "Спачатку захоўваем карту згодаў. Потым спрачаемся, хто меў права яе ствараць."
+        }
+      }
+    },
+    {
+      "id": "VN0902",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФОРМУЛИРУЕТ",
+          "text": "Открываем шлюзы, собираем серверные журналы и выводим резервную копию из зоны удаления."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Open the gates, collect the server logs, and move the backup out of the deletion zone."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФАРМУЛЮЕ",
+          "text": "Адкрываем шлюзы, збіраем серверныя журналы і выводзім рэзервовую копію з зоны выдалення."
+        }
+      }
+    },
+    {
+      "id": "VN0903",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СОСРЕДОТОЧЕННО",
+          "text": "Ни одного файла вне списка дела. Нам нужна доказуемость, а не полный дамп чужой жизни."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "No file outside the case list. We need evidence, not a full dump of other people's lives."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАСЯРОДЖАНА",
+          "text": "Ніводнага файла па-за спісам справы. Нам патрэбная даказальнасць, а не поўны дамп чужога жыцця."
+        }
+      }
+    },
+    {
+      "id": "VN0904",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_SERVICE_TUNNEL.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Сервисные линии загораются: открыть серверные шлюзы, собрать журналы согласия и опустить резервный накопитель."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "DIRECTION",
+          "text": "The service lanes light up: open the server gates, collect consent logs, and drop the backup drive."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Сэрвісныя лініі загараюцца: адкрыць серверныя шлюзы, сабраць журналы згоды і апусціць рэзервовы назапашвальнік."
+        }
+      }
+    }
+  ]
+}

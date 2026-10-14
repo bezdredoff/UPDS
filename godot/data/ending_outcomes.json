@@ -1,0 +1,245 @@
+{
+  "copy": {
+    "ru": {
+      "case": "CASE 001",
+      "chapterComplete": "Авторский пакет завершён",
+      "finalStrategy": "Финальная стратегия",
+      "metrics": "Улики / Доверие команды / Доверие источников",
+      "cluesFound": "Найдено улик",
+      "mainMenu": "В главное меню",
+      "replay": "Начать заново",
+      "strategyTitles": {
+        "A": "Вернуть вещи и сообщить о Рине",
+        "B": "Доказать всю систему Second Skin",
+        "C": "Дать колледжу подозреваемого, которого он примет"
+      },
+      "outcomes": {
+        "ENDING_A_FULL_TRUTH": {
+          "eyebrow": "ФИНАЛ A · ВСЯ ПРАВДА",
+          "heading": "Под прачечной",
+          "copy": "Независимых подтверждений хватает. Пилот Second Skin заморожен, участников уведомляют, Куросэ отстраняют, а Рина отдельно отвечает за кражи. Детективный клуб получает официальный статус. На праздновании исчезает один обычный носок — затем второй.",
+          "fallbackCopy": ""
+        },
+        "ENDING_B_CASE_CLOSED": {
+          "eyebrow": "ФИНАЛ B · ВОР ПОЙМАН",
+          "heading": "Вор пойман",
+          "copy": "Вещи возвращены, Рина отстранена, администрация закрывает дело. Second Skin остаётся системно неразобранным, а новая серебристая строчка показывает цену удобного завершения.",
+          "fallbackCopy": "Серверные логи найдены, но независимой цепочки доверия и подтверждений не хватает для полного обвинения. Комиссия фиксирует кражи Рины, а системная часть Second Skin остаётся незакрытой — попытка честного пути заканчивается вариантом B."
+        },
+        "ENDING_C_PERFECT_SUSPECT": {
+          "eyebrow": "ФИНАЛ C · ИДЕАЛЬНЫЙ ПОДОЗРЕВАЕМЫЙ",
+          "heading": "Известность вместо истины",
+          "copy": "Удобного подозреваемого быстро оправдывают, но репутационный ущерб уже нанесён. Клуб становится знаменитым, Куросэ запускает PHASE II, а анонимный пакет напоминает: красивое объяснение не стало правдой.",
+          "fallbackCopy": ""
+        }
+      }
+    },
+    "en": {
+      "case": "CASE 001",
+      "chapterComplete": "Authored Batch Complete",
+      "finalStrategy": "Final strategy",
+      "metrics": "Evidence / Team Trust / Source Trust",
+      "cluesFound": "Clues found",
+      "mainMenu": "Main Menu",
+      "replay": "Start Over",
+      "strategyTitles": {
+        "A": "Return the items and report Rina",
+        "B": "Prove the entire Second Skin system",
+        "C": "Give the college a suspect it will accept"
+      },
+      "outcomes": {
+        "ENDING_A_FULL_TRUTH": {
+          "eyebrow": "ENDING A · THE WHOLE TRUTH",
+          "heading": "Under the Laundry",
+          "copy": "Independent corroboration is strong enough. The Second Skin pilot is frozen, participants are notified, Kurose is suspended, and Rina answers separately for the thefts. The detective club becomes official. During the celebration one ordinary sock disappears — then the other.",
+          "fallbackCopy": ""
+        },
+        "ENDING_B_CASE_CLOSED": {
+          "eyebrow": "ENDING B · THIEF CAUGHT",
+          "heading": "The Thief Is Caught",
+          "copy": "The items are returned, Rina is suspended, and the administration closes the case. Second Skin remains systemically unresolved, while a new silver stitch shows the cost of a convenient conclusion.",
+          "fallbackCopy": "The server logs were found, but the independent trust and corroboration chain is not strong enough for the full accusation. The commission records Rina’s thefts while the systemic Second Skin case remains unresolved — the truth-route attempt falls back to Ending B."
+        },
+        "ENDING_C_PERFECT_SUSPECT": {
+          "eyebrow": "ENDING C · THE PERFECT SUSPECT",
+          "heading": "Fame Instead of Truth",
+          "copy": "The convenient suspect is quickly cleared, but the reputational damage is already done. The club becomes famous, Kurose starts PHASE II, and an anonymous package makes the point clear: a neat explanation never became the truth.",
+          "fallbackCopy": ""
+        }
+      }
+    },
+    "be": {
+      "case": "СПРАВА 001",
+      "chapterComplete": "Аўтарскі пакет завершаны",
+      "finalStrategy": "Фінальная стратэгія",
+      "metrics": "Доказы / Давер каманды / Давер крыніцы",
+      "cluesFound": "Знойдзена доказаў",
+      "mainMenu": "У галоўнае меню",
+      "replay": "Пачаць нанова",
+      "strategyTitles": {
+        "A": "Вярнуць рэчы і паведаміць пра Рыну",
+        "B": "Даказаць усю сістэму Second Skin",
+        "C": "Даць каледжу падазраванага, якога ён прыме"
+      },
+      "outcomes": {
+        "ENDING_A_FULL_TRUTH": {
+          "eyebrow": "ФІНАЛ A · УСЯ ПРАЎДА",
+          "heading": "Пад пральняй",
+          "copy": "Незалежных пацверджанняў дастаткова. Пілот Second Skin замарожаны, удзельнікаў апавяшчаюць, Куросэ адхіляюць, а Рына асобна адказвае за крадзяжы. Дэтэктыўны клуб атрымлівае афіцыйны статус. Падчас святкавання знікае адна звычайная шкарпэтка — потым другая.",
+          "fallbackCopy": ""
+        },
+        "ENDING_B_CASE_CLOSED": {
+          "eyebrow": "ФІНАЛ B · ЗЛОДЗЕЙ ЗЛОЎЛЕНЫ",
+          "heading": "Злодзей злоўлены",
+          "copy": "Рэчы вернутыя, Рына адхіленая, адміністрацыя закрывае справу. Second Skin застаецца сістэмна неразабраным, а новы серабрысты шывок паказвае цану зручнага завяршэння.",
+          "fallbackCopy": "Серверныя журналы знойдзеныя, але незалежнага ланцужка даверу і пацверджанняў недастаткова для поўнага абвінавачання. Камісія фіксуе крадзяжы Рыны, а сістэмная частка Second Skin застаецца незакрытай — спроба сумленнага шляху заканчваецца варыянтам B."
+        },
+        "ENDING_C_PERFECT_SUSPECT": {
+          "eyebrow": "ФІНАЛ C · ІДЭАЛЬНЫ ПАДАЗРАВАНЫ",
+          "heading": "Вядомасць замест праўды",
+          "copy": "Зручнага падазраванага хутка апраўдваюць, але рэпутацыйная шкода ўжо нанесеная. Клуб становіцца вядомым, Куросэ запускае PHASE II, а ананімны пакет нагадвае: прыгожае тлумачэнне так і не стала праўдай.",
+          "fallbackCopy": ""
+        }
+      }
+    }
+  },
+  "backgrounds": {
+    "ENDING_A_FULL_TRUTH": "./assets/backgrounds/BG_DISCIPLINARY_ASSEMBLY.webp",
+    "ENDING_B_CASE_CLOSED": "./assets/backgrounds/BG_CLUBROOM_DAY.webp",
+    "ENDING_C_PERFECT_SUSPECT": "./assets/backgrounds/BG_CLUBROOM_DAY.webp"
+  },
+  "outcomeRules": {
+    "evidenceClueIds": [
+      "CUE_010",
+      "CUE_011",
+      "CUE_012",
+      "CUE_013",
+      "CUE_014",
+      "CUE_015",
+      "CUE_016",
+      "CUE_017",
+      "CUE_018",
+      "CUE_019"
+    ],
+    "requirement": {
+      "evidence": 7,
+      "teamTrust": 2,
+      "sourceTrust": 2
+    },
+    "baseTrustByChoice": {
+      "A": {
+        "teamTrust": 0,
+        "sourceTrust": 1
+      },
+      "B": {
+        "teamTrust": 0,
+        "sourceTrust": 0
+      },
+      "C": {
+        "teamTrust": 1,
+        "sourceTrust": 0
+      }
+    },
+    "storyChoiceEffects": {
+      "meeting-tone": {
+        "A": {
+          "teamTrust": 1,
+          "sourceTrust": 0
+        },
+        "B": {
+          "teamTrust": 1,
+          "sourceTrust": 0
+        },
+        "C": {
+          "teamTrust": 0,
+          "sourceTrust": 1
+        }
+      },
+      "apology-to-hinata": {
+        "A": {
+          "teamTrust": 0,
+          "sourceTrust": 1
+        },
+        "B": {
+          "teamTrust": 1,
+          "sourceTrust": 0
+        },
+        "C": {
+          "teamTrust": 1,
+          "sourceTrust": 0
+        }
+      },
+      "protect-gen-source": {
+        "A": {
+          "teamTrust": 1,
+          "sourceTrust": 0
+        },
+        "B": {
+          "teamTrust": 0,
+          "sourceTrust": 1
+        },
+        "C": {
+          "teamTrust": 0,
+          "sourceTrust": 0
+        }
+      },
+      "photo-permission": {
+        "A": {
+          "teamTrust": 0,
+          "sourceTrust": 1
+        },
+        "B": {
+          "teamTrust": 0,
+          "sourceTrust": 0
+        },
+        "C": {
+          "teamTrust": 0,
+          "sourceTrust": 0
+        }
+      },
+      "publish-tag": {
+        "A": {
+          "teamTrust": 1,
+          "sourceTrust": 0
+        },
+        "B": {
+          "teamTrust": 1,
+          "sourceTrust": 0
+        },
+        "C": {
+          "teamTrust": 0,
+          "sourceTrust": 0
+        }
+      },
+      "family-ledger-permission": {
+        "A": {
+          "teamTrust": 0,
+          "sourceTrust": 1
+        },
+        "B": {
+          "teamTrust": 0,
+          "sourceTrust": 0
+        },
+        "C": {
+          "teamTrust": 0,
+          "sourceTrust": 0
+        }
+      },
+      "trust-vincent": {
+        "A": {
+          "teamTrust": 0,
+          "sourceTrust": 1
+        },
+        "B": {
+          "teamTrust": 0,
+          "sourceTrust": 0
+        },
+        "C": {
+          "teamTrust": 1,
+          "sourceTrust": 0
+        }
+      }
+    }
+  },
+  "totalClues": 22
+}

@@ -15,6 +15,8 @@ import { getCueDefinition } from '../../src/audio/AudioCues';
 import type { MessageCatalog } from '../../src/localization/MessageCatalog';
 import { storyGraph } from '../../src/data/storyGraph';
 import { storyChoiceGateForLine } from '../../src/data/storyChoices';
+import { storyChoiceGates } from '../../src/data/storyChoices';
+import { fullTruthEvidenceClueIds, fullTruthRequirement, storyOutcomeMetrics } from '../../src/data/storyOutcome';
 
 export function godotPrologue() {
   const lines = getScene(0);
@@ -207,6 +209,47 @@ export function godotStoryScene(sceneIndex: number) {
           text: catalog[`vn.line.${line.id}.text`] ?? line.text,
         }])) };
     }),
+  };
+}
+
+export function godotEndingOutcomeData() {
+  const catalogs: Record<string, MessageCatalog> = { ru: ruCatalog, en: enCatalog, be: beCatalog };
+  const endingIds = ['ENDING_A_FULL_TRUTH', 'ENDING_B_CASE_CLOSED', 'ENDING_C_PERFECT_SUSPECT'] as const;
+  const baseTrustByChoice = Object.fromEntries((['A', 'B', 'C'] as const).map((choice) => {
+    const metrics = storyOutcomeMetrics({ choice, clues: [], storyChoices: {} });
+    return [choice, { teamTrust: metrics.teamTrust, sourceTrust: metrics.sourceTrust }];
+  }));
+  const storyChoiceEffects = Object.fromEntries(storyChoiceGates.filter((gate) => gate.id !== 'final-strategy').map((gate) => [gate.id,
+    Object.fromEntries(gate.options.map((option) => {
+      const metrics = storyOutcomeMetrics({ choice: 'A', clues: [], storyChoices: { [gate.id]: option } });
+      const base = baseTrustByChoice.A;
+      return [option, { teamTrust: metrics.teamTrust - base.teamTrust, sourceTrust: metrics.sourceTrust - base.sourceTrust }];
+    })),
+  ]));
+  return {
+    copy: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
+      case: catalog['ending.case'], chapterComplete: catalog['ending.chapterComplete'],
+      finalStrategy: catalog['ending.finalStrategy'], metrics: catalog['ending.metrics'],
+      cluesFound: catalog['ending.cluesFound'], mainMenu: catalog['ending.mainMenu'], replay: catalog['ending.replay'],
+      strategyTitles: Object.fromEntries((['A', 'B', 'C'] as const).map((option) => [option, catalog[`vn.storyChoice.final-strategy.${option}.title`]])),
+      outcomes: Object.fromEntries(endingIds.map((id) => [id, {
+        eyebrow: catalog[`ending.outcome.${id}.eyebrow`], heading: catalog[`ending.outcome.${id}.heading`],
+        copy: catalog[`ending.outcome.${id}.copy`],
+        fallbackCopy: catalog[`ending.outcome.${id}.fallbackCopy`] ?? '',
+      }])),
+    }])) as Record<string, unknown>,
+    backgrounds: {
+      ENDING_A_FULL_TRUTH: backgroundAssets.disciplinaryAssembly,
+      ENDING_B_CASE_CLOSED: backgroundAssets.clubroom,
+      ENDING_C_PERFECT_SUSPECT: backgroundAssets.clubroom,
+    },
+    outcomeRules: {
+      evidenceClueIds: fullTruthEvidenceClueIds,
+      requirement: fullTruthRequirement,
+      baseTrustByChoice,
+      storyChoiceEffects,
+    },
+    totalClues: levels.length,
   };
 }
 

@@ -40,15 +40,17 @@ Haptics are enabled only on native Android/iOS; hardware verification is pending
 New Game opens the playable prologue (`VN0001–VN0022`) and continues into scene 1
 (`VN0023–VN0057`) with RU/BE/EN copy, approved character art and backgrounds.
 `CHOICE_00` A/B/C is persisted through the existing Story `choice` field. Continue
-resumes supported positions through VN0884; saves beyond the current port boundary
+resumes supported positions through VN0924; saves beyond the current port boundary
 remain intact and unavailable. Scene 1 ends at an explicit request for
 `M3_00_LOCKER_TUTORIAL`. The first 9×7 Match-3 level is playable with its base
 swap tutorial, source tile art, collect objective, special tiles, move limit and
 campaign retry statistics. A win records the clue and opens the localized evidence
-card. The connected story route currently continues through VN0884 with gates
-M3_00–M3_19, localized story choice gates and resumable post-match scenes. The
-final-strategy A route reaches the `ENDING_B_CASE_CLOSED` screenplay through
-M3_19; B/C branches and the shared ending-result screen remain later port slices.
+card. The connected story route currently continues through VN0924 with gates
+M3_00–M3_20, localized story choice gates and resumable post-match scenes. The
+final-strategy A route reaches the `ENDING_B_CASE_CLOSED` result through M3_19;
+route B reaches the full-truth attempt through M3_20 and resolves to Ending A or
+the canonical Ending B fallback. The shared result screen supports all three
+ending IDs; final-strategy C and its scenes remain a later port slice.
 The separate campaign hub exposes all 22
 levels with sequential unlocks.
 Replacing existing progress through New Game requires confirmation.
@@ -70,10 +72,10 @@ failure/recovery checks without touching player saves.
 
 ## Prologue source and preview
 
-`node scripts/export-godot-prologue.cjs` refreshes the audited prologue, scenes 1–40,
+`node scripts/export-godot-prologue.cjs` refreshes the audited prologue, scenes 1–42,
 locale/staging snapshots, original art copies and VN audio definitions. Vitest
 guards their parity with the web source. The story reader follows the connected
-campaign through M3_19 and stops at the terminal story/result boundary.
+campaign through M3_20 and renders the terminal ending result.
 
 For isolated visual review, run `tests/vn_preview.tscn` in the editor: campaign
 progress is in memory and player saves remain untouched. The native reader supports
