@@ -67,17 +67,7 @@ var warning: Label
 var board: GridContainer
 var board_center: CenterContainer
 var board_frame: PanelContainer
-var result_box: HBoxContainer
-var result_label: Label
-var retry_button: Button
 var back_button: Button
-var result_back_button: Button
-var evidence_panel: PanelContainer
-var evidence_kicker: Label
-var evidence_image: TextureRect
-var evidence_title: Label
-var evidence_label: Label
-var evidence_continue: Button
 var evidence_transition_overlay: Control
 var evidence_transition_image: TextureRect
 var evidence_transition_kicker: Label
@@ -93,6 +83,7 @@ var campaign_result_mark: Label
 var campaign_result_kicker: Label
 var campaign_result_heading: Label
 var campaign_result_detail: Label
+var campaign_result_loss_quote: RichTextLabel
 var campaign_result_next: Button
 var campaign_result_retry: Button
 var campaign_result_hub: Button
@@ -351,27 +342,6 @@ func _ready() -> void:
 	bark_speaker = _label(bark_lines, 9, Color("#326349"))
 	bark_speaker.add_theme_color_override("font_color", Color("#326349"))
 	bark_lines.add_child(bark)
-	evidence_panel = PanelContainer.new()
-	evidence_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	content.add_child(evidence_panel)
-	var evidence_content := VBoxContainer.new()
-	evidence_content.alignment = BoxContainer.ALIGNMENT_CENTER
-	evidence_content.add_theme_constant_override("separation", 5)
-	evidence_panel.add_child(evidence_content)
-	evidence_kicker = _label(evidence_content, 13, Color("#a24762"))
-	evidence_kicker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	evidence_image = TextureRect.new()
-	evidence_image.custom_minimum_size = Vector2(128, 110)
-	evidence_image.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
-	evidence_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	evidence_content.add_child(evidence_image)
-	evidence_title = _label(evidence_content, 18, Color("#29243d"))
-	evidence_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	evidence_label = _label(evidence_content, 13, Color("#29243d"))
-	evidence_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	evidence_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	evidence_continue = _button(evidence_content)
-	evidence_continue.pressed.connect(_continue_story)
 	hint_button = _button(bark_row)
 	hint_button.custom_minimum_size = Vector2(94, 48)
 	hint_button.text = ""
@@ -397,15 +367,6 @@ func _ready() -> void:
 	hint_button.pressed.connect(_show_hint)
 	warning = _label(content, 12, Color("#ffd7a5"))
 	warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	result_label = _label(content, 15, Color.WHITE)
-	result_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	result_box = HBoxContainer.new()
-	result_box.alignment = BoxContainer.ALIGNMENT_CENTER
-	content.add_child(result_box)
-	retry_button = _button(result_box)
-	retry_button.pressed.connect(_retry)
-	result_back_button = _button(result_box)
-	result_back_button.pressed.connect(func() -> void: story_requested.emit())
 	bottom_spacer = Control.new()
 	bottom_spacer.custom_minimum_size.y = 42
 	content.add_child(bottom_spacer)
@@ -496,12 +457,7 @@ func _refresh() -> void:
 	warning.visible = not warning.text.is_empty()
 	if not match_feedback_key.is_empty():
 		match_feedback_label.text = _feedback_text(match_feedback_key, match_feedback_cascade)
-	result_label.text = copy.win if game.state == "won" else copy.lose if game.state == "lost" else ""
-	result_label.visible = game.state == "lost"
-	result_box.visible = game.state == "lost"
 	bottom_spacer.visible = game.state == "playing"
-	retry_button.text = copy.retry
-	result_back_button.text = copy.back
 	var won: bool = game.state == "won"
 	board_center.visible = not won
 	tutorial_panel.visible = not won and level_id == str(Level.data.id) and not session.save.tutorialsCompleted.has("basic-swap")
@@ -512,28 +468,14 @@ func _refresh() -> void:
 		story_evidence_visible = true
 	if story_evidence_visible:
 		_show_story_evidence_transition()
-	evidence_panel.visible = false
 	evidence_transition_overlay.visible = won and not campaign_mode and story_evidence_visible
-	if campaign_mode:
-		evidence_kicker.visible = false
-		evidence_image.visible = false
-		evidence_title.text = str(copy.win)
-		evidence_label.text = str(copy.resultDetail).replace("{movesLeft}", str(game.moves_left))
-		evidence_continue.text = str(copy.backToCampaign)
-		_refresh_campaign_result(locale)
-	else:
-		var evidence: Dictionary = level_data.evidence
-		var clue_copy: Dictionary = evidence.localized[locale]
-		evidence_kicker.visible = true
-		evidence_image.visible = true
-		evidence_kicker.text = clue_copy.evidenceFound
-		evidence_image.texture = load("res://" + str(evidence.asset).trim_prefix("./"))
-		evidence_title.text = clue_copy.title
-		evidence_label.text = clue_copy.label
-		evidence_continue.text = clue_copy.continueStory
 	_render_board()
 	if campaign_mode:
 		campaign_result_overlay.visible = game.state != "playing"
+		if game.state != "playing": _refresh_campaign_result(locale)
+	else:
+		campaign_result_overlay.visible = game.state == "lost"
+		if game.state == "lost": _refresh_story_loss_result(locale, copy)
 
 
 func _render_board() -> void:
@@ -953,6 +895,27 @@ func _build_campaign_result() -> void:
 	campaign_result_detail = _label(content, 12, Color("#5f5866"))
 	campaign_result_detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	campaign_result_detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var quote_panel := PanelContainer.new()
+	var quote_style := StyleBoxFlat.new()
+	quote_style.bg_color = Color.WHITE
+	quote_style.content_margin_left = 14
+	quote_style.content_margin_right = 14
+	quote_style.content_margin_top = 14
+	quote_style.content_margin_bottom = 14
+	quote_panel.add_theme_stylebox_override("panel", quote_style)
+	content.add_child(quote_panel)
+	campaign_result_loss_quote = RichTextLabel.new()
+	campaign_result_loss_quote.name = "LossQuote"
+	campaign_result_loss_quote.bbcode_enabled = true
+	campaign_result_loss_quote.fit_content = true
+	campaign_result_loss_quote.scroll_active = false
+	campaign_result_loss_quote.custom_minimum_size.y = 52
+	campaign_result_loss_quote.add_theme_color_override("default_color", Color("#5f5866"))
+	campaign_result_loss_quote.add_theme_font_size_override("normal_font_size", 14)
+	var quote_serif := SystemFont.new()
+	quote_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
+	campaign_result_loss_quote.add_theme_font_override("normal_font", quote_serif)
+	quote_panel.add_child(campaign_result_loss_quote)
 	campaign_result_next = _button(content)
 	campaign_result_next.pressed.connect(func() -> void: campaign_next_requested.emit(_next_campaign_level_id()))
 	campaign_result_retry = _button(content)
@@ -975,6 +938,8 @@ func _campaign_result_wash() -> Texture2D:
 func _refresh_campaign_result(locale: String) -> void:
 	var copy: Dictionary = campaign_bundle.campaignLocalized.get(locale, campaign_bundle.campaignLocalized.en)
 	var won: bool = game.state == "won"
+	campaign_result_loss_quote.get_parent().visible = false
+	campaign_result_detail.visible = true
 	campaign_result_back.tooltip_text = str(copy.back)
 	campaign_result_eyebrow.text = str(copy.eyebrow)
 	campaign_result_level.text = str(level_data.shortId)
@@ -989,6 +954,26 @@ func _refresh_campaign_result(locale: String) -> void:
 	Style.style_button(campaign_result_next, true)
 	Style.style_button(campaign_result_retry, not campaign_result_next.visible)
 	Style.style_button(campaign_result_hub, false)
+	campaign_result_retry.visible = true
+	campaign_result_hub.visible = true
+
+
+func _refresh_story_loss_result(locale: String, copy: Dictionary) -> void:
+	campaign_result_back.tooltip_text = MenuCopy.text("match3_back_to_investigation", locale)
+	campaign_result_eyebrow.text = str(level_data.get("shortId", ""))
+	campaign_result_level.text = MenuCopy.text("match3_result_title", locale)
+	campaign_result_mark.text = "↻"
+	campaign_result_kicker.text = MenuCopy.text("match3_feedback_out_of_moves", locale)
+	campaign_result_heading.text = MenuCopy.text("match3_loss_heading", locale)
+	campaign_result_detail.visible = false
+	campaign_result_loss_quote.get_parent().visible = true
+	var speaker := str(copy.get("loseSpeaker", ""))
+	var lose_text := str(copy.get("loseText", "")).replace("[", "[lb]")
+	campaign_result_loss_quote.text = "[b][color=#d96279]%s[/color][/b]\n%s" % [speaker, lose_text]
+	campaign_result_next.visible = false
+	campaign_result_retry.text = MenuCopy.text("match3_retry_level", locale)
+	campaign_result_hub.visible = false
+	Style.style_button(campaign_result_retry, true)
 
 
 func _next_campaign_level_id() -> String:

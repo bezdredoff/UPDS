@@ -179,6 +179,31 @@ func _run() -> void:
 	await process_frame
 	var match3_screen: Control = menu.match3_screen
 	var model: RefCounted = match3_screen.game
+	assert(menu.preferences.set_locale("ru") == OK)
+	model.state = "lost"
+	match3_screen._refresh()
+	assert(match3_screen.campaign_result_overlay.visible, "Story loss did not open its dedicated result screen")
+	assert(match3_screen.campaign_result_heading.text == "Версия требует повторной проверки", "Story loss heading did not match the source copy")
+	assert(match3_screen.campaign_result_loss_quote.text.contains(Match3Level.data.localized.ru.loseText), "Story loss omitted the level-specific character bark")
+	assert(match3_screen.campaign_result_retry.text == "Повторить уровень" and not match3_screen.campaign_result_hub.visible, "Story loss actions did not match the source controls")
+	for locale in ["be", "en"]:
+		assert(menu.preferences.set_locale(locale) == OK)
+		assert(match3_screen.campaign_result_heading.text == Copy.text("match3_loss_heading", locale))
+		assert(match3_screen.campaign_result_loss_quote.text.contains(Match3Level.data.localized[locale].loseText))
+	assert(menu.preferences.set_locale("ru") == OK)
+	var story_attempts_before_retry := int(menu.match3_session.save.attempts.M3_00_LOCKER_TUTORIAL)
+	match3_screen.campaign_result_retry.pressed.emit()
+	assert(match3_screen.game.state == "playing" and not match3_screen.campaign_result_overlay.visible, "Story loss retry did not restart the board")
+	assert(int(menu.match3_session.save.attempts.M3_00_LOCKER_TUTORIAL) == story_attempts_before_retry + 1, "Story loss retry did not increment the attempt")
+	match3_screen.game.state = "lost"
+	match3_screen._refresh()
+	match3_screen.campaign_result_back.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible, "Story loss back action did not return to the investigation gate")
+	menu._handle_match3_request("M3_00_LOCKER_TUTORIAL")
+	await process_frame
+	match3_screen = menu.match3_screen
+	model = match3_screen.game
 	var rows := int(Match3Level.data.rows)
 	var columns := int(Match3Level.data.columns)
 	var other_tiles: Array = Match3Level.data.activeTiles.filter(func(tile: Variant) -> bool: return str(tile) != str(Match3Level.data.objectiveTile))
