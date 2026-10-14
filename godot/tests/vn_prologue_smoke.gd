@@ -35,6 +35,8 @@ const AbandonedLaundryScene = preload("res://data/abandoned_laundry_scene.json")
 const PostAbandonedLaundryScene = preload("res://data/post_abandoned_laundry_scene.json")
 const PinkRibbonScannerScene = preload("res://data/pink_ribbon_scanner_scene.json")
 const PostPinkRibbonScannerScene = preload("res://data/post_pink_ribbon_scanner_scene.json")
+const RinaArchiveCatalogScene = preload("res://data/rina_archive_catalog_scene.json")
+const PostRinaArchiveCatalogScene = preload("res://data/post_rina_archive_catalog_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
 
 
@@ -613,7 +615,30 @@ func _run() -> void:
 	assert(restored_trust_vincent.current_line().id == "VN0757" and restored_trust_vincent.state.storyChoices["trust-vincent"] == "B")
 	while session.current_line().id != "VN0765":
 		assert(session.advance())
-	assert(session.at_port_boundary() and not session.advance())
+	assert(session.state.scene == 34 and session.current_line().id == "VN0765")
+	assert(session.advance())
+	assert(session.state.scene == 35 and session.current_line().id == "VN0767")
+	assert(session.state.readLines.has("VN0766"), "Archive opening direction was not consumed")
+	assert(screen.title.text == RinaArchiveCatalogScene.data.titles.en)
+	while session.current_line().id != "VN0785":
+		assert(session.advance())
+	assert(session.at_match3_gate() and session.scene_data().nextLevelId == "M3_17_RINA_ARCHIVE_CATALOG")
+	await process_frame
+	assert(menu.match3_screen != null and menu.match3_screen.level_id == "M3_17_RINA_ARCHIVE_CATALOG")
+	assert(reached_levels.size() == 18 and reached_levels[-1] == "M3_17_RINA_ARCHIVE_CATALOG")
+	assert(session.complete_match3("M3_17_RINA_ARCHIVE_CATALOG"))
+	assert(session.state.scene == 36 and session.current_line().id == "VN0787")
+	assert(session.state.completed.size() == 18 and session.state.clues[-1] == "CUE_018")
+	menu.match3_screen.game.state = "won"
+	menu.match3_screen._refresh()
+	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_continue.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible)
+	assert(screen.title.text == PostRinaArchiveCatalogScene.data.titles.en)
+	while session.current_line().id != "VN0805":
+		assert(session.advance())
+	assert(session.at_port_boundary() and not session.advance(), "Port advanced past VN0805")
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
@@ -621,7 +646,7 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.scene == 34 and session.current_line().id == "VN0765")
+	assert(session.state.scene == 36 and session.current_line().id == "VN0805")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()
@@ -653,7 +678,7 @@ func _run() -> void:
 func _unsupported_save() -> void:
 	var memory := Memory.new()
 	var store := Store.new(memory)
-	assert(store.save_story({"scene": 35, "line": 3, "completed": [1]}))
+	assert(store.save_story({"scene": 37, "line": 3, "completed": [1]}))
 	var raw: String = memory.get_item(Format.CONTRACT.data.storyKey)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(store)
@@ -669,7 +694,7 @@ func _unsupported_save() -> void:
 
 func _future_save() -> void:
 	var memory := Memory.new()
-	var raw := '{"schemaVersion":99,"scene":35,"line":3}'
+	var raw := '{"schemaVersion":99,"scene":37,"line":3}'
 	assert(memory.set_item(Format.CONTRACT.data.storyKey, raw))
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(Store.new(memory))

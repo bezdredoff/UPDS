@@ -82,6 +82,10 @@ const pinkRibbonScannerScene = godotStoryScene(33);
 fs.writeFileSync(path.join(root, 'godot/data/pink_ribbon_scanner_scene.json'), `${JSON.stringify(pinkRibbonScannerScene, null, 2)}\n`);
 const postPinkRibbonScannerScene = godotStoryScene(34);
 fs.writeFileSync(path.join(root, 'godot/data/post_pink_ribbon_scanner_scene.json'), `${JSON.stringify(postPinkRibbonScannerScene, null, 2)}\n`);
+const rinaArchiveCatalogScene = godotStoryScene(35);
+fs.writeFileSync(path.join(root, 'godot/data/rina_archive_catalog_scene.json'), `${JSON.stringify(rinaArchiveCatalogScene, null, 2)}\n`);
+const postRinaArchiveCatalogScene = godotStoryScene(36);
+fs.writeFileSync(path.join(root, 'godot/data/post_rina_archive_catalog_scene.json'), `${JSON.stringify(postRinaArchiveCatalogScene, null, 2)}\n`);
 const audioPath = path.join(root, 'godot/data/menu_audio.json');
 const audio = JSON.parse(fs.readFileSync(audioPath, 'utf8'));
 fs.writeFileSync(audioPath, `${JSON.stringify({ ...audio, ...godotVnAudio() }, null, 2)}\n`);
@@ -90,7 +94,7 @@ for (const line of postMatchScene.lines) {
   assets.add(line.background);
   for (const actor of line.actors) assets.add(actor.asset);
 }
-for (const scene of [photoScene, postPhotoScene, poolScene, postPoolScene, orderedInspectionScene, postOrderedInspectionScene, emergencyMeetingScene, postEmergencyMeetingScene, basketballLockersScene, postBasketballLockersScene, textileWorkshopScene, postTextileWorkshopScene, asterionLabScene, postAsterionLabScene, lostFoundScene, postLostFoundScene, maintenanceKeysScene, postMaintenanceKeysScene, controlSampleGearScene, postControlSampleGearScene, asterionTransferScene, postAsterionTransferScene, secondSkinSignalScene, postSecondSkinSignalScene, kendoPilotListScene, postKendoPilotListScene, kuboAtelierScene, postKuboAtelierScene, abandonedLaundryScene, postAbandonedLaundryScene, pinkRibbonScannerScene, postPinkRibbonScannerScene]) {
+for (const scene of [photoScene, postPhotoScene, poolScene, postPoolScene, orderedInspectionScene, postOrderedInspectionScene, emergencyMeetingScene, postEmergencyMeetingScene, basketballLockersScene, postBasketballLockersScene, textileWorkshopScene, postTextileWorkshopScene, asterionLabScene, postAsterionLabScene, lostFoundScene, postLostFoundScene, maintenanceKeysScene, postMaintenanceKeysScene, controlSampleGearScene, postControlSampleGearScene, asterionTransferScene, postAsterionTransferScene, secondSkinSignalScene, postSecondSkinSignalScene, kendoPilotListScene, postKendoPilotListScene, kuboAtelierScene, postKuboAtelierScene, abandonedLaundryScene, postAbandonedLaundryScene, pinkRibbonScannerScene, postPinkRibbonScannerScene, rinaArchiveCatalogScene, postRinaArchiveCatalogScene]) {
   assets.add(scene.background);
   for (const line of scene.lines) {
     assets.add(line.background);
@@ -109,4 +113,4 @@ for (const asset of assets) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.copyFileSync(path.join(root, 'public', asset), target);
 }
-console.log(`Exported Godot story scene data through scene 34, 3 locales, and ${assets.size} original assets.`);
+console.log(`Exported Godot story scene data through scene 36, 3 locales, and ${assets.size} original assets.`);
