@@ -1,0 +1,686 @@
+{
+  "sceneId": "VN_SCENE_38_E18_POST",
+  "sceneIndex": 38,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "branchChoiceId": "final-strategy",
+  "nextSceneIndices": {
+    "A": 39,
+    "B": 41,
+    "C": 43
+  },
+  "choiceGate": {
+    "id": "final-strategy",
+    "checkpointLineId": "VN0841",
+    "prompt": {
+      "ru": "Какую стратегию расследования выбрать после признания Рины?",
+      "en": "Which investigation strategy should follow Rina's confession?",
+      "be": "Якую стратэгію расследавання выбраць пасля прызнання Рыны?"
+    },
+    "choices": {
+      "A": {
+        "ru": {
+          "title": "Вернуть вещи и сообщить о Рине",
+          "effect": "Всегда доступно · кражи закрываются, система может остаться"
+        },
+        "en": {
+          "title": "Return the items and report Rina",
+          "effect": "Always available · the thefts close, the system may survive"
+        },
+        "be": {
+          "title": "Вярнуць рэчы і паведаміць пра Рыну",
+          "effect": "Заўсёды даступна · крадзяжы закрываюцца, сістэма можа застацца"
+        }
+      },
+      "B": {
+        "ru": {
+          "title": "Доказать всю систему Second Skin",
+          "effect": "Требует доказательств и доверия · шанс раскрыть весь проект"
+        },
+        "en": {
+          "title": "Prove the entire Second Skin system",
+          "effect": "Requires evidence and trust · chance to expose the whole project"
+        },
+        "be": {
+          "title": "Даказаць усю сістэму Second Skin",
+          "effect": "Патрабуе доказаў і даверу · шанец раскрыць увесь праект"
+        }
+      },
+      "C": {
+        "ru": {
+          "title": "Дать колледжу подозреваемого, которого он примет",
+          "effect": "Всегда доступно · быстрое закрытие ценой истины"
+        },
+        "en": {
+          "title": "Give the college a suspect it will accept",
+          "effect": "Always available · fast closure at the cost of truth"
+        },
+        "be": {
+          "title": "Даць каледжу падазраванага, якога ён прыме",
+          "effect": "Заўсёды даступна · хуткае закрыццё цаной праўды"
+        }
+      }
+    }
+  },
+  "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+  "titles": {
+    "ru": "Три стратегии",
+    "en": "Three Strategies",
+    "be": "Тры стратэгіі"
+  },
+  "lines": [
+    {
+      "id": "VN0827",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: RESTORED TIMELINE",
+          "text": "Последняя кража Рины стоит раньше даты отзыва её доступа. Новая активация Second Skin — позже."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: RESTORED TIMELINE",
+          "text": "Rina’s final theft occurs before her access was revoked. The new Second Skin activation occurs later."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: RESTORED TIMELINE",
+          "text": "Апошні крадзеж Рыны стаіць раней за дату адклікання яе доступу. Новая актывацыя Second Skin — пазней."
+        }
+      }
+    },
+    {
+      "id": "VN0828",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "УКАЗЫВАЕТ НА ЛИНИЮ",
+          "text": "После выхода Рины из цепочки продолжаются контейнеры, сервисные проходы и ответы SS-EDGE."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "After Rina leaves the chain, the containers, service passages, and SS-EDGE responses continue."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАКАЗВАЕ НА ЛІНІЮ",
+          "text": "Пасля выхаду Рыны з ланцужка працягваюцца кантэйнеры, сэрвісныя праходы і адказы SS-EDGE."
+        }
+      }
+    },
+    {
+      "id": "VN0829",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "НА НОВЫЙ ПРЕДМЕТ",
+          "text": "И появляется новый помеченный предмет, который она физически не могла изъять или подготовить."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "And a newly tagged item appears that she could not physically remove or prepare."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "НА НОВЫ ПРАДМЕТ",
+          "text": "І з'яўляецца новы пазначаны прадмет, які яна фізічна не магла забраць або падрыхтаваць."
+        }
+      }
+    },
+    {
+      "id": "VN0830",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ПОКАЗЫВАЕТ ПРЕФИКС",
+          "text": "SS-EDGE — группа ретрансляторов лаборатории Куросэ. Этот префикс не используется складской системой прачечной."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "SS-EDGE is Kurose’s laboratory relay group. That prefix is not used by the laundry warehouse system."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ПАКАЗВАЕ ПРЭФІКС",
+          "text": "SS-EDGE — група рэтранслятараў лабараторыі Куросэ. Гэты прэфікс не выкарыстоўваецца складской сістэмай пральні."
+        }
+      }
+    },
+    {
+      "id": "VN0831",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ФИКСИРУЕТ",
+          "text": "Значит, Рина — физический похититель, а программа Second Skin продолжила работать без её участия."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Then Rina is the physical thief, while Second Skin continues through another process after she is cut off."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ФІКСУЕ",
+          "text": "Значыць, Рына — фізічны выкрадальнік, а Second Skin працягнуты іншым працэсам пасля яе адключэння."
+        }
+      }
+    },
+    {
+      "id": "VN0832",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "ЖЁСТКО",
+          "text": "Два нарушения. Одно не оправдывает другое."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "Two violations. One does not excuse the other."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "ЖОРСТКА",
+          "text": "Два парушэнні. Адно не апраўдвае другое."
+        }
+      }
+    },
+    {
+      "id": "VN0833",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 18,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "КИВАЕТ",
+          "text": "Именно. Теперь у нас достаточно фактов, чтобы выбрать, какое дело мы действительно хотим довести до конца."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Exactly. Now we have enough facts to decide which case we actually want to see through."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "КІВАЕ",
+          "text": "Менавіта. Цяпер у нас дастаткова фактаў, каб выбраць, якую справу мы сапраўды хочам давесці да канца."
+        }
+      }
+    },
+    {
+      "id": "VN0834",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_019}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_019}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_019}"
+        }
+      }
+    },
+    {
+      "id": "VN0835",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТИШЕ ОБЫЧНОГО",
+          "text": "Какие варианты?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "What are the options?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЦІШЭЙ ЗА ЗВЫЧАЙНАЕ",
+          "text": "Якія варыянты?"
+        }
+      }
+    },
+    {
+      "id": "VN0836",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "КАРТОЧКА 1",
+          "text": "Первый: вернуть вещи и сообщить о доказанных кражах Рины. Это остановит текущий вред, но система Second Skin может пережить дело."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "STRATEGY CARD 1",
+          "text": "First: return the items and report Rina’s proven thefts. That stops the immediate harm, but Second Skin may survive the case."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "КАРТКА 1",
+          "text": "Першы: вярнуць рэчы і паведаміць пра даказаныя крадзяжы Рыны. Гэта спыніць цяперашнюю шкоду, але сістэма Second Skin можа перажыць справу."
+        }
+      }
+    },
+    {
+      "id": "VN0837",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "КАРТОЧКА 2",
+          "text": "Второй: идти дальше и доказать всю систему Second Skin. Это требует доверия источников и более глубоких технических доказательств."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "STRATEGY CARD 2",
+          "text": "Second: keep going and prove the entire Second Skin system. That requires source trust and deeper technical evidence."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "КАРТКА 2",
+          "text": "Другі: ісці далей і даказаць усю сістэму Second Skin. Для гэтага патрэбны давер крыніц і больш глыбокія тэхнічныя доказы."
+        }
+      }
+    },
+    {
+      "id": "VN0838",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "КАРТОЧКА 3",
+          "text": "Третий: дать колледжу подозреваемого, которого он быстро примет. Это закроет историю красиво — ценой правды и чужой репутации."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "STRATEGY CARD 3",
+          "text": "Third: give the college a suspect it will accept quickly. That closes the story neatly — at the cost of truth and someone else’s reputation."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "КАРТКА 3",
+          "text": "Трэці: даць каледжу падазраванага, якога ён хутка прыме. Гэта прыгожа закрые гісторыю — цаной праўды і чужой рэпутацыі."
+        }
+      }
+    },
+    {
+      "id": "VN0839",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СМОТРИТ НА МИКУ",
+          "text": "На этот раз решение твоё. Я не буду заменять его процедурой."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "This time the decision is yours. I will not replace it with procedure."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ГЛЯДЗІЦЬ НА МІКУ",
+          "text": "Гэтым разам рашэнне тваё. Я не буду замяняць яго працэдурай."
+        }
+      }
+    },
+    {
+      "id": "VN0840",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "КИВАЕТ",
+          "text": "И я не превращу его в шоу. Даже если очень захочется."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "And I will not turn it into a show. Even if I really want to."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "КІВАЕ",
+          "text": "І я не ператвару яго ў шоу. Нават калі вельмі захочацца."
+        }
+      }
+    },
+    {
+      "id": "VN0841",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE final-strategy}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE final-strategy}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE final-strategy}"
+        }
+      }
+    },
+    {
+      "id": "VN0842",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПОСЛЕ ВЫБОРА",
+          "text": "Стратегия выбрана. Следующий шаг зависит от неё, но факты на доске не меняются."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Strategy selected. The next step depends on it, but the facts on the board do not change."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПАСЛЯ ВЫБАРУ",
+          "text": "Стратэгія выбраная. Наступны крок залежыць ад яе, але факты на дошцы не мяняюцца."
+        }
+      }
+    },
+    {
+      "id": "VN0843",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "СПОКОЙНО",
+          "text": "Тогда хотя бы впервые в этом деле выбор сделан после того, как люди узнали, что происходит."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "Then at least for once in this case, a choice was made after people knew what was happening."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "СПАКОЙНА",
+          "text": "Тады хаця б упершыню ў гэтай справе выбар зроблены пасля таго, як людзі даведаліся, што адбываецца."
+        }
+      }
+    },
+    {
+      "id": "VN0844",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "FINAL STRATEGY BOARD",
+          "text": "Три карточки остаются на доске. Выбранная отмечена, две остальные не уничтожены: они сохраняют цену альтернатив."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "FINAL STRATEGY BOARD",
+          "text": "Three cards remain on the board. The selected one is marked; the other two are not destroyed, preserving the cost of the alternatives."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "FINAL STRATEGY BOARD",
+          "text": "Тры карткі застаюцца на дошцы. Выбраная адзначана, дзве астатнія не знішчаны: яны захоўваюць цану альтэрнатыў."
+        }
+      }
+    },
+    {
+      "id": "VN0845",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "РАЗВИЛКА ФИНАЛА",
+          "text": "Три карточки расходятся в три возможных маршрута расследования."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "AUTHORED FRONTIER 18",
+          "text": "The three cards split into three possible investigation routes."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "AUTHORED FRONTIER 18",
+          "text": "Тры карткі разыходзяцца на тры магчымыя маршруты расследавання."
+        }
+      }
+    }
+  ]
+}

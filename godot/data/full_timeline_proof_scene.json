@@ -1,0 +1,686 @@
+{
+  "sceneId": "VN_SCENE_37_E18_PRE",
+  "sceneIndex": 37,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_18_FULL_TIMELINE_PROOF",
+  "onWinSceneIndex": 38,
+  "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+  "titles": {
+    "ru": "Вор, который пытался остановить кражу",
+    "en": "The Thief Who Tried to Stop the Theft",
+    "be": "Злодзей, які спрабаваў спыніць крадзеж"
+  },
+  "lines": [
+    {
+      "id": "VN0806",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "OLD ARCHIVE / CONTINUOUS",
+          "text": "Через несколько минут в архив приходит Эми. Мику заранее попросила её услышать объяснение Рины лично."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "OLD ARCHIVE / CONTINUOUS",
+          "text": "A few minutes later Emi arrives at the archive. Miku asked her in advance to hear Rina’s explanation directly."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "OLD ARCHIVE / CONTINUOUS",
+          "text": "Праз некалькі хвілін у архіў прыходзіць Эмі. Міку загадзя папрасіла яе асабіста выслухаць тлумачэнне Рыны."
+        }
+      }
+    },
+    {
+      "id": "VN0807",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "РИНЕ",
+          "text": "Я хочу услышать это без пересказа клуба."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "I want to hear it without the club paraphrasing it for me."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "РЫНЕ",
+          "text": "Я хачу пачуць гэта без пераказу клуба."
+        }
+      }
+    },
+    {
+      "id": "VN0808",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "НАПРЯЖЁННО",
+          "text": "Я думала, что, забирая помеченные вещи, защищаю владельцев от дальнейшего сбора данных."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "I thought removing the tagged items protected their owners from further data collection."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "НАПРУЖАНА",
+          "text": "Я думала, што, забіраючы пазначаныя рэчы, абараняю ўладальнікаў ад далейшага збору даных."
+        }
+      }
+    },
+    {
+      "id": "VN0809",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "НЕ ПРИНИМАЕТ",
+          "text": "Вы всё равно решили за меня, что можно сделать с моим бельём и что мне не нужно знать правду."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "You still decided for me what could be done with my underwear and that I did not need to know the truth."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "НЕ ПРЫМАЕ",
+          "text": "Вы ўсё роўна вырашылі за мяне, што можна рабіць з маёй бялізнай і што мне не трэба ведаць праўду."
+        }
+      }
+    },
+    {
+      "id": "VN0810",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ПОСЛЕ ПАУЗЫ",
+          "text": "Да. И моё удобное объяснение этого не меняет."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "Yes. And my convenient explanation doesn’t change that."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ПАСЛЯ ПАЎЗЫ",
+          "text": "Так. І маё зручнае тлумачэнне гэтага не мяняе."
+        }
+      }
+    },
+    {
+      "id": "VN0811",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "БЕРЁТСЯ ЗА ТЕЛЕФОН",
+          "text": "Тогда, может, пора рассказать всем сразу, пока кто-нибудь ещё не решил за них?"
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "BEAT",
+          "text": "Then maybe it is time to tell everyone at once before someone else decides for them again?"
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "БЯРЭЦЦА ЗА ТЭЛЕФОН",
+          "text": "Тады, можа, пара расказаць усім адразу, пакуль нехта яшчэ не вырашыў за іх?"
+        }
+      }
+    },
+    {
+      "id": "VN0812",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ОСТАНАВЛИВАЕТ",
+          "text": "Без прямого эфира. Сначала проверяем, где заканчиваются действия Рины и начинается продолжение системы."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "No livestream. First we verify where Rina’s actions end and the system’s continuation begins."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СПЫНЯЕ",
+          "text": "Без прамога эфіру. Спачатку правяраем, дзе заканчваюцца дзеянні Рыны і пачынаецца працяг сістэмы."
+        }
+      }
+    },
+    {
+      "id": "VN0813",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "НА КАТАЛОГ",
+          "text": "Для краж доказательств уже достаточно."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "We already have enough evidence for the thefts."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НА КАТАЛОГ",
+          "text": "Для крадзяжоў доказаў ужо дастаткова."
+        }
+      }
+    },
+    {
+      "id": "VN0814",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ДОСТАЁТ СКАН",
+          "text": "Но новая активация появилась после того, как Рина потеряла доступ к сменам."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "But a new activation appeared after Rina lost shift access."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ДАСТАЕ СКАН",
+          "text": "Але новая актывацыя з'явілася пасля таго, як Рына страціла доступ да змен."
+        }
+      }
+    },
+    {
+      "id": "VN0815",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "РЕЗКО",
+          "text": "Покажите время."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "Show me the timestamp."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "РЭЗКА",
+          "text": "Пакажыце час."
+        }
+      }
+    },
+    {
+      "id": "VN0816",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: SS-EDGE LOG",
+          "text": "На экране — свежая активация и ответ ретранслятора SS-EDGE."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: SS-EDGE LOG",
+          "text": "The screen shows a fresh activation and an SS-EDGE relay response."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: SS-EDGE LOG",
+          "text": "На экране — свежая актывацыя і адказ рэтранслятара SS-EDGE."
+        }
+      }
+    },
+    {
+      "id": "VN0817",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ПОБЛЕДНЕЛА",
+          "text": "Тогда они продолжили без меня. Я отключила только свой участок цепочки."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "Then they continued without me. I only shut down my segment of the chain."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ЗБЯЛЕЛА",
+          "text": "Тады яны працягнулі без мяне. Я адключыла толькі свой участак ланцужка."
+        }
+      }
+    },
+    {
+      "id": "VN0818",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРЯМО",
+          "text": "Кто «они»?"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Who is “they”?"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРАМА",
+          "text": "Хто «яны»?"
+        }
+      }
+    },
+    {
+      "id": "VN0819",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ОСТОРОЖНО",
+          "text": "Куросэ проектировал маршрут данных и лабораторную часть. После моего возражения он сказал, что пилот нельзя останавливать из-за одной сотрудницы."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "Kurose designed the data route and laboratory side. After I objected, he said the pilot could not be stopped because of one employee."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "АСЦЯРОЖНА",
+          "text": "Куросэ праектаваў маршрут даных і лабараторную частку. Пасля майго пярэчання ён сказаў, што пілот нельга спыняць праз адну супрацоўніцу."
+        }
+      }
+    },
+    {
+      "id": "VN0820",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "УТОЧНЯЕТ",
+          "text": "Вы можете доказать, что именно он активировал новые метки?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Can you prove he personally activated the new tags?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УДАКЛАДНЯЕ",
+          "text": "Вы можаце даказаць, што менавіта ён актываваў новыя меткі?"
+        }
+      }
+    },
+    {
+      "id": "VN0821",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "rina",
+          "asset": "./assets/characters/rina/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 38.31,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "РИНА",
+          "emotion": "ЧЕСТНО",
+          "text": "Нет. Я могу доказать архитектуру, свою переписку и то, что мой доступ закрыли. Серверное действие — пока нет."
+        },
+        "en": {
+          "speaker": "RINA",
+          "emotion": "BEAT",
+          "text": "No. I can prove the architecture, my messages, and that my access was revoked. I cannot yet prove the server action."
+        },
+        "be": {
+          "speaker": "РЫНА",
+          "emotion": "ШЧЫРА",
+          "text": "Не. Я магу даказаць архітэктуру, сваю перапіску і тое, што мой доступ закрылі. Сервернае дзеянне — пакуль не."
+        }
+      }
+    },
+    {
+      "id": "VN0822",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_OLD_ARCHIVE.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "РЕШИТЕЛЬНО",
+          "text": "Тогда не прыгаем через недостающий шаг. Восстанавливаем полную временную линию."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "BEAT",
+          "text": "Then we do not jump over the missing step. We rebuild the full timeline."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "РАШУЧА",
+          "text": "Тады не пераскокваем праз адсутны крок. Аднаўляем поўную часовую лінію."
+        }
+      }
+    },
+    {
+      "id": "VN0823",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "BG_CLUBROOM_NIGHT / LATER",
+          "text": "Ночью каталог Рины, журналы доступа, фото контейнеров, скан Винсента и новый помеченный предмет занимают всю доску клуба."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "BG_CLUBROOM_NIGHT / LATER",
+          "text": "At night, Rina’s catalog, access logs, container photos, Vincent’s scan, and the newly tagged item cover the club evidence board."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "BG_CLUBROOM_NIGHT / LATER",
+          "text": "Уначы каталог Рыны, журналы доступу, фота кантэйнераў, скан Вінсента і новы пазначаны прадмет займаюць усю дошку клуба."
+        }
+      }
+    },
+    {
+      "id": "VN0824",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "emi",
+          "asset": "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 36.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ЭМИ",
+          "emotion": "СМОТРИТ НА ДОСКУ",
+          "text": "И отдельно отмечаем, где кто-то решил за владельцев — и проект, и Рина."
+        },
+        "en": {
+          "speaker": "EMI",
+          "emotion": "BEAT",
+          "text": "And mark separately where someone made decisions for the owners — both the project and Rina."
+        },
+        "be": {
+          "speaker": "ЭМІ",
+          "emotion": "ГЛЯДЗІЦЬ НА ДОШКУ",
+          "text": "І асобна адзначаем, дзе нехта вырашыў за ўладальнікаў — і праект, і Рына."
+        }
+      }
+    },
+    {
+      "id": "VN0825",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ФОРМУЛИРУЕТ",
+          "text": "Убираем опровергнутые версии, сводим ключевые улики по датам и выводим новый помеченный предмет в конец линии."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "BEAT",
+          "text": "Remove disproven theories, align the key evidence by date, and bring the newly tagged item to the end of the line."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ФАРМУЛЮЕ",
+          "text": "Прыбіраем абвергнутыя версіі, зводзім ключавыя доказы па датах і выводзім новы пазначаны прадмет у канец лініі."
+        }
+      }
+    },
+    {
+      "id": "VN0826",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CLUBROOM_NIGHT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Поле превращается во временную сетку: убрать ложные выводы, собрать подтверждённые коды и опустить недавно помеченный предмет."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "The board becomes a timeline grid: clear false conclusions, collect confirmed codes, and drop the recently tagged item."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Поле ператвараецца ў часовую сетку: ачысціць ілжывыя высновы, сабраць пацверджаныя коды і апусціць нядаўні пазначаны прадмет."
+        }
+      }
+    }
+  ]
+}

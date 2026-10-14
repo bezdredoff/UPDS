@@ -160,12 +160,17 @@ export function godotStoryScene(sceneIndex: number) {
   const transition = graphScene.transition;
   const nextSceneId = transition.kind === 'scene' ? transition.targetSceneId : '';
   const nextSceneIndex = nextSceneId ? storyGraph.scenes.find((entry) => entry.id === nextSceneId)?.legacyIndex ?? -1 : -1;
+  const branchChoiceId = transition.kind === 'branch' ? transition.gateId : '';
+  const nextSceneIndices = transition.kind === 'branch'
+    ? Object.fromEntries(Object.entries(transition.routes).map(([option, sceneId]) => [option, storyGraph.scenes.find((entry) => entry.id === sceneId)?.legacyIndex ?? -1]))
+    : {};
   const nextLevelId = transition.kind === 'match3' ? transition.levelId : '';
   const onWinSceneIndex = transition.kind === 'match3'
     ? storyGraph.scenes.find((entry) => entry.id === transition.onWinSceneId)?.legacyIndex ?? -1
     : -1;
   return {
     sceneId: scene.id, sceneIndex, nextSceneId, nextSceneIndex, nextLevelId, onWinSceneIndex,
+    ...(transition.kind === 'branch' ? { branchChoiceId, nextSceneIndices } : {}),
     ...(choiceGate ? { choiceGate } : {}),
     background: backgroundAssets[scene.defaultBackground],
     titles: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, catalog[`vn.scene.${scene.id}.title`]])),
