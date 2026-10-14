@@ -23,6 +23,8 @@ const MaintenanceKeysScene = preload("res://data/maintenance_keys_scene.json")
 const PostMaintenanceKeysScene = preload("res://data/post_maintenance_keys_scene.json")
 const ControlSampleGearScene = preload("res://data/control_sample_gear_scene.json")
 const PostControlSampleGearScene = preload("res://data/post_control_sample_gear_scene.json")
+const AsterionTransferScene = preload("res://data/asterion_transfer_scene.json")
+const PostAsterionTransferScene = preload("res://data/post_asterion_transfer_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
 
 
@@ -410,6 +412,42 @@ func _run() -> void:
 	assert(screen.title.text == PostControlSampleGearScene.data.titles.en)
 	while session.current_line().id != "VN0527":
 		assert(session.advance())
+	assert(not session.at_port_boundary() and session.advance())
+	assert(session.state.scene == 23 and session.current_line().id == "VN0529")
+	assert(session.state.readLines.has("VN0528"), "Asterion transfer opening direction was not consumed")
+	assert(screen.title.text == AsterionTransferScene.data.titles.en)
+	while session.current_line().id != "VN0547":
+		assert(session.advance())
+	assert(session.at_match3_gate() and session.scene_data().nextLevelId == "M3_11_ASTERION_TRANSFER")
+	await process_frame
+	assert(menu.match3_screen != null and menu.match3_screen.level_id == "M3_11_ASTERION_TRANSFER")
+	assert(reached_levels.size() == 12 and reached_levels[-1] == "M3_11_ASTERION_TRANSFER")
+	assert(session.complete_match3("M3_11_ASTERION_TRANSFER"))
+	assert(session.state.scene == 24 and session.current_line().id == "VN0549")
+	assert(session.state.completed.size() == 12 and session.state.clues[-1] == "CUE_012")
+	menu.match3_screen.game.state = "won"
+	menu.match3_screen._refresh()
+	assert(menu.match3_screen.evidence_title.text == menu.match3_screen.level_data.evidence.localized.en.title)
+	menu.match3_screen.evidence_continue.pressed.emit()
+	await process_frame
+	assert(menu.match3_screen == null and screen.visible)
+	assert(screen.title.text == PostAsterionTransferScene.data.titles.en)
+	while session.current_line().id != "VN0560":
+		assert(session.advance(), "Stopped at %s in scene %d" % [session.current_line().id, session.state.scene])
+	assert(session.at_choice_gate() and not session.advance(), "Photo-permission checkpoint was skipped")
+	await process_frame
+	for locale in ["ru", "be", "en"]:
+		assert(menu.preferences.set_locale(locale) == OK)
+		assert(screen.choice_prompt.text == PostAsterionTransferScene.data.choiceGate.prompt[locale])
+		assert(screen.choice_buttons[1].text.begins_with(PostAsterionTransferScene.data.choiceGate.choices.B[locale].title))
+	screen.choice_buttons[1].pressed.emit()
+	assert(session.state.storyChoices["photo-permission"] == "B")
+	assert(session.current_line().id == "VN0562" and session.state.readLines.has("VN0560") and session.state.readLines.has("VN0561"))
+	var restored_photo_permission := Session.new(session.store)
+	restored_photo_permission.reload()
+	assert(restored_photo_permission.current_line().id == "VN0562" and restored_photo_permission.state.storyChoices["photo-permission"] == "B")
+	while session.current_line().id != "VN0567":
+		assert(session.advance())
 	assert(session.at_port_boundary() and not session.advance())
 	screen.menu_button.pressed.emit()
 	var raw: String = session.store.storage.get_item(Format.CONTRACT.data.storyKey)
@@ -418,7 +456,7 @@ func _run() -> void:
 	assert(session.store.storage.get_item(Format.CONTRACT.data.storyKey) == raw)
 	menu.confirmation.hide()
 	menu.confirmation.canceled.emit()
-	assert(session.state.scene == 22 and session.current_line().id == "VN0527")
+	assert(session.state.scene == 24 and session.current_line().id == "VN0567")
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	menu.confirmation.hide()
 	menu.confirmation.confirmed.emit()
@@ -450,7 +488,7 @@ func _run() -> void:
 func _unsupported_save() -> void:
 	var memory := Memory.new()
 	var store := Store.new(memory)
-	assert(store.save_story({"scene": 23, "line": 3, "completed": [1]}))
+	assert(store.save_story({"scene": 25, "line": 3, "completed": [1]}))
 	var raw: String = memory.get_item(Format.CONTRACT.data.storyKey)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(store)
@@ -466,7 +504,7 @@ func _unsupported_save() -> void:
 
 func _future_save() -> void:
 	var memory := Memory.new()
-	var raw := '{"schemaVersion":99,"scene":23,"line":3}'
+	var raw := '{"schemaVersion":99,"scene":25,"line":3}'
 	assert(memory.set_item(Format.CONTRACT.data.storyKey, raw))
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = Session.new(Store.new(memory))
@@ -512,3 +550,14 @@ func _choice_routes() -> void:
 		assert(choice_session.state.readLines.has("VN0480") and choice_session.state.readLines.has("VN0481"))
 		choice_session.reload()
 		assert(choice_session.current_line().id == "VN0482" and choice_session.state.storyChoices["protect-gen-source"] == option)
+	for option in ["A", "B", "C"]:
+		var choice_session := Memory.story_session()
+		choice_session.state.scene = 24
+		choice_session.state.line = PostAsterionTransferScene.data.lines.find_custom(func(line: Dictionary) -> bool: return line.id == "VN0560")
+		assert(choice_session.at_choice_gate() and not choice_session.advance(), "Photo-permission checkpoint was not guarded")
+		assert(choice_session.choose(option), "Photo-permission option %s was rejected" % option)
+		assert(choice_session.state.storyChoices["photo-permission"] == option)
+		assert(choice_session.current_line().id == "VN0562")
+		assert(choice_session.state.readLines.has("VN0560") and choice_session.state.readLines.has("VN0561"))
+		choice_session.reload()
+		assert(choice_session.current_line().id == "VN0562" and choice_session.state.storyChoices["photo-permission"] == option)

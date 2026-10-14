@@ -1,0 +1,639 @@
+{
+  "sceneId": "VN_SCENE_23_E11_PRE",
+  "sceneIndex": 23,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_11_ASTERION_TRANSFER",
+  "onWinSceneIndex": 24,
+  "background": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
+  "titles": {
+    "ru": "Самый заметный тайный груз",
+    "en": "The Most Obvious Secret Cargo",
+    "be": "Самы прыкметны таемны груз"
+  },
+  "lines": [
+    {
+      "id": "VN0528",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ESTABLISHING / SERVICE YARD",
+          "text": "Служебный двор колледжа. Тележки выходят из прачечной к погрузочной зоне, где серые контейнеры Asterion ждут ежедневного вывоза."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "ESTABLISHING / SERVICE YARD",
+          "text": "The college service yard. Carts leave the laundry for a loading zone where gray Asterion containers wait for daily pickup."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ESTABLISHING / SERVICE YARD",
+          "text": "Службовы двор каледжа. Каляскі выязджаюць з пральні да пагрузачнай зоны, дзе шэрыя кантэйнеры Asterion чакаюць штодзённага вывазу."
+        }
+      }
+    },
+    {
+      "id": "VN0529",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ДЕРЖИТ ТЕЛЕФОН",
+          "text": "Я дам оригиналы. Но только если в материалах будет понятно, что эти фотографии меня оправдывают, а не делают удобным подозреваемым второй раз."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "HOLDING PHONE",
+          "text": "I will give you the originals. But only if the file makes clear that these photos exonerate me instead of turning me into a convenient suspect again."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ТРЫМАЕ ТЭЛЕФОН",
+          "text": "Я дам арыгіналы. Але толькі калі ў матэрыялах будзе зразумела, што гэтыя фатаграфіі мяне апраўдваюць, а не другі раз робяць зручным падазраваным."
+        }
+      }
+    },
+    {
+      "id": "VN0530",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СЕРЬЁЗНО",
+          "text": "Справедливо. Фотографию нужно рассматривать вместе с её источником и контекстом."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "SERIOUS",
+          "text": "Fair. We should keep the photo’s source and context together."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СУР'ЁЗНА",
+          "text": "Справядліва. Крыніцу фота і яе кантэкст трэба захоўваць разам."
+        }
+      }
+    },
+    {
+      "id": "VN0531",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОДНИМАЕТ КОНТРОЛЬНЫЙ МЕШОК",
+          "text": "Для наблюдения нужен объект, который никто не станет трогать без причины."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "LIFTING CONTROL BAG",
+          "text": "For observation we need an object nobody will touch without a reason."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАДНІМАЕ КАНТРОЛЬНЫ МЯШОК",
+          "text": "Для назірання патрэбны аб'ект, які ніхто не стане чапаць без прычыны."
+        }
+      }
+    },
+    {
+      "id": "VN0532",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: WARNING LABEL",
+          "text": "На мешке огромными буквами напечатано: «ЛИЧНОЕ БЕЛЬЁ — НЕ ВСКРЫВАТЬ»."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "INSERT: WARNING LABEL",
+          "text": "The bag is printed in enormous letters: “PERSONAL UNDERWEAR — DO NOT OPEN.”"
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: WARNING LABEL",
+          "text": "На мяшку вялізнымі літарамі надрукавана: «АСАБІСТАЯ БЯЛІЗНА — НЕ АДКРЫВАЦЬ»."
+        }
+      }
+    },
+    {
+      "id": "VN0533",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СМОТРИТ НА ПРОХОЖИХ",
+          "text": "Оноэ, каждый второй человек читает это дважды."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "WATCHING PASSERSBY",
+          "text": "Onoe, every second person is reading that twice."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ГЛЯДЗІЦЬ НА МІНАКОЎ",
+          "text": "Оноэ, кожны другі чалавек чытае гэта двойчы."
+        }
+      }
+    },
+    {
+      "id": "VN0534",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "РАЗОЧАРОВАННО",
+          "text": "Расчёт социальной дистанции оказался неверным."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "DISAPPOINTED",
+          "text": "The social-distance calculation was incorrect."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "РАСЧАРАВАНА",
+          "text": "Разлік сацыяльнай дыстанцыі аказаўся няправільным."
+        }
+      }
+    },
+    {
+      "id": "VN0535",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 19,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 51,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 3
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СУХО",
+          "text": "В следующий раз пишем «налоговые документы»."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "DRYLY",
+          "text": "Next time we write “tax documents.”"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "СУХА",
+          "text": "Наступным разам пішам «падатковыя дакументы»."
+        }
+      }
+    },
+    {
+      "id": "VN0536",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ФОТОГРАФИРУЕТ",
+          "text": "Это будет менее заметно, но существенно хуже для атмосферы кадра."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "TAKING PHOTOS",
+          "text": "That will be less conspicuous, but substantially worse for the mood of the shot."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ФАТАГРАФУЕ",
+          "text": "Гэта будзе менш прыкметна, але істотна горш для атмасферы кадра."
+        }
+      }
+    },
+    {
+      "id": "VN0537",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СОТРУДНИК ПУНКТА",
+          "emotion": "ДЕЛОВО",
+          "text": "Asterion забирает контейнеры по манифесту. Возврат идёт тем же номером пломбы, если контейнер не вскрывался."
+        },
+        "en": {
+          "speaker": "TRANSFER WORKER",
+          "emotion": "BUSINESSLIKE",
+          "text": "Asterion collects containers by manifest. Returns keep the same seal number if the container was not opened."
+        },
+        "be": {
+          "speaker": "СУПРАЦОЎНІК ПУНКТА",
+          "emotion": "ДЗЕЛАВА",
+          "text": "Asterion забірае кантэйнеры паводле маніфеста. Вяртанне ідзе з тым жа нумарам пломбы, калі кантэйнер не адкрывалі."
+        }
+      }
+    },
+    {
+      "id": "VN0538",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "УТОЧНЯЕТ",
+          "text": "А если вскрывался?"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CLARIFYING",
+          "text": "And if it was opened?"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "УДАКЛАДНЯЕ",
+          "text": "А калі адкрывалі?"
+        }
+      }
+    },
+    {
+      "id": "VN0539",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_CAMPUS_SERVICE_YARD.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СОТРУДНИК ПУНКТА",
+          "emotion": "ПОКАЗЫВАЕТ СКАНЕР",
+          "text": "Новая пломба и отметка причины. Ремонт, тестирование, отказ, возврат."
+        },
+        "en": {
+          "speaker": "TRANSFER WORKER",
+          "emotion": "SHOWING SCANNER",
+          "text": "New seal and a reason code. Repair, testing, rejection, return."
+        },
+        "be": {
+          "speaker": "СУПРАЦОЎНІК ПУНКТА",
+          "emotion": "ПАКАЗВАЕ СКАНЕР",
+          "text": "Новая пломба і пазнака прычыны. Рамонт, тэставанне, адмова, вяртанне."
+        }
+      }
+    },
+    {
+      "id": "VN0540",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "BG_ASTERION_TRANSFER_POINT / CONTINUOUS",
+          "text": "Команда идёт вслед за контейнерами к небольшому перегрузочному пункту Asterion. На стойке видны сканер, пломбы и распечатанные маршруты."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "BG_ASTERION_TRANSFER_POINT / CONTINUOUS",
+          "text": "The team follows the containers to a small Asterion transfer point. A scanner, seals, and printed routes sit on the desk."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "BG_ASTERION_TRANSFER_POINT / CONTINUOUS",
+          "text": "Каманда ідзе следам за кантэйнерамі да невялікага перагрузачнага пункта Asterion. На стойцы бачныя сканер, пломбы і раздрукаваныя маршруты."
+        }
+      }
+    },
+    {
+      "id": "VN0541",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "kentaro",
+          "asset": "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "КЭНТАРО",
+          "emotion": "СВЕРЯЕТ ФОТО",
+          "text": "На моих кадрах номер контейнера повторяется. Вот этот — минимум четыре раза за месяц."
+        },
+        "en": {
+          "speaker": "KENTARO",
+          "emotion": "CHECKING PHOTOS",
+          "text": "The same container number repeats in my photos. This one appears at least four times in a month."
+        },
+        "be": {
+          "speaker": "КЭНТАРО",
+          "emotion": "ЗВЯРАЕ ФАТАЗДЫМКІ",
+          "text": "На маіх кадрах нумар кантэйнера паўтараецца. Вось гэты — мінімум чатыры разы за месяц."
+        }
+      }
+    },
+    {
+      "id": "VN0542",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМОТРИТ МАРШРУТ",
+          "text": "Прачечная, перегрузочный пункт, лаборатория, обратно в сервисный поток."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "READING ROUTE",
+          "text": "Laundry, transfer point, laboratory, then back into the service stream."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ГЛЯДЗІЦЬ НА МАРШРУТ",
+          "text": "Пральня, перагрузачны пункт, лабараторыя, назад у сэрвісны паток."
+        }
+      }
+    },
+    {
+      "id": "VN0543",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАМЕЧАЕТ",
+          "text": "И на возврате нет отдельной отметки о личных вещах. Только номер контейнера."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "NOTICING",
+          "text": "And the return has no separate mark for personal items. Only the container number."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАЎВАЖАЕ",
+          "text": "І пры вяртанні няма асобнай пазнакі пра асабістыя рэчы. Толькі нумар кантэйнера."
+        }
+      }
+    },
+    {
+      "id": "VN0544",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "НА МЕШОК",
+          "text": "Значит, наш самый заметный тайный груз выглядит официальнее, чем мы."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "LOOKING AT BAG",
+          "text": "So our most obvious secret cargo looks more official than we do."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ГЛЯДЗІЦЬ НА МЯШОК",
+          "text": "Значыць, наш самы прыкметны таемны груз выглядае больш афіцыйна, чым мы."
+        }
+      }
+    },
+    {
+      "id": "VN0545",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ФОРМУЛИРУЕТ ЗАДАЧУ",
+          "text": "Сверяем пломбы, фотографии и записи о маршруте. Нам нужна непрерывная цепочка, а не подозрительный грузовик."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "FORMULATING TASK",
+          "text": "Match seals, photographs, and route records. We need a continuous chain, not a suspicious-looking truck."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ФАРМУЛЮЕ ЗАДАЧУ",
+          "text": "Супастаўляем пломбы, фатаграфіі і маршрутныя запісы. Нам патрэбны бесперапынны ланцужок, а не падазроны грузавік."
+        }
+      }
+    },
+    {
+      "id": "VN0546",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Ремни и упаковка закрывают сервисные полосы. Две пломбы, маршрутная карточка и транспортный манифест распределены по цепочке."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Straps and packaging block the service lanes. Two seals, a route card, and a transport manifest are distributed through the chain."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "PRE-MATCH SETUP",
+          "text": "Рамяні і ўпакоўка закрываюць сэрвісныя палосы. Дзве пломбы, маршрутная картка і транспартны маніфест размеркаваны па ланцужку."
+        }
+      }
+    },
+    {
+      "id": "VN0547",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_ASTERION_TRANSFER_POINT.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Восстановить передачу контейнера: убрать упаковку, свести пломбу с маршрутом и опустить манифест."
+        },
+        "en": {
+          "speaker": "DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Reconstruct the container handoff: clear packaging, pair the seal with its route, and drop the manifest."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Аднавіць перадачу кантэйнера: прыбраць упакоўку, супаставіць пломбу з маршрутам і апусціць маніфест."
+        }
+      }
+    }
+  ]
+}

@@ -58,6 +58,10 @@ const controlSampleGearScene = godotStoryScene(21);
 fs.writeFileSync(path.join(root, 'godot/data/control_sample_gear_scene.json'), `${JSON.stringify(controlSampleGearScene, null, 2)}\n`);
 const postControlSampleGearScene = godotStoryScene(22);
 fs.writeFileSync(path.join(root, 'godot/data/post_control_sample_gear_scene.json'), `${JSON.stringify(postControlSampleGearScene, null, 2)}\n`);
+const asterionTransferScene = godotStoryScene(23);
+fs.writeFileSync(path.join(root, 'godot/data/asterion_transfer_scene.json'), `${JSON.stringify(asterionTransferScene, null, 2)}\n`);
+const postAsterionTransferScene = godotStoryScene(24);
+fs.writeFileSync(path.join(root, 'godot/data/post_asterion_transfer_scene.json'), `${JSON.stringify(postAsterionTransferScene, null, 2)}\n`);
 const audioPath = path.join(root, 'godot/data/menu_audio.json');
 const audio = JSON.parse(fs.readFileSync(audioPath, 'utf8'));
 fs.writeFileSync(audioPath, `${JSON.stringify({ ...audio, ...godotVnAudio() }, null, 2)}\n`);
@@ -66,7 +70,7 @@ for (const line of postMatchScene.lines) {
   assets.add(line.background);
   for (const actor of line.actors) assets.add(actor.asset);
 }
-for (const scene of [photoScene, postPhotoScene, poolScene, postPoolScene, orderedInspectionScene, postOrderedInspectionScene, emergencyMeetingScene, postEmergencyMeetingScene, basketballLockersScene, postBasketballLockersScene, textileWorkshopScene, postTextileWorkshopScene, asterionLabScene, postAsterionLabScene, lostFoundScene, postLostFoundScene, maintenanceKeysScene, postMaintenanceKeysScene, controlSampleGearScene, postControlSampleGearScene]) {
+for (const scene of [photoScene, postPhotoScene, poolScene, postPoolScene, orderedInspectionScene, postOrderedInspectionScene, emergencyMeetingScene, postEmergencyMeetingScene, basketballLockersScene, postBasketballLockersScene, textileWorkshopScene, postTextileWorkshopScene, asterionLabScene, postAsterionLabScene, lostFoundScene, postLostFoundScene, maintenanceKeysScene, postMaintenanceKeysScene, controlSampleGearScene, postControlSampleGearScene, asterionTransferScene, postAsterionTransferScene]) {
   assets.add(scene.background);
   for (const line of scene.lines) {
     assets.add(line.background);
@@ -85,4 +89,4 @@ for (const asset of assets) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.copyFileSync(path.join(root, 'public', asset), target);
 }
-console.log(`Exported Godot story scene data through scene 22, 3 locales, and ${assets.size} original assets.`);
+console.log(`Exported Godot story scene data through scene 24, 3 locales, and ${assets.size} original assets.`);

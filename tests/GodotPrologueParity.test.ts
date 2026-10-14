@@ -81,6 +81,8 @@ describe('Godot story source parity', () => {
       [20, 'godot/data/post_maintenance_keys_scene.json', 'VN0470', 'VN0488', '', -1],
       [21, 'godot/data/control_sample_gear_scene.json', 'VN0489', 'VN0508', 'M3_10_CONTROL_SAMPLE_GEAR', 22],
       [22, 'godot/data/post_control_sample_gear_scene.json', 'VN0509', 'VN0527', '', -1],
+      [23, 'godot/data/asterion_transfer_scene.json', 'VN0528', 'VN0547', 'M3_11_ASTERION_TRANSFER', 24],
+      [24, 'godot/data/post_asterion_transfer_scene.json', 'VN0548', 'VN0567', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -138,7 +140,12 @@ describe('Godot story source parity', () => {
     expect(controlSampleLevel.evidence.localized.ru.title).toBeTruthy();
     expect(controlSampleLevel.evidence.localized.be.label).toBeTruthy();
     expect(controlSampleLevel.evidence.localized.en.continueStory).toBeTruthy();
-    for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source']] as const) {
+    const asterionTransferLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_11_ASTERION_TRANSFER');
+    expect(asterionTransferLevel.evidence.id).toBe('CUE_012');
+    expect(asterionTransferLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(asterionTransferLevel.evidence.localized.be.label).toBeTruthy();
+    expect(asterionTransferLevel.evidence.localized.en.continueStory).toBeTruthy();
+    for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source'], [24, 'photo-permission']] as const) {
       const gate = godotStoryScene(sceneIndex).choiceGate;
       expect(gate.id).toBe(gateId);
       expect(gate.choices.A.ru.title).toBeTruthy();
