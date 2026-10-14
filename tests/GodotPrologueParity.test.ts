@@ -91,6 +91,8 @@ describe('Godot story source parity', () => {
       [30, 'godot/data/post_kubo_atelier_scene.json', 'VN0667', 'VN0686', '', -1],
       [31, 'godot/data/abandoned_laundry_scene.json', 'VN0687', 'VN0707', 'M3_15_ABANDONED_LAUNDRY_ROUTE', 32],
       [32, 'godot/data/post_abandoned_laundry_scene.json', 'VN0708', 'VN0726', '', -1],
+      [33, 'godot/data/pink_ribbon_scanner_scene.json', 'VN0727', 'VN0746', 'M3_16_PINK_RIBBON_SCANNER', 34],
+      [34, 'godot/data/post_pink_ribbon_scanner_scene.json', 'VN0747', 'VN0765', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -173,7 +175,12 @@ describe('Godot story source parity', () => {
     expect(abandonedLaundryLevel.evidence.localized.ru.title).toBeTruthy();
     expect(abandonedLaundryLevel.evidence.localized.be.label).toBeTruthy();
     expect(abandonedLaundryLevel.evidence.localized.en.continueStory).toBeTruthy();
-    for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source'], [24, 'photo-permission'], [26, 'publish-tag'], [30, 'family-ledger-permission']] as const) {
+    const pinkRibbonLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_16_PINK_RIBBON_SCANNER');
+    expect(pinkRibbonLevel.evidence.id).toBe('CUE_017');
+    expect(pinkRibbonLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(pinkRibbonLevel.evidence.localized.be.label).toBeTruthy();
+    expect(pinkRibbonLevel.evidence.localized.en.continueStory).toBeTruthy();
+    for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata'], [20, 'protect-gen-source'], [24, 'photo-permission'], [26, 'publish-tag'], [30, 'family-ledger-permission'], [34, 'trust-vincent']] as const) {
       const gate = godotStoryScene(sceneIndex).choiceGate;
       expect(gate.id).toBe(gateId);
       expect(gate.choices.A.ru.title).toBeTruthy();
