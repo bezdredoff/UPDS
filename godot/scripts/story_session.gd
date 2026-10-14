@@ -18,8 +18,10 @@ const EmergencyMeetingScene = preload("res://data/emergency_meeting_scene.json")
 const PostEmergencyMeetingScene = preload("res://data/post_emergency_meeting_scene.json")
 const BasketballLockersScene = preload("res://data/basketball_lockers_scene.json")
 const PostBasketballLockersScene = preload("res://data/post_basketball_lockers_scene.json")
+const TextileWorkshopScene = preload("res://data/textile_workshop_scene.json")
+const PostTextileWorkshopScene = preload("res://data/post_textile_workshop_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
-const MAX_PORTED_SCENE_INDEX := 12
+const MAX_PORTED_SCENE_INDEX := 14
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -71,6 +73,16 @@ func at_match3_gate() -> bool:
 		and state.line == _scene_lines().size() - 1
 
 
+func at_choice_gate() -> bool:
+	if not supports_position():
+		return false
+	if state.scene == 1:
+		return current_line().id == "VN0040"
+	var gate: Dictionary = scene_data().get("choiceGate", {})
+	return not gate.is_empty() and current_line().id == str(gate.get("checkpointLineId", "")) \
+		and not state.storyChoices.has(str(gate.get("id", "")))
+
+
 func at_port_boundary() -> bool:
 	var next_scene_index: int = int(scene_data().get("nextSceneIndex", -1))
 	return supports_position() and state.line == _scene_lines().size() - 1 and not at_match3_gate() \
@@ -117,17 +129,28 @@ func scene_data() -> Dictionary:
 		10: return PostEmergencyMeetingScene.data
 		11: return BasketballLockersScene.data
 		12: return PostBasketballLockersScene.data
+		13: return TextileWorkshopScene.data
+		14: return PostTextileWorkshopScene.data
 	return {}
 
 
 func choose(option: String) -> bool:
-	if state.scene != 1 or not supports_position() or current_line().id != "VN0040" or not ["A", "B", "C"].has(option):
+	if not at_choice_gate() or not ["A", "B", "C"].has(option):
 		return false
-	_mark_read()
-	state.choice = option
-	state.line = _scene_lines().find_custom(func(line: Dictionary) -> bool: return line.id == "VN0041" + option)
-	if state.line < 0:
-		return false
+	if state.scene == 1:
+		_mark_read()
+		state.choice = option
+		state.line = _scene_lines().find_custom(func(line: Dictionary) -> bool: return line.id == "VN0041" + option)
+		if state.line < 0:
+			return false
+	else:
+		var gate: Dictionary = scene_data().get("choiceGate", {})
+		if not gate.get("choices", {}).has(option):
+			return false
+		_mark_read()
+		state.storyChoices[str(gate.id)] = option
+		state.line += 1
+		_skip_hidden()
 	persist()
 	changed.emit()
 	return true
@@ -136,7 +159,7 @@ func choose(option: String) -> bool:
 func advance() -> bool:
 	if not supports_position():
 		return false
-	if state.scene == 1 and current_line().id == "VN0040":
+	if at_choice_gate():
 		return false
 	_mark_read()
 	var moved: bool = state.line + 1 < _scene_lines().size()
@@ -166,10 +189,10 @@ func _mark_read() -> void:
 
 
 func _skip_hidden() -> void:
-	while supports_position() and current_line().hidden and state.line + 1 < _scene_lines().size():
+	while supports_position() and current_line().hidden and not at_choice_gate() and state.line + 1 < _scene_lines().size():
 		_mark_read()
 		state.line += 1
-	if supports_position() and current_line().hidden and state.line == _scene_lines().size() - 1:
+	if supports_position() and current_line().hidden and not at_choice_gate() and state.line == _scene_lines().size() - 1:
 		_mark_read()
 
 
@@ -200,4 +223,8 @@ func _scene_lines() -> Array:
 		return BasketballLockersScene.data.lines
 	if state.scene == 12:
 		return PostBasketballLockersScene.data.lines
+	if state.scene == 13:
+		return TextileWorkshopScene.data.lines
+	if state.scene == 14:
+		return PostTextileWorkshopScene.data.lines
 	return []

@@ -1,0 +1,629 @@
+{
+  "sceneId": "VN_SCENE_13_E6_PRE",
+  "sceneIndex": 13,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_06_TEXTILE_WORKSHOP",
+  "onWinSceneIndex": 14,
+  "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+  "titles": {
+    "ru": "Мастерская подозрительного размера",
+    "en": "The Suspiciously Sized Workshop",
+    "be": "Майстэрня падазронага памеру"
+  },
+  "lines": [
+    {
+      "id": "VN0327",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ESTABLISHING / WORKSHOP",
+          "text": "Квартира-мастерская Хинаты. Манекены, выкройки, спортивные бюстгальтеры, тестовые чашки, катушки и подписанные пакеты заказов."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "ESTABLISHING / WORKSHOP",
+          "text": "Hinata’s apartment workshop. Mannequins, patterns, sports bras, test cups, spools, and labeled work-order bags."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ESTABLISHING / WORKSHOP",
+          "text": "Кватэра-майстэрня Хінаты. Манекены, выкрайкі, спартыўныя бюстгальтары, тэставыя чашачкі, шпулькі і падпісаныя пакеты заказаў."
+        }
+      }
+    },
+    {
+      "id": "VN0328",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ШЁПОТОМ",
+          "text": "Я официально подтверждаю: мы вошли в финальную локацию дела."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "WHISPERING",
+          "text": "Official confirmation: we have entered the final location of the case."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ШЭПТАМ",
+          "text": "Я афіцыйна пацвярджаю: мы ўвайшлі ў фінальную лакацыю справы."
+        }
+      }
+    },
+    {
+      "id": "VN0329",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "НЕВОЗМУТИМО",
+          "text": "Если хотите финал, могу начать с бесплатной примерки."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "UNFAZED",
+          "text": "If you want a finale, I can start with a free fitting."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "НЕЎЗРУШАНА",
+          "text": "Калі хочаце фінал, магу пачаць з бясплатнай прымеркі."
+        }
+      }
+    },
+    {
+      "id": "VN0330",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ОДНОВРЕМЕННО",
+          "text": "Мику, Аюки и Хината одновременно указывают на Оноэ."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "IN UNISON",
+          "text": "Miku, Ayuki, and Hinata point at Onoe at the same time."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "АДНАЧАСОВА",
+          "text": "Міку, Аюкі і Хіната адначасова паказваюць на Оноэ."
+        }
+      }
+    },
+    {
+      "id": "VN0331",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ОФИЦИАЛЬНАЯ",
+          "text": "Не относится к предмету проверки."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "FORMAL",
+          "text": "Not relevant to the scope of the inspection."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "АФІЦЫЙНАЯ",
+          "text": "Не адносіцца да прадмета праверкі."
+        }
+      }
+    },
+    {
+      "id": "VN0332",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-embarrassed.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "СМУЩЁННО",
+          "text": "Единственным человеком в комнате, которого вообще не смущало количество белья, была его хозяйка."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "EMBARRASSED",
+          "text": "The only person in the room entirely unbothered by the amount of underwear was the woman who owned it."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "ЗБЯНТЭЖАНА",
+          "text": "Адзіным чалавекам у пакоі, якога зусім не бянтэжыла колькасць бялізны, была яе гаспадыня."
+        }
+      }
+    },
+    {
+      "id": "VN0333",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "WORKSHOP INSERTS",
+          "text": "На столе лежат мерные ленты, карты трения ткани и образцы швов с пометками нагрузки."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "WORKSHOP INSERTS",
+          "text": "Measuring tapes, fabric-friction charts, and seam samples labeled by load lie across the table."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "WORKSHOP INSERTS",
+          "text": "На стале ляжаць мерныя стужкі, карты трэння тканіны і ўзоры швоў з пазнакамі нагрузкі."
+        }
+      }
+    },
+    {
+      "id": "VN0334",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "ТЕХНИЧЕСКИ",
+          "text": "Поддержка, посадка и трение — параметры конструкции. Если шов натирает после двадцати минут, красивый дизайн бесполезен."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "TECHNICAL",
+          "text": "Support, fit, and friction are construction parameters. If a seam chafes after twenty minutes, a pretty design is useless."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "ТЭХНІЧНА",
+          "text": "Падтрымка, пасадка і трэнне — параметры канструкцыі. Калі шво націрае праз дваццаць хвілін, прыгожы дызайн бескарысны."
+        }
+      }
+    },
+    {
+      "id": "VN0335",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СТАРАЕТСЯ БЫТЬ ВЗРОСЛОЙ",
+          "text": "Разумеется. Мы тоже постоянно обсуждаем… коэффициенты поддержки."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "TRIES TO SOUND ADULT",
+          "text": "Of course. We also discuss… support coefficients all the time."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "СТАРАЕЦЦА БЫЦЬ ДАРОСЛАЙ",
+          "text": "Зразумела. Мы таксама пастаянна абмяркоўваем… каэфіцыенты падтрымкі."
+        }
+      }
+    },
+    {
+      "id": "VN0336",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "БЕЗ ПАУЗЫ",
+          "text": "Тогда назови единицу измерения."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "WITHOUT PAUSE",
+          "text": "Then name the unit of measurement."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "БЕЗ ПАЎЗЫ",
+          "text": "Тады назаві адзінку вымярэння."
+        }
+      }
+    },
+    {
+      "id": "VN0337",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ВНИМАТЕЛЬНАЯ",
+          "text": "Нам нужны только заказы по спорным вещам и фотографии после вашего ремонта."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "ATTENTIVE",
+          "text": "We only need the work orders for the disputed items and the photos taken after your repairs."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "УВАЖЛІВАЯ",
+          "text": "Нам патрэбныя толькі заказы па спрэчных рэчах і фатаграфіі пасля вашага рамонту."
+        }
+      }
+    },
+    {
+      "id": "VN0338",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "С ФОТО",
+          "text": "Согласна. Но сначала помогите найти гарантийный талон на машину. Я убрала его рядом с заказами и теперь не вижу."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "WITH PHOTOS",
+          "text": "Agreed. But first help me find the sewing-machine warranty card. I put it by the work orders and now I cannot find it."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "З ФОТА",
+          "text": "Згодна. Але спачатку дапамажыце знайсці гарантыйную картку на машыну. Я прыбрала яе побач з заказамі і цяпер не бачу."
+        }
+      }
+    },
+    {
+      "id": "VN0339",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОДОЗРИТЕЛЬНАЯ",
+          "text": "Почему талон важен для проверки?"
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SUSPICIOUS",
+          "text": "Why does the warranty matter to the inspection?"
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАДАЗРОНАЯ",
+          "text": "Чаму картка важная для праверкі?"
+        }
+      }
+    },
+    {
+      "id": "VN0340",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "ПОКАЗЫВАЕТ МАШИНУ",
+          "text": "Модель и допустимые материалы указаны в спецификации. Если вы обвиняете мою машину в серебристом шве, начните с того, может ли она его сделать."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "SHOWS THE MACHINE",
+          "text": "The model and supported materials are in the specification. If you are accusing my machine of the silver seam, start by checking whether it can make one."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "ПАКАЗВАЕ МАШЫНУ",
+          "text": "Мадэль і дапушчальныя матэрыялы пазначаныя ў спецыфікацыі. Калі вы абвінавачваеце маю машыну ў серабрыстым шве, пачніце з таго, ці можа яна яго зрабіць."
+        }
+      }
+    },
+    {
+      "id": "VN0341",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 4
+        },
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 18,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        },
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 82,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 2
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СОГЛАШАЕТСЯ",
+          "text": "Справедливо. Ищем талон, сопоставляем заказ с изделием, потом сравниваем фотографии."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "AGREES",
+          "text": "Fair. Find the warranty, match each order to its item, then compare the photos."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЗГАДЖАЕЦЦА",
+          "text": "Справядліва. Шукаем картку, супастаўляем заказ з вырабам, потым параўноўваем фатаграфіі."
+        }
+      }
+    },
+    {
+      "id": "VN0342",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "ПРОФЕССИОНАЛЬНО",
+          "text": "И не смешивайте тестовые образцы с чужими заказами. У каждого пакета есть номер."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "PROFESSIONAL",
+          "text": "And do not mix the test samples with client orders. Every bag has a number."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "ПРАФЕСІЙНА",
+          "text": "І не змешвайце тэставыя ўзоры з чужымі заказамі. У кожнага пакета ёсць нумар."
+        }
+      }
+    },
+    {
+      "id": "VN0343",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: PRE-LAUNDRY PHOTOS",
+          "text": "На экране планшета — спорный компрессионный топ сразу после ремонта: сервисная строчка есть, серебристого шва нет."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "INSERT: PRE-LAUNDRY PHOTOS",
+          "text": "On the tablet: the disputed compression top immediately after repair. The service stitch is present; the silver seam is not."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: PRE-LAUNDRY PHOTOS",
+          "text": "На экране планшэта — спрэчны кампрэсійны топ адразу пасля рамонту: сэрвісная строчка ёсць, серабрыстага шва няма."
+        }
+      }
+    },
+    {
+      "id": "VN0344",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАМЕЧАЕТ",
+          "text": "Фотография сделана до передачи в прачечную. Серебристой нити действительно нет."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "NOTICES",
+          "text": "The photo was taken before the item went to laundry. There is genuinely no silver thread."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАЎВАЖАЕ",
+          "text": "Фатаграфія зроблена да перадачы ў пральню. Серабрыстай ніткі сапраўды няма."
+        }
+      }
+    },
+    {
+      "id": "VN0345",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ТИХО",
+          "text": "Тогда кто-то добавил её позже."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "QUIETLY",
+          "text": "Then someone added it later."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЦІХА",
+          "text": "Тады нехта дадаў яе пазней."
+        }
+      }
+    },
+    {
+      "id": "VN0346",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СОСРЕДОТОЧЕННАЯ",
+          "text": "Нам нужна точная граница: мастерская Хинаты — потом прачечная — потом возврат команде."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "FOCUSED",
+          "text": "We need the exact boundary: Hinata’s workshop, then laundry, then return to the team."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЗАСЯРОДЖАНАЯ",
+          "text": "Нам патрэбная дакладная мяжа: майстэрня Хінаты — потым пральня — потым вяртанне камандзе."
+        }
+      }
+    },
+    {
+      "id": "VN0347",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Пакеты заказов и образцы нитей образуют кластеры вокруг рабочей зоны; гарантийный талон и серебристая катушка уходят в поле."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Work-order bags and thread samples form clusters around the work area; the warranty card and silver spool enter the board."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Пакеты заказаў і ўзоры нітак утвараюць кластары вакол рабочай зоны; гарантыйная картка і серабрыстая шпулька сыходзяць у поле."
+        }
+      }
+    }
+  ]
+}

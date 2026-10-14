@@ -1,0 +1,685 @@
+{
+  "sceneId": "VN_SCENE_14_E6_POST",
+  "sceneIndex": 14,
+  "nextSceneId": "VN_SCENE_15_E7_PRE",
+  "nextSceneIndex": 15,
+  "nextLevelId": "",
+  "onWinSceneIndex": -1,
+  "choiceGate": {
+    "id": "apology-to-hinata",
+    "checkpointLineId": "VN0356",
+    "prompt": {
+      "ru": "Как команда закроет ложное подозрение против Хинаты?",
+      "en": "How should the team close the false suspicion around Hinata?",
+      "be": "Як камандзе закрыць памылковае падазрэнне супраць Хінаты?"
+    },
+    "choices": {
+      "A": {
+        "ru": {
+          "title": "Извиниться прямо",
+          "effect": "Доверие источников +1"
+        },
+        "en": {
+          "title": "Apologize directly",
+          "effect": "Source trust +1"
+        },
+        "be": {
+          "title": "Прама папрасіць прабачэння",
+          "effect": "Давер крыніц +1"
+        }
+      },
+      "B": {
+        "ru": {
+          "title": "Тихо продолжить проверку",
+          "effect": "Доверие Оноэ +1"
+        },
+        "en": {
+          "title": "Quietly continue the check",
+          "effect": "Onoe trust +1"
+        },
+        "be": {
+          "title": "Ціха працягнуць праверку",
+          "effect": "Давер Оноэ +1"
+        }
+      },
+      "C": {
+        "ru": {
+          "title": "Разрядить неловкость шуткой",
+          "effect": "Доверие Аюки +1 · Хината запомнит"
+        },
+        "en": {
+          "title": "Break the tension with a joke",
+          "effect": "Ayuki trust +1 · Hinata remembers"
+        },
+        "be": {
+          "title": "Разрадзіць няёмкасць жартам",
+          "effect": "Давер Аюкі +1 · Хіната запомніць"
+        }
+      }
+    }
+  },
+  "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+  "titles": {
+    "ru": "Шов после ремонта",
+    "en": "The Post-Repair Seam",
+    "be": "Шво пасля рамонту"
+  },
+  "lines": [
+    {
+      "id": "VN0348",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: WARRANTY + SPOOL",
+          "text": "На столе лежат найденный гарантийный талон и катушка серебристой проводящей нити из чужого образца."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "INSERT: WARRANTY + SPOOL",
+          "text": "The recovered warranty card and a spool of silver conductive thread from an unrelated sample lie on the table."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: WARRANTY + SPOOL",
+          "text": "На стале ляжаць знойдзеная гарантыйная картка і шпулька серабрыстай электраправоднай ніткі з чужога ўзору."
+        }
+      }
+    },
+    {
+      "id": "VN0349",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "ПРОВЕРЯЕТ МОДЕЛЬ",
+          "text": "Моя машина не поддерживает эту нить: толщина и проводящее покрытие превышают допуски механизма подачи."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "CHECKS THE MODEL",
+          "text": "My machine cannot handle this thread: its thickness and conductive coating are outside the feed specification."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "ПРАВЯРАЕ МАДЭЛЬ",
+          "text": "Мая машына не падтрымлівае гэтую нітку: яе таўшчыня і электраправоднае пакрыццё перавышаюць дапушчальныя межы механізма падачы."
+        }
+      }
+    },
+    {
+      "id": "VN0350",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СВЕРЯЕТ ТАЙМКОДЫ",
+          "text": "Три фотографии после ремонта подтверждают одно и то же. До прачечной серебристого шва нет."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CHECKS TIMESTAMPS",
+          "text": "Three post-repair photos confirm the same thing. Before the laundry, there is no silver seam."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗВЯРАЕ ТАЙМКОДЫ",
+          "text": "Тры фатаграфіі пасля рамонту пацвярджаюць адно і тое ж. Да пральні серабрыстага шва няма."
+        }
+      }
+    },
+    {
+      "id": "VN0351",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ТВЁРДО",
+          "text": "Значит, Хината не добавляла шов. А по учёту заказов она не присваивала вещи."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "FIRMLY",
+          "text": "So Hinata didn’t add the seam. And the work-order records show she didn’t keep the items."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ЦВЁРДА",
+          "text": "Значыць, шво дадала не Хіната. А запісы ў заказах пацвярджаюць, што яна і не забірала гэтыя рэчы."
+        }
+      }
+    },
+    {
+      "id": "VN0352",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "СПОКОЙНО",
+          "text": "А комната с чужим бельём теперь тоже перестала быть уликой?"
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "CALMLY",
+          "text": "And has the room full of other people’s underwear stopped being evidence too?"
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "СПАКОЙНА",
+          "text": "А пакой з чужой бялізнай цяпер таксама перастаў быць доказам?"
+        }
+      }
+    },
+    {
+      "id": "VN0353",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СМОТРИТ НА КОМНАТУ",
+          "text": "Сейчас она выглядит гораздо профессиональнее, чем двадцать минут назад."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "LOOKS AROUND",
+          "text": "It looks much more professional than it did twenty minutes ago."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ГЛЯДЗІЦЬ НА ПАКОЙ",
+          "text": "Цяпер ён выглядае значна прафесійней, чым дваццаць хвілін таму."
+        }
+      }
+    },
+    {
+      "id": "VN0354",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ТОЧНО",
+          "text": "Заказы объясняют происхождение каждой вещи. Мы заподозрили Хинату из-за контекста, а не из-за несоответствий в учёте."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "PRECISE",
+          "text": "The work orders account for where every item came from. We suspected Hinata because of the context, not because the records failed to add up."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ДАКЛАДНА",
+          "text": "У заказах ёсць запіс, адкуль узялася кожная рэч. Мы западозрылі Хінату праз абставіны, а не праз разыходжанні ў запісах."
+        }
+      }
+    },
+    {
+      "id": "VN0355",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ПРЯМО",
+          "text": "Мы всё равно обязаны ответить за то, как пришли сюда."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "DIRECT",
+          "text": "We still owe you an answer for how we came to this conclusion."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "НАПРАМУЮ",
+          "text": "Мы ўсё роўна абавязаныя адказаць за тое, як прыйшлі сюды."
+        }
+      }
+    },
+    {
+      "id": "VN0356",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE apology-to-hinata}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE apology-to-hinata}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "CHOICE CHECKPOINT",
+          "text": "{CHOICE apology-to-hinata}"
+        }
+      }
+    },
+    {
+      "id": "VN0357",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "ПОСЛЕ ВЫБОРА",
+          "text": "Мику выбирает способ признать ошибку; факт оправдания Хинаты не меняется."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "AFTER CHOICE",
+          "text": "Miku chooses how to acknowledge the mistake; Hinata’s exoneration does not change."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "ПАСЛЯ ВЫБАРУ",
+          "text": "Міку выбірае спосаб прызнаць памылку; факт апраўдання Хінаты не мяняецца."
+        }
+      }
+    },
+    {
+      "id": "VN0358",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "СДЕРЖАННО",
+          "text": "Хорошо. Теперь формулировку извинения оставим вам, а доказательства — мне."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "RESTRAINED",
+          "text": "Fine. You can keep the style of the apology; I will keep the evidence."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "СТРЫМАНА",
+          "text": "Добра. Фармулёўку выбачэння пакінем вам, а доказы — мне."
+        }
+      }
+    },
+    {
+      "id": "VN0359",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_007; SET SUS_HINATA=cleared}"
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_007; SET SUS_HINATA=cleared}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "DOSSIER",
+          "text": "{ADD CUE_007; SET SUS_HINATA=cleared}"
+        }
+      }
+    },
+    {
+      "id": "VN0360",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "УКАЗЫВАЕТ ЦЕПОЧКУ",
+          "text": "После ремонта шва нет, а после центральной прачечной он появляется. Это самая точная граница, которую нам удалось установить."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "TRACES THE CHAIN",
+          "text": "After the repair, the seam is absent. After the central laundry, it appears. That is the most precise boundary we have established."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ПАКАЗВАЕ ЛАНЦУЖОК",
+          "text": "Пасля рамонту шва няма. Пасля цэнтральнай пральні ён з’яўляецца. Гэта самая дакладная мяжа, якую мы вызначылі."
+        }
+      }
+    },
+    {
+      "id": "VN0361",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ТОЧНО",
+          "text": "Вмешательство произошло после мастерской и до возврата владельцу."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "PRECISE",
+          "text": "The intervention happened after the workshop and before the item returned to its owner."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ДАКЛАДНА",
+          "text": "Умяшанне адбылося пасля майстэрні і да вяртання ўладальніку."
+        }
+      }
+    },
+    {
+      "id": "VN0362",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ОБЛЕГЧЁННО",
+          "text": "Центральная прачечная наконец перестала быть скучным совпадением и стала настоящей проблемой."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "RELIEVED",
+          "text": "The central laundry has finally stopped being a boring coincidence and become a real problem."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "З ПАЛЁГКАЙ",
+          "text": "Цэнтральная пральня нарэшце перастала быць сумным супадзеннем і стала сапраўднай праблемай."
+        }
+      }
+    },
+    {
+      "id": "VN0363",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "ХИНАТА",
+          "emotion": "ПРОФЕССИОНАЛЬНО",
+          "text": "Если понадобится техническое заявление по швам или материалам, пришлите список вопросов. Без сюрпризов."
+        },
+        "en": {
+          "speaker": "HINATA",
+          "emotion": "PROFESSIONAL",
+          "text": "If you need a technical statement about seams or materials, send me the questions. No surprises."
+        },
+        "be": {
+          "speaker": "ХІНАТА",
+          "emotion": "ПРАФЕСІЙНА",
+          "text": "Калі спатрэбіцца тэхнічная заява па швах або матэрыялах, дашліце спіс пытанняў. Без сюрпрызаў."
+        }
+      }
+    },
+    {
+      "id": "VN0364",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "SFX: PHONE",
+          "text": "Телефон Оноэ издаёт короткий сигнал. Новое официальное письмо помечено логотипом Asterion Sports Lab."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "SFX: PHONE",
+          "text": "Onoe’s phone gives a short alert. A new official email carries the Asterion Sports Lab logo."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "SFX: PHONE",
+          "text": "Тэлефон Оноэ падае кароткі сігнал. Новы афіцыйны ліст пазначаны лагатыпам Asterion Sports Lab."
+        }
+      }
+    },
+    {
+      "id": "VN0365",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "КУРОСЭ (СООБЩЕНИЕ)",
+          "emotion": "НА ЭКРАНЕ",
+          "text": "«Детективному клубу. Готов объяснить происхождение необычной нити и исключить неверные технические предположения. Лаборатория, завтра 17:00. Р. Куросэ»."
+        },
+        "en": {
+          "speaker": "KUROSE (MESSAGE)",
+          "emotion": "ON SCREEN",
+          "text": "“To the Detective Club. I am prepared to explain the origin of the unusual thread and rule out incorrect technical assumptions. Laboratory, tomorrow 17:00. R. Kurose.”"
+        },
+        "be": {
+          "speaker": "КУРОСЭ (ПАВЕДАМЛЕННЕ)",
+          "emotion": "НА ЭКРАНЕ",
+          "text": "«Дэтэктыўнаму клубу. Гатовы растлумачыць паходжанне незвычайнай ніткі і выключыць памылковыя тэхнічныя здагадкі. Лабараторыя, заўтра 17:00. Р. Куросэ»."
+        }
+      }
+    },
+    {
+      "id": "VN0366",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "С УЛЫБКОЙ",
+          "text": "Человек, у которого есть объяснение, сам приглашает нас к себе. Это либо очень удобно, либо очень жанрово."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "WITH A SMILE",
+          "text": "The man with an explanation just invited us to him. That is either very convenient or very genre-aware."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "З УСМЕШКАЙ",
+          "text": "Чалавек, у якога ёсць тлумачэнне, сам запрашае нас да сябе. Гэта альбо вельмі зручна, альбо вельмі жанрава."
+        }
+      }
+    },
+    {
+      "id": "VN0367",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "ОСТОРОЖНО",
+          "text": "Мы только что научились не считать удобное объяснение доказательством. Проверим и это."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "CAUTIOUS",
+          "text": "We just learned not to treat a convenient explanation as evidence. We will verify this one too."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "АСЦЯРОЖНА",
+          "text": "Мы толькі што навучыліся не лічыць зручнае тлумачэнне доказам. Праверым і гэта."
+        }
+      }
+    },
+    {
+      "id": "VN0368",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "INSERT: ASTERION INVITE",
+          "text": "На экране раскрывается приглашение в лабораторию. Под логотипом Asterion тонкой линией проходит тот же серебристо-бирюзовый оттенок."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "INSERT: ASTERION INVITE",
+          "text": "The laboratory invitation opens on screen. Beneath the Asterion logo runs the same thin silver-turquoise color."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "INSERT: ASTERION INVITE",
+          "text": "На экране раскрываецца запрашэнне ў лабараторыю. Пад лагатыпам Asterion тонкай лініяй праходзіць тое ж серабрыста-бірузовае адценне."
+        }
+      }
+    },
+    {
+      "id": "VN0369",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "СИСТЕМА",
+          "emotion": "ПЕРЕХОД К НОВОЙ ГЛАВЕ",
+          "text": "На доске клуба появляется приглашение Asterion; серебристая нить ведёт расследование в лабораторию."
+        },
+        "en": {
+          "speaker": "SYSTEM",
+          "emotion": "AUTHORED FRONTIER",
+          "text": "{AUTHORED FRONTIER: SLOT_07 / NEXT BATCH 7-9}"
+        },
+        "be": {
+          "speaker": "СІСТЭМА",
+          "emotion": "AUTHORED FRONTIER",
+          "text": "{AUTHORED FRONTIER: SLOT_07 / NEXT BATCH 7-9}"
+        }
+      }
+    }
+  ]
+}

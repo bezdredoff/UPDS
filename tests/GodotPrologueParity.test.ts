@@ -71,6 +71,8 @@ describe('Godot story source parity', () => {
       [10, 'godot/data/post_emergency_meeting_scene.json', 'VN0271', 'VN0288', '', -1],
       [11, 'godot/data/basketball_lockers_scene.json', 'VN0289', 'VN0308', 'M3_05_BASKETBALL_LOCKERS', 12],
       [12, 'godot/data/post_basketball_lockers_scene.json', 'VN0309', 'VN0326', '', -1],
+      [13, 'godot/data/textile_workshop_scene.json', 'VN0327', 'VN0347', 'M3_06_TEXTILE_WORKSHOP', 14],
+      [14, 'godot/data/post_textile_workshop_scene.json', 'VN0348', 'VN0369', '', -1],
     ] as const) {
       const source = godotStoryScene(sceneIndex);
       expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual(source);
@@ -103,5 +105,17 @@ describe('Godot story source parity', () => {
     expect(basketballLevel.evidence.localized.ru.title).toBeTruthy();
     expect(basketballLevel.evidence.localized.be.label).toBeTruthy();
     expect(basketballLevel.evidence.localized.en.continueStory).toBeTruthy();
+    const workshopLevel = bundle.levels.find((level: { id: string }) => level.id === 'M3_06_TEXTILE_WORKSHOP');
+    expect(workshopLevel.evidence.id).toBe('CUE_007');
+    expect(workshopLevel.evidence.localized.ru.title).toBeTruthy();
+    expect(workshopLevel.evidence.localized.be.label).toBeTruthy();
+    expect(workshopLevel.evidence.localized.en.continueStory).toBeTruthy();
+    for (const [sceneIndex, gateId] of [[9, 'meeting-tone'], [14, 'apology-to-hinata']] as const) {
+      const gate = godotStoryScene(sceneIndex).choiceGate;
+      expect(gate.id).toBe(gateId);
+      expect(gate.choices.A.ru.title).toBeTruthy();
+      expect(gate.choices.B.be.effect).toBeTruthy();
+      expect(gate.choices.C.en.title).toBeTruthy();
+    }
   });
 });

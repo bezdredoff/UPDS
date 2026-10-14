@@ -14,6 +14,7 @@ import { getMusicTheme } from '../../src/audio/MusicTheme';
 import { getCueDefinition } from '../../src/audio/AudioCues';
 import type { MessageCatalog } from '../../src/localization/MessageCatalog';
 import { storyGraph } from '../../src/data/storyGraph';
+import { storyChoiceGateForLine } from '../../src/data/storyChoices';
 
 export function godotPrologue() {
   const lines = getScene(0);
@@ -146,6 +147,16 @@ export function godotStoryScene(sceneIndex: number) {
   const graphScene = storyGraph.scenes.find((entry) => entry.legacyIndex === sceneIndex);
   if (!scene || !graphScene) throw new Error(`Story scene ${sceneIndex} is unavailable`);
   const catalogs: Record<string, MessageCatalog> = { ru: ruCatalog, en: enCatalog, be: beCatalog };
+  const choiceGateSource = lines.map((line) => storyChoiceGateForLine(line.id)).find((gate) => gate !== null);
+  const choiceGate = choiceGateSource ? {
+    id: choiceGateSource.id,
+    checkpointLineId: choiceGateSource.checkpointLineId,
+    prompt: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, catalog[`vn.storyChoice.${choiceGateSource.id}.prompt`]])),
+    choices: Object.fromEntries(choiceGateSource.options.map((option) => [option, Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
+      title: catalog[`vn.storyChoice.${choiceGateSource.id}.${option}.title`],
+      effect: catalog[`vn.storyChoice.${choiceGateSource.id}.${option}.effect`],
+    }]))])),
+  } : null;
   const transition = graphScene.transition;
   const nextSceneId = transition.kind === 'scene' ? transition.targetSceneId : '';
   const nextSceneIndex = nextSceneId ? storyGraph.scenes.find((entry) => entry.id === nextSceneId)?.legacyIndex ?? -1 : -1;
@@ -155,6 +166,7 @@ export function godotStoryScene(sceneIndex: number) {
     : -1;
   return {
     sceneId: scene.id, sceneIndex, nextSceneId, nextSceneIndex, nextLevelId, onWinSceneIndex,
+    ...(choiceGate ? { choiceGate } : {}),
     background: backgroundAssets[scene.defaultBackground],
     titles: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, catalog[`vn.scene.${scene.id}.title`]])),
     lines: lines.map((line, index) => {
