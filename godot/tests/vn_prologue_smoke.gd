@@ -33,6 +33,7 @@ const KuboAtelierScene = preload("res://data/kubo_atelier_scene.json")
 const PostKuboAtelierScene = preload("res://data/post_kubo_atelier_scene.json")
 const AbandonedLaundryScene = preload("res://data/abandoned_laundry_scene.json")
 const PostAbandonedLaundryScene = preload("res://data/post_abandoned_laundry_scene.json")
+
 const PinkRibbonScannerScene = preload("res://data/pink_ribbon_scanner_scene.json")
 const PostPinkRibbonScannerScene = preload("res://data/post_pink_ribbon_scanner_scene.json")
 const RinaArchiveCatalogScene = preload("res://data/rina_archive_catalog_scene.json")
@@ -46,6 +47,9 @@ const PostFullTruthScene = preload("res://data/post_full_truth_scene.json")
 const ConvenientCaseScene = preload("res://data/convenient_case_scene.json")
 const PostConvenientCaseScene = preload("res://data/post_convenient_case_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
+
+var _test_dossier_reset_requested := false
+var _test_menu_requested := false
 
 
 func _initialize() -> void:
@@ -102,9 +106,9 @@ func _run() -> void:
 		assert(screen._dialogue_page_index == 1 and session.current_line().id == "VN0001",
 			"Rapid taps must not skip a dialogue page")
 		while screen._dialogue_page_index + 1 < screen._dialogue_pages.size():
-			await create_timer(0.2).timeout
+			await create_timer(0.3).timeout
 			screen.next_button.pressed.emit()
-		await create_timer(0.2).timeout
+		await create_timer(0.3).timeout
 		screen.next_button.pressed.emit()
 	else:
 		screen.next_button.pressed.emit()
@@ -112,9 +116,11 @@ func _run() -> void:
 	assert(session.current_line().id == "VN0002", "The final page must advance to the next story line")
 	assert(session.state.readLines == ["VN0001"])
 	screen.settings_button.pressed.emit()
-	assert(not screen.visible and menu.has_node("SettingsScreen"))
-	menu.get_node("SettingsScreen").back.pressed.emit()
-	assert(screen.visible and screen.settings_button.has_focus())
+	assert(screen.overlay_title.text == Copy.text("vn_config_title", menu.preferences.locale))
+	assert(screen.overlay.find_child("AutoSpeedNormal", true, false) != null,
+		"VN settings should open the reading configuration in place")
+	screen._close_overlay()
+	assert(screen.visible and not menu.has_node("SettingsScreen"))
 	assert(not menu.get_node("Content").visible)
 	screen.menu_button.pressed.emit()
 	assert(not menu.has_node("StoryScreen") and menu.get_node("Content").visible)
@@ -765,6 +771,14 @@ func _run() -> void:
 	assert(not menu.get_node("Content/Actions/Continue").disabled and menu.status.visible)
 	menu.get_node("Content/Actions/Continue").pressed.emit()
 	assert(session.current_line().id == "VN0002")
+	menu.match3_session.save.completed.append("M3_01")
+	menu.match3_session.persist()
+	var active_story: Control = menu.get_node("StoryScreen")
+	active_story.case_button.pressed.emit()
+	active_story.overlay.find_child("ResetDossierProgress", true, false).pressed.emit()
+	assert(not menu.has_node("StoryScreen") and menu.get_node("Content/Actions/Continue").disabled,
+		"Dossier reset should clear story progress and return to the main menu")
+	assert(menu.match3_session.save.completed.is_empty(), "Dossier reset should clear standalone Match-3 progress too")
 	menu.queue_free()
 	await process_frame
 	DirAccess.remove_absolute(preferences_path)
@@ -835,8 +849,48 @@ func _vn_reading_controls(menu: Control) -> void:
 	assert(screen.overlay_title.text == Copy.text("vn_history", menu.preferences.locale))
 	assert(screen.overlay_body.get_child_count() >= 3, "Dialogue history should include read lines and the current line")
 	screen._close_overlay()
+	screen.settings_button.pressed.emit()
+	assert(screen.overlay.find_child("Audio_musicVolume", true, false) != null)
+	assert(screen.overlay.find_child("VnMainMenu", true, false) != null)
+	screen.config_speed_buttons.fast.pressed.emit()
+	assert(screen._auto_speed == "fast", "Reading configuration should change AUTO speed")
+	assert(is_equal_approx(screen._auto_delay_for_text(28), 1750.0))
+	screen._select_auto_speed("slow", false)
+	assert(is_equal_approx(screen._auto_delay_for_text(28), 3400.0))
+	screen._select_auto_speed("normal", false)
+	assert(is_equal_approx(screen._auto_delay_for_text(60), 3076.0),
+		"AUTO delay should match the source base speed and text-length allowance")
+	screen.config_text_buttons.large.pressed.emit()
+	assert(screen._text_scale == "large" and screen.dialogue.get_theme_font_size("normal_font_size") == 19,
+		"Reading configuration should apply the large dialogue text size")
+	var music_slider: HSlider = screen.overlay.find_child("Audio_musicVolume", true, false).get_node("Slider")
+	music_slider.value = 63
+	assert(is_equal_approx(menu.preferences.audio.musicVolume, 0.63),
+		"Reading configuration should apply audio settings through shared preferences")
+	var mute_button: Button = screen.overlay.find_child("MuteAudio", true, false)
+	mute_button.toggled.emit(true)
+	assert(menu.preferences.audio.muted)
+	mute_button.toggled.emit(false)
+	assert(not menu.preferences.audio.muted, "Audio toggle should update the shared preference and restore it")
+	screen._close_overlay()
+	screen.case_button.pressed.emit()
+	_test_dossier_reset_requested = false
+	_test_menu_requested = false
+	screen.progress_reset_requested.connect(_record_dossier_reset)
+	screen.menu_requested.connect(_record_menu_request)
+	screen.overlay.find_child("ResetDossierProgress", true, false).pressed.emit()
+	assert(_test_dossier_reset_requested and _test_menu_requested,
+		"Resetting dossier progress should emit both reset and return-to-menu actions")
 	screen.queue_free()
 	await process_frame
+
+
+func _record_dossier_reset() -> void:
+	_test_dossier_reset_requested = true
+
+
+func _record_menu_request() -> void:
+	_test_menu_requested = true
 
 
 func _unsupported_save() -> void:

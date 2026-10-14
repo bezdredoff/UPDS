@@ -1,7 +1,7 @@
 extends Control
 
 signal menu_requested
-signal settings_requested
+signal progress_reset_requested
 signal match3_requested(level_id: String)
 
 const Prologue = preload("res://data/prologue.json")
@@ -53,6 +53,7 @@ var ending_summary: Label
 var ending_menu_button: Button
 var ending_replay_button: Button
 var overlay: Control
+var overlay_return_focus: Control
 var overlay_title: Label
 var overlay_body: VBoxContainer
 var overlay_scroll: ScrollContainer
@@ -70,6 +71,10 @@ var _dialogue_pages: Array[String] = []
 var _dialogue_page_index := 0
 var _auto_mode := false
 var _auto_generation := 0
+var _auto_speed := "normal"
+var _text_scale := "normal"
+var config_speed_buttons: Dictionary = {}
+var config_text_buttons: Dictionary = {}
 
 
 func _ready() -> void:
@@ -163,7 +168,7 @@ func _ready() -> void:
 	history_button = _header_icon_button(header, "log", Copy.text("vn_history", preferences.locale))
 	history_button.pressed.connect(_show_history)
 	settings_button = _header_icon_button(header, "settings", Copy.text("settings", preferences.locale))
-	settings_button.pressed.connect(func() -> void: settings_requested.emit())
+	settings_button.pressed.connect(_show_config)
 	dialogue_panel = PanelContainer.new()
 	dialogue_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	dialogue_panel.anchor_top = 0.70
@@ -291,6 +296,7 @@ func _refresh() -> void:
 	var data: Dictionary = session.scene_data()
 	var locale: String = preferences.locale
 	var copy: Dictionary = line.localized[locale]
+	dialogue.add_theme_font_size_override("normal_font_size", 19 if _text_scale == "large" else 17)
 	if _dialogue_line_id != str(line.id) or _dialogue_locale != locale:
 		_dialogue_line_id = str(line.id)
 		_dialogue_locale = locale
@@ -593,15 +599,20 @@ func _toggle_auto() -> void:
 
 func _schedule_auto() -> void:
 	_auto_generation += 1
-	if not _auto_mode or _boundary or session.at_choice_gate() or not is_visible_in_tree():
+	if not _auto_mode or _boundary or session.at_choice_gate() or is_instance_valid(overlay) or not is_visible_in_tree():
 		return
 	var token := _auto_generation
 	var text_length := _dialogue_pages[_dialogue_page_index].length() if not _dialogue_pages.is_empty() else 0
-	var delay_seconds := (2500.0 + mini(1800.0, maxi(0, text_length - 28) * 18.0)) / 1000.0
+	var delay_seconds := _auto_delay_for_text(text_length) / 1000.0
 	get_tree().create_timer(delay_seconds).timeout.connect(func() -> void:
 		if token == _auto_generation and _auto_mode and is_visible_in_tree():
 			_next()
 	)
+
+
+func _auto_delay_for_text(text_length: int) -> float:
+	var base_delay := 3400.0 if _auto_speed == "slow" else 1750.0 if _auto_speed == "fast" else 2500.0
+	return base_delay + mini(1800.0, maxi(0, text_length - 28) * 18.0)
 
 
 func _on_visibility_changed() -> void:
@@ -836,7 +847,9 @@ func _case_button_style(hovered: bool = false) -> StyleBoxFlat:
 	return style
 
 
-func _create_overlay(heading: String) -> void:
+func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_ratio: float = 0.88) -> void:
+	_auto_generation += 1
+	overlay_return_focus = get_viewport().gui_get_focus_owner()
 	if is_instance_valid(overlay):
 		overlay.queue_free()
 	overlay = Control.new()
@@ -852,9 +865,10 @@ func _create_overlay(heading: String) -> void:
 	card.name = "OverlayCard"
 	card.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	card.anchor_left = 0.055
-	card.anchor_top = 0.085
+	var vertical_margin := (1.0 - height_ratio) * 0.5
+	card.anchor_top = vertical_margin
 	card.anchor_right = 0.945
-	card.anchor_bottom = 0.925
+	card.anchor_bottom = 1.0 - vertical_margin
 	var paper := StyleBoxFlat.new()
 	paper.bg_color = Color("#fff8e8")
 	paper.border_color = Color("#d9bd83")
@@ -869,16 +883,46 @@ func _create_overlay(heading: String) -> void:
 	var layout := VBoxContainer.new()
 	layout.add_theme_constant_override("separation", 8)
 	card.add_child(layout)
+	var header_panel := PanelContainer.new()
+	header_panel.custom_minimum_size.y = 64
+	var header_style := StyleBoxFlat.new()
+	header_style.bg_color = Color("#1d3551")
+	header_style.set_corner_radius_all(12)
+	header_style.content_margin_left = 12
+	header_style.content_margin_right = 8
+	header_style.content_margin_top = 6
+	header_style.content_margin_bottom = 6
+	header_panel.add_theme_stylebox_override("panel", header_style)
+	layout.add_child(header_panel)
 	var header := HBoxContainer.new()
-	layout.add_child(header)
-	overlay_title = _label(header, 20)
+	header.add_theme_constant_override("separation", 8)
+	header_panel.add_child(header)
+	var title_stack := VBoxContainer.new()
+	title_stack.alignment = BoxContainer.ALIGNMENT_CENTER
+	title_stack.add_theme_constant_override("separation", 1)
+	title_stack.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(title_stack)
+	var eyebrow_label := _label(title_stack, 8)
+	eyebrow_label.text = eyebrow
+	eyebrow_label.add_theme_color_override("font_color", Color("#e9d5a7"))
+	overlay_title = _label(title_stack, 20)
 	overlay_title.text = heading
-	overlay_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var close := _button(header)
+	overlay_title.add_theme_color_override("font_color", Color("#fff9ea"))
+	var close := Button.new()
 	close.name = "CloseOverlay"
-	close.custom_minimum_size = Vector2(40, 40)
-	close.text = "×"
+	close.custom_minimum_size = Vector2(44, 44)
+	close.add_theme_stylebox_override("normal", _control_button_style(false))
+	close.add_theme_stylebox_override("hover", _control_button_style(true))
+	var close_icon := _icon_texture("close", 22)
+	close_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	close_icon.offset_left = 11
+	close_icon.offset_top = 11
+	close_icon.offset_right = -11
+	close_icon.offset_bottom = -11
+	close_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	close.add_child(close_icon)
 	close.pressed.connect(_close_overlay)
+	header.add_child(close)
 	var separator := HSeparator.new()
 	layout.add_child(separator)
 	overlay_scroll = ScrollContainer.new()
@@ -895,7 +939,7 @@ func _create_overlay(heading: String) -> void:
 
 
 func _show_history() -> void:
-	_create_overlay(Copy.text("vn_history", preferences.locale))
+	_create_overlay(Copy.text("vn_history", preferences.locale), "CASE LOG")
 	var history: Array = session.read_history()
 	var current: Dictionary = session.current_line()
 	if not current.is_empty() and not current.get("hidden", false):
@@ -932,7 +976,7 @@ func _show_history() -> void:
 
 
 func _show_dossier() -> void:
-	_create_overlay(Copy.text("dossier_title", preferences.locale))
+	_create_overlay(Copy.text("dossier_title", preferences.locale), "CASE FILE")
 	_dossier_tab = "clues"
 	var heading := _label(overlay_body, 19)
 	heading.text = Copy.text("dossier_heading", preferences.locale)
@@ -968,6 +1012,14 @@ func _show_dossier() -> void:
 	var levels: Array = bundle.get("levels", [])
 	for index in range(levels.size()):
 		_add_clue_card(levels[index], index + 1)
+	var reset_progress := Button.new()
+	reset_progress.name = "ResetDossierProgress"
+	reset_progress.custom_minimum_size.y = 42
+	reset_progress.text = Copy.text("dossier_reset", preferences.locale)
+	reset_progress.add_theme_color_override("font_color", Color("#a34c5e"))
+	reset_progress.add_theme_stylebox_override("normal", _case_button_style())
+	reset_progress.pressed.connect(_reset_dossier_progress)
+	overlay_body.add_child(reset_progress)
 	_select_dossier_tab(_dossier_tab)
 
 
@@ -1065,7 +1117,176 @@ func _close_overlay() -> void:
 	if is_instance_valid(overlay):
 		overlay.queue_free()
 	overlay = null
-	case_button.grab_focus()
+	if is_instance_valid(overlay_return_focus):
+		overlay_return_focus.grab_focus()
+	else:
+		case_button.grab_focus()
+	_schedule_auto()
+
+
+func _reset_dossier_progress() -> void:
+	progress_reset_requested.emit()
+	menu_requested.emit()
+
+
+func _show_config() -> void:
+	_create_overlay(Copy.text("vn_config_title", preferences.locale), "CONFIG", 0.72)
+	var auto_section := _config_section("vn_config_speed")
+	var auto_row := HBoxContainer.new()
+	auto_row.add_theme_constant_override("separation", 6)
+	auto_section.add_child(auto_row)
+	config_speed_buttons.clear()
+	for speed in ["slow", "normal", "fast"]:
+		var button := _config_option(auto_row, "vn_speed_" + speed)
+		button.name = "AutoSpeed" + speed.capitalize()
+		config_speed_buttons[speed] = button
+		button.pressed.connect(_select_auto_speed.bind(speed))
+	_select_auto_speed(_auto_speed, false)
+
+	var text_section := _config_section("vn_config_text_size")
+	var text_row := HBoxContainer.new()
+	text_row.add_theme_constant_override("separation", 6)
+	text_section.add_child(text_row)
+	config_text_buttons.clear()
+	for scale in ["normal", "large"]:
+		var label_key := "vn_speed_normal" if scale == "normal" else "vn_text_large"
+		var button := _config_option(text_row, label_key)
+		button.name = "TextSize" + scale.capitalize()
+		config_text_buttons[scale] = button
+		button.pressed.connect(_select_text_scale.bind(scale))
+	_select_text_scale(_text_scale, false)
+
+	var audio_section := _config_section("vn_config_audio")
+	_audio_slider(audio_section, "musicVolume", Copy.text("music", preferences.locale))
+	_audio_slider(audio_section, "effectsVolume", Copy.text("effects", preferences.locale))
+	var audio_row := HBoxContainer.new()
+	audio_row.add_theme_constant_override("separation", 6)
+	audio_section.add_child(audio_row)
+	var audio_settings: Dictionary = preferences.audio
+	var mute_button := _audio_toggle_button(audio_row, "muted", Copy.text("mute", preferences.locale), bool(audio_settings.muted))
+	mute_button.name = "MuteAudio"
+	var haptics_button := _audio_toggle_button(audio_row, "hapticsEnabled", Copy.text("haptics", preferences.locale), bool(audio_settings.hapticsEnabled))
+	haptics_button.name = "HapticsAudio"
+	haptics_button.tooltip_text = Copy.text("haptics_available" if audio_runtime.haptics_supported else "haptics_unavailable", preferences.locale)
+	var preview_row := HBoxContainer.new()
+	preview_row.add_theme_constant_override("separation", 6)
+	audio_section.add_child(preview_row)
+	var preview_music := _button(preview_row)
+	preview_music.text = Copy.text("preview_music", preferences.locale)
+	preview_music.pressed.connect(audio_runtime.preview_music)
+	var preview_effects := _button(preview_row)
+	preview_effects.text = Copy.text("preview_effects", preferences.locale)
+	preview_effects.pressed.connect(audio_runtime.preview_effects)
+	var capability := _label(audio_section, 9)
+	capability.text = Copy.text("vn_config_audio_capability", preferences.locale) + ": " + Copy.text("vn_config_available" if audio_runtime.haptics_supported else "vn_config_unavailable", preferences.locale)
+	capability.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	capability.add_theme_color_override("font_color", Color("#756c61"))
+
+	var navigation_section := _config_section("vn_config_navigation")
+	var main_menu := _button(navigation_section)
+	main_menu.name = "VnMainMenu"
+	main_menu.text = Copy.text("vn_config_main_menu", preferences.locale) + "\n" + Copy.text("vn_config_saved", preferences.locale)
+	main_menu.pressed.connect(func() -> void:
+		menu_requested.emit()
+	)
+	var note := _label(overlay_body, 10)
+	note.text = Copy.text("vn_config_note", preferences.locale)
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	note.add_theme_color_override("font_color", Color("#756c61"))
+
+
+func _config_section(label_key: String) -> VBoxContainer:
+	var section := VBoxContainer.new()
+	section.name = "Config" + label_key.trim_prefix("vn_config_").capitalize()
+	section.add_theme_constant_override("separation", 5)
+	overlay_body.add_child(section)
+	var heading := _label(section, 10)
+	heading.text = Copy.text(label_key, preferences.locale)
+	heading.add_theme_color_override("font_color", Color("#2a4b76"))
+	return section
+
+
+func _config_option(parent: Node, copy_key: String) -> Button:
+	var button := Button.new()
+	button.custom_minimum_size.y = 40
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.text = Copy.text(copy_key, preferences.locale)
+	button.add_theme_color_override("font_color", Color("#fff9ea"))
+	button.add_theme_stylebox_override("normal", _control_button_style(false))
+	button.add_theme_stylebox_override("hover", _control_button_style(true))
+	parent.add_child(button)
+	return button
+
+
+func _select_auto_speed(speed: String, reschedule: bool = true) -> void:
+	_auto_speed = speed
+	for key in config_speed_buttons:
+		config_speed_buttons[key].add_theme_stylebox_override("normal", _control_button_style(key == speed))
+	if reschedule:
+		_schedule_auto()
+
+
+func _select_text_scale(scale: String, relayout: bool = true) -> void:
+	_text_scale = scale
+	for key in config_text_buttons:
+		config_text_buttons[key].add_theme_stylebox_override("normal", _control_button_style(key == scale))
+	dialogue.add_theme_font_size_override("normal_font_size", 19 if scale == "large" else 17)
+	if relayout and is_instance_valid(overlay):
+		_dialogue_pages.clear()
+		_dialogue_page_index = 0
+		_refresh()
+		_show_config()
+
+
+func _audio_slider(parent: Node, key: String, label: String) -> void:
+	var settings: Dictionary = preferences.audio
+	var row := VBoxContainer.new()
+	row.name = "Audio_" + key
+	row.add_theme_constant_override("separation", 2)
+	parent.add_child(row)
+	var value_label := _label(row, 9)
+	value_label.name = "Value"
+	value_label.text = "%s · %d%%" % [label, roundi(float(settings[key]) * 100.0)]
+	var slider := HSlider.new()
+	slider.name = "Slider"
+	slider.min_value = 0
+	slider.max_value = 100
+	slider.step = 1
+	slider.custom_minimum_size.y = 32
+	slider.value = roundi(float(settings[key]) * 100.0)
+	slider.value_changed.connect(func(value: float) -> void:
+		value_label.text = "%s · %d%%" % [label, roundi(value)]
+		_update_audio_setting(key, value / 100.0)
+	)
+	row.add_child(slider)
+
+
+func _audio_toggle_button(parent: Node, key: String, label: String, enabled: bool) -> Button:
+	var button := Button.new()
+	button.toggle_mode = true
+	button.button_pressed = enabled
+	button.custom_minimum_size.y = 48
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.add_theme_color_override("font_color", Color("#fff9ea"))
+	button.add_theme_stylebox_override("normal", _control_button_style(enabled))
+	button.add_theme_stylebox_override("pressed", _control_button_style(true))
+	button.add_theme_stylebox_override("hover", _control_button_style(not enabled))
+	button.toggled.connect(func(value: bool) -> void:
+		button.text = "%s · %s" % [label, Copy.text("vn_on" if value else "vn_off", preferences.locale)]
+		button.add_theme_stylebox_override("normal", _control_button_style(value))
+		button.add_theme_stylebox_override("pressed", _control_button_style(true))
+		button.add_theme_color_override("font_color", Color("#fff9ea"))
+		_update_audio_setting(key, value)
+	)
+	button.text = "%s · %s" % [label, Copy.text("vn_on" if enabled else "vn_off", preferences.locale)]
+	parent.add_child(button)
+	return button
+
+
+func _update_audio_setting(key: String, value: Variant) -> void:
+	var error: Error = preferences.update_audio({key: value})
+	if error != OK:
+		_show_status(Copy.text("settings_save_error", preferences.locale))
 
 
 func _serif_font() -> SystemFont:

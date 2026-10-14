@@ -142,11 +142,16 @@ func _open_story() -> void:
 	story_screen.preferences = preferences
 	story_screen.audio_runtime = audio_runtime
 	story_screen.menu_requested.connect(_close_story)
-	story_screen.settings_requested.connect(_open_settings)
+	story_screen.progress_reset_requested.connect(_reset_progress_from_story)
 	story_screen.match3_requested.connect(_handle_match3_request)
 	$Content.hide()
 	add_child(story_screen)
 	audio_runtime.set_scene("vn")
+
+
+func _reset_progress_from_story() -> void:
+	session.new_game()
+	match3_session.reset()
 
 
 func _handle_match3_request(level_id: String) -> void:
