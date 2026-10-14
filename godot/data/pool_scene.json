@@ -1,0 +1,810 @@
+{
+  "sceneId": "VN_SCENE_05_E2_PRE",
+  "sceneIndex": 5,
+  "nextSceneId": "",
+  "nextSceneIndex": -1,
+  "nextLevelId": "M3_02_POOL_LAUNDRY",
+  "onWinSceneIndex": 6,
+  "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+  "titles": {
+    "ru": "Мокрые показания",
+    "en": "Wet Testimony",
+    "be": "Мокрыя паказанні"
+  },
+  "lines": [
+    {
+      "id": "VN0143",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "У ДОСКИ СО СХЕМОЙ",
+          "text": "Профиль преступника: действует уверенно, любит риск и окружает себя тканью."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "AT THE BOARD WITH DIAGRAM",
+          "text": "Criminal profile: confident, loves risk, surrounds themselves with fabric."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЛЯ ДОШКІ СА СХЕМАЙ",
+          "text": "Профіль злачынцы: дзейнічае ўпэўнена, любіць рызыку і атачае сябе тканінай."
+        }
+      }
+    },
+    {
+      "id": "VN0144",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "СМОТРИТ НА СХЕМУ",
+          "text": "Ты описала центральную прачечную."
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "LOOKS AT THE DIAGRAM",
+          "text": "You just described the central laundry."
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "ГЛЯДЗІЦЬ НА СХЕМУ",
+          "text": "Ты апісала цэнтральную пральню."
+        }
+      }
+    },
+    {
+      "id": "VN0145",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ДОБАВЛЯЕТ СТРЕЛКУ",
+          "text": "Или её самого опасного клиента."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "ADDS AN ARROW",
+          "text": "Or its most dangerous customer."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ДАДАЕ СТРЭЛКУ",
+          "text": "Або яе самага небяспечнага кліента."
+        }
+      }
+    },
+    {
+      "id": "VN0146",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "С ЖУРНАЛОМ",
+          "text": "Пропали мужские боксеры, женские трусики, два нейтральных спортивных комплекта и полотенце."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "WITH LOG",
+          "text": "Missing: men’s boxers, women’s panties, two neutral sports sets, and a towel."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "З ЖУРНАЛАМ",
+          "text": "Зніклі мужчынскія баксёры, жаночыя трусікі, два нейтральныя спартыўныя камплекты і ручнік."
+        }
+      }
+    },
+    {
+      "id": "VN0147",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ЗАДУМЧИВАЯ",
+          "text": "Всеядный эстет."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "THOUGHTFUL",
+          "text": "An omnivorous aesthete."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗАДУМЕННАЯ",
+          "text": "Усеядны эстэт."
+        }
+      }
+    },
+    {
+      "id": "VN0148",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ИСПРАВЛЯЕТ",
+          "text": "Либо отсутствие эстетического критерия."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "CORRECTING",
+          "text": "Or no aesthetic criterion at all."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ВЫПРАЎЛЯЕ",
+          "text": "Або адсутнасць эстэтычнага крытэрыю."
+        }
+      }
+    },
+    {
+      "id": "VN0149",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "SFX: ДВЕРЬ ДУШЕВОЙ",
+          "text": "Появляется Норихиро в длинном командном халате, с планшетом и связкой ключей."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "SFX: SHOWER DOOR",
+          "text": "Norihiro appears in a long team robe, carrying a tablet and a ring of keys."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "SFX: ДЗВЕРЫ ДУШАВОЙ",
+          "text": "З'яўляецца Норыхіра ў доўгім камандным халаце, з планшэтам і са звязкай ключоў."
+        }
+      }
+    },
+    {
+      "id": "VN0150",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "СПОКОЙНЫЙ",
+          "text": "Если схема обо мне, стрелка должна вести к сервисному шкафу."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "CALM",
+          "text": "If that diagram is about me, the arrow should point to the service cabinet."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "СПАКОЙНЫ",
+          "text": "Калі схема пра мяне, стрэлка павінна весці да службовай шафы."
+        }
+      }
+    },
+    {
+      "id": "VN0151",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-embarrassed.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ЗАСТИГНУТА",
+          "text": "Мы реконструировали психологию неизвестного вора."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "CAUGHT OFF GUARD",
+          "text": "We were reconstructing the psychology of an unknown thief."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗАСПЕТАЯ ЗНЯНАЦКУ",
+          "text": "Мы рэканструявалі псіхалогію невядомага злодзея."
+        }
+      }
+    },
+    {
+      "id": "VN0152",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "СМОТРИТ НА НАДПИСЬ «ХИЩНИК»",
+          "text": "Конечно."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "LOOKS AT “PREDATOR” LABEL",
+          "text": "Of course."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "ГЛЯДЗІЦЬ НА НАДПІС «ДРАПЕЖНІК»",
+          "text": "Вядома."
+        }
+      }
+    },
+    {
+      "id": "VN0153",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПРЯМО",
+          "text": "Вы последним закрывали раздевалки и подписывали передачу мешков."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "DIRECT",
+          "text": "You were the last person to close the locker rooms and you signed the bag handoff."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "НАПРАМУЮ",
+          "text": "Вы апошнім зачынялі распранальні і падпісалі перадачу мяшкоў."
+        }
+      }
+    },
+    {
+      "id": "VN0154",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "КИВАЕТ",
+          "text": "Да. Затем забрал последний мешок домой: машинка остановилась на полоскании."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "NODS",
+          "text": "Yes. Then I took the last bag home: the machine stopped during the rinse cycle."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "КІВАЕ",
+          "text": "Так. Потым я забраў апошні мяшок дадому: машына спынілася на паласканні."
+        }
+      }
+    },
+    {
+      "id": "VN0155",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "ПРИЩУРИВАЕТСЯ",
+          "text": "Вы слишком спокойны для мужчины, окружённого таким количеством белья."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "NARROWS EYES",
+          "text": "You are too calm for a man surrounded by this much underwear."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ПРЫЖМУРВАЕЦЦА",
+          "text": "Вы занадта спакойны для мужчыны, акружанага такой колькасцю бялізны."
+        }
+      }
+    },
+    {
+      "id": "VN0156",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "НЕВОЗМУТИМО",
+          "text": "Я менеджер клуба плавания. Мой порог смущения утонул на первом курсе."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "UNFAZED",
+          "text": "I manage the swimming club. My embarrassment threshold drowned in first year."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "НЕЗВАРУШНА",
+          "text": "Я менеджар клуба плавання. Мой парог збянтэжанасці патануў яшчэ на першым курсе."
+        }
+      }
+    },
+    {
+      "id": "VN0157",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 50,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ (МЫСЛИ)",
+          "emotion": "СУХО",
+          "text": "Кажется, Аюки только что проиграла человеку в халате."
+        },
+        "en": {
+          "speaker": "MIKU (THOUGHTS)",
+          "emotion": "DRY",
+          "text": "I think Ayuki just lost to a man in a bathrobe."
+        },
+        "be": {
+          "speaker": "МІКУ (ДУМКІ)",
+          "emotion": "СУХА",
+          "text": "Здаецца, Аюкі толькі што прайграла чалавеку ў халаце."
+        }
+      }
+    },
+    {
+      "id": "VN0158",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "ПОКАЗЫВАЕТ ЖУРНАЛ",
+          "text": "Ошибки сортировки случаются. Сначала отделите клубные бирки и найдите ключ от сервисного шкафа."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "SHOWS THE LOG",
+          "text": "Sorting errors happen. Separate the club tags first and find the service-cabinet key."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "ПАКАЗВАЕ ЖУРНАЛ",
+          "text": "Памылкі сартавання здараюцца. Спачатку аддзяліце клубныя біркі і знайдзіце ключ ад службовай шафы."
+        }
+      }
+    },
+    {
+      "id": "VN0159",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПОДОЗРИТЕЛЬНАЯ",
+          "text": "Вы охотно помогаете."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "SUSPICIOUS",
+          "text": "You are very willing to help."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ПАДАЗРОНАЯ",
+          "text": "Вы ахвотна дапамагаеце."
+        }
+      }
+    },
+    {
+      "id": "VN0160",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "РОВНО",
+          "text": "Потому что завтра в шесть утра тренировка, а половина команды обвиняет вторую половину."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "EVENLY",
+          "text": "Because practice starts at six tomorrow morning, and half the team is accusing the other half."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "РОЎНА",
+          "text": "Бо заўтра ў шэсць раніцы трэніроўка, а палова каманды абвінавачвае другую палову."
+        }
+      }
+    },
+    {
+      "id": "VN0161",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "miku",
+          "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+          "x": 29,
+          "top": 37.14,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "МИКУ",
+          "emotion": "МЯГКО",
+          "text": "Кто имел доступ после возврата стирки?"
+        },
+        "en": {
+          "speaker": "MIKU",
+          "emotion": "GENTLY",
+          "text": "Who had access after the laundry came back?"
+        },
+        "be": {
+          "speaker": "МІКУ",
+          "emotion": "МЯККА",
+          "text": "Хто меў доступ пасля вяртання рэчаў з прання?"
+        }
+      }
+    },
+    {
+      "id": "VN0162",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "ПЕРЕЧИСЛЯЕТ",
+          "text": "Я, два капитана и уборка. Но исчезли вещи из разных секций."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "LISTING",
+          "text": "Me, two captains, and cleaning staff. But items disappeared from different sections."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "ПЕРАЛІЧВАЕ",
+          "text": "Я, два капітаны і прыбіральшчыкі. Але рэчы зніклі з розных секцый."
+        }
+      }
+    },
+    {
+      "id": "VN0163",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "onoe",
+          "asset": "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png",
+          "x": 29,
+          "top": 37.9,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "ОНОЭ",
+          "emotion": "СОСРЕДОТОЧЕННАЯ",
+          "text": "Проверим партию, секции и последовательность открытия."
+        },
+        "en": {
+          "speaker": "ONOE",
+          "emotion": "FOCUSED",
+          "text": "We check the batch, the sections, and the opening sequence."
+        },
+        "be": {
+          "speaker": "ОНОЭ",
+          "emotion": "ЗАСЯРОДЖАНАЯ",
+          "text": "Праверым партыю, секцыі і паслядоўнасць адкрыцця."
+        }
+      }
+    },
+    {
+      "id": "VN0164",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "ayuki",
+          "asset": "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 33.39,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "АЮКИ",
+          "emotion": "СВОРАЧИВАЕТ СХЕМУ",
+          "text": "А профиль временно назовём рабочей фантазией."
+        },
+        "en": {
+          "speaker": "AYUKI",
+          "emotion": "ROLLS UP THE DIAGRAM",
+          "text": "And temporarily rename the profile “working fantasy”."
+        },
+        "be": {
+          "speaker": "АЮКІ",
+          "emotion": "ЗГОРТВАЕ СХЕМУ",
+          "text": "А профіль часова назавём рабочай фантазіяй."
+        }
+      }
+    },
+    {
+      "id": "VN0165",
+      "hidden": false,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [
+        {
+          "character": "norihiro",
+          "asset": "./assets/characters/norihiro/rig/pose_a/frames/frame-neutral.png",
+          "x": 71,
+          "top": 39.81,
+          "height": 128.16,
+          "scale": 1,
+          "y": 0,
+          "z": 0
+        }
+      ],
+      "localized": {
+        "ru": {
+          "speaker": "НОРИХИРО",
+          "emotion": "СУХО",
+          "text": "Назовите его мусором и уберите с моей скамьи."
+        },
+        "en": {
+          "speaker": "NORIHIRO",
+          "emotion": "DRY",
+          "text": "Call it trash and get it off my bench."
+        },
+        "be": {
+          "speaker": "НОРЫХІРА",
+          "emotion": "СУХА",
+          "text": "Назавіце яго смеццем і прыбярыце з маёй лаўкі."
+        }
+      }
+    },
+    {
+      "id": "VN0166",
+      "hidden": true,
+      "background": "./assets/backgrounds/BG_POOL_LOCKER_EVENING.webp",
+      "actors": [],
+      "localized": {
+        "ru": {
+          "speaker": "РЕЖИССУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Пена и мокрые полотенца формируют поле."
+        },
+        "en": {
+          "speaker": "STAGE DIRECTION",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Foam and wet towels form the game board."
+        },
+        "be": {
+          "speaker": "РЭЖЫСУРА",
+          "emotion": "TRANSITION TO MATCH-3",
+          "text": "Пена і мокрыя ручнікі фарміруюць гульнявое поле."
+        }
+      }
+    }
+  ]
+}

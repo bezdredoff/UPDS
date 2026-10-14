@@ -10,7 +10,10 @@ const LockerScene = preload("res://data/locker_scene.json")
 const PostMatchScene = preload("res://data/post_match_scene.json")
 const PhotoScene = preload("res://data/photo_scene.json")
 const PostPhotoScene = preload("res://data/post_photo_scene.json")
+const PoolScene = preload("res://data/pool_scene.json")
+const PostPoolScene = preload("res://data/post_pool_scene.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
+const MAX_PORTED_SCENE_INDEX := 6
 
 var store: RefCounted
 var state: Dictionary = Format.fresh_story()
@@ -34,7 +37,7 @@ func has_progress() -> bool:
 
 
 func supports_position() -> bool:
-	return state.scene >= 0 and state.scene <= 4 and state.line >= 0 and state.line < _scene_lines().size()
+	return state.scene >= 0 and state.scene <= MAX_PORTED_SCENE_INDEX and state.line >= 0 and state.line < _scene_lines().size()
 
 
 func new_game() -> void:
@@ -65,7 +68,7 @@ func at_match3_gate() -> bool:
 func at_port_boundary() -> bool:
 	var next_scene_index: int = int(scene_data().get("nextSceneIndex", -1))
 	return supports_position() and state.line == _scene_lines().size() - 1 and not at_match3_gate() \
-		and (next_scene_index < 0 or next_scene_index > 4)
+		and (next_scene_index < 0 or next_scene_index > MAX_PORTED_SCENE_INDEX)
 
 
 func complete_match3(level_id: String) -> bool:
@@ -75,7 +78,7 @@ func complete_match3(level_id: String) -> bool:
 	if level_index < 0:
 		return false
 	var next_scene_index: int = int(scene_data().get("onWinSceneIndex", -1))
-	if next_scene_index < 0 or next_scene_index > 4:
+	if next_scene_index < 0 or next_scene_index > MAX_PORTED_SCENE_INDEX:
 		return false
 	if not state.completed.has(level_index):
 		state.completed.append(level_index)
@@ -100,6 +103,8 @@ func scene_data() -> Dictionary:
 		2: return PostMatchScene.data
 		3: return PhotoScene.data
 		4: return PostPhotoScene.data
+		5: return PoolScene.data
+		6: return PostPoolScene.data
 	return {}
 
 
@@ -126,7 +131,7 @@ func advance() -> bool:
 	if moved:
 		state.line += 1
 		_skip_hidden()
-	elif int(scene_data().get("nextSceneIndex", -1)) >= 0 and int(scene_data().get("nextSceneIndex", -1)) <= 4:
+	elif int(scene_data().get("nextSceneIndex", -1)) >= 0 and int(scene_data().get("nextSceneIndex", -1)) <= MAX_PORTED_SCENE_INDEX:
 		state.scene = int(scene_data().nextSceneIndex)
 		state.line = 0
 		moved = true
@@ -166,4 +171,8 @@ func _scene_lines() -> Array:
 		return PhotoScene.data.lines
 	if state.scene == 4:
 		return PostPhotoScene.data.lines
+	if state.scene == 5:
+		return PoolScene.data.lines
+	if state.scene == 6:
+		return PostPoolScene.data.lines
 	return []
