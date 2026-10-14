@@ -1,4 +1,5 @@
 import { levels, tilePresentation } from '../../src/data/levels';
+import { Match3Game } from '../../src/engine/Match3Game';
 import { beCatalog } from '../../src/localization/catalogs/be';
 import { enCatalog } from '../../src/localization/catalogs/en';
 import { ruCatalog } from '../../src/localization/catalogs/ru';
@@ -10,6 +11,7 @@ if (!level || level.id !== 'M3_00_LOCKER_TUTORIAL') throw new Error('The first M
 export function godotMatch3Level() {
   const key = `match3.level.${level.id}`;
   const tutorial = 'match3.tutorial.basic-swap';
+  const seededOpeningBoard = new Match3Game(level).board.map((cell) => cell.tile);
   return {
     id: level.id,
     shortId: level.shortId,
@@ -20,6 +22,7 @@ export function godotMatch3Level() {
     target: level.objectives[0]?.kind === 'collect' ? level.objectives[0].target : 0,
     objectiveTile: level.objectives[0]?.kind === 'collect' ? level.objectives[0].tile : '',
     activeTiles: level.activeTiles,
+    seededOpeningBoard,
     assets: Object.fromEntries(level.activeTiles.map((tile) => [tile, tilePresentation[tile].asset])),
     localized: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
       title: catalog[`${key}.title`],

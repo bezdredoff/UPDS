@@ -19,6 +19,7 @@ func _run() -> void:
 		assert(absf(random.next_float() - value) < 0.000000000001, "Version-1 seeded random stream changed")
 	var game: RefCounted = Game.new()
 	assert(game.tiles.size() == 63)
+	assert(game.tiles == Level.data.seededOpeningBoard, "Godot opening board differs from the canonical web seed layout")
 	assert(game.moves_left == 24 and game.collected == 0)
 	assert(game.find_matches().is_empty(), "Initial board has an immediate match")
 	assert(game.has_available_move(), "Initial board has no legal swap")
