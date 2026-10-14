@@ -688,14 +688,26 @@ func _render_frame(frame: Dictionary) -> void:
 			var cell := board.get_child(int(motion.index)) as Control
 			var tile_stack := cell.get_node_or_null("TileStack") as Control
 			if tile_stack == null: continue
-			var distance := float(motion.rows) * (cell.size.y + float(board.get_theme_constant("v_separation")))
-			tile_stack.position.y = -distance
-			tile_stack.modulate.a = 0.05 if bool(motion.spawn) else 1.0
+			var distance := float(motion.rows) * cell.size.y
+			var is_spawn := bool(motion.spawn)
+			var settle_mark := 0.78 if is_spawn else 0.72
+			var settle_scale := 1.02 if is_spawn else 1.015
+			var bezier := Callable(self, "_css_settle_ease")
+			tile_stack.offset_top = -distance
+			tile_stack.offset_bottom = -distance
+			tile_stack.scale = Vector2(0.86, 0.86) if is_spawn else Vector2(0.98, 0.98)
+			tile_stack.modulate.a = 0.05 if is_spawn else 1.0
 			var tween := create_tween()
-			tween.tween_property(tile_stack, "position:y", 0.0, SETTLE_MOTION_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			tween.parallel().tween_property(tile_stack, "modulate:a", 1.0, SETTLE_MOTION_SECONDS * 0.68)
-			tween.parallel().tween_property(tile_stack, "scale", Vector2(1.015, 1.015), SETTLE_MOTION_SECONDS * 0.72)
-			tween.tween_property(tile_stack, "scale", Vector2.ONE, SETTLE_MOTION_SECONDS * 0.28)
+			tween.tween_property(tile_stack, "offset_top", cell.size.y * 0.03, SETTLE_MOTION_SECONDS * settle_mark).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+			tween.parallel().tween_property(tile_stack, "offset_bottom", cell.size.y * 0.03, SETTLE_MOTION_SECONDS * settle_mark).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+			tween.parallel().tween_property(tile_stack, "scale", Vector2(settle_scale, settle_scale), SETTLE_MOTION_SECONDS * settle_mark).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+			tween.tween_property(tile_stack, "offset_top", 0.0, SETTLE_MOTION_SECONDS * (1.0 - settle_mark)).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+			tween.parallel().tween_property(tile_stack, "offset_bottom", 0.0, SETTLE_MOTION_SECONDS * (1.0 - settle_mark)).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+			var settle_back := tween.parallel().tween_property(tile_stack, "scale", Vector2.ONE, SETTLE_MOTION_SECONDS * (1.0 - settle_mark)).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+			settle_back.from(Vector2(settle_scale, settle_scale))
+			if is_spawn:
+				var opacity := create_tween()
+				opacity.tween_property(tile_stack, "modulate:a", 1.0, SETTLE_MOTION_SECONDS * 0.68).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
 	elif str(frame.phase) == "reshuffle":
 		_show_match_feedback("reshuffled")
 		for cell_value in board.get_children():
@@ -711,6 +723,20 @@ func _render_frame(frame: Dictionary) -> void:
 			tween.parallel().tween_property(tile_stack, "modulate:a", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65)
 			tween.tween_property(tile_stack, "scale", Vector2.ONE, RESHUFFLE_MOTION_SECONDS * 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			tween.parallel().tween_property(tile_stack, "rotation_degrees", 0.0, RESHUFFLE_MOTION_SECONDS * 0.35)
+
+
+func _css_settle_ease(progress: float) -> float:
+	# CSS cubic-bezier(.18, .82, .28, 1) is defined in x-space; invert x(t)
+	# so Godot's custom interpolator follows the same timing curve.
+	var t := clampf(progress, 0.0, 1.0)
+	for _iteration in 6:
+		var inverse := 1.0 - t
+		var x := 3.0 * inverse * inverse * t * 0.18 + 3.0 * inverse * t * t * 0.28 + t * t * t
+		var derivative := 3.0 * inverse * inverse * 0.18 + 6.0 * inverse * t * (0.28 - 0.18) + 3.0 * t * t * (1.0 - 0.28)
+		if absf(derivative) < 0.00001: break
+		t = clampf(t - (x - progress) / derivative, 0.0, 1.0)
+	var inverse := 1.0 - t
+	return 3.0 * inverse * inverse * t * 0.82 + 3.0 * inverse * t * t + t * t * t
 
 
 func _animate_swap(first: int, second: int, return_to_start: bool) -> void:

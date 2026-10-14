@@ -71,6 +71,29 @@ func _run() -> void:
 	assert(hinted_cell.scale.x < 0.99 and hinted_cell.modulate.r > 1.0, "Hint pulse did not animate the cell and its brightness")
 	match3.hinted_indices.clear()
 	match3._render_board()
+	var settle_index := -1
+	for index in match3.game.tiles.size():
+		if not match3.game.tiles[index].is_empty() and match3.game.blocker_layers[index] == 0:
+			settle_index = index
+			break
+	assert(settle_index >= 0, "Match-3 board has no open cell for the settle animation sample")
+	match3._render_frame({
+		"phase": "settle",
+		"tiles": match3.game.tiles.duplicate(),
+		"specials": match3.game.specials.duplicate(),
+		"blockers": match3.game.blocker_layers.duplicate(),
+		"ingredients": match3.game.ingredients.duplicate(),
+		"motions": [{"index": settle_index, "rows": 2, "spawn": true}],
+	})
+	var settle_cell: Control = match3.board.get_child(settle_index)
+	var settle_stack: Control = settle_cell.get_node("TileStack")
+	assert(is_equal_approx(settle_stack.offset_top, -settle_cell.size.y * 2.0) and is_equal_approx(settle_stack.offset_bottom, -settle_cell.size.y * 2.0), "Spawn offset mismatch top=%s bottom=%s size=%s" % [settle_stack.offset_top, settle_stack.offset_bottom, settle_cell.size])
+	assert(settle_stack.scale.is_equal_approx(Vector2(0.86, 0.86)) and is_equal_approx(settle_stack.modulate.a, 0.05), "Spawn animation did not match its source start scale and opacity")
+	await create_timer(0.25).timeout
+	assert(settle_stack.offset_top > 0.0 and settle_stack.offset_top < settle_cell.size.y * 0.08, "Spawn animation missed the source 3% overshoot")
+	await create_timer(0.1).timeout
+	assert(is_zero_approx(settle_stack.offset_top) and is_zero_approx(settle_stack.offset_bottom) and settle_stack.scale.is_equal_approx(Vector2.ONE) and is_equal_approx(settle_stack.modulate.a, 1.0), "Spawn animation did not settle to its source end state")
+	match3._render_board()
 	match3.story_session = menu.session
 	menu._open_story()
 	await process_frame
