@@ -22,6 +22,8 @@ describe('Godot bundled UI fonts', () => {
     }
     expect(uiFonts).toContain('static func sans');
     expect(uiFonts).toContain('static func match3');
+    expect(uiFonts).toContain('font.font_names = PackedStringArray(["Comic Sans MS", "Trebuchet MS"])');
+    expect(uiFonts).toContain('font.fallbacks = [bundled]');
     expect(menu).toContain('default_font = ExtResource("7_ui_fonts")');
     expect(vn).toContain('UiFonts.sans');
     expect(match3).toContain('UiFonts.match3');

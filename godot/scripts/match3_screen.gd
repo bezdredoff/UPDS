@@ -269,7 +269,7 @@ func _ready() -> void:
 	tutorial_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tutorial_body.add_theme_font_size_override("font_size", 13)
 	tutorial_body.add_theme_constant_override("line_spacing", 0)
-	var tutorial_sans := UiFonts.match3(700)
+	var tutorial_sans := UiFonts.sans(700)
 	tutorial_body.add_theme_font_override("font", tutorial_sans)
 	tutorial_content.add_child(tutorial_title_body_gap)
 	tutorial_content.move_child(tutorial_body, tutorial_content.get_child_count() - 1)
@@ -331,6 +331,7 @@ func _ready() -> void:
 	objective_content.add_theme_constant_override("separation", 1)
 	objective_panel.add_child(objective_content)
 	objective_heading = _label(objective_content, 9, Color("#326349"))
+	objective_heading.add_theme_font_override("font", UiFonts.match3(800))
 	objective_heading.text = {"ru": "ЦЕЛЬ", "be": "МЭТА", "en": "GOAL"}.get(preferences.locale, "GOAL")
 	var objective_row := HBoxContainer.new()
 	objective_row.add_theme_constant_override("separation", 4)
@@ -342,6 +343,7 @@ func _ready() -> void:
 	objective_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	objective_row.add_child(objective_icon)
 	objective = _label(objective_row, 14, Color("#326349"))
+	objective.add_theme_font_override("font", UiFonts.match3(800))
 	objective.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	objective.add_theme_font_size_override("font_size", 14)
 	var hud_spacer := Control.new()
@@ -356,8 +358,10 @@ func _ready() -> void:
 	stage_content.add_theme_constant_override("separation", 1)
 	stage_panel.add_child(stage_content)
 	moves_heading = _label(stage_content, 9, Color("#326349"))
+	moves_heading.add_theme_font_override("font", UiFonts.match3(800))
 	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(preferences.locale, "MOVES")
 	moves = _label(stage_content, 14, Color("#326349"))
+	moves.add_theme_font_override("font", UiFonts.match3(800))
 	moves.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	moves.add_theme_font_size_override("font_size", 14)
 	board_center = CenterContainer.new()
@@ -451,8 +455,10 @@ func _ready() -> void:
 	bark_lines.add_theme_constant_override("separation", 1)
 	bark_row.add_child(bark_lines)
 	bark_speaker = _label(bark_lines, 9, Color("#326349"))
+	bark_speaker.add_theme_font_override("font", UiFonts.match3(850))
 	bark_speaker.add_theme_color_override("font_color", Color("#326349"))
 	bark_lines.add_child(bark)
+	bark.add_theme_font_override("font", UiFonts.match3(500))
 	hint_button = _button(bark_row)
 	hint_button.custom_minimum_size = Vector2(94, 48)
 	hint_button.text = ""
@@ -472,6 +478,7 @@ func _ready() -> void:
 	hint_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hint_content.add_child(hint_icon)
 	hint_label = _label(hint_content, 9, Color("#326349"))
+	hint_label.add_theme_font_override("font", UiFonts.match3(900))
 	hint_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -2153,7 +2160,6 @@ func _continue_story() -> void:
 
 func _label(parent: Node, size: int, color: Color) -> Label:
 	var label := Label.new()
-	label.add_theme_font_override("font", UiFonts.match3())
 	label.add_theme_font_size_override("font_size", size)
 	label.add_theme_color_override("font_color", color)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -2228,6 +2234,7 @@ func _style_header_button(button: Button, background: Color = Color("#0b2038")) 
 func _style_hint_button(button: Button) -> void:
 	button.custom_minimum_size = Vector2(94, 48)
 	button.add_theme_font_size_override("font_size", 9)
+	button.add_theme_font_override("font", UiFonts.match3(900))
 	button.add_theme_color_override("font_color", Color("#326349"))
 	button.add_theme_color_override("font_hover_color", Color("#244d39"))
 	var transparent := StyleBoxFlat.new()
@@ -2288,7 +2295,7 @@ func _style_tutorial_button(button: Button) -> void:
 	button.add_theme_color_override("font_color", Color("#fff7dc"))
 	button.add_theme_color_override("font_hover_color", Color("#fff7dc"))
 	button.add_theme_color_override("font_pressed_color", Color("#fff7dc"))
-	var tutorial_button_font := UiFonts.match3(700)
+	var tutorial_button_font := UiFonts.sans(950)
 	button.add_theme_font_override("font", tutorial_button_font)
 	var normal := StyleBoxFlat.new()
 	normal.bg_color = Color("#2f6549")
