@@ -940,6 +940,13 @@ func _vn_reading_controls(menu: Control) -> void:
 	screen.history_button.pressed.emit()
 	assert(screen.overlay_title.text == Copy.text("vn_history", menu.preferences.locale))
 	assert(screen.overlay_body.get_child_count() >= 3, "Dialogue history should include read lines and the current line")
+	var first_history_entry: VBoxContainer = screen.overlay_body.get_child(0)
+	var first_row_margin: MarginContainer = first_history_entry.get_child(0)
+	var first_row_content: VBoxContainer = first_row_margin.get_child(0)
+	assert(first_row_content.get_child(0).is_class("HBoxContainer"),
+		"Dialogue history rows should have a flat transcript header")
+	assert(first_row_content.get_child(0).get_child(1).text == "#1",
+		"Dialogue history rows should keep the source transcript sequence numbers")
 	screen._close_overlay()
 	screen.settings_button.pressed.emit()
 	assert(screen.overlay.find_child("Audio_musicVolume", true, false) != null)

@@ -1191,6 +1191,7 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 
 func _show_history() -> void:
 	_create_overlay(Copy.text("vn_history", preferences.locale), "CASE LOG")
+	overlay_body.add_theme_constant_override("separation", 0)
 	var history: Array = session.read_history()
 	var current: Dictionary = session.current_line()
 	if not current.is_empty() and not current.get("hidden", false):
@@ -1201,29 +1202,49 @@ func _show_history() -> void:
 		var empty := _label(overlay_body, 14)
 		empty.text = Copy.text("vn_history_empty", preferences.locale)
 		return
-	for entry in history:
+	for index in range(history.size()):
+		var entry: Dictionary = history[index]
 		var localized: Dictionary = entry.localized[preferences.locale]
-		var history_card := PanelContainer.new()
-		var card_style := StyleBoxFlat.new()
-		card_style.bg_color = Color("#fffdf7")
-		card_style.border_color = Color("#e2d5bb")
-		card_style.set_border_width_all(1)
-		card_style.set_corner_radius_all(9)
-		card_style.content_margin_left = 10
-		card_style.content_margin_right = 10
-		card_style.content_margin_top = 8
-		card_style.content_margin_bottom = 8
-		history_card.add_theme_stylebox_override("panel", card_style)
-		overlay_body.add_child(history_card)
 		var entry_body := VBoxContainer.new()
-		entry_body.add_theme_constant_override("separation", 4)
-		history_card.add_child(entry_body)
-		var speaker_label := _label(entry_body, 10)
+		entry_body.name = "DialogueHistoryEntry"
+		entry_body.add_theme_constant_override("separation", 0)
+		overlay_body.add_child(entry_body)
+		var row_margin := MarginContainer.new()
+		row_margin.add_theme_constant_override("margin_left", 11)
+		row_margin.add_theme_constant_override("margin_right", 11)
+		row_margin.add_theme_constant_override("margin_top", 10)
+		row_margin.add_theme_constant_override("margin_bottom", 10)
+		entry_body.add_child(row_margin)
+		var row_content := VBoxContainer.new()
+		row_content.add_theme_constant_override("separation", 5)
+		row_margin.add_child(row_content)
+		var line_header := HBoxContainer.new()
+		line_header.add_theme_constant_override("separation", 8)
+		row_content.add_child(line_header)
+		var is_direction: bool = str(entry.get("speaker", "")) in ["РЕЖИССУРА", "СИСТЕМА"]
+		var speaker_label := _label(line_header, 10)
 		speaker_label.text = localized.speaker
-		speaker_label.add_theme_color_override("font_color", Color("#2a4b76"))
-		var text_label := _label(entry_body, 14)
+		speaker_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var speaker_font := SystemFont.new()
+		speaker_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+		speaker_font.font_weight = 700
+		speaker_label.add_theme_font_override("font", speaker_font)
+		speaker_label.add_theme_color_override("font_color", Color("#2b6f6c") if is_direction else Color("#2a4b76"))
+		var number_label := _label(line_header, 8)
+		number_label.text = "#%d" % (index + 1)
+		number_label.add_theme_color_override("font_color", Color("#9b8665"))
+		var text_label := _label(row_content, 14)
 		text_label.text = localized.text
 		text_label.add_theme_font_override("font", _serif_font())
+		text_label.add_theme_color_override("font_color", Color("#302c3e"))
+		if index < history.size() - 1:
+			var divider := Panel.new()
+			divider.name = "HistoryDivider"
+			divider.custom_minimum_size.y = 1
+			var divider_style := StyleBoxFlat.new()
+			divider_style.bg_color = Color("#dfcfae")
+			divider.add_theme_stylebox_override("panel", divider_style)
+			entry_body.add_child(divider)
 
 
 func _show_dossier() -> void:
