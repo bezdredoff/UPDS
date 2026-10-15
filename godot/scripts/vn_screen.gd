@@ -415,8 +415,9 @@ func _add_clue_toast(clue_id: String, locale: String) -> void:
 		toast.anchor_bottom = 0
 		toast.offset_left = 14
 		toast.offset_right = -14
-		toast.offset_top = 0
-		toast.offset_bottom = 62
+		toast.offset_top = -8
+		toast.offset_bottom = 54
+		toast.modulate.a = 0.0
 		toast.z_index = 8
 		toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var style := StyleBoxFlat.new()
@@ -462,9 +463,10 @@ func _add_clue_toast(clue_id: String, locale: String) -> void:
 		stage.add_child(toast)
 		var tween := create_tween()
 		tween.set_parallel(true)
-		tween.tween_property(toast, "modulate:a", 1.0, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(toast, "offset_top", 8.0, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(toast, "offset_bottom", 70.0, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		var css_ease_out := Callable(self, "_css_cubic_bezier").bind(0.0, 0.0, 0.58, 1.0)
+		tween.tween_property(toast, "modulate:a", 1.0, 0.4).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+		tween.tween_property(toast, "offset_top", 8.0, 0.4).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+		tween.tween_property(toast, "offset_bottom", 70.0, 0.4).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 		return
 
 
@@ -509,6 +511,10 @@ func _animate_portrait(portrait: TextureRect, travel: float) -> void:
 	rise.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(ease_in_out)
 	var fall: PropertyTweener = breathing.tween_property(portrait, "position", resting_position, 1.4)
 	fall.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(ease_in_out)
+
+
+func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: float) -> float:
+	return CssMotion.cubic_bezier(progress, x1, y1, x2, y2)
 
 
 func _idle_breathe_curve(progress: float) -> float:

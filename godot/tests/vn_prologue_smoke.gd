@@ -252,6 +252,14 @@ func _run() -> void:
 	var clue_toast := screen.stage.find_child("ClueToast", true, false) as PanelContainer
 	assert(clue_toast != null and clue_toast.visible, "Returning from an earned clue did not show the animated VN toast")
 	assert((clue_toast.find_child("ClueImage", true, false) as TextureRect).texture != null, "VN clue toast did not render its evidence art")
+	assert(clue_toast.modulate.a < 1.0 and clue_toast.offset_top < 8.0,
+		"Clue toast should begin faded and 8px above its final CSS position")
+	var clue_enter_wait := 0.0
+	while (clue_toast.modulate.a < 0.99 or absf(clue_toast.offset_top - 8.0) > 0.1) and clue_enter_wait < 1.0:
+		await create_timer(0.05).timeout
+		clue_enter_wait += 0.05
+	assert(absf(clue_toast.modulate.a - 1.0) <= 0.01 and absf(clue_toast.offset_top - 8.0) <= 0.1,
+		"Clue toast should finish at the source 8px top position and full opacity")
 	assert(screen.speaker.text == PostMatchScene.data.lines[1].localized.en.speaker)
 	assert(session.current_line().id == "VN0059")
 	assert(screen.dialogue.text == PostMatchScene.data.lines[1].localized.en.text)
