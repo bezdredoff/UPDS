@@ -73,6 +73,7 @@ func _ready() -> void:
 
 
 func _layout_menu() -> void:
+	var compact := size.y <= 760.0
 	var phone_width: float = minf(size.x, PhoneFrame.MAX_WIDTH)
 	$Background.offset_left = -phone_width * 0.5
 	$Background.offset_right = phone_width * 0.5
@@ -81,6 +82,17 @@ func _layout_menu() -> void:
 	var content_width: float = maxf(0.0, phone_width - 56.0)
 	$Content.offset_left = -content_width * 0.5
 	$Content.offset_right = content_width * 0.5
+	$Content.offset_top = 26.0 if compact else 42.0
+	$Content.anchor_bottom = 1.0 - 24.0 / size.y
+	$Content.add_theme_constant_override("separation", 8 if compact else 6)
+	var title_size := 38 if compact else 44
+	$Content/Title.add_theme_font_size_override("font_size", title_size)
+	$Content/Accent.add_theme_font_size_override("font_size", title_size)
+	var hero_size := 66.0 if compact else 78.0
+	$Content/Hero.custom_minimum_size.y = hero_size
+	for portrait in $Content/Hero.get_children():
+		portrait.custom_minimum_size = Vector2(hero_size, hero_size)
+	$Content/FooterSpacer.custom_minimum_size.y = 17.0
 
 
 func _refresh_copy(locale: String) -> void:

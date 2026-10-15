@@ -68,5 +68,23 @@ func _run_smoke() -> void:
 		assert(not MenuCopy.text("new_game", supported_locale).is_empty())
 		assert(not MenuCopy.text("settings", supported_locale).is_empty())
 
+	menu.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	menu.size = Vector2(390, 664)
+	menu._layout_menu()
+	assert(is_equal_approx(menu.get_node("Content").offset_top, 26.0),
+		"Compact menu should use the source's 26 px top inset")
+	assert(menu.get_node("Content/Title").get_theme_font_size("font_size") == 38,
+		"Compact menu title should match the source's 38 px heading")
+	assert(is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 66.0),
+		"Compact menu medallions should match the source's 66 px art")
+	assert(is_equal_approx(menu.get_node("Content").anchor_bottom, 1.0 - 24.0 / 664.0),
+		"Compact menu should preserve the source's 24 px bottom inset")
+	menu.size = Vector2(390, 854)
+	menu._layout_menu()
+	assert(is_equal_approx(menu.get_node("Content").offset_top, 42.0)
+		and menu.get_node("Content/Title").get_theme_font_size("font_size") == 44
+		and is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 78.0),
+		"Tall menu should restore the source's regular inset, heading and medallion sizes")
+
 	print("UPDS Godot main menu smoke test passed (locale: %s)." % locale)
 	quit()
