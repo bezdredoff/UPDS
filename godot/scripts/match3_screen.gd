@@ -93,6 +93,7 @@ var board: GridContainer
 var board_center: CenterContainer
 var board_top_spacer: Control
 var board_frame: PanelContainer
+var rendered_cell_signatures: Array[String] = []
 var back_button: Button
 var evidence_transition_overlay: Control
 var evidence_transition_image: TextureRect
@@ -162,7 +163,7 @@ func _ready() -> void:
 	margin.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	margin.add_theme_constant_override("margin_left", 12)
 	margin.add_theme_constant_override("margin_right", 12)
-	margin.add_theme_constant_override("margin_top", 10)
+	margin.add_theme_constant_override("margin_top", 0)
 	margin.add_theme_constant_override("margin_bottom", 12)
 	var content := VBoxContainer.new()
 	content.add_theme_constant_override("separation", 7)
@@ -689,10 +690,19 @@ func _render_board() -> void:
 	var reduced_motion := _prefers_reduced_motion()
 	var cell_size := _board_cell_size()
 	_clear_drag_preview()
-	for child in board.get_children():
-		board.remove_child(child)
-		child.queue_free()
+	if board.get_child_count() != game.tiles.size() or rendered_cell_signatures.size() != game.tiles.size():
+		for child in board.get_children():
+			board.remove_child(child)
+			child.queue_free()
+		rendered_cell_signatures.resize(game.tiles.size())
+		for index in rendered_cell_signatures.size(): rendered_cell_signatures[index] = ""
 	for index in game.tiles.size():
+		var signature := _rendered_cell_signature(index, cell_size, reduced_motion)
+		if rendered_cell_signatures[index] == signature:
+			var unchanged_cell := board.get_child(index) as Control
+			unchanged_cell.custom_minimum_size = Vector2(cell_size, cell_size)
+			unchanged_cell.pivot_offset = Vector2(cell_size, cell_size) * 0.5
+			continue
 		var tile_button := Button.new()
 		tile_button.custom_minimum_size = Vector2(cell_size, cell_size)
 		tile_button.pivot_offset = tile_button.custom_minimum_size * 0.5
@@ -970,8 +980,23 @@ func _render_board() -> void:
 			hint_ring_style.set_border_width_all(2)
 			hint_ring.add_theme_stylebox_override("panel", hint_ring_style)
 			tile_button.add_child(hint_ring)
+		if index < board.get_child_count():
+			var previous_cell := board.get_child(index)
+			board.remove_child(previous_cell)
+			previous_cell.queue_free()
 		board.add_child(tile_button)
+		board.move_child(tile_button, index)
+		rendered_cell_signatures[index] = signature
 	_fit_board_cells()
+
+
+func _rendered_cell_signature(index: int, cell_size: float, reduced_motion: bool) -> String:
+	return "%s|%s|%d|%s|%s|%s|%s|%.3f|%s" % [
+		game.tiles[index], game.specials[index], game.blocker_layers[index], game.ingredients[index],
+		"selected" if index == selected_index else "", "hinted" if hinted_indices.has(index) else "",
+		"disabled" if game.state != "playing" or tutorial_panel.visible or game.tiles[index].is_empty() or game.blocker_layers[index] > 0 else "active",
+		cell_size, "reduced" if reduced_motion else "motion",
+	]
 
 
 func _board_cell_size() -> float:

@@ -518,6 +518,8 @@ func _run() -> void:
 		and float(ingredient_material.get_shader_parameter("glow_strength")) < 0.05,
 		"Ingredient idle did not return to its source resting position and no-glow state")
 	match3._render_board()
+	var preserved_cell_index: int = (settle_index + 1) % match3.game.tiles.size()
+	var preserved_cell_id: int = match3.board.get_child(preserved_cell_index).get_instance_id()
 	match3._render_frame({
 		"phase": "clear",
 		"tiles": match3.game.tiles.duplicate(),
@@ -528,6 +530,8 @@ func _run() -> void:
 		"cascade": 1,
 		"feedback": "match",
 	})
+	assert(match3.board.get_child(preserved_cell_index).get_instance_id() == preserved_cell_id,
+		"A Match-3 frame rebuilt an unchanged cell and restarted its idle animation")
 	var clearing_stack: Control = match3.board.get_child(settle_index).get_node("TileStack")
 	await create_timer(0.12).timeout
 	assert(clearing_stack.scale.x > 1.05 and clearing_stack.modulate.r > 1.4, "Clear animation missed its source 1.1 scale and brightness peak")
