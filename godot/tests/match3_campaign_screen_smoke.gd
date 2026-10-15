@@ -150,6 +150,11 @@ func _run() -> void:
 		"Match-3 screen should not add the retired 55% navy background wash")
 	await process_frame
 	assert(match3.active_tutorial == "clear-package" and match3.tutorial_panel.visible, "Level-start blocker tutorial was not selected in authored order")
+	assert(match3.tutorial_overlay.z_index > 20 and match3.tutorial_overlay.z_index < 30,
+		"Tutorial overlay should cover elevated Match-3 tile art while staying beneath evidence and result overlays")
+	assert(is_equal_approx(match3.board_top_spacer.custom_minimum_size.y,
+		clampf((match3.size.y - 568.0) * 0.19, 0.0, 52.0)),
+		"Match-3 HUD-to-playfield gap did not update for the active viewport height")
 	assert(match3.tutorial_title.text == "Снимайте слои пакета", "Campaign tutorial copy did not use the localized concept")
 	var tutorial_card_rect: Rect2 = match3.tutorial_frame.get_global_rect()
 	var tutorial_button_rect: Rect2 = match3.tutorial_button.get_global_rect()

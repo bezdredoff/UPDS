@@ -90,6 +90,7 @@ var match_feedback_cascade := 1
 var warning: Label
 var board: GridContainer
 var board_center: CenterContainer
+var board_top_spacer: Control
 var board_frame: PanelContainer
 var back_button: Button
 var evidence_transition_overlay: Control
@@ -277,6 +278,9 @@ func _ready() -> void:
 	tutorial_button.pressed.connect(_dismiss_tutorial)
 	content.remove_child(tutorial_panel)
 	tutorial_overlay = Control.new()
+	# Board cells and the inner frame use elevated z-indices for tile effects.
+	# Keep the tutorial above those effects but beneath evidence and result overlays.
+	tutorial_overlay.z_index = 25
 	tutorial_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	tutorial_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	var tutorial_shade := ColorRect.new()
@@ -359,6 +363,10 @@ func _ready() -> void:
 	moves.add_theme_font_override("font", UiFonts.match3(800))
 	moves.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	moves.add_theme_font_size_override("font_size", 14)
+	board_top_spacer = Control.new()
+	board_top_spacer.name = "BoardHudSpacing"
+	board_top_spacer.custom_minimum_size.y = _board_hud_spacing()
+	content.add_child(board_top_spacer)
 	board_center = CenterContainer.new()
 	board_center.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(board_center)
@@ -411,6 +419,7 @@ func _ready() -> void:
 	board_frame.add_child(board)
 	board_frame.material = null
 	board_center.resized.connect(_fit_board_cells)
+	resized.connect(_fit_board_hud_spacing)
 	var bark_style := StyleBoxFlat.new()
 	bark_style.bg_color = Color("#fff7df")
 	bark_style.border_color = Color("#66755d")
@@ -937,6 +946,18 @@ func _board_cell_size() -> float:
 	var cell_width := (width_limit - 6.0 - float(columns - 1)) / float(columns)
 	# GridContainer does not include the UI A outline in its cell minimum size.
 	return maxf(1.0, cell_width + 1.0)
+
+
+func _board_hud_spacing() -> float:
+	# UI A anchors its board toward the bottom of the playfield, leaving a
+	# deliberate gap after the HUD. A short responsive spacer shifts the Godot
+	# center-layout equivalent down without affecting the dialogue slot.
+	return clampf((size.y - 568.0) * 0.19, 0.0, 52.0)
+
+
+func _fit_board_hud_spacing() -> void:
+	if is_instance_valid(board_top_spacer):
+		board_top_spacer.custom_minimum_size.y = _board_hud_spacing()
 
 
 func _fit_board_cells() -> void:
