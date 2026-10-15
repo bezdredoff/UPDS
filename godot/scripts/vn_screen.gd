@@ -673,9 +673,13 @@ func _update_dialogue_page() -> void:
 	prompt.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	prompt.add_theme_color_override("font_color", Color("#6d665e"))
 	prompt.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	prompt.pivot_offset = Vector2.ZERO
 	var pulse := prompt.create_tween().set_loops()
-	pulse.tween_property(prompt, "scale", Vector2(1.0, 0.78), 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	pulse.tween_property(prompt, "scale", Vector2.ONE, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	var ease_in_out := Callable(self, "_idle_breathe_curve")
+	pulse.tween_property(prompt, "offset_top", 3.0, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
+	pulse.parallel().tween_property(prompt, "modulate:a", 0.45, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
+	pulse.tween_property(prompt, "offset_top", 0.0, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
+	pulse.parallel().tween_property(prompt, "modulate:a", 1.0, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
 
 
 func _toggle_auto() -> void:
