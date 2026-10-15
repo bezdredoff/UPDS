@@ -16,7 +16,7 @@ describe('Godot port project shell', () => {
 		expect(project).toContain('config/features=PackedStringArray("4.7", "GL Compatibility")');
 		expect(project).toContain('run/main_scene="res://scenes/main_menu.tscn"');
 		expect(project).toContain('window/size/viewport_width=390');
-		expect(project).toContain('window/size/viewport_height=854');
+		expect(project).toContain('window/size/viewport_height=844');
 		expect(project).toContain('window/stretch/aspect="expand"');
 		expect(project).toContain('renderer/rendering_method="gl_compatibility"');
 	});
