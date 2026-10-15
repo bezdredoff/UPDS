@@ -76,6 +76,34 @@ func _run() -> void:
 	match3._record_tutorial_move({"valid": true}, true)
 	assert(match3.active_tutorial.is_empty(), "Completing the special activation did not advance the tutorial sequence")
 	assert(match3.game.tiles.size() == int(bundle.levels[1].rows) * int(bundle.levels[1].columns), "Selected campaign board dimensions mismatch")
+	var moves_before_reaction: int = match3.game.moves_left
+	match3._reduced_motion_override = false
+	match3.game.moves_left = int(match3.level_data.moves) - 1
+	match3._present_narrative_reaction({"valid": true, "blockersCleared": 0, "specialsCreated": 0, "cascades": 1,
+		"primaryFeedback": "match", "specialsCombined": false, "won": false, "lost": false})
+	assert(match3.active_reaction.get("id") == "ingredient-context"
+		and match3.bark_speaker.text == "АЮКИ"
+		and match3.bark.text == "Маленькая чёрная карта, огромный шанс на драму.",
+		"Match-3 reaction should replace the static bark with authored localized copy and speaker")
+	assert(match3.bark_portrait.texture != null
+		and match3.bark_portrait.texture.resource_path.ends_with("ayuki/medallions/portrait_neutral_256.png"),
+		"Reaction bark should use the same authored circular portrait as the web UI")
+	assert(is_zero_approx(match3.bark_panel.modulate.a) and is_equal_approx(match3.bark_panel.position.y, 4.0),
+		"Reaction bark should begin at the source 4px entrance offset and zero opacity")
+	await create_timer(0.2).timeout
+	assert(is_equal_approx(match3.bark_panel.modulate.a, 1.0) and is_zero_approx(match3.bark_panel.position.y),
+		"Reaction bark should finish its 160ms ease-out entrance")
+	var reaction_style := match3.bark_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(reaction_style.border_width_left == 4 and reaction_style.shadow_size == 14,
+		"Standard reaction emphasis should preserve the web bark border and shadow")
+	match3._dismiss_narrative_reaction("ingredient-context")
+	await create_timer(0.22).timeout
+	assert(match3.active_reaction.is_empty() and is_equal_approx(match3.bark_panel.modulate.a, 1.0)
+		and is_zero_approx(match3.bark_panel.position.y),
+		"Reaction bark should fade out and restore the static bark after its duration")
+	match3.game.moves_left = moves_before_reaction
+	match3._reduced_motion_override = null
+	match3._refresh()
 	var board_outline := match3.board_frame.get_parent() as PanelContainer
 	var board_outline_style := board_outline.get_theme_stylebox("panel") as StyleBoxFlat
 	var board_frame_style := match3.board_frame.get_theme_stylebox("panel") as StyleBoxFlat

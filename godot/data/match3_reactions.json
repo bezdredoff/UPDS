@@ -1,0 +1,3177 @@
+{
+  "schemaVersion": 1,
+  "rulesByLevel": {
+    "M3_00_LOCKER_TUTORIAL": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.0",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.danger.0",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.0",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "emi",
+        "messageKey": "match3.reaction.nearWin.0",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.0",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "emi",
+        "messageKey": "match3.reaction.characterBeat.0",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.fiveMoves.0",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.blockers.0",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 3
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.ingredient.0",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_01_PHOTO_PROPS": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.1",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "kentaro",
+        "messageKey": "match3.reaction.danger.1",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.1",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.nearWin.1",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "kentaro",
+        "messageKey": "match3.reaction.specialActivated.1",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "kentaro",
+        "messageKey": "match3.reaction.characterBeat.1",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "kentaro",
+        "messageKey": "match3.bark.fiveMoves.1",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.blockers.1",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 1
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.ingredient.1",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_02_POOL_LAUNDRY": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "norihiro",
+        "messageKey": "match3.reaction.objectiveComplete.2",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "norihiro",
+        "messageKey": "match3.reaction.danger.2",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.2",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.nearWin.2",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.2",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "norihiro",
+        "messageKey": "match3.reaction.characterBeat.2",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.fiveMoves.2",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.blockers.2",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 6
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.ingredient.2",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_03_ORDERED_APARTMENT": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "norihiro",
+        "messageKey": "match3.reaction.objectiveComplete.3",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "norihiro",
+        "messageKey": "match3.reaction.danger.3",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.3",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.nearWin.3",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.3",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "norihiro",
+        "messageKey": "match3.reaction.characterBeat.3",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.fiveMoves.3",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.blockers.3",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 4
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.ingredient.3",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_04_EMERGENCY_MEETING": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.4",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.danger.4",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.4",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.nearWin.4",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.4",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.characterBeat.4",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.fiveMoves.4",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.blockers.4",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 4
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.ingredient.4",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_05_BASKETBALL_LOCKERS": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.5",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.danger.5",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.5",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.nearWin.5",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.5",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.characterBeat.5",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.fiveMoves.5",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.blockers.5",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 5
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.ingredient.5",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_06_TEXTILE_WORKSHOP": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.objectiveComplete.6",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.danger.6",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.6",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.nearWin.6",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.specialActivated.6",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.characterBeat.6",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.fiveMoves.6",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.blockers.6",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 4
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.ingredient.6",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_07_ASTERION_THREAD": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.7",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.danger.7",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.7",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.nearWin.7",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "kurose",
+        "messageKey": "match3.reaction.specialActivated.7",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "kurose",
+        "messageKey": "match3.reaction.characterBeat.7",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "kurose",
+        "messageKey": "match3.bark.fiveMoves.7",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.blockers.7",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 4
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.ingredient.7",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_08_LOST_FOUND_LEDGER": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "rina",
+        "messageKey": "match3.reaction.objectiveComplete.8",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "rina",
+        "messageKey": "match3.reaction.danger.8",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.8",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.nearWin.8",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.8",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "rina",
+        "messageKey": "match3.reaction.characterBeat.8",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "rina",
+        "messageKey": "match3.bark.fiveMoves.8",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.blockers.8",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 5
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.ingredient.8",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_09_MAINTENANCE_KEYS": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.9",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "gen",
+        "messageKey": "match3.reaction.danger.9",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.9",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.nearWin.9",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.9",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "gen",
+        "messageKey": "match3.reaction.characterBeat.9",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "gen",
+        "messageKey": "match3.bark.fiveMoves.9",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.blockers.9",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 4
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.ingredient.9",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_10_CONTROL_SAMPLE_GEAR": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.10",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.danger.10",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.10",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "aoi",
+        "messageKey": "match3.reaction.nearWin.10",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.10",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "aoi",
+        "messageKey": "match3.reaction.characterBeat.10",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "aoi",
+        "messageKey": "match3.bark.fiveMoves.10",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.blockers.10",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 5
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.ingredient.10",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_11_ASTERION_TRANSFER": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.11",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.danger.11",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.11",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.nearWin.11",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "kentaro",
+        "messageKey": "match3.reaction.specialActivated.11",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "kentaro",
+        "messageKey": "match3.reaction.characterBeat.11",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "kentaro",
+        "messageKey": "match3.bark.fiveMoves.11",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.blockers.11",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 4
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.ingredient.11",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_12_SECOND_SKIN_SIGNAL": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.12",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.danger.12",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.12",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.nearWin.12",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.12",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.characterBeat.12",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.fiveMoves.12",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.blockers.12",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 5
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.ingredient.12",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_13_KENDO_PILOT_LIST": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.13",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.danger.13",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.13",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "kubo",
+        "messageKey": "match3.reaction.nearWin.13",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.13",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "kubo",
+        "messageKey": "match3.reaction.characterBeat.13",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "kubo",
+        "messageKey": "match3.bark.fiveMoves.13",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.blockers.13",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 5
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.ingredient.13",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_14_KUBO_ATELIER_LEDGER": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "kubo-mother",
+        "messageKey": "match3.reaction.objectiveComplete.14",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "kubo-mother",
+        "messageKey": "match3.reaction.danger.14",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.14",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.nearWin.14",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.specialActivated.14",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "kubo-mother",
+        "messageKey": "match3.reaction.characterBeat.14",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "kubo-mother",
+        "messageKey": "match3.bark.fiveMoves.14",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.blockers.14",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 4
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "kubo",
+        "messageKey": "match3.bark.ingredient.14",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_15_ABANDONED_LAUNDRY_ROUTE": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.15",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.danger.15",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.15",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.nearWin.15",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.15",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.characterBeat.15",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.fiveMoves.15",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.blockers.15",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 5
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.ingredient.15",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_16_PINK_RIBBON_SCANNER": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.16",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "vincent",
+        "messageKey": "match3.reaction.danger.16",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.16",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.nearWin.16",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "vincent",
+        "messageKey": "match3.reaction.specialActivated.16",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "vincent",
+        "messageKey": "match3.reaction.characterBeat.16",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "vincent",
+        "messageKey": "match3.bark.fiveMoves.16",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.blockers.16",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 5
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "vincent",
+        "messageKey": "match3.bark.ingredient.16",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_17_RINA_ARCHIVE_CATALOG": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "rina",
+        "messageKey": "match3.reaction.objectiveComplete.17",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.danger.17",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.17",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.nearWin.17",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.17",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "rina",
+        "messageKey": "match3.reaction.characterBeat.17",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "rina",
+        "messageKey": "match3.bark.fiveMoves.17",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.blockers.17",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 5
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "rina",
+        "messageKey": "match3.bark.ingredient.17",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_18_FULL_TIMELINE_PROOF": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.18",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.danger.18",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.18",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "emi",
+        "messageKey": "match3.reaction.nearWin.18",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.18",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "emi",
+        "messageKey": "match3.reaction.characterBeat.18",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.fiveMoves.18",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.blockers.18",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 5
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.ingredient.18",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_19_PRIVATE_RETURN": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "emi",
+        "messageKey": "match3.reaction.objectiveComplete.19",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "emi",
+        "messageKey": "match3.reaction.danger.19",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.19",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.nearWin.19",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.19",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "rina",
+        "messageKey": "match3.reaction.characterBeat.19",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "emi",
+        "messageKey": "match3.bark.fiveMoves.19",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.blockers.19",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 5
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.ingredient.19",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_20_SERVER_CONSENT_LOGS": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "emi",
+        "messageKey": "match3.reaction.objectiveComplete.20",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.danger.20",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.20",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "mayu",
+        "messageKey": "match3.reaction.nearWin.20",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.specialActivated.20",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "kurose",
+        "messageKey": "match3.reaction.characterBeat.20",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "emi",
+        "messageKey": "match3.bark.fiveMoves.20",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.blockers.20",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 5
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.ingredient.20",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ],
+    "M3_21_CONVENIENT_CASE": [
+      {
+        "id": "objective-complete",
+        "priority": 700,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.objectiveComplete.21",
+        "trigger": {
+          "kind": "objective-complete",
+          "minCompleted": 1
+        }
+      },
+      {
+        "id": "danger",
+        "priority": 650,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "onoe",
+        "messageKey": "match3.reaction.danger.21",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 2
+        }
+      },
+      {
+        "id": "special-combo",
+        "priority": 625,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialCombo.21",
+        "trigger": {
+          "kind": "special-combo"
+        }
+      },
+      {
+        "id": "near-win",
+        "priority": 600,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "miku",
+        "messageKey": "match3.reaction.nearWin.21",
+        "trigger": {
+          "kind": "near-win",
+          "minCompleted": 1,
+          "maxUnitsRemaining": 2
+        }
+      },
+      {
+        "id": "special-activated",
+        "priority": 450,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.specialActivated.21",
+        "trigger": {
+          "kind": "special-activated"
+        }
+      },
+      {
+        "id": "character-beat",
+        "priority": 150,
+        "repeat": "once-per-attempt",
+        "activeAttemptOnly": true,
+        "speaker": "ayuki",
+        "messageKey": "match3.reaction.characterBeat.21",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 4
+        }
+      },
+      {
+        "id": "low-moves",
+        "priority": 500,
+        "repeat": "once-per-attempt",
+        "speaker": "onoe",
+        "messageKey": "match3.bark.fiveMoves.21",
+        "trigger": {
+          "kind": "moves-left",
+          "equals": 5
+        }
+      },
+      {
+        "id": "special-created",
+        "priority": 400,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.special",
+        "trigger": {
+          "kind": "specials-created",
+          "min": 1
+        }
+      },
+      {
+        "id": "blocker-progress",
+        "priority": 300,
+        "repeat": "once-per-attempt",
+        "speaker": "miku",
+        "messageKey": "match3.bark.blockers.21",
+        "trigger": {
+          "kind": "blockers-cleared",
+          "min": 5
+        }
+      },
+      {
+        "id": "ingredient-context",
+        "priority": 200,
+        "repeat": "once-per-attempt",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.ingredient.21",
+        "trigger": {
+          "kind": "move-number",
+          "equals": 1
+        }
+      },
+      {
+        "id": "cascade",
+        "priority": 100,
+        "repeat": "repeatable",
+        "speaker": "ayuki",
+        "messageKey": "match3.bark.cascade",
+        "trigger": {
+          "kind": "cascades",
+          "min": 2
+        }
+      }
+    ]
+  },
+  "policies": {
+    "objective-complete": {
+      "durationMs": 3200,
+      "cooldownMs": 0,
+      "emphasis": "urgent"
+    },
+    "danger": {
+      "durationMs": 3200,
+      "cooldownMs": 0,
+      "emphasis": "urgent"
+    },
+    "special-combo": {
+      "durationMs": 2600,
+      "cooldownMs": 0,
+      "emphasis": "strong"
+    },
+    "near-win": {
+      "durationMs": 3000,
+      "cooldownMs": 0,
+      "emphasis": "strong"
+    },
+    "low-moves": {
+      "durationMs": 2800,
+      "cooldownMs": 0,
+      "emphasis": "standard"
+    },
+    "special-activated": {
+      "durationMs": 2300,
+      "cooldownMs": 0,
+      "emphasis": "strong"
+    },
+    "special-created": {
+      "durationMs": 2300,
+      "cooldownMs": 0,
+      "emphasis": "standard"
+    },
+    "blocker-progress": {
+      "durationMs": 2600,
+      "cooldownMs": 0,
+      "emphasis": "standard"
+    },
+    "ingredient-context": {
+      "durationMs": 2500,
+      "cooldownMs": 0,
+      "emphasis": "standard"
+    },
+    "character-beat": {
+      "durationMs": 2800,
+      "cooldownMs": 0,
+      "emphasis": "standard"
+    },
+    "cascade": {
+      "durationMs": 1700,
+      "cooldownMs": 3600,
+      "emphasis": "light"
+    }
+  },
+  "localized": {
+    "en": {
+      "match3.bark.noHint": "The board has no valid exchange. It needs a reshuffle.",
+      "match3.bark.hintFound": "This swap advances the current investigation objectives best.",
+      "match3.bark.edge": "There is no swap beyond the edge. Try a neighboring cell.",
+      "match3.bark.notAdjacentInvalid": "Only neighboring tiles can be swapped.",
+      "match3.bark.ingredientInvalid": "Story items must be dropped by making matches beneath them.",
+      "match3.bark.blockedInvalid": "This section is locked. Make a match beside it first.",
+      "match3.bark.noMatchInvalid": "That swap does not make a row. Check the neighboring categories.",
+      "match3.bark.special": "Seen all at once, the mess starts turning into a pattern.",
+      "match3.bark.fiveMoves.0": "Almost there. We need the link to the laundry.",
+      "match3.bark.fiveMoves.1": "If you lose it again, this becomes a collective alibi.",
+      "match3.bark.fiveMoves.2": "We need the cabinet. The return log is inside.",
+      "match3.bark.fiveMoves.3": "We need both objects. Without the receipt, the theory stays open.",
+      "match3.bark.blockers.0": "Clue U-1 is free. No, I did not name it.",
+      "match3.bark.blockers.1": "First we clear the bag layers. Then we can move the tile inside.",
+      "match3.bark.blockers.2": "Items from different sections are under the foam. They were mixed before the lockers.",
+      "match3.bark.blockers.3": "No stash, no accomplice. This apartment has no sense of drama.",
+      "match3.bark.ingredient.0": "The document is in the upper section. Clear a path to the bottom edge.",
+      "match3.bark.ingredient.1": "Tiny black card, enormous potential for drama.",
+      "match3.bark.ingredient.2": "The key surfaced. Metaphorically. Literally, it is moving downward.",
+      "match3.bark.ingredient.3": "We need both documents: the receipt and the towel with the altered edge.",
+      "match3.bark.cascade": "Chain of observations: {count}. That is almost deduction.",
+      "match3.bark.fiveMoves.4": "Five moves. The calendar needs to emerge from the noise now.",
+      "match3.bark.fiveMoves.5": "Five moves. We need the repair log, not another height theory.",
+      "match3.bark.fiveMoves.6": "Five moves. The machine evidence needs to come out together.",
+      "match3.bark.blockers.4": "Half the rumors are gone. The table is starting to look like data.",
+      "match3.bark.blockers.5": "Locks are coming off, and we can finally compare the batch.",
+      "match3.bark.blockers.6": "The bags are sorted. The workshop is no longer hiding the timeline.",
+      "match3.bark.ingredient.4": "The shared calendar is up top. Clear its path down.",
+      "match3.bark.ingredient.5": "The repair log is the cleanest way to verify what actually passed through Hinata.",
+      "match3.bark.ingredient.6": "We need the warranty card and silver spool. Together they answer the machine question.",
+      "match3.bark.fiveMoves.7": "Five moves. Separate the physical match from the registry record.",
+      "match3.bark.fiveMoves.8": "Five moves. The missing range has to surface now.",
+      "match3.bark.fiveMoves.9": "Five moves. The key and handoff slip must come out together.",
+      "match3.bark.blockers.7": "Half the covers are cleared. The lab-card order is visible now.",
+      "match3.bark.blockers.8": "Sections are opening. Read the numbers as a sequence, not isolated packages.",
+      "match3.bark.blockers.9": "The supply crates are sorted. What remains is the route of the key and cart.",
+      "match3.bark.ingredient.7": "The specification is at the top. Give it a clean route down.",
+      "match3.bark.ingredient.8": "The missing-number sheet must travel through the service lanes intact.",
+      "match3.bark.ingredient.9": "The key and handoff slip are one chain. Do not split them in the conclusion.",
+      "match3.bark.fiveMoves.10": "Five moves. Separate the technical criterion from the personal item.",
+      "match3.bark.fiveMoves.11": "Five moves. Seal, route, and manifest must meet in one chain.",
+      "match3.bark.fiveMoves.12": "Five moves. Strip away the noise and bring out the active tag.",
+      "match3.bark.blockers.10": "Half the locks are cleared. The control sample is visibly broader than one clothing type.",
+      "match3.bark.blockers.11": "The packaging is open. Match seal numbers to the route, not the contents.",
+      "match3.bark.blockers.12": "The interference is weakening. The repeating signal is separating from the noise.",
+      "match3.bark.ingredient.10": "Bring the wristband out intact; the silver stitch repeats there.",
+      "match3.bark.ingredient.11": "Seal and route first, then the manifest. They are one transfer.",
+      "match3.bark.ingredient.12": "The microtag must reach the bottom without losing the signal chain.",
+      "match3.bark.fiveMoves.13": "Five moves. Get the pilot list out without inventing conclusions about Kubo.",
+      "match3.bark.fiveMoves.14": "Five moves. Keep unrelated client records out of the evidence.",
+      "match3.bark.fiveMoves.15": "Five moves. The package and key card need to come out together.",
+      "match3.bark.blockers.13": "The racks are clearing. The owner codes now read as one sample.",
+      "match3.bark.blockers.14": "The fabric is sorted. The order timeline is becoming visible.",
+      "match3.bark.blockers.15": "The passage is opening. The old service route is still active.",
+      "match3.bark.ingredient.13": "The closed list needs to reach the bottom and meet the confirmed codes.",
+      "match3.bark.ingredient.14": "The receipt and order book matter together; separately they are weaker.",
+      "match3.bark.ingredient.15": "Keep the package and key card together; they prove one active route.",
+      "match3.bark.fiveMoves.16": "Five moves. The scanner must leave with a verified activation time.",
+      "match3.bark.fiveMoves.17": "Five moves. Keep the control shelf separate from actual targets.",
+      "match3.bark.fiveMoves.18": "Five moves. The new tag must stay in the correct timeline.",
+      "match3.bark.blockers.16": "The ribbons are clearing. Service codes and signal can be read separately.",
+      "match3.bark.blockers.17": "Seals are opening. The catalog can be checked row by row.",
+      "match3.bark.blockers.18": "False conclusions are dropping away. Proven actions separate by time.",
+      "match3.bark.ingredient.16": "The scanner is independent confirmation of the new activation.",
+      "match3.bark.ingredient.17": "The catalog has to leave the archive intact and tied to its seals.",
+      "match3.bark.ingredient.18": "The new marked item proves the project continued after Rina.",
+      "match3.bark.fiveMoves.19": "Five moves. Preserve privacy through the last locker.",
+      "match3.bark.fiveMoves.20": "Five moves. The backup must leave before deletion wins.",
+      "match3.bark.fiveMoves.21": "Five moves. Even the convenient version has to reach its final slide.",
+      "match3.bark.blockers.19": "Seals are cleared. Anonymous codes can be reconciled.",
+      "match3.bark.blockers.20": "Server gates are open. The logs can be preserved.",
+      "match3.bark.blockers.21": "Objections are gone. The presentation is becoming dangerously smooth.",
+      "match3.bark.ingredient.19": "The confirmation completes the private return.",
+      "match3.bark.ingredient.20": "The backup drive preserves the consent map.",
+      "match3.bark.ingredient.21": "The final slide locks in the convenient story."
+    },
+    "ru": {
+      "match3.bark.noHint": "Поле не даёт корректного обмена. Нужна перестановка.",
+      "match3.bark.hintFound": "Этот обмен лучше всего продвигает текущие цели расследования.",
+      "match3.bark.edge": "За краем поля обмена нет. Попробуем соседнюю клетку.",
+      "match3.bark.notAdjacentInvalid": "Менять местами можно только соседние фишки.",
+      "match3.bark.ingredientInvalid": "Сюжетный объект нужно опустить вниз совпадениями под ним.",
+      "match3.bark.blockedInvalid": "Эта секция заперта. Сначала соберём совпадение рядом.",
+      "match3.bark.noMatchInvalid": "Этот обмен не образует ряд. Проверим соседние категории.",
+      "match3.bark.special": "Если посмотреть на всё сразу, беспорядок превращается в узор.",
+      "match3.bark.fiveMoves.0": "Ещё немного. Нам нужна связь с прачечной.",
+      "match3.bark.fiveMoves.1": "Если вы её снова потеряете, это будет уже коллективное алиби.",
+      "match3.bark.fiveMoves.2": "Нужен шкаф. Там журнал возврата.",
+      "match3.bark.fiveMoves.3": "Нужны оба объекта. Без чека версия не закрыта.",
+      "match3.bark.blockers.0": "Улика U-1 освобождена. Нет, я не дала ей имя.",
+      "match3.bark.blockers.1": "Сначала снимем слои пакета. Тогда фишку внутри можно будет передвинуть.",
+      "match3.bark.blockers.2": "Под пеной вещи из разных секций. Их смешали ещё до шкафчиков.",
+      "match3.bark.blockers.3": "Ни тайника, ни сообщницы. У этой квартиры нет чувства драмы.",
+      "match3.bark.ingredient.0": "Документ в верхней секции. Освободи путь к нижнему краю.",
+      "match3.bark.ingredient.1": "Маленькая чёрная карта, огромный шанс на драму.",
+      "match3.bark.ingredient.2": "Ключ всплыл. Метафорически. Буквально он движется вниз.",
+      "match3.bark.ingredient.3": "Ищем оба документа: чек и полотенце с изменённым краем.",
+      "match3.bark.cascade": "Цепочка наблюдений: {count}. Это уже почти дедукция.",
+      "match3.bark.fiveMoves.4": "Пять ходов. Календарь должен выйти из шума сейчас.",
+      "match3.bark.fiveMoves.5": "Пять ходов. Нужен журнал ремонта, а не ещё одна теория роста.",
+      "match3.bark.fiveMoves.6": "Пять ходов. Доказательство машины должно выйти вместе.",
+      "match3.bark.blockers.4": "Половина слухов снята. Таблица начинает походить на данные.",
+      "match3.bark.blockers.5": "Замки уходят, и состав партии наконец можно сравнивать.",
+      "match3.bark.blockers.6": "Чехлы разобраны. Теперь мастерская перестаёт скрывать хронологию.",
+      "match3.bark.ingredient.4": "Общий календарь наверху. Освобождаем ему путь вниз.",
+      "match3.bark.ingredient.5": "Журнал ремонта — лучший способ проверить, что действительно проходило через Хинату.",
+      "match3.bark.ingredient.6": "Нужны гарантийная карта и серебристая катушка. Только вместе они отвечают на вопрос о машине.",
+      "match3.bark.fiveMoves.7": "Пять ходов. Отделите физическое совпадение от записи в реестре.",
+      "match3.bark.fiveMoves.8": "Пять ходов. Пропавший диапазон должен проявиться сейчас.",
+      "match3.bark.fiveMoves.9": "Пять ходов. Ключ и накладная должны выйти вместе.",
+      "match3.bark.blockers.7": "Половина защитных крышек снята. Теперь виден порядок лабораторных карточек.",
+      "match3.bark.blockers.8": "Секции открываются. Проверяйте номера как последовательность, а не как отдельные пакеты.",
+      "match3.bark.blockers.9": "Хозяйственные ящики разобраны. Остался маршрут ключа и тележки.",
+      "match3.bark.ingredient.7": "Спецификация наверху. Освободите ей прямой путь вниз.",
+      "match3.bark.ingredient.8": "Лист с пропусками должен пройти через сервисные ряды целиком.",
+      "match3.bark.ingredient.9": "Ключ и накладная — одна цепочка. Не разделяйте их в выводе.",
+      "match3.bark.fiveMoves.10": "Пять ходов. Отделите технический критерий от личной вещи.",
+      "match3.bark.fiveMoves.11": "Пять ходов. Пломба, маршрут и манифест должны сойтись в одну цепочку.",
+      "match3.bark.fiveMoves.12": "Пять ходов. Уберите шум и выведите активную метку.",
+      "match3.bark.blockers.10": "Замки сняты наполовину. Теперь видно, что контрольная выборка шире одного типа одежды.",
+      "match3.bark.blockers.11": "Упаковка раскрыта. Сводите номера пломб с маршрутом, а не с содержимым.",
+      "match3.bark.blockers.12": "Помехи ослабевают. Повторяющийся сигнал уже отделяется от шума.",
+      "match3.bark.ingredient.10": "Напульсник должен выйти целиком: именно на нём повторяется серебристый шов.",
+      "match3.bark.ingredient.11": "Сначала пломба и маршрут, затем манифест — это одна передача.",
+      "match3.bark.ingredient.12": "Микрометка должна дойти вниз без потери сигнальной цепочки.",
+      "match3.bark.fiveMoves.13": "Пять ходов. Список пилота должен выйти без домыслов о Кубо.",
+      "match3.bark.fiveMoves.14": "Пять ходов. Не смешивайте записи посторонних клиентов с уликой.",
+      "match3.bark.fiveMoves.15": "Пять ходов. Пакет и ключ-карта должны выйти вместе.",
+      "match3.bark.blockers.13": "Стойки освобождаются. Теперь коды владельцев читаются как одна выборка.",
+      "match3.bark.blockers.14": "Ткань разобрана. Хронология заказов становится видимой.",
+      "match3.bark.blockers.15": "Проход очищается. Старый сервисный маршрут всё ещё используется.",
+      "match3.bark.ingredient.13": "Закрытый список должен дойти вниз и встретиться с подтверждёнными кодами.",
+      "match3.bark.ingredient.14": "Квитанция и книга заказов нужны вместе — отдельно они слабее.",
+      "match3.bark.ingredient.15": "Не разделяйте пакет и ключ-карту: они доказывают один действующий маршрут.",
+      "match3.bark.fiveMoves.16": "Пять ходов. Сканер должен выйти вместе с подтверждённым временем активации.",
+      "match3.bark.fiveMoves.17": "Пять ходов. Не смешивайте контрольную полку с реальными целями.",
+      "match3.bark.fiveMoves.18": "Пять ходов. Новая метка должна остаться в правильной временной линии.",
+      "match3.bark.blockers.16": "Ленты распутаны. Сервисные коды и сигнал читаются отдельно.",
+      "match3.bark.blockers.17": "Пломбы сняты. Каталог можно сверять ряд за рядом.",
+      "match3.bark.blockers.18": "Ложные выводы уходят. Доказанные действия разделяются по времени.",
+      "match3.bark.ingredient.16": "Сканер нужен как независимое подтверждение новой активации.",
+      "match3.bark.ingredient.17": "Каталог должен выйти из архива целым и в контексте пломб.",
+      "match3.bark.ingredient.18": "Новый помеченный предмет доказывает продолжение проекта после Рины.",
+      "match3.bark.fiveMoves.19": "Пять ходов. Сохраняем приватность до последней ячейки.",
+      "match3.bark.fiveMoves.20": "Пять ходов. Резервная копия должна уйти раньше удаления.",
+      "match3.bark.fiveMoves.21": "Пять ходов. Даже удобная версия должна дожить до финального слайда.",
+      "match3.bark.blockers.19": "Пломбы сняты. Можно сводить анонимные коды.",
+      "match3.bark.blockers.20": "Серверные шлюзы открыты. Логи доступны для сохранения.",
+      "match3.bark.blockers.21": "Возражения убраны. Презентация становится опасно гладкой.",
+      "match3.bark.ingredient.19": "Подтверждение завершит приватную выдачу.",
+      "match3.bark.ingredient.20": "Резервный накопитель сохраняет журнал согласий.",
+      "match3.bark.ingredient.21": "Финальный слайд закрепляет удобную версию."
+    },
+    "be": {
+      "match3.bark.noHint": "Поле не дае карэктнага абмену. Патрэбна перастаноўка.",
+      "match3.bark.hintFound": "Гэты абмен найлепш прасоўвае бягучыя мэты расследавання.",
+      "match3.bark.edge": "За краем поля абмену няма. Паспрабуем суседнюю клетку.",
+      "match3.bark.notAdjacentInvalid": "Мяняць месцамі можна толькі суседнія фішкі.",
+      "match3.bark.ingredientInvalid": "Сюжэтны прадмет трэба апусціць уніз супадзеннямі пад ім.",
+      "match3.bark.blockedInvalid": "Гэтая секцыя зачыненая. Спачатку складзём супадзенне побач.",
+      "match3.bark.noMatchInvalid": "Гэты абмен не ўтварае шэраг. Праверым суседнія катэгорыі.",
+      "match3.bark.special": "Калі паглядзець на ўсё адразу, беспарадак ператвараецца ва ўзор.",
+      "match3.bark.cascade": "Ланцужок назіранняў: {count}. Гэта ўжо амаль дэдукцыя.",
+      "match3.bark.fiveMoves.0": "Яшчэ крыху. Нам патрэбная сувязь з пральняй.",
+      "match3.bark.fiveMoves.1": "Калі вы зноў яе страціце, гэта ўжо будзе калектыўнае алібі.",
+      "match3.bark.fiveMoves.2": "Патрэбная шафа. Там журнал вяртання.",
+      "match3.bark.fiveMoves.3": "Патрэбныя абодва прадметы. Без чэка версію не закрыць.",
+      "match3.bark.blockers.0": "Доказ U-1 вызвалены. Не, я не дала яму імя.",
+      "match3.bark.blockers.1": "Спачатку здымем слаі з пакета. Тады фішку ўнутры можна будзе перасунуць.",
+      "match3.bark.blockers.2": "Пад пенай рэчы з розных секцый. Іх змяшалі яшчэ да шафак.",
+      "match3.bark.blockers.3": "Ні схованкі, ні саўдзельніцы. У гэтай кватэры няма пачуцця драмы.",
+      "match3.bark.ingredient.0": "Дакумент у верхняй секцыі. Вызвалі шлях да ніжняга краю.",
+      "match3.bark.ingredient.1": "Маленькая чорная карта, велізарны шанец на драму.",
+      "match3.bark.ingredient.2": "Ключ усплыў. Метафарычна. Літаральна ён рухаецца ўніз.",
+      "match3.bark.ingredient.3": "Шукаем абодва прадметы: чэк і ручнік са змененым краем.",
+      "match3.bark.fiveMoves.4": "Пяць хадоў. Каляндар павінен выйсці з шуму зараз.",
+      "match3.bark.fiveMoves.5": "Пяць хадоў. Патрэбны журнал рамонту, а не яшчэ адна тэорыя росту.",
+      "match3.bark.fiveMoves.6": "Пяць хадоў. Доказ наконт машыны павінен выйсці цалкам.",
+      "match3.bark.blockers.4": "Палова чутак знятая. Табліца пачынае быць падобнай да даных.",
+      "match3.bark.blockers.5": "Замкі сыходзяць, і склад партыі нарэшце можна параўноўваць.",
+      "match3.bark.blockers.6": "Чахлы разабраныя. Цяпер майстэрня перастае хаваць храналогію.",
+      "match3.bark.ingredient.4": "Агульны каляндар наверсе. Вызваляем яму шлях уніз.",
+      "match3.bark.ingredient.5": "Журнал рамонту — найлепшы спосаб праверыць, што сапраўды праходзіла праз Хінату.",
+      "match3.bark.ingredient.6": "Патрэбныя гарантыйная картка і серабрыстая шпулька. Толькі разам яны адказваюць на пытанне пра машыну.",
+      "match3.bark.fiveMoves.7": "Пяць хадоў. Аддзяліце фізічнае супадзенне ад запісу ў рэестры.",
+      "match3.bark.fiveMoves.8": "Пяць хадоў. Прапушчаны дыяпазон павінен выявіцца зараз.",
+      "match3.bark.fiveMoves.9": "Пяць хадоў. Ключ і накладная павінны выйсці разам.",
+      "match3.bark.blockers.7": "Палова ахоўных вечкаў знятая. Цяпер бачны парадак лабараторных картак.",
+      "match3.bark.blockers.8": "Секцыі адкрываюцца. Правярайце нумары як паслядоўнасць, а не як асобныя пакеты.",
+      "match3.bark.blockers.9": "Гаспадарчыя скрыні разабраныя. Застаўся маршрут ключа і каляскі.",
+      "match3.bark.ingredient.7": "Спецыфікацыя наверсе. Вызваліце ёй прамы шлях уніз.",
+      "match3.bark.ingredient.8": "Аркуш з прапускамі павінен прайсці праз сэрвісныя шэрагі цалкам.",
+      "match3.bark.ingredient.9": "Ключ і накладная — адзін ланцужок. Не раздзяляйце іх у выснове.",
+      "match3.bark.fiveMoves.10": "Пяць хадоў. Аддзяліце тэхнічны крытэрый ад асабістай рэчы.",
+      "match3.bark.fiveMoves.11": "Пяць хадоў. Пломба, маршрут і маніфест павінны сысціся ў адзін ланцужок.",
+      "match3.bark.fiveMoves.12": "Пяць хадоў. Прыбярыце шум і выведзіце актыўную метку.",
+      "match3.bark.blockers.10": "Палова замкоў знятая. Цяпер бачна, што кантрольная выбарка шырэйшая за адзін тып адзення.",
+      "match3.bark.blockers.11": "Упакоўка раскрытая. Супастаўляйце нумары пломбаў з маршрутам, а не са змесцівам.",
+      "match3.bark.blockers.12": "Перашкоды слабеюць. Паўторны сігнал ужо аддзяляецца ад шуму.",
+      "match3.bark.ingredient.10": "Напульснік павінен выйсці цалкам: менавіта на ім паўтараецца серабрысты шво.",
+      "match3.bark.ingredient.11": "Спачатку пломба і маршрут, потым маніфест — гэта адна перадача.",
+      "match3.bark.ingredient.12": "Мікраметка павінна дайсці ўніз без страты сігнальнага ланцужка.",
+      "match3.bark.fiveMoves.13": "Пяць хадоў. Спіс пілота павінен выйсці без здагадак пра Кубо.",
+      "match3.bark.blockers.13": "Стойкі вызваляюцца. Цяпер коды ўладальнікаў чытаюцца як адна выбарка.",
+      "match3.bark.ingredient.13": "Закрыты спіс павінен дайсці ўніз і сустрэцца з пацверджанымі кодамі.",
+      "match3.bark.fiveMoves.14": "Пяць хадоў. Не змешвайце запісы старонніх кліентаў з доказам.",
+      "match3.bark.fiveMoves.15": "Пяць хадоў. Пакет і ключ-карта павінны выйсці разам.",
+      "match3.bark.blockers.14": "Тканіна разабраная. Храналогія заказаў становіцца бачнай.",
+      "match3.bark.blockers.15": "Праход ачышчаецца. Стары сэрвісны маршрут усё яшчэ выкарыстоўваецца.",
+      "match3.bark.ingredient.14": "Квітанцыя і кніга заказаў патрэбныя разам — паасобку яны слабейшыя.",
+      "match3.bark.ingredient.15": "Не раздзяляйце пакет і ключ-карту: яны даказваюць адзін дзейны маршрут.",
+      "match3.bark.fiveMoves.16": "Пяць хадоў. Сканер павінен выйсці разам з пацверджаным часам актывацыі.",
+      "match3.bark.fiveMoves.17": "Пяць хадоў. Не змешвайце кантрольную паліцу з рэальнымі мэтамі.",
+      "match3.bark.fiveMoves.18": "Пяць хадоў. Новая метка павінна застацца ў правільнай часовай лініі.",
+      "match3.bark.blockers.16": "Стужкі разблытаныя. Сэрвісныя коды і сігнал чытаюцца асобна.",
+      "match3.bark.blockers.17": "Пломбы знятыя. Каталог можна звяраць шэраг за шэрагам.",
+      "match3.bark.blockers.18": "Ілжывыя высновы знікаюць. Даказаныя дзеянні падзяляюцца па часе.",
+      "match3.bark.ingredient.16": "Сканер патрэбны як незалежнае пацвярджэнне новай актывацыі.",
+      "match3.bark.ingredient.17": "Каталог павінен выйсці з архіва цэлым і ў кантэксце пломбаў.",
+      "match3.bark.ingredient.18": "Новы пазначаны прадмет даказвае працяг праекта пасля Рыны.",
+      "match3.bark.fiveMoves.19": "Пяць хадоў. Захоўваем прыватнасць да апошняй ячэйкі.",
+      "match3.bark.fiveMoves.20": "Пяць хадоў. Рэзервовая копія павінна выйсці да выдалення.",
+      "match3.bark.fiveMoves.21": "Пяць хадоў. Нават зручная версія павінна дажыць да фінальнага слайда.",
+      "match3.bark.blockers.19": "Пломбы знятыя. Можна звяраць ананімныя коды.",
+      "match3.bark.blockers.20": "Серверныя шлюзы адкрытыя. Журналы даступныя для захавання.",
+      "match3.bark.blockers.21": "Пярэчанні прыбраныя. Прэзентацыя становіцца небяспечна гладкай.",
+      "match3.bark.ingredient.19": "Пацвярджэнне завершыць прыватную выдачу.",
+      "match3.bark.ingredient.20": "Рэзервовы назапашвальнік захоўвае журнал згоды.",
+      "match3.bark.ingredient.21": "Фінальны слайд замацоўвае зручную версію."
+    }
+  },
+  "speakerNames": {
+    "en": {
+      "aoi": "Aoi",
+      "ayuki": "Ayuki",
+      "emi": "Emi",
+      "gen": "Gen",
+      "kentaro": "Kentaro",
+      "kubo": "Kubo",
+      "kubo-mother": "Kubo's Mother",
+      "kurose": "Kurose",
+      "mayu": "Mayu",
+      "miku": "Miku",
+      "norihiro": "Norihiro",
+      "onoe": "Onoe",
+      "rina": "Rina",
+      "vincent": "Vincent"
+    },
+    "ru": {
+      "aoi": "Аой",
+      "ayuki": "Аюки",
+      "emi": "Эми",
+      "gen": "Гэн",
+      "kentaro": "Кэнтаро",
+      "kubo": "Кубо",
+      "kubo-mother": "Мать Кубо",
+      "kurose": "Куросэ",
+      "mayu": "Маю",
+      "miku": "Мику",
+      "norihiro": "Норихиро",
+      "onoe": "Оноэ",
+      "rina": "Рина",
+      "vincent": "Винсент"
+    },
+    "be": {
+      "aoi": "Аоі",
+      "ayuki": "Аюкі",
+      "emi": "Эмі",
+      "gen": "Гэн",
+      "kentaro": "Кэнтаро",
+      "kubo": "Кубо",
+      "kubo-mother": "Маці Кубо",
+      "kurose": "Куросэ",
+      "mayu": "Маю",
+      "miku": "Міку",
+      "norihiro": "Норыхіра",
+      "onoe": "Оноэ",
+      "rina": "Рына",
+      "vincent": "Вінсент"
+    }
+  },
+  "speakerAssets": {
+    "aoi": "./assets/guests/aoi/medallion.png",
+    "ayuki": "./assets/characters/ayuki/medallions/portrait_neutral_256.png",
+    "emi": "./assets/characters/emi/medallions/portrait_neutral_512.png",
+    "gen": "./assets/guests/gen/medallion.png",
+    "kentaro": "./assets/characters/kentaro/medallions/portrait_neutral_256.png",
+    "kubo": "./assets/guests/kubo/medallion.png",
+    "kubo-mother": "./assets/guests/kubo-mother/medallion.png",
+    "kurose": "./assets/characters/kurose/medallions/portrait_neutral_256.png",
+    "mayu": "./assets/characters/mayu/medallions/portrait_neutral_256.png",
+    "miku": "./assets/characters/miku/medallions/portrait_neutral_256.png",
+    "norihiro": "./assets/characters/norihiro/medallions/portrait_neutral_256.png",
+    "onoe": "./assets/characters/onoe/medallions/portrait_neutral_256.png",
+    "rina": "./assets/characters/rina/medallions/portrait_neutral_256.png",
+    "vincent": "./assets/guests/vincent/medallion.png"
+  }
+}

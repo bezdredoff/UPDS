@@ -14,6 +14,13 @@ require.extensions['.ts'] = (module, filename) => module._compile(ts.transpileMo
 
 const { godotCampaignBundle, godotMatch3Level } = require('../tests/fixtures/godotMatch3.ts');
 const { godotMatch3ParityScenarios, godotMatch3SpecialActionScenario, godotMatch3ReshuffleScenario } = require('../tests/fixtures/godotMatch3Parity.ts');
+const { match3ReactionRulesByLevel } = require('../src/data/match3Reactions.ts');
+const { match3ReactionPolicies } = require('../src/ui/match3ReactionPresentation.ts');
+const { enCatalog } = require('../src/localization/catalogs/en.ts');
+const { ruCatalog } = require('../src/localization/catalogs/ru.ts');
+const { beCatalog } = require('../src/localization/catalogs/be.ts');
+const { characterProductionManifest } = require('../src/data/characterProduction.ts');
+const { guestWitnessManifest } = require('../src/data/guestWitnesses.ts');
 const level = godotMatch3Level();
 fs.writeFileSync(path.join(root, 'godot/data/locker_match3.json'), `${JSON.stringify(level, null, 2)}\n`);
 const bundle = godotCampaignBundle();
@@ -25,6 +32,16 @@ const assets = new Set([
   ...Object.values(level.assets),
   ...bundle.levels.map((campaignLevel) => campaignLevel.evidence.asset),
 ]);
+const catalogs = { en: enCatalog, ru: ruCatalog, be: beCatalog };
+const speakerIds = [...new Set(Object.values(match3ReactionRulesByLevel).flatMap((rules) => rules.map((rule) => rule.speaker)))].sort();
+const speakerAssets = Object.fromEntries(speakerIds.map((speaker) => {
+  const productionAsset = characterProductionManifest.characters[speaker]?.assets.medallion;
+  const guestAsset = guestWitnessManifest.guests[speaker]?.assets?.medallion;
+  const asset = productionAsset ?? guestAsset;
+  if (!asset) throw new Error(`Missing Godot Match-3 reaction medallion: ${speaker}`);
+  return [speaker, asset];
+}));
+for (const asset of Object.values(speakerAssets)) assets.add(asset);
 for (const asset of assets) {
   if (typeof asset !== 'string' || !asset.startsWith('./assets/') || asset.includes('..')) {
     throw new Error(`Unexpected Match-3 asset: ${asset}`);
@@ -33,4 +50,17 @@ for (const asset of assets) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.copyFileSync(path.join(root, 'public', asset), target);
 }
-console.log(`Exported ${bundle.levels.length} campaign levels, ${assets.size} gameplay assets and evidence images, ${parityCases.length} gameplay parity cases, and ${Object.keys(level.localized).length} locales.`);
+const speakerNames = Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale,
+  Object.fromEntries(speakerIds.map((speaker) => {
+    const name = catalog[`character.${speaker}`];
+    if (typeof name !== 'string' || !name) throw new Error(`Missing ${locale} Match-3 reaction speaker name: ${speaker}`);
+    return [speaker, name];
+  })),
+]));
+const reactionCopy = Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale,
+  Object.fromEntries(Object.entries(catalog).filter(([key]) => key.startsWith('match3.reaction.') || key.startsWith('match3.bark.'))),
+]));
+const reactions = { schemaVersion: 1, rulesByLevel: match3ReactionRulesByLevel, policies: match3ReactionPolicies,
+  localized: reactionCopy, speakerNames, speakerAssets };
+fs.writeFileSync(path.join(root, 'godot/data/match3_reactions.json'), `${JSON.stringify(reactions, null, 2)}\n`);
+console.log(`Exported ${bundle.levels.length} campaign levels, ${assets.size} gameplay/evidence/speaker assets, ${parityCases.length} gameplay parity cases, and ${speakerIds.length} Match-3 reaction speakers.`);

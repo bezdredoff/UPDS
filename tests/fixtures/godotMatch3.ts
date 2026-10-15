@@ -25,6 +25,7 @@ export function godotCampaignLevel(level: (typeof levels)[number]) {
   return {
     id: level.id,
     shortId: level.shortId,
+    narrativeProfile: level.context.narrativeProfile,
     seed: level.seed,
     rows: level.boardSize?.rows ?? 8,
     columns: level.boardSize?.columns ?? 8,
