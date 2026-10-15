@@ -102,9 +102,10 @@ func _layout_menu() -> void:
 	$Content.add_theme_constant_override("separation", 4 if narrow else 8 if compact else 6)
 	var title_size := 34 if narrow else 38 if compact else 44
 	$Content/Title.add_theme_font_size_override("normal_font_size", title_size)
+	$Content/Title.add_theme_constant_override("line_separation", -12 if narrow or compact else -20)
 	$Content/Title.fit_content = not narrow
-	$Content/Title.custom_minimum_size.y = 68.0 if narrow else 0.0
-	$Content/TitleSpacer.custom_minimum_size.y = 10.0 if narrow else 0.0
+	$Content/Title.custom_minimum_size.y = 74.0 if narrow else 0.0
+	$Content/TitleSpacer.custom_minimum_size.y = 4.0 if narrow else 0.0
 	$Content/Tagline.add_theme_font_size_override("font_size", 12 if narrow else 16)
 	$Content/Tagline.autowrap_mode = TextServer.AUTOWRAP_OFF if narrow else TextServer.AUTOWRAP_WORD_SMART
 	var hero_size := 56.0 if narrow else 66.0 if compact else 78.0
