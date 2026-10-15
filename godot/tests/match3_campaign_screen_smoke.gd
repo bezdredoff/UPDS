@@ -186,6 +186,9 @@ func _run() -> void:
 	assert(match3.active_tutorial.is_empty(), "Completing the special activation did not advance the tutorial sequence")
 	assert(match3.game.tiles.size() == int(bundle.levels[1].rows) * int(bundle.levels[1].columns), "Selected campaign board dimensions mismatch")
 	var moves_before_reaction: int = match3.game.moves_left
+	var displayed_moves_before_reaction: String = match3.moves.text
+	var displayed_objective_before_reaction: String = match3.objective.text
+	var first_cell_before_reaction: int = match3.board.get_child(0).get_instance_id()
 	match3._reduced_motion_override = false
 	match3.game.moves_left = int(match3.level_data.moves) - 1
 	match3._present_narrative_reaction({"valid": true, "blockersCleared": 0, "specialsCreated": 0, "cascades": 1,
@@ -194,6 +197,10 @@ func _run() -> void:
 		and match3.bark_speaker.text == "АЮКИ"
 		and match3.bark.text == "Маленькая чёрная карта, огромный шанс на драму.",
 		"Match-3 reaction should replace the static bark with authored localized copy and speaker")
+	assert(match3.moves.text == displayed_moves_before_reaction
+		and match3.objective.text == displayed_objective_before_reaction
+		and match3.board.get_child(0).get_instance_id() == first_cell_before_reaction,
+		"Presenting a reaction during a move must not reveal final counters or redraw the board before move frames finish")
 	assert(match3.bark_portrait.texture != null
 		and match3.bark_portrait.texture.resource_path.ends_with("ayuki/medallions/portrait_neutral_256.png"),
 		"Reaction bark should use the same authored circular portrait as the web UI")

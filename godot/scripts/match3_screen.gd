@@ -609,33 +609,7 @@ func _refresh() -> void:
 	settings_button.tooltip_text = MenuCopy.text("settings", locale)
 	objective_heading.text = {"ru": "ЦЕЛЬ", "be": "МЭТА", "en": "GOAL"}.get(locale, "GOAL")
 	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(locale, "MOVES")
-	var speaker: String
-	if game.state == "playing":
-		var invalid_bark_keys := {
-			"not-adjacent": "match3_bark_not_adjacent",
-			"ingredient": "match3_bark_ingredient_invalid",
-			"blocked": "match3_bark_blocked_invalid",
-			"no-match": "match3_bark_no_match_invalid",
-		}
-		if invalid_bark_keys.has(last_feedback):
-			var is_miku: bool = last_feedback in ["not-adjacent", "ingredient"]
-			speaker = MenuCopy.text("character_miku" if is_miku else "character_onoe", locale)
-			bark.text = MenuCopy.text(str(invalid_bark_keys[last_feedback]), locale)
-		else:
-			speaker = str(copy.startSpeaker)
-			bark.text = str(copy.startText)
-	else:
-		speaker = str(copy.winSpeaker) if game.state == "won" else str(copy.loseSpeaker)
-		bark.text = str(copy.winText) if game.state == "won" else str(copy.loseText)
-	if not active_reaction.is_empty() and last_feedback.is_empty():
-		var reaction_id := str(active_reaction.get("id", ""))
-		speaker = reaction_runtime.speaker_name(locale, str(active_reaction.get("speaker", "miku")))
-		bark.text = reaction_runtime.text(locale, str(active_reaction.get("messageKey", "")), active_reaction.get("params", {}))
-		_set_bark_emphasis(str(reaction_runtime.policy(reaction_id).get("emphasis", "standard")))
-	else:
-		_set_bark_emphasis("")
-	bark_speaker.text = speaker.to_upper()
-	bark_portrait.texture = _speaker_portrait(speaker)
+	_refresh_bark(locale, copy)
 	var tutorial_locale: Dictionary = campaign_bundle.get("tutorials", {}).get(locale, campaign_bundle.get("tutorials", {}).get("en", {}))
 	var tutorial_copy: Dictionary = tutorial_locale.get("concepts", {}).get(active_tutorial, {})
 	tutorial_title.text = str(tutorial_copy.get("title", ""))
@@ -684,6 +658,36 @@ func _refresh() -> void:
 	else:
 		campaign_result_overlay.visible = game.state == "lost"
 		if game.state == "lost": _refresh_story_loss_result(locale, copy)
+
+
+func _refresh_bark(locale: String, copy: Dictionary) -> void:
+	var speaker: String
+	if game.state == "playing":
+		var invalid_bark_keys := {
+			"not-adjacent": "match3_bark_not_adjacent",
+			"ingredient": "match3_bark_ingredient_invalid",
+			"blocked": "match3_bark_blocked_invalid",
+			"no-match": "match3_bark_no_match_invalid",
+		}
+		if invalid_bark_keys.has(last_feedback):
+			var is_miku: bool = last_feedback in ["not-adjacent", "ingredient"]
+			speaker = MenuCopy.text("character_miku" if is_miku else "character_onoe", locale)
+			bark.text = MenuCopy.text(str(invalid_bark_keys[last_feedback]), locale)
+		else:
+			speaker = str(copy.startSpeaker)
+			bark.text = str(copy.startText)
+	else:
+		speaker = str(copy.winSpeaker) if game.state == "won" else str(copy.loseSpeaker)
+		bark.text = str(copy.winText) if game.state == "won" else str(copy.loseText)
+	if not active_reaction.is_empty() and last_feedback.is_empty():
+		var reaction_id := str(active_reaction.get("id", ""))
+		speaker = reaction_runtime.speaker_name(locale, str(active_reaction.get("speaker", "miku")))
+		bark.text = reaction_runtime.text(locale, str(active_reaction.get("messageKey", "")), active_reaction.get("params", {}))
+		_set_bark_emphasis(str(reaction_runtime.policy(reaction_id).get("emphasis", "standard")))
+	else:
+		_set_bark_emphasis("")
+	bark_speaker.text = speaker.to_upper()
+	bark_portrait.texture = _speaker_portrait(speaker)
 
 
 func _render_board() -> void:
@@ -1889,7 +1893,9 @@ func _present_narrative_reaction(result: Dictionary) -> void:
 	active_reaction = reaction
 	reaction_generation += 1
 	var generation := reaction_generation
-	_refresh()
+	var locale: String = preferences.locale
+	var copy: Dictionary = level_presentation.localized.get(locale, level_presentation.localized.en)
+	_refresh_bark(locale, copy)
 	_animate_reaction_enter()
 	get_tree().create_timer(float(reaction_policy.get("durationMs", 0)) / 1000.0).timeout.connect(
 		_dismiss_narrative_reaction.bind(reaction_id, generation), CONNECT_ONE_SHOT)
