@@ -4,6 +4,7 @@ uniform vec4 shadow_color : source_color = vec4(0.06, 0.09, 0.18, 0.4);
 uniform vec2 shadow_offset_px = vec2(0.0, 1.0);
 uniform float shadow_blur_px = 1.0;
 uniform float brightness = 1.0;
+uniform float saturation = 1.0;
 uniform float glow_strength = 0.0;
 uniform vec4 glow_white : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 uniform vec4 glow_gold : source_color = vec4(1.0, 0.941, 0.659, 1.0);
@@ -68,5 +69,7 @@ void fragment() {
 	vec3 output_rgb = output_alpha > 0.0
 		? (source.rgb * source.a + under_rgb * (1.0 - source.a)) / output_alpha
 		: vec3(0.0);
+	float output_gray = dot(output_rgb, vec3(0.299, 0.587, 0.114));
+	output_rgb = mix(vec3(output_gray), output_rgb, saturation);
 	COLOR = vec4(output_rgb, output_alpha);
 }

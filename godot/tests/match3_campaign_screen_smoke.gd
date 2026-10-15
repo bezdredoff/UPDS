@@ -61,23 +61,44 @@ func _run() -> void:
 	assert(match3.active_tutorial.is_empty(), "Completing the special activation did not advance the tutorial sequence")
 	assert(match3.game.tiles.size() == int(bundle.levels[1].rows) * int(bundle.levels[1].columns), "Selected campaign board dimensions mismatch")
 	var cell_background := match3.board.get_child(0).get_node("CellBackground") as Panel
-	assert(cell_background.material is ShaderMaterial and (cell_background.material as ShaderMaterial).shader.code.contains("gradient_axis")
+	var cell_background_material := cell_background.material as ShaderMaterial
+	assert(cell_background_material != null and cell_background_material.shader.code.contains("gradient_axis")
 		and cell_background.offset_left == 1 and cell_background.offset_right == -1,
 		"Match-3 cells should render the source diagonal gradient and inset edge treatment beneath tile art")
+	assert((cell_background_material.get_shader_parameter("color_start") as Color).is_equal_approx(Color("#493552"))
+		and (cell_background_material.get_shader_parameter("color_end") as Color).is_equal_approx(Color("#2a3c59"))
+		and is_equal_approx(cell_background_material.get_shader_parameter("gradient_end_stop"), 0.72),
+		"The first production board cell should use its plum-to-navy 145-degree gradient")
+	var alternate_cell_material := (match3.board.get_child(1).get_node("CellBackground") as Panel).material as ShaderMaterial
+	assert((alternate_cell_material.get_shader_parameter("color_start") as Color).is_equal_approx(Color("#3d3352"))
+		and (alternate_cell_material.get_shader_parameter("color_end") as Color).is_equal_approx(Color("#243b58")),
+		"Even production board cells should use the alternate plum-to-navy gradient")
 	var cell_socket := match3.board.get_child(0).get_node("CellSocket") as Panel
 	var socket_style := cell_socket.get_theme_stylebox("panel") as StyleBoxFlat
-	assert(cell_socket.offset_left == 1 and cell_socket.offset_top == 1
-		and cell_socket.offset_right == -1 and cell_socket.offset_bottom == -1
-		and socket_style.border_color.is_equal_approx(Color("#d8deb72e"))
-		and socket_style.get_border_width(SIDE_LEFT) == 1 and socket_style.get_corner_radius(CORNER_TOP_LEFT) == 4,
-		"Match-3 tile socket should match the web inset, subtle one-pixel border and four-pixel radius")
+	assert(cell_socket.offset_left == 3 and cell_socket.offset_top == 3
+		and cell_socket.offset_right == -3 and cell_socket.offset_bottom == -3
+		and socket_style.bg_color == Color.WHITE
+		and socket_style.get_border_width(SIDE_LEFT) == 0 and socket_style.get_corner_radius(CORNER_TOP_LEFT) == 2
+		and cell_socket.material is ShaderMaterial
+		and (cell_socket.material as ShaderMaterial).shader.code.contains("0.45, 0.32")
+		and (cell_socket.material as ShaderMaterial).shader.code.contains("0.0862745"),
+		"Production tile socket should match its 3px inset, radial highlight and two-pixel corners")
+	var normal_tile := match3.board.get_child(0).get_node("TileStack/Tile") as TextureRect
+	var normal_tile_material := normal_tile.material as ShaderMaterial
+	assert(normal_tile.offset_left == 0 and normal_tile.offset_top == 0
+		and normal_tile.scale.is_equal_approx(Vector2(1.04, 1.04))
+		and (normal_tile_material.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#071224b8"))
+		and (normal_tile_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2))
+		and is_equal_approx(normal_tile_material.get_shader_parameter("saturation"), 1.05),
+		"Production tile artwork should fill its cell and preserve its 1.04 scale, drop shadow and saturation")
 	var first_tile_before_variant_check: String = match3.game.tiles[0]
 	match3.game.tiles[0] = "camisole"
 	match3._render_board()
 	var camisole_tile := match3.board.get_child(0).get_node("TileStack/Tile") as TextureRect
 	var camisole_shadow := camisole_tile.material as ShaderMaterial
 	assert(camisole_shadow != null and is_equal_approx(camisole_shadow.get_shader_parameter("brightness"), 1.38)
-		and is_equal_approx(camisole_shadow.get_shader_parameter("shadow_blur_px"), 1.0),
+		and is_equal_approx(camisole_shadow.get_shader_parameter("shadow_blur_px"), 1.0)
+		and is_equal_approx(camisole_shadow.get_shader_parameter("saturation"), 1.0),
 		"Camisole tile should preserve the source brightness variant and soft drop shadow")
 	match3.game.tiles[0] = first_tile_before_variant_check
 	match3._render_board()
@@ -108,13 +129,19 @@ func _run() -> void:
 			drag_source = index
 			break
 	assert(drag_source >= 0, "Match-3 screen has no movable source cell for drag preview")
+	assert((match3.board.get_child(drag_source) as Control).clip_contents,
+		"Production board cells should clip oversized tile art to their rounded cell bounds")
 	match3._begin_tile_drag(drag_source, Vector2.ZERO)
 	match3._update_tile_drag(Vector2(match3.drag_start_cell_size * 0.08, 0.0))
+	assert(not (match3.board.get_child(drag_source) as Control).clip_contents,
+		"Dragging should temporarily show the source tile outside its cell like the web drag-source state")
 	var drag_source_stack: Control = match3.board.get_child(drag_source).get_node("TileStack")
 	var drag_target_stack: Control = match3.board.get_child(match3._drag_neighbour(drag_source, "right")).get_node("TileStack")
 	assert(match3.drag_target_index == match3._drag_neighbour(drag_source, "right"), "Drag preview did not react the adjacent cell at the source threshold")
 	assert(drag_source_stack.offset_left > 0.0 and drag_target_stack.offset_left < 0.0, "Drag preview did not move the source and neighboring tile stacks")
 	match3._clear_drag_preview()
+	assert((match3.board.get_child(drag_source) as Control).clip_contents,
+		"Ending a drag preview did not restore the production cell clipping")
 	var distant_cell := -1
 	var board_columns := int(match3.level_data.columns)
 	for candidate in match3.game.tiles.size():
@@ -229,7 +256,7 @@ func _run() -> void:
 	var ingredient_cell: Control = match3.board.get_child(settle_index)
 	var ingredient_icon: TextureRect = ingredient_cell.get_node("TileStack/Ingredient")
 	var ingredient_material := ingredient_icon.material as ShaderMaterial
-	assert(ingredient_icon.anchor_right == 1.0 and ingredient_icon.anchor_bottom == 1.0 and ingredient_icon.offset_left == 3.0, "Ingredient artwork did not fill the source cell with its 3px inset")
+	assert(ingredient_icon.anchor_right == 1.0 and ingredient_icon.anchor_bottom == 1.0 and ingredient_icon.offset_left == 2.0, "Production ingredient artwork did not preserve its 2px inset")
 	assert(ingredient_material != null and is_equal_approx(ingredient_material.get_shader_parameter("glow_white_radius_px"), 7.0)
 		and (ingredient_material.get_shader_parameter("glow_white") as Color).is_equal_approx(Color("#fff2a0"))
 		and is_zero_approx((ingredient_material.get_shader_parameter("glow_gold") as Color).a)

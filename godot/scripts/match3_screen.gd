@@ -25,6 +25,7 @@ const FEEDBACK_HOLD_SECONDS := 0.42
 const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
 
 static var _drop_shadow_material_cache: Dictionary = {}
+static var _cell_socket_material_cache: ShaderMaterial
 
 var preferences: RefCounted
 var session: RefCounted
@@ -577,26 +578,24 @@ func _render_board() -> void:
 	for child in board.get_children():
 		board.remove_child(child)
 		child.queue_free()
-	var cell_background_material := ShaderMaterial.new()
-	cell_background_material.shader = Match3CellBackground
 	for index in game.tiles.size():
 		var tile_button := Button.new()
 		tile_button.custom_minimum_size = Vector2(54, 54)
 		tile_button.pivot_offset = tile_button.custom_minimum_size * 0.5
-		tile_button.clip_contents = false
+		tile_button.clip_contents = true
 		if index == selected_index:
 			tile_button.z_index = 5
 		tile_button.focus_mode = Control.FOCUS_NONE
 		var cell_style := StyleBoxFlat.new()
-		cell_style.bg_color = Color("#2e4266")
-		cell_style.border_color = Color(0.45, 0.52, 0.46, 0.57)
+		cell_style.bg_color = Color("#493552")
+		cell_style.border_color = Color("#c3a464")
 		cell_style.set_border_width_all(1)
-		cell_style.set_corner_radius_all(5)
+		cell_style.set_corner_radius_all(3)
 		var selected_style := cell_style.duplicate() as StyleBoxFlat
-		selected_style.border_color = Color("#fff6cf")
+		selected_style.border_color = Color("#fff2a8")
 		selected_style.set_border_width_all(3)
 		var hinted_style := cell_style.duplicate() as StyleBoxFlat
-		hinted_style.border_color = Color("#7ddfd8")
+		hinted_style.border_color = Color("#6ce2d3")
 		hinted_style.set_border_width_all(3)
 		hinted_style.shadow_color = Color("#6ce2d3")
 		hinted_style.shadow_size = 12
@@ -620,26 +619,31 @@ func _render_board() -> void:
 		cell_background.offset_right = -1
 		cell_background.offset_bottom = -1
 		cell_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var cell_background_material := ShaderMaterial.new()
+		cell_background_material.shader = Match3CellBackground
+		var is_alternate_cell: bool = int(index) % 2 == 1
+		cell_background_material.set_shader_parameter("color_start", Color("#3d3352") if is_alternate_cell else Color("#493552"))
+		cell_background_material.set_shader_parameter("color_end", Color("#243b58") if is_alternate_cell else Color("#2a3c59"))
+		cell_background_material.set_shader_parameter("gradient_end_stop", 0.72)
 		cell_background.material = cell_background_material
 		var cell_background_style := StyleBoxFlat.new()
 		cell_background_style.bg_color = Color.WHITE
-		cell_background_style.set_corner_radius_all(4)
+		cell_background_style.set_corner_radius_all(2)
 		cell_background.add_theme_stylebox_override("panel", cell_background_style)
 		tile_button.add_child(cell_background)
 		var cell_socket := Panel.new()
 		cell_socket.name = "CellSocket"
 		cell_socket.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		cell_socket.offset_left = 1
-		cell_socket.offset_top = 1
-		cell_socket.offset_right = -1
-		cell_socket.offset_bottom = -1
+		cell_socket.offset_left = 3
+		cell_socket.offset_top = 3
+		cell_socket.offset_right = -3
+		cell_socket.offset_bottom = -3
 		cell_socket.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var socket_style := StyleBoxFlat.new()
-		socket_style.bg_color = Color(0, 0, 0, 0)
-		socket_style.border_color = Color("#d8deb72e")
-		socket_style.set_border_width_all(1)
-		socket_style.set_corner_radius_all(4)
+		socket_style.bg_color = Color.WHITE
+		socket_style.set_corner_radius_all(2)
 		cell_socket.add_theme_stylebox_override("panel", socket_style)
+		cell_socket.material = _match3_cell_socket_material()
 		tile_button.add_child(cell_socket)
 		var tile_stack := Control.new()
 		tile_stack.name = "TileStack"
@@ -653,14 +657,21 @@ func _render_board() -> void:
 			var tile := TextureRect.new()
 			tile.name = "Tile"
 			tile.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-			tile.offset_left = 2
-			tile.offset_top = 2
-			tile.offset_right = -2
-			tile.offset_bottom = -2
+			tile.offset_left = 0
+			tile.offset_top = 0
+			tile.offset_right = 0
+			tile.offset_bottom = 0
+			tile.resized.connect(func() -> void: tile.pivot_offset = tile.size * 0.5)
 			tile.texture = load("res://" + tile_asset.trim_prefix("./"))
 			tile.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			tile.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			tile.material = _match3_drop_shadow_material(Color("#10172d66"), Vector2(0, 1), 1.0, 1.38 if game.tiles[index] == "camisole" else 1.0)
+			var is_camisole: bool = game.tiles[index] == "camisole"
+			tile.scale = Vector2(1.04, 1.04)
+			tile.material = _match3_drop_shadow_material(
+				Color("#10172d66") if is_camisole else Color("#071224b8"),
+				Vector2(0, 1) if is_camisole else Vector2(0, 2),
+				1.0, 1.38 if is_camisole else 1.0, 1.0 if is_camisole else 1.05,
+			)
 			tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			tile_stack.add_child(tile)
 		tile_stack.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else Color.WHITE
@@ -721,10 +732,10 @@ func _render_board() -> void:
 				var ingredient := TextureRect.new()
 				ingredient.name = "Ingredient"
 				ingredient.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-				ingredient.offset_left = 3
-				ingredient.offset_top = 3
-				ingredient.offset_right = -3
-				ingredient.offset_bottom = -3
+				ingredient.offset_left = 2
+				ingredient.offset_top = 2
+				ingredient.offset_right = -2
+				ingredient.offset_bottom = -2
 				ingredient.texture = ingredient_texture
 				ingredient.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				ingredient.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -878,8 +889,8 @@ func _set_ingredient_glow(progress: float, material: ShaderMaterial, reverse: bo
 	material.set_shader_parameter("glow_strength", 1.0 - eased_progress if reverse else eased_progress)
 
 
-func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, blur: float, brightness: float = 1.0) -> ShaderMaterial:
-	var cache_key := "%s:%s:%s:%s" % [shadow_color.to_html(), shadow_offset, blur, brightness]
+func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, blur: float, brightness: float = 1.0, saturation: float = 1.0) -> ShaderMaterial:
+	var cache_key := "%s:%s:%s:%s:%s" % [shadow_color.to_html(), shadow_offset, blur, brightness, saturation]
 	if _drop_shadow_material_cache.has(cache_key):
 		return _drop_shadow_material_cache[cache_key] as ShaderMaterial
 	var material := ShaderMaterial.new()
@@ -888,8 +899,27 @@ func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, b
 	material.set_shader_parameter("shadow_offset_px", shadow_offset)
 	material.set_shader_parameter("shadow_blur_px", blur)
 	material.set_shader_parameter("brightness", brightness)
+	material.set_shader_parameter("saturation", saturation)
 	_drop_shadow_material_cache[cache_key] = material
 	return material
+
+
+func _match3_cell_socket_material() -> ShaderMaterial:
+	if _cell_socket_material_cache != null:
+		return _cell_socket_material_cache
+	var shader := Shader.new()
+	shader.code = """
+	shader_type canvas_item;
+	void fragment() {
+		vec2 center = vec2(0.45, 0.32);
+		float radius = distance(UV, center) / distance(center, vec2(1.0, 1.0));
+		float gradient = 1.0 - clamp(radius / 0.48, 0.0, 1.0);
+		COLOR = vec4(1.0, 1.0, 1.0, gradient * 0.0862745) * COLOR;
+	}
+	"""
+	_cell_socket_material_cache = ShaderMaterial.new()
+	_cell_socket_material_cache.shader = shader
+	return _cell_socket_material_cache
 
 
 func _animate_swap(first: int, second: int, keep_at_target: bool) -> void:
@@ -1671,6 +1701,7 @@ func _update_tile_drag(position: Vector2) -> void:
 	var source_stack := source.get_node_or_null("TileStack") as Control
 	if source_stack != null:
 		source.z_index = 9
+		source.clip_contents = false
 		_set_stack_translation(source_stack, Vector2(travel, 0.0) if direction in ["left", "right"] else Vector2(0.0, travel))
 		source_stack.scale = Vector2.ONE * 1.06
 		source_stack.modulate = Color(1.08, 1.08, 1.08, 1.0)
@@ -1733,6 +1764,7 @@ func _clear_drag_preview() -> void:
 		if index < 0 or index >= board.get_child_count(): continue
 		var cell := board.get_child(index) as Control
 		cell.z_index = 0
+		cell.clip_contents = true
 		var stack := cell.get_node_or_null("TileStack") as Control
 		if stack != null:
 			_set_stack_translation(stack, Vector2.ZERO)
