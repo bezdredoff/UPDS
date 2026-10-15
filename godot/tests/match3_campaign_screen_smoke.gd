@@ -386,10 +386,14 @@ func _run() -> void:
 	var direction_marker: PanelContainer = special_stack.get_node("SpecialDirectionMarker")
 	assert(is_equal_approx(special_icon.rotation_degrees, -8.0), "Flash Row activation did not start from the source impact keyframe")
 	assert(direction_marker.get_child(0).text == "↔" and special_shadow != null
-		and is_equal_approx(special_shadow.get_shader_parameter("shadow_blur_px"), 2.0)
-		and absf((special_shadow.get_shader_parameter("shadow_color") as Color).a - 0.72) < 0.01
-		and is_equal_approx(special_shadow.get_shader_parameter("glow_strength"), 1.0),
-		"Flash Row missed its direction marker, source dark drop shadow or impact glow")
+		and is_equal_approx(special_shadow.get_shader_parameter("shadow_blur_px"), 0.0)
+		and is_equal_approx((special_shadow.get_shader_parameter("shadow_color") as Color).a, 0.0)
+		and is_equal_approx(special_shadow.get_shader_parameter("glow_strength"), 1.0)
+		and (special_shadow.get_shader_parameter("glow_gold") as Color).to_html(false) == Color("#fff0a8").to_html(false)
+		and is_equal_approx(special_shadow.get_shader_parameter("glow_gold_radius_px"), 7.0)
+		and is_equal_approx((special_shadow.get_shader_parameter("glow_white") as Color).a, 0.0)
+		and is_equal_approx((special_shadow.get_shader_parameter("glow_aqua") as Color).a, 0.0),
+		"Flash Row should preserve the source direction marker and use only the source seven-pixel gold glow")
 	await create_timer(0.3).timeout
 	assert(is_equal_approx(special_icon.rotation_degrees, 0.0), "Flash Row activation did not return to neutral rotation")
 	match3._render_board()

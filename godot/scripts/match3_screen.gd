@@ -26,6 +26,7 @@ const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
 
 static var _drop_shadow_material_cache: Dictionary = {}
 static var _cell_socket_material_cache: ShaderMaterial
+static var _special_icon_material_cache: ShaderMaterial
 
 var preferences: RefCounted
 var session: RefCounted
@@ -815,7 +816,7 @@ func _render_board() -> void:
 				special.texture = special_texture
 				special.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				special.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-				special.material = _match3_drop_shadow_material(Color("#181426b8"), Vector2(0, 1), 2.0)
+				special.material = _match3_special_icon_material()
 				special.pivot_offset = Vector2(27, 27)
 				special.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_stack.add_child(special)
@@ -956,6 +957,19 @@ func _match3_cell_socket_material() -> ShaderMaterial:
 	_cell_socket_material_cache = ShaderMaterial.new()
 	_cell_socket_material_cache.shader = shader
 	return _cell_socket_material_cache
+
+
+func _match3_special_icon_material() -> ShaderMaterial:
+	if _special_icon_material_cache != null:
+		return _special_icon_material_cache
+	var material := _match3_drop_shadow_material(Color(0, 0, 0, 0), Vector2.ZERO, 0.0)
+	material.set_shader_parameter("glow_strength", 1.0)
+	material.set_shader_parameter("glow_white", Color(1, 1, 1, 0))
+	material.set_shader_parameter("glow_gold", Color("#fff0a8"))
+	material.set_shader_parameter("glow_gold_radius_px", 7.0)
+	material.set_shader_parameter("glow_aqua", Color(0.424, 0.886, 0.827, 0))
+	_special_icon_material_cache = material
+	return _special_icon_material_cache
 
 
 func _match3_board_surface_material() -> ShaderMaterial:
