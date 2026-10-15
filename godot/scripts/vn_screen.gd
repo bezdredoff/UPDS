@@ -332,7 +332,7 @@ func _ready() -> void:
 func _layout_vn() -> void:
 	if dialogue_panel == null or nameplate == null or controls_panel == null:
 		return
-	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 430.0
+	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	var tiny_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	var compact_height := size.y <= 760.0
 	var controls_min_height := 60.0 if tiny_width else 63.0
@@ -780,20 +780,49 @@ func _paginate_dialogue(value: String) -> Array[String]:
 	var page := ""
 	var font := dialogue.get_theme_font("normal_font")
 	var font_size := dialogue.get_theme_font_size("normal_font_size")
-	var text_width := maxf(120.0, size.x - 88.0)
-	# The source CSS keeps the reading window to roughly two lines at both text scales.
-	var line_limit := font.get_height(font_size) * 2.0
-	for word in normalized.split(" ", false):
-		var candidate := word if page.is_empty() else page + " " + word
+	var text_width := maxf(120.0, size.x - 64.0)
+	# Account for Godot's shaped-line leading while keeping the source's two-line safe height.
+	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
+	var line_height := 1.46 if _text_scale == "large" else 1.34 if compact_width else 1.42
+	var line_limit := font_size * line_height * 2.0 + 7.0
+	for raw_word in normalized.split(" ", false):
+		var candidate := raw_word if page.is_empty() else page + " " + raw_word
 		var measured := font.get_multiline_string_size(candidate, HORIZONTAL_ALIGNMENT_LEFT, text_width, font_size)
 		if not page.is_empty() and measured.y > line_limit:
-			pages.append(page)
-			page = word
+			var hyphenated_candidate := _fit_candidate_with_hyphenation(
+				page, raw_word, font, text_width, font_size, line_limit)
+			if hyphenated_candidate.is_empty():
+				pages.append(page)
+				page = raw_word
+			else:
+				page = hyphenated_candidate
 		else:
 			page = candidate
 	if not page.is_empty():
 		pages.append(page)
 	return pages if not pages.is_empty() else [value]
+
+
+func _fit_candidate_with_hyphenation(
+	page: String, next_word: String, font: Font, text_width: float, font_size: int, line_limit: float,
+) -> String:
+	var words := page.split(" ", false)
+	for word_index in range(words.size()):
+		var word: String = words[word_index]
+		if word.length() < 6 or word.contains("-") or word.contains("—"):
+			continue
+		for split_at in range(word.length() - 2, 2, -1):
+			var prefix := word.substr(0, split_at)
+			var suffix := word.substr(split_at)
+			if prefix.substr(prefix.length() - 1, 1).to_lower() not in "аеёиоуыэюяіўaeiouy":
+				continue
+			var candidate_words := words.duplicate()
+			candidate_words[word_index] = prefix + "-\n" + suffix
+			var candidate := " ".join(candidate_words) + " " + next_word
+			var candidate_height := font.get_multiline_string_size(candidate, HORIZONTAL_ALIGNMENT_LEFT, text_width, font_size).y
+			if candidate_height <= line_limit:
+				return candidate
+	return ""
 
 
 func _update_dialogue_page() -> void:
@@ -1587,10 +1616,15 @@ func _select_text_scale(scale: String, relayout: bool = true) -> void:
 
 func _dialogue_font_size() -> int:
 	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
-	# Godot's system-font fallback is slightly narrower at CSS-equivalent sizes.
+	var is_web := OS.has_feature("web")
+	# Calibrate the native Georgia and bundled Web serif separately against the source CSS size.
 	if compact_width:
-		return 17 if _text_scale == "large" else 15
-	return 20 if _text_scale == "large" else 18
+		if _text_scale == "large":
+			return 15 if is_web else 17
+		return 13 if is_web else 15
+	if _text_scale == "large":
+		return 18 if is_web else 20
+	return 16 if is_web else 18
 
 
 func _audio_slider(parent: Node, key: String, label: String) -> void:

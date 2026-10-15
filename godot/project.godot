@@ -23,7 +23,7 @@ PlaygamaRuntime="*res://scripts/playgama_runtime.gd"
 [display]
 
 window/size/viewport_width=390
-window/size/viewport_height=854
+window/size/viewport_height=844
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1

@@ -29,6 +29,7 @@ const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
 static var _drop_shadow_material_cache: Dictionary = {}
 static var _special_icon_material_cache: ShaderMaterial
 static var _match_background_material_cache: ShaderMaterial
+static var _hud_paper_gradient_cache: GradientTexture2D
 
 var preferences: RefCounted
 var session: RefCounted
@@ -74,6 +75,9 @@ var tutorial_button: Button
 var objective: Label
 var objective_heading: Label
 var objective_icon: TextureRect
+var objective_panel: PanelContainer
+var stage_panel: PanelContainer
+var case_hud: HBoxContainer
 var moves: Label
 var moves_heading: Label
 var hint_button: Button
@@ -92,6 +96,7 @@ var warning: Label
 var board: GridContainer
 var board_center: CenterContainer
 var board_top_spacer: Control
+var board_positioner: Control
 var board_frame: PanelContainer
 var rendered_cell_signatures: Array[String] = []
 var back_button: Button
@@ -316,26 +321,29 @@ func _ready() -> void:
 	tutorial_panel.custom_maximum_size.x = 350
 	tutorial_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	tutorial_frame.add_child(tutorial_panel)
-	var objective_panel := PanelContainer.new()
+	objective_panel = PanelContainer.new()
 	var objective_style := StyleBoxFlat.new()
-	objective_style.bg_color = Color(0.99, 0.98, 0.94, 0.96)
-	objective_style.set_corner_radius_all(9)
-	objective_style.content_margin_left = 10
-	objective_style.content_margin_right = 10
-	objective_style.content_margin_top = 6
-	objective_style.content_margin_bottom = 6
+	objective_style.bg_color = Color(0, 0, 0, 0)
+	objective_style.border_color = Color("#f7ebc8")
+	objective_style.set_border_width_all(3)
+	objective_style.set_corner_radius_all(8)
+	objective_style.shadow_size = 0
+	objective_style.content_margin_left = 6
+	objective_style.content_margin_right = 6
+	objective_style.content_margin_top = 3
+	objective_style.content_margin_bottom = 3
 	objective_panel.add_theme_stylebox_override("panel", objective_style)
-	var hud := HBoxContainer.new()
-	hud.add_theme_constant_override("separation", 8)
-	hud.custom_minimum_size.y = 51
-	content.add_child(hud)
+	objective_panel.add_child(_hud_paper_gradient_rect())
+	case_hud = HBoxContainer.new()
+	case_hud.add_theme_constant_override("separation", 8)
+	content.add_child(case_hud)
 	objective_panel.custom_minimum_size.x = 224
 	objective_panel.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	hud.add_child(objective_panel)
+	case_hud.add_child(objective_panel)
 	var objective_content := VBoxContainer.new()
 	objective_content.add_theme_constant_override("separation", 1)
 	objective_panel.add_child(objective_content)
-	objective_heading = _label(objective_content, 9, Color("#326349"))
+	objective_heading = _label(objective_content, 9, Color("#214936"))
 	objective_heading.add_theme_font_override("font", UiFonts.match3(800))
 	objective_heading.text = {"ru": "ЦЕЛЬ", "be": "МЭТА", "en": "GOAL"}.get(preferences.locale, "GOAL")
 	var objective_row := HBoxContainer.new()
@@ -347,28 +355,32 @@ func _ready() -> void:
 	objective_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	objective_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	objective_row.add_child(objective_icon)
-	objective = _label(objective_row, 14, Color("#326349"))
+	objective = _label(objective_row, 14, Color("#214936"))
 	objective.add_theme_font_override("font", UiFonts.match3(800))
 	objective.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	objective.add_theme_font_size_override("font_size", 14)
 	var hud_spacer := Control.new()
 	hud_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hud.add_child(hud_spacer)
-	var stage_panel := PanelContainer.new()
+	case_hud.add_child(hud_spacer)
+	stage_panel = PanelContainer.new()
 	stage_panel.custom_minimum_size.x = 72
 	stage_panel.add_theme_stylebox_override("panel", objective_style.duplicate())
-	hud.add_child(stage_panel)
+	stage_panel.add_child(_hud_paper_gradient_rect())
+	case_hud.add_child(stage_panel)
 	var stage_content := VBoxContainer.new()
 	stage_content.alignment = BoxContainer.ALIGNMENT_CENTER
 	stage_content.add_theme_constant_override("separation", 1)
 	stage_panel.add_child(stage_content)
-	moves_heading = _label(stage_content, 9, Color("#326349"))
+	moves_heading = _label(stage_content, 9, Color("#214936"))
 	moves_heading.add_theme_font_override("font", UiFonts.match3(800))
-	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(preferences.locale, "MOVES")
-	moves = _label(stage_content, 14, Color("#326349"))
+	moves_heading.text = {"ru": "ХОДЫ", "be": "ХАДЫ", "en": "MOVES"}.get(preferences.locale, "MOVES")
+	moves = _label(stage_content, 14, Color("#214936"))
 	moves.add_theme_font_override("font", UiFonts.match3(800))
 	moves.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	moves.add_theme_font_size_override("font_size", 14)
+	_fit_match3_hud_geometry()
+	_fit_move_counter_font_size()
+	get_viewport().size_changed.connect(_fit_match3_hud_geometry)
+	get_viewport().size_changed.connect(_fit_move_counter_font_size)
 	board_top_spacer = Control.new()
 	board_top_spacer.name = "BoardHudSpacing"
 	board_top_spacer.custom_minimum_size.y = _board_hud_spacing()
@@ -376,6 +388,10 @@ func _ready() -> void:
 	board_center = CenterContainer.new()
 	board_center.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(board_center)
+	board_positioner = Control.new()
+	board_positioner.name = "BoardSourcePlacement"
+	board_positioner.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	board_center.add_child(board_positioner)
 	var board_outline := PanelContainer.new()
 	board_outline.name = "BoardNavyOutline"
 	board_outline.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
@@ -387,7 +403,7 @@ func _ready() -> void:
 	board_outline_style.content_margin_top = 0
 	board_outline_style.content_margin_bottom = 0
 	board_outline.add_theme_stylebox_override("panel", board_outline_style)
-	board_center.add_child(board_outline)
+	board_positioner.add_child(board_outline)
 	board_frame = PanelContainer.new()
 	board_frame.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	var board_style := StyleBoxFlat.new()
@@ -426,15 +442,20 @@ func _ready() -> void:
 	board_frame.material = null
 	board_center.resized.connect(_fit_board_cells)
 	resized.connect(_fit_board_hud_spacing)
+	get_viewport().size_changed.connect(_fit_board_hud_spacing)
 	var bark_style := StyleBoxFlat.new()
-	bark_style.bg_color = Color("#f7ebc8")
-	bark_style.border_color = Color("#f7ebc8")
-	bark_style.set_border_width_all(3)
-	bark_style.set_corner_radius_all(8)
-	bark_style.content_margin_left = 1
-	bark_style.content_margin_right = 3
-	bark_style.content_margin_top = 1
-	bark_style.content_margin_bottom = 1
+	bark_style.bg_color = Color("#fff7dff2")
+	bark_style.border_color = Color("#66755d99")
+	bark_style.set_border_width_all(1)
+	bark_style.border_width_left = 4
+	bark_style.set_corner_radius_all(9)
+	bark_style.shadow_color = Color("#252b3c40")
+	bark_style.shadow_size = 14
+	bark_style.shadow_offset = Vector2(0, 5)
+	bark_style.content_margin_left = 5
+	bark_style.content_margin_right = 9
+	bark_style.content_margin_top = 5
+	bark_style.content_margin_bottom = 5
 	bark_base_style = bark_style
 	bark_slot = Control.new()
 	bark_slot.name = "BarkSlot"
@@ -608,37 +629,12 @@ func _refresh() -> void:
 	if is_instance_valid(dossier_button): dossier_button.tooltip_text = MenuCopy.text("dossier_title", locale)
 	settings_button.tooltip_text = MenuCopy.text("settings", locale)
 	objective_heading.text = {"ru": "ЦЕЛЬ", "be": "МЭТА", "en": "GOAL"}.get(locale, "GOAL")
-	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(locale, "MOVES")
-	var speaker: String
-	if game.state == "playing":
-		var invalid_bark_keys := {
-			"not-adjacent": "match3_bark_not_adjacent",
-			"ingredient": "match3_bark_ingredient_invalid",
-			"blocked": "match3_bark_blocked_invalid",
-			"no-match": "match3_bark_no_match_invalid",
-		}
-		if invalid_bark_keys.has(last_feedback):
-			var is_miku: bool = last_feedback in ["not-adjacent", "ingredient"]
-			speaker = MenuCopy.text("character_miku" if is_miku else "character_onoe", locale)
-			bark.text = MenuCopy.text(str(invalid_bark_keys[last_feedback]), locale)
-		else:
-			speaker = str(copy.startSpeaker)
-			bark.text = str(copy.startText)
-	else:
-		speaker = str(copy.winSpeaker) if game.state == "won" else str(copy.loseSpeaker)
-		bark.text = str(copy.winText) if game.state == "won" else str(copy.loseText)
-	if not active_reaction.is_empty() and last_feedback.is_empty():
-		var reaction_id := str(active_reaction.get("id", ""))
-		speaker = reaction_runtime.speaker_name(locale, str(active_reaction.get("speaker", "miku")))
-		bark.text = reaction_runtime.text(locale, str(active_reaction.get("messageKey", "")), active_reaction.get("params", {}))
-		_set_bark_emphasis(str(reaction_runtime.policy(reaction_id).get("emphasis", "standard")))
-	else:
-		_set_bark_emphasis("")
-	bark_speaker.text = speaker.to_upper()
-	bark_portrait.texture = _speaker_portrait(speaker)
+	moves_heading.text = {"ru": "ХОДЫ", "be": "ХАДЫ", "en": "MOVES"}.get(locale, "MOVES")
+	_refresh_bark(locale, copy)
 	var tutorial_locale: Dictionary = campaign_bundle.get("tutorials", {}).get(locale, campaign_bundle.get("tutorials", {}).get("en", {}))
 	var tutorial_copy: Dictionary = tutorial_locale.get("concepts", {}).get(active_tutorial, {})
-	tutorial_title.text = str(tutorial_copy.get("title", ""))
+	tutorial_title.text = _tutorial_title_for_display(
+		str(tutorial_copy.get("title", "")), active_tutorial, locale)
 	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(locale, "HOW TO PLAY")
 	tutorial_body.text = str(tutorial_copy.get("body", ""))
 	tutorial_button.text = str(tutorial_locale.get("try", Level.data.localized[locale].tutorialTry))
@@ -649,7 +645,7 @@ func _refresh() -> void:
 	objective.text = " · ".join(objective_lines)
 	objective_icon.texture = _objective_texture(level_data.objectives[0]) if not level_data.objectives.is_empty() else null
 	moves.text = str(game.moves_left)
-	hint_label.text = MenuCopy.text("match3_hint", locale)
+	hint_label.text = MenuCopy.text("match3_hint", locale).to_upper()
 	guidance_labels[0].text = MenuCopy.text("match3_input_hint", locale)
 	var guidance_index := 1
 	for index in level_data.objectives.size():
@@ -684,6 +680,36 @@ func _refresh() -> void:
 	else:
 		campaign_result_overlay.visible = game.state == "lost"
 		if game.state == "lost": _refresh_story_loss_result(locale, copy)
+
+
+func _refresh_bark(locale: String, copy: Dictionary) -> void:
+	var speaker: String
+	if game.state == "playing":
+		var invalid_bark_keys := {
+			"not-adjacent": "match3_bark_not_adjacent",
+			"ingredient": "match3_bark_ingredient_invalid",
+			"blocked": "match3_bark_blocked_invalid",
+			"no-match": "match3_bark_no_match_invalid",
+		}
+		if invalid_bark_keys.has(last_feedback):
+			var is_miku: bool = last_feedback in ["not-adjacent", "ingredient"]
+			speaker = MenuCopy.text("character_miku" if is_miku else "character_onoe", locale)
+			bark.text = MenuCopy.text(str(invalid_bark_keys[last_feedback]), locale)
+		else:
+			speaker = str(copy.startSpeaker)
+			bark.text = str(copy.startText)
+	else:
+		speaker = str(copy.winSpeaker) if game.state == "won" else str(copy.loseSpeaker)
+		bark.text = str(copy.winText) if game.state == "won" else str(copy.loseText)
+	if not active_reaction.is_empty() and last_feedback.is_empty():
+		var reaction_id := str(active_reaction.get("id", ""))
+		speaker = reaction_runtime.speaker_name(locale, str(active_reaction.get("speaker", "miku")))
+		bark.text = reaction_runtime.text(locale, str(active_reaction.get("messageKey", "")), active_reaction.get("params", {}))
+		_set_bark_emphasis(str(reaction_runtime.policy(reaction_id).get("emphasis", "standard")))
+	else:
+		_set_bark_emphasis("")
+	bark_speaker.text = speaker.to_upper()
+	bark_portrait.texture = _speaker_portrait(speaker)
 
 
 func _render_board() -> void:
@@ -776,10 +802,10 @@ func _render_board() -> void:
 			tile.name = "Tile"
 			tile.z_index = 1
 			tile.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-			tile.offset_left = 0
-			tile.offset_top = 0
-			tile.offset_right = 0
-			tile.offset_bottom = 0
+			tile.offset_left = 2
+			tile.offset_top = 2
+			tile.offset_right = -2
+			tile.offset_bottom = -2
 			tile.resized.connect(func() -> void: tile.pivot_offset = tile.size * 0.5)
 			tile.texture = load("res://" + tile_asset.trim_prefix("./"))
 			tile.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -1000,36 +1026,160 @@ func _rendered_cell_signature(index: int, cell_size: float, reduced_motion: bool
 
 
 func _board_cell_size() -> float:
-	var rows := maxi(1, int(level_data.get("rows", 1)))
 	var columns := maxi(1, int(level_data.get("columns", 1)))
-	var width_limit := minf(size.x - 24.0, 414.0)
-	if board_center.size.y > 0.0:
-		width_limit = minf(width_limit, board_center.size.y * float(columns) / float(rows))
-	var cell_width := (width_limit - 6.0 - float(columns - 1)) / float(columns)
-	# GridContainer does not include the UI A outline in its cell minimum size.
-	return maxf(1.0, cell_width + 1.0)
+	var geometry := _source_board_geometry()
+	var board_size: Vector2 = geometry.board_size
+	var board_width: float = board_size.x
+	var cell_width: float = (board_width - 6.0 - float(columns - 1)) / float(columns)
+	return maxf(1.0, cell_width)
+
+
+func _board_cell_height() -> float:
+	var rows := maxi(1, int(level_data.get("rows", 1)))
+	var geometry := _source_board_geometry()
+	var board_size: Vector2 = geometry.board_size
+	return maxf(1.0, (board_size.y - 6.0 - float(rows - 1)) / float(rows))
 
 
 func _board_hud_spacing() -> float:
-	# UI A anchors its board toward the bottom of the playfield, leaving a
-	# deliberate gap after the HUD. A short responsive spacer shifts the Godot
-	# center-layout equivalent down without affecting the dialogue slot.
-	return clampf((size.y - 568.0) * 0.19, 0.0, 52.0)
+	# Keep the VBox flow's dialogue and guidance slots stable. The actual board
+	# is positioned independently from the source flex playfield geometry below.
+	return clampf((size.y - 568.0) * 0.19, 0.0, 48.0)
 
 
 func _fit_board_hud_spacing() -> void:
 	if is_instance_valid(board_top_spacer):
 		board_top_spacer.custom_minimum_size.y = _board_hud_spacing()
+	_fit_board_cells()
+
+
+func _source_board_geometry() -> Dictionary:
+	var viewport := get_viewport_rect().size
+	var rows := maxi(1, int(level_data.get("rows", 1)))
+	var columns := maxi(1, int(level_data.get("columns", 1)))
+	return source_board_geometry(viewport, size, columns, rows)
+
+
+static func source_board_geometry(viewport: Vector2, frame_size: Vector2, columns: int, rows: int) -> Dictionary:
+	var screen_width := maxf(1.0, frame_size.x)
+	var screen_height := maxf(1.0, frame_size.y)
+	var viewport_width := viewport.x if viewport.x > 0.0 else screen_width
+	var viewport_height := viewport.y if viewport.y > 0.0 else screen_height
+	var narrow_header := viewport_width <= 320.0
+	var mobile_hud := viewport_width <= 430.0
+	var short_screen := viewport_height <= 760.0
+	var header_height := 57.0 if narrow_header else 61.0
+	var hud_height := 50.0 if mobile_hud else 52.0
+	var hud_top_margin := 16.0 if short_screen else 18.0
+	var hud_bottom_margin := 60.0 if short_screen else 66.0
+	var playfield_top := header_height + 8.0 + hud_top_margin + hud_height + hud_bottom_margin + 8.0
+	var bottom_reserve := 114.5 if mobile_hud else 116.5
+	var playfield_height := maxf(0.0, screen_height - bottom_reserve - playfield_top)
+	var width_limit := minf(screen_width - 24.0, 414.0)
+	var board_width := minf(width_limit, playfield_height * float(columns) / float(maxi(rows, 1)))
+	var board_height := board_width * float(maxi(rows, 1)) / float(maxi(columns, 1))
+	var board_shift := 6.0 + board_height * 0.0889
+	var board_top := playfield_top + playfield_height - board_height - board_shift
+	return {
+		"playfield_top": playfield_top,
+		"playfield_height": playfield_height,
+		"board_size": Vector2(board_width, board_height),
+		"board_top": board_top,
+	}
+
+
+func _fit_move_counter_font_size() -> void:
+	if not is_instance_valid(moves):
+		return
+	var viewport_width := get_viewport_rect().size.x
+	moves.add_theme_font_size_override("font_size", _move_counter_font_size_for_width(viewport_width))
+
+
+func _fit_match3_hud_geometry() -> void:
+	if not is_instance_valid(case_hud) or not is_instance_valid(objective_panel) or not is_instance_valid(stage_panel):
+		return
+	var viewport_width := get_viewport_rect().size.x
+	var profile := _match3_hud_profile_for_width(viewport_width)
+	var frame_width := minf(viewport_width, PhoneFrame.MAX_WIDTH)
+	var available_width := maxf(0.0, frame_width - 24.0)
+	var moves_width := float(profile.moves_width)
+	var goal_width := minf(float(profile.goal_width), maxf(0.0, available_width - moves_width - 12.0))
+	case_hud.custom_minimum_size.y = profile.hud_height
+	objective_panel.custom_minimum_size = Vector2(goal_width, profile.hud_height)
+	stage_panel.custom_minimum_size = Vector2(moves_width, profile.hud_height)
+	objective_icon.custom_minimum_size = Vector2(profile.goal_icon_size, profile.goal_icon_size)
+	objective_heading.add_theme_font_size_override("font_size", profile.heading_size)
+	moves_heading.add_theme_font_size_override("font_size", profile.heading_size)
+	objective.add_theme_font_size_override("font_size", profile.count_size)
+
+
+func _match3_hud_profile_for_width(viewport_width: float) -> Dictionary:
+	var mobile := viewport_width <= 430.0
+	return {
+		"goal_width": 224 if mobile else 234,
+		"moves_width": 70 if mobile else 72,
+		"hud_height": 50 if mobile else 52,
+		"goal_icon_size": 22 if mobile else 24,
+		"heading_size": 9 if mobile else 10,
+		"count_size": 13 if mobile else 14,
+	}
+
+
+func _hud_paper_gradient_rect() -> TextureRect:
+	var gradient_rect := TextureRect.new()
+	gradient_rect.name = "HudPaperGradient"
+	gradient_rect.texture = _hud_paper_gradient_texture()
+	gradient_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	gradient_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	gradient_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return gradient_rect
+
+
+static func _hud_paper_gradient_texture() -> GradientTexture2D:
+	if _hud_paper_gradient_cache != null:
+		return _hud_paper_gradient_cache
+	var gradient := Gradient.new()
+	gradient.colors = PackedColorArray([Color("#fff7df"), Color("#f7ebc8")])
+	gradient.offsets = PackedFloat32Array([0.0, 1.0])
+	_hud_paper_gradient_cache = GradientTexture2D.new()
+	_hud_paper_gradient_cache.gradient = gradient
+	_hud_paper_gradient_cache.fill_from = Vector2(0.0, 0.0)
+	_hud_paper_gradient_cache.fill_to = Vector2(0.0, 1.0)
+	_hud_paper_gradient_cache.width = 2
+	_hud_paper_gradient_cache.height = 64
+	return _hud_paper_gradient_cache
+
+
+func _move_counter_font_size_for_width(viewport_width: float) -> int:
+	return int(_match3_hud_profile_for_width(viewport_width).count_size)
 
 
 func _fit_board_cells() -> void:
-	if not is_instance_valid(board) or board.get_child_count() == 0:
+	if not is_instance_valid(board) or board.get_child_count() == 0 or not is_instance_valid(board_center):
 		return
+	var geometry := _source_board_geometry()
+	var board_size: Vector2 = geometry.board_size
+	board_positioner.custom_minimum_size = board_size
+	board_positioner.size = board_size
+	var center_position := board_center.get_global_position() - get_global_position()
+	var centered_offset := (board_center.size.y - board_size.y) * 0.5
+	var relative_top := float(geometry.board_top) - center_position.y - centered_offset
+	var board_outline := board_positioner.get_node("BoardNavyOutline") as PanelContainer
+	board_outline.custom_minimum_size = board_size
+	board_outline.size = board_size
+	board_outline.position = Vector2(0.0, relative_top)
+	board_frame.custom_minimum_size = board_size
+	board_frame.size = board_size
 	var cell_size := _board_cell_size()
+	var cell_height := _board_cell_height()
 	for child in board.get_children():
 		if child is Control:
-			(child as Control).custom_minimum_size = Vector2(cell_size, cell_size)
-			(child as Control).pivot_offset = Vector2(cell_size, cell_size) * 0.5
+			var cell := child as Control
+			cell.custom_minimum_size = Vector2(cell_size, cell_height)
+			cell.pivot_offset = Vector2(cell_size, cell_height) * 0.5
+			var tile_stack := cell.get_node_or_null("TileStack") as Control
+			if is_instance_valid(tile_stack):
+				tile_stack.pivot_offset = cell.pivot_offset
 
 
 func _render_frame(frame: Dictionary) -> void:
@@ -1889,7 +2039,9 @@ func _present_narrative_reaction(result: Dictionary) -> void:
 	active_reaction = reaction
 	reaction_generation += 1
 	var generation := reaction_generation
-	_refresh()
+	var locale: String = preferences.locale
+	var copy: Dictionary = level_presentation.localized.get(locale, level_presentation.localized.en)
+	_refresh_bark(locale, copy)
 	_animate_reaction_enter()
 	get_tree().create_timer(float(reaction_policy.get("durationMs", 0)) / 1000.0).timeout.connect(
 		_dismiss_narrative_reaction.bind(reaction_id, generation), CONNECT_ONE_SHOT)
@@ -2322,6 +2474,8 @@ func _style_hint_button(button: Button) -> void:
 	button.add_theme_stylebox_override("normal", transparent)
 	button.add_theme_stylebox_override("hover", transparent)
 	button.add_theme_stylebox_override("pressed", transparent)
+	button.add_theme_stylebox_override("disabled", transparent)
+	button.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 
 
 func _objective_texture(objective_data: Dictionary) -> Texture2D:
@@ -2399,5 +2553,12 @@ func _fit_tutorial_card() -> void:
 	var compact := size.x <= 340.0
 	tutorial_title.add_theme_font_size_override("font_size", 20 if compact else 24)
 	tutorial_body.add_theme_font_size_override("font_size", 11 if compact else 13)
+	# Match the browser Georgia fallback line break for this Russian heading.
 	var content_layer := tutorial_panel.get_node("TutorialContentLayer") as Control
 	content_layer.custom_minimum_size.y = 207.0 + maxf(0.0, 350.0 - card_width) * 0.8
+
+
+func _tutorial_title_for_display(title_text: String, concept: String, locale: String) -> String:
+	if concept == "basic-swap" and locale == "ru":
+		return title_text.replace("Собирайте ", "Собирайте\n")
+	return title_text

@@ -11,12 +11,22 @@ describe('Godot port project shell', () => {
 	const smoke = read('godot/tests/port_bootstrap_smoke.gd');
 	const checkScript = read('godot/check.ps1');
 	const readme = read('godot/README.md');
+	const phoneFrame = read('godot/scripts/phone_frame.gd');
+	const mainMenu = read('godot/scripts/main_menu.gd');
+	const settings = read('godot/scripts/settings_screen.gd');
+	const settingsSmoke = read('godot/tests/settings_smoke.gd');
+	const nestedScreens = [
+		read('godot/scripts/vn_screen.gd'),
+		read('godot/scripts/match3_campaign_screen.gd'),
+		read('godot/scripts/match3_screen.gd'),
+		read('godot/scripts/settings_screen.gd'),
+	];
 
 	it('pins a stable portrait project entry point and compatible renderer', () => {
 		expect(project).toContain('config/features=PackedStringArray("4.7", "GL Compatibility")');
 		expect(project).toContain('run/main_scene="res://scenes/main_menu.tscn"');
 		expect(project).toContain('window/size/viewport_width=390');
-		expect(project).toContain('window/size/viewport_height=854');
+		expect(project).toContain('window/size/viewport_height=844');
 		expect(project).toContain('window/stretch/aspect="expand"');
 		expect(project).toContain('renderer/rendering_method="gl_compatibility"');
 	});
@@ -28,5 +38,25 @@ describe('Godot port project shell', () => {
 		expect(smoke).toContain('res://scenes/port_bootstrap.tscn');
 		expect(checkScript).toContain('res://tests/port_bootstrap_smoke.gd');
 		expect(readme).toContain('main menu is the entry point');
+	});
+
+	it('applies the phone-frame transform once and lets nested player screens inherit it', () => {
+		expect(mainMenu).toContain('PhoneFrame.fit(self)');
+		expect(phoneFrame).toContain('parent.has_meta(PHONE_FRAME_META)');
+		expect(phoneFrame).toContain('control.set_meta(PHONE_FRAME_META, true)');
+		for (const screen of nestedScreens) expect(screen).toContain('PhoneFrame.fit(self)');
+	});
+
+	it('preserves the source settings hierarchy and visual control groups in Godot', () => {
+		expect(settings).toContain('PanelHeader');
+		expect(settings).toContain('StyleBoxTexture.new()');
+		expect(settings).toContain('MusicVolumeCard');
+		expect(settings).toContain('EffectsVolumeCard');
+		expect(settings).toContain('AudioToggles');
+		expect(settings).toContain('MobileContract');
+		expect(settings).toContain('PwaOfflineCard');
+		expect(settingsSmoke).toContain('Volume labels and sliders should share');
+		expect(settingsSmoke).toContain('PWA card should identify the host');
+		expect(settingsSmoke).toContain('Music slider should persist');
 	});
 });

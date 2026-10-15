@@ -19,8 +19,8 @@ func _run_smoke() -> void:
 	root.add_child(menu)
 	await process_frame
 	assert(int(ProjectSettings.get_setting("display/window/size/viewport_width")) == 390
-		and int(ProjectSettings.get_setting("display/window/size/viewport_height")) == 854,
-		"Main menu project base must match the 390x854 mobile web shell")
+		and int(ProjectSettings.get_setting("display/window/size/viewport_height")) == 844,
+		"Main menu project base must match the 390x844 mobile web shell")
 	var menu_content: Control = menu.get_node("Content")
 	var hero: Control = menu.get_node("Content/Hero")
 	var actions: Control = menu.get_node("Content/Actions")
@@ -32,9 +32,9 @@ func _run_smoke() -> void:
 	var hero_top: float = menu_content.position.y + hero.position.y
 	var actions_top: float = menu_content.position.y + actions.position.y
 	assert(hero_top > 180.0 and hero_top < 250.0,
-		"At 390x854, title and tagline should keep the character medallions in the upper third")
+		"At 390x844, title and tagline should keep the character medallions in the upper third")
 	assert(actions_top > 520.0 and actions_top < 600.0,
-		"At 390x854, menu actions should stay near the lower source-menu position")
+		"At 390x844, menu actions should stay near the lower source-menu position")
 	assert(menu.get_node("Content/Footer").text == "v" + str(CONTRACT.data.appVersion),
 		"The menu footer should show the shared product version")
 

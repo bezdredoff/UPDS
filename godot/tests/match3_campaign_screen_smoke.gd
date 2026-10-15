@@ -104,6 +104,8 @@ func _run() -> void:
 		assert((objective_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
 			and (objective_count_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
 			and (moves_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
+			and (moves_font as FontVariation).fallbacks == [UiFonts.COMIC_BOLD_CYRILLIC]
+			and (moves_font as FontVariation).variation_embolden == 0.2
 			and (hint_font as FontVariation).variation_embolden == 0.4
 			and (speaker_font as FontVariation).variation_embolden == 0.3
 			and (bark_font as FontVariation).base_font == UiFonts.COMIC_LATIN,
@@ -117,13 +119,57 @@ func _run() -> void:
 			"Native Match-3 font provider should preserve the source system font stack and weight")
 		assert((objective_font as SystemFont).font_weight == 800
 			and (objective_count_font as SystemFont).font_weight == 800
+			and (moves_font as SystemFont).font_names == PackedStringArray(["Comic Sans MS", "Trebuchet MS"])
 			and (moves_font as SystemFont).font_weight == 800
 			and (hint_font as SystemFont).font_weight == 900
 			and (speaker_font as SystemFont).font_weight == 850
 			and (bark_font as SystemFont).font_weight == 500,
 			"Native Match-3 HUD, bark and hint should preserve source weights")
-	assert(objective_font != null and objective_count_font != null and moves_font != null,
-		"Match-3 objective and move HUD should use the bold display font")
+	var expected_moves_font_size := 13 if match3.get_viewport_rect().size.x <= 430.0 else 14
+	assert(objective_font != null and objective_count_font != null and moves_font != null
+		and match3.moves.get_theme_font_size("font_size") == expected_moves_font_size
+		and match3.moves.get_theme_color("font_color") == Color("#214936"),
+		"Match-3 move counter should match the source Comic Sans stack, responsive size and dark green color")
+	assert(match3._move_counter_font_size_for_width(320.0) == 13
+		and match3._move_counter_font_size_for_width(430.0) == 13
+		and match3._move_counter_font_size_for_width(431.0) == 14
+		and match3._move_counter_font_size_for_width(480.0) == 14,
+		"Move counter responsive font size should follow the source 430px viewport breakpoint")
+	assert(match3.objective_heading.text == "ЦЕЛЬ" and match3.moves_heading.text == "ХОДЫ"
+		and match3.hint_label.text == "ПОДСКАЗКА",
+		"Match-3 Russian HUD labels should preserve the source wording and uppercase presentation")
+	var mobile_hud_profile: Dictionary = match3._match3_hud_profile_for_width(390.0)
+	var desktop_hud_profile: Dictionary = match3._match3_hud_profile_for_width(480.0)
+	assert(mobile_hud_profile == {"goal_width": 224, "moves_width": 70, "hud_height": 50,
+		"goal_icon_size": 22, "heading_size": 9, "count_size": 13}
+		and desktop_hud_profile == {"goal_width": 234, "moves_width": 72, "hud_height": 52,
+		"goal_icon_size": 24, "heading_size": 10, "count_size": 14},
+		"Match-3 HUD width and typography profiles should follow the source 430px breakpoint")
+	var viewport_width := match3.get_viewport_rect().size.x
+	var active_hud_profile: Dictionary = match3._match3_hud_profile_for_width(viewport_width)
+	assert(is_equal_approx(match3.objective_panel.size.x, active_hud_profile.goal_width)
+		and is_equal_approx(match3.stage_panel.size.x, active_hud_profile.moves_width)
+		and is_equal_approx(match3.objective_panel.size.y, active_hud_profile.hud_height)
+		and is_equal_approx(match3.stage_panel.size.y, active_hud_profile.hud_height)
+		and is_equal_approx(match3.objective_icon.custom_minimum_size.x, active_hud_profile.goal_icon_size),
+		"Live Match-3 HUD geometry should use the active source viewport profile")
+	var objective_card_style := match3.objective_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	var moves_card_style := match3.stage_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	var objective_gradient := match3.objective_panel.get_node("HudPaperGradient") as TextureRect
+	var hud_gradient_texture := objective_gradient.texture as GradientTexture2D
+	assert(objective_card_style.bg_color == Color(0, 0, 0, 0)
+		and objective_card_style.border_color == Color("#f7ebc8")
+		and objective_card_style.get_border_width(SIDE_LEFT) == 3
+		and objective_card_style.get_corner_radius(CORNER_TOP_LEFT) == 8
+		and objective_card_style.shadow_size == 0
+		and objective_card_style.content_margin_left == 6
+		and objective_card_style.content_margin_top == 3
+		and moves_card_style.bg_color == objective_card_style.bg_color
+		and hud_gradient_texture != null
+		and hud_gradient_texture.gradient.colors == PackedColorArray([Color("#fff7df"), Color("#f7ebc8")])
+		and hud_gradient_texture.fill_from == Vector2.ZERO
+		and hud_gradient_texture.fill_to == Vector2(0.0, 1.0),
+		"Match-3 HUD cards should preserve the source vertical paper gradient, paper border, 8px radius, compact inset and no shadow")
 	assert(hint_font != null and speaker_font != null,
 		"Match-3 hint and bark speaker should use the bold display font")
 	assert(bark_font != null,
@@ -164,7 +210,7 @@ func _run() -> void:
 	assert(match3.tutorial_overlay.z_index > 20 and match3.tutorial_overlay.z_index < 30,
 		"Tutorial overlay should cover elevated Match-3 tile art while staying beneath evidence and result overlays")
 	assert(is_equal_approx(match3.board_top_spacer.custom_minimum_size.y,
-		clampf((match3.size.y - 568.0) * 0.19, 0.0, 52.0)),
+		clampf((match3.size.y - 568.0) * 0.19, 0.0, 48.0)),
 		"Match-3 HUD-to-playfield gap did not update for the active viewport height")
 	assert(match3.tutorial_title.text == "Снимайте слои пакета", "Campaign tutorial copy did not use the localized concept")
 	var tutorial_card_rect: Rect2 = match3.tutorial_frame.get_global_rect()
@@ -186,6 +232,9 @@ func _run() -> void:
 	assert(match3.active_tutorial.is_empty(), "Completing the special activation did not advance the tutorial sequence")
 	assert(match3.game.tiles.size() == int(bundle.levels[1].rows) * int(bundle.levels[1].columns), "Selected campaign board dimensions mismatch")
 	var moves_before_reaction: int = match3.game.moves_left
+	var displayed_moves_before_reaction: String = match3.moves.text
+	var displayed_objective_before_reaction: String = match3.objective.text
+	var first_cell_before_reaction: int = match3.board.get_child(0).get_instance_id()
 	match3._reduced_motion_override = false
 	match3.game.moves_left = int(match3.level_data.moves) - 1
 	match3._present_narrative_reaction({"valid": true, "blockersCleared": 0, "specialsCreated": 0, "cascades": 1,
@@ -194,6 +243,10 @@ func _run() -> void:
 		and match3.bark_speaker.text == "АЮКИ"
 		and match3.bark.text == "Маленькая чёрная карта, огромный шанс на драму.",
 		"Match-3 reaction should replace the static bark with authored localized copy and speaker")
+	assert(match3.moves.text == displayed_moves_before_reaction
+		and match3.objective.text == displayed_objective_before_reaction
+		and match3.board.get_child(0).get_instance_id() == first_cell_before_reaction,
+		"Presenting a reaction during a move must not reveal final counters or redraw the board before move frames finish")
 	assert(match3.bark_portrait.texture != null
 		and match3.bark_portrait.texture.resource_path.ends_with("ayuki/medallions/portrait_neutral_256.png"),
 		"Reaction bark should use the same authored circular portrait as the web UI")
@@ -211,9 +264,19 @@ func _run() -> void:
 	assert(is_equal_approx(match3.bark_panel.modulate.a, 1.0) and is_zero_approx(match3.bark_panel.position.y),
 		"Reaction bark should finish its 160ms ease-out entrance")
 	var reaction_style := match3.bark_panel.get_theme_stylebox("panel") as StyleBoxFlat
-	assert(reaction_style.border_width_left == 3 and reaction_style.border_width_top == 3
-		and reaction_style.corner_radius_top_left == 8 and reaction_style.shadow_size == 14,
-		"Standard reaction emphasis should preserve the web bark border and shadow")
+	assert(reaction_style.border_width_left == 4 and reaction_style.border_width_top == 1
+		and reaction_style.corner_radius_top_left == 9 and reaction_style.shadow_size == 14,
+		"Standard reaction emphasis should preserve the web bark spine, outline and shadow")
+	var bark_base: StyleBoxFlat = match3.bark_base_style
+	assert(bark_base.bg_color == Color("#fff7dff2")
+		and bark_base.border_color == Color("#66755d99")
+		and bark_base.border_width_left == 4
+		and bark_base.border_width_top == 1
+		and bark_base.corner_radius_top_left == 9,
+		"Static Match-3 bark should use the source parchment fill, green spine and rounded border")
+	assert(match3.hint_button.disabled
+		and match3.hint_button.get_theme_stylebox("disabled") == match3.hint_button.get_theme_stylebox("normal"),
+		"Disabled Match-3 hint should stay transparent like the source icon-and-label action")
 	match3._dismiss_narrative_reaction("ingredient-context")
 	await create_timer(0.22).timeout
 	assert(match3.active_reaction.is_empty() and is_equal_approx(match3.bark_panel.modulate.a, 1.0)
@@ -242,6 +305,29 @@ func _run() -> void:
 		"UI A board should preserve its one-pixel cell gaps")
 	assert(absf(match3.board_frame.size.x / match3.board_frame.size.y - float(match3.board.columns) / float(match3.game.level_data.rows)) < 0.01,
 		"UI A board should preserve its authored columns-to-rows aspect ratio")
+	assert(is_equal_approx(match3._board_hud_spacing(), 48.0),
+		"Match-3 board should keep the calibrated 48px maximum HUD spacer on standard-height screens")
+	var wide_board_geometry: Dictionary = match3.source_board_geometry(Vector2(474, 844), Vector2(430, 844), 7, 9)
+	assert(is_equal_approx(wide_board_geometry.playfield_top, 213.0)
+		and is_equal_approx(wide_board_geometry.playfield_height, 514.5)
+		and absf(wide_board_geometry.board_size.x - 400.16) < 0.1
+		and absf(wide_board_geometry.board_top - 161.28) < 0.1,
+		"Godot board geometry should match the source 474x844 flex-playfield capture")
+	var narrow_board_geometry: Dictionary = match3.source_board_geometry(Vector2(390, 844), Vector2(390, 844), 7, 9)
+	assert(is_equal_approx(narrow_board_geometry.playfield_top, 211.0)
+		and absf(narrow_board_geometry.board_size.x - 366.0) < 0.1
+		and absf(narrow_board_geometry.board_top - 211.1) < 0.1,
+		"Godot board geometry should match the source 390x844 responsive capture")
+	var compact_board_geometry: Dictionary = match3.source_board_geometry(Vector2(320, 568), Vector2(320, 568), 7, 9)
+	assert(is_equal_approx(compact_board_geometry.playfield_top, 199.0)
+		and absf(compact_board_geometry.board_size.x - 197.94) < 0.1
+		and absf(compact_board_geometry.board_top - 170.39) < 0.1,
+		"Godot board geometry should match the source 320x568 compact capture")
+	var live_board_geometry: Dictionary = match3._source_board_geometry()
+	var expected_board_origin: float = float(live_board_geometry.board_top) - (match3.board_center.get_global_position().y
+		- match3.get_global_position().y) - (match3.board_center.size.y - live_board_geometry.board_size.y) * 0.5
+	assert(absf(match3.board_positioner.get_node("BoardNavyOutline").position.y - expected_board_origin) < 0.1,
+		"Godot board should use the source flex anchor and one-row upward visual offset")
 	var rendered_cell_index := -1
 	for index in match3.game.tiles.size():
 		if not match3.game.tiles[index].is_empty():
@@ -266,13 +352,14 @@ func _run() -> void:
 	match3._render_board()
 	var normal_tile := match3.board.get_child(normal_tile_index).get_node("TileStack/Tile") as TextureRect
 	var normal_tile_material := normal_tile.material as ShaderMaterial
-	assert(normal_tile.offset_left == 0 and normal_tile.offset_top == 0
+	assert(normal_tile.offset_left == 2 and normal_tile.offset_top == 2
+		and normal_tile.offset_right == -2 and normal_tile.offset_bottom == -2
 		and normal_tile.scale.is_equal_approx(Vector2(1.08, 1.08))
 		and normal_tile.z_index == 1
 		and normal_tile_material != null
 		and (normal_tile_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2))
 		and is_equal_approx(normal_tile_material.get_shader_parameter("saturation"), 1.05),
-		"UI A tile artwork should fill its cell and preserve its 1.08 scale, drop shadow and saturation")
+		"UI A tile artwork should preserve the source 2px inset, 1.08 scale, drop shadow and saturation")
 	var first_tile_before_variant_check: String = match3.game.tiles[normal_tile_index]
 	match3.game.tiles[normal_tile_index] = "camisole"
 	match3._render_board()
@@ -337,6 +424,8 @@ func _run() -> void:
 	assert(match3.hint_button.custom_minimum_size == Vector2(94, 48), "Hint control should preserve the source tool tray size")
 	var tutorial_style := match3.tutorial_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(is_equal_approx(match3.tutorial_panel.custom_maximum_size.x, 350.0), "Tutorial card width should match the source 350px maximum")
+	assert(is_equal_approx(match3.tutorial_title.custom_maximum_size.x, -1.0),
+		"Other tutorial headings should keep their source full-width layout")
 	assert(tutorial_style.border_width_top == 3 and tutorial_style.border_width_left == 8, "Tutorial card border should match the source gold frame and green spine")
 	assert(tutorial_style.content_margin_left == 26 and tutorial_style.content_margin_right == 26
 		and match3.tutorial_body.get_theme_constant("line_spacing") == 0,
@@ -348,9 +437,15 @@ func _run() -> void:
 	var original_screen_width := match3.size.x
 	match3.size.x = 320.0
 	match3._fit_tutorial_card()
-	assert(match3.tutorial_panel.custom_minimum_size.x == 292.0 and match3.tutorial_frame.custom_minimum_size.x == 298.0, "Tutorial card did not keep the source 14px responsive overlay inset")
+	assert(match3.tutorial_panel.custom_minimum_size.x == 292.0 and match3.tutorial_frame.custom_minimum_size.x == 298.0
+		and is_equal_approx(match3.tutorial_title.custom_maximum_size.x, -1.0),
+		"Tutorial card did not keep the source 14px responsive overlay inset")
 	match3.size.x = original_screen_width
-	match3._fit_tutorial_card()
+	assert(match3._tutorial_title_for_display("Собирайте одинаковые предметы", "basic-swap", "ru")
+		== "Собирайте\nодинаковые предметы"
+		and match3._tutorial_title_for_display("Match identical items", "basic-swap", "en") == "Match identical items"
+		and match3._tutorial_title_for_display("Снимайте слои пакета", "clear-package", "ru") == "Снимайте слои пакета",
+		"Tutorial title should preserve the source Russian basic-swap line break without changing other locale copy")
 	assert(match3.bottom_spacer.name == "MatchGuidance" and match3.guidance_labels[0].name == "InputGuidance", "Match-3 input guidance slot is missing")
 	assert(match3.guidance_labels[0].text == MenuCopy.text("match3_input_hint", "ru"), "Match-3 input guidance did not use the selected locale")
 	assert(match3.bottom_spacer.visible, "Match-3 guidance should be visible while the board is active")
@@ -520,6 +615,7 @@ func _run() -> void:
 	match3._render_board()
 	var preserved_cell_index: int = (settle_index + 1) % match3.game.tiles.size()
 	var preserved_cell_id: int = match3.board.get_child(preserved_cell_index).get_instance_id()
+	var clearing_started_usec := Time.get_ticks_usec()
 	match3._render_frame({
 		"phase": "clear",
 		"tiles": match3.game.tiles.duplicate(),
@@ -533,9 +629,34 @@ func _run() -> void:
 	assert(match3.board.get_child(preserved_cell_index).get_instance_id() == preserved_cell_id,
 		"A Match-3 frame rebuilt an unchanged cell and restarted its idle animation")
 	var clearing_stack: Control = match3.board.get_child(settle_index).get_node("TileStack")
-	await create_timer(0.12).timeout
-	assert(clearing_stack.scale.x > 1.05 and clearing_stack.modulate.r > 1.4, "Clear animation missed its source 1.1 scale and brightness peak")
-	await create_timer(0.19).timeout
+	await create_timer(0.064).timeout
+	var clearing_elapsed := float(Time.get_ticks_usec() - clearing_started_usec) / 1000000.0
+	var clear_peak_seconds: float = float(match3.CLEAR_MOTION_SECONDS) * 0.48
+	var clear_scale_expected: float
+	var clear_brightness_expected: float
+	var clear_opacity_expected: float
+	if clearing_elapsed <= clear_peak_seconds:
+		var clear_progress := clampf(clearing_elapsed / clear_peak_seconds, 0.0, 1.0)
+		var clear_curve: float = match3._css_cubic_bezier(clear_progress, 0.2, 0.72, 0.18, 1.0)
+		clear_scale_expected = lerpf(1.0, 1.1, clear_curve)
+		clear_brightness_expected = lerpf(1.0, 1.55, clear_curve)
+		clear_opacity_expected = 1.0
+	else:
+		var clear_progress := clampf((clearing_elapsed - clear_peak_seconds) / (match3.CLEAR_MOTION_SECONDS - clear_peak_seconds), 0.0, 1.0)
+		var clear_curve: float = match3._css_cubic_bezier(clear_progress, 0.2, 0.72, 0.18, 1.0)
+		clear_scale_expected = lerpf(1.1, 0.18, clear_curve)
+		clear_brightness_expected = lerpf(1.55, 1.8, clear_curve)
+		clear_opacity_expected = lerpf(1.0, 0.0, clear_curve)
+	assert(absf(clearing_stack.scale.x - clear_scale_expected) < 0.025
+		and absf(clearing_stack.modulate.r - clear_brightness_expected) < 0.06
+		and absf(clearing_stack.modulate.a - clear_opacity_expected) < 0.06,
+		"Clear animation should follow the same CSS cubic-bezier sample at %sms" % int(clearing_elapsed * 1000.0))
+	print("UPDS Godot clear tween sample: %.2fms scale %.4f/%.4f brightness %.4f/%.4f opacity %.4f/%.4f" % [
+		clearing_elapsed * 1000.0, clearing_stack.scale.x, clear_scale_expected,
+		clearing_stack.modulate.r, clear_brightness_expected,
+		clearing_stack.modulate.a, clear_opacity_expected,
+	])
+	await create_timer(maxf(0.0, match3.CLEAR_MOTION_SECONDS + 0.03 - clearing_elapsed)).timeout
 	assert(clearing_stack.scale.is_equal_approx(Vector2(0.18, 0.18)) and clearing_stack.modulate.a < 0.01, "Clear animation missed its source shrink and fade end state")
 	match3._render_board()
 	var columns := int(match3.game.level_data.columns)
