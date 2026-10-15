@@ -159,7 +159,7 @@ func _run() -> void:
 	web_dialogue_font.variation_opentype = {"wght": 400.0}
 	var fitted_wrap: String = screen._fit_candidate_with_hyphenation(
 		"После звонка кампус японского колледжа Сэйран не затихал:", "спортивные",
-		web_dialogue_font, 326.0, 16, 48.44)
+		web_dialogue_font, 326.0, 16, 52.44)
 	assert(fitted_wrap.contains("колле-\nджа") and fitted_wrap.ends_with("спортивные"),
 		"VN web pagination should reproduce the source's measured RU hyphenation on the first page")
 	if screen._dialogue_pages.size() > 1:
