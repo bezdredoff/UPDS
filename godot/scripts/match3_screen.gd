@@ -61,6 +61,7 @@ var bark_panel: PanelContainer
 var bark_slot: Control
 var bark_base_style: StyleBoxFlat
 var bark_speaker: Label
+var bark_portrait_frame: Panel
 var bark_portrait: TextureRect
 var tutorial_panel: PanelContainer
 var tutorial_frame: PanelContainer
@@ -421,21 +422,20 @@ func _ready() -> void:
 	board_center.resized.connect(_fit_board_cells)
 	resized.connect(_fit_board_hud_spacing)
 	var bark_style := StyleBoxFlat.new()
-	bark_style.bg_color = Color("#fff7df")
-	bark_style.border_color = Color("#66755d")
-	bark_style.set_border_width_all(1)
-	bark_style.border_width_left = 4
-	bark_style.set_corner_radius_all(9)
-	bark_style.content_margin_left = 9
-	bark_style.content_margin_right = 9
-	bark_style.content_margin_top = 6
-	bark_style.content_margin_bottom = 6
+	bark_style.bg_color = Color("#f7ebc8")
+	bark_style.border_color = Color("#f7ebc8")
+	bark_style.set_border_width_all(3)
+	bark_style.set_corner_radius_all(8)
+	bark_style.content_margin_left = 1
+	bark_style.content_margin_right = 3
+	bark_style.content_margin_top = 1
+	bark_style.content_margin_bottom = 1
 	bark_base_style = bark_style
 	bark_slot = Control.new()
 	bark_slot.name = "BarkSlot"
 	bark_slot.custom_minimum_size.y = 62
 	bark_slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	bark_slot.clip_contents = true
+	bark_slot.clip_contents = false
 	content.remove_child(bark)
 	content.add_child(bark_slot)
 	bark_panel = PanelContainer.new()
@@ -445,14 +445,47 @@ func _ready() -> void:
 	bark_panel.add_theme_stylebox_override("panel", bark_style)
 	bark_slot.add_child(bark_panel)
 	var bark_row := HBoxContainer.new()
-	bark_row.add_theme_constant_override("separation", 7)
+	bark_row.add_theme_constant_override("separation", 5)
 	bark_panel.add_child(bark_row)
+	bark_portrait_frame = Panel.new()
+	bark_portrait_frame.name = "PortraitFrame"
+	bark_portrait_frame.custom_minimum_size = Vector2(42, 42)
+	bark_portrait_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var portrait_frame_style := StyleBoxFlat.new()
+	portrait_frame_style.bg_color = Color("#fff5d2")
+	portrait_frame_style.border_color = Color("#fff5d2")
+	portrait_frame_style.set_border_width_all(2)
+	portrait_frame_style.set_corner_radius_all(999)
+	portrait_frame_style.shadow_color = Color("#326349")
+	portrait_frame_style.shadow_size = 1
+	portrait_frame_style.shadow_offset = Vector2.ZERO
+	bark_portrait_frame.add_theme_stylebox_override("panel", portrait_frame_style)
+	bark_row.add_child(bark_portrait_frame)
 	bark_portrait = TextureRect.new()
-	bark_portrait.custom_minimum_size = Vector2(40, 40)
+	bark_portrait.name = "Portrait"
+	bark_portrait.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bark_portrait.offset_left = 2
+	bark_portrait.offset_top = 2
+	bark_portrait.offset_right = -2
+	bark_portrait.offset_bottom = -2
 	bark_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	bark_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	bark_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	bark_row.add_child(bark_portrait)
+	var portrait_mask := Shader.new()
+	portrait_mask.code = """
+	shader_type canvas_item;
+	void fragment() {
+		vec4 portrait = texture(TEXTURE, UV) * COLOR;
+		float radius = length(UV * 2.0 - 1.0);
+		float edge = fwidth(radius);
+		portrait.a *= 1.0 - smoothstep(1.0 - edge, 1.0 + edge, radius);
+		COLOR = portrait;
+	}
+	"""
+	var portrait_material := ShaderMaterial.new()
+	portrait_material.shader = portrait_mask
+	bark_portrait.material = portrait_material
+	bark_portrait_frame.add_child(bark_portrait)
 	var bark_lines := VBoxContainer.new()
 	bark_lines.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bark_lines.alignment = BoxContainer.ALIGNMENT_CENTER

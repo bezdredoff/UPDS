@@ -186,13 +186,22 @@ func _run() -> void:
 	assert(match3.bark_portrait.texture != null
 		and match3.bark_portrait.texture.resource_path.ends_with("ayuki/medallions/portrait_neutral_256.png"),
 		"Reaction bark should use the same authored circular portrait as the web UI")
+	var portrait_frame_style := match3.bark_portrait_frame.get_theme_stylebox("panel") as StyleBoxFlat
+	var portrait_mask := (match3.bark_portrait.material as ShaderMaterial).shader.code
+	assert(match3.bark_portrait_frame.custom_minimum_size == Vector2(42, 42)
+		and portrait_frame_style.get_border_width(SIDE_LEFT) == 2
+		and portrait_frame_style.corner_radius_top_left == 999
+		and portrait_frame_style.shadow_color.is_equal_approx(Color("#326349"))
+		and portrait_mask.contains("smoothstep"),
+		"Match-3 speaker portrait should keep its circular crop, paper border and green ring")
 	assert(is_zero_approx(match3.bark_panel.modulate.a) and is_equal_approx(match3.bark_panel.position.y, 4.0),
 		"Reaction bark should begin at the source 4px entrance offset and zero opacity")
 	await create_timer(0.2).timeout
 	assert(is_equal_approx(match3.bark_panel.modulate.a, 1.0) and is_zero_approx(match3.bark_panel.position.y),
 		"Reaction bark should finish its 160ms ease-out entrance")
 	var reaction_style := match3.bark_panel.get_theme_stylebox("panel") as StyleBoxFlat
-	assert(reaction_style.border_width_left == 4 and reaction_style.shadow_size == 14,
+	assert(reaction_style.border_width_left == 3 and reaction_style.border_width_top == 3
+		and reaction_style.corner_radius_top_left == 8 and reaction_style.shadow_size == 14,
 		"Standard reaction emphasis should preserve the web bark border and shadow")
 	match3._dismiss_narrative_reaction("ingredient-context")
 	await create_timer(0.22).timeout
