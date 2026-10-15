@@ -780,10 +780,10 @@ func _render_board() -> void:
 			tile.name = "Tile"
 			tile.z_index = 1
 			tile.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-			tile.offset_left = 0
-			tile.offset_top = 0
-			tile.offset_right = 0
-			tile.offset_bottom = 0
+			tile.offset_left = 2
+			tile.offset_top = 2
+			tile.offset_right = -2
+			tile.offset_bottom = -2
 			tile.resized.connect(func() -> void: tile.pivot_offset = tile.size * 0.5)
 			tile.texture = load("res://" + tile_asset.trim_prefix("./"))
 			tile.expand_mode = TextureRect.EXPAND_IGNORE_SIZE

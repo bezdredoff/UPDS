@@ -273,13 +273,14 @@ func _run() -> void:
 	match3._render_board()
 	var normal_tile := match3.board.get_child(normal_tile_index).get_node("TileStack/Tile") as TextureRect
 	var normal_tile_material := normal_tile.material as ShaderMaterial
-	assert(normal_tile.offset_left == 0 and normal_tile.offset_top == 0
+	assert(normal_tile.offset_left == 2 and normal_tile.offset_top == 2
+		and normal_tile.offset_right == -2 and normal_tile.offset_bottom == -2
 		and normal_tile.scale.is_equal_approx(Vector2(1.08, 1.08))
 		and normal_tile.z_index == 1
 		and normal_tile_material != null
 		and (normal_tile_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2))
 		and is_equal_approx(normal_tile_material.get_shader_parameter("saturation"), 1.05),
-		"UI A tile artwork should fill its cell and preserve its 1.08 scale, drop shadow and saturation")
+		"UI A tile artwork should preserve the source 2px inset, 1.08 scale, drop shadow and saturation")
 	var first_tile_before_variant_check: String = match3.game.tiles[normal_tile_index]
 	match3.game.tiles[normal_tile_index] = "camisole"
 	match3._render_board()
