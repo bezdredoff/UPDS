@@ -228,10 +228,10 @@ func _run() -> void:
 	var rejected_second := settle_index + 1 if (settle_index + 1) % columns != 0 else settle_index - 1
 	var rejected_cell: Control = match3.board.get_child(rejected_first)
 	var rejected_home_x := rejected_cell.position.x
+	var css_ease_curve := Callable(match3, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
+	assert(absf(float(css_ease_curve.call(0.5)) - 0.8024) < 0.01, "CSS ease curve did not sample to its source midpoint")
 	match3._shake_rejected_cells([rejected_first, rejected_second])
-	await create_timer(0.12).timeout
-	assert(absf(rejected_cell.position.x - rejected_home_x) > 1.0, "Rejected swap did not shake the whole source cell")
-	await create_timer(0.12).timeout
+	await create_timer(0.25).timeout
 	assert(is_equal_approx(rejected_cell.position.x, rejected_home_x), "Rejected cell did not return to its source position")
 	match3.story_session = menu.session
 	menu._open_story()
@@ -297,6 +297,8 @@ func _run() -> void:
 	assert(match3.match_feedback_label.text == "НЕТ ХОДОВ · ПОЛЕ ПЕРЕМЕШАНО", "Reshuffle feedback did not use the localized message")
 	var reshuffled_stack: Control = match3.board.get_child(0).get_node("TileStack")
 	assert(reshuffled_stack.scale.is_equal_approx(Vector2(0.82, 0.82)), "Reshuffle animation did not start at its source scale")
+	await create_timer(0.18).timeout
+	assert(reshuffled_stack.scale.x > 1.0 and absf(reshuffled_stack.scale.x - 1.04) < 0.05, "Reshuffle animation missed the 65% CSS keyframe")
 	await create_timer(0.5).timeout
 	assert(reshuffled_stack.scale.is_equal_approx(Vector2.ONE), "Reshuffle animation did not return tiles to their resting scale")
 	match3._render_board()

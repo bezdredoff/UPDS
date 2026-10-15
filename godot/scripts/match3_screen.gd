@@ -836,10 +836,11 @@ func _render_frame(frame: Dictionary) -> void:
 			tile_stack.rotation_degrees = -2.0
 			tile_stack.modulate.a = 0.45
 			var tween := create_tween()
-			tween.tween_property(tile_stack, "scale", Vector2(1.04, 1.04), RESHUFFLE_MOTION_SECONDS * 0.65).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
+			tween.tween_property(tile_stack, "scale", Vector2(1.04, 1.04), RESHUFFLE_MOTION_SECONDS * 0.65).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 			tween.parallel().tween_property(tile_stack, "rotation_degrees", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65)
 			tween.parallel().tween_property(tile_stack, "modulate:a", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65)
-			tween.tween_property(tile_stack, "scale", Vector2.ONE, RESHUFFLE_MOTION_SECONDS * 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			tween.tween_property(tile_stack, "scale", Vector2.ONE, RESHUFFLE_MOTION_SECONDS * 0.35).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 			tween.parallel().tween_property(tile_stack, "rotation_degrees", 0.0, RESHUFFLE_MOTION_SECONDS * 0.35)
 
 
@@ -913,8 +914,9 @@ func _shake_rejected_cells(indices: Array) -> void:
 		var cell := board.get_child(index) as Control
 		var start_x := cell.position.x
 		var tween := create_tween()
+		var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
 		for offset in [-5.0, 5.0, -3.0, 0.0]:
-			tween.tween_property(cell, "position:x", start_x + offset, 0.055)
+			tween.tween_property(cell, "position:x", start_x + offset, 0.055).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 
 
 func _feedback_text(key: String, count: int = 1) -> String:
