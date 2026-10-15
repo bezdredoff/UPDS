@@ -8,6 +8,7 @@ const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
+const UiFonts = preload("res://scripts/ui_fonts.gd")
 
 var preferences: RefCounted
 var session: RefCounted
@@ -106,8 +107,8 @@ func _ready() -> void:
 	summary_style.set_corner_radius_all(12)
 	summary_style.content_margin_left = 14
 	summary_style.content_margin_right = 14
-	summary_style.content_margin_top = 14
-	summary_style.content_margin_bottom = 14
+	summary_style.content_margin_top = 15
+	summary_style.content_margin_bottom = 15
 	summary_style.shadow_color = Color("#1b203624")
 	summary_style.shadow_size = 12
 	summary_style.shadow_offset = Vector2(0, 5)
@@ -118,8 +119,10 @@ func _ready() -> void:
 	summary_panel.add_child(summary_content)
 	summary = _label(summary_content, 11, Color("#675d68"))
 	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	summary.add_theme_constant_override("line_spacing", 0)
 	progress = _label(summary_content, 12, Color("#29243d"))
 	progress.add_theme_font_override("font", _serif_font(800))
+	progress.add_theme_constant_override("line_spacing", 0)
 	complete = _label(summary_content, 8, Color("#32716d"))
 	complete.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	campaign_scroll = ScrollContainer.new()

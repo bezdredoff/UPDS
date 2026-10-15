@@ -13,6 +13,7 @@ const Tutorials = preload("res://scripts/match3_tutorials.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
 const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
 const ReducedMotion = preload("res://scripts/reduced_motion.gd")
+const UiFonts = preload("res://scripts/ui_fonts.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const ReactionRuntime = preload("res://scripts/match3_reaction_runtime.gd")
 const Style = preload("res://scripts/menu_theme.gd")
@@ -27,6 +28,7 @@ const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
 
 static var _drop_shadow_material_cache: Dictionary = {}
 static var _special_icon_material_cache: ShaderMaterial
+static var _match_background_material_cache: ShaderMaterial
 
 var preferences: RefCounted
 var session: RefCounted
@@ -51,6 +53,7 @@ var reaction_generation := 0
 var reaction_blockers_cleared := 0
 var reaction_tween: Tween
 var background: TextureRect
+var background_base: ColorRect
 var title: Label
 var title_short: Label
 var bark: Label
@@ -131,18 +134,24 @@ func _ready() -> void:
 	level_presentation = campaign_bundle.levelPresentations[level_id]
 	session.start_level(level_id)
 	game = _new_game_for_attempt()
+	background_base = ColorRect.new()
+	background_base.name = "MatchBackgroundBase"
+	background_base.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background_base.color = Color("#d9d0b6")
+	background_base.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(background_base)
 	background = TextureRect.new()
+	background.name = "MatchBackground"
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	background.texture = load("res://assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp")
+	var background_asset := str(campaign_bundle.assets.backgrounds.get(str(level_data.get("pageBackground", "")), ""))
+	assert(not background_asset.is_empty(), "Match-3 level has no authored page background: " + level_id)
+	background.texture = load("res://" + background_asset.trim_prefix("./"))
 	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	background.modulate.a = 0.96
+	background.material = _match_background_material()
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background)
-	var wash := ColorRect.new()
-	wash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	wash.color = Color(0.08, 0.11, 0.17, 0.55)
-	wash.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(wash)
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	margin.add_theme_constant_override("margin_left", 12)
@@ -260,9 +269,7 @@ func _ready() -> void:
 	tutorial_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tutorial_body.add_theme_font_size_override("font_size", 13)
 	tutorial_body.add_theme_constant_override("line_spacing", 0)
-	var tutorial_sans := SystemFont.new()
-	tutorial_sans.font_names = PackedStringArray(["Comic Sans MS", "Trebuchet MS", "Arial"])
-	tutorial_sans.font_weight = 700
+	var tutorial_sans := UiFonts.match3(700)
 	tutorial_body.add_theme_font_override("font", tutorial_sans)
 	tutorial_content.add_child(tutorial_title_body_gap)
 	tutorial_content.move_child(tutorial_body, tutorial_content.get_child_count() - 1)
@@ -712,6 +719,7 @@ func _render_board() -> void:
 		if not tile_asset.is_empty():
 			var tile := TextureRect.new()
 			tile.name = "Tile"
+			tile.z_index = 1
 			tile.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 			tile.offset_left = 0
 			tile.offset_top = 0
@@ -762,6 +770,7 @@ func _render_board() -> void:
 			if not blocker_asset.is_empty():
 				var blocker := TextureRect.new()
 				blocker.name = "Blocker"
+				blocker.z_index = 4
 				blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 				blocker.offset_left = 1
 				blocker.offset_top = 1
@@ -789,7 +798,7 @@ func _render_board() -> void:
 					locked_outline.offset_right = -1
 					locked_outline.offset_bottom = -1
 					locked_outline.mouse_filter = Control.MOUSE_FILTER_IGNORE
-					locked_outline.z_index = 2
+					locked_outline.z_index = 5
 					var locked_outline_style := StyleBoxFlat.new()
 					locked_outline_style.bg_color = Color(0, 0, 0, 0)
 					locked_outline_style.border_color = Color("#dfd5bd70")
@@ -812,6 +821,7 @@ func _render_board() -> void:
 					layer_badge.add_theme_constant_override("shadow_offset_x", 1)
 					layer_badge.add_theme_constant_override("shadow_offset_y", 1)
 					layer_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+					layer_badge.z_index = 5
 					tile_button.add_child(layer_badge)
 		if not game.ingredients[index].is_empty():
 			var ingredient_asset := str(campaign_bundle.assets.ingredients.get(game.ingredients[index], ""))
@@ -819,6 +829,7 @@ func _render_board() -> void:
 				var ingredient_texture: Texture2D = load("res://" + ingredient_asset.trim_prefix("./"))
 				var ingredient := TextureRect.new()
 				ingredient.name = "Ingredient"
+				ingredient.z_index = 3
 				ingredient.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 				ingredient.offset_left = 2
 				ingredient.offset_top = 2
@@ -852,6 +863,7 @@ func _render_board() -> void:
 				var special_texture: Texture2D = load("res://" + special_asset.trim_prefix("./"))
 				var special := TextureRect.new()
 				special.name = "Special"
+				special.z_index = 2
 				special.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 				# Keep the original web presentation: directional line specials fill
 				# their cell, while the three silhouette specials extend by 14%.
@@ -861,10 +873,11 @@ func _render_board() -> void:
 					special.offset_right = 0
 					special.offset_bottom = 0
 				else:
-					special.offset_left = -7
-					special.offset_top = -7
-					special.offset_right = 7
-					special.offset_bottom = 7
+					var special_bleed := cell_size * 0.14
+					special.offset_left = -special_bleed
+					special.offset_top = -special_bleed
+					special.offset_right = special_bleed
+					special.offset_bottom = special_bleed
 				special.texture = special_texture
 				special.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				special.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -875,6 +888,7 @@ func _render_board() -> void:
 				if special_kind == "flash-row" or special_kind == "flash-column":
 					var direction_marker := PanelContainer.new()
 					direction_marker.name = "SpecialDirectionMarker"
+					direction_marker.z_index = 3
 					direction_marker.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
 					direction_marker.offset_left = 1
 					direction_marker.offset_top = -16
@@ -1020,15 +1034,34 @@ func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, b
 	return material
 
 
+func _match_background_material() -> ShaderMaterial:
+	if _match_background_material_cache != null:
+		return _match_background_material_cache
+	var shader := Shader.new()
+	shader.code = """
+shader_type canvas_item;
+uniform float brightness : hint_range(0.0, 2.0) = 0.94;
+uniform float saturation : hint_range(0.0, 2.0) = 0.90;
+void fragment() {
+	vec4 source = texture(TEXTURE, UV) * COLOR;
+	float luminance = dot(source.rgb, vec3(0.2126, 0.7152, 0.0722));
+	vec3 color = mix(vec3(luminance), source.rgb, saturation) * brightness;
+	COLOR = vec4(color, source.a);
+}
+"""
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	material.set_shader_parameter("brightness", 0.94)
+	material.set_shader_parameter("saturation", 0.90)
+	_match_background_material_cache = material
+	return _match_background_material_cache
+
+
 func _match3_special_icon_material() -> ShaderMaterial:
 	if _special_icon_material_cache != null:
 		return _special_icon_material_cache
-	var material := _match3_drop_shadow_material(Color(0, 0, 0, 0), Vector2.ZERO, 0.0)
-	material.set_shader_parameter("glow_strength", 1.0)
-	material.set_shader_parameter("glow_white", Color(1, 1, 1, 0))
-	material.set_shader_parameter("glow_gold", Color("#fff0a8"))
-	material.set_shader_parameter("glow_gold_radius_px", 7.0)
-	material.set_shader_parameter("glow_aqua", Color(0.424, 0.886, 0.827, 0))
+	var material := _match3_drop_shadow_material(Color("#181426b8"), Vector2(0, 1), 2.0)
+	material.set_shader_parameter("glow_strength", 0.0)
 	_special_icon_material_cache = material
 	return _special_icon_material_cache
 
@@ -2120,6 +2153,7 @@ func _continue_story() -> void:
 
 func _label(parent: Node, size: int, color: Color) -> Label:
 	var label := Label.new()
+	label.add_theme_font_override("font", UiFonts.match3())
 	label.add_theme_font_size_override("font_size", size)
 	label.add_theme_color_override("font_color", color)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -2254,9 +2288,7 @@ func _style_tutorial_button(button: Button) -> void:
 	button.add_theme_color_override("font_color", Color("#fff7dc"))
 	button.add_theme_color_override("font_hover_color", Color("#fff7dc"))
 	button.add_theme_color_override("font_pressed_color", Color("#fff7dc"))
-	var tutorial_button_font := SystemFont.new()
-	tutorial_button_font.font_names = PackedStringArray(["Arial", "sans-serif"])
-	tutorial_button_font.font_weight = 950
+	var tutorial_button_font := UiFonts.match3(700)
 	button.add_theme_font_override("font", tutorial_button_font)
 	var normal := StyleBoxFlat.new()
 	normal.bg_color = Color("#2f6549")

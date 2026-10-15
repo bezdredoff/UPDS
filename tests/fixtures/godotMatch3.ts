@@ -7,6 +7,7 @@ import {
   specialAssets,
   tilePresentation,
 } from '../../src/data/levels';
+import { backgroundAssets } from '../../src/data/narrative';
 import { Match3Game } from '../../src/engine/Match3Game';
 import { match3TutorialConceptIds } from '../../src/data/match3Tutorials';
 import { godotM3Evidence } from './godotPrologue';
@@ -26,6 +27,7 @@ export function godotCampaignLevel(level: (typeof levels)[number]) {
     id: level.id,
     shortId: level.shortId,
     narrativeProfile: level.context.narrativeProfile,
+    pageBackground: level.context.pageBackground,
     seed: level.seed,
     rows: level.boardSize?.rows ?? 8,
     columns: level.boardSize?.columns ?? 8,
@@ -111,6 +113,7 @@ export function godotCampaignBundle() {
       }])),
     }])),
     assets: {
+      backgrounds: Object.fromEntries([...new Set(levels.map((level) => level.context.pageBackground))].map((key) => [key, backgroundAssets[key]])),
       tiles: tileAssets,
       ingredients: ingredientAssets,
       blockers: Object.fromEntries(Object.entries(blockerPresentation).map(([key, value]) => [key, value.asset])),

@@ -17,6 +17,7 @@ const Match3CampaignScreen = preload("res://scripts/match3_campaign_screen.gd")
 const Match3CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const Match3Screen = preload("res://scripts/match3_screen.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
+const UiFonts = preload("res://scripts/ui_fonts.gd")
 
 var preferences: RefCounted = PlayerPreferences.new()
 var settings_screen: PanelContainer
@@ -349,7 +350,5 @@ func _style_button(button: Button, primary: bool = false) -> void:
 	var font_color := Color.WHITE if primary else Color("#29243d")
 	button.add_theme_color_override("font_disabled_color", font_color)
 	button.add_theme_stylebox_override("disabled", button.get_theme_stylebox("normal"))
-	var font := SystemFont.new()
-	font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
-	font.font_weight = 850 if primary else 700
+	var font := UiFonts.sans(900 if primary else 700)
 	button.add_theme_font_override("font", font)

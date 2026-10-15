@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/BG_CLUBROOM_DAY.webp" id="2_background"]
 [ext_resource type="Texture2D" path="res://assets/characters/miku/portrait_neutral_256.png" id="3_miku"]
 [ext_resource type="Texture2D" path="res://assets/characters/onoe/portrait_neutral_256.png" id="4_onoe"]
 [ext_resource type="Texture2D" path="res://assets/characters/ayuki/portrait_neutral_256.png" id="5_ayuki"]
+[ext_resource type="Script" path="res://scripts/ui_fonts.gd" id="7_ui_fonts"]
 
 [sub_resource type="Gradient" id="Gradient_wash"]
 offsets = PackedFloat32Array(0.0, 0.05, 0.48, 1.0)
@@ -23,15 +24,12 @@ code = "shader_type canvas_item;\nvoid fragment() {\n\tvec2 point = UV - vec2(0.
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
 shader = SubResource("Shader_backdrop")
 
-[sub_resource type="SystemFont" id="SystemFont_ui_sans"]
-font_names = PackedStringArray("Inter", "Segoe UI", "Arial", "sans-serif")
-
 [sub_resource type="SystemFont" id="SystemFont_menu_serif"]
 font_names = PackedStringArray("Georgia", "Noto Serif", "Liberation Serif", "serif")
 font_weight = 800
 
 [sub_resource type="Theme" id="Theme_runtime"]
-default_font = SubResource("SystemFont_ui_sans")
+default_font = ExtResource("7_ui_fonts")
 default_font_size = 16
 
 [sub_resource type="Shader" id="Shader_medallion"]
