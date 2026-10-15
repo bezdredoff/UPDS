@@ -553,6 +553,7 @@ func _run() -> void:
 	match3._render_board()
 	var preserved_cell_index: int = (settle_index + 1) % match3.game.tiles.size()
 	var preserved_cell_id: int = match3.board.get_child(preserved_cell_index).get_instance_id()
+	var clearing_started_usec := Time.get_ticks_usec()
 	match3._render_frame({
 		"phase": "clear",
 		"tiles": match3.game.tiles.duplicate(),
@@ -566,9 +567,34 @@ func _run() -> void:
 	assert(match3.board.get_child(preserved_cell_index).get_instance_id() == preserved_cell_id,
 		"A Match-3 frame rebuilt an unchanged cell and restarted its idle animation")
 	var clearing_stack: Control = match3.board.get_child(settle_index).get_node("TileStack")
-	await create_timer(0.12).timeout
-	assert(clearing_stack.scale.x > 1.05 and clearing_stack.modulate.r > 1.4, "Clear animation missed its source 1.1 scale and brightness peak")
-	await create_timer(0.19).timeout
+	await create_timer(0.064).timeout
+	var clearing_elapsed := float(Time.get_ticks_usec() - clearing_started_usec) / 1000000.0
+	var clear_peak_seconds: float = float(match3.CLEAR_MOTION_SECONDS) * 0.48
+	var clear_scale_expected: float
+	var clear_brightness_expected: float
+	var clear_opacity_expected: float
+	if clearing_elapsed <= clear_peak_seconds:
+		var clear_progress := clampf(clearing_elapsed / clear_peak_seconds, 0.0, 1.0)
+		var clear_curve: float = match3._css_cubic_bezier(clear_progress, 0.2, 0.72, 0.18, 1.0)
+		clear_scale_expected = lerpf(1.0, 1.1, clear_curve)
+		clear_brightness_expected = lerpf(1.0, 1.55, clear_curve)
+		clear_opacity_expected = 1.0
+	else:
+		var clear_progress := clampf((clearing_elapsed - clear_peak_seconds) / (match3.CLEAR_MOTION_SECONDS - clear_peak_seconds), 0.0, 1.0)
+		var clear_curve: float = match3._css_cubic_bezier(clear_progress, 0.2, 0.72, 0.18, 1.0)
+		clear_scale_expected = lerpf(1.1, 0.18, clear_curve)
+		clear_brightness_expected = lerpf(1.55, 1.8, clear_curve)
+		clear_opacity_expected = lerpf(1.0, 0.0, clear_curve)
+	assert(absf(clearing_stack.scale.x - clear_scale_expected) < 0.025
+		and absf(clearing_stack.modulate.r - clear_brightness_expected) < 0.06
+		and absf(clearing_stack.modulate.a - clear_opacity_expected) < 0.06,
+		"Clear animation should follow the same CSS cubic-bezier sample at %sms" % int(clearing_elapsed * 1000.0))
+	print("UPDS Godot clear tween sample: %.2fms scale %.4f/%.4f brightness %.4f/%.4f opacity %.4f/%.4f" % [
+		clearing_elapsed * 1000.0, clearing_stack.scale.x, clear_scale_expected,
+		clearing_stack.modulate.r, clear_brightness_expected,
+		clearing_stack.modulate.a, clear_opacity_expected,
+	])
+	await create_timer(maxf(0.0, match3.CLEAR_MOTION_SECONDS + 0.03 - clearing_elapsed)).timeout
 	assert(clearing_stack.scale.is_equal_approx(Vector2(0.18, 0.18)) and clearing_stack.modulate.a < 0.01, "Clear animation missed its source shrink and fade end state")
 	match3._render_board()
 	var columns := int(match3.game.level_data.columns)
