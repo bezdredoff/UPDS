@@ -424,6 +424,8 @@ func _run() -> void:
 	assert(match3.hint_button.custom_minimum_size == Vector2(94, 48), "Hint control should preserve the source tool tray size")
 	var tutorial_style := match3.tutorial_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(is_equal_approx(match3.tutorial_panel.custom_maximum_size.x, 350.0), "Tutorial card width should match the source 350px maximum")
+	assert(is_equal_approx(match3.tutorial_title.custom_maximum_size.x, -1.0),
+		"Other tutorial headings should keep their source full-width layout")
 	assert(tutorial_style.border_width_top == 3 and tutorial_style.border_width_left == 8, "Tutorial card border should match the source gold frame and green spine")
 	assert(tutorial_style.content_margin_left == 26 and tutorial_style.content_margin_right == 26
 		and match3.tutorial_body.get_theme_constant("line_spacing") == 0,
@@ -435,9 +437,15 @@ func _run() -> void:
 	var original_screen_width := match3.size.x
 	match3.size.x = 320.0
 	match3._fit_tutorial_card()
-	assert(match3.tutorial_panel.custom_minimum_size.x == 292.0 and match3.tutorial_frame.custom_minimum_size.x == 298.0, "Tutorial card did not keep the source 14px responsive overlay inset")
+	assert(match3.tutorial_panel.custom_minimum_size.x == 292.0 and match3.tutorial_frame.custom_minimum_size.x == 298.0
+		and is_equal_approx(match3.tutorial_title.custom_maximum_size.x, -1.0),
+		"Tutorial card did not keep the source 14px responsive overlay inset")
 	match3.size.x = original_screen_width
-	match3._fit_tutorial_card()
+	assert(match3._tutorial_title_for_display("Собирайте одинаковые предметы", "basic-swap", "ru")
+		== "Собирайте\nодинаковые предметы"
+		and match3._tutorial_title_for_display("Match identical items", "basic-swap", "en") == "Match identical items"
+		and match3._tutorial_title_for_display("Снимайте слои пакета", "clear-package", "ru") == "Снимайте слои пакета",
+		"Tutorial title should preserve the source Russian basic-swap line break without changing other locale copy")
 	assert(match3.bottom_spacer.name == "MatchGuidance" and match3.guidance_labels[0].name == "InputGuidance", "Match-3 input guidance slot is missing")
 	assert(match3.guidance_labels[0].text == MenuCopy.text("match3_input_hint", "ru"), "Match-3 input guidance did not use the selected locale")
 	assert(match3.bottom_spacer.visible, "Match-3 guidance should be visible while the board is active")

@@ -633,7 +633,8 @@ func _refresh() -> void:
 	_refresh_bark(locale, copy)
 	var tutorial_locale: Dictionary = campaign_bundle.get("tutorials", {}).get(locale, campaign_bundle.get("tutorials", {}).get("en", {}))
 	var tutorial_copy: Dictionary = tutorial_locale.get("concepts", {}).get(active_tutorial, {})
-	tutorial_title.text = str(tutorial_copy.get("title", ""))
+	tutorial_title.text = _tutorial_title_for_display(
+		str(tutorial_copy.get("title", "")), active_tutorial, locale)
 	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(locale, "HOW TO PLAY")
 	tutorial_body.text = str(tutorial_copy.get("body", ""))
 	tutorial_button.text = str(tutorial_locale.get("try", Level.data.localized[locale].tutorialTry))
@@ -2552,5 +2553,12 @@ func _fit_tutorial_card() -> void:
 	var compact := size.x <= 340.0
 	tutorial_title.add_theme_font_size_override("font_size", 20 if compact else 24)
 	tutorial_body.add_theme_font_size_override("font_size", 11 if compact else 13)
+	# Match the browser Georgia fallback line break for this Russian heading.
 	var content_layer := tutorial_panel.get_node("TutorialContentLayer") as Control
 	content_layer.custom_minimum_size.y = 207.0 + maxf(0.0, 350.0 - card_width) * 0.8
+
+
+func _tutorial_title_for_display(title_text: String, concept: String, locale: String) -> String:
+	if concept == "basic-swap" and locale == "ru":
+		return title_text.replace("Собирайте ", "Собирайте\n")
+	return title_text
