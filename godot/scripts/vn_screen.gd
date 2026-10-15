@@ -784,7 +784,7 @@ func _paginate_dialogue(value: String) -> Array[String]:
 	# Account for Godot's shaped-line leading while keeping the source's two-line safe height.
 	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	var line_height := 1.46 if _text_scale == "large" else 1.34 if compact_width else 1.42
-	var line_limit := font_size * line_height * 2.0 + 3.0
+	var line_limit := font_size * line_height * 2.0 + 7.0
 	for raw_word in normalized.split(" ", false):
 		var candidate := raw_word if page.is_empty() else page + " " + raw_word
 		var measured := font.get_multiline_string_size(candidate, HORIZONTAL_ALIGNMENT_LEFT, text_width, font_size)
