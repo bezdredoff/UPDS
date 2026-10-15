@@ -82,6 +82,12 @@ func _run() -> void:
 	assert(menu.audio_runtime.music.stream.get_length() > 12.6 and menu.audio_runtime.music.stream.get_length() < 12.7)
 	assert(screen.stage.get_child_count() == 1)
 	var idle_portrait: TextureRect = screen.stage.get_child(0)
+	var portrait_shadow := idle_portrait.material as ShaderMaterial
+	assert(portrait_shadow != null
+		and (portrait_shadow.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#10162b59"))
+		and (portrait_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0.0, 12.0))
+		and is_equal_approx(portrait_shadow.get_shader_parameter("shadow_blur_px"), 12.0),
+		"VN character portrait did not preserve the source drop shadow treatment")
 	assert(idle_portrait.get_global_rect().end.y > screen.dialogue_panel.position.y,
 		"The portrait must continue underneath the overlayed VN dialogue card")
 	assert(screen._portrait_should_breathe("./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"),

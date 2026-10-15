@@ -13,6 +13,9 @@ const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
 const Match3CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
+const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
+
+static var _portrait_shadow_material_cache: ShaderMaterial
 
 var session: RefCounted
 var preferences: RefCounted
@@ -367,6 +370,7 @@ func _refresh() -> void:
 		portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		portrait.z_index = int(actor.z)
+		portrait.material = _portrait_drop_shadow_material()
 		var height: float = float(actor.height) * float(actor.scale) / 100.0
 		portrait.anchor_left = float(actor.x) / 100.0
 		portrait.anchor_right = portrait.anchor_left
@@ -391,6 +395,18 @@ func _portrait_width(portrait: TextureRect) -> void:
 	var width := portrait.size.y * 1024.0 / 1536.0
 	portrait.offset_left = -width / 2.0
 	portrait.offset_right = width / 2.0
+
+
+func _portrait_drop_shadow_material() -> ShaderMaterial:
+	if _portrait_shadow_material_cache != null:
+		return _portrait_shadow_material_cache
+	var material := ShaderMaterial.new()
+	material.shader = Match3DropShadow
+	material.set_shader_parameter("shadow_color", Color("#10162b59"))
+	material.set_shader_parameter("shadow_offset_px", Vector2(0.0, 12.0))
+	material.set_shader_parameter("shadow_blur_px", 12.0)
+	_portrait_shadow_material_cache = material
+	return material
 
 
 func _portrait_should_breathe(asset_path: String) -> bool:
