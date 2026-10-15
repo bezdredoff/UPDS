@@ -35,12 +35,12 @@ var _settings_from_campaign := false
 
 
 func _ready() -> void:
+	PhoneFrame.fit(self)
 	var runtime_theme := theme.duplicate() as Theme
 	runtime_theme.default_font = UiFonts.sans()
 	runtime_theme.default_font_size = 16
 	theme = runtime_theme
 	resized.connect(_layout_menu)
-	_layout_menu()
 	audio_runtime.name = "MenuAudio"
 	audio_runtime.preferences = preferences
 	add_child(audio_runtime)
@@ -71,6 +71,7 @@ func _ready() -> void:
 	$Content/Eyebrow.add_theme_font_override("font", UiFonts.sans(900))
 	$Content/Tagline.add_theme_font_override("font", UiFonts.sans(400))
 	$Content/Footer.add_theme_font_override("font", UiFonts.sans(400))
+	_layout_menu()
 	for button in [$Content/Actions/NewGame, $Content/Actions/Continue, $Content/Actions/Campaign, $Content/Actions/Settings]:
 		button.pressed.connect(audio_runtime.play_effect)
 
@@ -84,25 +85,39 @@ func _ready() -> void:
 
 
 func _layout_menu() -> void:
+	var narrow := size.x <= 340.0
 	var compact := size.y <= 760.0
-	var phone_width: float = minf(size.x, PhoneFrame.MAX_WIDTH)
+	var phone_width: float = size.x
 	$Background.offset_left = -phone_width * 0.5
 	$Background.offset_right = phone_width * 0.5
 	$Wash.offset_left = -phone_width * 0.5
 	$Wash.offset_right = phone_width * 0.5
-	var content_width: float = maxf(0.0, phone_width - 56.0)
+	var content_inset := 36.0 if narrow else 56.0
+	var content_width: float = maxf(0.0, phone_width - content_inset)
 	$Content.offset_left = -content_width * 0.5
 	$Content.offset_right = content_width * 0.5
-	$Content.offset_top = 26.0 if compact else 42.0
-	$Content.anchor_bottom = 1.0 - 24.0 / size.y
-	$Content.add_theme_constant_override("separation", 8 if compact else 6)
-	var title_size := 38 if compact else 44
+	$Content.offset_top = 18.0 if narrow else 26.0 if compact else 42.0
+	var bottom_inset := 12.0 if narrow else 24.0
+	$Content.anchor_bottom = 1.0 - bottom_inset / size.y
+	$Content.add_theme_constant_override("separation", 4 if narrow else 8 if compact else 6)
+	var title_size := 34 if narrow else 38 if compact else 44
 	$Content/Title.add_theme_font_size_override("normal_font_size", title_size)
-	var hero_size := 66.0 if compact else 78.0
+	$Content/Title.fit_content = not narrow
+	$Content/Title.custom_minimum_size.y = 68.0 if narrow else 0.0
+	$Content/TitleSpacer.custom_minimum_size.y = 10.0 if narrow else 0.0
+	$Content/Tagline.add_theme_font_size_override("font_size", 12 if narrow else 16)
+	$Content/Tagline.autowrap_mode = TextServer.AUTOWRAP_OFF if narrow else TextServer.AUTOWRAP_WORD_SMART
+	var hero_size := 56.0 if narrow else 66.0 if compact else 78.0
 	$Content/Hero.custom_minimum_size.y = hero_size
+	$Content/HeroSpacer.custom_minimum_size.y = 2.0
 	for portrait in $Content/Hero.get_children():
 		portrait.custom_minimum_size = Vector2(hero_size, hero_size)
-	$Content/FooterSpacer.custom_minimum_size.y = 21.0
+	$Content/FooterSpacer.custom_minimum_size.y = 17.0 if narrow else 21.0
+	$Content/Footer.add_theme_font_size_override("font_size", 8 if narrow else 10)
+	for button in $Content/Actions.get_children():
+		if button is Button:
+			button.custom_minimum_size.y = 44.0 if narrow else 49.0
+	$Content/Actions.add_theme_constant_override("separation", 6 if narrow else 9)
 
 
 func _refresh_copy(locale: String) -> void:

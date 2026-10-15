@@ -108,6 +108,25 @@ func _run_smoke() -> void:
 		and menu_title.get_theme_font_size("normal_font_size") == 44
 		and is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 78.0),
 		"Tall menu should restore the source's regular inset, heading and medallion sizes")
+	menu.size = Vector2(320, 568)
+	menu._layout_menu()
+	assert(is_equal_approx(menu.get_node("Background").size.x, 320.0)
+		and is_equal_approx(menu.get_node("Content").size.x, 284.0),
+		"Narrow menu should fill a 320 px frame and preserve the source's 18 px inset")
+	assert(is_equal_approx(menu.get_node("Content").offset_top, 18.0)
+		and menu_title.get_theme_font_size("normal_font_size") == 34
+		and not menu_title.fit_content
+		and is_equal_approx(menu_title.custom_minimum_size.y, 68.0)
+		and is_equal_approx(menu.get_node("Content/TitleSpacer").custom_minimum_size.y, 10.0)
+		and is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 56.0)
+		and is_equal_approx(menu.get_node("Content/HeroSpacer").custom_minimum_size.y, 2.0)
+		and menu.get_node("Content/Tagline").get_theme_font_size("font_size") == 12
+		and menu.get_node("Content/Tagline").autowrap_mode == TextServer.AUTOWRAP_OFF
+		and is_equal_approx(menu.get_node("Content/FooterSpacer").custom_minimum_size.y, 17.0)
+		and is_equal_approx(menu.get_node("Content/Actions/NewGame").custom_minimum_size.y, 44.0),
+		"Narrow menu should use the source's compact heading and medallion sizes")
+	assert(is_equal_approx(menu.get_node("Content").anchor_bottom, 1.0 - 12.0 / 568.0),
+		"Narrow menu should keep the source's 12 px bottom inset")
 
 	print("UPDS Godot main menu smoke test passed (locale: %s)." % locale)
 	quit()
