@@ -54,7 +54,9 @@ describe('Godot port project shell', () => {
 		expect(settings).toContain('EffectsVolumeCard');
 		expect(settings).toContain('AudioToggles');
 		expect(settings).toContain('MobileContract');
-		expect(settingsSmoke).toContain('grouped volume cards');
+		expect(settings).toContain('PwaOfflineCard');
+		expect(settingsSmoke).toContain('Volume labels and sliders should share');
+		expect(settingsSmoke).toContain('PWA card should identify the host');
 		expect(settingsSmoke).toContain('Music slider should persist');
 	});
 });

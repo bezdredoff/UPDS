@@ -33,6 +33,12 @@ var mobile_note_copy: Label
 var capability: Label
 var preview_music: Button
 var preview_effects: Button
+var pwa_status: Label
+var pwa_meta: Label
+var pwa_progress: ProgressBar
+var pwa_progress_copy: Label
+var pwa_install: Button
+var pwa_check: Button
 
 
 func _ready() -> void:
@@ -157,6 +163,7 @@ func _ready() -> void:
 	mobile_note_copy = _label(mobile_note_content, 400, 10)
 	mobile_note_copy.name = "MobileContractCopy"
 	mobile_note_copy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_build_pwa_card(content)
 	error_label = _label(content, 700, 12)
 	error_label.add_theme_color_override("font_color", Color("#ac3f59"))
 	preferences.locale_changed.connect(_refresh)
@@ -263,15 +270,13 @@ func _build_volume_row(card: PanelContainer, key: String, is_music: bool) -> voi
 	column.add_child(row)
 	var name_label := _label(row, 700, 12)
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	if is_music:
-		music_label = name_label
-	else:
-		effects_label = name_label
 	var value_label := _label(row, 900, 11)
 	value_label.add_theme_color_override("font_color", Color("#4caaa1"))
 	if is_music:
+		music_label = name_label
 		music_value = value_label
 	else:
+		effects_label = name_label
 		effects_value = value_label
 	var slider := HSlider.new()
 	slider.name = key
@@ -303,6 +308,87 @@ func _build_volume_row(card: PanelContainer, key: String, is_music: bool) -> voi
 		music_slider = slider
 	else:
 		effects_slider = slider
+
+
+func _build_pwa_card(parent: Control) -> void:
+	var card := PanelContainer.new()
+	card.name = "PwaOfflineCard"
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var card_style := StyleBoxFlat.new()
+	card_style.bg_color = Color("#f4fbf8")
+	card_style.border_color = Color("#c7d5d2")
+	card_style.set_border_width_all(1)
+	card_style.set_corner_radius_all(11)
+	card_style.content_margin_left = 12
+	card_style.content_margin_right = 12
+	card_style.content_margin_top = 11
+	card_style.content_margin_bottom = 11
+	card.add_theme_stylebox_override("panel", card_style)
+	parent.add_child(card)
+	var columns := HBoxContainer.new()
+	columns.name = "PwaStatusLayout"
+	columns.add_theme_constant_override("separation", 10)
+	card.add_child(columns)
+	var details := VBoxContainer.new()
+	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	details.add_theme_constant_override("separation", 3)
+	columns.add_child(details)
+	var eyebrow := _label(details, 900, 8)
+	eyebrow.name = "PwaEyebrow"
+	eyebrow.text = "PWA / OFFLINE"
+	eyebrow.add_theme_color_override("font_color", Color("#36a89d"))
+	pwa_status = _label(details, 800, 11)
+	pwa_status.name = "PwaStatus"
+	pwa_status.add_theme_color_override("font_color", Color("#2a4b76"))
+	pwa_meta = _label(details, 400, 8)
+	pwa_meta.name = "PwaMeta"
+	pwa_meta.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var progress_details := VBoxContainer.new()
+	progress_details.name = "PwaCacheProgress"
+	progress_details.add_theme_constant_override("separation", 4)
+	progress_details.add_theme_constant_override("margin_top", 4)
+	details.add_child(progress_details)
+	var progress_row := HBoxContainer.new()
+	progress_row.add_theme_constant_override("separation", 8)
+	progress_details.add_child(progress_row)
+	pwa_progress_copy = _label(progress_row, 400, 8)
+	pwa_progress_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pwa_progress = ProgressBar.new()
+	pwa_progress.name = "Progress"
+	pwa_progress.custom_minimum_size = Vector2(0, 7)
+	pwa_progress.show_percentage = false
+	progress_details.add_child(pwa_progress)
+	var actions := VBoxContainer.new()
+	actions.name = "PwaStatusActions"
+	actions.add_theme_constant_override("separation", 6)
+	columns.add_child(actions)
+	pwa_install = _pwa_action(actions, "PwaInstall", "pwa_install")
+	pwa_check = _pwa_action(actions, "PwaCheck", "pwa_check")
+	pwa_progress.hide()
+	_refresh_pwa()
+
+
+func _pwa_action(parent: Control, node_name: String, copy_key: String) -> Button:
+	var button := Button.new()
+	button.name = node_name
+	button.custom_minimum_size = Vector2(0, 36)
+	button.add_theme_font_override("font", UiFonts.sans(800))
+	button.add_theme_font_size_override("font_size", 8)
+	button.add_theme_color_override("font_color", Color("#2a4b76"))
+	button.add_theme_color_override("font_disabled_color", Color("#2a4b76"))
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color.WHITE
+	style.border_color = Color("#9ebbb6")
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(8)
+	button.add_theme_stylebox_override("normal", style)
+	button.add_theme_stylebox_override("hover", style)
+	button.add_theme_stylebox_override("pressed", style)
+	button.add_theme_stylebox_override("disabled", style)
+	button.text = MenuCopy.text(copy_key, preferences.locale)
+	button.disabled = true
+	parent.add_child(button)
+	return button
 
 
 func _toggle(parent: Control, key: String) -> Button:
@@ -393,9 +479,12 @@ func _refresh(locale: String) -> void:
 	haptics_switch.text = MenuCopy.text("vn_on" if preferences.audio.hapticsEnabled else "vn_off", locale)
 	mobile_note_title.text = MenuCopy.text("mobile_contract_title", locale)
 	mobile_note_copy.text = MenuCopy.text("mobile_contract_copy", locale)
+	pwa_install.text = MenuCopy.text("pwa_install", locale)
+	pwa_check.text = MenuCopy.text("pwa_check", locale)
 	preview_music.text = MenuCopy.text("preview_music", locale)
 	preview_effects.text = MenuCopy.text("preview_effects", locale)
 	_refresh_audio(locale)
+	_refresh_pwa()
 
 
 func _select_language(index: int) -> void:
@@ -427,6 +516,21 @@ func _refresh_audio(locale: String = "") -> void:
 	mute_switch.text = MenuCopy.text("vn_on" if settings.muted else "vn_off", selected_locale)
 	haptics_help.text = MenuCopy.text("haptics_short", selected_locale)
 	haptics_switch.text = MenuCopy.text("vn_on" if settings.hapticsEnabled else "vn_off", selected_locale)
+
+
+func _refresh_pwa() -> void:
+	var bridge := get_node_or_null("/root/Bridge")
+	var platform_id := "Godot"
+	if bridge != null and bridge.platform != null:
+		platform_id = str(bridge.platform.id)
+	pwa_status.text = MenuCopy.text("pwa_hosted", preferences.locale)
+	pwa_meta.text = MenuCopy.text("pwa_meta", preferences.locale).replace("{platform}", platform_id)
+	pwa_progress_copy.text = MenuCopy.text("pwa_not_applicable", preferences.locale)
+	pwa_progress.value = 0
+	pwa_install.show()
+	pwa_check.show()
+	pwa_install.disabled = true
+	pwa_check.disabled = true
 
 
 func _unhandled_key_input(event: InputEvent) -> void:

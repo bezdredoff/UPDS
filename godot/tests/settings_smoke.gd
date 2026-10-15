@@ -23,8 +23,9 @@ func _run_smoke() -> void:
 	assert(screen.find_child("PanelHeader", true, false) != null
 		and screen.find_child("MusicVolumeCard", true, false) != null
 		and screen.find_child("EffectsVolumeCard", true, false) != null
-		and screen.find_child("AudioToggles", true, false) != null,
-		"Settings should preserve the source header, grouped volume cards, and side-by-side audio toggles")
+		and screen.find_child("AudioToggles", true, false) != null
+		and screen.find_child("PwaOfflineCard", true, false) != null,
+		"Settings should preserve the source header, grouped controls, and platform status card")
 	assert(screen.audio_title.text == MenuCopy.text("audio_title", preferences.locale)
 		and screen.audio_copy.text == MenuCopy.text("audio_copy", preferences.locale)
 		and screen.music_value.text.ends_with("%") and screen.effects_value.text.ends_with("%"),
@@ -34,6 +35,14 @@ func _run_smoke() -> void:
 		and audio_toggles.get_child(1).size_flags_horizontal == Control.SIZE_EXPAND_FILL
 		and screen.mobile_note_title.text == MenuCopy.text("mobile_contract_title", preferences.locale),
 		"Settings should balance the source toggle cards and localize the mobile audio note")
+	assert(screen.music_slider.get_parent().get_parent().name == "MusicVolumeCard"
+		and screen.effects_slider.get_parent().get_parent().name == "EffectsVolumeCard",
+		"Volume labels and sliders should share the same source-style cards")
+	assert(screen.pwa_status.text == MenuCopy.text("pwa_hosted", preferences.locale)
+		and (screen.pwa_meta.text.contains("Playgama") or screen.pwa_meta.text.contains("mock"))
+		and not screen.pwa_progress.visible
+		and screen.pwa_install.disabled and screen.pwa_check.disabled,
+		"PWA card should identify the host and avoid claiming browser cache or unsupported actions")
 	for index in screen.language.item_count:
 		screen.language.select(index)
 		screen.language.item_selected.emit(index)
