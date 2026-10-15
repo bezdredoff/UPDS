@@ -12,7 +12,6 @@ const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const Tutorials = preload("res://scripts/match3_tutorials.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
 const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
-const Match3CellBackground = preload("res://shaders/match3_cell_background.gdshader")
 const ReducedMotion = preload("res://scripts/reduced_motion.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
@@ -26,7 +25,6 @@ const FEEDBACK_HOLD_SECONDS := 0.42
 const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
 
 static var _drop_shadow_material_cache: Dictionary = {}
-static var _cell_socket_material_cache: ShaderMaterial
 static var _special_icon_material_cache: ShaderMaterial
 
 var preferences: RefCounted
@@ -350,56 +348,51 @@ func _ready() -> void:
 	board_outline.name = "BoardNavyOutline"
 	board_outline.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	var board_outline_style := StyleBoxFlat.new()
-	board_outline_style.bg_color = Color("#102744")
-	board_outline_style.set_corner_radius_all(11)
-	board_outline_style.content_margin_left = 3
-	board_outline_style.content_margin_right = 3
-	board_outline_style.content_margin_top = 3
-	board_outline_style.content_margin_bottom = 3
-	board_outline_style.shadow_color = Color("#d5b269")
-	board_outline_style.shadow_size = 2
+	board_outline_style.bg_color = Color(0, 0, 0, 0)
+	board_outline_style.set_corner_radius_all(0)
+	board_outline_style.content_margin_left = 0
+	board_outline_style.content_margin_right = 0
+	board_outline_style.content_margin_top = 0
+	board_outline_style.content_margin_bottom = 0
 	board_outline.add_theme_stylebox_override("panel", board_outline_style)
 	board_center.add_child(board_outline)
 	board_frame = PanelContainer.new()
 	board_frame.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	var board_style := StyleBoxFlat.new()
-	board_style.bg_color = Color.WHITE
-	board_style.border_color = Color.WHITE
-	board_style.set_border_width_all(0)
+	board_style.bg_color = Color("#0713289e")
+	board_style.border_color = Color("#f7ebc8")
+	board_style.set_border_width_all(3)
 	board_style.set_corner_radius_all(8)
-	board_style.content_margin_left = 10
-	board_style.content_margin_right = 10
-	board_style.content_margin_top = 10
-	board_style.content_margin_bottom = 10
-	board_style.shadow_color = Color("#050b1ea8")
-	board_style.shadow_size = 20
-	board_style.shadow_offset = Vector2(0, 9)
+	board_style.content_margin_left = 0
+	board_style.content_margin_right = 0
+	board_style.content_margin_top = 0
+	board_style.content_margin_bottom = 0
 	board_frame.add_theme_stylebox_override("panel", board_style)
 	board_outline.add_child(board_frame)
 	var board_inner_border := Panel.new()
 	board_inner_border.name = "BoardInnerBorder"
 	board_inner_border.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	board_inner_border.offset_left = 9
-	board_inner_border.offset_top = 9
-	board_inner_border.offset_right = -9
-	board_inner_border.offset_bottom = -9
+	board_inner_border.offset_left = 0
+	board_inner_border.offset_top = 0
+	board_inner_border.offset_right = 0
+	board_inner_border.offset_bottom = 0
 	board_inner_border.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	board_inner_border.z_index = 20
 	var board_inner_border_style := StyleBoxFlat.new()
 	board_inner_border_style.bg_color = Color(0, 0, 0, 0)
-	board_inner_border_style.border_color = Color("#d8ba75a8")
-	board_inner_border_style.set_border_width_all(1)
-	board_inner_border_style.set_corner_radius_all(3)
+	board_inner_border_style.border_color = Color(0, 0, 0, 0)
+	board_inner_border_style.set_border_width_all(0)
+	board_inner_border_style.set_corner_radius_all(0)
 	board_inner_border.add_theme_stylebox_override("panel", board_inner_border_style)
 	board_outline.add_child(board_inner_border)
+	board_inner_border.visible = false
 	board = GridContainer.new()
 	board.columns = int(level_data.columns)
-	board.add_theme_constant_override("h_separation", 4)
-	board.add_theme_constant_override("v_separation", 4)
+	board.add_theme_constant_override("h_separation", 1)
+	board.add_theme_constant_override("v_separation", 1)
 	board_frame.add_child(board)
-	var board_surface_material := _match3_board_surface_material()
-	board_frame.material = board_surface_material
-	board_frame.resized.connect(func() -> void: board_surface_material.set_shader_parameter("board_size_px", board_frame.size))
+	board_frame.material = null
+	board_center.resized.connect(_fit_board_cells)
 	var bark_style := StyleBoxFlat.new()
 	bark_style.bg_color = Color("#fff7df")
 	bark_style.border_color = Color("#66755d")
@@ -614,23 +607,24 @@ func _refresh() -> void:
 
 func _render_board() -> void:
 	var reduced_motion := _prefers_reduced_motion()
+	var cell_size := _board_cell_size()
 	_clear_drag_preview()
 	for child in board.get_children():
 		board.remove_child(child)
 		child.queue_free()
 	for index in game.tiles.size():
 		var tile_button := Button.new()
-		tile_button.custom_minimum_size = Vector2(54, 54)
+		tile_button.custom_minimum_size = Vector2(cell_size, cell_size)
 		tile_button.pivot_offset = tile_button.custom_minimum_size * 0.5
 		tile_button.clip_contents = true
 		if index == selected_index:
 			tile_button.z_index = 5
 		tile_button.focus_mode = Control.FOCUS_NONE
 		var cell_style := StyleBoxFlat.new()
-		cell_style.bg_color = Color("#493552")
-		cell_style.border_color = Color("#c3a464")
+		cell_style.bg_color = Color("#5a859926")
+		cell_style.border_color = Color("#dbe0be59")
 		cell_style.set_border_width_all(1)
-		cell_style.set_corner_radius_all(3)
+		cell_style.set_corner_radius_all(0)
 		var selected_style := cell_style.duplicate() as StyleBoxFlat
 		selected_style.border_color = Color("#fff2a8")
 		selected_style.set_border_width_all(3)
@@ -659,31 +653,25 @@ func _render_board() -> void:
 		cell_background.offset_right = -1
 		cell_background.offset_bottom = -1
 		cell_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		var cell_background_material := ShaderMaterial.new()
-		cell_background_material.shader = Match3CellBackground
-		var is_alternate_cell: bool = int(index) % 2 == 1
-		cell_background_material.set_shader_parameter("color_start", Color("#3d3352") if is_alternate_cell else Color("#493552"))
-		cell_background_material.set_shader_parameter("color_end", Color("#243b58") if is_alternate_cell else Color("#2a3c59"))
-		cell_background_material.set_shader_parameter("gradient_end_stop", 0.72)
-		cell_background.material = cell_background_material
 		var cell_background_style := StyleBoxFlat.new()
-		cell_background_style.bg_color = Color.WHITE
-		cell_background_style.set_corner_radius_all(2)
+		cell_background_style.bg_color = Color("#5a859926")
+		cell_background_style.set_corner_radius_all(0)
 		cell_background.add_theme_stylebox_override("panel", cell_background_style)
 		tile_button.add_child(cell_background)
 		var cell_socket := Panel.new()
 		cell_socket.name = "CellSocket"
 		cell_socket.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		cell_socket.offset_left = 3
-		cell_socket.offset_top = 3
-		cell_socket.offset_right = -3
-		cell_socket.offset_bottom = -3
+		cell_socket.offset_left = 1
+		cell_socket.offset_top = 1
+		cell_socket.offset_right = -1
+		cell_socket.offset_bottom = -1
 		cell_socket.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var socket_style := StyleBoxFlat.new()
-		socket_style.bg_color = Color.WHITE
-		socket_style.set_corner_radius_all(2)
+		socket_style.bg_color = Color(0, 0, 0, 0)
+		socket_style.border_color = Color(0, 0, 0, 0)
+		socket_style.set_border_width_all(0)
+		socket_style.set_corner_radius_all(0)
 		cell_socket.add_theme_stylebox_override("panel", socket_style)
-		cell_socket.material = _match3_cell_socket_material()
 		tile_button.add_child(cell_socket)
 		var tile_stack := Control.new()
 		tile_stack.name = "TileStack"
@@ -706,7 +694,7 @@ func _render_board() -> void:
 			tile.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			tile.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			var is_camisole: bool = game.tiles[index] == "camisole"
-			tile.scale = Vector2(1.04, 1.04)
+			tile.scale = Vector2(1.08, 1.08)
 			tile.material = _match3_drop_shadow_material(
 				Color("#10172d66") if is_camisole else Color("#071224b8"),
 				Vector2(0, 1) if is_camisole else Vector2(0, 2),
@@ -853,7 +841,7 @@ func _render_board() -> void:
 				special.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				special.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				special.material = _match3_special_icon_material()
-				special.pivot_offset = Vector2(27, 27)
+				special.pivot_offset = tile_button.custom_minimum_size * 0.5
 				special.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_stack.add_child(special)
 				if special_kind == "flash-row" or special_kind == "flash-column":
@@ -880,6 +868,28 @@ func _render_board() -> void:
 					direction_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 					tile_stack.add_child(direction_marker)
 		board.add_child(tile_button)
+	_fit_board_cells()
+
+
+func _board_cell_size() -> float:
+	var rows := maxi(1, int(level_data.get("rows", 1)))
+	var columns := maxi(1, int(level_data.get("columns", 1)))
+	var width_limit := minf(size.x - 24.0, 414.0)
+	if board_center.size.y > 0.0:
+		width_limit = minf(width_limit, board_center.size.y * float(columns) / float(rows))
+	var cell_width := (width_limit - 6.0 - float(columns - 1)) / float(columns)
+	# GridContainer does not include the UI A outline in its cell minimum size.
+	return maxf(1.0, cell_width + 1.0)
+
+
+func _fit_board_cells() -> void:
+	if not is_instance_valid(board) or board.get_child_count() == 0:
+		return
+	var cell_size := _board_cell_size()
+	for child in board.get_children():
+		if child is Control:
+			(child as Control).custom_minimum_size = Vector2(cell_size, cell_size)
+			(child as Control).pivot_offset = Vector2(cell_size, cell_size) * 0.5
 
 
 func _render_frame(frame: Dictionary) -> void:
@@ -947,10 +957,10 @@ func _render_frame(frame: Dictionary) -> void:
 			var tween := create_tween()
 			var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
 			tween.tween_property(tile_stack, "scale", Vector2(1.04, 1.04), RESHUFFLE_MOTION_SECONDS * 0.65).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
-			tween.parallel().tween_property(tile_stack, "rotation_degrees", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65)
+			tween.parallel().tween_property(tile_stack, "rotation_degrees", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 			tween.parallel().tween_property(tile_stack, "modulate:a", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65)
 			tween.tween_property(tile_stack, "scale", Vector2.ONE, RESHUFFLE_MOTION_SECONDS * 0.35).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
-			tween.parallel().tween_property(tile_stack, "rotation_degrees", 0.0, RESHUFFLE_MOTION_SECONDS * 0.35)
+			tween.parallel().tween_property(tile_stack, "rotation_degrees", 0.0, RESHUFFLE_MOTION_SECONDS * 0.35).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 
 
 func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: float) -> float:
@@ -982,24 +992,6 @@ func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, b
 	return material
 
 
-func _match3_cell_socket_material() -> ShaderMaterial:
-	if _cell_socket_material_cache != null:
-		return _cell_socket_material_cache
-	var shader := Shader.new()
-	shader.code = """
-	shader_type canvas_item;
-	void fragment() {
-		vec2 center = vec2(0.45, 0.32);
-		float radius = distance(UV, center) / distance(center, vec2(1.0, 1.0));
-		float gradient = 1.0 - clamp(radius / 0.48, 0.0, 1.0);
-		COLOR = vec4(1.0, 1.0, 1.0, gradient * 0.0862745) * COLOR;
-	}
-	"""
-	_cell_socket_material_cache = ShaderMaterial.new()
-	_cell_socket_material_cache.shader = shader
-	return _cell_socket_material_cache
-
-
 func _match3_special_icon_material() -> ShaderMaterial:
 	if _special_icon_material_cache != null:
 		return _special_icon_material_cache
@@ -1011,34 +1003,6 @@ func _match3_special_icon_material() -> ShaderMaterial:
 	material.set_shader_parameter("glow_aqua", Color(0.424, 0.886, 0.827, 0))
 	_special_icon_material_cache = material
 	return _special_icon_material_cache
-
-
-func _match3_board_surface_material() -> ShaderMaterial:
-	var shader := Shader.new()
-	shader.code = """
-	shader_type canvas_item;
-	uniform vec2 board_size_px = vec2(414.0, 414.0);
-	uniform vec4 paper_color : source_color = vec4(0.969, 0.922, 0.784, 1.0);
-	uniform vec4 surface_top : source_color = vec4(0.102, 0.204, 0.337, 1.0);
-	uniform vec4 surface_bottom : source_color = vec4(0.043, 0.114, 0.224, 1.0);
-	uniform vec4 stripe_color : source_color = vec4(1.0, 1.0, 1.0, 0.03137);
-	void fragment() {
-		vec2 pixel = UV * board_size_px;
-		float edge = min(min(pixel.x, board_size_px.x - pixel.x), min(pixel.y, board_size_px.y - pixel.y));
-		vec3 color = paper_color.rgb;
-		if (edge > 5.0) {
-			float vertical = clamp((pixel.y - 5.0) / max(board_size_px.y - 10.0, 1.0), 0.0, 1.0);
-			color = mix(surface_top.rgb, surface_bottom.rgb, vertical);
-			float stripe_phase = mod(((pixel.x - 5.0) + (pixel.y - 5.0)) * 0.707107, 14.0);
-			float stripe = 1.0 - step(7.0, stripe_phase);
-			color = mix(color, vec3(1.0), stripe * stripe_color.a);
-		}
-		COLOR = vec4(color, 1.0) * COLOR;
-	}
-	"""
-	var material := ShaderMaterial.new()
-	material.shader = shader
-	return material
 
 
 func _animate_swap(first: int, second: int, keep_at_target: bool) -> void:
@@ -1057,7 +1021,8 @@ func _animate_swap(first: int, second: int, keep_at_target: bool) -> void:
 		var grid_delta := Vector2(second % columns - first % columns, second / columns - first / columns)
 		var cell_width := first_cell.size.x if first_cell.size.x > 0.0 else first_cell.custom_minimum_size.x
 		var cell_height := first_cell.size.y if first_cell.size.y > 0.0 else first_cell.custom_minimum_size.y
-		offset = Vector2(grid_delta.x * (cell_width + 3.0), grid_delta.y * (cell_height + 3.0))
+		var gap := float(board.get_theme_constant("h_separation"))
+		offset = Vector2(grid_delta.x * (cell_width + gap), grid_delta.y * (cell_height + gap))
 	first_stack.z_index = 8
 	second_stack.z_index = 8
 	var tween := create_tween()
@@ -1094,11 +1059,11 @@ func _reset_swap_stack(stack: Control) -> void:
 
 
 func _tween_stack_offsets(tween: Tween, stack: Control, target: Vector2, duration: float) -> void:
-	var transition := Tween.TRANS_CUBIC
-	tween.tween_property(stack, "offset_left", target.x, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_property(stack, "offset_right", target.x, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_property(stack, "offset_top", target.y, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_property(stack, "offset_bottom", target.y, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
+	var css_ease := Callable(self, "_css_cubic_bezier").bind(0.22, 0.72, 0.22, 1.0)
+	tween.tween_property(stack, "offset_left", target.x, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+	tween.parallel().tween_property(stack, "offset_right", target.x, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+	tween.parallel().tween_property(stack, "offset_top", target.y, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+	tween.parallel().tween_property(stack, "offset_bottom", target.y, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 
 
 func _shake_rejected_cells(indices: Array) -> void:

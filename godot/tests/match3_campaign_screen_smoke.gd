@@ -65,54 +65,41 @@ func _run() -> void:
 	var board_frame_style := match3.board_frame.get_theme_stylebox("panel") as StyleBoxFlat
 	var board_inner_border := board_outline.get_node("BoardInnerBorder") as Panel
 	var board_inner_border_style := board_inner_border.get_theme_stylebox("panel") as StyleBoxFlat
-	var board_surface_material := match3.board_frame.material as ShaderMaterial
-	assert(board_outline.name == "BoardNavyOutline" and board_outline_style.bg_color.is_equal_approx(Color("#102744"))
-		and board_outline_style.content_margin_left == 3 and board_outline_style.shadow_color.is_equal_approx(Color("#d5b269"))
-		and board_outline_style.shadow_size == 2,
-		"Production board should have its 3px navy outline and 2px gold ring")
-	assert(board_frame_style.border_width_left == 0 and board_frame_style.corner_radius_top_left == 8
-		and board_frame_style.content_margin_left == 10 and board_frame_style.shadow_offset == Vector2(0, 9)
-		and board_frame_style.shadow_size == 20, "Production board frame style mismatch")
-	assert(board_surface_material != null and board_surface_material.shader.code.contains("stripe_phase")
-		and board_surface_material.shader.code.contains("14.0") and board_surface_material.shader.code.contains("7.0"),
-		"Production board surface should preserve its paper edge, striped gradient and source colors")
-	assert(board_inner_border.name == "BoardInnerBorder" and board_inner_border_style.border_width_left == 1
-		and board_inner_border_style.corner_radius_top_left == 3,
-		"Production board should preserve its one-pixel inner gold line")
-	assert(match3.board.get_theme_constant("h_separation") == 4
-		and match3.board.get_theme_constant("v_separation") == 4,
-		"Production board should preserve its four-pixel cell gaps")
+	assert(board_outline.name == "BoardNavyOutline" and is_zero_approx(board_outline_style.bg_color.a)
+		and board_outline_style.content_margin_left == 0 and board_outline_style.shadow_size == 0,
+		"UI A board should not keep the retired navy-and-gold outer ring")
+	assert(board_frame_style.border_width_left == 3 and board_frame_style.border_width_top == 3
+		and board_frame_style.corner_radius_top_left == 8 and board_frame_style.content_margin_left == 0
+		and board_frame_style.bg_color.is_equal_approx(Color("#0713289e"))
+		and match3.board_frame.material == null, "UI A board should use its flat navy surface and 3px paper edge")
+	assert(board_inner_border.name == "BoardInnerBorder" and not board_inner_border.visible
+		and board_inner_border_style.border_width_left == 0,
+		"UI A board should not draw the retired inner gold line")
+	assert(match3.board.get_theme_constant("h_separation") == 1
+		and match3.board.get_theme_constant("v_separation") == 1,
+		"UI A board should preserve its one-pixel cell gaps")
+	assert(absf(match3.board_frame.size.x / match3.board_frame.size.y - float(match3.board.columns) / float(match3.game.level_data.rows)) < 0.01,
+		"UI A board should preserve its authored columns-to-rows aspect ratio")
 	var cell_background := match3.board.get_child(0).get_node("CellBackground") as Panel
-	var cell_background_material := cell_background.material as ShaderMaterial
-	assert(cell_background_material != null and cell_background_material.shader.code.contains("gradient_axis")
-		and cell_background.offset_left == 1 and cell_background.offset_right == -1,
-		"Match-3 cells should render the source diagonal gradient and inset edge treatment beneath tile art")
-	assert((cell_background_material.get_shader_parameter("color_start") as Color).is_equal_approx(Color("#493552"))
-		and (cell_background_material.get_shader_parameter("color_end") as Color).is_equal_approx(Color("#2a3c59"))
-		and is_equal_approx(cell_background_material.get_shader_parameter("gradient_end_stop"), 0.72),
-		"The first production board cell should use its plum-to-navy 145-degree gradient")
-	var alternate_cell_material := (match3.board.get_child(1).get_node("CellBackground") as Panel).material as ShaderMaterial
-	assert((alternate_cell_material.get_shader_parameter("color_start") as Color).is_equal_approx(Color("#3d3352"))
-		and (alternate_cell_material.get_shader_parameter("color_end") as Color).is_equal_approx(Color("#243b58")),
-		"Even production board cells should use the alternate plum-to-navy gradient")
+	var cell_background_style := cell_background.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(cell_background.offset_left == 1 and cell_background.offset_right == -1
+		and cell_background.material == null and cell_background_style.bg_color.is_equal_approx(Color("#5a859926")),
+		"Match-3 cells should use the source translucent blue-gray fill without a retired gradient shader")
 	var cell_socket := match3.board.get_child(0).get_node("CellSocket") as Panel
 	var socket_style := cell_socket.get_theme_stylebox("panel") as StyleBoxFlat
-	assert(cell_socket.offset_left == 3 and cell_socket.offset_top == 3
-		and cell_socket.offset_right == -3 and cell_socket.offset_bottom == -3
-		and socket_style.bg_color == Color.WHITE
-		and socket_style.get_border_width(SIDE_LEFT) == 0 and socket_style.get_corner_radius(CORNER_TOP_LEFT) == 2
-		and cell_socket.material is ShaderMaterial
-		and (cell_socket.material as ShaderMaterial).shader.code.contains("0.45, 0.32")
-		and (cell_socket.material as ShaderMaterial).shader.code.contains("0.0862745"),
-		"Production tile socket should match its 3px inset, radial highlight and two-pixel corners")
+	assert(cell_socket.offset_left == 1 and cell_socket.offset_top == 1
+		and cell_socket.offset_right == -1 and cell_socket.offset_bottom == -1
+		and is_zero_approx(socket_style.bg_color.a) and socket_style.get_border_width(SIDE_LEFT) == 0
+		and cell_socket.material == null,
+		"UI A tile socket should use its one-pixel inset and transparent fill")
 	var normal_tile := match3.board.get_child(0).get_node("TileStack/Tile") as TextureRect
 	var normal_tile_material := normal_tile.material as ShaderMaterial
 	assert(normal_tile.offset_left == 0 and normal_tile.offset_top == 0
-		and normal_tile.scale.is_equal_approx(Vector2(1.04, 1.04))
+		and normal_tile.scale.is_equal_approx(Vector2(1.08, 1.08))
 		and (normal_tile_material.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#071224b8"))
 		and (normal_tile_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2))
 		and is_equal_approx(normal_tile_material.get_shader_parameter("saturation"), 1.05),
-		"Production tile artwork should fill its cell and preserve its 1.04 scale, drop shadow and saturation")
+		"UI A tile artwork should fill its cell and preserve its 1.08 scale, drop shadow and saturation")
 	var first_tile_before_variant_check: String = match3.game.tiles[0]
 	match3.game.tiles[0] = "camisole"
 	match3._render_board()
@@ -197,7 +184,7 @@ func _run() -> void:
 			break
 	assert(drag_source >= 0, "Match-3 screen has no movable source cell for drag preview")
 	assert((match3.board.get_child(drag_source) as Control).clip_contents,
-		"Production board cells should clip oversized tile art to their rounded cell bounds")
+		"UI A board cells should clip oversized tile art to their cell bounds")
 	match3._begin_tile_drag(drag_source, Vector2.ZERO)
 	match3._update_tile_drag(Vector2(match3.drag_start_cell_size * 0.08, 0.0))
 	assert(not (match3.board.get_child(drag_source) as Control).clip_contents,
