@@ -576,6 +576,7 @@ func _render_board() -> void:
 	for index in game.tiles.size():
 		var tile_button := Button.new()
 		tile_button.custom_minimum_size = Vector2(54, 54)
+		tile_button.pivot_offset = tile_button.custom_minimum_size * 0.5
 		tile_button.clip_contents = false
 		tile_button.focus_mode = Control.FOCUS_NONE
 		var cell_style := StyleBoxFlat.new()
@@ -609,6 +610,7 @@ func _render_board() -> void:
 		tile_stack.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		tile_stack.clip_contents = false
 		tile_stack.z_index = 0
+		tile_stack.pivot_offset = tile_button.custom_minimum_size * 0.5
 		var tile_asset := str(campaign_bundle.assets.tiles.get(game.tiles[index], ""))
 		if not tile_asset.is_empty():
 			var tile := TextureRect.new()
@@ -1261,6 +1263,7 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			activated_sources.append(index)
 	if activated_sources.is_empty(): return
 	var impact_curve := Callable(self, "_css_cubic_bezier").bind(0.18, 0.82, 0.28, 1.0)
+	var css_ease_out := Callable(self, "_css_cubic_bezier").bind(0.0, 0.0, 0.58, 1.0)
 	for index_value in cleared:
 		var index := int(index_value)
 		if index < 0 or index >= board.get_child_count(): continue
@@ -1277,10 +1280,10 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		flash.z_index = 8
 		cell.add_child(flash)
 		var flash_tween := create_tween()
-		flash_tween.tween_property(flash, "modulate:a", 1.0, 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.04, 1.04), 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		flash_tween.tween_property(flash, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.12, 1.12), 0.185).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		flash_tween.tween_property(flash, "modulate:a", 1.0, 0.095).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.04, 1.04), 0.095).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+		flash_tween.tween_property(flash, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.12, 1.12), 0.185).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 		flash_tween.finished.connect(flash.queue_free)
 		var outline := Panel.new()
 		outline.name = "SpecialImpactSourceOutline" if is_source else "SpecialImpactTargetOutline"
@@ -1299,12 +1302,13 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		outline_style.shadow_color = Color("#6ce2d388" if is_source else "#6ce2d355")
 		outline_style.shadow_size = 18 if is_source else 8
 		outline.add_theme_stylebox_override("panel", outline_style)
-		outline.modulate.a = 0.0
+		outline.modulate.a = 1.0 if is_source else 0.0
 		cell.add_child(outline)
-		var outline_tween := create_tween()
-		outline_tween.tween_property(outline, "modulate:a", 1.0, 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		outline_tween.tween_property(outline, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		outline_tween.finished.connect(outline.queue_free)
+		if not is_source:
+			var outline_tween := create_tween()
+			outline_tween.tween_property(outline, "modulate:a", 1.0, 0.095).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+			outline_tween.tween_property(outline, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+			outline_tween.finished.connect(outline.queue_free)
 		var impact_tween := create_tween()
 		var peak_scale := 1.11 if is_source else 1.055
 		impact_tween.tween_property(cell, "scale", Vector2(peak_scale, peak_scale), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
@@ -1349,10 +1353,10 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			cell.add_child(beam)
 			beam.scale = Vector2(1.0, 0.25) if special_kind == "flash-column" else Vector2(0.25, 1.0)
 			var beam_tween := create_tween()
-			beam_tween.tween_property(beam, "modulate:a", 1.0, 0.098).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			beam_tween.parallel().tween_property(beam, "scale", Vector2(1.0, 1.15) if special_kind == "flash-column" else Vector2(1.15, 1.0), 0.098).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			beam_tween.tween_property(beam, "modulate:a", 0.0, 0.182).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			beam_tween.parallel().tween_property(beam, "scale", Vector2.ONE, 0.182).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			beam_tween.tween_property(beam, "modulate:a", 1.0, 0.098).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+			beam_tween.parallel().tween_property(beam, "scale", Vector2(1.0, 1.15) if special_kind == "flash-column" else Vector2(1.15, 1.0), 0.098).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+			beam_tween.tween_property(beam, "modulate:a", 0.0, 0.182).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+			beam_tween.parallel().tween_property(beam, "scale", Vector2.ONE, 0.182).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 			beam_tween.finished.connect(beam.queue_free)
 
 

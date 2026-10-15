@@ -252,6 +252,9 @@ func _run() -> void:
 	var feedback_style := match3.match_feedback_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(feedback_style.bg_color == Color("#c07f35ef"), "Special feedback did not use the source amber treatment")
 	var special_cell: Control = match3.board.get_child(special_index)
+	assert(special_cell.pivot_offset == special_cell.custom_minimum_size * 0.5, "Board cell scale effects should pivot around the center like CSS transforms")
+	var source_outline: Panel = special_cell.get_node("SpecialImpactSourceOutline")
+	assert(is_equal_approx(source_outline.modulate.a, 1.0), "Activated special outline should remain fully visible throughout the clear frame")
 	assert(special_cell.get_node_or_null("SpecialImpactFlash") != null, "Special clear did not create its visual impact flash")
 	assert(special_cell.get_node_or_null("SpecialImpactSourceOutline") != null, "Activated special did not receive its source outline")
 	assert(special_cell.get_node_or_null("SpecialImpactBeam") != null, "Line special did not create its directional beam")
@@ -259,6 +262,7 @@ func _run() -> void:
 	assert(target_cell.get_node_or_null("SpecialImpactTargetOutline") != null, "Affected clear target did not receive its target outline")
 	assert(target_cell.get_node_or_null("SpecialImpactFlash") != null, "Affected clear target did not receive its impact flash")
 	var special_stack: Control = special_cell.get_node("TileStack")
+	assert(special_stack.pivot_offset == special_cell.custom_minimum_size * 0.5, "Tile-stack scale effects should pivot around the source cell center")
 	var special_icon: TextureRect = special_stack.get_node("Special")
 	var special_glow: TextureRect = special_stack.get_node("SpecialGlow")
 	var direction_marker: PanelContainer = special_stack.get_node("SpecialDirectionMarker")
