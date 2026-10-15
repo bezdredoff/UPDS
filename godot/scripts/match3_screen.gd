@@ -760,7 +760,6 @@ func _render_board() -> void:
 				special.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				special.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				special.material = _match3_drop_shadow_material(Color("#181426b8"), Vector2(0, 1), 2.0)
-				special.rotation_degrees = -18.0 if special_kind == "flash-row" else 72.0 if special_kind == "flash-column" else 0.0
 				special.pivot_offset = Vector2(27, 27)
 				special.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_stack.add_child(special)
@@ -782,7 +781,7 @@ func _render_board() -> void:
 					direction_label.text = "↔" if special_kind == "flash-row" else "↕"
 					direction_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 					direction_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-					direction_label.add_theme_font_size_override("font_size", 11)
+					direction_label.add_theme_font_size_override("font_size", 13)
 					direction_label.add_theme_color_override("font_color", Color("#fff0bd"))
 					direction_marker.add_child(direction_label)
 					direction_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE

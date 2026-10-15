@@ -272,6 +272,17 @@ func _run() -> void:
 	var special_frame_specials: Array[String] = match3.game.specials.duplicate()
 	special_frame_specials[special_index] = "flash-row"
 	var impact_target := special_index + 1 if (special_index + 1) % columns != 0 else special_index - 1
+	var saved_specials: Array[String] = match3.game.specials
+	match3.game.specials = special_frame_specials.duplicate()
+	match3._render_board()
+	var resting_special: TextureRect = match3.board.get_child(special_index).get_node("TileStack/Special")
+	var resting_direction: PanelContainer = match3.board.get_child(special_index).get_node("TileStack/SpecialDirectionMarker")
+	assert(is_equal_approx(resting_special.rotation_degrees, 0.0),
+		"Directional special art should keep its authored CSS orientation")
+	assert(resting_direction.get_child(0).get_theme_font_size("font_size") == 13,
+		"Directional special marker should preserve the source 13px glyph size")
+	match3.game.specials = saved_specials
+	match3._render_board()
 	match3._render_frame({
 		"phase": "clear",
 		"tiles": match3.game.tiles.duplicate(),
