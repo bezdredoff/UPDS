@@ -13,6 +13,7 @@ const Tutorials = preload("res://scripts/match3_tutorials.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
 const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
 const ReducedMotion = preload("res://scripts/reduced_motion.gd")
+const UiFonts = preload("res://scripts/ui_fonts.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const ReactionRuntime = preload("res://scripts/match3_reaction_runtime.gd")
 const Style = preload("res://scripts/menu_theme.gd")
@@ -268,9 +269,7 @@ func _ready() -> void:
 	tutorial_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tutorial_body.add_theme_font_size_override("font_size", 13)
 	tutorial_body.add_theme_constant_override("line_spacing", 0)
-	var tutorial_sans := SystemFont.new()
-	tutorial_sans.font_names = PackedStringArray(["Comic Sans MS", "Trebuchet MS", "Arial"])
-	tutorial_sans.font_weight = 700
+	var tutorial_sans := UiFonts.match3(700)
 	tutorial_body.add_theme_font_override("font", tutorial_sans)
 	tutorial_content.add_child(tutorial_title_body_gap)
 	tutorial_content.move_child(tutorial_body, tutorial_content.get_child_count() - 1)
@@ -2154,6 +2153,7 @@ func _continue_story() -> void:
 
 func _label(parent: Node, size: int, color: Color) -> Label:
 	var label := Label.new()
+	label.add_theme_font_override("font", UiFonts.match3())
 	label.add_theme_font_size_override("font_size", size)
 	label.add_theme_color_override("font_color", color)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -2288,9 +2288,7 @@ func _style_tutorial_button(button: Button) -> void:
 	button.add_theme_color_override("font_color", Color("#fff7dc"))
 	button.add_theme_color_override("font_hover_color", Color("#fff7dc"))
 	button.add_theme_color_override("font_pressed_color", Color("#fff7dc"))
-	var tutorial_button_font := SystemFont.new()
-	tutorial_button_font.font_names = PackedStringArray(["Arial", "sans-serif"])
-	tutorial_button_font.font_weight = 950
+	var tutorial_button_font := UiFonts.match3(700)
 	button.add_theme_font_override("font", tutorial_button_font)
 	var normal := StyleBoxFlat.new()
 	normal.bg_color = Color("#2f6549")

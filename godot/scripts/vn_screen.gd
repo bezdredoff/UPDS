@@ -15,6 +15,7 @@ const Match3CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
 const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
 const ReducedMotion = preload("res://scripts/reduced_motion.gd")
+const UiFonts = preload("res://scripts/ui_fonts.gd")
 
 static var _portrait_shadow_material_cache: ShaderMaterial
 
@@ -162,16 +163,12 @@ func _ready() -> void:
 	case_copy_margin.add_child(case_copy)
 	case_label = _label(case_copy, 8)
 	case_label.add_theme_color_override("font_color", Color("#e9d5a7"))
-	var case_label_font := SystemFont.new()
-	case_label_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
-	case_label_font.font_weight = 950
+	var case_label_font := UiFonts.sans(950)
 	case_label.add_theme_font_override("font", case_label_font)
 	title = _label(case_copy, 11)
 	title.add_theme_font_size_override("font_size", 10)
 	title.add_theme_color_override("font_color", Color("#fff9ea"))
-	var case_title_font := SystemFont.new()
-	case_title_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
-	case_title_font.font_weight = 800
+	var case_title_font := UiFonts.sans(800)
 	title.add_theme_font_override("font", case_title_font)
 	var dossier_icon := _icon_texture("dossier", 22)
 	dossier_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -243,17 +240,13 @@ func _ready() -> void:
 	speaker.autowrap_mode = TextServer.AUTOWRAP_OFF
 	speaker.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	speaker.add_theme_color_override("font_color", Color("#fff9ea"))
-	var speaker_font := SystemFont.new()
-	speaker_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
-	speaker_font.font_weight = 900
+	var speaker_font := UiFonts.sans(900)
 	speaker.add_theme_font_override("font", speaker_font)
 	emotion = _label(nameplate_row, 8)
 	emotion.autowrap_mode = TextServer.AUTOWRAP_OFF
 	emotion.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	emotion.add_theme_color_override("font_color", Color("#e9d5a7"))
-	var emotion_font := SystemFont.new()
-	emotion_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
-	emotion_font.font_weight = 700
+	var emotion_font := UiFonts.sans(700)
 	emotion.add_theme_font_override("font", emotion_font)
 	add_child(nameplate)
 	choice_box = VBoxContainer.new()
@@ -577,9 +570,7 @@ func _add_clue_toast(clue_id: String, locale: String) -> void:
 		clue_title.text = str(localized.get("title", ""))
 		clue_title.add_theme_color_override("font_color", Color("#29243d"))
 		clue_title.add_theme_font_size_override("font_size", 13)
-		var clue_font := SystemFont.new()
-		clue_font.font_names = PackedStringArray(["Inter", "Arial", "sans-serif"])
-		clue_font.font_weight = 700
+		var clue_font := UiFonts.sans(700)
 		clue_title.add_theme_font_override("font", clue_font)
 		stage.add_child(toast)
 		if ReducedMotion.is_enabled():
@@ -768,9 +759,7 @@ func _set_control_caption(button: Button, icon_name: String, caption: String) ->
 	caption_label.text = caption
 	caption_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	caption_label.add_theme_color_override("font_color", Color("#fff9ea"))
-	var caption_font := SystemFont.new()
-	caption_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
-	caption_font.font_weight = 900
+	var caption_font := UiFonts.sans(700)
 	caption_label.add_theme_font_override("font", caption_font)
 	caption_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
@@ -1165,9 +1154,7 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 	var eyebrow_label := _label(title_stack, 8)
 	eyebrow_label.text = eyebrow
 	eyebrow_label.add_theme_color_override("font_color", Color("#e9d5a7"))
-	var eyebrow_font := SystemFont.new()
-	eyebrow_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
-	eyebrow_font.font_weight = 900
+	var eyebrow_font := UiFonts.sans(900)
 	eyebrow_label.add_theme_font_override("font", eyebrow_font)
 	overlay_title = _label(title_stack, 20)
 	overlay_title.add_theme_font_size_override("font_size", 21)
@@ -1289,9 +1276,7 @@ func _show_history() -> void:
 		var speaker_label := _label(line_header, 10)
 		speaker_label.text = localized.speaker
 		speaker_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var speaker_font := SystemFont.new()
-		speaker_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
-		speaker_font.font_weight = 700
+		var speaker_font := UiFonts.sans(800)
 		speaker_label.add_theme_font_override("font", speaker_font)
 		speaker_label.add_theme_color_override("font_color", Color("#2b6f6c") if is_direction else Color("#2a4b76"))
 		var number_label := _label(line_header, 8)

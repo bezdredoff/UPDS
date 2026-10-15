@@ -50,10 +50,11 @@ func _run_smoke() -> void:
 		and continue_button.get_theme_stylebox("disabled") == continue_button.get_theme_stylebox("normal"),
 		"Disabled Continue should apply only the source opacity, without Godot's extra disabled tint")
 	var new_game_button: Button = menu.get_node("Content/Actions/NewGame")
-	var menu_button_font := new_game_button.get_theme_font("font") as SystemFont
-	var secondary_button_font := continue_button.get_theme_font("font") as SystemFont
-	assert(menu_button_font != null and menu_button_font.font_weight == 850
-		and secondary_button_font != null and secondary_button_font.font_weight == 700,
+	var menu_button_font := new_game_button.get_theme_font("font") as FontVariation
+	var secondary_button_font := continue_button.get_theme_font("font") as FontVariation
+	assert(menu_button_font != null and menu_button_font.variation_opentype.get("wght", 0.0) == 900.0
+		and secondary_button_font != null and secondary_button_font.variation_opentype.get("wght", 0.0) == 700.0
+		and menu_button_font.base_font == preload("res://assets/fonts/Inter-latin.woff2"),
 		"Main menu buttons should match the source font weights")
 	assert(menu.get_node("Background").texture != null, "Clubroom background is missing")
 	for character in ["Miku", "Onoe", "Ayuki"]:

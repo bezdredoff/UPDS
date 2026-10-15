@@ -29,7 +29,8 @@ describe('Godot main menu slice', () => {
 		expect(script).toContain('continue_button.disabled = not session.has_progress() or not session.supports_position()');
 		expect(script).toContain('continue_button.modulate = Color(1, 1, 1, 0.38) if continue_button.disabled else Color.WHITE');
 		expect(script).toContain('button.add_theme_stylebox_override("disabled", button.get_theme_stylebox("normal"))');
-		expect(script).toContain('font.font_weight = 850 if primary else 700');
+		expect(script).toContain('var font := UiFonts.sans(900 if primary else 700)');
+		expect(script).toContain('const UiFonts = preload("res://scripts/ui_fonts.gd")');
 		expect(smoke).toContain('Disabled Continue should use the source web opacity');
 		expect(smoke).toContain('UPDS Godot main menu smoke test passed (locale: %s).');
 		expect(checkScript).toContain('res://tests/main_menu_smoke.gd');
