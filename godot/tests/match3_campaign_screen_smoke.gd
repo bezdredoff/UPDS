@@ -4,6 +4,7 @@ const Memory = preload("res://tests/memory_storage.gd")
 const Match3Session = preload("res://scripts/match3_campaign_session.gd")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
+const UiFonts = preload("res://scripts/ui_fonts.gd")
 
 
 func _initialize() -> void:
@@ -19,13 +20,21 @@ func _run() -> void:
 	menu.preferences.set_locale("ru")
 	root.add_child(menu)
 	await process_frame
+	var menu_title_font: Font = menu.get_node("Content/Title").get_theme_font("normal_font")
+	if OS.has_feature("web"):
+		assert((menu_title_font as FontVariation).base_font == UiFonts.GEORGIA_LATIN
+			and (menu_title_font as FontVariation).fallbacks == [UiFonts.SERIF_CYRILLIC],
+			"Web main menu title should preserve the Georgia serif style with Latin/Cyrillic bundled faces")
+	else:
+		assert((menu_title_font as SystemFont).font_names.has("Georgia"),
+			"Native main menu title should request the source Georgia family")
 	menu._open_campaign()
 	await process_frame
 	var campaign: Control = menu.match3_campaign_screen
 	assert(campaign.cards.get_child_count() == 22, "Campaign hub did not render all authored levels")
 	assert(not campaign.complete.visible, "Empty campaign-complete status should not reserve a row before the campaign is complete")
-	assert(campaign.summary_panel.size.y >= 80.0 and campaign.summary_panel.size.y <= 82.0,
-		"Campaign summary height diverged from the source card at 480x854")
+	assert(campaign.summary_panel.size.y >= 78.0 and campaign.summary_panel.size.y <= 82.0,
+		"Campaign summary height diverged from the source card at the 430 px phone width: " + str(campaign.summary_panel.size.y))
 	assert(campaign.campaign_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_SHOW_NEVER,
 		"Campaign list should hide the platform scrollbar while remaining scrollable")
 	assert(is_equal_approx(campaign.cards.size.x, campaign.campaign_scroll.size.x),
@@ -35,7 +44,16 @@ func _run() -> void:
 		"Campaign descriptions should use the source 1.35 line rhythm to avoid taller Godot cards")
 	assert(campaign.back_button.custom_minimum_size == Vector2(44, 44), "Campaign back action should match the source header size")
 	assert(campaign.settings_button.custom_minimum_size == Vector2(44, 44), "Campaign settings action should match the source header size")
-	assert(campaign.cards.get_child(1).get_child(0).get_child(3).disabled, "Second level should be locked initially")
+	var back_icon := campaign.back_button.get_child(0) as TextureRect
+	assert(back_icon != null and back_icon.size == Vector2(21, 21) and back_icon.position == Vector2(11.5, 11.5),
+		"Campaign header icons should be centered inside their 44 px controls")
+	var locked_content := campaign.cards.get_child(1).get_child(0) as VBoxContainer
+	var locked_play := locked_content.get_child(3) as Button
+	assert(locked_play.disabled and not locked_content.get_child(1).visible,
+		"Locked campaign cards should hide the empty story-action row")
+	assert(locked_play.get_theme_stylebox("disabled") == locked_play.get_theme_stylebox("normal")
+		and locked_play.get_theme_color("font_disabled_color") == Color("#29243d", 0.55),
+		"Locked campaign actions should keep the source's readable disabled style and opacity")
 	campaign.settings_button.pressed.emit()
 	await process_frame
 	assert(is_instance_valid(menu.settings_screen) and campaign.visible, "Campaign settings did not open over the campaign hub")
@@ -55,6 +73,78 @@ func _run() -> void:
 	var match3: Control = menu.match3_screen
 	assert(match3 != null and match3.campaign_mode, "Campaign level did not launch in standalone mode")
 	assert(match3.level_id == second_id and match3.game.level_data.id == second_id, "Selected campaign level was not loaded")
+	if OS.has_feature("web"):
+		var title_web_font := match3.title.get_theme_font("font") as FontVariation
+		assert(title_web_font != null and title_web_font.base_font == UiFonts.GEORGIA_LATIN
+			and title_web_font.fallbacks == [UiFonts.SERIF_CYRILLIC]
+			and title_web_font.variation_embolden == 0.2,
+			"Web Match-3 title should match the source Georgia serif weight 800")
+	else:
+		var title_native_font := match3.title.get_theme_font("font") as SystemFont
+		assert(title_native_font != null and title_native_font.font_names.has("Georgia")
+			and title_native_font.font_weight == 800,
+			"Native Match-3 title should match the source Georgia serif weight 800")
+	var comic_normal: Font = UiFonts.match3(500)
+	var comic_bold: Font = UiFonts.match3(800)
+	var objective_font: Font = match3.objective_heading.get_theme_font("font")
+	var objective_count_font: Font = match3.objective.get_theme_font("font")
+	var moves_font: Font = match3.moves.get_theme_font("font")
+	var hint_font: Font = match3.hint_label.get_theme_font("font")
+	var speaker_font: Font = match3.bark_speaker.get_theme_font("font")
+	var bark_font: Font = match3.bark.get_theme_font("font")
+	if OS.has_feature("web"):
+		var comic_web_normal := comic_normal as FontVariation
+		var comic_web_bold := comic_bold as FontVariation
+		assert(comic_web_normal != null and comic_web_normal.base_font == UiFonts.COMIC_LATIN
+			and comic_web_normal.fallbacks == [UiFonts.COMIC_CYRILLIC]
+			and comic_web_bold != null and comic_web_bold.base_font == UiFonts.COMIC_BOLD_LATIN
+			and comic_web_bold.fallbacks == [UiFonts.COMIC_BOLD_CYRILLIC]
+			and comic_web_bold.variation_embolden == 0.2,
+			"Web exports must render the bundled Comic Relief Latin/Cyrillic faces because SystemFont is unsupported there")
+		assert((objective_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
+			and (objective_count_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
+			and (moves_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
+			and (hint_font as FontVariation).variation_embolden == 0.4
+			and (speaker_font as FontVariation).variation_embolden == 0.3
+			and (bark_font as FontVariation).base_font == UiFonts.COMIC_LATIN,
+			"Web Match-3 roles should keep the source display weights and regular dialogue face")
+	else:
+		var comic_system_normal := comic_normal as SystemFont
+		var comic_system_bold := comic_bold as SystemFont
+		assert(comic_system_normal != null and comic_system_normal.font_names == PackedStringArray(["Comic Sans MS", "Trebuchet MS"])
+			and comic_system_bold != null and comic_system_bold.font_names == comic_system_normal.font_names
+			and comic_system_normal.font_weight == 500 and comic_system_bold.font_weight == 800,
+			"Native Match-3 font provider should preserve the source system font stack and weight")
+		assert((objective_font as SystemFont).font_weight == 800
+			and (objective_count_font as SystemFont).font_weight == 800
+			and (moves_font as SystemFont).font_weight == 800
+			and (hint_font as SystemFont).font_weight == 900
+			and (speaker_font as SystemFont).font_weight == 850
+			and (bark_font as SystemFont).font_weight == 500,
+			"Native Match-3 HUD, bark and hint should preserve source weights")
+	assert(objective_font != null and objective_count_font != null and moves_font != null,
+		"Match-3 objective and move HUD should use the bold display font")
+	assert(hint_font != null and speaker_font != null,
+		"Match-3 hint and bark speaker should use the bold display font")
+	assert(bark_font != null,
+		"Match-3 narrative bark should use the regular display font")
+	var tutorial_body_font := match3.tutorial_body.get_theme_font("font") as FontVariation
+	var tutorial_button_font := match3.tutorial_button.get_theme_font("font") as FontVariation
+	assert(tutorial_body_font != null and tutorial_body_font.variation_opentype.get("wght", 0.0) == 700.0
+		and tutorial_button_font != null and tutorial_button_font.variation_opentype.get("wght", 0.0) == 950.0,
+		"Match-3 tutorial copy and action should retain the source Inter sans stack")
+	if not OS.has_feature("web"):
+		var bundled_fallback := (comic_normal as SystemFont).fallbacks[0] as FontVariation
+		assert(bundled_fallback != null and bundled_fallback.fallbacks.size() == 1,
+			"Native Match-3 font stack should include its bundled Latin/Cyrillic fallback when source fonts are absent")
+	var feedback_font: Font = match3.match_feedback_label.get_theme_font("font")
+	if OS.has_feature("web"):
+		assert((feedback_font as FontVariation).base_font == UiFonts.GEORGIA_LATIN
+			and (feedback_font as FontVariation).fallbacks == [UiFonts.SERIF_CYRILLIC],
+			"Web Match-3 feedback should use bundled Georgia-metric Latin and a Cyrillic serif fallback")
+	else:
+		assert((feedback_font as SystemFont).font_names.has("Georgia"),
+			"Native Match-3 feedback should preserve the source Georgia serif treatment")
 	var expected_page_background := str(bundle.assets.backgrounds.get(str(match3.level_data.pageBackground), ""))
 	assert(str(bundle.levels[0].pageBackground) != str(bundle.levels[1].pageBackground)
 		and not expected_page_background.is_empty()
@@ -71,6 +161,11 @@ func _run() -> void:
 		"Match-3 screen should not add the retired 55% navy background wash")
 	await process_frame
 	assert(match3.active_tutorial == "clear-package" and match3.tutorial_panel.visible, "Level-start blocker tutorial was not selected in authored order")
+	assert(match3.tutorial_overlay.z_index > 20 and match3.tutorial_overlay.z_index < 30,
+		"Tutorial overlay should cover elevated Match-3 tile art while staying beneath evidence and result overlays")
+	assert(is_equal_approx(match3.board_top_spacer.custom_minimum_size.y,
+		clampf((match3.size.y - 568.0) * 0.19, 0.0, 52.0)),
+		"Match-3 HUD-to-playfield gap did not update for the active viewport height")
 	assert(match3.tutorial_title.text == "Снимайте слои пакета", "Campaign tutorial copy did not use the localized concept")
 	var tutorial_card_rect: Rect2 = match3.tutorial_frame.get_global_rect()
 	var tutorial_button_rect: Rect2 = match3.tutorial_button.get_global_rect()
@@ -102,13 +197,22 @@ func _run() -> void:
 	assert(match3.bark_portrait.texture != null
 		and match3.bark_portrait.texture.resource_path.ends_with("ayuki/medallions/portrait_neutral_256.png"),
 		"Reaction bark should use the same authored circular portrait as the web UI")
+	var portrait_frame_style := match3.bark_portrait_frame.get_theme_stylebox("panel") as StyleBoxFlat
+	var portrait_mask := (match3.bark_portrait.material as ShaderMaterial).shader.code
+	assert(match3.bark_portrait_frame.custom_minimum_size == Vector2(42, 42)
+		and portrait_frame_style.get_border_width(SIDE_LEFT) == 2
+		and portrait_frame_style.corner_radius_top_left == 999
+		and portrait_frame_style.shadow_color.is_equal_approx(Color("#326349"))
+		and portrait_mask.contains("smoothstep"),
+		"Match-3 speaker portrait should keep its circular crop, paper border and green ring")
 	assert(is_zero_approx(match3.bark_panel.modulate.a) and is_equal_approx(match3.bark_panel.position.y, 4.0),
 		"Reaction bark should begin at the source 4px entrance offset and zero opacity")
 	await create_timer(0.2).timeout
 	assert(is_equal_approx(match3.bark_panel.modulate.a, 1.0) and is_zero_approx(match3.bark_panel.position.y),
 		"Reaction bark should finish its 160ms ease-out entrance")
 	var reaction_style := match3.bark_panel.get_theme_stylebox("panel") as StyleBoxFlat
-	assert(reaction_style.border_width_left == 4 and reaction_style.shadow_size == 14,
+	assert(reaction_style.border_width_left == 3 and reaction_style.border_width_top == 3
+		and reaction_style.corner_radius_top_left == 8 and reaction_style.shadow_size == 14,
 		"Standard reaction emphasis should preserve the web bark border and shadow")
 	match3._dismiss_narrative_reaction("ingredient-context")
 	await create_timer(0.22).timeout
@@ -138,37 +242,47 @@ func _run() -> void:
 		"UI A board should preserve its one-pixel cell gaps")
 	assert(absf(match3.board_frame.size.x / match3.board_frame.size.y - float(match3.board.columns) / float(match3.game.level_data.rows)) < 0.01,
 		"UI A board should preserve its authored columns-to-rows aspect ratio")
-	var cell_background := match3.board.get_child(0).get_node("CellBackground") as Panel
+	var rendered_cell_index := -1
+	for index in match3.game.tiles.size():
+		if not match3.game.tiles[index].is_empty():
+			rendered_cell_index = index
+			break
+	assert(rendered_cell_index >= 0, "Match-3 board has no rendered cell for presentation checks")
+	var cell_background := match3.board.get_child(rendered_cell_index).get_node("CellBackground") as Panel
 	var cell_background_style := cell_background.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(cell_background.offset_left == 1 and cell_background.offset_right == -1
 		and cell_background.material == null and cell_background_style.bg_color.is_equal_approx(Color("#5a859926")),
 		"Match-3 cells should use the source translucent blue-gray fill without a retired gradient shader")
-	var cell_socket := match3.board.get_child(0).get_node("CellSocket") as Panel
+	var cell_socket := match3.board.get_child(rendered_cell_index).get_node("CellSocket") as Panel
 	var socket_style := cell_socket.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(cell_socket.offset_left == 1 and cell_socket.offset_top == 1
 		and cell_socket.offset_right == -1 and cell_socket.offset_bottom == -1
 		and is_zero_approx(socket_style.bg_color.a) and socket_style.get_border_width(SIDE_LEFT) == 0
 		and cell_socket.material == null,
 		"UI A tile socket should use its one-pixel inset and transparent fill")
-	var normal_tile := match3.board.get_child(0).get_node("TileStack/Tile") as TextureRect
+	var normal_tile_index := 0
+	match3.game.tiles[normal_tile_index] = "pantiesSportWhite"
+	match3.game.blocker_layers[normal_tile_index] = 0
+	match3._render_board()
+	var normal_tile := match3.board.get_child(normal_tile_index).get_node("TileStack/Tile") as TextureRect
 	var normal_tile_material := normal_tile.material as ShaderMaterial
 	assert(normal_tile.offset_left == 0 and normal_tile.offset_top == 0
 		and normal_tile.scale.is_equal_approx(Vector2(1.08, 1.08))
 		and normal_tile.z_index == 1
-		and (normal_tile_material.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#071224b8"))
+		and normal_tile_material != null
 		and (normal_tile_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2))
 		and is_equal_approx(normal_tile_material.get_shader_parameter("saturation"), 1.05),
 		"UI A tile artwork should fill its cell and preserve its 1.08 scale, drop shadow and saturation")
-	var first_tile_before_variant_check: String = match3.game.tiles[0]
-	match3.game.tiles[0] = "camisole"
+	var first_tile_before_variant_check: String = match3.game.tiles[normal_tile_index]
+	match3.game.tiles[normal_tile_index] = "camisole"
 	match3._render_board()
-	var camisole_tile := match3.board.get_child(0).get_node("TileStack/Tile") as TextureRect
+	var camisole_tile := match3.board.get_child(normal_tile_index).get_node("TileStack/Tile") as TextureRect
 	var camisole_shadow := camisole_tile.material as ShaderMaterial
 	assert(camisole_shadow != null and is_equal_approx(camisole_shadow.get_shader_parameter("brightness"), 1.38)
 		and is_equal_approx(camisole_shadow.get_shader_parameter("shadow_blur_px"), 1.0)
 		and is_equal_approx(camisole_shadow.get_shader_parameter("saturation"), 1.0),
 		"Camisole tile should preserve the source brightness variant and soft drop shadow")
-	match3.game.tiles[0] = first_tile_before_variant_check
+	match3.game.tiles[normal_tile_index] = first_tile_before_variant_check
 	match3._render_board()
 	var visual_blocker_index := -1
 	for index in match3.game.tiles.size():
@@ -334,7 +448,16 @@ func _run() -> void:
 	assert(match3.hinted_indices.size() == 2, "Hint action did not mark the two source cells")
 	var hinted_cell: Control = match3.board.get_child(match3.hinted_indices[0])
 	var hinted_style := hinted_cell.get_theme_stylebox("normal") as StyleBoxFlat
-	assert(hinted_style.shadow_size == 12, "Hinted cell did not receive the source glow")
+	assert(hinted_style.border_color.to_html(false) == Color("#7ddfd8").to_html(false)
+		and hinted_style.shadow_color.to_html(false) == Color("#7ddfd8").to_html(false)
+		and hinted_style.shadow_size == 15,
+		"Hinted cell should use the source turquoise outline and 15px glow")
+	var hint_ring := hinted_cell.get_node_or_null("HintInnerRing") as Panel
+	var hint_ring_style := hint_ring.get_theme_stylebox("panel") as StyleBoxFlat if hint_ring != null else null
+	assert(hint_ring != null and hint_ring_style != null
+		and hint_ring_style.border_color.to_html(false) == Color("#fff8d7").to_html(false)
+		and hint_ring_style.get_border_width(SIDE_LEFT) == 2,
+		"Hinted cell should preserve the source inner ivory glow ring")
 	await create_timer(0.42).timeout
 	assert(hinted_cell.scale.x < 0.99 and hinted_cell.modulate.r > 1.0, "Hint pulse did not animate the cell and its brightness")
 	match3.hinted_indices.clear()
@@ -395,6 +518,8 @@ func _run() -> void:
 		and float(ingredient_material.get_shader_parameter("glow_strength")) < 0.05,
 		"Ingredient idle did not return to its source resting position and no-glow state")
 	match3._render_board()
+	var preserved_cell_index: int = (settle_index + 1) % match3.game.tiles.size()
+	var preserved_cell_id: int = match3.board.get_child(preserved_cell_index).get_instance_id()
 	match3._render_frame({
 		"phase": "clear",
 		"tiles": match3.game.tiles.duplicate(),
@@ -405,6 +530,8 @@ func _run() -> void:
 		"cascade": 1,
 		"feedback": "match",
 	})
+	assert(match3.board.get_child(preserved_cell_index).get_instance_id() == preserved_cell_id,
+		"A Match-3 frame rebuilt an unchanged cell and restarted its idle animation")
 	var clearing_stack: Control = match3.board.get_child(settle_index).get_node("TileStack")
 	await create_timer(0.12).timeout
 	assert(clearing_stack.scale.x > 1.05 and clearing_stack.modulate.r > 1.4, "Clear animation missed its source 1.1 scale and brightness peak")

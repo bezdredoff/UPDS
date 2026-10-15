@@ -262,8 +262,7 @@ func _ready() -> void:
 	dialogue = RichTextLabel.new()
 	dialogue.name = "Dialogue"
 	dialogue.add_theme_color_override("default_color", Color("#29243d"))
-	var dialogue_serif := SystemFont.new()
-	dialogue_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
+	var dialogue_serif := UiFonts.serif()
 	dialogue.add_theme_font_override("normal_font", dialogue_serif)
 	dialogue.add_theme_font_size_override("normal_font_size", 17)
 	dialogue.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -1645,10 +1644,8 @@ func _update_audio_setting(key: String, value: Variant) -> void:
 		_show_status(Copy.text("settings_save_error", preferences.locale))
 
 
-func _serif_font() -> SystemFont:
-	var font := SystemFont.new()
-	font.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
-	return font
+func _serif_font() -> Font:
+	return UiFonts.serif()
 
 
 func _unhandled_key_input(event: InputEvent) -> void:

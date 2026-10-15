@@ -61,6 +61,7 @@ var bark_panel: PanelContainer
 var bark_slot: Control
 var bark_base_style: StyleBoxFlat
 var bark_speaker: Label
+var bark_portrait_frame: Panel
 var bark_portrait: TextureRect
 var tutorial_panel: PanelContainer
 var tutorial_frame: PanelContainer
@@ -90,7 +91,9 @@ var match_feedback_cascade := 1
 var warning: Label
 var board: GridContainer
 var board_center: CenterContainer
+var board_top_spacer: Control
 var board_frame: PanelContainer
+var rendered_cell_signatures: Array[String] = []
 var back_button: Button
 var evidence_transition_overlay: Control
 var evidence_transition_image: TextureRect
@@ -152,13 +155,16 @@ func _ready() -> void:
 	background.material = _match_background_material()
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background)
+	var layout := VBoxContainer.new()
+	layout.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	layout.add_theme_constant_override("separation", 10)
+	add_child(layout)
 	var margin := MarginContainer.new()
-	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	margin.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	margin.add_theme_constant_override("margin_left", 12)
 	margin.add_theme_constant_override("margin_right", 12)
 	margin.add_theme_constant_override("margin_top", 0)
 	margin.add_theme_constant_override("margin_bottom", 12)
-	add_child(margin)
 	var content := VBoxContainer.new()
 	content.add_theme_constant_override("separation", 7)
 	margin.add_child(content)
@@ -168,12 +174,12 @@ func _ready() -> void:
 	header_style.bg_color = Color("#10243d")
 	header_style.border_color = Color("#d3b068")
 	header_style.border_width_bottom = 2
-	header_style.content_margin_left = 0
-	header_style.content_margin_right = 0
+	header_style.content_margin_left = 9
+	header_style.content_margin_right = 9
 	header_style.content_margin_top = 0
 	header_style.content_margin_bottom = 0
 	header_panel.add_theme_stylebox_override("panel", header_style)
-	content.add_child(header_panel)
+	layout.add_child(header_panel)
 	var header := HBoxContainer.new()
 	header.add_theme_constant_override("separation", 7)
 	header.custom_minimum_size.y = 60
@@ -193,9 +199,7 @@ func _ready() -> void:
 	title_short.text = str(level_data.get("shortId", ""))
 	title = _label(title_stack, 11, Color.WHITE)
 	title.add_theme_font_size_override("font_size", 11)
-	var title_serif := SystemFont.new()
-	title_serif.font_names = PackedStringArray(["Georgia", "serif"])
-	title.add_theme_font_override("font", title_serif)
+	title.add_theme_font_override("font", UiFonts.serif(800))
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var actions := HBoxContainer.new()
 	actions.add_theme_constant_override("separation", 5)
@@ -208,6 +212,7 @@ func _ready() -> void:
 	help_button.pressed.connect(_show_help)
 	settings_button = _header_icon_button(actions, "settings")
 	settings_button.pressed.connect(func() -> void: settings_requested.emit())
+	layout.add_child(margin)
 	bark = _label(content, 15, Color.WHITE)
 	bark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	bark.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -255,10 +260,7 @@ func _ready() -> void:
 	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(preferences.locale, "HOW TO PLAY")
 	tutorial_title = _label(tutorial_content, 24, Color("#102744"))
 	tutorial_title.add_theme_font_size_override("font_size", 24)
-	var tutorial_serif := SystemFont.new()
-	tutorial_serif.font_names = PackedStringArray(["Georgia", "serif"])
-	tutorial_serif.font_weight = 850
-	tutorial_title.add_theme_font_override("font", tutorial_serif)
+	tutorial_title.add_theme_font_override("font", UiFonts.serif(850))
 	var tutorial_title_top_gap := Control.new()
 	tutorial_title_top_gap.custom_minimum_size.y = 7
 	tutorial_content.add_child(tutorial_title_top_gap)
@@ -269,7 +271,7 @@ func _ready() -> void:
 	tutorial_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tutorial_body.add_theme_font_size_override("font_size", 13)
 	tutorial_body.add_theme_constant_override("line_spacing", 0)
-	var tutorial_sans := UiFonts.match3(700)
+	var tutorial_sans := UiFonts.sans(700)
 	tutorial_body.add_theme_font_override("font", tutorial_sans)
 	tutorial_content.add_child(tutorial_title_body_gap)
 	tutorial_content.move_child(tutorial_body, tutorial_content.get_child_count() - 1)
@@ -282,6 +284,9 @@ func _ready() -> void:
 	tutorial_button.pressed.connect(_dismiss_tutorial)
 	content.remove_child(tutorial_panel)
 	tutorial_overlay = Control.new()
+	# Board cells and the inner frame use elevated z-indices for tile effects.
+	# Keep the tutorial above those effects but beneath evidence and result overlays.
+	tutorial_overlay.z_index = 25
 	tutorial_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	tutorial_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	var tutorial_shade := ColorRect.new()
@@ -324,13 +329,14 @@ func _ready() -> void:
 	hud.add_theme_constant_override("separation", 8)
 	hud.custom_minimum_size.y = 51
 	content.add_child(hud)
-	objective_panel.custom_minimum_size.x = 234
+	objective_panel.custom_minimum_size.x = 224
 	objective_panel.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	hud.add_child(objective_panel)
 	var objective_content := VBoxContainer.new()
 	objective_content.add_theme_constant_override("separation", 1)
 	objective_panel.add_child(objective_content)
 	objective_heading = _label(objective_content, 9, Color("#326349"))
+	objective_heading.add_theme_font_override("font", UiFonts.match3(800))
 	objective_heading.text = {"ru": "ЦЕЛЬ", "be": "МЭТА", "en": "GOAL"}.get(preferences.locale, "GOAL")
 	var objective_row := HBoxContainer.new()
 	objective_row.add_theme_constant_override("separation", 4)
@@ -342,6 +348,7 @@ func _ready() -> void:
 	objective_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	objective_row.add_child(objective_icon)
 	objective = _label(objective_row, 14, Color("#326349"))
+	objective.add_theme_font_override("font", UiFonts.match3(800))
 	objective.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	objective.add_theme_font_size_override("font_size", 14)
 	var hud_spacer := Control.new()
@@ -356,10 +363,16 @@ func _ready() -> void:
 	stage_content.add_theme_constant_override("separation", 1)
 	stage_panel.add_child(stage_content)
 	moves_heading = _label(stage_content, 9, Color("#326349"))
+	moves_heading.add_theme_font_override("font", UiFonts.match3(800))
 	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(preferences.locale, "MOVES")
 	moves = _label(stage_content, 14, Color("#326349"))
+	moves.add_theme_font_override("font", UiFonts.match3(800))
 	moves.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	moves.add_theme_font_size_override("font_size", 14)
+	board_top_spacer = Control.new()
+	board_top_spacer.name = "BoardHudSpacing"
+	board_top_spacer.custom_minimum_size.y = _board_hud_spacing()
+	content.add_child(board_top_spacer)
 	board_center = CenterContainer.new()
 	board_center.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(board_center)
@@ -412,22 +425,22 @@ func _ready() -> void:
 	board_frame.add_child(board)
 	board_frame.material = null
 	board_center.resized.connect(_fit_board_cells)
+	resized.connect(_fit_board_hud_spacing)
 	var bark_style := StyleBoxFlat.new()
-	bark_style.bg_color = Color("#fff7df")
-	bark_style.border_color = Color("#66755d")
-	bark_style.set_border_width_all(1)
-	bark_style.border_width_left = 4
-	bark_style.set_corner_radius_all(9)
-	bark_style.content_margin_left = 9
-	bark_style.content_margin_right = 9
-	bark_style.content_margin_top = 6
-	bark_style.content_margin_bottom = 6
+	bark_style.bg_color = Color("#f7ebc8")
+	bark_style.border_color = Color("#f7ebc8")
+	bark_style.set_border_width_all(3)
+	bark_style.set_corner_radius_all(8)
+	bark_style.content_margin_left = 1
+	bark_style.content_margin_right = 3
+	bark_style.content_margin_top = 1
+	bark_style.content_margin_bottom = 1
 	bark_base_style = bark_style
 	bark_slot = Control.new()
 	bark_slot.name = "BarkSlot"
 	bark_slot.custom_minimum_size.y = 62
 	bark_slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	bark_slot.clip_contents = true
+	bark_slot.clip_contents = false
 	content.remove_child(bark)
 	content.add_child(bark_slot)
 	bark_panel = PanelContainer.new()
@@ -437,22 +450,57 @@ func _ready() -> void:
 	bark_panel.add_theme_stylebox_override("panel", bark_style)
 	bark_slot.add_child(bark_panel)
 	var bark_row := HBoxContainer.new()
-	bark_row.add_theme_constant_override("separation", 7)
+	bark_row.add_theme_constant_override("separation", 5)
 	bark_panel.add_child(bark_row)
+	bark_portrait_frame = Panel.new()
+	bark_portrait_frame.name = "PortraitFrame"
+	bark_portrait_frame.custom_minimum_size = Vector2(42, 42)
+	bark_portrait_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var portrait_frame_style := StyleBoxFlat.new()
+	portrait_frame_style.bg_color = Color("#fff5d2")
+	portrait_frame_style.border_color = Color("#fff5d2")
+	portrait_frame_style.set_border_width_all(2)
+	portrait_frame_style.set_corner_radius_all(999)
+	portrait_frame_style.shadow_color = Color("#326349")
+	portrait_frame_style.shadow_size = 1
+	portrait_frame_style.shadow_offset = Vector2.ZERO
+	bark_portrait_frame.add_theme_stylebox_override("panel", portrait_frame_style)
+	bark_row.add_child(bark_portrait_frame)
 	bark_portrait = TextureRect.new()
-	bark_portrait.custom_minimum_size = Vector2(40, 40)
+	bark_portrait.name = "Portrait"
+	bark_portrait.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bark_portrait.offset_left = 2
+	bark_portrait.offset_top = 2
+	bark_portrait.offset_right = -2
+	bark_portrait.offset_bottom = -2
 	bark_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	bark_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	bark_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	bark_row.add_child(bark_portrait)
+	var portrait_mask := Shader.new()
+	portrait_mask.code = """
+	shader_type canvas_item;
+	void fragment() {
+		vec4 portrait = texture(TEXTURE, UV) * COLOR;
+		float radius = length(UV * 2.0 - 1.0);
+		float edge = fwidth(radius);
+		portrait.a *= 1.0 - smoothstep(1.0 - edge, 1.0 + edge, radius);
+		COLOR = portrait;
+	}
+	"""
+	var portrait_material := ShaderMaterial.new()
+	portrait_material.shader = portrait_mask
+	bark_portrait.material = portrait_material
+	bark_portrait_frame.add_child(bark_portrait)
 	var bark_lines := VBoxContainer.new()
 	bark_lines.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bark_lines.alignment = BoxContainer.ALIGNMENT_CENTER
 	bark_lines.add_theme_constant_override("separation", 1)
 	bark_row.add_child(bark_lines)
 	bark_speaker = _label(bark_lines, 9, Color("#326349"))
+	bark_speaker.add_theme_font_override("font", UiFonts.match3(850))
 	bark_speaker.add_theme_color_override("font_color", Color("#326349"))
 	bark_lines.add_child(bark)
+	bark.add_theme_font_override("font", UiFonts.match3(500))
 	hint_button = _button(bark_row)
 	hint_button.custom_minimum_size = Vector2(94, 48)
 	hint_button.text = ""
@@ -472,6 +520,7 @@ func _ready() -> void:
 	hint_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hint_content.add_child(hint_icon)
 	hint_label = _label(hint_content, 9, Color("#326349"))
+	hint_label.add_theme_font_override("font", UiFonts.match3(900))
 	hint_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -526,10 +575,7 @@ func _ready() -> void:
 	match_feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	match_feedback_label.add_theme_font_size_override("font_size", 13)
 	match_feedback_label.add_theme_color_override("font_color", Color("#fff9df"))
-	var feedback_serif := SystemFont.new()
-	feedback_serif.font_names = PackedStringArray(["Georgia", "serif"])
-	feedback_serif.font_weight = 900
-	match_feedback_label.add_theme_font_override("font", feedback_serif)
+	match_feedback_label.add_theme_font_override("font", UiFonts.serif(900))
 	match_feedback_label.add_theme_constant_override("shadow_offset_x", 1)
 	match_feedback_label.add_theme_constant_override("shadow_offset_y", 2)
 	match_feedback_label.add_theme_color_override("font_shadow_color", Color("#161a2d72"))
@@ -644,10 +690,19 @@ func _render_board() -> void:
 	var reduced_motion := _prefers_reduced_motion()
 	var cell_size := _board_cell_size()
 	_clear_drag_preview()
-	for child in board.get_children():
-		board.remove_child(child)
-		child.queue_free()
+	if board.get_child_count() != game.tiles.size() or rendered_cell_signatures.size() != game.tiles.size():
+		for child in board.get_children():
+			board.remove_child(child)
+			child.queue_free()
+		rendered_cell_signatures.resize(game.tiles.size())
+		for index in rendered_cell_signatures.size(): rendered_cell_signatures[index] = ""
 	for index in game.tiles.size():
+		var signature := _rendered_cell_signature(index, cell_size, reduced_motion)
+		if rendered_cell_signatures[index] == signature:
+			var unchanged_cell := board.get_child(index) as Control
+			unchanged_cell.custom_minimum_size = Vector2(cell_size, cell_size)
+			unchanged_cell.pivot_offset = Vector2(cell_size, cell_size) * 0.5
+			continue
 		var tile_button := Button.new()
 		tile_button.custom_minimum_size = Vector2(cell_size, cell_size)
 		tile_button.pivot_offset = tile_button.custom_minimum_size * 0.5
@@ -664,10 +719,10 @@ func _render_board() -> void:
 		selected_style.border_color = Color("#fff2a8")
 		selected_style.set_border_width_all(3)
 		var hinted_style := cell_style.duplicate() as StyleBoxFlat
-		hinted_style.border_color = Color("#6ce2d3")
+		hinted_style.border_color = Color("#7ddfd8")
 		hinted_style.set_border_width_all(3)
-		hinted_style.shadow_color = Color("#6ce2d3")
-		hinted_style.shadow_size = 12
+		hinted_style.shadow_color = Color("#7ddfd8")
+		hinted_style.shadow_size = 15
 		hinted_style.shadow_offset = Vector2.ZERO
 		var hover_style := cell_style.duplicate() as StyleBoxFlat
 		hover_style.bg_color = Color("#3a5278")
@@ -909,8 +964,39 @@ func _render_board() -> void:
 					direction_marker.add_child(direction_label)
 					direction_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 					tile_stack.add_child(direction_marker)
+		if hinted_indices.has(index):
+			var hint_ring := Panel.new()
+			hint_ring.name = "HintInnerRing"
+			hint_ring.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			hint_ring.offset_left = 2.0
+			hint_ring.offset_top = 2.0
+			hint_ring.offset_right = -2.0
+			hint_ring.offset_bottom = -2.0
+			hint_ring.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			hint_ring.z_index = 20
+			var hint_ring_style := StyleBoxFlat.new()
+			hint_ring_style.bg_color = Color(0, 0, 0, 0)
+			hint_ring_style.border_color = Color("#fff8d7")
+			hint_ring_style.set_border_width_all(2)
+			hint_ring.add_theme_stylebox_override("panel", hint_ring_style)
+			tile_button.add_child(hint_ring)
+		if index < board.get_child_count():
+			var previous_cell := board.get_child(index)
+			board.remove_child(previous_cell)
+			previous_cell.queue_free()
 		board.add_child(tile_button)
+		board.move_child(tile_button, index)
+		rendered_cell_signatures[index] = signature
 	_fit_board_cells()
+
+
+func _rendered_cell_signature(index: int, cell_size: float, reduced_motion: bool) -> String:
+	return "%s|%s|%d|%s|%s|%s|%s|%.3f|%s" % [
+		game.tiles[index], game.specials[index], game.blocker_layers[index], game.ingredients[index],
+		"selected" if index == selected_index else "", "hinted" if hinted_indices.has(index) else "",
+		"disabled" if game.state != "playing" or tutorial_panel.visible or game.tiles[index].is_empty() or game.blocker_layers[index] > 0 else "active",
+		cell_size, "reduced" if reduced_motion else "motion",
+	]
 
 
 func _board_cell_size() -> float:
@@ -922,6 +1008,18 @@ func _board_cell_size() -> float:
 	var cell_width := (width_limit - 6.0 - float(columns - 1)) / float(columns)
 	# GridContainer does not include the UI A outline in its cell minimum size.
 	return maxf(1.0, cell_width + 1.0)
+
+
+func _board_hud_spacing() -> float:
+	# UI A anchors its board toward the bottom of the playfield, leaving a
+	# deliberate gap after the HUD. A short responsive spacer shifts the Godot
+	# center-layout equivalent down without affecting the dialogue slot.
+	return clampf((size.y - 568.0) * 0.19, 0.0, 52.0)
+
+
+func _fit_board_hud_spacing() -> void:
+	if is_instance_valid(board_top_spacer):
+		board_top_spacer.custom_minimum_size.y = _board_hud_spacing()
 
 
 func _fit_board_cells() -> void:
@@ -1249,10 +1347,7 @@ func _build_evidence_transition() -> void:
 	content.add_child(evidence_transition_image)
 	evidence_transition_title = _label(content, 29, Color("#29243d"))
 	evidence_transition_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var title_serif := SystemFont.new()
-	title_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
-	title_serif.font_weight = 800
-	evidence_transition_title.add_theme_font_override("font", title_serif)
+	evidence_transition_title.add_theme_font_override("font", UiFonts.serif(800))
 	evidence_transition_copy = RichTextLabel.new()
 	evidence_transition_copy.bbcode_enabled = true
 	evidence_transition_copy.fit_content = true
@@ -1260,9 +1355,7 @@ func _build_evidence_transition() -> void:
 	evidence_transition_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	evidence_transition_copy.add_theme_color_override("default_color", Color("#746d7c"))
 	evidence_transition_copy.add_theme_font_size_override("normal_font_size", 15)
-	var copy_serif := SystemFont.new()
-	copy_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
-	evidence_transition_copy.add_theme_font_override("normal_font", copy_serif)
+	evidence_transition_copy.add_theme_font_override("normal_font", UiFonts.serif())
 	content.add_child(evidence_transition_copy)
 	evidence_transition_continue = Button.new()
 	Style.style_button(evidence_transition_continue, true)
@@ -1322,10 +1415,7 @@ func _build_campaign_result() -> void:
 	campaign_result_eyebrow.add_theme_font_size_override("font_size", 7)
 	campaign_result_eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	campaign_result_level = _label(header_copy, 11, Color.WHITE)
-	var header_serif := SystemFont.new()
-	header_serif.font_names = PackedStringArray(["Georgia", "serif"])
-	header_serif.font_weight = 800
-	campaign_result_level.add_theme_font_override("font", header_serif)
+	campaign_result_level.add_theme_font_override("font", UiFonts.serif(800))
 	campaign_result_level.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	var header_spacer := Control.new()
 	header_spacer.custom_minimum_size.x = 44
@@ -1359,10 +1449,7 @@ func _build_campaign_result() -> void:
 	campaign_result_heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	campaign_result_heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	campaign_result_heading.add_theme_font_size_override("font_size", 29)
-	var heading_serif := SystemFont.new()
-	heading_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
-	heading_serif.font_weight = 800
-	campaign_result_heading.add_theme_font_override("font", heading_serif)
+	campaign_result_heading.add_theme_font_override("font", UiFonts.serif(800))
 	campaign_result_detail = _label(content, 12, Color("#5f5866"))
 	campaign_result_detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	campaign_result_detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1383,9 +1470,7 @@ func _build_campaign_result() -> void:
 	campaign_result_loss_quote.custom_minimum_size.y = 52
 	campaign_result_loss_quote.add_theme_color_override("default_color", Color("#5f5866"))
 	campaign_result_loss_quote.add_theme_font_size_override("normal_font_size", 14)
-	var quote_serif := SystemFont.new()
-	quote_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
-	campaign_result_loss_quote.add_theme_font_override("normal_font", quote_serif)
+	campaign_result_loss_quote.add_theme_font_override("normal_font", UiFonts.serif())
 	quote_panel.add_child(campaign_result_loss_quote)
 	campaign_result_next = _button(content)
 	campaign_result_next.pressed.connect(func() -> void: campaign_next_requested.emit(_next_campaign_level_id()))
@@ -2153,7 +2238,6 @@ func _continue_story() -> void:
 
 func _label(parent: Node, size: int, color: Color) -> Label:
 	var label := Label.new()
-	label.add_theme_font_override("font", UiFonts.match3())
 	label.add_theme_font_size_override("font_size", size)
 	label.add_theme_color_override("font_color", color)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -2207,6 +2291,7 @@ func _header_text_button(parent: Node, text: String) -> Button:
 
 func _style_header_button(button: Button, background: Color = Color("#0b2038")) -> void:
 	button.custom_minimum_size = Vector2(44, 44)
+	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	button.add_theme_font_size_override("font_size", 15)
 	button.add_theme_color_override("font_color", Color.WHITE)
 	button.add_theme_color_override("font_hover_color", Color.WHITE)
@@ -2228,6 +2313,7 @@ func _style_header_button(button: Button, background: Color = Color("#0b2038")) 
 func _style_hint_button(button: Button) -> void:
 	button.custom_minimum_size = Vector2(94, 48)
 	button.add_theme_font_size_override("font_size", 9)
+	button.add_theme_font_override("font", UiFonts.match3(900))
 	button.add_theme_color_override("font_color", Color("#326349"))
 	button.add_theme_color_override("font_hover_color", Color("#244d39"))
 	var transparent := StyleBoxFlat.new()
@@ -2288,7 +2374,7 @@ func _style_tutorial_button(button: Button) -> void:
 	button.add_theme_color_override("font_color", Color("#fff7dc"))
 	button.add_theme_color_override("font_hover_color", Color("#fff7dc"))
 	button.add_theme_color_override("font_pressed_color", Color("#fff7dc"))
-	var tutorial_button_font := UiFonts.match3(700)
+	var tutorial_button_font := UiFonts.sans(950)
 	button.add_theme_font_override("font", tutorial_button_font)
 	var normal := StyleBoxFlat.new()
 	normal.bg_color = Color("#2f6549")
