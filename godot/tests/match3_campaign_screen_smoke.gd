@@ -63,17 +63,25 @@ func _run() -> void:
 	var board_outline := match3.board_frame.get_parent() as PanelContainer
 	var board_outline_style := board_outline.get_theme_stylebox("panel") as StyleBoxFlat
 	var board_frame_style := match3.board_frame.get_theme_stylebox("panel") as StyleBoxFlat
+	var board_inner_border := board_outline.get_node("BoardInnerBorder") as Panel
+	var board_inner_border_style := board_inner_border.get_theme_stylebox("panel") as StyleBoxFlat
+	var board_surface_material := match3.board_frame.material as ShaderMaterial
 	assert(board_outline.name == "BoardNavyOutline" and board_outline_style.bg_color.is_equal_approx(Color("#102744"))
 		and board_outline_style.content_margin_left == 3 and board_outline_style.shadow_color.is_equal_approx(Color("#d5b269"))
 		and board_outline_style.shadow_size == 2,
 		"Production board should have its 3px navy outline and 2px gold ring")
-	assert(board_frame_style.border_color.is_equal_approx(Color("#f7ebc8"))
-		and board_frame_style.border_width_left == 5 and board_frame_style.corner_radius_top_left == 8
+	assert(board_frame_style.border_width_left == 0 and board_frame_style.corner_radius_top_left == 8
 		and board_frame_style.content_margin_left == 10 and board_frame_style.shadow_offset == Vector2(0, 9)
-		and board_frame_style.shadow_size == 20
-		and match3.board.get_theme_constant("h_separation") == 4
+		and board_frame_style.shadow_size == 20, "Production board frame style mismatch")
+	assert(board_surface_material != null and board_surface_material.shader.code.contains("stripe_phase")
+		and board_surface_material.shader.code.contains("14.0") and board_surface_material.shader.code.contains("7.0"),
+		"Production board surface should preserve its paper edge, striped gradient and source colors")
+	assert(board_inner_border.name == "BoardInnerBorder" and board_inner_border_style.border_width_left == 1
+		and board_inner_border_style.corner_radius_top_left == 3,
+		"Production board should preserve its one-pixel inner gold line")
+	assert(match3.board.get_theme_constant("h_separation") == 4
 		and match3.board.get_theme_constant("v_separation") == 4,
-		"Production board should preserve its paper frame, padded surface, drop shadow and 4px cell gaps")
+		"Production board should preserve its four-pixel cell gaps")
 	var cell_background := match3.board.get_child(0).get_node("CellBackground") as Panel
 	var cell_background_material := cell_background.material as ShaderMaterial
 	assert(cell_background_material != null and cell_background_material.shader.code.contains("gradient_axis")

@@ -360,9 +360,9 @@ func _ready() -> void:
 	board_frame = PanelContainer.new()
 	board_frame.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	var board_style := StyleBoxFlat.new()
-	board_style.bg_color = Color("#0b1d39")
-	board_style.border_color = Color("#f7ebc8")
-	board_style.set_border_width_all(5)
+	board_style.bg_color = Color.WHITE
+	board_style.border_color = Color.WHITE
+	board_style.set_border_width_all(0)
 	board_style.set_corner_radius_all(8)
 	board_style.content_margin_left = 10
 	board_style.content_margin_right = 10
@@ -373,11 +373,30 @@ func _ready() -> void:
 	board_style.shadow_offset = Vector2(0, 9)
 	board_frame.add_theme_stylebox_override("panel", board_style)
 	board_outline.add_child(board_frame)
+	var board_inner_border := Panel.new()
+	board_inner_border.name = "BoardInnerBorder"
+	board_inner_border.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	board_inner_border.offset_left = 9
+	board_inner_border.offset_top = 9
+	board_inner_border.offset_right = -9
+	board_inner_border.offset_bottom = -9
+	board_inner_border.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	board_inner_border.z_index = 20
+	var board_inner_border_style := StyleBoxFlat.new()
+	board_inner_border_style.bg_color = Color(0, 0, 0, 0)
+	board_inner_border_style.border_color = Color("#d8ba75a8")
+	board_inner_border_style.set_border_width_all(1)
+	board_inner_border_style.set_corner_radius_all(3)
+	board_inner_border.add_theme_stylebox_override("panel", board_inner_border_style)
+	board_outline.add_child(board_inner_border)
 	board = GridContainer.new()
 	board.columns = int(level_data.columns)
 	board.add_theme_constant_override("h_separation", 4)
 	board.add_theme_constant_override("v_separation", 4)
 	board_frame.add_child(board)
+	var board_surface_material := _match3_board_surface_material()
+	board_frame.material = board_surface_material
+	board_frame.resized.connect(func() -> void: board_surface_material.set_shader_parameter("board_size_px", board_frame.size))
 	var bark_style := StyleBoxFlat.new()
 	bark_style.bg_color = Color("#fff7df")
 	bark_style.border_color = Color("#66755d")
@@ -937,6 +956,34 @@ func _match3_cell_socket_material() -> ShaderMaterial:
 	_cell_socket_material_cache = ShaderMaterial.new()
 	_cell_socket_material_cache.shader = shader
 	return _cell_socket_material_cache
+
+
+func _match3_board_surface_material() -> ShaderMaterial:
+	var shader := Shader.new()
+	shader.code = """
+	shader_type canvas_item;
+	uniform vec2 board_size_px = vec2(414.0, 414.0);
+	uniform vec4 paper_color : source_color = vec4(0.969, 0.922, 0.784, 1.0);
+	uniform vec4 surface_top : source_color = vec4(0.102, 0.204, 0.337, 1.0);
+	uniform vec4 surface_bottom : source_color = vec4(0.043, 0.114, 0.224, 1.0);
+	uniform vec4 stripe_color : source_color = vec4(1.0, 1.0, 1.0, 0.03137);
+	void fragment() {
+		vec2 pixel = UV * board_size_px;
+		float edge = min(min(pixel.x, board_size_px.x - pixel.x), min(pixel.y, board_size_px.y - pixel.y));
+		vec3 color = paper_color.rgb;
+		if (edge > 5.0) {
+			float vertical = clamp((pixel.y - 5.0) / max(board_size_px.y - 10.0, 1.0), 0.0, 1.0);
+			color = mix(surface_top.rgb, surface_bottom.rgb, vertical);
+			float stripe_phase = mod(((pixel.x - 5.0) + (pixel.y - 5.0)) * 0.707107, 14.0);
+			float stripe = 1.0 - step(7.0, stripe_phase);
+			color = mix(color, vec3(1.0), stripe * stripe_color.a);
+		}
+		COLOR = vec4(color, 1.0) * COLOR;
+	}
+	"""
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	return material
 
 
 func _animate_swap(first: int, second: int, keep_at_target: bool) -> void:
