@@ -343,23 +343,40 @@ func _ready() -> void:
 	board_center = CenterContainer.new()
 	board_center.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(board_center)
+	var board_outline := PanelContainer.new()
+	board_outline.name = "BoardNavyOutline"
+	board_outline.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var board_outline_style := StyleBoxFlat.new()
+	board_outline_style.bg_color = Color("#102744")
+	board_outline_style.set_corner_radius_all(11)
+	board_outline_style.content_margin_left = 3
+	board_outline_style.content_margin_right = 3
+	board_outline_style.content_margin_top = 3
+	board_outline_style.content_margin_bottom = 3
+	board_outline_style.shadow_color = Color("#d5b269")
+	board_outline_style.shadow_size = 2
+	board_outline.add_theme_stylebox_override("panel", board_outline_style)
+	board_center.add_child(board_outline)
 	board_frame = PanelContainer.new()
 	board_frame.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	var board_style := StyleBoxFlat.new()
-	board_style.bg_color = Color("#243354")
-	board_style.border_color = Color("#53694f")
-	board_style.set_border_width_all(3)
-	board_style.set_corner_radius_all(14)
-	board_style.content_margin_left = 6
-	board_style.content_margin_right = 6
-	board_style.content_margin_top = 6
-	board_style.content_margin_bottom = 6
+	board_style.bg_color = Color("#0b1d39")
+	board_style.border_color = Color("#f7ebc8")
+	board_style.set_border_width_all(5)
+	board_style.set_corner_radius_all(8)
+	board_style.content_margin_left = 10
+	board_style.content_margin_right = 10
+	board_style.content_margin_top = 10
+	board_style.content_margin_bottom = 10
+	board_style.shadow_color = Color("#050b1ea8")
+	board_style.shadow_size = 20
+	board_style.shadow_offset = Vector2(0, 9)
 	board_frame.add_theme_stylebox_override("panel", board_style)
-	board_center.add_child(board_frame)
+	board_outline.add_child(board_frame)
 	board = GridContainer.new()
 	board.columns = int(level_data.columns)
-	board.add_theme_constant_override("h_separation", 3)
-	board.add_theme_constant_override("v_separation", 3)
+	board.add_theme_constant_override("h_separation", 4)
+	board.add_theme_constant_override("v_separation", 4)
 	board_frame.add_child(board)
 	var bark_style := StyleBoxFlat.new()
 	bark_style.bg_color = Color("#fff7df")
