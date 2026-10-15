@@ -5,7 +5,7 @@
   "recoveryKey": "seiran-detectives-anm009-v1:recovery-v1",
   "match3Key": "seiran-detectives-match3-campaign-v1",
   "match3Schema": 1,
-  "appVersion": "0.27.22-dev",
+  "appVersion": "0.27.23-dev",
   "storySceneIds": [
     "VN_SCENE_00_PROLOGUE",
     "VN_SCENE_01_E0_PRE",
