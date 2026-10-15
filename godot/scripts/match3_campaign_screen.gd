@@ -107,8 +107,8 @@ func _ready() -> void:
 	summary_style.set_corner_radius_all(12)
 	summary_style.content_margin_left = 14
 	summary_style.content_margin_right = 14
-	summary_style.content_margin_top = 15
-	summary_style.content_margin_bottom = 15
+	summary_style.content_margin_top = 16
+	summary_style.content_margin_bottom = 16
 	summary_style.shadow_color = Color("#1b203624")
 	summary_style.shadow_size = 12
 	summary_style.shadow_offset = Vector2(0, 5)
@@ -117,7 +117,9 @@ func _ready() -> void:
 	var summary_content := VBoxContainer.new()
 	summary_content.add_theme_constant_override("separation", 6)
 	summary_panel.add_child(summary_content)
-	summary = _label(summary_content, 11, Color("#675d68"))
+	# Slightly reduce the bundled Inter glyph width so the 390 px web summary
+	# keeps the source's two-line wrap in Godot's text renderer.
+	summary = _label(summary_content, 10, Color("#675d68"))
 	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	summary.add_theme_constant_override("line_spacing", 0)
 	progress = _label(summary_content, 12, Color("#29243d"))
@@ -199,6 +201,7 @@ func refresh_screen() -> void:
 		heading.add_theme_font_override("font", _serif_font(800))
 		var detail := _label(card_content, 10, Color("#675d68"))
 		detail.text = str(presentation.storyAction) if unlocked else ""
+		detail.visible = unlocked
 		detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		# The source campaign copy uses 10px/1.35; tighten Godot's taller default
 		# multiline line boxes so two-line descriptions don't stretch the cards.
@@ -224,6 +227,8 @@ func refresh_screen() -> void:
 			play_style.bg_color = Color("#e4dfe4")
 			play_style.border_color = Color("#c2bac3")
 			play.add_theme_stylebox_override("normal", play_style)
+			play.add_theme_stylebox_override("disabled", play_style)
+			play.add_theme_color_override("font_disabled_color", Color("#29243d", 0.55))
 		elif not done:
 			play_style.bg_color = Color("#d96279")
 			play_style.border_color = Color("#d96279")
@@ -298,6 +303,8 @@ func _header_icon_button(parent: Node, icon_name: String, tooltip: String) -> Bu
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.custom_minimum_size = Vector2(21, 21)
+	icon.position = (button.custom_minimum_size - icon.custom_minimum_size) * 0.5
+	icon.size = icon.custom_minimum_size
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	button.add_child(icon)
 	parent.add_child(button)

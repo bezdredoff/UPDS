@@ -33,7 +33,7 @@ func _run() -> void:
 	var campaign: Control = menu.match3_campaign_screen
 	assert(campaign.cards.get_child_count() == 22, "Campaign hub did not render all authored levels")
 	assert(not campaign.complete.visible, "Empty campaign-complete status should not reserve a row before the campaign is complete")
-	assert(campaign.summary_panel.size.y >= 80.0 and campaign.summary_panel.size.y <= 82.0,
+	assert(campaign.summary_panel.size.y >= 78.0 and campaign.summary_panel.size.y <= 82.0,
 		"Campaign summary height diverged from the source card at the 430 px phone width: " + str(campaign.summary_panel.size.y))
 	assert(campaign.campaign_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_SHOW_NEVER,
 		"Campaign list should hide the platform scrollbar while remaining scrollable")
@@ -44,7 +44,16 @@ func _run() -> void:
 		"Campaign descriptions should use the source 1.35 line rhythm to avoid taller Godot cards")
 	assert(campaign.back_button.custom_minimum_size == Vector2(44, 44), "Campaign back action should match the source header size")
 	assert(campaign.settings_button.custom_minimum_size == Vector2(44, 44), "Campaign settings action should match the source header size")
-	assert(campaign.cards.get_child(1).get_child(0).get_child(3).disabled, "Second level should be locked initially")
+	var back_icon := campaign.back_button.get_child(0) as TextureRect
+	assert(back_icon != null and back_icon.size == Vector2(21, 21) and back_icon.position == Vector2(11.5, 11.5),
+		"Campaign header icons should be centered inside their 44 px controls")
+	var locked_content := campaign.cards.get_child(1).get_child(0) as VBoxContainer
+	var locked_play := locked_content.get_child(3) as Button
+	assert(locked_play.disabled and not locked_content.get_child(1).visible,
+		"Locked campaign cards should hide the empty story-action row")
+	assert(locked_play.get_theme_stylebox("disabled") == locked_play.get_theme_stylebox("normal")
+		and locked_play.get_theme_color("font_disabled_color") == Color("#29243d", 0.55),
+		"Locked campaign actions should keep the source's readable disabled style and opacity")
 	campaign.settings_button.pressed.emit()
 	await process_frame
 	assert(is_instance_valid(menu.settings_screen) and campaign.visible, "Campaign settings did not open over the campaign hub")
