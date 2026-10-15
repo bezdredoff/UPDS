@@ -56,6 +56,9 @@ Invoke-GodotCheck -Stage 'Campaign store script parse' -Arguments @('--headless'
 Invoke-GodotCheck -Stage 'Story session script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/story_session.gd')
 Invoke-GodotCheck -Stage 'VN screen script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/vn_screen.gd')
 Invoke-GodotCheck -Stage 'CSS motion script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/css_motion.gd')
+Invoke-GodotCheck -Stage 'Reduced motion script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/reduced_motion.gd')
+Invoke-GodotCheck -Stage 'Reduced motion preference smoke test' -ExpectedOutput 'UPDS reduced-motion preference smoke test passed.' `
+	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/reduced_motion_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'Seeded random script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/seeded_random.gd')
 Invoke-GodotCheck -Stage 'Match-3 game script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_game.gd')
 Invoke-GodotCheck -Stage 'Match-3 tutorials script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/match3_tutorials.gd')

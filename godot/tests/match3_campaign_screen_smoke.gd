@@ -381,6 +381,46 @@ func _run() -> void:
 		"Rejected swap should finish the source 220ms shake at its home position")
 	await create_timer(0.25).timeout
 	assert(is_equal_approx(rejected_cell.position.x, rejected_home_x), "Rejected cell did not return to its source position")
+	match3._reduced_motion_override = true
+	match3.selected_index = rejected_first
+	match3.hinted_indices.clear()
+	match3.hinted_indices.append(rejected_second)
+	match3._render_board()
+	var reduced_selected: Control = match3.board.get_child(rejected_first)
+	var reduced_hinted: Control = match3.board.get_child(rejected_second)
+	assert(is_equal_approx(reduced_selected.scale.x, 0.9) and is_equal_approx(reduced_selected.modulate.r, 1.18),
+		"Reduced motion should apply selected-cell styling immediately without easing")
+	await create_timer(0.2).timeout
+	assert(reduced_hinted.scale.is_equal_approx(Vector2.ONE) and reduced_hinted.modulate.is_equal_approx(Color.WHITE),
+		"Reduced motion should leave the hint highlight static instead of looping its pulse")
+	match3.selected_index = -1
+	match3.hinted_indices.clear()
+	match3._render_board()
+	await process_frame
+	var reduced_source_home: Vector2 = (match3.board.get_child(rejected_first) as Control).position
+	var reduced_target_home: Vector2 = (match3.board.get_child(rejected_second) as Control).position
+	match3._play_move_frames({"valid": false, "reason": "no-match"}, rejected_first, rejected_second)
+	await process_frame
+	var reduced_source_stack: Control = match3.board.get_child(rejected_first).get_node("TileStack")
+	var reduced_target_stack: Control = match3.board.get_child(rejected_second).get_node("TileStack")
+	assert(match3.input_locked, "Reduced-motion rejection should preserve the source 700ms input hold")
+	assert(match3.match_feedback_panel.visible and is_equal_approx(match3.match_feedback_panel.scale.x, 1.0)
+		and is_equal_approx(match3.match_feedback_panel.modulate.a, 1.0),
+		"Reduced-motion rejection feedback should appear immediately without its scale or fade transition")
+	assert(is_zero_approx(reduced_source_stack.offset_left) and is_zero_approx(reduced_target_stack.offset_left),
+		"Reduced motion should skip rejected-swap stack travel")
+	assert((match3.board.get_child(rejected_first) as Control).position == reduced_source_home
+		and (match3.board.get_child(rejected_second) as Control).position == reduced_target_home,
+		"Reduced motion should skip rejected-swap cell shake: %s/%s != %s/%s" % [
+			(match3.board.get_child(rejected_first) as Control).position,
+			(match3.board.get_child(rejected_second) as Control).position,
+			reduced_source_home, reduced_target_home,
+		])
+	await create_timer(0.72).timeout
+	assert(not match3.input_locked and not match3.match_feedback_panel.visible,
+		"Reduced-motion rejection should keep the source hold, then clear feedback without a fade")
+	match3._reduced_motion_override = null
+	match3._render_board()
 	match3.story_session = menu.session
 	menu._open_story()
 	await process_frame

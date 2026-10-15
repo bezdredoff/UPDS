@@ -13,6 +13,7 @@ const Tutorials = preload("res://scripts/match3_tutorials.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
 const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
 const Match3CellBackground = preload("res://shaders/match3_cell_background.gdshader")
+const ReducedMotion = preload("res://scripts/reduced_motion.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
@@ -34,6 +35,7 @@ var story_session: RefCounted
 var game: RefCounted
 var level_id := ""
 var campaign_mode := false
+var _reduced_motion_override: Variant = null
 var level_data: Dictionary
 var level_presentation: Dictionary
 var campaign_bundle: Dictionary
@@ -611,6 +613,7 @@ func _refresh() -> void:
 
 
 func _render_board() -> void:
+	var reduced_motion := _prefers_reduced_motion()
 	_clear_drag_preview()
 	for child in board.get_children():
 		board.remove_child(child)
@@ -720,11 +723,15 @@ func _render_board() -> void:
 		tile_button.pressed.connect(_select_cell.bind(index))
 		tile_button.add_child(tile_stack)
 		if index == selected_index:
-			var selected_tween := tile_button.create_tween()
-			var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
-			selected_tween.tween_property(tile_button, "scale", Vector2(0.9, 0.9), 0.12).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
-			selected_tween.parallel().tween_property(tile_button, "modulate", Color(1.18, 1.18, 1.18, 1.0), 0.12).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
-		if hinted_indices.has(index):
+			if reduced_motion:
+				tile_button.scale = Vector2(0.9, 0.9)
+				tile_button.modulate = Color(1.18, 1.18, 1.18, 1.0)
+			else:
+				var selected_tween := tile_button.create_tween()
+				var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
+				selected_tween.tween_property(tile_button, "scale", Vector2(0.9, 0.9), 0.12).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+				selected_tween.parallel().tween_property(tile_button, "modulate", Color(1.18, 1.18, 1.18, 1.0), 0.12).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+		if hinted_indices.has(index) and not reduced_motion:
 			tile_button.pivot_offset = Vector2(27, 27)
 			var hint_tween := tile_button.create_tween().set_loops()
 			var css_ease_in_out := Callable(self, "_css_cubic_bezier").bind(0.42, 0.0, 0.58, 1.0)
@@ -813,14 +820,15 @@ func _render_board() -> void:
 				ingredient_material.set_shader_parameter("glow_aqua", Color(0, 0, 0, 0))
 				ingredient_material.set_shader_parameter("glow_white_radius_px", 7.0)
 				ingredient.material = ingredient_material
-				var ingredient_bob := tile_button.create_tween().set_loops()
-				var css_ease_in_out := Callable(self, "_css_cubic_bezier").bind(0.42, 0.0, 0.58, 1.0)
-				ingredient_bob.tween_property(ingredient, "offset_top", 1.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-				ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -5.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-				ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_glow").bind(ingredient_material, false), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
-				ingredient_bob.tween_property(ingredient, "offset_top", 3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-				ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-				ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_glow").bind(ingredient_material, true), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
+				if not reduced_motion:
+					var ingredient_bob := tile_button.create_tween().set_loops()
+					var css_ease_in_out := Callable(self, "_css_cubic_bezier").bind(0.42, 0.0, 0.58, 1.0)
+					ingredient_bob.tween_property(ingredient, "offset_top", 1.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -5.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_glow").bind(ingredient_material, false), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
+					ingredient_bob.tween_property(ingredient, "offset_top", 3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_glow").bind(ingredient_material, true), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
 		if not game.specials[index].is_empty():
 			var special_kind: String = game.specials[index]
 			var special_asset := str(campaign_bundle.assets.get("specials", {}).get(special_kind, ""))
@@ -949,6 +957,10 @@ func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: flo
 	return CssMotion.cubic_bezier(progress, x1, y1, x2, y2)
 
 
+func _prefers_reduced_motion() -> bool:
+	return ReducedMotion.is_enabled(_reduced_motion_override)
+
+
 func _set_ingredient_glow(progress: float, material: ShaderMaterial, reverse: bool) -> void:
 	var eased_progress := _css_cubic_bezier(progress, 0.42, 0.0, 0.58, 1.0)
 	material.set_shader_parameter("glow_strength", 1.0 - eased_progress if reverse else eased_progress)
@@ -1030,6 +1042,7 @@ func _match3_board_surface_material() -> ShaderMaterial:
 
 
 func _animate_swap(first: int, second: int, keep_at_target: bool) -> void:
+	if _prefers_reduced_motion(): return
 	if first == second or first < 0 or second < 0 or first >= board.get_child_count() or second >= board.get_child_count():
 		await get_tree().create_timer(SWAP_MOTION_SECONDS).timeout
 		return
@@ -1089,6 +1102,7 @@ func _tween_stack_offsets(tween: Tween, stack: Control, target: Vector2, duratio
 
 
 func _shake_rejected_cells(indices: Array) -> void:
+	if _prefers_reduced_motion(): return
 	for index in indices:
 		if index < 0 or index >= board.get_child_count(): continue
 		var cell := board.get_child(index) as Control
@@ -1126,6 +1140,10 @@ func _show_match_feedback(kind: String, cascade: int = 1, localized_key: String 
 	if was_hidden:
 		match_feedback_panel.scale = Vector2(0.86, 0.86)
 		match_feedback_panel.modulate.a = 0.0
+	if _prefers_reduced_motion():
+		match_feedback_panel.scale = Vector2.ONE
+		match_feedback_panel.modulate = Color.WHITE
+		return
 	if not was_hidden and not was_fading_out and is_equal_approx(match_feedback_panel.modulate.a, 1.0):
 		return
 	var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
@@ -1140,6 +1158,11 @@ func _clear_match_feedback() -> void:
 	match_feedback_key = ""
 	if not match_feedback_panel.visible: return
 	if match_feedback_tween != null and match_feedback_tween.is_valid(): match_feedback_tween.kill()
+	if _prefers_reduced_motion():
+		match_feedback_panel.scale = Vector2(0.86, 0.86)
+		match_feedback_panel.modulate.a = 0.0
+		match_feedback_panel.visible = false
+		return
 	var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
 	match_feedback_tween = create_tween()
 	match_feedback_tween.set_parallel(true)
@@ -1455,6 +1478,7 @@ func _invalid_feedback_key(reason: String) -> String:
 
 
 func _animate_special_impact(frame: Dictionary) -> void:
+	if _prefers_reduced_motion(): return
 	var special_kinds: Array = frame.get("specials", [])
 	var cleared: Array = frame.get("cleared", [])
 	var activated_sources: Array[int] = []
@@ -1624,46 +1648,53 @@ func _special_impact_beam_material(vertical: bool) -> ShaderMaterial:
 
 func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
 	input_locked = true
+	var reduced_motion := _prefers_reduced_motion()
 	var valid := bool(result.valid)
 	if valid:
 		_clear_match_feedback()
-		for frame_value in result.get("frames", []):
-			var frame: Dictionary = frame_value
-			if str(frame.phase) == "swap":
-				await _animate_swap(first, second, false)
-				_render_frame(frame)
-			elif str(frame.phase) == "clear":
-				_render_frame(frame)
-				await get_tree().create_timer(CLEAR_MOTION_SECONDS).timeout
-			elif str(frame.phase) == "settle":
-				_render_frame(frame)
-				await get_tree().create_timer(SETTLE_MOTION_SECONDS).timeout
-			elif str(frame.phase) == "reshuffle":
-				_render_frame(frame)
-				await get_tree().create_timer(RESHUFFLE_MOTION_SECONDS).timeout
+		if reduced_motion:
+			_render_board()
+		else:
+			for frame_value in result.get("frames", []):
+				var frame: Dictionary = frame_value
+				if str(frame.phase) == "swap":
+					await _animate_swap(first, second, false)
+					_render_frame(frame)
+				elif str(frame.phase) == "clear":
+					_render_frame(frame)
+					await get_tree().create_timer(CLEAR_MOTION_SECONDS).timeout
+				elif str(frame.phase) == "settle":
+					_render_frame(frame)
+					await get_tree().create_timer(SETTLE_MOTION_SECONDS).timeout
+				elif str(frame.phase) == "reshuffle":
+					_render_frame(frame)
+					await get_tree().create_timer(RESHUFFLE_MOTION_SECONDS).timeout
 		_render_board()
-		if bool(result.get("reshuffled", false)):
+		if reduced_motion and bool(result.get("reshuffled", false)):
+			_show_match_feedback("reshuffled")
+			await get_tree().create_timer(0.16).timeout
+		elif not reduced_motion and bool(result.get("reshuffled", false)):
 			_show_match_feedback("reshuffled")
 			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
-		elif int(result.get("cascades", 0)) >= 2:
+		elif not reduced_motion and int(result.get("cascades", 0)) >= 2:
 			_show_match_feedback("chain", int(result.cascades))
 			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
-		elif int(result.get("ingredientsDropped", 0)) > 0:
+		elif not reduced_motion and int(result.get("ingredientsDropped", 0)) > 0:
 			_show_match_feedback("match", 1, "clue_collected")
 			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
-		elif game.state == "lost":
+		elif not reduced_motion and game.state == "lost":
 			_show_match_feedback("loss", 1, "out_of_moves")
 			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
-		elif game.state == "won":
+		elif not reduced_motion and game.state == "won":
 			_show_match_feedback("win", 1, "clue_collected")
 			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
 		_clear_match_feedback()
 	else:
 		var reason := str(result.get("reason", ""))
-		if reason == "no-match":
+		if reason == "no-match" and not reduced_motion:
 			await _animate_swap(first, second, true)
 		_show_match_feedback("reject", 1, _invalid_feedback_key(reason))
-		if reason == "no-match": await _return_rejected_swap(first, second)
+		if reason == "no-match" and not reduced_motion: await _return_rejected_swap(first, second)
 		await get_tree().create_timer(INVALID_HOLD_SECONDS).timeout
 		_clear_match_feedback()
 		last_feedback = ""

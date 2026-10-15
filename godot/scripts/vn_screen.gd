@@ -14,6 +14,7 @@ const PhoneFrame = preload("res://scripts/phone_frame.gd")
 const Match3CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
 const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
+const ReducedMotion = preload("res://scripts/reduced_motion.gd")
 
 static var _portrait_shadow_material_cache: ShaderMaterial
 
@@ -477,6 +478,11 @@ func _add_clue_toast(clue_id: String, locale: String) -> void:
 		clue_font.font_weight = 700
 		clue_title.add_theme_font_override("font", clue_font)
 		stage.add_child(toast)
+		if ReducedMotion.is_enabled():
+			toast.modulate.a = 1.0
+			toast.offset_top = 8.0
+			toast.offset_bottom = 70.0
+			return
 		var tween := create_tween()
 		tween.set_parallel(true)
 		var css_ease_out := Callable(self, "_css_cubic_bezier").bind(0.0, 0.0, 0.58, 1.0)
@@ -517,7 +523,7 @@ void fragment() {
 
 
 func _animate_portrait(portrait: TextureRect, travel: float) -> void:
-	if travel <= 0.0:
+	if travel <= 0.0 or ReducedMotion.is_enabled():
 		return
 	var resting_position: Vector2 = portrait.position
 	var breathing := portrait.create_tween().set_loops()
@@ -696,6 +702,8 @@ func _update_dialogue_page() -> void:
 	prompt.add_theme_color_override("font_color", Color("#6d665e"))
 	prompt.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	prompt.pivot_offset = Vector2.ZERO
+	if ReducedMotion.is_enabled():
+		return
 	var pulse := prompt.create_tween().set_loops()
 	var ease_in_out := Callable(self, "_idle_breathe_curve")
 	pulse.tween_property(prompt, "offset_top", 3.0, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
