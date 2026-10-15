@@ -89,6 +89,7 @@ func _run() -> void:
 	var objective_font: Font = match3.objective_heading.get_theme_font("font")
 	var objective_count_font: Font = match3.objective.get_theme_font("font")
 	var moves_font: Font = match3.moves.get_theme_font("font")
+	var moves_source_serif: Font = UiFonts.serif(900)
 	var hint_font: Font = match3.hint_label.get_theme_font("font")
 	var speaker_font: Font = match3.bark_speaker.get_theme_font("font")
 	var bark_font: Font = match3.bark.get_theme_font("font")
@@ -103,7 +104,9 @@ func _run() -> void:
 			"Web exports must render the bundled Comic Relief Latin/Cyrillic faces because SystemFont is unsupported there")
 		assert((objective_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
 			and (objective_count_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
-			and (moves_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
+			and (moves_font as FontVariation).base_font == UiFonts.GEORGIA_LATIN
+			and (moves_font as FontVariation).fallbacks == [UiFonts.SERIF_CYRILLIC]
+			and (moves_font as FontVariation).variation_embolden == 0.4
 			and (hint_font as FontVariation).variation_embolden == 0.4
 			and (speaker_font as FontVariation).variation_embolden == 0.3
 			and (bark_font as FontVariation).base_font == UiFonts.COMIC_LATIN,
@@ -117,13 +120,23 @@ func _run() -> void:
 			"Native Match-3 font provider should preserve the source system font stack and weight")
 		assert((objective_font as SystemFont).font_weight == 800
 			and (objective_count_font as SystemFont).font_weight == 800
-			and (moves_font as SystemFont).font_weight == 800
+			and (moves_font as SystemFont).font_names.has("Georgia")
+			and (moves_font as SystemFont).font_weight == 900
 			and (hint_font as SystemFont).font_weight == 900
 			and (speaker_font as SystemFont).font_weight == 850
 			and (bark_font as SystemFont).font_weight == 500,
 			"Native Match-3 HUD, bark and hint should preserve source weights")
-	assert(objective_font != null and objective_count_font != null and moves_font != null,
-		"Match-3 objective and move HUD should use the bold display font")
+	assert(objective_font != null and objective_count_font != null and moves_font != null
+		and moves_source_serif != null and match3.moves.get_theme_font_size("font_size") == 22,
+		"Match-3 objective HUD should use its bold display font and the move counter its responsive Georgia serif style")
+	var objective_card_style := match3.objective_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	var moves_card_style := match3.stage_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(objective_card_style.bg_color == Color("#fff8df")
+		and objective_card_style.border_color == Color("#53694f")
+		and objective_card_style.get_border_width(SIDE_LEFT) == 2
+		and objective_card_style.shadow_size == 11
+		and moves_card_style.bg_color == objective_card_style.bg_color,
+		"Match-3 HUD cards should preserve the source cream paper, olive outline and soft lower shadow")
 	assert(hint_font != null and speaker_font != null,
 		"Match-3 hint and bark speaker should use the bold display font")
 	assert(bark_font != null,
@@ -218,9 +231,19 @@ func _run() -> void:
 	assert(is_equal_approx(match3.bark_panel.modulate.a, 1.0) and is_zero_approx(match3.bark_panel.position.y),
 		"Reaction bark should finish its 160ms ease-out entrance")
 	var reaction_style := match3.bark_panel.get_theme_stylebox("panel") as StyleBoxFlat
-	assert(reaction_style.border_width_left == 3 and reaction_style.border_width_top == 3
-		and reaction_style.corner_radius_top_left == 8 and reaction_style.shadow_size == 14,
-		"Standard reaction emphasis should preserve the web bark border and shadow")
+	assert(reaction_style.border_width_left == 4 and reaction_style.border_width_top == 1
+		and reaction_style.corner_radius_top_left == 9 and reaction_style.shadow_size == 14,
+		"Standard reaction emphasis should preserve the web bark spine, outline and shadow")
+	var bark_base: StyleBoxFlat = match3.bark_base_style
+	assert(bark_base.bg_color == Color("#fff7dff2")
+		and bark_base.border_color == Color("#66755d99")
+		and bark_base.border_width_left == 4
+		and bark_base.border_width_top == 1
+		and bark_base.corner_radius_top_left == 9,
+		"Static Match-3 bark should use the source parchment fill, green spine and rounded border")
+	assert(match3.hint_button.disabled
+		and match3.hint_button.get_theme_stylebox("disabled") == match3.hint_button.get_theme_stylebox("normal"),
+		"Disabled Match-3 hint should stay transparent like the source icon-and-label action")
 	match3._dismiss_narrative_reaction("ingredient-context")
 	await create_timer(0.22).timeout
 	assert(match3.active_reaction.is_empty() and is_equal_approx(match3.bark_panel.modulate.a, 1.0)

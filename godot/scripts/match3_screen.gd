@@ -74,6 +74,8 @@ var tutorial_button: Button
 var objective: Label
 var objective_heading: Label
 var objective_icon: TextureRect
+var objective_panel: PanelContainer
+var stage_panel: PanelContainer
 var moves: Label
 var moves_heading: Label
 var hint_button: Button
@@ -316,14 +318,19 @@ func _ready() -> void:
 	tutorial_panel.custom_maximum_size.x = 350
 	tutorial_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	tutorial_frame.add_child(tutorial_panel)
-	var objective_panel := PanelContainer.new()
+	objective_panel = PanelContainer.new()
 	var objective_style := StyleBoxFlat.new()
-	objective_style.bg_color = Color(0.99, 0.98, 0.94, 0.96)
+	objective_style.bg_color = Color("#fff8df")
+	objective_style.border_color = Color("#53694f")
+	objective_style.set_border_width_all(2)
 	objective_style.set_corner_radius_all(9)
+	objective_style.shadow_color = Color("#20263a36")
+	objective_style.shadow_size = 11
+	objective_style.shadow_offset = Vector2(0, 4)
 	objective_style.content_margin_left = 10
 	objective_style.content_margin_right = 10
-	objective_style.content_margin_top = 6
-	objective_style.content_margin_bottom = 6
+	objective_style.content_margin_top = 8
+	objective_style.content_margin_bottom = 4
 	objective_panel.add_theme_stylebox_override("panel", objective_style)
 	var hud := HBoxContainer.new()
 	hud.add_theme_constant_override("separation", 8)
@@ -354,7 +361,7 @@ func _ready() -> void:
 	var hud_spacer := Control.new()
 	hud_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hud.add_child(hud_spacer)
-	var stage_panel := PanelContainer.new()
+	stage_panel = PanelContainer.new()
 	stage_panel.custom_minimum_size.x = 72
 	stage_panel.add_theme_stylebox_override("panel", objective_style.duplicate())
 	hud.add_child(stage_panel)
@@ -365,10 +372,10 @@ func _ready() -> void:
 	moves_heading = _label(stage_content, 9, Color("#326349"))
 	moves_heading.add_theme_font_override("font", UiFonts.match3(800))
 	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(preferences.locale, "MOVES")
-	moves = _label(stage_content, 14, Color("#326349"))
-	moves.add_theme_font_override("font", UiFonts.match3(800))
+	moves = _label(stage_content, 22, Color("#493019"))
+	moves.add_theme_font_override("font", UiFonts.serif(900))
 	moves.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	moves.add_theme_font_size_override("font_size", 14)
+	moves.add_theme_font_size_override("font_size", 22 if size.x <= 430.0 else 31)
 	board_top_spacer = Control.new()
 	board_top_spacer.name = "BoardHudSpacing"
 	board_top_spacer.custom_minimum_size.y = _board_hud_spacing()
@@ -427,14 +434,18 @@ func _ready() -> void:
 	board_center.resized.connect(_fit_board_cells)
 	resized.connect(_fit_board_hud_spacing)
 	var bark_style := StyleBoxFlat.new()
-	bark_style.bg_color = Color("#f7ebc8")
-	bark_style.border_color = Color("#f7ebc8")
-	bark_style.set_border_width_all(3)
-	bark_style.set_corner_radius_all(8)
-	bark_style.content_margin_left = 1
-	bark_style.content_margin_right = 3
-	bark_style.content_margin_top = 1
-	bark_style.content_margin_bottom = 1
+	bark_style.bg_color = Color("#fff7dff2")
+	bark_style.border_color = Color("#66755d99")
+	bark_style.set_border_width_all(1)
+	bark_style.border_width_left = 4
+	bark_style.set_corner_radius_all(9)
+	bark_style.shadow_color = Color("#252b3c40")
+	bark_style.shadow_size = 14
+	bark_style.shadow_offset = Vector2(0, 5)
+	bark_style.content_margin_left = 5
+	bark_style.content_margin_right = 9
+	bark_style.content_margin_top = 5
+	bark_style.content_margin_bottom = 5
 	bark_base_style = bark_style
 	bark_slot = Control.new()
 	bark_slot.name = "BarkSlot"
@@ -2328,6 +2339,8 @@ func _style_hint_button(button: Button) -> void:
 	button.add_theme_stylebox_override("normal", transparent)
 	button.add_theme_stylebox_override("hover", transparent)
 	button.add_theme_stylebox_override("pressed", transparent)
+	button.add_theme_stylebox_override("disabled", transparent)
+	button.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 
 
 func _objective_texture(objective_data: Dictionary) -> Texture2D:
