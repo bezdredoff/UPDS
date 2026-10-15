@@ -89,7 +89,6 @@ func _run() -> void:
 	var objective_font: Font = match3.objective_heading.get_theme_font("font")
 	var objective_count_font: Font = match3.objective.get_theme_font("font")
 	var moves_font: Font = match3.moves.get_theme_font("font")
-	var moves_source_serif: Font = UiFonts.serif(900)
 	var hint_font: Font = match3.hint_label.get_theme_font("font")
 	var speaker_font: Font = match3.bark_speaker.get_theme_font("font")
 	var bark_font: Font = match3.bark.get_theme_font("font")
@@ -104,9 +103,9 @@ func _run() -> void:
 			"Web exports must render the bundled Comic Relief Latin/Cyrillic faces because SystemFont is unsupported there")
 		assert((objective_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
 			and (objective_count_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
-			and (moves_font as FontVariation).base_font == UiFonts.GEORGIA_LATIN
-			and (moves_font as FontVariation).fallbacks == [UiFonts.SERIF_CYRILLIC]
-			and (moves_font as FontVariation).variation_embolden == 0.4
+			and (moves_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
+			and (moves_font as FontVariation).fallbacks == [UiFonts.COMIC_BOLD_CYRILLIC]
+			and (moves_font as FontVariation).variation_embolden == 0.2
 			and (hint_font as FontVariation).variation_embolden == 0.4
 			and (speaker_font as FontVariation).variation_embolden == 0.3
 			and (bark_font as FontVariation).base_font == UiFonts.COMIC_LATIN,
@@ -120,15 +119,22 @@ func _run() -> void:
 			"Native Match-3 font provider should preserve the source system font stack and weight")
 		assert((objective_font as SystemFont).font_weight == 800
 			and (objective_count_font as SystemFont).font_weight == 800
-			and (moves_font as SystemFont).font_names.has("Georgia")
-			and (moves_font as SystemFont).font_weight == 900
+			and (moves_font as SystemFont).font_names == PackedStringArray(["Comic Sans MS", "Trebuchet MS"])
+			and (moves_font as SystemFont).font_weight == 800
 			and (hint_font as SystemFont).font_weight == 900
 			and (speaker_font as SystemFont).font_weight == 850
 			and (bark_font as SystemFont).font_weight == 500,
 			"Native Match-3 HUD, bark and hint should preserve source weights")
+	var expected_moves_font_size := 13 if match3.get_viewport_rect().size.x <= 430.0 else 14
 	assert(objective_font != null and objective_count_font != null and moves_font != null
-		and moves_source_serif != null and match3.moves.get_theme_font_size("font_size") == 22,
-		"Match-3 objective HUD should use its bold display font and the move counter its responsive Georgia serif style")
+		and match3.moves.get_theme_font_size("font_size") == expected_moves_font_size
+		and match3.moves.get_theme_color("font_color") == Color("#326349"),
+		"Match-3 move counter should match the source Comic Sans stack, responsive size and green color")
+	assert(match3._move_counter_font_size_for_width(320.0) == 13
+		and match3._move_counter_font_size_for_width(430.0) == 13
+		and match3._move_counter_font_size_for_width(431.0) == 14
+		and match3._move_counter_font_size_for_width(480.0) == 14,
+		"Move counter responsive font size should follow the source 430px viewport breakpoint")
 	var objective_card_style := match3.objective_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	var moves_card_style := match3.stage_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(objective_card_style.bg_color == Color("#fff8df")

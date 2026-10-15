@@ -372,10 +372,11 @@ func _ready() -> void:
 	moves_heading = _label(stage_content, 9, Color("#326349"))
 	moves_heading.add_theme_font_override("font", UiFonts.match3(800))
 	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(preferences.locale, "MOVES")
-	moves = _label(stage_content, 22, Color("#493019"))
-	moves.add_theme_font_override("font", UiFonts.serif(900))
+	moves = _label(stage_content, 14, Color("#326349"))
+	moves.add_theme_font_override("font", UiFonts.match3(800))
 	moves.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	moves.add_theme_font_size_override("font_size", 22 if size.x <= 430.0 else 31)
+	_fit_move_counter_font_size()
+	get_viewport().size_changed.connect(_fit_move_counter_font_size)
 	board_top_spacer = Control.new()
 	board_top_spacer.name = "BoardHudSpacing"
 	board_top_spacer.custom_minimum_size.y = _board_hud_spacing()
@@ -1035,6 +1036,17 @@ func _board_hud_spacing() -> float:
 func _fit_board_hud_spacing() -> void:
 	if is_instance_valid(board_top_spacer):
 		board_top_spacer.custom_minimum_size.y = _board_hud_spacing()
+
+
+func _fit_move_counter_font_size() -> void:
+	if not is_instance_valid(moves):
+		return
+	var viewport_width := get_viewport_rect().size.x
+	moves.add_theme_font_size_override("font_size", _move_counter_font_size_for_width(viewport_width))
+
+
+func _move_counter_font_size_for_width(viewport_width: float) -> int:
+	return 13 if viewport_width <= 430.0 else 14
 
 
 func _fit_board_cells() -> void:
