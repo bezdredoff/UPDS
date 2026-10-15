@@ -388,8 +388,13 @@ func _run() -> void:
 	match3._render_board()
 	var resting_special: TextureRect = match3.board.get_child(special_index).get_node("TileStack/Special")
 	var resting_direction: PanelContainer = match3.board.get_child(special_index).get_node("TileStack/SpecialDirectionMarker")
+	var resting_special_material := resting_special.material as ShaderMaterial
 	assert(is_equal_approx(resting_special.rotation_degrees, 0.0),
 		"Directional special art should keep its authored CSS orientation")
+	assert(is_equal_approx(resting_special_material.get_shader_parameter("glow_gold_radius_px"), 7.0)
+		and is_equal_approx((resting_special_material.get_shader_parameter("glow_white") as Color).a, 0.0)
+		and is_equal_approx((resting_special_material.get_shader_parameter("glow_aqua") as Color).a, 0.0),
+		"Resting special artwork should keep only its source seven-pixel gold glow")
 	assert(resting_direction.get_child(0).get_theme_font_size("font_size") == 13,
 		"Directional special marker should preserve the source 13px glyph size")
 	match3.game.specials = saved_specials
@@ -435,10 +440,12 @@ func _run() -> void:
 		and is_equal_approx((special_shadow.get_shader_parameter("shadow_color") as Color).a, 0.0)
 		and is_equal_approx(special_shadow.get_shader_parameter("glow_strength"), 1.0)
 		and (special_shadow.get_shader_parameter("glow_gold") as Color).to_html(false) == Color("#fff0a8").to_html(false)
-		and is_equal_approx(special_shadow.get_shader_parameter("glow_gold_radius_px"), 7.0)
-		and is_equal_approx((special_shadow.get_shader_parameter("glow_white") as Color).a, 0.0)
-		and is_equal_approx((special_shadow.get_shader_parameter("glow_aqua") as Color).a, 0.0),
-		"Flash Row should preserve the source direction marker and use only the source seven-pixel gold glow")
+		and is_equal_approx(special_shadow.get_shader_parameter("glow_white_radius_px"), 5.0)
+		and is_equal_approx((special_shadow.get_shader_parameter("glow_white") as Color).a, 1.0)
+		and is_equal_approx(special_shadow.get_shader_parameter("glow_gold_radius_px"), 10.0)
+		and (special_shadow.get_shader_parameter("glow_aqua") as Color).to_html(false) == Color("#6ce2d3").to_html(false)
+		and is_equal_approx(special_shadow.get_shader_parameter("glow_aqua_radius_px"), 14.0),
+		"Flash Row activation should add the source white, gold and aqua glow radii")
 	await create_timer(0.3).timeout
 	assert(is_equal_approx(special_icon.rotation_degrees, 0.0), "Flash Row activation did not return to neutral rotation")
 	match3._render_board()

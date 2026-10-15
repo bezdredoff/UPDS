@@ -1531,6 +1531,12 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			special_icon.rotation_degrees = -8.0
 			var impact_material := (special_icon.material as ShaderMaterial).duplicate() as ShaderMaterial
 			impact_material.set_shader_parameter("glow_strength", 1.0)
+			impact_material.set_shader_parameter("glow_white", Color.WHITE)
+			impact_material.set_shader_parameter("glow_white_radius_px", 5.0)
+			impact_material.set_shader_parameter("glow_gold", Color("#fff0a8"))
+			impact_material.set_shader_parameter("glow_gold_radius_px", 10.0)
+			impact_material.set_shader_parameter("glow_aqua", Color("#6ce2d3"))
+			impact_material.set_shader_parameter("glow_aqua_radius_px", 14.0)
 			special_icon.material = impact_material
 			var icon_tween := create_tween()
 			icon_tween.tween_property(special_icon, "scale", Vector2(1.24, 1.24), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
