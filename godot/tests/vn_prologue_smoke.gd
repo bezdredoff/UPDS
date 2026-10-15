@@ -85,9 +85,13 @@ func _run() -> void:
 	assert(menu.audio_runtime.music.stream.get_length() > 12.6 and menu.audio_runtime.music.stream.get_length() < 12.7)
 	assert(screen.stage.get_child_count() == 1)
 	var idle_portrait: TextureRect = screen.stage.get_child(0)
+	var resting_portrait_rect := idle_portrait.get_global_rect()
 	assert(screen.stage.z_index + idle_portrait.z_index < screen.dialogue_panel.z_index
 		and screen.dialogue_panel.z_index < screen.controls_panel.z_index,
 		"VN art should sit behind the dialogue card and controls, matching the source z-order")
+	assert(absf(resting_portrait_rect.get_center().x - screen.stage.get_global_rect().get_center().x) < 1.0
+		and absf(resting_portrait_rect.size.x / resting_portrait_rect.size.y - 2.0 / 3.0) < 0.01,
+		"Centered VN portraits should preserve the source center anchor and 1024x1536 frame ratio")
 	assert(screen.dialogue.size.y >= 67.0,
 		"The dialogue text must receive enough layout height to remain visible in its panel")
 	assert(is_equal_approx(screen.dialogue.global_position.y, screen.dialogue_panel.position.y + 45.0),
@@ -113,9 +117,14 @@ func _run() -> void:
 	assert(not screen.next_button.visible and screen.page_progress.visible,
 		"VN advance should use the source dialogue card affordance instead of an extra button")
 	var resting_position := idle_portrait.position
+	var resting_size := idle_portrait.size
+	var resting_center_x := idle_portrait.get_global_rect().get_center().x
 	await create_timer(0.8).timeout
 	assert(absf(idle_portrait.position.y - resting_position.y) > 0.1,
 		"The production idle-breathe motion must move the authored VN portrait")
+	assert(absf(idle_portrait.get_global_rect().get_center().x - resting_center_x) < 0.1
+		and idle_portrait.size.is_equal_approx(resting_size),
+		"Idle-breathe should translate only the portrait vertically without shifting or resizing it")
 	await _vn_reading_controls(menu)
 	for locale in ["ru", "be", "en"]:
 		assert(menu.preferences.set_locale(locale) == OK)
