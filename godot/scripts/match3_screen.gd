@@ -154,13 +154,16 @@ func _ready() -> void:
 	background.material = _match_background_material()
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background)
+	var layout := VBoxContainer.new()
+	layout.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	layout.add_theme_constant_override("separation", 10)
+	add_child(layout)
 	var margin := MarginContainer.new()
-	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	margin.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	margin.add_theme_constant_override("margin_left", 12)
 	margin.add_theme_constant_override("margin_right", 12)
-	margin.add_theme_constant_override("margin_top", 0)
+	margin.add_theme_constant_override("margin_top", 10)
 	margin.add_theme_constant_override("margin_bottom", 12)
-	add_child(margin)
 	var content := VBoxContainer.new()
 	content.add_theme_constant_override("separation", 7)
 	margin.add_child(content)
@@ -170,12 +173,12 @@ func _ready() -> void:
 	header_style.bg_color = Color("#10243d")
 	header_style.border_color = Color("#d3b068")
 	header_style.border_width_bottom = 2
-	header_style.content_margin_left = 0
-	header_style.content_margin_right = 0
+	header_style.content_margin_left = 9
+	header_style.content_margin_right = 9
 	header_style.content_margin_top = 0
 	header_style.content_margin_bottom = 0
 	header_panel.add_theme_stylebox_override("panel", header_style)
-	content.add_child(header_panel)
+	layout.add_child(header_panel)
 	var header := HBoxContainer.new()
 	header.add_theme_constant_override("separation", 7)
 	header.custom_minimum_size.y = 60
@@ -208,6 +211,7 @@ func _ready() -> void:
 	help_button.pressed.connect(_show_help)
 	settings_button = _header_icon_button(actions, "settings")
 	settings_button.pressed.connect(func() -> void: settings_requested.emit())
+	layout.add_child(margin)
 	bark = _label(content, 15, Color.WHITE)
 	bark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	bark.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -324,7 +328,7 @@ func _ready() -> void:
 	hud.add_theme_constant_override("separation", 8)
 	hud.custom_minimum_size.y = 51
 	content.add_child(hud)
-	objective_panel.custom_minimum_size.x = 234
+	objective_panel.custom_minimum_size.x = 224
 	objective_panel.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	hud.add_child(objective_panel)
 	var objective_content := VBoxContainer.new()
@@ -2262,6 +2266,7 @@ func _header_text_button(parent: Node, text: String) -> Button:
 
 func _style_header_button(button: Button, background: Color = Color("#0b2038")) -> void:
 	button.custom_minimum_size = Vector2(44, 44)
+	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	button.add_theme_font_size_override("font_size", 15)
 	button.add_theme_color_override("font_color", Color.WHITE)
 	button.add_theme_color_override("font_hover_color", Color.WHITE)
