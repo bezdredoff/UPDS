@@ -94,13 +94,23 @@ func _run() -> void:
 		"Centered VN portraits should preserve the source center anchor and 1024x1536 frame ratio")
 	assert(screen.dialogue.size.y >= 67.0,
 		"The dialogue text must receive enough layout height to remain visible in its panel")
-	assert(screen.dialogue.get_theme_font_size("normal_font_size") == 18,
+	assert(absf(screen.dialogue.size.x - (screen.size.x - 64.0)) < 1.0,
+		"VN pagination must measure the same inner width as the visible dialogue text")
+	assert(screen.dialogue.get_theme_font_size("normal_font_size") == (16 if OS.has_feature("web") else 18),
 		"Godot dialogue font metrics should preserve the source line wrap at the 430px phone width")
+	assert(is_equal_approx(screen.nameplate.custom_minimum_size.x, 200.0)
+		and screen.speaker.get_theme_font_size("font_size") == 13
+		and screen.emotion.get_theme_font_size("font_size") == 8,
+		"A standard phone width must use the web nameplate and speaker sizing")
 	var vn_width_before_compact_check := screen.size.x
 	screen.size.x = 320.0
 	screen._layout_vn()
-	assert(screen.dialogue.get_theme_font_size("normal_font_size") == 15,
+	assert(screen.dialogue.get_theme_font_size("normal_font_size") == (13 if OS.has_feature("web") else 15),
 		"Compact VN dialogue font metrics should preserve the source line wrap below 340px")
+	assert(is_equal_approx(screen.nameplate.custom_minimum_size.x, 128.0)
+		and screen.speaker.get_theme_font_size("font_size") == 11
+		and screen.emotion.get_theme_font_size("font_size") == 7,
+		"Only a narrow phone width should use compact nameplate and speaker sizing")
 	screen.size.x = vn_width_before_compact_check
 	screen._layout_vn()
 	assert(is_equal_approx(screen.dialogue.global_position.y, screen.dialogue_panel.position.y + 45.0),
@@ -138,10 +148,20 @@ func _run() -> void:
 	for locale in ["ru", "be", "en"]:
 		assert(menu.preferences.set_locale(locale) == OK)
 		var source_dialogue: String = Prologue.data.lines[0].localized[locale].text
-		assert(" ".join(screen._dialogue_pages) == " ".join(source_dialogue.split(" ", false)),
+		var displayed_pages := " ".join(screen._dialogue_pages).replace("-\n", "").replace("\n", " ")
+		assert(displayed_pages == " ".join(source_dialogue.split(" ", false)),
 			"VN pages must preserve the complete localized line")
 		assert(screen.speaker.text == Prologue.data.lines[0].localized[locale].speaker)
 		assert(screen.skip_button.tooltip_text == Copy.text("vn_skip", locale))
+	var web_dialogue_font := FontVariation.new()
+	web_dialogue_font.base_font = preload("res://assets/fonts/Gelasio-wght.ttf")
+	web_dialogue_font.fallbacks = [preload("res://assets/fonts/NotoSerif-wdth-wght.ttf")]
+	web_dialogue_font.variation_opentype = {"wght": 400.0}
+	var fitted_wrap: String = screen._fit_candidate_with_hyphenation(
+		"После звонка кампус японского колледжа Сэйран не затихал:", "спортивные",
+		web_dialogue_font, 326.0, 16, 48.44)
+	assert(fitted_wrap.contains("колле-\nджа") and fitted_wrap.ends_with("спортивные"),
+		"VN web pagination should reproduce the source's measured RU hyphenation on the first page")
 	if screen._dialogue_pages.size() > 1:
 		screen.next_button.pressed.emit()
 		assert(screen._dialogue_page_index == 1 and session.current_line().id == "VN0001",
