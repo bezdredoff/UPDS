@@ -2,10 +2,16 @@ extends RefCounted
 
 const MAX_WIDTH := 430.0
 const MAX_HEIGHT := 932.0
+const PHONE_FRAME_META := "upds_phone_frame_root"
 
 
 static func fit(control: Control) -> void:
+	var parent := control.get_parent() as Control
+	if is_instance_valid(parent) and parent.has_meta(PHONE_FRAME_META):
+		control.set_meta(PHONE_FRAME_META, true)
+		return
 	_apply(control)
+	control.set_meta(PHONE_FRAME_META, true)
 	var viewport := control.get_viewport()
 	var control_ref: WeakRef = weakref(control)
 	var resize_callback: Callable = func() -> void:

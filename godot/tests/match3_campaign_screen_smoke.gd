@@ -135,6 +135,9 @@ func _run() -> void:
 		and match3._move_counter_font_size_for_width(431.0) == 14
 		and match3._move_counter_font_size_for_width(480.0) == 14,
 		"Move counter responsive font size should follow the source 430px viewport breakpoint")
+	assert(match3.objective_heading.text == "ЦЕЛЬ" and match3.moves_heading.text == "ХОДЫ"
+		and match3.hint_label.text == "ПОДСКАЗКА",
+		"Match-3 Russian HUD labels should preserve the source wording and uppercase presentation")
 	var mobile_hud_profile: Dictionary = match3._match3_hud_profile_for_width(390.0)
 	var desktop_hud_profile: Dictionary = match3._match3_hud_profile_for_width(480.0)
 	assert(mobile_hud_profile == {"goal_width": 224, "moves_width": 70, "hud_height": 50,

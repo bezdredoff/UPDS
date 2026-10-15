@@ -373,7 +373,7 @@ func _ready() -> void:
 	stage_panel.add_child(stage_content)
 	moves_heading = _label(stage_content, 9, Color("#214936"))
 	moves_heading.add_theme_font_override("font", UiFonts.match3(800))
-	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(preferences.locale, "MOVES")
+	moves_heading.text = {"ru": "ХОДЫ", "be": "ХАДЫ", "en": "MOVES"}.get(preferences.locale, "MOVES")
 	moves = _label(stage_content, 14, Color("#214936"))
 	moves.add_theme_font_override("font", UiFonts.match3(800))
 	moves.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -629,7 +629,7 @@ func _refresh() -> void:
 	if is_instance_valid(dossier_button): dossier_button.tooltip_text = MenuCopy.text("dossier_title", locale)
 	settings_button.tooltip_text = MenuCopy.text("settings", locale)
 	objective_heading.text = {"ru": "ЦЕЛЬ", "be": "МЭТА", "en": "GOAL"}.get(locale, "GOAL")
-	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(locale, "MOVES")
+	moves_heading.text = {"ru": "ХОДЫ", "be": "ХАДЫ", "en": "MOVES"}.get(locale, "MOVES")
 	_refresh_bark(locale, copy)
 	var tutorial_locale: Dictionary = campaign_bundle.get("tutorials", {}).get(locale, campaign_bundle.get("tutorials", {}).get("en", {}))
 	var tutorial_copy: Dictionary = tutorial_locale.get("concepts", {}).get(active_tutorial, {})
@@ -644,7 +644,7 @@ func _refresh() -> void:
 	objective.text = " · ".join(objective_lines)
 	objective_icon.texture = _objective_texture(level_data.objectives[0]) if not level_data.objectives.is_empty() else null
 	moves.text = str(game.moves_left)
-	hint_label.text = MenuCopy.text("match3_hint", locale)
+	hint_label.text = MenuCopy.text("match3_hint", locale).to_upper()
 	guidance_labels[0].text = MenuCopy.text("match3_input_hint", locale)
 	var guidance_index := 1
 	for index in level_data.objectives.size():

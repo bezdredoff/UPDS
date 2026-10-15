@@ -925,7 +925,9 @@ func _vn_reading_controls(menu: Control) -> void:
 	assert(screen.nameplate.get_parent() == screen and screen.nameplate.position.y < screen.dialogue_panel.position.y,
 		"VN speaker nameplate should overlap the dialogue card's top edge like the source")
 	assert(screen._dialogue_pages.size() > 1 and screen.page_progress.get_child_count() == screen._dialogue_pages.size() + 2,
-		"Long dialogue must show one progress dot per page and the animated advance cue")
+		"Long dialogue must show one progress dot per page and the animated advance cue (pages=%d, progress=%d, screen=%s, card=%s)" % [
+			screen._dialogue_pages.size(), screen.page_progress.get_child_count(), screen.size, screen.dialogue_panel.size,
+		])
 	var advance_cue: Label = screen.page_progress.get_child(screen.page_progress.get_child_count() - 1)
 	assert(advance_cue.text == "▼" and advance_cue.pivot_offset == Vector2.ZERO,
 		"The source advance cue should be a non-scaling down-arrow")
