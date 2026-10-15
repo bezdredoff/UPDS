@@ -1068,7 +1068,6 @@ func _return_rejected_swap(first: int, second: int) -> void:
 	_tween_stack_offsets(back, second_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
 	_shake_rejected_cells([first, second])
 	await back.finished
-	await get_tree().create_timer(0.07).timeout
 	_reset_swap_stack(first_stack)
 	_reset_swap_stack(second_stack)
 

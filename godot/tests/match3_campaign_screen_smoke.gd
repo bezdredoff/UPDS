@@ -245,8 +245,12 @@ func _run() -> void:
 	assert(not match3.match_feedback_panel.visible, "No-match reject feedback appeared before the outward swap finished")
 	await create_timer(0.12).timeout
 	assert(match3.match_feedback_panel.visible and match3.match_feedback_kind == "reject", "No-match feedback should appear after the outward swap animation")
-	await create_timer(1.2).timeout
-	assert(not match3.match_feedback_panel.visible and not match3.input_locked, "No-match reject feedback did not clear after the return and hold")
+	await create_timer(0.66).timeout
+	assert(match3.input_locked, "No-match hold should continue after the 150ms return while the shake has already finished")
+	await create_timer(0.2).timeout
+	assert(not match3.input_locked, "No-match rejection should unlock after the source 700ms hold, without an extra shake wait")
+	await create_timer(0.11).timeout
+	assert(not match3.match_feedback_panel.visible, "No-match reject feedback did not finish its source fade after the return and hold")
 	match3._show_match_feedback("reject", 1, "no_match")
 	assert(match3.match_feedback_panel.visible and is_equal_approx(match3.match_feedback_panel.scale.x, 0.86) and is_zero_approx(match3.match_feedback_panel.modulate.a), "Feedback entry should start from the source scale and opacity")
 	assert(match3.match_feedback_panel.pivot_offset == match3.match_feedback_panel.size * 0.5, "Feedback pill should scale from its center")
