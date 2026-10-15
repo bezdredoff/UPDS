@@ -47,6 +47,8 @@ func _run_smoke() -> void:
 		"The character medallions must stay with the title block above the flexible spacer")
 	assert(menu.get_node("Wash").texture.get_height() >= 1024,
 		"The menu gradient must keep enough vertical resolution to avoid visible bands")
+	assert(menu.get_node("Wash").stretch_mode == TextureRect.STRETCH_SCALE,
+		"The menu wash must fill the phone frame height rather than tile at texture resolution")
 
 	var locale := MenuCopy.system_locale()
 	assert(menu.get_node("Content/Eyebrow").text == MenuCopy.text("eyebrow", locale))
@@ -106,6 +108,7 @@ func _run_smoke() -> void:
 	menu._layout_menu()
 	assert(is_equal_approx(menu.get_node("Content").offset_top, 42.0)
 		and menu_title.get_theme_font_size("normal_font_size") == 44
+		and menu_title.get_theme_constant("line_separation") == -20
 		and is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 78.0),
 		"Tall menu should restore the source's regular inset, heading and medallion sizes")
 	menu.size = Vector2(320, 568)
@@ -116,8 +119,9 @@ func _run_smoke() -> void:
 	assert(is_equal_approx(menu.get_node("Content").offset_top, 18.0)
 		and menu_title.get_theme_font_size("normal_font_size") == 34
 		and not menu_title.fit_content
-		and is_equal_approx(menu_title.custom_minimum_size.y, 68.0)
-		and is_equal_approx(menu.get_node("Content/TitleSpacer").custom_minimum_size.y, 10.0)
+		and is_equal_approx(menu_title.custom_minimum_size.y, 74.0)
+		and is_equal_approx(menu.get_node("Content/TitleSpacer").custom_minimum_size.y, 4.0)
+		and menu_title.get_theme_constant("line_separation") == -12
 		and is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 56.0)
 		and is_equal_approx(menu.get_node("Content/HeroSpacer").custom_minimum_size.y, 2.0)
 		and menu.get_node("Content/Tagline").get_theme_font_size("font_size") == 12
