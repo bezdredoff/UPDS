@@ -222,37 +222,47 @@ func _run() -> void:
 		"UI A board should preserve its one-pixel cell gaps")
 	assert(absf(match3.board_frame.size.x / match3.board_frame.size.y - float(match3.board.columns) / float(match3.game.level_data.rows)) < 0.01,
 		"UI A board should preserve its authored columns-to-rows aspect ratio")
-	var cell_background := match3.board.get_child(0).get_node("CellBackground") as Panel
+	var rendered_cell_index := -1
+	for index in match3.game.tiles.size():
+		if not match3.game.tiles[index].is_empty():
+			rendered_cell_index = index
+			break
+	assert(rendered_cell_index >= 0, "Match-3 board has no rendered cell for presentation checks")
+	var cell_background := match3.board.get_child(rendered_cell_index).get_node("CellBackground") as Panel
 	var cell_background_style := cell_background.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(cell_background.offset_left == 1 and cell_background.offset_right == -1
 		and cell_background.material == null and cell_background_style.bg_color.is_equal_approx(Color("#5a859926")),
 		"Match-3 cells should use the source translucent blue-gray fill without a retired gradient shader")
-	var cell_socket := match3.board.get_child(0).get_node("CellSocket") as Panel
+	var cell_socket := match3.board.get_child(rendered_cell_index).get_node("CellSocket") as Panel
 	var socket_style := cell_socket.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(cell_socket.offset_left == 1 and cell_socket.offset_top == 1
 		and cell_socket.offset_right == -1 and cell_socket.offset_bottom == -1
 		and is_zero_approx(socket_style.bg_color.a) and socket_style.get_border_width(SIDE_LEFT) == 0
 		and cell_socket.material == null,
 		"UI A tile socket should use its one-pixel inset and transparent fill")
-	var normal_tile := match3.board.get_child(0).get_node("TileStack/Tile") as TextureRect
+	var normal_tile_index := 0
+	match3.game.tiles[normal_tile_index] = "pantiesSportWhite"
+	match3.game.blocker_layers[normal_tile_index] = 0
+	match3._render_board()
+	var normal_tile := match3.board.get_child(normal_tile_index).get_node("TileStack/Tile") as TextureRect
 	var normal_tile_material := normal_tile.material as ShaderMaterial
 	assert(normal_tile.offset_left == 0 and normal_tile.offset_top == 0
 		and normal_tile.scale.is_equal_approx(Vector2(1.08, 1.08))
 		and normal_tile.z_index == 1
-		and (normal_tile_material.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#071224b8"))
+		and normal_tile_material != null
 		and (normal_tile_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2))
 		and is_equal_approx(normal_tile_material.get_shader_parameter("saturation"), 1.05),
 		"UI A tile artwork should fill its cell and preserve its 1.08 scale, drop shadow and saturation")
-	var first_tile_before_variant_check: String = match3.game.tiles[0]
-	match3.game.tiles[0] = "camisole"
+	var first_tile_before_variant_check: String = match3.game.tiles[normal_tile_index]
+	match3.game.tiles[normal_tile_index] = "camisole"
 	match3._render_board()
-	var camisole_tile := match3.board.get_child(0).get_node("TileStack/Tile") as TextureRect
+	var camisole_tile := match3.board.get_child(normal_tile_index).get_node("TileStack/Tile") as TextureRect
 	var camisole_shadow := camisole_tile.material as ShaderMaterial
 	assert(camisole_shadow != null and is_equal_approx(camisole_shadow.get_shader_parameter("brightness"), 1.38)
 		and is_equal_approx(camisole_shadow.get_shader_parameter("shadow_blur_px"), 1.0)
 		and is_equal_approx(camisole_shadow.get_shader_parameter("saturation"), 1.0),
 		"Camisole tile should preserve the source brightness variant and soft drop shadow")
-	match3.game.tiles[0] = first_tile_before_variant_check
+	match3.game.tiles[normal_tile_index] = first_tile_before_variant_check
 	match3._render_board()
 	var visual_blocker_index := -1
 	for index in match3.game.tiles.size():

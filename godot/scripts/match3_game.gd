@@ -63,6 +63,9 @@ func reset() -> void:
 	for ingredient: Dictionary in level_data.get("ingredients", []):
 		ingredients[int(ingredient.index)] = str(ingredient.kind)
 	_fill_initial_board()
+	if not _find_resolution_match_groups().is_empty() or not has_available_move():
+		_reshuffle_playable_board()
+		_last_frames.clear()
 	assert(find_matches().is_empty() and has_available_move(), "%s opening board must be playable" % str(level_data.id))
 	_sync_primary_collect_count()
 
@@ -872,7 +875,7 @@ func _shuffled_tile_keys() -> Array:
 	var ordered: Array = []
 	var weights: Dictionary = level_data.get("spawnWeights", {})
 	if weights.is_empty():
-		_sort_random_comparator_like_v8(remaining)
+		_sort_random_comparator_like_chromium(remaining)
 		return remaining
 	while not remaining.is_empty():
 		var total := 0.0
@@ -887,26 +890,10 @@ func _shuffled_tile_keys() -> Array:
 		ordered.append(remaining.pop_at(selected))
 	return ordered
 
-func _sort_random_comparator_like_v8(values: Array) -> void:
-	if values.size() < 2:
-		return
-	# V8 uses a natural run plus binary insertion for arrays shorter than 64.
-	# The source comparator consumes one seeded value for every comparison.
-	var run_length := 2
-	var descending: bool = _random.next_float() - 0.5 < 0.0
-	if descending:
-		while run_length < values.size() and _random.next_float() - 0.5 < 0.0:
-			run_length += 1
-		for offset in int(run_length / 2):
-			var opposite := run_length - offset - 1
-			var previous: Variant = values[offset]
-			values[offset] = values[opposite]
-			values[opposite] = previous
-	else:
-		while run_length < values.size() and _random.next_float() - 0.5 >= 0.0:
-			run_length += 1
-	var minimum_run := values.size()
-	for start in range(run_length, minimum_run):
+func _sort_random_comparator_like_chromium(values: Array) -> void:
+	# Mirror Chromium's binary-insertion Array.sort comparator call order so
+	# seeded board generation matches the web build across runtimes.
+	for start in range(1, values.size()):
 		var pivot: Variant = values[start]
 		var left := 0
 		var right := start

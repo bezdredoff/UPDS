@@ -7,6 +7,7 @@ const Memory = preload("res://tests/memory_storage.gd")
 const Level = preload("res://data/locker_match3.json")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const SeededRandom = preload("res://scripts/seeded_random.gd")
+const ChromiumBoards = preload("res://tests/fixtures/chromium_match3_start_boards.json")
 
 
 func _initialize() -> void:
@@ -30,6 +31,12 @@ func _run() -> void:
 	var game: RefCounted = Game.new()
 	assert(game.tiles.size() == 63)
 	assert(game.tiles == Level.data.seededOpeningBoard, "Godot opening board differs from the canonical web seed layout")
+	var attempt_level: Dictionary = Level.data.duplicate(true)
+	attempt_level.seed = int(Level.data.seed) + 101
+	attempt_level.erase("seededOpeningBoard")
+	var attempt_game: RefCounted = Game.new(attempt_level)
+	assert(attempt_game.tiles == ChromiumBoards.data.seed9102,
+		"Godot first campaign attempt differs from the Chromium-seeded source board")
 	assert(game.moves_left == 24 and game.collected == 0)
 	var columns := int(Level.data.columns)
 	assert(game.find_matches().is_empty(), "Initial board has an immediate match")
