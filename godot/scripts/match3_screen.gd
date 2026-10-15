@@ -29,6 +29,7 @@ const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
 static var _drop_shadow_material_cache: Dictionary = {}
 static var _special_icon_material_cache: ShaderMaterial
 static var _match_background_material_cache: ShaderMaterial
+static var _hud_paper_gradient_cache: GradientTexture2D
 
 var preferences: RefCounted
 var session: RefCounted
@@ -76,6 +77,7 @@ var objective_heading: Label
 var objective_icon: TextureRect
 var objective_panel: PanelContainer
 var stage_panel: PanelContainer
+var case_hud: HBoxContainer
 var moves: Label
 var moves_heading: Label
 var hint_button: Button
@@ -320,29 +322,27 @@ func _ready() -> void:
 	tutorial_frame.add_child(tutorial_panel)
 	objective_panel = PanelContainer.new()
 	var objective_style := StyleBoxFlat.new()
-	objective_style.bg_color = Color("#fff8df")
-	objective_style.border_color = Color("#53694f")
-	objective_style.set_border_width_all(2)
-	objective_style.set_corner_radius_all(9)
-	objective_style.shadow_color = Color("#20263a36")
-	objective_style.shadow_size = 11
-	objective_style.shadow_offset = Vector2(0, 4)
-	objective_style.content_margin_left = 10
-	objective_style.content_margin_right = 10
-	objective_style.content_margin_top = 8
-	objective_style.content_margin_bottom = 4
+	objective_style.bg_color = Color(0, 0, 0, 0)
+	objective_style.border_color = Color("#f7ebc8")
+	objective_style.set_border_width_all(3)
+	objective_style.set_corner_radius_all(8)
+	objective_style.shadow_size = 0
+	objective_style.content_margin_left = 6
+	objective_style.content_margin_right = 6
+	objective_style.content_margin_top = 3
+	objective_style.content_margin_bottom = 3
 	objective_panel.add_theme_stylebox_override("panel", objective_style)
-	var hud := HBoxContainer.new()
-	hud.add_theme_constant_override("separation", 8)
-	hud.custom_minimum_size.y = 51
-	content.add_child(hud)
+	objective_panel.add_child(_hud_paper_gradient_rect())
+	case_hud = HBoxContainer.new()
+	case_hud.add_theme_constant_override("separation", 8)
+	content.add_child(case_hud)
 	objective_panel.custom_minimum_size.x = 224
 	objective_panel.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	hud.add_child(objective_panel)
+	case_hud.add_child(objective_panel)
 	var objective_content := VBoxContainer.new()
 	objective_content.add_theme_constant_override("separation", 1)
 	objective_panel.add_child(objective_content)
-	objective_heading = _label(objective_content, 9, Color("#326349"))
+	objective_heading = _label(objective_content, 9, Color("#214936"))
 	objective_heading.add_theme_font_override("font", UiFonts.match3(800))
 	objective_heading.text = {"ru": "ЦЕЛЬ", "be": "МЭТА", "en": "GOAL"}.get(preferences.locale, "GOAL")
 	var objective_row := HBoxContainer.new()
@@ -354,28 +354,31 @@ func _ready() -> void:
 	objective_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	objective_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	objective_row.add_child(objective_icon)
-	objective = _label(objective_row, 14, Color("#326349"))
+	objective = _label(objective_row, 14, Color("#214936"))
 	objective.add_theme_font_override("font", UiFonts.match3(800))
 	objective.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	objective.add_theme_font_size_override("font_size", 14)
 	var hud_spacer := Control.new()
 	hud_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hud.add_child(hud_spacer)
+	case_hud.add_child(hud_spacer)
 	stage_panel = PanelContainer.new()
 	stage_panel.custom_minimum_size.x = 72
 	stage_panel.add_theme_stylebox_override("panel", objective_style.duplicate())
-	hud.add_child(stage_panel)
+	stage_panel.add_child(_hud_paper_gradient_rect())
+	case_hud.add_child(stage_panel)
 	var stage_content := VBoxContainer.new()
 	stage_content.alignment = BoxContainer.ALIGNMENT_CENTER
 	stage_content.add_theme_constant_override("separation", 1)
 	stage_panel.add_child(stage_content)
-	moves_heading = _label(stage_content, 9, Color("#326349"))
+	moves_heading = _label(stage_content, 9, Color("#214936"))
 	moves_heading.add_theme_font_override("font", UiFonts.match3(800))
 	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(preferences.locale, "MOVES")
-	moves = _label(stage_content, 14, Color("#326349"))
+	moves = _label(stage_content, 14, Color("#214936"))
 	moves.add_theme_font_override("font", UiFonts.match3(800))
 	moves.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_fit_match3_hud_geometry()
 	_fit_move_counter_font_size()
+	get_viewport().size_changed.connect(_fit_match3_hud_geometry)
 	get_viewport().size_changed.connect(_fit_move_counter_font_size)
 	board_top_spacer = Control.new()
 	board_top_spacer.name = "BoardHudSpacing"
@@ -1045,8 +1048,63 @@ func _fit_move_counter_font_size() -> void:
 	moves.add_theme_font_size_override("font_size", _move_counter_font_size_for_width(viewport_width))
 
 
+func _fit_match3_hud_geometry() -> void:
+	if not is_instance_valid(case_hud) or not is_instance_valid(objective_panel) or not is_instance_valid(stage_panel):
+		return
+	var viewport_width := get_viewport_rect().size.x
+	var profile := _match3_hud_profile_for_width(viewport_width)
+	var frame_width := minf(viewport_width, PhoneFrame.MAX_WIDTH)
+	var available_width := maxf(0.0, frame_width - 24.0)
+	var moves_width := float(profile.moves_width)
+	var goal_width := minf(float(profile.goal_width), maxf(0.0, available_width - moves_width - 12.0))
+	case_hud.custom_minimum_size.y = profile.hud_height
+	objective_panel.custom_minimum_size = Vector2(goal_width, profile.hud_height)
+	stage_panel.custom_minimum_size = Vector2(moves_width, profile.hud_height)
+	objective_icon.custom_minimum_size = Vector2(profile.goal_icon_size, profile.goal_icon_size)
+	objective_heading.add_theme_font_size_override("font_size", profile.heading_size)
+	moves_heading.add_theme_font_size_override("font_size", profile.heading_size)
+	objective.add_theme_font_size_override("font_size", profile.count_size)
+
+
+func _match3_hud_profile_for_width(viewport_width: float) -> Dictionary:
+	var mobile := viewport_width <= 430.0
+	return {
+		"goal_width": 224 if mobile else 234,
+		"moves_width": 70 if mobile else 72,
+		"hud_height": 50 if mobile else 52,
+		"goal_icon_size": 22 if mobile else 24,
+		"heading_size": 9 if mobile else 10,
+		"count_size": 13 if mobile else 14,
+	}
+
+
+func _hud_paper_gradient_rect() -> TextureRect:
+	var gradient_rect := TextureRect.new()
+	gradient_rect.name = "HudPaperGradient"
+	gradient_rect.texture = _hud_paper_gradient_texture()
+	gradient_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	gradient_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	gradient_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return gradient_rect
+
+
+static func _hud_paper_gradient_texture() -> GradientTexture2D:
+	if _hud_paper_gradient_cache != null:
+		return _hud_paper_gradient_cache
+	var gradient := Gradient.new()
+	gradient.colors = PackedColorArray([Color("#fff7df"), Color("#f7ebc8")])
+	gradient.offsets = PackedFloat32Array([0.0, 1.0])
+	_hud_paper_gradient_cache = GradientTexture2D.new()
+	_hud_paper_gradient_cache.gradient = gradient
+	_hud_paper_gradient_cache.fill_from = Vector2(0.0, 0.0)
+	_hud_paper_gradient_cache.fill_to = Vector2(0.0, 1.0)
+	_hud_paper_gradient_cache.width = 2
+	_hud_paper_gradient_cache.height = 64
+	return _hud_paper_gradient_cache
+
+
 func _move_counter_font_size_for_width(viewport_width: float) -> int:
-	return 13 if viewport_width <= 430.0 else 14
+	return int(_match3_hud_profile_for_width(viewport_width).count_size)
 
 
 func _fit_board_cells() -> void:

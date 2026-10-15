@@ -128,21 +128,45 @@ func _run() -> void:
 	var expected_moves_font_size := 13 if match3.get_viewport_rect().size.x <= 430.0 else 14
 	assert(objective_font != null and objective_count_font != null and moves_font != null
 		and match3.moves.get_theme_font_size("font_size") == expected_moves_font_size
-		and match3.moves.get_theme_color("font_color") == Color("#326349"),
-		"Match-3 move counter should match the source Comic Sans stack, responsive size and green color")
+		and match3.moves.get_theme_color("font_color") == Color("#214936"),
+		"Match-3 move counter should match the source Comic Sans stack, responsive size and dark green color")
 	assert(match3._move_counter_font_size_for_width(320.0) == 13
 		and match3._move_counter_font_size_for_width(430.0) == 13
 		and match3._move_counter_font_size_for_width(431.0) == 14
 		and match3._move_counter_font_size_for_width(480.0) == 14,
 		"Move counter responsive font size should follow the source 430px viewport breakpoint")
+	var mobile_hud_profile: Dictionary = match3._match3_hud_profile_for_width(390.0)
+	var desktop_hud_profile: Dictionary = match3._match3_hud_profile_for_width(480.0)
+	assert(mobile_hud_profile == {"goal_width": 224, "moves_width": 70, "hud_height": 50,
+		"goal_icon_size": 22, "heading_size": 9, "count_size": 13}
+		and desktop_hud_profile == {"goal_width": 234, "moves_width": 72, "hud_height": 52,
+		"goal_icon_size": 24, "heading_size": 10, "count_size": 14},
+		"Match-3 HUD width and typography profiles should follow the source 430px breakpoint")
+	var viewport_width := match3.get_viewport_rect().size.x
+	var active_hud_profile: Dictionary = match3._match3_hud_profile_for_width(viewport_width)
+	assert(is_equal_approx(match3.objective_panel.size.x, active_hud_profile.goal_width)
+		and is_equal_approx(match3.stage_panel.size.x, active_hud_profile.moves_width)
+		and is_equal_approx(match3.objective_panel.size.y, active_hud_profile.hud_height)
+		and is_equal_approx(match3.stage_panel.size.y, active_hud_profile.hud_height)
+		and is_equal_approx(match3.objective_icon.custom_minimum_size.x, active_hud_profile.goal_icon_size),
+		"Live Match-3 HUD geometry should use the active source viewport profile")
 	var objective_card_style := match3.objective_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	var moves_card_style := match3.stage_panel.get_theme_stylebox("panel") as StyleBoxFlat
-	assert(objective_card_style.bg_color == Color("#fff8df")
-		and objective_card_style.border_color == Color("#53694f")
-		and objective_card_style.get_border_width(SIDE_LEFT) == 2
-		and objective_card_style.shadow_size == 11
-		and moves_card_style.bg_color == objective_card_style.bg_color,
-		"Match-3 HUD cards should preserve the source cream paper, olive outline and soft lower shadow")
+	var objective_gradient := match3.objective_panel.get_node("HudPaperGradient") as TextureRect
+	var hud_gradient_texture := objective_gradient.texture as GradientTexture2D
+	assert(objective_card_style.bg_color == Color(0, 0, 0, 0)
+		and objective_card_style.border_color == Color("#f7ebc8")
+		and objective_card_style.get_border_width(SIDE_LEFT) == 3
+		and objective_card_style.get_corner_radius(CORNER_TOP_LEFT) == 8
+		and objective_card_style.shadow_size == 0
+		and objective_card_style.content_margin_left == 6
+		and objective_card_style.content_margin_top == 3
+		and moves_card_style.bg_color == objective_card_style.bg_color
+		and hud_gradient_texture != null
+		and hud_gradient_texture.gradient.colors == PackedColorArray([Color("#fff7df"), Color("#f7ebc8")])
+		and hud_gradient_texture.fill_from == Vector2.ZERO
+		and hud_gradient_texture.fill_to == Vector2(0.0, 1.0),
+		"Match-3 HUD cards should preserve the source vertical paper gradient, paper border, 8px radius, compact inset and no shadow")
 	assert(hint_font != null and speaker_font != null,
 		"Match-3 hint and bark speaker should use the bold display font")
 	assert(bark_font != null,
