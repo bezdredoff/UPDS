@@ -23,6 +23,16 @@ func _run() -> void:
 	await process_frame
 	var campaign: Control = menu.match3_campaign_screen
 	assert(campaign.cards.get_child_count() == 22, "Campaign hub did not render all authored levels")
+	assert(not campaign.complete.visible, "Empty campaign-complete status should not reserve a row before the campaign is complete")
+	assert(campaign.summary_panel.size.y >= 80.0 and campaign.summary_panel.size.y <= 82.0,
+		"Campaign summary height diverged from the source card at 480x854")
+	assert(campaign.campaign_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_SHOW_NEVER,
+		"Campaign list should hide the platform scrollbar while remaining scrollable")
+	assert(is_equal_approx(campaign.cards.size.x, campaign.campaign_scroll.size.x),
+		"Campaign cards should use the full source content width without scrollbar reservation")
+	var campaign_detail: Label = campaign.cards.get_child(0).get_child(0).get_child(1)
+	assert(campaign_detail.get_theme_constant("line_spacing") == -1,
+		"Campaign descriptions should use the source 1.35 line rhythm to avoid taller Godot cards")
 	assert(campaign.back_button.custom_minimum_size == Vector2(44, 44), "Campaign back action should match the source header size")
 	assert(campaign.settings_button.custom_minimum_size == Vector2(44, 44), "Campaign settings action should match the source header size")
 	assert(campaign.cards.get_child(1).get_child(0).get_child(3).disabled, "Second level should be locked initially")
@@ -550,6 +560,11 @@ func _run() -> void:
 	match3.campaign_result_hub.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and campaign.visible, "Returning from a level did not restore the campaign hub")
+	for level in bundle.levels:
+		campaign.session.complete_level(str(level.id), 0)
+	campaign.refresh_screen()
+	assert(campaign.complete.visible and not campaign.complete.text.is_empty(),
+		"Full-campaign completion status should appear when all levels are complete")
 	campaign.back_button.pressed.emit()
 	await process_frame
 	assert(menu.match3_campaign_screen == null and menu.get_node("Content").visible, "Campaign back did not restore the main menu")
