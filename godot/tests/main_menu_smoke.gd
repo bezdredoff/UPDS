@@ -1,6 +1,7 @@
 extends SceneTree
 
 const MenuCopy = preload("res://scripts/menu_copy.gd")
+const CONTRACT = preload("res://data/save_contract.json")
 
 
 func _initialize() -> void:
@@ -16,6 +17,16 @@ func _run_smoke() -> void:
 		"user://main_menu_smoke_%s.cfg" % Time.get_ticks_usec())
 	root.add_child(menu)
 	await process_frame
+	assert(menu.size == Vector2(480, 854), "Main menu parity layout must use the 480x854 project viewport")
+	var menu_content: Control = menu.get_node("Content")
+	var hero: Control = menu.get_node("Content/Hero")
+	var actions: Control = menu.get_node("Content/Actions")
+	assert(absf(menu_content.position.y + hero.position.y - 213.0) < 1.0,
+		"At 480x854, the character medallions should align with the web menu")
+	assert(absf(menu_content.position.y + actions.position.y - 560.0) < 1.0,
+		"At 480x854, the menu actions should align with the web menu")
+	assert(menu.get_node("Content/Footer").text == "v" + str(CONTRACT.data.appVersion),
+		"The menu footer should show the shared product version")
 
 	var menu_width: float = minf(menu.size.x, 430.0)
 	assert(absf(menu.get_node("Background").size.x - menu_width) < 1.0,

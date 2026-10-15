@@ -94,6 +94,15 @@ func _run() -> void:
 		"Centered VN portraits should preserve the source center anchor and 1024x1536 frame ratio")
 	assert(screen.dialogue.size.y >= 67.0,
 		"The dialogue text must receive enough layout height to remain visible in its panel")
+	assert(screen.dialogue.get_theme_font_size("normal_font_size") == 18,
+		"Godot dialogue font metrics should preserve the source line wrap at the 430px phone width")
+	var vn_width_before_compact_check := screen.size.x
+	screen.size.x = 320.0
+	screen._layout_vn()
+	assert(screen.dialogue.get_theme_font_size("normal_font_size") == 15,
+		"Compact VN dialogue font metrics should preserve the source line wrap below 340px")
+	screen.size.x = vn_width_before_compact_check
+	screen._layout_vn()
 	assert(is_equal_approx(screen.dialogue.global_position.y, screen.dialogue_panel.position.y + 45.0),
 		"The VN dialogue text should match the source card's top inset")
 	var portrait_shadow := idle_portrait.material as ShaderMaterial
@@ -895,11 +904,19 @@ func _vn_reading_controls(menu: Control) -> void:
 		"VN header should match the 60px source chrome")
 	assert(screen.nameplate.get_parent() == screen and screen.nameplate.position.y < screen.dialogue_panel.position.y,
 		"VN speaker nameplate should overlap the dialogue card's top edge like the source")
-	assert(screen._dialogue_pages.size() > 1 and screen.page_progress.get_child_count() == screen._dialogue_pages.size() + 1,
+	assert(screen._dialogue_pages.size() > 1 and screen.page_progress.get_child_count() == screen._dialogue_pages.size() + 2,
 		"Long dialogue must show one progress dot per page and the animated advance cue")
 	var advance_cue: Label = screen.page_progress.get_child(screen.page_progress.get_child_count() - 1)
 	assert(advance_cue.text == "▼" and advance_cue.pivot_offset == Vector2.ZERO,
 		"The source advance cue should be a non-scaling down-arrow")
+	var cue_gap: Control = screen.page_progress.get_child(screen.page_progress.get_child_count() - 2)
+	var dialogue_bounds: Rect2 = screen.dialogue_panel.get_global_rect()
+	var progress_bounds: Rect2 = screen.page_progress.get_global_rect()
+	assert(advance_cue.custom_minimum_size == Vector2(13, 18) and cue_gap.custom_minimum_size.x == 5.0,
+		"VN page progress should reserve the source cue width and inter-item gap")
+	assert(is_equal_approx(progress_bounds.end.x, dialogue_bounds.end.x - 16.0)
+		and is_equal_approx(progress_bounds.end.y, dialogue_bounds.end.y - 12.0),
+		"VN page progress should align to the dialogue card's source 16px/12px inset")
 	await create_timer(0.56).timeout
 	assert(absf(advance_cue.offset_top - 3.0) < 0.5 and absf(advance_cue.modulate.a - 0.45) < 0.08,
 		"Advance cue should reach the source 3px down and 0.45 opacity midpoint")
@@ -940,6 +957,23 @@ func _vn_reading_controls(menu: Control) -> void:
 	screen.history_button.pressed.emit()
 	assert(screen.overlay_title.text == Copy.text("vn_history", menu.preferences.locale))
 	assert(screen.overlay_body.get_child_count() >= 3, "Dialogue history should include read lines and the current line")
+	await process_frame
+	await process_frame
+	await process_frame
+	var history_card: PanelContainer = screen.overlay.find_child("OverlayCard", true, false)
+	for _attempt in range(12):
+		if history_card.size.y < 205.0:
+			break
+		await process_frame
+	assert(absf(history_card.size.x - 406.0) < 2.0,
+		"VN overlays should use the source 12px side inset inside the 430px phone frame")
+	assert(history_card.size.y < screen.size.y * 0.5
+		and absf(history_card.size.y - screen.overlay_body.size.y - 100.0) < 2.0,
+		"History overlay height should follow its transcript content instead of filling the viewport")
+	var backdrop: ColorRect = screen.overlay.find_child("OverlayBackdrop", true, false)
+	var backdrop_material := backdrop.material as ShaderMaterial
+	assert(backdrop_material != null and backdrop_material.shader.code.contains("hint_screen_texture"),
+		"VN overlays should blur the scene behind their dimmed backdrop like the source")
 	var first_history_entry: VBoxContainer = screen.overlay_body.get_child(0)
 	var first_row_margin: MarginContainer = first_history_entry.get_child(0)
 	var first_row_content: VBoxContainer = first_row_margin.get_child(0)
@@ -947,6 +981,8 @@ func _vn_reading_controls(menu: Control) -> void:
 		"Dialogue history rows should have a flat transcript header")
 	assert(first_row_content.get_child(0).get_child(1).text == "#1",
 		"Dialogue history rows should keep the source transcript sequence numbers")
+	assert(first_row_content.get_child(0).get_child(1).horizontal_alignment == HORIZONTAL_ALIGNMENT_RIGHT,
+		"Transcript sequence numbers should align to the right edge like the source")
 	screen._close_overlay()
 	screen.settings_button.pressed.emit()
 	assert(screen.overlay.find_child("Audio_musicVolume", true, false) != null)
@@ -960,7 +996,7 @@ func _vn_reading_controls(menu: Control) -> void:
 	assert(is_equal_approx(screen._auto_delay_for_text(60), 3076.0),
 		"AUTO delay should match the source base speed and text-length allowance")
 	screen.config_text_buttons.large.pressed.emit()
-	assert(screen._text_scale == "large" and screen.dialogue.get_theme_font_size("normal_font_size") == 19,
+	assert(screen._text_scale == "large" and screen.dialogue.get_theme_font_size("normal_font_size") == 20,
 		"Reading configuration should apply the large dialogue text size")
 	var music_slider: HSlider = screen.overlay.find_child("Audio_musicVolume", true, false).get_node("Slider")
 	music_slider.value = 63

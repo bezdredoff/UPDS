@@ -23,6 +23,16 @@ func _run() -> void:
 	await process_frame
 	var campaign: Control = menu.match3_campaign_screen
 	assert(campaign.cards.get_child_count() == 22, "Campaign hub did not render all authored levels")
+	assert(not campaign.complete.visible, "Empty campaign-complete status should not reserve a row before the campaign is complete")
+	assert(campaign.summary_panel.size.y >= 80.0 and campaign.summary_panel.size.y <= 82.0,
+		"Campaign summary height diverged from the source card at 480x854")
+	assert(campaign.campaign_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_SHOW_NEVER,
+		"Campaign list should hide the platform scrollbar while remaining scrollable")
+	assert(is_equal_approx(campaign.cards.size.x, campaign.campaign_scroll.size.x),
+		"Campaign cards should use the full source content width without scrollbar reservation")
+	var campaign_detail: Label = campaign.cards.get_child(0).get_child(0).get_child(1)
+	assert(campaign_detail.get_theme_constant("line_spacing") == -1,
+		"Campaign descriptions should use the source 1.35 line rhythm to avoid taller Godot cards")
 	assert(campaign.back_button.custom_minimum_size == Vector2(44, 44), "Campaign back action should match the source header size")
 	assert(campaign.settings_button.custom_minimum_size == Vector2(44, 44), "Campaign settings action should match the source header size")
 	assert(campaign.cards.get_child(1).get_child(0).get_child(3).disabled, "Second level should be locked initially")
@@ -45,8 +55,14 @@ func _run() -> void:
 	var match3: Control = menu.match3_screen
 	assert(match3 != null and match3.campaign_mode, "Campaign level did not launch in standalone mode")
 	assert(match3.level_id == second_id and match3.game.level_data.id == second_id, "Selected campaign level was not loaded")
+	await process_frame
 	assert(match3.active_tutorial == "clear-package" and match3.tutorial_panel.visible, "Level-start blocker tutorial was not selected in authored order")
 	assert(match3.tutorial_title.text == "Снимайте слои пакета", "Campaign tutorial copy did not use the localized concept")
+	var tutorial_card_rect: Rect2 = match3.tutorial_frame.get_global_rect()
+	var tutorial_button_rect: Rect2 = match3.tutorial_button.get_global_rect()
+	assert(tutorial_card_rect.size.y >= 240.0 and tutorial_card_rect.size.y <= 300.0,
+		"Tutorial overlay frame should size itself around its localized copy rather than collapse or fill the viewport")
+	assert(tutorial_card_rect.encloses(tutorial_button_rect), "Tutorial action should remain inside the framed card")
 	match3.tutorial_button.pressed.emit()
 	assert(not match3.tutorial_panel.visible and match3.active_tutorial == "clear-package", "Acknowledging a tutorial should dismiss its prompt without marking the mechanic complete")
 	assert(match3.session.save.tutorialsCompleted.is_empty(), "Dismissing a blocker tutorial incorrectly completed it")
@@ -60,6 +76,34 @@ func _run() -> void:
 	match3._record_tutorial_move({"valid": true}, true)
 	assert(match3.active_tutorial.is_empty(), "Completing the special activation did not advance the tutorial sequence")
 	assert(match3.game.tiles.size() == int(bundle.levels[1].rows) * int(bundle.levels[1].columns), "Selected campaign board dimensions mismatch")
+	var moves_before_reaction: int = match3.game.moves_left
+	match3._reduced_motion_override = false
+	match3.game.moves_left = int(match3.level_data.moves) - 1
+	match3._present_narrative_reaction({"valid": true, "blockersCleared": 0, "specialsCreated": 0, "cascades": 1,
+		"primaryFeedback": "match", "specialsCombined": false, "won": false, "lost": false})
+	assert(match3.active_reaction.get("id") == "ingredient-context"
+		and match3.bark_speaker.text == "АЮКИ"
+		and match3.bark.text == "Маленькая чёрная карта, огромный шанс на драму.",
+		"Match-3 reaction should replace the static bark with authored localized copy and speaker")
+	assert(match3.bark_portrait.texture != null
+		and match3.bark_portrait.texture.resource_path.ends_with("ayuki/medallions/portrait_neutral_256.png"),
+		"Reaction bark should use the same authored circular portrait as the web UI")
+	assert(is_zero_approx(match3.bark_panel.modulate.a) and is_equal_approx(match3.bark_panel.position.y, 4.0),
+		"Reaction bark should begin at the source 4px entrance offset and zero opacity")
+	await create_timer(0.2).timeout
+	assert(is_equal_approx(match3.bark_panel.modulate.a, 1.0) and is_zero_approx(match3.bark_panel.position.y),
+		"Reaction bark should finish its 160ms ease-out entrance")
+	var reaction_style := match3.bark_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(reaction_style.border_width_left == 4 and reaction_style.shadow_size == 14,
+		"Standard reaction emphasis should preserve the web bark border and shadow")
+	match3._dismiss_narrative_reaction("ingredient-context")
+	await create_timer(0.22).timeout
+	assert(match3.active_reaction.is_empty() and is_equal_approx(match3.bark_panel.modulate.a, 1.0)
+		and is_zero_approx(match3.bark_panel.position.y),
+		"Reaction bark should fade out and restore the static bark after its duration")
+	match3.game.moves_left = moves_before_reaction
+	match3._reduced_motion_override = null
+	match3._refresh()
 	var board_outline := match3.board_frame.get_parent() as PanelContainer
 	var board_outline_style := board_outline.get_theme_stylebox("panel") as StyleBoxFlat
 	var board_frame_style := match3.board_frame.get_theme_stylebox("panel") as StyleBoxFlat
@@ -164,6 +208,9 @@ func _run() -> void:
 	var tutorial_style := match3.tutorial_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(is_equal_approx(match3.tutorial_panel.custom_maximum_size.x, 350.0), "Tutorial card width should match the source 350px maximum")
 	assert(tutorial_style.border_width_top == 3 and tutorial_style.border_width_left == 8, "Tutorial card border should match the source gold frame and green spine")
+	assert(tutorial_style.content_margin_left == 26 and tutorial_style.content_margin_right == 26
+		and match3.tutorial_body.get_theme_constant("line_spacing") == 0,
+		"Tutorial text and button insets should preserve the source compact card rhythm")
 	assert(tutorial_style.bg_color.to_html(false) == Color("#fff7df").to_html(false), "Tutorial card paper color should match the source palette")
 	assert(match3.tutorial_frame.custom_minimum_size.x == 356.0 and (match3.tutorial_frame.get_theme_stylebox("panel") as StyleBoxFlat).bg_color.to_html(false) == Color("#102744").to_html(false), "Tutorial card should have the source 3px navy outline")
 	var tutorial_button_style := match3.tutorial_button.get_theme_stylebox("normal") as StyleBoxFlat
@@ -550,6 +597,11 @@ func _run() -> void:
 	match3.campaign_result_hub.pressed.emit()
 	await process_frame
 	assert(menu.match3_screen == null and campaign.visible, "Returning from a level did not restore the campaign hub")
+	for level in bundle.levels:
+		campaign.session.complete_level(str(level.id), 0)
+	campaign.refresh_screen()
+	assert(campaign.complete.visible and not campaign.complete.text.is_empty(),
+		"Full-campaign completion status should appear when all levels are complete")
 	campaign.back_button.pressed.emit()
 	await process_frame
 	assert(menu.match3_campaign_screen == null and menu.get_node("Content").visible, "Campaign back did not restore the main menu")

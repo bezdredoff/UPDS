@@ -14,7 +14,7 @@ export type Match3ReactionPresentationDecision = Readonly<{
   reason?: 'cooldown';
 }>;
 
-const policies: Readonly<Record<Match3ReactionId, Match3ReactionPresentationPolicy>> = {
+export const match3ReactionPolicies: Readonly<Record<Match3ReactionId, Match3ReactionPresentationPolicy>> = {
   'objective-complete': { durationMs: 3200, cooldownMs: 0, emphasis: 'urgent' },
   danger: { durationMs: 3200, cooldownMs: 0, emphasis: 'urgent' },
   'special-combo': { durationMs: 2600, cooldownMs: 0, emphasis: 'strong' },
@@ -29,7 +29,7 @@ const policies: Readonly<Record<Match3ReactionId, Match3ReactionPresentationPoli
 };
 
 export function match3ReactionPresentationPolicy(id: Match3ReactionId): Match3ReactionPresentationPolicy {
-  return policies[id];
+  return match3ReactionPolicies[id];
 }
 
 export function resolveMatch3ReactionPresentation(

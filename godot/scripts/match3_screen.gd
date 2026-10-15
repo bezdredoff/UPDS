@@ -14,6 +14,7 @@ const CssMotion = preload("res://scripts/css_motion.gd")
 const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
 const ReducedMotion = preload("res://scripts/reduced_motion.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
+const ReactionRuntime = preload("res://scripts/match3_reaction_runtime.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
 const SWAP_MOTION_SECONDS := 0.15
@@ -31,6 +32,7 @@ var preferences: RefCounted
 var session: RefCounted
 var story_session: RefCounted
 var game: RefCounted
+var reaction_runtime := ReactionRuntime.new()
 var level_id := ""
 var campaign_mode := false
 var _reduced_motion_override: Variant = null
@@ -42,10 +44,19 @@ var hinted_indices: Array[int] = []
 var last_tapped_special_index := -1
 var last_tapped_special_at := -1
 var last_feedback := ""
+var triggered_reactions: Dictionary = {}
+var reaction_presented_at: Dictionary = {}
+var active_reaction: Dictionary = {}
+var reaction_generation := 0
+var reaction_blockers_cleared := 0
+var reaction_tween: Tween
 var background: TextureRect
 var title: Label
 var title_short: Label
 var bark: Label
+var bark_panel: PanelContainer
+var bark_slot: Control
+var bark_base_style: StyleBoxFlat
 var bark_speaker: Label
 var bark_portrait: TextureRect
 var tutorial_panel: PanelContainer
@@ -200,18 +211,19 @@ func _ready() -> void:
 	tutorial_style.set_border_width_all(3)
 	tutorial_style.border_width_left = 8
 	tutorial_style.set_corner_radius_all(7)
-	tutorial_style.content_margin_left = 20
-	tutorial_style.content_margin_right = 20
+	tutorial_style.content_margin_left = 26
+	tutorial_style.content_margin_right = 26
 	tutorial_style.content_margin_top = 30
 	tutorial_style.content_margin_bottom = 18
 	tutorial_panel.add_theme_stylebox_override("panel", tutorial_style)
 	content.add_child(tutorial_panel)
-	var tutorial_content_layer := Control.new()
-	tutorial_content_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	tutorial_panel.add_child(tutorial_content_layer)
 	var tutorial_content := VBoxContainer.new()
-	tutorial_content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	tutorial_content.name = "TutorialContent"
 	tutorial_content.add_theme_constant_override("separation", 0)
+	var tutorial_content_layer := Control.new()
+	tutorial_content_layer.name = "TutorialContentLayer"
+	tutorial_panel.add_child(tutorial_content_layer)
+	tutorial_content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	tutorial_content_layer.add_child(tutorial_content)
 	tutorial_badge = PanelContainer.new()
 	tutorial_badge.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
@@ -247,7 +259,7 @@ func _ready() -> void:
 	tutorial_body = _label(tutorial_content, 13, Color("#5c513e"))
 	tutorial_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tutorial_body.add_theme_font_size_override("font_size", 13)
-	tutorial_body.add_theme_constant_override("line_spacing", 5)
+	tutorial_body.add_theme_constant_override("line_spacing", 0)
 	var tutorial_sans := SystemFont.new()
 	tutorial_sans.font_names = PackedStringArray(["Comic Sans MS", "Trebuchet MS", "Arial"])
 	tutorial_sans.font_weight = 700
@@ -403,11 +415,20 @@ func _ready() -> void:
 	bark_style.content_margin_right = 9
 	bark_style.content_margin_top = 6
 	bark_style.content_margin_bottom = 6
-	var bark_panel := PanelContainer.new()
+	bark_base_style = bark_style
+	bark_slot = Control.new()
+	bark_slot.name = "BarkSlot"
+	bark_slot.custom_minimum_size.y = 62
+	bark_slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bark_slot.clip_contents = true
+	content.remove_child(bark)
+	content.add_child(bark_slot)
+	bark_panel = PanelContainer.new()
+	bark_panel.name = "FieldBark"
+	bark_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	bark_panel.custom_minimum_size.y = 62
 	bark_panel.add_theme_stylebox_override("panel", bark_style)
-	content.remove_child(bark)
-	content.add_child(bark_panel)
+	bark_slot.add_child(bark_panel)
 	var bark_row := HBoxContainer.new()
 	bark_row.add_theme_constant_override("separation", 7)
 	bark_panel.add_child(bark_row)
@@ -526,7 +547,6 @@ func _ready() -> void:
 
 
 func _refresh() -> void:
-	_fit_tutorial_card()
 	var locale: String = preferences.locale
 	var copy: Dictionary = level_presentation.localized.get(locale, level_presentation.localized.en)
 	title.text = copy.title
@@ -554,7 +574,14 @@ func _refresh() -> void:
 	else:
 		speaker = str(copy.winSpeaker) if game.state == "won" else str(copy.loseSpeaker)
 		bark.text = str(copy.winText) if game.state == "won" else str(copy.loseText)
-	bark_speaker.text = speaker
+	if not active_reaction.is_empty() and last_feedback.is_empty():
+		var reaction_id := str(active_reaction.get("id", ""))
+		speaker = reaction_runtime.speaker_name(locale, str(active_reaction.get("speaker", "miku")))
+		bark.text = reaction_runtime.text(locale, str(active_reaction.get("messageKey", "")), active_reaction.get("params", {}))
+		_set_bark_emphasis(str(reaction_runtime.policy(reaction_id).get("emphasis", "standard")))
+	else:
+		_set_bark_emphasis("")
+	bark_speaker.text = speaker.to_upper()
 	bark_portrait.texture = _speaker_portrait(speaker)
 	var tutorial_locale: Dictionary = campaign_bundle.get("tutorials", {}).get(locale, campaign_bundle.get("tutorials", {}).get("en", {}))
 	var tutorial_copy: Dictionary = tutorial_locale.get("concepts", {}).get(active_tutorial, {})
@@ -584,6 +611,7 @@ func _refresh() -> void:
 	warning.visible = not warning.text.is_empty()
 	if not match_feedback_key.is_empty():
 		match_feedback_label.text = _feedback_text(match_feedback_key, match_feedback_cascade)
+	call_deferred("_fit_tutorial_card")
 	bottom_spacer.visible = game.state == "playing"
 	var won: bool = game.state == "won"
 	board_center.visible = not won
@@ -1616,6 +1644,7 @@ func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
 	var reduced_motion := _prefers_reduced_motion()
 	var valid := bool(result.valid)
 	if valid:
+		_present_narrative_reaction(result)
 		_clear_match_feedback()
 		if reduced_motion:
 			_render_board()
@@ -1668,6 +1697,10 @@ func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
 
 
 func _speaker_portrait(speaker: String) -> Texture2D:
+	var reaction_speaker := reaction_runtime.speaker_id(preferences.locale, speaker)
+	var reaction_portrait := reaction_runtime.speaker_portrait_path(reaction_speaker)
+	if not reaction_portrait.is_empty() and ResourceLoader.exists(reaction_portrait):
+		return load(reaction_portrait) as Texture2D
 	var normalized := speaker.to_lower()
 	var character := "miku"
 	if ["onoe", "оноэ", "онoэ"].any(func(name: String) -> bool: return normalized.contains(name)):
@@ -1678,7 +1711,119 @@ func _speaker_portrait(speaker: String) -> Texture2D:
 	return load(path) as Texture2D if ResourceLoader.exists(path) else null
 
 
+func _set_bark_emphasis(emphasis: String) -> void:
+	if not is_instance_valid(bark_panel) or bark_base_style == null: return
+	var style := bark_base_style.duplicate() as StyleBoxFlat
+	style.shadow_color = Color("#252b3c40")
+	style.shadow_size = 14
+	style.shadow_offset = Vector2(0, 5)
+	if emphasis == "urgent":
+		style.border_width_left = 5
+		style.border_color = Color("#d96279")
+		style.shadow_color = Color("#252b3c52")
+		style.shadow_size = 18
+		style.shadow_offset = Vector2(0, 6)
+	elif emphasis == "strong":
+		style.border_width_left = 5
+	elif emphasis == "light":
+		style.shadow_color = Color("#252b3c2e")
+		style.shadow_size = 9
+		style.shadow_offset = Vector2(0, 3)
+	bark_panel.add_theme_stylebox_override("panel", style)
+
+
+func _present_narrative_reaction(result: Dictionary) -> void:
+	var objectives_completed := 0
+	var objective_units_remaining := 0
+	for index in level_data.get("objectives", []).size():
+		var objective_data: Dictionary = level_data.objectives[index]
+		var value: int = game.objective_value(index)
+		var target := int(objective_data.get("target", 0))
+		if value >= target: objectives_completed += 1
+		objective_units_remaining += maxi(0, target - value)
+	reaction_blockers_cleared += int(result.get("blockersCleared", 0))
+	var context := {
+		"narrativeProfile": str(level_data.get("narrativeProfile", "")),
+		"runMode": "campaign" if campaign_mode else "story",
+		"movesLeft": game.moves_left,
+		"moveNumber": int(level_data.get("moves", 0)) - game.moves_left,
+		"blockersCleared": reaction_blockers_cleared,
+		"specialsCreated": int(result.get("specialsCreated", 0)),
+		"cascades": int(result.get("cascades", 0)),
+		"specialActivated": str(result.get("primaryFeedback", "")) == "special",
+		"directSpecialCombo": bool(result.get("specialsCombined", false)),
+		"objectivesCompleted": objectives_completed,
+		"objectiveUnitsRemaining": objective_units_remaining,
+		"won": bool(result.get("won", false)),
+		"lost": bool(result.get("lost", false)),
+	}
+	var reaction: Dictionary = reaction_runtime.resolve(level_id, context, triggered_reactions)
+	if reaction.is_empty(): return
+	var reaction_id := str(reaction.get("id", ""))
+	var reaction_policy := reaction_runtime.policy(reaction_id)
+	var now := Time.get_ticks_msec()
+	var last_presented: Variant = reaction_presented_at.get(reaction_id, null)
+	var cooldown := int(reaction_policy.get("cooldownMs", 0))
+	if str(reaction.get("repeat", "")) == "repeatable" and cooldown > 0 and last_presented != null and now - int(last_presented) < cooldown:
+		return
+	if str(reaction.get("repeat", "")) == "once-per-attempt": triggered_reactions[reaction_id] = true
+	reaction_presented_at[reaction_id] = now
+	active_reaction = reaction
+	reaction_generation += 1
+	var generation := reaction_generation
+	_refresh()
+	_animate_reaction_enter()
+	get_tree().create_timer(float(reaction_policy.get("durationMs", 0)) / 1000.0).timeout.connect(
+		_dismiss_narrative_reaction.bind(reaction_id, generation), CONNECT_ONE_SHOT)
+
+
+func _animate_reaction_enter() -> void:
+	if reaction_tween != null and reaction_tween.is_valid(): reaction_tween.kill()
+	bark_panel.position.y = 0.0
+	bark_panel.modulate = Color.WHITE
+	if _prefers_reduced_motion(): return
+	var ease_out := Callable(self, "_css_cubic_bezier").bind(0.0, 0.0, 0.58, 1.0)
+	bark_panel.position.y = 4.0
+	bark_panel.modulate.a = 0.0
+	reaction_tween = create_tween()
+	reaction_tween.tween_property(bark_panel, "position:y", 0.0, 0.16).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+	reaction_tween.parallel().tween_property(bark_panel, "modulate:a", 1.0, 0.16).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+
+
+
+func _dismiss_narrative_reaction(reaction_id: String, generation: int = -1) -> void:
+	if generation >= 0 and generation != reaction_generation: return
+	if str(active_reaction.get("id", "")) != reaction_id: return
+	if reaction_tween != null and reaction_tween.is_valid(): reaction_tween.kill()
+	var reduced := _prefers_reduced_motion()
+	var duration := 0.08 if reduced else 0.18
+	var ease_out := Callable(self, "_css_cubic_bezier").bind(0.0, 0.0, 0.58, 1.0)
+	reaction_tween = create_tween()
+	reaction_tween.tween_property(bark_panel, "modulate:a", 0.0, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+	if not reduced:
+		reaction_tween.parallel().tween_property(bark_panel, "position:y", -2.0, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+	reaction_tween.finished.connect(_finish_narrative_reaction_dismiss.bind(reaction_id, reaction_generation), CONNECT_ONE_SHOT)
+
+
+func _finish_narrative_reaction_dismiss(reaction_id: String, generation: int = -1) -> void:
+	if generation >= 0 and generation != reaction_generation: return
+	if str(active_reaction.get("id", "")) != reaction_id: return
+	active_reaction.clear()
+	bark_panel.position.y = 0.0
+	bark_panel.modulate = Color.WHITE
+	_refresh()
+
+
 func _new_game_for_attempt() -> RefCounted:
+	reaction_generation += 1
+	triggered_reactions.clear()
+	reaction_presented_at.clear()
+	active_reaction.clear()
+	reaction_blockers_cleared = 0
+	if reaction_tween != null and reaction_tween.is_valid(): reaction_tween.kill()
+	if is_instance_valid(bark_panel):
+		bark_panel.position.y = 0.0
+		bark_panel.modulate = Color.WHITE
 	var runtime_level: Dictionary = level_data.duplicate(true)
 	runtime_level.erase("openingBoard")
 	runtime_level.erase("seededOpeningBoard")
@@ -2136,3 +2281,5 @@ func _fit_tutorial_card() -> void:
 	var compact := size.x <= 340.0
 	tutorial_title.add_theme_font_size_override("font_size", 20 if compact else 24)
 	tutorial_body.add_theme_font_size_override("font_size", 11 if compact else 13)
+	var content_layer := tutorial_panel.get_node("TutorialContentLayer") as Control
+	content_layer.custom_minimum_size.y = 207.0 + maxf(0.0, 350.0 - card_width) * 0.8

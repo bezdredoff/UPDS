@@ -102,15 +102,15 @@ func _sync_primary_collect_count() -> void:
 func attempt_swap(first: int, second: int) -> Dictionary:
 	_last_frames.clear()
 	if state != "playing":
-		return {"valid": false, "reason": "finished", "specialsCreated": 0, "specialsCombined": false}
+		return {"valid": false, "reason": "finished", "specialsCreated": 0, "specialsCombined": false, "primaryFeedback": null}
 	if first == second:
-		return {"valid": false, "reason": "same-cell", "specialsCreated": 0, "specialsCombined": false}
+		return {"valid": false, "reason": "same-cell", "specialsCreated": 0, "specialsCombined": false, "primaryFeedback": null}
 	if not _are_adjacent(first, second):
-		return {"valid": false, "reason": "not-adjacent", "specialsCreated": 0, "specialsCombined": false}
+		return {"valid": false, "reason": "not-adjacent", "specialsCreated": 0, "specialsCombined": false, "primaryFeedback": null}
 	if tiles[first].is_empty() or tiles[second].is_empty():
-		return {"valid": false, "reason": "ingredient", "specialsCreated": 0, "specialsCombined": false}
+		return {"valid": false, "reason": "ingredient", "specialsCreated": 0, "specialsCombined": false, "primaryFeedback": null}
 	if _is_blocked(first) or _is_blocked(second):
-		return {"valid": false, "reason": "blocked", "specialsCreated": 0, "specialsCombined": false}
+		return {"valid": false, "reason": "blocked", "specialsCreated": 0, "specialsCombined": false, "primaryFeedback": null}
 	var same_tile := tiles[first] == tiles[second]
 	_swap_tiles(first, second)
 	_last_frames.append({"phase": "swap", "tiles": tiles.duplicate(), "specials": specials.duplicate(), "blockers": blocker_layers.duplicate(), "ingredients": ingredients.duplicate(), "swap": [first, second]})
@@ -125,7 +125,7 @@ func attempt_swap(first: int, second: int) -> Dictionary:
 	var primary_feedback := _classify_player_feedback(groups, activated, creations)
 	if groups.is_empty() and activated.is_empty() and combo.is_empty() and creations.is_empty():
 		_swap_tiles(first, second)
-		return {"valid": false, "reason": "no-match", "specialsCreated": 0, "specialsCombined": false, "frames": _last_frames.duplicate(true)}
+		return {"valid": false, "reason": "no-match", "specialsCreated": 0, "specialsCombined": false, "primaryFeedback": null, "frames": _last_frames.duplicate(true)}
 	moves_left -= 1
 	_last_blockers_cleared = 0
 	_last_ingredients_dropped = 0
@@ -142,7 +142,7 @@ func attempt_swap(first: int, second: int) -> Dictionary:
 		state = "lost"
 	elif not has_available_move():
 		reshuffled = _reshuffle_playable_board()
-	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "reshuffled": reshuffled, "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped, "specialsCreated": _last_specials_created, "specialsCombined": not combo.is_empty(), "frames": _last_frames.duplicate(true)}
+	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "reshuffled": reshuffled, "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped, "specialsCreated": _last_specials_created, "specialsCombined": not combo.is_empty(), "primaryFeedback": primary_feedback, "frames": _last_frames.duplicate(true)}
 
 func attempt_special_activation(index: int) -> Dictionary:
 	_last_frames.clear()
@@ -160,10 +160,10 @@ func attempt_special_activation(index: int) -> Dictionary:
 	_last_swap.clear()
 	_sync_primary_collect_count()
 	var reshuffled := _update_game_state()
-	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "reshuffled": reshuffled, "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped, "specialsCreated": _last_specials_created, "specialsCombined": false, "frames": _last_frames.duplicate(true)}
+	return {"valid": true, "reason": "", "won": state == "won", "lost": state == "lost", "reshuffled": reshuffled, "cascades": cascade, "cleared": _last_cleared, "blockersCleared": _last_blockers_cleared, "ingredientsDropped": _last_ingredients_dropped, "specialsCreated": _last_specials_created, "specialsCombined": false, "primaryFeedback": "special", "frames": _last_frames.duplicate(true)}
 
 func _empty_move_result(reason: String) -> Dictionary:
-	return {"valid": false, "reason": reason, "won": state == "won", "lost": state == "lost", "reshuffled": false, "cascades": 0, "cleared": 0, "blockersCleared": 0, "ingredientsDropped": 0, "specialsCreated": 0, "specialsCombined": false}
+	return {"valid": false, "reason": reason, "won": state == "won", "lost": state == "lost", "reshuffled": false, "cascades": 0, "cleared": 0, "blockersCleared": 0, "ingredientsDropped": 0, "specialsCreated": 0, "specialsCombined": false, "primaryFeedback": null}
 
 func _update_game_state() -> bool:
 	if _objectives_complete():

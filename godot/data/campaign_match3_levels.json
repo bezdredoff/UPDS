@@ -4,6 +4,7 @@
     {
       "id": "M3_00_LOCKER_TUTORIAL",
       "shortId": "M3_00",
+      "narrativeProfile": "locker-search",
       "seed": 9001,
       "rows": 9,
       "columns": 7,
@@ -444,6 +445,7 @@
     {
       "id": "M3_01_PHOTO_PROPS",
       "shortId": "M3_01",
+      "narrativeProfile": "photo-alibi",
       "seed": 9002,
       "rows": 9,
       "columns": 7,
@@ -937,6 +939,7 @@
     {
       "id": "M3_02_POOL_LAUNDRY",
       "shortId": "M3_02",
+      "narrativeProfile": "pool-laundry",
       "seed": 9003,
       "rows": 9,
       "columns": 7,
@@ -1475,6 +1478,7 @@
     {
       "id": "M3_03_ORDERED_APARTMENT",
       "shortId": "M3_03",
+      "narrativeProfile": "ordered-inspection",
       "seed": 9004,
       "rows": 9,
       "columns": 7,
@@ -1966,6 +1970,7 @@
     {
       "id": "M3_04_EMERGENCY_MEETING",
       "shortId": "M3_04",
+      "narrativeProfile": "laundry-cadence",
       "seed": 9005,
       "rows": 9,
       "columns": 7,
@@ -2463,6 +2468,7 @@
     {
       "id": "M3_05_BASKETBALL_LOCKERS",
       "shortId": "M3_05",
+      "narrativeProfile": "basketball-repair",
       "seed": 9006,
       "rows": 9,
       "columns": 7,
@@ -2962,6 +2968,7 @@
     {
       "id": "M3_06_TEXTILE_WORKSHOP",
       "shortId": "M3_06",
+      "narrativeProfile": "post-repair-seam",
       "seed": 9007,
       "rows": 9,
       "columns": 7,
@@ -3463,6 +3470,7 @@
     {
       "id": "M3_07_ASTERION_THREAD",
       "shortId": "M3_07",
+      "narrativeProfile": "asterion-thread",
       "seed": 9008,
       "rows": 9,
       "columns": 7,
@@ -3953,6 +3961,7 @@
     {
       "id": "M3_08_LOST_FOUND_LEDGER",
       "shortId": "M3_08",
+      "narrativeProfile": "missing-package-ranges",
       "seed": 9009,
       "rows": 9,
       "columns": 7,
@@ -4451,6 +4460,7 @@
     {
       "id": "M3_09_MAINTENANCE_KEYS",
       "shortId": "M3_09",
+      "narrativeProfile": "night-containers",
       "seed": 9010,
       "rows": 9,
       "columns": 7,
@@ -4956,6 +4966,7 @@
     {
       "id": "M3_10_CONTROL_SAMPLE_GEAR",
       "shortId": "M3_10",
+      "narrativeProfile": "control-sample-gear",
       "seed": 9011,
       "rows": 9,
       "columns": 7,
@@ -5454,6 +5465,7 @@
     {
       "id": "M3_11_ASTERION_TRANSFER",
       "shortId": "M3_11",
+      "narrativeProfile": "lab-transfer-chain",
       "seed": 9012,
       "rows": 9,
       "columns": 7,
@@ -5964,6 +5976,7 @@
     {
       "id": "M3_12_SECOND_SKIN_SIGNAL",
       "shortId": "M3_12",
+      "narrativeProfile": "second-skin-tag",
       "seed": 9013,
       "rows": 9,
       "columns": 7,
@@ -6479,6 +6492,7 @@
     {
       "id": "M3_13_KENDO_PILOT_LIST",
       "shortId": "M3_13",
+      "narrativeProfile": "pilot-participant-codes",
       "seed": 9014,
       "rows": 9,
       "columns": 7,
@@ -6977,6 +6991,7 @@
     {
       "id": "M3_14_KUBO_ATELIER_LEDGER",
       "shortId": "M3_14",
+      "narrativeProfile": "rina-pretheft-search",
       "seed": 9015,
       "rows": 9,
       "columns": 7,
@@ -7474,6 +7489,7 @@
     {
       "id": "M3_15_ABANDONED_LAUNDRY_ROUTE",
       "shortId": "M3_15",
+      "narrativeProfile": "consent-note-route",
       "seed": 9016,
       "rows": 9,
       "columns": 7,
@@ -7979,6 +7995,7 @@
     {
       "id": "M3_16_PINK_RIBBON_SCANNER",
       "shortId": "M3_16",
+      "narrativeProfile": "post-rina-activation",
       "seed": 9017,
       "rows": 9,
       "columns": 7,
@@ -8477,6 +8494,7 @@
     {
       "id": "M3_17_RINA_ARCHIVE_CATALOG",
       "shortId": "M3_17",
+      "narrativeProfile": "rina-catalog",
       "seed": 9018,
       "rows": 9,
       "columns": 7,
@@ -8976,6 +8994,7 @@
     {
       "id": "M3_18_FULL_TIMELINE_PROOF",
       "shortId": "M3_18",
+      "narrativeProfile": "continued-project-proof",
       "seed": 9019,
       "rows": 9,
       "columns": 7,
@@ -9474,6 +9493,7 @@
     {
       "id": "M3_19_PRIVATE_RETURN",
       "shortId": "M3_19",
+      "narrativeProfile": "private-return",
       "seed": 9020,
       "rows": 9,
       "columns": 7,
@@ -9972,6 +9992,7 @@
     {
       "id": "M3_20_SERVER_CONSENT_LOGS",
       "shortId": "M3_20",
+      "narrativeProfile": "server-consent-logs",
       "seed": 9021,
       "rows": 9,
       "columns": 7,
@@ -10470,6 +10491,7 @@
     {
       "id": "M3_21_CONVENIENT_CASE",
       "shortId": "M3_21",
+      "narrativeProfile": "convenient-case",
       "seed": 9022,
       "rows": 9,
       "columns": 7,

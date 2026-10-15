@@ -146,6 +146,10 @@ text = "Comedy visual novel × match-3"
 horizontal_alignment = 1
 autowrap_mode = 2
 
+[node name="HeroSpacer" type="Control" parent="Content"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+
 [node name="Hero" type="HBoxContainer" parent="Content"]
 custom_minimum_size = Vector2(0, 78)
 layout_mode = 2
@@ -260,7 +264,7 @@ layout_mode = 2
 text = "Settings"
 
 [node name="FooterSpacer" type="Control" parent="Content"]
-custom_minimum_size = Vector2(0, 11)
+custom_minimum_size = Vector2(0, 21)
 layout_mode = 2
 
 [node name="Footer" type="Label" parent="Content"]

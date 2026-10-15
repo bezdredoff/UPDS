@@ -13,6 +13,8 @@ var preferences: RefCounted
 var session: RefCounted
 var bundle: Dictionary
 var cards: VBoxContainer
+var summary_panel: PanelContainer
+var campaign_scroll: ScrollContainer
 var title: Label
 var eyebrow: Label
 var summary: Label
@@ -53,7 +55,9 @@ func _ready() -> void:
 	add_child(wash)
 	var header_panel := PanelContainer.new()
 	header_panel.anchor_right = 1
-	header_panel.offset_bottom = 58
+	# The shared web header's 44 px controls plus 7 px vertical padding and
+	# 2 px border occupy 60 px at the reference viewport.
+	header_panel.offset_bottom = 60
 	var header_style := StyleBoxFlat.new()
 	header_style.bg_color = Color("#17304df8")
 	header_style.border_color = Color("#d3b068")
@@ -85,7 +89,7 @@ func _ready() -> void:
 	settings_button.pressed.connect(func() -> void: settings_requested.emit())
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	margin.offset_top = 58
+	margin.offset_top = 60
 	for side in ["left", "right"]:
 		margin.add_theme_constant_override("margin_" + side, 14)
 	margin.add_theme_constant_override("margin_top", 14)
@@ -94,7 +98,7 @@ func _ready() -> void:
 	var content := VBoxContainer.new()
 	content.add_theme_constant_override("separation", 12)
 	margin.add_child(content)
-	var summary_panel := PanelContainer.new()
+	summary_panel = PanelContainer.new()
 	var summary_style := StyleBoxFlat.new()
 	summary_style.bg_color = Color("#fff9e9e8")
 	summary_style.border_color = Color("#cdbf9f")
@@ -102,8 +106,8 @@ func _ready() -> void:
 	summary_style.set_corner_radius_all(12)
 	summary_style.content_margin_left = 14
 	summary_style.content_margin_right = 14
-	summary_style.content_margin_top = 13
-	summary_style.content_margin_bottom = 13
+	summary_style.content_margin_top = 14
+	summary_style.content_margin_bottom = 14
 	summary_style.shadow_color = Color("#1b203624")
 	summary_style.shadow_size = 12
 	summary_style.shadow_offset = Vector2(0, 5)
@@ -118,14 +122,17 @@ func _ready() -> void:
 	progress.add_theme_font_override("font", _serif_font(800))
 	complete = _label(summary_content, 8, Color("#32716d"))
 	complete.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	var scroll := ScrollContainer.new()
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	content.add_child(scroll)
+	campaign_scroll = ScrollContainer.new()
+	campaign_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	campaign_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	# The source browser hides its platform scrollbar and gives the full content
+	# width to cards. Godot's visible scrollbar otherwise steals 8 px at 430 px.
+	campaign_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+	content.add_child(campaign_scroll)
 	cards = VBoxContainer.new()
 	cards.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	cards.add_theme_constant_override("separation", 9)
-	scroll.add_child(cards)
+	campaign_scroll.add_child(cards)
 	preferences.locale_changed.connect(func(_locale: String) -> void: refresh_screen())
 	refresh_screen()
 
@@ -144,7 +151,11 @@ func refresh_screen() -> void:
 	var levels: Array = bundle.levels
 	var completed: Array = session.save.completed
 	progress.text = _format(str(copy.progress), {"completed": completed.size(), "total": levels.size()})
-	complete.text = str(copy.complete) if completed.size() == levels.size() else ""
+	var campaign_complete := completed.size() == levels.size()
+	complete.text = str(copy.complete) if campaign_complete else ""
+	# Empty Labels still contribute a line-height to their VBoxContainer. The
+	# web view omits this status until all levels are complete.
+	complete.visible = campaign_complete
 	for child in cards.get_children():
 		cards.remove_child(child)
 		child.queue_free()
@@ -186,6 +197,9 @@ func refresh_screen() -> void:
 		var detail := _label(card_content, 10, Color("#675d68"))
 		detail.text = str(presentation.storyAction) if unlocked else ""
 		detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		# The source campaign copy uses 10px/1.35; tighten Godot's taller default
+		# multiline line boxes so two-line descriptions don't stretch the cards.
+		detail.add_theme_constant_override("line_spacing", -1)
 		var attempts := int(session.save.attempts.get(level_id, 0))
 		var status := str(copy.locked) if not unlocked else str(copy.completed) if done else str(copy.available)
 		var meta := HFlowContainer.new()

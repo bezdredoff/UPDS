@@ -354,6 +354,7 @@ func _layout_vn() -> void:
 	stage.offset_bottom = -(controls_height + dialogue_row_height)
 	dialogue.custom_minimum_size.y = 67.0
 	dialogue.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	dialogue.add_theme_font_size_override("normal_font_size", _dialogue_font_size())
 	progress.hide()
 	var paper := dialogue_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	paper.content_margin_top = 33
@@ -406,7 +407,7 @@ func _refresh() -> void:
 	var data: Dictionary = session.scene_data()
 	var locale: String = preferences.locale
 	var copy: Dictionary = line.localized[locale]
-	dialogue.add_theme_font_size_override("normal_font_size", 19 if _text_scale == "large" else 17)
+	dialogue.add_theme_font_size_override("normal_font_size", _dialogue_font_size())
 	if _dialogue_line_id != str(line.id) or _dialogue_locale != locale:
 		_dialogue_line_id = str(line.id)
 		_dialogue_locale = locale
@@ -826,8 +827,13 @@ func _update_dialogue_page() -> void:
 		dot.add_theme_stylebox_override("panel", dot_style)
 		dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		page_progress.add_child(dot)
+	var cue_gap := Control.new()
+	cue_gap.custom_minimum_size.x = 5.0
+	cue_gap.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	page_progress.add_child(cue_gap)
 	var prompt := _label(page_progress, 11)
 	prompt.text = "▼"
+	prompt.custom_minimum_size = Vector2(13, 18)
 	prompt.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	prompt.add_theme_color_override("font_color", Color("#6d665e"))
 	prompt.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -1108,41 +1114,44 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.z_index = 20
 	var dim := ColorRect.new()
+	dim.name = "OverlayBackdrop"
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	dim.color = Color(0.055, 0.063, 0.11, 0.72)
+	dim.material = _overlay_backdrop_material()
 	dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	overlay.add_child(dim)
 	var card := PanelContainer.new()
 	card.name = "OverlayCard"
 	card.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	card.anchor_left = 0.055
+	card.anchor_left = 0.028
 	var vertical_margin := (1.0 - height_ratio) * 0.5
 	card.anchor_top = vertical_margin
-	card.anchor_right = 0.945
+	card.anchor_right = 0.972
 	card.anchor_bottom = 1.0 - vertical_margin
 	var paper := StyleBoxFlat.new()
 	paper.bg_color = Color("#fff8e8")
-	paper.border_color = Color("#d9bd83")
+	paper.border_color = Color("#f3e8d2")
 	paper.set_border_width_all(2)
 	paper.set_corner_radius_all(18)
-	paper.content_margin_left = 14
-	paper.content_margin_right = 14
-	paper.content_margin_top = 12
-	paper.content_margin_bottom = 12
+	paper.shadow_color = Color("#05081680")
+	paper.shadow_size = 24
+	paper.shadow_offset = Vector2(0, 18)
 	card.add_theme_stylebox_override("panel", paper)
 	overlay.add_child(card)
 	var layout := VBoxContainer.new()
-	layout.add_theme_constant_override("separation", 8)
+	layout.name = "OverlayLayout"
+	layout.add_theme_constant_override("separation", 0)
 	card.add_child(layout)
 	var header_panel := PanelContainer.new()
-	header_panel.custom_minimum_size.y = 64
+	header_panel.name = "OverlayHeader"
+	header_panel.custom_minimum_size.y = 68
 	var header_style := StyleBoxFlat.new()
 	header_style.bg_color = Color("#1d3551")
-	header_style.set_corner_radius_all(12)
-	header_style.content_margin_left = 12
-	header_style.content_margin_right = 8
-	header_style.content_margin_top = 6
-	header_style.content_margin_bottom = 6
+	header_style.corner_radius_top_left = 16
+	header_style.corner_radius_top_right = 16
+	header_style.content_margin_left = 16
+	header_style.content_margin_right = 12
+	header_style.content_margin_top = 10
+	header_style.content_margin_bottom = 10
 	header_panel.add_theme_stylebox_override("panel", header_style)
 	layout.add_child(header_panel)
 	var header := HBoxContainer.new()
@@ -1156,14 +1165,22 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 	var eyebrow_label := _label(title_stack, 8)
 	eyebrow_label.text = eyebrow
 	eyebrow_label.add_theme_color_override("font_color", Color("#e9d5a7"))
+	var eyebrow_font := SystemFont.new()
+	eyebrow_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+	eyebrow_font.font_weight = 900
+	eyebrow_label.add_theme_font_override("font", eyebrow_font)
 	overlay_title = _label(title_stack, 20)
+	overlay_title.add_theme_font_size_override("font_size", 21)
 	overlay_title.text = heading
 	overlay_title.add_theme_color_override("font_color", Color("#fff9ea"))
+	var title_font := _serif_font()
+	title_font.font_weight = 800
+	overlay_title.add_theme_font_override("font", title_font)
 	var close := Button.new()
 	close.name = "CloseOverlay"
 	close.custom_minimum_size = Vector2(44, 44)
-	close.add_theme_stylebox_override("normal", _control_button_style(false))
-	close.add_theme_stylebox_override("hover", _control_button_style(true))
+	close.add_theme_stylebox_override("normal", _overlay_close_style(false))
+	close.add_theme_stylebox_override("hover", _overlay_close_style(true))
 	var close_icon := _icon_texture("close", 22)
 	close_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	close_icon.offset_left = 11
@@ -1174,10 +1191,9 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 	close.add_child(close_icon)
 	close.pressed.connect(_close_overlay)
 	header.add_child(close)
-	var separator := HSeparator.new()
-	layout.add_child(separator)
 	overlay_scroll = ScrollContainer.new()
 	overlay_scroll.name = "OverlayScroll"
+	overlay_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	overlay_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	overlay_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	layout.add_child(overlay_scroll)
@@ -1189,9 +1205,56 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 	close.grab_focus()
 
 
+func _overlay_backdrop_material() -> ShaderMaterial:
+	var shader := Shader.new()
+	shader.code = """
+shader_type canvas_item;
+uniform sampler2D screen_texture : hint_screen_texture, filter_linear;
+uniform float blur_radius_px = 6.0;
+uniform vec4 tint = vec4(0.063, 0.082, 0.176, 0.75);
+
+void fragment() {
+	vec2 blur = SCREEN_PIXEL_SIZE * blur_radius_px;
+	vec3 background = texture(screen_texture, SCREEN_UV).rgb * 0.227027;
+	background += texture(screen_texture, SCREEN_UV + vec2(blur.x, 0.0)).rgb * 0.158108;
+	background += texture(screen_texture, SCREEN_UV - vec2(blur.x, 0.0)).rgb * 0.158108;
+	background += texture(screen_texture, SCREEN_UV + vec2(0.0, blur.y)).rgb * 0.158108;
+	background += texture(screen_texture, SCREEN_UV - vec2(0.0, blur.y)).rgb * 0.158108;
+	background += texture(screen_texture, SCREEN_UV + blur).rgb * 0.035714;
+	background += texture(screen_texture, SCREEN_UV - blur).rgb * 0.035714;
+	background += texture(screen_texture, SCREEN_UV + vec2(blur.x, -blur.y)).rgb * 0.035714;
+	background += texture(screen_texture, SCREEN_UV + vec2(-blur.x, blur.y)).rgb * 0.035714;
+	COLOR = vec4(mix(background, tint.rgb, tint.a), 1.0);
+}
+"""
+	var backdrop_material := ShaderMaterial.new()
+	backdrop_material.shader = shader
+	return backdrop_material
+
+
+func _overlay_close_style(hovered: bool) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#5a345d") if hovered else Color("#4b294d")
+	style.border_color = Color("#f3e8d2")
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(10)
+	style.shadow_color = Color("#c9a45c")
+	style.shadow_size = 2
+	return style
+
+
 func _show_history() -> void:
 	_create_overlay(Copy.text("vn_history", preferences.locale), "CASE LOG")
 	overlay_body.add_theme_constant_override("separation", 0)
+	var history_padding := MarginContainer.new()
+	history_padding.name = "HistoryPadding"
+	history_padding.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for side in ["left", "right", "top", "bottom"]:
+		history_padding.add_theme_constant_override("margin_" + side, 12)
+	history_padding.add_theme_constant_override("margin_bottom", 16)
+	overlay_scroll.remove_child(overlay_body)
+	overlay_scroll.add_child(history_padding)
+	history_padding.add_child(overlay_body)
 	var history: Array = session.read_history()
 	var current: Dictionary = session.current_line()
 	if not current.is_empty() and not current.get("hidden", false):
@@ -1201,6 +1264,7 @@ func _show_history() -> void:
 	if history.is_empty():
 		var empty := _label(overlay_body, 14)
 		empty.text = Copy.text("vn_history_empty", preferences.locale)
+		_fit_overlay_to_content.call_deferred(0.88)
 		return
 	for index in range(history.size()):
 		var entry: Dictionary = history[index]
@@ -1232,6 +1296,10 @@ func _show_history() -> void:
 		speaker_label.add_theme_color_override("font_color", Color("#2b6f6c") if is_direction else Color("#2a4b76"))
 		var number_label := _label(line_header, 8)
 		number_label.text = "#%d" % (index + 1)
+		number_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+		number_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		number_label.size_flags_horizontal = Control.SIZE_SHRINK_END
+		number_label.custom_minimum_size.x = 20
 		number_label.add_theme_color_override("font_color", Color("#9b8665"))
 		var text_label := _label(row_content, 14)
 		text_label.text = localized.text
@@ -1245,6 +1313,28 @@ func _show_history() -> void:
 			divider_style.bg_color = Color("#dfcfae")
 			divider.add_theme_stylebox_override("panel", divider_style)
 			entry_body.add_child(divider)
+	_fit_overlay_to_content.call_deferred(0.88)
+
+
+func _fit_overlay_to_content(max_height_ratio: float) -> void:
+	if not is_instance_valid(overlay) or not is_instance_valid(overlay_scroll) or not is_instance_valid(overlay_body):
+		return
+	for _attempt in range(8):
+		await get_tree().process_frame
+		if overlay_scroll.size.x >= size.x * 0.8:
+			break
+	if not is_instance_valid(overlay) or not is_instance_valid(overlay_body):
+		return
+	var card := overlay.find_child("OverlayCard", true, false) as PanelContainer
+	if not is_instance_valid(card):
+		return
+	var desired_height := overlay_body.size.y + 100.0
+	var maximum_height := size.y * max_height_ratio
+	var target_height := minf(desired_height, maximum_height)
+	card.anchor_top = 0.5
+	card.anchor_bottom = 0.5
+	card.offset_top = -target_height * 0.5
+	card.offset_bottom = target_height * 0.5
 
 
 func _show_dossier() -> void:
@@ -1503,12 +1593,20 @@ func _select_text_scale(scale: String, relayout: bool = true) -> void:
 	_text_scale = scale
 	for key in config_text_buttons:
 		config_text_buttons[key].add_theme_stylebox_override("normal", _control_button_style(key == scale))
-	dialogue.add_theme_font_size_override("normal_font_size", 19 if scale == "large" else 17)
+	dialogue.add_theme_font_size_override("normal_font_size", _dialogue_font_size())
 	if relayout and is_instance_valid(overlay):
 		_dialogue_pages.clear()
 		_dialogue_page_index = 0
 		_refresh()
 		_show_config()
+
+
+func _dialogue_font_size() -> int:
+	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
+	# Godot's system-font fallback is slightly narrower at CSS-equivalent sizes.
+	if compact_width:
+		return 17 if _text_scale == "large" else 15
+	return 20 if _text_scale == "large" else 18
 
 
 func _audio_slider(parent: Node, key: String, label: String) -> void:
