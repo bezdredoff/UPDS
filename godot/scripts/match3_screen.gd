@@ -1018,7 +1018,7 @@ func _board_hud_spacing() -> float:
 	# UI A anchors its board toward the bottom of the playfield, leaving a
 	# deliberate gap after the HUD. A short responsive spacer shifts the Godot
 	# center-layout equivalent down without affecting the dialogue slot.
-	return clampf((size.y - 568.0) * 0.19, 0.0, 52.0)
+	return clampf((size.y - 568.0) * 0.19, 0.0, 48.0)
 
 
 func _fit_board_hud_spacing() -> void:

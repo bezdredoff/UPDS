@@ -164,7 +164,7 @@ func _run() -> void:
 	assert(match3.tutorial_overlay.z_index > 20 and match3.tutorial_overlay.z_index < 30,
 		"Tutorial overlay should cover elevated Match-3 tile art while staying beneath evidence and result overlays")
 	assert(is_equal_approx(match3.board_top_spacer.custom_minimum_size.y,
-		clampf((match3.size.y - 568.0) * 0.19, 0.0, 52.0)),
+		clampf((match3.size.y - 568.0) * 0.19, 0.0, 48.0)),
 		"Match-3 HUD-to-playfield gap did not update for the active viewport height")
 	assert(match3.tutorial_title.text == "Снимайте слои пакета", "Campaign tutorial copy did not use the localized concept")
 	var tutorial_card_rect: Rect2 = match3.tutorial_frame.get_global_rect()
@@ -249,6 +249,8 @@ func _run() -> void:
 		"UI A board should preserve its one-pixel cell gaps")
 	assert(absf(match3.board_frame.size.x / match3.board_frame.size.y - float(match3.board.columns) / float(match3.game.level_data.rows)) < 0.01,
 		"UI A board should preserve its authored columns-to-rows aspect ratio")
+	assert(is_equal_approx(match3._board_hud_spacing(), 48.0),
+		"Match-3 board should keep the calibrated 48px maximum HUD spacer on standard-height screens")
 	var rendered_cell_index := -1
 	for index in match3.game.tiles.size():
 		if not match3.game.tiles[index].is_empty():
