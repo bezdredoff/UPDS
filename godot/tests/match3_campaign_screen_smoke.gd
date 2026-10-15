@@ -94,6 +94,37 @@ func _run() -> void:
 	assert(match3.drag_target_index == match3._drag_neighbour(drag_source, "right"), "Drag preview did not react the adjacent cell at the source threshold")
 	assert(drag_source_stack.offset_left > 0.0 and drag_target_stack.offset_left < 0.0, "Drag preview did not move the source and neighboring tile stacks")
 	match3._clear_drag_preview()
+	var distant_cell := -1
+	var board_columns := int(match3.level_data.columns)
+	for candidate in match3.game.tiles.size():
+		if candidate == drag_source or match3.game.tiles[candidate].is_empty() or not match3.game._is_active(candidate): continue
+		var row_distance := absi(candidate / board_columns - drag_source / board_columns)
+		var column_distance := absi(candidate % board_columns - drag_source % board_columns)
+		if row_distance + column_distance > 1:
+			distant_cell = candidate
+			break
+	assert(distant_cell >= 0, "Match-3 board has no distant cell for non-adjacent input")
+	match3.selected_index = drag_source
+	match3._select_cell(distant_cell)
+	await process_frame
+	assert(match3.selected_index == distant_cell and match3.input_locked, "Non-adjacent tap should select the second cell while holding rejection feedback")
+	assert(match3.bark.text == MenuCopy.text("match3_bark_not_adjacent", "ru"), "Non-adjacent tap did not show the source bark")
+	assert(match3.match_feedback_panel.visible, "Non-adjacent tap did not show the reject feedback pill")
+	await create_timer(0.72).timeout
+	assert(not match3.input_locked and not match3.match_feedback_panel.visible and match3.last_feedback.is_empty(), "Non-adjacent feedback did not clear after the source hold duration")
+	match3.selected_index = -1
+	match3._render_board()
+	var rejection_target: int = match3._drag_neighbour(drag_source, "right")
+	match3.last_feedback = "no-match"
+	match3._play_move_frames({"valid": false, "reason": "no-match"}, drag_source, rejection_target)
+	await create_timer(0.05).timeout
+	var moving_rejected_stack: Control = match3.board.get_child(drag_source).get_node("TileStack")
+	assert(absf(moving_rejected_stack.offset_left) > 1.0, "No-match swap did not move the stack outward")
+	assert(not match3.match_feedback_panel.visible, "No-match reject feedback appeared before the outward swap finished")
+	await create_timer(0.12).timeout
+	assert(match3.match_feedback_panel.visible and match3.match_feedback_kind == "reject", "No-match feedback should appear after the outward swap animation")
+	await create_timer(1.2).timeout
+	assert(not match3.match_feedback_panel.visible and not match3.input_locked, "No-match reject feedback did not clear after the return and hold")
 	for locale in ["ru", "be", "en"]:
 		assert(menu.preferences.set_locale(locale) == OK)
 		assert(match3.guidance_labels[0].text == MenuCopy.text("match3_input_hint", locale), "Match-3 input guidance did not update for %s" % locale)

@@ -15,6 +15,7 @@ const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
 const SWAP_MOTION_SECONDS := 0.15
+const INVALID_HOLD_SECONDS := 0.70
 const CLEAR_MOTION_SECONDS := 0.28
 const SETTLE_MOTION_SECONDS := 0.32
 const RESHUFFLE_MOTION_SECONDS := 0.46
@@ -500,8 +501,19 @@ func _refresh() -> void:
 	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(locale, "MOVES")
 	var speaker: String
 	if game.state == "playing":
-		speaker = str(copy.startSpeaker)
-		bark.text = str(copy.noMatchBark) if not last_feedback.is_empty() else str(copy.startText)
+		var invalid_bark_keys := {
+			"not-adjacent": "match3_bark_not_adjacent",
+			"ingredient": "match3_bark_ingredient_invalid",
+			"blocked": "match3_bark_blocked_invalid",
+			"no-match": "match3_bark_no_match_invalid",
+		}
+		if invalid_bark_keys.has(last_feedback):
+			var is_miku: bool = last_feedback in ["not-adjacent", "ingredient"]
+			speaker = MenuCopy.text("character_miku" if is_miku else "character_onoe", locale)
+			bark.text = MenuCopy.text(str(invalid_bark_keys[last_feedback]), locale)
+		else:
+			speaker = str(copy.startSpeaker)
+			bark.text = str(copy.startText)
 	else:
 		speaker = str(copy.winSpeaker) if game.state == "won" else str(copy.loseSpeaker)
 		bark.text = str(copy.winText) if game.state == "won" else str(copy.loseText)
@@ -831,7 +843,7 @@ func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: flo
 	return CssMotion.cubic_bezier(progress, x1, y1, x2, y2)
 
 
-func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
+func _animate_swap(first: int, second: int, keep_at_target: bool) -> void:
 	if first == second or first < 0 or second < 0 or first >= board.get_child_count() or second >= board.get_child_count():
 		await get_tree().create_timer(SWAP_MOTION_SECONDS).timeout
 		return
@@ -840,7 +852,13 @@ func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
 	var first_stack := first_cell.get_node_or_null("TileStack") as Control
 	var second_stack := second_cell.get_node_or_null("TileStack") as Control
 	if first_stack == null or second_stack == null: return
-	var offset := second_cell.position - first_cell.position
+	var offset := second_cell.get_global_rect().position - first_cell.get_global_rect().position
+	if offset.is_zero_approx():
+		var columns := board.columns
+		var grid_delta := Vector2(second % columns - first % columns, second / columns - first / columns)
+		var cell_width := first_cell.size.x if first_cell.size.x > 0.0 else first_cell.custom_minimum_size.x
+		var cell_height := first_cell.size.y if first_cell.size.y > 0.0 else first_cell.custom_minimum_size.y
+		offset = Vector2(grid_delta.x * (cell_width + 3.0), grid_delta.y * (cell_height + 3.0))
 	first_stack.z_index = 8
 	second_stack.z_index = 8
 	var tween := create_tween()
@@ -848,25 +866,33 @@ func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
 	_tween_stack_offsets(tween, first_stack, offset, SWAP_MOTION_SECONDS)
 	_tween_stack_offsets(tween, second_stack, -offset, SWAP_MOTION_SECONDS)
 	await tween.finished
-	if return_to_start:
-		var rejected_cells: Array[int] = [first, second]
-		_shake_rejected_cells(rejected_cells)
-		var back := create_tween()
-		back.set_parallel(true)
-		_tween_stack_offsets(back, first_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
-		_tween_stack_offsets(back, second_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
-		await back.finished
-		await get_tree().create_timer(0.07).timeout
-	first_stack.offset_left = 0.0
-	first_stack.offset_top = 0.0
-	first_stack.offset_right = 0.0
-	first_stack.offset_bottom = 0.0
-	second_stack.offset_left = 0.0
-	second_stack.offset_top = 0.0
-	second_stack.offset_right = 0.0
-	second_stack.offset_bottom = 0.0
-	first_stack.z_index = 0
-	second_stack.z_index = 0
+	if keep_at_target: return
+	_reset_swap_stack(first_stack)
+	_reset_swap_stack(second_stack)
+
+
+func _return_rejected_swap(first: int, second: int) -> void:
+	if first < 0 or second < 0 or first >= board.get_child_count() or second >= board.get_child_count(): return
+	var first_stack := (board.get_child(first) as Control).get_node_or_null("TileStack") as Control
+	var second_stack := (board.get_child(second) as Control).get_node_or_null("TileStack") as Control
+	if first_stack == null or second_stack == null: return
+	var back := create_tween()
+	back.set_parallel(true)
+	_tween_stack_offsets(back, first_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
+	_tween_stack_offsets(back, second_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
+	_shake_rejected_cells([first, second])
+	await back.finished
+	await get_tree().create_timer(0.07).timeout
+	_reset_swap_stack(first_stack)
+	_reset_swap_stack(second_stack)
+
+
+func _reset_swap_stack(stack: Control) -> void:
+	stack.offset_left = 0.0
+	stack.offset_top = 0.0
+	stack.offset_right = 0.0
+	stack.offset_bottom = 0.0
+	stack.z_index = 0
 
 
 func _tween_stack_offsets(tween: Tween, stack: Control, target: Vector2, duration: float) -> void:
@@ -1402,13 +1428,14 @@ func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
 			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
 		_clear_match_feedback()
 	else:
-		_show_match_feedback("reject", 1, _invalid_feedback_key(str(result.get("reason", ""))))
-		if str(result.get("reason", "")) == "no-match":
+		var reason := str(result.get("reason", ""))
+		if reason == "no-match":
 			await _animate_swap(first, second, true)
-		else:
-			_shake_rejected_cells([first, second])
-		await get_tree().create_timer(0.70).timeout
+		_show_match_feedback("reject", 1, _invalid_feedback_key(reason))
+		if reason == "no-match": await _return_rejected_swap(first, second)
+		await get_tree().create_timer(INVALID_HOLD_SECONDS).timeout
 		_clear_match_feedback()
+		last_feedback = ""
 	_render_board()
 	input_locked = false
 
@@ -1476,6 +1503,18 @@ func _select_cell(index: int) -> void:
 	hinted_indices.clear()
 	last_tapped_special_index = -1
 	last_tapped_special_at = -1
+	if not result.valid and str(result.reason) == "not-adjacent":
+		selected_index = index
+		last_feedback = "not-adjacent"
+		input_locked = true
+		_refresh()
+		_show_match_feedback("reject", 1, _invalid_feedback_key("not-adjacent"))
+		await get_tree().create_timer(INVALID_HOLD_SECONDS).timeout
+		_clear_match_feedback()
+		last_feedback = ""
+		_refresh()
+		input_locked = false
+		return
 	if result.valid:
 		selected_index = -1
 		last_feedback = ""
@@ -1483,7 +1522,7 @@ func _select_cell(index: int) -> void:
 			session.complete_level(level_id, game.moves_left)
 			if not campaign_mode and story_session != null: story_session.complete_match3(level_id)
 	else:
-		selected_index = index
+		selected_index = -1
 		last_feedback = str(result.reason)
 	await _play_move_frames(result, first_index, index)
 	_record_tutorial_move(result)
