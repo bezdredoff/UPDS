@@ -712,6 +712,7 @@ func _render_board() -> void:
 		if not tile_asset.is_empty():
 			var tile := TextureRect.new()
 			tile.name = "Tile"
+			tile.z_index = 1
 			tile.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 			tile.offset_left = 0
 			tile.offset_top = 0
@@ -762,6 +763,7 @@ func _render_board() -> void:
 			if not blocker_asset.is_empty():
 				var blocker := TextureRect.new()
 				blocker.name = "Blocker"
+				blocker.z_index = 4
 				blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 				blocker.offset_left = 1
 				blocker.offset_top = 1
@@ -789,7 +791,7 @@ func _render_board() -> void:
 					locked_outline.offset_right = -1
 					locked_outline.offset_bottom = -1
 					locked_outline.mouse_filter = Control.MOUSE_FILTER_IGNORE
-					locked_outline.z_index = 2
+					locked_outline.z_index = 5
 					var locked_outline_style := StyleBoxFlat.new()
 					locked_outline_style.bg_color = Color(0, 0, 0, 0)
 					locked_outline_style.border_color = Color("#dfd5bd70")
@@ -812,6 +814,7 @@ func _render_board() -> void:
 					layer_badge.add_theme_constant_override("shadow_offset_x", 1)
 					layer_badge.add_theme_constant_override("shadow_offset_y", 1)
 					layer_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+					layer_badge.z_index = 5
 					tile_button.add_child(layer_badge)
 		if not game.ingredients[index].is_empty():
 			var ingredient_asset := str(campaign_bundle.assets.ingredients.get(game.ingredients[index], ""))
@@ -819,6 +822,7 @@ func _render_board() -> void:
 				var ingredient_texture: Texture2D = load("res://" + ingredient_asset.trim_prefix("./"))
 				var ingredient := TextureRect.new()
 				ingredient.name = "Ingredient"
+				ingredient.z_index = 3
 				ingredient.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 				ingredient.offset_left = 2
 				ingredient.offset_top = 2
@@ -852,6 +856,7 @@ func _render_board() -> void:
 				var special_texture: Texture2D = load("res://" + special_asset.trim_prefix("./"))
 				var special := TextureRect.new()
 				special.name = "Special"
+				special.z_index = 2
 				special.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 				# Keep the original web presentation: directional line specials fill
 				# their cell, while the three silhouette specials extend by 14%.
@@ -861,10 +866,11 @@ func _render_board() -> void:
 					special.offset_right = 0
 					special.offset_bottom = 0
 				else:
-					special.offset_left = -7
-					special.offset_top = -7
-					special.offset_right = 7
-					special.offset_bottom = 7
+					var special_bleed := cell_size * 0.14
+					special.offset_left = -special_bleed
+					special.offset_top = -special_bleed
+					special.offset_right = special_bleed
+					special.offset_bottom = special_bleed
 				special.texture = special_texture
 				special.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				special.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -875,6 +881,7 @@ func _render_board() -> void:
 				if special_kind == "flash-row" or special_kind == "flash-column":
 					var direction_marker := PanelContainer.new()
 					direction_marker.name = "SpecialDirectionMarker"
+					direction_marker.z_index = 3
 					direction_marker.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
 					direction_marker.offset_left = 1
 					direction_marker.offset_top = -16
@@ -1023,12 +1030,8 @@ func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, b
 func _match3_special_icon_material() -> ShaderMaterial:
 	if _special_icon_material_cache != null:
 		return _special_icon_material_cache
-	var material := _match3_drop_shadow_material(Color(0, 0, 0, 0), Vector2.ZERO, 0.0)
-	material.set_shader_parameter("glow_strength", 1.0)
-	material.set_shader_parameter("glow_white", Color(1, 1, 1, 0))
-	material.set_shader_parameter("glow_gold", Color("#fff0a8"))
-	material.set_shader_parameter("glow_gold_radius_px", 7.0)
-	material.set_shader_parameter("glow_aqua", Color(0.424, 0.886, 0.827, 0))
+	var material := _match3_drop_shadow_material(Color("#181426b8"), Vector2(0, 1), 2.0)
+	material.set_shader_parameter("glow_strength", 0.0)
 	_special_icon_material_cache = material
 	return _special_icon_material_cache
 

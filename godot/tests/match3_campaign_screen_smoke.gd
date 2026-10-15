@@ -140,6 +140,7 @@ func _run() -> void:
 	var normal_tile_material := normal_tile.material as ShaderMaterial
 	assert(normal_tile.offset_left == 0 and normal_tile.offset_top == 0
 		and normal_tile.scale.is_equal_approx(Vector2(1.08, 1.08))
+		and normal_tile.z_index == 1
 		and (normal_tile_material.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#071224b8"))
 		and (normal_tile_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2))
 		and is_equal_approx(normal_tile_material.get_shader_parameter("saturation"), 1.05),
@@ -169,7 +170,8 @@ func _run() -> void:
 	var solid_blocker_cell: Control = match3.board.get_child(visual_blocker_index)
 	var solid_stack: Control = solid_blocker_cell.get_node("TileStack")
 	var solid_overlay: TextureRect = solid_blocker_cell.get_node("Blocker")
-	assert(solid_stack.scale.is_equal_approx(Vector2(0.64, 0.64)) and is_equal_approx(solid_overlay.modulate.a, 0.84)
+	assert(solid_stack.scale.is_equal_approx(Vector2(0.64, 0.64)) and solid_overlay.z_index == 4
+		and is_equal_approx(solid_overlay.modulate.a, 0.84)
 		and solid_overlay.material == null,
 		"Solid bag blocker should shrink the retained tile stack and preserve the two-layer opacity")
 	match3.game.blocker_layers[visual_blocker_index] = 1
@@ -361,7 +363,9 @@ func _run() -> void:
 	var ingredient_cell: Control = match3.board.get_child(settle_index)
 	var ingredient_icon: TextureRect = ingredient_cell.get_node("TileStack/Ingredient")
 	var ingredient_material := ingredient_icon.material as ShaderMaterial
-	assert(ingredient_icon.anchor_right == 1.0 and ingredient_icon.anchor_bottom == 1.0 and ingredient_icon.offset_left == 2.0, "Production ingredient artwork did not preserve its 2px inset")
+	assert(ingredient_icon.anchor_right == 1.0 and ingredient_icon.anchor_bottom == 1.0
+		and ingredient_icon.offset_left == 2.0 and ingredient_icon.z_index == 3,
+		"Production ingredient artwork did not preserve its 2px inset and source z-layer")
 	assert(ingredient_material != null and is_equal_approx(ingredient_material.get_shader_parameter("glow_white_radius_px"), 7.0)
 		and (ingredient_material.get_shader_parameter("glow_white") as Color).is_equal_approx(Color("#fff2a0"))
 		and is_zero_approx((ingredient_material.get_shader_parameter("glow_gold") as Color).a)
@@ -483,12 +487,26 @@ func _run() -> void:
 	var resting_special_material := resting_special.material as ShaderMaterial
 	assert(is_equal_approx(resting_special.rotation_degrees, 0.0),
 		"Directional special art should keep its authored CSS orientation")
-	assert(is_equal_approx(resting_special_material.get_shader_parameter("glow_gold_radius_px"), 7.0)
-		and is_equal_approx((resting_special_material.get_shader_parameter("glow_white") as Color).a, 0.0)
-		and is_equal_approx((resting_special_material.get_shader_parameter("glow_aqua") as Color).a, 0.0),
-		"Resting special artwork should keep only its source seven-pixel gold glow")
+	assert(resting_special.z_index == 2 and resting_direction.z_index == 3
+		and is_equal_approx(resting_special_material.get_shader_parameter("shadow_blur_px"), 2.0)
+		and (resting_special_material.get_shader_parameter("shadow_color") as Color).to_html(false) == Color("#181426b8").to_html(false)
+		and (resting_special_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 1))
+		and is_zero_approx(resting_special_material.get_shader_parameter("glow_strength")),
+		"Resting specials should match the source dark 1px/2px shadow and z-layer")
 	assert(resting_direction.get_child(0).get_theme_font_size("font_size") == 13,
 		"Directional special marker should preserve the source 13px glyph size")
+	match3.game.specials = saved_specials
+	var oversized_specials: Array[String] = saved_specials.duplicate()
+	oversized_specials[special_index] = "insight"
+	match3.game.specials = oversized_specials
+	match3._render_board()
+	var oversized_special: TextureRect = match3.board.get_child(special_index).get_node("TileStack/Special")
+	var bleed: float = match3._board_cell_size() * 0.14
+	assert(is_equal_approx(oversized_special.offset_left, -bleed)
+		and is_equal_approx(oversized_special.offset_top, -bleed)
+		and is_equal_approx(oversized_special.offset_right, bleed)
+		and is_equal_approx(oversized_special.offset_bottom, bleed),
+		"Insight and lead silhouettes should extend by 14% of the responsive cell size, matching CSS")
 	match3.game.specials = saved_specials
 	match3._render_board()
 	match3._render_frame({
@@ -530,8 +548,9 @@ func _run() -> void:
 	var direction_marker: PanelContainer = special_stack.get_node("SpecialDirectionMarker")
 	assert(is_equal_approx(special_icon.rotation_degrees, -8.0), "Flash Row activation did not start from the source impact keyframe")
 	assert(direction_marker.get_child(0).text == "↔" and special_shadow != null
-		and is_equal_approx(special_shadow.get_shader_parameter("shadow_blur_px"), 0.0)
-		and is_equal_approx((special_shadow.get_shader_parameter("shadow_color") as Color).a, 0.0)
+		and is_equal_approx(special_shadow.get_shader_parameter("shadow_blur_px"), 2.0)
+		and (special_shadow.get_shader_parameter("shadow_color") as Color).to_html(false) == Color("#181426b8").to_html(false)
+		and (special_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 1))
 		and is_equal_approx(special_shadow.get_shader_parameter("glow_strength"), 1.0)
 		and (special_shadow.get_shader_parameter("glow_gold") as Color).to_html(false) == Color("#fff0a8").to_html(false)
 		and is_equal_approx(special_shadow.get_shader_parameter("glow_white_radius_px"), 5.0)
