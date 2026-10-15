@@ -354,6 +354,7 @@ func _layout_vn() -> void:
 	stage.offset_bottom = -(controls_height + dialogue_row_height)
 	dialogue.custom_minimum_size.y = 67.0
 	dialogue.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	dialogue.add_theme_font_size_override("normal_font_size", _dialogue_font_size())
 	progress.hide()
 	var paper := dialogue_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	paper.content_margin_top = 33
@@ -406,7 +407,7 @@ func _refresh() -> void:
 	var data: Dictionary = session.scene_data()
 	var locale: String = preferences.locale
 	var copy: Dictionary = line.localized[locale]
-	dialogue.add_theme_font_size_override("normal_font_size", 19 if _text_scale == "large" else 17)
+	dialogue.add_theme_font_size_override("normal_font_size", _dialogue_font_size())
 	if _dialogue_line_id != str(line.id) or _dialogue_locale != locale:
 		_dialogue_line_id = str(line.id)
 		_dialogue_locale = locale
@@ -826,8 +827,13 @@ func _update_dialogue_page() -> void:
 		dot.add_theme_stylebox_override("panel", dot_style)
 		dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		page_progress.add_child(dot)
+	var cue_gap := Control.new()
+	cue_gap.custom_minimum_size.x = 5.0
+	cue_gap.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	page_progress.add_child(cue_gap)
 	var prompt := _label(page_progress, 11)
 	prompt.text = "▼"
+	prompt.custom_minimum_size = Vector2(13, 18)
 	prompt.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	prompt.add_theme_color_override("font_color", Color("#6d665e"))
 	prompt.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -1587,12 +1593,20 @@ func _select_text_scale(scale: String, relayout: bool = true) -> void:
 	_text_scale = scale
 	for key in config_text_buttons:
 		config_text_buttons[key].add_theme_stylebox_override("normal", _control_button_style(key == scale))
-	dialogue.add_theme_font_size_override("normal_font_size", 19 if scale == "large" else 17)
+	dialogue.add_theme_font_size_override("normal_font_size", _dialogue_font_size())
 	if relayout and is_instance_valid(overlay):
 		_dialogue_pages.clear()
 		_dialogue_page_index = 0
 		_refresh()
 		_show_config()
+
+
+func _dialogue_font_size() -> int:
+	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
+	# Godot's system-font fallback is slightly narrower at CSS-equivalent sizes.
+	if compact_width:
+		return 17 if _text_scale == "large" else 15
+	return 20 if _text_scale == "large" else 18
 
 
 func _audio_slider(parent: Node, key: String, label: String) -> void:
