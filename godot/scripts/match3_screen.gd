@@ -578,6 +578,8 @@ func _render_board() -> void:
 		tile_button.custom_minimum_size = Vector2(54, 54)
 		tile_button.pivot_offset = tile_button.custom_minimum_size * 0.5
 		tile_button.clip_contents = false
+		if index == selected_index:
+			tile_button.z_index = 5
 		tile_button.focus_mode = Control.FOCUS_NONE
 		var cell_style := StyleBoxFlat.new()
 		cell_style.bg_color = Color("#2e4266")
@@ -625,11 +627,15 @@ func _render_board() -> void:
 			tile.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			tile_stack.add_child(tile)
-		var tile_tint := Color(1.25, 1.25, 1, 1) if index == selected_index else Color.WHITE
-		tile_stack.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else tile_tint
+		tile_stack.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else Color.WHITE
 		tile_button.disabled = game.state != "playing" or tutorial_panel.visible or game.tiles[index].is_empty() or game.blocker_layers[index] > 0
 		tile_button.pressed.connect(_select_cell.bind(index))
 		tile_button.add_child(tile_stack)
+		if index == selected_index:
+			var selected_tween := tile_button.create_tween()
+			var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
+			selected_tween.tween_property(tile_button, "scale", Vector2(0.9, 0.9), 0.12).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+			selected_tween.parallel().tween_property(tile_button, "modulate", Color(1.18, 1.18, 1.18, 1.0), 0.12).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 		if hinted_indices.has(index):
 			tile_button.pivot_offset = Vector2(27, 27)
 			var hint_tween := tile_button.create_tween().set_loops()

@@ -108,6 +108,13 @@ func _run() -> void:
 	match3._select_cell(distant_cell)
 	await process_frame
 	assert(match3.selected_index == distant_cell and match3.input_locked, "Non-adjacent tap should select the second cell while holding rejection feedback")
+	await create_timer(0.15).timeout
+	var selected_cell: Control = match3.board.get_child(distant_cell)
+	assert(absf(selected_cell.scale.x - 0.9) < 0.01 and selected_cell.z_index == 5,
+		"Selected cell should use the source 0.9 scale and raised stacking order")
+	assert(absf(selected_cell.modulate.r - 1.18) < 0.01 and absf(selected_cell.modulate.g - 1.18) < 0.01
+		and absf(selected_cell.modulate.b - 1.18) < 0.01,
+		"Selected cell should brighten the whole cell neutrally like CSS brightness(1.18)")
 	assert(match3.bark.text == MenuCopy.text("match3_bark_not_adjacent", "ru"), "Non-adjacent tap did not show the source bark")
 	assert(match3.match_feedback_panel.visible, "Non-adjacent tap did not show the reject feedback pill")
 	await create_timer(0.82).timeout
