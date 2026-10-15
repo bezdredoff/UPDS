@@ -71,6 +71,9 @@ func _run() -> void:
 	var screen: Control = menu.get_node("StoryScreen")
 	assert(absf(screen.size.x - 430.0) < 1.0, "Story screens must share the web phone frame width")
 	assert(not screen.stage.clip_contents, "Authored characters must continue behind the VN dialogue panel")
+	assert(is_equal_approx(screen.stage.position.y, 60.0)
+		and is_equal_approx(screen.stage.get_global_rect().end.y, screen.dialogue_panel.position.y - 10.0),
+		"VN stage geometry should follow the source header and dialogue grid rows")
 	assert(screen.background_rect.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		and screen.background_fill.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		and screen.background_fill.material != null,
@@ -82,6 +85,23 @@ func _run() -> void:
 	assert(menu.audio_runtime.music.stream.get_length() > 12.6 and menu.audio_runtime.music.stream.get_length() < 12.7)
 	assert(screen.stage.get_child_count() == 1)
 	var idle_portrait: TextureRect = screen.stage.get_child(0)
+	var resting_portrait_rect := idle_portrait.get_global_rect()
+	assert(screen.stage.z_index + idle_portrait.z_index < screen.dialogue_panel.z_index
+		and screen.dialogue_panel.z_index < screen.controls_panel.z_index,
+		"VN art should sit behind the dialogue card and controls, matching the source z-order")
+	assert(absf(resting_portrait_rect.get_center().x - screen.stage.get_global_rect().get_center().x) < 1.0
+		and absf(resting_portrait_rect.size.x / resting_portrait_rect.size.y - 2.0 / 3.0) < 0.01,
+		"Centered VN portraits should preserve the source center anchor and 1024x1536 frame ratio")
+	assert(screen.dialogue.size.y >= 67.0,
+		"The dialogue text must receive enough layout height to remain visible in its panel")
+	assert(is_equal_approx(screen.dialogue.global_position.y, screen.dialogue_panel.position.y + 45.0),
+		"The VN dialogue text should match the source card's top inset")
+	var portrait_shadow := idle_portrait.material as ShaderMaterial
+	assert(portrait_shadow != null
+		and (portrait_shadow.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#10162b59"))
+		and (portrait_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0.0, 12.0))
+		and is_equal_approx(portrait_shadow.get_shader_parameter("shadow_blur_px"), 12.0),
+		"VN character portrait did not preserve the source drop shadow treatment")
 	assert(idle_portrait.get_global_rect().end.y > screen.dialogue_panel.position.y,
 		"The portrait must continue underneath the overlayed VN dialogue card")
 	assert(screen._portrait_should_breathe("./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"),
@@ -92,12 +112,19 @@ func _run() -> void:
 		"Rig portrait idle motion should use the source CSS ease-in-out curve")
 	assert(not screen._portrait_should_breathe("./assets/characters/ayuki/poses/pose_b_phone_theory.png"),
 		"Authored prop poses should remain still like the source static portrait wrapper")
-	assert(screen.nameplate.size.x >= 180.0 and screen.nameplate.size.x < screen.dialogue_panel.size.x,
+	assert(screen.nameplate.size.x >= 128.0 and screen.nameplate.size.x < screen.dialogue_panel.size.x,
 		"The dialogue nameplate must keep its compact horizontal shape")
+	assert(not screen.next_button.visible and screen.page_progress.visible,
+		"VN advance should use the source dialogue card affordance instead of an extra button")
 	var resting_position := idle_portrait.position
+	var resting_size := idle_portrait.size
+	var resting_center_x := idle_portrait.get_global_rect().get_center().x
 	await create_timer(0.8).timeout
 	assert(absf(idle_portrait.position.y - resting_position.y) > 0.1,
 		"The production idle-breathe motion must move the authored VN portrait")
+	assert(absf(idle_portrait.get_global_rect().get_center().x - resting_center_x) < 0.1
+		and idle_portrait.size.is_equal_approx(resting_size),
+		"Idle-breathe should translate only the portrait vertically without shifting or resizing it")
 	await _vn_reading_controls(menu)
 	for locale in ["ru", "be", "en"]:
 		assert(menu.preferences.set_locale(locale) == OK)
@@ -252,6 +279,14 @@ func _run() -> void:
 	var clue_toast := screen.stage.find_child("ClueToast", true, false) as PanelContainer
 	assert(clue_toast != null and clue_toast.visible, "Returning from an earned clue did not show the animated VN toast")
 	assert((clue_toast.find_child("ClueImage", true, false) as TextureRect).texture != null, "VN clue toast did not render its evidence art")
+	assert(clue_toast.modulate.a < 1.0 and clue_toast.offset_top < 8.0,
+		"Clue toast should begin faded and 8px above its final CSS position")
+	var clue_enter_wait := 0.0
+	while (clue_toast.modulate.a < 0.99 or absf(clue_toast.offset_top - 8.0) > 0.1) and clue_enter_wait < 1.0:
+		await create_timer(0.05).timeout
+		clue_enter_wait += 0.05
+	assert(absf(clue_toast.modulate.a - 1.0) <= 0.01 and absf(clue_toast.offset_top - 8.0) <= 0.1,
+		"Clue toast should finish at the source 8px top position and full opacity")
 	assert(screen.speaker.text == PostMatchScene.data.lines[1].localized.en.speaker)
 	assert(session.current_line().id == "VN0059")
 	assert(screen.dialogue.text == PostMatchScene.data.lines[1].localized.en.text)
@@ -862,6 +897,18 @@ func _vn_reading_controls(menu: Control) -> void:
 		"VN speaker nameplate should overlap the dialogue card's top edge like the source")
 	assert(screen._dialogue_pages.size() > 1 and screen.page_progress.get_child_count() == screen._dialogue_pages.size() + 1,
 		"Long dialogue must show one progress dot per page and the animated advance cue")
+	var advance_cue: Label = screen.page_progress.get_child(screen.page_progress.get_child_count() - 1)
+	assert(advance_cue.text == "▼" and advance_cue.pivot_offset == Vector2.ZERO,
+		"The source advance cue should be a non-scaling down-arrow")
+	await create_timer(0.56).timeout
+	assert(absf(advance_cue.offset_top - 3.0) < 0.5 and absf(advance_cue.modulate.a - 0.45) < 0.08,
+		"Advance cue should reach the source 3px down and 0.45 opacity midpoint")
+	var return_wait := 0.0
+	while (absf(advance_cue.offset_top) > 0.1 or absf(advance_cue.modulate.a - 1.0) > 0.02) and return_wait < 2.0:
+		await create_timer(0.05).timeout
+		return_wait += 0.05
+	assert(absf(advance_cue.offset_top) <= 0.1 and absf(advance_cue.modulate.a - 1.0) <= 0.02,
+		"Advance cue should return to its source position and opacity")
 	screen.next_button.pressed.emit()
 	assert(screen._dialogue_page_index == 1 and session.current_line().id == "VN0003")
 	screen.auto_button.pressed.emit()
@@ -893,6 +940,13 @@ func _vn_reading_controls(menu: Control) -> void:
 	screen.history_button.pressed.emit()
 	assert(screen.overlay_title.text == Copy.text("vn_history", menu.preferences.locale))
 	assert(screen.overlay_body.get_child_count() >= 3, "Dialogue history should include read lines and the current line")
+	var first_history_entry: VBoxContainer = screen.overlay_body.get_child(0)
+	var first_row_margin: MarginContainer = first_history_entry.get_child(0)
+	var first_row_content: VBoxContainer = first_row_margin.get_child(0)
+	assert(first_row_content.get_child(0).is_class("HBoxContainer"),
+		"Dialogue history rows should have a flat transcript header")
+	assert(first_row_content.get_child(0).get_child(1).text == "#1",
+		"Dialogue history rows should keep the source transcript sequence numbers")
 	screen._close_overlay()
 	screen.settings_button.pressed.emit()
 	assert(screen.overlay.find_child("Audio_musicVolume", true, false) != null)

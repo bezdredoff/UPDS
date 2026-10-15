@@ -13,6 +13,10 @@ const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
 const Match3CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
+const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
+const ReducedMotion = preload("res://scripts/reduced_motion.gd")
+
+static var _portrait_shadow_material_cache: ShaderMaterial
 
 var session: RefCounted
 var preferences: RefCounted
@@ -83,6 +87,7 @@ var config_text_buttons: Dictionary = {}
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	PhoneFrame.fit(self)
+	resized.connect(_layout_vn)
 	visibility_changed.connect(_on_visibility_changed)
 	background_fill = TextureRect.new()
 	background_fill.name = "BackgroundFill"
@@ -103,14 +108,16 @@ func _ready() -> void:
 	stage = Control.new()
 	stage.name = "Stage"
 	stage.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	stage.anchor_top = 0.12
-	stage.anchor_bottom = 0.60
+	stage.anchor_top = 0.0
+	stage.offset_top = 60.0
 	# Authored character frames extend below the stage into the transparent dialogue overlay.
 	stage.clip_contents = false
 	stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stage.z_index = 2
 	add_child(stage)
 	var header_background := PanelContainer.new()
 	header_background.name = "HeaderBackground"
+	header_background.z_index = 24
 	header_background.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	header_background.offset_bottom = 60
 	var header_style := StyleBoxFlat.new()
@@ -121,6 +128,7 @@ func _ready() -> void:
 	header_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(header_background)
 	var header := HBoxContainer.new()
+	header.z_index = 24
 	header.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	header.offset_left = 8
 	header.offset_right = -8
@@ -142,17 +150,29 @@ func _ready() -> void:
 	case_row.add_theme_constant_override("separation", 6)
 	case_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	case_button.add_child(case_row)
+	var case_copy_margin := MarginContainer.new()
+	case_copy_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	case_copy_margin.add_theme_constant_override("margin_left", 11)
+	case_row.add_child(case_copy_margin)
 	var case_copy := VBoxContainer.new()
 	case_copy.alignment = BoxContainer.ALIGNMENT_CENTER
 	case_copy.add_theme_constant_override("separation", 0)
 	case_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	case_copy.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	case_row.add_child(case_copy)
+	case_copy_margin.add_child(case_copy)
 	case_label = _label(case_copy, 8)
 	case_label.add_theme_color_override("font_color", Color("#e9d5a7"))
+	var case_label_font := SystemFont.new()
+	case_label_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+	case_label_font.font_weight = 950
+	case_label.add_theme_font_override("font", case_label_font)
 	title = _label(case_copy, 11)
-	title.add_theme_font_size_override("font_size", 12)
+	title.add_theme_font_size_override("font_size", 10)
 	title.add_theme_color_override("font_color", Color("#fff9ea"))
+	var case_title_font := SystemFont.new()
+	case_title_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+	case_title_font.font_weight = 800
+	title.add_theme_font_override("font", case_title_font)
 	var dossier_icon := _icon_texture("dossier", 22)
 	dossier_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	case_row.add_child(dossier_icon)
@@ -173,6 +193,7 @@ func _ready() -> void:
 	settings_button = _header_icon_button(header, "settings", Copy.text("settings", preferences.locale))
 	settings_button.pressed.connect(_show_config)
 	dialogue_panel = PanelContainer.new()
+	dialogue_panel.z_index = 8
 	dialogue_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	dialogue_panel.anchor_top = 0.70
 	dialogue_panel.anchor_bottom = 1.0
@@ -186,8 +207,8 @@ func _ready() -> void:
 	paper.set_corner_radius_all(18)
 	paper.content_margin_left = 20
 	paper.content_margin_right = 20
-	paper.content_margin_top = 55
-	paper.content_margin_bottom = 16
+	paper.content_margin_top = 33
+	paper.content_margin_bottom = 25
 	dialogue_panel.add_theme_stylebox_override("panel", paper)
 	add_child(dialogue_panel)
 	var content := VBoxContainer.new()
@@ -195,6 +216,7 @@ func _ready() -> void:
 	dialogue_panel.add_child(content)
 	nameplate = PanelContainer.new()
 	nameplate.name = "Nameplate"
+	nameplate.z_index = 12
 	nameplate.custom_minimum_size = Vector2(200.0, 38.0)
 	nameplate.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	nameplate.anchor_top = 0.70
@@ -221,10 +243,18 @@ func _ready() -> void:
 	speaker.autowrap_mode = TextServer.AUTOWRAP_OFF
 	speaker.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	speaker.add_theme_color_override("font_color", Color("#fff9ea"))
+	var speaker_font := SystemFont.new()
+	speaker_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+	speaker_font.font_weight = 900
+	speaker.add_theme_font_override("font", speaker_font)
 	emotion = _label(nameplate_row, 8)
 	emotion.autowrap_mode = TextServer.AUTOWRAP_OFF
 	emotion.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	emotion.add_theme_color_override("font_color", Color("#e9d5a7"))
+	var emotion_font := SystemFont.new()
+	emotion_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+	emotion_font.font_weight = 700
+	emotion.add_theme_font_override("font", emotion_font)
 	add_child(nameplate)
 	choice_box = VBoxContainer.new()
 	choice_box.name = "ChoiceBox"
@@ -244,10 +274,17 @@ func _ready() -> void:
 	dialogue.add_theme_font_override("normal_font", dialogue_serif)
 	dialogue.add_theme_font_size_override("normal_font_size", 17)
 	dialogue.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	dialogue.selection_enabled = true
 	dialogue.scroll_active = false
 	dialogue.scroll_following = false
-	content.add_child(dialogue)
+	var dialogue_stack := VBoxContainer.new()
+	dialogue_stack.add_theme_constant_override("separation", 0)
+	dialogue_stack.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	var dialogue_top_padding := Control.new()
+	dialogue_top_padding.custom_minimum_size.y = 12.0
+	dialogue_top_padding.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	dialogue_stack.add_child(dialogue_top_padding)
+	dialogue_stack.add_child(dialogue)
+	content.add_child(dialogue_stack)
 	warning = _label(content, 13)
 	warning.add_theme_color_override("font_color", Color("#ac3f59"))
 	boundary = _label(content, 13)
@@ -257,19 +294,38 @@ func _ready() -> void:
 	progress.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	page_progress = HBoxContainer.new()
 	page_progress.name = "DialogueProgress"
-	page_progress.custom_minimum_size.x = 38.0
+	page_progress.custom_minimum_size = Vector2(52.0, 18.0)
 	page_progress.size_flags_horizontal = Control.SIZE_SHRINK_END
 	page_progress.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	page_progress.alignment = BoxContainer.ALIGNMENT_CENTER
+	page_progress.alignment = BoxContainer.ALIGNMENT_END
 	page_progress.add_theme_constant_override("separation", 4)
 	footer.add_child(page_progress)
+	footer.remove_child(page_progress)
+	add_child(page_progress)
+	page_progress.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
+	page_progress.offset_left = -80
+	page_progress.offset_right = -28
+	page_progress.offset_top = -95
+	page_progress.offset_bottom = -77
+	page_progress.z_index = 10
+	page_progress.mouse_filter = Control.MOUSE_FILTER_STOP
+	page_progress.focus_mode = Control.FOCUS_ALL
+	page_progress.gui_input.connect(_on_dialogue_gui_input)
 	next_button = _button(footer)
 	next_button.pressed.connect(_next)
+	next_button.focus_mode = Control.FOCUS_NONE
+	footer.hide()
+	dialogue.focus_mode = Control.FOCUS_NONE
+	dialogue.selection_enabled = false
+	dialogue.gui_input.connect(_on_dialogue_gui_input)
+	dialogue_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	dialogue_panel.gui_input.connect(_on_dialogue_gui_input)
 	_build_controls()
 	_build_ending_panel()
 	session.changed.connect(_refresh)
 	preferences.locale_changed.connect(func(_locale: String) -> void: _refresh())
 	_refresh()
+	set_process_unhandled_key_input(true)
 	if not session.ending_result().is_empty():
 		ending_menu_button.grab_focus()
 	elif session.at_match3_gate():
@@ -277,7 +333,58 @@ func _ready() -> void:
 	elif session.at_choice_gate():
 		choice_buttons[0].grab_focus()
 	else:
-		next_button.grab_focus()
+		page_progress.grab_focus()
+	_layout_vn()
+
+
+func _layout_vn() -> void:
+	if dialogue_panel == null or nameplate == null or controls_panel == null:
+		return
+	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 430.0
+	var tiny_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
+	var compact_height := size.y <= 760.0
+	var controls_min_height := 60.0 if tiny_width else 63.0
+	var controls_height := maxf(clampf(size.y * 0.09, 60.0, 82.0), controls_min_height)
+	var dialogue_row_height := clampf(size.y * 0.22, 154.0, 198.0)
+	dialogue_panel.anchor_top = 1.0
+	dialogue_panel.anchor_bottom = 1.0
+	dialogue_panel.offset_top = -(controls_height + dialogue_row_height - 10.0)
+	dialogue_panel.offset_bottom = -(controls_height + 7.0)
+	stage.anchor_bottom = 1.0
+	stage.offset_bottom = -(controls_height + dialogue_row_height)
+	dialogue.custom_minimum_size.y = 67.0
+	dialogue.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	progress.hide()
+	var paper := dialogue_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	paper.content_margin_top = 33
+	paper.content_margin_bottom = 25
+	nameplate.offset_left = 32
+	nameplate.offset_right = 164 if compact_width else 232
+	nameplate.anchor_top = 1.0
+	nameplate.anchor_bottom = 1.0
+	nameplate.offset_top = -(controls_height + dialogue_row_height + (17.0 if compact_height else 19.0))
+	nameplate.offset_bottom = nameplate.offset_top + 38.0
+	nameplate.custom_minimum_size = Vector2(128.0, 34.0) if compact_width else Vector2(200.0, 38.0)
+	speaker.add_theme_font_size_override("font_size", 11 if compact_width else 13)
+	emotion.add_theme_font_size_override("font_size", 7 if compact_width else 8)
+	var row := controls_panel.get_child(0) as HBoxContainer
+	row.add_theme_constant_override("separation", 4 if tiny_width else 7)
+	controls_panel.offset_top = -controls_height
+	var strip := controls_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	strip.content_margin_top = 4 if tiny_width else 6
+	strip.content_margin_bottom = 4 if tiny_width else 6
+	page_progress.offset_left = -80
+	page_progress.offset_right = -28
+	page_progress.offset_bottom = controls_panel.offset_top - 19.0
+	page_progress.offset_top = page_progress.offset_bottom - 18.0
+	for button in row.get_children():
+		var control_button := button as Button
+		control_button.custom_minimum_size.y = 46 if tiny_width else 50
+		var stack := control_button.get_child(0) as VBoxContainer
+		var icon := stack.get_child(0) as TextureRect
+		icon.custom_minimum_size = Vector2(18.0, 18.0) if tiny_width else Vector2(22.0, 22.0)
+		var caption := stack.get_child(1) as Label
+		caption.add_theme_font_size_override("font_size", 7 if tiny_width else 8)
 
 
 func _refresh() -> void:
@@ -332,9 +439,9 @@ func _refresh() -> void:
 	choice_box.visible = choosing
 	nameplate.visible = not choosing and not _boundary
 	dialogue.visible = not choosing and not _boundary
-	next_button.visible = not choosing
+	next_button.hide()
 	next_button.disabled = _boundary
-	page_progress.visible = _dialogue_pages.size() > 1 and not choosing and not _boundary
+	page_progress.visible = not choosing and not _boundary
 	skip_button.disabled = _boundary or choosing or not session.state.readLines.has(str(line.id))
 	auto_button.disabled = _boundary or choosing
 	auto_button.add_theme_stylebox_override("normal", _control_button_style(_auto_mode))
@@ -367,6 +474,7 @@ func _refresh() -> void:
 		portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		portrait.z_index = int(actor.z)
+		portrait.material = _portrait_drop_shadow_material()
 		var height: float = float(actor.height) * float(actor.scale) / 100.0
 		portrait.anchor_left = float(actor.x) / 100.0
 		portrait.anchor_right = portrait.anchor_left
@@ -393,6 +501,18 @@ func _portrait_width(portrait: TextureRect) -> void:
 	portrait.offset_right = width / 2.0
 
 
+func _portrait_drop_shadow_material() -> ShaderMaterial:
+	if _portrait_shadow_material_cache != null:
+		return _portrait_shadow_material_cache
+	var material := ShaderMaterial.new()
+	material.shader = Match3DropShadow
+	material.set_shader_parameter("shadow_color", Color("#10162b59"))
+	material.set_shader_parameter("shadow_offset_px", Vector2(0.0, 12.0))
+	material.set_shader_parameter("shadow_blur_px", 12.0)
+	_portrait_shadow_material_cache = material
+	return material
+
+
 func _portrait_should_breathe(asset_path: String) -> bool:
 	return not asset_path.contains("/poses/pose_b_")
 
@@ -415,8 +535,9 @@ func _add_clue_toast(clue_id: String, locale: String) -> void:
 		toast.anchor_bottom = 0
 		toast.offset_left = 14
 		toast.offset_right = -14
-		toast.offset_top = 0
-		toast.offset_bottom = 62
+		toast.offset_top = -8
+		toast.offset_bottom = 54
+		toast.modulate.a = 0.0
 		toast.z_index = 8
 		toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var style := StyleBoxFlat.new()
@@ -460,11 +581,17 @@ func _add_clue_toast(clue_id: String, locale: String) -> void:
 		clue_font.font_weight = 700
 		clue_title.add_theme_font_override("font", clue_font)
 		stage.add_child(toast)
+		if ReducedMotion.is_enabled():
+			toast.modulate.a = 1.0
+			toast.offset_top = 8.0
+			toast.offset_bottom = 70.0
+			return
 		var tween := create_tween()
 		tween.set_parallel(true)
-		tween.tween_property(toast, "modulate:a", 1.0, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(toast, "offset_top", 8.0, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_property(toast, "offset_bottom", 70.0, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		var css_ease_out := Callable(self, "_css_cubic_bezier").bind(0.0, 0.0, 0.58, 1.0)
+		tween.tween_property(toast, "modulate:a", 1.0, 0.4).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+		tween.tween_property(toast, "offset_top", 8.0, 0.4).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+		tween.tween_property(toast, "offset_bottom", 70.0, 0.4).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 		return
 
 
@@ -499,16 +626,33 @@ void fragment() {
 
 
 func _animate_portrait(portrait: TextureRect, travel: float) -> void:
-	if travel <= 0.0:
+	if travel <= 0.0 or ReducedMotion.is_enabled() or not portrait.is_inside_tree():
 		return
-	var resting_position: Vector2 = portrait.position
+	# Wait for anchors and the 1024x1536 portrait bounds to settle before
+	# capturing the idle baseline. Animating Control.position rewrites its left
+	# and top offsets, which shifts centered portraits when their anchors differ.
+	await get_tree().process_frame
+	if not is_instance_valid(portrait) or not portrait.is_inside_tree():
+		return
+	var resting_top := portrait.offset_top
+	var resting_bottom := portrait.offset_bottom
 	var breathing := portrait.create_tween().set_loops()
 	var ease_in_out := Callable(self, "_idle_breathe_curve")
 	var rise: PropertyTweener = breathing.tween_property(
-		portrait, "position", resting_position + Vector2.UP * travel, 1.4)
+		portrait, "offset_top", resting_top - travel, 1.4)
 	rise.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(ease_in_out)
-	var fall: PropertyTweener = breathing.tween_property(portrait, "position", resting_position, 1.4)
+	var rise_bottom: PropertyTweener = breathing.parallel().tween_property(
+		portrait, "offset_bottom", resting_bottom - travel, 1.4)
+	rise_bottom.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(ease_in_out)
+	var fall: PropertyTweener = breathing.tween_property(portrait, "offset_top", resting_top, 1.4)
 	fall.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(ease_in_out)
+	var fall_bottom: PropertyTweener = breathing.parallel().tween_property(
+		portrait, "offset_bottom", resting_bottom, 1.4)
+	fall_bottom.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(ease_in_out)
+
+
+func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: float) -> float:
+	return CssMotion.cubic_bezier(progress, x1, y1, x2, y2)
 
 
 func _idle_breathe_curve(progress: float) -> float:
@@ -530,9 +674,19 @@ func _next() -> void:
 		case_button.grab_focus()
 
 
+func _on_dialogue_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_next()
+		get_viewport().set_input_as_handled()
+	elif event is InputEventScreenTouch and event.pressed:
+		_next()
+		get_viewport().set_input_as_handled()
+
+
 func _build_controls() -> void:
 	controls_panel = PanelContainer.new()
 	controls_panel.name = "VnControls"
+	controls_panel.z_index = 9
 	controls_panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	controls_panel.offset_top = -72
 	var strip := StyleBoxFlat.new()
@@ -613,6 +767,10 @@ func _set_control_caption(button: Button, icon_name: String, caption: String) ->
 	caption_label.text = caption
 	caption_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	caption_label.add_theme_color_override("font_color", Color("#fff9ea"))
+	var caption_font := SystemFont.new()
+	caption_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+	caption_font.font_weight = 900
+	caption_label.add_theme_font_override("font", caption_font)
 	caption_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
@@ -655,7 +813,7 @@ func _update_dialogue_page() -> void:
 	var has_more := _dialogue_page_index + 1 < _dialogue_pages.size()
 	dialogue.text = _dialogue_pages[_dialogue_page_index] + ("…" if has_more else "")
 	dialogue.scroll_to_line(0)
-	page_progress.visible = has_more or _dialogue_page_index > 0
+	page_progress.visible = true
 	for child in page_progress.get_children():
 		child.queue_free()
 	for page in range(_dialogue_pages.size()):
@@ -673,9 +831,15 @@ func _update_dialogue_page() -> void:
 	prompt.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	prompt.add_theme_color_override("font_color", Color("#6d665e"))
 	prompt.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	prompt.pivot_offset = Vector2.ZERO
+	if ReducedMotion.is_enabled():
+		return
 	var pulse := prompt.create_tween().set_loops()
-	pulse.tween_property(prompt, "scale", Vector2(1.0, 0.78), 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	pulse.tween_property(prompt, "scale", Vector2.ONE, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	var ease_in_out := Callable(self, "_idle_breathe_curve")
+	pulse.tween_property(prompt, "offset_top", 3.0, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
+	pulse.parallel().tween_property(prompt, "modulate:a", 0.45, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
+	pulse.tween_property(prompt, "offset_top", 0.0, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
+	pulse.parallel().tween_property(prompt, "modulate:a", 1.0, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
 
 
 func _toggle_auto() -> void:
@@ -782,7 +946,7 @@ func _choose(option: String) -> void:
 		_boundary = false
 		audio_runtime.play_effect("choice")
 		_refresh()
-		next_button.grab_focus()
+		page_progress.grab_focus()
 
 
 func _build_ending_panel() -> void:
@@ -1027,6 +1191,7 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 
 func _show_history() -> void:
 	_create_overlay(Copy.text("vn_history", preferences.locale), "CASE LOG")
+	overlay_body.add_theme_constant_override("separation", 0)
 	var history: Array = session.read_history()
 	var current: Dictionary = session.current_line()
 	if not current.is_empty() and not current.get("hidden", false):
@@ -1037,29 +1202,49 @@ func _show_history() -> void:
 		var empty := _label(overlay_body, 14)
 		empty.text = Copy.text("vn_history_empty", preferences.locale)
 		return
-	for entry in history:
+	for index in range(history.size()):
+		var entry: Dictionary = history[index]
 		var localized: Dictionary = entry.localized[preferences.locale]
-		var history_card := PanelContainer.new()
-		var card_style := StyleBoxFlat.new()
-		card_style.bg_color = Color("#fffdf7")
-		card_style.border_color = Color("#e2d5bb")
-		card_style.set_border_width_all(1)
-		card_style.set_corner_radius_all(9)
-		card_style.content_margin_left = 10
-		card_style.content_margin_right = 10
-		card_style.content_margin_top = 8
-		card_style.content_margin_bottom = 8
-		history_card.add_theme_stylebox_override("panel", card_style)
-		overlay_body.add_child(history_card)
 		var entry_body := VBoxContainer.new()
-		entry_body.add_theme_constant_override("separation", 4)
-		history_card.add_child(entry_body)
-		var speaker_label := _label(entry_body, 10)
+		entry_body.name = "DialogueHistoryEntry"
+		entry_body.add_theme_constant_override("separation", 0)
+		overlay_body.add_child(entry_body)
+		var row_margin := MarginContainer.new()
+		row_margin.add_theme_constant_override("margin_left", 11)
+		row_margin.add_theme_constant_override("margin_right", 11)
+		row_margin.add_theme_constant_override("margin_top", 10)
+		row_margin.add_theme_constant_override("margin_bottom", 10)
+		entry_body.add_child(row_margin)
+		var row_content := VBoxContainer.new()
+		row_content.add_theme_constant_override("separation", 5)
+		row_margin.add_child(row_content)
+		var line_header := HBoxContainer.new()
+		line_header.add_theme_constant_override("separation", 8)
+		row_content.add_child(line_header)
+		var is_direction: bool = str(entry.get("speaker", "")) in ["РЕЖИССУРА", "СИСТЕМА"]
+		var speaker_label := _label(line_header, 10)
 		speaker_label.text = localized.speaker
-		speaker_label.add_theme_color_override("font_color", Color("#2a4b76"))
-		var text_label := _label(entry_body, 14)
+		speaker_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var speaker_font := SystemFont.new()
+		speaker_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+		speaker_font.font_weight = 700
+		speaker_label.add_theme_font_override("font", speaker_font)
+		speaker_label.add_theme_color_override("font_color", Color("#2b6f6c") if is_direction else Color("#2a4b76"))
+		var number_label := _label(line_header, 8)
+		number_label.text = "#%d" % (index + 1)
+		number_label.add_theme_color_override("font_color", Color("#9b8665"))
+		var text_label := _label(row_content, 14)
 		text_label.text = localized.text
 		text_label.add_theme_font_override("font", _serif_font())
+		text_label.add_theme_color_override("font_color", Color("#302c3e"))
+		if index < history.size() - 1:
+			var divider := Panel.new()
+			divider.name = "HistoryDivider"
+			divider.custom_minimum_size.y = 1
+			var divider_style := StyleBoxFlat.new()
+			divider_style.bg_color = Color("#dfcfae")
+			divider.add_theme_stylebox_override("panel", divider_style)
+			entry_body.add_child(divider)
 
 
 func _show_dossier() -> void:

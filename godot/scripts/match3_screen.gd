@@ -11,15 +11,21 @@ const Game = preload("res://scripts/match3_game.gd")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const Tutorials = preload("res://scripts/match3_tutorials.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
+const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
+const ReducedMotion = preload("res://scripts/reduced_motion.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
 const SWAP_MOTION_SECONDS := 0.15
+const INVALID_HOLD_SECONDS := 0.70
 const CLEAR_MOTION_SECONDS := 0.28
 const SETTLE_MOTION_SECONDS := 0.32
 const RESHUFFLE_MOTION_SECONDS := 0.46
 const FEEDBACK_HOLD_SECONDS := 0.42
 const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
+
+static var _drop_shadow_material_cache: Dictionary = {}
+static var _special_icon_material_cache: ShaderMaterial
 
 var preferences: RefCounted
 var session: RefCounted
@@ -27,6 +33,7 @@ var story_session: RefCounted
 var game: RefCounted
 var level_id := ""
 var campaign_mode := false
+var _reduced_motion_override: Variant = null
 var level_data: Dictionary
 var level_presentation: Dictionary
 var campaign_bundle: Dictionary
@@ -337,24 +344,55 @@ func _ready() -> void:
 	board_center = CenterContainer.new()
 	board_center.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(board_center)
+	var board_outline := PanelContainer.new()
+	board_outline.name = "BoardNavyOutline"
+	board_outline.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var board_outline_style := StyleBoxFlat.new()
+	board_outline_style.bg_color = Color(0, 0, 0, 0)
+	board_outline_style.set_corner_radius_all(0)
+	board_outline_style.content_margin_left = 0
+	board_outline_style.content_margin_right = 0
+	board_outline_style.content_margin_top = 0
+	board_outline_style.content_margin_bottom = 0
+	board_outline.add_theme_stylebox_override("panel", board_outline_style)
+	board_center.add_child(board_outline)
 	board_frame = PanelContainer.new()
 	board_frame.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	var board_style := StyleBoxFlat.new()
-	board_style.bg_color = Color("#243354")
-	board_style.border_color = Color("#53694f")
+	board_style.bg_color = Color("#0713289e")
+	board_style.border_color = Color("#f7ebc8")
 	board_style.set_border_width_all(3)
-	board_style.set_corner_radius_all(14)
-	board_style.content_margin_left = 6
-	board_style.content_margin_right = 6
-	board_style.content_margin_top = 6
-	board_style.content_margin_bottom = 6
+	board_style.set_corner_radius_all(8)
+	board_style.content_margin_left = 0
+	board_style.content_margin_right = 0
+	board_style.content_margin_top = 0
+	board_style.content_margin_bottom = 0
 	board_frame.add_theme_stylebox_override("panel", board_style)
-	board_center.add_child(board_frame)
+	board_outline.add_child(board_frame)
+	var board_inner_border := Panel.new()
+	board_inner_border.name = "BoardInnerBorder"
+	board_inner_border.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	board_inner_border.offset_left = 0
+	board_inner_border.offset_top = 0
+	board_inner_border.offset_right = 0
+	board_inner_border.offset_bottom = 0
+	board_inner_border.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	board_inner_border.z_index = 20
+	var board_inner_border_style := StyleBoxFlat.new()
+	board_inner_border_style.bg_color = Color(0, 0, 0, 0)
+	board_inner_border_style.border_color = Color(0, 0, 0, 0)
+	board_inner_border_style.set_border_width_all(0)
+	board_inner_border_style.set_corner_radius_all(0)
+	board_inner_border.add_theme_stylebox_override("panel", board_inner_border_style)
+	board_outline.add_child(board_inner_border)
+	board_inner_border.visible = false
 	board = GridContainer.new()
 	board.columns = int(level_data.columns)
-	board.add_theme_constant_override("h_separation", 3)
-	board.add_theme_constant_override("v_separation", 3)
+	board.add_theme_constant_override("h_separation", 1)
+	board.add_theme_constant_override("v_separation", 1)
 	board_frame.add_child(board)
+	board_frame.material = null
+	board_center.resized.connect(_fit_board_cells)
 	var bark_style := StyleBoxFlat.new()
 	bark_style.bg_color = Color("#fff7df")
 	bark_style.border_color = Color("#66755d")
@@ -451,7 +489,7 @@ func _ready() -> void:
 	match_feedback_panel.custom_minimum_size.x = 150
 	match_feedback_panel.custom_maximum_size.x = 336
 	match_feedback_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	match_feedback_panel.pivot_offset = Vector2(168, 23)
+	match_feedback_panel.pivot_offset = Vector2(75, 23)
 	match_feedback_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	match_feedback_panel.visible = false
 	feedback_center.add_child(match_feedback_panel)
@@ -500,8 +538,19 @@ func _refresh() -> void:
 	moves_heading.text = {"ru": "ХОДОВ", "be": "ХАДОЎ", "en": "MOVES"}.get(locale, "MOVES")
 	var speaker: String
 	if game.state == "playing":
-		speaker = str(copy.startSpeaker)
-		bark.text = str(copy.noMatchBark) if not last_feedback.is_empty() else str(copy.startText)
+		var invalid_bark_keys := {
+			"not-adjacent": "match3_bark_not_adjacent",
+			"ingredient": "match3_bark_ingredient_invalid",
+			"blocked": "match3_bark_blocked_invalid",
+			"no-match": "match3_bark_no_match_invalid",
+		}
+		if invalid_bark_keys.has(last_feedback):
+			var is_miku: bool = last_feedback in ["not-adjacent", "ingredient"]
+			speaker = MenuCopy.text("character_miku" if is_miku else "character_onoe", locale)
+			bark.text = MenuCopy.text(str(invalid_bark_keys[last_feedback]), locale)
+		else:
+			speaker = str(copy.startSpeaker)
+			bark.text = str(copy.startText)
 	else:
 		speaker = str(copy.winSpeaker) if game.state == "won" else str(copy.loseSpeaker)
 		bark.text = str(copy.winText) if game.state == "won" else str(copy.loseText)
@@ -557,25 +606,30 @@ func _refresh() -> void:
 
 
 func _render_board() -> void:
+	var reduced_motion := _prefers_reduced_motion()
+	var cell_size := _board_cell_size()
 	_clear_drag_preview()
 	for child in board.get_children():
 		board.remove_child(child)
 		child.queue_free()
 	for index in game.tiles.size():
 		var tile_button := Button.new()
-		tile_button.custom_minimum_size = Vector2(54, 54)
-		tile_button.clip_contents = false
+		tile_button.custom_minimum_size = Vector2(cell_size, cell_size)
+		tile_button.pivot_offset = tile_button.custom_minimum_size * 0.5
+		tile_button.clip_contents = true
+		if index == selected_index:
+			tile_button.z_index = 5
 		tile_button.focus_mode = Control.FOCUS_NONE
 		var cell_style := StyleBoxFlat.new()
-		cell_style.bg_color = Color("#2e4266")
-		cell_style.border_color = Color(0.45, 0.52, 0.46, 0.57)
+		cell_style.bg_color = Color("#5a859926")
+		cell_style.border_color = Color("#dbe0be59")
 		cell_style.set_border_width_all(1)
-		cell_style.set_corner_radius_all(4)
+		cell_style.set_corner_radius_all(0)
 		var selected_style := cell_style.duplicate() as StyleBoxFlat
-		selected_style.border_color = Color("#fff6cf")
+		selected_style.border_color = Color("#fff2a8")
 		selected_style.set_border_width_all(3)
 		var hinted_style := cell_style.duplicate() as StyleBoxFlat
-		hinted_style.border_color = Color("#7ddfd8")
+		hinted_style.border_color = Color("#6ce2d3")
 		hinted_style.set_border_width_all(3)
 		hinted_style.shadow_color = Color("#6ce2d3")
 		hinted_style.shadow_size = 12
@@ -591,43 +645,95 @@ func _render_board() -> void:
 		tile_button.add_theme_color_override("font_disabled_color", Color.TRANSPARENT)
 		tile_button.text = ""
 		tile_button.gui_input.connect(_on_tile_gui_input.bind(index))
+		var cell_background := Panel.new()
+		cell_background.name = "CellBackground"
+		cell_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		cell_background.offset_left = 1
+		cell_background.offset_top = 1
+		cell_background.offset_right = -1
+		cell_background.offset_bottom = -1
+		cell_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var cell_background_style := StyleBoxFlat.new()
+		cell_background_style.bg_color = Color("#5a859926")
+		cell_background_style.set_corner_radius_all(0)
+		cell_background.add_theme_stylebox_override("panel", cell_background_style)
+		tile_button.add_child(cell_background)
+		var cell_socket := Panel.new()
+		cell_socket.name = "CellSocket"
+		cell_socket.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		cell_socket.offset_left = 1
+		cell_socket.offset_top = 1
+		cell_socket.offset_right = -1
+		cell_socket.offset_bottom = -1
+		cell_socket.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var socket_style := StyleBoxFlat.new()
+		socket_style.bg_color = Color(0, 0, 0, 0)
+		socket_style.border_color = Color(0, 0, 0, 0)
+		socket_style.set_border_width_all(0)
+		socket_style.set_corner_radius_all(0)
+		cell_socket.add_theme_stylebox_override("panel", socket_style)
+		tile_button.add_child(cell_socket)
 		var tile_stack := Control.new()
 		tile_stack.name = "TileStack"
 		tile_stack.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		tile_stack.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		tile_stack.clip_contents = false
 		tile_stack.z_index = 0
+		tile_stack.pivot_offset = tile_button.custom_minimum_size * 0.5
 		var tile_asset := str(campaign_bundle.assets.tiles.get(game.tiles[index], ""))
 		if not tile_asset.is_empty():
 			var tile := TextureRect.new()
 			tile.name = "Tile"
 			tile.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-			tile.offset_left = 2
-			tile.offset_top = 2
-			tile.offset_right = -2
-			tile.offset_bottom = -2
+			tile.offset_left = 0
+			tile.offset_top = 0
+			tile.offset_right = 0
+			tile.offset_bottom = 0
+			tile.resized.connect(func() -> void: tile.pivot_offset = tile.size * 0.5)
 			tile.texture = load("res://" + tile_asset.trim_prefix("./"))
 			tile.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			tile.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			var is_camisole: bool = game.tiles[index] == "camisole"
+			tile.scale = Vector2(1.08, 1.08)
+			tile.material = _match3_drop_shadow_material(
+				Color("#10172d66") if is_camisole else Color("#071224b8"),
+				Vector2(0, 1) if is_camisole else Vector2(0, 2),
+				1.0, 1.38 if is_camisole else 1.0, 1.0 if is_camisole else 1.05,
+			)
 			tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			tile_stack.add_child(tile)
-		var tile_tint := Color(1.25, 1.25, 1, 1) if index == selected_index else Color.WHITE
-		tile_stack.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else tile_tint
+		tile_stack.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else Color.WHITE
+		if game.blocker_layers[index] > 0 and str(level_data.blockerStyle) == "solid":
+			tile_stack.scale = Vector2(0.64, 0.64)
+		elif game.blocker_layers[index] > 0 and str(level_data.blockerStyle) == "locked":
+			tile_stack.modulate.a *= 0.84
 		tile_button.disabled = game.state != "playing" or tutorial_panel.visible or game.tiles[index].is_empty() or game.blocker_layers[index] > 0
 		tile_button.pressed.connect(_select_cell.bind(index))
 		tile_button.add_child(tile_stack)
-		if hinted_indices.has(index):
+		if index == selected_index:
+			if reduced_motion:
+				tile_button.scale = Vector2(0.9, 0.9)
+				tile_button.modulate = Color(1.18, 1.18, 1.18, 1.0)
+			else:
+				var selected_tween := tile_button.create_tween()
+				var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
+				selected_tween.tween_property(tile_button, "scale", Vector2(0.9, 0.9), 0.12).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+				selected_tween.parallel().tween_property(tile_button, "modulate", Color(1.18, 1.18, 1.18, 1.0), 0.12).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+		if hinted_indices.has(index) and not reduced_motion:
 			tile_button.pivot_offset = Vector2(27, 27)
 			var hint_tween := tile_button.create_tween().set_loops()
-			hint_tween.tween_property(tile_button, "scale", Vector2(0.91, 0.91), 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-			hint_tween.parallel().tween_property(tile_button, "modulate", Color(1.18, 1.18, 1.18, 1.0), 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-			hint_tween.tween_property(tile_button, "scale", Vector2.ONE, 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-			hint_tween.parallel().tween_property(tile_button, "modulate", Color.WHITE, 0.41).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			var css_ease_in_out := Callable(self, "_css_cubic_bezier").bind(0.42, 0.0, 0.58, 1.0)
+			hint_tween.tween_property(tile_button, "scale", Vector2(0.91, 0.91), 0.41).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+			hint_tween.parallel().tween_property(tile_button, "modulate", Color(1.18, 1.18, 1.18, 1.0), 0.41).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+			hint_tween.tween_property(tile_button, "scale", Vector2.ONE, 0.41).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+			hint_tween.parallel().tween_property(tile_button, "modulate", Color.WHITE, 0.41).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 		if game.blocker_layers[index] > 0:
-			var blocker_asset := str(campaign_bundle.assets.blockers.get(str(level_data.blockerStyle), ""))
-			if str(level_data.blockerStyle) == "locked": blocker_asset = str(campaign_bundle.assets.lockedBlockers.get(str(game.blocker_layers[index]), blocker_asset))
+			var blocker_style: String = str(level_data.blockerStyle)
+			var blocker_asset := str(campaign_bundle.assets.blockers.get(blocker_style, ""))
+			if blocker_style == "locked": blocker_asset = str(campaign_bundle.assets.lockedBlockers.get(str(game.blocker_layers[index]), blocker_asset))
 			if not blocker_asset.is_empty():
 				var blocker := TextureRect.new()
+				blocker.name = "Blocker"
 				blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 				blocker.offset_left = 1
 				blocker.offset_top = 1
@@ -636,9 +742,32 @@ func _render_board() -> void:
 				blocker.texture = load("res://" + blocker_asset.trim_prefix("./"))
 				blocker.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				blocker.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-				blocker.modulate = Color(1, 1, 1, 0.66)
+				if blocker_style == "solid":
+					blocker.modulate = Color(1, 1, 1, 0.68 if game.blocker_layers[index] == 1 else 0.84)
+				elif blocker_style == "overlay":
+					blocker.modulate = Color(1, 1, 1, 0.72)
+					blocker.material = _match3_drop_shadow_material(Color("#0713269e"), Vector2(0, 1), 2.0, 1.0, 0.9, 1.04)
+				else:
+					blocker.modulate = Color.WHITE
+					blocker.material = _match3_drop_shadow_material(Color(0, 0, 0, 0), Vector2.ZERO, 0.0)
 				blocker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_button.add_child(blocker)
+				if blocker_style == "locked":
+					var locked_outline := Panel.new()
+					locked_outline.name = "LockedBlockerOutline"
+					locked_outline.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+					locked_outline.offset_left = 1
+					locked_outline.offset_top = 1
+					locked_outline.offset_right = -1
+					locked_outline.offset_bottom = -1
+					locked_outline.mouse_filter = Control.MOUSE_FILTER_IGNORE
+					locked_outline.z_index = 2
+					var locked_outline_style := StyleBoxFlat.new()
+					locked_outline_style.bg_color = Color(0, 0, 0, 0)
+					locked_outline_style.border_color = Color("#dfd5bd70")
+					locked_outline_style.set_border_width_all(1)
+					locked_outline.add_theme_stylebox_override("panel", locked_outline_style)
+					tile_button.add_child(locked_outline)
 				if game.blocker_layers[index] > 1:
 					var layer_badge := Label.new()
 					layer_badge.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
@@ -660,55 +789,39 @@ func _render_board() -> void:
 			var ingredient_asset := str(campaign_bundle.assets.ingredients.get(game.ingredients[index], ""))
 			if not ingredient_asset.is_empty():
 				var ingredient_texture: Texture2D = load("res://" + ingredient_asset.trim_prefix("./"))
-				var ingredient_glow := TextureRect.new()
-				ingredient_glow.name = "IngredientGlow"
-				ingredient_glow.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-				ingredient_glow.texture = ingredient_texture
-				ingredient_glow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-				ingredient_glow.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-				ingredient_glow.modulate = Color("#fff2a080")
-				ingredient_glow.pivot_offset = Vector2(27, 27)
-				ingredient_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
-				tile_stack.add_child(ingredient_glow)
 				var ingredient := TextureRect.new()
 				ingredient.name = "Ingredient"
 				ingredient.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-				ingredient.offset_left = 3
-				ingredient.offset_top = 3
-				ingredient.offset_right = -3
-				ingredient.offset_bottom = -3
+				ingredient.offset_left = 2
+				ingredient.offset_top = 2
+				ingredient.offset_right = -2
+				ingredient.offset_bottom = -2
 				ingredient.texture = ingredient_texture
 				ingredient.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				ingredient.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				ingredient.material = _match3_drop_shadow_material(Color("#00000088"), Vector2(0, 2), 2.0)
 				ingredient.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_stack.add_child(ingredient)
-				var ingredient_bob := tile_button.create_tween().set_loops()
-				ingredient_bob.tween_property(ingredient, "offset_top", 1.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-				ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -5.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-				ingredient_bob.parallel().tween_property(ingredient_glow, "modulate:a", 0.26, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-				ingredient_bob.parallel().tween_property(ingredient_glow, "scale", Vector2(1.12, 1.12), 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-				ingredient_bob.tween_property(ingredient, "offset_top", 3.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-				ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -3.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-				ingredient_bob.parallel().tween_property(ingredient_glow, "modulate:a", 0.0, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-				ingredient_bob.parallel().tween_property(ingredient_glow, "scale", Vector2.ONE, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				var ingredient_material := (ingredient.material as ShaderMaterial).duplicate() as ShaderMaterial
+				ingredient_material.set_shader_parameter("glow_white", Color("#fff2a0"))
+				ingredient_material.set_shader_parameter("glow_gold", Color(0, 0, 0, 0))
+				ingredient_material.set_shader_parameter("glow_aqua", Color(0, 0, 0, 0))
+				ingredient_material.set_shader_parameter("glow_white_radius_px", 7.0)
+				ingredient.material = ingredient_material
+				if not reduced_motion:
+					var ingredient_bob := tile_button.create_tween().set_loops()
+					var css_ease_in_out := Callable(self, "_css_cubic_bezier").bind(0.42, 0.0, 0.58, 1.0)
+					ingredient_bob.tween_property(ingredient, "offset_top", 1.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -5.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_glow").bind(ingredient_material, false), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
+					ingredient_bob.tween_property(ingredient, "offset_top", 3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_glow").bind(ingredient_material, true), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
 		if not game.specials[index].is_empty():
 			var special_kind: String = game.specials[index]
 			var special_asset := str(campaign_bundle.assets.get("specials", {}).get(special_kind, ""))
 			if not special_asset.is_empty():
 				var special_texture: Texture2D = load("res://" + special_asset.trim_prefix("./"))
-				var special_glow := TextureRect.new()
-				special_glow.name = "SpecialGlow"
-				special_glow.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-				special_glow.offset_left = -3
-				special_glow.offset_top = -3
-				special_glow.offset_right = 3
-				special_glow.offset_bottom = 3
-				special_glow.texture = special_texture
-				special_glow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-				special_glow.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-				special_glow.modulate = Color("#fff0bd66")
-				special_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
-				tile_stack.add_child(special_glow)
 				var special := TextureRect.new()
 				special.name = "Special"
 				special.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -727,8 +840,8 @@ func _render_board() -> void:
 				special.texture = special_texture
 				special.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				special.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-				special.rotation_degrees = -18.0 if special_kind == "flash-row" else 72.0 if special_kind == "flash-column" else 0.0
-				special.pivot_offset = Vector2(27, 27)
+				special.material = _match3_special_icon_material()
+				special.pivot_offset = tile_button.custom_minimum_size * 0.5
 				special.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_stack.add_child(special)
 				if special_kind == "flash-row" or special_kind == "flash-column":
@@ -749,12 +862,34 @@ func _render_board() -> void:
 					direction_label.text = "↔" if special_kind == "flash-row" else "↕"
 					direction_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 					direction_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-					direction_label.add_theme_font_size_override("font_size", 11)
+					direction_label.add_theme_font_size_override("font_size", 13)
 					direction_label.add_theme_color_override("font_color", Color("#fff0bd"))
 					direction_marker.add_child(direction_label)
 					direction_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 					tile_stack.add_child(direction_marker)
 		board.add_child(tile_button)
+	_fit_board_cells()
+
+
+func _board_cell_size() -> float:
+	var rows := maxi(1, int(level_data.get("rows", 1)))
+	var columns := maxi(1, int(level_data.get("columns", 1)))
+	var width_limit := minf(size.x - 24.0, 414.0)
+	if board_center.size.y > 0.0:
+		width_limit = minf(width_limit, board_center.size.y * float(columns) / float(rows))
+	var cell_width := (width_limit - 6.0 - float(columns - 1)) / float(columns)
+	# GridContainer does not include the UI A outline in its cell minimum size.
+	return maxf(1.0, cell_width + 1.0)
+
+
+func _fit_board_cells() -> void:
+	if not is_instance_valid(board) or board.get_child_count() == 0:
+		return
+	var cell_size := _board_cell_size()
+	for child in board.get_children():
+		if child is Control:
+			(child as Control).custom_minimum_size = Vector2(cell_size, cell_size)
+			(child as Control).pivot_offset = Vector2(cell_size, cell_size) * 0.5
 
 
 func _render_frame(frame: Dictionary) -> void:
@@ -820,18 +955,58 @@ func _render_frame(frame: Dictionary) -> void:
 			tile_stack.rotation_degrees = -2.0
 			tile_stack.modulate.a = 0.45
 			var tween := create_tween()
-			tween.tween_property(tile_stack, "scale", Vector2(1.04, 1.04), RESHUFFLE_MOTION_SECONDS * 0.65).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			tween.parallel().tween_property(tile_stack, "rotation_degrees", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65)
+			var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
+			tween.tween_property(tile_stack, "scale", Vector2(1.04, 1.04), RESHUFFLE_MOTION_SECONDS * 0.65).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+			tween.parallel().tween_property(tile_stack, "rotation_degrees", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 			tween.parallel().tween_property(tile_stack, "modulate:a", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65)
-			tween.tween_property(tile_stack, "scale", Vector2.ONE, RESHUFFLE_MOTION_SECONDS * 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			tween.parallel().tween_property(tile_stack, "rotation_degrees", 0.0, RESHUFFLE_MOTION_SECONDS * 0.35)
+			tween.tween_property(tile_stack, "scale", Vector2.ONE, RESHUFFLE_MOTION_SECONDS * 0.35).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+			tween.parallel().tween_property(tile_stack, "rotation_degrees", 0.0, RESHUFFLE_MOTION_SECONDS * 0.35).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 
 
 func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: float) -> float:
 	return CssMotion.cubic_bezier(progress, x1, y1, x2, y2)
 
 
-func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
+func _prefers_reduced_motion() -> bool:
+	return ReducedMotion.is_enabled(_reduced_motion_override)
+
+
+func _set_ingredient_glow(progress: float, material: ShaderMaterial, reverse: bool) -> void:
+	var eased_progress := _css_cubic_bezier(progress, 0.42, 0.0, 0.58, 1.0)
+	material.set_shader_parameter("glow_strength", 1.0 - eased_progress if reverse else eased_progress)
+
+
+func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, blur: float, brightness: float = 1.0, saturation: float = 1.0, contrast: float = 1.0) -> ShaderMaterial:
+	var cache_key := "%s:%s:%s:%s:%s:%s" % [shadow_color.to_html(), shadow_offset, blur, brightness, saturation, contrast]
+	if _drop_shadow_material_cache.has(cache_key):
+		return _drop_shadow_material_cache[cache_key] as ShaderMaterial
+	var material := ShaderMaterial.new()
+	material.shader = Match3DropShadow
+	material.set_shader_parameter("shadow_color", shadow_color)
+	material.set_shader_parameter("shadow_offset_px", shadow_offset)
+	material.set_shader_parameter("shadow_blur_px", blur)
+	material.set_shader_parameter("brightness", brightness)
+	material.set_shader_parameter("saturation", saturation)
+	material.set_shader_parameter("contrast", contrast)
+	_drop_shadow_material_cache[cache_key] = material
+	return material
+
+
+func _match3_special_icon_material() -> ShaderMaterial:
+	if _special_icon_material_cache != null:
+		return _special_icon_material_cache
+	var material := _match3_drop_shadow_material(Color(0, 0, 0, 0), Vector2.ZERO, 0.0)
+	material.set_shader_parameter("glow_strength", 1.0)
+	material.set_shader_parameter("glow_white", Color(1, 1, 1, 0))
+	material.set_shader_parameter("glow_gold", Color("#fff0a8"))
+	material.set_shader_parameter("glow_gold_radius_px", 7.0)
+	material.set_shader_parameter("glow_aqua", Color(0.424, 0.886, 0.827, 0))
+	_special_icon_material_cache = material
+	return _special_icon_material_cache
+
+
+func _animate_swap(first: int, second: int, keep_at_target: bool) -> void:
+	if _prefers_reduced_motion(): return
 	if first == second or first < 0 or second < 0 or first >= board.get_child_count() or second >= board.get_child_count():
 		await get_tree().create_timer(SWAP_MOTION_SECONDS).timeout
 		return
@@ -840,7 +1015,14 @@ func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
 	var first_stack := first_cell.get_node_or_null("TileStack") as Control
 	var second_stack := second_cell.get_node_or_null("TileStack") as Control
 	if first_stack == null or second_stack == null: return
-	var offset := second_cell.position - first_cell.position
+	var offset := second_cell.get_global_rect().position - first_cell.get_global_rect().position
+	if offset.is_zero_approx():
+		var columns := board.columns
+		var grid_delta := Vector2(second % columns - first % columns, second / columns - first / columns)
+		var cell_width := first_cell.size.x if first_cell.size.x > 0.0 else first_cell.custom_minimum_size.x
+		var cell_height := first_cell.size.y if first_cell.size.y > 0.0 else first_cell.custom_minimum_size.y
+		var gap := float(board.get_theme_constant("h_separation"))
+		offset = Vector2(grid_delta.x * (cell_width + gap), grid_delta.y * (cell_height + gap))
 	first_stack.z_index = 8
 	second_stack.z_index = 8
 	var tween := create_tween()
@@ -848,43 +1030,52 @@ func _animate_swap(first: int, second: int, return_to_start: bool) -> void:
 	_tween_stack_offsets(tween, first_stack, offset, SWAP_MOTION_SECONDS)
 	_tween_stack_offsets(tween, second_stack, -offset, SWAP_MOTION_SECONDS)
 	await tween.finished
-	if return_to_start:
-		var rejected_cells: Array[int] = [first, second]
-		_shake_rejected_cells(rejected_cells)
-		var back := create_tween()
-		back.set_parallel(true)
-		_tween_stack_offsets(back, first_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
-		_tween_stack_offsets(back, second_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
-		await back.finished
-		await get_tree().create_timer(0.07).timeout
-	first_stack.offset_left = 0.0
-	first_stack.offset_top = 0.0
-	first_stack.offset_right = 0.0
-	first_stack.offset_bottom = 0.0
-	second_stack.offset_left = 0.0
-	second_stack.offset_top = 0.0
-	second_stack.offset_right = 0.0
-	second_stack.offset_bottom = 0.0
-	first_stack.z_index = 0
-	second_stack.z_index = 0
+	if keep_at_target: return
+	_reset_swap_stack(first_stack)
+	_reset_swap_stack(second_stack)
+
+
+func _return_rejected_swap(first: int, second: int) -> void:
+	if first < 0 or second < 0 or first >= board.get_child_count() or second >= board.get_child_count(): return
+	var first_stack := (board.get_child(first) as Control).get_node_or_null("TileStack") as Control
+	var second_stack := (board.get_child(second) as Control).get_node_or_null("TileStack") as Control
+	if first_stack == null or second_stack == null: return
+	var back := create_tween()
+	back.set_parallel(true)
+	_tween_stack_offsets(back, first_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
+	_tween_stack_offsets(back, second_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
+	_shake_rejected_cells([first, second])
+	await back.finished
+	_reset_swap_stack(first_stack)
+	_reset_swap_stack(second_stack)
+
+
+func _reset_swap_stack(stack: Control) -> void:
+	stack.offset_left = 0.0
+	stack.offset_top = 0.0
+	stack.offset_right = 0.0
+	stack.offset_bottom = 0.0
+	stack.z_index = 0
 
 
 func _tween_stack_offsets(tween: Tween, stack: Control, target: Vector2, duration: float) -> void:
-	var transition := Tween.TRANS_CUBIC
-	tween.tween_property(stack, "offset_left", target.x, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_property(stack, "offset_right", target.x, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_property(stack, "offset_top", target.y, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_property(stack, "offset_bottom", target.y, duration).set_trans(transition).set_ease(Tween.EASE_OUT)
+	var css_ease := Callable(self, "_css_cubic_bezier").bind(0.22, 0.72, 0.22, 1.0)
+	tween.tween_property(stack, "offset_left", target.x, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+	tween.parallel().tween_property(stack, "offset_right", target.x, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+	tween.parallel().tween_property(stack, "offset_top", target.y, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+	tween.parallel().tween_property(stack, "offset_bottom", target.y, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 
 
 func _shake_rejected_cells(indices: Array) -> void:
+	if _prefers_reduced_motion(): return
 	for index in indices:
 		if index < 0 or index >= board.get_child_count(): continue
 		var cell := board.get_child(index) as Control
 		var start_x := cell.position.x
 		var tween := create_tween()
+		var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
 		for offset in [-5.0, 5.0, -3.0, 0.0]:
-			tween.tween_property(cell, "position:x", start_x + offset, 0.055)
+			tween.tween_property(cell, "position:x", start_x + offset, 0.055).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 
 
 func _feedback_text(key: String, count: int = 1) -> String:
@@ -894,6 +1085,8 @@ func _feedback_text(key: String, count: int = 1) -> String:
 
 func _show_match_feedback(kind: String, cascade: int = 1, localized_key: String = "") -> void:
 	if not is_instance_valid(match_feedback_panel) or not is_instance_valid(match_feedback_label): return
+	var was_hidden := not match_feedback_panel.visible
+	var was_fading_out := match_feedback_key.is_empty() and match_feedback_panel.visible
 	if match_feedback_tween != null and match_feedback_tween.is_valid(): match_feedback_tween.kill()
 	match_feedback_key = localized_key if not localized_key.is_empty() else kind
 	match_feedback_kind = kind
@@ -907,19 +1100,43 @@ func _show_match_feedback(kind: String, cascade: int = 1, localized_key: String 
 	var feedback_style := match_feedback_panel.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
 	feedback_style.bg_color = colors.get(kind, colors.match)
 	match_feedback_panel.add_theme_stylebox_override("panel", feedback_style)
+	match_feedback_panel.pivot_offset = match_feedback_panel.size * 0.5
 	match_feedback_panel.visible = true
-	match_feedback_panel.scale = Vector2(0.86, 0.86)
-	match_feedback_panel.modulate.a = 0.0
+	if was_hidden:
+		match_feedback_panel.scale = Vector2(0.86, 0.86)
+		match_feedback_panel.modulate.a = 0.0
+	if _prefers_reduced_motion():
+		match_feedback_panel.scale = Vector2.ONE
+		match_feedback_panel.modulate = Color.WHITE
+		return
+	if not was_hidden and not was_fading_out and is_equal_approx(match_feedback_panel.modulate.a, 1.0):
+		return
+	var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
 	match_feedback_tween = create_tween()
 	match_feedback_tween.set_parallel(true)
-	match_feedback_tween.tween_property(match_feedback_panel, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	match_feedback_tween.tween_property(match_feedback_panel, "modulate:a", 1.0, 0.1)
+	match_feedback_tween.tween_property(match_feedback_panel, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+	match_feedback_tween.tween_property(match_feedback_panel, "modulate:a", 1.0, 0.1).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 
 
 func _clear_match_feedback() -> void:
-	if match_feedback_tween != null and match_feedback_tween.is_valid(): match_feedback_tween.kill()
+	if not is_instance_valid(match_feedback_panel): return
 	match_feedback_key = ""
-	match_feedback_panel.visible = false
+	if not match_feedback_panel.visible: return
+	if match_feedback_tween != null and match_feedback_tween.is_valid(): match_feedback_tween.kill()
+	if _prefers_reduced_motion():
+		match_feedback_panel.scale = Vector2(0.86, 0.86)
+		match_feedback_panel.modulate.a = 0.0
+		match_feedback_panel.visible = false
+		return
+	var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
+	match_feedback_tween = create_tween()
+	match_feedback_tween.set_parallel(true)
+	match_feedback_tween.tween_property(match_feedback_panel, "scale", Vector2(0.86, 0.86), 0.1).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+	match_feedback_tween.tween_property(match_feedback_panel, "modulate:a", 0.0, 0.1).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+	match_feedback_tween.finished.connect(func() -> void:
+		if is_instance_valid(match_feedback_panel) and match_feedback_key.is_empty():
+			match_feedback_panel.visible = false
+	)
 
 
 func _build_evidence_transition() -> void:
@@ -1226,6 +1443,7 @@ func _invalid_feedback_key(reason: String) -> String:
 
 
 func _animate_special_impact(frame: Dictionary) -> void:
+	if _prefers_reduced_motion(): return
 	var special_kinds: Array = frame.get("specials", [])
 	var cleared: Array = frame.get("cleared", [])
 	var activated_sources: Array[int] = []
@@ -1235,11 +1453,14 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			activated_sources.append(index)
 	if activated_sources.is_empty(): return
 	var impact_curve := Callable(self, "_css_cubic_bezier").bind(0.18, 0.82, 0.28, 1.0)
+	var css_ease_out := Callable(self, "_css_cubic_bezier").bind(0.0, 0.0, 0.58, 1.0)
 	for index_value in cleared:
 		var index := int(index_value)
 		if index < 0 or index >= board.get_child_count(): continue
 		var cell := board.get_child(index) as Control
 		var is_source := activated_sources.has(index)
+		var resting_z_index := cell.z_index
+		cell.z_index = 6 if is_source else 3
 		var flash := ColorRect.new()
 		flash.name = "SpecialImpactFlash"
 		flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -1251,10 +1472,10 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		flash.z_index = 8
 		cell.add_child(flash)
 		var flash_tween := create_tween()
-		flash_tween.tween_property(flash, "modulate:a", 1.0, 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.04, 1.04), 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		flash_tween.tween_property(flash, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.12, 1.12), 0.185).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		flash_tween.tween_property(flash, "modulate:a", 1.0, 0.095).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.04, 1.04), 0.095).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+		flash_tween.tween_property(flash, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.12, 1.12), 0.185).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 		flash_tween.finished.connect(flash.queue_free)
 		var outline := Panel.new()
 		outline.name = "SpecialImpactSourceOutline" if is_source else "SpecialImpactTargetOutline"
@@ -1273,12 +1494,13 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		outline_style.shadow_color = Color("#6ce2d388" if is_source else "#6ce2d355")
 		outline_style.shadow_size = 18 if is_source else 8
 		outline.add_theme_stylebox_override("panel", outline_style)
-		outline.modulate.a = 0.0
+		outline.modulate.a = 1.0 if is_source else 0.0
 		cell.add_child(outline)
-		var outline_tween := create_tween()
-		outline_tween.tween_property(outline, "modulate:a", 1.0, 0.095).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		outline_tween.tween_property(outline, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		outline_tween.finished.connect(outline.queue_free)
+		if not is_source:
+			var outline_tween := create_tween()
+			outline_tween.tween_property(outline, "modulate:a", 1.0, 0.095).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+			outline_tween.tween_property(outline, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+			outline_tween.finished.connect(outline.queue_free)
 		var impact_tween := create_tween()
 		var peak_scale := 1.11 if is_source else 1.055
 		impact_tween.tween_property(cell, "scale", Vector2(peak_scale, peak_scale), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
@@ -1289,6 +1511,7 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		if not is_source:
 			var return_brightness := impact_tween.parallel().tween_property(cell, "modulate", Color.WHITE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 			return_brightness.from(Color(1.42, 1.42, 1.42, 1.0))
+		impact_tween.finished.connect(Callable(self, "_restore_special_impact_z_index").bind(cell, resting_z_index))
 		var special_kind := str(special_kinds[index]) if index < special_kinds.size() else ""
 		if special_kind.is_empty(): continue
 		var tile_stack := cell.get_node_or_null("TileStack") as Control
@@ -1297,6 +1520,15 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			special_icon.pivot_offset = special_icon.size * 0.5
 			special_icon.scale = Vector2(0.82, 0.82)
 			special_icon.rotation_degrees = -8.0
+			var impact_material := (special_icon.material as ShaderMaterial).duplicate() as ShaderMaterial
+			impact_material.set_shader_parameter("glow_strength", 1.0)
+			impact_material.set_shader_parameter("glow_white", Color.WHITE)
+			impact_material.set_shader_parameter("glow_white_radius_px", 5.0)
+			impact_material.set_shader_parameter("glow_gold", Color("#fff0a8"))
+			impact_material.set_shader_parameter("glow_gold_radius_px", 10.0)
+			impact_material.set_shader_parameter("glow_aqua", Color("#6ce2d3"))
+			impact_material.set_shader_parameter("glow_aqua_radius_px", 14.0)
+			special_icon.material = impact_material
 			var icon_tween := create_tween()
 			icon_tween.tween_property(special_icon, "scale", Vector2(1.24, 1.24), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 4.0, 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
@@ -1323,11 +1555,16 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			cell.add_child(beam)
 			beam.scale = Vector2(1.0, 0.25) if special_kind == "flash-column" else Vector2(0.25, 1.0)
 			var beam_tween := create_tween()
-			beam_tween.tween_property(beam, "modulate:a", 1.0, 0.098).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			beam_tween.parallel().tween_property(beam, "scale", Vector2(1.0, 1.15) if special_kind == "flash-column" else Vector2(1.15, 1.0), 0.098).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			beam_tween.tween_property(beam, "modulate:a", 0.0, 0.182).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-			beam_tween.parallel().tween_property(beam, "scale", Vector2.ONE, 0.182).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			beam_tween.tween_property(beam, "modulate:a", 1.0, 0.098).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+			beam_tween.parallel().tween_property(beam, "scale", Vector2(1.0, 1.15) if special_kind == "flash-column" else Vector2(1.15, 1.0), 0.098).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+			beam_tween.tween_property(beam, "modulate:a", 0.0, 0.182).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+			beam_tween.parallel().tween_property(beam, "scale", Vector2.ONE, 0.182).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 			beam_tween.finished.connect(beam.queue_free)
+
+
+func _restore_special_impact_z_index(cell: Control, resting_z_index: int) -> void:
+	if is_instance_valid(cell):
+		cell.z_index = resting_z_index
 
 
 func _special_impact_flash_material() -> ShaderMaterial:
@@ -1335,9 +1572,18 @@ func _special_impact_flash_material() -> ShaderMaterial:
 	shader.code = """
 	shader_type canvas_item;
 	void fragment() {
-		float radius = distance(UV, vec2(0.5));
-		float glow = 1.0 - smoothstep(0.12, 0.72, radius);
-		COLOR = vec4(vec3(1.0, 0.965, 0.75), glow) * COLOR;
+		float radius = distance(UV, vec2(0.5)) / length(vec2(0.5));
+		vec4 inner_glow = vec4(1.0, 0.930, 0.527, 0.302);
+		vec4 outer_glow = vec4(0.145, 0.761, 0.638, 0.161);
+		vec4 glow = vec4(0.0);
+		if (radius <= 0.35) {
+			glow = inner_glow;
+		} else if (radius <= 0.58) {
+			glow = mix(inner_glow, outer_glow, (radius - 0.35) / 0.23);
+		} else if (radius <= 0.76) {
+			glow = mix(outer_glow, vec4(0.0), (radius - 0.58) / 0.18);
+		}
+		COLOR = glow * COLOR;
 	}
 	"""
 	var material := ShaderMaterial.new()
@@ -1367,48 +1613,56 @@ func _special_impact_beam_material(vertical: bool) -> ShaderMaterial:
 
 func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
 	input_locked = true
+	var reduced_motion := _prefers_reduced_motion()
 	var valid := bool(result.valid)
 	if valid:
 		_clear_match_feedback()
-		for frame_value in result.get("frames", []):
-			var frame: Dictionary = frame_value
-			if str(frame.phase) == "swap":
-				await _animate_swap(first, second, false)
-				_render_frame(frame)
-			elif str(frame.phase) == "clear":
-				_render_frame(frame)
-				await get_tree().create_timer(CLEAR_MOTION_SECONDS).timeout
-			elif str(frame.phase) == "settle":
-				_render_frame(frame)
-				await get_tree().create_timer(SETTLE_MOTION_SECONDS).timeout
-			elif str(frame.phase) == "reshuffle":
-				_render_frame(frame)
-				await get_tree().create_timer(RESHUFFLE_MOTION_SECONDS).timeout
+		if reduced_motion:
+			_render_board()
+		else:
+			for frame_value in result.get("frames", []):
+				var frame: Dictionary = frame_value
+				if str(frame.phase) == "swap":
+					await _animate_swap(first, second, false)
+					_render_frame(frame)
+				elif str(frame.phase) == "clear":
+					_render_frame(frame)
+					await get_tree().create_timer(CLEAR_MOTION_SECONDS).timeout
+				elif str(frame.phase) == "settle":
+					_render_frame(frame)
+					await get_tree().create_timer(SETTLE_MOTION_SECONDS).timeout
+				elif str(frame.phase) == "reshuffle":
+					_render_frame(frame)
+					await get_tree().create_timer(RESHUFFLE_MOTION_SECONDS).timeout
 		_render_board()
-		if bool(result.get("reshuffled", false)):
+		if reduced_motion and bool(result.get("reshuffled", false)):
+			_show_match_feedback("reshuffled")
+			await get_tree().create_timer(0.16).timeout
+		elif not reduced_motion and bool(result.get("reshuffled", false)):
 			_show_match_feedback("reshuffled")
 			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
-		elif int(result.get("cascades", 0)) >= 2:
+		elif not reduced_motion and int(result.get("cascades", 0)) >= 2:
 			_show_match_feedback("chain", int(result.cascades))
 			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
-		elif int(result.get("ingredientsDropped", 0)) > 0:
+		elif not reduced_motion and int(result.get("ingredientsDropped", 0)) > 0:
 			_show_match_feedback("match", 1, "clue_collected")
 			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
-		elif game.state == "lost":
+		elif not reduced_motion and game.state == "lost":
 			_show_match_feedback("loss", 1, "out_of_moves")
 			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
-		elif game.state == "won":
+		elif not reduced_motion and game.state == "won":
 			_show_match_feedback("win", 1, "clue_collected")
 			await get_tree().create_timer(FEEDBACK_HOLD_SECONDS).timeout
 		_clear_match_feedback()
 	else:
-		_show_match_feedback("reject", 1, _invalid_feedback_key(str(result.get("reason", ""))))
-		if str(result.get("reason", "")) == "no-match":
+		var reason := str(result.get("reason", ""))
+		if reason == "no-match" and not reduced_motion:
 			await _animate_swap(first, second, true)
-		else:
-			_shake_rejected_cells([first, second])
-		await get_tree().create_timer(0.70).timeout
+		_show_match_feedback("reject", 1, _invalid_feedback_key(reason))
+		if reason == "no-match" and not reduced_motion: await _return_rejected_swap(first, second)
+		await get_tree().create_timer(INVALID_HOLD_SECONDS).timeout
 		_clear_match_feedback()
+		last_feedback = ""
 	_render_board()
 	input_locked = false
 
@@ -1476,6 +1730,18 @@ func _select_cell(index: int) -> void:
 	hinted_indices.clear()
 	last_tapped_special_index = -1
 	last_tapped_special_at = -1
+	if not result.valid and str(result.reason) == "not-adjacent":
+		selected_index = index
+		last_feedback = "not-adjacent"
+		input_locked = true
+		_refresh()
+		_show_match_feedback("reject", 1, _invalid_feedback_key("not-adjacent"))
+		await get_tree().create_timer(INVALID_HOLD_SECONDS).timeout
+		_clear_match_feedback()
+		last_feedback = ""
+		_refresh()
+		input_locked = false
+		return
 	if result.valid:
 		selected_index = -1
 		last_feedback = ""
@@ -1483,7 +1749,7 @@ func _select_cell(index: int) -> void:
 			session.complete_level(level_id, game.moves_left)
 			if not campaign_mode and story_session != null: story_session.complete_match3(level_id)
 	else:
-		selected_index = index
+		selected_index = -1
 		last_feedback = str(result.reason)
 	await _play_move_frames(result, first_index, index)
 	_record_tutorial_move(result)
@@ -1551,6 +1817,7 @@ func _update_tile_drag(position: Vector2) -> void:
 	var source_stack := source.get_node_or_null("TileStack") as Control
 	if source_stack != null:
 		source.z_index = 9
+		source.clip_contents = false
 		_set_stack_translation(source_stack, Vector2(travel, 0.0) if direction in ["left", "right"] else Vector2(0.0, travel))
 		source_stack.scale = Vector2.ONE * 1.06
 		source_stack.modulate = Color(1.08, 1.08, 1.08, 1.0)
@@ -1613,6 +1880,7 @@ func _clear_drag_preview() -> void:
 		if index < 0 or index >= board.get_child_count(): continue
 		var cell := board.get_child(index) as Control
 		cell.z_index = 0
+		cell.clip_contents = true
 		var stack := cell.get_node_or_null("TileStack") as Control
 		if stack != null:
 			_set_stack_translation(stack, Vector2.ZERO)

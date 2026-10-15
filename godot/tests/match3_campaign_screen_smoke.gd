@@ -60,6 +60,102 @@ func _run() -> void:
 	match3._record_tutorial_move({"valid": true}, true)
 	assert(match3.active_tutorial.is_empty(), "Completing the special activation did not advance the tutorial sequence")
 	assert(match3.game.tiles.size() == int(bundle.levels[1].rows) * int(bundle.levels[1].columns), "Selected campaign board dimensions mismatch")
+	var board_outline := match3.board_frame.get_parent() as PanelContainer
+	var board_outline_style := board_outline.get_theme_stylebox("panel") as StyleBoxFlat
+	var board_frame_style := match3.board_frame.get_theme_stylebox("panel") as StyleBoxFlat
+	var board_inner_border := board_outline.get_node("BoardInnerBorder") as Panel
+	var board_inner_border_style := board_inner_border.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(board_outline.name == "BoardNavyOutline" and is_zero_approx(board_outline_style.bg_color.a)
+		and board_outline_style.content_margin_left == 0 and board_outline_style.shadow_size == 0,
+		"UI A board should not keep the retired navy-and-gold outer ring")
+	assert(board_frame_style.border_width_left == 3 and board_frame_style.border_width_top == 3
+		and board_frame_style.corner_radius_top_left == 8 and board_frame_style.content_margin_left == 0
+		and board_frame_style.bg_color.is_equal_approx(Color("#0713289e"))
+		and match3.board_frame.material == null, "UI A board should use its flat navy surface and 3px paper edge")
+	assert(board_inner_border.name == "BoardInnerBorder" and not board_inner_border.visible
+		and board_inner_border_style.border_width_left == 0,
+		"UI A board should not draw the retired inner gold line")
+	assert(match3.board.get_theme_constant("h_separation") == 1
+		and match3.board.get_theme_constant("v_separation") == 1,
+		"UI A board should preserve its one-pixel cell gaps")
+	assert(absf(match3.board_frame.size.x / match3.board_frame.size.y - float(match3.board.columns) / float(match3.game.level_data.rows)) < 0.01,
+		"UI A board should preserve its authored columns-to-rows aspect ratio")
+	var cell_background := match3.board.get_child(0).get_node("CellBackground") as Panel
+	var cell_background_style := cell_background.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(cell_background.offset_left == 1 and cell_background.offset_right == -1
+		and cell_background.material == null and cell_background_style.bg_color.is_equal_approx(Color("#5a859926")),
+		"Match-3 cells should use the source translucent blue-gray fill without a retired gradient shader")
+	var cell_socket := match3.board.get_child(0).get_node("CellSocket") as Panel
+	var socket_style := cell_socket.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(cell_socket.offset_left == 1 and cell_socket.offset_top == 1
+		and cell_socket.offset_right == -1 and cell_socket.offset_bottom == -1
+		and is_zero_approx(socket_style.bg_color.a) and socket_style.get_border_width(SIDE_LEFT) == 0
+		and cell_socket.material == null,
+		"UI A tile socket should use its one-pixel inset and transparent fill")
+	var normal_tile := match3.board.get_child(0).get_node("TileStack/Tile") as TextureRect
+	var normal_tile_material := normal_tile.material as ShaderMaterial
+	assert(normal_tile.offset_left == 0 and normal_tile.offset_top == 0
+		and normal_tile.scale.is_equal_approx(Vector2(1.08, 1.08))
+		and (normal_tile_material.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#071224b8"))
+		and (normal_tile_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2))
+		and is_equal_approx(normal_tile_material.get_shader_parameter("saturation"), 1.05),
+		"UI A tile artwork should fill its cell and preserve its 1.08 scale, drop shadow and saturation")
+	var first_tile_before_variant_check: String = match3.game.tiles[0]
+	match3.game.tiles[0] = "camisole"
+	match3._render_board()
+	var camisole_tile := match3.board.get_child(0).get_node("TileStack/Tile") as TextureRect
+	var camisole_shadow := camisole_tile.material as ShaderMaterial
+	assert(camisole_shadow != null and is_equal_approx(camisole_shadow.get_shader_parameter("brightness"), 1.38)
+		and is_equal_approx(camisole_shadow.get_shader_parameter("shadow_blur_px"), 1.0)
+		and is_equal_approx(camisole_shadow.get_shader_parameter("saturation"), 1.0),
+		"Camisole tile should preserve the source brightness variant and soft drop shadow")
+	match3.game.tiles[0] = first_tile_before_variant_check
+	match3._render_board()
+	var visual_blocker_index := -1
+	for index in match3.game.tiles.size():
+		if not match3.game.tiles[index].is_empty() and match3.game.blocker_layers[index] == 0:
+			visual_blocker_index = index
+			break
+	assert(visual_blocker_index >= 0, "Match-3 board has no free tile for blocker presentation checks")
+	var saved_blocker_style: String = str(match3.level_data.blockerStyle)
+	var saved_blocker_layers: int = match3.game.blocker_layers[visual_blocker_index]
+	match3.level_data.blockerStyle = "solid"
+	match3.game.blocker_layers[visual_blocker_index] = 2
+	match3._render_board()
+	var solid_blocker_cell: Control = match3.board.get_child(visual_blocker_index)
+	var solid_stack: Control = solid_blocker_cell.get_node("TileStack")
+	var solid_overlay: TextureRect = solid_blocker_cell.get_node("Blocker")
+	assert(solid_stack.scale.is_equal_approx(Vector2(0.64, 0.64)) and is_equal_approx(solid_overlay.modulate.a, 0.84)
+		and solid_overlay.material == null,
+		"Solid bag blocker should shrink the retained tile stack and preserve the two-layer opacity")
+	match3.game.blocker_layers[visual_blocker_index] = 1
+	match3._render_board()
+	var worn_solid_overlay: TextureRect = (match3.board.get_child(visual_blocker_index) as Control).get_node("Blocker")
+	assert(is_equal_approx(worn_solid_overlay.modulate.a, 0.68), "One-layer solid blocker should use the worn source opacity")
+	match3.level_data.blockerStyle = "locked"
+	match3.game.blocker_layers[visual_blocker_index] = 2
+	match3._render_board()
+	var locked_blocker_cell: Control = match3.board.get_child(visual_blocker_index)
+	var locked_stack: Control = locked_blocker_cell.get_node("TileStack")
+	var locked_overlay: TextureRect = locked_blocker_cell.get_node("Blocker")
+	assert(is_equal_approx(locked_stack.modulate.a, 0.84) and is_equal_approx(locked_overlay.modulate.a, 1.0)
+		and locked_blocker_cell.has_node("LockedBlockerOutline"),
+		"Locked blocker should retain readable tile art and its pale inset cell outline")
+	match3.level_data.blockerStyle = "overlay"
+	match3.game.blocker_layers[visual_blocker_index] = 1
+	match3._render_board()
+	var foam_blocker_cell: Control = match3.board.get_child(visual_blocker_index)
+	var foam_stack: Control = foam_blocker_cell.get_node("TileStack")
+	var foam_overlay: TextureRect = foam_blocker_cell.get_node("Blocker")
+	var foam_material := foam_overlay.material as ShaderMaterial
+	assert(foam_stack.scale.is_equal_approx(Vector2.ONE) and is_equal_approx(foam_overlay.modulate.a, 0.72)
+		and foam_material != null and is_equal_approx(foam_material.get_shader_parameter("contrast"), 1.04)
+		and is_equal_approx(foam_material.get_shader_parameter("saturation"), 0.9)
+		and is_equal_approx((foam_material.get_shader_parameter("shadow_color") as Color).a, Color("#0713269e").a),
+		"Foam overlay should preserve the readable tile and source contrast, saturation, opacity and shadow")
+	match3.level_data.blockerStyle = saved_blocker_style
+	match3.game.blocker_layers[visual_blocker_index] = saved_blocker_layers
+	match3._render_board()
 	assert(match3.back_button.custom_minimum_size == Vector2(44, 44), "Match-3 header back control should match the source button size")
 	assert(match3.help_button.custom_minimum_size == Vector2(44, 44), "Match-3 help control should match the source button size")
 	assert(match3.settings_button.custom_minimum_size == Vector2(44, 44), "Match-3 settings control should match the source button size")
@@ -87,13 +183,75 @@ func _run() -> void:
 			drag_source = index
 			break
 	assert(drag_source >= 0, "Match-3 screen has no movable source cell for drag preview")
+	assert((match3.board.get_child(drag_source) as Control).clip_contents,
+		"UI A board cells should clip oversized tile art to their cell bounds")
 	match3._begin_tile_drag(drag_source, Vector2.ZERO)
 	match3._update_tile_drag(Vector2(match3.drag_start_cell_size * 0.08, 0.0))
+	assert(not (match3.board.get_child(drag_source) as Control).clip_contents,
+		"Dragging should temporarily show the source tile outside its cell like the web drag-source state")
 	var drag_source_stack: Control = match3.board.get_child(drag_source).get_node("TileStack")
 	var drag_target_stack: Control = match3.board.get_child(match3._drag_neighbour(drag_source, "right")).get_node("TileStack")
 	assert(match3.drag_target_index == match3._drag_neighbour(drag_source, "right"), "Drag preview did not react the adjacent cell at the source threshold")
 	assert(drag_source_stack.offset_left > 0.0 and drag_target_stack.offset_left < 0.0, "Drag preview did not move the source and neighboring tile stacks")
 	match3._clear_drag_preview()
+	assert((match3.board.get_child(drag_source) as Control).clip_contents,
+		"Ending a drag preview did not restore the production cell clipping")
+	var distant_cell := -1
+	var board_columns := int(match3.level_data.columns)
+	for candidate in match3.game.tiles.size():
+		if candidate == drag_source or match3.game.tiles[candidate].is_empty() or not match3.game._is_active(candidate): continue
+		var row_distance := absi(candidate / board_columns - drag_source / board_columns)
+		var column_distance := absi(candidate % board_columns - drag_source % board_columns)
+		if row_distance + column_distance > 1:
+			distant_cell = candidate
+			break
+	assert(distant_cell >= 0, "Match-3 board has no distant cell for non-adjacent input")
+	match3.selected_index = drag_source
+	match3._select_cell(distant_cell)
+	await process_frame
+	assert(match3.selected_index == distant_cell and match3.input_locked, "Non-adjacent tap should select the second cell while holding rejection feedback")
+	await create_timer(0.15).timeout
+	var selected_cell: Control = match3.board.get_child(distant_cell)
+	assert(absf(selected_cell.scale.x - 0.9) < 0.01 and selected_cell.z_index == 5,
+		"Selected cell should use the source 0.9 scale and raised stacking order")
+	assert(absf(selected_cell.modulate.r - 1.18) < 0.01 and absf(selected_cell.modulate.g - 1.18) < 0.01
+		and absf(selected_cell.modulate.b - 1.18) < 0.01,
+		"Selected cell should brighten the whole cell neutrally like CSS brightness(1.18)")
+	assert(match3.bark.text == MenuCopy.text("match3_bark_not_adjacent", "ru"), "Non-adjacent tap did not show the source bark")
+	assert(match3.match_feedback_panel.visible, "Non-adjacent tap did not show the reject feedback pill")
+	await create_timer(0.82).timeout
+	assert(not match3.input_locked and not match3.match_feedback_panel.visible and match3.last_feedback.is_empty(), "Non-adjacent feedback did not clear after the source hold duration")
+	match3.selected_index = -1
+	match3._render_board()
+	var rejection_target: int = match3._drag_neighbour(drag_source, "right")
+	match3.last_feedback = "no-match"
+	match3._play_move_frames({"valid": false, "reason": "no-match"}, drag_source, rejection_target)
+	await create_timer(0.05).timeout
+	var moving_rejected_stack: Control = match3.board.get_child(drag_source).get_node("TileStack")
+	assert(absf(moving_rejected_stack.offset_left) > 1.0, "No-match swap did not move the stack outward")
+	assert(not match3.match_feedback_panel.visible, "No-match reject feedback appeared before the outward swap finished")
+	await create_timer(0.12).timeout
+	assert(match3.match_feedback_panel.visible and match3.match_feedback_kind == "reject", "No-match feedback should appear after the outward swap animation")
+	await create_timer(0.66).timeout
+	assert(match3.input_locked, "No-match hold should continue after the 150ms return while the shake has already finished")
+	await create_timer(0.2).timeout
+	assert(not match3.input_locked, "No-match rejection should unlock after the source 700ms hold, without an extra shake wait")
+	await create_timer(0.11).timeout
+	assert(not match3.match_feedback_panel.visible, "No-match reject feedback did not finish its source fade after the return and hold")
+	match3._show_match_feedback("reject", 1, "no_match")
+	assert(match3.match_feedback_panel.visible and is_equal_approx(match3.match_feedback_panel.scale.x, 0.86) and is_zero_approx(match3.match_feedback_panel.modulate.a), "Feedback entry should start from the source scale and opacity")
+	assert(match3.match_feedback_panel.pivot_offset == match3.match_feedback_panel.size * 0.5, "Feedback pill should scale from its center")
+	await create_timer(0.05).timeout
+	assert(match3.match_feedback_panel.modulate.a > 0.0 and match3.match_feedback_panel.modulate.a < 1.0 and match3.match_feedback_panel.scale.x > 0.86, "Feedback entry did not follow the 100 ms CSS transition")
+	await create_timer(0.06).timeout
+	assert(is_equal_approx(match3.match_feedback_panel.scale.x, 1.0) and is_equal_approx(match3.match_feedback_panel.modulate.a, 1.0), "Feedback entry did not reach its source end state")
+	match3._show_match_feedback("special")
+	assert(is_equal_approx(match3.match_feedback_panel.scale.x, 1.0), "Changing a visible feedback message restarted the pill entrance")
+	match3._clear_match_feedback()
+	await create_timer(0.05).timeout
+	assert(match3.match_feedback_panel.visible and match3.match_feedback_panel.modulate.a < 1.0, "Feedback exit should remain visible during its fade")
+	await create_timer(0.06).timeout
+	assert(not match3.match_feedback_panel.visible, "Feedback exit did not hide the pill after the 100 ms CSS transition")
 	for locale in ["ru", "be", "en"]:
 		assert(menu.preferences.set_locale(locale) == OK)
 		assert(match3.guidance_labels[0].text == MenuCopy.text("match3_input_hint", locale), "Match-3 input guidance did not update for %s" % locale)
@@ -155,12 +313,22 @@ func _run() -> void:
 	})
 	var ingredient_cell: Control = match3.board.get_child(settle_index)
 	var ingredient_icon: TextureRect = ingredient_cell.get_node("TileStack/Ingredient")
-	var ingredient_glow: TextureRect = ingredient_cell.get_node("TileStack/IngredientGlow")
-	assert(ingredient_icon.anchor_right == 1.0 and ingredient_icon.anchor_bottom == 1.0 and ingredient_icon.offset_left == 3.0, "Ingredient artwork did not fill the source cell with its 3px inset")
+	var ingredient_material := ingredient_icon.material as ShaderMaterial
+	assert(ingredient_icon.anchor_right == 1.0 and ingredient_icon.anchor_bottom == 1.0 and ingredient_icon.offset_left == 2.0, "Production ingredient artwork did not preserve its 2px inset")
+	assert(ingredient_material != null and is_equal_approx(ingredient_material.get_shader_parameter("glow_white_radius_px"), 7.0)
+		and (ingredient_material.get_shader_parameter("glow_white") as Color).is_equal_approx(Color("#fff2a0"))
+		and is_zero_approx((ingredient_material.get_shader_parameter("glow_gold") as Color).a)
+		and is_zero_approx((ingredient_material.get_shader_parameter("glow_aqua") as Color).a),
+		"Ingredient idle glow did not use the source yellow 7px drop shadow")
 	await create_timer(0.71).timeout
-	assert(ingredient_icon.offset_top < 2.0 and ingredient_glow.modulate.a > 0.2 and ingredient_glow.scale.x > 1.1, "Ingredient idle did not reach its source lift and gold glow")
+	assert(ingredient_icon.offset_top < 2.0 and ingredient_icon.offset_bottom < -4.5
+		and ingredient_icon.scale.is_equal_approx(Vector2.ONE)
+		and float(ingredient_material.get_shader_parameter("glow_strength")) > 0.9,
+		"Ingredient idle did not reach the source 2px lift and yellow drop shadow")
 	await create_timer(0.72).timeout
-	assert(ingredient_icon.offset_top > 2.5 and ingredient_glow.modulate.a < 0.05 and ingredient_glow.scale.x < 1.02, "Ingredient idle did not return near its source resting state")
+	assert(absf(ingredient_icon.offset_top - 3.0) < 0.25 and absf(ingredient_icon.offset_bottom + 3.0) < 0.25
+		and float(ingredient_material.get_shader_parameter("glow_strength")) < 0.05,
+		"Ingredient idle did not return to its source resting position and no-glow state")
 	match3._render_board()
 	match3._render_frame({
 		"phase": "clear",
@@ -183,11 +351,63 @@ func _run() -> void:
 	var rejected_second := settle_index + 1 if (settle_index + 1) % columns != 0 else settle_index - 1
 	var rejected_cell: Control = match3.board.get_child(rejected_first)
 	var rejected_home_x := rejected_cell.position.x
+	var css_ease_curve := Callable(match3, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
+	assert(absf(float(css_ease_curve.call(0.5)) - 0.8024) < 0.01, "CSS ease curve did not sample to its source midpoint")
 	match3._shake_rejected_cells([rejected_first, rejected_second])
-	await create_timer(0.12).timeout
-	assert(absf(rejected_cell.position.x - rejected_home_x) > 1.0, "Rejected swap did not shake the whole source cell")
-	await create_timer(0.12).timeout
+	await create_timer(0.04).timeout
+	assert(rejected_cell.position.x < rejected_home_x - 2.0,
+		"Rejected swap should reach the source -5px shake keyframe first")
+	await create_timer(0.06).timeout
+	assert(rejected_cell.position.x > rejected_home_x + 2.0,
+		"Rejected swap should cross toward the source +5px shake keyframe second")
+	await create_timer(0.06).timeout
+	assert(rejected_cell.position.x < rejected_home_x - 1.0,
+		"Rejected swap should return through the source -3px shake keyframe third")
+	await create_timer(0.055).timeout
+	assert(absf(rejected_cell.position.x - rejected_home_x) < 1.0,
+		"Rejected swap should finish the source 220ms shake at its home position")
+	await create_timer(0.25).timeout
 	assert(is_equal_approx(rejected_cell.position.x, rejected_home_x), "Rejected cell did not return to its source position")
+	match3._reduced_motion_override = true
+	match3.selected_index = rejected_first
+	match3.hinted_indices.clear()
+	match3.hinted_indices.append(rejected_second)
+	match3._render_board()
+	var reduced_selected: Control = match3.board.get_child(rejected_first)
+	var reduced_hinted: Control = match3.board.get_child(rejected_second)
+	assert(is_equal_approx(reduced_selected.scale.x, 0.9) and is_equal_approx(reduced_selected.modulate.r, 1.18),
+		"Reduced motion should apply selected-cell styling immediately without easing")
+	await create_timer(0.2).timeout
+	assert(reduced_hinted.scale.is_equal_approx(Vector2.ONE) and reduced_hinted.modulate.is_equal_approx(Color.WHITE),
+		"Reduced motion should leave the hint highlight static instead of looping its pulse")
+	match3.selected_index = -1
+	match3.hinted_indices.clear()
+	match3._render_board()
+	await process_frame
+	var reduced_source_home: Vector2 = (match3.board.get_child(rejected_first) as Control).position
+	var reduced_target_home: Vector2 = (match3.board.get_child(rejected_second) as Control).position
+	match3._play_move_frames({"valid": false, "reason": "no-match"}, rejected_first, rejected_second)
+	await process_frame
+	var reduced_source_stack: Control = match3.board.get_child(rejected_first).get_node("TileStack")
+	var reduced_target_stack: Control = match3.board.get_child(rejected_second).get_node("TileStack")
+	assert(match3.input_locked, "Reduced-motion rejection should preserve the source 700ms input hold")
+	assert(match3.match_feedback_panel.visible and is_equal_approx(match3.match_feedback_panel.scale.x, 1.0)
+		and is_equal_approx(match3.match_feedback_panel.modulate.a, 1.0),
+		"Reduced-motion rejection feedback should appear immediately without its scale or fade transition")
+	assert(is_zero_approx(reduced_source_stack.offset_left) and is_zero_approx(reduced_target_stack.offset_left),
+		"Reduced motion should skip rejected-swap stack travel")
+	assert((match3.board.get_child(rejected_first) as Control).position == reduced_source_home
+		and (match3.board.get_child(rejected_second) as Control).position == reduced_target_home,
+		"Reduced motion should skip rejected-swap cell shake: %s/%s != %s/%s" % [
+			(match3.board.get_child(rejected_first) as Control).position,
+			(match3.board.get_child(rejected_second) as Control).position,
+			reduced_source_home, reduced_target_home,
+		])
+	await create_timer(0.72).timeout
+	assert(not match3.input_locked and not match3.match_feedback_panel.visible,
+		"Reduced-motion rejection should keep the source hold, then clear feedback without a fade")
+	match3._reduced_motion_override = null
+	match3._render_board()
 	match3.story_session = menu.session
 	menu._open_story()
 	await process_frame
@@ -206,6 +426,24 @@ func _run() -> void:
 	var special_frame_specials: Array[String] = match3.game.specials.duplicate()
 	special_frame_specials[special_index] = "flash-row"
 	var impact_target := special_index + 1 if (special_index + 1) % columns != 0 else special_index - 1
+	var resting_source_z: int = (match3.board.get_child(special_index) as Control).z_index
+	var resting_target_z: int = (match3.board.get_child(impact_target) as Control).z_index
+	var saved_specials: Array[String] = match3.game.specials
+	match3.game.specials = special_frame_specials.duplicate()
+	match3._render_board()
+	var resting_special: TextureRect = match3.board.get_child(special_index).get_node("TileStack/Special")
+	var resting_direction: PanelContainer = match3.board.get_child(special_index).get_node("TileStack/SpecialDirectionMarker")
+	var resting_special_material := resting_special.material as ShaderMaterial
+	assert(is_equal_approx(resting_special.rotation_degrees, 0.0),
+		"Directional special art should keep its authored CSS orientation")
+	assert(is_equal_approx(resting_special_material.get_shader_parameter("glow_gold_radius_px"), 7.0)
+		and is_equal_approx((resting_special_material.get_shader_parameter("glow_white") as Color).a, 0.0)
+		and is_equal_approx((resting_special_material.get_shader_parameter("glow_aqua") as Color).a, 0.0),
+		"Resting special artwork should keep only its source seven-pixel gold glow")
+	assert(resting_direction.get_child(0).get_theme_font_size("font_size") == 13,
+		"Directional special marker should preserve the source 13px glyph size")
+	match3.game.specials = saved_specials
+	match3._render_board()
 	match3._render_frame({
 		"phase": "clear",
 		"tiles": match3.game.tiles.duplicate(),
@@ -221,20 +459,44 @@ func _run() -> void:
 	var feedback_style := match3.match_feedback_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(feedback_style.bg_color == Color("#c07f35ef"), "Special feedback did not use the source amber treatment")
 	var special_cell: Control = match3.board.get_child(special_index)
+	assert(special_cell.pivot_offset == special_cell.custom_minimum_size * 0.5, "Board cell scale effects should pivot around the center like CSS transforms")
+	var source_outline: Panel = special_cell.get_node("SpecialImpactSourceOutline")
+	assert(is_equal_approx(source_outline.modulate.a, 1.0) and special_cell.z_index == 6,
+		"Activated special outline should remain visible above neighboring cells throughout its impact")
 	assert(special_cell.get_node_or_null("SpecialImpactFlash") != null, "Special clear did not create its visual impact flash")
 	assert(special_cell.get_node_or_null("SpecialImpactSourceOutline") != null, "Activated special did not receive its source outline")
 	assert(special_cell.get_node_or_null("SpecialImpactBeam") != null, "Line special did not create its directional beam")
 	var target_cell: Control = match3.board.get_child(impact_target)
-	assert(target_cell.get_node_or_null("SpecialImpactTargetOutline") != null, "Affected clear target did not receive its target outline")
+	assert(target_cell.get_node_or_null("SpecialImpactTargetOutline") != null and target_cell.z_index == 3,
+		"Affected clear target did not rise above the board with its target outline")
 	assert(target_cell.get_node_or_null("SpecialImpactFlash") != null, "Affected clear target did not receive its impact flash")
+	var target_flash := target_cell.get_node("SpecialImpactFlash") as ColorRect
+	var target_flash_shader := (target_flash.material as ShaderMaterial).shader
+	assert(target_flash_shader.code.contains("0.35") and target_flash_shader.code.contains("0.58")
+		and target_flash_shader.code.contains("0.76") and target_flash_shader.code.contains("0.302")
+		and target_flash_shader.code.contains("0.161"),
+		"Special impact flash did not preserve the CSS radial gradient stops and opacity")
 	var special_stack: Control = special_cell.get_node("TileStack")
+	assert(special_stack.pivot_offset == special_cell.custom_minimum_size * 0.5, "Tile-stack scale effects should pivot around the source cell center")
 	var special_icon: TextureRect = special_stack.get_node("Special")
-	var special_glow: TextureRect = special_stack.get_node("SpecialGlow")
+	var special_shadow := special_icon.material as ShaderMaterial
 	var direction_marker: PanelContainer = special_stack.get_node("SpecialDirectionMarker")
 	assert(is_equal_approx(special_icon.rotation_degrees, -8.0), "Flash Row activation did not start from the source impact keyframe")
-	assert(direction_marker.get_child(0).text == "↔" and special_glow.modulate.a < 1.0, "Flash Row missed its direction marker or translucent gold glow")
+	assert(direction_marker.get_child(0).text == "↔" and special_shadow != null
+		and is_equal_approx(special_shadow.get_shader_parameter("shadow_blur_px"), 0.0)
+		and is_equal_approx((special_shadow.get_shader_parameter("shadow_color") as Color).a, 0.0)
+		and is_equal_approx(special_shadow.get_shader_parameter("glow_strength"), 1.0)
+		and (special_shadow.get_shader_parameter("glow_gold") as Color).to_html(false) == Color("#fff0a8").to_html(false)
+		and is_equal_approx(special_shadow.get_shader_parameter("glow_white_radius_px"), 5.0)
+		and is_equal_approx((special_shadow.get_shader_parameter("glow_white") as Color).a, 1.0)
+		and is_equal_approx(special_shadow.get_shader_parameter("glow_gold_radius_px"), 10.0)
+		and (special_shadow.get_shader_parameter("glow_aqua") as Color).to_html(false) == Color("#6ce2d3").to_html(false)
+		and is_equal_approx(special_shadow.get_shader_parameter("glow_aqua_radius_px"), 14.0),
+		"Flash Row activation should add the source white, gold and aqua glow radii")
 	await create_timer(0.3).timeout
 	assert(is_equal_approx(special_icon.rotation_degrees, 0.0), "Flash Row activation did not return to neutral rotation")
+	assert(special_cell.z_index == resting_source_z and target_cell.z_index == resting_target_z,
+		"Special impact did not restore the cells' original stacking order after 280ms")
 	match3._render_board()
 	match3._render_frame({
 		"phase": "reshuffle",
@@ -248,6 +510,8 @@ func _run() -> void:
 	assert(match3.match_feedback_label.text == "НЕТ ХОДОВ · ПОЛЕ ПЕРЕМЕШАНО", "Reshuffle feedback did not use the localized message")
 	var reshuffled_stack: Control = match3.board.get_child(0).get_node("TileStack")
 	assert(reshuffled_stack.scale.is_equal_approx(Vector2(0.82, 0.82)), "Reshuffle animation did not start at its source scale")
+	await create_timer(0.18).timeout
+	assert(reshuffled_stack.scale.x > 1.0 and absf(reshuffled_stack.scale.x - 1.04) < 0.05, "Reshuffle animation missed the 65% CSS keyframe")
 	await create_timer(0.5).timeout
 	assert(reshuffled_stack.scale.is_equal_approx(Vector2.ONE), "Reshuffle animation did not return tiles to their resting scale")
 	match3._render_board()
