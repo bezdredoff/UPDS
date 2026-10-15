@@ -73,6 +73,17 @@ func _run() -> void:
 	var match3: Control = menu.match3_screen
 	assert(match3 != null and match3.campaign_mode, "Campaign level did not launch in standalone mode")
 	assert(match3.level_id == second_id and match3.game.level_data.id == second_id, "Selected campaign level was not loaded")
+	if OS.has_feature("web"):
+		var title_web_font := match3.title.get_theme_font("font") as FontVariation
+		assert(title_web_font != null and title_web_font.base_font == UiFonts.GEORGIA_LATIN
+			and title_web_font.fallbacks == [UiFonts.SERIF_CYRILLIC]
+			and title_web_font.variation_embolden == 0.2,
+			"Web Match-3 title should match the source Georgia serif weight 800")
+	else:
+		var title_native_font := match3.title.get_theme_font("font") as SystemFont
+		assert(title_native_font != null and title_native_font.font_names.has("Georgia")
+			and title_native_font.font_weight == 800,
+			"Native Match-3 title should match the source Georgia serif weight 800")
 	var comic_normal: Font = UiFonts.match3(500)
 	var comic_bold: Font = UiFonts.match3(800)
 	var objective_font: Font = match3.objective_heading.get_theme_font("font")

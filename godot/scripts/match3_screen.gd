@@ -195,7 +195,7 @@ func _ready() -> void:
 	title_short.text = str(level_data.get("shortId", ""))
 	title = _label(title_stack, 11, Color.WHITE)
 	title.add_theme_font_size_override("font_size", 11)
-	title.add_theme_font_override("font", UiFonts.serif())
+	title.add_theme_font_override("font", UiFonts.serif(800))
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var actions := HBoxContainer.new()
 	actions.add_theme_constant_override("separation", 5)
