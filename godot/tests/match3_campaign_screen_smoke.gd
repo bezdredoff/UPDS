@@ -60,6 +60,14 @@ func _run() -> void:
 	match3._record_tutorial_move({"valid": true}, true)
 	assert(match3.active_tutorial.is_empty(), "Completing the special activation did not advance the tutorial sequence")
 	assert(match3.game.tiles.size() == int(bundle.levels[1].rows) * int(bundle.levels[1].columns), "Selected campaign board dimensions mismatch")
+	var first_tile_before_variant_check: String = match3.game.tiles[0]
+	match3.game.tiles[0] = "camisole"
+	match3._render_board()
+	var camisole_tile := match3.board.get_child(0).get_node("TileStack/Tile") as TextureRect
+	assert(camisole_tile.modulate == Color(1.38, 1.38, 1.38, 1.0),
+		"Camisole tile should preserve the source brightened asset variant")
+	match3.game.tiles[0] = first_tile_before_variant_check
+	match3._render_board()
 	assert(match3.back_button.custom_minimum_size == Vector2(44, 44), "Match-3 header back control should match the source button size")
 	assert(match3.help_button.custom_minimum_size == Vector2(44, 44), "Match-3 help control should match the source button size")
 	assert(match3.settings_button.custom_minimum_size == Vector2(44, 44), "Match-3 settings control should match the source button size")

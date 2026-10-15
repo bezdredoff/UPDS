@@ -625,6 +625,8 @@ func _render_board() -> void:
 			tile.texture = load("res://" + tile_asset.trim_prefix("./"))
 			tile.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			tile.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			if game.tiles[index] == "camisole":
+				tile.modulate = Color(1.38, 1.38, 1.38, 1.0)
 			tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			tile_stack.add_child(tile)
 		tile_stack.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else Color.WHITE
