@@ -200,18 +200,19 @@ func _ready() -> void:
 	tutorial_style.set_border_width_all(3)
 	tutorial_style.border_width_left = 8
 	tutorial_style.set_corner_radius_all(7)
-	tutorial_style.content_margin_left = 20
-	tutorial_style.content_margin_right = 20
+	tutorial_style.content_margin_left = 26
+	tutorial_style.content_margin_right = 26
 	tutorial_style.content_margin_top = 30
 	tutorial_style.content_margin_bottom = 18
 	tutorial_panel.add_theme_stylebox_override("panel", tutorial_style)
 	content.add_child(tutorial_panel)
-	var tutorial_content_layer := Control.new()
-	tutorial_content_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	tutorial_panel.add_child(tutorial_content_layer)
 	var tutorial_content := VBoxContainer.new()
-	tutorial_content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	tutorial_content.name = "TutorialContent"
 	tutorial_content.add_theme_constant_override("separation", 0)
+	var tutorial_content_layer := Control.new()
+	tutorial_content_layer.name = "TutorialContentLayer"
+	tutorial_panel.add_child(tutorial_content_layer)
+	tutorial_content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	tutorial_content_layer.add_child(tutorial_content)
 	tutorial_badge = PanelContainer.new()
 	tutorial_badge.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
@@ -247,7 +248,7 @@ func _ready() -> void:
 	tutorial_body = _label(tutorial_content, 13, Color("#5c513e"))
 	tutorial_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tutorial_body.add_theme_font_size_override("font_size", 13)
-	tutorial_body.add_theme_constant_override("line_spacing", 5)
+	tutorial_body.add_theme_constant_override("line_spacing", 0)
 	var tutorial_sans := SystemFont.new()
 	tutorial_sans.font_names = PackedStringArray(["Comic Sans MS", "Trebuchet MS", "Arial"])
 	tutorial_sans.font_weight = 700
@@ -526,7 +527,6 @@ func _ready() -> void:
 
 
 func _refresh() -> void:
-	_fit_tutorial_card()
 	var locale: String = preferences.locale
 	var copy: Dictionary = level_presentation.localized.get(locale, level_presentation.localized.en)
 	title.text = copy.title
@@ -584,6 +584,7 @@ func _refresh() -> void:
 	warning.visible = not warning.text.is_empty()
 	if not match_feedback_key.is_empty():
 		match_feedback_label.text = _feedback_text(match_feedback_key, match_feedback_cascade)
+	call_deferred("_fit_tutorial_card")
 	bottom_spacer.visible = game.state == "playing"
 	var won: bool = game.state == "won"
 	board_center.visible = not won
@@ -2136,3 +2137,5 @@ func _fit_tutorial_card() -> void:
 	var compact := size.x <= 340.0
 	tutorial_title.add_theme_font_size_override("font_size", 20 if compact else 24)
 	tutorial_body.add_theme_font_size_override("font_size", 11 if compact else 13)
+	var content_layer := tutorial_panel.get_node("TutorialContentLayer") as Control
+	content_layer.custom_minimum_size.y = 207.0 + maxf(0.0, 350.0 - card_width) * 0.8

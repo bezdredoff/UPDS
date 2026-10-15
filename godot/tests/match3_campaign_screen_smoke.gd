@@ -55,8 +55,14 @@ func _run() -> void:
 	var match3: Control = menu.match3_screen
 	assert(match3 != null and match3.campaign_mode, "Campaign level did not launch in standalone mode")
 	assert(match3.level_id == second_id and match3.game.level_data.id == second_id, "Selected campaign level was not loaded")
+	await process_frame
 	assert(match3.active_tutorial == "clear-package" and match3.tutorial_panel.visible, "Level-start blocker tutorial was not selected in authored order")
 	assert(match3.tutorial_title.text == "Снимайте слои пакета", "Campaign tutorial copy did not use the localized concept")
+	var tutorial_card_rect: Rect2 = match3.tutorial_frame.get_global_rect()
+	var tutorial_button_rect: Rect2 = match3.tutorial_button.get_global_rect()
+	assert(tutorial_card_rect.size.y >= 240.0 and tutorial_card_rect.size.y <= 300.0,
+		"Tutorial overlay frame should size itself around its localized copy rather than collapse or fill the viewport")
+	assert(tutorial_card_rect.encloses(tutorial_button_rect), "Tutorial action should remain inside the framed card")
 	match3.tutorial_button.pressed.emit()
 	assert(not match3.tutorial_panel.visible and match3.active_tutorial == "clear-package", "Acknowledging a tutorial should dismiss its prompt without marking the mechanic complete")
 	assert(match3.session.save.tutorialsCompleted.is_empty(), "Dismissing a blocker tutorial incorrectly completed it")
@@ -174,6 +180,9 @@ func _run() -> void:
 	var tutorial_style := match3.tutorial_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(is_equal_approx(match3.tutorial_panel.custom_maximum_size.x, 350.0), "Tutorial card width should match the source 350px maximum")
 	assert(tutorial_style.border_width_top == 3 and tutorial_style.border_width_left == 8, "Tutorial card border should match the source gold frame and green spine")
+	assert(tutorial_style.content_margin_left == 26 and tutorial_style.content_margin_right == 26
+		and match3.tutorial_body.get_theme_constant("line_spacing") == 0,
+		"Tutorial text and button insets should preserve the source compact card rhythm")
 	assert(tutorial_style.bg_color.to_html(false) == Color("#fff7df").to_html(false), "Tutorial card paper color should match the source palette")
 	assert(match3.tutorial_frame.custom_minimum_size.x == 356.0 and (match3.tutorial_frame.get_theme_stylebox("panel") as StyleBoxFlat).bg_color.to_html(false) == Color("#102744").to_html(false), "Tutorial card should have the source 3px navy outline")
 	var tutorial_button_style := match3.tutorial_button.get_theme_stylebox("normal") as StyleBoxFlat
