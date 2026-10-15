@@ -20,6 +20,20 @@ func _run_smoke() -> void:
 	menu.get_node("Content/Actions/Settings").emit_signal("pressed")
 	var screen: PanelContainer = menu.get_node("SettingsScreen")
 	assert(not menu.get_node("Content").visible)
+	assert(screen.find_child("PanelHeader", true, false) != null
+		and screen.find_child("MusicVolumeCard", true, false) != null
+		and screen.find_child("EffectsVolumeCard", true, false) != null
+		and screen.find_child("AudioToggles", true, false) != null,
+		"Settings should preserve the source header, grouped volume cards, and side-by-side audio toggles")
+	assert(screen.audio_title.text == MenuCopy.text("audio_title", preferences.locale)
+		and screen.audio_copy.text == MenuCopy.text("audio_copy", preferences.locale)
+		and screen.music_value.text.ends_with("%") and screen.effects_value.text.ends_with("%"),
+		"Settings should show localized section copy and live volume values")
+	var audio_toggles: HBoxContainer = screen.find_child("AudioToggles", true, false)
+	assert(audio_toggles.get_child(0).size_flags_horizontal == Control.SIZE_EXPAND_FILL
+		and audio_toggles.get_child(1).size_flags_horizontal == Control.SIZE_EXPAND_FILL
+		and screen.mobile_note_title.text == MenuCopy.text("mobile_contract_title", preferences.locale),
+		"Settings should balance the source toggle cards and localize the mobile audio note")
 	for index in screen.language.item_count:
 		screen.language.select(index)
 		screen.language.item_selected.emit(index)
@@ -29,6 +43,11 @@ func _run_smoke() -> void:
 		assert(screen.title.text == MenuCopy.text("settings", locale))
 		assert(menu.get_node("Content/Actions/NewGame").text == MenuCopy.text("new_game", locale))
 		assert(screen.error_label.text.is_empty())
+	screen.music_slider.value = 45
+	assert(is_equal_approx(preferences.audio.musicVolume, 0.45), "Music slider should persist the adjusted level")
+	screen.mute.button_pressed = not preferences.audio.muted
+	screen.mute.toggled.emit(screen.mute.button_pressed)
+	assert(preferences.audio.muted == screen.mute.button_pressed, "Mute toggle should persist its pressed state")
 	screen.back.pressed.emit()
 	assert(not menu.has_node("SettingsScreen"))
 	assert(menu.get_node("Content").visible)

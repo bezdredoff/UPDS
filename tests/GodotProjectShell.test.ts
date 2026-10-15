@@ -13,6 +13,8 @@ describe('Godot port project shell', () => {
 	const readme = read('godot/README.md');
 	const phoneFrame = read('godot/scripts/phone_frame.gd');
 	const mainMenu = read('godot/scripts/main_menu.gd');
+	const settings = read('godot/scripts/settings_screen.gd');
+	const settingsSmoke = read('godot/tests/settings_smoke.gd');
 	const nestedScreens = [
 		read('godot/scripts/vn_screen.gd'),
 		read('godot/scripts/match3_campaign_screen.gd'),
@@ -43,5 +45,16 @@ describe('Godot port project shell', () => {
 		expect(phoneFrame).toContain('parent.has_meta(PHONE_FRAME_META)');
 		expect(phoneFrame).toContain('control.set_meta(PHONE_FRAME_META, true)');
 		for (const screen of nestedScreens) expect(screen).toContain('PhoneFrame.fit(self)');
+	});
+
+	it('preserves the source settings hierarchy and visual control groups in Godot', () => {
+		expect(settings).toContain('PanelHeader');
+		expect(settings).toContain('StyleBoxTexture.new()');
+		expect(settings).toContain('MusicVolumeCard');
+		expect(settings).toContain('EffectsVolumeCard');
+		expect(settings).toContain('AudioToggles');
+		expect(settings).toContain('MobileContract');
+		expect(settingsSmoke).toContain('grouped volume cards');
+		expect(settingsSmoke).toContain('Music slider should persist');
 	});
 });
