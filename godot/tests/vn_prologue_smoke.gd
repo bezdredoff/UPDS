@@ -71,6 +71,9 @@ func _run() -> void:
 	var screen: Control = menu.get_node("StoryScreen")
 	assert(absf(screen.size.x - 430.0) < 1.0, "Story screens must share the web phone frame width")
 	assert(not screen.stage.clip_contents, "Authored characters must continue behind the VN dialogue panel")
+	assert(is_equal_approx(screen.stage.position.y, 60.0)
+		and is_equal_approx(screen.stage.get_global_rect().end.y, screen.dialogue_panel.position.y - 10.0),
+		"VN stage geometry should follow the source header and dialogue grid rows")
 	assert(screen.background_rect.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		and screen.background_fill.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_COVERED
 		and screen.background_fill.material != null,
@@ -82,6 +85,13 @@ func _run() -> void:
 	assert(menu.audio_runtime.music.stream.get_length() > 12.6 and menu.audio_runtime.music.stream.get_length() < 12.7)
 	assert(screen.stage.get_child_count() == 1)
 	var idle_portrait: TextureRect = screen.stage.get_child(0)
+	assert(screen.stage.z_index + idle_portrait.z_index < screen.dialogue_panel.z_index
+		and screen.dialogue_panel.z_index < screen.controls_panel.z_index,
+		"VN art should sit behind the dialogue card and controls, matching the source z-order")
+	assert(screen.dialogue.size.y >= 67.0,
+		"The dialogue text must receive enough layout height to remain visible in its panel")
+	assert(is_equal_approx(screen.dialogue.global_position.y, screen.dialogue_panel.position.y + 45.0),
+		"The VN dialogue text should match the source card's top inset")
 	var portrait_shadow := idle_portrait.material as ShaderMaterial
 	assert(portrait_shadow != null
 		and (portrait_shadow.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#10162b59"))
@@ -98,8 +108,10 @@ func _run() -> void:
 		"Rig portrait idle motion should use the source CSS ease-in-out curve")
 	assert(not screen._portrait_should_breathe("./assets/characters/ayuki/poses/pose_b_phone_theory.png"),
 		"Authored prop poses should remain still like the source static portrait wrapper")
-	assert(screen.nameplate.size.x >= 180.0 and screen.nameplate.size.x < screen.dialogue_panel.size.x,
+	assert(screen.nameplate.size.x >= 128.0 and screen.nameplate.size.x < screen.dialogue_panel.size.x,
 		"The dialogue nameplate must keep its compact horizontal shape")
+	assert(not screen.next_button.visible and screen.page_progress.visible,
+		"VN advance should use the source dialogue card affordance instead of an extra button")
 	var resting_position := idle_portrait.position
 	await create_timer(0.8).timeout
 	assert(absf(idle_portrait.position.y - resting_position.y) > 0.1,

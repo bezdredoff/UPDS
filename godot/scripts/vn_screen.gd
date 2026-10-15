@@ -87,6 +87,7 @@ var config_text_buttons: Dictionary = {}
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	PhoneFrame.fit(self)
+	resized.connect(_layout_vn)
 	visibility_changed.connect(_on_visibility_changed)
 	background_fill = TextureRect.new()
 	background_fill.name = "BackgroundFill"
@@ -107,14 +108,16 @@ func _ready() -> void:
 	stage = Control.new()
 	stage.name = "Stage"
 	stage.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	stage.anchor_top = 0.12
-	stage.anchor_bottom = 0.60
+	stage.anchor_top = 0.0
+	stage.offset_top = 60.0
 	# Authored character frames extend below the stage into the transparent dialogue overlay.
 	stage.clip_contents = false
 	stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stage.z_index = 2
 	add_child(stage)
 	var header_background := PanelContainer.new()
 	header_background.name = "HeaderBackground"
+	header_background.z_index = 24
 	header_background.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	header_background.offset_bottom = 60
 	var header_style := StyleBoxFlat.new()
@@ -125,6 +128,7 @@ func _ready() -> void:
 	header_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(header_background)
 	var header := HBoxContainer.new()
+	header.z_index = 24
 	header.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	header.offset_left = 8
 	header.offset_right = -8
@@ -146,17 +150,29 @@ func _ready() -> void:
 	case_row.add_theme_constant_override("separation", 6)
 	case_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	case_button.add_child(case_row)
+	var case_copy_margin := MarginContainer.new()
+	case_copy_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	case_copy_margin.add_theme_constant_override("margin_left", 11)
+	case_row.add_child(case_copy_margin)
 	var case_copy := VBoxContainer.new()
 	case_copy.alignment = BoxContainer.ALIGNMENT_CENTER
 	case_copy.add_theme_constant_override("separation", 0)
 	case_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	case_copy.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	case_row.add_child(case_copy)
+	case_copy_margin.add_child(case_copy)
 	case_label = _label(case_copy, 8)
 	case_label.add_theme_color_override("font_color", Color("#e9d5a7"))
+	var case_label_font := SystemFont.new()
+	case_label_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+	case_label_font.font_weight = 950
+	case_label.add_theme_font_override("font", case_label_font)
 	title = _label(case_copy, 11)
-	title.add_theme_font_size_override("font_size", 12)
+	title.add_theme_font_size_override("font_size", 10)
 	title.add_theme_color_override("font_color", Color("#fff9ea"))
+	var case_title_font := SystemFont.new()
+	case_title_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+	case_title_font.font_weight = 800
+	title.add_theme_font_override("font", case_title_font)
 	var dossier_icon := _icon_texture("dossier", 22)
 	dossier_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	case_row.add_child(dossier_icon)
@@ -177,6 +193,7 @@ func _ready() -> void:
 	settings_button = _header_icon_button(header, "settings", Copy.text("settings", preferences.locale))
 	settings_button.pressed.connect(_show_config)
 	dialogue_panel = PanelContainer.new()
+	dialogue_panel.z_index = 8
 	dialogue_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	dialogue_panel.anchor_top = 0.70
 	dialogue_panel.anchor_bottom = 1.0
@@ -190,8 +207,8 @@ func _ready() -> void:
 	paper.set_corner_radius_all(18)
 	paper.content_margin_left = 20
 	paper.content_margin_right = 20
-	paper.content_margin_top = 55
-	paper.content_margin_bottom = 16
+	paper.content_margin_top = 33
+	paper.content_margin_bottom = 25
 	dialogue_panel.add_theme_stylebox_override("panel", paper)
 	add_child(dialogue_panel)
 	var content := VBoxContainer.new()
@@ -199,6 +216,7 @@ func _ready() -> void:
 	dialogue_panel.add_child(content)
 	nameplate = PanelContainer.new()
 	nameplate.name = "Nameplate"
+	nameplate.z_index = 12
 	nameplate.custom_minimum_size = Vector2(200.0, 38.0)
 	nameplate.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	nameplate.anchor_top = 0.70
@@ -225,10 +243,18 @@ func _ready() -> void:
 	speaker.autowrap_mode = TextServer.AUTOWRAP_OFF
 	speaker.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	speaker.add_theme_color_override("font_color", Color("#fff9ea"))
+	var speaker_font := SystemFont.new()
+	speaker_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+	speaker_font.font_weight = 900
+	speaker.add_theme_font_override("font", speaker_font)
 	emotion = _label(nameplate_row, 8)
 	emotion.autowrap_mode = TextServer.AUTOWRAP_OFF
 	emotion.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	emotion.add_theme_color_override("font_color", Color("#e9d5a7"))
+	var emotion_font := SystemFont.new()
+	emotion_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+	emotion_font.font_weight = 700
+	emotion.add_theme_font_override("font", emotion_font)
 	add_child(nameplate)
 	choice_box = VBoxContainer.new()
 	choice_box.name = "ChoiceBox"
@@ -248,10 +274,17 @@ func _ready() -> void:
 	dialogue.add_theme_font_override("normal_font", dialogue_serif)
 	dialogue.add_theme_font_size_override("normal_font_size", 17)
 	dialogue.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	dialogue.selection_enabled = true
 	dialogue.scroll_active = false
 	dialogue.scroll_following = false
-	content.add_child(dialogue)
+	var dialogue_stack := VBoxContainer.new()
+	dialogue_stack.add_theme_constant_override("separation", 0)
+	dialogue_stack.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	var dialogue_top_padding := Control.new()
+	dialogue_top_padding.custom_minimum_size.y = 12.0
+	dialogue_top_padding.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	dialogue_stack.add_child(dialogue_top_padding)
+	dialogue_stack.add_child(dialogue)
+	content.add_child(dialogue_stack)
 	warning = _label(content, 13)
 	warning.add_theme_color_override("font_color", Color("#ac3f59"))
 	boundary = _label(content, 13)
@@ -261,19 +294,38 @@ func _ready() -> void:
 	progress.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	page_progress = HBoxContainer.new()
 	page_progress.name = "DialogueProgress"
-	page_progress.custom_minimum_size.x = 38.0
+	page_progress.custom_minimum_size = Vector2(52.0, 18.0)
 	page_progress.size_flags_horizontal = Control.SIZE_SHRINK_END
 	page_progress.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	page_progress.alignment = BoxContainer.ALIGNMENT_CENTER
+	page_progress.alignment = BoxContainer.ALIGNMENT_END
 	page_progress.add_theme_constant_override("separation", 4)
 	footer.add_child(page_progress)
+	footer.remove_child(page_progress)
+	add_child(page_progress)
+	page_progress.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
+	page_progress.offset_left = -80
+	page_progress.offset_right = -28
+	page_progress.offset_top = -95
+	page_progress.offset_bottom = -77
+	page_progress.z_index = 10
+	page_progress.mouse_filter = Control.MOUSE_FILTER_STOP
+	page_progress.focus_mode = Control.FOCUS_ALL
+	page_progress.gui_input.connect(_on_dialogue_gui_input)
 	next_button = _button(footer)
 	next_button.pressed.connect(_next)
+	next_button.focus_mode = Control.FOCUS_NONE
+	footer.hide()
+	dialogue.focus_mode = Control.FOCUS_NONE
+	dialogue.selection_enabled = false
+	dialogue.gui_input.connect(_on_dialogue_gui_input)
+	dialogue_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	dialogue_panel.gui_input.connect(_on_dialogue_gui_input)
 	_build_controls()
 	_build_ending_panel()
 	session.changed.connect(_refresh)
 	preferences.locale_changed.connect(func(_locale: String) -> void: _refresh())
 	_refresh()
+	set_process_unhandled_key_input(true)
 	if not session.ending_result().is_empty():
 		ending_menu_button.grab_focus()
 	elif session.at_match3_gate():
@@ -281,7 +333,58 @@ func _ready() -> void:
 	elif session.at_choice_gate():
 		choice_buttons[0].grab_focus()
 	else:
-		next_button.grab_focus()
+		page_progress.grab_focus()
+	_layout_vn()
+
+
+func _layout_vn() -> void:
+	if dialogue_panel == null or nameplate == null or controls_panel == null:
+		return
+	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 430.0
+	var tiny_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
+	var compact_height := size.y <= 760.0
+	var controls_min_height := 60.0 if tiny_width else 63.0
+	var controls_height := maxf(clampf(size.y * 0.09, 60.0, 82.0), controls_min_height)
+	var dialogue_row_height := clampf(size.y * 0.22, 154.0, 198.0)
+	dialogue_panel.anchor_top = 1.0
+	dialogue_panel.anchor_bottom = 1.0
+	dialogue_panel.offset_top = -(controls_height + dialogue_row_height - 10.0)
+	dialogue_panel.offset_bottom = -(controls_height + 7.0)
+	stage.anchor_bottom = 1.0
+	stage.offset_bottom = -(controls_height + dialogue_row_height)
+	dialogue.custom_minimum_size.y = 67.0
+	dialogue.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	progress.hide()
+	var paper := dialogue_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	paper.content_margin_top = 33
+	paper.content_margin_bottom = 25
+	nameplate.offset_left = 32
+	nameplate.offset_right = 164 if compact_width else 232
+	nameplate.anchor_top = 1.0
+	nameplate.anchor_bottom = 1.0
+	nameplate.offset_top = -(controls_height + dialogue_row_height + (17.0 if compact_height else 19.0))
+	nameplate.offset_bottom = nameplate.offset_top + 38.0
+	nameplate.custom_minimum_size = Vector2(128.0, 34.0) if compact_width else Vector2(200.0, 38.0)
+	speaker.add_theme_font_size_override("font_size", 11 if compact_width else 13)
+	emotion.add_theme_font_size_override("font_size", 7 if compact_width else 8)
+	var row := controls_panel.get_child(0) as HBoxContainer
+	row.add_theme_constant_override("separation", 4 if tiny_width else 7)
+	controls_panel.offset_top = -controls_height
+	var strip := controls_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	strip.content_margin_top = 4 if tiny_width else 6
+	strip.content_margin_bottom = 4 if tiny_width else 6
+	page_progress.offset_left = -80
+	page_progress.offset_right = -28
+	page_progress.offset_bottom = controls_panel.offset_top - 19.0
+	page_progress.offset_top = page_progress.offset_bottom - 18.0
+	for button in row.get_children():
+		var control_button := button as Button
+		control_button.custom_minimum_size.y = 46 if tiny_width else 50
+		var stack := control_button.get_child(0) as VBoxContainer
+		var icon := stack.get_child(0) as TextureRect
+		icon.custom_minimum_size = Vector2(18.0, 18.0) if tiny_width else Vector2(22.0, 22.0)
+		var caption := stack.get_child(1) as Label
+		caption.add_theme_font_size_override("font_size", 7 if tiny_width else 8)
 
 
 func _refresh() -> void:
@@ -336,9 +439,9 @@ func _refresh() -> void:
 	choice_box.visible = choosing
 	nameplate.visible = not choosing and not _boundary
 	dialogue.visible = not choosing and not _boundary
-	next_button.visible = not choosing
+	next_button.hide()
 	next_button.disabled = _boundary
-	page_progress.visible = _dialogue_pages.size() > 1 and not choosing and not _boundary
+	page_progress.visible = not choosing and not _boundary
 	skip_button.disabled = _boundary or choosing or not session.state.readLines.has(str(line.id))
 	auto_button.disabled = _boundary or choosing
 	auto_button.add_theme_stylebox_override("normal", _control_button_style(_auto_mode))
@@ -558,9 +661,19 @@ func _next() -> void:
 		case_button.grab_focus()
 
 
+func _on_dialogue_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_next()
+		get_viewport().set_input_as_handled()
+	elif event is InputEventScreenTouch and event.pressed:
+		_next()
+		get_viewport().set_input_as_handled()
+
+
 func _build_controls() -> void:
 	controls_panel = PanelContainer.new()
 	controls_panel.name = "VnControls"
+	controls_panel.z_index = 9
 	controls_panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	controls_panel.offset_top = -72
 	var strip := StyleBoxFlat.new()
@@ -641,6 +754,10 @@ func _set_control_caption(button: Button, icon_name: String, caption: String) ->
 	caption_label.text = caption
 	caption_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	caption_label.add_theme_color_override("font_color", Color("#fff9ea"))
+	var caption_font := SystemFont.new()
+	caption_font.font_names = PackedStringArray(["Inter", "Segoe UI", "Arial", "sans-serif"])
+	caption_font.font_weight = 900
+	caption_label.add_theme_font_override("font", caption_font)
 	caption_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
@@ -683,7 +800,7 @@ func _update_dialogue_page() -> void:
 	var has_more := _dialogue_page_index + 1 < _dialogue_pages.size()
 	dialogue.text = _dialogue_pages[_dialogue_page_index] + ("…" if has_more else "")
 	dialogue.scroll_to_line(0)
-	page_progress.visible = has_more or _dialogue_page_index > 0
+	page_progress.visible = true
 	for child in page_progress.get_children():
 		child.queue_free()
 	for page in range(_dialogue_pages.size()):
@@ -816,7 +933,7 @@ func _choose(option: String) -> void:
 		_boundary = false
 		audio_runtime.play_effect("choice")
 		_refresh()
-		next_button.grab_focus()
+		page_progress.grab_focus()
 
 
 func _build_ending_panel() -> void:
