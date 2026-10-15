@@ -626,6 +626,21 @@ func _render_board() -> void:
 		cell_background_style.set_corner_radius_all(4)
 		cell_background.add_theme_stylebox_override("panel", cell_background_style)
 		tile_button.add_child(cell_background)
+		var cell_socket := Panel.new()
+		cell_socket.name = "CellSocket"
+		cell_socket.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		cell_socket.offset_left = 1
+		cell_socket.offset_top = 1
+		cell_socket.offset_right = -1
+		cell_socket.offset_bottom = -1
+		cell_socket.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var socket_style := StyleBoxFlat.new()
+		socket_style.bg_color = Color(0, 0, 0, 0)
+		socket_style.border_color = Color("#d8deb72e")
+		socket_style.set_border_width_all(1)
+		socket_style.set_corner_radius_all(4)
+		cell_socket.add_theme_stylebox_override("panel", socket_style)
+		tile_button.add_child(cell_socket)
 		var tile_stack := Control.new()
 		tile_stack.name = "TileStack"
 		tile_stack.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

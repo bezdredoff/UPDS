@@ -64,6 +64,13 @@ func _run() -> void:
 	assert(cell_background.material is ShaderMaterial and (cell_background.material as ShaderMaterial).shader.code.contains("gradient_axis")
 		and cell_background.offset_left == 1 and cell_background.offset_right == -1,
 		"Match-3 cells should render the source diagonal gradient and inset edge treatment beneath tile art")
+	var cell_socket := match3.board.get_child(0).get_node("CellSocket") as Panel
+	var socket_style := cell_socket.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(cell_socket.offset_left == 1 and cell_socket.offset_top == 1
+		and cell_socket.offset_right == -1 and cell_socket.offset_bottom == -1
+		and socket_style.border_color.is_equal_approx(Color("#d8deb72e"))
+		and socket_style.get_border_width(SIDE_LEFT) == 1 and socket_style.get_corner_radius(CORNER_TOP_LEFT) == 4,
+		"Match-3 tile socket should match the web inset, subtle one-pixel border and four-pixel radius")
 	var first_tile_before_variant_check: String = match3.game.tiles[0]
 	match3.game.tiles[0] = "camisole"
 	match3._render_board()
