@@ -712,6 +712,10 @@ func _render_board() -> void:
 			tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			tile_stack.add_child(tile)
 		tile_stack.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else Color.WHITE
+		if game.blocker_layers[index] > 0 and str(level_data.blockerStyle) == "solid":
+			tile_stack.scale = Vector2(0.64, 0.64)
+		elif game.blocker_layers[index] > 0 and str(level_data.blockerStyle) == "locked":
+			tile_stack.modulate.a *= 0.84
 		tile_button.disabled = game.state != "playing" or tutorial_panel.visible or game.tiles[index].is_empty() or game.blocker_layers[index] > 0
 		tile_button.pressed.connect(_select_cell.bind(index))
 		tile_button.add_child(tile_stack)
@@ -729,10 +733,12 @@ func _render_board() -> void:
 			hint_tween.tween_property(tile_button, "scale", Vector2.ONE, 0.41).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 			hint_tween.parallel().tween_property(tile_button, "modulate", Color.WHITE, 0.41).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 		if game.blocker_layers[index] > 0:
-			var blocker_asset := str(campaign_bundle.assets.blockers.get(str(level_data.blockerStyle), ""))
-			if str(level_data.blockerStyle) == "locked": blocker_asset = str(campaign_bundle.assets.lockedBlockers.get(str(game.blocker_layers[index]), blocker_asset))
+			var blocker_style: String = str(level_data.blockerStyle)
+			var blocker_asset := str(campaign_bundle.assets.blockers.get(blocker_style, ""))
+			if blocker_style == "locked": blocker_asset = str(campaign_bundle.assets.lockedBlockers.get(str(game.blocker_layers[index]), blocker_asset))
 			if not blocker_asset.is_empty():
 				var blocker := TextureRect.new()
+				blocker.name = "Blocker"
 				blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 				blocker.offset_left = 1
 				blocker.offset_top = 1
@@ -741,10 +747,32 @@ func _render_board() -> void:
 				blocker.texture = load("res://" + blocker_asset.trim_prefix("./"))
 				blocker.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				blocker.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-				blocker.modulate = Color(1, 1, 1, 0.66)
-				blocker.material = _match3_drop_shadow_material(Color("#00000088"), Vector2(0, 2), 2.0)
+				if blocker_style == "solid":
+					blocker.modulate = Color(1, 1, 1, 0.68 if game.blocker_layers[index] == 1 else 0.84)
+				elif blocker_style == "overlay":
+					blocker.modulate = Color(1, 1, 1, 0.72)
+					blocker.material = _match3_drop_shadow_material(Color("#0713269e"), Vector2(0, 1), 2.0, 1.0, 0.9, 1.04)
+				else:
+					blocker.modulate = Color.WHITE
+					blocker.material = _match3_drop_shadow_material(Color(0, 0, 0, 0), Vector2.ZERO, 0.0)
 				blocker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_button.add_child(blocker)
+				if blocker_style == "locked":
+					var locked_outline := Panel.new()
+					locked_outline.name = "LockedBlockerOutline"
+					locked_outline.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+					locked_outline.offset_left = 1
+					locked_outline.offset_top = 1
+					locked_outline.offset_right = -1
+					locked_outline.offset_bottom = -1
+					locked_outline.mouse_filter = Control.MOUSE_FILTER_IGNORE
+					locked_outline.z_index = 2
+					var locked_outline_style := StyleBoxFlat.new()
+					locked_outline_style.bg_color = Color(0, 0, 0, 0)
+					locked_outline_style.border_color = Color("#dfd5bd70")
+					locked_outline_style.set_border_width_all(1)
+					locked_outline.add_theme_stylebox_override("panel", locked_outline_style)
+					tile_button.add_child(locked_outline)
 				if game.blocker_layers[index] > 1:
 					var layer_badge := Label.new()
 					layer_badge.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
@@ -926,8 +954,8 @@ func _set_ingredient_glow(progress: float, material: ShaderMaterial, reverse: bo
 	material.set_shader_parameter("glow_strength", 1.0 - eased_progress if reverse else eased_progress)
 
 
-func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, blur: float, brightness: float = 1.0, saturation: float = 1.0) -> ShaderMaterial:
-	var cache_key := "%s:%s:%s:%s:%s" % [shadow_color.to_html(), shadow_offset, blur, brightness, saturation]
+func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, blur: float, brightness: float = 1.0, saturation: float = 1.0, contrast: float = 1.0) -> ShaderMaterial:
+	var cache_key := "%s:%s:%s:%s:%s:%s" % [shadow_color.to_html(), shadow_offset, blur, brightness, saturation, contrast]
 	if _drop_shadow_material_cache.has(cache_key):
 		return _drop_shadow_material_cache[cache_key] as ShaderMaterial
 	var material := ShaderMaterial.new()
@@ -937,6 +965,7 @@ func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, b
 	material.set_shader_parameter("shadow_blur_px", blur)
 	material.set_shader_parameter("brightness", brightness)
 	material.set_shader_parameter("saturation", saturation)
+	material.set_shader_parameter("contrast", contrast)
 	_drop_shadow_material_cache[cache_key] = material
 	return material
 

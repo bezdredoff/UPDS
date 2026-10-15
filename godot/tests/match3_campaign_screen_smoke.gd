@@ -124,6 +124,51 @@ func _run() -> void:
 		"Camisole tile should preserve the source brightness variant and soft drop shadow")
 	match3.game.tiles[0] = first_tile_before_variant_check
 	match3._render_board()
+	var visual_blocker_index := -1
+	for index in match3.game.tiles.size():
+		if not match3.game.tiles[index].is_empty() and match3.game.blocker_layers[index] == 0:
+			visual_blocker_index = index
+			break
+	assert(visual_blocker_index >= 0, "Match-3 board has no free tile for blocker presentation checks")
+	var saved_blocker_style: String = str(match3.level_data.blockerStyle)
+	var saved_blocker_layers: int = match3.game.blocker_layers[visual_blocker_index]
+	match3.level_data.blockerStyle = "solid"
+	match3.game.blocker_layers[visual_blocker_index] = 2
+	match3._render_board()
+	var solid_blocker_cell: Control = match3.board.get_child(visual_blocker_index)
+	var solid_stack: Control = solid_blocker_cell.get_node("TileStack")
+	var solid_overlay: TextureRect = solid_blocker_cell.get_node("Blocker")
+	assert(solid_stack.scale.is_equal_approx(Vector2(0.64, 0.64)) and is_equal_approx(solid_overlay.modulate.a, 0.84)
+		and solid_overlay.material == null,
+		"Solid bag blocker should shrink the retained tile stack and preserve the two-layer opacity")
+	match3.game.blocker_layers[visual_blocker_index] = 1
+	match3._render_board()
+	var worn_solid_overlay: TextureRect = (match3.board.get_child(visual_blocker_index) as Control).get_node("Blocker")
+	assert(is_equal_approx(worn_solid_overlay.modulate.a, 0.68), "One-layer solid blocker should use the worn source opacity")
+	match3.level_data.blockerStyle = "locked"
+	match3.game.blocker_layers[visual_blocker_index] = 2
+	match3._render_board()
+	var locked_blocker_cell: Control = match3.board.get_child(visual_blocker_index)
+	var locked_stack: Control = locked_blocker_cell.get_node("TileStack")
+	var locked_overlay: TextureRect = locked_blocker_cell.get_node("Blocker")
+	assert(is_equal_approx(locked_stack.modulate.a, 0.84) and is_equal_approx(locked_overlay.modulate.a, 1.0)
+		and locked_blocker_cell.has_node("LockedBlockerOutline"),
+		"Locked blocker should retain readable tile art and its pale inset cell outline")
+	match3.level_data.blockerStyle = "overlay"
+	match3.game.blocker_layers[visual_blocker_index] = 1
+	match3._render_board()
+	var foam_blocker_cell: Control = match3.board.get_child(visual_blocker_index)
+	var foam_stack: Control = foam_blocker_cell.get_node("TileStack")
+	var foam_overlay: TextureRect = foam_blocker_cell.get_node("Blocker")
+	var foam_material := foam_overlay.material as ShaderMaterial
+	assert(foam_stack.scale.is_equal_approx(Vector2.ONE) and is_equal_approx(foam_overlay.modulate.a, 0.72)
+		and foam_material != null and is_equal_approx(foam_material.get_shader_parameter("contrast"), 1.04)
+		and is_equal_approx(foam_material.get_shader_parameter("saturation"), 0.9)
+		and is_equal_approx((foam_material.get_shader_parameter("shadow_color") as Color).a, Color("#0713269e").a),
+		"Foam overlay should preserve the readable tile and source contrast, saturation, opacity and shadow")
+	match3.level_data.blockerStyle = saved_blocker_style
+	match3.game.blocker_layers[visual_blocker_index] = saved_blocker_layers
+	match3._render_board()
 	assert(match3.back_button.custom_minimum_size == Vector2(44, 44), "Match-3 header back control should match the source button size")
 	assert(match3.help_button.custom_minimum_size == Vector2(44, 44), "Match-3 help control should match the source button size")
 	assert(match3.settings_button.custom_minimum_size == Vector2(44, 44), "Match-3 settings control should match the source button size")
