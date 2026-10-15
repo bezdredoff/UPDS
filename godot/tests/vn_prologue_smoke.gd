@@ -940,6 +940,23 @@ func _vn_reading_controls(menu: Control) -> void:
 	screen.history_button.pressed.emit()
 	assert(screen.overlay_title.text == Copy.text("vn_history", menu.preferences.locale))
 	assert(screen.overlay_body.get_child_count() >= 3, "Dialogue history should include read lines and the current line")
+	await process_frame
+	await process_frame
+	await process_frame
+	var history_card: PanelContainer = screen.overlay.find_child("OverlayCard", true, false)
+	for _attempt in range(12):
+		if history_card.size.y < 205.0:
+			break
+		await process_frame
+	assert(absf(history_card.size.x - 406.0) < 2.0,
+		"VN overlays should use the source 12px side inset inside the 430px phone frame")
+	assert(history_card.size.y < screen.size.y * 0.5
+		and absf(history_card.size.y - screen.overlay_body.size.y - 100.0) < 2.0,
+		"History overlay height should follow its transcript content instead of filling the viewport")
+	var backdrop: ColorRect = screen.overlay.find_child("OverlayBackdrop", true, false)
+	var backdrop_material := backdrop.material as ShaderMaterial
+	assert(backdrop_material != null and backdrop_material.shader.code.contains("hint_screen_texture"),
+		"VN overlays should blur the scene behind their dimmed backdrop like the source")
 	var first_history_entry: VBoxContainer = screen.overlay_body.get_child(0)
 	var first_row_margin: MarginContainer = first_history_entry.get_child(0)
 	var first_row_content: VBoxContainer = first_row_margin.get_child(0)
@@ -947,6 +964,8 @@ func _vn_reading_controls(menu: Control) -> void:
 		"Dialogue history rows should have a flat transcript header")
 	assert(first_row_content.get_child(0).get_child(1).text == "#1",
 		"Dialogue history rows should keep the source transcript sequence numbers")
+	assert(first_row_content.get_child(0).get_child(1).horizontal_alignment == HORIZONTAL_ALIGNMENT_RIGHT,
+		"Transcript sequence numbers should align to the right edge like the source")
 	screen._close_overlay()
 	screen.settings_button.pressed.emit()
 	assert(screen.overlay.find_child("Audio_musicVolume", true, false) != null)
