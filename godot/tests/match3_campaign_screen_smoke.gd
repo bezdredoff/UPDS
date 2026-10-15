@@ -55,6 +55,15 @@ func _run() -> void:
 	var match3: Control = menu.match3_screen
 	assert(match3 != null and match3.campaign_mode, "Campaign level did not launch in standalone mode")
 	assert(match3.level_id == second_id and match3.game.level_data.id == second_id, "Selected campaign level was not loaded")
+	var match_background_material := match3.background.material as ShaderMaterial
+	assert(match3.background_base.color.is_equal_approx(Color("#d9d0b6"))
+		and is_equal_approx(match3.background.modulate.a, 0.96)
+		and match_background_material != null
+		and is_equal_approx(match_background_material.get_shader_parameter("brightness"), 0.94)
+		and is_equal_approx(match_background_material.get_shader_parameter("saturation"), 0.90),
+		"Match-3 background should preserve UI A's warm base, 96% image opacity and brightness/saturation treatment without the retired dark wash")
+	assert(match3.get_node_or_null("ColorRect") == null,
+		"Match-3 screen should not add the retired 55% navy background wash")
 	await process_frame
 	assert(match3.active_tutorial == "clear-package" and match3.tutorial_panel.visible, "Level-start blocker tutorial was not selected in authored order")
 	assert(match3.tutorial_title.text == "Снимайте слои пакета", "Campaign tutorial copy did not use the localized concept")

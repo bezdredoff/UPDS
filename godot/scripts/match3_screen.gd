@@ -27,6 +27,7 @@ const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
 
 static var _drop_shadow_material_cache: Dictionary = {}
 static var _special_icon_material_cache: ShaderMaterial
+static var _match_background_material_cache: ShaderMaterial
 
 var preferences: RefCounted
 var session: RefCounted
@@ -51,6 +52,7 @@ var reaction_generation := 0
 var reaction_blockers_cleared := 0
 var reaction_tween: Tween
 var background: TextureRect
+var background_base: ColorRect
 var title: Label
 var title_short: Label
 var bark: Label
@@ -131,18 +133,22 @@ func _ready() -> void:
 	level_presentation = campaign_bundle.levelPresentations[level_id]
 	session.start_level(level_id)
 	game = _new_game_for_attempt()
+	background_base = ColorRect.new()
+	background_base.name = "MatchBackgroundBase"
+	background_base.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background_base.color = Color("#d9d0b6")
+	background_base.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(background_base)
 	background = TextureRect.new()
+	background.name = "MatchBackground"
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background.texture = load("res://assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp")
 	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	background.modulate.a = 0.96
+	background.material = _match_background_material()
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background)
-	var wash := ColorRect.new()
-	wash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	wash.color = Color(0.08, 0.11, 0.17, 0.55)
-	wash.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(wash)
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	margin.add_theme_constant_override("margin_left", 12)
@@ -1025,6 +1031,29 @@ func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, b
 	material.set_shader_parameter("contrast", contrast)
 	_drop_shadow_material_cache[cache_key] = material
 	return material
+
+
+func _match_background_material() -> ShaderMaterial:
+	if _match_background_material_cache != null:
+		return _match_background_material_cache
+	var shader := Shader.new()
+	shader.code = """
+shader_type canvas_item;
+uniform float brightness : hint_range(0.0, 2.0) = 0.94;
+uniform float saturation : hint_range(0.0, 2.0) = 0.90;
+void fragment() {
+	vec4 source = texture(TEXTURE, UV) * COLOR;
+	float luminance = dot(source.rgb, vec3(0.2126, 0.7152, 0.0722));
+	vec3 color = mix(vec3(luminance), source.rgb, saturation) * brightness;
+	COLOR = vec4(color, source.a);
+}
+"""
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	material.set_shader_parameter("brightness", 0.94)
+	material.set_shader_parameter("saturation", 0.90)
+	_match_background_material_cache = material
+	return _match_background_material_cache
 
 
 func _match3_special_icon_material() -> ShaderMaterial:
