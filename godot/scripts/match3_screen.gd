@@ -11,6 +11,7 @@ const Game = preload("res://scripts/match3_game.gd")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const Tutorials = preload("res://scripts/match3_tutorials.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
+const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
@@ -21,6 +22,8 @@ const SETTLE_MOTION_SECONDS := 0.32
 const RESHUFFLE_MOTION_SECONDS := 0.46
 const FEEDBACK_HOLD_SECONDS := 0.42
 const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
+
+static var _drop_shadow_material_cache: Dictionary = {}
 
 var preferences: RefCounted
 var session: RefCounted
@@ -625,8 +628,7 @@ func _render_board() -> void:
 			tile.texture = load("res://" + tile_asset.trim_prefix("./"))
 			tile.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			tile.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			if game.tiles[index] == "camisole":
-				tile.modulate = Color(1.38, 1.38, 1.38, 1.0)
+			tile.material = _match3_drop_shadow_material(Color("#10172d66"), Vector2(0, 1), 1.0, 1.38 if game.tiles[index] == "camisole" else 1.0)
 			tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			tile_stack.add_child(tile)
 		tile_stack.modulate = Color(0.35, 0.38, 0.45, 0.7) if game.tiles[index].is_empty() else Color.WHITE
@@ -660,6 +662,7 @@ func _render_board() -> void:
 				blocker.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				blocker.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				blocker.modulate = Color(1, 1, 1, 0.66)
+				blocker.material = _match3_drop_shadow_material(Color("#00000088"), Vector2(0, 2), 2.0)
 				blocker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_button.add_child(blocker)
 				if game.blocker_layers[index] > 1:
@@ -703,6 +706,7 @@ func _render_board() -> void:
 				ingredient.texture = ingredient_texture
 				ingredient.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				ingredient.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				ingredient.material = _match3_drop_shadow_material(Color("#00000088"), Vector2(0, 2), 2.0)
 				ingredient.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_stack.add_child(ingredient)
 				var ingredient_bob := tile_button.create_tween().set_loops()
@@ -854,6 +858,20 @@ func _render_frame(frame: Dictionary) -> void:
 
 func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: float) -> float:
 	return CssMotion.cubic_bezier(progress, x1, y1, x2, y2)
+
+
+func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, blur: float, brightness: float = 1.0) -> ShaderMaterial:
+	var cache_key := "%s:%s:%s:%s" % [shadow_color.to_html(), shadow_offset, blur, brightness]
+	if _drop_shadow_material_cache.has(cache_key):
+		return _drop_shadow_material_cache[cache_key] as ShaderMaterial
+	var material := ShaderMaterial.new()
+	material.shader = Match3DropShadow
+	material.set_shader_parameter("shadow_color", shadow_color)
+	material.set_shader_parameter("shadow_offset_px", shadow_offset)
+	material.set_shader_parameter("shadow_blur_px", blur)
+	material.set_shader_parameter("brightness", brightness)
+	_drop_shadow_material_cache[cache_key] = material
+	return material
 
 
 func _animate_swap(first: int, second: int, keep_at_target: bool) -> void:

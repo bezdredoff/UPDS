@@ -64,8 +64,10 @@ func _run() -> void:
 	match3.game.tiles[0] = "camisole"
 	match3._render_board()
 	var camisole_tile := match3.board.get_child(0).get_node("TileStack/Tile") as TextureRect
-	assert(camisole_tile.modulate == Color(1.38, 1.38, 1.38, 1.0),
-		"Camisole tile should preserve the source brightened asset variant")
+	var camisole_shadow := camisole_tile.material as ShaderMaterial
+	assert(camisole_shadow != null and is_equal_approx(camisole_shadow.get_shader_parameter("brightness"), 1.38)
+		and is_equal_approx(camisole_shadow.get_shader_parameter("shadow_blur_px"), 1.0),
+		"Camisole tile should preserve the source brightness variant and soft drop shadow")
 	match3.game.tiles[0] = first_tile_before_variant_check
 	match3._render_board()
 	assert(match3.back_button.custom_minimum_size == Vector2(44, 44), "Match-3 header back control should match the source button size")
