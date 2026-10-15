@@ -193,9 +193,7 @@ func _ready() -> void:
 	title_short.text = str(level_data.get("shortId", ""))
 	title = _label(title_stack, 11, Color.WHITE)
 	title.add_theme_font_size_override("font_size", 11)
-	var title_serif := SystemFont.new()
-	title_serif.font_names = PackedStringArray(["Georgia", "serif"])
-	title.add_theme_font_override("font", title_serif)
+	title.add_theme_font_override("font", UiFonts.serif())
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var actions := HBoxContainer.new()
 	actions.add_theme_constant_override("separation", 5)
@@ -255,10 +253,7 @@ func _ready() -> void:
 	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(preferences.locale, "HOW TO PLAY")
 	tutorial_title = _label(tutorial_content, 24, Color("#102744"))
 	tutorial_title.add_theme_font_size_override("font_size", 24)
-	var tutorial_serif := SystemFont.new()
-	tutorial_serif.font_names = PackedStringArray(["Georgia", "serif"])
-	tutorial_serif.font_weight = 850
-	tutorial_title.add_theme_font_override("font", tutorial_serif)
+	tutorial_title.add_theme_font_override("font", UiFonts.serif(850))
 	var tutorial_title_top_gap := Control.new()
 	tutorial_title_top_gap.custom_minimum_size.y = 7
 	tutorial_content.add_child(tutorial_title_top_gap)
@@ -533,10 +528,7 @@ func _ready() -> void:
 	match_feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	match_feedback_label.add_theme_font_size_override("font_size", 13)
 	match_feedback_label.add_theme_color_override("font_color", Color("#fff9df"))
-	var feedback_serif := SystemFont.new()
-	feedback_serif.font_names = PackedStringArray(["Georgia", "serif"])
-	feedback_serif.font_weight = 900
-	match_feedback_label.add_theme_font_override("font", feedback_serif)
+	match_feedback_label.add_theme_font_override("font", UiFonts.serif(900))
 	match_feedback_label.add_theme_constant_override("shadow_offset_x", 1)
 	match_feedback_label.add_theme_constant_override("shadow_offset_y", 2)
 	match_feedback_label.add_theme_color_override("font_shadow_color", Color("#161a2d72"))
@@ -1272,10 +1264,7 @@ func _build_evidence_transition() -> void:
 	content.add_child(evidence_transition_image)
 	evidence_transition_title = _label(content, 29, Color("#29243d"))
 	evidence_transition_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var title_serif := SystemFont.new()
-	title_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
-	title_serif.font_weight = 800
-	evidence_transition_title.add_theme_font_override("font", title_serif)
+	evidence_transition_title.add_theme_font_override("font", UiFonts.serif(800))
 	evidence_transition_copy = RichTextLabel.new()
 	evidence_transition_copy.bbcode_enabled = true
 	evidence_transition_copy.fit_content = true
@@ -1283,9 +1272,7 @@ func _build_evidence_transition() -> void:
 	evidence_transition_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	evidence_transition_copy.add_theme_color_override("default_color", Color("#746d7c"))
 	evidence_transition_copy.add_theme_font_size_override("normal_font_size", 15)
-	var copy_serif := SystemFont.new()
-	copy_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
-	evidence_transition_copy.add_theme_font_override("normal_font", copy_serif)
+	evidence_transition_copy.add_theme_font_override("normal_font", UiFonts.serif())
 	content.add_child(evidence_transition_copy)
 	evidence_transition_continue = Button.new()
 	Style.style_button(evidence_transition_continue, true)
@@ -1345,10 +1332,7 @@ func _build_campaign_result() -> void:
 	campaign_result_eyebrow.add_theme_font_size_override("font_size", 7)
 	campaign_result_eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	campaign_result_level = _label(header_copy, 11, Color.WHITE)
-	var header_serif := SystemFont.new()
-	header_serif.font_names = PackedStringArray(["Georgia", "serif"])
-	header_serif.font_weight = 800
-	campaign_result_level.add_theme_font_override("font", header_serif)
+	campaign_result_level.add_theme_font_override("font", UiFonts.serif(800))
 	campaign_result_level.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	var header_spacer := Control.new()
 	header_spacer.custom_minimum_size.x = 44
@@ -1382,10 +1366,7 @@ func _build_campaign_result() -> void:
 	campaign_result_heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	campaign_result_heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	campaign_result_heading.add_theme_font_size_override("font_size", 29)
-	var heading_serif := SystemFont.new()
-	heading_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
-	heading_serif.font_weight = 800
-	campaign_result_heading.add_theme_font_override("font", heading_serif)
+	campaign_result_heading.add_theme_font_override("font", UiFonts.serif(800))
 	campaign_result_detail = _label(content, 12, Color("#5f5866"))
 	campaign_result_detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	campaign_result_detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1406,9 +1387,7 @@ func _build_campaign_result() -> void:
 	campaign_result_loss_quote.custom_minimum_size.y = 52
 	campaign_result_loss_quote.add_theme_color_override("default_color", Color("#5f5866"))
 	campaign_result_loss_quote.add_theme_font_size_override("normal_font_size", 14)
-	var quote_serif := SystemFont.new()
-	quote_serif.font_names = PackedStringArray(["Georgia", "Noto Serif", "Liberation Serif", "serif"])
-	campaign_result_loss_quote.add_theme_font_override("normal_font", quote_serif)
+	campaign_result_loss_quote.add_theme_font_override("normal_font", UiFonts.serif())
 	quote_panel.add_child(campaign_result_loss_quote)
 	campaign_result_next = _button(content)
 	campaign_result_next.pressed.connect(func() -> void: campaign_next_requested.emit(_next_campaign_level_id()))

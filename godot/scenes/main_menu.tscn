@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" path="res://assets/characters/miku/portrait_neutral_256.png" id="3_miku"]
 [ext_resource type="Texture2D" path="res://assets/characters/onoe/portrait_neutral_256.png" id="4_onoe"]
 [ext_resource type="Texture2D" path="res://assets/characters/ayuki/portrait_neutral_256.png" id="5_ayuki"]
-[ext_resource type="Script" path="res://scripts/ui_fonts.gd" id="7_ui_fonts"]
 
 [sub_resource type="Gradient" id="Gradient_wash"]
 offsets = PackedFloat32Array(0.0, 0.05, 0.48, 1.0)
@@ -24,12 +23,7 @@ code = "shader_type canvas_item;\nvoid fragment() {\n\tvec2 point = UV - vec2(0.
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
 shader = SubResource("Shader_backdrop")
 
-[sub_resource type="SystemFont" id="SystemFont_menu_serif"]
-font_names = PackedStringArray("Georgia", "Noto Serif", "Liberation Serif", "serif")
-font_weight = 800
-
 [sub_resource type="Theme" id="Theme_runtime"]
-default_font = ExtResource("7_ui_fonts")
 default_font_size = 16
 
 [sub_resource type="Shader" id="Shader_medallion"]
@@ -120,20 +114,13 @@ theme_override_font_sizes/font_size = 10
 text = "SEIRAN COLLEGE · CASE 001"
 horizontal_alignment = 1
 
-[node name="Title" type="Label" parent="Content"]
+[node name="Title" type="RichTextLabel" parent="Content"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.122, 0.137, 0.251, 1)
-theme_override_fonts/font = SubResource("SystemFont_menu_serif")
-theme_override_font_sizes/font_size = 44
-text = "Class U"
-horizontal_alignment = 1
-
-[node name="Accent" type="Label" parent="Content"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.851, 0.384, 0.475, 1)
-theme_override_fonts/font = SubResource("SystemFont_menu_serif")
-theme_override_font_sizes/font_size = 44
-text = "Detectives"
+theme_override_colors/default_color = Color(0.122, 0.137, 0.251, 1)
+theme_override_font_sizes/normal_font_size = 44
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
 horizontal_alignment = 1
 
 [node name="Tagline" type="Label" parent="Content"]

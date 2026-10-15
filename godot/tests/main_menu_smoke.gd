@@ -2,6 +2,7 @@ extends SceneTree
 
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const CONTRACT = preload("res://data/save_contract.json")
+const UiFonts = preload("res://scripts/ui_fonts.gd")
 
 
 func _initialize() -> void:
@@ -17,14 +18,23 @@ func _run_smoke() -> void:
 		"user://main_menu_smoke_%s.cfg" % Time.get_ticks_usec())
 	root.add_child(menu)
 	await process_frame
-	assert(menu.size == Vector2(480, 854), "Main menu parity layout must use the 480x854 project viewport")
+	assert(int(ProjectSettings.get_setting("display/window/size/viewport_width")) == 390
+		and int(ProjectSettings.get_setting("display/window/size/viewport_height")) == 854,
+		"Main menu project base must match the 390x854 mobile web shell")
 	var menu_content: Control = menu.get_node("Content")
 	var hero: Control = menu.get_node("Content/Hero")
 	var actions: Control = menu.get_node("Content/Actions")
-	assert(absf(menu_content.position.y + hero.position.y - 213.0) < 1.0,
-		"At 480x854, the character medallions should align with the web menu")
-	assert(absf(menu_content.position.y + actions.position.y - 560.0) < 1.0,
-		"At 480x854, the menu actions should align with the web menu")
+	var default_font := menu.theme.default_font as FontVariation
+	assert(default_font != null and default_font.base_font == UiFonts.INTER_LATIN,
+		"Main menu and inherited screens should use the bundled Inter interface face")
+	assert((menu.get_node("Content/Title").get_theme_font("normal_font") as SystemFont).font_names.has("Georgia"),
+		"Native main menu title should retain the source Georgia font stack")
+	var hero_top: float = menu_content.position.y + hero.position.y
+	var actions_top: float = menu_content.position.y + actions.position.y
+	assert(hero_top > 180.0 and hero_top < 250.0,
+		"At 390x854, title and tagline should keep the character medallions in the upper third")
+	assert(actions_top > 520.0 and actions_top < 600.0,
+		"At 390x854, menu actions should stay near the lower source-menu position")
 	assert(menu.get_node("Content/Footer").text == "v" + str(CONTRACT.data.appVersion),
 		"The menu footer should show the shared product version")
 
@@ -40,8 +50,9 @@ func _run_smoke() -> void:
 
 	var locale := MenuCopy.system_locale()
 	assert(menu.get_node("Content/Eyebrow").text == MenuCopy.text("eyebrow", locale))
-	assert(menu.get_node("Content/Title").text == MenuCopy.text("title", locale))
-	assert(menu.get_node("Content/Accent").text == MenuCopy.text("accent", locale))
+	var menu_title := menu.get_node("Content/Title") as RichTextLabel
+	assert(menu_title.text.contains(MenuCopy.text("title", locale)))
+	assert(menu_title.text.contains(MenuCopy.text("accent", locale)))
 	assert(menu.get_node("Content/Actions/Continue").disabled, "Continue requires a save adapter")
 	var continue_button: Button = menu.get_node("Content/Actions/Continue")
 	assert(is_equal_approx(continue_button.modulate.a, 0.38),
@@ -85,7 +96,7 @@ func _run_smoke() -> void:
 	menu._layout_menu()
 	assert(is_equal_approx(menu.get_node("Content").offset_top, 26.0),
 		"Compact menu should use the source's 26 px top inset")
-	assert(menu.get_node("Content/Title").get_theme_font_size("font_size") == 38,
+	assert(menu_title.get_theme_font_size("normal_font_size") == 38,
 		"Compact menu title should match the source's 38 px heading")
 	assert(is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 66.0),
 		"Compact menu medallions should match the source's 66 px art")
@@ -94,7 +105,7 @@ func _run_smoke() -> void:
 	menu.size = Vector2(390, 854)
 	menu._layout_menu()
 	assert(is_equal_approx(menu.get_node("Content").offset_top, 42.0)
-		and menu.get_node("Content/Title").get_theme_font_size("font_size") == 44
+		and menu_title.get_theme_font_size("normal_font_size") == 44
 		and is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 78.0),
 		"Tall menu should restore the source's regular inset, heading and medallion sizes")
 

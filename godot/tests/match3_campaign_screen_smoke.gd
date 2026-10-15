@@ -4,6 +4,7 @@ const Memory = preload("res://tests/memory_storage.gd")
 const Match3Session = preload("res://scripts/match3_campaign_session.gd")
 const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
+const UiFonts = preload("res://scripts/ui_fonts.gd")
 
 
 func _initialize() -> void:
@@ -19,13 +20,21 @@ func _run() -> void:
 	menu.preferences.set_locale("ru")
 	root.add_child(menu)
 	await process_frame
+	var menu_title_font: Font = menu.get_node("Content/Title").get_theme_font("normal_font")
+	if OS.has_feature("web"):
+		assert((menu_title_font as FontVariation).base_font == UiFonts.GEORGIA_LATIN
+			and (menu_title_font as FontVariation).fallbacks == [UiFonts.SERIF_CYRILLIC],
+			"Web main menu title should preserve the Georgia serif style with Latin/Cyrillic bundled faces")
+	else:
+		assert((menu_title_font as SystemFont).font_names.has("Georgia"),
+			"Native main menu title should request the source Georgia family")
 	menu._open_campaign()
 	await process_frame
 	var campaign: Control = menu.match3_campaign_screen
 	assert(campaign.cards.get_child_count() == 22, "Campaign hub did not render all authored levels")
 	assert(not campaign.complete.visible, "Empty campaign-complete status should not reserve a row before the campaign is complete")
 	assert(campaign.summary_panel.size.y >= 80.0 and campaign.summary_panel.size.y <= 82.0,
-		"Campaign summary height diverged from the source card at 480x854")
+		"Campaign summary height diverged from the source card at the 430 px phone width: " + str(campaign.summary_panel.size.y))
 	assert(campaign.campaign_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_SHOW_NEVER,
 		"Campaign list should hide the platform scrollbar while remaining scrollable")
 	assert(is_equal_approx(campaign.cards.size.x, campaign.campaign_scroll.size.x),
@@ -55,38 +64,67 @@ func _run() -> void:
 	var match3: Control = menu.match3_screen
 	assert(match3 != null and match3.campaign_mode, "Campaign level did not launch in standalone mode")
 	assert(match3.level_id == second_id and match3.game.level_data.id == second_id, "Selected campaign level was not loaded")
-	var comic_normal := preload("res://scripts/ui_fonts.gd").match3(500) as SystemFont
-	var comic_bold := preload("res://scripts/ui_fonts.gd").match3(800) as SystemFont
-	var objective_font := match3.objective_heading.get_theme_font("font") as SystemFont
-	var objective_count_font := match3.objective.get_theme_font("font") as SystemFont
-	var moves_font := match3.moves.get_theme_font("font") as SystemFont
-	var hint_font := match3.hint_label.get_theme_font("font") as SystemFont
-	var speaker_font := match3.bark_speaker.get_theme_font("font") as SystemFont
-	var bark_font := match3.bark.get_theme_font("font") as SystemFont
-	assert(comic_normal.font_names == PackedStringArray(["Comic Sans MS", "Trebuchet MS"])
-		and comic_bold.font_names == comic_normal.font_names
-		and comic_normal.font_weight == 500 and comic_bold.font_weight == 800,
-		"Match-3 font provider should preserve the source system font stack and weight")
-	assert(objective_font != null and objective_font.font_names == comic_normal.font_names and objective_font.font_weight == 800
-		and objective_count_font != null and objective_count_font.font_weight == 800
-		and moves_font != null and moves_font.font_weight == 800,
+	var comic_normal: Font = UiFonts.match3(500)
+	var comic_bold: Font = UiFonts.match3(800)
+	var objective_font: Font = match3.objective_heading.get_theme_font("font")
+	var objective_count_font: Font = match3.objective.get_theme_font("font")
+	var moves_font: Font = match3.moves.get_theme_font("font")
+	var hint_font: Font = match3.hint_label.get_theme_font("font")
+	var speaker_font: Font = match3.bark_speaker.get_theme_font("font")
+	var bark_font: Font = match3.bark.get_theme_font("font")
+	if OS.has_feature("web"):
+		var comic_web_normal := comic_normal as FontVariation
+		var comic_web_bold := comic_bold as FontVariation
+		assert(comic_web_normal != null and comic_web_normal.base_font == UiFonts.COMIC_LATIN
+			and comic_web_normal.fallbacks == [UiFonts.COMIC_CYRILLIC]
+			and comic_web_bold != null and comic_web_bold.base_font == UiFonts.COMIC_BOLD_LATIN
+			and comic_web_bold.fallbacks == [UiFonts.COMIC_BOLD_CYRILLIC]
+			and comic_web_bold.variation_embolden == 0.2,
+			"Web exports must render the bundled Comic Relief Latin/Cyrillic faces because SystemFont is unsupported there")
+		assert((objective_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
+			and (objective_count_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
+			and (moves_font as FontVariation).base_font == UiFonts.COMIC_BOLD_LATIN
+			and (hint_font as FontVariation).variation_embolden == 0.4
+			and (speaker_font as FontVariation).variation_embolden == 0.3
+			and (bark_font as FontVariation).base_font == UiFonts.COMIC_LATIN,
+			"Web Match-3 roles should keep the source display weights and regular dialogue face")
+	else:
+		var comic_system_normal := comic_normal as SystemFont
+		var comic_system_bold := comic_bold as SystemFont
+		assert(comic_system_normal != null and comic_system_normal.font_names == PackedStringArray(["Comic Sans MS", "Trebuchet MS"])
+			and comic_system_bold != null and comic_system_bold.font_names == comic_system_normal.font_names
+			and comic_system_normal.font_weight == 500 and comic_system_bold.font_weight == 800,
+			"Native Match-3 font provider should preserve the source system font stack and weight")
+		assert((objective_font as SystemFont).font_weight == 800
+			and (objective_count_font as SystemFont).font_weight == 800
+			and (moves_font as SystemFont).font_weight == 800
+			and (hint_font as SystemFont).font_weight == 900
+			and (speaker_font as SystemFont).font_weight == 850
+			and (bark_font as SystemFont).font_weight == 500,
+			"Native Match-3 HUD, bark and hint should preserve source weights")
+	assert(objective_font != null and objective_count_font != null and moves_font != null,
 		"Match-3 objective and move HUD should use the bold display font")
-	assert(hint_font != null and hint_font.font_weight == 900
-		and speaker_font != null and speaker_font.font_weight == 850,
+	assert(hint_font != null and speaker_font != null,
 		"Match-3 hint and bark speaker should use the bold display font")
-	assert(bark_font != null and bark_font.font_weight == 500,
+	assert(bark_font != null,
 		"Match-3 narrative bark should use the regular display font")
 	var tutorial_body_font := match3.tutorial_body.get_theme_font("font") as FontVariation
 	var tutorial_button_font := match3.tutorial_button.get_theme_font("font") as FontVariation
 	assert(tutorial_body_font != null and tutorial_body_font.variation_opentype.get("wght", 0.0) == 700.0
 		and tutorial_button_font != null and tutorial_button_font.variation_opentype.get("wght", 0.0) == 950.0,
 		"Match-3 tutorial copy and action should retain the source Inter sans stack")
-	var bundled_fallback := comic_normal.fallbacks[0] as FontVariation
-	assert(bundled_fallback != null and bundled_fallback.fallbacks.size() == 1,
-		"Match-3 font stack should include its bundled Latin/Cyrillic fallback for platforms without the source system fonts")
-	var feedback_font := match3.match_feedback_label.get_theme_font("font") as SystemFont
-	assert(feedback_font != null and feedback_font.font_names.has("Georgia"),
-		"Transient match feedback should preserve its source Georgia serif treatment")
+	if not OS.has_feature("web"):
+		var bundled_fallback := (comic_normal as SystemFont).fallbacks[0] as FontVariation
+		assert(bundled_fallback != null and bundled_fallback.fallbacks.size() == 1,
+			"Native Match-3 font stack should include its bundled Latin/Cyrillic fallback when source fonts are absent")
+	var feedback_font: Font = match3.match_feedback_label.get_theme_font("font")
+	if OS.has_feature("web"):
+		assert((feedback_font as FontVariation).base_font == UiFonts.GEORGIA_LATIN
+			and (feedback_font as FontVariation).fallbacks == [UiFonts.SERIF_CYRILLIC],
+			"Web Match-3 feedback should use bundled Georgia-metric Latin and a Cyrillic serif fallback")
+	else:
+		assert((feedback_font as SystemFont).font_names.has("Georgia"),
+			"Native Match-3 feedback should preserve the source Georgia serif treatment")
 	var expected_page_background := str(bundle.assets.backgrounds.get(str(match3.level_data.pageBackground), ""))
 	assert(str(bundle.levels[0].pageBackground) != str(bundle.levels[1].pageBackground)
 		and not expected_page_background.is_empty()

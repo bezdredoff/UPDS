@@ -282,11 +282,8 @@ func _button(parent: Node) -> Button:
 	return button
 
 
-func _serif_font(weight: int) -> SystemFont:
-	var font := SystemFont.new()
-	font.font_names = PackedStringArray(["Georgia", "serif"])
-	font.font_weight = weight
-	return font
+func _serif_font(weight: int) -> Font:
+	return UiFonts.serif(weight)
 
 
 func _header_icon_button(parent: Node, icon_name: String, tooltip: String) -> Button:

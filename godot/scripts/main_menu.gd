@@ -35,6 +35,10 @@ var _settings_from_campaign := false
 
 
 func _ready() -> void:
+	var runtime_theme := theme.duplicate() as Theme
+	runtime_theme.default_font = UiFonts.sans()
+	runtime_theme.default_font_size = 16
+	theme = runtime_theme
 	resized.connect(_layout_menu)
 	_layout_menu()
 	audio_runtime.name = "MenuAudio"
@@ -62,6 +66,11 @@ func _ready() -> void:
 	_style_button($Content/Actions/Continue)
 	_style_button($Content/Actions/Campaign)
 	_style_button($Content/Actions/Settings)
+	$Content/Title.add_theme_font_override("normal_font", UiFonts.serif(800))
+	$Content/Title.add_theme_constant_override("line_separation", -12)
+	$Content/Eyebrow.add_theme_font_override("font", UiFonts.sans(900))
+	$Content/Tagline.add_theme_font_override("font", UiFonts.sans(400))
+	$Content/Footer.add_theme_font_override("font", UiFonts.sans(400))
 	for button in [$Content/Actions/NewGame, $Content/Actions/Continue, $Content/Actions/Campaign, $Content/Actions/Settings]:
 		button.pressed.connect(audio_runtime.play_effect)
 
@@ -88,8 +97,7 @@ func _layout_menu() -> void:
 	$Content.anchor_bottom = 1.0 - 24.0 / size.y
 	$Content.add_theme_constant_override("separation", 8 if compact else 6)
 	var title_size := 38 if compact else 44
-	$Content/Title.add_theme_font_size_override("font_size", title_size)
-	$Content/Accent.add_theme_font_size_override("font_size", title_size)
+	$Content/Title.add_theme_font_size_override("normal_font_size", title_size)
 	var hero_size := 66.0 if compact else 78.0
 	$Content/Hero.custom_minimum_size.y = hero_size
 	for portrait in $Content/Hero.get_children():
@@ -99,8 +107,9 @@ func _layout_menu() -> void:
 
 func _refresh_copy(locale: String) -> void:
 	$Content/Eyebrow.text = MenuCopy.text("eyebrow", locale)
-	$Content/Title.text = MenuCopy.text("title", locale)
-	$Content/Accent.text = MenuCopy.text("accent", locale)
+	$Content/Title.text = "[center][color=#1f2340]%s[/color]\n[color=#d96279]%s[/color][/center]" % [
+		MenuCopy.text("title", locale), MenuCopy.text("accent", locale),
+	]
 	$Content/Tagline.text = MenuCopy.text("tagline", locale)
 	$Content/Actions/NewGame.text = MenuCopy.text("new_game", locale)
 	$Content/Actions/Continue.text = MenuCopy.text("continue", locale)
