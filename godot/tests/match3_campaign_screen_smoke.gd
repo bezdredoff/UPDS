@@ -315,8 +315,9 @@ func _run() -> void:
 	assert(is_equal_approx(special_icon.rotation_degrees, -8.0), "Flash Row activation did not start from the source impact keyframe")
 	assert(direction_marker.get_child(0).text == "↔" and special_shadow != null
 		and is_equal_approx(special_shadow.get_shader_parameter("shadow_blur_px"), 2.0)
-		and absf((special_shadow.get_shader_parameter("shadow_color") as Color).a - 0.72) < 0.01,
-		"Flash Row missed its direction marker or source dark drop shadow")
+		and absf((special_shadow.get_shader_parameter("shadow_color") as Color).a - 0.72) < 0.01
+		and is_equal_approx(special_shadow.get_shader_parameter("glow_strength"), 1.0),
+		"Flash Row missed its direction marker, source dark drop shadow or impact glow")
 	await create_timer(0.3).timeout
 	assert(is_equal_approx(special_icon.rotation_degrees, 0.0), "Flash Row activation did not return to neutral rotation")
 	match3._render_board()

@@ -1378,6 +1378,9 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			special_icon.pivot_offset = special_icon.size * 0.5
 			special_icon.scale = Vector2(0.82, 0.82)
 			special_icon.rotation_degrees = -8.0
+			var impact_material := (special_icon.material as ShaderMaterial).duplicate() as ShaderMaterial
+			impact_material.set_shader_parameter("glow_strength", 1.0)
+			special_icon.material = impact_material
 			var icon_tween := create_tween()
 			icon_tween.tween_property(special_icon, "scale", Vector2(1.24, 1.24), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 4.0, 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
