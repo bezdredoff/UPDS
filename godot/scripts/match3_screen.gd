@@ -1471,6 +1471,8 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		if index < 0 or index >= board.get_child_count(): continue
 		var cell := board.get_child(index) as Control
 		var is_source := activated_sources.has(index)
+		var resting_z_index := cell.z_index
+		cell.z_index = 6 if is_source else 3
 		var flash := ColorRect.new()
 		flash.name = "SpecialImpactFlash"
 		flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -1521,6 +1523,7 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		if not is_source:
 			var return_brightness := impact_tween.parallel().tween_property(cell, "modulate", Color.WHITE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 			return_brightness.from(Color(1.42, 1.42, 1.42, 1.0))
+		impact_tween.finished.connect(Callable(self, "_restore_special_impact_z_index").bind(cell, resting_z_index))
 		var special_kind := str(special_kinds[index]) if index < special_kinds.size() else ""
 		if special_kind.is_empty(): continue
 		var tile_stack := cell.get_node_or_null("TileStack") as Control
@@ -1569,6 +1572,11 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			beam_tween.tween_property(beam, "modulate:a", 0.0, 0.182).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 			beam_tween.parallel().tween_property(beam, "scale", Vector2.ONE, 0.182).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 			beam_tween.finished.connect(beam.queue_free)
+
+
+func _restore_special_impact_z_index(cell: Control, resting_z_index: int) -> void:
+	if is_instance_valid(cell):
+		cell.z_index = resting_z_index
 
 
 func _special_impact_flash_material() -> ShaderMaterial:
