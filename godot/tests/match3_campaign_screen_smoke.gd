@@ -60,6 +60,10 @@ func _run() -> void:
 	match3._record_tutorial_move({"valid": true}, true)
 	assert(match3.active_tutorial.is_empty(), "Completing the special activation did not advance the tutorial sequence")
 	assert(match3.game.tiles.size() == int(bundle.levels[1].rows) * int(bundle.levels[1].columns), "Selected campaign board dimensions mismatch")
+	var cell_background := match3.board.get_child(0).get_node("CellBackground") as Panel
+	assert(cell_background.material is ShaderMaterial and (cell_background.material as ShaderMaterial).shader.code.contains("gradient_axis")
+		and cell_background.offset_left == 1 and cell_background.offset_right == -1,
+		"Match-3 cells should render the source diagonal gradient and inset edge treatment beneath tile art")
 	var first_tile_before_variant_check: String = match3.game.tiles[0]
 	match3.game.tiles[0] = "camisole"
 	match3._render_board()

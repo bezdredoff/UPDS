@@ -12,6 +12,7 @@ const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const Tutorials = preload("res://scripts/match3_tutorials.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
 const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
+const Match3CellBackground = preload("res://shaders/match3_cell_background.gdshader")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
@@ -576,6 +577,8 @@ func _render_board() -> void:
 	for child in board.get_children():
 		board.remove_child(child)
 		child.queue_free()
+	var cell_background_material := ShaderMaterial.new()
+	cell_background_material.shader = Match3CellBackground
 	for index in game.tiles.size():
 		var tile_button := Button.new()
 		tile_button.custom_minimum_size = Vector2(54, 54)
@@ -588,7 +591,7 @@ func _render_board() -> void:
 		cell_style.bg_color = Color("#2e4266")
 		cell_style.border_color = Color(0.45, 0.52, 0.46, 0.57)
 		cell_style.set_border_width_all(1)
-		cell_style.set_corner_radius_all(4)
+		cell_style.set_corner_radius_all(5)
 		var selected_style := cell_style.duplicate() as StyleBoxFlat
 		selected_style.border_color = Color("#fff6cf")
 		selected_style.set_border_width_all(3)
@@ -609,6 +612,20 @@ func _render_board() -> void:
 		tile_button.add_theme_color_override("font_disabled_color", Color.TRANSPARENT)
 		tile_button.text = ""
 		tile_button.gui_input.connect(_on_tile_gui_input.bind(index))
+		var cell_background := Panel.new()
+		cell_background.name = "CellBackground"
+		cell_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		cell_background.offset_left = 1
+		cell_background.offset_top = 1
+		cell_background.offset_right = -1
+		cell_background.offset_bottom = -1
+		cell_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		cell_background.material = cell_background_material
+		var cell_background_style := StyleBoxFlat.new()
+		cell_background_style.bg_color = Color.WHITE
+		cell_background_style.set_corner_radius_all(4)
+		cell_background.add_theme_stylebox_override("panel", cell_background_style)
+		tile_button.add_child(cell_background)
 		var tile_stack := Control.new()
 		tile_stack.name = "TileStack"
 		tile_stack.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
