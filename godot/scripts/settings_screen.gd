@@ -9,6 +9,8 @@ const UiFonts = preload("res://scripts/ui_fonts.gd")
 var preferences: RefCounted
 var audio_runtime: Node
 var language: OptionButton
+var language_row: PanelContainer
+var language_row_content: GridContainer
 var title: Label
 var language_label: Label
 var help: Label
@@ -35,8 +37,6 @@ var preview_music: Button
 var preview_effects: Button
 var pwa_status: Label
 var pwa_meta: Label
-var pwa_progress: ProgressBar
-var pwa_progress_copy: Label
 var pwa_install: Button
 var pwa_check: Button
 
@@ -72,7 +72,7 @@ func _ready() -> void:
 	body.name = "Body"
 	body.add_theme_constant_override("margin_left", 20)
 	body.add_theme_constant_override("margin_right", 20)
-	body.add_theme_constant_override("margin_top", 8)
+	body.add_theme_constant_override("margin_top", 2)
 	content.add_child(body)
 	var body_content := VBoxContainer.new()
 	body_content.add_theme_constant_override("separation", 8)
@@ -80,17 +80,38 @@ func _ready() -> void:
 	content = body_content
 	var language_heading := _section_heading(content)
 	language_heading.text = MenuCopy.text("language", preferences.locale)
-	language_label = _label(content, 700, 14)
-	var language_card := _card(content, "LanguageCard", 14, 12)
-	language_card.add_theme_constant_override("separation", 8)
-	var language_content := VBoxContainer.new()
-	language_content.add_theme_constant_override("separation", 8)
-	language_card.add_child(language_content)
-	help = _label(language_content, 400, 11)
+	language_row = PanelContainer.new()
+	language_row.name = "LanguageRow"
+	language_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var language_row_style := StyleBoxFlat.new()
+	language_row_style.bg_color = Color(1, 1, 1, 0.035)
+	language_row_style.border_color = Color("#ded6ce80")
+	language_row_style.set_border_width_all(1)
+	language_row_style.set_corner_radius_all(14)
+	language_row_style.content_margin_left = 16
+	language_row_style.content_margin_right = 16
+	language_row_style.content_margin_top = 14
+	language_row_style.content_margin_bottom = 14
+	language_row.add_theme_stylebox_override("panel", language_row_style)
+	content.add_child(language_row)
+	language_row_content = GridContainer.new()
+	language_row_content.name = "LanguageRowContent"
+	language_row_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	language_row_content.add_theme_constant_override("h_separation", 16)
+	language_row_content.add_theme_constant_override("v_separation", 4)
+	language_row.add_child(language_row_content)
+	var language_copy := VBoxContainer.new()
+	language_copy.name = "LanguageCopy"
+	language_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	language_copy.custom_minimum_size.x = 214
+	language_copy.add_theme_constant_override("separation", 4)
+	language_row_content.add_child(language_copy)
+	language_label = _label(language_copy, 700, 14)
+	help = _label(language_copy, 400, 11)
 	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	language = OptionButton.new()
 	language.name = "Language"
-	language.custom_minimum_size.y = 42
+	language.custom_minimum_size = Vector2(128, 42)
 	_style_select(language)
 	language.add_item("Русский")
 	language.set_item_metadata(0, "ru")
@@ -99,7 +120,9 @@ func _ready() -> void:
 	language.add_item("English")
 	language.set_item_metadata(2, "en")
 	language.item_selected.connect(_select_language)
-	language_content.add_child(language)
+	language_row_content.add_child(language)
+	_layout_language_row()
+	get_viewport().size_changed.connect(_layout_language_row)
 	var audio_heading := _section_heading(content)
 	audio_heading.text = ""
 	audio_title = audio_heading
@@ -154,7 +177,27 @@ func _ready() -> void:
 	capability = _label(content, 400, 9)
 	capability.name = "AudioCapability"
 	capability.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	var mobile_note := _card(content, "MobileContract", 7, 12)
+	var install_heading := _section_heading(content)
+	install_heading.name = "InstallHeading"
+	install_heading.text = MenuCopy.text("install_heading", preferences.locale)
+	_build_pwa_card(content)
+	var note_spacing := MarginContainer.new()
+	note_spacing.name = "MobileContractSpacing"
+	note_spacing.add_theme_constant_override("margin_top", 8)
+	content.add_child(note_spacing)
+	var mobile_note := PanelContainer.new()
+	mobile_note.name = "MobileContract"
+	var note_style := StyleBoxFlat.new()
+	note_style.bg_color = Color("#fff7dc")
+	note_style.border_color = Color("#d7a54c")
+	note_style.border_width_left = 3
+	note_style.set_corner_radius_all(7)
+	note_style.content_margin_left = 12
+	note_style.content_margin_right = 12
+	note_style.content_margin_top = 12
+	note_style.content_margin_bottom = 12
+	mobile_note.add_theme_stylebox_override("panel", note_style)
+	note_spacing.add_child(mobile_note)
 	var mobile_note_content := VBoxContainer.new()
 	mobile_note_content.add_theme_constant_override("separation", 4)
 	mobile_note.add_child(mobile_note_content)
@@ -163,7 +206,6 @@ func _ready() -> void:
 	mobile_note_copy = _label(mobile_note_content, 400, 10)
 	mobile_note_copy.name = "MobileContractCopy"
 	mobile_note_copy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_build_pwa_card(content)
 	error_label = _label(content, 700, 12)
 	error_label.add_theme_color_override("font_color", Color("#ac3f59"))
 	preferences.locale_changed.connect(_refresh)
@@ -343,28 +385,12 @@ func _build_pwa_card(parent: Control) -> void:
 	pwa_meta = _label(details, 400, 8)
 	pwa_meta.name = "PwaMeta"
 	pwa_meta.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	var progress_details := VBoxContainer.new()
-	progress_details.name = "PwaCacheProgress"
-	progress_details.add_theme_constant_override("separation", 4)
-	progress_details.add_theme_constant_override("margin_top", 4)
-	details.add_child(progress_details)
-	var progress_row := HBoxContainer.new()
-	progress_row.add_theme_constant_override("separation", 8)
-	progress_details.add_child(progress_row)
-	pwa_progress_copy = _label(progress_row, 400, 8)
-	pwa_progress_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	pwa_progress = ProgressBar.new()
-	pwa_progress.name = "Progress"
-	pwa_progress.custom_minimum_size = Vector2(0, 7)
-	pwa_progress.show_percentage = false
-	progress_details.add_child(pwa_progress)
 	var actions := VBoxContainer.new()
 	actions.name = "PwaStatusActions"
 	actions.add_theme_constant_override("separation", 6)
 	columns.add_child(actions)
 	pwa_install = _pwa_action(actions, "PwaInstall", "pwa_install")
 	pwa_check = _pwa_action(actions, "PwaCheck", "pwa_check")
-	pwa_progress.hide()
 	_refresh_pwa()
 
 
@@ -449,19 +475,38 @@ func _style_select(button: OptionButton) -> void:
 	button.add_theme_font_override("font", UiFonts.sans(400))
 	button.add_theme_color_override("font_color", Color("#494453"))
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#fffdf7")
-	style.border_color = Color("#d8cfd6")
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(10)
-	style.content_margin_left = 12
+	style.bg_color = Color.TRANSPARENT
+	style.border_color = Color.TRANSPARENT
+	style.content_margin_left = 0
+	style.content_margin_right = 0
 	button.add_theme_stylebox_override("normal", style)
 	button.add_theme_stylebox_override("hover", style)
 	button.add_theme_stylebox_override("pressed", style)
+	button.add_theme_stylebox_override("disabled", style)
+
+
+func _layout_language_row() -> void:
+	if not is_instance_valid(language_row_content) or not is_instance_valid(language):
+		return
+	var compact := get_viewport_rect().size.x <= 520.0
+	language_row_content.columns = 1 if compact else 2
+	language_row_content.add_theme_constant_override("h_separation", 0 if compact else 16)
+	_language_copy_minimum(compact)
+	language.custom_minimum_size = Vector2(128 if not compact else 0, 42)
+	language.size_flags_horizontal = Control.SIZE_EXPAND_FILL if compact else Control.SIZE_SHRINK_BEGIN
+
+
+func _language_copy_minimum(compact: bool) -> void:
+	var language_copy := language_row_content.get_node_or_null("LanguageCopy") as Control
+	if language_copy != null:
+		language_copy.custom_minimum_size.x = 0 if compact else 214
 
 
 func _refresh(locale: String) -> void:
 	title.text = MenuCopy.text("settings", locale)
 	language_label.text = MenuCopy.text("language", locale)
+	var install_heading := find_child("InstallHeading", true, false) as Label
+	install_heading.text = MenuCopy.text("install_heading", locale)
 	back.tooltip_text = MenuCopy.text("back", locale)
 	help.text = MenuCopy.text("language_help", locale)
 	language.tooltip_text = MenuCopy.text("language", locale)
@@ -525,11 +570,8 @@ func _refresh_pwa() -> void:
 		platform_id = str(bridge.platform.id)
 	pwa_status.text = MenuCopy.text("pwa_hosted", preferences.locale)
 	pwa_meta.text = MenuCopy.text("pwa_meta", preferences.locale).replace("{platform}", platform_id)
-	pwa_progress_copy.text = MenuCopy.text("pwa_not_applicable", preferences.locale)
-	pwa_progress.value = 0
-	pwa_install.show()
+	pwa_install.hide()
 	pwa_check.show()
-	pwa_install.disabled = true
 	pwa_check.disabled = true
 
 

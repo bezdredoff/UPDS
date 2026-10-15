@@ -21,11 +21,18 @@ func _run_smoke() -> void:
 	var screen: PanelContainer = menu.get_node("SettingsScreen")
 	assert(not menu.get_node("Content").visible)
 	assert(screen.find_child("PanelHeader", true, false) != null
+		and screen.find_child("LanguageRow", true, false) != null
 		and screen.find_child("MusicVolumeCard", true, false) != null
 		and screen.find_child("EffectsVolumeCard", true, false) != null
 		and screen.find_child("AudioToggles", true, false) != null
 		and screen.find_child("PwaOfflineCard", true, false) != null,
 		"Settings should preserve the source header, grouped controls, and platform status card")
+	var compact_language_row := screen.get_viewport_rect().size.x <= 520.0
+	assert(screen.language.get_parent().name == "LanguageRowContent"
+		and screen.language.get_parent().get_parent().name == "LanguageRow"
+		and screen.language_row_content.columns == (1 if compact_language_row else 2)
+		and is_equal_approx(screen.language.custom_minimum_size.x, 0.0 if compact_language_row else 128.0),
+		"Language copy and selector should share the source responsive language row")
 	assert(screen.audio_title.text == MenuCopy.text("audio_title", preferences.locale)
 		and screen.audio_copy.text == MenuCopy.text("audio_copy", preferences.locale)
 		and screen.music_value.text.ends_with("%") and screen.effects_value.text.ends_with("%"),
@@ -40,9 +47,19 @@ func _run_smoke() -> void:
 		"Volume labels and sliders should share the same source-style cards")
 	assert(screen.pwa_status.text == MenuCopy.text("pwa_hosted", preferences.locale)
 		and (screen.pwa_meta.text.contains("Playgama") or screen.pwa_meta.text.contains("mock"))
-		and not screen.pwa_progress.visible
-		and screen.pwa_install.disabled and screen.pwa_check.disabled,
+		and screen.find_child("PwaCacheProgress", true, false) == null
+		and not screen.pwa_install.visible and screen.pwa_check.disabled,
 		"PWA card should identify the host and avoid claiming browser cache or unsupported actions")
+	var install_heading: Label = screen.find_child("InstallHeading", true, false)
+	var mobile_contract: PanelContainer = screen.find_child("MobileContract", true, false)
+	var note_style := mobile_contract.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(install_heading.text == MenuCopy.text("install_heading", preferences.locale)
+		and install_heading.get_index() < screen.find_child("PwaOfflineCard", true, false).get_index()
+		and mobile_contract.get_parent().get_index() > screen.find_child("PwaOfflineCard", true, false).get_index()
+		and screen.mobile_note_title.get_parent().get_parent() == mobile_contract
+		and is_equal_approx(note_style.border_width_left, 3.0)
+		and note_style.bg_color.is_equal_approx(Color("#fff7dc")),
+		"Installation status should precede the source yellow mobile note and gold accent")
 	for index in screen.language.item_count:
 		screen.language.select(index)
 		screen.language.item_selected.emit(index)
