@@ -115,7 +115,6 @@ const COPY := {
 		"language": "Language",
 		"language_help": "Interface language is saved on this device separately from game progress.",
 		"settings_save_error": "Could not save settings. Please try again.",
-		"version": "UPDS · Godot port",
 	},
 	"ru": {
 		"eyebrow": "SEIRAN COLLEGE · CASE 001",
@@ -229,7 +228,6 @@ const COPY := {
 		"language": "Язык",
 		"language_help": "Язык интерфейса сохраняется на этом устройстве отдельно от игрового прогресса.",
 		"settings_save_error": "Не удалось сохранить настройки. Попробуйте ещё раз.",
-		"version": "UPDS · порт на Godot",
 	},
 	"be": {
 		"eyebrow": "КАЛЕДЖ СЭЙРАН · СПРАВА 001",
@@ -343,7 +341,6 @@ const COPY := {
 		"language": "Мова",
 		"language_help": "Мова інтэрфейсу захоўваецца на гэтай прыладзе асобна ад гульнявога прагрэсу.",
 		"settings_save_error": "Не ўдалося захаваць налады. Паспрабуйце яшчэ раз.",
-		"version": "UPDS · порт на Godot",
 	},
 }
 

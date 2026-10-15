@@ -7,6 +7,7 @@ signal settings_requested
 signal match3_requested(level_id: String)
 
 const MenuCopy = preload("res://scripts/menu_copy.gd")
+const CONTRACT = preload("res://data/save_contract.json")
 const PlayerPreferences = preload("res://scripts/player_preferences.gd")
 const SettingsScreen = preload("res://scripts/settings_screen.gd")
 const StorySession = preload("res://scripts/story_session.gd")
@@ -92,7 +93,7 @@ func _layout_menu() -> void:
 	$Content/Hero.custom_minimum_size.y = hero_size
 	for portrait in $Content/Hero.get_children():
 		portrait.custom_minimum_size = Vector2(hero_size, hero_size)
-	$Content/FooterSpacer.custom_minimum_size.y = 17.0
+	$Content/FooterSpacer.custom_minimum_size.y = 21.0
 
 
 func _refresh_copy(locale: String) -> void:
@@ -104,7 +105,7 @@ func _refresh_copy(locale: String) -> void:
 	$Content/Actions/Continue.text = MenuCopy.text("continue", locale)
 	$Content/Actions/Campaign.text = MenuCopy.text("campaign", locale)
 	$Content/Actions/Settings.text = MenuCopy.text("settings", locale)
-	$Content/Footer.text = MenuCopy.text("version", locale)
+	$Content/Footer.text = "v" + str(CONTRACT.data.appVersion)
 	_update_continue()
 
 
