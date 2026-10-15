@@ -307,6 +307,12 @@ func _run() -> void:
 	var target_cell: Control = match3.board.get_child(impact_target)
 	assert(target_cell.get_node_or_null("SpecialImpactTargetOutline") != null, "Affected clear target did not receive its target outline")
 	assert(target_cell.get_node_or_null("SpecialImpactFlash") != null, "Affected clear target did not receive its impact flash")
+	var target_flash := target_cell.get_node("SpecialImpactFlash") as ColorRect
+	var target_flash_shader := (target_flash.material as ShaderMaterial).shader
+	assert(target_flash_shader.code.contains("0.35") and target_flash_shader.code.contains("0.58")
+		and target_flash_shader.code.contains("0.76") and target_flash_shader.code.contains("0.302")
+		and target_flash_shader.code.contains("0.161"),
+		"Special impact flash did not preserve the CSS radial gradient stops and opacity")
 	var special_stack: Control = special_cell.get_node("TileStack")
 	assert(special_stack.pivot_offset == special_cell.custom_minimum_size * 0.5, "Tile-stack scale effects should pivot around the source cell center")
 	var special_icon: TextureRect = special_stack.get_node("Special")

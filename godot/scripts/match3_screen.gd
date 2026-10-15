@@ -1419,9 +1419,18 @@ func _special_impact_flash_material() -> ShaderMaterial:
 	shader.code = """
 	shader_type canvas_item;
 	void fragment() {
-		float radius = distance(UV, vec2(0.5));
-		float glow = 1.0 - smoothstep(0.12, 0.72, radius);
-		COLOR = vec4(vec3(1.0, 0.965, 0.75), glow) * COLOR;
+		float radius = distance(UV, vec2(0.5)) / length(vec2(0.5));
+		vec4 inner_glow = vec4(1.0, 0.930, 0.527, 0.302);
+		vec4 outer_glow = vec4(0.145, 0.761, 0.638, 0.161);
+		vec4 glow = vec4(0.0);
+		if (radius <= 0.35) {
+			glow = inner_glow;
+		} else if (radius <= 0.58) {
+			glow = mix(inner_glow, outer_glow, (radius - 0.35) / 0.23);
+		} else if (radius <= 0.76) {
+			glow = mix(outer_glow, vec4(0.0), (radius - 0.58) / 0.18);
+		}
+		COLOR = glow * COLOR;
 	}
 	"""
 	var material := ShaderMaterial.new()
