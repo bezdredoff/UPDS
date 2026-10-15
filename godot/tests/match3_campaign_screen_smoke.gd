@@ -110,7 +110,7 @@ func _run() -> void:
 	assert(match3.selected_index == distant_cell and match3.input_locked, "Non-adjacent tap should select the second cell while holding rejection feedback")
 	assert(match3.bark.text == MenuCopy.text("match3_bark_not_adjacent", "ru"), "Non-adjacent tap did not show the source bark")
 	assert(match3.match_feedback_panel.visible, "Non-adjacent tap did not show the reject feedback pill")
-	await create_timer(0.72).timeout
+	await create_timer(0.82).timeout
 	assert(not match3.input_locked and not match3.match_feedback_panel.visible and match3.last_feedback.is_empty(), "Non-adjacent feedback did not clear after the source hold duration")
 	match3.selected_index = -1
 	match3._render_board()
@@ -125,6 +125,20 @@ func _run() -> void:
 	assert(match3.match_feedback_panel.visible and match3.match_feedback_kind == "reject", "No-match feedback should appear after the outward swap animation")
 	await create_timer(1.2).timeout
 	assert(not match3.match_feedback_panel.visible and not match3.input_locked, "No-match reject feedback did not clear after the return and hold")
+	match3._show_match_feedback("reject", 1, "no_match")
+	assert(match3.match_feedback_panel.visible and is_equal_approx(match3.match_feedback_panel.scale.x, 0.86) and is_zero_approx(match3.match_feedback_panel.modulate.a), "Feedback entry should start from the source scale and opacity")
+	assert(match3.match_feedback_panel.pivot_offset == match3.match_feedback_panel.size * 0.5, "Feedback pill should scale from its center")
+	await create_timer(0.05).timeout
+	assert(match3.match_feedback_panel.modulate.a > 0.0 and match3.match_feedback_panel.modulate.a < 1.0 and match3.match_feedback_panel.scale.x > 0.86, "Feedback entry did not follow the 100 ms CSS transition")
+	await create_timer(0.06).timeout
+	assert(is_equal_approx(match3.match_feedback_panel.scale.x, 1.0) and is_equal_approx(match3.match_feedback_panel.modulate.a, 1.0), "Feedback entry did not reach its source end state")
+	match3._show_match_feedback("special")
+	assert(is_equal_approx(match3.match_feedback_panel.scale.x, 1.0), "Changing a visible feedback message restarted the pill entrance")
+	match3._clear_match_feedback()
+	await create_timer(0.05).timeout
+	assert(match3.match_feedback_panel.visible and match3.match_feedback_panel.modulate.a < 1.0, "Feedback exit should remain visible during its fade")
+	await create_timer(0.06).timeout
+	assert(not match3.match_feedback_panel.visible, "Feedback exit did not hide the pill after the 100 ms CSS transition")
 	for locale in ["ru", "be", "en"]:
 		assert(menu.preferences.set_locale(locale) == OK)
 		assert(match3.guidance_labels[0].text == MenuCopy.text("match3_input_hint", locale), "Match-3 input guidance did not update for %s" % locale)

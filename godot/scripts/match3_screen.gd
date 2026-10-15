@@ -452,7 +452,7 @@ func _ready() -> void:
 	match_feedback_panel.custom_minimum_size.x = 150
 	match_feedback_panel.custom_maximum_size.x = 336
 	match_feedback_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	match_feedback_panel.pivot_offset = Vector2(168, 23)
+	match_feedback_panel.pivot_offset = Vector2(75, 23)
 	match_feedback_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	match_feedback_panel.visible = false
 	feedback_center.add_child(match_feedback_panel)
@@ -924,6 +924,8 @@ func _feedback_text(key: String, count: int = 1) -> String:
 
 func _show_match_feedback(kind: String, cascade: int = 1, localized_key: String = "") -> void:
 	if not is_instance_valid(match_feedback_panel) or not is_instance_valid(match_feedback_label): return
+	var was_hidden := not match_feedback_panel.visible
+	var was_fading_out := match_feedback_key.is_empty() and match_feedback_panel.visible
 	if match_feedback_tween != null and match_feedback_tween.is_valid(): match_feedback_tween.kill()
 	match_feedback_key = localized_key if not localized_key.is_empty() else kind
 	match_feedback_kind = kind
@@ -937,19 +939,34 @@ func _show_match_feedback(kind: String, cascade: int = 1, localized_key: String 
 	var feedback_style := match_feedback_panel.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
 	feedback_style.bg_color = colors.get(kind, colors.match)
 	match_feedback_panel.add_theme_stylebox_override("panel", feedback_style)
+	match_feedback_panel.pivot_offset = match_feedback_panel.size * 0.5
 	match_feedback_panel.visible = true
-	match_feedback_panel.scale = Vector2(0.86, 0.86)
-	match_feedback_panel.modulate.a = 0.0
+	if was_hidden:
+		match_feedback_panel.scale = Vector2(0.86, 0.86)
+		match_feedback_panel.modulate.a = 0.0
+	if not was_hidden and not was_fading_out and is_equal_approx(match_feedback_panel.modulate.a, 1.0):
+		return
+	var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
 	match_feedback_tween = create_tween()
 	match_feedback_tween.set_parallel(true)
-	match_feedback_tween.tween_property(match_feedback_panel, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	match_feedback_tween.tween_property(match_feedback_panel, "modulate:a", 1.0, 0.1)
+	match_feedback_tween.tween_property(match_feedback_panel, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+	match_feedback_tween.tween_property(match_feedback_panel, "modulate:a", 1.0, 0.1).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 
 
 func _clear_match_feedback() -> void:
-	if match_feedback_tween != null and match_feedback_tween.is_valid(): match_feedback_tween.kill()
+	if not is_instance_valid(match_feedback_panel): return
 	match_feedback_key = ""
-	match_feedback_panel.visible = false
+	if not match_feedback_panel.visible: return
+	if match_feedback_tween != null and match_feedback_tween.is_valid(): match_feedback_tween.kill()
+	var css_ease := Callable(self, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
+	match_feedback_tween = create_tween()
+	match_feedback_tween.set_parallel(true)
+	match_feedback_tween.tween_property(match_feedback_panel, "scale", Vector2(0.86, 0.86), 0.1).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+	match_feedback_tween.tween_property(match_feedback_panel, "modulate:a", 0.0, 0.1).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+	match_feedback_tween.finished.connect(func() -> void:
+		if is_instance_valid(match_feedback_panel) and match_feedback_key.is_empty():
+			match_feedback_panel.visible = false
+	)
 
 
 func _build_evidence_transition() -> void:
