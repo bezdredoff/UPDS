@@ -366,7 +366,16 @@ func _run() -> void:
 	assert(match3.hinted_indices.size() == 2, "Hint action did not mark the two source cells")
 	var hinted_cell: Control = match3.board.get_child(match3.hinted_indices[0])
 	var hinted_style := hinted_cell.get_theme_stylebox("normal") as StyleBoxFlat
-	assert(hinted_style.shadow_size == 12, "Hinted cell did not receive the source glow")
+	assert(hinted_style.border_color.to_html(false) == Color("#7ddfd8").to_html(false)
+		and hinted_style.shadow_color.to_html(false) == Color("#7ddfd8").to_html(false)
+		and hinted_style.shadow_size == 15,
+		"Hinted cell should use the source turquoise outline and 15px glow")
+	var hint_ring := hinted_cell.get_node_or_null("HintInnerRing") as Panel
+	var hint_ring_style := hint_ring.get_theme_stylebox("panel") as StyleBoxFlat if hint_ring != null else null
+	assert(hint_ring != null and hint_ring_style != null
+		and hint_ring_style.border_color.to_html(false) == Color("#fff8d7").to_html(false)
+		and hint_ring_style.get_border_width(SIDE_LEFT) == 2,
+		"Hinted cell should preserve the source inner ivory glow ring")
 	await create_timer(0.42).timeout
 	assert(hinted_cell.scale.x < 0.99 and hinted_cell.modulate.r > 1.0, "Hint pulse did not animate the cell and its brightness")
 	match3.hinted_indices.clear()

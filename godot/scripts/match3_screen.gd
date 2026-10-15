@@ -671,10 +671,10 @@ func _render_board() -> void:
 		selected_style.border_color = Color("#fff2a8")
 		selected_style.set_border_width_all(3)
 		var hinted_style := cell_style.duplicate() as StyleBoxFlat
-		hinted_style.border_color = Color("#6ce2d3")
+		hinted_style.border_color = Color("#7ddfd8")
 		hinted_style.set_border_width_all(3)
-		hinted_style.shadow_color = Color("#6ce2d3")
-		hinted_style.shadow_size = 12
+		hinted_style.shadow_color = Color("#7ddfd8")
+		hinted_style.shadow_size = 15
 		hinted_style.shadow_offset = Vector2.ZERO
 		var hover_style := cell_style.duplicate() as StyleBoxFlat
 		hover_style.bg_color = Color("#3a5278")
@@ -916,6 +916,22 @@ func _render_board() -> void:
 					direction_marker.add_child(direction_label)
 					direction_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 					tile_stack.add_child(direction_marker)
+		if hinted_indices.has(index):
+			var hint_ring := Panel.new()
+			hint_ring.name = "HintInnerRing"
+			hint_ring.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			hint_ring.offset_left = 2.0
+			hint_ring.offset_top = 2.0
+			hint_ring.offset_right = -2.0
+			hint_ring.offset_bottom = -2.0
+			hint_ring.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			hint_ring.z_index = 20
+			var hint_ring_style := StyleBoxFlat.new()
+			hint_ring_style.bg_color = Color(0, 0, 0, 0)
+			hint_ring_style.border_color = Color("#fff8d7")
+			hint_ring_style.set_border_width_all(2)
+			hint_ring.add_theme_stylebox_override("panel", hint_ring_style)
+			tile_button.add_child(hint_ring)
 		board.add_child(tile_button)
 	_fit_board_cells()
 
