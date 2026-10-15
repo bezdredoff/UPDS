@@ -70,8 +70,8 @@ void fragment() {
 	vec3 output_rgb = output_alpha > 0.0
 		? (source.rgb * source.a + under_rgb * (1.0 - source.a)) / output_alpha
 		: vec3(0.0);
+	output_rgb = (output_rgb - vec3(0.5)) * contrast + vec3(0.5);
 	float output_gray = dot(output_rgb, vec3(0.299, 0.587, 0.114));
 	output_rgb = mix(vec3(output_gray), output_rgb, saturation);
-	output_rgb = (output_rgb - vec3(0.5)) * contrast + vec3(0.5);
 	COLOR = vec4(output_rgb, output_alpha);
 }
