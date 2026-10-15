@@ -363,6 +363,18 @@ func _run() -> void:
 	var css_ease_curve := Callable(match3, "_css_cubic_bezier").bind(0.25, 0.1, 0.25, 1.0)
 	assert(absf(float(css_ease_curve.call(0.5)) - 0.8024) < 0.01, "CSS ease curve did not sample to its source midpoint")
 	match3._shake_rejected_cells([rejected_first, rejected_second])
+	await create_timer(0.04).timeout
+	assert(rejected_cell.position.x < rejected_home_x - 2.0,
+		"Rejected swap should reach the source -5px shake keyframe first")
+	await create_timer(0.06).timeout
+	assert(rejected_cell.position.x > rejected_home_x + 2.0,
+		"Rejected swap should cross toward the source +5px shake keyframe second")
+	await create_timer(0.06).timeout
+	assert(rejected_cell.position.x < rejected_home_x - 1.0,
+		"Rejected swap should return through the source -3px shake keyframe third")
+	await create_timer(0.055).timeout
+	assert(absf(rejected_cell.position.x - rejected_home_x) < 1.0,
+		"Rejected swap should finish the source 220ms shake at its home position")
 	await create_timer(0.25).timeout
 	assert(is_equal_approx(rejected_cell.position.x, rejected_home_x), "Rejected cell did not return to its source position")
 	match3.story_session = menu.session
