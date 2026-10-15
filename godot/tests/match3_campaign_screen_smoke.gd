@@ -221,12 +221,22 @@ func _run() -> void:
 	})
 	var ingredient_cell: Control = match3.board.get_child(settle_index)
 	var ingredient_icon: TextureRect = ingredient_cell.get_node("TileStack/Ingredient")
-	var ingredient_glow: TextureRect = ingredient_cell.get_node("TileStack/IngredientGlow")
+	var ingredient_material := ingredient_icon.material as ShaderMaterial
 	assert(ingredient_icon.anchor_right == 1.0 and ingredient_icon.anchor_bottom == 1.0 and ingredient_icon.offset_left == 3.0, "Ingredient artwork did not fill the source cell with its 3px inset")
+	assert(ingredient_material != null and is_equal_approx(ingredient_material.get_shader_parameter("glow_white_radius_px"), 7.0)
+		and (ingredient_material.get_shader_parameter("glow_white") as Color).is_equal_approx(Color("#fff2a0"))
+		and is_zero_approx((ingredient_material.get_shader_parameter("glow_gold") as Color).a)
+		and is_zero_approx((ingredient_material.get_shader_parameter("glow_aqua") as Color).a),
+		"Ingredient idle glow did not use the source yellow 7px drop shadow")
 	await create_timer(0.71).timeout
-	assert(ingredient_icon.offset_top < 2.0 and ingredient_glow.modulate.a > 0.2 and ingredient_glow.scale.x > 1.1, "Ingredient idle did not reach its source lift and gold glow")
+	assert(ingredient_icon.offset_top < 2.0 and ingredient_icon.offset_bottom < -4.5
+		and ingredient_icon.scale.is_equal_approx(Vector2.ONE)
+		and float(ingredient_material.get_shader_parameter("glow_strength")) > 0.9,
+		"Ingredient idle did not reach the source 2px lift and yellow drop shadow")
 	await create_timer(0.72).timeout
-	assert(ingredient_icon.offset_top > 2.5 and ingredient_glow.modulate.a < 0.05 and ingredient_glow.scale.x < 1.02, "Ingredient idle did not return near its source resting state")
+	assert(absf(ingredient_icon.offset_top - 3.0) < 0.25 and absf(ingredient_icon.offset_bottom + 3.0) < 0.25
+		and float(ingredient_material.get_shader_parameter("glow_strength")) < 0.05,
+		"Ingredient idle did not return to its source resting position and no-glow state")
 	match3._render_board()
 	match3._render_frame({
 		"phase": "clear",

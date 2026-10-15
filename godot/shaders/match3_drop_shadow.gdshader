@@ -8,6 +8,9 @@ uniform float glow_strength = 0.0;
 uniform vec4 glow_white : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 uniform vec4 glow_gold : source_color = vec4(1.0, 0.941, 0.659, 1.0);
 uniform vec4 glow_aqua : source_color = vec4(0.424, 0.886, 0.827, 1.0);
+uniform float glow_white_radius_px = 5.0;
+uniform float glow_gold_radius_px = 10.0;
+uniform float glow_aqua_radius_px = 14.0;
 
 
 void fragment() {
@@ -32,18 +35,26 @@ void fragment() {
 	float glow_white_samples = 0.0;
 	float glow_gold_samples = 0.0;
 	float glow_aqua_samples = 0.0;
-	for (int sample_index = 0; sample_index < 8; sample_index++) {
-		float angle = float(sample_index) * 0.785398;
-		vec2 direction = vec2(cos(angle), sin(angle));
-		vec2 sample_direction = pixel_x * direction.x + pixel_y * direction.y;
-		glow_white_samples += texture(TEXTURE, UV + sample_direction * 5.0).a;
-		glow_gold_samples += texture(TEXTURE, UV + sample_direction * 10.0).a;
-		glow_aqua_samples += texture(TEXTURE, UV + sample_direction * 14.0).a;
+	if (glow_strength > 0.001) {
+		for (int sample_index = 0; sample_index < 8; sample_index++) {
+			float angle = float(sample_index) * 0.785398;
+			vec2 direction = vec2(cos(angle), sin(angle));
+			vec2 sample_direction = pixel_x * direction.x + pixel_y * direction.y;
+			if (glow_white.a > 0.001) {
+				glow_white_samples += texture(TEXTURE, UV + sample_direction * glow_white_radius_px).a;
+			}
+			if (glow_gold.a > 0.001) {
+				glow_gold_samples += texture(TEXTURE, UV + sample_direction * glow_gold_radius_px).a;
+			}
+			if (glow_aqua.a > 0.001) {
+				glow_aqua_samples += texture(TEXTURE, UV + sample_direction * glow_aqua_radius_px).a;
+			}
+		}
 	}
 	float outside_source = 1.0 - source.a;
-	float glow_white_alpha = glow_white_samples / 8.0 * 0.55 * glow_strength * outside_source;
-	float glow_gold_alpha = glow_gold_samples / 8.0 * 0.42 * glow_strength * outside_source;
-	float glow_aqua_alpha = glow_aqua_samples / 8.0 * 0.30 * glow_strength * outside_source;
+	float glow_white_alpha = glow_white_samples / 8.0 * 0.55 * glow_strength * glow_white.a * outside_source;
+	float glow_gold_alpha = glow_gold_samples / 8.0 * 0.42 * glow_strength * glow_gold.a * outside_source;
+	float glow_aqua_alpha = glow_aqua_samples / 8.0 * 0.30 * glow_strength * glow_aqua.a * outside_source;
 	float background_alpha = glow_aqua_alpha
 		+ glow_gold_alpha * (1.0 - glow_aqua_alpha)
 		+ glow_white_alpha * (1.0 - glow_aqua_alpha) * (1.0 - glow_gold_alpha);

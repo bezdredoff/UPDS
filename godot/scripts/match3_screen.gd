@@ -703,16 +703,6 @@ func _render_board() -> void:
 			var ingredient_asset := str(campaign_bundle.assets.ingredients.get(game.ingredients[index], ""))
 			if not ingredient_asset.is_empty():
 				var ingredient_texture: Texture2D = load("res://" + ingredient_asset.trim_prefix("./"))
-				var ingredient_glow := TextureRect.new()
-				ingredient_glow.name = "IngredientGlow"
-				ingredient_glow.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-				ingredient_glow.texture = ingredient_texture
-				ingredient_glow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-				ingredient_glow.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-				ingredient_glow.modulate = Color("#fff2a080")
-				ingredient_glow.pivot_offset = Vector2(27, 27)
-				ingredient_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
-				tile_stack.add_child(ingredient_glow)
 				var ingredient := TextureRect.new()
 				ingredient.name = "Ingredient"
 				ingredient.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -726,16 +716,20 @@ func _render_board() -> void:
 				ingredient.material = _match3_drop_shadow_material(Color("#00000088"), Vector2(0, 2), 2.0)
 				ingredient.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_stack.add_child(ingredient)
+				var ingredient_material := (ingredient.material as ShaderMaterial).duplicate() as ShaderMaterial
+				ingredient_material.set_shader_parameter("glow_white", Color("#fff2a0"))
+				ingredient_material.set_shader_parameter("glow_gold", Color(0, 0, 0, 0))
+				ingredient_material.set_shader_parameter("glow_aqua", Color(0, 0, 0, 0))
+				ingredient_material.set_shader_parameter("glow_white_radius_px", 7.0)
+				ingredient.material = ingredient_material
 				var ingredient_bob := tile_button.create_tween().set_loops()
 				var css_ease_in_out := Callable(self, "_css_cubic_bezier").bind(0.42, 0.0, 0.58, 1.0)
 				ingredient_bob.tween_property(ingredient, "offset_top", 1.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 				ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -5.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-				ingredient_bob.parallel().tween_property(ingredient_glow, "modulate:a", 0.26, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-				ingredient_bob.parallel().tween_property(ingredient_glow, "scale", Vector2(1.12, 1.12), 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+				ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_glow").bind(ingredient_material, false), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
 				ingredient_bob.tween_property(ingredient, "offset_top", 3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 				ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-				ingredient_bob.parallel().tween_property(ingredient_glow, "modulate:a", 0.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-				ingredient_bob.parallel().tween_property(ingredient_glow, "scale", Vector2.ONE, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+				ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_glow").bind(ingredient_material, true), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
 		if not game.specials[index].is_empty():
 			var special_kind: String = game.specials[index]
 			var special_asset := str(campaign_bundle.assets.get("specials", {}).get(special_kind, ""))
@@ -862,6 +856,11 @@ func _render_frame(frame: Dictionary) -> void:
 
 func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: float) -> float:
 	return CssMotion.cubic_bezier(progress, x1, y1, x2, y2)
+
+
+func _set_ingredient_glow(progress: float, material: ShaderMaterial, reverse: bool) -> void:
+	var eased_progress := _css_cubic_bezier(progress, 0.42, 0.0, 0.58, 1.0)
+	material.set_shader_parameter("glow_strength", 1.0 - eased_progress if reverse else eased_progress)
 
 
 func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, blur: float, brightness: float = 1.0) -> ShaderMaterial:
