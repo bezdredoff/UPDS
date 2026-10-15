@@ -741,19 +741,6 @@ func _render_board() -> void:
 			var special_asset := str(campaign_bundle.assets.get("specials", {}).get(special_kind, ""))
 			if not special_asset.is_empty():
 				var special_texture: Texture2D = load("res://" + special_asset.trim_prefix("./"))
-				var special_glow := TextureRect.new()
-				special_glow.name = "SpecialGlow"
-				special_glow.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-				special_glow.offset_left = -3
-				special_glow.offset_top = -3
-				special_glow.offset_right = 3
-				special_glow.offset_bottom = 3
-				special_glow.texture = special_texture
-				special_glow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-				special_glow.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-				special_glow.modulate = Color("#fff0bd66")
-				special_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
-				tile_stack.add_child(special_glow)
 				var special := TextureRect.new()
 				special.name = "Special"
 				special.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -772,6 +759,7 @@ func _render_board() -> void:
 				special.texture = special_texture
 				special.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				special.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				special.material = _match3_drop_shadow_material(Color("#181426b8"), Vector2(0, 1), 2.0)
 				special.rotation_degrees = -18.0 if special_kind == "flash-row" else 72.0 if special_kind == "flash-column" else 0.0
 				special.pivot_offset = Vector2(27, 27)
 				special.mouse_filter = Control.MOUSE_FILTER_IGNORE
