@@ -96,6 +96,7 @@ var warning: Label
 var board: GridContainer
 var board_center: CenterContainer
 var board_top_spacer: Control
+var board_positioner: Control
 var board_frame: PanelContainer
 var rendered_cell_signatures: Array[String] = []
 var back_button: Button
@@ -387,6 +388,10 @@ func _ready() -> void:
 	board_center = CenterContainer.new()
 	board_center.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(board_center)
+	board_positioner = Control.new()
+	board_positioner.name = "BoardSourcePlacement"
+	board_positioner.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	board_center.add_child(board_positioner)
 	var board_outline := PanelContainer.new()
 	board_outline.name = "BoardNavyOutline"
 	board_outline.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
@@ -398,7 +403,7 @@ func _ready() -> void:
 	board_outline_style.content_margin_top = 0
 	board_outline_style.content_margin_bottom = 0
 	board_outline.add_theme_stylebox_override("panel", board_outline_style)
-	board_center.add_child(board_outline)
+	board_positioner.add_child(board_outline)
 	board_frame = PanelContainer.new()
 	board_frame.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	var board_style := StyleBoxFlat.new()
@@ -437,6 +442,7 @@ func _ready() -> void:
 	board_frame.material = null
 	board_center.resized.connect(_fit_board_cells)
 	resized.connect(_fit_board_hud_spacing)
+	get_viewport().size_changed.connect(_fit_board_hud_spacing)
 	var bark_style := StyleBoxFlat.new()
 	bark_style.bg_color = Color("#fff7dff2")
 	bark_style.border_color = Color("#66755d99")
@@ -1019,26 +1025,66 @@ func _rendered_cell_signature(index: int, cell_size: float, reduced_motion: bool
 
 
 func _board_cell_size() -> float:
-	var rows := maxi(1, int(level_data.get("rows", 1)))
 	var columns := maxi(1, int(level_data.get("columns", 1)))
-	var width_limit := minf(size.x - 24.0, 414.0)
-	if board_center.size.y > 0.0:
-		width_limit = minf(width_limit, board_center.size.y * float(columns) / float(rows))
-	var cell_width := (width_limit - 6.0 - float(columns - 1)) / float(columns)
-	# GridContainer does not include the UI A outline in its cell minimum size.
-	return maxf(1.0, cell_width + 1.0)
+	var geometry := _source_board_geometry()
+	var board_size: Vector2 = geometry.board_size
+	var board_width: float = board_size.x
+	var cell_width: float = (board_width - 6.0 - float(columns - 1)) / float(columns)
+	return maxf(1.0, cell_width)
+
+
+func _board_cell_height() -> float:
+	var rows := maxi(1, int(level_data.get("rows", 1)))
+	var geometry := _source_board_geometry()
+	var board_size: Vector2 = geometry.board_size
+	return maxf(1.0, (board_size.y - 6.0 - float(rows - 1)) / float(rows))
 
 
 func _board_hud_spacing() -> float:
-	# UI A anchors its board toward the bottom of the playfield, leaving a
-	# deliberate gap after the HUD. A short responsive spacer shifts the Godot
-	# center-layout equivalent down without affecting the dialogue slot.
+	# Keep the VBox flow's dialogue and guidance slots stable. The actual board
+	# is positioned independently from the source flex playfield geometry below.
 	return clampf((size.y - 568.0) * 0.19, 0.0, 48.0)
 
 
 func _fit_board_hud_spacing() -> void:
 	if is_instance_valid(board_top_spacer):
 		board_top_spacer.custom_minimum_size.y = _board_hud_spacing()
+	_fit_board_cells()
+
+
+func _source_board_geometry() -> Dictionary:
+	var viewport := get_viewport_rect().size
+	var rows := maxi(1, int(level_data.get("rows", 1)))
+	var columns := maxi(1, int(level_data.get("columns", 1)))
+	return source_board_geometry(viewport, size, columns, rows)
+
+
+static func source_board_geometry(viewport: Vector2, frame_size: Vector2, columns: int, rows: int) -> Dictionary:
+	var screen_width := maxf(1.0, frame_size.x)
+	var screen_height := maxf(1.0, frame_size.y)
+	var viewport_width := viewport.x if viewport.x > 0.0 else screen_width
+	var viewport_height := viewport.y if viewport.y > 0.0 else screen_height
+	var narrow_header := viewport_width <= 320.0
+	var mobile_hud := viewport_width <= 430.0
+	var short_screen := viewport_height <= 760.0
+	var header_height := 57.0 if narrow_header else 61.0
+	var hud_height := 50.0 if mobile_hud else 52.0
+	var hud_top_margin := 16.0 if short_screen else 18.0
+	var hud_bottom_margin := 60.0 if short_screen else 66.0
+	var playfield_top := header_height + 8.0 + hud_top_margin + hud_height + hud_bottom_margin + 8.0
+	var bottom_reserve := 114.5 if mobile_hud else 116.5
+	var playfield_height := maxf(0.0, screen_height - bottom_reserve - playfield_top)
+	var width_limit := minf(screen_width - 24.0, 414.0)
+	var board_width := minf(width_limit, playfield_height * float(columns) / float(maxi(rows, 1)))
+	var board_height := board_width * float(maxi(rows, 1)) / float(maxi(columns, 1))
+	var board_shift := 6.0 + board_height * 0.0889
+	var board_top := playfield_top + playfield_height - board_height - board_shift
+	return {
+		"playfield_top": playfield_top,
+		"playfield_height": playfield_height,
+		"board_size": Vector2(board_width, board_height),
+		"board_top": board_top,
+	}
 
 
 func _fit_move_counter_font_size() -> void:
@@ -1108,13 +1154,31 @@ func _move_counter_font_size_for_width(viewport_width: float) -> int:
 
 
 func _fit_board_cells() -> void:
-	if not is_instance_valid(board) or board.get_child_count() == 0:
+	if not is_instance_valid(board) or board.get_child_count() == 0 or not is_instance_valid(board_center):
 		return
+	var geometry := _source_board_geometry()
+	var board_size: Vector2 = geometry.board_size
+	board_positioner.custom_minimum_size = board_size
+	board_positioner.size = board_size
+	var center_position := board_center.get_global_position() - get_global_position()
+	var centered_offset := (board_center.size.y - board_size.y) * 0.5
+	var relative_top := float(geometry.board_top) - center_position.y - centered_offset
+	var board_outline := board_positioner.get_node("BoardNavyOutline") as PanelContainer
+	board_outline.custom_minimum_size = board_size
+	board_outline.size = board_size
+	board_outline.position = Vector2(0.0, relative_top)
+	board_frame.custom_minimum_size = board_size
+	board_frame.size = board_size
 	var cell_size := _board_cell_size()
+	var cell_height := _board_cell_height()
 	for child in board.get_children():
 		if child is Control:
-			(child as Control).custom_minimum_size = Vector2(cell_size, cell_size)
-			(child as Control).pivot_offset = Vector2(cell_size, cell_size) * 0.5
+			var cell := child as Control
+			cell.custom_minimum_size = Vector2(cell_size, cell_height)
+			cell.pivot_offset = Vector2(cell_size, cell_height) * 0.5
+			var tile_stack := cell.get_node_or_null("TileStack") as Control
+			if is_instance_valid(tile_stack):
+				tile_stack.pivot_offset = cell.pivot_offset
 
 
 func _render_frame(frame: Dictionary) -> void:

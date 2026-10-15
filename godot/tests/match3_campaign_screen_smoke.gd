@@ -304,6 +304,27 @@ func _run() -> void:
 		"UI A board should preserve its authored columns-to-rows aspect ratio")
 	assert(is_equal_approx(match3._board_hud_spacing(), 48.0),
 		"Match-3 board should keep the calibrated 48px maximum HUD spacer on standard-height screens")
+	var wide_board_geometry: Dictionary = match3.source_board_geometry(Vector2(474, 844), Vector2(430, 844), 7, 9)
+	assert(is_equal_approx(wide_board_geometry.playfield_top, 213.0)
+		and is_equal_approx(wide_board_geometry.playfield_height, 514.5)
+		and absf(wide_board_geometry.board_size.x - 400.16) < 0.1
+		and absf(wide_board_geometry.board_top - 161.28) < 0.1,
+		"Godot board geometry should match the source 474x844 flex-playfield capture")
+	var narrow_board_geometry: Dictionary = match3.source_board_geometry(Vector2(390, 844), Vector2(390, 844), 7, 9)
+	assert(is_equal_approx(narrow_board_geometry.playfield_top, 211.0)
+		and absf(narrow_board_geometry.board_size.x - 366.0) < 0.1
+		and absf(narrow_board_geometry.board_top - 211.1) < 0.1,
+		"Godot board geometry should match the source 390x844 responsive capture")
+	var compact_board_geometry: Dictionary = match3.source_board_geometry(Vector2(320, 568), Vector2(320, 568), 7, 9)
+	assert(is_equal_approx(compact_board_geometry.playfield_top, 199.0)
+		and absf(compact_board_geometry.board_size.x - 197.94) < 0.1
+		and absf(compact_board_geometry.board_top - 170.39) < 0.1,
+		"Godot board geometry should match the source 320x568 compact capture")
+	var live_board_geometry: Dictionary = match3._source_board_geometry()
+	var expected_board_origin: float = float(live_board_geometry.board_top) - (match3.board_center.get_global_position().y
+		- match3.get_global_position().y) - (match3.board_center.size.y - live_board_geometry.board_size.y) * 0.5
+	assert(absf(match3.board_positioner.get_node("BoardNavyOutline").position.y - expected_board_origin) < 0.1,
+		"Godot board should use the source flex anchor and one-row upward visual offset")
 	var rendered_cell_index := -1
 	for index in match3.game.tiles.size():
 		if not match3.game.tiles[index].is_empty():
