@@ -55,6 +55,11 @@ func _run() -> void:
 	var match3: Control = menu.match3_screen
 	assert(match3 != null and match3.campaign_mode, "Campaign level did not launch in standalone mode")
 	assert(match3.level_id == second_id and match3.game.level_data.id == second_id, "Selected campaign level was not loaded")
+	var expected_page_background := str(bundle.assets.backgrounds.get(str(match3.level_data.pageBackground), ""))
+	assert(str(bundle.levels[0].pageBackground) != str(bundle.levels[1].pageBackground)
+		and not expected_page_background.is_empty()
+		and match3.background.texture.resource_path == "res://" + expected_page_background.trim_prefix("./"),
+		"Match-3 screen should load the authored page background for the selected level instead of reusing the M3_00 locker image")
 	var match_background_material := match3.background.material as ShaderMaterial
 	assert(match3.background_base.color.is_equal_approx(Color("#d9d0b6"))
 		and is_equal_approx(match3.background.modulate.a, 0.96)

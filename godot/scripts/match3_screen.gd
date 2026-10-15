@@ -142,7 +142,9 @@ func _ready() -> void:
 	background = TextureRect.new()
 	background.name = "MatchBackground"
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	background.texture = load("res://assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp")
+	var background_asset := str(campaign_bundle.assets.backgrounds.get(str(level_data.get("pageBackground", "")), ""))
+	assert(not background_asset.is_empty(), "Match-3 level has no authored page background: " + level_id)
+	background.texture = load("res://" + background_asset.trim_prefix("./"))
 	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	background.modulate.a = 0.96

@@ -81,6 +81,19 @@ static func validate_bundle(bundle: Dictionary) -> PackedStringArray:
 	var assets: Variant = bundle.get("assets", null)
 	if not assets is Dictionary:
 		errors.append("campaign gameplay assets must be an object")
+	else:
+		var backgrounds: Variant = assets.get("backgrounds", null)
+		if not backgrounds is Dictionary:
+			errors.append("campaign page-background asset map is missing")
+		else:
+			for value: Variant in levels:
+				if not value is Dictionary: continue
+				var background_key := str(value.get("pageBackground", ""))
+				var background_asset := str(backgrounds.get(background_key, ""))
+				if background_key.is_empty() or background_asset.is_empty():
+					errors.append("%s: page background is not mapped to an asset" % str(value.get("id", "campaign level")))
+				elif not background_asset.begins_with("./assets/backgrounds/") or background_asset.contains(".."):
+					errors.append("%s: page background asset path is invalid" % str(value.get("id", "campaign level")))
 	return errors
 
 
