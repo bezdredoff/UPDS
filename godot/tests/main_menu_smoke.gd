@@ -55,8 +55,9 @@ func _run_smoke() -> void:
 	var menu_title := menu.get_node("Content/Title") as RichTextLabel
 	assert(menu_title.text.contains(MenuCopy.text("title", locale)))
 	assert(menu_title.text.contains(MenuCopy.text("accent", locale)))
-	assert(menu.get_node("Content/Tagline").get_theme_font_size("font_size") == 15,
-		"Playgama Web tagline width should compensate for the bundled Inter/system-ui metric difference")
+	assert(menu.get_node("Content/Tagline/Copy").get_theme_font_size("font_size") == 15
+		and is_equal_approx(menu.get_node("Content/Tagline").custom_minimum_size.y, 20.0),
+		"Playgama Web tagline should preserve its calibrated width and fixed layout slot")
 	assert(menu.get_node("Content/Actions/Continue").disabled, "Continue requires a save adapter")
 	var continue_button: Button = menu.get_node("Content/Actions/Continue")
 	assert(is_equal_approx(continue_button.modulate.a, 0.38),
@@ -108,8 +109,11 @@ func _run_smoke() -> void:
 		"Compact menu should avoid adding excess vertical gaps beneath its short-screen title")
 	assert(menu_title.get_theme_font_size("normal_font_size") == 38,
 		"Compact menu title should match the source's 38 px heading")
-	assert(is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 66.0),
-		"Compact menu medallions should match the source's 66 px art")
+	var compact_tagline: Label = menu.get_node("Content/Tagline/Copy")
+	assert(is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 66.0)
+		and is_equal_approx(compact_tagline.offset_top, -6.0)
+		and is_equal_approx(compact_tagline.offset_bottom, -6.0),
+		"Compact menu should raise only the tagline glyphs while preserving hero flow")
 	assert(is_equal_approx(menu.get_node("Content").anchor_bottom, 1.0 - 24.0 / 664.0),
 		"Compact menu should preserve the source's 24 px bottom inset")
 	menu.size = Vector2(390, 854)
@@ -124,7 +128,9 @@ func _run_smoke() -> void:
 	assert(is_equal_approx(menu.get_node("Background").size.x, 320.0)
 		and is_equal_approx(menu.get_node("Content").size.x, 284.0),
 		"Narrow menu should fill a 320 px frame and preserve the source's 18 px inset")
-	assert(is_equal_approx(menu.get_node("Content").offset_top, 18.0)
+	assert(is_equal_approx(menu.get_node("Content/Tagline/Copy").offset_top, 0.0)
+		and is_equal_approx(menu.get_node("Content/Tagline/Copy").offset_bottom, 0.0)
+		and is_equal_approx(menu.get_node("Content").offset_top, 18.0)
 		and menu_title.get_theme_font_size("normal_font_size") == 34
 		and not menu_title.fit_content
 		and is_equal_approx(menu_title.custom_minimum_size.y, 74.0)
@@ -132,8 +138,8 @@ func _run_smoke() -> void:
 		and menu_title.get_theme_constant("line_separation") == -12
 		and is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 56.0)
 		and is_equal_approx(menu.get_node("Content/HeroSpacer").custom_minimum_size.y, 2.0)
-		and menu.get_node("Content/Tagline").get_theme_font_size("font_size") == 12
-		and menu.get_node("Content/Tagline").autowrap_mode == TextServer.AUTOWRAP_OFF
+		and menu.get_node("Content/Tagline/Copy").get_theme_font_size("font_size") == 12
+		and menu.get_node("Content/Tagline/Copy").autowrap_mode == TextServer.AUTOWRAP_OFF
 		and is_equal_approx(menu.get_node("Content/FooterSpacer").custom_minimum_size.y, 17.0)
 		and is_equal_approx(menu.get_node("Content/Actions/NewGame").custom_minimum_size.y, 44.0),
 		"Narrow menu should use the source's compact heading and medallion sizes")
