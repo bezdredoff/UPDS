@@ -156,7 +156,7 @@ func _run() -> void:
 	var web_dialogue_font := FontVariation.new()
 	web_dialogue_font.base_font = preload("res://assets/fonts/Gelasio-wght.ttf")
 	web_dialogue_font.fallbacks = [preload("res://assets/fonts/NotoSerif-wdth-wght.ttf")]
-	web_dialogue_font.variation_opentype = {"wght": 400.0}
+	web_dialogue_font.variation_opentype = {"weight": 400.0}
 	var fitted_wrap: String = screen._fit_candidate_with_hyphenation(
 		"После звонка кампус японского колледжа Сэйран не затихал:", "спортивные",
 		web_dialogue_font, 326.0, 16, 52.44)

@@ -34,8 +34,12 @@ describe('Godot bundled UI fonts', () => {
     expect(uiFonts).toContain('static func sans');
     expect(uiFonts).toContain('static func match3');
     expect(uiFonts).toContain('static func serif');
-    expect(uiFonts).toContain('cyrillic.variation_opentype = {"wght": float(weight)}');
+    expect(uiFonts).toContain('cyrillic.variation_opentype = {"weight": float(weight)}');
+    expect(uiFonts).not.toContain('{"wght":');
     expect(uiFonts).toContain('cyrillic.base_font = SERIF_CYRILLIC');
+    expect(mainMenu).toContain('eyebrow_font.spacing_glyph = 2');
+    expect(mainMenu).toContain('$Content/Eyebrow.add_theme_font_size_override("font_size", 9)');
+    expect(mainMenu).toContain('UiFonts.sans(850 if primary else 700)');
     expect(uiFonts).toContain('if OS.has_feature("web"):');
     expect(uiFonts).toContain('return bundled');
     expect(uiFonts).toContain('font.font_names = PackedStringArray(["Comic Sans MS", "Trebuchet MS"])');
