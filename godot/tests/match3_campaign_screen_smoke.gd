@@ -23,8 +23,8 @@ func _run() -> void:
 	var menu_title_font: Font = menu.get_node("Content/Title").get_theme_font("normal_font")
 	if OS.has_feature("web"):
 		assert((menu_title_font as FontVariation).base_font == UiFonts.GEORGIA_LATIN
-			and (menu_title_font as FontVariation).fallbacks == [UiFonts.SERIF_CYRILLIC],
-			"Web main menu title should preserve the Georgia serif style with Latin/Cyrillic bundled faces")
+			and _has_weighted_cyrillic_serif(menu_title_font, 800),
+			"Web main menu title should preserve the Georgia serif style and weight in both Latin and Cyrillic")
 	else:
 		assert((menu_title_font as SystemFont).font_names.has("Georgia"),
 			"Native main menu title should request the source Georgia family")
@@ -76,7 +76,7 @@ func _run() -> void:
 	if OS.has_feature("web"):
 		var title_web_font := match3.title.get_theme_font("font") as FontVariation
 		assert(title_web_font != null and title_web_font.base_font == UiFonts.GEORGIA_LATIN
-			and title_web_font.fallbacks == [UiFonts.SERIF_CYRILLIC]
+			and _has_weighted_cyrillic_serif(title_web_font, 800)
 			and title_web_font.variation_embolden == 0.2,
 			"Web Match-3 title should match the source Georgia serif weight 800")
 	else:
@@ -186,8 +186,8 @@ func _run() -> void:
 	var feedback_font: Font = match3.match_feedback_label.get_theme_font("font")
 	if OS.has_feature("web"):
 		assert((feedback_font as FontVariation).base_font == UiFonts.GEORGIA_LATIN
-			and (feedback_font as FontVariation).fallbacks == [UiFonts.SERIF_CYRILLIC],
-			"Web Match-3 feedback should use bundled Georgia-metric Latin and a Cyrillic serif fallback")
+			and _has_weighted_cyrillic_serif(feedback_font, 800),
+			"Web Match-3 feedback should use Georgia-metric serif weights for Latin and Cyrillic")
 	else:
 		assert((feedback_font as SystemFont).font_names.has("Georgia"),
 			"Native Match-3 feedback should preserve the source Georgia serif treatment")
@@ -971,3 +971,15 @@ func _run() -> void:
 	await process_frame
 	print("UPDS Godot Match-3 campaign screen smoke test passed (sequential unlock and level routing).")
 	quit()
+
+
+func _has_weighted_cyrillic_serif(font: Font, weight: int) -> bool:
+	if not font is FontVariation or font.fallbacks.size() != 1: return false
+	var cyrillic := font.fallbacks[0] as FontVariation
+	if cyrillic == null or cyrillic.base_font != UiFonts.SERIF_CYRILLIC: return false
+	var expected_weight := mini(weight, 700)
+	var expected_embolden := float(weight - 700) / 500.0 if weight > 700 else 0.0
+	return (
+		is_equal_approx(cyrillic.variation_opentype.get("wght", 0.0), float(expected_weight))
+		and is_equal_approx(cyrillic.variation_embolden, expected_embolden)
+	)

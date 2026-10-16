@@ -34,6 +34,8 @@ describe('Godot bundled UI fonts', () => {
     expect(uiFonts).toContain('static func sans');
     expect(uiFonts).toContain('static func match3');
     expect(uiFonts).toContain('static func serif');
+    expect(uiFonts).toContain('cyrillic.variation_opentype = {"wght": float(weight)}');
+    expect(uiFonts).toContain('cyrillic.base_font = SERIF_CYRILLIC');
     expect(uiFonts).toContain('if OS.has_feature("web"):');
     expect(uiFonts).toContain('return bundled');
     expect(uiFonts).toContain('font.font_names = PackedStringArray(["Comic Sans MS", "Trebuchet MS"])');
