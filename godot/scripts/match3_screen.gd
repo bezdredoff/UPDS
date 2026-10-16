@@ -12,6 +12,7 @@ const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const Tutorials = preload("res://scripts/match3_tutorials.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
 const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
+const Match3TutorialBackdrop = preload("res://shaders/match3_tutorial_backdrop.gdshader")
 const ReducedMotion = preload("res://scripts/reduced_motion.gd")
 const UiFonts = preload("res://scripts/ui_fonts.gd")
 const MenuCopy = preload("res://scripts/menu_copy.gd")
@@ -310,8 +311,14 @@ func _ready() -> void:
 	tutorial_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	tutorial_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	var tutorial_shade := ColorRect.new()
+	tutorial_shade.name = "TutorialShade"
 	tutorial_shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	tutorial_shade.color = Color("#0714279e")
+	tutorial_shade.color = Color.WHITE
+	var tutorial_backdrop_material := ShaderMaterial.new()
+	tutorial_backdrop_material.shader = Match3TutorialBackdrop
+	tutorial_backdrop_material.set_shader_parameter("blur_radius_px", 1.0)
+	tutorial_backdrop_material.set_shader_parameter("tint", Color("#0714279e"))
+	tutorial_shade.material = tutorial_backdrop_material
 	tutorial_shade.mouse_filter = Control.MOUSE_FILTER_STOP
 	tutorial_overlay.add_child(tutorial_shade)
 	var tutorial_center := CenterContainer.new()
