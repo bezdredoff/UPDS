@@ -48,6 +48,7 @@ const PostFullTruthScene = preload("res://data/post_full_truth_scene.json")
 const ConvenientCaseScene = preload("res://data/convenient_case_scene.json")
 const PostConvenientCaseScene = preload("res://data/post_convenient_case_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
+const UiFonts = preload("res://scripts/ui_fonts.gd")
 
 var _test_dossier_reset_requested := false
 var _test_menu_requested := false
@@ -70,6 +71,20 @@ func _run() -> void:
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	await process_frame
 	var screen: Control = menu.get_node("StoryScreen")
+	var case_title_font: Font = screen.title.get_theme_font("font")
+	if OS.has_feature("web"):
+		var case_title_web_font := case_title_font as FontVariation
+		assert(case_title_web_font != null and case_title_web_font.base_font == UiFonts.GEORGIA_LATIN
+			and _has_weighted_cyrillic_serif(case_title_web_font, 800)
+			and is_equal_approx(case_title_web_font.variation_embolden, 0.2),
+			"Web VN scene title should match the source Georgia serif weight 800")
+	else:
+		var case_title_native_font := case_title_font as SystemFont
+		assert(case_title_native_font != null and case_title_native_font.font_names.has("Georgia")
+			and case_title_native_font.font_weight == 800,
+			"Native VN scene title should request the source Georgia serif weight 800")
+	assert(screen.title.get_theme_font_size("font_size") == 11,
+		"Standard VN scene title should use the source 11px size")
 	assert(absf(screen.size.x - 430.0) < 1.0, "Story screens must share the web phone frame width")
 	assert(not screen.stage.clip_contents, "Authored characters must continue behind the VN dialogue panel")
 	assert(is_equal_approx(screen.stage.position.y, 60.0)
@@ -106,6 +121,8 @@ func _run() -> void:
 	var vn_width_before_compact_check := screen.size.x
 	screen.size.x = 320.0
 	screen._layout_vn()
+	assert(screen.title.get_theme_font_size("font_size") == 9,
+		"Compact VN scene title should use the source 9px size")
 	assert(screen.dialogue.get_theme_font_size("normal_font_size") == (13 if OS.has_feature("web") else 15),
 		"Compact VN dialogue font metrics should preserve the source line wrap below 340px")
 	assert(is_equal_approx(screen.nameplate.custom_minimum_size.x, 128.0)
@@ -1397,3 +1414,15 @@ func _dossier_tab_key(keycode: Key) -> InputEventKey:
 	event.keycode = keycode
 	event.pressed = true
 	return event
+
+
+func _has_weighted_cyrillic_serif(font: Font, weight: int) -> bool:
+	if not font is FontVariation or font.fallbacks.size() != 1: return false
+	var cyrillic := font.fallbacks[0] as FontVariation
+	if cyrillic == null or cyrillic.base_font != UiFonts.SERIF_CYRILLIC: return false
+	var expected_weight := mini(weight, 700)
+	var expected_embolden := float(weight - 700) / 500.0 if weight > 700 else 0.0
+	return (
+		is_equal_approx(cyrillic.variation_opentype.get("weight", 0.0), float(expected_weight))
+		and is_equal_approx(cyrillic.variation_embolden, expected_embolden)
+	)

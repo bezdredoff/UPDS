@@ -168,9 +168,9 @@ func _ready() -> void:
 	var case_label_font := UiFonts.sans(950)
 	case_label.add_theme_font_override("font", case_label_font)
 	title = _label(case_copy, 11)
-	title.add_theme_font_size_override("font_size", 10)
+	title.add_theme_font_size_override("font_size", 11)
 	title.add_theme_color_override("font_color", Color("#fff9ea"))
-	var case_title_font := UiFonts.sans(800)
+	var case_title_font := UiFonts.serif(800)
 	title.add_theme_font_override("font", case_title_font)
 	var dossier_icon := _icon_texture("dossier", 22)
 	dossier_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -337,6 +337,7 @@ func _layout_vn() -> void:
 	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	var tiny_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	var compact_height := size.y <= 760.0
+	title.add_theme_font_size_override("font_size", 9 if compact_width else 11)
 	var controls_min_height := 60.0 if tiny_width else 63.0
 	var controls_height := maxf(clampf(size.y * 0.09, 60.0, 82.0), controls_min_height)
 	var dialogue_row_height := clampf(size.y * 0.22, 154.0, 198.0)
