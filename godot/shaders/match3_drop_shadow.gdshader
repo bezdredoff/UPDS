@@ -65,7 +65,7 @@ void fragment() {
 		+ glow_white.rgb * glow_white_alpha * (1.0 - glow_aqua_alpha) * (1.0 - glow_gold_alpha);
 	background_rgb *= COLOR.rgb;
 	float under_alpha = shadow_alpha + background_alpha * (1.0 - shadow_alpha);
-	vec3 under_rgb = shadow_rgb * shadow_alpha + background_rgb * background_alpha * (1.0 - shadow_alpha);
+	vec3 under_rgb = shadow_rgb * shadow_alpha + background_rgb * (1.0 - shadow_alpha);
 	float output_alpha = source.a + under_alpha * (1.0 - source.a);
 	vec3 output_rgb = output_alpha > 0.0
 		? (source.rgb * source.a + under_rgb * (1.0 - source.a)) / output_alpha

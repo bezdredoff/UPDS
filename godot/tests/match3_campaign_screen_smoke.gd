@@ -1009,6 +1009,10 @@ func _run() -> void:
 		and (special_shadow.get_shader_parameter("glow_aqua") as Color).to_html(false) == Color("#6ce2d3").to_html(false)
 		and is_equal_approx(special_shadow.get_shader_parameter("glow_aqua_radius_px"), 14.0),
 		"Flash Row activation should add the source white, gold and aqua glow radii")
+	var glow_shader_code: String = special_shadow.shader.code
+	assert(glow_shader_code.contains("background_rgb * (1.0 - shadow_alpha)")
+		and not glow_shader_code.contains("background_rgb * background_alpha"),
+		"Special-icon glow is premultiplied already and must not apply its alpha twice")
 	await create_timer(0.3).timeout
 	assert(is_equal_approx(special_icon.rotation_degrees, 0.0), "Flash Row activation did not return to neutral rotation")
 	assert(special_cell.z_index == resting_source_z and target_cell.z_index == resting_target_z,
