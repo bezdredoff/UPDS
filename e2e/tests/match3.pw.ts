@@ -119,6 +119,61 @@ async function expectMatch3DomStable(page: Page): Promise<void> {
 }
 
 test.describe('Match-3 through Campaign and Level Lab', () => {
+  test('story-object guidance matches the source card treatment at standard and compact widths', async ({ page }, testInfo) => {
+    const health = observeBrowserHealth(page);
+    for (const viewport of [{ width: 390, height: 844 }, { width: 320, height: 568 }]) {
+      await page.setViewportSize(viewport);
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.goto('./?qa=1');
+      await expect(page.locator(qaSelectors.mainMenu)).toBeVisible();
+      await page.locator(qaSelectors.levelLabButton).click();
+      await expect(page.locator(qaSelectors.levelLabScreen)).toBeVisible();
+      await page.locator(qaSelectors.levelLabLevel).selectOption({ label: 'M3_03 · Идеальный порядок' });
+      await page.locator(qaSelectors.levelLabPlay).click();
+      await expect(page.locator(qaSelectors.match3Screen)).toBeVisible();
+
+      const storyGuidance = page.locator('.story-object-guidance.story-object-1');
+      const inputGuidance = page.locator('.default-input-guidance');
+      await expect(storyGuidance).toBeVisible();
+      await expect(inputGuidance).toBeHidden();
+      const sourceProfile = await storyGuidance.evaluate((element) => {
+        const node = element as HTMLElement;
+        const style = getComputedStyle(node);
+        const rect = node.getBoundingClientRect();
+        const slotRect = node.parentElement!.getBoundingClientRect();
+        return {
+          text: node.textContent?.trim(),
+          borderLeft: style.borderLeft,
+          borderTop: style.borderTop,
+          backgroundImage: style.backgroundImage,
+          textAlign: style.textAlign,
+          visibility: style.visibility,
+          left: rect.left,
+          top: rect.top,
+          width: rect.width,
+          height: rect.height,
+          slotHeight: slotRect.height,
+        };
+      });
+      expect(sourceProfile.text).toContain('Сюжетный объект: Улики.');
+      expect(sourceProfile.borderLeft).toContain('5px solid');
+      expect(sourceProfile.borderTop).toContain('1px solid');
+      expect(sourceProfile.backgroundImage).toContain('linear-gradient');
+      expect(sourceProfile.textAlign).toBe('left');
+      expect(sourceProfile.visibility).toBe('visible');
+      expect(sourceProfile.width).toBeGreaterThan(0);
+      expect(sourceProfile.height).toBeGreaterThan(0);
+      expect(sourceProfile.slotHeight).toBeGreaterThanOrEqual(20);
+      if (viewport.width === 320) {
+        expect(await storyGuidance.evaluate((element) => getComputedStyle(element).fontSize)).toBe('8px');
+      } else {
+        expect(await storyGuidance.evaluate((element) => getComputedStyle(element).fontSize)).toBe('9px');
+      }
+      await page.screenshot({ path: testInfo.outputPath(`story-object-guidance-${viewport.width}.png`) });
+    }
+    health.assertClean();
+  });
+
   for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }, { width: 440, height: 956 }]) {
     test(`UI A fits ${viewport.width}×${viewport.height} and preserves the hint button during bark updates`, async ({ page }, testInfo) => {
       await page.setViewportSize(viewport);
