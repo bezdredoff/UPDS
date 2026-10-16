@@ -62,6 +62,8 @@ func _ready() -> void:
 	scroll.name = "Scroll"
 	scroll.follow_focus = true
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	# The source hides its browser scrollbar; keep the full phone width available.
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 	add_child(scroll)
 	var content := VBoxContainer.new()
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -86,7 +88,7 @@ func _ready() -> void:
 	var language_row_style := StyleBoxFlat.new()
 	language_row_style.bg_color = Color(1, 1, 1, 0.035)
 	language_row_style.border_color = Color("#ded6ce80")
-	language_row_style.set_border_width_all(1)
+	language_row_style.set_border_width_all(0)
 	language_row_style.set_corner_radius_all(14)
 	language_row_style.content_margin_left = 16
 	language_row_style.content_margin_right = 16
@@ -94,6 +96,10 @@ func _ready() -> void:
 	language_row_style.content_margin_bottom = 14
 	language_row.add_theme_stylebox_override("panel", language_row_style)
 	content.add_child(language_row)
+	var language_spacing := MarginContainer.new()
+	language_spacing.name = "LanguageSectionSpacing"
+	language_spacing.add_theme_constant_override("margin_bottom", 4)
+	content.add_child(language_spacing)
 	language_row_content = GridContainer.new()
 	language_row_content.name = "LanguageRowContent"
 	language_row_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -125,13 +131,21 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_layout_language_row)
 	var audio_heading := _section_heading(content)
 	audio_heading.text = ""
+	audio_heading.custom_minimum_size.y = 46
+	audio_heading.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	audio_title = audio_heading
 	audio_copy = _label(content, 400, 13)
 	audio_copy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var audio_spacing := MarginContainer.new()
+	audio_spacing.name = "AudioSettingsSpacing"
+	audio_spacing.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	audio_spacing.add_theme_constant_override("margin_top", 6)
+	content.add_child(audio_spacing)
 	var audio_group := VBoxContainer.new()
 	audio_group.name = "AudioSettings"
+	audio_group.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	audio_group.add_theme_constant_override("separation", 10)
-	content.add_child(audio_group)
+	audio_spacing.add_child(audio_group)
 	var music_card := _card(audio_group, "MusicVolumeCard", 11, 12)
 	_build_volume_row(music_card, "musicVolume", true)
 	var effects_card := _card(audio_group, "EffectsVolumeCard", 11, 12)
@@ -142,6 +156,7 @@ func _ready() -> void:
 	toggles.add_theme_constant_override("separation", 8)
 	audio_group.add_child(toggles)
 	var mute_card := _card(toggles, "MuteCard", 10, 9)
+	mute_card.custom_minimum_size.y = 58
 	var mute_row := HBoxContainer.new()
 	mute_row.add_theme_constant_override("separation", 4)
 	mute_card.add_child(mute_row)
@@ -155,6 +170,7 @@ func _ready() -> void:
 	mute_switch = _switch_chip(mute_row)
 	mute_switch.name = "MuteSwitch"
 	var haptics_card := _card(toggles, "HapticsCard", 10, 9)
+	haptics_card.custom_minimum_size.y = 58
 	var haptics_row := HBoxContainer.new()
 	haptics_row.add_theme_constant_override("separation", 4)
 	haptics_card.add_child(haptics_row)
@@ -226,8 +242,8 @@ func _build_header(content: VBoxContainer) -> void:
 	style.shadow_color = Color("#0b142b59")
 	style.shadow_size = 7
 	style.shadow_offset = Vector2(0, 4)
-	style.content_margin_left = 8
-	style.content_margin_right = 8
+	style.content_margin_left = 13
+	style.content_margin_right = 13
 	header.add_theme_stylebox_override("panel", style)
 	content.add_child(header)
 	var row := HBoxContainer.new()
@@ -248,6 +264,7 @@ func _build_header(content: VBoxContainer) -> void:
 	back.add_theme_stylebox_override("normal", back_style)
 	back.add_theme_stylebox_override("hover", back_style)
 	back.add_theme_stylebox_override("pressed", back_style)
+	back.add_theme_stylebox_override("focus", back_style)
 	back.pressed.connect(func() -> void:
 		audio_runtime.play_effect()
 		back_requested.emit())
@@ -491,6 +508,7 @@ func _layout_language_row() -> void:
 	var compact := get_viewport_rect().size.x <= 520.0
 	language_row_content.columns = 1 if compact else 2
 	language_row_content.add_theme_constant_override("h_separation", 0 if compact else 16)
+	language_row_content.add_theme_constant_override("v_separation", 16 if compact else 4)
 	_language_copy_minimum(compact)
 	language.custom_minimum_size = Vector2(128 if not compact else 0, 42)
 	language.size_flags_horizontal = Control.SIZE_EXPAND_FILL if compact else Control.SIZE_SHRINK_BEGIN

@@ -30,11 +30,27 @@ func _run_smoke() -> void:
 		and screen.find_child("PwaOfflineCard", true, false) != null,
 		"Settings should preserve the source header, grouped controls, and platform status card")
 	var compact_language_row := screen.get_viewport_rect().size.x <= 520.0
+	var settings_scroll: ScrollContainer = screen.get_node("Scroll")
+	var language_row_style := screen.language_row.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(settings_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_SHOW_NEVER
+		and language_row_style != null
+		and language_row_style.get_border_width(SIDE_LEFT) == 0
+		and language_row_style.get_border_width(SIDE_TOP) == 0,
+		"Settings should hide the source browser scrollbar and keep the source's borderless language row")
 	assert(screen.language.get_parent().name == "LanguageRowContent"
 		and screen.language.get_parent().get_parent().name == "LanguageRow"
 		and screen.language_row_content.columns == (1 if compact_language_row else 2)
+		and screen.language_row_content.get_theme_constant("v_separation") == (16 if compact_language_row else 4)
 		and is_equal_approx(screen.language.custom_minimum_size.x, 0.0 if compact_language_row else 128.0),
 		"Language copy and selector should share the source responsive language row")
+	var audio_spacing: MarginContainer = screen.find_child("AudioSettingsSpacing", true, false)
+	var audio_settings: VBoxContainer = screen.find_child("AudioSettings", true, false)
+	assert(audio_spacing != null
+		and audio_settings.get_parent() == audio_spacing
+		and audio_spacing.get_theme_constant("margin_top") == 6,
+		"Audio controls should retain the source section's 14 px top gap on compact layouts")
+	assert(screen.audio_title.custom_minimum_size.y == 46
+		and screen.find_child("AudioSettings", true, false).get_parent().name == "AudioSettingsSpacing")
 	assert(screen.audio_title.text == MenuCopy.text("audio_title", preferences.locale)
 		and screen.audio_copy.text == MenuCopy.text("audio_copy", preferences.locale)
 		and screen.music_value.text.ends_with("%") and screen.effects_value.text.ends_with("%"),
