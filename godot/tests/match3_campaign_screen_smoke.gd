@@ -463,7 +463,8 @@ func _run() -> void:
 	var solid_overlay: TextureRect = solid_blocker_cell.get_node("Blocker")
 	assert(solid_stack.scale.is_equal_approx(Vector2(0.64, 0.64)) and solid_overlay.z_index == 4
 		and is_equal_approx(solid_overlay.modulate.a, 0.84)
-		and solid_overlay.material == null,
+		and solid_overlay.material == null
+		and not solid_blocker_cell.has_node("BlockerLayerBadge"),
 		"Solid bag blocker should shrink the retained tile stack and preserve the two-layer opacity")
 	match3.game.blocker_layers[visual_blocker_index] = 1
 	match3._render_board()

@@ -949,24 +949,6 @@ func _render_board() -> void:
 					locked_outline_style.set_border_width_all(1)
 					locked_outline.add_theme_stylebox_override("panel", locked_outline_style)
 					tile_button.add_child(locked_outline)
-				if game.blocker_layers[index] > 1:
-					var layer_badge := Label.new()
-					layer_badge.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-					layer_badge.offset_left = -17
-					layer_badge.offset_top = -17
-					layer_badge.offset_right = -1
-					layer_badge.offset_bottom = -1
-					layer_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-					layer_badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-					layer_badge.text = str(game.blocker_layers[index])
-					layer_badge.add_theme_font_size_override("font_size", 9)
-					layer_badge.add_theme_color_override("font_color", Color.WHITE)
-					layer_badge.add_theme_color_override("font_shadow_color", Color("#182238"))
-					layer_badge.add_theme_constant_override("shadow_offset_x", 1)
-					layer_badge.add_theme_constant_override("shadow_offset_y", 1)
-					layer_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-					layer_badge.z_index = 5
-					tile_button.add_child(layer_badge)
 		if not game.ingredients[index].is_empty():
 			var ingredient_asset := str(campaign_bundle.assets.ingredients.get(game.ingredients[index], ""))
 			if not ingredient_asset.is_empty():

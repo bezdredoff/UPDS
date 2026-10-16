@@ -134,6 +134,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
 
       const storyGuidance = page.locator('.story-object-guidance.story-object-1');
       const inputGuidance = page.locator('.default-input-guidance');
+      await expect(page.locator('.board .blocker b')).toHaveCount(0);
       await expect(storyGuidance).toBeVisible();
       await expect(inputGuidance).toBeHidden();
       const sourceProfile = await storyGuidance.evaluate((element) => {
