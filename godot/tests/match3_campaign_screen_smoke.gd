@@ -673,11 +673,33 @@ func _run() -> void:
 		assert(menu.preferences.set_locale(locale) == OK)
 		assert(match3.guidance_labels[0].text == MenuCopy.text("match3_input_hint", locale), "Match-3 input guidance did not update for %s" % locale)
 	assert(menu.preferences.set_locale("ru") == OK)
+	var help_board_before: Array = match3.game.tiles.duplicate()
+	var help_moves_before: int = match3.game.moves_left
 	match3.help_button.pressed.emit()
 	await process_frame
-	assert(is_instance_valid(match3.help_dialog) and match3.help_dialog.visible, "Match-3 help action did not open its localized dialog")
-	match3.help_dialog.confirmed.emit()
+	assert(is_instance_valid(match3.help_overlay) and match3.help_overlay.visible, "Match-3 help action did not open the in-game reference sheet")
+	var help_card: Panel = match3.help_overlay.get_node("HelpCard") as Panel
+	var help_content: VBoxContainer = match3.help_overlay.get_node("HelpCard/HelpScroll/HelpContent") as VBoxContainer
+	assert(help_card.size.x <= 350.0 and help_card.size.x >= 300.0 and help_card.position.y == 68.0,
+		"Match-3 help card should use the source centered 350px sheet and top offset; got %s at %s (root %s)" % [help_card.size, help_card.position, match3.help_overlay.size])
+	assert(help_content.has_node("Blocker_package") and help_content.has_node("Blocker_foam")
+		and help_content.has_node("Blocker_lock-chain") and help_content.has_node("Special_flash-row")
+		and help_content.has_node("Special_flash-column") and help_content.has_node("Special_evidence")
+		and help_content.has_node("Special_lead") and help_content.has_node("Special_insight")
+		and help_content.get_child_count() >= 24,
+		"Match-3 help sheet omitted a blocker, special tile, or gameplay topic")
+	for locale in ["ru", "be", "en"]:
+		assert(menu.preferences.set_locale(locale) == OK)
+		var help_copy: Dictionary = match3.help_overlay.copy
+		assert(help_copy.title == match3.campaign_bundle.helpLocalized[locale].title
+			and help_copy.blockers.package.body == match3.campaign_bundle.helpLocalized[locale].blockers.package.body,
+			"Match-3 help copy did not update to %s" % locale)
+	assert(match3.game.tiles == help_board_before and match3.game.moves_left == help_moves_before,
+		"Opening or localizing Match-3 help changed gameplay state")
+	assert(menu.preferences.set_locale("ru") == OK)
+	match3.help_button.pressed.emit()
 	await process_frame
+	assert(not match3.help_overlay.visible, "Match-3 help trigger did not close the reference sheet")
 	match3.settings_requested.emit()
 	await process_frame
 	assert(is_instance_valid(menu.settings_screen) and match3.visible, "Match-3 settings did not open over the board")

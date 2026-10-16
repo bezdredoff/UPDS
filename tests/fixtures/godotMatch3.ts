@@ -1,21 +1,26 @@
 import {
   blockerPresentation,
+  cluePresentation,
   ingredientPresentation,
   levels,
-  cluePresentation,
   lockedBlockerAssetsByLayers,
   specialAssets,
   tilePresentation,
 } from '../../src/data/levels';
+import { match3TutorialConceptIds } from '../../src/data/match3Tutorials';
 import { backgroundAssets } from '../../src/data/narrative';
 import { Match3Game } from '../../src/engine/Match3Game';
-import { match3TutorialConceptIds } from '../../src/data/match3Tutorials';
-import { godotM3Evidence } from './godotPrologue';
 import { beCatalog } from '../../src/localization/catalogs/be';
 import { enCatalog } from '../../src/localization/catalogs/en';
+import { match3HelpCatalogs } from '../../src/localization/catalogs/match3Help';
 import { ruCatalog } from '../../src/localization/catalogs/ru';
+import { godotM3Evidence } from './godotPrologue';
 
-const catalogs = { en: enCatalog, ru: ruCatalog, be: beCatalog } as const;
+const catalogs = {
+  en: { ...enCatalog, ...match3HelpCatalogs.en },
+  ru: { ...ruCatalog, ...match3HelpCatalogs.ru },
+  be: { ...beCatalog, ...match3HelpCatalogs.be },
+} as const;
 const tutorial = 'match3.tutorial.basic-swap';
 
 /** A runtime-neutral campaign level contract generated from the canonical web level. */
@@ -112,6 +117,25 @@ export function godotCampaignBundle() {
         body: catalog[`match3.tutorial.${concept}.body`],
       }])),
     }])),
+    helpLocalized: Object.fromEntries(Object.entries(catalogs).map(([locale, catalog]) => [locale, {
+      label: catalog['match3.help.label'], title: catalog['match3.help.title'], intro: catalog['match3.help.intro'],
+      blockersTitle: catalog['match3.help.blockers.title'], specialsTitle: catalog['match3.help.specials.title'],
+      specialsIntro: catalog['match3.help.specials.intro'], closeHint: catalog['match3.help.closeHint'],
+      blockers: Object.fromEntries(['package', 'foam', 'lock-chain'].map((key) => [key, {
+        title: catalog[`match3.help.blocker.${key}.title`], body: catalog[`match3.help.blocker.${key}.body`],
+      }])),
+      specials: Object.fromEntries(Object.keys(specialAssets).map((key) => [key, {
+        title: catalog[`match3.special.${key}`], body: catalog[`match3.help.special.${key}.body`],
+      }])),
+      topics: [
+        ['match3.objective', 'match3.help.objectives.body'], ['match3.hint', 'match3.help.hint.body'],
+        ['match3.tutorial.clear-blocker.title', 'match3.tutorial.clear-blocker.body'],
+        ['match3.tutorial.drop-ingredient.title', 'match3.tutorial.drop-ingredient.body'],
+        ['match3.tutorial.activate-special.title', 'match3.tutorial.activate-special.body'],
+        ['match3.tutorial.combine-specials.title', 'match3.tutorial.combine-specials.body'],
+        ['match3.help.reshuffle.title', 'match3.help.reshuffle.body'],
+      ].map(([titleKey, bodyKey]) => ({ title: catalog[titleKey], body: catalog[bodyKey] })),
+    }])) ,
     assets: {
       backgrounds: Object.fromEntries([...new Set(levels.map((level) => level.context.pageBackground))].map((key) => [key, backgroundAssets[key]])),
       tiles: tileAssets,

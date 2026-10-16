@@ -18,6 +18,7 @@ const MenuCopy = preload("res://scripts/menu_copy.gd")
 const ReactionRuntime = preload("res://scripts/match3_reaction_runtime.gd")
 const Style = preload("res://scripts/menu_theme.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
+const Match3HelpOverlay = preload("res://scripts/match3_help_overlay.gd")
 const SWAP_MOTION_SECONDS := 0.15
 const INVALID_HOLD_SECONDS := 0.70
 const CLEAR_MOTION_SECONDS := 0.28
@@ -95,7 +96,7 @@ var hint_icon: TextureRect
 var dossier_button: Button
 var help_button: Button
 var settings_button: Button
-var help_dialog: AcceptDialog
+var help_overlay: Control
 var match_feedback_panel: PanelContainer
 var match_feedback_label: Label
 var match_feedback_tween: Tween
@@ -224,6 +225,7 @@ func _ready() -> void:
 		dossier_button = _header_icon_button(actions, "dossier")
 		dossier_button.pressed.connect(func() -> void: dossier_requested.emit())
 	help_button = _header_text_button(actions, "?")
+	help_button.z_index = 42
 	help_button.add_theme_font_size_override("font_size", 20)
 	help_button.pressed.connect(_show_help)
 	settings_button = _header_icon_button(actions, "settings")
@@ -668,7 +670,11 @@ func _ready() -> void:
 	match_feedback_panel.add_theme_stylebox_override("panel", feedback_style)
 	_build_evidence_transition()
 	_build_campaign_result()
-	preferences.locale_changed.connect(func(_locale: String) -> void: _refresh())
+	_build_help_overlay()
+	preferences.locale_changed.connect(func(_locale: String) -> void:
+		_refresh()
+		_refresh_help_overlay_copy()
+	)
 	_sync_tutorial_prompt()
 	_fit_bark_layout()
 	_refresh()
@@ -2763,23 +2769,26 @@ func _objective_texture(objective_data: Dictionary) -> Texture2D:
 
 
 func _show_help() -> void:
-	if is_instance_valid(help_dialog):
-		help_dialog.popup_centered()
-		return
-	help_dialog = AcceptDialog.new()
-	help_dialog.title = MenuCopy.text("match3_help_title", preferences.locale)
-	help_dialog.dialog_text = MenuCopy.text("match3_help_body", preferences.locale)
-	help_dialog.min_size = Vector2i(350, 260)
-	add_child(help_dialog)
-	help_dialog.confirmed.connect(func() -> void:
-		help_dialog.queue_free()
-		help_dialog = null
+	if not is_instance_valid(help_overlay): return
+	help_overlay.visible = not help_overlay.visible
+
+
+func _build_help_overlay() -> void:
+	var localized: Dictionary = campaign_bundle.get("helpLocalized", {}).get(preferences.locale, campaign_bundle.get("helpLocalized", {}).get("en", {}))
+	help_overlay = Match3HelpOverlay.new()
+	help_overlay.configure(localized, campaign_bundle.assets)
+	help_overlay.visible = false
+	help_overlay.closed.connect(func() -> void:
+		help_overlay.visible = false
 	)
-	help_dialog.close_requested.connect(func() -> void:
-		help_dialog.queue_free()
-		help_dialog = null
-	)
-	help_dialog.popup_centered()
+	add_child(help_overlay)
+	help_overlay.call_deferred("_fit")
+
+
+func _refresh_help_overlay_copy() -> void:
+	if not is_instance_valid(help_overlay): return
+	var localized: Dictionary = campaign_bundle.get("helpLocalized", {}).get(preferences.locale, campaign_bundle.get("helpLocalized", {}).get("en", {}))
+	help_overlay.set_copy(localized)
 
 
 func _style_tutorial_button(button: Button) -> void:
