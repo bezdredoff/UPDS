@@ -454,6 +454,17 @@ func _run() -> void:
 	assert(is_equal_approx(match3.tutorial_panel.custom_maximum_size.x, 350.0), "Tutorial card width should match the source 350px maximum")
 	assert(is_equal_approx(match3.tutorial_title.custom_maximum_size.x, -1.0),
 		"Other tutorial headings should keep their source full-width layout")
+	assert(match3.tutorial_title.get_theme_constant("outline_size") == 1
+		and match3.tutorial_title.get_theme_color("font_outline_color") == Color("#102744"),
+		"Tutorial headings should retain the source's heavy navy serif treatment")
+	var saved_tutorial: String = match3.active_tutorial
+	match3.active_tutorial = "basic-swap"
+	match3._refresh()
+	assert(match3.tutorial_title.get_theme_constant("line_spacing") == -14
+		and match3.tutorial_button_gap.custom_minimum_size.y == 18.0,
+		"Russian basic-swap tutorial should match the source title leading and paragraph-to-action spacing")
+	match3.active_tutorial = saved_tutorial
+	match3._refresh()
 	assert(tutorial_style.border_width_top == 3 and tutorial_style.border_width_left == 8, "Tutorial card border should match the source gold frame and green spine")
 	assert(tutorial_style.content_margin_left == 26 and tutorial_style.content_margin_right == 26
 		and match3.tutorial_body.get_theme_constant("line_spacing") == 0,
