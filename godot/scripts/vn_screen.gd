@@ -168,9 +168,9 @@ func _ready() -> void:
 	var case_label_font := UiFonts.sans(950)
 	case_label.add_theme_font_override("font", case_label_font)
 	title = _label(case_copy, 11)
-	title.add_theme_font_size_override("font_size", 10)
+	title.add_theme_font_size_override("font_size", 11)
 	title.add_theme_color_override("font_color", Color("#fff9ea"))
-	var case_title_font := UiFonts.sans(800)
+	var case_title_font := UiFonts.serif(800)
 	title.add_theme_font_override("font", case_title_font)
 	var dossier_icon := _icon_texture("dossier", 22)
 	dossier_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -204,9 +204,9 @@ func _ready() -> void:
 	paper.border_color = Color("#d9bd83")
 	paper.set_border_width_all(2)
 	paper.set_corner_radius_all(18)
-	paper.content_margin_left = 20
-	paper.content_margin_right = 20
-	paper.content_margin_top = 33
+	paper.content_margin_left = 22
+	paper.content_margin_right = 22
+	paper.content_margin_top = 31
 	paper.content_margin_bottom = 25
 	dialogue_panel.add_theme_stylebox_override("panel", paper)
 	add_child(dialogue_panel)
@@ -337,6 +337,7 @@ func _layout_vn() -> void:
 	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	var tiny_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	var compact_height := size.y <= 760.0
+	title.add_theme_font_size_override("font_size", 9 if compact_width else 11)
 	var controls_min_height := 60.0 if tiny_width else 63.0
 	var controls_height := maxf(clampf(size.y * 0.09, 60.0, 82.0), controls_min_height)
 	var dialogue_row_height := clampf(size.y * 0.22, 154.0, 198.0)
@@ -351,7 +352,7 @@ func _layout_vn() -> void:
 	dialogue.add_theme_font_size_override("normal_font_size", _dialogue_font_size())
 	progress.hide()
 	var paper := dialogue_panel.get_theme_stylebox("panel") as StyleBoxFlat
-	paper.content_margin_top = 33
+	paper.content_margin_top = 31
 	paper.content_margin_bottom = 25
 	nameplate.offset_left = 32
 	nameplate.offset_right = 164 if compact_width else 232
@@ -1112,14 +1113,14 @@ func _icon_texture(icon_name: String, side: float) -> TextureRect:
 
 func _case_button_style(hovered: bool = false) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#1d3551") if hovered else Color("#17304d")
-	style.border_color = Color("#d3b068")
+	style.bg_color = Color("#2b4a68") if hovered else Color("#223b58")
+	style.border_color = Color("#e3ca84") if hovered else Color("#8195aa")
 	style.set_border_width_all(1)
-	style.set_corner_radius_all(10)
-	style.content_margin_left = 12
-	style.content_margin_right = 10
-	style.content_margin_top = 3
-	style.content_margin_bottom = 3
+	style.set_corner_radius_all(9)
+	style.content_margin_left = 9
+	style.content_margin_right = 7
+	style.content_margin_top = 4
+	style.content_margin_bottom = 4
 	return style
 
 

@@ -48,6 +48,7 @@ const PostFullTruthScene = preload("res://data/post_full_truth_scene.json")
 const ConvenientCaseScene = preload("res://data/convenient_case_scene.json")
 const PostConvenientCaseScene = preload("res://data/post_convenient_case_scene.json")
 const Match3Level = preload("res://data/locker_match3.json")
+const UiFonts = preload("res://scripts/ui_fonts.gd")
 
 var _test_dossier_reset_requested := false
 var _test_menu_requested := false
@@ -70,6 +71,30 @@ func _run() -> void:
 	menu.get_node("Content/Actions/NewGame").pressed.emit()
 	await process_frame
 	var screen: Control = menu.get_node("StoryScreen")
+	var case_title_font: Font = screen.title.get_theme_font("font")
+	if OS.has_feature("web"):
+		var case_title_web_font := case_title_font as FontVariation
+		assert(case_title_web_font != null and case_title_web_font.base_font == UiFonts.GEORGIA_LATIN
+			and _has_weighted_cyrillic_serif(case_title_web_font, 800)
+			and is_equal_approx(case_title_web_font.variation_embolden, 0.2),
+			"Web VN scene title should match the source Georgia serif weight 800")
+	else:
+		var case_title_native_font := case_title_font as SystemFont
+		assert(case_title_native_font != null and case_title_native_font.font_names.has("Georgia")
+			and case_title_native_font.font_weight == 800,
+			"Native VN scene title should request the source Georgia serif weight 800")
+	assert(screen.title.get_theme_font_size("font_size") == 11,
+		"Standard VN scene title should use the source 11px size")
+	var case_button_style := screen.case_button.get_theme_stylebox("normal") as StyleBoxFlat
+	var case_button_hover := screen.case_button.get_theme_stylebox("hover") as StyleBoxFlat
+	assert(case_button_style.bg_color.is_equal_approx(Color("#223b58"))
+		and case_button_style.border_color.is_equal_approx(Color("#8195aa"))
+		and case_button_style.corner_radius_top_left == 9
+		and case_button_style.content_margin_left == 9
+		and case_button_style.content_margin_right == 7
+		and case_button_hover.bg_color.is_equal_approx(Color("#2b4a68"))
+		and case_button_hover.border_color.is_equal_approx(Color("#e3ca84")),
+		"VN case pill should match the source blue-gray surface, border, radius and hover state")
 	assert(absf(screen.size.x - 430.0) < 1.0, "Story screens must share the web phone frame width")
 	assert(not screen.stage.clip_contents, "Authored characters must continue behind the VN dialogue panel")
 	assert(is_equal_approx(screen.stage.position.y, 60.0)
@@ -95,7 +120,7 @@ func _run() -> void:
 		"Centered VN portraits should preserve the source center anchor and 1024x1536 frame ratio")
 	assert(screen.dialogue.size.y >= 67.0,
 		"The dialogue text must receive enough layout height to remain visible in its panel")
-	assert(absf(screen.dialogue.size.x - (screen.size.x - 64.0)) < 1.0,
+	assert(absf(screen.dialogue.size.x - (screen.size.x - 68.0)) < 1.0,
 		"VN pagination must measure the same inner width as the visible dialogue text")
 	assert(screen.dialogue.get_theme_font_size("normal_font_size") == (16 if OS.has_feature("web") else 18),
 		"Godot dialogue font metrics should preserve the source line wrap at the 430px phone width")
@@ -106,6 +131,8 @@ func _run() -> void:
 	var vn_width_before_compact_check := screen.size.x
 	screen.size.x = 320.0
 	screen._layout_vn()
+	assert(screen.title.get_theme_font_size("font_size") == 9,
+		"Compact VN scene title should use the source 9px size")
 	assert(screen.dialogue.get_theme_font_size("normal_font_size") == (13 if OS.has_feature("web") else 15),
 		"Compact VN dialogue font metrics should preserve the source line wrap below 340px")
 	assert(is_equal_approx(screen.nameplate.custom_minimum_size.x, 128.0)
@@ -114,14 +141,21 @@ func _run() -> void:
 		"Only a narrow phone width should use compact nameplate and speaker sizing")
 	screen.size.x = vn_width_before_compact_check
 	screen._layout_vn()
-	assert(is_equal_approx(screen.dialogue.global_position.y, screen.dialogue_panel.position.y + 45.0),
-		"The VN dialogue text should match the source card's top inset")
+	var dialogue_paper := screen.dialogue_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(is_equal_approx(screen.dialogue.global_position.y, screen.dialogue_panel.position.y + 43.0)
+		and dialogue_paper.content_margin_left == 22 and dialogue_paper.content_margin_right == 22
+		and dialogue_paper.content_margin_top == 31,
+		"VN dialogue text should match the source card's measured 2px horizontal and vertical inset correction")
 	var portrait_shadow := idle_portrait.material as ShaderMaterial
+	var portrait_shader_code: String = portrait_shadow.shader.code
 	assert(portrait_shadow != null
 		and (portrait_shadow.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#10162b59"))
 		and (portrait_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0.0, 12.0))
 		and is_equal_approx(portrait_shadow.get_shader_parameter("shadow_blur_px"), 12.0),
 		"VN character portrait did not preserve the source drop shadow treatment")
+	assert(portrait_shader_code.contains("vec4 source = COLOR;")
+		and not portrait_shader_code.contains("texture(TEXTURE, UV) * COLOR"),
+		"VN portrait texture color must be applied only once before the drop shadow")
 	assert(idle_portrait.get_global_rect().end.y > screen.dialogue_panel.position.y,
 		"The portrait must continue underneath the overlayed VN dialogue card")
 	assert(screen._portrait_should_breathe("./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"),
@@ -1393,3 +1427,15 @@ func _dossier_tab_key(keycode: Key) -> InputEventKey:
 	event.keycode = keycode
 	event.pressed = true
 	return event
+
+
+func _has_weighted_cyrillic_serif(font: Font, weight: int) -> bool:
+	if not font is FontVariation or font.fallbacks.size() != 1: return false
+	var cyrillic := font.fallbacks[0] as FontVariation
+	if cyrillic == null or cyrillic.base_font != UiFonts.SERIF_CYRILLIC: return false
+	var expected_weight := mini(weight, 700)
+	var expected_embolden := float(weight - 700) / 500.0 if weight > 700 else 0.0
+	return (
+		is_equal_approx(cyrillic.variation_opentype.get("weight", 0.0), float(expected_weight))
+		and is_equal_approx(cyrillic.variation_embolden, expected_embolden)
+	)

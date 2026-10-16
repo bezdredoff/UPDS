@@ -538,7 +538,8 @@ func _ready() -> void:
 	portrait_mask.code = """
 	shader_type canvas_item;
 	void fragment() {
-		vec4 portrait = texture(TEXTURE, UV) * COLOR;
+		// Fragment COLOR already contains the texture and CanvasItem modulation.
+		vec4 portrait = COLOR;
 		float radius = length(UV * 2.0 - 1.0);
 		float edge = fwidth(radius);
 		portrait.a *= 1.0 - smoothstep(1.0 - edge, 1.0 + edge, radius);
@@ -887,11 +888,11 @@ func _render_board() -> void:
 			tile.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			tile.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			var is_camisole: bool = game.tiles[index] == "camisole"
-			tile.scale = Vector2(1.08, 1.08)
+			tile.scale = Vector2(1.04, 1.04)
 			tile.material = _match3_drop_shadow_material(
-				Color("#10172d66") if is_camisole else Color("#071224b8"),
-				Vector2(0, 1) if is_camisole else Vector2(0, 2),
-				1.0, 1.38 if is_camisole else 1.0, 1.0 if is_camisole else 1.05,
+				Color("#071224b8"),
+				Vector2(0, 2),
+				1.0, 1.0, 1.05,
 			)
 			tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			tile_stack.add_child(tile)
@@ -1434,7 +1435,8 @@ shader_type canvas_item;
 uniform float brightness : hint_range(0.0, 2.0) = 0.94;
 uniform float saturation : hint_range(0.0, 2.0) = 0.90;
 void fragment() {
-	vec4 source = texture(TEXTURE, UV) * COLOR;
+	// Fragment COLOR already contains the default texture multiplied by item modulation.
+	vec4 source = COLOR;
 	float luminance = dot(source.rgb, vec3(0.2126, 0.7152, 0.0722));
 	vec3 color = mix(vec3(luminance), source.rgb, saturation) * brightness;
 	COLOR = vec4(color, source.a);

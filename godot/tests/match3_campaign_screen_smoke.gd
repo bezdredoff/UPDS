@@ -201,7 +201,9 @@ func _run() -> void:
 		and is_equal_approx(match3.background.modulate.a, 0.96)
 		and match_background_material != null
 		and is_equal_approx(match_background_material.get_shader_parameter("brightness"), 0.94)
-		and is_equal_approx(match_background_material.get_shader_parameter("saturation"), 0.90),
+		and is_equal_approx(match_background_material.get_shader_parameter("saturation"), 0.90)
+		and (match_background_material.shader.code as String).contains("vec4 source = COLOR;")
+		and not (match_background_material.shader.code as String).contains("texture(TEXTURE, UV) * COLOR"),
 		"Match-3 background should preserve UI A's warm base, 96% image opacity and brightness/saturation treatment without the retired dark wash")
 	assert(match3.get_node_or_null("ColorRect") == null,
 		"Match-3 screen should not add the retired 55% navy background wash")
@@ -290,7 +292,9 @@ func _run() -> void:
 		and portrait_frame_style.get_border_width(SIDE_LEFT) == 2
 		and portrait_frame_style.corner_radius_top_left == 999
 		and portrait_frame_style.shadow_color.is_equal_approx(Color("#326349"))
-		and portrait_mask.contains("smoothstep"),
+		and portrait_mask.contains("smoothstep")
+		and portrait_mask.contains("vec4 portrait = COLOR;")
+		and not portrait_mask.contains("texture(TEXTURE, UV) * COLOR"),
 		"Match-3 speaker portrait should keep its circular crop, paper border and green ring")
 	assert(is_zero_approx(match3.bark_panel.modulate.a) and is_equal_approx(match3.bark_panel.position.y, 5.0),
 		"Reaction bark should begin 4px below its calibrated static tray position and at zero opacity")
@@ -440,21 +444,25 @@ func _run() -> void:
 	var normal_tile_material := normal_tile.material as ShaderMaterial
 	assert(normal_tile.offset_left == 2 and normal_tile.offset_top == 2
 		and normal_tile.offset_right == -2 and normal_tile.offset_bottom == -2
-		and normal_tile.scale.is_equal_approx(Vector2(1.08, 1.08))
+		and normal_tile.scale.is_equal_approx(Vector2(1.04, 1.04))
 		and normal_tile.z_index == 1
 		and normal_tile_material != null
+		and (normal_tile_material.shader.code as String).contains("vec4 source = COLOR;")
+		and not (normal_tile_material.shader.code as String).contains("texture(TEXTURE, UV) * COLOR")
 		and (normal_tile_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2))
 		and is_equal_approx(normal_tile_material.get_shader_parameter("saturation"), 1.05),
-		"UI A tile artwork should preserve the source 2px inset, 1.08 scale, drop shadow and saturation")
+		"UI A tile artwork should preserve the source 2px inset, 1.04 scale, drop shadow and saturation")
 	var first_tile_before_variant_check: String = match3.game.tiles[normal_tile_index]
 	match3.game.tiles[normal_tile_index] = "camisole"
 	match3._render_board()
 	var camisole_tile := match3.board.get_child(normal_tile_index).get_node("TileStack/Tile") as TextureRect
 	var camisole_shadow := camisole_tile.material as ShaderMaterial
-	assert(camisole_shadow != null and is_equal_approx(camisole_shadow.get_shader_parameter("brightness"), 1.38)
+	assert(camisole_shadow != null and is_equal_approx(camisole_shadow.get_shader_parameter("brightness"), 1.0)
 		and is_equal_approx(camisole_shadow.get_shader_parameter("shadow_blur_px"), 1.0)
-		and is_equal_approx(camisole_shadow.get_shader_parameter("saturation"), 1.0),
-		"Camisole tile should preserve the source brightness variant and soft drop shadow")
+		and is_equal_approx(camisole_shadow.get_shader_parameter("saturation"), 1.05)
+		and (camisole_shadow.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#071224b8"))
+		and (camisole_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2)),
+		"Camisole tile should match the same production shadow and saturation as the active UI A CSS")
 	match3.game.tiles[normal_tile_index] = first_tile_before_variant_check
 	match3._render_board()
 	var visual_blocker_index := -1
