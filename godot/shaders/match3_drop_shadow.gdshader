@@ -47,7 +47,8 @@ void fragment() {
 	alpha += texture(TEXTURE, UV - offset + blur_x - blur_y).a;
 	alpha += texture(TEXTURE, UV - offset - blur_x + blur_y).a;
 	alpha += texture(TEXTURE, UV - offset - blur_x - blur_y).a;
-	vec4 source = texture(TEXTURE, UV) * COLOR;
+	// Fragment COLOR already contains the default texture multiplied by item modulation.
+	vec4 source = COLOR;
 	source.rgb *= brightness;
 	float shadow_alpha = alpha / 16.0 * shadow_color.a * COLOR.a * (1.0 - source.a);
 	vec3 shadow_rgb = shadow_color.rgb * COLOR.rgb;

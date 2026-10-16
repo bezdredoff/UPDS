@@ -201,7 +201,9 @@ func _run() -> void:
 		and is_equal_approx(match3.background.modulate.a, 0.96)
 		and match_background_material != null
 		and is_equal_approx(match_background_material.get_shader_parameter("brightness"), 0.94)
-		and is_equal_approx(match_background_material.get_shader_parameter("saturation"), 0.90),
+		and is_equal_approx(match_background_material.get_shader_parameter("saturation"), 0.90)
+		and (match_background_material.shader.code as String).contains("vec4 source = COLOR;")
+		and not (match_background_material.shader.code as String).contains("texture(TEXTURE, UV) * COLOR"),
 		"Match-3 background should preserve UI A's warm base, 96% image opacity and brightness/saturation treatment without the retired dark wash")
 	assert(match3.get_node_or_null("ColorRect") == null,
 		"Match-3 screen should not add the retired 55% navy background wash")
@@ -290,7 +292,9 @@ func _run() -> void:
 		and portrait_frame_style.get_border_width(SIDE_LEFT) == 2
 		and portrait_frame_style.corner_radius_top_left == 999
 		and portrait_frame_style.shadow_color.is_equal_approx(Color("#326349"))
-		and portrait_mask.contains("smoothstep"),
+		and portrait_mask.contains("smoothstep")
+		and portrait_mask.contains("vec4 portrait = COLOR;")
+		and not portrait_mask.contains("texture(TEXTURE, UV) * COLOR"),
 		"Match-3 speaker portrait should keep its circular crop, paper border and green ring")
 	assert(is_zero_approx(match3.bark_panel.modulate.a) and is_equal_approx(match3.bark_panel.position.y, 5.0),
 		"Reaction bark should begin 4px below its calibrated static tray position and at zero opacity")
@@ -443,6 +447,8 @@ func _run() -> void:
 		and normal_tile.scale.is_equal_approx(Vector2(1.04, 1.04))
 		and normal_tile.z_index == 1
 		and normal_tile_material != null
+		and (normal_tile_material.shader.code as String).contains("vec4 source = COLOR;")
+		and not (normal_tile_material.shader.code as String).contains("texture(TEXTURE, UV) * COLOR")
 		and (normal_tile_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2))
 		and is_equal_approx(normal_tile_material.get_shader_parameter("saturation"), 1.05),
 		"UI A tile artwork should preserve the source 2px inset, 1.04 scale, drop shadow and saturation")

@@ -117,11 +117,15 @@ func _run() -> void:
 	assert(is_equal_approx(screen.dialogue.global_position.y, screen.dialogue_panel.position.y + 45.0),
 		"The VN dialogue text should match the source card's top inset")
 	var portrait_shadow := idle_portrait.material as ShaderMaterial
+	var portrait_shader_code: String = portrait_shadow.shader.code
 	assert(portrait_shadow != null
 		and (portrait_shadow.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#10162b59"))
 		and (portrait_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0.0, 12.0))
 		and is_equal_approx(portrait_shadow.get_shader_parameter("shadow_blur_px"), 12.0),
 		"VN character portrait did not preserve the source drop shadow treatment")
+	assert(portrait_shader_code.contains("vec4 source = COLOR;")
+		and not portrait_shader_code.contains("texture(TEXTURE, UV) * COLOR"),
+		"VN portrait texture color must be applied only once before the drop shadow")
 	assert(idle_portrait.get_global_rect().end.y > screen.dialogue_panel.position.y,
 		"The portrait must continue underneath the overlayed VN dialogue card")
 	assert(screen._portrait_should_breathe("./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"),
