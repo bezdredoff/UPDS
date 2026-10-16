@@ -1008,6 +1008,7 @@ func _run() -> void:
 	var column_beam := column_cell.get_node("SpecialImpactBeam") as ColorRect
 	var column_beam_material := column_beam.material as ShaderMaterial
 	assert(column_beam_material.get_shader_parameter("vertical_gradient")
+		and is_equal_approx(column_beam_material.get_shader_parameter("beam_blur_step_px"), 3.25)
 		and is_equal_approx(column_beam.scale.x, 0.25) and is_equal_approx(column_beam.scale.y, 1.0)
 		and is_equal_approx(column_beam.offset_left, -5.0) and is_equal_approx(column_beam.offset_right, 5.0),
 		"Flash Column should begin compressed across its width, matching CSS after the 90-degree rotation")

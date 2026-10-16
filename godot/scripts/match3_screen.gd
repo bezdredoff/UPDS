@@ -2118,7 +2118,7 @@ func _special_impact_beam_material(vertical: bool, core_fraction: float) -> Shad
 	material.set_shader_parameter("beam_aqua", Color("#6ce2d3f2"))
 	material.set_shader_parameter("beam_stops", Vector3(0.2, 0.5, 0.8))
 	material.set_shader_parameter("beam_core_fraction", core_fraction)
-	material.set_shader_parameter("beam_blur_step_px", 2.8867513)
+	material.set_shader_parameter("beam_blur_step_px", 3.25 if vertical else 2.8867513)
 	return material
 
 
