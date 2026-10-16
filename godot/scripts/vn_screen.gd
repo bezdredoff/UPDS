@@ -1484,8 +1484,30 @@ func _select_dossier_tab(tab: String) -> void:
 	if is_instance_valid(dossier_clues):
 		dossier_clues.visible = tab == "clues"
 		dossier_theories.visible = tab == "theories"
-		dossier_clues_tab.disabled = tab == "clues"
-		dossier_theories_tab.disabled = tab == "theories"
+		_style_dossier_tab(dossier_clues_tab, tab == "clues")
+		_style_dossier_tab(dossier_theories_tab, tab == "theories")
+
+
+func _style_dossier_tab(button: Button, selected: bool) -> void:
+	button.disabled = false
+	button.focus_mode = Control.FOCUS_ALL
+	button.custom_minimum_size.y = 44
+	button.add_theme_font_override("font", UiFonts.sans(700))
+	button.add_theme_font_size_override("font_size", 12)
+	button.add_theme_color_override("font_color", Color("#d96279") if selected else Color("#746d7c"))
+	button.add_theme_color_override("font_hover_color", Color("#d96279"))
+	button.add_theme_color_override("font_pressed_color", Color("#d96279"))
+	var tab_style := StyleBoxFlat.new()
+	tab_style.bg_color = Color.TRANSPARENT
+	tab_style.border_color = Color("#d96279")
+	tab_style.border_width_bottom = 3 if selected else 0
+	tab_style.content_margin_left = 0
+	tab_style.content_margin_right = 0
+	tab_style.content_margin_bottom = 8
+	button.add_theme_stylebox_override("normal", tab_style)
+	button.add_theme_stylebox_override("hover", tab_style)
+	button.add_theme_stylebox_override("pressed", tab_style)
+	button.add_theme_stylebox_override("focus", tab_style)
 
 
 func _close_overlay() -> void:
@@ -1685,6 +1707,20 @@ func _serif_font() -> Font:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not is_visible_in_tree() or event.is_echo():
 		return
+	if is_instance_valid(overlay) and event is InputEventKey:
+		var key_event := event as InputEventKey
+		var focused := get_viewport().gui_get_focus_owner()
+		if key_event.pressed and not key_event.is_echo() and focused in [dossier_clues_tab, dossier_theories_tab]:
+			if key_event.keycode == KEY_RIGHT:
+				_select_dossier_tab("theories")
+				dossier_theories_tab.grab_focus()
+				get_viewport().set_input_as_handled()
+				return
+			if key_event.keycode == KEY_LEFT:
+				_select_dossier_tab("clues")
+				dossier_clues_tab.grab_focus()
+				get_viewport().set_input_as_handled()
+				return
 	if event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
 		if is_instance_valid(overlay):

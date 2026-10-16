@@ -973,8 +973,20 @@ func _vn_reading_controls(menu: Control) -> void:
 	screen.case_button.pressed.emit()
 	assert(screen.overlay_title.text == Copy.text("dossier_title", menu.preferences.locale))
 	assert(screen.dossier_clues.get_child_count() == 22, "The dossier should render all campaign clue cards")
-	screen._select_dossier_tab("theories")
-	assert(screen.dossier_theories.visible and not screen.dossier_clues.visible)
+	var selected_clue_style := screen.dossier_clues_tab.get_theme_stylebox("normal") as StyleBoxFlat
+	assert(not screen.dossier_clues_tab.disabled
+		and selected_clue_style.get_border_width(SIDE_BOTTOM) == 3
+		and screen.dossier_clues_tab.get_theme_color("font_color").is_equal_approx(Color("#d96279")),
+		"Selected dossier tabs should use the source's enabled coral underline treatment")
+	screen.dossier_clues_tab.grab_focus()
+	screen._unhandled_key_input(_dossier_tab_key(KEY_RIGHT))
+	assert(screen.dossier_theories.visible and not screen.dossier_clues.visible
+		and screen.dossier_theories_tab.has_focus(),
+		"Right arrow should switch dossier tabs and move focus like the source tablist")
+	screen._unhandled_key_input(_dossier_tab_key(KEY_LEFT))
+	assert(screen.dossier_clues.visible and not screen.dossier_theories.visible
+		and screen.dossier_clues_tab.has_focus(),
+		"Left arrow should return focus to the previous dossier tab")
 	screen._close_overlay()
 	screen.history_button.pressed.emit()
 	assert(screen.overlay_title.text == Copy.text("vn_history", menu.preferences.locale))
@@ -1255,3 +1267,9 @@ func _perfect_suspect_ending() -> void:
 	screen.queue_free()
 	await process_frame
 	DirAccess.remove_absolute(preferences_path)
+
+func _dossier_tab_key(keycode: Key) -> InputEventKey:
+	var event := InputEventKey.new()
+	event.keycode = keycode
+	event.pressed = true
+	return event
