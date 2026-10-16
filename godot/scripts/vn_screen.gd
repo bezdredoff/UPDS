@@ -295,8 +295,8 @@ func _ready() -> void:
 	footer.remove_child(page_progress)
 	add_child(page_progress)
 	page_progress.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-	page_progress.offset_left = -80
-	page_progress.offset_right = -28
+	page_progress.offset_left = -83
+	page_progress.offset_right = -31
 	page_progress.offset_top = -95
 	page_progress.offset_bottom = -77
 	page_progress.z_index = 10
@@ -366,8 +366,8 @@ func _layout_vn() -> void:
 	var strip := controls_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	strip.content_margin_top = 4 if tiny_width else 6
 	strip.content_margin_bottom = 4 if tiny_width else 6
-	page_progress.offset_left = -80
-	page_progress.offset_right = -28
+	page_progress.offset_left = -83
+	page_progress.offset_right = -31
 	page_progress.offset_bottom = controls_panel.offset_top - 19.0
 	page_progress.offset_top = page_progress.offset_bottom - 18.0
 	for button in row.get_children():
