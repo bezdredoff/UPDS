@@ -1020,7 +1020,8 @@ func _run() -> void:
 	assert(glow_shader_code.contains("background_rgb * (1.0 - shadow_alpha)")
 		and not glow_shader_code.contains("background_rgb * background_alpha")
 		and not glow_shader_code.contains("background_rgb *= COLOR.rgb")
-		and glow_shader_code.contains("for (int y = -4; y <= 4; y++)")
+		and glow_shader_code.contains("for (int y = -6; y <= 6; y++)")
+		and glow_shader_code.contains("float(y) * 0.5")
 		and glow_shader_code.contains("float total_weight = 0.0"),
 		"Special-icon glow must preserve premultiplied RGB and use a normalized blur kernel without clipping")
 	await create_timer(0.3).timeout

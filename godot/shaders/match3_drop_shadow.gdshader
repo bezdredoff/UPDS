@@ -17,11 +17,11 @@ uniform float glow_aqua_radius_px = 14.0;
 float blurred_alpha(sampler2D source_texture, vec2 uv, vec2 pixel_x, vec2 pixel_y, float sigma_px) {
 	float weighted_alpha = 0.0;
 	float total_weight = 0.0;
-	for (int y = -4; y <= 4; y++) {
-		float y_offset = float(y) * 0.75;
+	for (int y = -6; y <= 6; y++) {
+		float y_offset = float(y) * 0.5;
 		float y_weight = exp(-0.5 * y_offset * y_offset);
-		for (int x = -4; x <= 4; x++) {
-			float x_offset = float(x) * 0.75;
+		for (int x = -6; x <= 6; x++) {
+			float x_offset = float(x) * 0.5;
 			float weight = y_weight * exp(-0.5 * x_offset * x_offset);
 			vec2 sample_uv = uv + pixel_x * x_offset * sigma_px + pixel_y * y_offset * sigma_px;
 			weighted_alpha += texture(source_texture, sample_uv).a * weight;
