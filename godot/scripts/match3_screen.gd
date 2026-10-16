@@ -71,6 +71,7 @@ var tutorial_badge: PanelContainer
 var tutorial_eyebrow: Label
 var tutorial_title: Label
 var tutorial_body: Label
+var tutorial_button_gap: Control
 var tutorial_button: Button
 var objective: Label
 var objective_heading: Label
@@ -266,6 +267,8 @@ func _ready() -> void:
 	tutorial_title = _label(tutorial_content, 24, Color("#102744"))
 	tutorial_title.add_theme_font_size_override("font_size", 24)
 	tutorial_title.add_theme_font_override("font", UiFonts.serif(850))
+	tutorial_title.add_theme_constant_override("outline_size", 1)
+	tutorial_title.add_theme_color_override("font_outline_color", Color("#102744"))
 	var tutorial_title_top_gap := Control.new()
 	tutorial_title_top_gap.custom_minimum_size.y = 7
 	tutorial_content.add_child(tutorial_title_top_gap)
@@ -282,7 +285,7 @@ func _ready() -> void:
 	tutorial_content.move_child(tutorial_body, tutorial_content.get_child_count() - 1)
 	tutorial_button = _button(tutorial_content)
 	_style_tutorial_button(tutorial_button)
-	var tutorial_button_gap := Control.new()
+	tutorial_button_gap = Control.new()
 	tutorial_button_gap.custom_minimum_size.y = 10
 	tutorial_content.add_child(tutorial_button_gap)
 	tutorial_content.move_child(tutorial_button, tutorial_content.get_child_count() - 1)
@@ -635,6 +638,13 @@ func _refresh() -> void:
 	var tutorial_copy: Dictionary = tutorial_locale.get("concepts", {}).get(active_tutorial, {})
 	tutorial_title.text = _tutorial_title_for_display(
 		str(tutorial_copy.get("title", "")), active_tutorial, locale)
+	var russian_basic_swap := active_tutorial == "basic-swap" and locale == "ru"
+	if russian_basic_swap:
+		tutorial_title.add_theme_constant_override("line_spacing", -14)
+		tutorial_button_gap.custom_minimum_size.y = 18
+	else:
+		tutorial_title.remove_theme_constant_override("line_spacing")
+		tutorial_button_gap.custom_minimum_size.y = 10
 	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(locale, "HOW TO PLAY")
 	tutorial_body.text = str(tutorial_copy.get("body", ""))
 	tutorial_button.text = str(tutorial_locale.get("try", Level.data.localized[locale].tutorialTry))
