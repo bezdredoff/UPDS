@@ -1973,7 +1973,7 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			var impact_material := (special_icon.material as ShaderMaterial).duplicate() as ShaderMaterial
 			impact_material.set_shader_parameter("shadow_color", Color(0, 0, 0, 0))
 			impact_material.set_shader_parameter("shadow_offset_px", Vector2.ZERO)
-			impact_material.set_shader_parameter("glow_strength", 1.0)
+			impact_material.set_shader_parameter("glow_strength", 1.3)
 			impact_material.set_shader_parameter("glow_white", Color.WHITE)
 			impact_material.set_shader_parameter("glow_white_radius_px", 5.0)
 			impact_material.set_shader_parameter("glow_gold", Color("#fff0a8"))

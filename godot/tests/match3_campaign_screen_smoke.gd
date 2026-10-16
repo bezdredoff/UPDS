@@ -1008,7 +1008,7 @@ func _run() -> void:
 		and is_equal_approx(special_shadow.get_shader_parameter("shadow_blur_px"), 2.0)
 		and is_zero_approx((special_shadow.get_shader_parameter("shadow_color") as Color).a)
 		and (special_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_zero_approx()
-		and is_equal_approx(special_shadow.get_shader_parameter("glow_strength"), 1.0)
+		and is_equal_approx(special_shadow.get_shader_parameter("glow_strength"), 1.3)
 		and (special_shadow.get_shader_parameter("glow_gold") as Color).to_html(false) == Color("#fff0a8").to_html(false)
 		and is_equal_approx(special_shadow.get_shader_parameter("glow_white_radius_px"), 5.0)
 		and is_equal_approx((special_shadow.get_shader_parameter("glow_white") as Color).a, 1.0)
