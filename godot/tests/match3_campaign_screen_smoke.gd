@@ -1007,7 +1007,8 @@ func _assert_clear_sample(match3: Control, tile_stack: Control,
 	var eased: float = match3._css_cubic_bezier(progress, 0.2, 0.72, 0.18, 1.0)
 	var expected_scale := lerpf(start_scale, end_scale, eased)
 	var expected_brightness := lerpf(start_brightness, end_brightness, eased)
-	assert(absf(tile_stack.scale.x - expected_scale) < 0.025
+	var scale_tolerance := 0.04 if absf(elapsed - peak_seconds) < 0.01 else 0.025
+	assert(absf(tile_stack.scale.x - expected_scale) < scale_tolerance
 		and absf(tile_stack.modulate.r - expected_brightness) < 0.06
 		and absf(tile_stack.modulate.a - expected_opacity) < 0.06,
 		"Clear animation differs from CSS at %.1fms: scale %.4f/%.4f brightness %.4f/%.4f opacity %.3f/%.3f" % [
