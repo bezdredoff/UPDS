@@ -637,15 +637,42 @@ func _run() -> void:
 		"specials": match3.game.specials.duplicate(),
 		"blockers": match3.game.blocker_layers.duplicate(),
 		"ingredients": match3.game.ingredients.duplicate(),
+		"motions": [{"index": settle_index, "rows": 2, "spawn": false}],
+	})
+	var fall_cell: Control = match3.board.get_child(settle_index)
+	var fall_stack: Control = fall_cell.get_node("TileStack")
+	var fall_started_usec := Time.get_ticks_usec()
+	assert(is_equal_approx(fall_stack.offset_top, -fall_cell.size.y * 2.0)
+		and fall_stack.scale.is_equal_approx(Vector2(0.98, 0.98)),
+		"Fall animation did not match its source start transform")
+	await _assert_settle_sample(match3, fall_cell, fall_stack, fall_started_usec, false, 0.115)
+	await _assert_settle_sample(match3, fall_cell, fall_stack, fall_started_usec, false, 0.23)
+	await _assert_settle_sample(match3, fall_cell, fall_stack, fall_started_usec, false, 0.285)
+	await create_timer(0.04).timeout
+	assert(is_zero_approx(fall_stack.offset_top) and is_zero_approx(fall_stack.offset_bottom)
+		and fall_stack.scale.is_equal_approx(Vector2.ONE),
+		"Fall animation did not match its source end transform")
+	match3._render_board()
+	match3._render_frame({
+		"phase": "settle",
+		"tiles": match3.game.tiles.duplicate(),
+		"specials": match3.game.specials.duplicate(),
+		"blockers": match3.game.blocker_layers.duplicate(),
+		"ingredients": match3.game.ingredients.duplicate(),
 		"motions": [{"index": settle_index, "rows": 2, "spawn": true}],
 	})
 	var settle_cell: Control = match3.board.get_child(settle_index)
 	var settle_stack: Control = settle_cell.get_node("TileStack")
+	var spawn_started_usec := Time.get_ticks_usec()
 	assert(is_equal_approx(settle_stack.offset_top, -settle_cell.size.y * 2.0) and is_equal_approx(settle_stack.offset_bottom, -settle_cell.size.y * 2.0), "Spawn offset mismatch top=%s bottom=%s size=%s" % [settle_stack.offset_top, settle_stack.offset_bottom, settle_cell.size])
 	assert(settle_stack.scale.is_equal_approx(Vector2(0.86, 0.86)) and is_equal_approx(settle_stack.modulate.a, 0.05), "Spawn animation did not match its source start scale and opacity")
-	await create_timer(0.25).timeout
+	await _assert_settle_sample(match3, settle_cell, settle_stack, spawn_started_usec, true, 0.115)
+	await _assert_settle_sample(match3, settle_cell, settle_stack, spawn_started_usec, true, 0.218)
+	await _assert_settle_sample(match3, settle_cell, settle_stack, spawn_started_usec, true, 0.25)
 	assert(settle_stack.offset_top > 0.0 and settle_stack.offset_top < settle_cell.size.y * 0.08, "Spawn animation missed the source 3% overshoot")
-	await create_timer(0.1).timeout
+	await _assert_settle_sample(match3, settle_cell, settle_stack, spawn_started_usec, true, 0.29)
+	var spawn_elapsed := float(Time.get_ticks_usec() - spawn_started_usec) / 1000000.0
+	await create_timer(maxf(0.0, float(match3.SETTLE_MOTION_SECONDS) + 0.03 - spawn_elapsed)).timeout
 	assert(is_zero_approx(settle_stack.offset_top) and is_zero_approx(settle_stack.offset_bottom) and settle_stack.scale.is_equal_approx(Vector2.ONE) and is_equal_approx(settle_stack.modulate.a, 1.0), "Spawn animation did not settle to its source end state")
 	match3._render_board()
 	var ingredient_kinds: Array = bundle.assets.ingredients.keys()
@@ -971,6 +998,45 @@ func _run() -> void:
 	await process_frame
 	print("UPDS Godot Match-3 campaign screen smoke test passed (sequential unlock and level routing).")
 	quit()
+
+
+func _assert_settle_sample(match3: Control, cell: Control, tile_stack: Control,
+		started_usec: int, is_spawn: bool, target_seconds: float) -> void:
+	var elapsed := float(Time.get_ticks_usec() - started_usec) / 1000000.0
+	await create_timer(maxf(0.0, target_seconds - elapsed)).timeout
+	elapsed = float(Time.get_ticks_usec() - started_usec) / 1000000.0
+	var duration := float(match3.SETTLE_MOTION_SECONDS)
+	var progress := clampf(elapsed / duration, 0.0, 1.0)
+	var keyframe := 0.78 if is_spawn else 0.72
+	var start_y := -2.0 * cell.size.y
+	var overshoot_y := cell.size.y * 0.03
+	var start_scale := 0.86 if is_spawn else 0.98
+	var peak_scale := 1.02 if is_spawn else 1.015
+	var expected_y: float
+	var expected_scale: float
+	if progress <= keyframe:
+		var segment := progress / keyframe
+		var eased: float = match3._css_cubic_bezier(segment, 0.18, 0.82, 0.28, 1.0)
+		expected_y = lerpf(start_y, overshoot_y, eased)
+		expected_scale = lerpf(start_scale, peak_scale, eased)
+	else:
+		var segment := (progress - keyframe) / (1.0 - keyframe)
+		var eased: float = match3._css_cubic_bezier(segment, 0.18, 0.82, 0.28, 1.0)
+		expected_y = lerpf(overshoot_y, 0.0, eased)
+		expected_scale = lerpf(peak_scale, 1.0, eased)
+	var expected_alpha := 1.0
+	if is_spawn and progress < 0.68:
+		var opacity_progress: float = match3._css_cubic_bezier(progress / 0.68, 0.18, 0.82, 0.28, 1.0)
+		expected_alpha = lerpf(0.05, 1.0, opacity_progress)
+	assert(absf(tile_stack.offset_top - expected_y) < 5.0
+		and absf(tile_stack.offset_bottom - expected_y) < 5.0
+		and absf(tile_stack.scale.x - expected_scale) < 0.04
+		and absf(tile_stack.modulate.a - expected_alpha) < 0.08,
+		"%s tween differs from source CSS at %.1fms: y %.2f/%.2f scale %.4f/%.4f alpha %.3f/%.3f" % [
+			"Spawn" if is_spawn else "Fall", elapsed * 1000.0,
+			tile_stack.offset_top, expected_y, tile_stack.scale.x, expected_scale,
+			tile_stack.modulate.a, expected_alpha,
+		])
 
 
 func _has_weighted_cyrillic_serif(font: Font, weight: int) -> bool:
