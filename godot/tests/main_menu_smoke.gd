@@ -55,6 +55,8 @@ func _run_smoke() -> void:
 	var menu_title := menu.get_node("Content/Title") as RichTextLabel
 	assert(menu_title.text.contains(MenuCopy.text("title", locale)))
 	assert(menu_title.text.contains(MenuCopy.text("accent", locale)))
+	assert(menu.get_node("Content/Tagline").get_theme_font_size("font_size") == 15,
+		"Playgama Web tagline width should compensate for the bundled Inter/system-ui metric difference")
 	assert(menu.get_node("Content/Actions/Continue").disabled, "Continue requires a save adapter")
 	var continue_button: Button = menu.get_node("Content/Actions/Continue")
 	assert(is_equal_approx(continue_button.modulate.a, 0.38),
@@ -102,6 +104,8 @@ func _run_smoke() -> void:
 	menu._layout_menu()
 	assert(is_equal_approx(menu.get_node("Content").offset_top, 26.0),
 		"Compact menu should use the source's 26 px top inset")
+	assert(menu.get_node("Content").get_theme_constant("separation") == 6,
+		"Compact menu should avoid adding excess vertical gaps beneath its short-screen title")
 	assert(menu_title.get_theme_font_size("normal_font_size") == 38,
 		"Compact menu title should match the source's 38 px heading")
 	assert(is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 66.0),
