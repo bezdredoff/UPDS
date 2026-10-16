@@ -25,6 +25,7 @@ const SETTLE_MOTION_SECONDS := 0.32
 const RESHUFFLE_MOTION_SECONDS := 0.46
 const FEEDBACK_HOLD_SECONDS := 0.42
 const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
+const BARK_TRAY_Y_OFFSET := 1.0
 
 static var _drop_shadow_material_cache: Dictionary = {}
 static var _special_icon_material_cache: ShaderMaterial
@@ -474,6 +475,12 @@ func _ready() -> void:
 	bark_panel = PanelContainer.new()
 	bark_panel.name = "FieldBark"
 	bark_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bark_panel.offset_left = 0.0
+	bark_panel.offset_top = 0.0
+	bark_panel.offset_right = 0.0
+	bark_panel.offset_bottom = 0.0
+	bark_panel.offset_top = BARK_TRAY_Y_OFFSET
+	bark_panel.offset_bottom = BARK_TRAY_Y_OFFSET
 	bark_panel.custom_minimum_size.y = 60
 	bark_panel.add_theme_stylebox_override("panel", bark_style)
 	bark_slot.add_child(bark_panel)
@@ -2159,15 +2166,21 @@ func _present_pending_narrative_reaction(reaction_id: String) -> void:
 
 func _animate_reaction_enter() -> void:
 	if reaction_tween != null and reaction_tween.is_valid(): reaction_tween.kill()
-	bark_panel.position.y = 0.0
+	_set_bark_tray_vertical_offset(BARK_TRAY_Y_OFFSET)
 	bark_panel.modulate = Color.WHITE
 	if _prefers_reduced_motion(): return
 	var ease_out := Callable(self, "_css_cubic_bezier").bind(0.0, 0.0, 0.58, 1.0)
-	bark_panel.position.y = 4.0
+	_set_bark_tray_vertical_offset(BARK_TRAY_Y_OFFSET + 4.0)
 	bark_panel.modulate.a = 0.0
 	reaction_tween = create_tween()
-	reaction_tween.tween_property(bark_panel, "position:y", 0.0, 0.16).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+	reaction_tween.tween_property(bark_panel, "offset_top", BARK_TRAY_Y_OFFSET, 0.16).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+	reaction_tween.parallel().tween_property(bark_panel, "offset_bottom", BARK_TRAY_Y_OFFSET, 0.16).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
 	reaction_tween.parallel().tween_property(bark_panel, "modulate:a", 1.0, 0.16).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+
+
+func _set_bark_tray_vertical_offset(offset: float) -> void:
+	bark_panel.offset_top = offset
+	bark_panel.offset_bottom = offset
 
 
 
@@ -2181,7 +2194,8 @@ func _dismiss_narrative_reaction(reaction_id: String, generation: int = -1) -> v
 	reaction_tween = create_tween()
 	reaction_tween.tween_property(bark_panel, "modulate:a", 0.0, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
 	if not reduced:
-		reaction_tween.parallel().tween_property(bark_panel, "position:y", -2.0, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+		reaction_tween.parallel().tween_property(bark_panel, "offset_top", BARK_TRAY_Y_OFFSET - 2.0, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+		reaction_tween.parallel().tween_property(bark_panel, "offset_bottom", BARK_TRAY_Y_OFFSET - 2.0, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
 	reaction_tween.finished.connect(_finish_narrative_reaction_dismiss.bind(reaction_id, reaction_generation), CONNECT_ONE_SHOT)
 
 
@@ -2189,7 +2203,7 @@ func _finish_narrative_reaction_dismiss(reaction_id: String, generation: int = -
 	if generation >= 0 and generation != reaction_generation: return
 	if str(active_reaction.get("id", "")) != reaction_id: return
 	active_reaction.clear()
-	bark_panel.position.y = 0.0
+	_set_bark_tray_vertical_offset(BARK_TRAY_Y_OFFSET)
 	bark_panel.modulate = Color.WHITE
 	_refresh()
 
@@ -2202,7 +2216,7 @@ func _new_game_for_attempt() -> RefCounted:
 	reaction_blockers_cleared = 0
 	if reaction_tween != null and reaction_tween.is_valid(): reaction_tween.kill()
 	if is_instance_valid(bark_panel):
-		bark_panel.position.y = 0.0
+		_set_bark_tray_vertical_offset(BARK_TRAY_Y_OFFSET)
 		bark_panel.modulate = Color.WHITE
 	var runtime_level: Dictionary = level_data.duplicate(true)
 	runtime_level.erase("openingBoard")

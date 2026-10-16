@@ -282,10 +282,10 @@ func _run() -> void:
 		and portrait_frame_style.shadow_color.is_equal_approx(Color("#326349"))
 		and portrait_mask.contains("smoothstep"),
 		"Match-3 speaker portrait should keep its circular crop, paper border and green ring")
-	assert(is_zero_approx(match3.bark_panel.modulate.a) and is_equal_approx(match3.bark_panel.position.y, 4.0),
-		"Reaction bark should begin at the source 4px entrance offset and zero opacity")
+	assert(is_zero_approx(match3.bark_panel.modulate.a) and is_equal_approx(match3.bark_panel.position.y, 5.0),
+		"Reaction bark should begin 4px below its calibrated static tray position and at zero opacity")
 	await create_timer(0.2).timeout
-	assert(is_equal_approx(match3.bark_panel.modulate.a, 1.0) and is_zero_approx(match3.bark_panel.position.y),
+	assert(is_equal_approx(match3.bark_panel.modulate.a, 1.0) and is_equal_approx(match3.bark_panel.position.y, 1.0),
 		"Reaction bark should finish its 160ms ease-out entrance")
 	var reaction_style := match3.bark_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(reaction_style.border_width_left == 3 and reaction_style.border_width_top == 3
@@ -343,8 +343,9 @@ func _run() -> void:
 	match3._dismiss_narrative_reaction("ingredient-context")
 	await create_timer(0.22).timeout
 	assert(match3.active_reaction.is_empty() and is_equal_approx(match3.bark_panel.modulate.a, 1.0)
-		and is_zero_approx(match3.bark_panel.position.y),
-		"Reaction bark should fade out and restore the static bark after its duration")
+		and is_equal_approx(match3.bark_panel.position.y, 1.0)
+		and is_equal_approx(match3.bark_panel.size.x, match3.bark_slot.size.x),
+		"Reaction bark should restore the static tray position and stay within the responsive slot")
 	match3._reduced_motion_override = null
 	match3._refresh()
 	var board_outline := match3.board_frame.get_parent() as PanelContainer
