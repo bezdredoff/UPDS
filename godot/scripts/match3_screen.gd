@@ -137,6 +137,7 @@ var drag_target_index := -1
 var suppress_drag_click_index := -1
 var bottom_spacer: Control
 var guidance_labels: Array[Label] = []
+var guidance_objective_indices: Array[int] = []
 var tutorial_reveal_events: Array[String] = []
 var active_tutorial := ""
 var tutorial_prompt_dismissed := false
@@ -588,6 +589,7 @@ func _ready() -> void:
 	input_guidance.text = MenuCopy.text("match3_input_hint", preferences.locale)
 	input_guidance.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	input_guidance.add_theme_font_size_override("font_size", 8)
+	input_guidance.add_theme_font_override("font", UiFonts.match3(700))
 	input_guidance.add_theme_constant_override("shadow_offset_y", 1)
 	input_guidance.add_theme_color_override("font_shadow_color", Color("#fff7d7"))
 	guidance_labels.append(input_guidance)
@@ -597,10 +599,21 @@ func _ready() -> void:
 		if objective_kind != "drop" and objective_kind != "dropGroup": continue
 		var label := _label(bottom_spacer, 8, Color("#363f43"))
 		label.name = "StoryObjectGuidance%d" % index
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.add_theme_font_size_override("font_size", 8)
-		label.add_theme_constant_override("shadow_offset_y", 1)
-		label.add_theme_color_override("font_shadow_color", Color("#fff7d7"))
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		label.visible = false
+		var stripe := Panel.new()
+		stripe.name = "AccentStripe"
+		stripe.anchor_bottom = 1.0
+		stripe.offset_left = 1.0
+		stripe.offset_right = 6.0
+		stripe.offset_top = 1.0
+		stripe.offset_bottom = -1.0
+		stripe.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var stripe_style := StyleBoxFlat.new()
+		stripe_style.bg_color = Color("#326349")
+		stripe.add_theme_stylebox_override("panel", stripe_style)
+		label.add_child(stripe)
+		guidance_objective_indices.append(index)
 		guidance_labels.append(label)
 	add_child(tutorial_overlay)
 	var feedback_center := Control.new()
@@ -705,6 +718,7 @@ func _refresh() -> void:
 		var object_label := str(copy.objectives[index]) if index < copy.objectives.size() else str(objective_data.get("label", ""))
 		guidance_labels[guidance_index].text = MenuCopy.text("match3_story_object_guidance", locale).replace("{object}", object_label)
 		guidance_index += 1
+	_refresh_story_object_guidance()
 	hint_button.disabled = game.state != "playing" or tutorial_panel.visible
 	warning.text = "" if session.last_write_ok and (story_session == null or story_session.last_write_ok) else MenuCopy.text("story_save_error", locale)
 	warning.visible = not warning.text.is_empty()
@@ -935,24 +949,6 @@ func _render_board() -> void:
 					locked_outline_style.set_border_width_all(1)
 					locked_outline.add_theme_stylebox_override("panel", locked_outline_style)
 					tile_button.add_child(locked_outline)
-				if game.blocker_layers[index] > 1:
-					var layer_badge := Label.new()
-					layer_badge.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-					layer_badge.offset_left = -17
-					layer_badge.offset_top = -17
-					layer_badge.offset_right = -1
-					layer_badge.offset_bottom = -1
-					layer_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-					layer_badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-					layer_badge.text = str(game.blocker_layers[index])
-					layer_badge.add_theme_font_size_override("font_size", 9)
-					layer_badge.add_theme_color_override("font_color", Color.WHITE)
-					layer_badge.add_theme_color_override("font_shadow_color", Color("#182238"))
-					layer_badge.add_theme_constant_override("shadow_offset_x", 1)
-					layer_badge.add_theme_constant_override("shadow_offset_y", 1)
-					layer_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-					layer_badge.z_index = 5
-					tile_button.add_child(layer_badge)
 		if not game.ingredients[index].is_empty():
 			var ingredient_asset := str(campaign_bundle.assets.ingredients.get(game.ingredients[index], ""))
 			if not ingredient_asset.is_empty():
@@ -1128,6 +1124,46 @@ func _fit_bark_layout(width_override := -1.0) -> void:
 	bark.add_theme_font_size_override("font_size", 9 if compact else 10)
 	bark_speaker.add_theme_font_size_override("font_size", clampi(roundi(viewport_width * 0.026), 8, 10))
 	bark_row.add_theme_constant_override("separation", 5)
+	_fit_story_object_guidance(viewport_width)
+
+
+func _refresh_story_object_guidance() -> void:
+	var active_position := -1
+	for position in guidance_objective_indices.size():
+		var objective_index := guidance_objective_indices[position]
+		var objective_data: Dictionary = level_data.objectives[objective_index]
+		if game.objective_value(objective_index) < int(objective_data.get("target", 0)):
+			active_position = position
+			break
+	guidance_labels[0].visible = active_position < 0
+	for position in guidance_objective_indices.size():
+		guidance_labels[position + 1].visible = position == active_position
+	_fit_story_object_guidance(get_viewport_rect().size.x)
+
+
+func _fit_story_object_guidance(viewport_width: float) -> void:
+	if guidance_labels.is_empty() or not is_instance_valid(bottom_spacer):
+		return
+	var compact := viewport_width <= 340.0
+	for index in range(1, guidance_labels.size()):
+		var label := guidance_labels[index]
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color("#fffaf0e8")
+		style.set_border_width_all(1)
+		style.border_color = Color("#dcae42")
+		style.set_corner_radius_all(4)
+		style.content_margin_left = 11.0 if compact else 13.0
+		style.content_margin_right = 6.0 if compact else 8.0
+		style.content_margin_top = 4.0 if compact else 5.0
+		style.content_margin_bottom = 4.0 if compact else 5.0
+		label.add_theme_stylebox_override("normal", style)
+		label.add_theme_font_override("font", UiFonts.match3(850))
+		label.add_theme_font_size_override("font_size", 8 if compact else 9)
+		label.add_theme_color_override("font_color", Color("#29243d"))
+		label.add_theme_color_override("font_shadow_color", Color.TRANSPARENT)
+		label.add_theme_constant_override("shadow_offset_y", 0)
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bottom_spacer.custom_minimum_size.y = 20.0 if compact or guidance_labels[0].visible else 24.0
 
 
 func _source_board_geometry() -> Dictionary:
