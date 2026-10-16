@@ -93,6 +93,8 @@ Invoke-GodotCheck -Stage 'Match-3 campaign data smoke test' -ExpectedOutput 'UPD
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_campaign_data_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'Match-3 reactions smoke test' -ExpectedOutput 'UPDS Godot Match-3 reaction smoke test passed.' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_reactions_smoke.gd', '--quit-after', '120')
+Invoke-GodotCheck -Stage 'Match-3 story-object guidance smoke test' -ExpectedOutput 'UPDS Godot Match-3 story-object guidance smoke test passed (ordered objectives and responsive card styling).' `
+	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_story_object_guidance_smoke.gd', '--quit-after', '180')
 Invoke-GodotCheck -Stage 'Match-3 campaign screen smoke test' -ExpectedOutput 'UPDS Godot Match-3 campaign screen smoke test passed (sequential unlock and level routing).' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_campaign_screen_smoke.gd', '--quit-after', '3000')
 Invoke-GodotCheck -Stage 'Match-3 runtime parity test' -ExpectedOutput 'UPDS Godot Match-3 runtime parity passed (8 TypeScript oracle scenarios).' `
