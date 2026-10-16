@@ -871,6 +871,12 @@ func _run() -> void:
 			special_index = index
 			break
 	assert(special_index >= 0, "Match-3 board has no open cell for the special impact sample")
+	assert(is_equal_approx(match3._special_impact_peak_duration(true), 0.1064)
+		and is_equal_approx(match3._special_impact_return_duration(true), 0.1736),
+		"Activated specials should reach their 1.11 CSS peak at 38% of the 280ms impact")
+	assert(is_equal_approx(match3._special_impact_peak_duration(false), 0.1176)
+		and is_equal_approx(match3._special_impact_return_duration(false), 0.1624),
+		"Affected targets should reach their 1.055 CSS peak at 42% of the 280ms impact")
 	var special_frame_specials: Array[String] = match3.game.specials.duplicate()
 	special_frame_specials[special_index] = "flash-row"
 	var impact_target := special_index + 1 if (special_index + 1) % columns != 0 else special_index - 1

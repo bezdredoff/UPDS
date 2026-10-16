@@ -21,6 +21,9 @@ const PhoneFrame = preload("res://scripts/phone_frame.gd")
 const SWAP_MOTION_SECONDS := 0.15
 const INVALID_HOLD_SECONDS := 0.70
 const CLEAR_MOTION_SECONDS := 0.28
+const SPECIAL_IMPACT_DURATION_SECONDS := 0.28
+const SPECIAL_IMPACT_SOURCE_PEAK_PROGRESS := 0.38
+const SPECIAL_IMPACT_TARGET_PEAK_PROGRESS := 0.42
 const SETTLE_MOTION_SECONDS := 0.32
 const RESHUFFLE_MOTION_SECONDS := 0.46
 const FEEDBACK_HOLD_SECONDS := 0.42
@@ -1331,6 +1334,15 @@ func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: flo
 	return CssMotion.cubic_bezier(progress, x1, y1, x2, y2)
 
 
+func _special_impact_peak_duration(is_source: bool) -> float:
+	var peak_progress := SPECIAL_IMPACT_SOURCE_PEAK_PROGRESS if is_source else SPECIAL_IMPACT_TARGET_PEAK_PROGRESS
+	return SPECIAL_IMPACT_DURATION_SECONDS * peak_progress
+
+
+func _special_impact_return_duration(is_source: bool) -> float:
+	return SPECIAL_IMPACT_DURATION_SECONDS - _special_impact_peak_duration(is_source)
+
+
 func _prefers_reduced_motion() -> bool:
 	return ReducedMotion.is_enabled(_reduced_motion_override)
 
@@ -1869,6 +1881,8 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		if index < 0 or index >= board.get_child_count(): continue
 		var cell := board.get_child(index) as Control
 		var is_source := activated_sources.has(index)
+		var peak_duration := _special_impact_peak_duration(is_source)
+		var return_duration := _special_impact_return_duration(is_source)
 		var resting_z_index := cell.z_index
 		cell.z_index = 6 if is_source else 3
 		var flash := ColorRect.new()
@@ -1913,13 +1927,13 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			outline_tween.finished.connect(outline.queue_free)
 		var impact_tween := create_tween()
 		var peak_scale := 1.11 if is_source else 1.055
-		impact_tween.tween_property(cell, "scale", Vector2(peak_scale, peak_scale), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+		impact_tween.tween_property(cell, "scale", Vector2(peak_scale, peak_scale), peak_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 		if not is_source:
-			impact_tween.parallel().tween_property(cell, "modulate", Color(1.42, 1.42, 1.42, 1.0), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
-		var return_impact := impact_tween.tween_property(cell, "scale", Vector2.ONE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			impact_tween.parallel().tween_property(cell, "modulate", Color(1.42, 1.42, 1.42, 1.0), peak_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+		var return_impact := impact_tween.tween_property(cell, "scale", Vector2.ONE, return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 		return_impact.from(Vector2(peak_scale, peak_scale))
 		if not is_source:
-			var return_brightness := impact_tween.parallel().tween_property(cell, "modulate", Color.WHITE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			var return_brightness := impact_tween.parallel().tween_property(cell, "modulate", Color.WHITE, return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 			return_brightness.from(Color(1.42, 1.42, 1.42, 1.0))
 		impact_tween.finished.connect(Callable(self, "_restore_special_impact_z_index").bind(cell, resting_z_index))
 		var special_kind := str(special_kinds[index]) if index < special_kinds.size() else ""
@@ -1927,6 +1941,8 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		var tile_stack := cell.get_node_or_null("TileStack") as Control
 		var special_icon := tile_stack.get_node_or_null("Special") as Control if tile_stack != null else null
 		if special_icon != null:
+			var icon_peak_duration := _special_impact_peak_duration(false)
+			var icon_return_duration := _special_impact_return_duration(false)
 			special_icon.pivot_offset = special_icon.size * 0.5
 			special_icon.scale = Vector2(0.82, 0.82)
 			special_icon.rotation_degrees = -8.0
@@ -1940,10 +1956,10 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			impact_material.set_shader_parameter("glow_aqua_radius_px", 14.0)
 			special_icon.material = impact_material
 			var icon_tween := create_tween()
-			icon_tween.tween_property(special_icon, "scale", Vector2(1.24, 1.24), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
-			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 4.0, 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
-			icon_tween.tween_property(special_icon, "scale", Vector2.ONE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
-			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 0.0, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.tween_property(special_icon, "scale", Vector2(1.24, 1.24), icon_peak_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 4.0, icon_peak_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.tween_property(special_icon, "scale", Vector2.ONE, icon_return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 0.0, icon_return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 		if special_kind == "flash-row" or special_kind == "flash-column":
 			var beam := ColorRect.new()
 			beam.name = "SpecialImpactBeam"
