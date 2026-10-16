@@ -1550,15 +1550,19 @@ func _add_clue_card(level: Dictionary, number: int) -> void:
 	_add_dossier_spacer(body, "ClueNumberTopGap", 7)
 	var number_label := _label(body, 8)
 	number_label.name = "ClueNumber"
+	number_label.add_theme_font_override("font", UiFonts.sans(900))
 	number_label.text = "%s %02d" % [Copy.text("dossier_clue_number", preferences.locale), number]
 	number_label.add_theme_color_override("font_color", Color("#d95f70"))
 	_add_dossier_spacer(body, "ClueTitleTopGap", 2)
 	var title_label := _label(body, 12)
 	title_label.name = "ClueTitle"
+	title_label.add_theme_font_override("font", UiFonts.sans(700))
 	title_label.text = str(localized.get("title", Copy.text("dossier_locked", preferences.locale))) if unlocked else Copy.text("dossier_locked", preferences.locale)
 	_add_dossier_spacer(body, "ClueSummaryTopGap", 5)
 	var summary := _label(body, 9)
 	summary.name = "ClueSummary"
+	summary.add_theme_font_override("font", UiFonts.sans(400))
+	summary.add_theme_constant_override("line_spacing", 1)
 	summary.text = str(localized.get("summary", "")) if unlocked else Copy.text("dossier_unlock_hint", preferences.locale)
 	summary.add_theme_color_override("font_color", Color("#746d7c"))
 	if not unlocked:

@@ -5,6 +5,7 @@ const Session = preload("res://scripts/story_session.gd")
 const Store = preload("res://scripts/campaign_store.gd")
 const Format = preload("res://scripts/save_format.gd")
 const Match3Session = preload("res://scripts/match3_campaign_session.gd")
+const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const Copy = preload("res://scripts/menu_copy.gd")
 const Prologue = preload("res://data/prologue.json")
 const LockerScene = preload("res://data/locker_scene.json")
@@ -1035,6 +1036,33 @@ func _vn_reading_controls(menu: Control) -> void:
 		and first_clue_title.get_theme_color("font_color").is_equal_approx(screen._dossier_grayscale(Color("#29243d")))
 		and first_clue_summary.get_theme_color("font_color").is_equal_approx(screen._dossier_grayscale(Color("#746d7c"))),
 		"Locked dossier clues should preserve the web's grayscale-80% and opacity-65% treatment")
+	var campaign_levels: Array = CampaignData.load_bundle().get("levels", [])
+	var first_clue_data: Dictionary = campaign_levels[0]
+	var first_evidence: Dictionary = first_clue_data.get("evidence", {})
+	session.state.clues.append("CUE_001")
+	screen._add_clue_card(first_clue_data, 1)
+	var unlocked_clue: PanelContainer = screen.dossier_clues.get_child(screen.dossier_clues.get_child_count() - 1)
+	var unlocked_body: VBoxContainer = unlocked_clue.get_child(0)
+	var unlocked_art: PanelContainer = unlocked_body.get_child(0)
+	var unlocked_image: TextureRect = unlocked_art.get_child(0)
+	var unlocked_title: Label = unlocked_body.find_child("ClueTitle", true, false) as Label
+	var unlocked_summary: Label = unlocked_body.find_child("ClueSummary", true, false) as Label
+	var unlocked_number: Label = unlocked_body.find_child("ClueNumber", true, false) as Label
+	var unlocked_title_font := unlocked_title.get_theme_font("font") as FontVariation
+	var unlocked_number_font := unlocked_number.get_theme_font("font") as FontVariation
+	var first_localized: Dictionary = first_evidence.get("localized", {}).get(menu.preferences.locale, {})
+	assert(unlocked_clue.modulate.is_equal_approx(Color.WHITE)
+		and unlocked_image.texture != null
+		and unlocked_image.texture.resource_path == "res://assets/clues/clue_laundry_receipt.png"
+		and unlocked_art.get_theme_stylebox("panel").bg_color.is_equal_approx(Color("#33223a"))
+		and unlocked_title.text == str(first_localized.get("title", ""))
+		and unlocked_summary.text == str(first_localized.get("summary", ""))
+		and unlocked_title_font.variation_opentype.get("weight", 0.0) == 700.0
+		and unlocked_number_font.variation_opentype.get("weight", 0.0) == 900.0
+		and unlocked_summary.get_theme_constant("line_spacing") == 1,
+		"Unlocked dossier clues should show the source art and localized copy with source typography")
+	unlocked_clue.queue_free()
+	session.state.clues.erase("CUE_001")
 	var selected_clue_style := screen.dossier_clues_tab.get_theme_stylebox("normal") as StyleBoxFlat
 	assert(not screen.dossier_clues_tab.disabled
 		and selected_clue_style.get_border_width(SIDE_BOTTOM) == 3
