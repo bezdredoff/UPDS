@@ -992,6 +992,28 @@ func _run() -> void:
 		and impact_beam_material.shader.code.contains("for (int cross_index = -6; cross_index <= 6; cross_index++)")
 		and impact_beam_material.shader.code.contains("return 0.2255859375"),
 		"Line special beam did not preserve CSS colors, gradient stops and the calibrated aqua drop shadow")
+	var column_frame_specials: Array[String] = match3.game.specials.duplicate()
+	column_frame_specials[special_index] = "flash-column"
+	match3._render_frame({
+		"phase": "clear",
+		"tiles": match3.game.tiles.duplicate(),
+		"specials": column_frame_specials,
+		"blockers": match3.game.blocker_layers.duplicate(),
+		"ingredients": match3.game.ingredients.duplicate(),
+		"cleared": [special_index, impact_target],
+		"cascade": 1,
+		"feedback": "special",
+	})
+	var column_cell: Control = match3.board.get_child(special_index)
+	var column_beam := column_cell.get_node("SpecialImpactBeam") as ColorRect
+	var column_beam_material := column_beam.material as ShaderMaterial
+	assert(column_beam_material.get_shader_parameter("vertical_gradient")
+		and is_equal_approx(column_beam.scale.x, 0.25) and is_equal_approx(column_beam.scale.y, 1.0)
+		and is_equal_approx(column_beam.offset_left, -5.0) and is_equal_approx(column_beam.offset_right, 5.0),
+		"Flash Column should begin compressed across its width, matching CSS after the 90-degree rotation")
+	await create_timer(0.035).timeout
+	assert(column_beam.scale.x > 0.25 and column_beam.scale.y > 0.99 and column_beam.scale.y < 1.01,
+		"Flash Column impact should expand across the beam width while preserving its longitudinal scale")
 	var target_cell: Control = match3.board.get_child(impact_target)
 	assert(target_cell.get_node_or_null("SpecialImpactTargetOutline") != null and target_cell.z_index == 3,
 		"Affected clear target did not rise above the board with its target outline")
