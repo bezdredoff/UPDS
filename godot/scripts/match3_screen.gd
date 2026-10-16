@@ -66,12 +66,14 @@ var bark_portrait_frame: Panel
 var bark_portrait: TextureRect
 var tutorial_panel: PanelContainer
 var tutorial_frame: PanelContainer
+var tutorial_card_style: StyleBoxFlat
 var tutorial_overlay: Control
 var tutorial_badge: PanelContainer
 var tutorial_eyebrow: Label
 var tutorial_title: Label
 var tutorial_body: Label
 var tutorial_button_gap: Control
+var tutorial_title_body_gap: Control
 var tutorial_button: Button
 var objective: Label
 var objective_heading: Label
@@ -225,17 +227,17 @@ func _ready() -> void:
 	bark.add_theme_font_size_override("font_size", 12)
 	bark.add_theme_color_override("font_color", Color("#29243d"))
 	tutorial_panel = PanelContainer.new()
-	var tutorial_style := StyleBoxFlat.new()
-	tutorial_style.bg_color = Color("#fff7df")
-	tutorial_style.border_color = Color("#d5b269")
-	tutorial_style.set_border_width_all(3)
-	tutorial_style.border_width_left = 8
-	tutorial_style.set_corner_radius_all(7)
-	tutorial_style.content_margin_left = 26
-	tutorial_style.content_margin_right = 26
-	tutorial_style.content_margin_top = 30
-	tutorial_style.content_margin_bottom = 18
-	tutorial_panel.add_theme_stylebox_override("panel", tutorial_style)
+	tutorial_card_style = StyleBoxFlat.new()
+	tutorial_card_style.bg_color = Color("#fff7df")
+	tutorial_card_style.border_color = Color("#d5b269")
+	tutorial_card_style.set_border_width_all(3)
+	tutorial_card_style.border_width_left = 8
+	tutorial_card_style.set_corner_radius_all(7)
+	tutorial_card_style.content_margin_left = 28
+	tutorial_card_style.content_margin_right = 23
+	tutorial_card_style.content_margin_top = 30
+	tutorial_card_style.content_margin_bottom = 18
+	tutorial_panel.add_theme_stylebox_override("panel", tutorial_card_style)
 	content.add_child(tutorial_panel)
 	var tutorial_content := VBoxContainer.new()
 	tutorial_content.name = "TutorialContent"
@@ -248,19 +250,19 @@ func _ready() -> void:
 	tutorial_badge = PanelContainer.new()
 	tutorial_badge.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	tutorial_badge.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	tutorial_badge.position = Vector2(-18, -33)
-	tutorial_badge.custom_minimum_size = Vector2(102, 18)
+	tutorial_badge.position = Vector2(-12, -27)
+	tutorial_badge.custom_minimum_size = Vector2(83, 18)
 	var tutorial_badge_style := StyleBoxFlat.new()
 	tutorial_badge_style.bg_color = Color("#2f6549")
-	tutorial_badge_style.corner_radius_bottom_left = 10
-	tutorial_badge_style.corner_radius_bottom_right = 10
-	tutorial_badge_style.content_margin_left = 13
-	tutorial_badge_style.content_margin_right = 13
+	tutorial_badge_style.corner_radius_bottom_left = 4
+	tutorial_badge_style.corner_radius_bottom_right = 4
+	tutorial_badge_style.content_margin_left = 12
+	tutorial_badge_style.content_margin_right = 12
 	tutorial_badge_style.content_margin_top = 4
 	tutorial_badge_style.content_margin_bottom = 5
 	tutorial_badge.add_theme_stylebox_override("panel", tutorial_badge_style)
 	tutorial_content_layer.add_child(tutorial_badge)
-	tutorial_eyebrow = _label(tutorial_badge, 9, Color.WHITE)
+	tutorial_eyebrow = _label(tutorial_badge, 9, Color("#fff3cf"))
 	tutorial_eyebrow.autowrap_mode = TextServer.AUTOWRAP_OFF
 	tutorial_eyebrow.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(preferences.locale, "HOW TO PLAY")
@@ -273,12 +275,12 @@ func _ready() -> void:
 	tutorial_title_top_gap.custom_minimum_size.y = 7
 	tutorial_content.add_child(tutorial_title_top_gap)
 	tutorial_content.move_child(tutorial_title, tutorial_content.get_child_count() - 1)
-	var tutorial_title_body_gap := Control.new()
+	tutorial_title_body_gap = Control.new()
 	tutorial_title_body_gap.custom_minimum_size.y = 8
 	tutorial_body = _label(tutorial_content, 13, Color("#5c513e"))
 	tutorial_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tutorial_body.add_theme_font_size_override("font_size", 13)
-	tutorial_body.add_theme_constant_override("line_spacing", 0)
+	tutorial_body.add_theme_constant_override("line_spacing", 2)
 	var tutorial_sans := UiFonts.sans(700)
 	tutorial_body.add_theme_font_override("font", tutorial_sans)
 	tutorial_content.add_child(tutorial_title_body_gap)
@@ -286,7 +288,7 @@ func _ready() -> void:
 	tutorial_button = _button(tutorial_content)
 	_style_tutorial_button(tutorial_button)
 	tutorial_button_gap = Control.new()
-	tutorial_button_gap.custom_minimum_size.y = 10
+	tutorial_button_gap.custom_minimum_size.y = 14
 	tutorial_content.add_child(tutorial_button_gap)
 	tutorial_content.move_child(tutorial_button, tutorial_content.get_child_count() - 1)
 	tutorial_button.pressed.connect(_dismiss_tutorial)
@@ -650,11 +652,13 @@ func _refresh() -> void:
 		str(tutorial_copy.get("title", "")), active_tutorial, locale)
 	var russian_basic_swap := active_tutorial == "basic-swap" and locale == "ru"
 	if russian_basic_swap:
-		tutorial_title.add_theme_constant_override("line_spacing", -14)
-		tutorial_button_gap.custom_minimum_size.y = 18
+		tutorial_title.add_theme_constant_override("line_spacing", -8)
+		tutorial_title_body_gap.custom_minimum_size.y = 2
+		tutorial_button_gap.custom_minimum_size.y = 14
 	else:
 		tutorial_title.remove_theme_constant_override("line_spacing")
-		tutorial_button_gap.custom_minimum_size.y = 10
+		tutorial_title_body_gap.custom_minimum_size.y = 8
+		tutorial_button_gap.custom_minimum_size.y = 14
 	tutorial_eyebrow.text = {"ru": "ОБУЧЕНИЕ", "be": "НАВУЧАННЕ", "en": "HOW TO PLAY"}.get(locale, "HOW TO PLAY")
 	tutorial_body.text = str(tutorial_copy.get("body", ""))
 	tutorial_button.text = str(tutorial_locale.get("try", Level.data.localized[locale].tutorialTry))
@@ -2627,6 +2631,10 @@ func _fit_tutorial_card() -> void:
 	tutorial_panel.custom_maximum_size.x = card_width
 	tutorial_frame.custom_minimum_size.x = card_width + 6.0
 	var compact := size.x <= 340.0
+	tutorial_card_style.content_margin_left = 24 if compact else 28
+	tutorial_card_style.content_margin_right = 19 if compact else 23
+	tutorial_card_style.content_margin_top = 24 if compact else 30
+	tutorial_card_style.content_margin_bottom = 14 if compact else 18
 	tutorial_title.add_theme_font_size_override("font_size", 20 if compact else 24)
 	tutorial_body.add_theme_font_size_override("font_size", 11 if compact else 13)
 	# Match the browser Georgia fallback line break for this Russian heading.

@@ -451,6 +451,7 @@ func _run() -> void:
 	assert(match3.objective_icon.custom_minimum_size == Vector2(24, 24), "Objective art should use the compact source HUD size")
 	assert(match3.hint_button.custom_minimum_size == Vector2(94, 48), "Hint control should preserve the source tool tray size")
 	var tutorial_style := match3.tutorial_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	var tutorial_badge_style := match3.tutorial_badge.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(is_equal_approx(match3.tutorial_panel.custom_maximum_size.x, 350.0), "Tutorial card width should match the source 350px maximum")
 	assert(is_equal_approx(match3.tutorial_title.custom_maximum_size.x, -1.0),
 		"Other tutorial headings should keep their source full-width layout")
@@ -460,15 +461,37 @@ func _run() -> void:
 	var saved_tutorial: String = match3.active_tutorial
 	match3.active_tutorial = "basic-swap"
 	match3._refresh()
-	assert(match3.tutorial_title.get_theme_constant("line_spacing") == -14
-		and match3.tutorial_button_gap.custom_minimum_size.y == 18.0,
-		"Russian basic-swap tutorial should match the source title leading and paragraph-to-action spacing")
+	assert(match3.tutorial_title.get_theme_constant("line_spacing") == -8
+		and match3.tutorial_body.get_theme_constant("line_spacing") == 2
+		and match3.tutorial_title_body_gap.custom_minimum_size.y == 2.0
+		and match3.tutorial_button_gap.custom_minimum_size.y == 14.0,
+		"Tutorial title/body leading and paragraph-to-action spacing should match the source CSS rhythm")
 	match3.active_tutorial = saved_tutorial
 	match3._refresh()
 	assert(tutorial_style.border_width_top == 3 and tutorial_style.border_width_left == 8, "Tutorial card border should match the source gold frame and green spine")
-	assert(tutorial_style.content_margin_left == 26 and tutorial_style.content_margin_right == 26
-		and match3.tutorial_body.get_theme_constant("line_spacing") == 0,
-		"Tutorial text and button insets should preserve the source compact card rhythm")
+	assert(tutorial_style.content_margin_left == 28 and tutorial_style.content_margin_right == 23,
+		"Tutorial copy and button insets should match the source asymmetric card padding")
+	assert(match3.tutorial_badge.custom_minimum_size == Vector2(83, 18)
+		and match3.tutorial_badge.position == Vector2(-12, -27)
+		and tutorial_badge_style.corner_radius_bottom_left == 4
+		and tutorial_badge_style.corner_radius_bottom_right == 4
+		and tutorial_badge_style.content_margin_left == 12
+		and tutorial_badge_style.content_margin_right == 12
+		and match3.tutorial_eyebrow.get_theme_color("font_color") == Color("#fff3cf"),
+		"Tutorial case tab should match the source min-width, placement, rounding, padding and ink")
+	var tutorial_panel_rect: Rect2 = match3.tutorial_panel.get_global_rect()
+	var tutorial_badge_rect: Rect2 = match3.tutorial_badge.get_global_rect()
+	var tutorial_body_rect: Rect2 = match3.tutorial_body.get_global_rect()
+	var tutorial_action_rect: Rect2 = match3.tutorial_button.get_global_rect()
+	assert(is_equal_approx(tutorial_badge_rect.position.x, tutorial_panel_rect.position.x + 16.0)
+		and is_equal_approx(tutorial_badge_rect.position.y, tutorial_panel_rect.position.y + 3.0)
+		and is_equal_approx(tutorial_badge_rect.size.x, 83.0)
+		and is_equal_approx(tutorial_badge_rect.size.y, 21.0)
+		and is_equal_approx(tutorial_body_rect.position.x, tutorial_panel_rect.position.x + 28.0)
+		and is_equal_approx(tutorial_action_rect.position.x, tutorial_panel_rect.position.x + 28.0)
+		and is_equal_approx(tutorial_action_rect.end.x, tutorial_panel_rect.end.x - 23.0)
+		and is_equal_approx(tutorial_action_rect.size.y, 48.0),
+		"Tutorial badge, body copy and action bounds should match the source card geometry")
 	assert(tutorial_style.bg_color.to_html(false) == Color("#fff7df").to_html(false), "Tutorial card paper color should match the source palette")
 	assert(match3.tutorial_frame.custom_minimum_size.x == 356.0 and (match3.tutorial_frame.get_theme_stylebox("panel") as StyleBoxFlat).bg_color.to_html(false) == Color("#102744").to_html(false), "Tutorial card should have the source 3px navy outline")
 	var tutorial_button_style := match3.tutorial_button.get_theme_stylebox("normal") as StyleBoxFlat
@@ -477,9 +500,14 @@ func _run() -> void:
 	match3.size.x = 320.0
 	match3._fit_tutorial_card()
 	assert(match3.tutorial_panel.custom_minimum_size.x == 292.0 and match3.tutorial_frame.custom_minimum_size.x == 298.0
-		and is_equal_approx(match3.tutorial_title.custom_maximum_size.x, -1.0),
-		"Tutorial card did not keep the source 14px responsive overlay inset")
+		and is_equal_approx(match3.tutorial_title.custom_maximum_size.x, -1.0)
+		and tutorial_style.content_margin_left == 24 and tutorial_style.content_margin_right == 19
+		and tutorial_style.content_margin_top == 24 and tutorial_style.content_margin_bottom == 14
+		and match3.tutorial_title.get_theme_font_size("font_size") == 20
+		and match3.tutorial_body.get_theme_font_size("font_size") == 11,
+		"Compact tutorial card should match the source 14px overlay inset, padding and font sizes")
 	match3.size.x = original_screen_width
+	match3._fit_tutorial_card()
 	assert(match3._tutorial_title_for_display("Собирайте одинаковые предметы", "basic-swap", "ru")
 		== "Собирайте\nодинаковые предметы"
 		and match3._tutorial_title_for_display("Match identical items", "basic-swap", "en") == "Match identical items"
@@ -725,7 +753,7 @@ func _run() -> void:
 	var clearing_stack: Control = match3.board.get_child(settle_index).get_node("TileStack")
 	var clearing_started_usec := Time.get_ticks_usec()
 	await _assert_clear_sample(match3, clearing_stack, clearing_started_usec, 0.064)
-	await _assert_clear_sample(match3, clearing_stack, clearing_started_usec, 0.1344)
+	await _assert_clear_sample(match3, clearing_stack, clearing_started_usec, 0.09)
 	await _assert_clear_sample(match3, clearing_stack, clearing_started_usec, 0.224)
 	var clearing_elapsed := float(Time.get_ticks_usec() - clearing_started_usec) / 1000000.0
 	await create_timer(maxf(0.0, match3.CLEAR_MOTION_SECONDS + 0.03 - clearing_elapsed)).timeout
