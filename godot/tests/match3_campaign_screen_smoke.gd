@@ -209,6 +209,16 @@ func _run() -> void:
 	assert(match3.active_tutorial == "clear-package" and match3.tutorial_panel.visible, "Level-start blocker tutorial was not selected in authored order")
 	assert(match3.tutorial_overlay.z_index > 20 and match3.tutorial_overlay.z_index < 30,
 		"Tutorial overlay should cover elevated Match-3 tile art while staying beneath evidence and result overlays")
+	var tutorial_shade := match3.tutorial_overlay.find_child("TutorialShade", true, false) as ColorRect
+	var tutorial_backdrop := tutorial_shade.material as ShaderMaterial
+	assert(tutorial_backdrop != null
+		and tutorial_backdrop.shader.code.contains("hint_screen_texture")
+		and tutorial_backdrop.shader.code.contains("SCREEN_PIXEL_SIZE * blur_radius_px")
+		and tutorial_backdrop.shader.code.contains("SCREEN_UV).rgb * 0.25")
+		and tutorial_backdrop.shader.code.contains("SCREEN_UV + vec2(blur.x, 0.0)).rgb * 0.125")
+		and is_equal_approx(tutorial_backdrop.get_shader_parameter("blur_radius_px"), 1.0)
+		and (tutorial_backdrop.get_shader_parameter("tint") as Color).is_equal_approx(Color("#0714279e")),
+		"Tutorial backdrop should apply the source's 1px blur and exact navy tint")
 	assert(is_equal_approx(match3.board_top_spacer.custom_minimum_size.y,
 		clampf((match3.size.y - 568.0) * 0.19, 0.0, 48.0)),
 		"Match-3 HUD-to-playfield gap did not update for the active viewport height")
