@@ -1015,6 +1015,13 @@ func _run() -> void:
 	await create_timer(0.035).timeout
 	assert(column_beam.scale.x > 0.25 and column_beam.scale.y > 0.99 and column_beam.scale.y < 1.01,
 		"Flash Column impact should expand across the beam width while preserving its longitudinal scale")
+	await create_timer(0.065).timeout
+	assert(column_beam.scale.x > 1.12 and column_beam.scale.x <= 1.17
+		and column_beam.scale.y > 0.99 and column_beam.scale.y < 1.01 and column_beam.modulate.a > 0.9,
+		"Flash Column should reach the CSS 1.15 width peak near 98ms while keeping its length unchanged")
+	await create_timer(0.2).timeout
+	assert(column_cell.get_node_or_null("SpecialImpactBeam") == null,
+		"Flash Column beam should finish its 280ms CSS impact and be removed")
 	var target_cell: Control = match3.board.get_child(impact_target)
 	assert(target_cell.get_node_or_null("SpecialImpactTargetOutline") != null and target_cell.z_index == 3,
 		"Affected clear target did not rise above the board with its target outline")
