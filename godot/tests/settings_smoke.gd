@@ -11,7 +11,9 @@ func _initialize() -> void:
 func _run_smoke() -> void:
 	var path := "user://settings_smoke_%s.cfg" % Time.get_ticks_usec()
 	var preferences := PlayerPreferences.new(path)
-	assert(preferences.locale == MenuCopy.system_locale())
+	assert(preferences.locale == MenuCopy.default_locale()
+		and preferences.locale == "ru",
+		"Fresh Godot profiles should use the same Russian default locale as the source web game")
 	assert(preferences.set_locale("unsupported") == ERR_INVALID_PARAMETER)
 	var menu: Control = load("res://scenes/main_menu.tscn").instantiate()
 	menu.session = preload("res://tests/memory_storage.gd").story_session()
@@ -87,7 +89,7 @@ func _run_smoke() -> void:
 	var invalid := ConfigFile.new()
 	invalid.set_value("interface", "locale", 123)
 	assert(invalid.save(path) == OK)
-	assert(PlayerPreferences.new(path).locale == MenuCopy.system_locale())
+	assert(PlayerPreferences.new(path).locale == MenuCopy.default_locale())
 	var failed := PlayerPreferences.new("user://missing_%s/settings.cfg" % Time.get_ticks_usec())
 	var original: String = failed.locale
 	assert(failed.set_locale("ru" if original != "ru" else "en") != OK)

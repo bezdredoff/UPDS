@@ -1,6 +1,7 @@
 extends RefCounted
 
 
+const DEFAULT_LOCALE := "ru"
 const FALLBACK_LOCALE := "en"
 const COPY := {
 	"en": {
@@ -384,13 +385,12 @@ const COPY := {
 }
 
 
-static func system_locale() -> String:
-	var language := OS.get_locale_language().to_lower()
-	return language if COPY.has(language) else FALLBACK_LOCALE
+static func default_locale() -> String:
+	return DEFAULT_LOCALE
 
 
 static func text(key: String, locale: String = "") -> String:
-	var selected_locale := locale if COPY.has(locale) else system_locale()
+	var selected_locale := locale if COPY.has(locale) else default_locale()
 	var selected_copy: Dictionary = COPY.get(selected_locale, COPY[FALLBACK_LOCALE])
 	var fallback_copy: Dictionary = COPY[FALLBACK_LOCALE]
 	return str(selected_copy.get(key, fallback_copy.get(key, key)))

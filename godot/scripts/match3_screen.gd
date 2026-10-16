@@ -576,24 +576,34 @@ func _ready() -> void:
 		label.add_theme_color_override("font_shadow_color", Color("#fff7d7"))
 		guidance_labels.append(label)
 	add_child(tutorial_overlay)
-	var feedback_center := CenterContainer.new()
+	var feedback_center := Control.new()
 	feedback_center.anchor_left = 0
 	feedback_center.anchor_right = 1
-	feedback_center.anchor_top = 0.48
-	feedback_center.anchor_bottom = 0.48
-	feedback_center.offset_top = -23
-	feedback_center.offset_bottom = 23
+	feedback_center.anchor_top = 0.0
+	feedback_center.anchor_bottom = 1.0
+	feedback_center.offset_top = 0.0
+	feedback_center.offset_bottom = 0.0
 	feedback_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	feedback_center.z_index = 10
-	add_child(feedback_center)
+	board_frame.add_child(feedback_center)
+	feedback_center.resized.connect(_fit_match_feedback_position)
 	match_feedback_panel = PanelContainer.new()
 	match_feedback_panel.custom_minimum_size.x = 150
 	match_feedback_panel.custom_maximum_size.x = 336
 	match_feedback_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	match_feedback_panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	match_feedback_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	match_feedback_panel.anchor_top = 0.48
+	match_feedback_panel.anchor_bottom = 0.48
+	match_feedback_panel.offset_left = -75.0
+	match_feedback_panel.offset_right = 75.0
+	match_feedback_panel.offset_top = -23.0
+	match_feedback_panel.offset_bottom = 23.0
 	match_feedback_panel.pivot_offset = Vector2(75, 23)
 	match_feedback_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	match_feedback_panel.visible = false
 	feedback_center.add_child(match_feedback_panel)
+	_fit_match_feedback_position()
 	match_feedback_label = _label(match_feedback_panel, 13, Color("#fff9df"))
 	match_feedback_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	match_feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -1447,6 +1457,7 @@ func _show_match_feedback(kind: String, cascade: int = 1, localized_key: String 
 	var feedback_style := match_feedback_panel.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
 	feedback_style.bg_color = colors.get(kind, colors.match)
 	match_feedback_panel.add_theme_stylebox_override("panel", feedback_style)
+	_fit_match_feedback_position()
 	match_feedback_panel.pivot_offset = match_feedback_panel.size * 0.5
 	match_feedback_panel.visible = true
 	if was_hidden:
@@ -1463,6 +1474,16 @@ func _show_match_feedback(kind: String, cascade: int = 1, localized_key: String 
 	match_feedback_tween.set_parallel(true)
 	match_feedback_tween.tween_property(match_feedback_panel, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 	match_feedback_tween.tween_property(match_feedback_panel, "modulate:a", 1.0, 0.1).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+
+
+func _fit_match_feedback_position() -> void:
+	if not is_instance_valid(match_feedback_panel): return
+	var width := maxf(match_feedback_panel.size.x, match_feedback_panel.custom_minimum_size.x)
+	var height := maxf(match_feedback_panel.size.y, 46.0)
+	match_feedback_panel.offset_left = -width * 0.5
+	match_feedback_panel.offset_right = width * 0.5
+	match_feedback_panel.offset_top = -height * 0.5
+	match_feedback_panel.offset_bottom = height * 0.5
 
 
 func _clear_match_feedback() -> void:

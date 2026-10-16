@@ -23,8 +23,8 @@ func _run() -> void:
 	var menu_title_font: Font = menu.get_node("Content/Title").get_theme_font("normal_font")
 	if OS.has_feature("web"):
 		assert((menu_title_font as FontVariation).base_font == UiFonts.GEORGIA_LATIN
-			and (menu_title_font as FontVariation).fallbacks == [UiFonts.SERIF_CYRILLIC],
-			"Web main menu title should preserve the Georgia serif style with Latin/Cyrillic bundled faces")
+			and _has_weighted_cyrillic_serif(menu_title_font, 800),
+			"Web main menu title should preserve the Georgia serif style and weight in both Latin and Cyrillic")
 	else:
 		assert((menu_title_font as SystemFont).font_names.has("Georgia"),
 			"Native main menu title should request the source Georgia family")
@@ -76,7 +76,7 @@ func _run() -> void:
 	if OS.has_feature("web"):
 		var title_web_font := match3.title.get_theme_font("font") as FontVariation
 		assert(title_web_font != null and title_web_font.base_font == UiFonts.GEORGIA_LATIN
-			and title_web_font.fallbacks == [UiFonts.SERIF_CYRILLIC]
+			and _has_weighted_cyrillic_serif(title_web_font, 800)
 			and title_web_font.variation_embolden == 0.2,
 			"Web Match-3 title should match the source Georgia serif weight 800")
 	else:
@@ -186,8 +186,8 @@ func _run() -> void:
 	var feedback_font: Font = match3.match_feedback_label.get_theme_font("font")
 	if OS.has_feature("web"):
 		assert((feedback_font as FontVariation).base_font == UiFonts.GEORGIA_LATIN
-			and (feedback_font as FontVariation).fallbacks == [UiFonts.SERIF_CYRILLIC],
-			"Web Match-3 feedback should use bundled Georgia-metric Latin and a Cyrillic serif fallback")
+			and _has_weighted_cyrillic_serif(feedback_font, 800),
+			"Web Match-3 feedback should use Georgia-metric serif weights for Latin and Cyrillic")
 	else:
 		assert((feedback_font as SystemFont).font_names.has("Georgia"),
 			"Native Match-3 feedback should preserve the source Georgia serif treatment")
@@ -851,9 +851,25 @@ func _run() -> void:
 	})
 	assert(match3.match_feedback_panel.visible, "Special clear did not show the source feedback pill")
 	assert(match3.match_feedback_label.text == "НАБЛЮДЕНИЕ!", "Special feedback did not use the Russian source copy")
+	var special_cell: Control = match3.board.get_child(special_index)
+	var special_stack: Control = special_cell.get_node("TileStack")
+	var special_icon: TextureRect = special_stack.get_node("Special")
+	assert(is_equal_approx(special_icon.rotation_degrees, -8.0), "Flash Row activation did not start from the source impact keyframe")
+	await process_frame
+	var feedback_center := match3.match_feedback_panel.get_parent() as Control
+	var feedback_global: Rect2 = match3.match_feedback_panel.get_global_rect()
+	var expected_feedback_center := Vector2(
+		match3.board_frame.get_global_rect().get_center().x,
+		match3.board_frame.get_global_position().y + match3.board_frame.size.y * 0.48,
+	)
+	assert(feedback_center.get_parent() == match3.board_frame
+		and is_equal_approx(feedback_global.get_center().x, expected_feedback_center.x)
+		and is_equal_approx(feedback_global.get_center().y, expected_feedback_center.y),
+		"Match feedback should use the CSS 48 percent board point (got %s, expected %s)" % [
+			feedback_global.get_center(), expected_feedback_center,
+		])
 	var feedback_style := match3.match_feedback_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(feedback_style.bg_color == Color("#c07f35ef"), "Special feedback did not use the source amber treatment")
-	var special_cell: Control = match3.board.get_child(special_index)
 	assert(special_cell.pivot_offset == special_cell.custom_minimum_size * 0.5, "Board cell scale effects should pivot around the center like CSS transforms")
 	var source_outline: Panel = special_cell.get_node("SpecialImpactSourceOutline")
 	assert(is_equal_approx(source_outline.modulate.a, 1.0) and special_cell.z_index == 6,
@@ -871,12 +887,9 @@ func _run() -> void:
 		and target_flash_shader.code.contains("0.76") and target_flash_shader.code.contains("0.302")
 		and target_flash_shader.code.contains("0.161"),
 		"Special impact flash did not preserve the CSS radial gradient stops and opacity")
-	var special_stack: Control = special_cell.get_node("TileStack")
 	assert(special_stack.pivot_offset == special_cell.custom_minimum_size * 0.5, "Tile-stack scale effects should pivot around the source cell center")
-	var special_icon: TextureRect = special_stack.get_node("Special")
 	var special_shadow := special_icon.material as ShaderMaterial
 	var direction_marker: PanelContainer = special_stack.get_node("SpecialDirectionMarker")
-	assert(is_equal_approx(special_icon.rotation_degrees, -8.0), "Flash Row activation did not start from the source impact keyframe")
 	assert(direction_marker.get_child(0).text == "↔" and special_shadow != null
 		and is_equal_approx(special_shadow.get_shader_parameter("shadow_blur_px"), 2.0)
 		and (special_shadow.get_shader_parameter("shadow_color") as Color).to_html(false) == Color("#181426b8").to_html(false)
@@ -958,3 +971,15 @@ func _run() -> void:
 	await process_frame
 	print("UPDS Godot Match-3 campaign screen smoke test passed (sequential unlock and level routing).")
 	quit()
+
+
+func _has_weighted_cyrillic_serif(font: Font, weight: int) -> bool:
+	if not font is FontVariation or font.fallbacks.size() != 1: return false
+	var cyrillic := font.fallbacks[0] as FontVariation
+	if cyrillic == null or cyrillic.base_font != UiFonts.SERIF_CYRILLIC: return false
+	var expected_weight := mini(weight, 700)
+	var expected_embolden := float(weight - 700) / 500.0 if weight > 700 else 0.0
+	return (
+		is_equal_approx(cyrillic.variation_opentype.get("wght", 0.0), float(expected_weight))
+		and is_equal_approx(cyrillic.variation_embolden, expected_embolden)
+	)

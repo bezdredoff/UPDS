@@ -11,17 +11,25 @@ const SERIF_CYRILLIC: FontFile = preload("res://assets/fonts/NotoSerif-wdth-wght
 
 
 static func sans(weight: int = 400) -> FontVariation:
+	var cyrillic := FontVariation.new()
+	cyrillic.base_font = INTER_CYRILLIC
+	cyrillic.variation_opentype = {"wght": float(weight)}
 	var font := FontVariation.new()
 	font.base_font = INTER_LATIN
-	font.fallbacks = [INTER_CYRILLIC]
+	font.fallbacks = [cyrillic]
 	font.variation_opentype = {"wght": float(weight)}
 	return font
 
 
 static func serif(weight: int = 400) -> Font:
+	var cyrillic := FontVariation.new()
+	cyrillic.base_font = SERIF_CYRILLIC
+	cyrillic.variation_opentype = {"wght": float(mini(weight, 700))}
+	if weight > 700:
+		cyrillic.variation_embolden = float(weight - 700) / 500.0
 	var bundled := FontVariation.new()
 	bundled.base_font = GEORGIA_LATIN
-	bundled.fallbacks = [SERIF_CYRILLIC]
+	bundled.fallbacks = [cyrillic]
 	bundled.variation_opentype = {"wght": float(mini(weight, 700))}
 	if weight > 700:
 		bundled.variation_embolden = float(weight - 700) / 500.0

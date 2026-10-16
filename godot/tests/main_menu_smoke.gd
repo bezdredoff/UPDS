@@ -50,7 +50,7 @@ func _run_smoke() -> void:
 	assert(menu.get_node("Wash").stretch_mode == TextureRect.STRETCH_SCALE,
 		"The menu wash must fill the phone frame height rather than tile at texture resolution")
 
-	var locale := MenuCopy.system_locale()
+	var locale := MenuCopy.default_locale()
 	assert(menu.get_node("Content/Eyebrow").text == MenuCopy.text("eyebrow", locale))
 	var menu_title := menu.get_node("Content/Title") as RichTextLabel
 	assert(menu_title.text.contains(MenuCopy.text("title", locale)))

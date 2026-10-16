@@ -19,7 +19,7 @@ var audio: Dictionary:
 
 func _init(path: String = DEFAULT_PATH) -> void:
 	_path = path
-	locale = MenuCopy.system_locale()
+	locale = MenuCopy.default_locale()
 	var config := ConfigFile.new()
 	if config.load(_path) == OK:
 		var saved: Variant = config.get_value("interface", "locale", "")
