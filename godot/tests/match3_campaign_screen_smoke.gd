@@ -756,20 +756,36 @@ func _run() -> void:
 	assert(ingredient_icon.anchor_right == 1.0 and ingredient_icon.anchor_bottom == 1.0
 		and ingredient_icon.offset_left == 2.0 and ingredient_icon.z_index == 3,
 		"Production ingredient artwork did not preserve its 2px inset and source z-layer")
-	assert(ingredient_material != null and is_equal_approx(ingredient_material.get_shader_parameter("glow_white_radius_px"), 7.0)
-		and (ingredient_material.get_shader_parameter("glow_white") as Color).is_equal_approx(Color("#fff2a0"))
+	assert(ingredient_material != null
+		and (ingredient_material.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#00000088"))
+		and (ingredient_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0.0, 2.0))
+		and is_equal_approx(ingredient_material.get_shader_parameter("shadow_blur_px"), 2.0)
+		and is_zero_approx(ingredient_material.get_shader_parameter("glow_strength"))
 		and is_zero_approx((ingredient_material.get_shader_parameter("glow_gold") as Color).a)
 		and is_zero_approx((ingredient_material.get_shader_parameter("glow_aqua") as Color).a),
-		"Ingredient idle glow did not use the source yellow 7px drop shadow")
-	await create_timer(0.71).timeout
-	assert(ingredient_icon.offset_top < 2.0 and ingredient_icon.offset_bottom < -4.5
+		"Ingredient idle did not start with the source dark 2px drop shadow")
+	await create_timer(0.69).timeout
+	var peak_ingredient_shadow: Color = ingredient_material.get_shader_parameter("shadow_color")
+	assert(absf(ingredient_icon.offset_top) < 0.25 and absf(ingredient_icon.offset_bottom + 4.0) < 0.25
 		and ingredient_icon.scale.is_equal_approx(Vector2.ONE)
-		and float(ingredient_material.get_shader_parameter("glow_strength")) > 0.9,
-		"Ingredient idle did not reach the source 2px lift and yellow drop shadow")
-	await create_timer(0.72).timeout
-	assert(absf(ingredient_icon.offset_top - 3.0) < 0.25 and absf(ingredient_icon.offset_bottom + 3.0) < 0.25
-		and float(ingredient_material.get_shader_parameter("glow_strength")) < 0.05,
-		"Ingredient idle did not return to its source resting position and no-glow state")
+		and absf((ingredient_material.get_shader_parameter("shadow_offset_px") as Vector2).y) < 0.25
+		and float(ingredient_material.get_shader_parameter("shadow_blur_px")) > 6.7
+		and peak_ingredient_shadow.r > 0.98 and peak_ingredient_shadow.g > 0.9 and peak_ingredient_shadow.b > 0.55
+		and is_zero_approx(ingredient_material.get_shader_parameter("glow_strength")),
+		"Ingredient idle should preserve its size, lift 2px and interpolate to the source gold 7px shadow")
+	await create_timer(0.71).timeout
+	var resting_ingredient_shadow: Color = ingredient_material.get_shader_parameter("shadow_color")
+	var resting_shadow_offset: Vector2 = ingredient_material.get_shader_parameter("shadow_offset_px")
+	var resting_shadow_blur: float = ingredient_material.get_shader_parameter("shadow_blur_px")
+	var source_shadow_color := Color("#00000088")
+	assert(absf(ingredient_icon.offset_top - 2.0) < 0.25 and absf(ingredient_icon.offset_bottom + 2.0) < 0.25
+		and absf(resting_shadow_offset.y - 2.0) < 0.1
+		and absf(resting_shadow_blur - 2.0) < 0.1
+		and absf(resting_ingredient_shadow.r - source_shadow_color.r) < 0.03
+		and absf(resting_ingredient_shadow.g - source_shadow_color.g) < 0.03
+		and absf(resting_ingredient_shadow.b - source_shadow_color.b) < 0.03
+		and absf(resting_ingredient_shadow.a - source_shadow_color.a) < 0.03,
+		"Ingredient idle should return to its source geometry and dark 2px shadow (got top=%.2f bottom=%.2f offset=%s blur=%.2f color=%s)" % [ingredient_icon.offset_top, ingredient_icon.offset_bottom, resting_shadow_offset, resting_shadow_blur, resting_ingredient_shadow])
 	match3._render_board()
 	var preserved_cell_index: int = (settle_index + 1) % match3.game.tiles.size()
 	var preserved_cell_id: int = match3.board.get_child(preserved_cell_index).get_instance_id()
@@ -871,6 +887,12 @@ func _run() -> void:
 			special_index = index
 			break
 	assert(special_index >= 0, "Match-3 board has no open cell for the special impact sample")
+	assert(is_equal_approx(match3._special_impact_peak_duration(true), 0.1064)
+		and is_equal_approx(match3._special_impact_return_duration(true), 0.1736),
+		"Activated specials should reach their 1.11 CSS peak at 38% of the 280ms impact")
+	assert(is_equal_approx(match3._special_impact_peak_duration(false), 0.1176)
+		and is_equal_approx(match3._special_impact_return_duration(false), 0.1624),
+		"Affected targets should reach their 1.055 CSS peak at 42% of the 280ms impact")
 	var special_frame_specials: Array[String] = match3.game.specials.duplicate()
 	special_frame_specials[special_index] = "flash-row"
 	var impact_target := special_index + 1 if (special_index + 1) % columns != 0 else special_index - 1
@@ -944,6 +966,21 @@ func _run() -> void:
 	assert(special_cell.get_node_or_null("SpecialImpactFlash") != null, "Special clear did not create its visual impact flash")
 	assert(special_cell.get_node_or_null("SpecialImpactSourceOutline") != null, "Activated special did not receive its source outline")
 	assert(special_cell.get_node_or_null("SpecialImpactBeam") != null, "Line special did not create its directional beam")
+	var impact_beam := special_cell.get_node("SpecialImpactBeam") as ColorRect
+	var impact_beam_material := impact_beam.material as ShaderMaterial
+	var beam_core_size := special_cell.size.y * 0.12
+	var expected_beam_core_fraction := beam_core_size / (beam_core_size + 10.0)
+	assert((impact_beam_material.get_shader_parameter("beam_gold") as Color).is_equal_approx(Color("#fff5bdde"))
+		and (impact_beam_material.get_shader_parameter("beam_aqua") as Color).is_equal_approx(Color("#6ce2d3f2"))
+		and (impact_beam_material.get_shader_parameter("beam_stops") as Vector3).is_equal_approx(Vector3(0.2, 0.5, 0.8))
+		and absf(float(impact_beam_material.get_shader_parameter("beam_core_fraction")) - expected_beam_core_fraction) < 0.001
+		and is_equal_approx(impact_beam_material.get_shader_parameter("beam_blur_step_px"), 5.0)
+		and is_equal_approx(impact_beam.offset_top, -5.0) and is_equal_approx(impact_beam.offset_bottom, 5.0)
+		and impact_beam_material.shader.code.contains("beam_gold.a * clamp(point / beam_stops.x")
+		and impact_beam_material.shader.code.contains("mix(beam_gold, beam_aqua")
+		and impact_beam_material.shader.code.contains("mix(beam_aqua, beam_gold")
+		and impact_beam_material.shader.code.contains("for (int cross_index"),
+		"Line special beam did not preserve CSS colors, gradient stops and the 5px aqua drop shadow")
 	var target_cell: Control = match3.board.get_child(impact_target)
 	assert(target_cell.get_node_or_null("SpecialImpactTargetOutline") != null and target_cell.z_index == 3,
 		"Affected clear target did not rise above the board with its target outline")

@@ -21,6 +21,9 @@ const PhoneFrame = preload("res://scripts/phone_frame.gd")
 const SWAP_MOTION_SECONDS := 0.15
 const INVALID_HOLD_SECONDS := 0.70
 const CLEAR_MOTION_SECONDS := 0.28
+const SPECIAL_IMPACT_DURATION_SECONDS := 0.28
+const SPECIAL_IMPACT_SOURCE_PEAK_PROGRESS := 0.38
+const SPECIAL_IMPACT_TARGET_PEAK_PROGRESS := 0.42
 const SETTLE_MOTION_SECONDS := 0.32
 const RESHUFFLE_MOTION_SECONDS := 0.46
 const FEEDBACK_HOLD_SECONDS := 0.42
@@ -969,20 +972,20 @@ func _render_board() -> void:
 				ingredient.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_stack.add_child(ingredient)
 				var ingredient_material := (ingredient.material as ShaderMaterial).duplicate() as ShaderMaterial
-				ingredient_material.set_shader_parameter("glow_white", Color("#fff2a0"))
+				ingredient_material.set_shader_parameter("glow_white", Color(1, 1, 1, 0))
 				ingredient_material.set_shader_parameter("glow_gold", Color(0, 0, 0, 0))
 				ingredient_material.set_shader_parameter("glow_aqua", Color(0, 0, 0, 0))
-				ingredient_material.set_shader_parameter("glow_white_radius_px", 7.0)
+				ingredient_material.set_shader_parameter("glow_strength", 0.0)
 				ingredient.material = ingredient_material
 				if not reduced_motion:
 					var ingredient_bob := tile_button.create_tween().set_loops()
 					var css_ease_in_out := Callable(self, "_css_cubic_bezier").bind(0.42, 0.0, 0.58, 1.0)
-					ingredient_bob.tween_property(ingredient, "offset_top", 1.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -5.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_glow").bind(ingredient_material, false), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
-					ingredient_bob.tween_property(ingredient, "offset_top", 3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_glow").bind(ingredient_material, true), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
+					ingredient_bob.tween_property(ingredient, "offset_top", 0.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -4.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_shadow").bind(ingredient_material, false), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
+					ingredient_bob.tween_property(ingredient, "offset_top", 2.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -2.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_shadow").bind(ingredient_material, true), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
 		if not game.specials[index].is_empty():
 			var special_kind: String = game.specials[index]
 			var special_asset := str(campaign_bundle.assets.get("specials", {}).get(special_kind, ""))
@@ -1331,13 +1334,25 @@ func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: flo
 	return CssMotion.cubic_bezier(progress, x1, y1, x2, y2)
 
 
+func _special_impact_peak_duration(is_source: bool) -> float:
+	var peak_progress := SPECIAL_IMPACT_SOURCE_PEAK_PROGRESS if is_source else SPECIAL_IMPACT_TARGET_PEAK_PROGRESS
+	return SPECIAL_IMPACT_DURATION_SECONDS * peak_progress
+
+
+func _special_impact_return_duration(is_source: bool) -> float:
+	return SPECIAL_IMPACT_DURATION_SECONDS - _special_impact_peak_duration(is_source)
+
+
 func _prefers_reduced_motion() -> bool:
 	return ReducedMotion.is_enabled(_reduced_motion_override)
 
 
-func _set_ingredient_glow(progress: float, material: ShaderMaterial, reverse: bool) -> void:
+func _set_ingredient_shadow(progress: float, material: ShaderMaterial, reverse: bool) -> void:
 	var eased_progress := _css_cubic_bezier(progress, 0.42, 0.0, 0.58, 1.0)
-	material.set_shader_parameter("glow_strength", 1.0 - eased_progress if reverse else eased_progress)
+	if reverse: eased_progress = 1.0 - eased_progress
+	material.set_shader_parameter("shadow_color", Color("#00000088").lerp(Color("#fff2a0"), eased_progress))
+	material.set_shader_parameter("shadow_offset_px", Vector2(0.0, lerpf(2.0, 0.0, eased_progress)))
+	material.set_shader_parameter("shadow_blur_px", lerpf(2.0, 7.0, eased_progress))
 
 
 func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, blur: float, brightness: float = 1.0, saturation: float = 1.0, contrast: float = 1.0) -> ShaderMaterial:
@@ -1869,6 +1884,8 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		if index < 0 or index >= board.get_child_count(): continue
 		var cell := board.get_child(index) as Control
 		var is_source := activated_sources.has(index)
+		var peak_duration := _special_impact_peak_duration(is_source)
+		var return_duration := _special_impact_return_duration(is_source)
 		var resting_z_index := cell.z_index
 		cell.z_index = 6 if is_source else 3
 		var flash := ColorRect.new()
@@ -1913,13 +1930,13 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			outline_tween.finished.connect(outline.queue_free)
 		var impact_tween := create_tween()
 		var peak_scale := 1.11 if is_source else 1.055
-		impact_tween.tween_property(cell, "scale", Vector2(peak_scale, peak_scale), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+		impact_tween.tween_property(cell, "scale", Vector2(peak_scale, peak_scale), peak_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 		if not is_source:
-			impact_tween.parallel().tween_property(cell, "modulate", Color(1.42, 1.42, 1.42, 1.0), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
-		var return_impact := impact_tween.tween_property(cell, "scale", Vector2.ONE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			impact_tween.parallel().tween_property(cell, "modulate", Color(1.42, 1.42, 1.42, 1.0), peak_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+		var return_impact := impact_tween.tween_property(cell, "scale", Vector2.ONE, return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 		return_impact.from(Vector2(peak_scale, peak_scale))
 		if not is_source:
-			var return_brightness := impact_tween.parallel().tween_property(cell, "modulate", Color.WHITE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			var return_brightness := impact_tween.parallel().tween_property(cell, "modulate", Color.WHITE, return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 			return_brightness.from(Color(1.42, 1.42, 1.42, 1.0))
 		impact_tween.finished.connect(Callable(self, "_restore_special_impact_z_index").bind(cell, resting_z_index))
 		var special_kind := str(special_kinds[index]) if index < special_kinds.size() else ""
@@ -1927,6 +1944,8 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		var tile_stack := cell.get_node_or_null("TileStack") as Control
 		var special_icon := tile_stack.get_node_or_null("Special") as Control if tile_stack != null else null
 		if special_icon != null:
+			var icon_peak_duration := _special_impact_peak_duration(false)
+			var icon_return_duration := _special_impact_return_duration(false)
 			special_icon.pivot_offset = special_icon.size * 0.5
 			special_icon.scale = Vector2(0.82, 0.82)
 			special_icon.rotation_degrees = -8.0
@@ -1940,15 +1959,18 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			impact_material.set_shader_parameter("glow_aqua_radius_px", 14.0)
 			special_icon.material = impact_material
 			var icon_tween := create_tween()
-			icon_tween.tween_property(special_icon, "scale", Vector2(1.24, 1.24), 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
-			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 4.0, 0.118).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
-			icon_tween.tween_property(special_icon, "scale", Vector2.ONE, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
-			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 0.0, 0.162).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.tween_property(special_icon, "scale", Vector2(1.24, 1.24), icon_peak_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 4.0, icon_peak_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.tween_property(special_icon, "scale", Vector2.ONE, icon_return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 0.0, icon_return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 		if special_kind == "flash-row" or special_kind == "flash-column":
 			var beam := ColorRect.new()
+			var vertical_beam := special_kind == "flash-column"
+			var core_cross_size := cell.size.x * 0.12 if vertical_beam else cell.size.y * 0.12
+			var beam_core_fraction := core_cross_size / (core_cross_size + 10.0)
 			beam.name = "SpecialImpactBeam"
 			beam.pivot_offset = cell.size * 0.5
-			beam.material = _special_impact_beam_material(special_kind == "flash-column")
+			beam.material = _special_impact_beam_material(vertical_beam, beam_core_fraction)
 			beam.modulate.a = 0.0
 			beam.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			beam.z_index = 10
@@ -1957,11 +1979,15 @@ func _animate_special_impact(frame: Dictionary) -> void:
 				beam.anchor_right = 1.18
 				beam.anchor_top = 0.44
 				beam.anchor_bottom = 0.56
+				beam.offset_top = -5.0
+				beam.offset_bottom = 5.0
 			else:
 				beam.anchor_left = 0.44
 				beam.anchor_right = 0.56
 				beam.anchor_top = -0.18
 				beam.anchor_bottom = 1.18
+				beam.offset_left = -5.0
+				beam.offset_right = 5.0
 			cell.add_child(beam)
 			beam.scale = Vector2(1.0, 0.25) if special_kind == "flash-column" else Vector2(0.25, 1.0)
 			var beam_tween := create_tween()
@@ -2001,23 +2027,65 @@ func _special_impact_flash_material() -> ShaderMaterial:
 	return material
 
 
-func _special_impact_beam_material(vertical: bool) -> ShaderMaterial:
+func _special_impact_beam_material(vertical: bool, core_fraction: float) -> ShaderMaterial:
 	var shader := Shader.new()
 	shader.code = """
 	shader_type canvas_item;
 	uniform bool vertical_gradient = false;
+	uniform vec4 beam_gold : source_color = vec4(1.0, 0.960784, 0.741176, 0.870588);
+	uniform vec4 beam_aqua : source_color = vec4(0.423529, 0.886275, 0.827451, 0.949020);
+	uniform vec3 beam_stops = vec3(0.2, 0.5, 0.8);
+	uniform float beam_core_fraction = 0.5;
+	uniform float beam_blur_step_px = 5.0;
+	float gradient_alpha(float point) {
+		if (point < beam_stops.x) return beam_gold.a * clamp(point / beam_stops.x, 0.0, 1.0);
+		if (point < beam_stops.y) return mix(beam_gold.a, beam_aqua.a, (point - beam_stops.x) / (beam_stops.y - beam_stops.x));
+		if (point < beam_stops.z) return mix(beam_aqua.a, beam_gold.a, (point - beam_stops.y) / (beam_stops.z - beam_stops.y));
+		return beam_gold.a * (1.0 - clamp((point - beam_stops.z) / (1.0 - beam_stops.z), 0.0, 1.0));
+	}
 	void fragment() {
 		float point = vertical_gradient ? UV.y : UV.x;
-		float edge_alpha = smoothstep(0.0, 0.2, point) * (1.0 - smoothstep(0.8, 1.0, point));
-		float teal = 1.0 - min(abs(point - 0.5) * 5.0, 1.0);
-		vec3 gold = vec3(1.0, 0.96, 0.74);
-		vec3 aqua = vec3(0.42, 0.89, 0.83);
-		COLOR = vec4(mix(gold, aqua, teal), edge_alpha) * COLOR;
+		vec4 gradient;
+		if (point < beam_stops.x) {
+			gradient = vec4(beam_gold.rgb, beam_gold.a * clamp(point / beam_stops.x, 0.0, 1.0));
+		} else if (point < beam_stops.y) {
+			gradient = mix(beam_gold, beam_aqua, (point - beam_stops.x) / (beam_stops.y - beam_stops.x));
+		} else if (point < beam_stops.z) {
+			gradient = mix(beam_aqua, beam_gold, (point - beam_stops.y) / (beam_stops.z - beam_stops.y));
+		} else {
+			gradient = vec4(beam_gold.rgb, beam_gold.a * (1.0 - clamp((point - beam_stops.z) / (1.0 - beam_stops.z), 0.0, 1.0)));
+		}
+		float cross_point = vertical_gradient ? UV.x : UV.y;
+		float half_core = beam_core_fraction * 0.5;
+		float source_alpha = gradient.a * step(abs(cross_point - 0.5), half_core);
+		vec2 axis_delta = vertical_gradient ? dFdy(UV) : dFdx(UV);
+		vec2 cross_delta = vertical_gradient ? dFdx(UV) : dFdy(UV);
+		float blurred_alpha = 0.0;
+		for (int axis_index = -2; axis_index <= 2; axis_index++) {
+			float axis_weight = abs(axis_index) == 2 ? 0.0625 : abs(axis_index) == 1 ? 0.25 : 0.375;
+			for (int cross_index = -2; cross_index <= 2; cross_index++) {
+				float cross_weight = abs(cross_index) == 2 ? 0.0625 : abs(cross_index) == 1 ? 0.25 : 0.375;
+				vec2 sample_uv = UV + axis_delta * float(axis_index) * beam_blur_step_px + cross_delta * float(cross_index) * beam_blur_step_px;
+				float sample_axis = vertical_gradient ? sample_uv.y : sample_uv.x;
+				float sample_cross = vertical_gradient ? sample_uv.x : sample_uv.y;
+				float sample_mask = gradient_alpha(sample_axis) * step(abs(sample_cross - 0.5), half_core);
+				blurred_alpha += sample_mask * axis_weight * cross_weight;
+			}
+		}
+		vec3 glow_color = beam_aqua.rgb;
+		float output_alpha = source_alpha + blurred_alpha * (1.0 - source_alpha);
+		vec3 output_rgb = (gradient.rgb * source_alpha + glow_color * blurred_alpha * (1.0 - source_alpha)) / max(output_alpha, 0.0001);
+		COLOR = vec4(output_rgb, output_alpha) * COLOR;
 	}
 	"""
 	var material := ShaderMaterial.new()
 	material.shader = shader
 	material.set_shader_parameter("vertical_gradient", vertical)
+	material.set_shader_parameter("beam_gold", Color("#fff5bdde"))
+	material.set_shader_parameter("beam_aqua", Color("#6ce2d3f2"))
+	material.set_shader_parameter("beam_stops", Vector3(0.2, 0.5, 0.8))
+	material.set_shader_parameter("beam_core_fraction", core_fraction)
+	material.set_shader_parameter("beam_blur_step_px", 5.0)
 	return material
 
 
