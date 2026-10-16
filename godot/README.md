@@ -7,7 +7,7 @@ in small, verifiable slices.
 ## Engine and display baseline
 
 - Godot 4.7 stable, GDScript, Compatibility renderer.
-- Portrait logical viewport: 480 × 854, scaled with `canvas_items`.
+- Portrait logical viewport: 390 × 844, scaled with `canvas_items`.
 - `scenes/main_menu.tscn` is the project entry point; the connected story, endings and
   Match-3 campaign are playable in the native port.
 - `scenes/port_bootstrap.tscn` remains a minimal engine smoke-test fixture.
@@ -106,5 +106,12 @@ campaign through M3_21 and renders the terminal ending result.
 
 For isolated visual review, run `tests/vn_preview.tscn` in the editor: campaign
 progress is in memory and player saves remain untouched. The native reader supports
-Next, menu/settings return and keyboard controls; paging/history/auto remain later
-reader improvements.
+Next, menu/settings return, keyboard controls, dialogue paging, history, auto and skip.
+
+## Art parity captures
+
+`e2e/tools/godot-art-matrix.mjs` compares all copied portrait frames/poses, tiles,
+specials, ingredient routes and blocker layers against the complete production CSS.
+It uses a real native Compatibility renderer and an isolated Chromium fixture.
+See `docs/reviews/PG003AO_ART_MATRIX_2026-10-16_RU.md` for the command, captured
+evidence, numerical results and remaining full-screen/Web/motion work.

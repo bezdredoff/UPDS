@@ -15,6 +15,7 @@ const PhoneFrame = preload("res://scripts/phone_frame.gd")
 const Match3CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
 const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
+const ArtRendering = preload("res://scripts/art_rendering.gd")
 const ReducedMotion = preload("res://scripts/reduced_motion.gd")
 const UiFonts = preload("res://scripts/ui_fonts.gd")
 
@@ -464,6 +465,7 @@ func _refresh() -> void:
 		child.queue_free()
 	for actor in line.actors:
 		var portrait := TextureRect.new()
+		ArtRendering.configure(portrait)
 		portrait.name = actor.character
 		portrait.texture = load("res://" + str(actor.asset).trim_prefix("./"))
 		portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE

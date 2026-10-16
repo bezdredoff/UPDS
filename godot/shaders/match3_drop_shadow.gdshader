@@ -55,7 +55,12 @@ void fragment() {
 	alpha += texture(TEXTURE, UV - offset + blur_x - blur_y).a;
 	alpha += texture(TEXTURE, UV - offset - blur_x + blur_y).a;
 	alpha += texture(TEXTURE, UV - offset - blur_x - blur_y).a;
-	vec4 source = texture(TEXTURE, UV);
+	// A lower discrete mip level preserves browser-like detail when heavily
+	// minifying PNG art; blending into the next coarser mip visibly softens tiles.
+	vec2 texel_dx = dFdx(UV) / TEXTURE_PIXEL_SIZE;
+	vec2 texel_dy = dFdy(UV) / TEXTURE_PIXEL_SIZE;
+	float source_lod = floor(max(0.0, log2(max(length(texel_dx), length(texel_dy)))));
+	vec4 source = textureLod(TEXTURE, UV, source_lod);
 	source.rgb *= brightness;
 	float shadow_alpha = alpha / 16.0 * shadow_color.a;
 	vec3 shadow_rgb = shadow_color.rgb;
@@ -84,7 +89,8 @@ void fragment() {
 		? (source.rgb * source.a + under_rgb * (1.0 - source.a)) / output_alpha
 		: vec3(0.0);
 	output_rgb = (output_rgb - vec3(0.5)) * contrast + vec3(0.5);
-	float output_gray = dot(output_rgb, vec3(0.299, 0.587, 0.114));
+	// CSS saturate() uses the Filter Effects luminance matrix in sRGB.
+	float output_gray = dot(output_rgb, vec3(0.213, 0.715, 0.072));
 	output_rgb = mix(vec3(output_gray), output_rgb, saturation);
 	// Composite the filtered image first, then fade/tint the entire result once.
 	COLOR = vec4(output_rgb * item_modulation.rgb, output_alpha * item_modulation.a);

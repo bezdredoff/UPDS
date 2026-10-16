@@ -22,6 +22,11 @@ PR #467 исправил повторное умножение текстуры 
 
 Добавлен отдельный GPU render smoke (`godot/check-render.ps1`): opaque art, item opacity 50%, texture alpha 50%, цветная тень и source-over overlap. Старая версия shader провалила проверку на реальном Compatibility renderer; исправленная проходит. Парный Chromium CSS fixture даёт shadow alpha 128/64/64 из 255 и overlap alpha 160/255; Godot — 0.498/0.251/0.247 и 0.6235. Рецепт, результаты и ограничения: [отчёт о compositor](../reviews/PG003AO_ART_COMPOSITING_2026-10-16_RU.md). Это изолированная проверка фильтра, не приёмка игровых экранов, Web export или всех assets. Следующим остаётся пункт P0 матрицы персонажей/поз, tile/special/blocker states; отдельно измерить blur kernel, clipping за границами TextureRect и цепочки glow.
 
+### Матрица art — продолжение PR #469
+
+Добавлен воспроизводимый production CSS/native art capture для 84 states (36 персонажных кадров/поз, 10 tiles, 5 specials, 27 ingredient routes, 6 blocker layer states). Исправлены UI A tile scale/insets, приоритетный camisole filter, inner-border/padding у ingredients/blockers и 14% special bleed по обеим осям. Mipmaps для 59 source-identical PNG и фильтрация уменьшили измеренную среднюю RGB ошибку персонажей с 0.9171 до 0.3431, tiles — с 2.3215 до 0.7897. Все 84 geometry/filter/opacity contracts проходят; pixel metrics не заменяют визуальную приёмку. [Полный отчёт и парные captures](../reviews/PG003AO_ART_MATRIX_2026-10-16_RU.md). PR #469 пока открыт; это кандидат, не merged origin/main. Следом остаются Gaussian blur/clipping и composited/motion states, затем полная screen/locale/viewport матрица.
+
+
 ### Рабочий цикл для следующего компьютера
 
 1. Проверить checkout, `git status`, remote и `gh pr list --state open`; получить актуальный `origin/main`. Не переключать/удалять пользовательские изменения.

@@ -147,6 +147,10 @@ func _run() -> void:
 		and dialogue_paper.content_margin_top == 31,
 		"VN dialogue text should match the source card's measured 2px horizontal and vertical inset correction")
 	var portrait_shadow := idle_portrait.material as ShaderMaterial
+	assert(idle_portrait.texture_filter == CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS,
+		"Downscaled VN art must retain the render-audited mipmap filtering")
+	assert(idle_portrait.texture.get_image().has_mipmaps(),
+		"The imported portrait must actually contain mip levels for the production filter")
 	var portrait_shader_code: String = portrait_shadow.shader.code
 	assert(portrait_shadow != null
 		and (portrait_shadow.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#10162b59"))
