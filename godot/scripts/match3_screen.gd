@@ -891,7 +891,7 @@ func _render_board() -> void:
 			var css_ease_in_out := Callable(self, "_css_cubic_bezier").bind(0.42, 0.0, 0.58, 1.0)
 			hint_tween.tween_property(tile_button, "scale", Vector2(0.91, 0.91), 0.41).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 			hint_tween.parallel().tween_property(tile_button, "modulate", Color(1.18, 1.18, 1.18, 1.0), 0.41).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-			hint_tween.tween_property(tile_button, "scale", Vector2.ONE, 0.41).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+			hint_tween.chain().tween_property(tile_button, "scale", Vector2.ONE, 0.41).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 			hint_tween.parallel().tween_property(tile_button, "modulate", Color.WHITE, 0.41).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 		if game.blocker_layers[index] > 0:
 			var blocker_style: String = str(level_data.blockerStyle)
@@ -983,7 +983,7 @@ func _render_board() -> void:
 					ingredient_bob.tween_property(ingredient, "offset_top", 0.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -4.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_shadow").bind(ingredient_material, false), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
-					ingredient_bob.tween_property(ingredient, "offset_top", 2.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.chain().tween_property(ingredient, "offset_top", 2.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -2.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_shadow").bind(ingredient_material, true), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
 		if not game.specials[index].is_empty():
@@ -1284,7 +1284,7 @@ func _render_frame(frame: Dictionary) -> void:
 			var tween := create_tween()
 			tween.tween_property(tile_stack, "scale", Vector2(1.1, 1.1), CLEAR_MOTION_SECONDS * 0.48).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(clear_ease)
 			tween.parallel().tween_property(tile_stack, "modulate", Color(1.55, 1.55, 1.55, 1.0), CLEAR_MOTION_SECONDS * 0.48).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(clear_ease)
-			tween.tween_property(tile_stack, "scale", Vector2(0.18, 0.18), CLEAR_MOTION_SECONDS * 0.52).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(clear_ease)
+			tween.chain().tween_property(tile_stack, "scale", Vector2(0.18, 0.18), CLEAR_MOTION_SECONDS * 0.52).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(clear_ease)
 			tween.parallel().tween_property(tile_stack, "modulate", Color(1.8, 1.8, 1.8, 0.0), CLEAR_MOTION_SECONDS * 0.52).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(clear_ease)
 	elif str(frame.phase) == "settle":
 		for motion_value in frame.motions:
@@ -1305,7 +1305,7 @@ func _render_frame(frame: Dictionary) -> void:
 			tween.tween_property(tile_stack, "offset_top", cell.size.y * 0.03, SETTLE_MOTION_SECONDS * settle_mark).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
 			tween.parallel().tween_property(tile_stack, "offset_bottom", cell.size.y * 0.03, SETTLE_MOTION_SECONDS * settle_mark).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
 			tween.parallel().tween_property(tile_stack, "scale", Vector2(settle_scale, settle_scale), SETTLE_MOTION_SECONDS * settle_mark).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
-			tween.tween_property(tile_stack, "offset_top", 0.0, SETTLE_MOTION_SECONDS * (1.0 - settle_mark)).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
+			tween.chain().tween_property(tile_stack, "offset_top", 0.0, SETTLE_MOTION_SECONDS * (1.0 - settle_mark)).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
 			tween.parallel().tween_property(tile_stack, "offset_bottom", 0.0, SETTLE_MOTION_SECONDS * (1.0 - settle_mark)).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
 			var settle_back := tween.parallel().tween_property(tile_stack, "scale", Vector2.ONE, SETTLE_MOTION_SECONDS * (1.0 - settle_mark)).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(bezier)
 			settle_back.from(Vector2(settle_scale, settle_scale))
@@ -1326,7 +1326,7 @@ func _render_frame(frame: Dictionary) -> void:
 			tween.tween_property(tile_stack, "scale", Vector2(1.04, 1.04), RESHUFFLE_MOTION_SECONDS * 0.65).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 			tween.parallel().tween_property(tile_stack, "rotation_degrees", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 			tween.parallel().tween_property(tile_stack, "modulate:a", 1.0, RESHUFFLE_MOTION_SECONDS * 0.65)
-			tween.tween_property(tile_stack, "scale", Vector2.ONE, RESHUFFLE_MOTION_SECONDS * 0.35).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
+			tween.chain().tween_property(tile_stack, "scale", Vector2.ONE, RESHUFFLE_MOTION_SECONDS * 0.35).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 			tween.parallel().tween_property(tile_stack, "rotation_degrees", 0.0, RESHUFFLE_MOTION_SECONDS * 0.35).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease)
 
 
@@ -1341,6 +1341,11 @@ func _special_impact_peak_duration(is_source: bool) -> float:
 
 func _special_impact_return_duration(is_source: bool) -> float:
 	return SPECIAL_IMPACT_DURATION_SECONDS - _special_impact_peak_duration(is_source)
+
+
+func _restore_special_impact_z_index(cell_instance_id: int, resting_z_index: int) -> void:
+	var cell := instance_from_id(cell_instance_id) as Control
+	if is_instance_valid(cell): cell.z_index = resting_z_index
 
 
 func _prefers_reduced_motion() -> bool:
@@ -1913,7 +1918,7 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		var flash_tween := create_tween()
 		flash_tween.tween_property(flash, "modulate:a", 1.0, 0.095).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.04, 1.04), 0.095).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
-		flash_tween.tween_property(flash, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+		flash_tween.chain().tween_property(flash, "modulate:a", 0.0, 0.185).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 		flash_tween.parallel().tween_property(flash, "scale", Vector2(1.12, 1.12), 0.185).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 		flash_tween.finished.connect(flash.queue_free)
 		var outline := Panel.new()
@@ -1945,12 +1950,12 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		impact_tween.tween_property(cell, "scale", Vector2(peak_scale, peak_scale), peak_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 		if not is_source:
 			impact_tween.parallel().tween_property(cell, "modulate", Color(1.42, 1.42, 1.42, 1.0), peak_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
-		var return_impact := impact_tween.tween_property(cell, "scale", Vector2.ONE, return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+		var return_impact := impact_tween.chain().tween_property(cell, "scale", Vector2.ONE, return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 		return_impact.from(Vector2(peak_scale, peak_scale))
 		if not is_source:
 			var return_brightness := impact_tween.parallel().tween_property(cell, "modulate", Color.WHITE, return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 			return_brightness.from(Color(1.42, 1.42, 1.42, 1.0))
-		impact_tween.finished.connect(Callable(self, "_restore_special_impact_z_index").bind(cell, resting_z_index))
+		impact_tween.finished.connect(Callable(self, "_restore_special_impact_z_index").bind(cell.get_instance_id(), resting_z_index))
 		var special_kind := str(special_kinds[index]) if index < special_kinds.size() else ""
 		if special_kind.is_empty(): continue
 		var tile_stack := cell.get_node_or_null("TileStack") as Control
@@ -1984,7 +1989,7 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			var icon_tween := create_tween()
 			icon_tween.tween_property(special_icon, "scale", Vector2(1.24, 1.24), icon_peak_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 4.0, icon_peak_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
-			icon_tween.tween_property(special_icon, "scale", Vector2.ONE, icon_return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
+			icon_tween.chain().tween_property(special_icon, "scale", Vector2.ONE, icon_return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 0.0, icon_return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 		if special_kind == "flash-row" or special_kind == "flash-column":
 			var beam := ColorRect.new()
@@ -2016,14 +2021,9 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			var beam_tween := create_tween()
 			beam_tween.tween_property(beam, "modulate:a", 1.0, 0.098).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 			beam_tween.parallel().tween_property(beam, "scale", Vector2(1.15, 1.0), 0.098).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
-			beam_tween.tween_property(beam, "modulate:a", 0.0, 0.182).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+			beam_tween.chain().tween_property(beam, "modulate:a", 0.0, 0.182).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 			beam_tween.parallel().tween_property(beam, "scale", Vector2.ONE, 0.182).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 			beam_tween.finished.connect(beam.queue_free)
-
-
-func _restore_special_impact_z_index(cell: Control, resting_z_index: int) -> void:
-	if is_instance_valid(cell):
-		cell.z_index = resting_z_index
 
 
 func _special_impact_flash_material() -> ShaderMaterial:

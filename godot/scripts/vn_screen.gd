@@ -636,7 +636,7 @@ func _animate_portrait(portrait: TextureRect, travel: float) -> void:
 	var rise_bottom: PropertyTweener = breathing.parallel().tween_property(
 		portrait, "offset_bottom", resting_bottom - travel, 1.4)
 	rise_bottom.set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
-	var fall: PropertyTweener = breathing.tween_property(portrait, "offset_top", resting_top, 1.4)
+	var fall: PropertyTweener = breathing.chain().tween_property(portrait, "offset_top", resting_top, 1.4)
 	fall.set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
 	var fall_bottom: PropertyTweener = breathing.parallel().tween_property(
 		portrait, "offset_bottom", resting_bottom, 1.4)
@@ -862,7 +862,7 @@ func _update_dialogue_page() -> void:
 	var ease_in_out := Callable(self, "_idle_breathe_curve")
 	pulse.tween_property(prompt, "offset_top", 3.0, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
 	pulse.parallel().tween_property(prompt, "modulate:a", 0.45, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
-	pulse.tween_property(prompt, "offset_top", 0.0, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
+	pulse.chain().tween_property(prompt, "offset_top", 0.0, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
 	pulse.parallel().tween_property(prompt, "modulate:a", 1.0, 0.5).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
 
 
