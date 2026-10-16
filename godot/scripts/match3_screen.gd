@@ -1969,6 +1969,8 @@ func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
 				elif str(frame.phase) == "reshuffle":
 					_render_frame(frame)
 					await get_tree().create_timer(RESHUFFLE_MOTION_SECONDS).timeout
+		if active_reaction.get("pending", false):
+			_present_pending_narrative_reaction(str(active_reaction.reaction.id))
 		_render_board()
 		if reduced_motion and bool(result.get("reshuffled", false)):
 			_show_match_feedback("reshuffled")
@@ -2066,6 +2068,10 @@ func _present_narrative_reaction(result: Dictionary) -> void:
 	var reaction: Dictionary = reaction_runtime.resolve(level_id, context, triggered_reactions)
 	if reaction.is_empty(): return
 	var reaction_id := str(reaction.get("id", ""))
+	if active_reaction.get("pending", false):
+		var pending_reaction: Variant = active_reaction.get("reaction", null)
+		if pending_reaction is Dictionary and str(pending_reaction.get("id", "")) == reaction_id:
+			active_reaction.clear()
 	var reaction_policy := reaction_runtime.policy(reaction_id)
 	var now := Time.get_ticks_msec()
 	var last_presented: Variant = reaction_presented_at.get(reaction_id, null)
@@ -2074,6 +2080,17 @@ func _present_narrative_reaction(result: Dictionary) -> void:
 		return
 	if str(reaction.get("repeat", "")) == "once-per-attempt": triggered_reactions[reaction_id] = true
 	reaction_presented_at[reaction_id] = now
+	# Resolve and reserve the reaction before playback, but leave the authored
+	# bark visible until the board finishes the same swap/clear/settle frames as web.
+	active_reaction = {"pending": true, "reaction": reaction, "policy": reaction_policy.duplicate(true)}
+
+
+func _present_pending_narrative_reaction(reaction_id: String) -> void:
+	var pending: Variant = active_reaction.get("reaction", null)
+	if not active_reaction.get("pending", false) or not pending is Dictionary or str(pending.get("id", "")) != reaction_id:
+		return
+	var reaction: Dictionary = active_reaction.get("reaction", {})
+	var reaction_policy: Dictionary = active_reaction.get("policy", {})
 	active_reaction = reaction
 	reaction_generation += 1
 	var generation := reaction_generation
