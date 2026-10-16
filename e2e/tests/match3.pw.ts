@@ -219,6 +219,7 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
 
   test('Help stays centered inside the phone viewport without moving the board', async ({ page }, testInfo) => {
     const health = observeBrowserHealth(page);
+    await page.setViewportSize({ width: 390, height: 844 });
     await openDeterministicLab(page);
 
     const board = page.locator('.board[role="grid"]');
@@ -264,6 +265,44 @@ test.describe('Match-3 through Campaign and Level Lab', () => {
 
     const boardAfter = await board.boundingBox();
     if (!boardAfter) throw new Error('Missing Match-3 board while Help is open');
+    expect(boardAfter).toEqual(boardBefore);
+    health.assertClean();
+  });
+
+  test('Help uses the source compact sheet profile at 320×568', async ({ page }, testInfo) => {
+    const health = observeBrowserHealth(page);
+    await page.setViewportSize({ width: 320, height: 568 });
+    await openDeterministicLab(page);
+    const board = page.locator('.board[role="grid"]');
+    const boardBefore = await board.boundingBox();
+    await page.locator('.match-help-trigger').click();
+    const help = page.locator('.match-help-popover');
+    await expect(help).toBeVisible();
+    await expect(help.locator('.match-help-blocker')).toHaveCount(3);
+    await expect(help.locator('.match-help-special')).toHaveCount(5);
+    const compactGeometry = await help.evaluate((panel) => {
+      const rect = panel.getBoundingClientRect();
+      const style = getComputedStyle(panel);
+      return {
+        left: rect.left,
+        right: rect.right,
+        top: rect.top,
+        width: rect.width,
+        height: rect.height,
+        padding: style.padding,
+        headingSize: getComputedStyle(panel.querySelector('h2')!).fontSize,
+      };
+    });
+    expect(compactGeometry.left).toBeGreaterThanOrEqual(0);
+    expect(compactGeometry.right).toBeLessThanOrEqual(320);
+    expect(compactGeometry.width).toBeLessThanOrEqual(298);
+    expect(compactGeometry.top).toBeGreaterThanOrEqual(62);
+    expect(compactGeometry.height).toBeLessThanOrEqual(568 * 0.78 + 0.01);
+    expect(compactGeometry.padding).toBe('24px 16px 14px');
+    expect(compactGeometry.headingSize).toBe('20px');
+    expect(await help.evaluate((panel) => panel.scrollWidth <= panel.clientWidth + 1)).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath('bonus-help-320.png') });
+    const boardAfter = await board.boundingBox();
     expect(boardAfter).toEqual(boardBefore);
     health.assertClean();
   });

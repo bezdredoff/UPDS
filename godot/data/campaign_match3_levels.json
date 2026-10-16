@@ -12834,6 +12834,233 @@
       }
     }
   },
+  "helpLocalized": {
+    "en": {
+      "label": "HELP",
+      "title": "How the investigation works",
+      "intro": "A short rules reference you can open at any time. Opening it does not change the board or spend a move.",
+      "blockersTitle": "Bags, foam, locks and chains",
+      "specialsTitle": "Special tiles",
+      "specialsIntro": "A bonus replaces the normal tile artwork. The small corner marker shows its retained type.",
+      "closeHint": "Tap ? again to close Help.",
+      "blockers": {
+        "package": {
+          "title": "Bag",
+          "body": "A match on the bag or in a side-adjacent cell removes one layer. Diagonals do not count. You cannot move the tile under the bag until all its layers are removed."
+        },
+        "foam": {
+          "title": "Foam",
+          "body": "You can move and match the tile under the foam. A match on the foam or in a side-adjacent cell removes one layer; diagonal matches do not count."
+        },
+        "lock-chain": {
+          "title": "Lock and chains",
+          "body": "A match on the blocker or in a side-adjacent cell removes the lock first. Another such match removes the chains. Diagonals do not count; you cannot move the covered tile."
+        }
+      },
+      "specials": {
+        "flash-row": {
+          "title": "Horizontal flash",
+          "body": "Horizontal line of 4 → clears the entire row."
+        },
+        "flash-column": {
+          "title": "Vertical flash",
+          "body": "Vertical line of 4 → clears the entire column."
+        },
+        "evidence": {
+          "title": "Evidence",
+          "body": "T- or L-shaped match → clears a 3×3 area."
+        },
+        "lead": {
+          "title": "Lead",
+          "body": "2×2 square → clears nearby cells and one useful remote target."
+        },
+        "insight": {
+          "title": "Insight",
+          "body": "Line of 5+ → clears every tile of the retained type."
+        }
+      },
+      "topics": [
+        {
+          "title": "OBJECTIVE",
+          "body": "Complete every objective before you run out of moves. The cards at the top show the required objects and current progress."
+        },
+        {
+          "title": "HINT",
+          "body": "Hint marks the best legal move for the current objectives. Viewing it does not spend a move; after 30 seconds of inactivity it may appear automatically."
+        },
+        {
+          "title": "Clear obstacles",
+          "body": "A match on or directly above, below, left, or right of an obstacle removes 1 layer; diagonals do not. Tiles under it cannot move."
+        },
+        {
+          "title": "Drop story items",
+          "body": "Story items cannot be swapped. Clear cells below them so they fall, and guide each item to the bottom edge of the board."
+        },
+        {
+          "title": "Activate a special tile",
+          "body": "Longer or shaped matches create special investigation tools. When one appears, double-tap it to activate its effect immediately. Special tiles can also be swapped, and later tutorials will cover combining them."
+        },
+        {
+          "title": "Combine special tiles",
+          "body": "When two special tiles are next to each other, swap them together. Their effects combine into a stronger investigation move, and different special pairs can behave differently."
+        },
+        {
+          "title": "No available moves",
+          "body": "If the board has no legal moves, it reshuffles automatically. The reshuffle itself does not spend a move."
+        }
+      ]
+    },
+    "ru": {
+      "label": "СПРАВКА",
+      "title": "Как работает расследование",
+      "intro": "Короткая памятка по правилам. Её можно открыть в любой момент: состояние доски и число ходов не меняются.",
+      "blockersTitle": "Пакеты, пена и замки с цепями",
+      "specialsTitle": "Спецфишки",
+      "specialsIntro": "Бонус заменяет обычное изображение фишки. Маленький значок в углу показывает её сохранённый тип.",
+      "closeHint": "Нажмите на знак ? ещё раз, чтобы закрыть справку.",
+      "blockers": {
+        "package": {
+          "title": "Пакет",
+          "body": "Совпадение на пакете или в соседней по стороне клетке снимает один слой. Диагонали не считаются. Фишку под пакетом нельзя передвинуть, пока все его слои не будут сняты."
+        },
+        "foam": {
+          "title": "Пена",
+          "body": "Фишку под пеной можно двигать и собирать. Совпадение на пене или в соседней по стороне клетке снимает слой; диагональное совпадение не считается."
+        },
+        "lock-chain": {
+          "title": "Замок и цепи",
+          "body": "Совпадение на блокере или рядом с ним по стороне сначала снимает замок. Следующее такое совпадение убирает цепи. Диагональ не считается; фишку под блокером нельзя двигать."
+        }
+      },
+      "specials": {
+        "flash-row": {
+          "title": "Горизонтальная вспышка",
+          "body": "Горизонтальная линия из 4 → очищает весь ряд."
+        },
+        "flash-column": {
+          "title": "Вертикальная вспышка",
+          "body": "Вертикальная линия из 4 → очищает весь столбец."
+        },
+        "evidence": {
+          "title": "Улика",
+          "body": "Совпадение в форме T или L → очищает область 3×3."
+        },
+        "lead": {
+          "title": "Зацепка",
+          "body": "Квадрат 2×2 → очищает клетки рядом и одну полезную удалённую цель."
+        },
+        "insight": {
+          "title": "Озарение",
+          "body": "Линия из 5+ → очищает все фишки сохранённого типа."
+        }
+      },
+      "topics": [
+        {
+          "title": "ЦЕЛЬ",
+          "body": "Завершите все цели до окончания ходов. Карточки сверху показывают нужные объекты и текущий прогресс."
+        },
+        {
+          "title": "ПОДСКАЗКА",
+          "body": "Подсказка отмечает лучший допустимый ход с учётом текущих целей. Просмотр подсказки не тратит ход; после 30 секунд бездействия она может появиться автоматически."
+        },
+        {
+          "title": "Снимайте препятствия",
+          "body": "Совпадение на преграде или сверху, снизу, слева либо справа от неё снимает один слой; по диагонали — нет. Фишку под ней нельзя двигать."
+        },
+        {
+          "title": "Опускайте сюжетные предметы",
+          "body": "Сюжетные предметы нельзя менять местами. Освобождайте клетки под ними, чтобы они падали вниз, и доведите предмет до нижнего края поля."
+        },
+        {
+          "title": "Активируйте спецфишку",
+          "body": "Длинные или фигурные совпадения создают специальные инструменты расследования. Когда такой инструмент появится, дважды коснитесь его, чтобы сразу активировать эффект. Спецфишки также можно менять местами, а их комбинации разберём отдельно."
+        },
+        {
+          "title": "Комбинируйте спецфишки",
+          "body": "Когда две спецфишки стоят рядом, поменяйте их местами друг с другом. Их эффекты объединятся в усиленный ход расследования, а разные пары спецфишек могут срабатывать по-разному."
+        },
+        {
+          "title": "Нет доступных ходов",
+          "body": "Если на поле не осталось допустимых ходов, фишки автоматически перемешаются. Перемешивание не расходует ход."
+        }
+      ]
+    },
+    "be": {
+      "label": "ДАВЕДКА",
+      "title": "Як працуе расследаванне",
+      "intro": "Кароткая памятка па правілах. Яе можна адкрыць у любы момант: стан поля і колькасць хадоў не змяняюцца.",
+      "blockersTitle": "Пакеты, пена, замок і ланцугі",
+      "specialsTitle": "Спецфішкі",
+      "specialsIntro": "Бонус замяняе звычайную выяву фішкі. Маленькі значок у куце паказвае яе захаваны тып.",
+      "closeHint": "Націсніце ? яшчэ раз, каб закрыць даведку.",
+      "blockers": {
+        "package": {
+          "title": "Пакет",
+          "body": "Супадзенне на пакеце або ў суседняй клетцы зверху, знізу, злева ці справа здымае адзін слой. Дыяганалі не залічваюцца. Фішку пад пакетам нельга перасунуць, пакуль не будуць зняты ўсе яго слаі."
+        },
+        "foam": {
+          "title": "Пена",
+          "body": "Фішку пад пенай можна перасоўваць і збіраць. Супадзенне на пене або ў суседняй клетцы з боку здымае слой; дыяганальнае супадзенне не залічваецца."
+        },
+        "lock-chain": {
+          "title": "Замок і ланцугі",
+          "body": "Супадзенне на перашкодзе або побач з ёй з боку спачатку здымае замок. Наступнае такое супадзенне прыбірае ланцугі. Дыяганаль не залічваецца; фішку пад перашкодай нельга перасоўваць."
+        }
+      },
+      "specials": {
+        "flash-row": {
+          "title": "Гарызантальная ўспышка",
+          "body": "Гарызантальны рад з 4 → ачышчае ўвесь рад."
+        },
+        "flash-column": {
+          "title": "Вертыкальная ўспышка",
+          "body": "Вертыкальны слупок з 4 → ачышчае ўвесь слупок."
+        },
+        "evidence": {
+          "title": "Доказ",
+          "body": "Супадзенне ў форме T або L → ачышчае вобласць 3×3."
+        },
+        "lead": {
+          "title": "Зачэпка",
+          "body": "Квадрат 2×2 → ачышчае клеткі побач і адну карысную аддаленую мэту."
+        },
+        "insight": {
+          "title": "Азаранне",
+          "body": "Лінія з 5+ → ачышчае ўсе фішкі захаванага тыпу."
+        }
+      },
+      "topics": [
+        {
+          "title": "МЭТА",
+          "body": "Завяршыце ўсе мэты да заканчэння хадоў. Карткі зверху паказваюць патрэбныя аб’екты і бягучы прагрэс."
+        },
+        {
+          "title": "ПАДКАЗКА",
+          "body": "Падказка адзначае найлепшы дазволены ход з улікам бягучых мэт. Прагляд падказкі не траціць ход; пасля 30 секунд бяздзейнасці яна можа з’явіцца аўтаматычна."
+        },
+        {
+          "title": "Прыбірайце перашкоды",
+          "body": "Супадзенне на перашкодзе або ў клетцы зверху, знізу, злева ці справа ад яе здымае адзін слой; па дыяганалі — не. Фішкі пад ёй нельга перасоўваць."
+        },
+        {
+          "title": "Апускайце сюжэтныя прадметы",
+          "body": "Сюжэтныя прадметы нельга мяняць месцамі. Вызваляйце клеткі пад імі, каб яны падалі ўніз, і давядзіце прадмет да ніжняга краю поля."
+        },
+        {
+          "title": "Актывуйце спецфішку",
+          "body": "Доўгія або фігурныя супадзенні ствараюць спецыяльныя інструменты расследавання. Калі такі інструмент з'явіцца, двойчы дакраніцеся да яго, каб адразу актываваць эфект. Спецфішкі таксама можна мяняць месцамі, а іх камбінацыі разгледзім асобна."
+        },
+        {
+          "title": "Спалучайце спецфішкі",
+          "body": "Калі дзве спецфішкі стаяць побач, памяняйце іх месцамі. Іх эфекты аб'яднаюцца ва ўзмоцнены ход расследавання, а розныя пары спецфішак могуць спрацоўваць па-рознаму."
+        },
+        {
+          "title": "Няма даступных хадоў",
+          "body": "Калі на полі не засталося дазволеных хадоў, дошка аўтаматычна перамяшаецца. Само перамешванне не расходуе ход."
+        }
+      ]
+    }
+  },
   "assets": {
     "backgrounds": {
       "lockerAthletics": "./assets/backgrounds/BG_LOCKER_ATHLETICS_DAY.webp",
