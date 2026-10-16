@@ -751,7 +751,6 @@ func _render_board() -> void:
 		hinted_style.shadow_size = 15
 		hinted_style.shadow_offset = Vector2.ZERO
 		var hover_style := cell_style.duplicate() as StyleBoxFlat
-		hover_style.bg_color = Color("#3a5278")
 		tile_button.add_theme_stylebox_override("normal", selected_style if index == selected_index else hinted_style if hinted_indices.has(index) else cell_style)
 		tile_button.add_theme_stylebox_override("hover", hover_style)
 		tile_button.add_theme_stylebox_override("pressed", selected_style)
@@ -1324,6 +1323,17 @@ func _animate_swap(first: int, second: int, keep_at_target: bool) -> void:
 	var first_stack := first_cell.get_node_or_null("TileStack") as Control
 	var second_stack := second_cell.get_node_or_null("TileStack") as Control
 	if first_stack == null or second_stack == null: return
+	# The web board lifts both complete cells above the grid while their tile
+	# stacks travel. Otherwise the neighboring cells' opaque button surfaces
+	# cover the moving art and make it look like it disappears mid-swap.
+	var first_cell_z := first_cell.z_index
+	var second_cell_z := second_cell.z_index
+	var first_cell_clips := first_cell.clip_contents
+	var second_cell_clips := second_cell.clip_contents
+	first_cell.clip_contents = false
+	second_cell.clip_contents = false
+	first_cell.z_index = 8
+	second_cell.z_index = 8
 	var offset := second_cell.get_global_rect().position - first_cell.get_global_rect().position
 	if offset.is_zero_approx():
 		var columns := board.columns
@@ -1339,9 +1349,13 @@ func _animate_swap(first: int, second: int, keep_at_target: bool) -> void:
 	_tween_stack_offsets(tween, first_stack, offset, SWAP_MOTION_SECONDS)
 	_tween_stack_offsets(tween, second_stack, -offset, SWAP_MOTION_SECONDS)
 	await tween.finished
-	if keep_at_target: return
-	_reset_swap_stack(first_stack)
-	_reset_swap_stack(second_stack)
+	if not keep_at_target:
+		_reset_swap_stack(first_stack)
+		_reset_swap_stack(second_stack)
+	first_cell.z_index = first_cell_z
+	second_cell.z_index = second_cell_z
+	first_cell.clip_contents = first_cell_clips
+	second_cell.clip_contents = second_cell_clips
 
 
 func _return_rejected_swap(first: int, second: int) -> void:
@@ -1349,6 +1363,16 @@ func _return_rejected_swap(first: int, second: int) -> void:
 	var first_stack := (board.get_child(first) as Control).get_node_or_null("TileStack") as Control
 	var second_stack := (board.get_child(second) as Control).get_node_or_null("TileStack") as Control
 	if first_stack == null or second_stack == null: return
+	var first_cell := board.get_child(first) as Control
+	var second_cell := board.get_child(second) as Control
+	var first_cell_z := first_cell.z_index
+	var second_cell_z := second_cell.z_index
+	var first_cell_clips := first_cell.clip_contents
+	var second_cell_clips := second_cell.clip_contents
+	first_cell.z_index = 8
+	second_cell.z_index = 8
+	first_cell.clip_contents = false
+	second_cell.clip_contents = false
 	var back := create_tween()
 	back.set_parallel(true)
 	_tween_stack_offsets(back, first_stack, Vector2.ZERO, SWAP_MOTION_SECONDS)
@@ -1357,6 +1381,10 @@ func _return_rejected_swap(first: int, second: int) -> void:
 	await back.finished
 	_reset_swap_stack(first_stack)
 	_reset_swap_stack(second_stack)
+	first_cell.z_index = first_cell_z
+	second_cell.z_index = second_cell_z
+	first_cell.clip_contents = first_cell_clips
+	second_cell.clip_contents = second_cell_clips
 
 
 func _reset_swap_stack(stack: Control) -> void:
@@ -1931,6 +1959,8 @@ func _play_move_frames(result: Dictionary, first: int, second: int) -> void:
 				elif str(frame.phase) == "reshuffle":
 					_render_frame(frame)
 					await get_tree().create_timer(RESHUFFLE_MOTION_SECONDS).timeout
+		if active_reaction.get("pending", false):
+			_present_pending_narrative_reaction(str(active_reaction.reaction.id))
 		_render_board()
 		if reduced_motion and bool(result.get("reshuffled", false)):
 			_show_match_feedback("reshuffled")
@@ -2028,6 +2058,10 @@ func _present_narrative_reaction(result: Dictionary) -> void:
 	var reaction: Dictionary = reaction_runtime.resolve(level_id, context, triggered_reactions)
 	if reaction.is_empty(): return
 	var reaction_id := str(reaction.get("id", ""))
+	if active_reaction.get("pending", false):
+		var pending_reaction: Variant = active_reaction.get("reaction", null)
+		if pending_reaction is Dictionary and str(pending_reaction.get("id", "")) == reaction_id:
+			active_reaction.clear()
 	var reaction_policy := reaction_runtime.policy(reaction_id)
 	var now := Time.get_ticks_msec()
 	var last_presented: Variant = reaction_presented_at.get(reaction_id, null)
@@ -2036,6 +2070,17 @@ func _present_narrative_reaction(result: Dictionary) -> void:
 		return
 	if str(reaction.get("repeat", "")) == "once-per-attempt": triggered_reactions[reaction_id] = true
 	reaction_presented_at[reaction_id] = now
+	# Resolve and reserve the reaction before playback, but leave the authored
+	# bark visible until the board finishes the same swap/clear/settle frames as web.
+	active_reaction = {"pending": true, "reaction": reaction, "policy": reaction_policy.duplicate(true)}
+
+
+func _present_pending_narrative_reaction(reaction_id: String) -> void:
+	var pending: Variant = active_reaction.get("reaction", null)
+	if not active_reaction.get("pending", false) or not pending is Dictionary or str(pending.get("id", "")) != reaction_id:
+		return
+	var reaction: Dictionary = active_reaction.get("reaction", {})
+	var reaction_policy: Dictionary = active_reaction.get("policy", {})
 	active_reaction = reaction
 	reaction_generation += 1
 	var generation := reaction_generation
