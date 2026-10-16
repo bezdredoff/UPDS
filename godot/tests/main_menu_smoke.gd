@@ -65,10 +65,14 @@ func _run_smoke() -> void:
 	var new_game_button: Button = menu.get_node("Content/Actions/NewGame")
 	var menu_button_font := new_game_button.get_theme_font("font") as FontVariation
 	var secondary_button_font := continue_button.get_theme_font("font") as FontVariation
-	assert(menu_button_font != null and menu_button_font.variation_opentype.get("wght", 0.0) == 900.0
-		and secondary_button_font != null and secondary_button_font.variation_opentype.get("wght", 0.0) == 700.0
+	assert(menu_button_font != null and menu_button_font.variation_opentype.get("weight", 0.0) == 850.0
+		and secondary_button_font != null and secondary_button_font.variation_opentype.get("weight", 0.0) == 700.0
 		and menu_button_font.base_font == preload("res://assets/fonts/Inter-latin.woff2"),
 		"Main menu buttons should match the source font weights")
+	var eyebrow_font := menu.get_node("Content/Eyebrow").get_theme_font("font") as FontVariation
+	assert(eyebrow_font != null and eyebrow_font.spacing_glyph == 2
+		and menu.get_node("Content/Eyebrow").get_theme_font_size("font_size") == 9,
+		"Main menu eyebrow should match source tracking and visible height with the bundled font metrics")
 	assert(menu.get_node("Background").texture != null, "Clubroom background is missing")
 	for character in ["Miku", "Onoe", "Ayuki"]:
 		var medallion: Control = menu.get_node("Content/Hero/" + character)

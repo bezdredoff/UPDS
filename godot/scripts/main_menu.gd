@@ -68,7 +68,10 @@ func _ready() -> void:
 	_style_button($Content/Actions/Settings)
 	$Content/Title.add_theme_font_override("normal_font", UiFonts.serif(800))
 	$Content/Title.add_theme_constant_override("line_separation", -12)
-	$Content/Eyebrow.add_theme_font_override("font", UiFonts.sans(900))
+	var eyebrow_font := UiFonts.sans(900)
+	eyebrow_font.spacing_glyph = 2
+	$Content/Eyebrow.add_theme_font_override("font", eyebrow_font)
+	$Content/Eyebrow.add_theme_font_size_override("font_size", 9)
 	$Content/Tagline.add_theme_font_override("font", UiFonts.sans(400))
 	$Content/Footer.add_theme_font_override("font", UiFonts.sans(400))
 	_layout_menu()
@@ -375,5 +378,5 @@ func _style_button(button: Button, primary: bool = false) -> void:
 	var font_color := Color.WHITE if primary else Color("#29243d")
 	button.add_theme_color_override("font_disabled_color", font_color)
 	button.add_theme_stylebox_override("disabled", button.get_theme_stylebox("normal"))
-	var font := UiFonts.sans(900 if primary else 700)
+	var font := UiFonts.sans(850 if primary else 700)
 	button.add_theme_font_override("font", font)

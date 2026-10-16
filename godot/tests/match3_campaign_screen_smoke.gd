@@ -176,8 +176,8 @@ func _run() -> void:
 		"Match-3 narrative bark should use the regular display font")
 	var tutorial_body_font := match3.tutorial_body.get_theme_font("font") as FontVariation
 	var tutorial_button_font := match3.tutorial_button.get_theme_font("font") as FontVariation
-	assert(tutorial_body_font != null and tutorial_body_font.variation_opentype.get("wght", 0.0) == 700.0
-		and tutorial_button_font != null and tutorial_button_font.variation_opentype.get("wght", 0.0) == 950.0,
+	assert(tutorial_body_font != null and tutorial_body_font.variation_opentype.get("weight", 0.0) == 700.0
+		and tutorial_button_font != null and tutorial_button_font.variation_opentype.get("weight", 0.0) == 950.0,
 		"Match-3 tutorial copy and action should retain the source Inter sans stack")
 	if not OS.has_feature("web"):
 		var bundled_fallback := (comic_normal as SystemFont).fallbacks[0] as FontVariation
@@ -980,6 +980,6 @@ func _has_weighted_cyrillic_serif(font: Font, weight: int) -> bool:
 	var expected_weight := mini(weight, 700)
 	var expected_embolden := float(weight - 700) / 500.0 if weight > 700 else 0.0
 	return (
-		is_equal_approx(cyrillic.variation_opentype.get("wght", 0.0), float(expected_weight))
+		is_equal_approx(cyrillic.variation_opentype.get("weight", 0.0), float(expected_weight))
 		and is_equal_approx(cyrillic.variation_embolden, expected_embolden)
 	)

@@ -9,28 +9,30 @@ const COMIC_BOLD_CYRILLIC: FontFile = preload("res://assets/fonts/ComicRelief-Bo
 const GEORGIA_LATIN: FontFile = preload("res://assets/fonts/Gelasio-wght.ttf")
 const SERIF_CYRILLIC: FontFile = preload("res://assets/fonts/NotoSerif-wdth-wght.ttf")
 
+# Godot 4.7.2 ignores the documented "wght" tag alias; use "weight" to apply axes.
+
 
 static func sans(weight: int = 400) -> FontVariation:
 	var cyrillic := FontVariation.new()
 	cyrillic.base_font = INTER_CYRILLIC
-	cyrillic.variation_opentype = {"wght": float(weight)}
+	cyrillic.variation_opentype = {"weight": float(weight)}
 	var font := FontVariation.new()
 	font.base_font = INTER_LATIN
 	font.fallbacks = [cyrillic]
-	font.variation_opentype = {"wght": float(weight)}
+	font.variation_opentype = {"weight": float(weight)}
 	return font
 
 
 static func serif(weight: int = 400) -> Font:
 	var cyrillic := FontVariation.new()
 	cyrillic.base_font = SERIF_CYRILLIC
-	cyrillic.variation_opentype = {"wght": float(mini(weight, 700))}
+	cyrillic.variation_opentype = {"weight": float(mini(weight, 700))}
 	if weight > 700:
 		cyrillic.variation_embolden = float(weight - 700) / 500.0
 	var bundled := FontVariation.new()
 	bundled.base_font = GEORGIA_LATIN
 	bundled.fallbacks = [cyrillic]
-	bundled.variation_opentype = {"wght": float(mini(weight, 700))}
+	bundled.variation_opentype = {"weight": float(mini(weight, 700))}
 	if weight > 700:
 		bundled.variation_embolden = float(weight - 700) / 500.0
 	if OS.has_feature("web"):
@@ -50,7 +52,7 @@ static func match3(weight: int = 400) -> Font:
 	if bold:
 		bundled.variation_embolden = float(maxi(0, weight - 700)) / 500.0
 	else:
-		bundled.variation_opentype = {"wght": float(weight)}
+		bundled.variation_opentype = {"weight": float(weight)}
 	# Godot SystemFont is not implemented by the Web export. On Playgama/Web,
 	# return the bundled Comic Relief face directly instead of falling back to
 	# the project's Inter theme font.
