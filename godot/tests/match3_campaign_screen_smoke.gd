@@ -447,7 +447,7 @@ func _run() -> void:
 		and normal_tile.scale.is_equal_approx(Vector2(1.04, 1.04))
 		and normal_tile.z_index == 1
 		and normal_tile_material != null
-		and (normal_tile_material.shader.code as String).contains("vec4 source = COLOR;")
+		and normal_tile_material.shader == preload("res://shaders/match3_drop_shadow.gdshader")
 		and not (normal_tile_material.shader.code as String).contains("texture(TEXTURE, UV) * COLOR")
 		and (normal_tile_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2))
 		and is_equal_approx(normal_tile_material.get_shader_parameter("saturation"), 1.05),

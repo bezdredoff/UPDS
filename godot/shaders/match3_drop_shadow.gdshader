@@ -14,6 +14,14 @@ uniform float glow_white_radius_px = 5.0;
 uniform float glow_gold_radius_px = 10.0;
 uniform float glow_aqua_radius_px = 14.0;
 
+// Fragment COLOR already includes texture RGBA. Keep item/parent modulation
+// separately so transparent texels do not erase the shadow or tint it twice.
+varying vec4 item_modulation;
+
+void vertex() {
+	item_modulation = COLOR;
+}
+
 float blurred_alpha(sampler2D source_texture, vec2 uv, vec2 pixel_x, vec2 pixel_y, float sigma_px) {
 	float weighted_alpha = 0.0;
 	float total_weight = 0.0;
@@ -47,11 +55,10 @@ void fragment() {
 	alpha += texture(TEXTURE, UV - offset + blur_x - blur_y).a;
 	alpha += texture(TEXTURE, UV - offset - blur_x + blur_y).a;
 	alpha += texture(TEXTURE, UV - offset - blur_x - blur_y).a;
-	// Fragment COLOR already contains the default texture multiplied by item modulation.
-	vec4 source = COLOR;
+	vec4 source = texture(TEXTURE, UV);
 	source.rgb *= brightness;
-	float shadow_alpha = alpha / 16.0 * shadow_color.a * COLOR.a * (1.0 - source.a);
-	vec3 shadow_rgb = shadow_color.rgb * COLOR.rgb;
+	float shadow_alpha = alpha / 16.0 * shadow_color.a;
+	vec3 shadow_rgb = shadow_color.rgb;
 	float glow_white_alpha = glow_strength > 0.001 && glow_white.a > 0.001
 		? blurred_alpha(TEXTURE, UV, pixel_x, pixel_y, glow_white_radius_px) * glow_strength * glow_white.a
 		: 0.0;
@@ -64,10 +71,6 @@ void fragment() {
 			+ glow_gold_radius_px * glow_gold_radius_px + glow_aqua_radius_px * glow_aqua_radius_px))
 			* glow_strength * glow_aqua.a
 		: 0.0;
-	float outside_source = 1.0 - source.a;
-	glow_white_alpha *= outside_source;
-	glow_gold_alpha *= outside_source;
-	glow_aqua_alpha *= outside_source;
 	float background_alpha = glow_aqua_alpha
 		+ glow_gold_alpha * (1.0 - glow_aqua_alpha)
 		+ glow_white_alpha * (1.0 - glow_aqua_alpha) * (1.0 - glow_gold_alpha);
@@ -83,5 +86,6 @@ void fragment() {
 	output_rgb = (output_rgb - vec3(0.5)) * contrast + vec3(0.5);
 	float output_gray = dot(output_rgb, vec3(0.299, 0.587, 0.114));
 	output_rgb = mix(vec3(output_gray), output_rgb, saturation);
-	COLOR = vec4(output_rgb, output_alpha);
+	// Composite the filtered image first, then fade/tint the entire result once.
+	COLOR = vec4(output_rgb * item_modulation.rgb, output_alpha * item_modulation.a);
 }

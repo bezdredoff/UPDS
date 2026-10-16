@@ -39,6 +39,16 @@ bridge listens on localhost port 6510 and is intended for development, not expor
 builds. Keep this editor open while using Codex Godot tools for live scene inspection
 and runtime interaction.
 
+
+GPU compositing validation is separate from the headless logic smoke suite. Run
+`./godot/check-render.ps1 -GodotPath "C:\path\to\Godot_console.exe"` on a Windows
+machine with a real Compatibility renderer. Optional `-CapturePath` saves the raw
+transparent viewport readback (premultiplied RGB). The runner rejects shader/script
+errors and missing success markers; it checks source-over, texture alpha, colored
+shadows and parent/item opacity using rendered pixels. Headless dummy rendering
+cannot validate these pixels. See
+`docs/reviews/PG003AO_ART_COMPOSITING_2026-10-16_RU.md` for the Chromium comparison.
+
 The main menu localizes to English, Russian or Belarusian. Settings opens a native
 language selector; the choice is saved separately from campaign progress in
 `user://player_preferences.cfg` and immediately updates the menu. Without a valid

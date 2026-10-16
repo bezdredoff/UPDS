@@ -153,9 +153,9 @@ func _run() -> void:
 		and (portrait_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0.0, 12.0))
 		and is_equal_approx(portrait_shadow.get_shader_parameter("shadow_blur_px"), 12.0),
 		"VN character portrait did not preserve the source drop shadow treatment")
-	assert(portrait_shader_code.contains("vec4 source = COLOR;")
+	assert(portrait_shadow.shader == preload("res://shaders/match3_drop_shadow.gdshader")
 		and not portrait_shader_code.contains("texture(TEXTURE, UV) * COLOR"),
-		"VN portrait texture color must be applied only once before the drop shadow")
+		"VN portraits must use the render-tested compositor without squaring texture color")
 	assert(idle_portrait.get_global_rect().end.y > screen.dialogue_panel.position.y,
 		"The portrait must continue underneath the overlayed VN dialogue card")
 	assert(screen._portrait_should_breathe("./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"),
