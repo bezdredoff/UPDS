@@ -85,6 +85,16 @@ func _run() -> void:
 			"Native VN scene title should request the source Georgia serif weight 800")
 	assert(screen.title.get_theme_font_size("font_size") == 11,
 		"Standard VN scene title should use the source 11px size")
+	var case_button_style := screen.case_button.get_theme_stylebox("normal") as StyleBoxFlat
+	var case_button_hover := screen.case_button.get_theme_stylebox("hover") as StyleBoxFlat
+	assert(case_button_style.bg_color.is_equal_approx(Color("#223b58"))
+		and case_button_style.border_color.is_equal_approx(Color("#8195aa"))
+		and case_button_style.corner_radius_top_left == 9
+		and case_button_style.content_margin_left == 9
+		and case_button_style.content_margin_right == 7
+		and case_button_hover.bg_color.is_equal_approx(Color("#2b4a68"))
+		and case_button_hover.border_color.is_equal_approx(Color("#e3ca84")),
+		"VN case pill should match the source blue-gray surface, border, radius and hover state")
 	assert(absf(screen.size.x - 430.0) < 1.0, "Story screens must share the web phone frame width")
 	assert(not screen.stage.clip_contents, "Authored characters must continue behind the VN dialogue panel")
 	assert(is_equal_approx(screen.stage.position.y, 60.0)
@@ -110,7 +120,7 @@ func _run() -> void:
 		"Centered VN portraits should preserve the source center anchor and 1024x1536 frame ratio")
 	assert(screen.dialogue.size.y >= 67.0,
 		"The dialogue text must receive enough layout height to remain visible in its panel")
-	assert(absf(screen.dialogue.size.x - (screen.size.x - 64.0)) < 1.0,
+	assert(absf(screen.dialogue.size.x - (screen.size.x - 68.0)) < 1.0,
 		"VN pagination must measure the same inner width as the visible dialogue text")
 	assert(screen.dialogue.get_theme_font_size("normal_font_size") == (16 if OS.has_feature("web") else 18),
 		"Godot dialogue font metrics should preserve the source line wrap at the 430px phone width")
@@ -131,8 +141,11 @@ func _run() -> void:
 		"Only a narrow phone width should use compact nameplate and speaker sizing")
 	screen.size.x = vn_width_before_compact_check
 	screen._layout_vn()
-	assert(is_equal_approx(screen.dialogue.global_position.y, screen.dialogue_panel.position.y + 45.0),
-		"The VN dialogue text should match the source card's top inset")
+	var dialogue_paper := screen.dialogue_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	assert(is_equal_approx(screen.dialogue.global_position.y, screen.dialogue_panel.position.y + 43.0)
+		and dialogue_paper.content_margin_left == 22 and dialogue_paper.content_margin_right == 22
+		and dialogue_paper.content_margin_top == 31,
+		"VN dialogue text should match the source card's measured 2px horizontal and vertical inset correction")
 	var portrait_shadow := idle_portrait.material as ShaderMaterial
 	var portrait_shader_code: String = portrait_shadow.shader.code
 	assert(portrait_shadow != null
