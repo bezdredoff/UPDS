@@ -5,6 +5,7 @@ const Session = preload("res://scripts/story_session.gd")
 const Store = preload("res://scripts/campaign_store.gd")
 const Format = preload("res://scripts/save_format.gd")
 const Match3Session = preload("res://scripts/match3_campaign_session.gd")
+const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const Copy = preload("res://scripts/menu_copy.gd")
 const Prologue = preload("res://data/prologue.json")
 const LockerScene = preload("res://data/locker_scene.json")
@@ -987,15 +988,81 @@ func _vn_reading_controls(menu: Control) -> void:
 		and dossier_backdrop.material == null,
 		"Full-screen dossier should use back/settings navigation without a dimmed modal backdrop")
 	var dossier_header_style := screen.overlay.find_child("OverlayHeader", true, false).get_theme_stylebox("panel") as StyleBoxFlat
-	assert(dossier_header_style.bg_color.is_equal_approx(Color("#fffaf2"))
-		and dossier_header_style.get_border_width(SIDE_BOTTOM) == 1,
-		"Dossier heading should use the light-paper full-page header palette")
+	var dossier_heading := screen.overlay.find_child("DossierHeading", true, false) as Label
+	assert(dossier_header_style.bg_color.is_equal_approx(Color("#1d3551"))
+		and dossier_header_style.border_color.is_equal_approx(Color("#d3b068"))
+		and dossier_header_style.get_border_width(SIDE_TOP) == 1
+		and dossier_header_style.corner_radius_top_left == 14
+		and dossier_header_style.content_margin_left == 15
+		and dossier_header_style.content_margin_right == 17
+		and screen.overlay.z_index > (screen.find_child("HeaderBackground", true, false) as Control).z_index
+		and dossier_heading.get_theme_font_size("font_size") == 32
+		and dossier_back.custom_minimum_size == Vector2(40, 40),
+		"Dossier should cover the VN header and match source style (header %s border %s margins %s/%s overlay z %s, heading size %s, back %s)"
+		% [dossier_header_style.bg_color, dossier_header_style.border_color,
+		dossier_header_style.content_margin_left, dossier_header_style.content_margin_right,
+		screen.overlay.z_index, dossier_heading.get_theme_font_size("font_size"), dossier_back.custom_minimum_size])
+	assert(screen.overlay_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_SHOW_NEVER,
+		"Full-page dossier should hide its scrollbar without reserving source content width")
 	assert(screen.dossier_clues.get_child_count() == 22, "The dossier should render all campaign clue cards")
+	var dossier_padding := screen.overlay.find_child("DossierPadding", true, false) as MarginContainer
+	assert(is_equal_approx(screen.dossier_clues.size.x, screen.size.x - 40.0)
+		and is_equal_approx(dossier_padding.size.x, screen.size.x),
+		"Dossier clue grid should fill the page between its source 20px side insets (screen %s, padding %s, grid %s)"
+		% [screen.size, dossier_padding.size, screen.dossier_clues.size])
 	var first_clue: PanelContainer = screen.dossier_clues.get_child(0)
 	var first_clue_body: VBoxContainer = first_clue.get_child(0)
 	var first_clue_art: PanelContainer = first_clue_body.get_child(0)
 	assert(is_equal_approx(first_clue_art.custom_minimum_size.y, 92.0),
 		"Dossier clue artwork should match the 92px source image frame")
+	var first_clue_style := first_clue.get_theme_stylebox("panel") as StyleBoxFlat
+	var first_clue_art_style := first_clue_art.get_theme_stylebox("panel") as StyleBoxFlat
+	var first_clue_number := first_clue_body.find_child("ClueNumber", true, false) as Label
+	var first_clue_title := first_clue_body.find_child("ClueTitle", true, false) as Label
+	var first_clue_summary := first_clue_body.find_child("ClueSummary", true, false) as Label
+	assert(first_clue_body.get_theme_constant("separation") == 0
+		and first_clue_style.content_margin_left == 11
+		and first_clue_style.content_margin_bottom == 10
+		and screen.dossier_clues.get_theme_constant("h_separation") == 9
+		and screen.dossier_clues.get_theme_constant("v_separation") == 9
+		and (first_clue_body.find_child("ClueNumberTopGap", true, false) as Control).custom_minimum_size.y == 7.0
+		and (first_clue_body.find_child("ClueTitleTopGap", true, false) as Control).custom_minimum_size.y == 2.0
+		and (first_clue_body.find_child("ClueSummaryTopGap", true, false) as Control).custom_minimum_size.y == 5.0,
+		"Dossier clue cards should follow the source's padding and label spacing")
+	assert(is_equal_approx(first_clue.modulate.a, 0.65)
+		and first_clue_style.bg_color.is_equal_approx(Color("#fffdf9"))
+		and first_clue_art_style.bg_color.is_equal_approx(screen._dossier_grayscale(Color("#33223a")))
+		and first_clue_number.get_theme_color("font_color").is_equal_approx(screen._dossier_grayscale(Color("#d95f70")))
+		and first_clue_title.get_theme_color("font_color").is_equal_approx(screen._dossier_grayscale(Color("#29243d")))
+		and first_clue_summary.get_theme_color("font_color").is_equal_approx(screen._dossier_grayscale(Color("#746d7c"))),
+		"Locked dossier clues should preserve the web's grayscale-80% and opacity-65% treatment")
+	var campaign_levels: Array = CampaignData.load_bundle().get("levels", [])
+	var first_clue_data: Dictionary = campaign_levels[0]
+	var first_evidence: Dictionary = first_clue_data.get("evidence", {})
+	session.state.clues.append("CUE_001")
+	screen._add_clue_card(first_clue_data, 1)
+	var unlocked_clue: PanelContainer = screen.dossier_clues.get_child(screen.dossier_clues.get_child_count() - 1)
+	var unlocked_body: VBoxContainer = unlocked_clue.get_child(0)
+	var unlocked_art: PanelContainer = unlocked_body.get_child(0)
+	var unlocked_image: TextureRect = unlocked_art.get_child(0)
+	var unlocked_title: Label = unlocked_body.find_child("ClueTitle", true, false) as Label
+	var unlocked_summary: Label = unlocked_body.find_child("ClueSummary", true, false) as Label
+	var unlocked_number: Label = unlocked_body.find_child("ClueNumber", true, false) as Label
+	var unlocked_title_font := unlocked_title.get_theme_font("font") as FontVariation
+	var unlocked_number_font := unlocked_number.get_theme_font("font") as FontVariation
+	var first_localized: Dictionary = first_evidence.get("localized", {}).get(menu.preferences.locale, {})
+	assert(unlocked_clue.modulate.is_equal_approx(Color.WHITE)
+		and unlocked_image.texture != null
+		and unlocked_image.texture.resource_path == "res://assets/clues/clue_laundry_receipt.png"
+		and unlocked_art.get_theme_stylebox("panel").bg_color.is_equal_approx(Color("#33223a"))
+		and unlocked_title.text == str(first_localized.get("title", ""))
+		and unlocked_summary.text == str(first_localized.get("summary", ""))
+		and unlocked_title_font.variation_opentype.get("weight", 0.0) == 700.0
+		and unlocked_number_font.variation_opentype.get("weight", 0.0) == 900.0
+		and unlocked_summary.get_theme_constant("line_spacing") == 1,
+		"Unlocked dossier clues should show the source art and localized copy with source typography")
+	unlocked_clue.queue_free()
+	session.state.clues.erase("CUE_001")
 	var selected_clue_style := screen.dossier_clues_tab.get_theme_stylebox("normal") as StyleBoxFlat
 	assert(not screen.dossier_clues_tab.disabled
 		and selected_clue_style.get_border_width(SIDE_BOTTOM) == 3
@@ -1006,6 +1073,32 @@ func _vn_reading_controls(menu: Control) -> void:
 	assert(screen.dossier_theories.visible and not screen.dossier_clues.visible
 		and screen.dossier_theories_tab.has_focus(),
 		"Right arrow should switch dossier tabs and move focus like the source tablist")
+	var theories_heading := screen.dossier_theories.find_child("TheoriesHeading", true, false) as Label
+	var suspect_row := screen.dossier_theories.find_child("SuspectTheoryK", true, false) as PanelContainer
+	var suspect_badge := suspect_row.find_child("SuspectInitial", true, false) as PanelContainer
+	var suspect_badge_style := suspect_badge.get_theme_stylebox("panel") as StyleBoxFlat
+	var suspect_row_style := suspect_row.get_theme_stylebox("panel") as StyleBoxFlat
+	var reset_button := screen.overlay.find_child("ResetDossierProgress", true, false) as Button
+	assert(theories_heading.get_theme_font_size("font_size") == 20
+		and suspect_badge.custom_minimum_size == Vector2(38, 38)
+		and suspect_badge_style.bg_color.is_equal_approx(Color("#d95f70"))
+		and suspect_badge_style.corner_radius_top_left == 19
+		and suspect_row_style.content_margin_left == 10
+		and suspect_row_style.content_margin_top == 11
+		and screen.dossier_theories.get_theme_constant("separation") == 5
+		and (suspect_row.find_child("SuspectDetailsTopGap", true, false) as Control).custom_minimum_size.y == 5.0
+		and (screen.overlay.find_child("DossierResetTopGap", true, false) as Control).custom_minimum_size.y == 22.0
+		and reset_button.custom_minimum_size.y == 0
+		and reset_button.get_theme_font_size("font_size") == 11
+		and (reset_button.get_theme_stylebox("normal") as StyleBoxFlat).bg_color.a == 0.0,
+		"Dossier theories should use the source serif heading, circular suspect badge and plain reset link")
+	screen._add_suspect_theory("N", "Норихиро", "РАСКРЫТА", true)
+	var cleared_suspect := screen.dossier_theories.find_child("SuspectTheoryN", true, false) as PanelContainer
+	var cleared_badge := cleared_suspect.find_child("SuspectInitial", true, false) as PanelContainer
+	var cleared_status := cleared_suspect.find_child("SuspectStatus", true, false) as Label
+	assert((cleared_badge.get_theme_stylebox("panel") as StyleBoxFlat).bg_color.is_equal_approx(Color("#2b6f6c"))
+		and cleared_status.get_theme_color("font_color").is_equal_approx(Color("#2b6f6c")),
+		"Cleared dossier theories should use the source teal badge and status color")
 	screen._unhandled_key_input(_dossier_tab_key(KEY_LEFT))
 	assert(screen.dossier_clues.visible and not screen.dossier_theories.visible
 		and screen.dossier_clues_tab.has_focus(),
@@ -1018,6 +1111,10 @@ func _vn_reading_controls(menu: Control) -> void:
 	await process_frame
 	await process_frame
 	var history_card: PanelContainer = screen.overlay.find_child("OverlayCard", true, false)
+	var history_header_style := screen.overlay.find_child("OverlayHeader", true, false).get_theme_stylebox("panel") as StyleBoxFlat
+	assert(history_header_style.corner_radius_top_left == 16
+		and history_header_style.corner_radius_bottom_left == 0,
+		"Modal history should retain its original top-only header rounding")
 	for _attempt in range(12):
 		if history_card.size.y < 205.0:
 			break

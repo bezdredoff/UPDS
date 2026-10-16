@@ -67,6 +67,7 @@ var overlay_body: VBoxContainer
 var overlay_scroll: ScrollContainer
 var dossier_clues: GridContainer
 var dossier_theories: VBoxContainer
+var dossier_clue_top_gap: Control
 var dossier_clues_tab: Button
 var dossier_theories_tab: Button
 var _dossier_tab := "clues"
@@ -1130,7 +1131,7 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 	overlay = Control.new()
 	overlay.name = "VnOverlay"
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	overlay.z_index = 20
+	overlay.z_index = 30 if full_screen else 20
 	var dim := ColorRect.new()
 	dim.name = "OverlayBackdrop"
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -1177,25 +1178,30 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 	overlay.add_child(card)
 	var layout := VBoxContainer.new()
 	layout.name = "OverlayLayout"
+	layout.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	layout.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	layout.add_theme_constant_override("separation", 0)
 	card.add_child(layout)
 	var header_panel := PanelContainer.new()
 	header_panel.name = "OverlayHeader"
 	header_panel.custom_minimum_size.y = 58 if full_screen else 68
 	var header_style := StyleBoxFlat.new()
-	header_style.bg_color = Color("#fffaf2") if full_screen else Color("#1d3551")
-	header_style.border_color = Color("#e7d6b6")
-	header_style.border_width_bottom = 1 if full_screen else 0
-	header_style.corner_radius_top_left = 0 if full_screen else 16
-	header_style.corner_radius_top_right = 0 if full_screen else 16
-	header_style.content_margin_left = 5 if full_screen else 16
-	header_style.content_margin_right = 5 if full_screen else 12
+	header_style.bg_color = Color("#1d3551")
+	header_style.border_color = Color("#d3b068") if full_screen else Color("#e7d6b6")
+	header_style.set_border_width_all(1 if full_screen else 0)
+	if full_screen:
+		header_style.set_corner_radius_all(14)
+	else:
+		header_style.corner_radius_top_left = 16
+		header_style.corner_radius_top_right = 16
+	header_style.content_margin_left = 15 if full_screen else 16
+	header_style.content_margin_right = 17 if full_screen else 12
 	header_style.content_margin_top = 5 if full_screen else 10
 	header_style.content_margin_bottom = 5 if full_screen else 10
 	header_panel.add_theme_stylebox_override("panel", header_style)
 	layout.add_child(header_panel)
 	var header := HBoxContainer.new()
-	header.add_theme_constant_override("separation", 8)
+	header.add_theme_constant_override("separation", 11 if full_screen else 8)
 	header_panel.add_child(header)
 	var title_stack := VBoxContainer.new()
 	title_stack.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -1204,15 +1210,16 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 	header.add_child(title_stack)
 	var eyebrow_label := _label(title_stack, 8)
 	eyebrow_label.text = eyebrow
-	eyebrow_label.add_theme_color_override("font_color", Color("#9b8665") if full_screen else Color("#e9d5a7"))
+	eyebrow_label.add_theme_color_override("font_color", Color("#e9d5a7"))
+	if full_screen:
+		eyebrow_label.add_theme_font_size_override("font_size", 6)
 	var eyebrow_font := UiFonts.sans(900)
 	eyebrow_label.add_theme_font_override("font", eyebrow_font)
 	overlay_title = _label(title_stack, 20)
-	overlay_title.add_theme_font_size_override("font_size", 21)
+	overlay_title.add_theme_font_size_override("font_size", 9 if full_screen else 21)
 	overlay_title.text = heading
-	overlay_title.add_theme_color_override("font_color", Color("#302c3e") if full_screen else Color("#fff9ea"))
-	var title_font := _serif_font()
-	title_font.font_weight = 800
+	overlay_title.add_theme_color_override("font_color", Color("#fff9ea"))
+	var title_font := UiFonts.sans(800) if full_screen else UiFonts.serif(800)
 	overlay_title.add_theme_font_override("font", title_font)
 	var close := Button.new()
 	close.name = "CloseOverlay"
@@ -1223,10 +1230,10 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 		close.add_theme_stylebox_override("hover", StyleBoxEmpty.new())
 		var back_icon := _icon_texture("back", 22)
 		back_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		back_icon.offset_left = 11
-		back_icon.offset_top = 11
-		back_icon.offset_right = -11
-		back_icon.offset_bottom = -11
+		back_icon.offset_left = 9
+		back_icon.offset_top = 9
+		back_icon.offset_right = -9
+		back_icon.offset_bottom = -9
 		back_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		close.add_child(back_icon)
 	else:
@@ -1248,6 +1255,8 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 	overlay_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	overlay_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	overlay_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	if full_screen:
+		overlay_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 	layout.add_child(overlay_scroll)
 	overlay_body = VBoxContainer.new()
 	overlay_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1402,26 +1411,37 @@ func _show_dossier() -> void:
 	dossier_padding.add_child(overlay_body)
 	var dossier_back := overlay.find_child("BackFromDossier", true, false) as Button
 	dossier_back.add_theme_color_override("font_hover_color", Color("#d96279"))
+	_style_header_button(dossier_back)
+	dossier_back.custom_minimum_size = Vector2(40, 40)
 	var dossier_header_row := dossier_back.get_parent() as HBoxContainer
 	dossier_header_row.move_child(dossier_back, 0)
 	var dossier_settings := Button.new()
 	dossier_settings.name = "DossierSettings"
-	dossier_settings.custom_minimum_size = Vector2(44, 44)
+	dossier_settings.custom_minimum_size = Vector2(40, 40)
 	dossier_settings.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
 	dossier_settings.add_theme_stylebox_override("hover", StyleBoxEmpty.new())
+	_style_header_button(dossier_settings)
+	dossier_settings.custom_minimum_size = Vector2(40, 40)
 	var settings_icon := _icon_texture("settings", 22)
 	settings_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	settings_icon.offset_left = 11
-	settings_icon.offset_top = 11
-	settings_icon.offset_right = -11
-	settings_icon.offset_bottom = -11
+	settings_icon.offset_left = 9
+	settings_icon.offset_top = 9
+	settings_icon.offset_right = -9
+	settings_icon.offset_bottom = -9
 	settings_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	dossier_settings.add_child(settings_icon)
 	dossier_settings.pressed.connect(func() -> void: settings_requested.emit())
 	dossier_header_row.add_child(dossier_settings)
 	_dossier_tab = "clues"
-	var heading := _label(overlay_body, 19)
+	_add_dossier_spacer(overlay_body, "DossierHeadingTopGap", 11)
+	var heading := _label(overlay_body, 32)
+	heading.name = "DossierHeading"
+	heading.add_theme_font_size_override("font_size", 32)
+	heading.add_theme_color_override("font_color", Color("#25243b"))
+	var dossier_heading_font := UiFonts.serif(800)
+	heading.add_theme_font_override("font", dossier_heading_font)
 	heading.text = Copy.text("dossier_heading", preferences.locale)
+	_add_dossier_spacer(overlay_body, "DossierHeadingBottomGap", 12)
 	var tabs := HBoxContainer.new()
 	tabs.add_theme_constant_override("separation", 8)
 	overlay_body.add_child(tabs)
@@ -1431,17 +1451,22 @@ func _show_dossier() -> void:
 	dossier_theories_tab = _button(tabs)
 	dossier_theories_tab.text = Copy.text("dossier_theories", preferences.locale)
 	dossier_theories_tab.pressed.connect(_select_dossier_tab.bind("theories"))
+	_add_dossier_spacer(overlay_body, "DossierTabsBottomGap", 14)
+	dossier_clue_top_gap = _add_dossier_spacer(overlay_body, "DossierClueTopGap", 3)
 	dossier_clues = GridContainer.new()
 	dossier_clues.name = "ClueGrid"
 	dossier_clues.columns = 2
-	dossier_clues.add_theme_constant_override("h_separation", 8)
-	dossier_clues.add_theme_constant_override("v_separation", 8)
+	dossier_clues.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dossier_clues.add_theme_constant_override("h_separation", 9)
+	dossier_clues.add_theme_constant_override("v_separation", 9)
 	overlay_body.add_child(dossier_clues)
 	dossier_theories = VBoxContainer.new()
 	dossier_theories.name = "Theories"
-	dossier_theories.add_theme_constant_override("separation", 8)
+	dossier_theories.add_theme_constant_override("separation", 5)
 	overlay_body.add_child(dossier_theories)
-	var theories_heading := _label(dossier_theories, 17)
+	var theories_heading := _label(dossier_theories, 20)
+	theories_heading.name = "TheoriesHeading"
+	theories_heading.add_theme_font_override("font", UiFonts.serif(800))
 	theories_heading.text = Copy.text("dossier_theories_heading", preferences.locale)
 	_add_suspect_theory("K", Copy.text("character_kentaro", preferences.locale),
 		Copy.text("dossier_kentaro_cleared" if session.state.completed.has(1) else "dossier_kentaro_active", preferences.locale),
@@ -1456,10 +1481,20 @@ func _show_dossier() -> void:
 		_add_clue_card(levels[index], index + 1)
 	var reset_progress := Button.new()
 	reset_progress.name = "ResetDossierProgress"
-	reset_progress.custom_minimum_size.y = 42
+	reset_progress.custom_minimum_size.y = 0
 	reset_progress.text = Copy.text("dossier_reset", preferences.locale)
+	reset_progress.add_theme_font_size_override("font_size", 11)
 	reset_progress.add_theme_color_override("font_color", Color("#a34c5e"))
-	reset_progress.add_theme_stylebox_override("normal", _case_button_style())
+	var reset_style := StyleBoxFlat.new()
+	reset_style.bg_color = Color.TRANSPARENT
+	reset_style.content_margin_left = 10
+	reset_style.content_margin_right = 10
+	reset_style.content_margin_top = 10
+	reset_style.content_margin_bottom = 10
+	reset_progress.add_theme_stylebox_override("normal", reset_style)
+	reset_progress.add_theme_stylebox_override("hover", reset_style)
+	reset_progress.add_theme_stylebox_override("focus", reset_style)
+	_add_dossier_spacer(overlay_body, "DossierResetTopGap", 22)
 	reset_progress.pressed.connect(_reset_dossier_progress)
 	overlay_body.add_child(reset_progress)
 	_select_dossier_tab(_dossier_tab)
@@ -1472,26 +1507,30 @@ func _add_clue_card(level: Dictionary, number: int) -> void:
 	var localized: Dictionary = evidence.get("localized", {}).get(preferences.locale, {})
 	var card := PanelContainer.new()
 	card.custom_minimum_size.x = 0
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("#fffdf9")
 	style.border_color = Color("#ded3db")
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(9)
-	style.content_margin_left = 9
-	style.content_margin_right = 9
-	style.content_margin_top = 9
-	style.content_margin_bottom = 9
-	if not unlocked:
-		style.bg_color = Color("#f1ece5")
+	style.content_margin_left = 11
+	style.content_margin_right = 11
+	style.content_margin_top = 11
+	style.content_margin_bottom = 10
 	card.add_theme_stylebox_override("panel", style)
+	if not unlocked:
+		# Match the web dossier's .clue-card.locked opacity and grayscale filter.
+		card.modulate = Color(1.0, 1.0, 1.0, 0.65)
 	dossier_clues.add_child(card)
 	var body := VBoxContainer.new()
-	body.add_theme_constant_override("separation", 4)
+	body.add_theme_constant_override("separation", 0)
 	card.add_child(body)
 	var art := PanelContainer.new()
 	art.custom_minimum_size = Vector2(0, 92)
 	var art_style := StyleBoxFlat.new()
 	art_style.bg_color = Color("#33223a")
+	if not unlocked:
+		art_style.bg_color = _dossier_grayscale(art_style.bg_color)
 	art_style.set_corner_radius_all(7)
 	art.add_theme_stylebox_override("panel", art_style)
 	body.add_child(art)
@@ -1508,47 +1547,98 @@ func _add_clue_card(level: Dictionary, number: int) -> void:
 		locked_mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		locked_mark.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		locked_mark.add_theme_color_override("font_color", Color("#ffffff55"))
+	_add_dossier_spacer(body, "ClueNumberTopGap", 7)
 	var number_label := _label(body, 8)
+	number_label.name = "ClueNumber"
+	number_label.add_theme_font_override("font", UiFonts.sans(900))
 	number_label.text = "%s %02d" % [Copy.text("dossier_clue_number", preferences.locale), number]
 	number_label.add_theme_color_override("font_color", Color("#d95f70"))
-	var title_label := _label(body, 11)
+	_add_dossier_spacer(body, "ClueTitleTopGap", 2)
+	var title_label := _label(body, 12)
+	title_label.name = "ClueTitle"
+	title_label.add_theme_font_override("font", UiFonts.sans(700))
 	title_label.text = str(localized.get("title", Copy.text("dossier_locked", preferences.locale))) if unlocked else Copy.text("dossier_locked", preferences.locale)
+	_add_dossier_spacer(body, "ClueSummaryTopGap", 5)
 	var summary := _label(body, 9)
+	summary.name = "ClueSummary"
+	summary.add_theme_font_override("font", UiFonts.sans(400))
+	summary.add_theme_constant_override("line_spacing", 1)
 	summary.text = str(localized.get("summary", "")) if unlocked else Copy.text("dossier_unlock_hint", preferences.locale)
+	summary.add_theme_color_override("font_color", Color("#746d7c"))
+	if not unlocked:
+		number_label.add_theme_color_override("font_color", _dossier_grayscale(Color("#d95f70")))
+		title_label.add_theme_color_override("font_color", _dossier_grayscale(Color("#29243d")))
+		summary.add_theme_color_override("font_color", _dossier_grayscale(Color("#746d7c")))
+
+
+func _dossier_grayscale(color: Color) -> Color:
+	var luminance := color.r * 0.2126 + color.g * 0.7152 + color.b * 0.0722
+	return color.lerp(Color(luminance, luminance, luminance, color.a), 0.8)
+
+
+func _add_dossier_spacer(parent: Node, spacer_name: String, height: float) -> Control:
+	var spacer := Control.new()
+	spacer.name = spacer_name
+	spacer.custom_minimum_size.y = height
+	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(spacer)
+	return spacer
 
 
 func _add_suspect_theory(initial: String, suspect: String, description: String, cleared: bool) -> void:
 	var row := PanelContainer.new()
+	row.name = "SuspectTheory%s" % initial
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("#eefaf7") if cleared else Color("#fff3f2")
 	style.border_color = Color("#bfe0da") if cleared else Color("#e3ced3")
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(8)
-	style.content_margin_left = 9
-	style.content_margin_right = 9
-	style.content_margin_top = 8
-	style.content_margin_bottom = 8
+	style.content_margin_left = 10
+	style.content_margin_right = 10
+	style.content_margin_top = 11
+	style.content_margin_bottom = 9
 	row.add_theme_stylebox_override("panel", style)
 	dossier_theories.add_child(row)
 	var content := HBoxContainer.new()
 	content.add_theme_constant_override("separation", 9)
 	row.add_child(content)
-	var initial_label := _label(content, 20)
+	var initial_badge := PanelContainer.new()
+	initial_badge.name = "SuspectInitial"
+	initial_badge.custom_minimum_size = Vector2(38, 38)
+	var badge_style := StyleBoxFlat.new()
+	badge_style.bg_color = Color("#2b6f6c") if cleared else Color("#d95f70")
+	badge_style.set_corner_radius_all(19)
+	initial_badge.add_theme_stylebox_override("panel", badge_style)
+	content.add_child(initial_badge)
+	var initial_label := _label(initial_badge, 20)
+	initial_label.name = "InitialLabel"
 	initial_label.text = initial
-	initial_label.add_theme_color_override("font_color", Color("#2b6f6c") if cleared else Color("#d95f70"))
+	initial_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	initial_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	initial_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	initial_label.add_theme_color_override("font_color", Color.WHITE)
+	initial_label.add_theme_font_override("font", UiFonts.serif(800))
 	var details := VBoxContainer.new()
 	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	details.add_theme_constant_override("separation", 0)
 	content.add_child(details)
+	_add_dossier_spacer(details, "SuspectDetailsTopGap", 5)
 	var name_label := _label(details, 13)
+	name_label.name = "SuspectName"
 	name_label.text = suspect
+	_add_dossier_spacer(details, "SuspectStatusTopGap", 2)
 	var theory_status_label := _label(details, 8)
+	theory_status_label.name = "SuspectStatus"
 	theory_status_label.text = description
 	theory_status_label.add_theme_color_override("font_color", Color("#2b6f6c") if cleared else Color("#d95f70"))
+	theory_status_label.add_theme_font_override("font", UiFonts.sans(900))
 
 
 func _select_dossier_tab(tab: String) -> void:
 	_dossier_tab = tab
 	if is_instance_valid(dossier_clues):
+		if is_instance_valid(dossier_clue_top_gap):
+			dossier_clue_top_gap.visible = tab == "clues"
 		dossier_clues.visible = tab == "clues"
 		dossier_theories.visible = tab == "theories"
 		_style_dossier_tab(dossier_clues_tab, tab == "clues")
