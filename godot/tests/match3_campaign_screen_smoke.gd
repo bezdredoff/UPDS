@@ -386,6 +386,19 @@ func _run() -> void:
 		and absf(compact_board_geometry.board_size.x - 197.94) < 0.1
 		and absf(compact_board_geometry.board_top - 170.39) < 0.1,
 		"Godot board geometry should match the source 320x568 compact capture")
+	var board_geometry_cases := [
+		{"viewport": Vector2(390, 844), "frame": Vector2(390, 844), "width": 366.0, "top": 211.1},
+		{"viewport": Vector2(480, 854), "frame": Vector2(430, 854), "width": 406.0, "top": 163.09},
+		{"viewport": Vector2(474, 760), "frame": Vector2(430, 760), "width": 341.05, "top": 160.03},
+		{"viewport": Vector2(320, 568), "frame": Vector2(320, 568), "width": 197.94, "top": 170.39},
+	]
+	for geometry_case in board_geometry_cases:
+		var viewport: Vector2 = geometry_case.viewport
+		var frame: Vector2 = geometry_case.frame
+		var geometry: Dictionary = match3.source_board_geometry(viewport, frame, 7, 9)
+		assert(absf(geometry.board_size.x - float(geometry_case.width)) < 0.1
+			and absf(geometry.board_top - float(geometry_case.top)) < 0.1,
+			"Godot board bounds diverged from the source CSS capture at %s: %s" % [viewport, geometry])
 	var live_board_geometry: Dictionary = match3._source_board_geometry()
 	var expected_board_origin: float = float(live_board_geometry.board_top) - (match3.board_center.get_global_position().y
 		- match3.get_global_position().y) - (match3.board_center.size.y - live_board_geometry.board_size.y) * 0.5
@@ -802,12 +815,14 @@ func _run() -> void:
 	assert(match3.board.get_child(preserved_cell_index).get_instance_id() == preserved_cell_id,
 		"A Match-3 frame rebuilt an unchanged cell and restarted its idle animation")
 	var clearing_stack: Control = match3.board.get_child(settle_index).get_node("TileStack")
-	var clearing_started_usec := Time.get_ticks_usec()
-	await _assert_clear_sample(match3, clearing_stack, clearing_started_usec, 0.064)
-	await _assert_clear_sample(match3, clearing_stack, clearing_started_usec, 0.09)
-	await _assert_clear_sample(match3, clearing_stack, clearing_started_usec, 0.224)
-	var clearing_elapsed := float(Time.get_ticks_usec() - clearing_started_usec) / 1000000.0
-	await create_timer(maxf(0.0, match3.CLEAR_MOTION_SECONDS + 0.03 - clearing_elapsed)).timeout
+	var clearing_tweens: Array[Tween] = match3.get_tree().get_processed_tweens()
+	assert(not clearing_tweens.is_empty(), "Clear action did not create a runtime tween")
+	var clearing_tween: Tween = clearing_tweens.back()
+	await _assert_clear_sample(match3, clearing_stack, clearing_tween, 0.064)
+	await _assert_clear_sample(match3, clearing_stack, clearing_tween, 0.09)
+	await _assert_clear_sample(match3, clearing_stack, clearing_tween, 0.224)
+	while clearing_tween.is_running():
+		await match3.get_tree().process_frame
 	assert(clearing_stack.scale.is_equal_approx(Vector2(0.18, 0.18)) and clearing_stack.modulate.a < 0.01, "Clear animation missed its source shrink and fade end state")
 	match3._render_board()
 	var columns := int(match3.game.level_data.columns)
@@ -992,46 +1007,6 @@ func _run() -> void:
 		and impact_beam_material.shader.code.contains("for (int cross_index = -6; cross_index <= 6; cross_index++)")
 		and impact_beam_material.shader.code.contains("return 0.2255859375"),
 		"Line special beam did not preserve CSS colors, gradient stops and the calibrated aqua drop shadow")
-	var column_frame_specials: Array[String] = match3.game.specials.duplicate()
-	column_frame_specials[special_index] = "flash-column"
-	match3._render_frame({
-		"phase": "clear",
-		"tiles": match3.game.tiles.duplicate(),
-		"specials": column_frame_specials,
-		"blockers": match3.game.blocker_layers.duplicate(),
-		"ingredients": match3.game.ingredients.duplicate(),
-		"cleared": [special_index, impact_target],
-		"cascade": 1,
-		"feedback": "special",
-	})
-	var column_cell: Control = match3.board.get_child(special_index)
-	var column_beam := column_cell.get_node("SpecialImpactBeam") as ColorRect
-	var column_beam_material := column_beam.material as ShaderMaterial
-	assert(column_beam_material.get_shader_parameter("vertical_gradient")
-		and is_equal_approx(column_beam_material.get_shader_parameter("beam_blur_step_px"), 3.25)
-		and is_equal_approx(column_beam.scale.x, 0.25) and is_equal_approx(column_beam.scale.y, 1.0)
-		and is_equal_approx(column_beam.offset_left, -5.0) and is_equal_approx(column_beam.offset_right, 5.0),
-		"Flash Column should begin compressed across its width, matching CSS after the 90-degree rotation")
-	await create_timer(0.035).timeout
-	assert(column_beam.scale.x > 0.25 and column_beam.scale.y > 0.99 and column_beam.scale.y < 1.01,
-		"Flash Column impact should expand across the beam width while preserving its longitudinal scale")
-	await create_timer(0.065).timeout
-	assert(column_beam.scale.x > 1.12 and column_beam.scale.x <= 1.17
-		and column_beam.scale.y > 0.99 and column_beam.scale.y < 1.01 and column_beam.modulate.a > 0.9,
-		"Flash Column should reach the CSS 1.15 width peak near 98ms while keeping its length unchanged")
-	await create_timer(0.2).timeout
-	assert(column_cell.get_node_or_null("SpecialImpactBeam") == null,
-		"Flash Column beam should finish its 280ms CSS impact and be removed")
-	var target_cell: Control = match3.board.get_child(impact_target)
-	assert(target_cell.get_node_or_null("SpecialImpactTargetOutline") != null and target_cell.z_index == 3,
-		"Affected clear target did not rise above the board with its target outline")
-	assert(target_cell.get_node_or_null("SpecialImpactFlash") != null, "Affected clear target did not receive its impact flash")
-	var target_flash := target_cell.get_node("SpecialImpactFlash") as ColorRect
-	var target_flash_shader := (target_flash.material as ShaderMaterial).shader
-	assert(target_flash_shader.code.contains("0.35") and target_flash_shader.code.contains("0.58")
-		and target_flash_shader.code.contains("0.76") and target_flash_shader.code.contains("0.302")
-		and target_flash_shader.code.contains("0.161"),
-		"Special impact flash did not preserve the CSS radial gradient stops and opacity")
 	assert(special_stack.pivot_offset == special_cell.custom_minimum_size * 0.5, "Tile-stack scale effects should pivot around the source cell center")
 	var special_shadow := special_icon.material as ShaderMaterial
 	var direction_marker: PanelContainer = special_stack.get_node("SpecialDirectionMarker")
@@ -1055,10 +1030,61 @@ func _run() -> void:
 		and glow_shader_code.contains("float(y) * 0.5")
 		and glow_shader_code.contains("float total_weight = 0.0"),
 		"Special-icon glow must preserve premultiplied RGB and use a normalized blur kernel without clipping")
-	await create_timer(0.3).timeout
+	var row_target_cell: Control = match3.board.get_child(impact_target)
+	var row_impact_wait_frames := 0
+	while (absf(special_icon.rotation_degrees) > 0.1 or special_cell.z_index != resting_source_z
+		or row_target_cell.z_index != resting_target_z) and row_impact_wait_frames < 60:
+		await process_frame
+		row_impact_wait_frames += 1
 	assert(is_equal_approx(special_icon.rotation_degrees, 0.0), "Flash Row activation did not return to neutral rotation")
-	assert(special_cell.z_index == resting_source_z and target_cell.z_index == resting_target_z,
+	assert(special_cell.z_index == resting_source_z and row_target_cell.z_index == resting_target_z,
 		"Special impact did not restore the cells' original stacking order after 280ms")
+	var column_frame_specials: Array[String] = match3.game.specials.duplicate()
+	column_frame_specials[special_index] = "flash-column"
+	match3._render_frame({
+		"phase": "clear",
+		"tiles": match3.game.tiles.duplicate(),
+		"specials": column_frame_specials,
+		"blockers": match3.game.blocker_layers.duplicate(),
+		"ingredients": match3.game.ingredients.duplicate(),
+		"cleared": [special_index, impact_target],
+		"cascade": 1,
+		"feedback": "special",
+	})
+	var column_cell: Control = match3.board.get_child(special_index)
+	var column_beam := column_cell.get_node("SpecialImpactBeam") as ColorRect
+	var column_beam_material := column_beam.material as ShaderMaterial
+	assert(column_beam_material.get_shader_parameter("vertical_gradient")
+		and is_equal_approx(column_beam_material.get_shader_parameter("beam_blur_step_px"), 3.25)
+		and is_equal_approx(column_beam.scale.x, 0.25) and is_equal_approx(column_beam.scale.y, 1.0)
+		and is_equal_approx(column_beam.offset_left, -5.0) and is_equal_approx(column_beam.offset_right, 5.0),
+		"Flash Column should begin compressed across its width, matching CSS after the 90-degree rotation")
+	await process_frame
+	assert(column_beam.scale.x > 0.25 and column_beam.scale.y > 0.99 and column_beam.scale.y < 1.01,
+		"Flash Column impact should expand across the beam width while preserving its longitudinal scale")
+	var peak_wait_frames := 0
+	while column_beam.scale.x < 1.12 and peak_wait_frames < 30:
+		await process_frame
+		peak_wait_frames += 1
+	assert(column_beam.scale.x > 1.12 and column_beam.scale.x <= 1.17
+		and column_beam.scale.y > 0.99 and column_beam.scale.y < 1.01 and column_beam.modulate.a > 0.9,
+		"Flash Column should reach the CSS 1.15 width peak while keeping its length unchanged")
+	var target_cell: Control = match3.board.get_child(impact_target)
+	assert(target_cell.get_node_or_null("SpecialImpactTargetOutline") != null and target_cell.z_index == 3,
+		"Affected clear target did not rise above the board with its target outline")
+	assert(target_cell.get_node_or_null("SpecialImpactFlash") != null, "Affected clear target did not receive its impact flash")
+	var target_flash := target_cell.get_node("SpecialImpactFlash") as ColorRect
+	var target_flash_shader := (target_flash.material as ShaderMaterial).shader
+	assert(target_flash_shader.code.contains("0.35") and target_flash_shader.code.contains("0.58")
+		and target_flash_shader.code.contains("0.76") and target_flash_shader.code.contains("0.302")
+		and target_flash_shader.code.contains("0.161"),
+		"Special impact flash did not preserve the CSS radial gradient stops and opacity")
+	var beam_removal_wait_frames := 0
+	while column_cell.get_node_or_null("SpecialImpactBeam") != null and beam_removal_wait_frames < 60:
+		await process_frame
+		beam_removal_wait_frames += 1
+	assert(column_cell.get_node_or_null("SpecialImpactBeam") == null,
+		"Flash Column beam should finish its 280ms CSS impact and be removed")
 	match3._render_board()
 	match3._render_frame({
 		"phase": "reshuffle",
@@ -1126,11 +1152,11 @@ func _run() -> void:
 	quit()
 
 
-func _assert_clear_sample(match3: Control, tile_stack: Control,
-		started_usec: int, target_seconds: float) -> void:
-	var elapsed := float(Time.get_ticks_usec() - started_usec) / 1000000.0
-	await create_timer(maxf(0.0, target_seconds - elapsed)).timeout
-	elapsed = float(Time.get_ticks_usec() - started_usec) / 1000000.0
+func _assert_clear_sample(match3: Control, tile_stack: Control, tween: Tween,
+		target_seconds: float) -> void:
+	while tween.is_running() and tween.get_total_elapsed_time() < target_seconds:
+		await match3.get_tree().process_frame
+	var elapsed := tween.get_total_elapsed_time()
 	var duration := float(match3.CLEAR_MOTION_SECONDS)
 	var peak_seconds := duration * 0.48
 	var progress: float
