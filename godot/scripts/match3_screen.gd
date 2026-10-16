@@ -2025,18 +2025,30 @@ func _special_impact_beam_material(vertical: bool) -> ShaderMaterial:
 	shader.code = """
 	shader_type canvas_item;
 	uniform bool vertical_gradient = false;
+	uniform vec4 beam_gold : source_color = vec4(1.0, 0.960784, 0.741176, 0.870588);
+	uniform vec4 beam_aqua : source_color = vec4(0.423529, 0.886275, 0.827451, 0.949020);
+	uniform vec3 beam_stops = vec3(0.2, 0.5, 0.8);
 	void fragment() {
 		float point = vertical_gradient ? UV.y : UV.x;
-		float edge_alpha = smoothstep(0.0, 0.2, point) * (1.0 - smoothstep(0.8, 1.0, point));
-		float teal = 1.0 - min(abs(point - 0.5) * 5.0, 1.0);
-		vec3 gold = vec3(1.0, 0.96, 0.74);
-		vec3 aqua = vec3(0.42, 0.89, 0.83);
-		COLOR = vec4(mix(gold, aqua, teal), edge_alpha) * COLOR;
+		vec4 gradient;
+		if (point < beam_stops.x) {
+			gradient = vec4(beam_gold.rgb, beam_gold.a * clamp(point / beam_stops.x, 0.0, 1.0));
+		} else if (point < beam_stops.y) {
+			gradient = mix(beam_gold, beam_aqua, (point - beam_stops.x) / (beam_stops.y - beam_stops.x));
+		} else if (point < beam_stops.z) {
+			gradient = mix(beam_aqua, beam_gold, (point - beam_stops.y) / (beam_stops.z - beam_stops.y));
+		} else {
+			gradient = vec4(beam_gold.rgb, beam_gold.a * (1.0 - clamp((point - beam_stops.z) / (1.0 - beam_stops.z), 0.0, 1.0)));
+		}
+		COLOR = gradient * COLOR;
 	}
 	"""
 	var material := ShaderMaterial.new()
 	material.shader = shader
 	material.set_shader_parameter("vertical_gradient", vertical)
+	material.set_shader_parameter("beam_gold", Color("#fff5bdde"))
+	material.set_shader_parameter("beam_aqua", Color("#6ce2d3f2"))
+	material.set_shader_parameter("beam_stops", Vector3(0.2, 0.5, 0.8))
 	return material
 
 
