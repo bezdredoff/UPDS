@@ -1965,9 +1965,12 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			icon_tween.parallel().tween_property(special_icon, "rotation_degrees", 0.0, icon_return_duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(impact_curve)
 		if special_kind == "flash-row" or special_kind == "flash-column":
 			var beam := ColorRect.new()
+			var vertical_beam := special_kind == "flash-column"
+			var core_cross_size := cell.size.x * 0.12 if vertical_beam else cell.size.y * 0.12
+			var beam_core_fraction := core_cross_size / (core_cross_size + 10.0)
 			beam.name = "SpecialImpactBeam"
 			beam.pivot_offset = cell.size * 0.5
-			beam.material = _special_impact_beam_material(special_kind == "flash-column")
+			beam.material = _special_impact_beam_material(vertical_beam, beam_core_fraction)
 			beam.modulate.a = 0.0
 			beam.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			beam.z_index = 10
@@ -1976,11 +1979,15 @@ func _animate_special_impact(frame: Dictionary) -> void:
 				beam.anchor_right = 1.18
 				beam.anchor_top = 0.44
 				beam.anchor_bottom = 0.56
+				beam.offset_top = -5.0
+				beam.offset_bottom = 5.0
 			else:
 				beam.anchor_left = 0.44
 				beam.anchor_right = 0.56
 				beam.anchor_top = -0.18
 				beam.anchor_bottom = 1.18
+				beam.offset_left = -5.0
+				beam.offset_right = 5.0
 			cell.add_child(beam)
 			beam.scale = Vector2(1.0, 0.25) if special_kind == "flash-column" else Vector2(0.25, 1.0)
 			var beam_tween := create_tween()
@@ -2020,7 +2027,7 @@ func _special_impact_flash_material() -> ShaderMaterial:
 	return material
 
 
-func _special_impact_beam_material(vertical: bool) -> ShaderMaterial:
+func _special_impact_beam_material(vertical: bool, core_fraction: float) -> ShaderMaterial:
 	var shader := Shader.new()
 	shader.code = """
 	shader_type canvas_item;
@@ -2028,6 +2035,14 @@ func _special_impact_beam_material(vertical: bool) -> ShaderMaterial:
 	uniform vec4 beam_gold : source_color = vec4(1.0, 0.960784, 0.741176, 0.870588);
 	uniform vec4 beam_aqua : source_color = vec4(0.423529, 0.886275, 0.827451, 0.949020);
 	uniform vec3 beam_stops = vec3(0.2, 0.5, 0.8);
+	uniform float beam_core_fraction = 0.5;
+	uniform float beam_blur_step_px = 5.0;
+	float gradient_alpha(float point) {
+		if (point < beam_stops.x) return beam_gold.a * clamp(point / beam_stops.x, 0.0, 1.0);
+		if (point < beam_stops.y) return mix(beam_gold.a, beam_aqua.a, (point - beam_stops.x) / (beam_stops.y - beam_stops.x));
+		if (point < beam_stops.z) return mix(beam_aqua.a, beam_gold.a, (point - beam_stops.y) / (beam_stops.z - beam_stops.y));
+		return beam_gold.a * (1.0 - clamp((point - beam_stops.z) / (1.0 - beam_stops.z), 0.0, 1.0));
+	}
 	void fragment() {
 		float point = vertical_gradient ? UV.y : UV.x;
 		vec4 gradient;
@@ -2040,7 +2055,27 @@ func _special_impact_beam_material(vertical: bool) -> ShaderMaterial:
 		} else {
 			gradient = vec4(beam_gold.rgb, beam_gold.a * (1.0 - clamp((point - beam_stops.z) / (1.0 - beam_stops.z), 0.0, 1.0)));
 		}
-		COLOR = gradient * COLOR;
+		float cross_point = vertical_gradient ? UV.x : UV.y;
+		float half_core = beam_core_fraction * 0.5;
+		float source_alpha = gradient.a * step(abs(cross_point - 0.5), half_core);
+		vec2 axis_delta = vertical_gradient ? dFdy(UV) : dFdx(UV);
+		vec2 cross_delta = vertical_gradient ? dFdx(UV) : dFdy(UV);
+		float blurred_alpha = 0.0;
+		for (int axis_index = -2; axis_index <= 2; axis_index++) {
+			float axis_weight = abs(axis_index) == 2 ? 0.0625 : abs(axis_index) == 1 ? 0.25 : 0.375;
+			for (int cross_index = -2; cross_index <= 2; cross_index++) {
+				float cross_weight = abs(cross_index) == 2 ? 0.0625 : abs(cross_index) == 1 ? 0.25 : 0.375;
+				vec2 sample_uv = UV + axis_delta * float(axis_index) * beam_blur_step_px + cross_delta * float(cross_index) * beam_blur_step_px;
+				float sample_axis = vertical_gradient ? sample_uv.y : sample_uv.x;
+				float sample_cross = vertical_gradient ? sample_uv.x : sample_uv.y;
+				float sample_mask = gradient_alpha(sample_axis) * step(abs(sample_cross - 0.5), half_core);
+				blurred_alpha += sample_mask * axis_weight * cross_weight;
+			}
+		}
+		vec3 glow_color = beam_aqua.rgb;
+		float output_alpha = source_alpha + blurred_alpha * (1.0 - source_alpha);
+		vec3 output_rgb = (gradient.rgb * source_alpha + glow_color * blurred_alpha * (1.0 - source_alpha)) / max(output_alpha, 0.0001);
+		COLOR = vec4(output_rgb, output_alpha) * COLOR;
 	}
 	"""
 	var material := ShaderMaterial.new()
@@ -2049,6 +2084,8 @@ func _special_impact_beam_material(vertical: bool) -> ShaderMaterial:
 	material.set_shader_parameter("beam_gold", Color("#fff5bdde"))
 	material.set_shader_parameter("beam_aqua", Color("#6ce2d3f2"))
 	material.set_shader_parameter("beam_stops", Vector3(0.2, 0.5, 0.8))
+	material.set_shader_parameter("beam_core_fraction", core_fraction)
+	material.set_shader_parameter("beam_blur_step_px", 5.0)
 	return material
 
 

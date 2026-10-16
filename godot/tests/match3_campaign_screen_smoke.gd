@@ -968,13 +968,19 @@ func _run() -> void:
 	assert(special_cell.get_node_or_null("SpecialImpactBeam") != null, "Line special did not create its directional beam")
 	var impact_beam := special_cell.get_node("SpecialImpactBeam") as ColorRect
 	var impact_beam_material := impact_beam.material as ShaderMaterial
+	var beam_core_size := special_cell.size.y * 0.12
+	var expected_beam_core_fraction := beam_core_size / (beam_core_size + 10.0)
 	assert((impact_beam_material.get_shader_parameter("beam_gold") as Color).is_equal_approx(Color("#fff5bdde"))
 		and (impact_beam_material.get_shader_parameter("beam_aqua") as Color).is_equal_approx(Color("#6ce2d3f2"))
 		and (impact_beam_material.get_shader_parameter("beam_stops") as Vector3).is_equal_approx(Vector3(0.2, 0.5, 0.8))
+		and absf(float(impact_beam_material.get_shader_parameter("beam_core_fraction")) - expected_beam_core_fraction) < 0.001
+		and is_equal_approx(impact_beam_material.get_shader_parameter("beam_blur_step_px"), 5.0)
+		and is_equal_approx(impact_beam.offset_top, -5.0) and is_equal_approx(impact_beam.offset_bottom, 5.0)
 		and impact_beam_material.shader.code.contains("beam_gold.a * clamp(point / beam_stops.x")
 		and impact_beam_material.shader.code.contains("mix(beam_gold, beam_aqua")
-		and impact_beam_material.shader.code.contains("mix(beam_aqua, beam_gold"),
-		"Line special beam did not preserve the source CSS colors and 20/50/80 percent gradient stops")
+		and impact_beam_material.shader.code.contains("mix(beam_aqua, beam_gold")
+		and impact_beam_material.shader.code.contains("for (int cross_index"),
+		"Line special beam did not preserve CSS colors, gradient stops and the 5px aqua drop shadow")
 	var target_cell: Control = match3.board.get_child(impact_target)
 	assert(target_cell.get_node_or_null("SpecialImpactTargetOutline") != null and target_cell.z_index == 3,
 		"Affected clear target did not rise above the board with its target outline")
