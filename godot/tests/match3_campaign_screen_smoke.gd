@@ -682,6 +682,18 @@ func _run() -> void:
 	var help_content: VBoxContainer = match3.help_overlay.get_node("HelpCard/HelpScroll/HelpContent") as VBoxContainer
 	assert(help_card.size.x <= 350.0 and help_card.size.x >= 300.0 and help_card.position.y == 68.0,
 		"Match-3 help card should use the source centered 350px sheet and top offset; got %s at %s (root %s)" % [help_card.size, help_card.position, match3.help_overlay.size])
+	match3.help_overlay.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	match3.help_overlay.size = Vector2(320, 568)
+	match3.help_overlay._fit()
+	assert(match3.help_overlay.compact and is_equal_approx(help_card.size.x, 298.0)
+		and is_equal_approx(help_card.size.y, 568.0 * 0.78)
+		and help_card.position == Vector2(11, 62),
+		"Match-3 help should follow the 320x568 source compact dimensions; got compact=%s card=%s at %s" % [match3.help_overlay.compact, help_card.size, help_card.position])
+	match3.help_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	match3.help_overlay.call_deferred("_fit")
+	await process_frame
+	assert(not match3.help_overlay.compact and help_card.size.x == 350.0 and help_card.position.y == 68.0,
+		"Match-3 help did not restore the standard sheet profile after returning to the phone viewport")
 	assert(help_content.has_node("Blocker_package") and help_content.has_node("Blocker_foam")
 		and help_content.has_node("Blocker_lock-chain") and help_content.has_node("Special_flash-row")
 		and help_content.has_node("Special_flash-column") and help_content.has_node("Special_evidence")
