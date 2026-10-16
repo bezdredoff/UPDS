@@ -1973,7 +1973,7 @@ func _animate_special_impact(frame: Dictionary) -> void:
 			beam.material = _special_impact_beam_material(vertical_beam, beam_core_fraction)
 			beam.modulate.a = 0.0
 			beam.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			beam.z_index = 10
+			beam.z_index = 7
 			if special_kind == "flash-row":
 				beam.anchor_left = -0.18
 				beam.anchor_right = 1.18
