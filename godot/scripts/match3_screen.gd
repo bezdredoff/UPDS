@@ -2059,7 +2059,17 @@ func _special_impact_beam_material(vertical: bool, core_fraction: float) -> Shad
 	uniform vec4 beam_aqua : source_color = vec4(0.423529, 0.886275, 0.827451, 0.949020);
 	uniform vec3 beam_stops = vec3(0.2, 0.5, 0.8);
 	uniform float beam_core_fraction = 0.5;
-	uniform float beam_blur_step_px = 5.0;
+	uniform float beam_blur_step_px = 2.8867513;
+	float beam_blur_weight(int index) {
+		int distance_from_center = abs(index);
+		if (distance_from_center == 0) return 0.2255859375;
+		if (distance_from_center == 1) return 0.193359375;
+		if (distance_from_center == 2) return 0.120849609375;
+		if (distance_from_center == 3) return 0.0537109375;
+		if (distance_from_center == 4) return 0.01611328125;
+		if (distance_from_center == 5) return 0.0029296875;
+		return 0.000244140625;
+	}
 	float gradient_alpha(float point) {
 		if (point < beam_stops.x) return beam_gold.a * clamp(point / beam_stops.x, 0.0, 1.0);
 		if (point < beam_stops.y) return mix(beam_gold.a, beam_aqua.a, (point - beam_stops.x) / (beam_stops.y - beam_stops.x));
@@ -2084,10 +2094,10 @@ func _special_impact_beam_material(vertical: bool, core_fraction: float) -> Shad
 		vec2 axis_delta = vertical_gradient ? dFdy(UV) : dFdx(UV);
 		vec2 cross_delta = vertical_gradient ? dFdx(UV) : dFdy(UV);
 		float blurred_alpha = 0.0;
-		for (int axis_index = -2; axis_index <= 2; axis_index++) {
-			float axis_weight = abs(axis_index) == 2 ? 0.0625 : abs(axis_index) == 1 ? 0.25 : 0.375;
-			for (int cross_index = -2; cross_index <= 2; cross_index++) {
-				float cross_weight = abs(cross_index) == 2 ? 0.0625 : abs(cross_index) == 1 ? 0.25 : 0.375;
+		for (int axis_index = -6; axis_index <= 6; axis_index++) {
+			float axis_weight = beam_blur_weight(axis_index);
+			for (int cross_index = -6; cross_index <= 6; cross_index++) {
+				float cross_weight = beam_blur_weight(cross_index);
 				vec2 sample_uv = UV + axis_delta * float(axis_index) * beam_blur_step_px + cross_delta * float(cross_index) * beam_blur_step_px;
 				float sample_axis = vertical_gradient ? sample_uv.y : sample_uv.x;
 				float sample_cross = vertical_gradient ? sample_uv.x : sample_uv.y;
@@ -2108,7 +2118,7 @@ func _special_impact_beam_material(vertical: bool, core_fraction: float) -> Shad
 	material.set_shader_parameter("beam_aqua", Color("#6ce2d3f2"))
 	material.set_shader_parameter("beam_stops", Vector3(0.2, 0.5, 0.8))
 	material.set_shader_parameter("beam_core_fraction", core_fraction)
-	material.set_shader_parameter("beam_blur_step_px", 5.0)
+	material.set_shader_parameter("beam_blur_step_px", 2.8867513)
 	return material
 
 
