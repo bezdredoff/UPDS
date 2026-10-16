@@ -72,7 +72,7 @@ func _ready() -> void:
 	eyebrow_font.spacing_glyph = 2
 	$Content/Eyebrow.add_theme_font_override("font", eyebrow_font)
 	$Content/Eyebrow.add_theme_font_size_override("font_size", 9)
-	$Content/Tagline.add_theme_font_override("font", UiFonts.sans(400))
+	$Content/Tagline/Copy.add_theme_font_override("font", UiFonts.sans(400))
 	$Content/Footer.add_theme_font_override("font", UiFonts.sans(400))
 	_layout_menu()
 	for button in [$Content/Actions/NewGame, $Content/Actions/Continue, $Content/Actions/Campaign, $Content/Actions/Settings]:
@@ -109,8 +109,11 @@ func _layout_menu() -> void:
 	$Content/Title.fit_content = not narrow
 	$Content/Title.custom_minimum_size.y = 74.0 if narrow else 0.0
 	$Content/TitleSpacer.custom_minimum_size.y = 4.0 if narrow else 0.0
-	$Content/Tagline.add_theme_font_size_override("font_size", 12 if narrow else 15)
-	$Content/Tagline.autowrap_mode = TextServer.AUTOWRAP_OFF if narrow else TextServer.AUTOWRAP_WORD_SMART
+	$Content/Tagline/Copy.add_theme_font_size_override("font_size", 12 if narrow else 15)
+	var tagline_copy: Label = $Content/Tagline/Copy
+	tagline_copy.offset_top = -6.0 if compact and not narrow else 0.0
+	tagline_copy.offset_bottom = -6.0 if compact and not narrow else 0.0
+	tagline_copy.autowrap_mode = TextServer.AUTOWRAP_OFF if narrow else TextServer.AUTOWRAP_WORD_SMART
 	var hero_size := 56.0 if narrow else 66.0 if compact else 78.0
 	$Content/Hero.custom_minimum_size.y = hero_size
 	$Content/HeroSpacer.custom_minimum_size.y = 2.0
@@ -129,7 +132,7 @@ func _refresh_copy(locale: String) -> void:
 	$Content/Title.text = "[center][color=#1f2340]%s[/color]\n[color=#d96279]%s[/color][/center]" % [
 		MenuCopy.text("title", locale), MenuCopy.text("accent", locale),
 	]
-	$Content/Tagline.text = MenuCopy.text("tagline", locale)
+	$Content/Tagline/Copy.text = MenuCopy.text("tagline", locale)
 	$Content/Actions/NewGame.text = MenuCopy.text("new_game", locale)
 	$Content/Actions/Continue.text = MenuCopy.text("continue", locale)
 	$Content/Actions/Campaign.text = MenuCopy.text("campaign", locale)
