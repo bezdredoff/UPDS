@@ -887,11 +887,11 @@ func _render_board() -> void:
 			tile.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			tile.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			var is_camisole: bool = game.tiles[index] == "camisole"
-			tile.scale = Vector2(1.08, 1.08)
+			tile.scale = Vector2(1.04, 1.04)
 			tile.material = _match3_drop_shadow_material(
-				Color("#10172d66") if is_camisole else Color("#071224b8"),
-				Vector2(0, 1) if is_camisole else Vector2(0, 2),
-				1.0, 1.38 if is_camisole else 1.0, 1.0 if is_camisole else 1.05,
+				Color("#071224b8"),
+				Vector2(0, 2),
+				1.0, 1.0, 1.05,
 			)
 			tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			tile_stack.add_child(tile)
