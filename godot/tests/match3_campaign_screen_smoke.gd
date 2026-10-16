@@ -944,6 +944,13 @@ func _run() -> void:
 	var special_stack: Control = special_cell.get_node("TileStack")
 	var special_icon: TextureRect = special_stack.get_node("Special")
 	assert(is_equal_approx(special_icon.rotation_degrees, -8.0), "Flash Row activation did not start from the source impact keyframe")
+	var glow_texture_image: Image = special_icon.texture.get_image()
+	var glow_texture_bounds := glow_texture_image.get_used_rect()
+	assert(is_equal_approx(special_icon.offset_left, -42.0) and is_equal_approx(special_icon.offset_top, -42.0)
+		and is_equal_approx(special_icon.offset_right, 42.0) and is_equal_approx(special_icon.offset_bottom, 42.0)
+		and special_icon.texture.get_width() > 512 and glow_texture_bounds.position.x > 200
+		and glow_texture_bounds.position.y > 200,
+		"Special impact texture must extend its transparent quad far enough to render the full CSS blur outside the icon")
 	await process_frame
 	var feedback_center := match3.match_feedback_panel.get_parent() as Control
 	var feedback_global: Rect2 = match3.match_feedback_panel.get_global_rect()
@@ -999,8 +1006,8 @@ func _run() -> void:
 	var direction_marker: PanelContainer = special_stack.get_node("SpecialDirectionMarker")
 	assert(direction_marker.get_child(0).text == "↔" and special_shadow != null
 		and is_equal_approx(special_shadow.get_shader_parameter("shadow_blur_px"), 2.0)
-		and (special_shadow.get_shader_parameter("shadow_color") as Color).to_html(false) == Color("#181426b8").to_html(false)
-		and (special_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 1))
+		and is_zero_approx((special_shadow.get_shader_parameter("shadow_color") as Color).a)
+		and (special_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_zero_approx()
 		and is_equal_approx(special_shadow.get_shader_parameter("glow_strength"), 1.0)
 		and (special_shadow.get_shader_parameter("glow_gold") as Color).to_html(false) == Color("#fff0a8").to_html(false)
 		and is_equal_approx(special_shadow.get_shader_parameter("glow_white_radius_px"), 5.0)
@@ -1011,8 +1018,11 @@ func _run() -> void:
 		"Flash Row activation should add the source white, gold and aqua glow radii")
 	var glow_shader_code: String = special_shadow.shader.code
 	assert(glow_shader_code.contains("background_rgb * (1.0 - shadow_alpha)")
-		and not glow_shader_code.contains("background_rgb * background_alpha"),
-		"Special-icon glow is premultiplied already and must not apply its alpha twice")
+		and not glow_shader_code.contains("background_rgb * background_alpha")
+		and not glow_shader_code.contains("background_rgb *= COLOR.rgb")
+		and glow_shader_code.contains("for (int y = -4; y <= 4; y++)")
+		and glow_shader_code.contains("float total_weight = 0.0"),
+		"Special-icon glow must preserve premultiplied RGB and use a normalized blur kernel without clipping")
 	await create_timer(0.3).timeout
 	assert(is_equal_approx(special_icon.rotation_degrees, 0.0), "Flash Row activation did not return to neutral rotation")
 	assert(special_cell.z_index == resting_source_z and target_cell.z_index == resting_target_z,

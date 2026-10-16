@@ -1394,6 +1394,18 @@ void fragment() {
 	return _match_background_material_cache
 
 
+func _padded_glow_texture(source: Texture2D, display_size: Vector2, margin_px: float) -> Texture2D:
+	var source_image := source.get_image()
+	if source_image == null or source_image.is_empty() or display_size.x <= 0.0 or display_size.y <= 0.0:
+		return source
+	var pad_x := ceili(margin_px * float(source_image.get_width()) / display_size.x)
+	var pad_y := ceili(margin_px * float(source_image.get_height()) / display_size.y)
+	var padded := Image.create(source_image.get_width() + pad_x * 2, source_image.get_height() + pad_y * 2, false, Image.FORMAT_RGBA8)
+	padded.fill(Color(0, 0, 0, 0))
+	padded.blit_rect(source_image, Rect2i(Vector2i.ZERO, source_image.get_size()), Vector2i(pad_x, pad_y))
+	return ImageTexture.create_from_image(padded)
+
+
 func _match3_special_icon_material() -> ShaderMaterial:
 	if _special_icon_material_cache != null:
 		return _special_icon_material_cache
@@ -1946,10 +1958,21 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		if special_icon != null:
 			var icon_peak_duration := _special_impact_peak_duration(false)
 			var icon_return_duration := _special_impact_return_duration(false)
+			var special_icon_texture := special_icon as TextureRect
+			var glow_margin_px := 42.0
+			if special_icon_texture != null and special_icon_texture.texture != null:
+				var icon_size := special_icon.size
+				special_icon_texture.texture = _padded_glow_texture(special_icon_texture.texture, icon_size, glow_margin_px)
+				special_icon.offset_left = -glow_margin_px
+				special_icon.offset_top = -glow_margin_px
+				special_icon.offset_right = glow_margin_px
+				special_icon.offset_bottom = glow_margin_px
 			special_icon.pivot_offset = special_icon.size * 0.5
 			special_icon.scale = Vector2(0.82, 0.82)
 			special_icon.rotation_degrees = -8.0
 			var impact_material := (special_icon.material as ShaderMaterial).duplicate() as ShaderMaterial
+			impact_material.set_shader_parameter("shadow_color", Color(0, 0, 0, 0))
+			impact_material.set_shader_parameter("shadow_offset_px", Vector2.ZERO)
 			impact_material.set_shader_parameter("glow_strength", 1.0)
 			impact_material.set_shader_parameter("glow_white", Color.WHITE)
 			impact_material.set_shader_parameter("glow_white_radius_px", 5.0)

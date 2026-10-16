@@ -14,6 +14,23 @@ uniform float glow_white_radius_px = 5.0;
 uniform float glow_gold_radius_px = 10.0;
 uniform float glow_aqua_radius_px = 14.0;
 
+float blurred_alpha(sampler2D source_texture, vec2 uv, vec2 pixel_x, vec2 pixel_y, float sigma_px) {
+	float weighted_alpha = 0.0;
+	float total_weight = 0.0;
+	for (int y = -4; y <= 4; y++) {
+		float y_offset = float(y) * 0.75;
+		float y_weight = exp(-0.5 * y_offset * y_offset);
+		for (int x = -4; x <= 4; x++) {
+			float x_offset = float(x) * 0.75;
+			float weight = y_weight * exp(-0.5 * x_offset * x_offset);
+			vec2 sample_uv = uv + pixel_x * x_offset * sigma_px + pixel_y * y_offset * sigma_px;
+			weighted_alpha += texture(source_texture, sample_uv).a * weight;
+			total_weight += weight;
+		}
+	}
+	return weighted_alpha / total_weight;
+}
+
 
 void fragment() {
 	vec2 pixel_x = dFdx(UV);
@@ -34,36 +51,28 @@ void fragment() {
 	source.rgb *= brightness;
 	float shadow_alpha = alpha / 16.0 * shadow_color.a * COLOR.a * (1.0 - source.a);
 	vec3 shadow_rgb = shadow_color.rgb * COLOR.rgb;
-	float glow_white_samples = 0.0;
-	float glow_gold_samples = 0.0;
-	float glow_aqua_samples = 0.0;
-	if (glow_strength > 0.001) {
-		for (int sample_index = 0; sample_index < 8; sample_index++) {
-			float angle = float(sample_index) * 0.785398;
-			vec2 direction = vec2(cos(angle), sin(angle));
-			vec2 sample_direction = pixel_x * direction.x + pixel_y * direction.y;
-			if (glow_white.a > 0.001) {
-				glow_white_samples += texture(TEXTURE, UV + sample_direction * glow_white_radius_px).a;
-			}
-			if (glow_gold.a > 0.001) {
-				glow_gold_samples += texture(TEXTURE, UV + sample_direction * glow_gold_radius_px).a;
-			}
-			if (glow_aqua.a > 0.001) {
-				glow_aqua_samples += texture(TEXTURE, UV + sample_direction * glow_aqua_radius_px).a;
-			}
-		}
-	}
+	float glow_white_alpha = glow_strength > 0.001 && glow_white.a > 0.001
+		? blurred_alpha(TEXTURE, UV, pixel_x, pixel_y, glow_white_radius_px) * glow_strength * glow_white.a
+		: 0.0;
+	float glow_gold_alpha = glow_strength > 0.001 && glow_gold.a > 0.001
+		? blurred_alpha(TEXTURE, UV, pixel_x, pixel_y, sqrt(glow_white_radius_px * glow_white_radius_px
+			+ glow_gold_radius_px * glow_gold_radius_px)) * glow_strength * glow_gold.a
+		: 0.0;
+	float glow_aqua_alpha = glow_strength > 0.001 && glow_aqua.a > 0.001
+		? blurred_alpha(TEXTURE, UV, pixel_x, pixel_y, sqrt(glow_white_radius_px * glow_white_radius_px
+			+ glow_gold_radius_px * glow_gold_radius_px + glow_aqua_radius_px * glow_aqua_radius_px))
+			* glow_strength * glow_aqua.a
+		: 0.0;
 	float outside_source = 1.0 - source.a;
-	float glow_white_alpha = glow_white_samples / 8.0 * 0.55 * glow_strength * glow_white.a * outside_source;
-	float glow_gold_alpha = glow_gold_samples / 8.0 * 0.42 * glow_strength * glow_gold.a * outside_source;
-	float glow_aqua_alpha = glow_aqua_samples / 8.0 * 0.30 * glow_strength * glow_aqua.a * outside_source;
+	glow_white_alpha *= outside_source;
+	glow_gold_alpha *= outside_source;
+	glow_aqua_alpha *= outside_source;
 	float background_alpha = glow_aqua_alpha
 		+ glow_gold_alpha * (1.0 - glow_aqua_alpha)
 		+ glow_white_alpha * (1.0 - glow_aqua_alpha) * (1.0 - glow_gold_alpha);
 	vec3 background_rgb = glow_aqua.rgb * glow_aqua_alpha
 		+ glow_gold.rgb * glow_gold_alpha * (1.0 - glow_aqua_alpha)
 		+ glow_white.rgb * glow_white_alpha * (1.0 - glow_aqua_alpha) * (1.0 - glow_gold_alpha);
-	background_rgb *= COLOR.rgb;
 	float under_alpha = shadow_alpha + background_alpha * (1.0 - shadow_alpha);
 	vec3 under_rgb = shadow_rgb * shadow_alpha + background_rgb * (1.0 - shadow_alpha);
 	float output_alpha = source.a + under_alpha * (1.0 - source.a);
