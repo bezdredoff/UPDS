@@ -25,6 +25,7 @@ const SETTLE_MOTION_SECONDS := 0.32
 const RESHUFFLE_MOTION_SECONDS := 0.46
 const FEEDBACK_HOLD_SECONDS := 0.42
 const HINT_ICON := "res://assets/match3/special_observation_magnifier.png"
+const BARK_TRAY_Y_OFFSET := 1.0
 
 static var _drop_shadow_material_cache: Dictionary = {}
 static var _special_icon_material_cache: ShaderMaterial
@@ -61,9 +62,11 @@ var bark: Label
 var bark_panel: PanelContainer
 var bark_slot: Control
 var bark_base_style: StyleBoxFlat
+var bark_row: HBoxContainer
 var bark_speaker: Label
 var bark_portrait_frame: Panel
 var bark_portrait: TextureRect
+var bark_portrait_column: CenterContainer
 var tutorial_panel: PanelContainer
 var tutorial_frame: PanelContainer
 var tutorial_card_style: StyleBoxFlat
@@ -85,6 +88,7 @@ var moves: Label
 var moves_heading: Label
 var hint_button: Button
 var hint_label: Label
+var hint_icon: TextureRect
 var dossier_button: Button
 var help_button: Button
 var settings_button: Button
@@ -449,22 +453,21 @@ func _ready() -> void:
 	resized.connect(_fit_board_hud_spacing)
 	get_viewport().size_changed.connect(_fit_board_hud_spacing)
 	var bark_style := StyleBoxFlat.new()
-	bark_style.bg_color = Color("#fff7dff2")
-	bark_style.border_color = Color("#66755d99")
-	bark_style.set_border_width_all(1)
-	bark_style.border_width_left = 4
-	bark_style.set_corner_radius_all(9)
-	bark_style.shadow_color = Color("#252b3c40")
-	bark_style.shadow_size = 14
-	bark_style.shadow_offset = Vector2(0, 5)
-	bark_style.content_margin_left = 5
+	bark_style.bg_color = Color(0, 0, 0, 0)
+	bark_style.border_color = Color("#f7ebc8")
+	bark_style.set_border_width_all(3)
+	bark_style.set_corner_radius_all(8)
+	bark_style.shadow_size = 0
+	# Godot's StyleBox content margins sit inside the border, while the web
+	# tray's CSS padding is measured after its 3px border.
+	bark_style.content_margin_left = 7
 	bark_style.content_margin_right = 9
-	bark_style.content_margin_top = 5
-	bark_style.content_margin_bottom = 5
+	bark_style.content_margin_top = 4
+	bark_style.content_margin_bottom = 4
 	bark_base_style = bark_style
 	bark_slot = Control.new()
 	bark_slot.name = "BarkSlot"
-	bark_slot.custom_minimum_size.y = 62
+	bark_slot.custom_minimum_size.y = 60
 	bark_slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bark_slot.clip_contents = false
 	content.remove_child(bark)
@@ -472,15 +475,31 @@ func _ready() -> void:
 	bark_panel = PanelContainer.new()
 	bark_panel.name = "FieldBark"
 	bark_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	bark_panel.custom_minimum_size.y = 62
+	bark_panel.offset_left = 0.0
+	bark_panel.offset_top = 0.0
+	bark_panel.offset_right = 0.0
+	bark_panel.offset_bottom = 0.0
+	bark_panel.offset_top = BARK_TRAY_Y_OFFSET
+	bark_panel.offset_bottom = BARK_TRAY_Y_OFFSET
+	bark_panel.custom_minimum_size.y = 60
 	bark_panel.add_theme_stylebox_override("panel", bark_style)
 	bark_slot.add_child(bark_panel)
-	var bark_row := HBoxContainer.new()
+	var bark_gradient := _hud_paper_gradient_rect()
+	bark_gradient.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bark_panel.add_child(bark_gradient)
+	bark_row = HBoxContainer.new()
 	bark_row.add_theme_constant_override("separation", 5)
 	bark_panel.add_child(bark_row)
+	bark_portrait_column = CenterContainer.new()
+	bark_portrait_column.custom_minimum_size = Vector2(44, 42)
+	bark_portrait_column.custom_maximum_size = Vector2(46, 44)
+	bark_portrait_column.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	bark_row.add_child(bark_portrait_column)
 	bark_portrait_frame = Panel.new()
 	bark_portrait_frame.name = "PortraitFrame"
 	bark_portrait_frame.custom_minimum_size = Vector2(42, 42)
+	bark_portrait_frame.custom_maximum_size = Vector2(42, 42)
+	bark_portrait_frame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	bark_portrait_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var portrait_frame_style := StyleBoxFlat.new()
 	portrait_frame_style.bg_color = Color("#fff5d2")
@@ -491,7 +510,7 @@ func _ready() -> void:
 	portrait_frame_style.shadow_size = 1
 	portrait_frame_style.shadow_offset = Vector2.ZERO
 	bark_portrait_frame.add_theme_stylebox_override("panel", portrait_frame_style)
-	bark_row.add_child(bark_portrait_frame)
+	bark_portrait_column.add_child(bark_portrait_frame)
 	bark_portrait = TextureRect.new()
 	bark_portrait.name = "Portrait"
 	bark_portrait.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -538,16 +557,19 @@ func _ready() -> void:
 	hint_content.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hint_content.add_theme_constant_override("separation", 3)
 	hint_button.add_child(hint_content)
-	var hint_icon := TextureRect.new()
+	hint_icon = TextureRect.new()
 	hint_icon.custom_minimum_size = Vector2(23, 23)
+	hint_icon.custom_maximum_size = Vector2(23, 23)
 	hint_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	hint_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	hint_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	hint_icon.texture = load(HINT_ICON)
 	hint_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hint_content.add_child(hint_icon)
 	hint_label = _label(hint_content, 9, Color("#326349"))
 	hint_label.add_theme_font_override("font", UiFonts.match3(900))
 	hint_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hint_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hint_button.pressed.connect(_show_hint)
@@ -632,6 +654,7 @@ func _ready() -> void:
 	_build_campaign_result()
 	preferences.locale_changed.connect(func(_locale: String) -> void: _refresh())
 	_sync_tutorial_prompt()
+	_fit_bark_layout()
 	_refresh()
 
 
@@ -1073,7 +1096,35 @@ func _board_hud_spacing() -> float:
 func _fit_board_hud_spacing() -> void:
 	if is_instance_valid(board_top_spacer):
 		board_top_spacer.custom_minimum_size.y = _board_hud_spacing()
+	_fit_bark_layout()
 	_fit_board_cells()
+
+
+func _fit_bark_layout(width_override := -1.0) -> void:
+	if (not is_instance_valid(bark_panel) or not is_instance_valid(bark_slot)
+		or not is_instance_valid(bark_portrait_column) or not is_instance_valid(hint_button)
+		or not is_instance_valid(hint_icon) or not is_instance_valid(bark) or not is_instance_valid(bark_speaker)):
+		return
+	var viewport_width := get_viewport_rect().size.x if width_override < 0.0 else width_override
+	var compact := viewport_width <= 430.0
+	var card_height := 60.0 if compact else 62.0
+	var portrait_size := 42.0 if compact else 44.0
+	var portrait_column := 44.0 if compact else 46.0
+	var hint_width := 96.0 if compact else 100.0
+	bark_slot.custom_minimum_size.y = card_height
+	bark_panel.custom_minimum_size.y = card_height
+	bark_portrait_column.custom_minimum_size = Vector2(portrait_column, portrait_size)
+	bark_portrait_column.custom_maximum_size = bark_portrait_column.custom_minimum_size
+	bark_portrait_frame.custom_minimum_size = Vector2(portrait_size, portrait_size)
+	bark_portrait_frame.custom_maximum_size = Vector2(portrait_size, portrait_size)
+	hint_button.custom_minimum_size = Vector2(hint_width, 44.0)
+	hint_button.custom_maximum_size = Vector2(hint_width, 44.0)
+	hint_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	hint_icon.custom_minimum_size = Vector2(21.0 if compact else 23.0, 21.0 if compact else 23.0)
+	hint_icon.custom_maximum_size = hint_icon.custom_minimum_size
+	bark.add_theme_font_size_override("font_size", 9 if compact else 10)
+	bark_speaker.add_theme_font_size_override("font_size", clampi(roundi(viewport_width * 0.026), 8, 10))
+	bark_row.add_theme_constant_override("separation", 5)
 
 
 func _source_board_geometry() -> Dictionary:
@@ -2046,23 +2097,9 @@ func _speaker_portrait(speaker: String) -> Texture2D:
 
 func _set_bark_emphasis(emphasis: String) -> void:
 	if not is_instance_valid(bark_panel) or bark_base_style == null: return
-	var style := bark_base_style.duplicate() as StyleBoxFlat
-	style.shadow_color = Color("#252b3c40")
-	style.shadow_size = 14
-	style.shadow_offset = Vector2(0, 5)
-	if emphasis == "urgent":
-		style.border_width_left = 5
-		style.border_color = Color("#d96279")
-		style.shadow_color = Color("#252b3c52")
-		style.shadow_size = 18
-		style.shadow_offset = Vector2(0, 6)
-	elif emphasis == "strong":
-		style.border_width_left = 5
-	elif emphasis == "light":
-		style.shadow_color = Color("#252b3c2e")
-		style.shadow_size = 9
-		style.shadow_offset = Vector2(0, 3)
-	bark_panel.add_theme_stylebox_override("panel", style)
+	# UI A keeps the outer dialogue tray unchanged while swapping its copy.
+	# The source .field-bark reaction styling is intentionally transparent.
+	if not emphasis.is_empty(): bark_panel.add_theme_stylebox_override("panel", bark_base_style)
 
 
 func _present_narrative_reaction(result: Dictionary) -> void:
@@ -2129,15 +2166,21 @@ func _present_pending_narrative_reaction(reaction_id: String) -> void:
 
 func _animate_reaction_enter() -> void:
 	if reaction_tween != null and reaction_tween.is_valid(): reaction_tween.kill()
-	bark_panel.position.y = 0.0
+	_set_bark_tray_vertical_offset(BARK_TRAY_Y_OFFSET)
 	bark_panel.modulate = Color.WHITE
 	if _prefers_reduced_motion(): return
 	var ease_out := Callable(self, "_css_cubic_bezier").bind(0.0, 0.0, 0.58, 1.0)
-	bark_panel.position.y = 4.0
+	_set_bark_tray_vertical_offset(BARK_TRAY_Y_OFFSET + 4.0)
 	bark_panel.modulate.a = 0.0
 	reaction_tween = create_tween()
-	reaction_tween.tween_property(bark_panel, "position:y", 0.0, 0.16).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+	reaction_tween.tween_property(bark_panel, "offset_top", BARK_TRAY_Y_OFFSET, 0.16).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+	reaction_tween.parallel().tween_property(bark_panel, "offset_bottom", BARK_TRAY_Y_OFFSET, 0.16).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
 	reaction_tween.parallel().tween_property(bark_panel, "modulate:a", 1.0, 0.16).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+
+
+func _set_bark_tray_vertical_offset(offset: float) -> void:
+	bark_panel.offset_top = offset
+	bark_panel.offset_bottom = offset
 
 
 
@@ -2151,7 +2194,8 @@ func _dismiss_narrative_reaction(reaction_id: String, generation: int = -1) -> v
 	reaction_tween = create_tween()
 	reaction_tween.tween_property(bark_panel, "modulate:a", 0.0, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
 	if not reduced:
-		reaction_tween.parallel().tween_property(bark_panel, "position:y", -2.0, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+		reaction_tween.parallel().tween_property(bark_panel, "offset_top", BARK_TRAY_Y_OFFSET - 2.0, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
+		reaction_tween.parallel().tween_property(bark_panel, "offset_bottom", BARK_TRAY_Y_OFFSET - 2.0, duration).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_out)
 	reaction_tween.finished.connect(_finish_narrative_reaction_dismiss.bind(reaction_id, reaction_generation), CONNECT_ONE_SHOT)
 
 
@@ -2159,7 +2203,7 @@ func _finish_narrative_reaction_dismiss(reaction_id: String, generation: int = -
 	if generation >= 0 and generation != reaction_generation: return
 	if str(active_reaction.get("id", "")) != reaction_id: return
 	active_reaction.clear()
-	bark_panel.position.y = 0.0
+	_set_bark_tray_vertical_offset(BARK_TRAY_Y_OFFSET)
 	bark_panel.modulate = Color.WHITE
 	_refresh()
 
@@ -2172,7 +2216,7 @@ func _new_game_for_attempt() -> RefCounted:
 	reaction_blockers_cleared = 0
 	if reaction_tween != null and reaction_tween.is_valid(): reaction_tween.kill()
 	if is_instance_valid(bark_panel):
-		bark_panel.position.y = 0.0
+		_set_bark_tray_vertical_offset(BARK_TRAY_Y_OFFSET)
 		bark_panel.modulate = Color.WHITE
 	var runtime_level: Dictionary = level_data.duplicate(true)
 	runtime_level.erase("openingBoard")
@@ -2543,7 +2587,7 @@ func _style_header_button(button: Button, background: Color = Color("#0b2038")) 
 
 
 func _style_hint_button(button: Button) -> void:
-	button.custom_minimum_size = Vector2(94, 48)
+	button.custom_minimum_size = Vector2(100, 44)
 	button.add_theme_font_size_override("font_size", 9)
 	button.add_theme_font_override("font", UiFonts.match3(900))
 	button.add_theme_color_override("font_color", Color("#326349"))

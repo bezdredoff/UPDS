@@ -272,30 +272,64 @@ func _run() -> void:
 		and match3.bark_portrait.texture != null
 		and match3.bark_portrait.texture.resource_path.ends_with("ayuki/medallions/portrait_neutral_256.png"),
 		"Reaction bark should use the same authored circular portrait as the web UI")
+	match3._fit_bark_layout(390.0)
 	var portrait_frame_style := match3.bark_portrait_frame.get_theme_stylebox("panel") as StyleBoxFlat
 	var portrait_mask := (match3.bark_portrait.material as ShaderMaterial).shader.code
 	assert(match3.bark_portrait_frame.custom_minimum_size == Vector2(42, 42)
+		and match3.bark_portrait_column.custom_minimum_size == Vector2(44, 42)
 		and portrait_frame_style.get_border_width(SIDE_LEFT) == 2
 		and portrait_frame_style.corner_radius_top_left == 999
 		and portrait_frame_style.shadow_color.is_equal_approx(Color("#326349"))
 		and portrait_mask.contains("smoothstep"),
 		"Match-3 speaker portrait should keep its circular crop, paper border and green ring")
-	assert(is_zero_approx(match3.bark_panel.modulate.a) and is_equal_approx(match3.bark_panel.position.y, 4.0),
-		"Reaction bark should begin at the source 4px entrance offset and zero opacity")
+	assert(is_zero_approx(match3.bark_panel.modulate.a) and is_equal_approx(match3.bark_panel.position.y, 5.0),
+		"Reaction bark should begin 4px below its calibrated static tray position and at zero opacity")
 	await create_timer(0.2).timeout
-	assert(is_equal_approx(match3.bark_panel.modulate.a, 1.0) and is_zero_approx(match3.bark_panel.position.y),
+	assert(is_equal_approx(match3.bark_panel.modulate.a, 1.0) and is_equal_approx(match3.bark_panel.position.y, 1.0),
 		"Reaction bark should finish its 160ms ease-out entrance")
 	var reaction_style := match3.bark_panel.get_theme_stylebox("panel") as StyleBoxFlat
-	assert(reaction_style.border_width_left == 4 and reaction_style.border_width_top == 1
-		and reaction_style.corner_radius_top_left == 9 and reaction_style.shadow_size == 14,
-		"Standard reaction emphasis should preserve the web bark spine, outline and shadow")
+	assert(reaction_style.border_width_left == 3 and reaction_style.border_width_top == 3
+		and reaction_style.border_color == Color("#f7ebc8")
+		and reaction_style.corner_radius_top_left == 8 and reaction_style.shadow_size == 0,
+		"Narrative reactions should keep the source dialogue tray's paper outline without a second bark spine")
 	var bark_base: StyleBoxFlat = match3.bark_base_style
-	assert(bark_base.bg_color == Color("#fff7dff2")
-		and bark_base.border_color == Color("#66755d99")
-		and bark_base.border_width_left == 4
-		and bark_base.border_width_top == 1
-		and bark_base.corner_radius_top_left == 9,
-		"Static Match-3 bark should use the source parchment fill, green spine and rounded border")
+	assert(bark_base.bg_color == Color(0, 0, 0, 0)
+		and bark_base.border_color == Color("#f7ebc8")
+		and bark_base.border_width_left == 3
+		and bark_base.border_width_top == 3
+		and bark_base.corner_radius_top_left == 8
+		and bark_base.shadow_size == 0
+		and bark_base.content_margin_left == 7 and bark_base.content_margin_right == 9
+		and bark_base.content_margin_top == 4 and bark_base.content_margin_bottom == 4,
+		"Match-3 dialogue tray should match the source paper frame and content padding")
+	var bark_gradient := match3.bark_panel.get_node("HudPaperGradient") as TextureRect
+	assert(bark_gradient != null and (bark_gradient.texture as GradientTexture2D).gradient.colors
+		== PackedColorArray([Color("#fff7df"), Color("#f7ebc8")]),
+		"Match-3 dialogue tray should use the source vertical paper gradient")
+	match3._fit_bark_layout(390.0)
+	assert(match3.bark_slot.custom_minimum_size.y == 60.0
+		and match3.bark_panel.custom_minimum_size.y == 60.0
+		and match3.bark_portrait_column.custom_minimum_size == Vector2(44, 42)
+		and match3.hint_button.custom_minimum_size == Vector2(96, 44)
+		and match3.hint_button.custom_maximum_size == Vector2(96, 44)
+		and match3.hint_button.size_flags_vertical == Control.SIZE_SHRINK_CENTER
+		and match3.hint_icon.custom_minimum_size == Vector2(21, 21)
+		and match3.hint_icon.size_flags_vertical == Control.SIZE_SHRINK_CENTER
+		and match3.bark.get_theme_font_size("font_size") == 9,
+		"Compact dialogue tray should match the source portrait, hint and copy dimensions")
+	match3.bark.text = "Сначала категории. Потом выводы."
+	await process_frame
+	assert(match3.bark.get_line_count() == 1,
+		"The source M3_00 bark should remain on one line at the 390px phone width")
+	match3._fit_bark_layout(480.0)
+	assert(match3.bark_slot.custom_minimum_size.y == 62.0
+		and match3.bark_portrait_column.custom_minimum_size == Vector2(46, 44)
+		and match3.hint_button.custom_minimum_size == Vector2(100, 44)
+		and match3.hint_button.custom_maximum_size == Vector2(100, 44)
+		and match3.bark.get_theme_font_size("font_size") == 10,
+		"Wide dialogue tray should match the source portrait, hint and copy dimensions")
+	match3._fit_bark_layout(390.0)
+	match3._refresh()
 	match3.game.moves_left = moves_before_reaction
 	match3._refresh()
 	var disabled_hint_style := match3.hint_button.get_theme_stylebox("disabled") as StyleBoxFlat
@@ -309,8 +343,9 @@ func _run() -> void:
 	match3._dismiss_narrative_reaction("ingredient-context")
 	await create_timer(0.22).timeout
 	assert(match3.active_reaction.is_empty() and is_equal_approx(match3.bark_panel.modulate.a, 1.0)
-		and is_zero_approx(match3.bark_panel.position.y),
-		"Reaction bark should fade out and restore the static bark after its duration")
+		and is_equal_approx(match3.bark_panel.position.y, 1.0)
+		and is_equal_approx(match3.bark_panel.size.x, match3.bark_slot.size.x),
+		"Reaction bark should restore the static tray position and stay within the responsive slot")
 	match3._reduced_motion_override = null
 	match3._refresh()
 	var board_outline := match3.board_frame.get_parent() as PanelContainer
@@ -449,7 +484,7 @@ func _run() -> void:
 	assert(match3.help_button.custom_minimum_size == Vector2(44, 44), "Match-3 help control should match the source button size")
 	assert(match3.settings_button.custom_minimum_size == Vector2(44, 44), "Match-3 settings control should match the source button size")
 	assert(match3.objective_icon.custom_minimum_size == Vector2(24, 24), "Objective art should use the compact source HUD size")
-	assert(match3.hint_button.custom_minimum_size == Vector2(94, 48), "Hint control should preserve the source tool tray size")
+	assert(match3.hint_button.custom_minimum_size == Vector2(96, 44), "Hint control should preserve the source compact tool tray size")
 	var tutorial_style := match3.tutorial_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	var tutorial_badge_style := match3.tutorial_badge.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(is_equal_approx(match3.tutorial_panel.custom_maximum_size.x, 350.0), "Tutorial card width should match the source 350px maximum")
