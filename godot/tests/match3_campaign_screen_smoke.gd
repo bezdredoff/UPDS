@@ -967,6 +967,9 @@ func _run() -> void:
 	assert(special_cell.get_node_or_null("SpecialImpactSourceOutline") != null, "Activated special did not receive its source outline")
 	assert(special_cell.get_node_or_null("SpecialImpactBeam") != null, "Line special did not create its directional beam")
 	var impact_beam := special_cell.get_node("SpecialImpactBeam") as ColorRect
+	var impact_flash := special_cell.get_node("SpecialImpactFlash") as ColorRect
+	assert(impact_beam.z_index == 7 and impact_flash.z_index == 8,
+		"Line-special beam should render below the CSS z-index 8 cell flash")
 	var impact_beam_material := impact_beam.material as ShaderMaterial
 	var beam_core_size := special_cell.size.y * 0.12
 	var expected_beam_core_fraction := beam_core_size / (beam_core_size + 10.0)
