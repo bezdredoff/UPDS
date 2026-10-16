@@ -4,6 +4,7 @@ signal menu_requested
 signal progress_reset_requested
 signal match3_requested(level_id: String)
 signal overlay_closed
+signal settings_requested
 
 const Prologue = preload("res://data/prologue.json")
 const LockerScene = preload("res://data/locker_scene.json")
@@ -1121,7 +1122,7 @@ func _case_button_style(hovered: bool = false) -> StyleBoxFlat:
 	return style
 
 
-func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_ratio: float = 0.88) -> void:
+func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_ratio: float = 0.88, full_screen: bool = false) -> void:
 	_auto_generation += 1
 	overlay_return_focus = get_viewport().gui_get_focus_owner()
 	if is_instance_valid(overlay):
@@ -1133,25 +1134,45 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 	var dim := ColorRect.new()
 	dim.name = "OverlayBackdrop"
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	dim.material = _overlay_backdrop_material()
+	if not full_screen:
+		dim.material = _overlay_backdrop_material()
+	else:
+		dim.color = Color.WHITE
+		var paper_gradient := Gradient.new()
+		paper_gradient.set_color(0, Color("#fffaf2"))
+		paper_gradient.set_color(1, Color("#f0e7e5"))
+		var paper_texture := GradientTexture2D.new()
+		paper_texture.gradient = paper_gradient
+		paper_texture.width = 1
+		paper_texture.height = 512
+		paper_texture.fill_from = Vector2(0.5, 0.0)
+		paper_texture.fill_to = Vector2(0.5, 1.0)
+		var paper_wash := TextureRect.new()
+		paper_wash.name = "DossierPaperGradient"
+		paper_wash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		paper_wash.texture = paper_texture
+		paper_wash.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		paper_wash.stretch_mode = TextureRect.STRETCH_SCALE
+		paper_wash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		dim.add_child(paper_wash)
 	dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	overlay.add_child(dim)
 	var card := PanelContainer.new()
 	card.name = "OverlayCard"
 	card.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	card.anchor_left = 0.028
-	var vertical_margin := (1.0 - height_ratio) * 0.5
+	card.anchor_left = 0.028 if not full_screen else 0.0
+	var vertical_margin := (1.0 - height_ratio) * 0.5 if not full_screen else 0.0
 	card.anchor_top = vertical_margin
-	card.anchor_right = 0.972
+	card.anchor_right = 0.972 if not full_screen else 1.0
 	card.anchor_bottom = 1.0 - vertical_margin
 	var paper := StyleBoxFlat.new()
-	paper.bg_color = Color("#fff8e8")
-	paper.border_color = Color("#f3e8d2")
-	paper.set_border_width_all(2)
-	paper.set_corner_radius_all(18)
-	paper.shadow_color = Color("#05081680")
-	paper.shadow_size = 24
-	paper.shadow_offset = Vector2(0, 18)
+	paper.bg_color = Color("#fffaf2") if full_screen else Color("#fff8e8")
+	paper.border_color = Color.TRANSPARENT if full_screen else Color("#f3e8d2")
+	paper.set_border_width_all(0 if full_screen else 2)
+	paper.set_corner_radius_all(0 if full_screen else 18)
+	paper.shadow_color = Color.TRANSPARENT if full_screen else Color("#05081680")
+	paper.shadow_size = 0 if full_screen else 24
+	paper.shadow_offset = Vector2.ZERO if full_screen else Vector2(0, 18)
 	card.add_theme_stylebox_override("panel", paper)
 	overlay.add_child(card)
 	var layout := VBoxContainer.new()
@@ -1160,15 +1181,17 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 	card.add_child(layout)
 	var header_panel := PanelContainer.new()
 	header_panel.name = "OverlayHeader"
-	header_panel.custom_minimum_size.y = 68
+	header_panel.custom_minimum_size.y = 58 if full_screen else 68
 	var header_style := StyleBoxFlat.new()
-	header_style.bg_color = Color("#1d3551")
-	header_style.corner_radius_top_left = 16
-	header_style.corner_radius_top_right = 16
-	header_style.content_margin_left = 16
-	header_style.content_margin_right = 12
-	header_style.content_margin_top = 10
-	header_style.content_margin_bottom = 10
+	header_style.bg_color = Color("#fffaf2") if full_screen else Color("#1d3551")
+	header_style.border_color = Color("#e7d6b6")
+	header_style.border_width_bottom = 1 if full_screen else 0
+	header_style.corner_radius_top_left = 0 if full_screen else 16
+	header_style.corner_radius_top_right = 0 if full_screen else 16
+	header_style.content_margin_left = 5 if full_screen else 16
+	header_style.content_margin_right = 5 if full_screen else 12
+	header_style.content_margin_top = 5 if full_screen else 10
+	header_style.content_margin_bottom = 5 if full_screen else 10
 	header_panel.add_theme_stylebox_override("panel", header_style)
 	layout.add_child(header_panel)
 	var header := HBoxContainer.new()
@@ -1181,21 +1204,34 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 	header.add_child(title_stack)
 	var eyebrow_label := _label(title_stack, 8)
 	eyebrow_label.text = eyebrow
-	eyebrow_label.add_theme_color_override("font_color", Color("#e9d5a7"))
+	eyebrow_label.add_theme_color_override("font_color", Color("#9b8665") if full_screen else Color("#e9d5a7"))
 	var eyebrow_font := UiFonts.sans(900)
 	eyebrow_label.add_theme_font_override("font", eyebrow_font)
 	overlay_title = _label(title_stack, 20)
 	overlay_title.add_theme_font_size_override("font_size", 21)
 	overlay_title.text = heading
-	overlay_title.add_theme_color_override("font_color", Color("#fff9ea"))
+	overlay_title.add_theme_color_override("font_color", Color("#302c3e") if full_screen else Color("#fff9ea"))
 	var title_font := _serif_font()
 	title_font.font_weight = 800
 	overlay_title.add_theme_font_override("font", title_font)
 	var close := Button.new()
 	close.name = "CloseOverlay"
 	close.custom_minimum_size = Vector2(44, 44)
-	close.add_theme_stylebox_override("normal", _overlay_close_style(false))
-	close.add_theme_stylebox_override("hover", _overlay_close_style(true))
+	if full_screen:
+		close.name = "BackFromDossier"
+		close.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
+		close.add_theme_stylebox_override("hover", StyleBoxEmpty.new())
+		var back_icon := _icon_texture("back", 22)
+		back_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		back_icon.offset_left = 11
+		back_icon.offset_top = 11
+		back_icon.offset_right = -11
+		back_icon.offset_bottom = -11
+		back_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		close.add_child(back_icon)
+	else:
+		close.add_theme_stylebox_override("normal", _overlay_close_style(false))
+		close.add_theme_stylebox_override("hover", _overlay_close_style(true))
 	var close_icon := _icon_texture("close", 22)
 	close_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	close_icon.offset_left = 11
@@ -1203,7 +1239,8 @@ func _create_overlay(heading: String, eyebrow: String = "CASE FILE", height_rati
 	close_icon.offset_right = -11
 	close_icon.offset_bottom = -11
 	close_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	close.add_child(close_icon)
+	if not full_screen:
+		close.add_child(close_icon)
 	close.pressed.connect(_close_overlay)
 	header.add_child(close)
 	overlay_scroll = ScrollContainer.new()
@@ -1351,7 +1388,37 @@ func _fit_overlay_to_content(max_height_ratio: float) -> void:
 
 
 func _show_dossier() -> void:
-	_create_overlay(Copy.text("dossier_title", preferences.locale), "CASE FILE")
+	_create_overlay(Copy.text("dossier_title", preferences.locale), Copy.text("dossier_case", preferences.locale), 1.0, true)
+	overlay_body.add_theme_constant_override("separation", 0)
+	var dossier_padding := MarginContainer.new()
+	dossier_padding.name = "DossierPadding"
+	dossier_padding.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for side in ["left", "right"]:
+		dossier_padding.add_theme_constant_override("margin_" + side, 20)
+	dossier_padding.add_theme_constant_override("margin_top", 0)
+	dossier_padding.add_theme_constant_override("margin_bottom", 30)
+	overlay_scroll.remove_child(overlay_body)
+	overlay_scroll.add_child(dossier_padding)
+	dossier_padding.add_child(overlay_body)
+	var dossier_back := overlay.find_child("BackFromDossier", true, false) as Button
+	dossier_back.add_theme_color_override("font_hover_color", Color("#d96279"))
+	var dossier_header_row := dossier_back.get_parent() as HBoxContainer
+	dossier_header_row.move_child(dossier_back, 0)
+	var dossier_settings := Button.new()
+	dossier_settings.name = "DossierSettings"
+	dossier_settings.custom_minimum_size = Vector2(44, 44)
+	dossier_settings.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
+	dossier_settings.add_theme_stylebox_override("hover", StyleBoxEmpty.new())
+	var settings_icon := _icon_texture("settings", 22)
+	settings_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	settings_icon.offset_left = 11
+	settings_icon.offset_top = 11
+	settings_icon.offset_right = -11
+	settings_icon.offset_bottom = -11
+	settings_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	dossier_settings.add_child(settings_icon)
+	dossier_settings.pressed.connect(func() -> void: settings_requested.emit())
+	dossier_header_row.add_child(dossier_settings)
 	_dossier_tab = "clues"
 	var heading := _label(overlay_body, 19)
 	heading.text = Copy.text("dossier_heading", preferences.locale)
@@ -1404,16 +1471,16 @@ func _add_clue_card(level: Dictionary, number: int) -> void:
 	var unlocked: bool = session.state.clues.has(clue_id)
 	var localized: Dictionary = evidence.get("localized", {}).get(preferences.locale, {})
 	var card := PanelContainer.new()
-	card.custom_minimum_size.x = 150
+	card.custom_minimum_size.x = 0
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("#fffdf9")
 	style.border_color = Color("#ded3db")
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(9)
-	style.content_margin_left = 8
-	style.content_margin_right = 8
-	style.content_margin_top = 8
-	style.content_margin_bottom = 8
+	style.content_margin_left = 9
+	style.content_margin_right = 9
+	style.content_margin_top = 9
+	style.content_margin_bottom = 9
 	if not unlocked:
 		style.bg_color = Color("#f1ece5")
 	card.add_theme_stylebox_override("panel", style)
@@ -1422,7 +1489,7 @@ func _add_clue_card(level: Dictionary, number: int) -> void:
 	body.add_theme_constant_override("separation", 4)
 	card.add_child(body)
 	var art := PanelContainer.new()
-	art.custom_minimum_size = Vector2(0, 82)
+	art.custom_minimum_size = Vector2(0, 92)
 	var art_style := StyleBoxFlat.new()
 	art_style.bg_color = Color("#33223a")
 	art_style.set_corner_radius_all(7)
@@ -1430,7 +1497,7 @@ func _add_clue_card(level: Dictionary, number: int) -> void:
 	body.add_child(art)
 	if unlocked and not str(evidence.get("asset", "")).is_empty():
 		var image := TextureRect.new()
-		image.custom_minimum_size = Vector2(82, 78)
+		image.custom_minimum_size = Vector2(86, 86)
 		image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		image.texture = load("res://" + str(evidence.asset).trim_prefix("./"))

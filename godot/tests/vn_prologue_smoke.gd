@@ -972,7 +972,30 @@ func _vn_reading_controls(menu: Control) -> void:
 	assert(session.current_line().id == "VN0005", "Skip should stop on the first unread story line")
 	screen.case_button.pressed.emit()
 	assert(screen.overlay_title.text == Copy.text("dossier_title", menu.preferences.locale))
+	await process_frame
+	await process_frame
+	var dossier_card: PanelContainer = screen.overlay.find_child("OverlayCard", true, false)
+	var dossier_back: Button = screen.overlay.find_child("BackFromDossier", true, false)
+	var dossier_backdrop: ColorRect = screen.overlay.find_child("OverlayBackdrop", true, false)
+	assert(is_equal_approx(dossier_card.position.x, 0.0)
+		and is_equal_approx(dossier_card.size.x, screen.size.x)
+		and is_equal_approx(dossier_card.position.y, 0.0)
+		and is_equal_approx(dossier_card.size.y, screen.size.y),
+		"Dossier should replace the VN with a full-screen page like the source, not a modal card")
+	assert(dossier_back != null and dossier_back.get_index() == 0
+		and screen.overlay.find_child("DossierSettings", true, false) != null
+		and dossier_backdrop.material == null,
+		"Full-screen dossier should use back/settings navigation without a dimmed modal backdrop")
+	var dossier_header_style := screen.overlay.find_child("OverlayHeader", true, false).get_theme_stylebox("panel") as StyleBoxFlat
+	assert(dossier_header_style.bg_color.is_equal_approx(Color("#fffaf2"))
+		and dossier_header_style.get_border_width(SIDE_BOTTOM) == 1,
+		"Dossier heading should use the light-paper full-page header palette")
 	assert(screen.dossier_clues.get_child_count() == 22, "The dossier should render all campaign clue cards")
+	var first_clue: PanelContainer = screen.dossier_clues.get_child(0)
+	var first_clue_body: VBoxContainer = first_clue.get_child(0)
+	var first_clue_art: PanelContainer = first_clue_body.get_child(0)
+	assert(is_equal_approx(first_clue_art.custom_minimum_size.y, 92.0),
+		"Dossier clue artwork should match the 92px source image frame")
 	var selected_clue_style := screen.dossier_clues_tab.get_theme_stylebox("normal") as StyleBoxFlat
 	assert(not screen.dossier_clues_tab.disabled
 		and selected_clue_style.get_border_width(SIDE_BOTTOM) == 3
