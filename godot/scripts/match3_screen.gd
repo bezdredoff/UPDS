@@ -1394,6 +1394,18 @@ void fragment() {
 	return _match_background_material_cache
 
 
+func _padded_glow_texture(source: Texture2D, display_size: Vector2, margin_px: float) -> Texture2D:
+	var source_image := source.get_image()
+	if source_image == null or source_image.is_empty() or display_size.x <= 0.0 or display_size.y <= 0.0:
+		return source
+	var pad_x := ceili(margin_px * float(source_image.get_width()) / display_size.x)
+	var pad_y := ceili(margin_px * float(source_image.get_height()) / display_size.y)
+	var padded := Image.create(source_image.get_width() + pad_x * 2, source_image.get_height() + pad_y * 2, false, Image.FORMAT_RGBA8)
+	padded.fill(Color(0, 0, 0, 0))
+	padded.blit_rect(source_image, Rect2i(Vector2i.ZERO, source_image.get_size()), Vector2i(pad_x, pad_y))
+	return ImageTexture.create_from_image(padded)
+
+
 func _match3_special_icon_material() -> ShaderMaterial:
 	if _special_icon_material_cache != null:
 		return _special_icon_material_cache
@@ -1946,11 +1958,22 @@ func _animate_special_impact(frame: Dictionary) -> void:
 		if special_icon != null:
 			var icon_peak_duration := _special_impact_peak_duration(false)
 			var icon_return_duration := _special_impact_return_duration(false)
+			var special_icon_texture := special_icon as TextureRect
+			var glow_margin_px := 42.0
+			if special_icon_texture != null and special_icon_texture.texture != null:
+				var icon_size := special_icon.size
+				special_icon_texture.texture = _padded_glow_texture(special_icon_texture.texture, icon_size, glow_margin_px)
+				special_icon.offset_left = -glow_margin_px
+				special_icon.offset_top = -glow_margin_px
+				special_icon.offset_right = glow_margin_px
+				special_icon.offset_bottom = glow_margin_px
 			special_icon.pivot_offset = special_icon.size * 0.5
 			special_icon.scale = Vector2(0.82, 0.82)
 			special_icon.rotation_degrees = -8.0
 			var impact_material := (special_icon.material as ShaderMaterial).duplicate() as ShaderMaterial
-			impact_material.set_shader_parameter("glow_strength", 1.0)
+			impact_material.set_shader_parameter("shadow_color", Color(0, 0, 0, 0))
+			impact_material.set_shader_parameter("shadow_offset_px", Vector2.ZERO)
+			impact_material.set_shader_parameter("glow_strength", 1.3)
 			impact_material.set_shader_parameter("glow_white", Color.WHITE)
 			impact_material.set_shader_parameter("glow_white_radius_px", 5.0)
 			impact_material.set_shader_parameter("glow_gold", Color("#fff0a8"))
@@ -1989,10 +2012,10 @@ func _animate_special_impact(frame: Dictionary) -> void:
 				beam.offset_left = -5.0
 				beam.offset_right = 5.0
 			cell.add_child(beam)
-			beam.scale = Vector2(1.0, 0.25) if special_kind == "flash-column" else Vector2(0.25, 1.0)
+			beam.scale = Vector2(0.25, 1.0)
 			var beam_tween := create_tween()
 			beam_tween.tween_property(beam, "modulate:a", 1.0, 0.098).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
-			beam_tween.parallel().tween_property(beam, "scale", Vector2(1.0, 1.15) if special_kind == "flash-column" else Vector2(1.15, 1.0), 0.098).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
+			beam_tween.parallel().tween_property(beam, "scale", Vector2(1.15, 1.0), 0.098).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 			beam_tween.tween_property(beam, "modulate:a", 0.0, 0.182).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 			beam_tween.parallel().tween_property(beam, "scale", Vector2.ONE, 0.182).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_out)
 			beam_tween.finished.connect(beam.queue_free)
@@ -2036,7 +2059,17 @@ func _special_impact_beam_material(vertical: bool, core_fraction: float) -> Shad
 	uniform vec4 beam_aqua : source_color = vec4(0.423529, 0.886275, 0.827451, 0.949020);
 	uniform vec3 beam_stops = vec3(0.2, 0.5, 0.8);
 	uniform float beam_core_fraction = 0.5;
-	uniform float beam_blur_step_px = 5.0;
+	uniform float beam_blur_step_px = 2.8867513;
+	float beam_blur_weight(int index) {
+		int distance_from_center = abs(index);
+		if (distance_from_center == 0) return 0.2255859375;
+		if (distance_from_center == 1) return 0.193359375;
+		if (distance_from_center == 2) return 0.120849609375;
+		if (distance_from_center == 3) return 0.0537109375;
+		if (distance_from_center == 4) return 0.01611328125;
+		if (distance_from_center == 5) return 0.0029296875;
+		return 0.000244140625;
+	}
 	float gradient_alpha(float point) {
 		if (point < beam_stops.x) return beam_gold.a * clamp(point / beam_stops.x, 0.0, 1.0);
 		if (point < beam_stops.y) return mix(beam_gold.a, beam_aqua.a, (point - beam_stops.x) / (beam_stops.y - beam_stops.x));
@@ -2061,10 +2094,10 @@ func _special_impact_beam_material(vertical: bool, core_fraction: float) -> Shad
 		vec2 axis_delta = vertical_gradient ? dFdy(UV) : dFdx(UV);
 		vec2 cross_delta = vertical_gradient ? dFdx(UV) : dFdy(UV);
 		float blurred_alpha = 0.0;
-		for (int axis_index = -2; axis_index <= 2; axis_index++) {
-			float axis_weight = abs(axis_index) == 2 ? 0.0625 : abs(axis_index) == 1 ? 0.25 : 0.375;
-			for (int cross_index = -2; cross_index <= 2; cross_index++) {
-				float cross_weight = abs(cross_index) == 2 ? 0.0625 : abs(cross_index) == 1 ? 0.25 : 0.375;
+		for (int axis_index = -6; axis_index <= 6; axis_index++) {
+			float axis_weight = beam_blur_weight(axis_index);
+			for (int cross_index = -6; cross_index <= 6; cross_index++) {
+				float cross_weight = beam_blur_weight(cross_index);
 				vec2 sample_uv = UV + axis_delta * float(axis_index) * beam_blur_step_px + cross_delta * float(cross_index) * beam_blur_step_px;
 				float sample_axis = vertical_gradient ? sample_uv.y : sample_uv.x;
 				float sample_cross = vertical_gradient ? sample_uv.x : sample_uv.y;
@@ -2085,7 +2118,7 @@ func _special_impact_beam_material(vertical: bool, core_fraction: float) -> Shad
 	material.set_shader_parameter("beam_aqua", Color("#6ce2d3f2"))
 	material.set_shader_parameter("beam_stops", Vector3(0.2, 0.5, 0.8))
 	material.set_shader_parameter("beam_core_fraction", core_fraction)
-	material.set_shader_parameter("beam_blur_step_px", 5.0)
+	material.set_shader_parameter("beam_blur_step_px", 3.25 if vertical else 2.8867513)
 	return material
 
 

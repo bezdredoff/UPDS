@@ -944,6 +944,13 @@ func _run() -> void:
 	var special_stack: Control = special_cell.get_node("TileStack")
 	var special_icon: TextureRect = special_stack.get_node("Special")
 	assert(is_equal_approx(special_icon.rotation_degrees, -8.0), "Flash Row activation did not start from the source impact keyframe")
+	var glow_texture_image: Image = special_icon.texture.get_image()
+	var glow_texture_bounds := glow_texture_image.get_used_rect()
+	assert(is_equal_approx(special_icon.offset_left, -42.0) and is_equal_approx(special_icon.offset_top, -42.0)
+		and is_equal_approx(special_icon.offset_right, 42.0) and is_equal_approx(special_icon.offset_bottom, 42.0)
+		and special_icon.texture.get_width() > 512 and glow_texture_bounds.position.x > 200
+		and glow_texture_bounds.position.y > 200,
+		"Special impact texture must extend its transparent quad far enough to render the full CSS blur outside the icon")
 	await process_frame
 	var feedback_center := match3.match_feedback_panel.get_parent() as Control
 	var feedback_global: Rect2 = match3.match_feedback_panel.get_global_rect()
@@ -977,13 +984,44 @@ func _run() -> void:
 		and (impact_beam_material.get_shader_parameter("beam_aqua") as Color).is_equal_approx(Color("#6ce2d3f2"))
 		and (impact_beam_material.get_shader_parameter("beam_stops") as Vector3).is_equal_approx(Vector3(0.2, 0.5, 0.8))
 		and absf(float(impact_beam_material.get_shader_parameter("beam_core_fraction")) - expected_beam_core_fraction) < 0.001
-		and is_equal_approx(impact_beam_material.get_shader_parameter("beam_blur_step_px"), 5.0)
+		and is_equal_approx(impact_beam_material.get_shader_parameter("beam_blur_step_px"), 2.8867513)
 		and is_equal_approx(impact_beam.offset_top, -5.0) and is_equal_approx(impact_beam.offset_bottom, 5.0)
 		and impact_beam_material.shader.code.contains("beam_gold.a * clamp(point / beam_stops.x")
 		and impact_beam_material.shader.code.contains("mix(beam_gold, beam_aqua")
 		and impact_beam_material.shader.code.contains("mix(beam_aqua, beam_gold")
-		and impact_beam_material.shader.code.contains("for (int cross_index"),
-		"Line special beam did not preserve CSS colors, gradient stops and the 5px aqua drop shadow")
+		and impact_beam_material.shader.code.contains("for (int cross_index = -6; cross_index <= 6; cross_index++)")
+		and impact_beam_material.shader.code.contains("return 0.2255859375"),
+		"Line special beam did not preserve CSS colors, gradient stops and the calibrated aqua drop shadow")
+	var column_frame_specials: Array[String] = match3.game.specials.duplicate()
+	column_frame_specials[special_index] = "flash-column"
+	match3._render_frame({
+		"phase": "clear",
+		"tiles": match3.game.tiles.duplicate(),
+		"specials": column_frame_specials,
+		"blockers": match3.game.blocker_layers.duplicate(),
+		"ingredients": match3.game.ingredients.duplicate(),
+		"cleared": [special_index, impact_target],
+		"cascade": 1,
+		"feedback": "special",
+	})
+	var column_cell: Control = match3.board.get_child(special_index)
+	var column_beam := column_cell.get_node("SpecialImpactBeam") as ColorRect
+	var column_beam_material := column_beam.material as ShaderMaterial
+	assert(column_beam_material.get_shader_parameter("vertical_gradient")
+		and is_equal_approx(column_beam_material.get_shader_parameter("beam_blur_step_px"), 3.25)
+		and is_equal_approx(column_beam.scale.x, 0.25) and is_equal_approx(column_beam.scale.y, 1.0)
+		and is_equal_approx(column_beam.offset_left, -5.0) and is_equal_approx(column_beam.offset_right, 5.0),
+		"Flash Column should begin compressed across its width, matching CSS after the 90-degree rotation")
+	await create_timer(0.035).timeout
+	assert(column_beam.scale.x > 0.25 and column_beam.scale.y > 0.99 and column_beam.scale.y < 1.01,
+		"Flash Column impact should expand across the beam width while preserving its longitudinal scale")
+	await create_timer(0.065).timeout
+	assert(column_beam.scale.x > 1.12 and column_beam.scale.x <= 1.17
+		and column_beam.scale.y > 0.99 and column_beam.scale.y < 1.01 and column_beam.modulate.a > 0.9,
+		"Flash Column should reach the CSS 1.15 width peak near 98ms while keeping its length unchanged")
+	await create_timer(0.2).timeout
+	assert(column_cell.get_node_or_null("SpecialImpactBeam") == null,
+		"Flash Column beam should finish its 280ms CSS impact and be removed")
 	var target_cell: Control = match3.board.get_child(impact_target)
 	assert(target_cell.get_node_or_null("SpecialImpactTargetOutline") != null and target_cell.z_index == 3,
 		"Affected clear target did not rise above the board with its target outline")
@@ -999,9 +1037,9 @@ func _run() -> void:
 	var direction_marker: PanelContainer = special_stack.get_node("SpecialDirectionMarker")
 	assert(direction_marker.get_child(0).text == "↔" and special_shadow != null
 		and is_equal_approx(special_shadow.get_shader_parameter("shadow_blur_px"), 2.0)
-		and (special_shadow.get_shader_parameter("shadow_color") as Color).to_html(false) == Color("#181426b8").to_html(false)
-		and (special_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 1))
-		and is_equal_approx(special_shadow.get_shader_parameter("glow_strength"), 1.0)
+		and is_zero_approx((special_shadow.get_shader_parameter("shadow_color") as Color).a)
+		and (special_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_zero_approx()
+		and is_equal_approx(special_shadow.get_shader_parameter("glow_strength"), 1.3)
 		and (special_shadow.get_shader_parameter("glow_gold") as Color).to_html(false) == Color("#fff0a8").to_html(false)
 		and is_equal_approx(special_shadow.get_shader_parameter("glow_white_radius_px"), 5.0)
 		and is_equal_approx((special_shadow.get_shader_parameter("glow_white") as Color).a, 1.0)
@@ -1009,6 +1047,14 @@ func _run() -> void:
 		and (special_shadow.get_shader_parameter("glow_aqua") as Color).to_html(false) == Color("#6ce2d3").to_html(false)
 		and is_equal_approx(special_shadow.get_shader_parameter("glow_aqua_radius_px"), 14.0),
 		"Flash Row activation should add the source white, gold and aqua glow radii")
+	var glow_shader_code: String = special_shadow.shader.code
+	assert(glow_shader_code.contains("background_rgb * (1.0 - shadow_alpha)")
+		and not glow_shader_code.contains("background_rgb * background_alpha")
+		and not glow_shader_code.contains("background_rgb *= COLOR.rgb")
+		and glow_shader_code.contains("for (int y = -6; y <= 6; y++)")
+		and glow_shader_code.contains("float(y) * 0.5")
+		and glow_shader_code.contains("float total_weight = 0.0"),
+		"Special-icon glow must preserve premultiplied RGB and use a normalized blur kernel without clipping")
 	await create_timer(0.3).timeout
 	assert(is_equal_approx(special_icon.rotation_degrees, 0.0), "Flash Row activation did not return to neutral rotation")
 	assert(special_cell.z_index == resting_source_z and target_cell.z_index == resting_target_z,
