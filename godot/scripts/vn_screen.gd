@@ -631,15 +631,15 @@ func _animate_portrait(portrait: TextureRect, travel: float) -> void:
 	var ease_in_out := Callable(self, "_idle_breathe_curve")
 	var rise: PropertyTweener = breathing.tween_property(
 		portrait, "offset_top", resting_top - travel, 1.4)
-	rise.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(ease_in_out)
+	rise.set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
 	var rise_bottom: PropertyTweener = breathing.parallel().tween_property(
 		portrait, "offset_bottom", resting_bottom - travel, 1.4)
-	rise_bottom.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(ease_in_out)
+	rise_bottom.set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
 	var fall: PropertyTweener = breathing.tween_property(portrait, "offset_top", resting_top, 1.4)
-	fall.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(ease_in_out)
+	fall.set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
 	var fall_bottom: PropertyTweener = breathing.parallel().tween_property(
 		portrait, "offset_bottom", resting_bottom, 1.4)
-	fall_bottom.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_custom_interpolator(ease_in_out)
+	fall_bottom.set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
 
 
 func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: float) -> float:

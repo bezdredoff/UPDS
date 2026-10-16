@@ -126,8 +126,8 @@ func _run() -> void:
 	assert(screen._portrait_should_breathe("./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"),
 		"Rig portraits should retain the source idle-breathe animation")
 	assert(is_equal_approx(screen._idle_breathe_curve(0.5), 0.5)
-		and screen._idle_breathe_curve(0.25) < 0.25
-		and screen._idle_breathe_curve(0.75) > 0.75,
+		and is_equal_approx(screen._idle_breathe_curve(0.25), 0.1291619)
+		and is_equal_approx(screen._idle_breathe_curve(0.75), 0.8708381),
 		"Rig portrait idle motion should use the source CSS ease-in-out curve")
 	assert(not screen._portrait_should_breathe("./assets/characters/ayuki/poses/pose_b_phone_theory.png"),
 		"Authored prop poses should remain still like the source static portrait wrapper")
