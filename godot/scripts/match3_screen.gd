@@ -972,20 +972,20 @@ func _render_board() -> void:
 				ingredient.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				tile_stack.add_child(ingredient)
 				var ingredient_material := (ingredient.material as ShaderMaterial).duplicate() as ShaderMaterial
-				ingredient_material.set_shader_parameter("glow_white", Color("#fff2a0"))
+				ingredient_material.set_shader_parameter("glow_white", Color(1, 1, 1, 0))
 				ingredient_material.set_shader_parameter("glow_gold", Color(0, 0, 0, 0))
 				ingredient_material.set_shader_parameter("glow_aqua", Color(0, 0, 0, 0))
-				ingredient_material.set_shader_parameter("glow_white_radius_px", 7.0)
+				ingredient_material.set_shader_parameter("glow_strength", 0.0)
 				ingredient.material = ingredient_material
 				if not reduced_motion:
 					var ingredient_bob := tile_button.create_tween().set_loops()
 					var css_ease_in_out := Callable(self, "_css_cubic_bezier").bind(0.42, 0.0, 0.58, 1.0)
-					ingredient_bob.tween_property(ingredient, "offset_top", 1.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -5.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_glow").bind(ingredient_material, false), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
-					ingredient_bob.tween_property(ingredient, "offset_top", 3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_glow").bind(ingredient_material, true), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
+					ingredient_bob.tween_property(ingredient, "offset_top", 0.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -4.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_shadow").bind(ingredient_material, false), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
+					ingredient_bob.tween_property(ingredient, "offset_top", 2.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -2.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_shadow").bind(ingredient_material, true), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
 		if not game.specials[index].is_empty():
 			var special_kind: String = game.specials[index]
 			var special_asset := str(campaign_bundle.assets.get("specials", {}).get(special_kind, ""))
@@ -1347,9 +1347,12 @@ func _prefers_reduced_motion() -> bool:
 	return ReducedMotion.is_enabled(_reduced_motion_override)
 
 
-func _set_ingredient_glow(progress: float, material: ShaderMaterial, reverse: bool) -> void:
+func _set_ingredient_shadow(progress: float, material: ShaderMaterial, reverse: bool) -> void:
 	var eased_progress := _css_cubic_bezier(progress, 0.42, 0.0, 0.58, 1.0)
-	material.set_shader_parameter("glow_strength", 1.0 - eased_progress if reverse else eased_progress)
+	if reverse: eased_progress = 1.0 - eased_progress
+	material.set_shader_parameter("shadow_color", Color("#00000088").lerp(Color("#fff2a0"), eased_progress))
+	material.set_shader_parameter("shadow_offset_px", Vector2(0.0, lerpf(2.0, 0.0, eased_progress)))
+	material.set_shader_parameter("shadow_blur_px", lerpf(2.0, 7.0, eased_progress))
 
 
 func _match3_drop_shadow_material(shadow_color: Color, shadow_offset: Vector2, blur: float, brightness: float = 1.0, saturation: float = 1.0, contrast: float = 1.0) -> ShaderMaterial:
