@@ -468,6 +468,11 @@ func _run() -> void:
 	assert(drag_source >= 0, "Match-3 screen has no movable source cell for drag preview")
 	assert((match3.board.get_child(drag_source) as Control).clip_contents,
 		"UI A board cells should clip oversized tile art to their cell bounds")
+	var drag_source_cell: Control = match3.board.get_child(drag_source)
+	var hover_cell_style := drag_source_cell.get_theme_stylebox("hover") as StyleBoxFlat
+	var resting_cell_style := drag_source_cell.get_theme_stylebox("normal") as StyleBoxFlat
+	assert(hover_cell_style.bg_color.is_equal_approx(resting_cell_style.bg_color),
+		"Match-3 cell hover should preserve the source board surface instead of painting a solid blue tile behind moving art")
 	match3._begin_tile_drag(drag_source, Vector2.ZERO)
 	match3._update_tile_drag(Vector2(match3.drag_start_cell_size * 0.08, 0.0))
 	assert(not (match3.board.get_child(drag_source) as Control).clip_contents,
@@ -479,6 +484,30 @@ func _run() -> void:
 	match3._clear_drag_preview()
 	assert((match3.board.get_child(drag_source) as Control).clip_contents,
 		"Ending a drag preview did not restore the production cell clipping")
+	var swap_target: int = match3._drag_neighbour(drag_source, "right")
+	var swap_source_cell: Control = match3.board.get_child(drag_source)
+	var swap_target_cell: Control = match3.board.get_child(swap_target)
+	match3._animate_swap(drag_source, swap_target, false)
+	await create_timer(0.055).timeout
+	assert(swap_source_cell.z_index == 8 and swap_target_cell.z_index == 8
+		and not swap_source_cell.clip_contents and not swap_target_cell.clip_contents,
+		"Swap should raise both full cells above the grid and allow tile art to travel across cell edges")
+	await create_timer(0.12).timeout
+	assert(swap_source_cell.z_index == 0 and swap_target_cell.z_index == 0
+		and swap_source_cell.clip_contents and swap_target_cell.clip_contents,
+		"Completed swap should restore the original cell stacking and clipping")
+	match3._animate_swap(drag_source, swap_target, true)
+	await create_timer(0.18).timeout
+	assert(swap_source_cell.z_index == 0 and swap_target_cell.z_index == 0
+		and swap_source_cell.clip_contents and swap_target_cell.clip_contents
+		and absf((swap_source_cell.get_node("TileStack") as Control).offset_left) > 1.0,
+		"Held successful swap should restore cell layering while retaining the swapped stack offset")
+	match3._return_rejected_swap(drag_source, swap_target)
+	await create_timer(0.18).timeout
+	assert(swap_source_cell.z_index == 0 and swap_target_cell.z_index == 0
+		and swap_source_cell.clip_contents and swap_target_cell.clip_contents
+		and is_zero_approx((swap_source_cell.get_node("TileStack") as Control).offset_left),
+		"Rejected swap return should restore the original cell layers and stack position")
 	var distant_cell := -1
 	var board_columns := int(match3.level_data.columns)
 	for candidate in match3.game.tiles.size():
