@@ -231,23 +231,45 @@ func _run() -> void:
 	match3._record_tutorial_move({"valid": true}, true)
 	assert(match3.active_tutorial.is_empty(), "Completing the special activation did not advance the tutorial sequence")
 	assert(match3.game.tiles.size() == int(bundle.levels[1].rows) * int(bundle.levels[1].columns), "Selected campaign board dimensions mismatch")
+	match3._dismiss_tutorial()
+	var initial_bark: String = match3.bark.text
+	var initial_speaker: String = match3.bark_speaker.text
+	match3._reduced_motion_override = false
+	match3.game.moves_left = int(match3.level_data.moves) - 1
+	match3._present_narrative_reaction({"valid": true, "blockersCleared": 0, "specialsCreated": 0, "cascades": 1,
+		"primaryFeedback": "match", "specialsCombined": false, "won": false, "lost": false})
+	assert(match3.active_reaction.get("pending", false)
+		and match3.bark.text == initial_bark and match3.bark_speaker.text == initial_speaker,
+		"Match-3 should reserve narrative feedback while keeping the current bark visible through board animation")
+	match3._present_pending_narrative_reaction("ingredient-context")
+	assert(match3.active_reaction.get("id") == "ingredient-context"
+		and match3.bark_speaker.text == "АЮКИ"
+		and match3.bark.text == "Маленькая чёрная карта, огромный шанс на драму.",
+		"Match-3 should present the queued narrative bark after the board animation completes")
+	match3._dismiss_narrative_reaction("ingredient-context")
+	await create_timer(0.22).timeout
 	var moves_before_reaction: int = match3.game.moves_left
 	var displayed_moves_before_reaction: String = match3.moves.text
 	var displayed_objective_before_reaction: String = match3.objective.text
 	var first_cell_before_reaction: int = match3.board.get_child(0).get_instance_id()
 	match3._reduced_motion_override = false
 	match3.game.moves_left = int(match3.level_data.moves) - 1
+	match3.active_reaction.clear()
+	match3.triggered_reactions.erase("ingredient-context")
 	match3._present_narrative_reaction({"valid": true, "blockersCleared": 0, "specialsCreated": 0, "cascades": 1,
 		"primaryFeedback": "match", "specialsCombined": false, "won": false, "lost": false})
-	assert(match3.active_reaction.get("id") == "ingredient-context"
-		and match3.bark_speaker.text == "АЮКИ"
-		and match3.bark.text == "Маленькая чёрная карта, огромный шанс на драму.",
-		"Match-3 reaction should replace the static bark with authored localized copy and speaker")
+	assert(match3.active_reaction.get("pending", false)
+		and match3.bark.text == initial_bark and match3.bark_speaker.text == initial_speaker,
+		"Match-3 reaction should remain pending instead of replacing the bark before playback")
 	assert(match3.moves.text == displayed_moves_before_reaction
 		and match3.objective.text == displayed_objective_before_reaction
 		and match3.board.get_child(0).get_instance_id() == first_cell_before_reaction,
 		"Presenting a reaction during a move must not reveal final counters or redraw the board before move frames finish")
-	assert(match3.bark_portrait.texture != null
+	match3._present_pending_narrative_reaction("ingredient-context")
+	assert(match3.active_reaction.get("id") == "ingredient-context"
+		and match3.bark_speaker.text == "АЮКИ"
+		and match3.bark.text == "Маленькая чёрная карта, огромный шанс на драму."
+		and match3.bark_portrait.texture != null
 		and match3.bark_portrait.texture.resource_path.ends_with("ayuki/medallions/portrait_neutral_256.png"),
 		"Reaction bark should use the same authored circular portrait as the web UI")
 	var portrait_frame_style := match3.bark_portrait_frame.get_theme_stylebox("panel") as StyleBoxFlat
@@ -274,15 +296,21 @@ func _run() -> void:
 		and bark_base.border_width_top == 1
 		and bark_base.corner_radius_top_left == 9,
 		"Static Match-3 bark should use the source parchment fill, green spine and rounded border")
-	assert(match3.hint_button.disabled
-		and match3.hint_button.get_theme_stylebox("disabled") == match3.hint_button.get_theme_stylebox("normal"),
+	match3.game.moves_left = moves_before_reaction
+	match3._refresh()
+	var disabled_hint_style := match3.hint_button.get_theme_stylebox("disabled") as StyleBoxFlat
+	var normal_hint_style := match3.hint_button.get_theme_stylebox("normal") as StyleBoxFlat
+	assert(disabled_hint_style != null and normal_hint_style != null
+		and disabled_hint_style.bg_color == Color.TRANSPARENT
+		and disabled_hint_style.get_border_width(SIDE_LEFT) == 0
+		and normal_hint_style.bg_color == Color.TRANSPARENT
+		and normal_hint_style.get_border_width(SIDE_LEFT) == 0,
 		"Disabled Match-3 hint should stay transparent like the source icon-and-label action")
 	match3._dismiss_narrative_reaction("ingredient-context")
 	await create_timer(0.22).timeout
 	assert(match3.active_reaction.is_empty() and is_equal_approx(match3.bark_panel.modulate.a, 1.0)
 		and is_zero_approx(match3.bark_panel.position.y),
 		"Reaction bark should fade out and restore the static bark after its duration")
-	match3.game.moves_left = moves_before_reaction
 	match3._reduced_motion_override = null
 	match3._refresh()
 	var board_outline := match3.board_frame.get_parent() as PanelContainer
@@ -457,6 +485,11 @@ func _run() -> void:
 	assert(drag_source >= 0, "Match-3 screen has no movable source cell for drag preview")
 	assert((match3.board.get_child(drag_source) as Control).clip_contents,
 		"UI A board cells should clip oversized tile art to their cell bounds")
+	var drag_source_cell: Control = match3.board.get_child(drag_source)
+	var hover_cell_style := drag_source_cell.get_theme_stylebox("hover") as StyleBoxFlat
+	var resting_cell_style := drag_source_cell.get_theme_stylebox("normal") as StyleBoxFlat
+	assert(hover_cell_style.bg_color.is_equal_approx(resting_cell_style.bg_color),
+		"Match-3 cell hover should preserve the source board surface instead of painting a solid blue tile behind moving art")
 	match3._begin_tile_drag(drag_source, Vector2.ZERO)
 	match3._update_tile_drag(Vector2(match3.drag_start_cell_size * 0.08, 0.0))
 	assert(not (match3.board.get_child(drag_source) as Control).clip_contents,
@@ -468,6 +501,30 @@ func _run() -> void:
 	match3._clear_drag_preview()
 	assert((match3.board.get_child(drag_source) as Control).clip_contents,
 		"Ending a drag preview did not restore the production cell clipping")
+	var swap_target: int = match3._drag_neighbour(drag_source, "right")
+	var swap_source_cell: Control = match3.board.get_child(drag_source)
+	var swap_target_cell: Control = match3.board.get_child(swap_target)
+	match3._animate_swap(drag_source, swap_target, false)
+	await create_timer(0.055).timeout
+	assert(swap_source_cell.z_index == 8 and swap_target_cell.z_index == 8
+		and not swap_source_cell.clip_contents and not swap_target_cell.clip_contents,
+		"Swap should raise both full cells above the grid and allow tile art to travel across cell edges")
+	await create_timer(0.12).timeout
+	assert(swap_source_cell.z_index == 0 and swap_target_cell.z_index == 0
+		and swap_source_cell.clip_contents and swap_target_cell.clip_contents,
+		"Completed swap should restore the original cell stacking and clipping")
+	match3._animate_swap(drag_source, swap_target, true)
+	await create_timer(0.18).timeout
+	assert(swap_source_cell.z_index == 0 and swap_target_cell.z_index == 0
+		and swap_source_cell.clip_contents and swap_target_cell.clip_contents
+		and absf((swap_source_cell.get_node("TileStack") as Control).offset_left) > 1.0,
+		"Held successful swap should restore cell layering while retaining the swapped stack offset")
+	match3._return_rejected_swap(drag_source, swap_target)
+	await create_timer(0.18).timeout
+	assert(swap_source_cell.z_index == 0 and swap_target_cell.z_index == 0
+		and swap_source_cell.clip_contents and swap_target_cell.clip_contents
+		and is_zero_approx((swap_source_cell.get_node("TileStack") as Control).offset_left),
+		"Rejected swap return should restore the original cell layers and stack position")
 	var distant_cell := -1
 	var board_columns := int(match3.level_data.columns)
 	for candidate in match3.game.tiles.size():
@@ -783,9 +840,25 @@ func _run() -> void:
 	})
 	assert(match3.match_feedback_panel.visible, "Special clear did not show the source feedback pill")
 	assert(match3.match_feedback_label.text == "НАБЛЮДЕНИЕ!", "Special feedback did not use the Russian source copy")
+	var special_cell: Control = match3.board.get_child(special_index)
+	var special_stack: Control = special_cell.get_node("TileStack")
+	var special_icon: TextureRect = special_stack.get_node("Special")
+	assert(is_equal_approx(special_icon.rotation_degrees, -8.0), "Flash Row activation did not start from the source impact keyframe")
+	await process_frame
+	var feedback_center := match3.match_feedback_panel.get_parent() as Control
+	var feedback_global: Rect2 = match3.match_feedback_panel.get_global_rect()
+	var expected_feedback_center := Vector2(
+		match3.board_frame.get_global_rect().get_center().x,
+		match3.board_frame.get_global_position().y + match3.board_frame.size.y * 0.48,
+	)
+	assert(feedback_center.get_parent() == match3.board_frame
+		and is_equal_approx(feedback_global.get_center().x, expected_feedback_center.x)
+		and is_equal_approx(feedback_global.get_center().y, expected_feedback_center.y),
+		"Match feedback should use the CSS 48 percent board point (got %s, expected %s)" % [
+			feedback_global.get_center(), expected_feedback_center,
+		])
 	var feedback_style := match3.match_feedback_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(feedback_style.bg_color == Color("#c07f35ef"), "Special feedback did not use the source amber treatment")
-	var special_cell: Control = match3.board.get_child(special_index)
 	assert(special_cell.pivot_offset == special_cell.custom_minimum_size * 0.5, "Board cell scale effects should pivot around the center like CSS transforms")
 	var source_outline: Panel = special_cell.get_node("SpecialImpactSourceOutline")
 	assert(is_equal_approx(source_outline.modulate.a, 1.0) and special_cell.z_index == 6,
@@ -803,12 +876,9 @@ func _run() -> void:
 		and target_flash_shader.code.contains("0.76") and target_flash_shader.code.contains("0.302")
 		and target_flash_shader.code.contains("0.161"),
 		"Special impact flash did not preserve the CSS radial gradient stops and opacity")
-	var special_stack: Control = special_cell.get_node("TileStack")
 	assert(special_stack.pivot_offset == special_cell.custom_minimum_size * 0.5, "Tile-stack scale effects should pivot around the source cell center")
-	var special_icon: TextureRect = special_stack.get_node("Special")
 	var special_shadow := special_icon.material as ShaderMaterial
 	var direction_marker: PanelContainer = special_stack.get_node("SpecialDirectionMarker")
-	assert(is_equal_approx(special_icon.rotation_degrees, -8.0), "Flash Row activation did not start from the source impact keyframe")
 	assert(direction_marker.get_child(0).text == "↔" and special_shadow != null
 		and is_equal_approx(special_shadow.get_shader_parameter("shadow_blur_px"), 2.0)
 		and (special_shadow.get_shader_parameter("shadow_color") as Color).to_html(false) == Color("#181426b8").to_html(false)
