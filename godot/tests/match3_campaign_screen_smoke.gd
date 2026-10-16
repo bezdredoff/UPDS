@@ -679,9 +679,20 @@ func _run() -> void:
 	await process_frame
 	assert(is_instance_valid(match3.help_overlay) and match3.help_overlay.visible, "Match-3 help action did not open the in-game reference sheet")
 	var help_card: Panel = match3.help_overlay.get_node("HelpCard") as Panel
+	var help_scroll: ScrollContainer = match3.help_overlay.get_node("HelpCard/HelpScroll") as ScrollContainer
 	var help_content: VBoxContainer = match3.help_overlay.get_node("HelpCard/HelpScroll/HelpContent") as VBoxContainer
 	assert(help_card.size.x <= 350.0 and help_card.size.x >= 300.0 and help_card.position.y == 68.0,
 		"Match-3 help card should use the source centered 350px sheet and top offset; got %s at %s (root %s)" % [help_card.size, help_card.position, match3.help_overlay.size])
+	assert(help_scroll.position.x == 28.0 and help_scroll.size.x == 292.0
+		and help_scroll.get_v_scroll_bar().modulate.a == 0.0,
+		"Match-3 help content should match the web inset and reserved scrollbar gutter without a persistent thumb")
+	var blocker_visual := help_content.get_node("Blocker_package/Line/Visual") as Panel
+	assert(blocker_visual.custom_minimum_size == Vector2(50, 50)
+		and blocker_visual.size_flags_vertical == Control.SIZE_SHRINK_CENTER,
+		"Match-3 help blocker art should keep the web row's square visual dimensions")
+	var row_direction := help_content.get_node("Special_flash-row/Line/Visual/DirectionMarker") as PanelContainer
+	assert(row_direction != null and (row_direction.get_child(0) as Label).text == "↔",
+		"Match-3 help row special should show the source-style direction badge")
 	match3.help_overlay.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	match3.help_overlay.size = Vector2(320, 568)
 	match3.help_overlay._fit()
@@ -689,6 +700,8 @@ func _run() -> void:
 		and is_equal_approx(help_card.size.y, 568.0 * 0.78)
 		and help_card.position == Vector2(11, 62),
 		"Match-3 help should follow the 320x568 source compact dimensions; got compact=%s card=%s at %s" % [match3.help_overlay.compact, help_card.size, help_card.position])
+	assert(help_scroll.position.x == 24.0 and help_scroll.size.x == 246.0,
+		"Compact Match-3 help content should preserve the web inset and scrollbar gutter")
 	match3.help_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	match3.help_overlay.call_deferred("_fit")
 	await process_frame

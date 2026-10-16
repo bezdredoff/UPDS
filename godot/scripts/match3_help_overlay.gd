@@ -98,6 +98,9 @@ func _build() -> void:
 	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.mouse_filter = Control.MOUSE_FILTER_STOP
+	# The browser overlay reserves the scrollbar gutter but its auto-hidden thumb is not visible.
+	# Keep the same content width while hiding Godot's persistent themed scrollbar.
+	scroll.get_v_scroll_bar().modulate.a = 0.0
 	card.add_child(scroll)
 	content = VBoxContainer.new()
 	content.name = "HelpContent"
@@ -166,10 +169,15 @@ func _add_help_row(title_text: String, body_text: String, texture: Texture2D, is
 	row.add_theme_stylebox_override("panel", row_style)
 	content.add_child(row)
 	var line := HBoxContainer.new()
+	line.name = "Line"
 	line.add_theme_constant_override("separation", 9)
 	row.add_child(line)
 	var visual := Panel.new()
-	visual.custom_minimum_size = Vector2(48, 48) if not compact else Vector2(44, 44)
+	visual.name = "Visual"
+	visual.custom_minimum_size = Vector2(50, 50) if not compact else Vector2(46, 46)
+	visual.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	visual.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	visual.clip_contents = true
 	var visual_style := StyleBoxFlat.new()
 	visual_style.bg_color = Color("#243b58")
 	visual_style.border_color = Color("#d5b269")
@@ -192,14 +200,27 @@ func _add_help_row(title_text: String, body_text: String, texture: Texture2D, is
 		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		visual.add_child(icon)
 	if key == "flash-row" or key == "flash-column":
-		var marker := Label.new()
-		marker.text = "↔" if key == "flash-row" else "↕"
-		marker.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-		marker.offset_left = -18
-		marker.offset_top = -18
-		marker.add_theme_font_size_override("font_size", 12)
-		marker.add_theme_color_override("font_color", Color("#fff2c7"))
-		marker.add_theme_font_override("font", UiFonts.match3(900))
+		var marker := PanelContainer.new()
+		marker.name = "DirectionMarker"
+		marker.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
+		marker.offset_left = 1
+		marker.offset_top = -16
+		marker.offset_right = 16
+		marker.offset_bottom = -1
+		var marker_style := StyleBoxFlat.new()
+		marker_style.bg_color = Color("#10243deb")
+		marker_style.border_color = Color("#fff0bd")
+		marker_style.set_border_width_all(1)
+		marker_style.set_corner_radius_all(3)
+		marker.add_theme_stylebox_override("panel", marker_style)
+		var marker_label := Label.new()
+		marker_label.text = "↔" if key == "flash-row" else "↕"
+		marker_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		marker_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		marker_label.add_theme_font_size_override("font_size", 13)
+		marker_label.add_theme_color_override("font_color", Color("#fff0bd"))
+		marker_label.add_theme_font_override("font", UiFonts.sans(700))
+		marker.add_child(marker_label)
 		marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		visual.add_child(marker)
 	var text_column := VBoxContainer.new()
@@ -264,8 +285,8 @@ func _fit() -> void:
 	card.position = Vector2((size.x - card_width) * 0.5, top)
 	card.size = Vector2(card_width, maxf(0.0, size.y - top - 12.0))
 	card.size.y = minf(card.size.y, max_height)
-	scroll.position = Vector2(20 if not compact else 16, 30 if not compact else 24)
-	scroll.size = Vector2(maxf(0.0, card.size.x - (40 if not compact else 32)), maxf(0.0, card.size.y - (48 if not compact else 38)))
+	scroll.position = Vector2(28 if not compact else 24, 30 if not compact else 24)
+	scroll.size = Vector2(maxf(0.0, card.size.x - (58 if not compact else 52)), maxf(0.0, card.size.y - (48 if not compact else 38)))
 	if compact_changed and is_instance_valid(content): _populate_content()
 
 
