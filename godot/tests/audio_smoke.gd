@@ -20,6 +20,23 @@ func _run_smoke() -> void:
 	menu.get_node("Content/Actions/Settings").emit_signal("pressed")
 	var screen: PanelContainer = menu.get_node("SettingsScreen")
 	assert(screen.music_slider.value == 32 and screen.effects_slider.value == 72)
+	assert(screen.music_slider.has_theme_icon_override("grabber"),
+		"Volume sliders must provide a real texture grabber, not an ignored StyleBox")
+	menu.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	for locale in ["ru", "be", "en"]:
+		preferences.set_locale(locale)
+		for width in [320, 390, 430]:
+			menu.size = Vector2(width, 844)
+			await process_frame
+			await process_frame
+			await process_frame
+			assert(screen.get_combined_minimum_size().x <= width,
+				"Settings content forces horizontal overflow for %s at %d" % [locale, width])
+			assert(screen.size.x <= width,
+				"Settings root expands beyond the phone for %s at %d" % [locale, width])
+		assert(screen.eyebrow.text == ("НАЛАДЫ · СІСТЭМА" if locale == "be" else "CONFIG · SYSTEM"))
+	preferences.set_locale("be")
+	menu.size = Vector2(390, 844)
 	screen.music_slider.value = 61
 	screen.effects_slider.value = 27
 	screen.haptics.button_pressed = false

@@ -1,0 +1,1221 @@
+{
+  "id": "ru-390x844-settings",
+  "native": {
+    "build": {
+      "fixture": "res://tests/parity_web_capture.tscn",
+      "generatedAt": "2026-10-17T03:12:19.475Z",
+      "sourceCommit": "7fb22760c2b3f3aa792252e04aae8922c4edb9bd",
+      "sourceHash": "b1a7177f0731850e31e107d68d397e928fb7fae493f84e75c505d79462061bc9",
+      "sourceTreeClean": false
+    },
+    "controls": [
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 2,
+        "path": ".",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Backdrop",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "ColorRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Background",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Wash",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          258,
+          30
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          258,
+          0
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll",
+        "rect": [
+          0,
+          0,
+          390,
+          814
+        ],
+        "type": "ScrollContainer"
+      },
+      {
+        "minimum": [
+          258,
+          951
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27",
+        "rect": [
+          0,
+          0,
+          390,
+          951
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          141,
+          46
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/PanelHeader",
+        "rect": [
+          0,
+          0,
+          390,
+          58
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          115,
+          44
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/PanelHeader/@HBoxContainer@28",
+        "rect": [
+          13,
+          0,
+          364,
+          56
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 22,
+        "minimum": [
+          18,
+          33
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/PanelHeader/@HBoxContainer@28/Back",
+        "rect": [
+          13,
+          0,
+          44,
+          56
+        ],
+        "text": "←",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          64,
+          25
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/PanelHeader/@HBoxContainer@28/@VBoxContainer@29",
+        "rect": [
+          64,
+          0,
+          313,
+          56
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 7,
+        "minimum": [
+          64,
+          9
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/PanelHeader/@HBoxContainer@28/@VBoxContainer@29/Eyebrow",
+        "rect": [
+          64,
+          15,
+          313,
+          9
+        ],
+        "text": "CONFIG · SYSTEM",
+        "type": "Label"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          64,
+          16
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/PanelHeader/@HBoxContainer@28/@VBoxContainer@29/Title",
+        "rect": [
+          64,
+          24,
+          313,
+          16
+        ],
+        "text": "Настройки",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          258,
+          885
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body",
+        "rect": [
+          0,
+          66,
+          390,
+          885
+        ],
+        "type": "MarginContainer"
+      },
+      {
+        "minimum": [
+          218,
+          883
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32",
+        "rect": [
+          20,
+          68,
+          350,
+          883
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 31,
+        "minimum": [
+          1,
+          45
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/@Label@33",
+        "rect": [
+          20,
+          68,
+          350,
+          45
+        ],
+        "text": "Язык",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          164,
+          139
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageRow",
+        "rect": [
+          20,
+          121,
+          350,
+          139
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          132,
+          111
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageRow/LanguageRowContent",
+        "rect": [
+          36,
+          135,
+          318,
+          111
+        ],
+        "type": "GridContainer"
+      },
+      {
+        "minimum": [
+          36,
+          53
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageRow/LanguageRowContent/LanguageCopy",
+        "rect": [
+          36,
+          135,
+          318,
+          53
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 14,
+        "minimum": [
+          36,
+          18
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageRow/LanguageRowContent/LanguageCopy/@Label@34",
+        "rect": [
+          36,
+          135,
+          318,
+          18
+        ],
+        "text": "Язык",
+        "type": "Label"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          1,
+          31
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageRow/LanguageRowContent/LanguageCopy/@Label@35",
+        "rect": [
+          36,
+          157,
+          318,
+          31
+        ],
+        "text": "Язык интерфейса сохраняется на этом устройстве отдельно от игрового прогресса.",
+        "type": "Label"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          132,
+          20
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageRow/LanguageRowContent/Language",
+        "rect": [
+          36,
+          204,
+          318,
+          42
+        ],
+        "text": "Русский",
+        "type": "OptionButton"
+      },
+      {
+        "minimum": [
+          0,
+          4
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageSectionSpacing",
+        "rect": [
+          20,
+          268,
+          350,
+          4
+        ],
+        "type": "MarginContainer"
+      },
+      {
+        "font_size": 31,
+        "minimum": [
+          1,
+          45
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/@Label@46",
+        "rect": [
+          20,
+          280,
+          350,
+          46
+        ],
+        "text": "Звук и отклик",
+        "type": "Label"
+      },
+      {
+        "font_size": 13,
+        "minimum": [
+          1,
+          57
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/@Label@47",
+        "rect": [
+          20,
+          334,
+          350,
+          57
+        ],
+        "text": "Музыка и звуковые эффекты воспроизводятся прямо на устройстве. Настройки сохраняются отдельно от игрового прогресса.",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          218,
+          283
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing",
+        "rect": [
+          20,
+          399,
+          350,
+          283
+        ],
+        "type": "MarginContainer"
+      },
+      {
+        "minimum": [
+          218,
+          277
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings",
+        "rect": [
+          20,
+          405,
+          350,
+          277
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          107,
+          67
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/MusicVolumeCard",
+        "rect": [
+          20,
+          405,
+          350,
+          67
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          83,
+          43
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/MusicVolumeCard/@VBoxContainer@48",
+        "rect": [
+          32,
+          417,
+          326,
+          43
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          83,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/MusicVolumeCard/@VBoxContainer@48/@HBoxContainer@49",
+        "rect": [
+          32,
+          417,
+          326,
+          15
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 12,
+        "minimum": [
+          49,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/MusicVolumeCard/@VBoxContainer@48/@HBoxContainer@49/@Label@50",
+        "rect": [
+          32,
+          417,
+          292,
+          15
+        ],
+        "text": "Музыка",
+        "type": "Label"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          26,
+          14
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/MusicVolumeCard/@VBoxContainer@48/@HBoxContainer@49/@Label@51",
+        "rect": [
+          332,
+          417,
+          26,
+          14
+        ],
+        "text": "32%",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          0,
+          16
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/MusicVolumeCard/@VBoxContainer@48/musicVolume",
+        "rect": [
+          32,
+          440,
+          326,
+          20
+        ],
+        "type": "HSlider"
+      },
+      {
+        "minimum": [
+          116,
+          67
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/EffectsVolumeCard",
+        "rect": [
+          20,
+          482,
+          350,
+          67
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          92,
+          43
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/EffectsVolumeCard/@VBoxContainer@52",
+        "rect": [
+          32,
+          494,
+          326,
+          43
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          92,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/EffectsVolumeCard/@VBoxContainer@52/@HBoxContainer@53",
+        "rect": [
+          32,
+          494,
+          326,
+          15
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 12,
+        "minimum": [
+          58,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/EffectsVolumeCard/@VBoxContainer@52/@HBoxContainer@53/@Label@54",
+        "rect": [
+          32,
+          494,
+          292,
+          15
+        ],
+        "text": "Эффекты",
+        "type": "Label"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          26,
+          14
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/EffectsVolumeCard/@VBoxContainer@52/@HBoxContainer@53/@Label@55",
+        "rect": [
+          332,
+          494,
+          26,
+          14
+        ],
+        "text": "72%",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          0,
+          16
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/EffectsVolumeCard/@VBoxContainer@52/effectsVolume",
+        "rect": [
+          32,
+          517,
+          326,
+          20
+        ],
+        "type": "HSlider"
+      },
+      {
+        "minimum": [
+          122,
+          69
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles",
+        "rect": [
+          20,
+          559,
+          350,
+          69
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          57,
+          54
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/MuteCard",
+        "rect": [
+          20,
+          559,
+          171,
+          69
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          39,
+          36
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/MuteCard/@HBoxContainer@56",
+        "rect": [
+          29,
+          568,
+          153,
+          51
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          1,
+          36
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/MuteCard/@HBoxContainer@56/@VBoxContainer@57",
+        "rect": [
+          29,
+          568,
+          115,
+          51
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          0,
+          14
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/MuteCard/@HBoxContainer@56/@VBoxContainer@57/muted",
+        "rect": [
+          29,
+          568,
+          115,
+          22
+        ],
+        "text": "Без звука",
+        "type": "Button"
+      },
+      {
+        "font_size": 9,
+        "minimum": [
+          1,
+          12
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/MuteCard/@HBoxContainer@56/@VBoxContainer@57/MuteHelp",
+        "rect": [
+          29,
+          592,
+          115,
+          12
+        ],
+        "text": "Выключено",
+        "type": "Label"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          26,
+          10
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/MuteCard/@HBoxContainer@56/MuteSwitch",
+        "rect": [
+          148,
+          588,
+          34,
+          10
+        ],
+        "text": "ВЫКЛ",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          57,
+          69
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/HapticsCard",
+        "rect": [
+          199,
+          559,
+          171,
+          69
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          39,
+          51
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/HapticsCard/@HBoxContainer@60",
+        "rect": [
+          208,
+          568,
+          153,
+          51
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          1,
+          51
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/HapticsCard/@HBoxContainer@60/@VBoxContainer@61",
+        "rect": [
+          208,
+          568,
+          115,
+          51
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          0,
+          14
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/HapticsCard/@HBoxContainer@60/@VBoxContainer@61/hapticsEnabled",
+        "rect": [
+          208,
+          568,
+          115,
+          22
+        ],
+        "text": "Виброотклик",
+        "type": "Button"
+      },
+      {
+        "font_size": 9,
+        "minimum": [
+          1,
+          27
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/HapticsCard/@HBoxContainer@60/@VBoxContainer@61/HapticsCapability",
+        "rect": [
+          208,
+          592,
+          115,
+          27
+        ],
+        "text": "Поддерживается устройством",
+        "type": "Label"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          18,
+          10
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/HapticsCard/@HBoxContainer@60/HapticsSwitch",
+        "rect": [
+          327,
+          588,
+          34,
+          10
+        ],
+        "text": "ВКЛ",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          218,
+          44
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioPreviewActions",
+        "rect": [
+          20,
+          638,
+          350,
+          44
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 10,
+        "minimum": [
+          101,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioPreviewActions/PreviewMusic",
+        "rect": [
+          20,
+          638,
+          171,
+          44
+        ],
+        "text": "Проверить музыку",
+        "type": "Button"
+      },
+      {
+        "font_size": 10,
+        "minimum": [
+          109,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioPreviewActions/PreviewEffects",
+        "rect": [
+          199,
+          638,
+          171,
+          44
+        ],
+        "text": "Проверить эффекты",
+        "type": "Button"
+      },
+      {
+        "font_size": 9,
+        "minimum": [
+          1,
+          12
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioCapability",
+        "rect": [
+          20,
+          690,
+          350,
+          12
+        ],
+        "text": "Web Audio: доступен · Виброотклик: недоступен на этом устройстве",
+        "type": "Label"
+      },
+      {
+        "font_size": 31,
+        "minimum": [
+          1,
+          45
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/InstallHeading",
+        "rect": [
+          20,
+          710,
+          350,
+          45
+        ],
+        "text": "Установка и офлайн",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          192,
+          62
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard",
+        "rect": [
+          20,
+          763,
+          350,
+          62
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          168,
+          40
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout",
+        "rect": [
+          32,
+          774,
+          326,
+          40
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          60,
+          40
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout/@VBoxContainer@66",
+        "rect": [
+          32,
+          774,
+          218,
+          40
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          60,
+          10
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout/@VBoxContainer@66/PwaEyebrow",
+        "rect": [
+          32,
+          774,
+          218,
+          10
+        ],
+        "text": "PWA / OFFLINE",
+        "type": "Label"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          1,
+          14
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout/@VBoxContainer@66/PwaStatus",
+        "rect": [
+          32,
+          787,
+          218,
+          14
+        ],
+        "text": "ИГРА РАБОТАЕТ НА ПЛОЩАДКЕ",
+        "type": "Label"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout/@VBoxContainer@66/PwaMeta",
+        "rect": [
+          32,
+          804,
+          218,
+          10
+        ],
+        "text": "Установка и офлайн: mock",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          98,
+          36
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout/PwaStatusActions",
+        "rect": [
+          260,
+          774,
+          98,
+          40
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          98,
+          12
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout/PwaStatusActions/PwaCheck",
+        "rect": [
+          260,
+          774,
+          98,
+          36
+        ],
+        "text": "Проверить обновление",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          146,
+          95
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/MobileContractSpacing",
+        "rect": [
+          20,
+          833,
+          350,
+          95
+        ],
+        "type": "MarginContainer"
+      },
+      {
+        "minimum": [
+          146,
+          87
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/MobileContractSpacing/MobileContract",
+        "rect": [
+          20,
+          841,
+          350,
+          87
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          122,
+          63
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/MobileContractSpacing/MobileContract/@VBoxContainer@70",
+        "rect": [
+          32,
+          853,
+          326,
+          63
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          122,
+          14
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/MobileContractSpacing/MobileContract/@VBoxContainer@70/MobileContractTitle",
+        "rect": [
+          32,
+          853,
+          326,
+          14
+        ],
+        "text": "Мобильный контракт",
+        "type": "Label"
+      },
+      {
+        "font_size": 10,
+        "minimum": [
+          1,
+          45
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/MobileContractSpacing/MobileContract/@VBoxContainer@70/MobileContractCopy",
+        "rect": [
+          32,
+          871,
+          326,
+          45
+        ],
+        "text": "Звук активируется только после первого касания/клавиши. При сворачивании вкладки музыка приостанавливается и безопасно возобновляется при возвращении.",
+        "type": "Label"
+      },
+      {
+        "font_size": 12,
+        "minimum": [
+          1,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/@Label@73",
+        "rect": [
+          20,
+          936,
+          350,
+          15
+        ],
+        "text": "",
+        "type": "Label"
+      }
+    ],
+    "engine": "4.7.2-stable (official)",
+    "id": "1792206788392-0.6945708638827989",
+    "line": 0,
+    "locale": "ru",
+    "scene": 0,
+    "viewport": [
+      390,
+      844
+    ],
+    "window": [
+      390,
+      844
+    ]
+  },
+  "web": [
+    {
+      "selector": ".phone",
+      "text": "\n      \n  Назад\n  CONFIG · SYSTEMНастройки\n  \n    \n  \n\n      Язык\n      \n    ЯзыкЯзык интерфейса сохраняется на этом устройстве отдельно от игрового прогресса.\n      \n        РусскийБеларускаяEnglish\n      \n    \n  \n      Звук и отклик\n      Музыка и звуковые эффекты воспроизводятся прямо на устройстве. Настройки сохраняются отдельно от игрового прогресса.\n      \n      Музыка32%\n      Эффекты72%\n      \n        Без звукаВыключеноOFF\n        ВиброоткликПоддерживается устройствомON\n      \n      \n        ▶ Проверить музыку\n        ✦ Проверить эффекты\n      \n      Web Audio: доступен · Виброотклик: доступны\n    \n      Установка и офлайн\n      PWA / OFFLINECACHE PREPARINGЧерез меню браузера · в сети · stableПодготовка офлайн-кэша65/164 · 39%Проверить обновление\n      Мобильный контрактЗвук активируется только после первого касания/клавиши. При сворачивании вкладки музыка приостанавливается и безопасно возобновляется при возвращении.\n      \n    ",
+      "rect": [
+        0,
+        0,
+        390,
+        844
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".app-header",
+      "text": "\n  Назад\n  CONFIG · SYSTEMНастройки\n  \n    \n  \n",
+      "rect": [
+        0,
+        0,
+        390,
+        60
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px -20px 14px",
+      "color": "rgb(255, 250, 240)"
+    },
+    {
+      "selector": ".settings-panel",
+      "text": "\n      \n  Назад\n  CONFIG · SYSTEMНастройки\n  \n    \n  \n\n      Язык\n      \n    ЯзыкЯзык интерфейса сохраняется на этом устройстве отдельно от игрового прогресса.\n      \n        РусскийБеларускаяEnglish\n      \n    \n  \n      Звук и отклик\n      Музыка и звуковые эффекты воспроизводятся прямо на устройстве. Настройки сохраняются отдельно от игрового прогресса.\n      \n      Музыка32%\n      Эффекты72%\n      \n        Без звукаВыключеноOFF\n        ВиброоткликПоддерживается устройствомON\n      \n      \n        ▶ Проверить музыку\n        ✦ Проверить эффекты\n      \n      Web Audio: доступен · Виброотклик: доступны\n    \n      Установка и офлайн\n      PWA / OFFLINECACHE PREPARINGЧерез меню браузера · в сети · stableПодготовка офлайн-кэша65/164 · 39%Проверить обновление\n      Мобильный контрактЗвук активируется только после первого касания/клавиши. При сворачивании вкладки музыка приостанавливается и безопасно возобновляется при возвращении.\n      \n    ",
+      "rect": [
+        0,
+        0,
+        390,
+        844
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".language-row",
+      "text": "ЯзыкЯзык интерфейса сохраняется на этом устройстве отдельно от игрового прогресса.\n      \n        РусскийБеларускаяEnglish\n      \n    ",
+      "rect": [
+        20,
+        118,
+        350,
+        140.6875
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    }
+  ],
+  "pixelMetrics": null,
+  "contractErrors": [],
+  "errors": []
+}

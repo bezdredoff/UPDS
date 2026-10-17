@@ -1,0 +1,1221 @@
+{
+  "id": "en-320x568-settings",
+  "native": {
+    "build": {
+      "fixture": "res://tests/parity_web_capture.tscn",
+      "generatedAt": "2026-10-17T03:12:19.475Z",
+      "sourceCommit": "7fb22760c2b3f3aa792252e04aae8922c4edb9bd",
+      "sourceHash": "b1a7177f0731850e31e107d68d397e928fb7fae493f84e75c505d79462061bc9",
+      "sourceTreeClean": false
+    },
+    "controls": [
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 2,
+        "path": ".",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          567.999967507276
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Backdrop",
+        "rect": [
+          0,
+          0,
+          320.000013709068,
+          568.000008583069
+        ],
+        "type": "ColorRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Background",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          567.999967507276
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Wash",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          567.999967507276
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          205,
+          30
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          567.999967507276
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          205,
+          0
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          537.999974574865
+        ],
+        "type": "ScrollContainer"
+      },
+      {
+        "minimum": [
+          205,
+          1061
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          1060.99997322142
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          141,
+          46
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/PanelHeader",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          58.0000003702244
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          115,
+          44
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/PanelHeader/@HBoxContainer@28",
+        "rect": [
+          13.0000095515859,
+          0.0000205378964892589,
+          293.999992035995,
+          55.9999994722039
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 22,
+        "minimum": [
+          18,
+          33
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/PanelHeader/@HBoxContainer@28/Back",
+        "rect": [
+          13.0000095515859,
+          0.0000205378964892589,
+          43.999996745194,
+          55.9999994722039
+        ],
+        "text": "←",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          64,
+          25
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/PanelHeader/@HBoxContainer@28/@VBoxContainer@29",
+        "rect": [
+          64.0000078816165,
+          0.0000205378964892589,
+          242.999989851112,
+          55.9999994722039
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 7,
+        "minimum": [
+          64,
+          9
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/PanelHeader/@HBoxContainer@28/@VBoxContainer@29/Eyebrow",
+        "rect": [
+          64.0000078816165,
+          15.0000195713392,
+          242.999989851112,
+          8.99999954842747
+        ],
+        "text": "CONFIG · SYSTEM",
+        "type": "Label"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          46,
+          16
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/PanelHeader/@HBoxContainer@28/@VBoxContainer@29/Title",
+        "rect": [
+          64.0000078816165,
+          24.0000210451944,
+          242.999989851112,
+          15.9999994824529
+        ],
+        "text": "Settings",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          205,
+          995
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body",
+        "rect": [
+          0.0000102796057035448,
+          66.0000193657288,
+          319.999993149857,
+          994.99996412464
+        ],
+        "type": "MarginContainer"
+      },
+      {
+        "minimum": [
+          165,
+          993
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32",
+        "rect": [
+          20.0000098514718,
+          68.0000202637493,
+          279.999991436223,
+          992.999983764515
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 31,
+        "minimum": [
+          1,
+          44
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/@Label@33",
+        "rect": [
+          20.0000098514718,
+          68.0000202637493,
+          279.999991436223,
+          43.9999992185549
+        ],
+        "text": "Language",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          164,
+          139
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageRow",
+        "rect": [
+          20.0000098514718,
+          120.000012805438,
+          279.999991436223,
+          138.999990529788
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          132,
+          111
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageRow/LanguageRowContent",
+        "rect": [
+          36.0000092519745,
+          134.000008822633,
+          247.999990065317,
+          110.999998495397
+        ],
+        "type": "GridContainer"
+      },
+      {
+        "minimum": [
+          68,
+          53
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageRow/LanguageRowContent/LanguageCopy",
+        "rect": [
+          36.0000092519745,
+          134.000008822633,
+          247.999990065317,
+          52.9999981251731
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 14,
+        "minimum": [
+          68,
+          18
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageRow/LanguageRowContent/LanguageCopy/@Label@34",
+        "rect": [
+          36.0000092519745,
+          134.000008822633,
+          247.999990065317,
+          17.9999990968549
+        ],
+        "text": "Language",
+        "type": "Label"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          1,
+          31
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageRow/LanguageRowContent/LanguageCopy/@Label@35",
+        "rect": [
+          36.0000092519745,
+          156.000008431911,
+          247.999990065317,
+          30.9999985158956
+        ],
+        "text": "Interface language is saved on this device separately from game progress.",
+        "type": "Label"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          132,
+          20
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageRow/LanguageRowContent/Language",
+        "rect": [
+          36.0000092519745,
+          203.000019266445,
+          247.999990065317,
+          41.9999983205344
+        ],
+        "text": "English",
+        "type": "OptionButton"
+      },
+      {
+        "minimum": [
+          0,
+          4
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/LanguageSectionSpacing",
+        "rect": [
+          20.0000098514718,
+          267.000006927308,
+          279.999991436223,
+          3.99999987061324
+        ],
+        "type": "MarginContainer"
+      },
+      {
+        "font_size": 31,
+        "minimum": [
+          1,
+          91
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/@Label@46",
+        "rect": [
+          20.0000098514718,
+          279.000012315431,
+          279.999991436223,
+          90.9999997841405
+        ],
+        "text": "Audio & Feedback",
+        "type": "Label"
+      },
+      {
+        "font_size": 13,
+        "minimum": [
+          1,
+          77
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/@Label@47",
+        "rect": [
+          20.0000098514718,
+          378.000025960602,
+          279.999991436223,
+          76.999998632471
+        ],
+        "text": "Music and SFX are generated locally through Web Audio and require no audio-file downloads. These settings are stored separately from game progress.",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          148,
+          283
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing",
+        "rect": [
+          20.0000098514718,
+          463.000012781733,
+          279.999991436223,
+          282.999993573576
+        ],
+        "type": "MarginContainer"
+      },
+      {
+        "minimum": [
+          148,
+          277
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings",
+        "rect": [
+          20.0000098514718,
+          468.999994937898,
+          279.999991436223,
+          276.999990879514
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          94,
+          67
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/MusicVolumeCard",
+        "rect": [
+          20.0000098514718,
+          468.999994937898,
+          279.999991436223,
+          66.9999992768426
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          70,
+          43
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/MusicVolumeCard/@VBoxContainer@48",
+        "rect": [
+          32.0000090806111,
+          481.000000326021,
+          255.999990408043,
+          42.9999987695446
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          70,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/MusicVolumeCard/@VBoxContainer@48/@HBoxContainer@49",
+        "rect": [
+          32.0000090806111,
+          481.000000326021,
+          255.999990408043,
+          14.9999990334427
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 12,
+        "minimum": [
+          36,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/MusicVolumeCard/@VBoxContainer@48/@HBoxContainer@49/@Label@50",
+        "rect": [
+          32.0000090806111,
+          481.000000326021,
+          221.999988951455,
+          14.9999990334427
+        ],
+        "text": "Music",
+        "type": "Label"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          26,
+          14
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/MusicVolumeCard/@VBoxContainer@48/@HBoxContainer@49/@Label@51",
+        "rect": [
+          261.999990665088,
+          481.000000326021,
+          25.9999985439604,
+          13.999999868051
+        ],
+        "text": "32%",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          0,
+          16
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/MusicVolumeCard/@VBoxContainer@48/musicVolume",
+        "rect": [
+          32.0000090806111,
+          503.999979846412,
+          255.999990408043,
+          19.9999987112569
+        ],
+        "type": "HSlider"
+      },
+      {
+        "minimum": [
+          100,
+          67
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/EffectsVolumeCard",
+        "rect": [
+          20.0000098514718,
+          545.999978166947,
+          279.999991436223,
+          66.9999992768426
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          76,
+          43
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/EffectsVolumeCard/@VBoxContainer@52",
+        "rect": [
+          32.0000090806111,
+          557.99998355507,
+          255.999990408043,
+          42.9999987695446
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          76,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/EffectsVolumeCard/@VBoxContainer@52/@HBoxContainer@53",
+        "rect": [
+          32.0000090806111,
+          557.99998355507,
+          255.999990408043,
+          14.9999990334427
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 12,
+        "minimum": [
+          42,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/EffectsVolumeCard/@VBoxContainer@52/@HBoxContainer@53/@Label@54",
+        "rect": [
+          32.0000090806111,
+          557.99998355507,
+          221.999988951455,
+          14.9999990334427
+        ],
+        "text": "Effects",
+        "type": "Label"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          26,
+          14
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/EffectsVolumeCard/@VBoxContainer@52/@HBoxContainer@53/@Label@55",
+        "rect": [
+          261.999990665088,
+          557.99998355507,
+          25.9999985439604,
+          13.999999868051
+        ],
+        "text": "72%",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          0,
+          16
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/EffectsVolumeCard/@VBoxContainer@52/effectsVolume",
+        "rect": [
+          32.0000090806111,
+          581.000004151254,
+          255.999990408043,
+          19.9999987112569
+        ],
+        "type": "HSlider"
+      },
+      {
+        "minimum": [
+          122,
+          69
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles",
+        "rect": [
+          20.0000098514718,
+          623.000002471788,
+          279.999991436223,
+          69.0000001748631
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          57,
+          54
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/MuteCard",
+        "rect": [
+          20.0000098514718,
+          623.000002471788,
+          135.999995546748,
+          69.0000001748631
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          39,
+          36
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/MuteCard/@HBoxContainer@56",
+        "rect": [
+          29.0000089520886,
+          631.999996243932,
+          117.999994775613,
+          50.9999972271526
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          1,
+          36
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/MuteCard/@HBoxContainer@56/@VBoxContainer@57",
+        "rect": [
+          29.0000089520886,
+          631.999996243932,
+          79.9999982874642,
+          50.9999972271526
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          0,
+          14
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/MuteCard/@HBoxContainer@56/@VBoxContainer@57/muted",
+        "rect": [
+          29.0000089520886,
+          631.999996243932,
+          79.9999982874642,
+          21.9999996092774
+        ],
+        "text": "Mute",
+        "type": "Button"
+      },
+      {
+        "font_size": 9,
+        "minimum": [
+          1,
+          12
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/MuteCard/@HBoxContainer@56/@VBoxContainer@57/MuteHelp",
+        "rect": [
+          29.0000089520886,
+          656.000007020179,
+          79.9999982874642,
+          12.000000253649
+        ],
+        "text": "Disabled",
+        "type": "Label"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          16,
+          10
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/MuteCard/@HBoxContainer@56/MuteSwitch",
+        "rect": [
+          113.000004841015,
+          652.000005224138,
+          33.9999988866871,
+          9.99999935562846
+        ],
+        "text": "OFF",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          57,
+          69
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/HapticsCard",
+        "rect": [
+          164.000007025898,
+          623.000002471788,
+          135.999995546748,
+          69.0000001748631
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          39,
+          51
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/HapticsCard/@HBoxContainer@60",
+        "rect": [
+          173.000007411465,
+          631.999996243932,
+          117.999994775613,
+          50.9999972271526
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          1,
+          51
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/HapticsCard/@HBoxContainer@60/@VBoxContainer@61",
+        "rect": [
+          173.000007411465,
+          631.999996243932,
+          79.9999982874642,
+          50.9999972271526
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          0,
+          14
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/HapticsCard/@HBoxContainer@60/@VBoxContainer@61/hapticsEnabled",
+        "rect": [
+          173.000007411465,
+          631.999996243932,
+          79.9999982874642,
+          21.9999996092774
+        ],
+        "text": "Haptics",
+        "type": "Button"
+      },
+      {
+        "font_size": 9,
+        "minimum": [
+          1,
+          27
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/HapticsCard/@HBoxContainer@60/@VBoxContainer@61/HapticsCapability",
+        "rect": [
+          173.000007411465,
+          656.000007020179,
+          79.9999982874642,
+          26.9999992870917
+        ],
+        "text": "Supported on this device",
+        "type": "Label"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          13,
+          10
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioToggles/HapticsCard/@HBoxContainer@60/HapticsSwitch",
+        "rect": [
+          257.000011010095,
+          652.000005224138,
+          33.9999988866871,
+          9.99999935562846
+        ],
+        "text": "ON",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          148,
+          44
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioPreviewActions",
+        "rect": [
+          20.0000098514718,
+          702.000007136754,
+          279.999991436223,
+          43.9999992185549
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 10,
+        "minimum": [
+          75,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioPreviewActions/PreviewMusic",
+        "rect": [
+          20.0000098514718,
+          702.000007136754,
+          135.999995546748,
+          43.9999992185549
+        ],
+        "text": "Preview music",
+        "type": "Button"
+      },
+      {
+        "font_size": 10,
+        "minimum": [
+          65,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioSettingsSpacing/AudioSettings/AudioPreviewActions/PreviewEffects",
+        "rect": [
+          164.000007025898,
+          702.000007136754,
+          135.999995546748,
+          43.9999992185549
+        ],
+        "text": "Preview SFX",
+        "type": "Button"
+      },
+      {
+        "font_size": 9,
+        "minimum": [
+          1,
+          12
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/AudioCapability",
+        "rect": [
+          20.0000098514718,
+          753.999989409494,
+          279.999991436223,
+          12.000000253649
+        ],
+        "text": "Web Audio: available · Haptics: unavailable on this device",
+        "type": "Label"
+      },
+      {
+        "font_size": 31,
+        "minimum": [
+          1,
+          91
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/InstallHeading",
+        "rect": [
+          20.0000098514718,
+          773.999957313907,
+          279.999991436223,
+          90.9999997841405
+        ],
+        "text": "Install and offline",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          165,
+          62
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard",
+        "rect": [
+          20.0000098514718,
+          872.999929883284,
+          279.999991436223,
+          61.9999970317913
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          141,
+          40
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout",
+        "rect": [
+          32.0000090806111,
+          883.999945091346,
+          255.999990408043,
+          39.9999974225138
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          60,
+          40
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout/@VBoxContainer@66",
+        "rect": [
+          32.0000090806111,
+          883.999945091346,
+          174.999986937935,
+          39.9999974225138
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          60,
+          10
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout/@VBoxContainer@66/PwaEyebrow",
+        "rect": [
+          32.0000090806111,
+          883.999945091346,
+          174.999986937935,
+          9.99999935562846
+        ],
+        "text": "PWA / OFFLINE",
+        "type": "Label"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          1,
+          14
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout/@VBoxContainer@66/PwaStatus",
+        "rect": [
+          32.0000090806111,
+          896.999940659531,
+          174.999986937935,
+          13.999999868051
+        ],
+        "text": "HOSTED BY PLAYGAMA",
+        "type": "Label"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout/@VBoxContainer@66/PwaMeta",
+        "rect": [
+          32.0000090806111,
+          913.99997909955,
+          174.999986937935,
+          9.99999935562846
+        ],
+        "text": "Install and offline: mock",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          71,
+          36
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout/PwaStatusActions",
+        "rect": [
+          216.999988737251,
+          883.999945091346,
+          70.9999979018967,
+          39.9999974225138
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          71,
+          12
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/PwaOfflineCard/PwaStatusLayout/PwaStatusActions/PwaCheck",
+        "rect": [
+          216.999988737251,
+          883.999945091346,
+          70.9999979018967,
+          35.9999981937099
+        ],
+        "text": "Check for update",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          110,
+          95
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/MobileContractSpacing",
+        "rect": [
+          20.0000098514718,
+          942.999981851899,
+          279.999991436223,
+          95.0000015801816
+        ],
+        "type": "MarginContainer"
+      },
+      {
+        "minimum": [
+          110,
+          87
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/MobileContractSpacing/MobileContract",
+        "rect": [
+          20.0000098514718,
+          950.999985443981,
+          279.999991436223,
+          86.9999979880995
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          86,
+          63
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/MobileContractSpacing/MobileContract/@VBoxContainer@70",
+        "rect": [
+          32.0000090806111,
+          962.999949756311,
+          255.999990408043,
+          62.9999974808015
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          86,
+          14
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/MobileContractSpacing/MobileContract/@VBoxContainer@70/MobileContractTitle",
+        "rect": [
+          32.0000090806111,
+          962.999949756311,
+          255.999990408043,
+          13.999999868051
+        ],
+        "text": "Mobile contract",
+        "type": "Label"
+      },
+      {
+        "font_size": 10,
+        "minimum": [
+          1,
+          45
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/MobileContractSpacing/MobileContract/@VBoxContainer@70/MobileContractCopy",
+        "rect": [
+          32.0000090806111,
+          980.999937300599,
+          255.999990408043,
+          44.9999996675651
+        ],
+        "text": "Audio activates only after the first touch or key press. Music pauses when the tab is backgrounded and resumes safely when you return.",
+        "type": "Label"
+      },
+      {
+        "font_size": 12,
+        "minimum": [
+          1,
+          15
+        ],
+        "oversampling": 0,
+        "path": "SettingsScreen/Scroll/@VBoxContainer@27/Body/@VBoxContainer@32/@Label@73",
+        "rect": [
+          20.0000098514718,
+          1045.99999729311,
+          279.999991436223,
+          14.9999990334427
+        ],
+        "text": "",
+        "type": "Label"
+      }
+    ],
+    "engine": "4.7.2-stable (official)",
+    "id": "1792206803995-0.7376024739507179",
+    "line": 0,
+    "locale": "en",
+    "scene": 0,
+    "viewport": [
+      475,
+      844
+    ],
+    "window": [
+      320,
+      568
+    ]
+  },
+  "web": [
+    {
+      "selector": ".phone",
+      "text": "\n      \n  Back\n  CONFIG · SYSTEMSettings\n  \n    \n  \n\n      Language\n      \n    LanguageInterface language is saved on this device separately from game progress.\n      \n        РусскийБеларускаяEnglish\n      \n    \n  \n      Audio & Feedback\n      Music and SFX are generated locally through Web Audio and require no audio-file downloads. These settings are stored separately from game progress.\n      \n      Music32%\n      Effects72%\n      \n        MuteDisabledOFF\n        HapticsSupported by this deviceON\n      \n      \n        ▶ Preview music\n        ✦ Preview SFX\n      \n      Web Audio: available · Haptics: available\n    \n      Install & Offline\n      PWA / OFFLINECACHE PREPARINGUse browser menu · online · stablePreparing offline cache71/166 · 42%Check for update\n      Mobile contractAudio activates only after the first touch or key press. Music pauses when the tab is backgrounded and resumes safely when you return.\n      \n    ",
+      "rect": [
+        0,
+        0,
+        320,
+        568
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".app-header",
+      "text": "\n  Back\n  CONFIG · SYSTEMSettings\n  \n    \n  \n",
+      "rect": [
+        0,
+        0,
+        320,
+        56
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px -20px 14px",
+      "color": "rgb(255, 250, 240)"
+    },
+    {
+      "selector": ".settings-panel",
+      "text": "\n      \n  Back\n  CONFIG · SYSTEMSettings\n  \n    \n  \n\n      Language\n      \n    LanguageInterface language is saved on this device separately from game progress.\n      \n        РусскийБеларускаяEnglish\n      \n    \n  \n      Audio & Feedback\n      Music and SFX are generated locally through Web Audio and require no audio-file downloads. These settings are stored separately from game progress.\n      \n      Music32%\n      Effects72%\n      \n        MuteDisabledOFF\n        HapticsSupported by this deviceON\n      \n      \n        ▶ Preview music\n        ✦ Preview SFX\n      \n      Web Audio: available · Haptics: available\n    \n      Install & Offline\n      PWA / OFFLINECACHE PREPARINGUse browser menu · online · stablePreparing offline cache71/166 · 42%Check for update\n      Mobile contractAudio activates only after the first touch or key press. Music pauses when the tab is backgrounded and resumes safely when you return.\n      \n    ",
+      "rect": [
+        0,
+        0,
+        320,
+        568
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".language-row",
+      "text": "LanguageInterface language is saved on this device separately from game progress.\n      \n        РусскийБеларускаяEnglish\n      \n    ",
+      "rect": [
+        20,
+        114,
+        280,
+        140.6875
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    }
+  ],
+  "pixelMetrics": null,
+  "contractErrors": [],
+  "errors": []
+}

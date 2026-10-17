@@ -29,7 +29,7 @@ func _run_smoke() -> void:
 		and screen.find_child("AudioToggles", true, false) != null
 		and screen.find_child("PwaOfflineCard", true, false) != null,
 		"Settings should preserve the source header, grouped controls, and platform status card")
-	var compact_language_row := screen.get_viewport_rect().size.x <= 520.0
+	var compact_language_row := screen.get_window().size.x <= 520
 	var settings_scroll: ScrollContainer = screen.get_node("Scroll")
 	var language_row_style := screen.language_row.get_theme_stylebox("panel") as StyleBoxFlat
 	assert(settings_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_SHOW_NEVER

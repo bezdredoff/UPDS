@@ -12,6 +12,7 @@ var language: OptionButton
 var language_row: PanelContainer
 var language_row_content: GridContainer
 var title: Label
+var eyebrow: Label
 var language_label: Label
 var help: Label
 var back: Button
@@ -167,6 +168,7 @@ func _ready() -> void:
 	mute = _toggle(mute_copy, "muted")
 	mute_help = _label(mute_copy, 400, 9)
 	mute_help.name = "MuteHelp"
+	mute_help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	mute_switch = _switch_chip(mute_row)
 	mute_switch.name = "MuteSwitch"
 	var haptics_card := _card(toggles, "HapticsCard", 10, 9)
@@ -181,6 +183,7 @@ func _ready() -> void:
 	haptics = _toggle(haptics_copy, "hapticsEnabled")
 	haptics_help = _label(haptics_copy, 400, 9)
 	haptics_help.name = "HapticsCapability"
+	haptics_help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	haptics_help.text = MenuCopy.text("haptics_short", preferences.locale)
 	haptics_switch = _switch_chip(haptics_row)
 	haptics_switch.name = "HapticsSwitch"
@@ -274,7 +277,7 @@ func _build_header(content: VBoxContainer) -> void:
 	title_box.alignment = BoxContainer.ALIGNMENT_CENTER
 	title_box.add_theme_constant_override("separation", 0)
 	row.add_child(title_box)
-	var eyebrow := _label(title_box, 900, 7)
+	eyebrow = _label(title_box, 900, 7)
 	eyebrow.name = "Eyebrow"
 	eyebrow.add_theme_color_override("font_color", Color("#f0d69b"))
 	eyebrow.text = "CONFIG · SYSTEM"
@@ -286,6 +289,7 @@ func _build_header(content: VBoxContainer) -> void:
 
 func _section_heading(parent: Control) -> Label:
 	var heading := _label(parent, 800, 31)
+	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	heading.add_theme_font_override("font", UiFonts.serif(800))
 	heading.add_theme_color_override("font_color", Color("#29243d"))
 	heading.add_theme_constant_override("outline_size", 0)
@@ -348,19 +352,23 @@ func _build_volume_row(card: PanelContainer, key: String, is_music: bool) -> voi
 	track.content_margin_top = 2
 	track.content_margin_bottom = 2
 	slider.add_theme_stylebox_override("slider", track)
-	var grabber := StyleBoxFlat.new()
-	grabber.bg_color = Color("#36a89d")
-	grabber.set_corner_radius_all(999)
-	grabber.content_margin_left = 7
-	grabber.content_margin_right = 7
-	grabber.content_margin_top = 7
-	grabber.content_margin_bottom = 7
+	# Slider grabbers are icon textures; StyleBox overrides leave the default glyph.
+	var grabber := GradientTexture2D.new()
+	grabber.width = 16
+	grabber.height = 16
+	grabber.fill = GradientTexture2D.FILL_RADIAL
+	grabber.fill_from = Vector2(0.5, 0.5)
+	grabber.fill_to = Vector2(1.0, 0.5)
+	grabber.gradient = Gradient.new()
+	grabber.gradient.offsets = PackedFloat32Array([0.0, 0.88, 1.0])
+	grabber.gradient.colors = PackedColorArray([Color("#4caaa1"), Color("#4caaa1"), Color("#4caaa100")])
 	var active_track := track.duplicate() as StyleBoxFlat
 	active_track.bg_color = Color("#36a89d")
 	slider.add_theme_stylebox_override("grabber_area", active_track)
 	slider.add_theme_stylebox_override("grabber_area_highlight", active_track)
-	slider.add_theme_stylebox_override("grabber", grabber)
-	slider.add_theme_stylebox_override("grabber_highlight", grabber)
+	slider.add_theme_icon_override("grabber", grabber)
+	slider.add_theme_icon_override("grabber_highlight", grabber)
+	slider.add_theme_icon_override("grabber_disabled", grabber)
 	slider.value_changed.connect(func(value: float) -> void: _update_audio({key: value / 100.0}))
 	column.add_child(slider)
 	if is_music:
@@ -398,6 +406,7 @@ func _build_pwa_card(parent: Control) -> void:
 	eyebrow.add_theme_color_override("font_color", Color("#36a89d"))
 	pwa_status = _label(details, 800, 11)
 	pwa_status.name = "PwaStatus"
+	pwa_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	pwa_status.add_theme_color_override("font_color", Color("#2a4b76"))
 	pwa_meta = _label(details, 400, 8)
 	pwa_meta.name = "PwaMeta"
@@ -438,6 +447,7 @@ func _toggle(parent: Control, key: String) -> Button:
 	var button := Button.new()
 	button.name = key
 	button.toggle_mode = true
+	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button.custom_minimum_size.y = 22
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	button.add_theme_font_override("font", UiFonts.sans(700))
@@ -505,7 +515,8 @@ func _style_select(button: OptionButton) -> void:
 func _layout_language_row() -> void:
 	if not is_instance_valid(language_row_content) or not is_instance_valid(language):
 		return
-	var compact := get_viewport_rect().size.x <= 520.0
+	# CSS media queries use the physical window, not Godot's stretched viewport.
+	var compact := get_window().size.x <= 520
 	language_row_content.columns = 1 if compact else 2
 	language_row_content.add_theme_constant_override("h_separation", 0 if compact else 16)
 	language_row_content.add_theme_constant_override("v_separation", 16 if compact else 4)
@@ -521,6 +532,7 @@ func _language_copy_minimum(compact: bool) -> void:
 
 
 func _refresh(locale: String) -> void:
+	eyebrow.text = "НАЛАДЫ · СІСТЭМА" if locale == "be" else "CONFIG · SYSTEM"
 	title.text = MenuCopy.text("settings", locale)
 	language_label.text = MenuCopy.text("language", locale)
 	var install_heading := find_child("InstallHeading", true, false) as Label

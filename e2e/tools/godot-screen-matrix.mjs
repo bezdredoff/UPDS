@@ -9,6 +9,7 @@ const { values } = parseArgs({ options: {
   output: { type: 'string' }, states: { type: 'string', default: 'menu,vn,settings,campaign' },
   locale: { type: 'string' }, viewport: { type: 'string' },
   'enforce-menu': { type: 'boolean', default: false },
+  'enforce-settings': { type: 'boolean', default: false },
 } });
 if (!values.web || !values.godot || !values.output) throw new Error('--web, --godot and --output are required');
 const output=resolve(values.output);
@@ -78,6 +79,16 @@ try {
           for(const i of [1,3])if(Math.abs(a.rect[i]-b.rect[i])>1.0)contractErrors.push(`${path} rect[${i}]: ${b.rect[i]} vs source ${a.rect[i]}`);
         }
       }
+      if(state==='settings') {
+        const phone=reference.find(r=>r.selector==='.phone').rect;
+        const screen=native.controls.find(r=>r.path==='SettingsScreen');
+        if(!screen||Math.abs(screen.rect[2]-phone[2])>1) contractErrors.push('Settings root expands beyond the source phone');
+        for(const control of native.controls.filter(r=>r.path.startsWith('SettingsScreen/'))) {
+          if(control.rect[0]<phone[0]-1||control.rect[0]+control.rect[2]>phone[0]+phone[2]+1) contractErrors.push(`${control.path} overflows phone horizontally`);
+        }
+        const eyebrow=native.controls.find(r=>r.path.startsWith('SettingsScreen/')&&r.path.endsWith('/Eyebrow'));
+        if(eyebrow?.text!==(locale==='be'?'НАЛАДЫ · СІСТЭМА':'CONFIG · SYSTEM')) contractErrors.push('Settings eyebrow locale differs from source');
+      }
       const webPng=await web.screenshot({path:join(output,`${id}-web.png`)});
       const nativePng=await godot.screenshot({path:join(output,`${id}-godot.png`)});
       let pixelMetrics=null;
@@ -106,3 +117,4 @@ await writeFile(join(output,'index.html'),`<style>body{background:#152337;color:
 await writeFile(join(output,'summary.json'),JSON.stringify({generatedAt:new Date().toISOString(),cases:results},null,2));
 if(results.some(r=>r.errors.length)) throw new Error('Screen captures contain runtime/console errors; inspect per-case JSON');
 if(values['enforce-menu']&&results.some(r=>r.contractErrors.length)) throw new Error('Source menu geometry contracts failed; inspect per-case JSON');
+if(values['enforce-settings']&&results.some(r=>r.contractErrors.length)) throw new Error('Settings layout contracts failed; inspect per-case JSON');
