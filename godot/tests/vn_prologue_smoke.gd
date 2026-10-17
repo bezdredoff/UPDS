@@ -100,10 +100,13 @@ func _run() -> void:
 	assert(is_equal_approx(screen.stage.position.y, 60.0)
 		and is_equal_approx(screen.stage.get_global_rect().end.y, screen.dialogue_panel.position.y - 10.0),
 		"VN stage geometry should follow the source header and dialogue grid rows")
-	assert(screen.background_rect.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		and screen.background_fill.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_COVERED
-		and screen.background_fill.material != null,
-		"VN backgrounds should mirror the original fit image and blurred fill layers")
+	var cover: TextureRect = screen.background_fill.get_node("CoverRaster").get_child(0)
+	assert(screen.background_rect.stretch_mode == TextureRect.STRETCH_SCALE
+		and screen.background_fill.stretch_mode == TextureRect.STRETCH_SCALE
+		and screen.background_fill.material != null
+		and cover.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		and cover.texture == screen.background_rect.texture,
+		"VN backgrounds must retain the source asset in the CSS-sized cover raster and fractional fit shader")
 	assert(not menu.get_node("Content").visible)
 	assert(session.current_line().id == "VN0001")
 	menu.audio_runtime.activate()

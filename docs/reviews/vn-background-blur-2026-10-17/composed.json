@@ -1,0 +1,17 @@
+{
+  "build": {
+    "fixture": "res://tests/parity_web_capture.tscn",
+    "generatedAt": "2026-10-17T11:24:13.978Z",
+    "serialImport": true,
+    "sourceCommit": "df0a6455bb7abb6c2dcae791e8d82e4158508038",
+    "sourceHash": "2bade17634cf882ced9b4def7696c4748bad81ab622b63b2fa63792d9843ce53",
+    "sourceTreeClean": false
+  },
+  "actorEntries": 767,
+  "uniqueStaging": 79,
+  "errors": [],
+  "records": [
+    {"id":"ru-320x568-reduce-VN0389-onoe-A","entry":{"scene":15,"line":19,"choice":"A","id":"VN0389","actor":{"character":"onoe","asset":"./assets/characters/onoe/rig/pose_a/frames/frame-serious.png","x":31,"top":37.9,"height":128.16,"compactHeight":168,"scale":1,"y":0,"z":4}},"locale":"ru","viewport":[320,568],"motion":"reduce","source":{"lineId":"VN0389","asset":"./assets/characters/onoe/rig/pose_a/frames/frame-serious.png","animation":false,"frames":[{"seconds":0,"rect":[-68.8125,169.6875,336,504]}],"layers":[{"character":"onoe","z":4,"asset":"./assets/characters/onoe/rig/pose_a/frames/frame-serious.png","rect":[-68.8125,169.6875,336,504]},{"character":"miku","z":3,"asset":"./assets/characters/miku/rig/pose_a/frames/frame-neutral.png","rect":[52.796875,167.40625,336,504]}]},"native":{"lineId":"VN0389","reducedMotion":true,"frames":[{"seconds":0,"rect":[-68.799992667844,169.700017664036,335.99999383531,503.999979846412]}],"asset":"./assets/characters/onoe/rig/pose_a/frames/frame-serious.png","animation":false,"layers":[{"character":"onoe","z":4,"asset":"./assets/characters/onoe/rig/pose_a/frames/frame-serious.png","rect":[-68.799992667844,169.700017664036,335.99999383531,503.999979846412]},{"character":"miku","z":3,"asset":"./assets/characters/miku/rig/pose_a/frames/frame-neutral.png","rect":[52.800012541602,167.420023623177,335.99999383531,503.999979846412]}]},"switches":[],"maxRectDelta":0.012517664036010956,"differences":[]},
+    {"id":"ru-320x568-reduce-VN0389-miku-A","entry":{"scene":15,"line":19,"choice":"A","id":"VN0389","actor":{"character":"miku","asset":"./assets/characters/miku/rig/pose_a/frames/frame-neutral.png","x":69,"top":37.14,"height":128.16,"compactHeight":168,"scale":1,"y":0,"z":3}},"locale":"ru","viewport":[320,568],"motion":"reduce","source":{"lineId":"VN0389","asset":"./assets/characters/miku/rig/pose_a/frames/frame-neutral.png","animation":false,"frames":[{"seconds":0,"rect":[52.796875,167.40625,336,504]}],"layers":[{"character":"onoe","z":4,"asset":"./assets/characters/onoe/rig/pose_a/frames/frame-serious.png","rect":[-68.8125,169.6875,336,504]},{"character":"miku","z":3,"asset":"./assets/characters/miku/rig/pose_a/frames/frame-neutral.png","rect":[52.796875,167.40625,336,504]}]},"native":{"lineId":"VN0389","reducedMotion":true,"frames":[{"seconds":0,"rect":[52.800012541602,167.420023623177,335.99999383531,503.999979846412]}],"asset":"./assets/characters/miku/rig/pose_a/frames/frame-neutral.png","animation":false,"layers":[{"character":"onoe","z":4,"asset":"./assets/characters/onoe/rig/pose_a/frames/frame-serious.png","rect":[-68.799992667844,169.700017664036,335.99999383531,503.999979846412]},{"character":"miku","z":3,"asset":"./assets/characters/miku/rig/pose_a/frames/frame-neutral.png","rect":[52.800012541602,167.420023623177,335.99999383531,503.999979846412]}]},"switches":[],"maxRectDelta":0.013773623177002037,"differences":[]}
+  ]
+}

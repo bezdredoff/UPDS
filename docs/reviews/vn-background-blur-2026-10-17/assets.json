@@ -1,0 +1,166 @@
+{
+  "count": 23,
+  "rows": [
+    {
+      "name": "BG_ABANDONED_LAUNDRY.webp",
+      "source": "acb2fe400dc00a0b26acb8db64a46bb9b3218f6e29ae32f9c4f6248815961dc8",
+      "native": "acb2fe400dc00a0b26acb8db64a46bb9b3218f6e29ae32f9c4f6248815961dc8",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_ANONYMOUS_RETURN_COUNTER.webp",
+      "source": "4bcd43e3a5c6e5f9a74a22428eaa8c01e5baa07bae2efac9f70f8c16fbe38923",
+      "native": "4bcd43e3a5c6e5f9a74a22428eaa8c01e5baa07bae2efac9f70f8c16fbe38923",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_ASTERION_SMART_TEXTILE_LAB.webp",
+      "source": "3e9011d8129bd1017b7deac7ccb53014f9ee4a01bb5bf221d58ff55a6870df72",
+      "native": "3e9011d8129bd1017b7deac7ccb53014f9ee4a01bb5bf221d58ff55a6870df72",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_ASTERION_TRANSFER_POINT.webp",
+      "source": "58efeeb0c404847161a52fd87371248fcbd7a7a73e08878fe7644302cea3b1b1",
+      "native": "58efeeb0c404847161a52fd87371248fcbd7a7a73e08878fe7644302cea3b1b1",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_BASKETBALL_LOCKER.webp",
+      "source": "9dd4f701a3206811d37a3226880ec1c9265382eec7a67ad026dd856dff7ec4cc",
+      "native": "9dd4f701a3206811d37a3226880ec1c9265382eec7a67ad026dd856dff7ec4cc",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_CAMPUS_PATH.webp",
+      "source": "9d367b723832f9015b66aea5ff62f16d8e687d7a6da43eb1fe518a869956daed",
+      "native": "9d367b723832f9015b66aea5ff62f16d8e687d7a6da43eb1fe518a869956daed",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_CAMPUS_SERVICE_YARD.webp",
+      "source": "796cf2c2e0318a49ae3f93cecf8bb5b1570aca41ee66d3ab637ac45e60fb4f3d",
+      "native": "796cf2c2e0318a49ae3f93cecf8bb5b1570aca41ee66d3ab637ac45e60fb4f3d",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_CLUBROOM_DAY.webp",
+      "source": "c89e888add278989df081aaf49bdffc6b49691b64fd5e60327fed35612bed2f9",
+      "native": "c89e888add278989df081aaf49bdffc6b49691b64fd5e60327fed35612bed2f9",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_CLUBROOM_NIGHT.webp",
+      "source": "4af0e5b0d40d5e4aa4a67aff494485bdfa804de4ae601c215f31f0f2b6437359",
+      "native": "4af0e5b0d40d5e4aa4a67aff494485bdfa804de4ae601c215f31f0f2b6437359",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_COMBAT_CLUB_HALL.webp",
+      "source": "2c05072212017391147a2b174bda9dc34211cfeacbd7778bb0c351c7c5c692a3",
+      "native": "2c05072212017391147a2b174bda9dc34211cfeacbd7778bb0c351c7c5c692a3",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_DISCIPLINARY_ASSEMBLY.webp",
+      "source": "cb60e197851c7a934196888074731f061206749bead756736fa8ae32f9309722",
+      "native": "cb60e197851c7a934196888074731f061206749bead756736fa8ae32f9309722",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_GYMNASTICS_COSTUME.webp",
+      "source": "c8a08c472d96a08b962a42c4e08ad5b569aa67085b35ae2ed178680edcc7b584",
+      "native": "c8a08c472d96a08b962a42c4e08ad5b569aa67085b35ae2ed178680edcc7b584",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_KENTARO_APARTMENT_EVENING.webp",
+      "source": "fa2f88b49dc14c4a9b478951117f4e92dec7961077873ef24983ab2c2e3aea2f",
+      "native": "fa2f88b49dc14c4a9b478951117f4e92dec7961077873ef24983ab2c2e3aea2f",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_LOCKER_ATHLETICS_DAY.webp",
+      "source": "6831a7d018bafdb64a437ab1cc4a78a451c4e4d3887012a8e2e0f8deed376d67",
+      "native": "6831a7d018bafdb64a437ab1cc4a78a451c4e4d3887012a8e2e0f8deed376d67",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_LOST_FOUND_WAREHOUSE.webp",
+      "source": "f1854cdbe56e2544751e8bbd1177cbdf1718e1ff9924b7e047db8b5d9e8cb552",
+      "native": "f1854cdbe56e2544751e8bbd1177cbdf1718e1ff9924b7e047db8b5d9e8cb552",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_MAINTENANCE_ROOM.webp",
+      "source": "d4860eac300221bfa8a3a70e7e94c29e65cfd69035811fa15a8b5b768e09e7cc",
+      "native": "d4860eac300221bfa8a3a70e7e94c29e65cfd69035811fa15a8b5b768e09e7cc",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_NORIHIRO_APARTMENT_NIGHT.webp",
+      "source": "a02aaedc4f712c5d51a138e4118412336024880046d5d6989944d743c2ea9ae6",
+      "native": "a02aaedc4f712c5d51a138e4118412336024880046d5d6989944d743c2ea9ae6",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_OLD_ARCHIVE.webp",
+      "source": "d0d35b88b7a3a0a4a39748ac4261a1b73fd15e66582c134fc58e1170f6d4dd6f",
+      "native": "d0d35b88b7a3a0a4a39748ac4261a1b73fd15e66582c134fc58e1170f6d4dd6f",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_OLD_GYM_NIGHT.webp",
+      "source": "9465d9f606d6e9e4e9522529bf540d0107778a21a4e4f08707690935c2cf8d79",
+      "native": "9465d9f606d6e9e4e9522529bf540d0107778a21a4e4f08707690935c2cf8d79",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_POOL_LOCKER_EVENING.webp",
+      "source": "79d98cd8968bf280b56119090402e461e6e7d7283788ce99268787cd6c06b804",
+      "native": "79d98cd8968bf280b56119090402e461e6e7d7283788ce99268787cd6c06b804",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_SERVICE_TUNNEL.webp",
+      "source": "f4c0df459c83053389730c964bc376c4530f81098447b1e7c524d3e54f781094",
+      "native": "f4c0df459c83053389730c964bc376c4530f81098447b1e7c524d3e54f781094",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_STUDENT_COUNCIL_AUDITORIUM_DAY.webp",
+      "source": "1749396f00f636f67bb385237ddc403d04c08d8879d59de8c12c647c6acfa418",
+      "native": "1749396f00f636f67bb385237ddc403d04c08d8879d59de8c12c647c6acfa418",
+      "identical": true,
+      "mipmaps": true
+    },
+    {
+      "name": "BG_TEXTILE_WORKSHOP.webp",
+      "source": "bc68b0336e875977a57b23bc341bd56e0d69d6c560eecf0b265605f297620404",
+      "native": "bc68b0336e875977a57b23bc341bd56e0d69d6c560eecf0b265605f297620404",
+      "identical": true,
+      "mipmaps": true
+    }
+  ]
+}

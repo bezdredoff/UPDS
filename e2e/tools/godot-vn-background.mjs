@@ -31,7 +31,11 @@ try{for(const locale of values.locale?[values.locale]:['ru','be','en'])for(const
   const id=`${locale}-${width}x${height}-${entry.id}`,clip={x:(width-Math.min(width,430))/2,y:0,width:Math.min(width,430),height};
   const images=[];for(const [name,page]of [['web',web],['godot',native]]){await page.bringToFront();images.push(await page.screenshot({path:join(output,`${id}-${name}.png`),clip}));}
   const pixels=await Promise.all(images.map(i=>sharp(i).removeAlpha().raw().toBuffer()));let sum=0,max=0;for(let i=0;i<pixels[0].length;i++){const d=Math.abs(pixels[0][i]-pixels[1][i]);sum+=d;max=Math.max(max,d);}
-  const row={id,entry,locale,viewport:[width,height],sourceAsset,nativeAsset,meanAbsoluteRgb:sum/pixels[0].length,maxChannelDelta:max};records.push(row);console.log(JSON.stringify(row));
+  const cached=await call({action:'snapshot'});
+  const cacheStable=cached.background.renderGeneration===state.background.renderGeneration;
+  const rasterMatches=JSON.stringify(state.background.rasterSize)===JSON.stringify([clip.width,clip.height]);
+  if(!cacheStable||!rasterMatches)errors.push(`${id}: backdrop cache/raster contract failed`);
+  const row={id,entry,locale,viewport:[width,height],sourceAsset,nativeAsset,background:state.background,cacheStable,rasterMatches,meanAbsoluteRgb:sum/pixels[0].length,maxChannelDelta:max};records.push(row);console.log(JSON.stringify(row));
  }
  await context.close();
 }}finally{await browser.close();}
