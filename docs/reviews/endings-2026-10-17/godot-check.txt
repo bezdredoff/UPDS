@@ -1,0 +1,44 @@
+Project import passed.
+Bootstrap script parse passed.
+Menu copy script parse passed.
+Main menu script parse passed.
+Audio synthesis script parse passed.
+Audio runtime script parse passed.
+Playgama runtime script parse passed.
+Save format script parse passed.
+Save storage script parse passed.
+Campaign store script parse passed.
+Story session script parse passed.
+VN screen script parse passed.
+Dialogue paging source oracle passed.
+VN dialogue reflow smoke test passed.
+CSS motion script parse passed.
+Reduced motion script parse passed.
+Reduced motion preference smoke test passed.
+Seeded random script parse passed.
+Match-3 game script parse passed.
+Match-3 tutorials script parse passed.
+Match-3 reaction runtime script parse passed.
+Match-3 campaign data script parse passed.
+Match-3 runtime parity smoke script parse passed.
+Match-3 campaign session script parse passed.
+Match-3 campaign screen script parse passed.
+Match-3 screen script parse passed.
+Bootstrap scene smoke test passed.
+Main menu smoke test passed.
+Settings smoke test passed.
+Audio smoke test passed.
+Playgama Bridge smoke test passed.
+Save format parity passed.
+Save storage smoke test passed.
+VN prologue smoke test passed.
+Guest portrait smoke test passed.
+Core portrait camera smoke test passed.
+Match-3 game smoke test passed.
+Match-3 tutorial progression smoke test passed.
+Match-3 campaign data smoke test passed.
+Match-3 reactions smoke test passed.
+Match-3 story-object guidance smoke test passed.
+Match-3 campaign screen smoke test passed.
+Match-3 runtime parity test passed.
+Ending lifecycle smoke test passed.

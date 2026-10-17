@@ -8,6 +8,11 @@
       "cluesFound": "Найдено улик",
       "mainMenu": "В главное меню",
       "replay": "Начать заново",
+      "settingsNavigation": {
+        "label": "НАВИГАЦИЯ",
+        "title": "Главное меню",
+        "safe": "Сохранённый прогресс не потеряется"
+      },
       "strategyTitles": {
         "A": "Вернуть вещи и сообщить о Рине",
         "B": "Доказать всю систему Second Skin",
@@ -42,6 +47,11 @@
       "cluesFound": "Clues found",
       "mainMenu": "Main Menu",
       "replay": "Start Over",
+      "settingsNavigation": {
+        "label": "NAVIGATION",
+        "title": "Main Menu",
+        "safe": "Saved progress will not be lost"
+      },
       "strategyTitles": {
         "A": "Return the items and report Rina",
         "B": "Prove the entire Second Skin system",
@@ -76,6 +86,11 @@
       "cluesFound": "Знойдзена доказаў",
       "mainMenu": "У галоўнае меню",
       "replay": "Пачаць нанова",
+      "settingsNavigation": {
+        "label": "НАВІГАЦЫЯ",
+        "title": "Галоўнае меню",
+        "safe": "Захаваны прагрэс не страціцца"
+      },
       "strategyTitles": {
         "A": "Вярнуць рэчы і паведаміць пра Рыну",
         "B": "Даказаць усю сістэму Second Skin",
@@ -241,5 +256,30 @@
       }
     }
   },
-  "totalClues": 22
+  "totalClues": 22,
+  "clueAssets": {
+    "CUE_001": "./assets/clues/clue_laundry_receipt.png",
+    "CUE_002": "./assets/clues/clue_memory_card.png",
+    "CUE_003": "./assets/clues/clue_service_key.png",
+    "CUE_004": "./assets/clues/clue_towel_conductive_seam.png",
+    "CUE_005": "./assets/clues/clue_laundry_receipt.png",
+    "CUE_006": "./assets/clues/clue_service_key.png",
+    "CUE_007": "./assets/clues/clue_towel_conductive_seam.png",
+    "CUE_008": "./assets/clues/clue_towel_conductive_seam.png",
+    "CUE_009": "./assets/clues/clue_laundry_receipt.png",
+    "CUE_010": "./assets/clues/clue_service_key.png",
+    "CUE_011": "./assets/clues/clue_towel_conductive_seam.png",
+    "CUE_012": "./assets/match3/goal_memory_card.png",
+    "CUE_013": "./assets/clues/clue_towel_conductive_seam.png",
+    "CUE_014": "./assets/match3/goal_memory_card.png",
+    "CUE_015": "./assets/match3/goal_receipt.png",
+    "CUE_016": "./assets/clues/clue_service_key.png",
+    "CUE_017": "./assets/match3/goal_memory_card.png",
+    "CUE_018": "./assets/match3/goal_receipt.png",
+    "CUE_019": "./assets/clues/clue_towel_conductive_seam.png",
+    "CUE_020": "./assets/match3/goal_receipt.png",
+    "CUE_021": "./assets/match3/goal_memory_card.png",
+    "CUE_022": "./assets/match3/goal_receipt.png"
+  },
+  "defaultClueId": "CUE_022"
 }

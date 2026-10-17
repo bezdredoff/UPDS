@@ -1,0 +1,1499 @@
+{
+  "build": {
+    "fixture": "res://tests/parity_web_capture.tscn",
+    "generatedAt": "2026-10-17T16:16:11.648Z",
+    "serialImport": true,
+    "sourceCommit": "c96464d163ef119017150c837330570108ccccc2",
+    "sourceHash": "15f530d3764026f749f064ce405c3c999d4967718ada4092786d87593d9b5086",
+    "sourceTreeClean": false,
+    "warmImport": false
+  },
+  "errors": [],
+  "records": [
+    {
+      "id": "ru-320x568-mouse",
+      "locale": "ru",
+      "viewport": [
+        320,
+        568
+      ],
+      "input": "mouse",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 11,
+          "nativeScroll": 11
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 95,
+          "nativeScroll": 95
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "ru-320x568-touch",
+      "locale": "ru",
+      "viewport": [
+        320,
+        568
+      ],
+      "input": "touch",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 11,
+          "nativeScroll": 11
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 95,
+          "nativeScroll": 95
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "ru-320x568-keyboard",
+      "locale": "ru",
+      "viewport": [
+        320,
+        568
+      ],
+      "input": "keyboard",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 11,
+          "nativeScroll": 11
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 95,
+          "nativeScroll": 95
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "ru-390x844-mouse",
+      "locale": "ru",
+      "viewport": [
+        390,
+        844
+      ],
+      "input": "mouse",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "ru-390x844-touch",
+      "locale": "ru",
+      "viewport": [
+        390,
+        844
+      ],
+      "input": "touch",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "ru-390x844-keyboard",
+      "locale": "ru",
+      "viewport": [
+        390,
+        844
+      ],
+      "input": "keyboard",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "ru-480x854-mouse",
+      "locale": "ru",
+      "viewport": [
+        480,
+        854
+      ],
+      "input": "mouse",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "ru-480x854-touch",
+      "locale": "ru",
+      "viewport": [
+        480,
+        854
+      ],
+      "input": "touch",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "ru-480x854-keyboard",
+      "locale": "ru",
+      "viewport": [
+        480,
+        854
+      ],
+      "input": "keyboard",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "be-320x568-mouse",
+      "locale": "be",
+      "viewport": [
+        320,
+        568
+      ],
+      "input": "mouse",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 84,
+          "nativeScroll": 84
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "be-320x568-touch",
+      "locale": "be",
+      "viewport": [
+        320,
+        568
+      ],
+      "input": "touch",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 84,
+          "nativeScroll": 84
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "be-320x568-keyboard",
+      "locale": "be",
+      "viewport": [
+        320,
+        568
+      ],
+      "input": "keyboard",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 84,
+          "nativeScroll": 84
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "be-390x844-mouse",
+      "locale": "be",
+      "viewport": [
+        390,
+        844
+      ],
+      "input": "mouse",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "be-390x844-touch",
+      "locale": "be",
+      "viewport": [
+        390,
+        844
+      ],
+      "input": "touch",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "be-390x844-keyboard",
+      "locale": "be",
+      "viewport": [
+        390,
+        844
+      ],
+      "input": "keyboard",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "be-480x854-mouse",
+      "locale": "be",
+      "viewport": [
+        480,
+        854
+      ],
+      "input": "mouse",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "be-480x854-touch",
+      "locale": "be",
+      "viewport": [
+        480,
+        854
+      ],
+      "input": "touch",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "be-480x854-keyboard",
+      "locale": "be",
+      "viewport": [
+        480,
+        854
+      ],
+      "input": "keyboard",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "en-320x568-mouse",
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "input": "mouse",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 84,
+          "nativeScroll": 84
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "en-320x568-touch",
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "input": "touch",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 84,
+          "nativeScroll": 84
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "en-320x568-keyboard",
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "input": "keyboard",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 84,
+          "nativeScroll": 84
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "en-390x844-mouse",
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "input": "mouse",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "en-390x844-touch",
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "input": "touch",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "en-390x844-keyboard",
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "input": "keyboard",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "en-480x854-mouse",
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "input": "mouse",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "en-480x854-touch",
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "input": "touch",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    },
+    {
+      "id": "en-480x854-keyboard",
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "input": "keyboard",
+      "steps": [
+        {
+          "name": "open-settings",
+          "source": true,
+          "native": true
+        },
+        {
+          "name": "settings-back",
+          "ending": "ENDING_B_CASE_CLOSED",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "focus-header-settings",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-menu-primary",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "focus-replay",
+          "scroll": 0,
+          "nativeScroll": 0
+        },
+        {
+          "name": "replay",
+          "line": "VN0001"
+        },
+        {
+          "name": "menu",
+          "scene": 40,
+          "line": 19
+        },
+        {
+          "name": "continue",
+          "ending": "ENDING_B_CASE_CLOSED"
+        },
+        {
+          "name": "settings-menu",
+          "scene": 40,
+          "line": 19
+        }
+      ]
+    }
+  ]
+}

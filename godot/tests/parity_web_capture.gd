@@ -33,6 +33,15 @@ func _dispatch(arguments: Array) -> void:
 	var request: Dictionary = JSON.parse_string(str(arguments[0]))
 	var extra := {}
 	match str(request.action):
+		"ending":
+			menu.session.state.scene = int(request.scene)
+			menu.session.state.line = menu.session.scene_data().lines.size()
+			menu.session.state.choice = str(request.get("choice", "A"))
+			menu.session.state.clues = request.get("clues", [])
+			menu.session.state.storyChoices = request.get("storyChoices", {})
+			assert(menu.session.resume())
+			menu._open_story()
+			menu.story_screen._refresh()
 		"background_only":
 			for item in _background_hidden:
 				if is_instance_valid(item): item.show()
@@ -101,6 +110,7 @@ func _publish(request_id: String, extra: Dictionary = {}) -> void:
 	var records: Array = []
 	_collect(menu, records)
 	var result := {"id": request_id, "controls": records, "scene": menu.session.state.scene,
+		"storyState": menu.session.state.duplicate(true),
 		"line": menu.session.state.line, "locale": menu.preferences.locale,
 		"audio": menu.preferences.audio,
 		"hapticsSupported": menu.audio_runtime.haptics_supported,
@@ -111,8 +121,12 @@ func _publish(request_id: String, extra: Dictionary = {}) -> void:
 	result.merge(extra)
 	if is_instance_valid(menu.story_screen):
 		result.storyLine = menu.session.current_line()
+		result.ending = menu.session.ending_result()
+		result.endingScroll = menu.story_screen._ending_view._scroll
 		var fill = menu.story_screen.background_fill
 		result.background = {"renderGeneration": fill.render_generation,
+			"asset": fill._source.resource_path if fill._source != null else "",
+			"profile": [fill._profile.x, fill._profile.y, fill._profile.z, fill._profile.w],
 			"rasterSize": [fill.get_node("CoverRaster").size.x, fill.get_node("CoverRaster").size.y]}
 		result.dialogue = {"pages": menu.story_screen._dialogue_pages,
 			"pageIndex": menu.story_screen._dialogue_page_index,
@@ -129,6 +143,7 @@ func _collect(node: Node, records: Array) -> void:
 			"rect": [rect.position.x * scale.x, rect.position.y * scale.y, rect.size.x * scale.x, rect.size.y * scale.y],
 			"minimum": [control.get_minimum_size().x, control.get_minimum_size().y],
 			"oversampling": control.oversampling_with_scale}
+		record.focused = control.has_focus()
 		if node is Label or node is RichTextLabel or node is Button:
 			record.text = node.get("text")
 			record.font_size = control.get_theme_font_size("normal_font_size" if node is RichTextLabel else "font_size")
@@ -138,6 +153,9 @@ func _collect(node: Node, records: Array) -> void:
 			record.asset = node.texture.resource_path
 			record.textureFilter = node.texture_filter
 			record.idle = node.has_meta("idle_tween")
+		if node.get_script() == preload("res://scripts/css_text_block.gd"):
+			record.text = node.text
+			record.font_size = node.font_size
 			record.zIndex = node.z_index
 		records.append(record)
 	for child in node.get_children(): _collect(child, records)

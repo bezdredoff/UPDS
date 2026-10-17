@@ -1,5 +1,5 @@
 // Export the isolated Web capture scene without changing project.godot or shipping QA hooks.
-import { cpSync, mkdtempSync, readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
+import { cpSync, mkdtempSync, readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { dirname, basename, join, resolve, relative, sep } from 'node:path';
@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { parseArgs } from 'node:util';
 
-const { values } = parseArgs({ options: { godot: { type: 'string' }, output: { type: 'string' }, 'keep-project': { type: 'boolean', default: false } } });
+const { values } = parseArgs({ options: { godot: { type: 'string' }, output: { type: 'string' }, 'keep-project': { type: 'boolean', default: false }, 'warm-import': { type: 'boolean', default: false } } });
 if (!values.godot || !values.output) throw new Error('--godot and --output are required');
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const source = join(root, 'godot');
@@ -28,7 +28,7 @@ for(const path of files(project).filter(p=>!p.endsWith('.uid')).sort()) {
 const commit=spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true});
 const status=spawnSync('git',['status','--porcelain','--','godot'],{cwd:root,encoding:'utf8',windowsHide:true});
 const serialImport=process.platform==='win32';
-const metadata={sourceHash:digest.digest('hex'),sourceCommit:commit.status===0?commit.stdout.trim():null,sourceTreeClean:status.status===0&&!status.stdout.trim(),fixture:'res://tests/parity_web_capture.tscn',serialImport,generatedAt:new Date().toISOString()};
+const metadata={sourceHash:digest.digest('hex'),sourceCommit:commit.status===0?commit.stdout.trim():null,sourceTreeClean:status.status===0&&!status.stdout.trim(),fixture:'res://tests/parity_web_capture.tscn',serialImport,warmImport:values['warm-import'],generatedAt:new Date().toISOString()};
 writeFileSync(join(project,'tests/parity_capture_build.json'),JSON.stringify(metadata,null,2));
 const configPath = join(project, 'project.godot');
 const config = readFileSync(configPath, 'utf8');
@@ -42,6 +42,14 @@ if(serialImport) {
   captureConfig+='\n[editor]\nimport/use_multiple_threads=false\n';
 }
 writeFileSync(configPath, captureConfig);
+if(values['warm-import']) {
+  // Iteration only: Godot still validates imported resources against source/settings.
+  // Final evidence can omit this flag for an entirely fresh import.
+  const imported=join(source,'.godot','imported');
+  if(!existsSync(imported)) throw new Error('--warm-import requires an existing local Godot import cache');
+  mkdirSync(join(project,'.godot'),{recursive:true});
+  cpSync(imported,join(project,'.godot','imported'),{recursive:true});
+}
 mkdirSync(output, { recursive: true });
 for (const [name, args] of [
   ['import', ['--headless', '--editor', '--path', project, '--import']],

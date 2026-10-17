@@ -242,6 +242,7 @@ export function godotEndingOutcomeData() {
       case: catalog['ending.case'], chapterComplete: catalog['ending.chapterComplete'],
       finalStrategy: catalog['ending.finalStrategy'], metrics: catalog['ending.metrics'],
       cluesFound: catalog['ending.cluesFound'], mainMenu: catalog['ending.mainMenu'], replay: catalog['ending.replay'],
+      settingsNavigation: { label: catalog['settings.navigationLabel'], title: catalog['settings.mainMenu'], safe: catalog['settings.mainMenuSafe'] },
       strategyTitles: Object.fromEntries((['A', 'B', 'C'] as const).map((option) => [option, catalog[`vn.storyChoice.final-strategy.${option}.title`]])),
       outcomes: Object.fromEntries(endingIds.map((id) => [id, {
         eyebrow: catalog[`ending.outcome.${id}.eyebrow`], heading: catalog[`ending.outcome.${id}.heading`],
@@ -261,6 +262,8 @@ export function godotEndingOutcomeData() {
       storyChoiceEffects,
     },
     totalClues: levels.length,
+    clueAssets: Object.fromEntries(Object.entries(cluePresentation).map(([id, clue]) => [id, clue.asset])),
+    defaultClueId: levels[levels.length - 1].clueId,
   };
 }
 

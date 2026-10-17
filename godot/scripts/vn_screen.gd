@@ -57,11 +57,12 @@ var background_fill: VnBackgroundFill
 var choice_box: VBoxContainer
 var choice_prompt: Label
 var choice_buttons: Array[Button] = []
+var _ending_view: Control
 var ending_panel: PanelContainer
-var ending_eyebrow: Label
-var ending_heading: Label
-var ending_copy: Label
-var ending_summary: Label
+var ending_eyebrow: Control
+var ending_heading: Control
+var ending_copy: Control
+var ending_summary: Control
 var ending_menu_button: Button
 var ending_replay_button: Button
 var overlay: Control
@@ -109,7 +110,6 @@ func _ready() -> void:
 	background_fill.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background_fill.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	background_fill.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	background_fill.legacy_material = _background_blur_material()
 	background_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background_fill)
 	background_rect = TextureRect.new()
@@ -357,14 +357,13 @@ func _ready() -> void:
 	preferences.locale_changed.connect(func(_locale: String) -> void: _refresh())
 	_refresh()
 	set_process_unhandled_key_input(true)
-	if not session.ending_result().is_empty():
-		ending_menu_button.grab_focus()
-	elif session.at_match3_gate():
-		case_button.grab_focus()
-	elif session.at_choice_gate():
-		choice_buttons[0].grab_focus()
-	else:
-		page_progress.grab_focus()
+	if session.ending_result().is_empty():
+		if session.at_match3_gate():
+			case_button.grab_focus()
+		elif session.at_choice_gate():
+			choice_buttons[0].grab_focus()
+		else:
+			page_progress.grab_focus()
 	_layout_vn()
 
 
@@ -485,11 +484,19 @@ func _refresh() -> void:
 		_refresh_ending(outcome)
 		return
 	ending_panel.hide()
+	if audio_runtime != null: audio_runtime.set_scene("vn")
 	get_node("Vignette").show()
 	background_rect.material = _vn_background_fit_material
 	background_rect.modulate = Color.WHITE
 	background_rect.stretch_mode = TextureRect.STRETCH_SCALE
-	background_fill.set_legacy(false)
+	background_fill.configure()
+	background_rect.show()
+	background_fill.position.y = 0.0
+	page_progress.show()
+	get_node("BackgroundBase").color = Color("#1b2340")
+	get_node("HeaderBackground").show()
+	get_node("VnHeader").show()
+	_ending_view.hide()
 	dialogue_panel.show()
 	stage.show()
 	controls_panel.show()
@@ -709,30 +716,6 @@ func _set_background(asset_path: String) -> void:
 	var texture := load("res://" + asset_path.trim_prefix("./"))
 	background_rect.texture = texture
 	background_fill.set_source(texture)
-
-
-func _background_blur_material() -> ShaderMaterial:
-	var shader := Shader.new()
-	shader.code = """
-	shader_type canvas_item;
-void fragment() {
-	vec2 blur = TEXTURE_PIXEL_SIZE * 32.0;
-	vec3 color = texture(TEXTURE, UV).rgb * 0.20;
-	color += texture(TEXTURE, UV + vec2(blur.x, 0.0)).rgb * 0.10;
-	color += texture(TEXTURE, UV - vec2(blur.x, 0.0)).rgb * 0.10;
-	color += texture(TEXTURE, UV + vec2(0.0, blur.y)).rgb * 0.10;
-	color += texture(TEXTURE, UV - vec2(0.0, blur.y)).rgb * 0.10;
-	color += texture(TEXTURE, UV + blur).rgb * 0.10;
-	color += texture(TEXTURE, UV - blur).rgb * 0.10;
-	color += texture(TEXTURE, UV + vec2(blur.x, -blur.y)).rgb * 0.10;
-	color += texture(TEXTURE, UV + vec2(-blur.x, blur.y)).rgb * 0.10;
-	float gray = dot(color, vec3(0.299, 0.587, 0.114));
-	COLOR = vec4(mix(vec3(gray), color, 0.82) * 0.70, 1.0);
-}
-	"""
-	var shader_material := ShaderMaterial.new()
-	shader_material.shader = shader
-	return shader_material
 
 
 func _animate_portrait(portrait: TextureRect) -> void:
@@ -1075,39 +1058,21 @@ func _choose(option: String) -> void:
 
 
 func _build_ending_panel() -> void:
-	ending_panel = PanelContainer.new()
-	ending_panel.name = "EndingPanel"
-	ending_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	ending_panel.anchor_top = 0.22
-	ending_panel.anchor_bottom = 0.86
-	ending_panel.offset_left = 18
-	ending_panel.offset_right = -18
-	var paper := StyleBoxFlat.new()
-	paper.bg_color = Color("#fffdf8")
-	paper.set_corner_radius_all(12)
-	paper.content_margin_left = 18
-	paper.content_margin_right = 18
-	paper.content_margin_top = 16
-	paper.content_margin_bottom = 16
-	ending_panel.add_theme_stylebox_override("panel", paper)
-	var content := VBoxContainer.new()
-	content.add_theme_constant_override("separation", 10)
-	ending_panel.add_child(content)
-	ending_eyebrow = _label(content, 13)
-	ending_eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	ending_heading = _label(content, 26)
-	ending_heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	ending_copy = _label(content, 17)
-	ending_copy.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	ending_copy.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	ending_summary = _label(content, 14)
-	ending_summary.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	ending_menu_button = _button(content)
-	ending_replay_button = _button(content)
-	ending_menu_button.pressed.connect(func() -> void: menu_requested.emit())
-	ending_replay_button.pressed.connect(func() -> void: session.new_game())
-	ending_panel.hide()
-	add_child(ending_panel)
+	_ending_view = preload("res://scripts/ending_view.gd").new()
+	_ending_view.name = "EndingScreen"
+	add_child(_ending_view)
+	ending_panel = _ending_view.panel
+	ending_eyebrow = _ending_view.eyebrow
+	ending_heading = _ending_view.heading
+	ending_copy = _ending_view.body
+	ending_summary = _ending_view.summary
+	ending_menu_button = _ending_view.menu_button
+	ending_replay_button = _ending_view.replay_button
+	_ending_view.menu_requested.connect(func() -> void: menu_requested.emit())
+	_ending_view.settings_requested.connect(func() -> void: settings_requested.emit())
+	_ending_view.replay_requested.connect(func() -> void: session.new_game())
+	_ending_view.scroll_changed.connect(func(value: float) -> void: background_fill.position.y = -value)
+	_ending_view.hide()
 
 
 func _refresh_ending(outcome: Dictionary) -> void:
@@ -1115,39 +1080,31 @@ func _refresh_ending(outcome: Dictionary) -> void:
 	_auto_generation += 1
 	var locale: String = preferences.locale
 	var data: Dictionary = EndingOutcomes.data
-	var copy: Dictionary = data.copy[locale]
-	var ending_id: String = outcome.endingId
-	var localized_ending: Dictionary = copy.outcomes[ending_id]
-	var metrics: Dictionary = outcome.metrics
-	var final_strategy: String = str(session.state.storyChoices.get("final-strategy", "A"))
-	_set_background(str(data.backgrounds[ending_id]))
-	# Ending artwork has its own source treatment; the VN wash must not paint
-	# over the ending panel, which shares the background's default canvas depth.
-	get_node("Vignette").hide()
-	background_fill.set_legacy(true)
-	background_rect.material = null
-	background_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	background_rect.modulate = Color(0.92, 0.92, 0.92, 1.0)
-	title.hide()
-	case_button.hide()
-	history_button.hide()
-	settings_button.hide()
-	controls_panel.hide()
-	status.hide()
-	stage.hide()
-	dialogue_panel.hide()
-	ending_eyebrow.text = localized_ending.eyebrow
-	ending_heading.text = localized_ending.heading
-	ending_copy.text = localized_ending[outcome.copyKey]
-	ending_summary.text = "%s: %s\n%s: %d / %d / %d\n%s: %d / %d" % [
-		copy.finalStrategy, copy.strategyTitles[final_strategy], copy.metrics,
-		int(metrics.evidence), int(metrics.teamTrust), int(metrics.sourceTrust),
-		copy.cluesFound, session.state.clues.size(), data.totalClues,
-	]
-	ending_menu_button.text = copy.mainMenu
-	ending_replay_button.text = copy.replay
+	_set_background(str(data.backgrounds[outcome.endingId]))
+	background_fill.configure(3.0, 0.45, 1.0, 1.03)
+	background_rect.hide()
+	get_node("BackgroundBase").color = Color("#fffaf1")
+	for item in [get_node("Vignette"), get_node("HeaderBackground"), get_node("VnHeader"), controls_panel, status, stage, dialogue_panel, nameplate, page_progress]:
+		item.hide()
+	_ending_view.update_content(data.copy[locale], outcome, session.state, data, locale)
+	_ending_view.show()
 	ending_panel.show()
-	ending_menu_button.grab_focus()
+	if audio_runtime != null: audio_runtime.set_scene("ending")
+
+
+func restore_settings_focus() -> void:
+	if _ending_view.visible:
+		_ending_view.reset_scroll()
+		get_viewport().gui_release_focus()
+	else:
+		settings_button.grab_focus()
+
+
+func settings_navigation_copy() -> Dictionary:
+	var copy := {}
+	for locale: String in EndingOutcomes.data.copy:
+		copy[locale] = EndingOutcomes.data.copy[locale].settingsNavigation
+	return copy
 
 
 func _label(parent: Node, font_size: int) -> Label:

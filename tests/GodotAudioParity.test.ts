@@ -8,6 +8,8 @@ describe('Godot menu audio source parity', () => {
 
   it('preserves the authored menu melody, timing, waveforms and gains', () => {
     expect(definitions.menu).toEqual(getMusicTheme('menu'));
+    expect(definitions.vn).toEqual(getMusicTheme('vn'));
+    expect(definitions.ending).toEqual(getMusicTheme('ending'));
   });
 
   it('preserves the settings preview and menu click effects', () => {

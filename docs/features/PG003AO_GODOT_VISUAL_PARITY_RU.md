@@ -4,9 +4,9 @@
 
 ## Handoff для продолжения работы
 
-**Актуально на 2026-10-16, `origin/main` после merge PR #467 (`f5f95cb`).** PR #467 смёржен; все проверки Chromium full E2E, Mobile WebKit critical E2E и Quality Gate прошли. Открытых PR нет. Следующую работу начинать с обновлённого `origin/main`, перед созданием PR проверять открытые PR и не держать несколько PR по этому треку одновременно.
+**Актуально на 2026-10-17, origin/main после merge PR #473 (5402e5f).** PR #468–473 смёржены. Этот срез опубликован в [PR #474](https://github.com/bezdredoff/UPDS/pull/474); не считать его merged/deployed. Перед новой отдельной реализацией проверить статус PR, актуальный origin/main и все проверки последнего head. Не держать несколько PR по этому треку одновременно.
 
-PR #467 исправил повторное умножение текстуры на `COLOR` в CanvasItem shaders (главная причина затемнения персонажей и части Match-3 art), привёл базовый стиль плиток к web CSS, обновил VN title serif, палитру case-pill и отступы диалога. Один парный VN001 RU capture `390×844` показывает glyph bounds web `(34,641)–(343,681)` и Godot `(34,641)–(346,680)`; это точечная калибровка стандартного первого кадра, не приёмка всех персонажей, экранов или размеров.
+Последовательные срезы закрыли haptics/EN font calibration, guest assets, core actor camera/idle/reduced motion, speaking z-order и cached VN background blur/fit; подробные измерения и ограничения приведены в журнале ниже и docs/reviews. PR #474 добавляет самостоятельные концовки, их навигацию и музыку: 45 состояний, 27 input profiles / 243 steps, 18 ending backdrop pairs, 207 VN backdrop regression states и 12 live resize states. Все локальные проверки проходят; фактический CI читать по последнему head PR. Формы glyphs/антиалиасинг, точные тени, остальные UI/Match-3/motion и device/audio acceptance остаются открытыми. Общий статус active.
 
 ### Оставшиеся задачи по приоритету
 
@@ -178,3 +178,5 @@ PR #467 исправил повторное умножение текстуры 
 - 2026-10-17 VN background colors: перенесены source brightness/saturate и обе gradient vignette layers с корректным premultiplied source-over, без затемнения ending panels. Прямое сравнение 207 состояний/23 фонов × RU/BE/EN × 3 viewport: RGB MAE 10.90164→2.72552/255, все asset contracts совпали, errors=0. Blur/downsampling/ending backdrop и остальные gaps открыты. docs/reviews/PG003AO_VN_BACKGROUND_COLORS_2026-10-17_RU.md
 
 - 2026-10-17 VN cached blur/fit: source cover→separable Gaussian sigma16 CSS px→scale1.08, transparent filter bounds/base, дробный contain shader и mipmaps 23 byte-identical WEBP. Все 207 состояний улучшились: RGB MAE 2.72552→1.55682/255; 46/46 blur-field profiles 5.34591→0.52690. Cache/raster/asset contracts и 12 live resize states проходят, errors=0. Реальный GPU gate проверяет Gaussian alpha/premultiplied RGB, idle cache и resize; full Godot/npm 849 tests. Остаточные sampling/pixel/ending/UI/device gaps открыты. docs/reviews/PG003AO_VN_BACKGROUND_BLUR_2026-10-17_RU.md
+
+- 2026-10-17 Концовки: 45/45 A/B/C/fallback/empty × RU/BE/EN × 3 viewport, тексты/метрики/улики/10 rects совпадают в пределах 0.1px; 18 background pairs RGB MAE 0.283229/255. Ввод mouse/touch/keyboard 27/27 profiles / 243 steps, errors=0; исправлены header hit testing, первый Tab, focus overflow scroll и ending resume boundary. Настройки/back/menu/replay и ending music theme проверены lifecycle; native non-Web fonts/device/audio и остаточные pixel/UI/Match-3 gaps открыты. docs/reviews/PG003AO_ENDINGS_2026-10-17_RU.md

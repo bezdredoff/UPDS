@@ -3,6 +3,7 @@ render_mode blend_disabled;
 
 uniform sampler2D cover_texture : filter_linear, repeat_disable;
 uniform vec2 canvas_size = vec2(390.0, 844.0);
+uniform float sigma = 16.0;
 const float PAD = 48.0;
 
 vec4 sample_cover(vec2 point) {
@@ -22,9 +23,10 @@ void fragment() {
 	for (int i = 1; i <= 47; i += 2) {
 		float a = float(i);
 		float b = a + 1.0;
-		float wa = exp(-a * a / 512.0);
-		float wb = exp(-b * b / 512.0);
+		float wa = exp(-a * a / (2.0 * sigma * sigma));
+		float wb = exp(-b * b / (2.0 * sigma * sigma));
 		float weight = wa + wb;
+		if (weight < 0.0000001) { continue; }
 		float offset = (a * wa + b * wb) / weight;
 		sum += (sample_cover(point + vec2(offset, 0.0)) + sample_cover(point - vec2(offset, 0.0))) * weight;
 		total += weight * 2.0;

@@ -37,7 +37,7 @@ func activate() -> void:
 
 
 func set_scene(scene: String) -> void:
-	if scene == _scene or scene not in ["menu", "vn"]:
+	if scene == _scene or scene not in ["menu", "vn", "ending"]:
 		return
 	_scene = scene
 	music.stop()

@@ -306,10 +306,10 @@ func _meets_requirement(metrics: Dictionary, requirement: Dictionary) -> bool:
 
 
 func _skip_hidden() -> void:
-	while supports_position() and current_line().hidden and not at_choice_gate() and state.line + 1 < _scene_lines().size():
+	while supports_position() and bool(current_line().get("hidden", false)) and not at_choice_gate() and state.line + 1 < _scene_lines().size():
 		_mark_read()
 		state.line += 1
-	if supports_position() and current_line().hidden and not at_choice_gate() and state.line == _scene_lines().size() - 1:
+	if supports_position() and bool(current_line().get("hidden", false)) and not at_choice_gate() and state.line == _scene_lines().size() - 1:
 		_mark_read()
 
 

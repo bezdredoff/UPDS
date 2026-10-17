@@ -18,9 +18,9 @@ func _run() -> void:
 	var generation: int = fill.render_generation
 	assert(generation == 1, "The initial backdrop must render once")
 	var image: Image = fill.texture.get_image()
-	var centre := image.get_pixel(64, 64)
+	var centre := image.get_pixel(64, 64 + 48)
 	assert(absf(centre.r - 0.7) < 0.008 and centre.a > 0.99, "The cached opaque centre must preserve CSS brightness")
-	var edge := image.get_pixel(0, 0)
+	var edge := image.get_pixel(0, 48)
 	var expected_alpha := pow(_gaussian_coverage(0.5, 128.0), 2.0)
 	assert(absf(edge.a - expected_alpha) < 0.015, "Transparent bounds must use a 16 CSS px separable Gaussian")
 	assert(absf(edge.r - edge.a * 0.7) < 0.008, "Blur intermediates must remain premultiplied")
@@ -54,6 +54,14 @@ func _run() -> void:
 	assert(fill.get_node("CoverRaster").size == Vector2i(160, 128))
 	assert(fill.get_node("HorizontalBlur").size == Vector2i(160, 224))
 	assert(fill.texture.get_width() == 160)
+	fill.configure(3.0, 0.45, 1.0, 1.03)
+	await _draw_frames()
+	var ending_image: Image = fill.texture.get_image()
+	var ending_edge := ending_image.get_pixel(0, 48)
+	assert(absf(ending_image.get_pixel(80, 64 + 48).r - 0.45) < 0.008)
+	assert(absf(ending_edge.a - pow(_gaussian_coverage(0.5, 128.0, 3.0), 2.0)) < 0.015,
+		"The ending profile must use 3px Gaussian bounds without zero-weight NaNs")
+	assert(absf(ending_edge.r - ending_edge.a * 0.45) < 0.008)
 	print("UPDS Godot VN background render smoke passed.")
 	fill.queue_free()
 	await process_frame
@@ -66,11 +74,11 @@ func _draw_frames() -> void:
 		await RenderingServer.frame_post_draw
 
 
-func _gaussian_coverage(point: float, extent: float) -> float:
+func _gaussian_coverage(point: float, extent: float, sigma: float = 16.0) -> float:
 	var weight := 0.0
 	var total := 0.0
 	for offset in range(-48, 49):
-		var sample_weight := exp(-float(offset * offset) / (2.0 * 16.0 * 16.0))
+		var sample_weight := exp(-float(offset * offset) / (2.0 * sigma * sigma))
 		total += sample_weight
 		if point + offset >= 0.0 and point + offset < extent:
 			weight += sample_weight

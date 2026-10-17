@@ -1,0 +1,13 @@
+{
+  "sourceHash": "15f530d3764026f749f064ce405c3c999d4967718ada4092786d87593d9b5086",
+  "sourceCommit": "c96464d163ef119017150c837330570108ccccc2",
+  "sourceTreeClean": false,
+  "fixture": "res://tests/parity_web_capture.tscn",
+  "serialImport": true,
+  "warmImport": false,
+  "generatedAt": "2026-10-17T16:16:11.648Z",
+  "source": "D:\\unity\\UPDS\\godot",
+  "project": "C:\\Users\\bezdr\\AppData\\Local\\Temp\\upds-godot-parity-NqoV3v",
+  "projectRetained": false,
+  "productionProjectUnchanged": true
+}
