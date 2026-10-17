@@ -125,5 +125,6 @@ func _collect(node: Node, records: Array) -> void:
 			record.asset = node.texture.resource_path
 			record.textureFilter = node.texture_filter
 			record.idle = node.has_meta("idle_tween")
+			record.zIndex = node.z_index
 		records.append(record)
 	for child in node.get_children(): _collect(child, records)

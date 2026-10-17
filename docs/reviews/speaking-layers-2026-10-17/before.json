@@ -1,0 +1,30 @@
+{
+  "source": {
+    "line": "VN0389 · 1/2",
+    "actors": [
+      {
+        "character": "onoe",
+        "speaking": "true",
+        "z": "4"
+      },
+      {
+        "character": "miku",
+        "speaking": "false",
+        "z": "3"
+      }
+    ]
+  },
+  "native": {
+    "actors": [
+      {
+        "character": "onoe",
+        "z": 3
+      },
+      {
+        "character": "miku",
+        "z": 3
+      }
+    ],
+    "line": "VN0389"
+  }
+}
