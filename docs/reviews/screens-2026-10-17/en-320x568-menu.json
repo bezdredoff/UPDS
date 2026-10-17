@@ -1,0 +1,755 @@
+{
+  "id": "en-320x568-menu",
+  "native": {
+    "build": {
+      "fixture": "res://tests/parity_web_capture.tscn",
+      "generatedAt": "2026-10-17T02:49:20.957Z",
+      "sourceCommit": "64f4de85ae2f723eb4d6a34b995749e67c08ee53",
+      "sourceHash": "1e4073863fd807083c1003420a8535c9140d77ccf207613de4a132491016d385"
+    },
+    "controls": [
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 2,
+        "path": ".",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          567.999967507276
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Backdrop",
+        "rect": [
+          0,
+          0,
+          320.000013709068,
+          568.000008583069
+        ],
+        "type": "ColorRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Background",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          567.999967507276
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Wash",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          567.999967507276
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          177,
+          416
+        ],
+        "oversampling": 0,
+        "path": "Content",
+        "rect": [
+          18.0000097657901,
+          18.0000196347514,
+          283.999991607587,
+          537.999974574865
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 9,
+        "minimum": [
+          177,
+          12
+        ],
+        "oversampling": 0,
+        "path": "Content/Eyebrow",
+        "rect": [
+          18.0000097657901,
+          18.0000196347514,
+          283.999991607587,
+          13.999999868051
+        ],
+        "text": "SEIRAN COLLEGE · CASE 001",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/TitleMargin",
+        "rect": [
+          18.0000097657901,
+          32.0000195028024,
+          283.999991607587,
+          6.99999993402548
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/TitleFrame",
+        "rect": [
+          18.0000097657901,
+          39.0000175114001,
+          283.999991607587,
+          69.9999954893992
+        ],
+        "type": "Control"
+      },
+      {
+        "font_size": 34,
+        "minimum": [
+          1,
+          76
+        ],
+        "oversampling": 0,
+        "path": "Content/TitleFrame/Title",
+        "rect": [
+          18.0000097657901,
+          38.3181978565126,
+          283.999991607587,
+          75.9999981834608
+        ],
+        "text": "[center][color=#1f2340]Class U[/color]\n[color=#d96279]Detectives[/color][/center]",
+        "type": "RichTextLabel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/TitleSpacer",
+        "rect": [
+          18.0000097657901,
+          109.000018135273,
+          283.999991607587,
+          12.000000253649
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Tagline",
+        "rect": [
+          18.0000097657901,
+          121.000013254448,
+          283.999991607587,
+          15.9999994824529
+        ],
+        "type": "Control"
+      },
+      {
+        "font_size": 12,
+        "minimum": [
+          1,
+          15
+        ],
+        "oversampling": 0,
+        "path": "Content/Tagline/Copy",
+        "rect": [
+          18.0000097657901,
+          121.000013254448,
+          283.999991607587,
+          15.9999994824529
+        ],
+        "text": "Comedy visual novel × match-3",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/HeroSpacer",
+        "rect": [
+          18.0000097657901,
+          137.000010169664,
+          283.999991607587,
+          7.99999974122647
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          148,
+          56
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero",
+        "rect": [
+          18.0000097657901,
+          145.000013761746,
+          283.999991607587,
+          55.9999994722039
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Miku",
+        "rect": [
+          86.000008824115,
+          145.000013761746,
+          55.9999972592841,
+          55.9999994722039
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Miku/Shadow",
+        "rect": [
+          65.0000079244573,
+          129.00001684653,
+          97.9999939187965,
+          97.9999926582641
+        ],
+        "type": "Panel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Miku/Portrait",
+        "rect": [
+          86.000008824115,
+          145.000013761746,
+          55.9999972592841,
+          55.9999994722039
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Onoe",
+        "rect": [
+          132.000005654991,
+          145.000013761746,
+          55.9999972592841,
+          55.9999994722039
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Onoe/Shadow",
+        "rect": [
+          111.000004755333,
+          129.00001684653,
+          97.9999939187965,
+          97.9999926582641
+        ],
+        "type": "Panel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Onoe/Portrait",
+        "rect": [
+          132.000005654991,
+          145.000013761746,
+          55.9999972592841,
+          55.9999994722039
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Ayuki",
+        "rect": [
+          178.000007625669,
+          145.000013761746,
+          55.9999972592841,
+          55.9999994722039
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Ayuki/Shadow",
+        "rect": [
+          157.000006726012,
+          129.00001684653,
+          97.9999939187965,
+          97.9999926582641
+        ],
+        "type": "Panel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Ayuki/Portrait",
+        "rect": [
+          178.000007625669,
+          145.000013761746,
+          55.9999972592841,
+          55.9999994722039
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Spacer",
+        "rect": [
+          18.0000097657901,
+          201.000018368424,
+          283.999991607587,
+          129.999996757644
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          175,
+          194
+        ],
+        "oversampling": 0,
+        "path": "Content/Actions",
+        "rect": [
+          18.0000097657901,
+          331.000015126068,
+          283.999991607587,
+          193.999984418508
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          110,
+          22
+        ],
+        "oversampling": 0,
+        "path": "Content/Actions/NewGame",
+        "rect": [
+          18.0000097657901,
+          331.000015126068,
+          283.999991607587,
+          43.9999992185549
+        ],
+        "text": "New Game",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Actions/NewGame/SourceShadow",
+        "rect": [
+          -14.9999890780562,
+          306.00001416976,
+          349.999973875871,
+          109.999998046387
+        ],
+        "type": "ColorRect"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          96,
+          22
+        ],
+        "oversampling": 0,
+        "path": "Content/Actions/Continue",
+        "rect": [
+          18.0000097657901,
+          380.999996500788,
+          283.999991607587,
+          43.9999992185549
+        ],
+        "text": "Continue",
+        "type": "Button"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          175,
+          22
+        ],
+        "oversampling": 0,
+        "path": "Content/Actions/Campaign",
+        "rect": [
+          18.0000097657901,
+          430.999998413405,
+          283.999991607587,
+          43.9999992185549
+        ],
+        "text": "Match-3 Campaign",
+        "type": "Button"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          89,
+          22
+        ],
+        "oversampling": 0,
+        "path": "Content/Actions/Settings",
+        "rect": [
+          18.0000097657901,
+          481.000000326021,
+          283.999991607587,
+          43.9999992185549
+        ],
+        "text": "Settings",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/FooterSpacer",
+        "rect": [
+          18.0000097657901,
+          525.000020082472,
+          283.999991607587,
+          6.99999993402548
+        ],
+        "type": "Control"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          50,
+          10
+        ],
+        "oversampling": 0,
+        "path": "Content/Footer",
+        "rect": [
+          18.0000097657901,
+          531.9999924187,
+          283.999991607587,
+          24.000000507298
+        ],
+        "text": "v0.27.23-dev",
+        "type": "Label"
+      }
+    ],
+    "engine": "4.7.2-stable (official)",
+    "id": "1792205430069-0.5407506469251855",
+    "line": 0,
+    "locale": "en",
+    "scene": 0,
+    "viewport": [
+      475,
+      844
+    ],
+    "window": [
+      320,
+      568
+    ]
+  },
+  "web": [
+    {
+      "selector": ".phone",
+      "text": "\n      \n      \n      \n        SEIRAN COLLEGE · CASE 001\n        Class UDetectives\n        Comedy visual novel × match‑3\n        \n          \n        \n        \n          New Game\n          Continue\n          Match-3 Campaign\n          Settings\n          \n        \n         v0.27.23-dev\n      \n    ",
+      "rect": [
+        0,
+        0,
+        320,
+        568
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".menu-content",
+      "text": "\n        SEIRAN COLLEGE · CASE 001\n        Class UDetectives\n        Comedy visual novel × match‑3\n        \n          \n        \n        \n          New Game\n          Continue\n          Match-3 Campaign\n          Settings\n          \n        \n         v0.27.23-dev\n      ",
+      "rect": [
+        0,
+        0,
+        320,
+        568
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".eyebrow",
+      "text": "SEIRAN COLLEGE · CASE 001",
+      "rect": [
+        70.546875,
+        18,
+        178.90625,
+        14
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "10px",
+      "lineHeight": "normal",
+      "fontWeight": "900",
+      "margin": "0px",
+      "color": "rgb(217, 98, 121)"
+    },
+    {
+      "selector": ".menu-content h1",
+      "text": "Class UDetectives",
+      "rect": [
+        69.75,
+        39,
+        180.5,
+        69.34375
+      ],
+      "font": "Georgia, serif",
+      "fontSize": "34px",
+      "lineHeight": "34.68px",
+      "fontWeight": "800",
+      "margin": "7px 0px 8px",
+      "color": "rgb(31, 35, 64)"
+    },
+    {
+      "selector": ".tagline",
+      "text": "Comedy visual novel × match‑3",
+      "rect": [
+        76.140625,
+        120.34375,
+        167.71875,
+        16
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "12px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "4px 0px 8px",
+      "color": "rgb(76, 70, 88)"
+    },
+    {
+      "selector": ".hero-medallions",
+      "text": "\n          \n        ",
+      "rect": [
+        86,
+        144.34375,
+        148,
+        56
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px 0px 130.656px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".hero-medallions img",
+      "text": "",
+      "rect": [
+        86,
+        144.34375,
+        56,
+        56
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".hero-medallions img",
+      "text": "",
+      "rect": [
+        132,
+        144.34375,
+        56,
+        56
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px 0px 0px -10px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".hero-medallions img",
+      "text": "",
+      "rect": [
+        178,
+        144.34375,
+        56,
+        56
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px 0px 0px -10px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": "#new",
+      "text": "New Game",
+      "rect": [
+        18,
+        331,
+        284,
+        44
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "850",
+      "margin": "0px",
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "#continue",
+      "text": "Continue",
+      "rect": [
+        18,
+        381,
+        284,
+        44
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "700",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": "#match3-campaign",
+      "text": "Match-3 Campaign",
+      "rect": [
+        18,
+        431,
+        284,
+        44
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "700",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": "#settings",
+      "text": "Settings",
+      "rect": [
+        18,
+        481,
+        284,
+        44
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "700",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".menu-content footer",
+      "text": " v0.27.23-dev",
+      "rect": [
+        137.59375,
+        532,
+        44.796875,
+        24
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "8px",
+      "lineHeight": "12px",
+      "fontWeight": "400",
+      "margin": "7px 0px 0px",
+      "color": "rgb(255, 255, 255)"
+    }
+  ],
+  "pixelMetrics": {
+    "heroMeanRgbError": 10.009289321789321,
+    "outsideDisksMeanRgbError": 1.5542667487853281,
+    "roiPixels": 22176
+  },
+  "contractErrors": [],
+  "errors": []
+}

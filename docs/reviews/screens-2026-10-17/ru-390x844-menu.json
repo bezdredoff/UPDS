@@ -1,0 +1,755 @@
+{
+  "id": "ru-390x844-menu",
+  "native": {
+    "build": {
+      "fixture": "res://tests/parity_web_capture.tscn",
+      "generatedAt": "2026-10-17T02:49:20.957Z",
+      "sourceCommit": "64f4de85ae2f723eb4d6a34b995749e67c08ee53",
+      "sourceHash": "1e4073863fd807083c1003420a8535c9140d77ccf207613de4a132491016d385"
+    },
+    "controls": [
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 2,
+        "path": ".",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Backdrop",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "ColorRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Background",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Wash",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          214,
+          548
+        ],
+        "oversampling": 0,
+        "path": "Content",
+        "rect": [
+          28,
+          42,
+          334,
+          778
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 9,
+        "minimum": [
+          177,
+          12
+        ],
+        "oversampling": 0,
+        "path": "Content/Eyebrow",
+        "rect": [
+          28,
+          42,
+          334,
+          14
+        ],
+        "text": "SEIRAN COLLEGE · CASE 001",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/TitleMargin",
+        "rect": [
+          28,
+          56,
+          334,
+          14
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/TitleFrame",
+        "rect": [
+          28,
+          70,
+          334,
+          90
+        ],
+        "type": "Control"
+      },
+      {
+        "font_size": 44,
+        "minimum": [
+          1,
+          112
+        ],
+        "oversampling": 0,
+        "path": "Content/TitleFrame/Title",
+        "rect": [
+          28,
+          59,
+          334,
+          112
+        ],
+        "text": "[center][color=#1f2340]Детективы[/color]\n[color=#d96279]класса U[/color][/center]",
+        "type": "RichTextLabel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/TitleSpacer",
+        "rect": [
+          28,
+          160,
+          334,
+          12
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Tagline",
+        "rect": [
+          28,
+          172,
+          334,
+          42
+        ],
+        "type": "Control"
+      },
+      {
+        "font_size": 15,
+        "minimum": [
+          1,
+          41
+        ],
+        "oversampling": 0,
+        "path": "Content/Tagline/Copy",
+        "rect": [
+          28,
+          172,
+          334,
+          42
+        ],
+        "text": "Комедийная визуальная новелла × «три в ряд»",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/HeroSpacer",
+        "rect": [
+          28,
+          214,
+          334,
+          20
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          214,
+          78
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero",
+        "rect": [
+          28,
+          234,
+          334,
+          78
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Miku",
+        "rect": [
+          88,
+          234,
+          78,
+          78
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Miku/Shadow",
+        "rect": [
+          67,
+          218,
+          120,
+          120
+        ],
+        "type": "Panel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Miku/Portrait",
+        "rect": [
+          88,
+          234,
+          78,
+          78
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Onoe",
+        "rect": [
+          156,
+          234,
+          78,
+          78
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Onoe/Shadow",
+        "rect": [
+          135,
+          218,
+          120,
+          120
+        ],
+        "type": "Panel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Onoe/Portrait",
+        "rect": [
+          156,
+          234,
+          78,
+          78
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Ayuki",
+        "rect": [
+          224,
+          234,
+          78,
+          78
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Ayuki/Shadow",
+        "rect": [
+          203,
+          218,
+          120,
+          120
+        ],
+        "type": "Panel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Hero/Ayuki/Portrait",
+        "rect": [
+          224,
+          234,
+          78,
+          78
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Spacer",
+        "rect": [
+          28,
+          312,
+          334,
+          238
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          207,
+          223
+        ],
+        "oversampling": 0,
+        "path": "Content/Actions",
+        "rect": [
+          28,
+          550,
+          334,
+          223
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          116,
+          22
+        ],
+        "oversampling": 0,
+        "path": "Content/Actions/NewGame",
+        "rect": [
+          28,
+          550,
+          334,
+          49
+        ],
+        "text": "Новая игра",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/Actions/NewGame/SourceShadow",
+        "rect": [
+          -5,
+          525,
+          400,
+          115
+        ],
+        "type": "ColorRect"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          128,
+          22
+        ],
+        "oversampling": 0,
+        "path": "Content/Actions/Continue",
+        "rect": [
+          28,
+          608,
+          334,
+          49
+        ],
+        "text": "Продолжить",
+        "type": "Button"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          207,
+          22
+        ],
+        "oversampling": 0,
+        "path": "Content/Actions/Campaign",
+        "rect": [
+          28,
+          666,
+          334,
+          49
+        ],
+        "text": "Кампания «три в ряд»",
+        "type": "Button"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          113,
+          22
+        ],
+        "oversampling": 0,
+        "path": "Content/Actions/Settings",
+        "rect": [
+          28,
+          724,
+          334,
+          49
+        ],
+        "text": "Настройки",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Content/FooterSpacer",
+        "rect": [
+          28,
+          773,
+          334,
+          17
+        ],
+        "type": "Control"
+      },
+      {
+        "font_size": 10,
+        "minimum": [
+          63,
+          13
+        ],
+        "oversampling": 0,
+        "path": "Content/Footer",
+        "rect": [
+          28,
+          790,
+          334,
+          30
+        ],
+        "text": "v0.27.23-dev",
+        "type": "Label"
+      }
+    ],
+    "engine": "4.7.2-stable (official)",
+    "id": "1792205393639-0.6758477938692288",
+    "line": 0,
+    "locale": "ru",
+    "scene": 0,
+    "viewport": [
+      390,
+      844
+    ],
+    "window": [
+      390,
+      844
+    ]
+  },
+  "web": [
+    {
+      "selector": ".phone",
+      "text": "\n      \n      \n      \n        SEIRAN COLLEGE · CASE 001\n        Детективыкласса U\n        Комедийная визуальная новелла × «три в ряд»\n        \n          \n        \n        \n          Новая игра\n          Продолжить\n          Кампания «три в ряд»\n          Настройки\n          \n        \n         v0.27.23-dev\n      \n    ",
+      "rect": [
+        0,
+        0,
+        390,
+        844
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".menu-content",
+      "text": "\n        SEIRAN COLLEGE · CASE 001\n        Детективыкласса U\n        Комедийная визуальная новелла × «три в ряд»\n        \n          \n        \n        \n          Новая игра\n          Продолжить\n          Кампания «три в ряд»\n          Настройки\n          \n        \n         v0.27.23-dev\n      ",
+      "rect": [
+        0,
+        0,
+        390,
+        844
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".eyebrow",
+      "text": "SEIRAN COLLEGE · CASE 001",
+      "rect": [
+        105.546875,
+        42,
+        178.90625,
+        14
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "10px",
+      "lineHeight": "normal",
+      "fontWeight": "900",
+      "margin": "0px",
+      "color": "rgb(217, 98, 121)"
+    },
+    {
+      "selector": ".menu-content h1",
+      "text": "Детективыкласса U",
+      "rect": [
+        64.578125,
+        70,
+        260.828125,
+        89.75
+      ],
+      "font": "Georgia, serif",
+      "fontSize": "44px",
+      "lineHeight": "44.88px",
+      "fontWeight": "800",
+      "margin": "14px 0px 8px",
+      "color": "rgb(31, 35, 64)"
+    },
+    {
+      "selector": ".tagline",
+      "text": "Комедийная визуальная новелла × «три в ряд»",
+      "rect": [
+        28,
+        171.75,
+        334,
+        42
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "4px 0px 16px",
+      "color": "rgb(76, 70, 88)"
+    },
+    {
+      "selector": ".hero-medallions",
+      "text": "\n          \n        ",
+      "rect": [
+        88,
+        233.75,
+        214,
+        78
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "4px 0px 238.25px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".hero-medallions img",
+      "text": "",
+      "rect": [
+        88,
+        233.75,
+        78,
+        78
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".hero-medallions img",
+      "text": "",
+      "rect": [
+        156,
+        233.75,
+        78,
+        78
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px 0px 0px -10px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".hero-medallions img",
+      "text": "",
+      "rect": [
+        224,
+        233.75,
+        78,
+        78
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px 0px 0px -10px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": "#new",
+      "text": "Новая игра",
+      "rect": [
+        28,
+        550,
+        334,
+        49
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "850",
+      "margin": "0px",
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "selector": "#continue",
+      "text": "Продолжить",
+      "rect": [
+        28,
+        608,
+        334,
+        49
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "700",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": "#match3-campaign",
+      "text": "Кампания «три в ряд»",
+      "rect": [
+        28,
+        666,
+        334,
+        49
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "700",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": "#settings",
+      "text": "Настройки",
+      "rect": [
+        28,
+        724,
+        334,
+        49
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "700",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".menu-content footer",
+      "text": " v0.27.23-dev",
+      "rect": [
+        167,
+        790,
+        56,
+        30
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "10px",
+      "lineHeight": "15px",
+      "fontWeight": "400",
+      "margin": "17px 0px 0px",
+      "color": "rgb(255, 255, 255)"
+    }
+  ],
+  "pixelMetrics": {
+    "heroMeanRgbError": 1.676353083069501,
+    "outsideDisksMeanRgbError": 0.9458186101295641,
+    "roiPixels": 35376
+  },
+  "contractErrors": [],
+  "errors": []
+}

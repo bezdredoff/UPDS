@@ -27,6 +27,13 @@ PR #467 исправил повторное умножение текстуры 
 Добавлен воспроизводимый production CSS/native art capture для 84 states (36 персонажных кадров/поз, 10 tiles, 5 specials, 27 ingredient routes, 6 blocker layer states). Исправлены UI A tile scale/insets, приоритетный camisole filter, inner-border/padding у ingredients/blockers и 14% special bleed по обеим осям. Mipmaps для 59 source-identical PNG и фильтрация уменьшили измеренную среднюю RGB ошибку персонажей с 0.9171 до 0.3431, tiles — с 2.3215 до 0.7897. Все 84 geometry/filter/opacity contracts проходят; pixel metrics не заменяют визуальную приёмку. [Полный отчёт и парные captures](../reviews/PG003AO_ART_MATRIX_2026-10-16_RU.md). PR #469 пока открыт; это кандидат, не merged origin/main. Следом остаются Gaussian blur/clipping и composited/motion states, затем полная screen/locale/viewport матрица.
 
 
+### Экранная матрица — 2026-10-17
+
+Сняты 36 пар Web/Godot (menu/VN0001/settings/fresh campaign × RU/BE/EN × 320×568/390×844/480×854), без runtime/console/HTTP errors. Девять source geometry contracts меню проходят; медальоны расходятся по Y на 0.656/0.250 px. Исправлены flex/text flow, BE wrapping, medallion content/border/shadow, primary/phone shadows, backdrop/wash, Web font oversampling при inverse phone scale. Добавлен изолированный release-capture export с source digest и защитой от смешения PCK; normal project entry point не меняется. [Отчёт, команды и парные evidence](../reviews/PG003AO_SCREEN_MATRIX_2026-10-17_RU.md). Это кандидат в открытом PR #469, не merged main и не общий acceptance.
+
+**Следующая работа по прямому evidence:** VN0001 RU 390×844 pagination source=3/Godot=2, missing cue glyph; settings BE 320×568 right overflow и нелокализованный header; затем campaign progress/card density, остальные screen states и motion. Mipmap/art contract matrix остаётся отдельным доказательством; 36 здоровых captures не означают совпадение всех четырёх экранов.
+
+
 ### Рабочий цикл для следующего компьютера
 
 1. Проверить checkout, `git status`, remote и `gh pr list --state open`; получить актуальный `origin/main`. Не переключать/удалять пользовательские изменения.

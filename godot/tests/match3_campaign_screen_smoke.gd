@@ -20,7 +20,7 @@ func _run() -> void:
 	menu.preferences.set_locale("ru")
 	root.add_child(menu)
 	await process_frame
-	var menu_title_font: Font = menu.get_node("Content/Title").get_theme_font("normal_font")
+	var menu_title_font: Font = menu.get_node("Content/TitleFrame/Title").get_theme_font("normal_font")
 	if OS.has_feature("web"):
 		assert((menu_title_font as FontVariation).base_font == UiFonts.GEORGIA_LATIN
 			and _has_weighted_cyrillic_serif(menu_title_font, 800),

@@ -18,6 +18,7 @@ const Match3CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const Match3Screen = preload("res://scripts/match3_screen.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
 const UiFonts = preload("res://scripts/ui_fonts.gd")
+const MenuLayout = preload("res://scripts/main_menu_layout.gd")
 
 var preferences: RefCounted = PlayerPreferences.new()
 var settings_screen: PanelContainer
@@ -41,6 +42,7 @@ func _ready() -> void:
 	runtime_theme.default_font_size = 16
 	theme = runtime_theme
 	resized.connect(_layout_menu)
+	get_viewport().size_changed.connect(func() -> void: MenuLayout.fit_backdrop(self))
 	audio_runtime.name = "MenuAudio"
 	audio_runtime.preferences = preferences
 	add_child(audio_runtime)
@@ -66,14 +68,19 @@ func _ready() -> void:
 	_style_button($Content/Actions/Continue)
 	_style_button($Content/Actions/Campaign)
 	_style_button($Content/Actions/Settings)
-	$Content/Title.add_theme_font_override("normal_font", UiFonts.serif(800))
-	$Content/Title.add_theme_constant_override("line_separation", -12)
+	$Content/TitleFrame/Title.add_theme_font_override("normal_font", UiFonts.serif(800))
+	$Content/TitleFrame/Title.add_theme_constant_override("line_separation", -12)
 	var eyebrow_font := UiFonts.sans(900)
 	eyebrow_font.spacing_glyph = 2
 	$Content/Eyebrow.add_theme_font_override("font", eyebrow_font)
 	$Content/Eyebrow.add_theme_font_size_override("font_size", 9)
 	$Content/Tagline/Copy.add_theme_font_override("font", UiFonts.sans(400))
 	$Content/Footer.add_theme_font_override("font", UiFonts.sans(400))
+	$Content/TitleFrame.resized.connect(func() -> void: MenuLayout.fit_title(self))
+	$Content/TitleFrame/Title.minimum_size_changed.connect(func() -> void: MenuLayout.fit_title(self))
+	$Content/Tagline/Copy.minimum_size_changed.connect(func() -> void: MenuLayout.fit_tagline(self))
+	$Content/Tagline/Copy.resized.connect(func() -> void: MenuLayout.fit_tagline(self))
+	$Content/Actions/NewGame.resized.connect(func() -> void: MenuLayout.fit_action_shadow(self))
 	_layout_menu()
 	for button in [$Content/Actions/NewGame, $Content/Actions/Continue, $Content/Actions/Campaign, $Content/Actions/Settings]:
 		button.pressed.connect(audio_runtime.play_effect)
@@ -88,48 +95,12 @@ func _ready() -> void:
 
 
 func _layout_menu() -> void:
-	var narrow := size.x <= 340.0
-	var compact := size.y <= 760.0
-	var phone_width: float = size.x
-	$Background.offset_left = -phone_width * 0.5
-	$Background.offset_right = phone_width * 0.5
-	$Wash.offset_left = -phone_width * 0.5
-	$Wash.offset_right = phone_width * 0.5
-	var content_inset := 36.0 if narrow else 56.0
-	var content_width: float = maxf(0.0, phone_width - content_inset)
-	$Content.offset_left = -content_width * 0.5
-	$Content.offset_right = content_width * 0.5
-	$Content.offset_top = 18.0 if narrow else 26.0 if compact else 42.0
-	var bottom_inset := 12.0 if narrow else 24.0
-	$Content.anchor_bottom = 1.0 - bottom_inset / size.y
-	$Content.add_theme_constant_override("separation", 4 if narrow else 6)
-	var title_size := 34 if narrow else 38 if compact else 44
-	$Content/Title.add_theme_font_size_override("normal_font_size", title_size)
-	$Content/Title.add_theme_constant_override("line_separation", -12 if narrow or compact else -20)
-	$Content/Title.fit_content = not narrow
-	$Content/Title.custom_minimum_size.y = 74.0 if narrow else 0.0
-	$Content/TitleSpacer.custom_minimum_size.y = 4.0 if narrow else 0.0
-	$Content/Tagline/Copy.add_theme_font_size_override("font_size", 12 if narrow else 15)
-	var tagline_copy: Label = $Content/Tagline/Copy
-	tagline_copy.offset_top = -6.0 if compact and not narrow else 0.0
-	tagline_copy.offset_bottom = -6.0 if compact and not narrow else 0.0
-	tagline_copy.autowrap_mode = TextServer.AUTOWRAP_OFF if narrow else TextServer.AUTOWRAP_WORD_SMART
-	var hero_size := 56.0 if narrow else 66.0 if compact else 78.0
-	$Content/Hero.custom_minimum_size.y = hero_size
-	$Content/HeroSpacer.custom_minimum_size.y = 2.0
-	for portrait in $Content/Hero.get_children():
-		portrait.custom_minimum_size = Vector2(hero_size, hero_size)
-	$Content/FooterSpacer.custom_minimum_size.y = 17.0 if narrow else 21.0
-	$Content/Footer.add_theme_font_size_override("font_size", 8 if narrow else 10)
-	for button in $Content/Actions.get_children():
-		if button is Button:
-			button.custom_minimum_size.y = 44.0 if narrow else 49.0
-	$Content/Actions.add_theme_constant_override("separation", 6 if narrow else 9)
+	MenuLayout.apply(self)
 
 
 func _refresh_copy(locale: String) -> void:
 	$Content/Eyebrow.text = MenuCopy.text("eyebrow", locale)
-	$Content/Title.text = "[center][color=#1f2340]%s[/color]\n[color=#d96279]%s[/color][/center]" % [
+	$Content/TitleFrame/Title.text = "[center][color=#1f2340]%s[/color]\n[color=#d96279]%s[/color][/center]" % [
 		MenuCopy.text("title", locale), MenuCopy.text("accent", locale),
 	]
 	$Content/Tagline/Copy.text = MenuCopy.text("tagline", locale)
@@ -139,6 +110,7 @@ func _refresh_copy(locale: String) -> void:
 	$Content/Actions/Settings.text = MenuCopy.text("settings", locale)
 	$Content/Footer.text = "v" + str(CONTRACT.data.appVersion)
 	_update_continue()
+	if is_node_ready(): _layout_menu()
 
 
 func _update_continue() -> void:

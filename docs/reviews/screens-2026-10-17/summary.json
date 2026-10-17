@@ -1,0 +1,257 @@
+{
+  "generatedAt": "2026-10-17T02:50:49.706Z",
+  "cases": [
+    {
+      "id": "ru-320x568-menu",
+      "pixelMetrics": {
+        "heroMeanRgbError": 10.404957311207312,
+        "outsideDisksMeanRgbError": 1.5542667487853281,
+        "roiPixels": 22176
+      },
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-320x568-vn",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-320x568-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-320x568-campaign",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-390x844-menu",
+      "pixelMetrics": {
+        "heroMeanRgbError": 1.676353083069501,
+        "outsideDisksMeanRgbError": 0.9458186101295641,
+        "roiPixels": 35376
+      },
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-390x844-vn",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-390x844-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-390x844-campaign",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-480x854-menu",
+      "pixelMetrics": {
+        "heroMeanRgbError": 4.142582541836274,
+        "outsideDisksMeanRgbError": 1.1231095406360425,
+        "roiPixels": 35376
+      },
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-480x854-vn",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-480x854-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-480x854-campaign",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-320x568-menu",
+      "pixelMetrics": {
+        "heroMeanRgbError": 7.671206108706109,
+        "outsideDisksMeanRgbError": 1.5402039280093067,
+        "roiPixels": 22176
+      },
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-320x568-vn",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-320x568-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-320x568-campaign",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-390x844-menu",
+      "pixelMetrics": {
+        "heroMeanRgbError": 1.9196630483943917,
+        "outsideDisksMeanRgbError": 0.9458186101295641,
+        "roiPixels": 35376
+      },
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-390x844-vn",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-390x844-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-390x844-campaign",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-480x854-menu",
+      "pixelMetrics": {
+        "heroMeanRgbError": 3.5257801899592947,
+        "outsideDisksMeanRgbError": 1.0693050647820965,
+        "roiPixels": 35376
+      },
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-480x854-vn",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-480x854-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-480x854-campaign",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-320x568-menu",
+      "pixelMetrics": {
+        "heroMeanRgbError": 10.009289321789321,
+        "outsideDisksMeanRgbError": 1.5542667487853281,
+        "roiPixels": 22176
+      },
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-320x568-vn",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-320x568-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-320x568-campaign",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-390x844-menu",
+      "pixelMetrics": {
+        "heroMeanRgbError": 2.1571969696969697,
+        "outsideDisksMeanRgbError": 0.9844994110718492,
+        "roiPixels": 35376
+      },
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-390x844-vn",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-390x844-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-390x844-campaign",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-480x854-menu",
+      "pixelMetrics": {
+        "heroMeanRgbError": 3.9669173074023822,
+        "outsideDisksMeanRgbError": 1.1231095406360425,
+        "roiPixels": 35376
+      },
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-480x854-vn",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-480x854-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-480x854-campaign",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    }
+  ]
+}

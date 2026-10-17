@@ -115,3 +115,13 @@ specials, ingredient routes and blocker layers against the complete production C
 It uses a real native Compatibility renderer and an isolated Chromium fixture.
 See `docs/reviews/PG003AO_ART_MATRIX_2026-10-16_RU.md` for the command, captured
 evidence, numerical results and remaining full-screen/Web/motion work.
+
+## Paired screen capture
+
+`e2e/tools/export-godot-parity.mjs` builds an isolated release capture scene in a
+temporary project without changing the normal entry point. Use
+`e2e/tools/serve-parity-previews.mjs` and `e2e/tools/godot-screen-matrix.mjs`
+to compare menu, initial VN, settings and fresh campaign on the three locales and
+viewport sizes. Runtime source digests reject stale/mixed exports; campaign state
+is isolated in memory. Full commands, captured evidence and remaining gaps are in
+`docs/reviews/PG003AO_SCREEN_MATRIX_2026-10-17_RU.md`.
