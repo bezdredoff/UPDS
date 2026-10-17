@@ -1,0 +1,5199 @@
+{
+  "build": {
+    "fixture": "res://tests/parity_web_capture.tscn",
+    "generatedAt": "2026-10-17T09:28:24.996Z",
+    "serialImport": true,
+    "sourceCommit": "d84d604b314d3bb5c9375313b28ad2db05320dd0",
+    "sourceHash": "662e29d7bb3648f1f22d3650a0ba35d9c591e856dd0af6634ae72fd39eb4dce6",
+    "sourceTreeClean": false
+  },
+  "authoredGuestLines": 71,
+  "uniqueAssets": 12,
+  "records": [
+    {
+      "id": "ru-320x568-aoi-serious",
+      "entry": {
+        "scene": 21,
+        "line": 17,
+        "id": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.430006944444444,
+      "differences": []
+    },
+    {
+      "id": "ru-320x568-aoi-smile",
+      "entry": {
+        "scene": 21,
+        "line": 3,
+        "id": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png"
+      },
+      "source": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.419079861111111,
+      "differences": []
+    },
+    {
+      "id": "ru-320x568-aoi-neutral",
+      "entry": {
+        "scene": 22,
+        "line": 13,
+        "id": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.5164583333333335,
+      "differences": []
+    },
+    {
+      "id": "ru-320x568-gen-serious",
+      "entry": {
+        "scene": 20,
+        "line": 7,
+        "id": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 6.125229166666666,
+      "differences": []
+    },
+    {
+      "id": "ru-320x568-gen-neutral",
+      "entry": {
+        "scene": 20,
+        "line": 16,
+        "id": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 6.3546909722222225,
+      "differences": []
+    },
+    {
+      "id": "ru-320x568-hinata-serious",
+      "entry": {
+        "scene": 12,
+        "line": 11,
+        "id": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 7.747979166666667,
+      "differences": []
+    },
+    {
+      "id": "ru-320x568-hinata-neutral",
+      "entry": {
+        "scene": 13,
+        "line": 15,
+        "id": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.276993055555556,
+      "differences": []
+    },
+    {
+      "id": "ru-320x568-kubo-mother-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 13,
+        "id": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.32353125,
+      "differences": []
+    },
+    {
+      "id": "ru-320x568-kubo-serious",
+      "entry": {
+        "scene": 30,
+        "line": 10,
+        "id": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 4.923465277777778,
+      "differences": []
+    },
+    {
+      "id": "ru-320x568-kubo-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 17,
+        "id": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 4.9480104166666665,
+      "differences": []
+    },
+    {
+      "id": "ru-320x568-vincent-serious",
+      "entry": {
+        "scene": 33,
+        "line": 14,
+        "id": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 7.3080798611111115,
+      "differences": []
+    },
+    {
+      "id": "ru-320x568-vincent-neutral",
+      "entry": {
+        "scene": 34,
+        "line": 14,
+        "id": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 7.283166666666666,
+      "differences": []
+    },
+    {
+      "id": "ru-390x844-aoi-serious",
+      "entry": {
+        "scene": 21,
+        "line": 17,
+        "id": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.099536627697547,
+      "differences": []
+    },
+    {
+      "id": "ru-390x844-aoi-smile",
+      "entry": {
+        "scene": 21,
+        "line": 3,
+        "id": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png"
+      },
+      "source": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.102673805547369,
+      "differences": []
+    },
+    {
+      "id": "ru-390x844-aoi-neutral",
+      "entry": {
+        "scene": 22,
+        "line": 13,
+        "id": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.298457608802436,
+      "differences": []
+    },
+    {
+      "id": "ru-390x844-gen-serious",
+      "entry": {
+        "scene": 20,
+        "line": 7,
+        "id": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.624638962569997,
+      "differences": []
+    },
+    {
+      "id": "ru-390x844-gen-neutral",
+      "entry": {
+        "scene": 20,
+        "line": 16,
+        "id": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.801968104266955,
+      "differences": []
+    },
+    {
+      "id": "ru-390x844-hinata-serious",
+      "entry": {
+        "scene": 12,
+        "line": 11,
+        "id": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 5.6522448177620594,
+      "differences": []
+    },
+    {
+      "id": "ru-390x844-hinata-neutral",
+      "entry": {
+        "scene": 13,
+        "line": 15,
+        "id": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 3.8487212234338672,
+      "differences": []
+    },
+    {
+      "id": "ru-390x844-kubo-mother-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 13,
+        "id": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 3.824596391263058,
+      "differences": []
+    },
+    {
+      "id": "ru-390x844-kubo-serious",
+      "entry": {
+        "scene": 30,
+        "line": 10,
+        "id": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 3.765587647771556,
+      "differences": []
+    },
+    {
+      "id": "ru-390x844-kubo-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 17,
+        "id": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 3.8272701968104266,
+      "differences": []
+    },
+    {
+      "id": "ru-390x844-vincent-serious",
+      "entry": {
+        "scene": 33,
+        "line": 14,
+        "id": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 5.363647378589907,
+      "differences": []
+    },
+    {
+      "id": "ru-390x844-vincent-neutral",
+      "entry": {
+        "scene": 34,
+        "line": 14,
+        "id": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 5.478560434882274,
+      "differences": []
+    },
+    {
+      "id": "ru-480x854-aoi-serious",
+      "entry": {
+        "scene": 21,
+        "line": 17,
+        "id": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.740569452381999,
+      "differences": []
+    },
+    {
+      "id": "ru-480x854-aoi-smile",
+      "entry": {
+        "scene": 21,
+        "line": 3,
+        "id": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png"
+      },
+      "source": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.736800457203148,
+      "differences": []
+    },
+    {
+      "id": "ru-480x854-aoi-neutral",
+      "entry": {
+        "scene": 22,
+        "line": 13,
+        "id": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.998949311997187,
+      "differences": []
+    },
+    {
+      "id": "ru-480x854-gen-serious",
+      "entry": {
+        "scene": 20,
+        "line": 7,
+        "id": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 5.241174660394777,
+      "differences": []
+    },
+    {
+      "id": "ru-480x854-gen-neutral",
+      "entry": {
+        "scene": 20,
+        "line": 16,
+        "id": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 5.442489119444322,
+      "differences": []
+    },
+    {
+      "id": "ru-480x854-hinata-serious",
+      "entry": {
+        "scene": 12,
+        "line": 11,
+        "id": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 6.696809835729254,
+      "differences": []
+    },
+    {
+      "id": "ru-480x854-hinata-neutral",
+      "entry": {
+        "scene": 13,
+        "line": 15,
+        "id": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.650060813880219,
+      "differences": []
+    },
+    {
+      "id": "ru-480x854-kubo-mother-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 13,
+        "id": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.447351299072405,
+      "differences": []
+    },
+    {
+      "id": "ru-480x854-kubo-serious",
+      "entry": {
+        "scene": 30,
+        "line": 10,
+        "id": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.453217274072771,
+      "differences": []
+    },
+    {
+      "id": "ru-480x854-kubo-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 17,
+        "id": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.512436804853388,
+      "differences": []
+    },
+    {
+      "id": "ru-480x854-vincent-serious",
+      "entry": {
+        "scene": 33,
+        "line": 14,
+        "id": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 6.1360706906405245,
+      "differences": []
+    },
+    {
+      "id": "ru-480x854-vincent-neutral",
+      "entry": {
+        "scene": 34,
+        "line": 14,
+        "id": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 6.316660072390499,
+      "differences": []
+    },
+    {
+      "id": "be-320x568-aoi-serious",
+      "entry": {
+        "scene": 21,
+        "line": 17,
+        "id": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.374829861111111,
+      "differences": []
+    },
+    {
+      "id": "be-320x568-aoi-smile",
+      "entry": {
+        "scene": 21,
+        "line": 3,
+        "id": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png"
+      },
+      "source": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.356614583333333,
+      "differences": []
+    },
+    {
+      "id": "be-320x568-aoi-neutral",
+      "entry": {
+        "scene": 22,
+        "line": 13,
+        "id": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.435836805555556,
+      "differences": []
+    },
+    {
+      "id": "be-320x568-gen-serious",
+      "entry": {
+        "scene": 20,
+        "line": 7,
+        "id": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 6.1127465277777775,
+      "differences": []
+    },
+    {
+      "id": "be-320x568-gen-neutral",
+      "entry": {
+        "scene": 20,
+        "line": 16,
+        "id": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 6.346284722222222,
+      "differences": []
+    },
+    {
+      "id": "be-320x568-hinata-serious",
+      "entry": {
+        "scene": 12,
+        "line": 11,
+        "id": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 7.751315972222222,
+      "differences": []
+    },
+    {
+      "id": "be-320x568-hinata-neutral",
+      "entry": {
+        "scene": 13,
+        "line": 15,
+        "id": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.18534375,
+      "differences": []
+    },
+    {
+      "id": "be-320x568-kubo-mother-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 13,
+        "id": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.231086805555556,
+      "differences": []
+    },
+    {
+      "id": "be-320x568-kubo-serious",
+      "entry": {
+        "scene": 30,
+        "line": 10,
+        "id": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 4.919826388888889,
+      "differences": []
+    },
+    {
+      "id": "be-320x568-kubo-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 17,
+        "id": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 4.955927083333333,
+      "differences": []
+    },
+    {
+      "id": "be-320x568-vincent-serious",
+      "entry": {
+        "scene": 33,
+        "line": 14,
+        "id": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 7.299625,
+      "differences": []
+    },
+    {
+      "id": "be-320x568-vincent-neutral",
+      "entry": {
+        "scene": 34,
+        "line": 14,
+        "id": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 7.277291666666667,
+      "differences": []
+    },
+    {
+      "id": "be-390x844-aoi-serious",
+      "entry": {
+        "scene": 21,
+        "line": 17,
+        "id": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.076327078625929,
+      "differences": []
+    },
+    {
+      "id": "be-390x844-aoi-smile",
+      "entry": {
+        "scene": 21,
+        "line": 3,
+        "id": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png"
+      },
+      "source": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.0736205259193765,
+      "differences": []
+    },
+    {
+      "id": "be-390x844-aoi-neutral",
+      "entry": {
+        "scene": 22,
+        "line": 13,
+        "id": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.209270720764974,
+      "differences": []
+    },
+    {
+      "id": "be-390x844-gen-serious",
+      "entry": {
+        "scene": 20,
+        "line": 7,
+        "id": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.618364606870354,
+      "differences": []
+    },
+    {
+      "id": "be-390x844-gen-neutral",
+      "entry": {
+        "scene": 20,
+        "line": 16,
+        "id": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.795615155385271,
+      "differences": []
+    },
+    {
+      "id": "be-390x844-hinata-serious",
+      "entry": {
+        "scene": 12,
+        "line": 11,
+        "id": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 5.633177784327209,
+      "differences": []
+    },
+    {
+      "id": "be-390x844-hinata-neutral",
+      "entry": {
+        "scene": 13,
+        "line": 15,
+        "id": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 3.779515014572486,
+      "differences": []
+    },
+    {
+      "id": "be-390x844-kubo-mother-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 13,
+        "id": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 3.7863853685692765,
+      "differences": []
+    },
+    {
+      "id": "be-390x844-kubo-serious",
+      "entry": {
+        "scene": 30,
+        "line": 10,
+        "id": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 3.7608655074172317,
+      "differences": []
+    },
+    {
+      "id": "be-390x844-kubo-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 17,
+        "id": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 3.8334757834757833,
+      "differences": []
+    },
+    {
+      "id": "be-390x844-vincent-serious",
+      "entry": {
+        "scene": 33,
+        "line": 14,
+        "id": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 5.365160297344206,
+      "differences": []
+    },
+    {
+      "id": "be-390x844-vincent-neutral",
+      "entry": {
+        "scene": 34,
+        "line": 14,
+        "id": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 5.474321315125913,
+      "differences": []
+    },
+    {
+      "id": "be-480x854-aoi-serious",
+      "entry": {
+        "scene": 21,
+        "line": 17,
+        "id": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.718877214577747,
+      "differences": []
+    },
+    {
+      "id": "be-480x854-aoi-smile",
+      "entry": {
+        "scene": 21,
+        "line": 3,
+        "id": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png"
+      },
+      "source": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.711021233569262,
+      "differences": []
+    },
+    {
+      "id": "be-480x854-aoi-neutral",
+      "entry": {
+        "scene": 22,
+        "line": 13,
+        "id": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.9247050893158075,
+      "differences": []
+    },
+    {
+      "id": "be-480x854-gen-serious",
+      "entry": {
+        "scene": 20,
+        "line": 7,
+        "id": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 5.236183526032737,
+      "differences": []
+    },
+    {
+      "id": "be-480x854-gen-neutral",
+      "entry": {
+        "scene": 20,
+        "line": 16,
+        "id": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 5.454625518383376,
+      "differences": []
+    },
+    {
+      "id": "be-480x854-hinata-serious",
+      "entry": {
+        "scene": 12,
+        "line": 11,
+        "id": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 6.676562477103208,
+      "differences": []
+    },
+    {
+      "id": "be-480x854-hinata-neutral",
+      "entry": {
+        "scene": 13,
+        "line": 15,
+        "id": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.615267947421638,
+      "differences": []
+    },
+    {
+      "id": "be-480x854-kubo-mother-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 13,
+        "id": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.412499816825662,
+      "differences": []
+    },
+    {
+      "id": "be-480x854-kubo-serious",
+      "entry": {
+        "scene": 30,
+        "line": 10,
+        "id": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.448727304699521,
+      "differences": []
+    },
+    {
+      "id": "be-480x854-kubo-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 17,
+        "id": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.516832988965578,
+      "differences": []
+    },
+    {
+      "id": "be-480x854-vincent-serious",
+      "entry": {
+        "scene": 33,
+        "line": 14,
+        "id": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 6.079115194677686,
+      "differences": []
+    },
+    {
+      "id": "be-480x854-vincent-neutral",
+      "entry": {
+        "scene": 34,
+        "line": 14,
+        "id": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 6.3096598818891865,
+      "differences": []
+    },
+    {
+      "id": "en-320x568-aoi-serious",
+      "entry": {
+        "scene": 21,
+        "line": 17,
+        "id": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.363368055555555,
+      "differences": []
+    },
+    {
+      "id": "en-320x568-aoi-smile",
+      "entry": {
+        "scene": 21,
+        "line": 3,
+        "id": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png"
+      },
+      "source": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.353600694444444,
+      "differences": []
+    },
+    {
+      "id": "en-320x568-aoi-neutral",
+      "entry": {
+        "scene": 22,
+        "line": 13,
+        "id": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.415826388888889,
+      "differences": []
+    },
+    {
+      "id": "en-320x568-gen-serious",
+      "entry": {
+        "scene": 20,
+        "line": 7,
+        "id": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 6.114121527777778,
+      "differences": []
+    },
+    {
+      "id": "en-320x568-gen-neutral",
+      "entry": {
+        "scene": 20,
+        "line": 16,
+        "id": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 6.2268993055555555,
+      "differences": []
+    },
+    {
+      "id": "en-320x568-hinata-serious",
+      "entry": {
+        "scene": 12,
+        "line": 11,
+        "id": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 7.792618055555556,
+      "differences": []
+    },
+    {
+      "id": "en-320x568-hinata-neutral",
+      "entry": {
+        "scene": 13,
+        "line": 15,
+        "id": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.241690972222222,
+      "differences": []
+    },
+    {
+      "id": "en-320x568-kubo-mother-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 13,
+        "id": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 5.312729166666666,
+      "differences": []
+    },
+    {
+      "id": "en-320x568-kubo-serious",
+      "entry": {
+        "scene": 30,
+        "line": 10,
+        "id": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 4.8594027777777775,
+      "differences": []
+    },
+    {
+      "id": "en-320x568-kubo-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 17,
+        "id": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 4.86528125,
+      "differences": []
+    },
+    {
+      "id": "en-320x568-vincent-serious",
+      "entry": {
+        "scene": 33,
+        "line": 14,
+        "id": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 7.202326388888889,
+      "differences": []
+    },
+    {
+      "id": "en-320x568-vincent-neutral",
+      "entry": {
+        "scene": 34,
+        "line": 14,
+        "id": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          59.1875,
+          56,
+          336,
+          504
+        ],
+        "stage": [
+          0,
+          56,
+          320,
+          300
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          59.2000179555862,
+          56.0000200101003,
+          335.999952716887,
+          503.999938770619
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        59.2000179555862,
+        56.0000200101003,
+        335.999952716887,
+        503.999938770619
+      ],
+      "stageRgbMeanError": 7.2810243055555555,
+      "differences": []
+    },
+    {
+      "id": "en-390x844-aoi-serious",
+      "entry": {
+        "scene": 21,
+        "line": 17,
+        "id": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.071069522218948,
+      "differences": []
+    },
+    {
+      "id": "en-390x844-aoi-smile",
+      "entry": {
+        "scene": 21,
+        "line": 3,
+        "id": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png"
+      },
+      "source": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.07673314339981,
+      "differences": []
+    },
+    {
+      "id": "en-390x844-aoi-neutral",
+      "entry": {
+        "scene": 22,
+        "line": 13,
+        "id": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.19989848380653,
+      "differences": []
+    },
+    {
+      "id": "en-390x844-gen-serious",
+      "entry": {
+        "scene": 20,
+        "line": 7,
+        "id": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.620296689262206,
+      "differences": []
+    },
+    {
+      "id": "en-390x844-gen-neutral",
+      "entry": {
+        "scene": 20,
+        "line": 16,
+        "id": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 4.747953302551004,
+      "differences": []
+    },
+    {
+      "id": "en-390x844-hinata-serious",
+      "entry": {
+        "scene": 12,
+        "line": 11,
+        "id": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 5.68242296230802,
+      "differences": []
+    },
+    {
+      "id": "en-390x844-hinata-neutral",
+      "entry": {
+        "scene": 13,
+        "line": 15,
+        "id": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 3.8210777090087436,
+      "differences": []
+    },
+    {
+      "id": "en-390x844-kubo-mother-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 13,
+        "id": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 3.8349281199855914,
+      "differences": []
+    },
+    {
+      "id": "en-390x844-kubo-serious",
+      "entry": {
+        "scene": 30,
+        "line": 10,
+        "id": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 3.729441333464322,
+      "differences": []
+    },
+    {
+      "id": "en-390x844-kubo-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 17,
+        "id": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 3.7185741886891313,
+      "differences": []
+    },
+    {
+      "id": "en-390x844-vincent-serious",
+      "entry": {
+        "scene": 33,
+        "line": 14,
+        "id": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 5.322364672364673,
+      "differences": []
+    },
+    {
+      "id": "en-390x844-vincent-neutral",
+      "entry": {
+        "scene": 34,
+        "line": 14,
+        "id": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          -33.046875,
+          60,
+          619.875,
+          929.8125
+        ],
+        "stage": [
+          0,
+          60,
+          390,
+          522.375
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          -33.0335998535156,
+          60,
+          619.8671875,
+          929.80078125
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        -33.0335998535156,
+        60,
+        619.8671875,
+        929.80078125
+      ],
+      "stageRgbMeanError": 5.4478714346530435,
+      "differences": []
+    },
+    {
+      "id": "en-480x854-aoi-serious",
+      "entry": {
+        "scene": 21,
+        "line": 17,
+        "id": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0506",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.7154335370231975,
+      "differences": []
+    },
+    {
+      "id": "en-480x854-aoi-smile",
+      "entry": {
+        "scene": 21,
+        "line": 3,
+        "id": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png"
+      },
+      "source": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0492",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/expressions/smile.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.713210533257133,
+      "differences": []
+    },
+    {
+      "id": "en-480x854-aoi-neutral",
+      "entry": {
+        "scene": 22,
+        "line": 13,
+        "id": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0522",
+        "guest": "aoi",
+        "asset": "./assets/guests/aoi/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.917438196978356,
+      "differences": []
+    },
+    {
+      "id": "en-480x854-gen-serious",
+      "entry": {
+        "scene": 20,
+        "line": 7,
+        "id": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0477",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 5.239076215178558,
+      "differences": []
+    },
+    {
+      "id": "en-480x854-gen-neutral",
+      "entry": {
+        "scene": 20,
+        "line": 16,
+        "id": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0486",
+        "guest": "gen",
+        "asset": "./assets/guests/gen/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 5.420703096379009,
+      "differences": []
+    },
+    {
+      "id": "en-480x854-hinata-serious",
+      "entry": {
+        "scene": 12,
+        "line": 11,
+        "id": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0320",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 6.7112278542225345,
+      "differences": []
+    },
+    {
+      "id": "en-480x854-hinata-neutral",
+      "entry": {
+        "scene": 13,
+        "line": 15,
+        "id": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0342",
+        "guest": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.6415102357820075,
+      "differences": []
+    },
+    {
+      "id": "en-480x854-kubo-mother-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 13,
+        "id": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0680",
+        "guest": "kubo-mother",
+        "asset": "./assets/guests/kubo-mother/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.490756290206767,
+      "differences": []
+    },
+    {
+      "id": "en-480x854-kubo-serious",
+      "entry": {
+        "scene": 30,
+        "line": 10,
+        "id": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0677",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.423611904866576,
+      "differences": []
+    },
+    {
+      "id": "en-480x854-kubo-neutral",
+      "entry": {
+        "scene": 30,
+        "line": 17,
+        "id": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0684",
+        "guest": "kubo",
+        "asset": "./assets/guests/kubo/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 4.416592664234112,
+      "differences": []
+    },
+    {
+      "id": "en-480x854-vincent-serious",
+      "entry": {
+        "scene": 33,
+        "line": 14,
+        "id": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png"
+      },
+      "source": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0741",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/expressions/serious.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 6.102804765463578,
+      "differences": []
+    },
+    {
+      "id": "en-480x854-vincent-neutral",
+      "entry": {
+        "scene": 34,
+        "line": 14,
+        "id": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png"
+      },
+      "source": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          16.2734375,
+          60,
+          628.046875,
+          942.078125
+        ],
+        "stage": [
+          25,
+          60,
+          430,
+          529.265625
+        ],
+        "animation": "none"
+      },
+      "native": {
+        "lineId": "VN0761",
+        "guest": "vincent",
+        "asset": "./assets/guests/vincent/neutral.png",
+        "rect": [
+          16.272370713395,
+          59.9999997973719,
+          628.055287405557,
+          942.082857957961
+        ],
+        "textureFilter": 4
+      },
+      "after350ms": [
+        16.272370713395,
+        59.9999997973719,
+        628.055287405557,
+        942.082857957961
+      ],
+      "stageRgbMeanError": 6.293182983836696,
+      "differences": []
+    }
+  ],
+  "errors": []
+}

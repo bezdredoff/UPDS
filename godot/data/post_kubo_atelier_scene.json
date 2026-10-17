@@ -160,7 +160,20 @@
       "id": "VN0670",
       "hidden": false,
       "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "kubo",
+          "asset": "./assets/guests/kubo/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "КУБО",
@@ -217,7 +230,20 @@
       "id": "VN0672",
       "hidden": false,
       "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "kubo-mother",
+          "asset": "./assets/guests/kubo-mother/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "МАТЬ КУБО",
@@ -297,7 +323,20 @@
       "id": "VN0675",
       "hidden": false,
       "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "kubo-mother",
+          "asset": "./assets/guests/kubo-mother/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "МАТЬ КУБО",
@@ -354,7 +393,20 @@
       "id": "VN0677",
       "hidden": false,
       "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "kubo",
+          "asset": "./assets/guests/kubo/expressions/serious.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "КУБО",
@@ -423,7 +475,20 @@
       "id": "VN0680",
       "hidden": false,
       "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "kubo-mother",
+          "asset": "./assets/guests/kubo-mother/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "МАТЬ КУБО",
@@ -526,7 +591,20 @@
       "id": "VN0684",
       "hidden": false,
       "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "kubo",
+          "asset": "./assets/guests/kubo/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "КУБО",

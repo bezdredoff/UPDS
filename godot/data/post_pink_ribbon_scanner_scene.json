@@ -126,7 +126,20 @@
       "id": "VN0749",
       "hidden": false,
       "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "vincent",
+          "asset": "./assets/guests/vincent/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ВИНСЕНТ",
@@ -317,7 +330,20 @@
       "id": "VN0755",
       "hidden": false,
       "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "vincent",
+          "asset": "./assets/guests/vincent/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ВИНСЕНТ",
@@ -397,7 +423,20 @@
       "id": "VN0758",
       "hidden": false,
       "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "vincent",
+          "asset": "./assets/guests/vincent/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ВИНСЕНТ",
@@ -477,7 +516,20 @@
       "id": "VN0761",
       "hidden": false,
       "background": "./assets/backgrounds/BG_GYMNASTICS_COSTUME.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "vincent",
+          "asset": "./assets/guests/vincent/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ВИНСЕНТ",

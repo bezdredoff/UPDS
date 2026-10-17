@@ -255,7 +255,20 @@
       "id": "VN0636",
       "hidden": false,
       "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "kubo",
+          "asset": "./assets/guests/kubo/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "КУБО",
@@ -312,7 +325,20 @@
       "id": "VN0638",
       "hidden": false,
       "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "kubo",
+          "asset": "./assets/guests/kubo/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "КУБО",
@@ -426,7 +452,20 @@
       "id": "VN0642",
       "hidden": false,
       "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "kubo",
+          "asset": "./assets/guests/kubo/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "КУБО",

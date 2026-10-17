@@ -73,7 +73,20 @@
       "id": "VN0451",
       "hidden": false,
       "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "gen",
+          "asset": "./assets/guests/gen/expressions/serious.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ГЭН",
@@ -130,7 +143,20 @@
       "id": "VN0453",
       "hidden": false,
       "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "gen",
+          "asset": "./assets/guests/gen/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ГЭН",
@@ -187,7 +213,20 @@
       "id": "VN0455",
       "hidden": false,
       "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "gen",
+          "asset": "./assets/guests/gen/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ГЭН",
@@ -267,7 +306,20 @@
       "id": "VN0458",
       "hidden": false,
       "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "gen",
+          "asset": "./assets/guests/gen/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ГЭН",
@@ -358,7 +410,20 @@
       "id": "VN0461",
       "hidden": false,
       "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "gen",
+          "asset": "./assets/guests/gen/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ГЭН",
@@ -415,7 +480,20 @@
       "id": "VN0463",
       "hidden": false,
       "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "gen",
+          "asset": "./assets/guests/gen/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ГЭН",
@@ -472,7 +550,20 @@
       "id": "VN0465",
       "hidden": false,
       "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "gen",
+          "asset": "./assets/guests/gen/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ГЭН",
@@ -529,7 +620,20 @@
       "id": "VN0467",
       "hidden": false,
       "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "gen",
+          "asset": "./assets/guests/gen/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ГЭН",

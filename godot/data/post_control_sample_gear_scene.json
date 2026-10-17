@@ -73,7 +73,20 @@
       "id": "VN0511",
       "hidden": false,
       "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "aoi",
+          "asset": "./assets/guests/aoi/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "АОЙ",
@@ -289,7 +302,20 @@
       "id": "VN0518",
       "hidden": false,
       "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "aoi",
+          "asset": "./assets/guests/aoi/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "АОЙ",
@@ -346,7 +372,20 @@
       "id": "VN0520",
       "hidden": false,
       "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "aoi",
+          "asset": "./assets/guests/aoi/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "АОЙ",
@@ -403,7 +442,20 @@
       "id": "VN0522",
       "hidden": false,
       "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "aoi",
+          "asset": "./assets/guests/aoi/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "АОЙ",

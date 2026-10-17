@@ -112,5 +112,8 @@ func _collect(node: Node, records: Array) -> void:
 			record.font_size = control.get_theme_font_size("normal_font_size" if node is RichTextLabel else "font_size")
 		if node is Button:
 			record.pressed = node.button_pressed
+		if node is TextureRect and node.texture != null:
+			record.asset = node.texture.resource_path
+			record.textureFilter = node.texture_filter
 		records.append(record)
 	for child in node.get_children(): _collect(child, records)

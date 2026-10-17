@@ -83,8 +83,8 @@ func _run() -> void:
 		assert(case_title_native_font != null and case_title_native_font.font_names.has("Georgia")
 			and case_title_native_font.font_weight == 800,
 			"Native VN scene title should request the source Georgia serif weight 800")
-	assert(screen.title.get_theme_font_size("font_size") == 11,
-		"Standard VN scene title should use the source 11px size")
+	assert(screen.title.get_theme_font_size("font_size") == 10,
+		"VN case-pill title overrides the shared header font to the source 10px size")
 	var case_button_style := screen.case_button.get_theme_stylebox("normal") as StyleBoxFlat
 	var case_button_hover := screen.case_button.get_theme_stylebox("hover") as StyleBoxFlat
 	assert(case_button_style.bg_color.is_equal_approx(Color("#223b58"))
