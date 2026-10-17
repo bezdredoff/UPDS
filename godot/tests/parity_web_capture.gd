@@ -47,6 +47,7 @@ func _dispatch(arguments: Array) -> void:
 			menu.session.state.line = int(request.line)
 			menu.session.resume()
 			menu._open_story()
+			menu.story_screen._refresh()
 		"advance": menu.story_screen._next()
 		"locale": menu.preferences.set_locale(str(request.locale))
 		"match3":
@@ -79,6 +80,7 @@ func _publish(request_id: String) -> void:
 		"viewport": [get_viewport().get_visible_rect().size.x, get_viewport().get_visible_rect().size.y],
 		"window": [get_window().size.x, get_window().size.y]}
 	if is_instance_valid(menu.story_screen):
+		result.storyLine = menu.session.current_line()
 		result.dialogue = {"pages": menu.story_screen._dialogue_pages,
 			"pageIndex": menu.story_screen._dialogue_page_index,
 			"displayed": menu.story_screen.dialogue.text}

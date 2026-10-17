@@ -219,7 +219,7 @@ func _ready() -> void:
 	nameplate = PanelContainer.new()
 	nameplate.name = "Nameplate"
 	nameplate.z_index = 12
-	nameplate.custom_minimum_size = Vector2(200.0, 38.0)
+	nameplate.custom_minimum_size = Vector2(128.0, 38.0)
 	nameplate.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	nameplate.anchor_top = 0.70
 	nameplate.anchor_bottom = 0.70
@@ -344,7 +344,6 @@ func _layout_vn() -> void:
 		return
 	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	var tiny_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
-	var compact_height := size.y <= 760.0
 	title.add_theme_font_size_override("font_size", 9 if compact_width else 11)
 	var controls_min_height := 58.0 if tiny_width else 63.0
 	var controls_height := maxf(clampf(size.y * 0.09, 58.0 if tiny_width else 60.0, 82.0), controls_min_height)
@@ -368,14 +367,12 @@ func _layout_vn() -> void:
 	paper.content_margin_top = 29 if tiny_width else 34
 	paper.content_margin_bottom = 25
 	nameplate.offset_left = 32
-	nameplate.offset_right = 164 if compact_width else 232
 	nameplate.anchor_top = 1.0
 	nameplate.anchor_bottom = 1.0
-	nameplate.offset_top = -(controls_height + dialogue_row_height + (17.0 if compact_height else 19.0))
-	nameplate.offset_bottom = nameplate.offset_top + 38.0
-	nameplate.custom_minimum_size = Vector2(128.0, 34.0) if compact_width else Vector2(200.0, 38.0)
+	nameplate.offset_top = -(controls_height + dialogue_row_height + (17.0 if tiny_width else 19.0))
 	speaker.add_theme_font_size_override("font_size", 11 if compact_width else 13)
-	emotion.add_theme_font_size_override("font_size", 7 if compact_width else 8)
+	emotion.add_theme_font_size_override("font_size", 7)
+	_layout_nameplate()
 	var row := controls_panel.get_child(0) as HBoxContainer
 	row.add_theme_constant_override("separation", 4 if tiny_width else 7)
 	controls_panel.offset_top = -controls_height
@@ -394,6 +391,24 @@ func _layout_vn() -> void:
 		icon.custom_minimum_size = Vector2(18.0, 18.0) if tiny_width else Vector2(22.0, 22.0)
 		var caption := stack.get_child(1) as Label
 		caption.add_theme_font_size_override("font_size", 7 if tiny_width else 8)
+
+
+func _layout_nameplate() -> void:
+	# CSS shrink-to-fit badge: 128px minimum, authored caption plus padding.
+	var tiny := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
+	var style := nameplate.get_theme_stylebox("panel") as StyleBoxFlat
+	style.content_margin_left = 14 if tiny else 17
+	style.content_margin_right = 14 if tiny else 17
+	style.content_margin_top = 9 if tiny else 10
+	style.content_margin_bottom = 9 if tiny else 10
+	nameplate.custom_minimum_size = Vector2(128.0, 34.0 if tiny else 38.0)
+	var content_size := nameplate.get_child(0).get_combined_minimum_size() as Vector2
+	var width := clampf(content_size.x + style.get_minimum_size().x, 128.0, maxf(128.0, size.x - (44.0 if tiny else 64.0)))
+	var height := maxf(nameplate.custom_minimum_size.y, content_size.y + style.get_minimum_size().y)
+	nameplate.offset_left = 22.0 if tiny else 32.0
+	nameplate.offset_right = nameplate.offset_left + width
+	nameplate.offset_bottom = nameplate.offset_top + height
+	nameplate.size = Vector2(width, height)
 
 
 func _queue_dialogue_reflow() -> void:
@@ -449,6 +464,7 @@ func _refresh() -> void:
 	_set_background(str(line.get("background", data.get("background", "./assets/backgrounds/BG_CLUBROOM_DAY.webp"))))
 	speaker.text = copy.speaker
 	emotion.text = copy.emotion
+	_layout_nameplate()
 	if _dialogue_pages.is_empty():
 		_dialogue_pages = _paginate_dialogue(str(copy.text))
 	_dialogue_page_index = mini(_dialogue_page_index, _dialogue_pages.size() - 1)
