@@ -1,0 +1,5947 @@
+{
+  "sourceHash": "a45db0f98b3c935629e196ad1e4091e163a6036b5568b925b9b7eeabce704332",
+  "coverage": "Scene first visible line; seeded normal saves, choice A; not a natural full playthrough or ending outcome acceptance",
+  "records": [
+    {
+      "id": "en-320x568-scene-0",
+      "scene": 0,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          175.09375,
+          34
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          201.999988094638,
+          34.9999977446996
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-320x568-scene-1",
+      "scene": 1,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0023",
+        "text": "Sit down. Name, club, and when you noticed the loss.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0023",
+        "text": "Sit down. Name, club, and when you noticed the loss.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-2",
+      "scene": 2,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-3",
+      "scene": 3,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0086",
+        "text": "I already told you: it is not mine.",
+        "pages": 1,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          129.999995289703,
+          33.9999998629264
+        ],
+        "lineId": "VN0086",
+        "text": "I already told you: it is not mine.",
+        "pages": 1,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-320x568-scene-4",
+      "scene": 4,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          140.5,
+          34
+        ],
+        "lineId": "VN0115",
+        "text": "Bag `PS-14`. Sportswear-store campaign. Date, owner, return.",
+        "pages": 1,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          145.999995975157,
+          33.9999998629264
+        ],
+        "lineId": "VN0115",
+        "text": "Bag `PS-14`. Sportswear-store campaign. Date, owner, return.",
+        "pages": 1,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-320x568-scene-5",
+      "scene": 5,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          175.890625,
+          34
+        ],
+        "lineId": "VN0143",
+        "text": "Criminal profile: confident, loves risk, surrounds themselves with fabric.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          178.999987109299,
+          33.9999998629264
+        ],
+        "lineId": "VN0143",
+        "text": "Criminal profile: confident, loves risk, surrounds themselves with fabric.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-320x568-scene-6",
+      "scene": 6,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0168",
+        "text": "Style: no correlation. Price: none. Owner gender: none. Color: none.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0168",
+        "text": "Style: no correlation. Price: none. Owner gender: none. Color: none.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-7",
+      "scene": 7,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0192",
+        "text": "You just treated mess as evidence.",
+        "pages": 1,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0192",
+        "text": "You just treated mess as evidence.",
+        "pages": 1,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-8",
+      "scene": 8,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0218",
+        "text": "The bag contents match the return log. The missing items are not here.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0218",
+        "text": "The bag contents match the return log. The missing items are not here.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-9",
+      "scene": 9,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0252",
+        "text": "Administration approved this meeting on two conditions: no names leave this…",
+        "pages": 2,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0252",
+        "text": "Administration approved this meeting on two conditions: no names leave this…",
+        "pages": 2,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-10",
+      "scene": 10,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0272",
+        "text": "The interval repeats: processing, return, then disappearance within one or two days.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0272",
+        "text": "The interval repeats: processing, return, then disappearance within one or two days.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-11",
+      "scene": 11,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0290",
+        "text": "If the thief keeps taking things from the top shelves, we can estimate their height…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0290",
+        "text": "If the thief keeps taking things from the top shelves, we can estimate their height…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-12",
+      "scene": 12,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0310",
+        "text": "Size: no correlation. Style: none. Owner gender: none…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0310",
+        "text": "Size: no correlation. Style: none. Owner gender: none…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-13",
+      "scene": 13,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0328",
+        "text": "Official confirmation: we have entered the final location of the case.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0328",
+        "text": "Official confirmation: we have entered the final location of the case.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-14",
+      "scene": 14,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          147.921875,
+          34
+        ],
+        "lineId": "VN0349",
+        "text": "My machine cannot handle this thread: its thickness and conductive coating are…",
+        "pages": 2,
+        "actors": [],
+        "images": [
+          "./assets/guests/hinata/neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          150.999996189361,
+          33.9999998629264
+        ],
+        "lineId": "VN0349",
+        "text": "My machine cannot handle this thread: its thickness and conductive coating are…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-320x568-scene-15",
+      "scene": 15,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          168.953125,
+          34
+        ],
+        "lineId": "VN0371",
+        "text": "Reiji Kurose. Thank you for accepting the invitation…",
+        "pages": 2,
+        "actors": [
+          "kurose"
+        ],
+        "images": [
+          "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          175.999986980776,
+          33.9999998629264
+        ],
+        "lineId": "VN0371",
+        "text": "Reiji Kurose. Thank you for accepting the invitation…",
+        "pages": 2,
+        "actors": [
+          "kurose"
+        ],
+        "images": [
+          "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-320x568-scene-16",
+      "scene": 16,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0392",
+        "text": "The match is sufficient. The thread is indeed from an Asterion shipment.",
+        "pages": 1,
+        "actors": [
+          "kurose"
+        ],
+        "images": [
+          "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0392",
+        "text": "The match is sufficient. The thread is indeed from an Asterion shipment.",
+        "pages": 1,
+        "actors": [
+          "kurose"
+        ],
+        "images": [
+          "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-17",
+      "scene": 17,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          133.5625,
+          34
+        ],
+        "lineId": "VN0411",
+        "text": "You have temporary access for forty minutes…",
+        "pages": 2,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          139.999995718112,
+          33.9999998629264
+        ],
+        "lineId": "VN0411",
+        "text": "You have temporary access for forty minutes…",
+        "pages": 2,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-320x568-scene-18",
+      "scene": 18,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          130.75,
+          34
+        ],
+        "lineId": "VN0431",
+        "text": "These are not isolated errors. Whole consecutive groups disappear here.",
+        "pages": 1,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          132.999995418226,
+          33.9999998629264
+        ],
+        "lineId": "VN0431",
+        "text": "These are not isolated errors. Whole consecutive groups disappear here.",
+        "pages": 1,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-320x568-scene-19",
+      "scene": 19,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0450",
+        "text": "We found a serial thief’s collection. Except the trophies are socks.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0450",
+        "text": "We found a serial thief’s collection. Except the trophies are socks.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-20",
+      "scene": 20,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0471",
+        "text": "During the confirmed theft windows, Gen was in another building…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0471",
+        "text": "During the confirmed theft windows, Gen was in another building…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-21",
+      "scene": 21,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0490",
+        "text": "Aoi Kagawa, captain…",
+        "pages": 3,
+        "actors": [],
+        "images": [
+          "./assets/guests/aoi/neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0490",
+        "text": "Aoi Kagawa, captain…",
+        "pages": 3,
+        "actors": [],
+        "images": []
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-22",
+      "scene": 22,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0510",
+        "text": "Same silver thread, same stitch pitch. And both items are outer equipment.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0510",
+        "text": "Same silver thread, same stitch pitch. And both items are outer equipment.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-23",
+      "scene": 23,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          147.0625,
+          34
+        ],
+        "lineId": "VN0529",
+        "text": "I will give you the originals…",
+        "pages": 3,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          148.999996103679,
+          33.9999998629264
+        ],
+        "lineId": "VN0529",
+        "text": "I will give you the originals…",
+        "pages": 3,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-320x568-scene-24",
+      "scene": 24,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0549",
+        "text": "The chain is continuous…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0549",
+        "text": "The chain is continuous…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-25",
+      "scene": 25,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0569",
+        "text": "The student chat officially believes seven clubs doing laundry at…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0569",
+        "text": "The student chat officially believes seven clubs doing laundry at…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-26",
+      "scene": 26,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0590",
+        "text": "No magic. The tag contains an active microtag with its own identifier.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0590",
+        "text": "No magic. The tag contains an active microtag with its own identifier.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-27",
+      "scene": 27,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          144.6875,
+          34
+        ],
+        "lineId": "VN0609",
+        "text": "The thief struck under the armor…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          146.999996017998,
+          33.9999998629264
+        ],
+        "lineId": "VN0609",
+        "text": "The thief struck under the armor…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-320x568-scene-28",
+      "scene": 28,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0629",
+        "text": "Four owners, four pilot participants. A random sample is now effectively ruled out.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0629",
+        "text": "Four owners, four pilot participants. A random sample is now effectively ruled out.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-29",
+      "scene": 29,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          145.421875,
+          34
+        ],
+        "lineId": "VN0648",
+        "text": "New customers? If it is urgent, we start with measurements and confidence…",
+        "pages": 2,
+        "actors": [],
+        "images": [
+          "./assets/guests/kubo-mother/neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          148.999996103679,
+          33.9999998629264
+        ],
+        "lineId": "VN0648",
+        "text": "New customers? If it is urgent, we start with measurements and confidence…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-320x568-scene-30",
+      "scene": 30,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0668",
+        "text": "The first request is twenty-two days before Emi’s report. Then four more…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0668",
+        "text": "The first request is twenty-two days before Emi’s report. Then four more…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-31",
+      "scene": 31,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0688",
+        "text": "That is not our underwear! I repeat: not ours!",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0688",
+        "text": "That is not our underwear! I repeat: not ours!",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-32",
+      "scene": 32,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0709",
+        "text": "The card is active…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0709",
+        "text": "The card is active…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-33",
+      "scene": 33,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0728",
+        "text": "The ribbons turned up. Two underwear sets did not…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0728",
+        "text": "The ribbons turned up. Two underwear sets did not…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-34",
+      "scene": 34,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0748",
+        "text": "Same format as the tag from the old gym.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0748",
+        "text": "Same format as the tag from the old gym.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-35",
+      "scene": 35,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0767",
+        "text": "This is either the neatest criminal lair or the worst underwear boutique in the world.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0767",
+        "text": "This is either the neatest criminal lair or the worst underwear boutique in the world.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-36",
+      "scene": 36,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0787",
+        "text": "The missing items and the catalog match without exception…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0787",
+        "text": "The missing items and the catalog match without exception…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-37",
+      "scene": 37,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0807",
+        "text": "I want to hear it without the club paraphrasing it for me.",
+        "pages": 1,
+        "actors": [
+          "emi"
+        ],
+        "images": [
+          "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0807",
+        "text": "I want to hear it without the club paraphrasing it for me.",
+        "pages": 1,
+        "actors": [
+          "emi"
+        ],
+        "images": [
+          "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-38",
+      "scene": 38,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0828",
+        "text": "After Rina leaves the chain, the containers, service passages,…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0828",
+        "text": "After Rina leaves the chain, the containers, service passages,…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-39",
+      "scene": 39,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0847",
+        "text": "We report only what we proved about Rina…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0847",
+        "text": "We report only what we proved about Rina…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-40",
+      "scene": 40,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0867",
+        "text": "All confirmations match. No code was exposed to anyone else.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0867",
+        "text": "All confirmations match. No code was exposed to anyone else.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-41",
+      "scene": 41,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0886",
+        "text": "I still think hiding in a laundry cart would have been thematically perfect.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0886",
+        "text": "I still think hiding in a laundry cart would have been thematically perfect.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-42",
+      "scene": 42,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-43",
+      "scene": 43,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0926",
+        "text": "The college needs a short answer. Not a forty-page technical report.",
+        "pages": 1,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0926",
+        "text": "The college needs a short answer. Not a forty-page technical report.",
+        "pages": 1,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-44",
+      "scene": 44,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0946",
+        "text": "Coincidence one! Opportunity. Coincidence two! Motive. Coincidence three!…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0946",
+        "text": "Coincidence one! Opportunity. Coincidence two! Motive…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "text"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-0",
+      "scene": 0,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          200.234375,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          208,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-1",
+      "scene": 1,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0023",
+        "text": "Sit down. Name, club, and when you noticed the loss.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          131,
+          38
+        ],
+        "lineId": "VN0023",
+        "text": "Sit down. Name, club, and when you noticed the loss.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-2",
+      "scene": 2,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-3",
+      "scene": 3,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          140.875,
+          38
+        ],
+        "lineId": "VN0086",
+        "text": "I already told you: it is not mine.",
+        "pages": 1,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          146,
+          38
+        ],
+        "lineId": "VN0086",
+        "text": "I already told you: it is not mine.",
+        "pages": 1,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-4",
+      "scene": 4,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          156.28125,
+          38
+        ],
+        "lineId": "VN0115",
+        "text": "Bag `PS-14`. Sportswear-store campaign. Date, owner, return.",
+        "pages": 1,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          162,
+          38
+        ],
+        "lineId": "VN0115",
+        "text": "Bag `PS-14`. Sportswear-store campaign. Date, owner, return.",
+        "pages": 1,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-5",
+      "scene": 5,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          188.25,
+          38
+        ],
+        "lineId": "VN0143",
+        "text": "Criminal profile: confident, loves risk, surrounds themselves with fabric.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          192,
+          38
+        ],
+        "lineId": "VN0143",
+        "text": "Criminal profile: confident, loves risk, surrounds themselves with fabric.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-6",
+      "scene": 6,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128.5625,
+          38
+        ],
+        "lineId": "VN0168",
+        "text": "Style: no correlation. Price: none. Owner gender: none. Color: none.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          132,
+          38
+        ],
+        "lineId": "VN0168",
+        "text": "Style: no correlation. Price: none. Owner gender: none. Color: none.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-7",
+      "scene": 7,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0192",
+        "text": "You just treated mess as evidence.",
+        "pages": 1,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0192",
+        "text": "You just treated mess as evidence.",
+        "pages": 1,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-8",
+      "scene": 8,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0218",
+        "text": "The bag contents match the return log. The missing items are not here.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0218",
+        "text": "The bag contents match the return log. The missing items are not here.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-9",
+      "scene": 9,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          129.734375,
+          38
+        ],
+        "lineId": "VN0252",
+        "text": "Administration approved this meeting on two conditions: no names leave this…",
+        "pages": 2,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          135,
+          38
+        ],
+        "lineId": "VN0252",
+        "text": "Administration approved this meeting on two conditions: no names leave this…",
+        "pages": 2,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-10",
+      "scene": 10,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128.5625,
+          38
+        ],
+        "lineId": "VN0272",
+        "text": "The interval repeats: processing, return, then disappearance within…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          132,
+          38
+        ],
+        "lineId": "VN0272",
+        "text": "The interval repeats: processing, return, then disappearance within…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-11",
+      "scene": 11,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          130.046875,
+          38
+        ],
+        "lineId": "VN0290",
+        "text": "If the thief keeps taking things from the top shelves, we can estimate their height…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          134,
+          38
+        ],
+        "lineId": "VN0290",
+        "text": "If the thief keeps taking things from the top shelves, we can estimate their height…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-12",
+      "scene": 12,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0310",
+        "text": "Size: no correlation. Style: none. Owner gender: none…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0310",
+        "text": "Size: no correlation. Style: none. Owner gender: none…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-13",
+      "scene": 13,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0328",
+        "text": "Official confirmation: we have entered the final location of the case.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          129,
+          38
+        ],
+        "lineId": "VN0328",
+        "text": "Official confirmation: we have entered the final location of the case.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-14",
+      "scene": 14,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          162.125,
+          38
+        ],
+        "lineId": "VN0349",
+        "text": "My machine cannot handle this thread: its thickness and conductive coating are…",
+        "pages": 2,
+        "actors": [],
+        "images": [
+          "./assets/guests/hinata/neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          165,
+          38
+        ],
+        "lineId": "VN0349",
+        "text": "My machine cannot handle this thread: its thickness and conductive coating are…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-15",
+      "scene": 15,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          182.953125,
+          38
+        ],
+        "lineId": "VN0371",
+        "text": "Reiji Kurose. Thank you for accepting the invitation…",
+        "pages": 2,
+        "actors": [
+          "kurose"
+        ],
+        "images": [
+          "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          190,
+          38
+        ],
+        "lineId": "VN0371",
+        "text": "Reiji Kurose. Thank you for accepting the invitation…",
+        "pages": 2,
+        "actors": [
+          "kurose"
+        ],
+        "images": [
+          "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-16",
+      "scene": 16,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          138,
+          38
+        ],
+        "lineId": "VN0392",
+        "text": "The match is sufficient. The thread is indeed from an Asterion shipment.",
+        "pages": 1,
+        "actors": [
+          "kurose"
+        ],
+        "images": [
+          "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          142,
+          38
+        ],
+        "lineId": "VN0392",
+        "text": "The match is sufficient. The thread is indeed from an Asterion shipment.",
+        "pages": 1,
+        "actors": [
+          "kurose"
+        ],
+        "images": [
+          "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-17",
+      "scene": 17,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          145.8125,
+          38
+        ],
+        "lineId": "VN0411",
+        "text": "You have temporary access for forty minutes…",
+        "pages": 2,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          153,
+          38
+        ],
+        "lineId": "VN0411",
+        "text": "You have temporary access for forty minutes…",
+        "pages": 2,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-18",
+      "scene": 18,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          142.28125,
+          38
+        ],
+        "lineId": "VN0431",
+        "text": "These are not isolated errors. Whole consecutive groups disappear here.",
+        "pages": 1,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          144,
+          38
+        ],
+        "lineId": "VN0431",
+        "text": "These are not isolated errors. Whole consecutive groups disappear here.",
+        "pages": 1,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-19",
+      "scene": 19,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0450",
+        "text": "We found a serial thief’s collection. Except the trophies are socks.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0450",
+        "text": "We found a serial thief’s collection. Except the trophies are socks.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-20",
+      "scene": 20,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0471",
+        "text": "During the confirmed theft windows, Gen was in another building…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0471",
+        "text": "During the confirmed theft windows, Gen was in another building…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-21",
+      "scene": 21,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0490",
+        "text": "Aoi Kagawa, captain…",
+        "pages": 3,
+        "actors": [],
+        "images": [
+          "./assets/guests/aoi/neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0490",
+        "text": "Aoi Kagawa, captain…",
+        "pages": 3,
+        "actors": [],
+        "images": []
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-22",
+      "scene": 22,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0510",
+        "text": "Same silver thread, same stitch pitch. And both items are outer equipment.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0510",
+        "text": "Same silver thread, same stitch pitch. And both items are outer equipment.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-23",
+      "scene": 23,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          162.84375,
+          38
+        ],
+        "lineId": "VN0529",
+        "text": "I will give you the originals…",
+        "pages": 3,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          165,
+          38
+        ],
+        "lineId": "VN0529",
+        "text": "I will give you the originals…",
+        "pages": 3,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-24",
+      "scene": 24,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0549",
+        "text": "The chain is continuous…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0549",
+        "text": "The chain is continuous…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-25",
+      "scene": 25,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          129.203125,
+          38
+        ],
+        "lineId": "VN0569",
+        "text": "The student chat officially believes seven clubs doing laundry at…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          132,
+          38
+        ],
+        "lineId": "VN0569",
+        "text": "The student chat officially believes seven clubs doing laundry at…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-26",
+      "scene": 26,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0590",
+        "text": "No magic. The tag contains an active microtag with its own identifier.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0590",
+        "text": "No magic. The tag contains an active microtag with its own identifier.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-27",
+      "scene": 27,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          167.5625,
+          38
+        ],
+        "lineId": "VN0609",
+        "text": "The thief struck under the armor…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          170,
+          38
+        ],
+        "lineId": "VN0609",
+        "text": "The thief struck under the armor…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-28",
+      "scene": 28,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0629",
+        "text": "Four owners, four pilot participants…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0629",
+        "text": "Four owners, four pilot participants…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-29",
+      "scene": 29,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          168.421875,
+          38
+        ],
+        "lineId": "VN0648",
+        "text": "New customers? If it is urgent, we start with measurements and confidence…",
+        "pages": 2,
+        "actors": [],
+        "images": [
+          "./assets/guests/kubo-mother/neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          172,
+          38
+        ],
+        "lineId": "VN0648",
+        "text": "New customers? If it is urgent, we start with measurements and confidence…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-30",
+      "scene": 30,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0668",
+        "text": "The first request is twenty-two days before Emi’s report. Then four more…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0668",
+        "text": "The first request is twenty-two days before Emi’s report. Then four more…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-31",
+      "scene": 31,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0688",
+        "text": "That is not our underwear! I repeat: not ours!",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0688",
+        "text": "That is not our underwear! I repeat: not ours!",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-32",
+      "scene": 32,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0709",
+        "text": "The card is active…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0709",
+        "text": "The card is active…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-33",
+      "scene": 33,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0728",
+        "text": "The ribbons turned up. Two underwear sets did not…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          130,
+          38
+        ],
+        "lineId": "VN0728",
+        "text": "The ribbons turned up. Two underwear sets did not…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-34",
+      "scene": 34,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0748",
+        "text": "Same format as the tag from the old gym.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0748",
+        "text": "Same format as the tag from the old gym.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-35",
+      "scene": 35,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0767",
+        "text": "This is either the neatest criminal lair or the worst underwear…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0767",
+        "text": "This is either the neatest criminal lair or the worst underwear…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-36",
+      "scene": 36,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0787",
+        "text": "The missing items and the catalog match without exception…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0787",
+        "text": "The missing items and the catalog match without exception…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-37",
+      "scene": 37,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0807",
+        "text": "I want to hear it without the club paraphrasing it for me.",
+        "pages": 1,
+        "actors": [
+          "emi"
+        ],
+        "images": [
+          "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0807",
+        "text": "I want to hear it without the club paraphrasing it for me.",
+        "pages": 1,
+        "actors": [
+          "emi"
+        ],
+        "images": [
+          "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-38",
+      "scene": 38,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0828",
+        "text": "After Rina leaves the chain, the containers, service passages,…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0828",
+        "text": "After Rina leaves the chain, the containers, service passages,…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-39",
+      "scene": 39,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0847",
+        "text": "We report only what we proved about Rina…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0847",
+        "text": "We report only what we proved about Rina…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-40",
+      "scene": 40,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0867",
+        "text": "All confirmations match. No code was exposed to anyone else.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0867",
+        "text": "All confirmations match. No code was exposed to anyone else.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-41",
+      "scene": 41,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0886",
+        "text": "I still think hiding in a laundry cart would have been thematically perfect.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0886",
+        "text": "I still think hiding in a laundry cart would have been thematically perfect.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-42",
+      "scene": 42,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-43",
+      "scene": 43,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0926",
+        "text": "The college needs a short answer. Not a forty-page technical report.",
+        "pages": 1,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0926",
+        "text": "The college needs a short answer. Not a forty-page technical report.",
+        "pages": 1,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-44",
+      "scene": 44,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0946",
+        "text": "Coincidence one! Opportunity. Coincidence two! Motive…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0946",
+        "text": "Coincidence one! Opportunity. Coincidence two! Motive…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-0",
+      "scene": 0,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          200.234375,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to practice…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          208.000011440772,
+          37.9999990996898
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to practice…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-1",
+      "scene": 1,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0023",
+        "text": "Sit down. Name, club, and when you noticed the loss.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          131.000004456824,
+          37.9999990996898
+        ],
+        "lineId": "VN0023",
+        "text": "Sit down. Name, club, and when you noticed the loss.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-2",
+      "scene": 2,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-3",
+      "scene": 3,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          140.875,
+          38
+        ],
+        "lineId": "VN0086",
+        "text": "I already told you: it is not mine.",
+        "pages": 1,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          146.000004613286,
+          37.9999990996898
+        ],
+        "lineId": "VN0086",
+        "text": "I already told you: it is not mine.",
+        "pages": 1,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-4",
+      "scene": 4,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          156.28125,
+          38
+        ],
+        "lineId": "VN0115",
+        "text": "Bag `PS-14`. Sportswear-store campaign. Date, owner, return.",
+        "pages": 1,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          162.000007870567,
+          37.9999990996898
+        ],
+        "lineId": "VN0115",
+        "text": "Bag `PS-14`. Sportswear-store campaign. Date, owner, return.",
+        "pages": 1,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-5",
+      "scene": 5,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          188.25,
+          38
+        ],
+        "lineId": "VN0143",
+        "text": "Criminal profile: confident, loves risk, surrounds themselves with fabric.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          192.000008183491,
+          37.9999990996898
+        ],
+        "lineId": "VN0143",
+        "text": "Criminal profile: confident, loves risk, surrounds themselves with fabric.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-6",
+      "scene": 6,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128.5625,
+          38
+        ],
+        "lineId": "VN0168",
+        "text": "Style: no correlation. Price: none. Owner gender: none. Color: none.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          132.000007557643,
+          37.9999990996898
+        ],
+        "lineId": "VN0168",
+        "text": "Style: no correlation. Price: none. Owner gender: none. Color: none.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-7",
+      "scene": 7,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0192",
+        "text": "You just treated mess as evidence.",
+        "pages": 1,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0192",
+        "text": "You just treated mess as evidence.",
+        "pages": 1,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-8",
+      "scene": 8,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0218",
+        "text": "The bag contents match the return log. The missing items are not here.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0218",
+        "text": "The bag contents match the return log. The missing items are not here.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-9",
+      "scene": 9,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          129.734375,
+          38
+        ],
+        "lineId": "VN0252",
+        "text": "Administration approved this meeting on two conditions: no names leave this room, and…",
+        "pages": 2,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          135.00000140816,
+          37.9999990996898
+        ],
+        "lineId": "VN0252",
+        "text": "Administration approved this meeting on two conditions: no names leave this room, and…",
+        "pages": 2,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-10",
+      "scene": 10,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128.5625,
+          38
+        ],
+        "lineId": "VN0272",
+        "text": "The interval repeats: processing, return, then disappearance within one or two days.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          132.000007557643,
+          37.9999990996898
+        ],
+        "lineId": "VN0272",
+        "text": "The interval repeats: processing, return, then disappearance within one or two days.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-11",
+      "scene": 11,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          130.046875,
+          38
+        ],
+        "lineId": "VN0290",
+        "text": "If the thief keeps taking things from the top shelves, we can estimate their height…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          133.999998307341,
+          37.9999990996898
+        ],
+        "lineId": "VN0290",
+        "text": "If the thief keeps taking things from the top shelves, we can estimate their height…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-12",
+      "scene": 12,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0310",
+        "text": "Size: no correlation. Style: none. Owner gender: none. Cabinet position: none either.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0310",
+        "text": "Size: no correlation. Style: none. Owner gender: none. Cabinet position: none either.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-13",
+      "scene": 13,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0328",
+        "text": "Official confirmation: we have entered the final location of the case.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          129.000005981156,
+          37.9999990996898
+        ],
+        "lineId": "VN0328",
+        "text": "Official confirmation: we have entered the final location of the case.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-14",
+      "scene": 14,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          162.125,
+          38
+        ],
+        "lineId": "VN0349",
+        "text": "My machine cannot handle this thread: its thickness and conductive coating are…",
+        "pages": 2,
+        "actors": [],
+        "images": [
+          "./assets/guests/hinata/neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          165.000001721084,
+          37.9999990996898
+        ],
+        "lineId": "VN0349",
+        "text": "My machine cannot handle this thread: its thickness and conductive coating are…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-15",
+      "scene": 15,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          182.953125,
+          38
+        ],
+        "lineId": "VN0371",
+        "text": "Reiji Kurose. Thank you for accepting the invitation…",
+        "pages": 2,
+        "actors": [
+          "kurose"
+        ],
+        "images": [
+          "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          190.000001981854,
+          37.9999990996898
+        ],
+        "lineId": "VN0371",
+        "text": "Reiji Kurose. Thank you for accepting the invitation…",
+        "pages": 2,
+        "actors": [
+          "kurose"
+        ],
+        "images": [
+          "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-16",
+      "scene": 16,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          138,
+          38
+        ],
+        "lineId": "VN0392",
+        "text": "The match is sufficient. The thread is indeed from an Asterion shipment.",
+        "pages": 1,
+        "actors": [
+          "kurose"
+        ],
+        "images": [
+          "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          142.000007661951,
+          37.9999990996898
+        ],
+        "lineId": "VN0392",
+        "text": "The match is sufficient. The thread is indeed from an Asterion shipment.",
+        "pages": 1,
+        "actors": [
+          "kurose"
+        ],
+        "images": [
+          "./assets/characters/kurose/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-17",
+      "scene": 17,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          145.8125,
+          38
+        ],
+        "lineId": "VN0411",
+        "text": "You have temporary access for forty minutes…",
+        "pages": 2,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          153.000010867077,
+          37.9999990996898
+        ],
+        "lineId": "VN0411",
+        "text": "You have temporary access for forty minutes…",
+        "pages": 2,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-18",
+      "scene": 18,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          142.28125,
+          38
+        ],
+        "lineId": "VN0431",
+        "text": "These are not isolated errors. Whole consecutive groups disappear here.",
+        "pages": 1,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          143.999998411649,
+          37.9999990996898
+        ],
+        "lineId": "VN0431",
+        "text": "These are not isolated errors. Whole consecutive groups disappear here.",
+        "pages": 1,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-19",
+      "scene": 19,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0450",
+        "text": "We found a serial thief’s collection. Except the trophies are socks.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0450",
+        "text": "We found a serial thief’s collection. Except the trophies are socks.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-20",
+      "scene": 20,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0471",
+        "text": "During the confirmed theft windows, Gen was in another building…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0471",
+        "text": "During the confirmed theft windows, Gen was in another building…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-21",
+      "scene": 21,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0490",
+        "text": "Aoi Kagawa, captain…",
+        "pages": 3,
+        "actors": [],
+        "images": [
+          "./assets/guests/aoi/neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0490",
+        "text": "Aoi Kagawa, captain…",
+        "pages": 3,
+        "actors": [],
+        "images": []
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-22",
+      "scene": 22,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0510",
+        "text": "Same silver thread, same stitch pitch. And both items are outer equipment.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0510",
+        "text": "Same silver thread, same stitch pitch. And both items are outer equipment.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-23",
+      "scene": 23,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          162.84375,
+          38
+        ],
+        "lineId": "VN0529",
+        "text": "I will give you the originals…",
+        "pages": 3,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          165.000001721084,
+          37.9999990996898
+        ],
+        "lineId": "VN0529",
+        "text": "I will give you the originals…",
+        "pages": 3,
+        "actors": [
+          "kentaro"
+        ],
+        "images": [
+          "./assets/characters/kentaro/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-24",
+      "scene": 24,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0549",
+        "text": "The chain is continuous…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0549",
+        "text": "The chain is continuous…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-25",
+      "scene": 25,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          129.203125,
+          38
+        ],
+        "lineId": "VN0569",
+        "text": "The student chat officially believes seven clubs doing laundry at…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          132.000007557643,
+          37.9999990996898
+        ],
+        "lineId": "VN0569",
+        "text": "The student chat officially believes seven clubs doing laundry at…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-smile.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-26",
+      "scene": 26,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0590",
+        "text": "No magic. The tag contains an active microtag with its own identifier.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0590",
+        "text": "No magic. The tag contains an active microtag with its own identifier.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-27",
+      "scene": 27,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          167.5625,
+          38
+        ],
+        "lineId": "VN0609",
+        "text": "The thief struck under the armor…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          170.000001773238,
+          37.9999990996898
+        ],
+        "lineId": "VN0609",
+        "text": "The thief struck under the armor…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-28",
+      "scene": 28,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0629",
+        "text": "Four owners, four pilot participants. A random sample is now effectively ruled out.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0629",
+        "text": "Four owners, four pilot participants. A random sample is now effectively ruled out.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-29",
+      "scene": 29,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          168.421875,
+          38
+        ],
+        "lineId": "VN0648",
+        "text": "New customers? If it is urgent, we start with measurements and confidence…",
+        "pages": 2,
+        "actors": [],
+        "images": [
+          "./assets/guests/kubo-mother/neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          172.000007974875,
+          37.9999990996898
+        ],
+        "lineId": "VN0648",
+        "text": "New customers? If it is urgent, we start with measurements and confidence…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-30",
+      "scene": 30,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0668",
+        "text": "The first request is twenty-two days before Emi’s report. Then four more…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0668",
+        "text": "The first request is twenty-two days before Emi’s report. Then four more…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-31",
+      "scene": 31,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0688",
+        "text": "That is not our underwear! I repeat: not ours!",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0688",
+        "text": "That is not our underwear! I repeat: not ours!",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-32",
+      "scene": 32,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0709",
+        "text": "The card is active. Its log shows entries on the same nights when anonymous leads appeared.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0709",
+        "text": "The card is active. Its log shows entries on the same nights when anonymous leads appeared.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-33",
+      "scene": 33,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0728",
+        "text": "The ribbons turned up. Two underwear sets did not…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          130.000001356006,
+          37.9999990996898
+        ],
+        "lineId": "VN0728",
+        "text": "The ribbons turned up. Two underwear sets did not…",
+        "pages": 2,
+        "actors": [],
+        "images": []
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-34",
+      "scene": 34,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0748",
+        "text": "Same format as the tag from the old gym.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0748",
+        "text": "Same format as the tag from the old gym.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-35",
+      "scene": 35,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0767",
+        "text": "This is either the neatest criminal lair or the worst underwear boutique in the world.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0767",
+        "text": "This is either the neatest criminal lair or the worst underwear boutique in the world.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-36",
+      "scene": 36,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0787",
+        "text": "The missing items and the catalog match without exception…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0787",
+        "text": "The missing items and the catalog match without exception…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-37",
+      "scene": 37,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0807",
+        "text": "I want to hear it without the club paraphrasing it for me.",
+        "pages": 1,
+        "actors": [
+          "emi"
+        ],
+        "images": [
+          "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0807",
+        "text": "I want to hear it without the club paraphrasing it for me.",
+        "pages": 1,
+        "actors": [
+          "emi"
+        ],
+        "images": [
+          "./assets/characters/emi/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-38",
+      "scene": 38,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0828",
+        "text": "After Rina leaves the chain, the containers, service passages,…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0828",
+        "text": "After Rina leaves the chain, the containers, service passages,…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-39",
+      "scene": 39,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0847",
+        "text": "We report only what we proved about Rina…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0847",
+        "text": "We report only what we proved about Rina…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-40",
+      "scene": 40,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0867",
+        "text": "All confirmations match. No code was exposed to anyone else.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0867",
+        "text": "All confirmations match. No code was exposed to anyone else.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-41",
+      "scene": 41,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0886",
+        "text": "I still think hiding in a laundry cart would have been thematically perfect.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0886",
+        "text": "I still think hiding in a laundry cart would have been thematically perfect.",
+        "pages": 1,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-42",
+      "scene": 42,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-43",
+      "scene": 43,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0926",
+        "text": "The college needs a short answer. Not a forty-page technical report.",
+        "pages": 1,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0926",
+        "text": "The college needs a short answer. Not a forty-page technical report.",
+        "pages": 1,
+        "actors": [
+          "mayu"
+        ],
+        "images": [
+          "./assets/characters/mayu/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-44",
+      "scene": 44,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0946",
+        "text": "Coincidence one! Opportunity. Coincidence two! Motive. Coincidence three!…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0946",
+        "text": "Coincidence one! Opportunity. Coincidence two! Motive. Coincidence three!…",
+        "pages": 2,
+        "actors": [
+          "ayuki"
+        ],
+        "images": [
+          "./assets/characters/ayuki/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    }
+  ],
+  "errors": []
+}

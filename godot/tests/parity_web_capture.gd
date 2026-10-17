@@ -30,7 +30,13 @@ func _create_menu(locale: String) -> void:
 
 func _dispatch(arguments: Array) -> void:
 	var request: Dictionary = JSON.parse_string(str(arguments[0]))
+	var extra := {}
 	match str(request.action):
+		"font_metrics":
+			var font := preload("res://scripts/ui_fonts.gd").serif()
+			extra.fontMetrics = {}
+			for font_size in [13, 14, 16, 17]:
+				extra.fontMetrics[str(font_size)] = font.get_string_size(str(request.text), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
 		"snapshot": pass
 		"reset":
 			var locale: String = menu.preferences.locale
@@ -49,6 +55,10 @@ func _dispatch(arguments: Array) -> void:
 			menu._open_story()
 			menu.story_screen._refresh()
 		"advance": menu.story_screen._next()
+		"text_scale":
+			menu.story_screen._show_config()
+			menu.story_screen.config_text_buttons[str(request.scale)].emit_signal("pressed")
+			menu.story_screen._close_overlay()
 		"locale": menu.preferences.set_locale(str(request.locale))
 		"match3":
 			menu.match3_session.save.completed = []
@@ -66,10 +76,10 @@ func _dispatch(arguments: Array) -> void:
 			assert(false, "Unknown parity fixture action: " + str(request.action))
 	await get_tree().process_frame
 	await get_tree().process_frame
-	_publish(str(request.get("id", "action")))
+	_publish(str(request.get("id", "action")), extra)
 
 
-func _publish(request_id: String) -> void:
+func _publish(request_id: String, extra: Dictionary = {}) -> void:
 	var records: Array = []
 	_collect(menu, records)
 	var result := {"id": request_id, "controls": records, "scene": menu.session.state.scene,
@@ -79,6 +89,7 @@ func _publish(request_id: String) -> void:
 		"build": _build, "engine": Engine.get_version_info().string,
 		"viewport": [get_viewport().get_visible_rect().size.x, get_viewport().get_visible_rect().size.y],
 		"window": [get_window().size.x, get_window().size.y]}
+	result.merge(extra)
 	if is_instance_valid(menu.story_screen):
 		result.storyLine = menu.session.current_line()
 		result.dialogue = {"pages": menu.story_screen._dialogue_pages,

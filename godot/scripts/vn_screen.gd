@@ -1814,6 +1814,10 @@ func _select_text_scale(scale: String, relayout: bool = true) -> void:
 func _dialogue_font_size() -> int:
 	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	var is_web := OS.has_feature("web")
+	# Gelasio's Latin advances match Georgia at the authored CSS size. The
+	# smaller Cyrillic fallback calibration must not shrink English as well.
+	if is_web and preferences.locale == "en":
+		return (16 if compact_width else 19) if _text_scale == "large" else (14 if compact_width else 17)
 	# Calibrate the native Georgia and bundled Web serif separately against the source CSS size.
 	if compact_width:
 		if _text_scale == "large":

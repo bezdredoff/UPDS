@@ -1,0 +1,410 @@
+{
+  "sourceHash": "6584f3a913f4b79a3c64cfd6471980a541c5e37ed0e79278ac44247b73abd69f",
+  "textScale": "large",
+  "coverage": "Scene first visible line; seeded normal saves, choice A; not a natural full playthrough or ending outcome acceptance",
+  "records": [
+    {
+      "id": "en-320x568-scene-0-large",
+      "scene": 0,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          175.09375,
+          34
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          176.999987023617,
+          33.9999998629264
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-320x568-scene-2-large",
+      "scene": 2,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-42-large",
+      "scene": 42,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-0-large",
+      "scene": 0,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          200.234375,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          202,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-2-large",
+      "scene": 2,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-42-large",
+      "scene": 42,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-0-large",
+      "scene": 0,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          200.234375,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          202.0000082878,
+          37.9999990996898
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-2-large",
+      "scene": 2,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-42-large",
+      "scene": 42,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    }
+  ],
+  "errors": []
+}

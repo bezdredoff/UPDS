@@ -166,3 +166,5 @@ PR #467 исправил повторное умножение текстуры 
 - 2026-10-17 Web haptics: исправлен navigator.vibrate gate и атомарная передача паттернов; экспортированы все 14 production cues вместо пяти. 378 browser comparisons RU/BE/EN (supported/absent/throws, enabled/disabled/re-enabled), errors=0; 840 Vitest tests и Godot smoke проходят. Физические устройства/focus/audio acceptance открыты. docs/reviews/PG003AO_WEB_HAPTICS_2026-10-17_RU.md
 
 - 2026-10-17 story entries: 405 states (45 scenes × RU/BE/EN × 3 viewport), runtime errors=0; line IDs/actor sets совпали, но 31 first-page text и 20 page-count differences остаются открытыми. Nameplate: убрана fixed 200px, исправлены compact X/padding/emotion size; 9 short badges совпадают <0.02px, 15/27 long-caption geometry gaps ещё открыты. docs/reviews/PG003AO_STORY_ENTRIES_2026-10-17_RU.md
+
+- 2026-10-17 EN serif: Gelasio использует source CSS sizes 17/14 normal, 19/16 large вместо Cyrillic calibration. В 135 EN entry states page counts 135/135 (было 124), first-page text 134/135 (было 122); large 9/9, errors=0. VN0946 320px boundary и UI sans/прочие gaps открыты. docs/reviews/PG003AO_ENGLISH_SERIF_2026-10-17_RU.md
