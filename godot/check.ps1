@@ -107,3 +107,5 @@ Invoke-GodotCheck -Stage 'Match-3 campaign screen smoke test' -ExpectedOutput 'U
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_campaign_screen_smoke.gd', '--quit-after', '3000')
 Invoke-GodotCheck -Stage 'Match-3 runtime parity test' -ExpectedOutput 'UPDS Godot Match-3 runtime parity passed (8 TypeScript oracle scenarios).' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_runtime_parity_smoke.gd', '--quit-after', '120')
+Invoke-GodotCheck -Stage 'Ending lifecycle smoke test' -ExpectedOutput 'UPDS Godot ending lifecycle smoke passed.' `
+	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/ending_lifecycle_smoke.gd', '--quit-after', '180')

@@ -9,6 +9,6 @@ const bundled = esbuild.buildSync({
 const runtime = { exports: {} };
 require('node:vm').runInNewContext(bundled.outputFiles[0].text, { module: runtime, exports: runtime.exports });
 const { audioCueNames, getCueDefinition, getMusicTheme } = runtime.exports;
-const definitions = { menu: getMusicTheme('menu'), vn: getMusicTheme('vn') };
+const definitions = { menu: getMusicTheme('menu'), vn: getMusicTheme('vn'), ending: getMusicTheme('ending') };
 for (const cue of audioCueNames) definitions[cue] = getCueDefinition(cue);
 fs.writeFileSync(path.join(root, 'godot/data/menu_audio.json'), `${JSON.stringify(definitions, null, 2)}\n`);

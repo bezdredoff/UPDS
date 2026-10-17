@@ -235,6 +235,68 @@
       }
     ]
   },
+  "ending": {
+    "bpm": 68,
+    "beatsPerLoop": 16,
+    "tones": [
+      {
+        "beat": 0,
+        "frequency": 220,
+        "durationBeats": 7.6,
+        "gain": 0.015588457268119896,
+        "wave": "sine"
+      },
+      {
+        "beat": 0,
+        "frequency": 277.18,
+        "durationBeats": 7.6,
+        "gain": 0.015588457268119896,
+        "wave": "sine"
+      },
+      {
+        "beat": 0,
+        "frequency": 329.63,
+        "durationBeats": 7.6,
+        "gain": 0.015588457268119896,
+        "wave": "sine"
+      },
+      {
+        "beat": 8,
+        "frequency": 196,
+        "durationBeats": 7.6,
+        "gain": 0.015588457268119896,
+        "wave": "sine"
+      },
+      {
+        "beat": 8,
+        "frequency": 246.94,
+        "durationBeats": 7.6,
+        "gain": 0.015588457268119896,
+        "wave": "sine"
+      },
+      {
+        "beat": 8,
+        "frequency": 329.63,
+        "durationBeats": 7.6,
+        "gain": 0.015588457268119896,
+        "wave": "sine"
+      },
+      {
+        "beat": 3,
+        "frequency": 659.25,
+        "durationBeats": 1.4,
+        "gain": 0.012,
+        "wave": "sine"
+      },
+      {
+        "beat": 11,
+        "frequency": 739.99,
+        "durationBeats": 1.8,
+        "gain": 0.012,
+        "wave": "sine"
+      }
+    ]
+  },
   "uiClick": {
     "frequencies": [
       520

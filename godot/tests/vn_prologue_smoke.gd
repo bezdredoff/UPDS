@@ -909,7 +909,7 @@ func _run() -> void:
 	assert(not session.at_port_boundary())
 	assert(session.advance() and session.ending_result().endingId == "ENDING_B_CASE_CLOSED")
 	assert(screen.ending_panel.visible and screen.ending_heading.text == "The Thief Is Caught")
-	assert(not screen.get_node("Vignette").visible and screen.background_rect.material == null)
+	assert(not screen.get_node("Vignette").visible and not screen.background_rect.visible and not screen.nameplate.visible)
 	var restored_ending_route := Session.new(session.store)
 	restored_ending_route.reload()
 	assert(restored_ending_route.ending_result().endingId == "ENDING_B_CASE_CLOSED")
@@ -1385,12 +1385,14 @@ func _full_truth_outcomes() -> void:
 	root.add_child(result_screen)
 	await process_frame
 	assert(result_screen.ending_panel.visible)
-	assert(not result_screen.get_node("Vignette").visible and result_screen.background_rect.material == null)
+	assert(not result_screen.get_node("Vignette").visible and not result_screen.background_rect.visible and not result_screen.nameplate.visible)
 	assert(result_screen.ending_heading.text == "Под прачечной")
 	assert(result_screen.ending_summary.text.contains("10 / 3 / 4"))
 	var restored := Session.new(success.store)
 	restored.reload()
 	assert(restored.ending_result().endingId == "ENDING_A_FULL_TRUTH")
+	assert(restored.resume() and restored.ending_result().endingId == "ENDING_A_FULL_TRUTH",
+		"A saved ending boundary must resume without trying to read a missing hidden line")
 	result_screen.queue_free()
 	await process_frame
 	DirAccess.remove_absolute(preferences_path)
@@ -1433,7 +1435,7 @@ func _perfect_suspect_ending() -> void:
 	await process_frame
 	assert(screen.ending_panel.visible)
 	assert(screen.ending_heading.text == "Fame Instead of Truth")
-	assert(not screen.get_node("Vignette").visible and screen.background_rect.material == null)
+	assert(not screen.get_node("Vignette").visible and not screen.background_rect.visible and not screen.nameplate.visible)
 	assert(screen.ending_summary.text.contains("Give the college a suspect it will accept"))
 	var restored_ending := Session.new(session.store)
 	restored_ending.reload()

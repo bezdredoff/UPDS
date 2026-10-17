@@ -1,6 +1,7 @@
 extends PanelContainer
 
 signal back_requested
+signal main_menu_requested
 
 const MenuCopy = preload("res://scripts/menu_copy.gd")
 const PhoneFrame = preload("res://scripts/phone_frame.gd")
@@ -42,6 +43,11 @@ var pwa_status: Label
 var pwa_meta: Label
 var pwa_install: Button
 var pwa_check: Button
+var navigation_copy: Dictionary = {}
+var navigation_label: Label
+var navigation_title: Label
+var navigation_help: Label
+var main_menu_button: Button
 
 
 func _ready() -> void:
@@ -235,6 +241,7 @@ func _ready() -> void:
 	mobile_note_copy = _label(mobile_note_content, 400, 10)
 	mobile_note_copy.name = "MobileContractCopy"
 	mobile_note_copy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	if not navigation_copy.is_empty(): _build_navigation(content)
 	error_label = _label(content, 700, 12)
 	error_label.add_theme_color_override("font_color", Color("#ac3f59"))
 	preferences.locale_changed.connect(_refresh)
@@ -242,6 +249,70 @@ func _ready() -> void:
 	resized.connect(_layout_toggle_cards)
 	_refresh(preferences.locale)
 	back.grab_focus()
+
+
+func _build_navigation(content: VBoxContainer) -> void:
+	var spacing := MarginContainer.new()
+	spacing.add_theme_constant_override("margin_top", 16)
+	content.add_child(spacing)
+	var section := PanelContainer.new()
+	section.name = "Navigation"
+	var divider := StyleBoxFlat.new()
+	divider.bg_color = Color.TRANSPARENT
+	divider.border_color = Color("#d9c9aa")
+	divider.border_width_top = 1
+	divider.content_margin_top = 13
+	section.add_theme_stylebox_override("panel", divider)
+	spacing.add_child(section)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 7)
+	section.add_child(column)
+	navigation_label = _label(column, 950, 8)
+	navigation_label.name = "NavigationLabel"
+	navigation_label.add_theme_color_override("font_color", Color("#927b55"))
+	main_menu_button = Button.new()
+	main_menu_button.name = "MainMenu"
+	main_menu_button.custom_minimum_size.y = 48
+	var surface := StyleBoxFlat.new()
+	surface.bg_color = Color("#f8f2e5")
+	surface.border_color = Color("#cbbd9f")
+	surface.set_border_width_all(1)
+	surface.set_corner_radius_all(10)
+	main_menu_button.add_theme_stylebox_override("normal", surface)
+	main_menu_button.add_theme_stylebox_override("hover", surface)
+	main_menu_button.add_theme_stylebox_override("pressed", surface)
+	column.add_child(main_menu_button)
+	main_menu_button.pressed.connect(func() -> void: main_menu_requested.emit())
+	var row := HBoxContainer.new()
+	row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	row.offset_left = 12
+	row.offset_right = -12
+	row.offset_top = 9
+	row.offset_bottom = -9
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation", 9)
+	main_menu_button.add_child(row)
+	var icon := TextureRect.new()
+	icon.texture = preload("res://assets/ui/icon_menu.svg")
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.custom_minimum_size = Vector2(28, 22)
+	icon.modulate.a = 0.8
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(icon)
+	var labels := VBoxContainer.new()
+	labels.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	labels.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	labels.add_theme_constant_override("separation", 2)
+	row.add_child(labels)
+	navigation_title = _label(labels, 700, 11)
+	navigation_title.name = "MenuTitle"
+	navigation_title.add_theme_color_override("font_color", Color("#27364d"))
+	navigation_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	navigation_help = _label(labels, 400, 8)
+	navigation_help.name = "MenuHelp"
+	navigation_help.add_theme_color_override("font_color", Color("#837868"))
+	navigation_help.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 func _build_header(content: VBoxContainer) -> void:
@@ -627,6 +698,12 @@ func _language_copy_minimum(compact: bool) -> void:
 
 
 func _refresh(locale: String) -> void:
+	if is_instance_valid(main_menu_button):
+		var copy: Dictionary = navigation_copy[locale]
+		navigation_label.text = str(copy.label)
+		navigation_title.text = str(copy.title)
+		navigation_help.text = str(copy.safe)
+		main_menu_button.tooltip_text = str(copy.title)
 	eyebrow.text = "НАЛАДЫ · СІСТЭМА" if locale == "be" else "CONFIG · SYSTEM"
 	title.text = MenuCopy.text("settings", locale)
 	language_label.text = MenuCopy.text("language", locale)

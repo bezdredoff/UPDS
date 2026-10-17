@@ -167,8 +167,8 @@ func _open_story() -> void:
 	story_screen.match3_requested.connect(_handle_match3_request)
 	story_screen.settings_requested.connect(_open_settings)
 	$Content.hide()
-	add_child(story_screen)
 	audio_runtime.set_scene("vn")
+	add_child(story_screen)
 
 
 func _reset_progress_from_story() -> void:
@@ -276,13 +276,16 @@ func _close_campaign() -> void:
 
 
 func _close_story() -> void:
+	var from_ending: bool = not story_screen.session.ending_result().is_empty()
 	remove_child(story_screen)
 	story_screen.queue_free()
 	story_screen = null
 	audio_runtime.set_scene("menu")
 	$Content.show()
 	_update_continue()
-	if not $Content/Actions/Continue.disabled:
+	if from_ending:
+		get_viewport().gui_release_focus()
+	elif not $Content/Actions/Continue.disabled:
 		$Content/Actions/Continue.grab_focus()
 	else:
 		$Content/Actions/NewGame.grab_focus()
@@ -324,6 +327,11 @@ func _open_settings(from_match3: bool = false, from_campaign: bool = false) -> v
 	settings_screen.name = "SettingsScreen"
 	settings_screen.preferences = preferences
 	settings_screen.audio_runtime = audio_runtime
+	if _settings_from_story:
+		settings_screen.navigation_copy = story_screen.settings_navigation_copy()
+		settings_screen.main_menu_requested.connect(func() -> void:
+			_close_settings()
+			_close_story())
 	settings_screen.back_requested.connect(_close_settings)
 	add_child(settings_screen)
 
@@ -334,7 +342,7 @@ func _close_settings() -> void:
 	settings_screen = null
 	if _settings_from_story and is_instance_valid(story_screen):
 		story_screen.show()
-		story_screen.settings_button.grab_focus()
+		story_screen.restore_settings_focus()
 	elif _settings_from_match3 and is_instance_valid(match3_screen):
 		match3_screen.show()
 		match3_screen.settings_button.grab_focus()
