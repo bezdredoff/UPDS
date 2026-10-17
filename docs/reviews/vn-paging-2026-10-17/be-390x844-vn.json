@@ -1,0 +1,1044 @@
+{
+  "id": "be-390x844-vn",
+  "native": {
+    "build": {
+      "fixture": "res://tests/parity_web_capture.tscn",
+      "generatedAt": "2026-10-17T03:29:13.133Z",
+      "sourceCommit": "2cd07f8a0a92553b03110261e88bcdcd25a39fe5",
+      "sourceHash": "a085083017e2070526af6220260e79b6aee05064be00a44f3b44538288f695a7",
+      "sourceTreeClean": false
+    },
+    "controls": [
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 2,
+        "path": ".",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Backdrop",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "ColorRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Background",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Wash",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/BackgroundFill",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/BackgroundFit",
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/Stage",
+        "rect": [
+          0,
+          60,
+          390,
+          522.359985351562
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/Stage/miku",
+        "rect": [
+          -28.1521759033203,
+          253.841217041016,
+          446.304321289062,
+          669.45654296875
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          2
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/HeaderBackground",
+        "rect": [
+          0,
+          0,
+          390,
+          60
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          116,
+          44
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25",
+        "rect": [
+          8,
+          7,
+          374,
+          44
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          16,
+          8
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier",
+        "rect": [
+          8,
+          7,
+          274,
+          44
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          62,
+          26
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26",
+        "rect": [
+          8,
+          7,
+          274,
+          44
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          12,
+          26
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@MarginContainer@27",
+        "rect": [
+          8,
+          7,
+          224,
+          44
+        ],
+        "type": "MarginContainer"
+      },
+      {
+        "minimum": [
+          1,
+          26
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@MarginContainer@27/@VBoxContainer@28",
+        "rect": [
+          19,
+          7,
+          213,
+          44
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@MarginContainer@27/@VBoxContainer@28/@Label@29",
+        "rect": [
+          19,
+          16,
+          213,
+          10
+        ],
+        "text": "СПРАВА 001 · СЦЭНА 00",
+        "type": "Label"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          1,
+          16
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@MarginContainer@27/@VBoxContainer@28/@Label@30",
+        "rect": [
+          19,
+          26,
+          213,
+          16
+        ],
+        "text": "Клуб, якога амаль няма",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@TextureRect@31",
+        "rect": [
+          238,
+          7,
+          22,
+          44
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@PanelContainer@32",
+        "rect": [
+          266,
+          21,
+          16,
+          16
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@PanelContainer@32/@Label@33",
+        "rect": [
+          266,
+          24,
+          16,
+          10
+        ],
+        "text": "0",
+        "type": "Label"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          2,
+          2
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/@Button@34",
+        "rect": [
+          288,
+          7,
+          44,
+          44
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/@Button@34/@TextureRect@35",
+        "rect": [
+          299,
+          18,
+          22,
+          22
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          2,
+          2
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/@Button@36",
+        "rect": [
+          338,
+          7,
+          44,
+          44
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/@Button@36/@TextureRect@37",
+        "rect": [
+          349,
+          18,
+          22,
+          22
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          46,
+          127
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@PanelContainer@38",
+        "rect": [
+          12,
+          592.359985351562,
+          366,
+          168.679992675781
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          2,
+          68
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@PanelContainer@38/@VBoxContainer@39",
+        "rect": [
+          34,
+          626.359985351562,
+          322,
+          109.679992675781
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          2,
+          68
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@PanelContainer@38/@VBoxContainer@39/@VBoxContainer@50",
+        "rect": [
+          34,
+          626.359985351562,
+          322,
+          68
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@PanelContainer@38/@VBoxContainer@39/@VBoxContainer@50/@Control@49",
+        "rect": [
+          34,
+          626.359985351562,
+          322,
+          0
+        ],
+        "type": "Control"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          2,
+          15
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@PanelContainer@38/@VBoxContainer@39/@VBoxContainer@50/Dialogue",
+        "rect": [
+          34,
+          626.359985351562,
+          322,
+          67.2799987792969
+        ],
+        "text": "Пасля званка кампус японскага каледжа Сэйран не сціхаў…",
+        "type": "RichTextLabel"
+      },
+      {
+        "minimum": [
+          188,
+          29
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/Nameplate",
+        "rect": [
+          32,
+          563.359985351562,
+          200,
+          38
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          164,
+          17
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/Nameplate/@HBoxContainer@40",
+        "rect": [
+          44,
+          569.359985351562,
+          176,
+          26
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 13,
+        "minimum": [
+          97,
+          17
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/Nameplate/@HBoxContainer@40/@Label@41",
+        "rect": [
+          44,
+          573.359985351562,
+          97,
+          17
+        ],
+        "text": "МІКУ (ДУМКІ)",
+        "type": "Label"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          60,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/Nameplate/@HBoxContainer@40/@Label@42",
+        "rect": [
+          148,
+          577.359985351562,
+          60,
+          10
+        ],
+        "text": "АСЦЯРОЖНАЯ",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          55,
+          18
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/DialogueProgress",
+        "rect": [
+          307,
+          731.039978027344,
+          55,
+          18
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/DialogueProgress/@Panel@81",
+        "rect": [
+          307,
+          736.039978027344,
+          7,
+          7
+        ],
+        "type": "Panel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/DialogueProgress/@Panel@82",
+        "rect": [
+          318,
+          736.039978027344,
+          7,
+          7
+        ],
+        "type": "Panel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/DialogueProgress/@Panel@83",
+        "rect": [
+          329,
+          736.039978027344,
+          7,
+          7
+        ],
+        "type": "Panel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/DialogueProgress/@Control@84",
+        "rect": [
+          340,
+          731.039978027344,
+          5,
+          18
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/DialogueProgress/AdvanceCue",
+        "rect": [
+          349,
+          732.159973144531,
+          13,
+          18
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          61,
+          62
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls",
+        "rect": [
+          0,
+          768.039978027344,
+          390,
+          75.9600219726562
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          41,
+          50
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56",
+        "rect": [
+          10,
+          774.039978027344,
+          370,
+          63.9600219726562
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          8,
+          8
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@57",
+        "rect": [
+          10,
+          774.039978027344,
+          87,
+          63
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          19,
+          29
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@57/@VBoxContainer@85",
+        "rect": [
+          10,
+          774.039978027344,
+          87,
+          63
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@57/@VBoxContainer@85/@TextureRect@86",
+        "rect": [
+          44,
+          791.039978027344,
+          19,
+          19
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@57/@VBoxContainer@85/@Label@87",
+        "rect": [
+          10,
+          810.039978027344,
+          87,
+          10
+        ],
+        "text": "ПРАПУСЦІЦЬ",
+        "type": "Label"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          4,
+          4
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@61",
+        "rect": [
+          104,
+          774.039978027344,
+          87,
+          63
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          19,
+          29
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@61/@VBoxContainer@88",
+        "rect": [
+          104,
+          774.039978027344,
+          87,
+          63
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@61/@VBoxContainer@88/@TextureRect@89",
+        "rect": [
+          138,
+          791.039978027344,
+          19,
+          19
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@61/@VBoxContainer@88/@Label@90",
+        "rect": [
+          104,
+          810.039978027344,
+          87,
+          10
+        ],
+        "text": "АЎТА",
+        "type": "Label"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          4,
+          4
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@65",
+        "rect": [
+          198,
+          774.039978027344,
+          87,
+          63
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          19,
+          29
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@65/@VBoxContainer@91",
+        "rect": [
+          198,
+          774.039978027344,
+          87,
+          63
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@65/@VBoxContainer@91/@TextureRect@92",
+        "rect": [
+          232,
+          791.039978027344,
+          19,
+          19
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@65/@VBoxContainer@91/@Label@93",
+        "rect": [
+          198,
+          810.039978027344,
+          87,
+          10
+        ],
+        "text": "ЗАХАВАЦЬ",
+        "type": "Label"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          4,
+          4
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@69",
+        "rect": [
+          292,
+          774.039978027344,
+          88,
+          63
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          19,
+          29
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@69/@VBoxContainer@94",
+        "rect": [
+          292,
+          774.039978027344,
+          88,
+          63
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@69/@VBoxContainer@94/@TextureRect@95",
+        "rect": [
+          326,
+          791.039978027344,
+          19,
+          19
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@69/@VBoxContainer@94/@Label@96",
+        "rect": [
+          292,
+          810.039978027344,
+          88,
+          10
+        ],
+        "text": "ЗАГРУЗІЦЬ",
+        "type": "Label"
+      }
+    ],
+    "dialogue": {
+      "displayed": "Пасля званка кампус японскага каледжа Сэйран не сціхаў…",
+      "pageIndex": 0,
+      "pages": [
+        "Пасля званка кампус японскага каледжа Сэйран не сціхаў:",
+        "спартыўныя клубы разыходзіліся на трэніроўкі.",
+        "А я шукала дэтэктыўны клуб."
+      ]
+    },
+    "engine": "4.7.2-stable (official)",
+    "id": "1792207823178-0.9826246712946893",
+    "line": 0,
+    "locale": "be",
+    "scene": 0,
+    "viewport": [
+      390,
+      844
+    ],
+    "window": [
+      390,
+      844
+    ]
+  },
+  "web": [
+    {
+      "selector": ".phone",
+      "text": "\n    \n      \n      \n    \n    Пакой дэтэктыўнага клуба\n    \n    \n    \n      \n        СПРАВА 001 · СЦЭНА 00Клуб, якога амаль няма\n        0\n      \n      \n        Гісторыя дыялогу\n        Налады\n      \n    \n    \n      \n      \n    \n    \n    \n      МІКУ (ДУМКІ)АСЦЯРОЖНАЯ\n      \n        Пасля званка кампус японскага каледжа Сэйран не сціхаў…\n        VN0001 · 1/3\n         \n        ▼\n      \n    \n    \n      ПРАПУСЦІЦЬ\n      АЎТА\n      ЗАХАВАЦЬ\n      ЗАГРУЗІЦЬ\n    \n    \n  ",
+      "rect": [
+        0,
+        0,
+        390,
+        844
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".app-header",
+      "text": "\n      \n        СПРАВА 001 · СЦЭНА 00Клуб, якога амаль няма\n        0\n      \n      \n        Гісторыя дыялогу\n        Налады\n      \n    ",
+      "rect": [
+        0,
+        0,
+        390,
+        60
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(255, 250, 240)"
+    },
+    {
+      "selector": ".vn-case-pill",
+      "text": "\n        СПРАВА 001 · СЦЭНА 00Клуб, якога амаль няма\n        0\n      ",
+      "rect": [
+        9,
+        7,
+        272,
+        44
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(255, 250, 240)"
+    },
+    {
+      "selector": ".stage",
+      "text": "\n      \n      \n    \n    ",
+      "rect": [
+        0,
+        60,
+        390,
+        522.375
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".dialogue",
+      "text": "\n        Пасля званка кампус японскага каледжа Сэйран не сціхаў…\n        VN0001 · 1/3\n         \n        ▼\n      ",
+      "rect": [
+        12,
+        592.375,
+        366,
+        168.671875
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(39, 35, 60)"
+    },
+    {
+      "selector": ".dialogue-text",
+      "text": "Пасля званка кампус японскага каледжа Сэйран не сціхаў…",
+      "rect": [
+        34,
+        626.375,
+        322,
+        67.265625
+      ],
+      "page": "1",
+      "pages": "3",
+      "font": "Georgia, serif",
+      "fontSize": "17px",
+      "lineHeight": "24.14px",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(39, 35, 60)"
+    },
+    {
+      "selector": ".vn-controls",
+      "text": "\n      ПРАПУСЦІЦЬ\n      АЎТА\n      ЗАХАВАЦЬ\n      ЗАГРУЗІЦЬ\n    ",
+      "rect": [
+        0,
+        768.046875,
+        390,
+        75.953125
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    }
+  ],
+  "pixelMetrics": null,
+  "contractErrors": [],
+  "errors": []
+}

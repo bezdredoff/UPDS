@@ -55,6 +55,8 @@ Invoke-GodotCheck -Stage 'Save storage script parse' -Arguments @('--headless', 
 Invoke-GodotCheck -Stage 'Campaign store script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/campaign_store.gd')
 Invoke-GodotCheck -Stage 'Story session script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/story_session.gd')
 Invoke-GodotCheck -Stage 'VN screen script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/vn_screen.gd')
+Invoke-GodotCheck -Stage 'Dialogue paging source oracle' -ExpectedOutput 'UPDS dialogue paging source oracle passed' `
+	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/dialogue_paging_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'CSS motion script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/css_motion.gd')
 Invoke-GodotCheck -Stage 'Reduced motion script parse' -Arguments @('--headless', '--check-only', '--path', $projectPath, '--script', 'res://scripts/reduced_motion.gd')
 Invoke-GodotCheck -Stage 'Reduced motion preference smoke test' -ExpectedOutput 'UPDS reduced-motion preference smoke test passed.' `

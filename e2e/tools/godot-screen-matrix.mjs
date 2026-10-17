@@ -10,6 +10,7 @@ const { values } = parseArgs({ options: {
   locale: { type: 'string' }, viewport: { type: 'string' },
   'enforce-menu': { type: 'boolean', default: false },
   'enforce-settings': { type: 'boolean', default: false },
+  'enforce-vn': { type: 'boolean', default: false },
 } });
 if (!values.web || !values.godot || !values.output) throw new Error('--web, --godot and --output are required');
 const output=resolve(values.output);
@@ -62,7 +63,7 @@ try {
       if(!native.build?.sourceHash) throw new Error('Capture export has no source digest; regenerate it with export-godot-parity.mjs');
       expectedSourceHash??=native.build.sourceHash;
       if(expectedSourceHash!==native.build.sourceHash) throw new Error('Capture export changed during the matrix; regenerate a consistent set');
-      const reference=await web.evaluate(selectors=>selectors.flatMap(selector=>[...document.querySelectorAll(selector)].filter(n=>n.getClientRects().length).map(n=>{const r=n.getBoundingClientRect(),c=getComputedStyle(n);return {selector,text:n.textContent,rect:[r.x,r.y,r.width,r.height],font:c.fontFamily,fontSize:c.fontSize,lineHeight:c.lineHeight,fontWeight:c.fontWeight,margin:c.margin,color:c.color};})),webSelectors);
+      const reference=await web.evaluate(selectors=>selectors.flatMap(selector=>[...document.querySelectorAll(selector)].filter(n=>n.getClientRects().length).map(n=>{const r=n.getBoundingClientRect(),c=getComputedStyle(n);return {selector,text:n.textContent,rect:[r.x,r.y,r.width,r.height],page:n.dataset.dialoguePage,pages:n.dataset.dialoguePages,font:c.fontFamily,fontSize:c.fontSize,lineHeight:c.lineHeight,fontWeight:c.fontWeight,margin:c.margin,color:c.color};})),webSelectors);
       const id=`${locale}-${width}x${height}-${state}`;
       const contractErrors=[];
       if(state==='menu') {
@@ -78,6 +79,11 @@ try {
           if(!a||!b){contractErrors.push(`Missing ${selector} / ${path}`);continue;}
           for(const i of [1,3])if(Math.abs(a.rect[i]-b.rect[i])>1.0)contractErrors.push(`${path} rect[${i}]: ${b.rect[i]} vs source ${a.rect[i]}`);
         }
+      }
+      if(state==='vn') {
+        const source=reference.find(r=>r.selector==='.dialogue-text');
+        if(native.dialogue?.displayed!==source?.text) contractErrors.push('VN first-page text differs from source');
+        if(native.dialogue?.pages.length!==Number(source?.pages)) contractErrors.push('VN page count differs from source');
       }
       if(state==='settings') {
         const phone=reference.find(r=>r.selector==='.phone').rect;
@@ -116,5 +122,7 @@ try {
 await writeFile(join(output,'index.html'),`<style>body{background:#152337;color:white;font:14px sans-serif}section{display:inline-block;vertical-align:top;margin:10px}img{width:195px;vertical-align:top}a{color:white}</style>${results.map(r=>`<section><h3><a href="${r.id}.json">${r.id}</a></h3><small>Web / Godot</small><br><img src="${r.id}-web.png"><img src="${r.id}-godot.png"></section>`).join('')}`);
 await writeFile(join(output,'summary.json'),JSON.stringify({generatedAt:new Date().toISOString(),cases:results},null,2));
 if(results.some(r=>r.errors.length)) throw new Error('Screen captures contain runtime/console errors; inspect per-case JSON');
-if(values['enforce-menu']&&results.some(r=>r.contractErrors.length)) throw new Error('Source menu geometry contracts failed; inspect per-case JSON');
-if(values['enforce-settings']&&results.some(r=>r.contractErrors.length)) throw new Error('Settings layout contracts failed; inspect per-case JSON');
+if(values['enforce-menu']&&results.some(r=>r.id.endsWith('-menu')&&r.contractErrors.length)) throw new Error('Source menu geometry contracts failed; inspect per-case JSON');
+if(values['enforce-settings']&&results.some(r=>r.id.endsWith('-settings')&&r.contractErrors.length)) throw new Error('Settings layout contracts failed; inspect per-case JSON');
+
+if(values['enforce-vn']&&results.some(r=>r.id.endsWith('-vn')&&r.contractErrors.length)) throw new Error('VN pagination contracts failed; inspect per-case JSON');

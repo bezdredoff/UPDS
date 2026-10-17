@@ -74,6 +74,10 @@ func _publish(request_id: String) -> void:
 		"build": _build, "engine": Engine.get_version_info().string,
 		"viewport": [get_viewport().get_visible_rect().size.x, get_viewport().get_visible_rect().size.y],
 		"window": [get_window().size.x, get_window().size.y]}
+	if is_instance_valid(menu.story_screen):
+		result.dialogue = {"pages": menu.story_screen._dialogue_pages,
+			"pageIndex": menu.story_screen._dialogue_page_index,
+			"displayed": menu.story_screen.dialogue.text}
 	JavaScriptBridge.eval("window.updsParityResult = " + JSON.stringify(result))
 
 

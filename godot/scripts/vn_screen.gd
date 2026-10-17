@@ -271,11 +271,16 @@ func _ready() -> void:
 	dialogue.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	dialogue.scroll_active = false
 	dialogue.scroll_following = false
+	var text_padding := StyleBoxEmpty.new()
+	text_padding.content_margin_top = 9
+	text_padding.content_margin_right = 1
+	text_padding.content_margin_bottom = 6
+	dialogue.add_theme_stylebox_override("normal", text_padding)
 	var dialogue_stack := VBoxContainer.new()
 	dialogue_stack.add_theme_constant_override("separation", 0)
 	dialogue_stack.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	var dialogue_top_padding := Control.new()
-	dialogue_top_padding.custom_minimum_size.y = 12.0
+	dialogue_top_padding.custom_minimum_size.y = 0.0
 	dialogue_top_padding.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	dialogue_stack.add_child(dialogue_top_padding)
 	dialogue_stack.add_child(dialogue)
@@ -339,21 +344,26 @@ func _layout_vn() -> void:
 	var tiny_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	var compact_height := size.y <= 760.0
 	title.add_theme_font_size_override("font_size", 9 if compact_width else 11)
-	var controls_min_height := 60.0 if tiny_width else 63.0
-	var controls_height := maxf(clampf(size.y * 0.09, 60.0, 82.0), controls_min_height)
+	var controls_min_height := 58.0 if tiny_width else 63.0
+	var controls_height := maxf(clampf(size.y * 0.09, 58.0 if tiny_width else 60.0, 82.0), controls_min_height)
 	var dialogue_row_height := clampf(size.y * 0.22, 154.0, 198.0)
 	dialogue_panel.anchor_top = 1.0
 	dialogue_panel.anchor_bottom = 1.0
-	dialogue_panel.offset_top = -(controls_height + dialogue_row_height - 10.0)
-	dialogue_panel.offset_bottom = -(controls_height + 7.0)
+	dialogue_panel.offset_top = -(controls_height + dialogue_row_height - (8.0 if tiny_width else 10.0))
+	dialogue_panel.offset_bottom = -(controls_height + (5.0 if tiny_width else 7.0))
+	dialogue_panel.offset_left = 8 if tiny_width else 12
+	dialogue_panel.offset_right = -8 if tiny_width else -12
 	stage.anchor_bottom = 1.0
 	stage.offset_bottom = -(controls_height + dialogue_row_height)
-	dialogue.custom_minimum_size.y = 67.0
+	var source_font_size := (16 if tiny_width else 19) if _text_scale == "large" else (14 if tiny_width else 17)
+	dialogue.custom_minimum_size.y = source_font_size * (2.92 if _text_scale == "large" else 2.84) + 19.0
 	dialogue.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	dialogue.add_theme_font_size_override("normal_font_size", _dialogue_font_size())
 	progress.hide()
 	var paper := dialogue_panel.get_theme_stylebox("panel") as StyleBoxFlat
-	paper.content_margin_top = 31
+	paper.content_margin_left = 16 if tiny_width else 22
+	paper.content_margin_right = 16 if tiny_width else 22
+	paper.content_margin_top = 29 if tiny_width else 34
 	paper.content_margin_bottom = 25
 	nameplate.offset_left = 32
 	nameplate.offset_right = 164 if compact_width else 232
@@ -780,61 +790,22 @@ func _control_button_style(active: bool) -> StyleBoxFlat:
 
 
 func _paginate_dialogue(value: String) -> Array[String]:
-	var normalized := " ".join(value.split(" ", false))
-	var pages: Array[String] = []
-	var page := ""
 	var font := dialogue.get_theme_font("normal_font")
 	var font_size := dialogue.get_theme_font_size("normal_font_size")
-	var text_width := maxf(120.0, size.x - 64.0)
-	# Account for Godot's shaped-line leading while keeping the source's two-line safe height.
 	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
+	var text_width := maxf(120.0, size.x - (48.0 if compact_width else 68.0) - 1.0)
 	var line_height := 1.46 if _text_scale == "large" else 1.34 if compact_width else 1.42
 	var line_limit := font_size * line_height * 2.0 + 7.0
-	for raw_word in normalized.split(" ", false):
-		var candidate := raw_word if page.is_empty() else page + " " + raw_word
-		var measured := font.get_multiline_string_size(candidate, HORIZONTAL_ALIGNMENT_LEFT, text_width, font_size)
-		if not page.is_empty() and measured.y > line_limit:
-			var hyphenated_candidate := _fit_candidate_with_hyphenation(
-				page, raw_word, font, text_width, font_size, line_limit)
-			if hyphenated_candidate.is_empty():
-				pages.append(page)
-				page = raw_word
-			else:
-				page = hyphenated_candidate
-		else:
-			page = candidate
-	if not page.is_empty():
-		pages.append(page)
-	return pages if not pages.is_empty() else [value]
-
-
-func _fit_candidate_with_hyphenation(
-	page: String, next_word: String, font: Font, text_width: float, font_size: int, line_limit: float,
-) -> String:
-	var words := page.split(" ", false)
-	for word_index in range(words.size()):
-		var word: String = words[word_index]
-		if word.length() < 6 or word.contains("-") or word.contains("—"):
-			continue
-		for split_at in range(word.length() - 2, 2, -1):
-			var prefix := word.substr(0, split_at)
-			var suffix := word.substr(split_at)
-			if prefix.substr(prefix.length() - 1, 1).to_lower() not in "аеёиоуыэюяіўaeiouy":
-				continue
-			var candidate_words := words.duplicate()
-			candidate_words[word_index] = prefix + "-\n" + suffix
-			var candidate := " ".join(candidate_words) + " " + next_word
-			var candidate_height := font.get_multiline_string_size(candidate, HORIZONTAL_ALIGNMENT_LEFT, text_width, font_size).y
-			if candidate_height <= line_limit:
-				return candidate
-	return ""
+	var fits := func(candidate: String) -> bool:
+		return font.get_multiline_string_size(candidate, HORIZONTAL_ALIGNMENT_LEFT, text_width, font_size).y <= line_limit
+	return preload("res://scripts/dialogue_paging.gd").paginate(value, fits, preferences.locale)
 
 
 func _update_dialogue_page() -> void:
 	if _dialogue_pages.is_empty():
 		return
 	var has_more := _dialogue_page_index + 1 < _dialogue_pages.size()
-	dialogue.text = _dialogue_pages[_dialogue_page_index] + ("…" if has_more else "")
+	dialogue.text = preload("res://scripts/dialogue_paging.gd").continuation(_dialogue_pages[_dialogue_page_index], has_more)
 	dialogue.scroll_to_line(0)
 	page_progress.visible = true
 	for child in page_progress.get_children():
@@ -853,11 +824,11 @@ func _update_dialogue_page() -> void:
 	cue_gap.custom_minimum_size.x = 5.0
 	cue_gap.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	page_progress.add_child(cue_gap)
-	var prompt := _label(page_progress, 11)
-	prompt.text = "▼"
+	var prompt := preload("res://scripts/dialogue_advance_cue.gd").new()
+	prompt.name = "AdvanceCue"
 	prompt.custom_minimum_size = Vector2(13, 18)
 	prompt.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	prompt.add_theme_color_override("font_color", Color("#6d665e"))
+	page_progress.add_child(prompt)
 	prompt.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	prompt.pivot_offset = Vector2.ZERO
 	if ReducedMotion.is_enabled():
