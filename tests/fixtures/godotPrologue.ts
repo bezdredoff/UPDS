@@ -26,7 +26,7 @@ export function godotPrologue() {
     const shot = authoredVnShotForLine(line.id);
     if (shot) return resolveSceneStagingPreset(shot.presetId, shot.actors).actors.map((actor) => ({
       character: actor.character, asset: actor.pose === 'pose-b' ? poseAsset(actor.character) : expressionAsset(actor.character, actor.expression),
-      x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent,
+      x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent, compactHeight: 168,
       scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex,
     }));
     const character = characterForSpeaker(line.speaker);
@@ -37,7 +37,7 @@ export function godotPrologue() {
     const side = resolveVnStaging(lines, index)?.side;
     return [{ character, asset: expressionAsset(character, expression),
       x: (side === 'left' ? 29 : side === 'right' ? 71 : 50) + resolvedCharacterXPercent(character),
-      top: camera.topPercent, height: camera.heightPercent, scale: characterStaging[character].scale,
+      top: camera.topPercent, height: camera.heightPercent, compactHeight: 168, scale: characterStaging[character].scale,
       y: characterStaging[character].yPercent, z: 0 }];
   };
   return {
@@ -66,7 +66,7 @@ export function godotLockerScene() {
       const actors = shot
         ? resolveSceneStagingPreset(shot.presetId, shot.actors).actors.map((actor) => ({
           character: actor.character, asset: actor.pose === 'pose-b' ? poseAsset(actor.character) : expressionAsset(actor.character, actor.expression),
-          x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent,
+          x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent, compactHeight: 168,
           scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex,
         }))
         : (() => {
@@ -78,7 +78,7 @@ export function godotLockerScene() {
           const side = resolveVnStaging(lines, index)?.side;
           return [{ character, asset: expressionAsset(character, expression),
             x: (side === 'left' ? 29 : side === 'right' ? 71 : 50) + resolvedCharacterXPercent(character),
-            top: camera.topPercent, height: camera.heightPercent, scale: characterStaging[character].scale,
+            top: camera.topPercent, height: camera.heightPercent, compactHeight: 168, scale: characterStaging[character].scale,
             y: characterStaging[character].yPercent, z: 0 }];
         })();
       const background = backgroundAssets[getBackgroundForLine(1, index, lines)];
@@ -118,7 +118,7 @@ export function godotPostMatchScene() {
       const actors = shot
         ? resolveSceneStagingPreset(shot.presetId, shot.actors).actors.map((actor) => ({
           character: actor.character, asset: actor.pose === 'pose-b' ? poseAsset(actor.character) : expressionAsset(actor.character, actor.expression),
-          x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent,
+          x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent, compactHeight: 168,
           scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex,
         }))
         : (() => {
@@ -130,7 +130,7 @@ export function godotPostMatchScene() {
           const side = resolveVnStaging(lines, index)?.side;
           return [{ character, asset: expressionAsset(character, expression),
             x: (side === 'left' ? 29 : side === 'right' ? 71 : 50) + resolvedCharacterXPercent(character),
-            top: camera.topPercent, height: camera.heightPercent, scale: characterStaging[character].scale,
+            top: camera.topPercent, height: camera.heightPercent, compactHeight: 168, scale: characterStaging[character].scale,
             y: characterStaging[character].yPercent, z: 0 }];
         })();
       const background = backgroundAssets[getBackgroundForLine(2, index, lines)];
@@ -188,7 +188,7 @@ export function godotStoryScene(sceneIndex: number) {
       const actors = shot
         ? resolveSceneStagingPreset(shot.presetId, shot.actors).actors.map((actor) => ({
           character: actor.character, asset: actor.pose === 'pose-b' ? poseAsset(actor.character) : expressionAsset(actor.character, actor.expression),
-          x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent,
+          x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent, compactHeight: 168,
           scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex,
         }))
         : (() => {
@@ -210,7 +210,7 @@ export function godotStoryScene(sceneIndex: number) {
           const side = resolveVnStaging(lines, index)?.side;
           return [{ character, asset: expressionAsset(character, expression),
             x: (side === 'left' ? 29 : side === 'right' ? 71 : 50) + resolvedCharacterXPercent(character),
-            top: camera.topPercent, height: camera.heightPercent, scale: characterStaging[character].scale,
+            top: camera.topPercent, height: camera.heightPercent, compactHeight: 168, scale: characterStaging[character].scale,
             y: characterStaging[character].yPercent, z: 0 }];
         })();
       return { id: line.id, hidden: isDirection(line), background: backgroundAssets[getBackgroundForLine(sceneIndex, index, lines)], actors,
