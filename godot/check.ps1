@@ -89,6 +89,8 @@ Invoke-GodotCheck -Stage 'Save storage smoke test' -ExpectedOutput 'UPDS Godot s
 # The VN smoke samples the production idle-breathe tween before traversing the full story route.
 Invoke-GodotCheck -Stage 'VN prologue smoke test' -ExpectedOutput 'UPDS Godot VN prologue smoke test passed.' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/vn_prologue_smoke.gd', '--quit-after', '600')
+Invoke-GodotCheck -Stage 'Guest portrait smoke test' -ExpectedOutput 'UPDS guest portrait smoke test passed.' `
+	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/guest_portrait_smoke.gd', '--quit-after', '240')
 Invoke-GodotCheck -Stage 'Match-3 game smoke test' -ExpectedOutput 'UPDS Godot Match-3 model smoke test passed.' `
 	-Arguments @('--headless', '--path', $projectPath, '--script', 'res://tests/match3_model_smoke.gd', '--quit-after', '120')
 Invoke-GodotCheck -Stage 'Match-3 tutorial progression smoke test' -ExpectedOutput 'UPDS Godot Match-3 tutorial progression smoke test passed.' `

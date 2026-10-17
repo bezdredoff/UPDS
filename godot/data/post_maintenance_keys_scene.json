@@ -160,7 +160,20 @@
       "id": "VN0473",
       "hidden": false,
       "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "gen",
+          "asset": "./assets/guests/gen/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ГЭН",
@@ -274,7 +287,20 @@
       "id": "VN0477",
       "hidden": false,
       "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "gen",
+          "asset": "./assets/guests/gen/expressions/serious.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ГЭН",
@@ -331,7 +357,20 @@
       "id": "VN0479",
       "hidden": false,
       "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "gen",
+          "asset": "./assets/guests/gen/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ГЭН",
@@ -535,7 +574,20 @@
       "id": "VN0486",
       "hidden": false,
       "background": "./assets/backgrounds/BG_MAINTENANCE_ROOM.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "gen",
+          "asset": "./assets/guests/gen/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ГЭН",

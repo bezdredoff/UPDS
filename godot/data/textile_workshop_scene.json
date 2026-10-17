@@ -73,7 +73,20 @@
       "id": "VN0329",
       "hidden": false,
       "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",
@@ -210,7 +223,20 @@
       "id": "VN0334",
       "hidden": false,
       "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",
@@ -267,7 +293,20 @@
       "id": "VN0336",
       "hidden": false,
       "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",
@@ -324,7 +363,20 @@
       "id": "VN0338",
       "hidden": false,
       "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",
@@ -381,7 +433,20 @@
       "id": "VN0340",
       "hidden": false,
       "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",
@@ -458,7 +523,20 @@
       "id": "VN0342",
       "hidden": false,
       "background": "./assets/backgrounds/BG_TEXTILE_WORKSHOP.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",

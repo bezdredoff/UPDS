@@ -1,0 +1,22 @@
+{
+  "source": {
+    "line": "VN0294 · 1/2",
+    "guests": [
+      {
+        "key": "hinata",
+        "asset": "./assets/guests/hinata/neutral.png"
+      }
+    ]
+  },
+  "native": {
+    "line": "VN0294",
+    "actors": [],
+    "build": {
+      "fixture": "res://tests/parity_web_capture.tscn",
+      "generatedAt": "2026-10-17T08:55:50.498Z",
+      "sourceCommit": "22796fc5580fc5bc83c341d106d3c62a3ff8a8ea",
+      "sourceHash": "6584f3a913f4b79a3c64cfd6471980a541c5e37ed0e79278ac44247b73abd69f",
+      "sourceTreeClean": false
+    }
+  }
+}

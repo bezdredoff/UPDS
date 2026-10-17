@@ -1,0 +1,1665 @@
+{
+  "sourceFont": "17px / 24.14px Georgia, serif",
+  "build": {
+    "fixture": "res://tests/parity_web_capture.tscn",
+    "generatedAt": "2026-10-17T08:55:50.498Z",
+    "sourceCommit": "22796fc5580fc5bc83c341d106d3c62a3ff8a8ea",
+    "sourceHash": "6584f3a913f4b79a3c64cfd6471980a541c5e37ed0e79278ac44247b73abd69f",
+    "sourceTreeClean": false
+  },
+  "records": [
+    {
+      "id": "ru-390x844-scene-0",
+      "locale": "ru",
+      "text": "После звонка кампус японского колледжа Сэйран не затихал…",
+      "sourceWidth": 500.63671875,
+      "nativeWidths": {
+        "13": 412,
+        "14": 443,
+        "16": 507,
+        "17": 538
+      }
+    },
+    {
+      "id": "ru-390x844-scene-1",
+      "locale": "ru",
+      "text": "Садитесь. Имя, клуб, время обнаружения пропажи.",
+      "sourceWidth": 409.73486328125,
+      "nativeWidths": {
+        "13": 338,
+        "14": 364,
+        "16": 416,
+        "17": 442
+      }
+    },
+    {
+      "id": "ru-390x844-scene-2",
+      "locale": "ru",
+      "text": "Квитанция подтверждает одну партию. Но из неё исчезли только два предмета.",
+      "sourceWidth": 635.35009765625,
+      "nativeWidths": {
+        "13": 527,
+        "14": 567,
+        "16": 648,
+        "17": 689
+      }
+    },
+    {
+      "id": "ru-390x844-scene-3",
+      "locale": "ru",
+      "text": "Я уже сказал: это не моё.",
+      "sourceWidth": 197.9072265625,
+      "nativeWidths": {
+        "13": 162,
+        "14": 174,
+        "16": 199,
+        "17": 211
+      }
+    },
+    {
+      "id": "ru-390x844-scene-4",
+      "locale": "ru",
+      "text": "Мешок `PS-14`. Кампания магазина спортивной одежды…",
+      "sourceWidth": 468.36328125,
+      "nativeWidths": {
+        "13": 384,
+        "14": 414,
+        "16": 473,
+        "17": 502
+      }
+    },
+    {
+      "id": "ru-390x844-scene-5",
+      "locale": "ru",
+      "text": "Профиль преступника: действует уверенно, любит риск…",
+      "sourceWidth": 457.99560546875,
+      "nativeWidths": {
+        "13": 379,
+        "14": 408,
+        "16": 467,
+        "17": 496
+      }
+    },
+    {
+      "id": "ru-390x844-scene-6",
+      "locale": "ru",
+      "text": "Фасон — корреляции нет. Цена — нет. Гендер владельца — нет. Цвет — нет.",
+      "sourceWidth": 599.14208984375,
+      "nativeWidths": {
+        "13": 491,
+        "14": 528,
+        "16": 604,
+        "17": 641
+      }
+    },
+    {
+      "id": "ru-390x844-scene-7",
+      "locale": "ru",
+      "text": "Ты только что считала беспорядок уликой.",
+      "sourceWidth": 341.46923828125,
+      "nativeWidths": {
+        "13": 283,
+        "14": 304,
+        "16": 348,
+        "17": 370
+      }
+    },
+    {
+      "id": "ru-390x844-scene-8",
+      "locale": "ru",
+      "text": "Состав мешка совпадает с журналом возврата…",
+      "sourceWidth": 378.150390625,
+      "nativeWidths": {
+        "13": 314,
+        "14": 338,
+        "16": 387,
+        "17": 411
+      }
+    },
+    {
+      "id": "ru-390x844-scene-9",
+      "locale": "ru",
+      "text": "Администрация разрешила встречу при двух условиях: без имён за пределами…",
+      "sourceWidth": 640.4716796875,
+      "nativeWidths": {
+        "13": 535,
+        "14": 576,
+        "16": 658,
+        "17": 699
+      }
+    },
+    {
+      "id": "ru-390x844-scene-10",
+      "locale": "ru",
+      "text": "Интервал повторяется: обработка, возврат, затем пропажа…",
+      "sourceWidth": 480.6650390625,
+      "nativeWidths": {
+        "13": 397,
+        "14": 428,
+        "16": 489,
+        "17": 520
+      }
+    },
+    {
+      "id": "ru-390x844-scene-11",
+      "locale": "ru",
+      "text": "Если вор постоянно берёт с верхних полок, можно оценить его…",
+      "sourceWidth": 512.9052734375,
+      "nativeWidths": {
+        "13": 423,
+        "14": 456,
+        "16": 521,
+        "17": 553
+      }
+    },
+    {
+      "id": "ru-390x844-scene-12",
+      "locale": "ru",
+      "text": "Размер — корреляции нет. Стиль — нет. Гендер владельца — нет…",
+      "sourceWidth": 526.5185546875,
+      "nativeWidths": {
+        "13": 431,
+        "14": 465,
+        "16": 531,
+        "17": 564
+      }
+    },
+    {
+      "id": "ru-390x844-scene-13",
+      "locale": "ru",
+      "text": "Я официально подтверждаю: мы вошли в финальную локацию дела.",
+      "sourceWidth": 549.11328125,
+      "nativeWidths": {
+        "13": 451,
+        "14": 485,
+        "16": 555,
+        "17": 589
+      }
+    },
+    {
+      "id": "ru-390x844-scene-14",
+      "locale": "ru",
+      "text": "Моя машина не поддерживает эту нить: толщина и проводящее покрытие…",
+      "sourceWidth": 605.5419921875,
+      "nativeWidths": {
+        "13": 503,
+        "14": 542,
+        "16": 619,
+        "17": 657
+      }
+    },
+    {
+      "id": "ru-390x844-scene-15",
+      "locale": "ru",
+      "text": "Рэйдзи Куросэ. Спасибо, что приняли приглашение…",
+      "sourceWidth": 426.9755859375,
+      "nativeWidths": {
+        "13": 351,
+        "14": 378,
+        "16": 432,
+        "17": 459
+      }
+    },
+    {
+      "id": "ru-390x844-scene-16",
+      "locale": "ru",
+      "text": "Совпадение достаточное. Нить действительно из поставки Asterion.",
+      "sourceWidth": 538.322265625,
+      "nativeWidths": {
+        "13": 442,
+        "14": 476,
+        "16": 544,
+        "17": 578
+      }
+    },
+    {
+      "id": "ru-390x844-scene-17",
+      "locale": "ru",
+      "text": "У вас временный доступ на сорок минут…",
+      "sourceWidth": 332.02294921875,
+      "nativeWidths": {
+        "13": 277,
+        "14": 298,
+        "16": 341,
+        "17": 362
+      }
+    },
+    {
+      "id": "ru-390x844-scene-18",
+      "locale": "ru",
+      "text": "Это не одиночные ошибки. Здесь исчезают группы подряд.",
+      "sourceWidth": 472.4970703125,
+      "nativeWidths": {
+        "13": 390,
+        "14": 420,
+        "16": 481,
+        "17": 510
+      }
+    },
+    {
+      "id": "ru-390x844-scene-19",
+      "locale": "ru",
+      "text": "Мы нашли коллекцию серийного вора. Только вместо трофеев — носки.",
+      "sourceWidth": 574.546875,
+      "nativeWidths": {
+        "13": 472,
+        "14": 508,
+        "16": 581,
+        "17": 617
+      }
+    },
+    {
+      "id": "ru-390x844-scene-20",
+      "locale": "ru",
+      "text": "В часы подтверждённых краж Гэн находился в другом корпусе…",
+      "sourceWidth": 514.50732421875,
+      "nativeWidths": {
+        "13": 426,
+        "14": 458,
+        "16": 524,
+        "17": 557
+      }
+    },
+    {
+      "id": "ru-390x844-scene-21",
+      "locale": "ru",
+      "text": "Аой Кагава, капитан…",
+      "sourceWidth": 176.7734375,
+      "nativeWidths": {
+        "13": 146,
+        "14": 158,
+        "16": 180,
+        "17": 191
+      }
+    },
+    {
+      "id": "ru-390x844-scene-22",
+      "locale": "ru",
+      "text": "Одинаковая серебристая нить, одинаковый шаг шва…",
+      "sourceWidth": 430.91845703125,
+      "nativeWidths": {
+        "13": 358,
+        "14": 385,
+        "16": 440,
+        "17": 467
+      }
+    },
+    {
+      "id": "ru-390x844-scene-23",
+      "locale": "ru",
+      "text": "Я дам оригиналы…",
+      "sourceWidth": 152.85888671875,
+      "nativeWidths": {
+        "13": 126,
+        "14": 136,
+        "16": 155,
+        "17": 165
+      }
+    },
+    {
+      "id": "ru-390x844-scene-24",
+      "locale": "ru",
+      "text": "Цепочка непрерывна. Спорные партии физически уходили в лабораторный…",
+      "sourceWidth": 619.703125,
+      "nativeWidths": {
+        "13": 513,
+        "14": 553,
+        "16": 632,
+        "17": 671
+      }
+    },
+    {
+      "id": "ru-390x844-scene-25",
+      "locale": "ru",
+      "text": "Студенческий чат официально считает, что семь клубов…",
+      "sourceWidth": 458.72607421875,
+      "nativeWidths": {
+        "13": 381,
+        "14": 410,
+        "16": 469,
+        "17": 498
+      }
+    },
+    {
+      "id": "ru-390x844-scene-26",
+      "locale": "ru",
+      "text": "Никакой магии. В ярлык вшита активная…",
+      "sourceWidth": 345.0966796875,
+      "nativeWidths": {
+        "13": 285,
+        "14": 307,
+        "16": 350,
+        "17": 372
+      }
+    },
+    {
+      "id": "ru-390x844-scene-27",
+      "locale": "ru",
+      "text": "Вор ударил под бронёй…",
+      "sourceWidth": 198.4052734375,
+      "nativeWidths": {
+        "13": 164,
+        "14": 177,
+        "16": 202,
+        "17": 215
+      }
+    },
+    {
+      "id": "ru-390x844-scene-28",
+      "locale": "ru",
+      "text": "Четыре владельца, четыре участника пилота…",
+      "sourceWidth": 370.67138671875,
+      "nativeWidths": {
+        "13": 309,
+        "14": 333,
+        "16": 380,
+        "17": 404
+      }
+    },
+    {
+      "id": "ru-390x844-scene-29",
+      "locale": "ru",
+      "text": "Новые клиентки? Если срочно, начнём с мерок и уверенности…",
+      "sourceWidth": 508.58056640625,
+      "nativeWidths": {
+        "13": 421,
+        "14": 453,
+        "16": 518,
+        "17": 550
+      }
+    },
+    {
+      "id": "ru-390x844-scene-30",
+      "locale": "ru",
+      "text": "Первая просьба — за двадцать два дня до заявления Эми. Потом ещё четыре…",
+      "sourceWidth": 623.255859375,
+      "nativeWidths": {
+        "13": 512,
+        "14": 552,
+        "16": 631,
+        "17": 670
+      }
+    },
+    {
+      "id": "ru-390x844-scene-31",
+      "locale": "ru",
+      "text": "Это не наше бельё! Повторяю: не наше!",
+      "sourceWidth": 315.55419921875,
+      "nativeWidths": {
+        "13": 259,
+        "14": 279,
+        "16": 318,
+        "17": 338
+      }
+    },
+    {
+      "id": "ru-390x844-scene-32",
+      "locale": "ru",
+      "text": "Карта активна. Её журнал показывает проходы в те же ночи,…",
+      "sourceWidth": 497.482421875,
+      "nativeWidths": {
+        "13": 411,
+        "14": 442,
+        "16": 506,
+        "17": 537
+      }
+    },
+    {
+      "id": "ru-390x844-scene-33",
+      "locale": "ru",
+      "text": "Ленты нашлись. Два комплекта белья — нет…",
+      "sourceWidth": 366.064453125,
+      "nativeWidths": {
+        "13": 301,
+        "14": 324,
+        "16": 370,
+        "17": 393
+      }
+    },
+    {
+      "id": "ru-390x844-scene-34",
+      "locale": "ru",
+      "text": "Формат тот же, что у метки из старого спортзала.",
+      "sourceWidth": 390.9501953125,
+      "nativeWidths": {
+        "13": 326,
+        "14": 351,
+        "16": 401,
+        "17": 426
+      }
+    },
+    {
+      "id": "ru-390x844-scene-35",
+      "locale": "ru",
+      "text": "Это либо самое аккуратное преступное логово, либо худший…",
+      "sourceWidth": 493.97119140625,
+      "nativeWidths": {
+        "13": 411,
+        "14": 442,
+        "16": 505,
+        "17": 537
+      }
+    },
+    {
+      "id": "ru-390x844-scene-36",
+      "locale": "ru",
+      "text": "Пропавшие вещи и каталог совпадают без исключений…",
+      "sourceWidth": 454.7666015625,
+      "nativeWidths": {
+        "13": 376,
+        "14": 405,
+        "16": 463,
+        "17": 491
+      }
+    },
+    {
+      "id": "ru-390x844-scene-37",
+      "locale": "ru",
+      "text": "Я хочу услышать это без пересказа клуба.",
+      "sourceWidth": 330.32958984375,
+      "nativeWidths": {
+        "13": 273,
+        "14": 294,
+        "16": 336,
+        "17": 357
+      }
+    },
+    {
+      "id": "ru-390x844-scene-38",
+      "locale": "ru",
+      "text": "После выхода Рины из цепочки продолжаются контейнеры,…",
+      "sourceWidth": 493.7138671875,
+      "nativeWidths": {
+        "13": 406,
+        "14": 437,
+        "16": 500,
+        "17": 531
+      }
+    },
+    {
+      "id": "ru-390x844-scene-39",
+      "locale": "ru",
+      "text": "Мы сообщаем только то, что доказали о Рине…",
+      "sourceWidth": 374.6474609375,
+      "nativeWidths": {
+        "13": 308,
+        "14": 332,
+        "16": 379,
+        "17": 403
+      }
+    },
+    {
+      "id": "ru-390x844-scene-40",
+      "locale": "ru",
+      "text": "Все подтверждения сходятся. Ни один код не раскрыт постороннему.",
+      "sourceWidth": 552.06005859375,
+      "nativeWidths": {
+        "13": 457,
+        "14": 493,
+        "16": 563,
+        "17": 598
+      }
+    },
+    {
+      "id": "ru-390x844-scene-41",
+      "locale": "ru",
+      "text": "Я всё ещё считаю, что спрятаться в бельевой тележке…",
+      "sourceWidth": 437.01953125,
+      "nativeWidths": {
+        "13": 359,
+        "14": 387,
+        "16": 442,
+        "17": 470
+      }
+    },
+    {
+      "id": "ru-390x844-scene-42",
+      "locale": "ru",
+      "text": "Метки зарегистрированы как «внутренний слой экипировки»…",
+      "sourceWidth": 509.11181640625,
+      "nativeWidths": {
+        "13": 422,
+        "14": 454,
+        "16": 519,
+        "17": 551
+      }
+    },
+    {
+      "id": "ru-390x844-scene-43",
+      "locale": "ru",
+      "text": "Колледжу нужен короткий ответ. Не технический отчёт на сорок страниц.",
+      "sourceWidth": 590.4013671875,
+      "nativeWidths": {
+        "13": 490,
+        "14": 527,
+        "16": 603,
+        "17": 640
+      }
+    },
+    {
+      "id": "ru-390x844-scene-44",
+      "locale": "ru",
+      "text": "Совпадение первое! Возможность. Совпадение второе! Мотив…",
+      "sourceWidth": 505.119140625,
+      "nativeWidths": {
+        "13": 415,
+        "14": 447,
+        "16": 511,
+        "17": 542
+      }
+    },
+    {
+      "id": "be-390x844-scene-0",
+      "locale": "be",
+      "text": "Пасля званка кампус японскага каледжа Сэйран не сціхаў…",
+      "sourceWidth": 475.26953125,
+      "nativeWidths": {
+        "13": 393,
+        "14": 424,
+        "16": 484,
+        "17": 514
+      }
+    },
+    {
+      "id": "be-390x844-scene-1",
+      "locale": "be",
+      "text": "Сядайце. Імя, клуб, час, калі заўважылі знікненне.",
+      "sourceWidth": 402.13134765625,
+      "nativeWidths": {
+        "13": 331,
+        "14": 357,
+        "16": 408,
+        "17": 433
+      }
+    },
+    {
+      "id": "be-390x844-scene-2",
+      "locale": "be",
+      "text": "Квітанцыя пацвярджае адну партыю. Але з яе зніклі толькі два прадметы.",
+      "sourceWidth": 589.99462890625,
+      "nativeWidths": {
+        "13": 489,
+        "14": 527,
+        "16": 602,
+        "17": 640
+      }
+    },
+    {
+      "id": "be-390x844-scene-3",
+      "locale": "be",
+      "text": "Я ўжо сказаў: гэта не маё.",
+      "sourceWidth": 203.62646484375,
+      "nativeWidths": {
+        "13": 168,
+        "14": 181,
+        "16": 206,
+        "17": 219
+      }
+    },
+    {
+      "id": "be-390x844-scene-4",
+      "locale": "be",
+      "text": "Мяшок `PS-14`. Кампанія крамы спартыўнага адзення…",
+      "sourceWidth": 450.74072265625,
+      "nativeWidths": {
+        "13": 371,
+        "14": 399,
+        "16": 456,
+        "17": 485
+      }
+    },
+    {
+      "id": "be-390x844-scene-5",
+      "locale": "be",
+      "text": "Профіль злачынцы: дзейнічае ўпэўнена, любіць рызыку…",
+      "sourceWidth": 463.60693359375,
+      "nativeWidths": {
+        "13": 382,
+        "14": 411,
+        "16": 470,
+        "17": 499
+      }
+    },
+    {
+      "id": "be-390x844-scene-6",
+      "locale": "be",
+      "text": "Фасон — карэляцыі няма. Цана — няма…",
+      "sourceWidth": 326.09619140625,
+      "nativeWidths": {
+        "13": 268,
+        "14": 289,
+        "16": 330,
+        "17": 350
+      }
+    },
+    {
+      "id": "be-390x844-scene-7",
+      "locale": "be",
+      "text": "Ты толькі што лічыла беспарадак доказам.",
+      "sourceWidth": 341.12890625,
+      "nativeWidths": {
+        "13": 284,
+        "14": 306,
+        "16": 349,
+        "17": 371
+      }
+    },
+    {
+      "id": "be-390x844-scene-8",
+      "locale": "be",
+      "text": "Склад мяшка супадае з журналам вяртання. Зніклых прадметаў тут няма.",
+      "sourceWidth": 587.529296875,
+      "nativeWidths": {
+        "13": 491,
+        "14": 529,
+        "16": 604,
+        "17": 642
+      }
+    },
+    {
+      "id": "be-390x844-scene-9",
+      "locale": "be",
+      "text": "Адміністрацыя дазволіла сустрэчу пры дзвюх умовах: без імёнаў па-за…",
+      "sourceWidth": 573.67529296875,
+      "nativeWidths": {
+        "13": 479,
+        "14": 515,
+        "16": 589,
+        "17": 626
+      }
+    },
+    {
+      "id": "be-390x844-scene-10",
+      "locale": "be",
+      "text": "Інтэрвал паўтараецца: апрацоўка, вяртанне, потым знікненне…",
+      "sourceWidth": 506.97021484375,
+      "nativeWidths": {
+        "13": 424,
+        "14": 456,
+        "16": 521,
+        "17": 554
+      }
+    },
+    {
+      "id": "be-390x844-scene-11",
+      "locale": "be",
+      "text": "Калі злодзей пастаянна бярэ з верхніх паліц, можна ацаніць яго…",
+      "sourceWidth": 524.03662109375,
+      "nativeWidths": {
+        "13": 434,
+        "14": 467,
+        "16": 534,
+        "17": 567
+      }
+    },
+    {
+      "id": "be-390x844-scene-12",
+      "locale": "be",
+      "text": "Памер — карэляцыі няма. Стыль — няма. Пол уладальніка — няма…",
+      "sourceWidth": 543.77587890625,
+      "nativeWidths": {
+        "13": 446,
+        "14": 480,
+        "16": 549,
+        "17": 583
+      }
+    },
+    {
+      "id": "be-390x844-scene-13",
+      "locale": "be",
+      "text": "Я афіцыйна пацвярджаю: мы ўвайшлі ў фінальную лакацыю справы.",
+      "sourceWidth": 552.201171875,
+      "nativeWidths": {
+        "13": 456,
+        "14": 491,
+        "16": 561,
+        "17": 596
+      }
+    },
+    {
+      "id": "be-390x844-scene-14",
+      "locale": "be",
+      "text": "Мая машына не падтрымлівае гэтую нітку: яе таўшчыня і…",
+      "sourceWidth": 473.775390625,
+      "nativeWidths": {
+        "13": 395,
+        "14": 426,
+        "16": 487,
+        "17": 517
+      }
+    },
+    {
+      "id": "be-390x844-scene-15",
+      "locale": "be",
+      "text": "Рэйдзі Куросэ. Дзякуй, што прынялі запрашэнне…",
+      "sourceWidth": 403.982421875,
+      "nativeWidths": {
+        "13": 331,
+        "14": 357,
+        "16": 408,
+        "17": 433
+      }
+    },
+    {
+      "id": "be-390x844-scene-16",
+      "locale": "be",
+      "text": "Супадзення дастаткова. Нітка сапраўды з пастаўкі Asterion.",
+      "sourceWidth": 472.09033203125,
+      "nativeWidths": {
+        "13": 389,
+        "14": 419,
+        "16": 479,
+        "17": 508
+      }
+    },
+    {
+      "id": "be-390x844-scene-17",
+      "locale": "be",
+      "text": "У вас часовы доступ на сорак хвілін…",
+      "sourceWidth": 295.474609375,
+      "nativeWidths": {
+        "13": 245,
+        "14": 264,
+        "16": 302,
+        "17": 320
+      }
+    },
+    {
+      "id": "be-390x844-scene-18",
+      "locale": "be",
+      "text": "Гэта не адзінкавыя памылкі. Тут знікаюць цэлыя групы запар.",
+      "sourceWidth": 498.4619140625,
+      "nativeWidths": {
+        "13": 412,
+        "14": 444,
+        "16": 507,
+        "17": 539
+      }
+    },
+    {
+      "id": "be-390x844-scene-19",
+      "locale": "be",
+      "text": "Мы знайшлі калекцыю серыйнага злодзея…",
+      "sourceWidth": 353.7294921875,
+      "nativeWidths": {
+        "13": 291,
+        "14": 313,
+        "16": 358,
+        "17": 380
+      }
+    },
+    {
+      "id": "be-390x844-scene-20",
+      "locale": "be",
+      "text": "У гадзіны пацверджаных крадзяжоў Гэн знаходзіўся ў іншым корпусе…",
+      "sourceWidth": 571.40087890625,
+      "nativeWidths": {
+        "13": 473,
+        "14": 509,
+        "16": 582,
+        "17": 618
+      }
+    },
+    {
+      "id": "be-390x844-scene-21",
+      "locale": "be",
+      "text": "Аоі Кагава, капітан…",
+      "sourceWidth": 165.916015625,
+      "nativeWidths": {
+        "13": 138,
+        "14": 148,
+        "16": 170,
+        "17": 180
+      }
+    },
+    {
+      "id": "be-390x844-scene-22",
+      "locale": "be",
+      "text": "Аднолькавая серабрыстая нітка, аднолькавы крок шва…",
+      "sourceWidth": 448.28369140625,
+      "nativeWidths": {
+        "13": 372,
+        "14": 401,
+        "16": 458,
+        "17": 486
+      }
+    },
+    {
+      "id": "be-390x844-scene-23",
+      "locale": "be",
+      "text": "Я дам арыгіналы…",
+      "sourceWidth": 149.30615234375,
+      "nativeWidths": {
+        "13": 124,
+        "14": 133,
+        "16": 152,
+        "17": 162
+      }
+    },
+    {
+      "id": "be-390x844-scene-24",
+      "locale": "be",
+      "text": "Ланцужок бесперапынны. Спрэчныя партыі фізічна траплялі ў…",
+      "sourceWidth": 517.90234375,
+      "nativeWidths": {
+        "13": 428,
+        "14": 461,
+        "16": 526,
+        "17": 559
+      }
+    },
+    {
+      "id": "be-390x844-scene-25",
+      "locale": "be",
+      "text": "Студэнцкі чат афіцыйна лічыць, што адначасовае мыццё рэчаў…",
+      "sourceWidth": 516.275390625,
+      "nativeWidths": {
+        "13": 430,
+        "14": 463,
+        "16": 529,
+        "17": 562
+      }
+    },
+    {
+      "id": "be-390x844-scene-26",
+      "locale": "be",
+      "text": "Ніякай магіі. У бірку ўшытая актыўная…",
+      "sourceWidth": 323.4814453125,
+      "nativeWidths": {
+        "13": 269,
+        "14": 290,
+        "16": 331,
+        "17": 352
+      }
+    },
+    {
+      "id": "be-390x844-scene-27",
+      "locale": "be",
+      "text": "Злодзей ударыў пад даспехамі…",
+      "sourceWidth": 255.86328125,
+      "nativeWidths": {
+        "13": 214,
+        "14": 231,
+        "16": 264,
+        "17": 280
+      }
+    },
+    {
+      "id": "be-390x844-scene-28",
+      "locale": "be",
+      "text": "Чатыры ўладальнікі, чатыры ўдзельнікі пілота…",
+      "sourceWidth": 387.1318359375,
+      "nativeWidths": {
+        "13": 323,
+        "14": 348,
+        "16": 398,
+        "17": 422
+      }
+    },
+    {
+      "id": "be-390x844-scene-29",
+      "locale": "be",
+      "text": "Новыя кліенткі? Калі тэрмінова, пачнём з мерак і ўпэўненасці…",
+      "sourceWidth": 509.634765625,
+      "nativeWidths": {
+        "13": 424,
+        "14": 456,
+        "16": 521,
+        "17": 554
+      }
+    },
+    {
+      "id": "be-390x844-scene-30",
+      "locale": "be",
+      "text": "Першая просьба — за дваццаць два дні да заявы Эмі. Потым яшчэ чатыры…",
+      "sourceWidth": 606.0400390625,
+      "nativeWidths": {
+        "13": 499,
+        "14": 537,
+        "16": 614,
+        "17": 652
+      }
+    },
+    {
+      "id": "be-390x844-scene-31",
+      "locale": "be",
+      "text": "Гэта не наша бялізна! Паўтараю: не наша!",
+      "sourceWidth": 336.65478515625,
+      "nativeWidths": {
+        "13": 278,
+        "14": 300,
+        "16": 343,
+        "17": 364
+      }
+    },
+    {
+      "id": "be-390x844-scene-32",
+      "locale": "be",
+      "text": "Карта актыўная. Яе журнал паказвае праходы ў тыя ж ночы,…",
+      "sourceWidth": 495.28271484375,
+      "nativeWidths": {
+        "13": 409,
+        "14": 441,
+        "16": 504,
+        "17": 535
+      }
+    },
+    {
+      "id": "be-390x844-scene-33",
+      "locale": "be",
+      "text": "Стужкі знайшліся. Два камплекты бялізны — не…",
+      "sourceWidth": 397.98095703125,
+      "nativeWidths": {
+        "13": 326,
+        "14": 351,
+        "16": 402,
+        "17": 426
+      }
+    },
+    {
+      "id": "be-390x844-scene-34",
+      "locale": "be",
+      "text": "Фармат той жа, што ў меткі са старой спартыўнай залы.",
+      "sourceWidth": 442.6142578125,
+      "nativeWidths": {
+        "13": 371,
+        "14": 400,
+        "16": 457,
+        "17": 485
+      }
+    },
+    {
+      "id": "be-390x844-scene-35",
+      "locale": "be",
+      "text": "Гэта альбо самае акуратнае злачыннае логава, альбо найгоршы…",
+      "sourceWidth": 519.50439453125,
+      "nativeWidths": {
+        "13": 432,
+        "14": 465,
+        "16": 532,
+        "17": 565
+      }
+    },
+    {
+      "id": "be-390x844-scene-36",
+      "locale": "be",
+      "text": "Зніклыя рэчы і каталог супадаюць без выключэнняў. Рына фізічна забірала іх.",
+      "sourceWidth": 627.87939453125,
+      "nativeWidths": {
+        "13": 518,
+        "14": 558,
+        "16": 638,
+        "17": 678
+      }
+    },
+    {
+      "id": "be-390x844-scene-37",
+      "locale": "be",
+      "text": "Я хачу пачуць гэта без пераказу клуба.",
+      "sourceWidth": 306.0830078125,
+      "nativeWidths": {
+        "13": 255,
+        "14": 274,
+        "16": 313,
+        "17": 333
+      }
+    },
+    {
+      "id": "be-390x844-scene-38",
+      "locale": "be",
+      "text": "Пасля выхаду Рыны з ланцужка працягваюцца кантэйнеры, сэрвісныя…",
+      "sourceWidth": 577.47705078125,
+      "nativeWidths": {
+        "13": 476,
+        "14": 513,
+        "16": 587,
+        "17": 623
+      }
+    },
+    {
+      "id": "be-390x844-scene-39",
+      "locale": "be",
+      "text": "Мы паведамляем толькі тое, што даказалі пра Рыну…",
+      "sourceWidth": 426.31982421875,
+      "nativeWidths": {
+        "13": 354,
+        "14": 381,
+        "16": 436,
+        "17": 463
+      }
+    },
+    {
+      "id": "be-390x844-scene-40",
+      "locale": "be",
+      "text": "Усе пацверджанні сыходзяцца. Ніводны код не раскрыты старонняму.",
+      "sourceWidth": 560.89208984375,
+      "nativeWidths": {
+        "13": 466,
+        "14": 502,
+        "16": 573,
+        "17": 609
+      }
+    },
+    {
+      "id": "be-390x844-scene-41",
+      "locale": "be",
+      "text": "Я ўсё яшчэ лічу, што схавацца ў вазку з бялізнай было б тэматычна ідэальна.",
+      "sourceWidth": 612.42333984375,
+      "nativeWidths": {
+        "13": 507,
+        "14": 546,
+        "16": 624,
+        "17": 663
+      }
+    },
+    {
+      "id": "be-390x844-scene-42",
+      "locale": "be",
+      "text": "Меткі зарэгістраваныя як «унутраны слой экіпіроўкі»…",
+      "sourceWidth": 443.17041015625,
+      "nativeWidths": {
+        "13": 368,
+        "14": 396,
+        "16": 452,
+        "17": 481
+      }
+    },
+    {
+      "id": "be-390x844-scene-43",
+      "locale": "be",
+      "text": "Каледжу патрэбны кароткі адказ…",
+      "sourceWidth": 276.19189453125,
+      "nativeWidths": {
+        "13": 229,
+        "14": 246,
+        "16": 282,
+        "17": 299
+      }
+    },
+    {
+      "id": "be-390x844-scene-44",
+      "locale": "be",
+      "text": "Супадзенне першае! Магчымасць. Супадзенне другое! Матыў…",
+      "sourceWidth": 502.828125,
+      "nativeWidths": {
+        "13": 417,
+        "14": 449,
+        "16": 513,
+        "17": 545
+      }
+    },
+    {
+      "id": "en-390x844-scene-0",
+      "locale": "en",
+      "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to…",
+      "sourceWidth": 614.5068359375,
+      "nativeWidths": {
+        "13": 471,
+        "14": 507,
+        "16": 579,
+        "17": 615
+      }
+    },
+    {
+      "id": "en-390x844-scene-1",
+      "locale": "en",
+      "text": "Sit down. Name, club, and when you noticed the loss.",
+      "sourceWidth": 398.63671875,
+      "nativeWidths": {
+        "13": 305,
+        "14": 329,
+        "16": 376,
+        "17": 399
+      }
+    },
+    {
+      "id": "en-390x844-scene-2",
+      "locale": "en",
+      "text": "The receipt confirms one batch. But only two items disappeared from it.",
+      "sourceWidth": 537.7412109375,
+      "nativeWidths": {
+        "13": 411,
+        "14": 443,
+        "16": 506,
+        "17": 538
+      }
+    },
+    {
+      "id": "en-390x844-scene-3",
+      "locale": "en",
+      "text": "I already told you: it is not mine.",
+      "sourceWidth": 243.96826171875,
+      "nativeWidths": {
+        "13": 187,
+        "14": 201,
+        "16": 230,
+        "17": 244
+      }
+    },
+    {
+      "id": "en-390x844-scene-4",
+      "locale": "en",
+      "text": "Bag `PS-14`. Sportswear-store campaign. Date, owner, return.",
+      "sourceWidth": 468.18896484375,
+      "nativeWidths": {
+        "13": 359,
+        "14": 386,
+        "16": 441,
+        "17": 469
+      }
+    },
+    {
+      "id": "en-390x844-scene-5",
+      "locale": "en",
+      "text": "Criminal profile: confident, loves risk, surrounds themselves with fabric.",
+      "sourceWidth": 542.439453125,
+      "nativeWidths": {
+        "13": 415,
+        "14": 446,
+        "16": 510,
+        "17": 542
+      }
+    },
+    {
+      "id": "en-390x844-scene-6",
+      "locale": "en",
+      "text": "Style: no correlation. Price: none. Owner gender: none. Color: none.",
+      "sourceWidth": 509.0703125,
+      "nativeWidths": {
+        "13": 390,
+        "14": 420,
+        "16": 480,
+        "17": 510
+      }
+    },
+    {
+      "id": "en-390x844-scene-7",
+      "locale": "en",
+      "text": "You just treated mess as evidence.",
+      "sourceWidth": 255.30712890625,
+      "nativeWidths": {
+        "13": 196,
+        "14": 211,
+        "16": 241,
+        "17": 256
+      }
+    },
+    {
+      "id": "en-390x844-scene-8",
+      "locale": "en",
+      "text": "The bag contents match the return log. The missing items are not here.",
+      "sourceWidth": 530.01318359375,
+      "nativeWidths": {
+        "13": 406,
+        "14": 437,
+        "16": 499,
+        "17": 530
+      }
+    },
+    {
+      "id": "en-390x844-scene-9",
+      "locale": "en",
+      "text": "Administration approved this meeting on two conditions: no names leave this…",
+      "sourceWidth": 595.1826171875,
+      "nativeWidths": {
+        "13": 456,
+        "14": 491,
+        "16": 561,
+        "17": 596
+      }
+    },
+    {
+      "id": "en-390x844-scene-10",
+      "locale": "en",
+      "text": "The interval repeats: processing, return, then disappearance within…",
+      "sourceWidth": 517.06396484375,
+      "nativeWidths": {
+        "13": 396,
+        "14": 426,
+        "16": 487,
+        "17": 518
+      }
+    },
+    {
+      "id": "en-390x844-scene-11",
+      "locale": "en",
+      "text": "If the thief keeps taking things from the top shelves, we can estimate their height…",
+      "sourceWidth": 617.1962890625,
+      "nativeWidths": {
+        "13": 473,
+        "14": 509,
+        "16": 582,
+        "17": 618
+      }
+    },
+    {
+      "id": "en-390x844-scene-12",
+      "locale": "en",
+      "text": "Size: no correlation. Style: none. Owner gender: none…",
+      "sourceWidth": 413.60302734375,
+      "nativeWidths": {
+        "13": 317,
+        "14": 341,
+        "16": 390,
+        "17": 414
+      }
+    },
+    {
+      "id": "en-390x844-scene-13",
+      "locale": "en",
+      "text": "Official confirmation: we have entered the final location of the case.",
+      "sourceWidth": 505.74169921875,
+      "nativeWidths": {
+        "13": 386,
+        "14": 415,
+        "16": 474,
+        "17": 504
+      }
+    },
+    {
+      "id": "en-390x844-scene-14",
+      "locale": "en",
+      "text": "My machine cannot handle this thread: its thickness and conductive coating are…",
+      "sourceWidth": 610.3232421875,
+      "nativeWidths": {
+        "13": 467,
+        "14": 503,
+        "16": 575,
+        "17": 611
+      }
+    },
+    {
+      "id": "en-390x844-scene-15",
+      "locale": "en",
+      "text": "Reiji Kurose. Thank you for accepting the invitation…",
+      "sourceWidth": 400.85302734375,
+      "nativeWidths": {
+        "13": 307,
+        "14": 331,
+        "16": 378,
+        "17": 401
+      }
+    },
+    {
+      "id": "en-390x844-scene-16",
+      "locale": "en",
+      "text": "The match is sufficient. The thread is indeed from an Asterion shipment.",
+      "sourceWidth": 543.72607421875,
+      "nativeWidths": {
+        "13": 416,
+        "14": 447,
+        "16": 511,
+        "17": 543
+      }
+    },
+    {
+      "id": "en-390x844-scene-17",
+      "locale": "en",
+      "text": "You have temporary access for forty minutes…",
+      "sourceWidth": 347.3212890625,
+      "nativeWidths": {
+        "13": 266,
+        "14": 286,
+        "16": 327,
+        "17": 348
+      }
+    },
+    {
+      "id": "en-390x844-scene-18",
+      "locale": "en",
+      "text": "These are not isolated errors. Whole consecutive groups disappear here.",
+      "sourceWidth": 538.44677734375,
+      "nativeWidths": {
+        "13": 412,
+        "14": 444,
+        "16": 507,
+        "17": 539
+      }
+    },
+    {
+      "id": "en-390x844-scene-19",
+      "locale": "en",
+      "text": "We found a serial thief’s collection. Except the trophies are socks.",
+      "sourceWidth": 488.81640625,
+      "nativeWidths": {
+        "13": 374,
+        "14": 403,
+        "16": 461,
+        "17": 489
+      }
+    },
+    {
+      "id": "en-390x844-scene-20",
+      "locale": "en",
+      "text": "During the confirmed theft windows, Gen was in another building…",
+      "sourceWidth": 506.8125,
+      "nativeWidths": {
+        "13": 388,
+        "14": 417,
+        "16": 477,
+        "17": 507
+      }
+    },
+    {
+      "id": "en-390x844-scene-21",
+      "locale": "en",
+      "text": "Aoi Kagawa, captain…",
+      "sourceWidth": 166.20654296875,
+      "nativeWidths": {
+        "13": 128,
+        "14": 137,
+        "16": 157,
+        "17": 167
+      }
+    },
+    {
+      "id": "en-390x844-scene-22",
+      "locale": "en",
+      "text": "Same silver thread, same stitch pitch. And both items are outer equipment.",
+      "sourceWidth": 561.29052734375,
+      "nativeWidths": {
+        "13": 430,
+        "14": 463,
+        "16": 529,
+        "17": 562
+      }
+    },
+    {
+      "id": "en-390x844-scene-23",
+      "locale": "en",
+      "text": "I will give you the originals…",
+      "sourceWidth": 215.24755859375,
+      "nativeWidths": {
+        "13": 165,
+        "14": 178,
+        "16": 203,
+        "17": 216
+      }
+    },
+    {
+      "id": "en-390x844-scene-24",
+      "locale": "en",
+      "text": "The chain is continuous…",
+      "sourceWidth": 192.07177734375,
+      "nativeWidths": {
+        "13": 147,
+        "14": 159,
+        "16": 181,
+        "17": 193
+      }
+    },
+    {
+      "id": "en-390x844-scene-25",
+      "locale": "en",
+      "text": "The student chat officially believes seven clubs doing laundry at…",
+      "sourceWidth": 489.447265625,
+      "nativeWidths": {
+        "13": 374,
+        "14": 403,
+        "16": 460,
+        "17": 489
+      }
+    },
+    {
+      "id": "en-390x844-scene-26",
+      "locale": "en",
+      "text": "No magic. The tag contains an active microtag with its own identifier.",
+      "sourceWidth": 518.89013671875,
+      "nativeWidths": {
+        "13": 397,
+        "14": 427,
+        "16": 488,
+        "17": 519
+      }
+    },
+    {
+      "id": "en-390x844-scene-27",
+      "locale": "en",
+      "text": "The thief struck under the armor…",
+      "sourceWidth": 259.50732421875,
+      "nativeWidths": {
+        "13": 199,
+        "14": 214,
+        "16": 245,
+        "17": 260
+      }
+    },
+    {
+      "id": "en-390x844-scene-28",
+      "locale": "en",
+      "text": "Four owners, four pilot participants…",
+      "sourceWidth": 281.42138671875,
+      "nativeWidths": {
+        "13": 216,
+        "14": 232,
+        "16": 265,
+        "17": 282
+      }
+    },
+    {
+      "id": "en-390x844-scene-29",
+      "locale": "en",
+      "text": "New customers? If it is urgent, we start with measurements and confidence…",
+      "sourceWidth": 576.505859375,
+      "nativeWidths": {
+        "13": 441,
+        "14": 475,
+        "16": 543,
+        "17": 576
+      }
+    },
+    {
+      "id": "en-390x844-scene-30",
+      "locale": "en",
+      "text": "The first request is twenty-two days before Emi’s report. Then four more…",
+      "sourceWidth": 556.01953125,
+      "nativeWidths": {
+        "13": 425,
+        "14": 458,
+        "16": 523,
+        "17": 556
+      }
+    },
+    {
+      "id": "en-390x844-scene-31",
+      "locale": "en",
+      "text": "That is not our underwear! I repeat: not ours!",
+      "sourceWidth": 341.0791015625,
+      "nativeWidths": {
+        "13": 261,
+        "14": 281,
+        "16": 322,
+        "17": 342
+      }
+    },
+    {
+      "id": "en-390x844-scene-32",
+      "locale": "en",
+      "text": "The card is active…",
+      "sourceWidth": 143.7861328125,
+      "nativeWidths": {
+        "13": 110,
+        "14": 119,
+        "16": 136,
+        "17": 144
+      }
+    },
+    {
+      "id": "en-390x844-scene-33",
+      "locale": "en",
+      "text": "The ribbons turned up. Two underwear sets did not…",
+      "sourceWidth": 399.02685546875,
+      "nativeWidths": {
+        "13": 306,
+        "14": 329,
+        "16": 376,
+        "17": 400
+      }
+    },
+    {
+      "id": "en-390x844-scene-34",
+      "locale": "en",
+      "text": "Same format as the tag from the old gym.",
+      "sourceWidth": 309.1376953125,
+      "nativeWidths": {
+        "13": 237,
+        "14": 255,
+        "16": 292,
+        "17": 310
+      }
+    },
+    {
+      "id": "en-390x844-scene-35",
+      "locale": "en",
+      "text": "This is either the neatest criminal lair or the worst underwear…",
+      "sourceWidth": 473.55126953125,
+      "nativeWidths": {
+        "13": 363,
+        "14": 390,
+        "16": 446,
+        "17": 474
+      }
+    },
+    {
+      "id": "en-390x844-scene-36",
+      "locale": "en",
+      "text": "The missing items and the catalog match without exception…",
+      "sourceWidth": 458.2529296875,
+      "nativeWidths": {
+        "13": 351,
+        "14": 378,
+        "16": 432,
+        "17": 459
+      }
+    },
+    {
+      "id": "en-390x844-scene-37",
+      "locale": "en",
+      "text": "I want to hear it without the club paraphrasing it for me.",
+      "sourceWidth": 422.4765625,
+      "nativeWidths": {
+        "13": 324,
+        "14": 348,
+        "16": 398,
+        "17": 423
+      }
+    },
+    {
+      "id": "en-390x844-scene-38",
+      "locale": "en",
+      "text": "After Rina leaves the chain, the containers, service passages,…",
+      "sourceWidth": 465.1591796875,
+      "nativeWidths": {
+        "13": 356,
+        "14": 384,
+        "16": 438,
+        "17": 466
+      }
+    },
+    {
+      "id": "en-390x844-scene-39",
+      "locale": "en",
+      "text": "We report only what we proved about Rina…",
+      "sourceWidth": 334.853515625,
+      "nativeWidths": {
+        "13": 257,
+        "14": 276,
+        "16": 316,
+        "17": 335
+      }
+    },
+    {
+      "id": "en-390x844-scene-40",
+      "locale": "en",
+      "text": "All confirmations match. No code was exposed to anyone else.",
+      "sourceWidth": 464.17138671875,
+      "nativeWidths": {
+        "13": 355,
+        "14": 382,
+        "16": 437,
+        "17": 464
+      }
+    },
+    {
+      "id": "en-390x844-scene-41",
+      "locale": "en",
+      "text": "I still think hiding in a laundry cart would have been thematically perfect.",
+      "sourceWidth": 549.810546875,
+      "nativeWidths": {
+        "13": 421,
+        "14": 453,
+        "16": 518,
+        "17": 550
+      }
+    },
+    {
+      "id": "en-390x844-scene-42",
+      "locale": "en",
+      "text": "Tags are registered as 'inner equipment layer.'…",
+      "sourceWidth": 358.7099609375,
+      "nativeWidths": {
+        "13": 275,
+        "14": 296,
+        "16": 338,
+        "17": 359
+      }
+    },
+    {
+      "id": "en-390x844-scene-43",
+      "locale": "en",
+      "text": "The college needs a short answer. Not a forty-page technical report.",
+      "sourceWidth": 504.38037109375,
+      "nativeWidths": {
+        "13": 386,
+        "14": 416,
+        "16": 475,
+        "17": 505
+      }
+    },
+    {
+      "id": "en-390x844-scene-44",
+      "locale": "en",
+      "text": "Coincidence one! Opportunity. Coincidence two! Motive…",
+      "sourceWidth": 434.130859375,
+      "nativeWidths": {
+        "13": 333,
+        "14": 358,
+        "16": 409,
+        "17": 435
+      }
+    }
+  ],
+  "summary": {
+    "ru": {
+      "16": {
+        "samples": 45,
+        "meanRelativeError": 0.01652251893233225
+      },
+      "17": {
+        "samples": 45,
+        "meanRelativeError": 0.07965745182194178
+      }
+    },
+    "be": {
+      "16": {
+        "samples": 45,
+        "meanRelativeError": 0.01956955850251243
+      },
+      "17": {
+        "samples": 45,
+        "meanRelativeError": 0.08281109787925064
+      }
+    },
+    "en": {
+      "16": {
+        "samples": 45,
+        "meanRelativeError": 0.057800991232471705
+      },
+      "17": {
+        "samples": 45,
+        "meanRelativeError": 0.0014544297486911908
+      }
+    }
+  },
+  "errors": []
+}

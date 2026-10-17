@@ -1,0 +1,31 @@
+{
+  "line": "VN0294",
+  "region": {
+    "left": 0,
+    "top": 60,
+    "width": 390,
+    "height": 497
+  },
+  "sourceHash": "662e29d7bb3648f1f22d3650a0ba35d9c591e856dd0af6634ae72fd39eb4dce6",
+  "stageBefore": {
+    "meanRgbError": 34.811295121154274,
+    "pixels": 193830
+  },
+  "stageAfter": {
+    "meanRgbError": 5.74438081480335,
+    "pixels": 193830
+  },
+  "guestOpaqueBefore": {
+    "meanRgbError": 73.51034378796344,
+    "pixels": 75182
+  },
+  "guestOpaqueAfter": {
+    "meanRgbError": 2.0652195117625674,
+    "pixels": 75182
+  },
+  "sourceDrift": {
+    "meanRgbError": 0.0007721542932810539,
+    "pixels": 193830
+  },
+  "note": "Visible stage excluding nameplate overlap; opaque mask threshold 254/255 from approved PNG scaled to source geometry; not whole-screen acceptance."
+}

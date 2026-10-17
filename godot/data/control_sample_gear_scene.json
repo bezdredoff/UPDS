@@ -39,7 +39,20 @@
       "id": "VN0490",
       "hidden": false,
       "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "aoi",
+          "asset": "./assets/guests/aoi/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "АОЙ",
@@ -96,7 +109,20 @@
       "id": "VN0492",
       "hidden": false,
       "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "aoi",
+          "asset": "./assets/guests/aoi/expressions/smile.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "АОЙ",
@@ -153,7 +179,20 @@
       "id": "VN0494",
       "hidden": false,
       "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "aoi",
+          "asset": "./assets/guests/aoi/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "АОЙ",
@@ -210,7 +249,20 @@
       "id": "VN0496",
       "hidden": false,
       "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "aoi",
+          "asset": "./assets/guests/aoi/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "АОЙ",
@@ -548,7 +600,20 @@
       "id": "VN0506",
       "hidden": false,
       "background": "./assets/backgrounds/BG_COMBAT_CLUB_HALL.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "aoi",
+          "asset": "./assets/guests/aoi/expressions/serious.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "АОЙ",

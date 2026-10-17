@@ -6,12 +6,13 @@ import { characterProductionManifest } from '../../src/data/characterProduction'
 import { SCENE_STAGING_SHARED_ACTOR_SCALE } from '../../src/data/sceneStaging';
 import { resolveSceneStagingPreset } from '../../src/ui/sceneStaging';
 import { resolveVnStaging } from '../../src/ui/vnStaging';
-import { resolveVnPortraitEyeLineCamera } from '../../src/ui/vnPortraitGeometry';
+import { resolveVnPortraitEyeLineCamera, resolveVnPortraitCamera } from '../../src/ui/vnPortraitGeometry';
 import { ruCatalog } from '../../src/localization/catalogs/ru';
 import { enCatalog } from '../../src/localization/catalogs/en';
 import { beCatalog } from '../../src/localization/catalogs/be';
 import { getMusicTheme } from '../../src/audio/MusicTheme';
 import { getCueDefinition } from '../../src/audio/AudioCues';
+import { guestWitnessForSpeaker, guestWitnessAssetForDirection } from '../../src/data/guestWitnesses';
 import type { MessageCatalog } from '../../src/localization/MessageCatalog';
 import { storyGraph } from '../../src/data/storyGraph';
 import { storyChoiceGateForLine } from '../../src/data/storyChoices';
@@ -192,7 +193,17 @@ export function godotStoryScene(sceneIndex: number) {
         }))
         : (() => {
           const character = characterForSpeaker(line.speaker);
-          if (!character || isDirection(line)) return [];
+          if (isDirection(line)) return [];
+          if (!character) {
+            const guest = guestWitnessForSpeaker(line.speaker);
+            if (!guest) return [];
+            const camera = resolveVnPortraitCamera();
+            const asset = guestWitnessAssetForDirection(guest, line.emotion);
+            if (!asset) throw new Error(`Missing production portrait for ${guest}`);
+            return [{ character: guest, asset,
+              x: 71, top: camera.topPercent, height: camera.heightPercent, compactHeight: 168,
+              scale: 1, y: 0, z: 2, idle: false }];
+          }
           const expression = expressionForDirection(line.emotion);
           const geometry = characterProductionManifest.characters[character].proportion.frameGeometry[expression];
           const camera = resolveVnPortraitEyeLineCamera(SCENE_STAGING_SHARED_ACTOR_SCALE, geometry.eyeLineYPx);

@@ -134,6 +134,7 @@ func _ready() -> void:
 	header_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(header_background)
 	var header := HBoxContainer.new()
+	header.name = "VnHeader"
 	header.z_index = 24
 	header.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	header.offset_left = 8
@@ -151,6 +152,9 @@ func _ready() -> void:
 	case_button.add_theme_stylebox_override("hover", _case_button_style(true))
 	case_button.pressed.connect(_show_dossier)
 	header.add_child(case_button)
+	var header_actions := HBoxContainer.new()
+	header_actions.name = "HeaderActions"
+	header.add_child(header_actions)
 	var case_row := HBoxContainer.new()
 	case_row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	case_row.add_theme_constant_override("separation", 6)
@@ -171,6 +175,9 @@ func _ready() -> void:
 	var case_label_font := UiFonts.sans(950)
 	case_label.add_theme_font_override("font", case_label_font)
 	title = _label(case_copy, 11)
+	title.autowrap_mode = TextServer.AUTOWRAP_OFF
+	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	title.clip_text = true
 	title.add_theme_font_size_override("font_size", 11)
 	title.add_theme_color_override("font_color", Color("#fff9ea"))
 	var case_title_font := UiFonts.serif(800)
@@ -190,9 +197,9 @@ func _ready() -> void:
 	clue_badge = _label(badge, 8)
 	clue_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	clue_badge.add_theme_color_override("font_color", Color.WHITE)
-	history_button = _header_icon_button(header, "log", Copy.text("vn_history", preferences.locale))
+	history_button = _header_icon_button(header_actions, "log", Copy.text("vn_history", preferences.locale))
 	history_button.pressed.connect(_show_history)
-	settings_button = _header_icon_button(header, "settings", Copy.text("settings", preferences.locale))
+	settings_button = _header_icon_button(header_actions, "settings", Copy.text("settings", preferences.locale))
 	settings_button.pressed.connect(_show_config)
 	dialogue_panel = PanelContainer.new()
 	dialogue_panel.z_index = 8
@@ -219,7 +226,7 @@ func _ready() -> void:
 	nameplate = PanelContainer.new()
 	nameplate.name = "Nameplate"
 	nameplate.z_index = 12
-	nameplate.custom_minimum_size = Vector2(200.0, 38.0)
+	nameplate.custom_minimum_size = Vector2(128.0, 38.0)
 	nameplate.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	nameplate.anchor_top = 0.70
 	nameplate.anchor_bottom = 0.70
@@ -344,8 +351,18 @@ func _layout_vn() -> void:
 		return
 	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	var tiny_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
-	var compact_height := size.y <= 760.0
-	title.add_theme_font_size_override("font_size", 9 if compact_width else 11)
+	title.add_theme_font_size_override("font_size", 9 if compact_width else 10)
+	case_label.add_theme_font_size_override("font_size", 7)
+	# Header height is 44px controls + vertical CSS padding + 2px border.
+	var header_height := 56.0 if tiny_width else 60.0
+	stage.offset_top = header_height
+	(get_node("HeaderBackground") as PanelContainer).offset_bottom = header_height
+	var header := get_node("VnHeader") as HBoxContainer
+	header.offset_left = 6 if tiny_width else 9
+	header.offset_right = -header.offset_left
+	header.offset_top = 5 if tiny_width else 7
+	header.add_theme_constant_override("separation", 4 if tiny_width else 7)
+	(header.get_node("HeaderActions") as HBoxContainer).add_theme_constant_override("separation", 3 if tiny_width else 5)
 	var controls_min_height := 58.0 if tiny_width else 63.0
 	var controls_height := maxf(clampf(size.y * 0.09, 58.0 if tiny_width else 60.0, 82.0), controls_min_height)
 	var dialogue_row_height := clampf(size.y * 0.22, 154.0, 198.0)
@@ -357,6 +374,9 @@ func _layout_vn() -> void:
 	dialogue_panel.offset_right = -8 if tiny_width else -12
 	stage.anchor_bottom = 1.0
 	stage.offset_bottom = -(controls_height + dialogue_row_height)
+	for child in stage.get_children():
+		if child is TextureRect and child.has_meta("compact_actor"):
+			_layout_compact_portrait(child, child.get_meta("compact_actor"))
 	var source_font_size := (16 if tiny_width else 19) if _text_scale == "large" else (14 if tiny_width else 17)
 	dialogue.custom_minimum_size.y = source_font_size * (2.92 if _text_scale == "large" else 2.84) + 19.0
 	dialogue.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
@@ -368,14 +388,12 @@ func _layout_vn() -> void:
 	paper.content_margin_top = 29 if tiny_width else 34
 	paper.content_margin_bottom = 25
 	nameplate.offset_left = 32
-	nameplate.offset_right = 164 if compact_width else 232
 	nameplate.anchor_top = 1.0
 	nameplate.anchor_bottom = 1.0
-	nameplate.offset_top = -(controls_height + dialogue_row_height + (17.0 if compact_height else 19.0))
-	nameplate.offset_bottom = nameplate.offset_top + 38.0
-	nameplate.custom_minimum_size = Vector2(128.0, 34.0) if compact_width else Vector2(200.0, 38.0)
+	nameplate.offset_top = -(controls_height + dialogue_row_height + (17.0 if tiny_width else 19.0))
 	speaker.add_theme_font_size_override("font_size", 11 if compact_width else 13)
-	emotion.add_theme_font_size_override("font_size", 7 if compact_width else 8)
+	emotion.add_theme_font_size_override("font_size", 7)
+	_layout_nameplate()
 	var row := controls_panel.get_child(0) as HBoxContainer
 	row.add_theme_constant_override("separation", 4 if tiny_width else 7)
 	controls_panel.offset_top = -controls_height
@@ -394,6 +412,24 @@ func _layout_vn() -> void:
 		icon.custom_minimum_size = Vector2(18.0, 18.0) if tiny_width else Vector2(22.0, 22.0)
 		var caption := stack.get_child(1) as Label
 		caption.add_theme_font_size_override("font_size", 7 if tiny_width else 8)
+
+
+func _layout_nameplate() -> void:
+	# CSS shrink-to-fit badge: 128px minimum, authored caption plus padding.
+	var tiny := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
+	var style := nameplate.get_theme_stylebox("panel") as StyleBoxFlat
+	style.content_margin_left = 14 if tiny else 17
+	style.content_margin_right = 14 if tiny else 17
+	style.content_margin_top = 9 if tiny else 10
+	style.content_margin_bottom = 9 if tiny else 10
+	nameplate.custom_minimum_size = Vector2(128.0, 34.0 if tiny else 38.0)
+	var content_size := nameplate.get_child(0).get_combined_minimum_size() as Vector2
+	var width := clampf(content_size.x + style.get_minimum_size().x, 128.0, maxf(128.0, size.x - (44.0 if tiny else 64.0)))
+	var height := maxf(nameplate.custom_minimum_size.y, content_size.y + style.get_minimum_size().y)
+	nameplate.offset_left = 22.0 if tiny else 32.0
+	nameplate.offset_right = nameplate.offset_left + width
+	nameplate.offset_bottom = nameplate.offset_top + height
+	nameplate.size = Vector2(width, height)
 
 
 func _queue_dialogue_reflow() -> void:
@@ -449,6 +485,7 @@ func _refresh() -> void:
 	_set_background(str(line.get("background", data.get("background", "./assets/backgrounds/BG_CLUBROOM_DAY.webp"))))
 	speaker.text = copy.speaker
 	emotion.text = copy.emotion
+	_layout_nameplate()
 	if _dialogue_pages.is_empty():
 		_dialogue_pages = _paginate_dialogue(str(copy.text))
 	_dialogue_page_index = mini(_dialogue_page_index, _dialogue_pages.size() - 1)
@@ -516,9 +553,14 @@ func _refresh() -> void:
 		portrait.anchor_bottom = portrait.anchor_top + height
 		# Full precomposed master canvas is 1024x1536, centered on its lane.
 		stage.add_child(portrait)
-		portrait.resized.connect(func() -> void: _portrait_width(portrait))
-		_portrait_width(portrait)
-		if _portrait_should_breathe(str(actor.asset)):
+		if actor.has("compactHeight"):
+			portrait.set_meta("compact_actor", actor)
+			portrait.resized.connect(func() -> void: _layout_compact_portrait(portrait, actor))
+			_layout_compact_portrait(portrait, actor)
+		else:
+			portrait.resized.connect(func() -> void: _portrait_width(portrait))
+			_portrait_width(portrait)
+		if actor.get("idle", true) and _portrait_should_breathe(str(actor.asset)):
 			_animate_portrait(portrait, stage.size.y * height * 0.0035)
 	if not _pending_clue_id.is_empty():
 		_add_clue_toast(_pending_clue_id, locale)
@@ -527,6 +569,12 @@ func _refresh() -> void:
 		_gate_requested = true
 		match3_requested.emit(str(session.scene_data().get("nextLevelId", "")))
 	_schedule_auto()
+
+
+func _layout_compact_portrait(portrait: TextureRect, actor: Dictionary) -> void:
+	var tiny := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
+	portrait.anchor_bottom = portrait.anchor_top + float(actor.compactHeight if tiny else actor.height) * float(actor.scale) / 100.0
+	_portrait_width(portrait)
 
 
 func _portrait_width(portrait: TextureRect) -> void:
@@ -1798,6 +1846,10 @@ func _select_text_scale(scale: String, relayout: bool = true) -> void:
 func _dialogue_font_size() -> int:
 	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	var is_web := OS.has_feature("web")
+	# Gelasio's Latin advances match Georgia at the authored CSS size. The
+	# smaller Cyrillic fallback calibration must not shrink English as well.
+	if is_web and preferences.locale == "en":
+		return (16 if compact_width else 19) if _text_scale == "large" else (14 if compact_width else 17)
 	# Calibrate the native Georgia and bundled Web serif separately against the source CSS size.
 	if compact_width:
 		if _text_scale == "large":

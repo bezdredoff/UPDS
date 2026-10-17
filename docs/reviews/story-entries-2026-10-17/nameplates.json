@@ -1,0 +1,1233 @@
+{
+  "sourceHash": "89dd3a68f3623300e7c0984d4ad31e4dd07252b721e4b0ced0a41335e70cf9f8",
+  "coverage": "Scene first visible line; seeded normal saves, choice A; not a natural full playthrough or ending outcome acceptance",
+  "records": [
+    {
+      "id": "ru-320x568-scene-0",
+      "scene": 0,
+      "locale": "ru",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          177.921875,
+          34
+        ],
+        "lineId": "VN0001",
+        "text": "После звонка кампус японского колледжа Сэйран не затихал…",
+        "pages": 3,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          204.99998822316,
+          34.9999977446996
+        ],
+        "lineId": "VN0001",
+        "text": "После звонка кампус японского колледжа Сэйран не затихал…",
+        "pages": 3,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "ru-320x568-scene-2",
+      "scene": 2,
+      "locale": "ru",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          138.296875,
+          34
+        ],
+        "lineId": "VN0059",
+        "text": "Квитанция подтверждает одну партию. Но из неё исчезли только два предмета.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          144.999995932316,
+          33.9999998629264
+        ],
+        "lineId": "VN0059",
+        "text": "Квитанция подтверждает одну партию. Но из неё исчезли только два предмета.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "ru-320x568-scene-42",
+      "scene": 42,
+      "locale": "ru",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0906",
+        "text": "Метки зарегистрированы как «внутренний слой экипировки»…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0906",
+        "text": "Метки зарегистрированы как «внутренний слой экипировки»…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "ru-390x844-scene-0",
+      "scene": 0,
+      "locale": "ru",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          200.8125,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "После звонка кампус японского колледжа Сэйран не затихал…",
+        "pages": 3,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          211,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "После звонка кампус японского колледжа Сэйран не затихал…",
+        "pages": 3,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "ru-390x844-scene-2",
+      "scene": 2,
+      "locale": "ru",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          150.21875,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "Квитанция подтверждает одну партию. Но из неё исчезли только два предмета.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          157,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "Квитанция подтверждает одну партию…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": [
+        "text",
+        "pages",
+        "nameplate"
+      ]
+    },
+    {
+      "id": "ru-390x844-scene-42",
+      "scene": 42,
+      "locale": "ru",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Метки зарегистрированы как «внутренний слой экипировки»…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Метки зарегистрированы как «внутренний слой экипировки»…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "ru-480x854-scene-0",
+      "scene": 0,
+      "locale": "ru",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          200.8125,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "После звонка кампус японского колледжа Сэйран не затихал: спортивные клубы…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          211.000005291289,
+          37.9999990996898
+        ],
+        "lineId": "VN0001",
+        "text": "После звонка кампус японского колледжа Сэйран не затихал: спортивные клубы…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "ru-480x854-scene-2",
+      "scene": 2,
+      "locale": "ru",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          150.21875,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "Квитанция подтверждает одну партию. Но из неё исчезли только два предмета.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          157.000007818413,
+          37.9999990996898
+        ],
+        "lineId": "VN0059",
+        "text": "Квитанция подтверждает одну партию. Но из неё исчезли только два предмета.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "ru-480x854-scene-42",
+      "scene": 42,
+      "locale": "ru",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Метки зарегистрированы как «внутренний слой экипировки»…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0906",
+        "text": "Метки зарегистрированы как «внутренний слой экипировки»…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "be-320x568-scene-0",
+      "scene": 0,
+      "locale": "be",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          165.65625,
+          34
+        ],
+        "lineId": "VN0001",
+        "text": "Пасля званка кампус японскага каледжа Сэйран не сціхаў: спартыўныя клубы…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          191.99998766623,
+          34.9999977446996
+        ],
+        "lineId": "VN0001",
+        "text": "Пасля званка кампус японскага каледжа Сэйран не сціхаў: спартыўныя…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "text",
+        "nameplate"
+      ]
+    },
+    {
+      "id": "be-320x568-scene-2",
+      "scene": 2,
+      "locale": "be",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0059",
+        "text": "Квітанцыя пацвярджае адну партыю. Але з яе зніклі толькі два прадметы.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          131.999995375385,
+          33.9999998629264
+        ],
+        "lineId": "VN0059",
+        "text": "Квітанцыя пацвярджае адну партыю. Але з яе зніклі толькі два прадметы.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "be-320x568-scene-42",
+      "scene": 42,
+      "locale": "be",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0906",
+        "text": "Меткі зарэгістраваныя як «унутраны слой экіпіроўкі»…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0906",
+        "text": "Меткі зарэгістраваныя як «унутраны слой экіпіроўкі»…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "be-390x844-scene-0",
+      "scene": 0,
+      "locale": "be",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          186.203125,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "Пасля званка кампус японскага каледжа Сэйран не сціхаў…",
+        "pages": 3,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          198,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "Пасля званка кампус японскага каледжа Сэйран не сціхаў…",
+        "pages": 3,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "be-390x844-scene-2",
+      "scene": 2,
+      "locale": "be",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          138.9375,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "Квітанцыя пацвярджае адну партыю. Але з яе зніклі толькі два прадметы.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          144,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "Квітанцыя пацвярджае адну партыю. Але з яе зніклі толькі два прадметы.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "be-390x844-scene-42",
+      "scene": 42,
+      "locale": "be",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Меткі зарэгістраваныя як «унутраны слой экіпіроўкі»…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Меткі зарэгістраваныя як «унутраны слой экіпіроўкі»…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "be-480x854-scene-0",
+      "scene": 0,
+      "locale": "be",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          186.203125,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "Пасля званка кампус японскага каледжа Сэйран не сціхаў: спартыўныя клубы…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          198.000011336464,
+          37.9999990996898
+        ],
+        "lineId": "VN0001",
+        "text": "Пасля званка кампус японскага каледжа Сэйран не сціхаў: спартыўныя клубы…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "be-480x854-scene-2",
+      "scene": 2,
+      "locale": "be",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          138.9375,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "Квітанцыя пацвярджае адну партыю. Але з яе зніклі толькі два прадметы.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          143.999998411649,
+          37.9999990996898
+        ],
+        "lineId": "VN0059",
+        "text": "Квітанцыя пацвярджае адну партыю. Але з яе зніклі толькі два прадметы.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "be-480x854-scene-42",
+      "scene": 42,
+      "locale": "be",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Меткі зарэгістраваныя як «унутраны слой экіпіроўкі»…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0906",
+        "text": "Меткі зарэгістраваныя як «унутраны слой экіпіроўкі»…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-0",
+      "scene": 0,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          175.09375,
+          34
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          201.999988094638,
+          34.9999977446996
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to practice…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "text",
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-320x568-scene-2",
+      "scene": 2,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-320x568-scene-42",
+      "scene": 42,
+      "locale": "en",
+      "viewport": [
+        320,
+        568
+      ],
+      "source": {
+        "nameplate": [
+          22,
+          339,
+          128,
+          34
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          22.0000086522027,
+          339.00001871815,
+          127.999995204022,
+          33.9999998629264
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "pages"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-0",
+      "scene": 0,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          200.234375,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          208,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-390x844-scene-2",
+      "scene": 2,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-390x844-scene-42",
+      "scene": 42,
+      "locale": "en",
+      "viewport": [
+        390,
+        844
+      ],
+      "source": {
+        "nameplate": [
+          32,
+          563.375,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 3,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          32,
+          563.359985351562,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "pages"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-0",
+      "scene": 0,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          200.234375,
+          38
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to practice…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          208.000011440772,
+          37.9999990996898
+        ],
+        "lineId": "VN0001",
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to practice…",
+        "pages": 2,
+        "actors": [
+          "miku"
+        ],
+        "images": [
+          "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": [
+        "nameplate"
+      ]
+    },
+    {
+      "id": "en-480x854-scene-2",
+      "scene": 2,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0059",
+        "text": "The receipt confirms one batch. But only two items disappeared from it.",
+        "pages": 1,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-serious.png"
+        ]
+      },
+      "differences": []
+    },
+    {
+      "id": "en-480x854-scene-42",
+      "scene": 42,
+      "locale": "en",
+      "viewport": [
+        480,
+        854
+      ],
+      "source": {
+        "nameplate": [
+          57,
+          570.265625,
+          128,
+          38
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "native": {
+        "nameplate": [
+          56.9999990493625,
+          570.260031485406,
+          128.000002880338,
+          37.9999990996898
+        ],
+        "lineId": "VN0906",
+        "text": "Tags are registered as 'inner equipment layer.'…",
+        "pages": 2,
+        "actors": [
+          "onoe"
+        ],
+        "images": [
+          "./assets/characters/onoe/rig/pose_a/frames/frame-neutral.png"
+        ]
+      },
+      "differences": []
+    }
+  ],
+  "errors": []
+}

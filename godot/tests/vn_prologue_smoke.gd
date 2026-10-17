@@ -83,8 +83,8 @@ func _run() -> void:
 		assert(case_title_native_font != null and case_title_native_font.font_names.has("Georgia")
 			and case_title_native_font.font_weight == 800,
 			"Native VN scene title should request the source Georgia serif weight 800")
-	assert(screen.title.get_theme_font_size("font_size") == 11,
-		"Standard VN scene title should use the source 11px size")
+	assert(screen.title.get_theme_font_size("font_size") == 10,
+		"VN case-pill title overrides the shared header font to the source 10px size")
 	var case_button_style := screen.case_button.get_theme_stylebox("normal") as StyleBoxFlat
 	var case_button_hover := screen.case_button.get_theme_stylebox("hover") as StyleBoxFlat
 	assert(case_button_style.bg_color.is_equal_approx(Color("#223b58"))
@@ -124,10 +124,20 @@ func _run() -> void:
 		"VN pagination must measure the same inner width as the visible dialogue text")
 	assert(screen.dialogue.get_theme_font_size("normal_font_size") == (16 if OS.has_feature("web") else 18),
 		"Godot dialogue font metrics should preserve the source line wrap at the 430px phone width")
-	assert(is_equal_approx(screen.nameplate.custom_minimum_size.x, 200.0)
+	assert(is_equal_approx(screen.nameplate.custom_minimum_size.x, 128.0)
 		and screen.speaker.get_theme_font_size("font_size") == 13
-		and screen.emotion.get_theme_font_size("font_size") == 8,
+		and screen.emotion.get_theme_font_size("font_size") == 7,
 		"A standard phone width must use the web nameplate and speaker sizing")
+	var original_speaker: String = screen.speaker.text
+	var original_emotion: String = screen.emotion.text
+	screen.speaker.text = "ОНОЭ"
+	screen.emotion.text = "ЧИТАЕТ"
+	screen._layout_nameplate()
+	assert(screen.nameplate.size.x == 128.0 and screen.nameplate.size.y == 38.0,
+		"A short speaker badge must shrink to the source 128px minimum instead of retaining 200px")
+	screen.speaker.text = original_speaker
+	screen.emotion.text = original_emotion
+	screen._layout_nameplate()
 	var vn_width_before_compact_check := screen.size.x
 	screen.size.x = 320.0
 	screen._layout_vn()
@@ -136,6 +146,7 @@ func _run() -> void:
 	assert(screen.dialogue.get_theme_font_size("normal_font_size") == (13 if OS.has_feature("web") else 15),
 		"Compact VN dialogue font metrics should preserve the source line wrap below 340px")
 	assert(is_equal_approx(screen.nameplate.custom_minimum_size.x, 128.0)
+		and is_equal_approx(screen.nameplate.offset_left, 22.0)
 		and screen.speaker.get_theme_font_size("font_size") == 11
 		and screen.emotion.get_theme_font_size("font_size") == 7,
 		"Only a narrow phone width should use compact nameplate and speaker sizing")

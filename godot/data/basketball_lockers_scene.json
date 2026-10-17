@@ -164,7 +164,20 @@
       "id": "VN0294",
       "hidden": false,
       "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",
@@ -255,7 +268,20 @@
       "id": "VN0297",
       "hidden": false,
       "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",
@@ -312,7 +338,20 @@
       "id": "VN0299",
       "hidden": false,
       "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",
@@ -392,7 +431,20 @@
       "id": "VN0302",
       "hidden": false,
       "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/expressions/serious.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",
@@ -540,7 +592,20 @@
       "id": "VN0307",
       "hidden": false,
       "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",

@@ -12,6 +12,7 @@ require.extensions['.ts'] = (module, filename) => module._compile(ts.transpileMo
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
 }).outputText, filename);
 const { godotPrologue, godotLockerScene, godotPostMatchScene, godotStoryScene, godotVnAudio, godotEndingOutcomeData } = require('../tests/fixtures/godotPrologue.ts');
+const { guestWitnessManifest } = require('../src/data/guestWitnesses.ts');
 const prologue = godotPrologue();
 fs.writeFileSync(path.join(root, 'godot/data/prologue.json'), `${JSON.stringify(prologue, null, 2)}\n`);
 const lockerScene = godotLockerScene();
@@ -123,6 +124,12 @@ for (const lines of Object.values(lockerScene.variants)) {
   for (const line of lines) {
     assets.add(line.background);
     for (const actor of line.actors) assets.add(actor.asset);
+  }
+}
+for (const guest of Object.values(guestWitnessManifest.guests)) {
+  if (guest.status === 'production' && guest.assets) {
+    assets.add(guest.assets.bustMaster);
+    for (const expression of guest.assets.expressions) assets.add(expression.asset);
   }
 }
 for (const asset of assets) {

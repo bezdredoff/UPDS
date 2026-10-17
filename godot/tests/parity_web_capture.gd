@@ -30,7 +30,13 @@ func _create_menu(locale: String) -> void:
 
 func _dispatch(arguments: Array) -> void:
 	var request: Dictionary = JSON.parse_string(str(arguments[0]))
+	var extra := {}
 	match str(request.action):
+		"font_metrics":
+			var font := preload("res://scripts/ui_fonts.gd").serif()
+			extra.fontMetrics = {}
+			for font_size in [13, 14, 16, 17]:
+				extra.fontMetrics[str(font_size)] = font.get_string_size(str(request.text), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
 		"snapshot": pass
 		"reset":
 			var locale: String = menu.preferences.locale
@@ -40,12 +46,19 @@ func _dispatch(arguments: Array) -> void:
 		"new_game": menu._begin_new_game()
 		"campaign": menu._open_campaign()
 		"settings": menu._open_settings()
+		"audio_settings": menu.preferences.update_audio(request.patch)
+		"audio_cue": menu.audio_runtime.play_effect(str(request.cue))
 		"line":
 			menu.session.state.scene = int(request.scene)
 			menu.session.state.line = int(request.line)
 			menu.session.resume()
 			menu._open_story()
+			menu.story_screen._refresh()
 		"advance": menu.story_screen._next()
+		"text_scale":
+			menu.story_screen._show_config()
+			menu.story_screen.config_text_buttons[str(request.scale)].emit_signal("pressed")
+			menu.story_screen._close_overlay()
 		"locale": menu.preferences.set_locale(str(request.locale))
 		"match3":
 			menu.match3_session.save.completed = []
@@ -63,19 +76,22 @@ func _dispatch(arguments: Array) -> void:
 			assert(false, "Unknown parity fixture action: " + str(request.action))
 	await get_tree().process_frame
 	await get_tree().process_frame
-	_publish(str(request.get("id", "action")))
+	_publish(str(request.get("id", "action")), extra)
 
 
-func _publish(request_id: String) -> void:
+func _publish(request_id: String, extra: Dictionary = {}) -> void:
 	var records: Array = []
 	_collect(menu, records)
 	var result := {"id": request_id, "controls": records, "scene": menu.session.state.scene,
 		"line": menu.session.state.line, "locale": menu.preferences.locale,
 		"audio": menu.preferences.audio,
+		"hapticsSupported": menu.audio_runtime.haptics_supported,
 		"build": _build, "engine": Engine.get_version_info().string,
 		"viewport": [get_viewport().get_visible_rect().size.x, get_viewport().get_visible_rect().size.y],
 		"window": [get_window().size.x, get_window().size.y]}
+	result.merge(extra)
 	if is_instance_valid(menu.story_screen):
+		result.storyLine = menu.session.current_line()
 		result.dialogue = {"pages": menu.story_screen._dialogue_pages,
 			"pageIndex": menu.story_screen._dialogue_page_index,
 			"displayed": menu.story_screen.dialogue.text}
@@ -96,5 +112,8 @@ func _collect(node: Node, records: Array) -> void:
 			record.font_size = control.get_theme_font_size("normal_font_size" if node is RichTextLabel else "font_size")
 		if node is Button:
 			record.pressed = node.button_pressed
+		if node is TextureRect and node.texture != null:
+			record.asset = node.texture.resource_path
+			record.textureFilter = node.texture_filter
 		records.append(record)
 	for child in node.get_children(): _collect(child, records)

@@ -141,7 +141,20 @@
       "id": "VN0313",
       "hidden": false,
       "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",
@@ -289,7 +302,20 @@
       "id": "VN0318",
       "hidden": false,
       "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",
@@ -346,7 +372,20 @@
       "id": "VN0320",
       "hidden": false,
       "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/expressions/serious.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",
@@ -403,7 +442,20 @@
       "id": "VN0322",
       "hidden": false,
       "background": "./assets/backgrounds/BG_BASKETBALL_LOCKER.webp",
-      "actors": [],
+      "actors": [
+        {
+          "character": "hinata",
+          "asset": "./assets/guests/hinata/neutral.png",
+          "x": 71,
+          "top": 0,
+          "height": 178,
+          "compactHeight": 168,
+          "scale": 1,
+          "y": 0,
+          "z": 2,
+          "idle": false
+        }
+      ],
       "localized": {
         "ru": {
           "speaker": "ХИНАТА",
