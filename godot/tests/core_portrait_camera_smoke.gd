@@ -33,7 +33,6 @@ func _run() -> void:
 	assert(menu.session.current_line().id == "VN0001")
 	assert(screen.get_node("Vignette").visible)
 	assert(screen.background_rect.material != null and screen.background_rect.modulate == Color.WHITE)
-=======
 	menu.session.state.scene = 15
 	menu.session.state.line = 19
 	assert(menu.session.resume())
