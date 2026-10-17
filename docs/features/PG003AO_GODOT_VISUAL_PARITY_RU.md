@@ -4,9 +4,9 @@
 
 ## Handoff для продолжения работы
 
-**Актуально на 2026-10-16, `origin/main` после merge PR #467 (`f5f95cb`).** PR #467 смёржен; все проверки Chromium full E2E, Mobile WebKit critical E2E и Quality Gate прошли. Открытых PR нет. Следующую работу начинать с обновлённого `origin/main`, перед созданием PR проверять открытые PR и не держать несколько PR по этому треку одновременно.
+**Актуально на 2026-10-17, origin/main после merge PR #473 (5402e5f).** PR #468–473 смёржены. Этот срез опубликован в [PR #474](https://github.com/bezdredoff/UPDS/pull/474); не считать его merged/deployed. Перед новой отдельной реализацией проверить статус PR, актуальный origin/main и все проверки последнего head. Не держать несколько PR по этому треку одновременно.
 
-PR #467 исправил повторное умножение текстуры на `COLOR` в CanvasItem shaders (главная причина затемнения персонажей и части Match-3 art), привёл базовый стиль плиток к web CSS, обновил VN title serif, палитру case-pill и отступы диалога. Один парный VN001 RU capture `390×844` показывает glyph bounds web `(34,641)–(343,681)` и Godot `(34,641)–(346,680)`; это точечная калибровка стандартного первого кадра, не приёмка всех персонажей, экранов или размеров.
+Последовательные срезы закрыли haptics/EN font calibration, guest assets, core actor camera/idle/reduced motion, speaking z-order и cached VN background blur/fit; подробные измерения и ограничения приведены в журнале ниже и docs/reviews. PR #474 добавляет самостоятельные концовки, их навигацию и музыку: 45 состояний, 27 input profiles / 243 steps, 18 ending backdrop pairs, 207 VN backdrop regression states и 12 live resize states. Все локальные проверки проходят; фактический CI читать по последнему head PR. Формы glyphs/антиалиасинг, точные тени, остальные UI/Match-3/motion и device/audio acceptance остаются открытыми. Общий статус active.
 
 ### Оставшиеся задачи по приоритету
 
