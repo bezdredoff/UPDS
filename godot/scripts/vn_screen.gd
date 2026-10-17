@@ -20,6 +20,7 @@ const ReducedMotion = preload("res://scripts/reduced_motion.gd")
 const UiFonts = preload("res://scripts/ui_fonts.gd")
 
 static var _portrait_shadow_material_cache: ShaderMaterial
+var _last_reduced_motion: Variant = null
 
 var session: RefCounted
 var preferences: RefCounted
@@ -560,8 +561,10 @@ func _refresh() -> void:
 		else:
 			portrait.resized.connect(func() -> void: _portrait_width(portrait))
 			_portrait_width(portrait)
-		if actor.get("idle", true) and _portrait_should_breathe(str(actor.asset)):
-			_animate_portrait(portrait, stage.size.y * height * 0.0035)
+		var idle_eligible: bool = actor.get("idle", true) and _portrait_should_breathe(str(actor.asset))
+		portrait.set_meta("idle_eligible", idle_eligible)
+		if idle_eligible:
+			_animate_portrait(portrait)
 	if not _pending_clue_id.is_empty():
 		_add_clue_toast(_pending_clue_id, locale)
 		_pending_clue_id = ""
@@ -705,30 +708,51 @@ void fragment() {
 	return shader_material
 
 
-func _animate_portrait(portrait: TextureRect, travel: float) -> void:
-	if travel <= 0.0 or ReducedMotion.is_enabled() or not portrait.is_inside_tree():
+func _animate_portrait(portrait: TextureRect) -> void:
+	if ReducedMotion.is_enabled() or not portrait.is_inside_tree() or portrait.get_meta("awaiting_idle", false):
 		return
+	portrait.set_meta("awaiting_idle", true)
 	# Wait for anchors and the 1024x1536 portrait bounds to settle before
 	# capturing the idle baseline. Animating Control.position rewrites its left
 	# and top offsets, which shifts centered portraits when their anchors differ.
 	await get_tree().process_frame
 	if not is_instance_valid(portrait) or not portrait.is_inside_tree():
 		return
-	var resting_top := portrait.offset_top
-	var resting_bottom := portrait.offset_bottom
+	portrait.set_meta("awaiting_idle", false)
+	if ReducedMotion.is_enabled():
+		return
+	var resting := Vector2(portrait.offset_top, portrait.offset_bottom)
 	var breathing := portrait.create_tween().set_loops()
-	var ease_in_out := Callable(self, "_idle_breathe_curve")
-	var rise: PropertyTweener = breathing.tween_property(
-		portrait, "offset_top", resting_top - travel, 1.4)
-	rise.set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
-	var rise_bottom: PropertyTweener = breathing.parallel().tween_property(
-		portrait, "offset_bottom", resting_bottom - travel, 1.4)
-	rise_bottom.set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
-	var fall: PropertyTweener = breathing.chain().tween_property(portrait, "offset_top", resting_top, 1.4)
-	fall.set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
-	var fall_bottom: PropertyTweener = breathing.parallel().tween_property(
-		portrait, "offset_bottom", resting_bottom, 1.4)
-	fall_bottom.set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(ease_in_out)
+	portrait.set_meta("idle_tween", breathing)
+	var apply := func(weight: float) -> void:
+		# CSS translateY percentages follow the current portrait box, including
+		# compact camera and viewport changes while the animation is running.
+		var displacement := portrait.size.y * 0.0035 * _idle_breathe_curve(weight)
+		portrait.offset_top = resting.x - displacement
+		portrait.offset_bottom = resting.y - displacement
+	breathing.tween_method(apply, 0.0, 1.0, 1.4).set_trans(Tween.TRANS_LINEAR)
+	breathing.tween_method(apply, 1.0, 0.0, 1.4).set_trans(Tween.TRANS_LINEAR)
+
+
+func _process(_delta: float) -> void:
+	var reduced := ReducedMotion.is_enabled()
+	if _last_reduced_motion == null:
+		_last_reduced_motion = reduced
+		return
+	if reduced == _last_reduced_motion or stage == null:
+		return
+	_last_reduced_motion = reduced
+	for portrait in stage.get_children():
+		if not portrait is TextureRect or not portrait.get_meta("idle_eligible", false):
+			continue
+		if portrait.has_meta("idle_tween"):
+			var tween: Tween = portrait.get_meta("idle_tween")
+			tween.kill()
+			portrait.remove_meta("idle_tween")
+		portrait.offset_top = 0.0
+		portrait.offset_bottom = 0.0
+		if not reduced:
+			_animate_portrait(portrait)
 
 
 func _css_cubic_bezier(progress: float, x1: float, y1: float, x2: float, y2: float) -> float:

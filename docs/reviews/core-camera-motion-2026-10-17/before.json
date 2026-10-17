@@ -1,0 +1,46 @@
+{
+  "source": [
+    {
+      "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+      "rect": [
+        -8,
+        167.40625,
+        336,
+        504
+      ]
+    }
+  ],
+  "native": {
+    "actors": [
+      {
+        "asset": "./assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+        "character": "miku",
+        "height": 128.16,
+        "scale": 1,
+        "top": 37.14,
+        "x": 50,
+        "y": 0,
+        "z": 0
+      }
+    ],
+    "controls": [
+      {
+        "asset": "res://assets/characters/miku/rig/pose_a/frames/frame-neutral.png",
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/Stage/miku",
+        "rect": [
+          31.8400198673426,
+          167.390962499645,
+          256.31993285596,
+          384.479978757721
+        ],
+        "textureFilter": 4,
+        "type": "TextureRect"
+      }
+    ]
+  }
+}

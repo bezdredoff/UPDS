@@ -38,6 +38,13 @@ func _dispatch(arguments: Array) -> void:
 			for font_size in [13, 14, 16, 17]:
 				extra.fontMetrics[str(font_size)] = font.get_string_size(str(request.text), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
 		"snapshot": pass
+		"idle_sample":
+			for portrait in menu.story_screen.stage.get_children():
+				if portrait is TextureRect and portrait.has_meta("idle_tween"):
+					var tween: Tween = portrait.get_meta("idle_tween")
+					tween.stop()
+					tween.custom_step(maxf(0.000001, float(request.seconds)))
+					tween.pause()
 		"reset":
 			var locale: String = menu.preferences.locale
 			menu.queue_free()
@@ -51,6 +58,7 @@ func _dispatch(arguments: Array) -> void:
 		"line":
 			menu.session.state.scene = int(request.scene)
 			menu.session.state.line = int(request.line)
+			menu.session.state.choice = str(request.get("choice", "A"))
 			menu.session.resume()
 			menu._open_story()
 			menu.story_screen._refresh()
@@ -86,6 +94,7 @@ func _publish(request_id: String, extra: Dictionary = {}) -> void:
 		"line": menu.session.state.line, "locale": menu.preferences.locale,
 		"audio": menu.preferences.audio,
 		"hapticsSupported": menu.audio_runtime.haptics_supported,
+		"reducedMotion": preload("res://scripts/reduced_motion.gd").is_enabled(),
 		"build": _build, "engine": Engine.get_version_info().string,
 		"viewport": [get_viewport().get_visible_rect().size.x, get_viewport().get_visible_rect().size.y],
 		"window": [get_window().size.x, get_window().size.y]}
@@ -115,5 +124,6 @@ func _collect(node: Node, records: Array) -> void:
 		if node is TextureRect and node.texture != null:
 			record.asset = node.texture.resource_path
 			record.textureFilter = node.texture_filter
+			record.idle = node.has_meta("idle_tween")
 		records.append(record)
 	for child in node.get_children(): _collect(child, records)

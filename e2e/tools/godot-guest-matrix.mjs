@@ -10,7 +10,7 @@ const {values}=parseArgs({options:{chrome:{type:'string'},web:{type:'string'},go
 if(!values.web||!values.godot||!values.output)throw new Error('--web, --godot, --output required');
 const sharp=values.sharp?createRequire(import.meta.url)(resolve(values.sharp)):null;
 const all=[];
-for(const file of await readdir(join(root,'godot/data'))){if(!file.endsWith('.json'))continue;const scene=JSON.parse(await readFile(join(root,'godot/data',file),'utf8'));if(!Number.isInteger(scene.sceneIndex))continue;for(const [line,entry]of(scene.lines??[]).entries())for(const actor of entry.actors??[])if(actor.compactHeight)all.push({scene:scene.sceneIndex,line,id:entry.id,guest:actor.character,asset:actor.asset});}
+for(const file of await readdir(join(root,'godot/data'))){if(!file.endsWith('.json'))continue;const scene=JSON.parse(await readFile(join(root,'godot/data',file),'utf8'));if(!Number.isInteger(scene.sceneIndex))continue;for(const [line,entry]of(scene.lines??[]).entries())for(const actor of entry.actors??[])if(actor.asset.startsWith('./assets/guests/'))all.push({scene:scene.sceneIndex,line,id:entry.id,guest:actor.character,asset:actor.asset});}
 const variants=[...new Map(all.map(row=>[row.asset,row])).values()].sort((a,b)=>a.asset.localeCompare(b.asset));
 if(new Set(variants.map(c=>c.guest)).size!==6||variants.length!==12||all.length!==71)throw new Error('Guest coverage changed; inspect canonical source before updating this matrix');
 const cases=values['line-id']?all.filter(row=>row.id===values['line-id']):variants;
