@@ -71,6 +71,7 @@ func _publish(request_id: String) -> void:
 	_collect(menu, records)
 	var result := {"id": request_id, "controls": records, "scene": menu.session.state.scene,
 		"line": menu.session.state.line, "locale": menu.preferences.locale,
+		"audio": menu.preferences.audio,
 		"build": _build, "engine": Engine.get_version_info().string,
 		"viewport": [get_viewport().get_visible_rect().size.x, get_viewport().get_visible_rect().size.y],
 		"window": [get_window().size.x, get_window().size.y]}
@@ -93,5 +94,7 @@ func _collect(node: Node, records: Array) -> void:
 		if node is Label or node is RichTextLabel or node is Button:
 			record.text = node.get("text")
 			record.font_size = control.get_theme_font_size("normal_font_size" if node is RichTextLabel else "font_size")
+		if node is Button:
+			record.pressed = node.button_pressed
 		records.append(record)
 	for child in node.get_children(): _collect(child, records)

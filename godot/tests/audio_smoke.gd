@@ -37,6 +37,36 @@ func _run_smoke() -> void:
 		assert(screen.eyebrow.text == ("НАЛАДЫ · СІСТЭМА" if locale == "be" else "CONFIG · SYSTEM"))
 	preferences.set_locale("be")
 	menu.size = Vector2(390, 844)
+	_card_pointer(screen.mute_card, Vector2(4, 4), true)
+	assert(not preferences.audio.muted, "Card must toggle on release, not pointer down")
+	_card_pointer(screen.mute_card, Vector2(4, 4), false)
+	assert(preferences.audio.muted and screen.mute.has_focus(), "Card edge click must toggle and focus its keyboard control")
+	assert((screen.mute_card.get_theme_stylebox("panel") as StyleBoxFlat).bg_color == Color("#eef9f6"))
+	screen.mute.button_pressed = false
+	_card_pointer(screen.mute_card, Vector2(4, 4), true)
+	_card_pointer(screen.mute_card, Vector2(-4, -4), false)
+	assert(not preferences.audio.muted, "Dragging outside a card must cancel the toggle")
+	var original_card_position: Vector2 = screen.mute_card.position
+	_card_pointer(screen.mute_card, Vector2(4, 4), true)
+	screen.mute_card.position.y -= 20
+	_card_pointer(screen.mute_card, Vector2(4, 4), false)
+	assert(not preferences.audio.muted, "Scrolling a card under the pointer must cancel the toggle")
+	screen.mute_card.position = original_card_position
+	var key := InputEventKey.new()
+	key.keycode = KEY_SPACE
+	key.pressed = true
+	Input.parse_input_event(key)
+	await process_frame
+	key = key.duplicate()
+	key.pressed = false
+	Input.parse_input_event(key)
+	await process_frame
+	assert(preferences.audio.muted, "Space after an edge click must activate the focused toggle")
+	screen.mute.button_pressed = false
+	_card_pointer(screen.haptics_card, Vector2(4, 4), true)
+	_card_pointer(screen.haptics_card, Vector2(4, 4), false)
+	assert(not preferences.audio.hapticsEnabled, "Haptics card edge must toggle the saved preference")
+	screen.haptics.button_pressed = true
 	screen.music_slider.value = 61
 	screen.effects_slider.value = 27
 	screen.haptics.button_pressed = false
@@ -108,3 +138,11 @@ func _has_sound(stream: AudioStreamWAV) -> bool:
 		if absi(stream.data.decode_s16(offset)) > 10:
 			return true
 	return false
+
+
+func _card_pointer(card: Control, position: Vector2, pressed: bool) -> void:
+	var event := InputEventMouseButton.new()
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.position = position
+	event.pressed = pressed
+	card.gui_input.emit(event)
