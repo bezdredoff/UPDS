@@ -80,6 +80,7 @@ var _dialogue_locale := ""
 var _pending_clue_id := ""
 var _dialogue_pages: Array[String] = []
 var _dialogue_page_index := 0
+var _dialogue_reflow_generation := 0
 var _auto_mode := false
 var _auto_generation := 0
 var _auto_speed := "normal"
@@ -92,6 +93,7 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	PhoneFrame.fit(self)
 	resized.connect(_layout_vn)
+	resized.connect(_queue_dialogue_reflow)
 	visibility_changed.connect(_on_visibility_changed)
 	background_fill = TextureRect.new()
 	background_fill.name = "BackgroundFill"
@@ -392,6 +394,30 @@ func _layout_vn() -> void:
 		icon.custom_minimum_size = Vector2(18.0, 18.0) if tiny_width else Vector2(22.0, 22.0)
 		var caption := stack.get_child(1) as Label
 		caption.add_theme_font_size_override("font_size", 7 if tiny_width else 8)
+
+
+func _queue_dialogue_reflow() -> void:
+	if not is_inside_tree() or not is_instance_valid(dialogue):
+		return
+	_dialogue_reflow_generation += 1
+	var generation := _dialogue_reflow_generation
+	var scene_tree := get_tree()
+	# Match the source viewport debounce, then let container layout settle.
+	# A screen can be detached while this awaits; get_tree() would then be null.
+	await scene_tree.create_timer(0.08).timeout
+	await scene_tree.process_frame
+	await scene_tree.process_frame
+	if generation != _dialogue_reflow_generation or not is_visible_in_tree():
+		return
+	if _dialogue_pages.is_empty() or _boundary or session.at_choice_gate() or not session.ending_result().is_empty():
+		return
+	var line: Dictionary = session.current_line()
+	if line.is_empty() or str(line.id) != _dialogue_line_id:
+		return
+	_dialogue_pages = _paginate_dialogue(str(line.localized[preferences.locale].text))
+	_dialogue_page_index = mini(_dialogue_page_index, _dialogue_pages.size() - 1)
+	_update_dialogue_page()
+	_schedule_auto()
 
 
 func _refresh() -> void:
@@ -867,6 +893,7 @@ func _auto_delay_for_text(text_length: int) -> float:
 
 func _on_visibility_changed() -> void:
 	if is_visible_in_tree():
+		_queue_dialogue_reflow()
 		_schedule_auto()
 	else:
 		_auto_generation += 1
@@ -1760,6 +1787,7 @@ func _select_text_scale(scale: String, relayout: bool = true) -> void:
 	for key in config_text_buttons:
 		config_text_buttons[key].add_theme_stylebox_override("normal", _control_button_style(key == scale))
 	dialogue.add_theme_font_size_override("normal_font_size", _dialogue_font_size())
+	_layout_vn()
 	if relayout and is_instance_valid(overlay):
 		_dialogue_pages.clear()
 		_dialogue_page_index = 0
