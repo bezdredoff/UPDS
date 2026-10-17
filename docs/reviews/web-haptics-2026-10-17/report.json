@@ -1,0 +1,988 @@
+{
+  "sourceHash": "cabef8a9ae12ba15e4ef300f202f644d2b9f12e6a092648e2603665d80efd5f6",
+  "cues": [
+    "uiClick",
+    "vnAdvance",
+    "choice",
+    "dossier",
+    "hint",
+    "swap",
+    "invalidSwap",
+    "match",
+    "cascade",
+    "special",
+    "reshuffle",
+    "clue",
+    "win",
+    "lose"
+  ],
+  "records": [
+    {
+      "locale": "ru",
+      "mode": "supported",
+      "sourceHelp": "Поддерживается устройством",
+      "nativeHelp": "Поддерживается устройством",
+      "phases": [
+        {
+          "enabled": true,
+          "supported": true,
+          "calls": [
+            [
+              8
+            ],
+            [
+              12,
+              24,
+              18
+            ],
+            [
+              10
+            ],
+            [
+              8,
+              20,
+              8
+            ],
+            [
+              7
+            ],
+            [
+              18
+            ],
+            [
+              9,
+              18,
+              10
+            ],
+            [
+              9,
+              14,
+              9
+            ],
+            [
+              12,
+              18,
+              24
+            ],
+            [
+              10,
+              22,
+              10
+            ],
+            [
+              18,
+              30,
+              35
+            ],
+            [
+              18,
+              24,
+              18,
+              24,
+              28
+            ],
+            [
+              24
+            ]
+          ]
+        },
+        {
+          "enabled": false,
+          "supported": true,
+          "calls": []
+        },
+        {
+          "enabled": true,
+          "supported": true,
+          "calls": [
+            [
+              8
+            ],
+            [
+              12,
+              24,
+              18
+            ],
+            [
+              10
+            ],
+            [
+              8,
+              20,
+              8
+            ],
+            [
+              7
+            ],
+            [
+              18
+            ],
+            [
+              9,
+              18,
+              10
+            ],
+            [
+              9,
+              14,
+              9
+            ],
+            [
+              12,
+              18,
+              24
+            ],
+            [
+              10,
+              22,
+              10
+            ],
+            [
+              18,
+              30,
+              35
+            ],
+            [
+              18,
+              24,
+              18,
+              24,
+              28
+            ],
+            [
+              24
+            ]
+          ]
+        }
+      ],
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T07:36:23.080Z",
+        "sourceCommit": "57487b08ca53bd845e8c556010aae0abadaf0565",
+        "sourceHash": "cabef8a9ae12ba15e4ef300f202f644d2b9f12e6a092648e2603665d80efd5f6",
+        "sourceTreeClean": false
+      }
+    },
+    {
+      "locale": "ru",
+      "mode": "absent",
+      "sourceHelp": "Недоступно в этом браузере",
+      "nativeHelp": "Недоступно в этом браузере",
+      "phases": [
+        {
+          "enabled": true,
+          "supported": false,
+          "calls": []
+        },
+        {
+          "enabled": false,
+          "supported": false,
+          "calls": []
+        },
+        {
+          "enabled": true,
+          "supported": false,
+          "calls": []
+        }
+      ],
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T07:36:23.080Z",
+        "sourceCommit": "57487b08ca53bd845e8c556010aae0abadaf0565",
+        "sourceHash": "cabef8a9ae12ba15e4ef300f202f644d2b9f12e6a092648e2603665d80efd5f6",
+        "sourceTreeClean": false
+      }
+    },
+    {
+      "locale": "ru",
+      "mode": "throws",
+      "sourceHelp": "Поддерживается устройством",
+      "nativeHelp": "Поддерживается устройством",
+      "phases": [
+        {
+          "enabled": true,
+          "supported": true,
+          "calls": [
+            [
+              8
+            ],
+            [
+              12,
+              24,
+              18
+            ],
+            [
+              10
+            ],
+            [
+              8,
+              20,
+              8
+            ],
+            [
+              7
+            ],
+            [
+              18
+            ],
+            [
+              9,
+              18,
+              10
+            ],
+            [
+              9,
+              14,
+              9
+            ],
+            [
+              12,
+              18,
+              24
+            ],
+            [
+              10,
+              22,
+              10
+            ],
+            [
+              18,
+              30,
+              35
+            ],
+            [
+              18,
+              24,
+              18,
+              24,
+              28
+            ],
+            [
+              24
+            ]
+          ]
+        },
+        {
+          "enabled": false,
+          "supported": true,
+          "calls": []
+        },
+        {
+          "enabled": true,
+          "supported": true,
+          "calls": [
+            [
+              8
+            ],
+            [
+              12,
+              24,
+              18
+            ],
+            [
+              10
+            ],
+            [
+              8,
+              20,
+              8
+            ],
+            [
+              7
+            ],
+            [
+              18
+            ],
+            [
+              9,
+              18,
+              10
+            ],
+            [
+              9,
+              14,
+              9
+            ],
+            [
+              12,
+              18,
+              24
+            ],
+            [
+              10,
+              22,
+              10
+            ],
+            [
+              18,
+              30,
+              35
+            ],
+            [
+              18,
+              24,
+              18,
+              24,
+              28
+            ],
+            [
+              24
+            ]
+          ]
+        }
+      ],
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T07:36:23.080Z",
+        "sourceCommit": "57487b08ca53bd845e8c556010aae0abadaf0565",
+        "sourceHash": "cabef8a9ae12ba15e4ef300f202f644d2b9f12e6a092648e2603665d80efd5f6",
+        "sourceTreeClean": false
+      }
+    },
+    {
+      "locale": "be",
+      "mode": "supported",
+      "sourceHelp": "Падтрымліваецца гэтай прыладай",
+      "nativeHelp": "Падтрымліваецца гэтай прыладай",
+      "phases": [
+        {
+          "enabled": true,
+          "supported": true,
+          "calls": [
+            [
+              8
+            ],
+            [
+              12,
+              24,
+              18
+            ],
+            [
+              10
+            ],
+            [
+              8,
+              20,
+              8
+            ],
+            [
+              7
+            ],
+            [
+              18
+            ],
+            [
+              9,
+              18,
+              10
+            ],
+            [
+              9,
+              14,
+              9
+            ],
+            [
+              12,
+              18,
+              24
+            ],
+            [
+              10,
+              22,
+              10
+            ],
+            [
+              18,
+              30,
+              35
+            ],
+            [
+              18,
+              24,
+              18,
+              24,
+              28
+            ],
+            [
+              24
+            ]
+          ]
+        },
+        {
+          "enabled": false,
+          "supported": true,
+          "calls": []
+        },
+        {
+          "enabled": true,
+          "supported": true,
+          "calls": [
+            [
+              8
+            ],
+            [
+              12,
+              24,
+              18
+            ],
+            [
+              10
+            ],
+            [
+              8,
+              20,
+              8
+            ],
+            [
+              7
+            ],
+            [
+              18
+            ],
+            [
+              9,
+              18,
+              10
+            ],
+            [
+              9,
+              14,
+              9
+            ],
+            [
+              12,
+              18,
+              24
+            ],
+            [
+              10,
+              22,
+              10
+            ],
+            [
+              18,
+              30,
+              35
+            ],
+            [
+              18,
+              24,
+              18,
+              24,
+              28
+            ],
+            [
+              24
+            ]
+          ]
+        }
+      ],
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T07:36:23.080Z",
+        "sourceCommit": "57487b08ca53bd845e8c556010aae0abadaf0565",
+        "sourceHash": "cabef8a9ae12ba15e4ef300f202f644d2b9f12e6a092648e2603665d80efd5f6",
+        "sourceTreeClean": false
+      }
+    },
+    {
+      "locale": "be",
+      "mode": "absent",
+      "sourceHelp": "Недаступна ў гэтым браўзеры",
+      "nativeHelp": "Недаступна ў гэтым браўзеры",
+      "phases": [
+        {
+          "enabled": true,
+          "supported": false,
+          "calls": []
+        },
+        {
+          "enabled": false,
+          "supported": false,
+          "calls": []
+        },
+        {
+          "enabled": true,
+          "supported": false,
+          "calls": []
+        }
+      ],
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T07:36:23.080Z",
+        "sourceCommit": "57487b08ca53bd845e8c556010aae0abadaf0565",
+        "sourceHash": "cabef8a9ae12ba15e4ef300f202f644d2b9f12e6a092648e2603665d80efd5f6",
+        "sourceTreeClean": false
+      }
+    },
+    {
+      "locale": "be",
+      "mode": "throws",
+      "sourceHelp": "Падтрымліваецца гэтай прыладай",
+      "nativeHelp": "Падтрымліваецца гэтай прыладай",
+      "phases": [
+        {
+          "enabled": true,
+          "supported": true,
+          "calls": [
+            [
+              8
+            ],
+            [
+              12,
+              24,
+              18
+            ],
+            [
+              10
+            ],
+            [
+              8,
+              20,
+              8
+            ],
+            [
+              7
+            ],
+            [
+              18
+            ],
+            [
+              9,
+              18,
+              10
+            ],
+            [
+              9,
+              14,
+              9
+            ],
+            [
+              12,
+              18,
+              24
+            ],
+            [
+              10,
+              22,
+              10
+            ],
+            [
+              18,
+              30,
+              35
+            ],
+            [
+              18,
+              24,
+              18,
+              24,
+              28
+            ],
+            [
+              24
+            ]
+          ]
+        },
+        {
+          "enabled": false,
+          "supported": true,
+          "calls": []
+        },
+        {
+          "enabled": true,
+          "supported": true,
+          "calls": [
+            [
+              8
+            ],
+            [
+              12,
+              24,
+              18
+            ],
+            [
+              10
+            ],
+            [
+              8,
+              20,
+              8
+            ],
+            [
+              7
+            ],
+            [
+              18
+            ],
+            [
+              9,
+              18,
+              10
+            ],
+            [
+              9,
+              14,
+              9
+            ],
+            [
+              12,
+              18,
+              24
+            ],
+            [
+              10,
+              22,
+              10
+            ],
+            [
+              18,
+              30,
+              35
+            ],
+            [
+              18,
+              24,
+              18,
+              24,
+              28
+            ],
+            [
+              24
+            ]
+          ]
+        }
+      ],
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T07:36:23.080Z",
+        "sourceCommit": "57487b08ca53bd845e8c556010aae0abadaf0565",
+        "sourceHash": "cabef8a9ae12ba15e4ef300f202f644d2b9f12e6a092648e2603665d80efd5f6",
+        "sourceTreeClean": false
+      }
+    },
+    {
+      "locale": "en",
+      "mode": "supported",
+      "sourceHelp": "Supported by this device",
+      "nativeHelp": "Supported by this device",
+      "phases": [
+        {
+          "enabled": true,
+          "supported": true,
+          "calls": [
+            [
+              8
+            ],
+            [
+              12,
+              24,
+              18
+            ],
+            [
+              10
+            ],
+            [
+              8,
+              20,
+              8
+            ],
+            [
+              7
+            ],
+            [
+              18
+            ],
+            [
+              9,
+              18,
+              10
+            ],
+            [
+              9,
+              14,
+              9
+            ],
+            [
+              12,
+              18,
+              24
+            ],
+            [
+              10,
+              22,
+              10
+            ],
+            [
+              18,
+              30,
+              35
+            ],
+            [
+              18,
+              24,
+              18,
+              24,
+              28
+            ],
+            [
+              24
+            ]
+          ]
+        },
+        {
+          "enabled": false,
+          "supported": true,
+          "calls": []
+        },
+        {
+          "enabled": true,
+          "supported": true,
+          "calls": [
+            [
+              8
+            ],
+            [
+              12,
+              24,
+              18
+            ],
+            [
+              10
+            ],
+            [
+              8,
+              20,
+              8
+            ],
+            [
+              7
+            ],
+            [
+              18
+            ],
+            [
+              9,
+              18,
+              10
+            ],
+            [
+              9,
+              14,
+              9
+            ],
+            [
+              12,
+              18,
+              24
+            ],
+            [
+              10,
+              22,
+              10
+            ],
+            [
+              18,
+              30,
+              35
+            ],
+            [
+              18,
+              24,
+              18,
+              24,
+              28
+            ],
+            [
+              24
+            ]
+          ]
+        }
+      ],
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T07:36:23.080Z",
+        "sourceCommit": "57487b08ca53bd845e8c556010aae0abadaf0565",
+        "sourceHash": "cabef8a9ae12ba15e4ef300f202f644d2b9f12e6a092648e2603665d80efd5f6",
+        "sourceTreeClean": false
+      }
+    },
+    {
+      "locale": "en",
+      "mode": "absent",
+      "sourceHelp": "Unavailable in this browser",
+      "nativeHelp": "Unavailable in this browser",
+      "phases": [
+        {
+          "enabled": true,
+          "supported": false,
+          "calls": []
+        },
+        {
+          "enabled": false,
+          "supported": false,
+          "calls": []
+        },
+        {
+          "enabled": true,
+          "supported": false,
+          "calls": []
+        }
+      ],
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T07:36:23.080Z",
+        "sourceCommit": "57487b08ca53bd845e8c556010aae0abadaf0565",
+        "sourceHash": "cabef8a9ae12ba15e4ef300f202f644d2b9f12e6a092648e2603665d80efd5f6",
+        "sourceTreeClean": false
+      }
+    },
+    {
+      "locale": "en",
+      "mode": "throws",
+      "sourceHelp": "Supported by this device",
+      "nativeHelp": "Supported by this device",
+      "phases": [
+        {
+          "enabled": true,
+          "supported": true,
+          "calls": [
+            [
+              8
+            ],
+            [
+              12,
+              24,
+              18
+            ],
+            [
+              10
+            ],
+            [
+              8,
+              20,
+              8
+            ],
+            [
+              7
+            ],
+            [
+              18
+            ],
+            [
+              9,
+              18,
+              10
+            ],
+            [
+              9,
+              14,
+              9
+            ],
+            [
+              12,
+              18,
+              24
+            ],
+            [
+              10,
+              22,
+              10
+            ],
+            [
+              18,
+              30,
+              35
+            ],
+            [
+              18,
+              24,
+              18,
+              24,
+              28
+            ],
+            [
+              24
+            ]
+          ]
+        },
+        {
+          "enabled": false,
+          "supported": true,
+          "calls": []
+        },
+        {
+          "enabled": true,
+          "supported": true,
+          "calls": [
+            [
+              8
+            ],
+            [
+              12,
+              24,
+              18
+            ],
+            [
+              10
+            ],
+            [
+              8,
+              20,
+              8
+            ],
+            [
+              7
+            ],
+            [
+              18
+            ],
+            [
+              9,
+              18,
+              10
+            ],
+            [
+              9,
+              14,
+              9
+            ],
+            [
+              12,
+              18,
+              24
+            ],
+            [
+              10,
+              22,
+              10
+            ],
+            [
+              18,
+              30,
+              35
+            ],
+            [
+              18,
+              24,
+              18,
+              24,
+              28
+            ],
+            [
+              24
+            ]
+          ]
+        }
+      ],
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T07:36:23.080Z",
+        "sourceCommit": "57487b08ca53bd845e8c556010aae0abadaf0565",
+        "sourceHash": "cabef8a9ae12ba15e4ef300f202f644d2b9f12e6a092648e2603665d80efd5f6",
+        "sourceTreeClean": false
+      }
+    }
+  ],
+  "errors": []
+}
