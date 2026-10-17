@@ -1,0 +1,10 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 610.62 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3080 Laptop GPU
+
+Compositing samples: [{ "body": (0.8, 0.4, 0.2, 1.0), "shadow": (0.0, 0.0, 0.0, 0.498), "overlap": (0.8, 0.4, 0.2, 1.0) }, { "body": (0.4, 0.2, 0.098, 0.498), "shadow": (0.0, 0.0, 0.0, 0.251), "overlap": (0.4, 0.2, 0.098, 0.498) }, { "body": (0.4, 0.2, 0.102, 0.6235), "shadow": (0.0, 0.0, 0.0, 0.2471), "overlap": (0.4, 0.2, 0.102, 0.6235) }, { "body": (0.8, 0.4, 0.2, 1.0), "shadow": (0.098, 0.298, 0.4, 0.498), "overlap": (0.8, 0.4, 0.2, 1.0) }, { "body": (0.651, 0.451, 0.349, 0.749), "shadow": (0.0, 0.0, 0.0, 0.0), "overlap": (0.651, 0.451, 0.349, 0.749) }, { "body": (0.3216, 0.2235, 0.1725, 0.3725), "shadow": (0.0, 0.0, 0.0, 0.0), "overlap": (0.3216, 0.2235, 0.1725, 0.3725) }]
+UPDS Godot art compositing render smoke passed.
+
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 610.62 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3080 Laptop GPU
+
+UPDS Godot VN background render smoke passed.

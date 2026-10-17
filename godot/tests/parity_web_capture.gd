@@ -4,6 +4,7 @@ const Memory = preload("res://tests/memory_storage.gd")
 var menu: Control
 var _callback: JavaScriptObject
 var _build: Dictionary
+var _background_hidden: Array[CanvasItem] = []
 
 
 func _ready() -> void:
@@ -32,6 +33,15 @@ func _dispatch(arguments: Array) -> void:
 	var request: Dictionary = JSON.parse_string(str(arguments[0]))
 	var extra := {}
 	match str(request.action):
+		"background_only":
+			for item in _background_hidden:
+				if is_instance_valid(item): item.show()
+			_background_hidden.clear()
+			if bool(request.get("enabled", true)):
+				for item in menu.story_screen.get_children():
+					if item is CanvasItem and item.visible and str(item.name) not in ["BackgroundBase", "BackgroundFill", "BackgroundFit", "Vignette"]:
+						_background_hidden.append(item)
+						item.hide()
 		"font_metrics":
 			var font := preload("res://scripts/ui_fonts.gd").serif()
 			extra.fontMetrics = {}
@@ -101,6 +111,9 @@ func _publish(request_id: String, extra: Dictionary = {}) -> void:
 	result.merge(extra)
 	if is_instance_valid(menu.story_screen):
 		result.storyLine = menu.session.current_line()
+		var fill = menu.story_screen.background_fill
+		result.background = {"renderGeneration": fill.render_generation,
+			"rasterSize": [fill.get_node("CoverRaster").size.x, fill.get_node("CoverRaster").size.y]}
 		result.dialogue = {"pages": menu.story_screen._dialogue_pages,
 			"pageIndex": menu.story_screen._dialogue_page_index,
 			"displayed": menu.story_screen.dialogue.text}

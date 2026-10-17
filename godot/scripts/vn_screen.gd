@@ -18,6 +18,7 @@ const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
 const ArtRendering = preload("res://scripts/art_rendering.gd")
 const ReducedMotion = preload("res://scripts/reduced_motion.gd")
 const UiFonts = preload("res://scripts/ui_fonts.gd")
+const VnBackgroundFill = preload("res://scripts/vn_background_fill.gd")
 
 static var _portrait_shadow_material_cache: ShaderMaterial
 var _last_reduced_motion: Variant = null
@@ -29,6 +30,7 @@ var stage: Control
 var nameplate: PanelContainer
 var dialogue_panel: PanelContainer
 var background_rect: TextureRect
+var _vn_background_fit_material: ShaderMaterial
 var title: Label
 var speaker: Label
 var emotion: Label
@@ -51,7 +53,7 @@ var save_button: Button
 var load_button: Button
 var status: PanelContainer
 var status_label: Label
-var background_fill: TextureRect
+var background_fill: VnBackgroundFill
 var choice_box: VBoxContainer
 var choice_prompt: Label
 var choice_buttons: Array[Button] = []
@@ -96,22 +98,41 @@ func _ready() -> void:
 	resized.connect(_layout_vn)
 	resized.connect(_queue_dialogue_reflow)
 	visibility_changed.connect(_on_visibility_changed)
-	background_fill = TextureRect.new()
+	var background_base := ColorRect.new()
+	background_base.name = "BackgroundBase"
+	background_base.color = Color("#1b2340")
+	background_base.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background_base.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(background_base)
+	background_fill = VnBackgroundFill.new()
 	background_fill.name = "BackgroundFill"
 	background_fill.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background_fill.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	background_fill.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	background_fill.material = _background_blur_material()
+	background_fill.legacy_material = _background_blur_material()
 	background_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background_fill)
 	background_rect = TextureRect.new()
 	background_rect.name = "BackgroundFit"
 	background_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	background_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	background_rect.modulate = Color(0.92, 0.92, 0.92, 1.0)
+	background_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	ArtRendering.configure(background_rect)
+	var fit_material := ShaderMaterial.new()
+	fit_material.shader = preload("res://shaders/vn_background_fit.gdshader")
+	_vn_background_fit_material = fit_material
+	background_rect.material = fit_material
 	background_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background_rect)
+	var vignette := ColorRect.new()
+	vignette.name = "Vignette"
+	vignette.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	vignette.z_index = 1
+	vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var vignette_material := ShaderMaterial.new()
+	vignette_material.shader = preload("res://shaders/vn_vignette.gdshader")
+	vignette.material = vignette_material
+	add_child(vignette)
 	stage = Control.new()
 	stage.name = "Stage"
 	stage.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -350,6 +371,7 @@ func _ready() -> void:
 func _layout_vn() -> void:
 	if dialogue_panel == null or nameplate == null or controls_panel == null:
 		return
+	_vn_background_fit_material.set_shader_parameter("canvas_size", size)
 	var compact_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	var tiny_width := minf(size.x, PhoneFrame.MAX_WIDTH) <= 340.0
 	title.add_theme_font_size_override("font_size", 9 if compact_width else 10)
@@ -463,6 +485,11 @@ func _refresh() -> void:
 		_refresh_ending(outcome)
 		return
 	ending_panel.hide()
+	get_node("Vignette").show()
+	background_rect.material = _vn_background_fit_material
+	background_rect.modulate = Color.WHITE
+	background_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	background_fill.set_legacy(false)
 	dialogue_panel.show()
 	stage.show()
 	controls_panel.show()
@@ -681,7 +708,7 @@ func _add_clue_toast(clue_id: String, locale: String) -> void:
 func _set_background(asset_path: String) -> void:
 	var texture := load("res://" + asset_path.trim_prefix("./"))
 	background_rect.texture = texture
-	background_fill.texture = texture
+	background_fill.set_source(texture)
 
 
 func _background_blur_material() -> ShaderMaterial:
@@ -1094,6 +1121,13 @@ func _refresh_ending(outcome: Dictionary) -> void:
 	var metrics: Dictionary = outcome.metrics
 	var final_strategy: String = str(session.state.storyChoices.get("final-strategy", "A"))
 	_set_background(str(data.backgrounds[ending_id]))
+	# Ending artwork has its own source treatment; the VN wash must not paint
+	# over the ending panel, which shares the background's default canvas depth.
+	get_node("Vignette").hide()
+	background_fill.set_legacy(true)
+	background_rect.material = null
+	background_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	background_rect.modulate = Color(0.92, 0.92, 0.92, 1.0)
 	title.hide()
 	case_button.hide()
 	history_button.hide()

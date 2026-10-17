@@ -13,6 +13,11 @@ func _run() -> void:
 	menu._begin_new_game()
 	await create_timer(0.15).timeout
 	var screen: Control = menu.story_screen
+	assert(screen.background_fill.get_node("CoverRaster").size == Vector2i(390, 844))
+	var backdrop_generation: int = screen.background_fill.render_generation
+	screen._refresh()
+	await process_frame
+	assert(screen.background_fill.render_generation == backdrop_generation, "Same-background story refresh must use the cache")
 	var portrait: TextureRect = screen.stage.get_child(0)
 	var tween: Tween = portrait.get_meta("idle_tween")
 	tween.stop()
@@ -24,6 +29,8 @@ func _run() -> void:
 	await create_timer(0.15).timeout
 	tween.custom_step(0.000001)
 	assert(is_equal_approx(portrait.size.y / screen.stage.size.y, 1.68), "Core portraits must use the compact CSS override")
+	assert(screen.background_fill.get_node("CoverRaster").size == Vector2i(320, 844))
+	assert(screen.background_rect.material.get_shader_parameter("canvas_size") == Vector2(320, 844))
 	assert(absf(portrait.offset_top + portrait.size.y * 0.0035) < 0.001, "Resize must not retain the previous idle amplitude")
 	menu.size = Vector2(390, 844)
 	await create_timer(0.15).timeout
@@ -31,6 +38,8 @@ func _run() -> void:
 	assert(is_equal_approx(portrait.size.y / screen.stage.size.y, 1.2816))
 	assert(absf(portrait.offset_top + portrait.size.y * 0.0035) < 0.001)
 	assert(menu.session.current_line().id == "VN0001")
+	assert(screen.get_node("Vignette").visible)
+	assert(screen.background_rect.material != null and screen.background_rect.modulate == Color.WHITE)
 	menu.session.state.scene = 15
 	menu.session.state.line = 19
 	assert(menu.session.resume())

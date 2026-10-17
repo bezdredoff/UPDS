@@ -100,10 +100,13 @@ func _run() -> void:
 	assert(is_equal_approx(screen.stage.position.y, 60.0)
 		and is_equal_approx(screen.stage.get_global_rect().end.y, screen.dialogue_panel.position.y - 10.0),
 		"VN stage geometry should follow the source header and dialogue grid rows")
-	assert(screen.background_rect.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		and screen.background_fill.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_COVERED
-		and screen.background_fill.material != null,
-		"VN backgrounds should mirror the original fit image and blurred fill layers")
+	var cover: TextureRect = screen.background_fill.get_node("CoverRaster").get_child(0)
+	assert(screen.background_rect.stretch_mode == TextureRect.STRETCH_SCALE
+		and screen.background_fill.stretch_mode == TextureRect.STRETCH_SCALE
+		and screen.background_fill.material != null
+		and cover.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		and cover.texture == screen.background_rect.texture,
+		"VN backgrounds must retain the source asset in the CSS-sized cover raster and fractional fit shader")
 	assert(not menu.get_node("Content").visible)
 	assert(session.current_line().id == "VN0001")
 	menu.audio_runtime.activate()
@@ -906,6 +909,7 @@ func _run() -> void:
 	assert(not session.at_port_boundary())
 	assert(session.advance() and session.ending_result().endingId == "ENDING_B_CASE_CLOSED")
 	assert(screen.ending_panel.visible and screen.ending_heading.text == "The Thief Is Caught")
+	assert(not screen.get_node("Vignette").visible and screen.background_rect.material == null)
 	var restored_ending_route := Session.new(session.store)
 	restored_ending_route.reload()
 	assert(restored_ending_route.ending_result().endingId == "ENDING_B_CASE_CLOSED")
@@ -1381,6 +1385,7 @@ func _full_truth_outcomes() -> void:
 	root.add_child(result_screen)
 	await process_frame
 	assert(result_screen.ending_panel.visible)
+	assert(not result_screen.get_node("Vignette").visible and result_screen.background_rect.material == null)
 	assert(result_screen.ending_heading.text == "Под прачечной")
 	assert(result_screen.ending_summary.text.contains("10 / 3 / 4"))
 	var restored := Session.new(success.store)
@@ -1428,6 +1433,7 @@ func _perfect_suspect_ending() -> void:
 	await process_frame
 	assert(screen.ending_panel.visible)
 	assert(screen.ending_heading.text == "Fame Instead of Truth")
+	assert(not screen.get_node("Vignette").visible and screen.background_rect.material == null)
 	assert(screen.ending_summary.text.contains("Give the college a suspect it will accept"))
 	var restored_ending := Session.new(session.store)
 	restored_ending.reload()
