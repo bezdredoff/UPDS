@@ -16,6 +16,24 @@ PR #467 исправил повторное умножение текстуры 
 4. **P1 — responsive и локализация.** Для RU/BE/EN сравнить как минимум узкий `320×568`, основной `390×844` и широкий `480×854` viewport. Проверить переносы длинных реплик, пагинацию, обрезание/безопасные области, scroll, крупный текст и все состояния элементов. Имеющиеся capture одного locale/viewport считать локальными измерениями, а не общим подтверждением.
 5. **P2 — общий критерий приёмки.** Сформировать компактный набор эталонных сценариев и парных captures для всей игры, добавить ссылки на артефакты и перечень известных отклонений. Сначала добиться визуального/поведенческого паритета и зафиксировать результаты; затем отдельным этапом вернуться к Playgama review, публикационной странице и решению о рекламных SDK.
 
+### Продолжение на этом компьютере — 2026-10-16
+
+На базе `40dd49a` найден и исправлен следующий общий дефект после #467: fragment `COLOR.a` содержит texture alpha, поэтому прежний compositor умножал тень на прозрачность исходного пикселя и полностью стирал её за контуром. Дополнительное умножение на `(1-source.a)` до source-over ослабляло полупрозрачные края и glow. Теперь RGBA текстуры композируется с shadow/glow, а сохранённый vertex COLOR (item/parent modulation) применяется ровно один раз к готовому результату. Исправление не возвращает прежнее возведение RGB текстуры в квадрат.
+
+Добавлен отдельный GPU render smoke (`godot/check-render.ps1`): opaque art, item opacity 50%, texture alpha 50%, цветная тень и source-over overlap. Старая версия shader провалила проверку на реальном Compatibility renderer; исправленная проходит. Парный Chromium CSS fixture даёт shadow alpha 128/64/64 из 255 и overlap alpha 160/255; Godot — 0.498/0.251/0.247 и 0.6235. Рецепт, результаты и ограничения: [отчёт о compositor](../reviews/PG003AO_ART_COMPOSITING_2026-10-16_RU.md). Это изолированная проверка фильтра, не приёмка игровых экранов, Web export или всех assets. Следующим остаётся пункт P0 матрицы персонажей/поз, tile/special/blocker states; отдельно измерить blur kernel, clipping за границами TextureRect и цепочки glow.
+
+### Матрица art — продолжение PR #469
+
+Добавлен воспроизводимый production CSS/native art capture для 84 states (36 персонажных кадров/поз, 10 tiles, 5 specials, 27 ingredient routes, 6 blocker layer states). Исправлены UI A tile scale/insets, приоритетный camisole filter, inner-border/padding у ingredients/blockers и 14% special bleed по обеим осям. Mipmaps для 59 source-identical PNG и фильтрация уменьшили измеренную среднюю RGB ошибку персонажей с 0.9171 до 0.3431, tiles — с 2.3215 до 0.7897. Все 84 geometry/filter/opacity contracts проходят; pixel metrics не заменяют визуальную приёмку. [Полный отчёт и парные captures](../reviews/PG003AO_ART_MATRIX_2026-10-16_RU.md). PR #469 пока открыт; это кандидат, не merged origin/main. Следом остаются Gaussian blur/clipping и composited/motion states, затем полная screen/locale/viewport матрица.
+
+
+### Экранная матрица — 2026-10-17
+
+Сняты 36 пар Web/Godot (menu/VN0001/settings/fresh campaign × RU/BE/EN × 320×568/390×844/480×854), без runtime/console/HTTP errors. Девять source geometry contracts меню проходят; медальоны расходятся по Y на 0.656/0.250 px. Исправлены flex/text flow, BE wrapping, medallion content/border/shadow, primary/phone shadows, backdrop/wash, Web font oversampling при inverse phone scale. Добавлен изолированный release-capture export с source digest и защитой от смешения PCK; normal project entry point не меняется. [Отчёт, команды и парные evidence](../reviews/PG003AO_SCREEN_MATRIX_2026-10-17_RU.md). Это кандидат в открытом PR #469, не merged main и не общий acceptance.
+
+**Следующая работа по прямому evidence:** VN0001 RU 390×844 pagination source=3/Godot=2, missing cue glyph; settings BE 320×568 right overflow и нелокализованный header; затем campaign progress/card density, остальные screen states и motion. Mipmap/art contract matrix остаётся отдельным доказательством; 36 здоровых captures не означают совпадение всех четырёх экранов.
+
+
 ### Рабочий цикл для следующего компьютера
 
 1. Проверить checkout, `git status`, remote и `gh pr list --state open`; получить актуальный `origin/main`. Не переключать/удалять пользовательские изменения.
@@ -136,3 +154,11 @@ PR #467 исправил повторное умножение текстуры 
 - Парный кадр VN001 при `390×844` также выявил точное расхождение типографики верхней плашки: web использует Georgia `800/11px`, а Godot задавал Inter `800/10px`. Godot теперь использует общий Georgia/Gelasio + Noto Serif fallback stack из `UiFonts.serif(800)` и калибрует размер как `11px` для стандартной ширины и `9px` ниже `340px`; VN smoke фиксирует семейство, насыщенность и оба размера.
 - Следующий парный VN001 capture показал, что case-pill в Godot использовал золотую рамку и тёмный фон заголовка, хотя CSS задаёт сине-серую поверхность `#223b58`, рамку `#8195aa`, радиус `9px` и голубое hover-состояние. Палитра/радиус/insets/hover приведены к `.vn-case-pill`; VN smoke проверяет эти токены вместе с обновлённой serif-типографикой.
 - Пиксельное сравнение свежего VN001 кадра при `390×844` нашло одинаковый перенос реплики, но растровые glyph bounds начинались в вебе с `(34,641)`, а в Godot с `(32,643)`. Горизонтальные поля Godot увеличены на `2px` с каждой стороны, верхнее уменьшено на `2px`; VN smoke закрепляет поля `22/22/31px` и позицию текста. Это калибрует только стандартную RU первую реплику; проверка других размеров, локалей и длинных строк остаётся открытой.
+
+- 2026-10-17: narrow settings перестали растягивать 320 px phone до 400 px; перенос headings/toggle/PWA text сохраняет все контролы в кадре. BE eyebrow локализован, HSlider использует реальный texture icon. Девять release-Web captures без overflow/runtime errors; полный settings parity остаётся открытым. [Отчёт](../reviews/PG003AO_SETTINGS_WIDTH_2026-10-17_RU.md).
+
+- 2026-10-17: VN paginator перенесён из production policy с source oracle (252 cases), без искусственных дефисов, с continuation marker и healthy tails. Исправлены narrow text insets и cue без зависимости от glyph. VN0001 page count совпадает в 9 cases, first-page text — в 7; BE/EN 320 px font metrics и полный story/state corpus остаются открытыми. [Отчёт](../reviews/PG003AO_VN_PAGING_2026-10-17_RU.md).
+
+- 2026-10-17: VN responsive reflow пересчитывает page cache после 80 ms/two-frame debounce, сохраняет/clamps текущую страницу, не двигает story ID. RU 480→320→480 воспроизводит source 2→3→2 pages; 13 RU/BE/EN reading states прошли. Исправлен detach lifecycle callback, large text обновляет высоту viewport. [Отчёт](../reviews/PG003AO_VN_REFLOW_2026-10-17_RU.md).
+
+- 2026-10-17: settings cards обрабатывают всю область, release/cancel/keyboard focus и touch scrolling. 18 locale/viewport/input cases / 138 steps сравнили production DOM, Godot widgets и persisted values; 9 active-card crop pairs зафиксировали styling/copy. Полный settings/device/audio parity открыт, включая Web haptics gate. [Отчёт](../reviews/PG003AO_SETTINGS_INPUT_2026-10-17_RU.md).

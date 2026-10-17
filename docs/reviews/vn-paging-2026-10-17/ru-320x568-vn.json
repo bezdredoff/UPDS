@@ -1,0 +1,1044 @@
+{
+  "id": "ru-320x568-vn",
+  "native": {
+    "build": {
+      "fixture": "res://tests/parity_web_capture.tscn",
+      "generatedAt": "2026-10-17T03:29:13.133Z",
+      "sourceCommit": "2cd07f8a0a92553b03110261e88bcdcd25a39fe5",
+      "sourceHash": "a085083017e2070526af6220260e79b6aee05064be00a44f3b44538288f695a7",
+      "sourceTreeClean": false
+    },
+    "controls": [
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 2,
+        "path": ".",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          567.999967507276
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Backdrop",
+        "rect": [
+          0,
+          0,
+          320.000013709068,
+          568.000008583069
+        ],
+        "type": "ColorRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Background",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          567.999967507276
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "Wash",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          567.999967507276
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          567.999967507276
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/BackgroundFill",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          567.999967507276
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/BackgroundFit",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          567.999967507276
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/Stage",
+        "rect": [
+          0.0000102796057035448,
+          60.0000166716673,
+          319.999993149857,
+          295.999989141761
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/Stage/miku",
+        "rect": [
+          33.5488064331471,
+          169.68308416838,
+          252.902395702971,
+          379.353596566623
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          0,
+          2
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/HeaderBackground",
+        "rect": [
+          0.0000102796057035448,
+          0.0000205378964892589,
+          319.999993149857,
+          59.9999961337708
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          116,
+          44
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25",
+        "rect": [
+          8.00000997985705,
+          7.00002047192197,
+          303.999992464403,
+          43.9999992185549
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          16,
+          8
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier",
+        "rect": [
+          8.00000997985705,
+          7.00002047192197,
+          203.99998818032,
+          43.9999992185549
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          62,
+          24
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26",
+        "rect": [
+          8.00000997985705,
+          7.00002047192197,
+          203.99998818032,
+          43.9999992185549
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          12,
+          24
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@MarginContainer@27",
+        "rect": [
+          8.00000997985705,
+          7.00002047192197,
+          153.999996317883,
+          43.9999992185549
+        ],
+        "type": "MarginContainer"
+      },
+      {
+        "minimum": [
+          1,
+          24
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@MarginContainer@27/@VBoxContainer@28",
+        "rect": [
+          19.0000085236802,
+          7.00002047192197,
+          142.999995846634,
+          43.9999992185549
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@MarginContainer@27/@VBoxContainer@28/@Label@29",
+        "rect": [
+          19.0000085236802,
+          17.0000204693597,
+          142.999995846634,
+          9.99999935562846
+        ],
+        "text": "ДЕЛО 001 · СЦЕНА 00",
+        "type": "Label"
+      },
+      {
+        "font_size": 9,
+        "minimum": [
+          1,
+          14
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@MarginContainer@27/@VBoxContainer@28/@Label@30",
+        "rect": [
+          19.0000085236802,
+          27.0000198249882,
+          142.999995846634,
+          13.999999868051
+        ],
+        "text": "Клуб, которого почти нет",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@TextureRect@31",
+        "rect": [
+          168.000007197261,
+          7.00002047192197,
+          21.999998372597,
+          43.9999992185549
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@PanelContainer@32",
+        "rect": [
+          195.999987837593,
+          21.0000196981637,
+          15.9999994005027,
+          15.9999994824529
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/CaseDossier/@HBoxContainer@26/@PanelContainer@32/@Label@33",
+        "rect": [
+          195.999987837593,
+          24.0000210451944,
+          15.9999994005027,
+          9.99999935562846
+        ],
+        "text": "0",
+        "type": "Label"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          2,
+          2
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/@Button@34",
+        "rect": [
+          217.999988780091,
+          7.00002047192197,
+          43.999996745194,
+          43.9999992185549
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/@Button@34/@TextureRect@35",
+        "rect": [
+          228.999989251341,
+          18.00002091837,
+          21.999998372597,
+          21.9999996092774
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          2,
+          2
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/@Button@36",
+        "rect": [
+          267.999990922133,
+          7.00002047192197,
+          43.999996745194,
+          43.9999992185549
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@HBoxContainer@25/@Button@36/@TextureRect@37",
+        "rect": [
+          278.999991393383,
+          18.00002091837,
+          21.999998372597,
+          21.9999996092774
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "minimum": [
+          34,
+          113
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@PanelContainer@38",
+        "rect": [
+          8.00000997985705,
+          364.000040212355,
+          303.999992464403,
+          140.999991427809
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          2,
+          59
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@PanelContainer@38/@VBoxContainer@39",
+        "rect": [
+          24.0000087378844,
+          393.000042964704,
+          271.999991093497,
+          86.9999979880995
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          2,
+          59
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@PanelContainer@38/@VBoxContainer@39/@VBoxContainer@50",
+        "rect": [
+          24.0000087378844,
+          393.000042964704,
+          271.999991093497,
+          58.9999956847605
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@PanelContainer@38/@VBoxContainer@39/@VBoxContainer@50/@Control@49",
+        "rect": [
+          24.0000087378844,
+          393.000042964704,
+          271.999991093497,
+          0
+        ],
+        "type": "Control"
+      },
+      {
+        "font_size": 13,
+        "minimum": [
+          2,
+          15
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/@PanelContainer@38/@VBoxContainer@39/@VBoxContainer@50/Dialogue",
+        "rect": [
+          24.0000087378844,
+          393.000042964704,
+          271.999991093497,
+          58.7599949608611
+        ],
+        "text": "После звонка кампус японского колледжа Сэйран не затихал…",
+        "type": "RichTextLabel"
+      },
+      {
+        "minimum": [
+          177,
+          26
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/Nameplate",
+        "rect": [
+          32.0000090806111,
+          339.00001871815,
+          176.999987023617,
+          37.9999990917304
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          153,
+          14
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/Nameplate/@HBoxContainer@40",
+        "rect": [
+          44.0000070247997,
+          345.000021412212,
+          152.999996275043,
+          25.9999988380814
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 11,
+        "minimum": [
+          93,
+          14
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/Nameplate/@HBoxContainer@40/@Label@41",
+        "rect": [
+          44.0000070247997,
+          351.000003568377,
+          92.9999937045923,
+          13.999999868051
+        ],
+        "text": "МИКУ (МЫСЛИ)",
+        "type": "Label"
+      },
+      {
+        "font_size": 7,
+        "minimum": [
+          53,
+          9
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/Nameplate/@HBoxContainer@40/@Label@42",
+        "rect": [
+          144.000006169081,
+          353.000025004294,
+          52.9999971307616,
+          8.99999954842747
+        ],
+        "text": "ОСТОРОЖНАЯ",
+        "type": "Label"
+      },
+      {
+        "minimum": [
+          55,
+          18
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/DialogueProgress",
+        "rect": [
+          237.000010153279,
+          472.999996733939,
+          54.9999972164433,
+          17.9999990968549
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/DialogueProgress/@Panel@81",
+        "rect": [
+          237.000010153279,
+          477.999988710042,
+          6.99999965741051,
+          6.99999993402548
+        ],
+        "type": "Panel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/DialogueProgress/@Panel@82",
+        "rect": [
+          248.000010624528,
+          477.999988710042,
+          6.99999965741051,
+          6.99999993402548
+        ],
+        "type": "Panel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/DialogueProgress/@Panel@83",
+        "rect": [
+          259.000011095777,
+          477.999988710042,
+          6.99999965741051,
+          6.99999993402548
+        ],
+        "type": "Panel"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/DialogueProgress/@Control@84",
+        "rect": [
+          270.000011567026,
+          472.999996733939,
+          4.99999989296651,
+          17.9999990968549
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/DialogueProgress/AdvanceCue",
+        "rect": [
+          279.000011952594,
+          475.225524273308,
+          12.9999992719802,
+          17.9999990968549
+        ],
+        "type": "Control"
+      },
+      {
+        "minimum": [
+          52,
+          54
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls",
+        "rect": [
+          0.0000102796057035448,
+          510.00000307837,
+          319.999993149857,
+          58.0000003702244
+        ],
+        "type": "PanelContainer"
+      },
+      {
+        "minimum": [
+          32,
+          46
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56",
+        "rect": [
+          10.0000100655387,
+          514.000004874411,
+          299.99999229304,
+          49.9999967781423
+        ],
+        "type": "HBoxContainer"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          8,
+          8
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@57",
+        "rect": [
+          10.0000100655387,
+          514.000004874411,
+          71.9999979447375,
+          49.9999967781423
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          19,
+          29
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@57/@VBoxContainer@85",
+        "rect": [
+          10.0000100655387,
+          514.000004874411,
+          71.9999979447375,
+          49.9999967781423
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@57/@VBoxContainer@85/@TextureRect@86",
+        "rect": [
+          36.0000092519745,
+          523.999988826617,
+          18.9999995290252,
+          18.9999995458652
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@57/@VBoxContainer@85/@Label@87",
+        "rect": [
+          10.0000100655387,
+          543.000007626761,
+          71.9999979447375,
+          9.99999935562846
+        ],
+        "text": "ПРОПУСК",
+        "type": "Label"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          4,
+          4
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@61",
+        "rect": [
+          86.000008824115,
+          514.000004874411,
+          71.9999979447375,
+          49.9999967781423
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          19,
+          29
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@61/@VBoxContainer@88",
+        "rect": [
+          86.000008824115,
+          514.000004874411,
+          71.9999979447375,
+          49.9999967781423
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@61/@VBoxContainer@88/@TextureRect@89",
+        "rect": [
+          112.000004798174,
+          523.999988826617,
+          18.9999995290252,
+          18.9999995458652
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@61/@VBoxContainer@88/@Label@90",
+        "rect": [
+          86.000008824115,
+          543.000007626761,
+          71.9999979447375,
+          9.99999935562846
+        ],
+        "text": "АВТО",
+        "type": "Label"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          4,
+          4
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@65",
+        "rect": [
+          162.000006940216,
+          514.000004874411,
+          71.9999979447375,
+          49.9999967781423
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          19,
+          29
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@65/@VBoxContainer@91",
+        "rect": [
+          162.000006940216,
+          514.000004874411,
+          71.9999979447375,
+          49.9999967781423
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@65/@VBoxContainer@91/@TextureRect@92",
+        "rect": [
+          188.000008054078,
+          523.999988826617,
+          18.9999995290252,
+          18.9999995458652
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@65/@VBoxContainer@91/@Label@93",
+        "rect": [
+          162.000006940216,
+          543.000007626761,
+          71.9999979447375,
+          9.99999935562846
+        ],
+        "text": "СОХР.",
+        "type": "Label"
+      },
+      {
+        "font_size": 16,
+        "minimum": [
+          4,
+          4
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@69",
+        "rect": [
+          237.999989636908,
+          514.000004874411,
+          71.9999979447375,
+          49.9999967781423
+        ],
+        "text": "",
+        "type": "Button"
+      },
+      {
+        "minimum": [
+          19,
+          29
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@69/@VBoxContainer@94",
+        "rect": [
+          237.999989636908,
+          514.000004874411,
+          71.9999979447375,
+          49.9999967781423
+        ],
+        "type": "VBoxContainer"
+      },
+      {
+        "minimum": [
+          0,
+          0
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@69/@VBoxContainer@94/@TextureRect@95",
+        "rect": [
+          263.99999075077,
+          523.999988826617,
+          18.9999995290252,
+          18.9999995458652
+        ],
+        "type": "TextureRect"
+      },
+      {
+        "font_size": 8,
+        "minimum": [
+          1,
+          10
+        ],
+        "oversampling": 0,
+        "path": "StoryScreen/VnControls/@HBoxContainer@56/@Button@69/@VBoxContainer@94/@Label@96",
+        "rect": [
+          237.999989636908,
+          543.000007626761,
+          71.9999979447375,
+          9.99999935562846
+        ],
+        "text": "ЗАГР.",
+        "type": "Label"
+      }
+    ],
+    "dialogue": {
+      "displayed": "После звонка кампус японского колледжа Сэйран не затихал…",
+      "pageIndex": 0,
+      "pages": [
+        "После звонка кампус японского колледжа Сэйран не затихал:",
+        "спортивные клубы расходились на тренировки.",
+        "Я же искала детективный клуб."
+      ]
+    },
+    "engine": "4.7.2-stable (official)",
+    "id": "1792207810602-0.4219954275394948",
+    "line": 0,
+    "locale": "ru",
+    "scene": 0,
+    "viewport": [
+      475,
+      844
+    ],
+    "window": [
+      320,
+      568
+    ]
+  },
+  "web": [
+    {
+      "selector": ".phone",
+      "text": "\n    \n      \n      \n    \n    Комната детективного клуба\n    \n    \n    \n      \n        ДЕЛО 001 · СЦЕНА 00Клуб, которого почти нет\n        0\n      \n      \n        История диалога\n        Настройки\n      \n    \n    \n      \n      \n    \n    \n    \n      МИКУ (МЫСЛИ)ОСТОРОЖНАЯ\n      \n        После звонка кампус японского колледжа Сэйран не затихал…\n        VN0001 · 1/3\n         \n        ▼\n      \n    \n    \n      ПРОПУСК\n      АВТО\n      СОХР.\n      ЗАГР.\n    \n    \n  ",
+      "rect": [
+        0,
+        0,
+        320,
+        568
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".app-header",
+      "text": "\n      \n        ДЕЛО 001 · СЦЕНА 00Клуб, которого почти нет\n        0\n      \n      \n        История диалога\n        Настройки\n      \n    ",
+      "rect": [
+        0,
+        0,
+        320,
+        56
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(255, 250, 240)"
+    },
+    {
+      "selector": ".vn-case-pill",
+      "text": "\n        ДЕЛО 001 · СЦЕНА 00Клуб, которого почти нет\n        0\n      ",
+      "rect": [
+        6,
+        5,
+        213,
+        44
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(255, 250, 240)"
+    },
+    {
+      "selector": ".stage",
+      "text": "\n      \n      \n    \n    ",
+      "rect": [
+        0,
+        56,
+        320,
+        300
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    },
+    {
+      "selector": ".dialogue",
+      "text": "\n        После звонка кампус японского колледжа Сэйран не затихал…\n        VN0001 · 1/3\n         \n        ▼\n      ",
+      "rect": [
+        8,
+        364,
+        304,
+        141
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(39, 35, 60)"
+    },
+    {
+      "selector": ".dialogue-text",
+      "text": "После звонка кампус японского колледжа Сэйран не затихал…",
+      "rect": [
+        24,
+        393,
+        272,
+        58.75
+      ],
+      "page": "1",
+      "pages": "3",
+      "font": "Georgia, serif",
+      "fontSize": "14px",
+      "lineHeight": "18.76px",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(39, 35, 60)"
+    },
+    {
+      "selector": ".vn-controls",
+      "text": "\n      ПРОПУСК\n      АВТО\n      СОХР.\n      ЗАГР.\n    ",
+      "rect": [
+        0,
+        510,
+        320,
+        58
+      ],
+      "font": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "fontWeight": "400",
+      "margin": "0px",
+      "color": "rgb(41, 36, 61)"
+    }
+  ],
+  "pixelMetrics": null,
+  "contractErrors": [],
+  "errors": []
+}

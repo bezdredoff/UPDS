@@ -12,6 +12,7 @@ var language: OptionButton
 var language_row: PanelContainer
 var language_row_content: GridContainer
 var title: Label
+var eyebrow: Label
 var language_label: Label
 var help: Label
 var back: Button
@@ -26,6 +27,8 @@ var music_slider: HSlider
 var effects_slider: HSlider
 var mute: Button
 var haptics: Button
+var mute_card: PanelContainer
+var haptics_card: PanelContainer
 var mute_switch: Label
 var haptics_switch: Label
 var mute_help: Label
@@ -155,35 +158,45 @@ func _ready() -> void:
 	toggles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	toggles.add_theme_constant_override("separation", 8)
 	audio_group.add_child(toggles)
-	var mute_card := _card(toggles, "MuteCard", 10, 9)
+	mute_card = _card(toggles, "MuteCard", 10, 9)
 	mute_card.custom_minimum_size.y = 58
 	var mute_row := HBoxContainer.new()
-	mute_row.add_theme_constant_override("separation", 4)
+	mute_row.add_theme_constant_override("separation", 8)
 	mute_card.add_child(mute_row)
 	var mute_copy := VBoxContainer.new()
 	mute_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	mute_copy.add_theme_constant_override("separation", 2)
+	mute_copy.alignment = BoxContainer.ALIGNMENT_CENTER
 	mute_row.add_child(mute_copy)
 	mute = _toggle(mute_copy, "muted")
-	mute_help = _label(mute_copy, 400, 9)
+	mute_help = _label(mute_copy, 400, 8)
 	mute_help.name = "MuteHelp"
+	mute_help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	mute_help.add_theme_color_override("font_color", Color("#746d7c"))
+	mute_help.add_theme_constant_override("line_spacing", 0)
 	mute_switch = _switch_chip(mute_row)
 	mute_switch.name = "MuteSwitch"
-	var haptics_card := _card(toggles, "HapticsCard", 10, 9)
+	_bind_toggle_card(mute_card, mute)
+	haptics_card = _card(toggles, "HapticsCard", 10, 9)
 	haptics_card.custom_minimum_size.y = 58
 	var haptics_row := HBoxContainer.new()
-	haptics_row.add_theme_constant_override("separation", 4)
+	haptics_row.add_theme_constant_override("separation", 8)
 	haptics_card.add_child(haptics_row)
 	var haptics_copy := VBoxContainer.new()
 	haptics_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	haptics_copy.add_theme_constant_override("separation", 2)
+	haptics_copy.alignment = BoxContainer.ALIGNMENT_CENTER
 	haptics_row.add_child(haptics_copy)
 	haptics = _toggle(haptics_copy, "hapticsEnabled")
-	haptics_help = _label(haptics_copy, 400, 9)
+	haptics_help = _label(haptics_copy, 400, 8)
 	haptics_help.name = "HapticsCapability"
+	haptics_help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	haptics_help.add_theme_color_override("font_color", Color("#746d7c"))
+	haptics_help.add_theme_constant_override("line_spacing", 0)
 	haptics_help.text = MenuCopy.text("haptics_short", preferences.locale)
 	haptics_switch = _switch_chip(haptics_row)
 	haptics_switch.name = "HapticsSwitch"
+	_bind_toggle_card(haptics_card, haptics)
 	var previews := HBoxContainer.new()
 	previews.name = "AudioPreviewActions"
 	previews.add_theme_constant_override("separation", 8)
@@ -226,6 +239,7 @@ func _ready() -> void:
 	error_label.add_theme_color_override("font_color", Color("#ac3f59"))
 	preferences.locale_changed.connect(_refresh)
 	preferences.audio_changed.connect(_refresh_audio)
+	resized.connect(_layout_toggle_cards)
 	_refresh(preferences.locale)
 	back.grab_focus()
 
@@ -274,7 +288,7 @@ func _build_header(content: VBoxContainer) -> void:
 	title_box.alignment = BoxContainer.ALIGNMENT_CENTER
 	title_box.add_theme_constant_override("separation", 0)
 	row.add_child(title_box)
-	var eyebrow := _label(title_box, 900, 7)
+	eyebrow = _label(title_box, 900, 7)
 	eyebrow.name = "Eyebrow"
 	eyebrow.add_theme_color_override("font_color", Color("#f0d69b"))
 	eyebrow.text = "CONFIG · SYSTEM"
@@ -286,6 +300,7 @@ func _build_header(content: VBoxContainer) -> void:
 
 func _section_heading(parent: Control) -> Label:
 	var heading := _label(parent, 800, 31)
+	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	heading.add_theme_font_override("font", UiFonts.serif(800))
 	heading.add_theme_color_override("font_color", Color("#29243d"))
 	heading.add_theme_constant_override("outline_size", 0)
@@ -348,19 +363,23 @@ func _build_volume_row(card: PanelContainer, key: String, is_music: bool) -> voi
 	track.content_margin_top = 2
 	track.content_margin_bottom = 2
 	slider.add_theme_stylebox_override("slider", track)
-	var grabber := StyleBoxFlat.new()
-	grabber.bg_color = Color("#36a89d")
-	grabber.set_corner_radius_all(999)
-	grabber.content_margin_left = 7
-	grabber.content_margin_right = 7
-	grabber.content_margin_top = 7
-	grabber.content_margin_bottom = 7
+	# Slider grabbers are icon textures; StyleBox overrides leave the default glyph.
+	var grabber := GradientTexture2D.new()
+	grabber.width = 16
+	grabber.height = 16
+	grabber.fill = GradientTexture2D.FILL_RADIAL
+	grabber.fill_from = Vector2(0.5, 0.5)
+	grabber.fill_to = Vector2(1.0, 0.5)
+	grabber.gradient = Gradient.new()
+	grabber.gradient.offsets = PackedFloat32Array([0.0, 0.88, 1.0])
+	grabber.gradient.colors = PackedColorArray([Color("#4caaa1"), Color("#4caaa1"), Color("#4caaa100")])
 	var active_track := track.duplicate() as StyleBoxFlat
 	active_track.bg_color = Color("#36a89d")
 	slider.add_theme_stylebox_override("grabber_area", active_track)
 	slider.add_theme_stylebox_override("grabber_area_highlight", active_track)
-	slider.add_theme_stylebox_override("grabber", grabber)
-	slider.add_theme_stylebox_override("grabber_highlight", grabber)
+	slider.add_theme_icon_override("grabber", grabber)
+	slider.add_theme_icon_override("grabber_highlight", grabber)
+	slider.add_theme_icon_override("grabber_disabled", grabber)
 	slider.value_changed.connect(func(value: float) -> void: _update_audio({key: value / 100.0}))
 	column.add_child(slider)
 	if is_music:
@@ -398,6 +417,7 @@ func _build_pwa_card(parent: Control) -> void:
 	eyebrow.add_theme_color_override("font_color", Color("#36a89d"))
 	pwa_status = _label(details, 800, 11)
 	pwa_status.name = "PwaStatus"
+	pwa_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	pwa_status.add_theme_color_override("font_color", Color("#2a4b76"))
 	pwa_meta = _label(details, 400, 8)
 	pwa_meta.name = "PwaMeta"
@@ -438,7 +458,8 @@ func _toggle(parent: Control, key: String) -> Button:
 	var button := Button.new()
 	button.name = key
 	button.toggle_mode = true
-	button.custom_minimum_size.y = 22
+	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	button.custom_minimum_size.y = 0
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	button.add_theme_font_override("font", UiFonts.sans(700))
 	button.add_theme_font_size_override("font_size", 11)
@@ -465,6 +486,90 @@ func _switch_chip(parent: Control) -> Label:
 	chip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	chip.custom_minimum_size.x = 34
 	return chip
+
+
+func _bind_toggle_card(card: PanelContainer, button: Button) -> void:
+	card.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	card.mouse_filter = Control.MOUSE_FILTER_PASS
+	button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var focus := _toggle_card_focus(card, button)
+	card.gui_input.connect(func(event: InputEvent) -> void:
+		# Caption buttons keep keyboard activation; the rest of the card shares
+		# their toggle on release. Touch follows Godot's mouse emulation.
+		if event is not InputEventMouseButton or event.button_index != MOUSE_BUTTON_LEFT:
+			return
+		if event.pressed:
+			focus.border_color = Color.TRANSPARENT
+			card.set_meta("toggle_pointer_down", true)
+			card.set_meta("toggle_card_position", card.get_global_rect().position)
+			button.grab_focus()
+		else:
+			var armed: bool = card.get_meta("toggle_pointer_down", false)
+			var origin: Vector2 = card.get_meta("toggle_card_position", card.get_global_rect().position)
+			var scrolled := card.get_global_rect().position.distance_to(origin) > 0.5
+			if card.has_meta("toggle_pointer_down"):
+				card.remove_meta("toggle_pointer_down")
+			if card.has_meta("toggle_card_position"):
+				card.remove_meta("toggle_card_position")
+			if armed and not scrolled and Rect2(Vector2.ZERO, card.size).has_point(event.position):
+				button.button_pressed = not button.button_pressed
+		# Let ScrollContainer receive press/drag/release, including emulated touch.
+	)
+
+
+func _toggle_card_focus(card: Control, button: Button) -> StyleBoxFlat:
+	# CSS :focus-visible outlines the whole setting-toggle, not its inner caption.
+	var focus := StyleBoxFlat.new()
+	focus.draw_center = false
+	focus.border_color = Color.TRANSPARENT
+	focus.set_border_width_all(3)
+	focus.set_corner_radius_all(15)
+	button.add_theme_stylebox_override("focus", focus)
+	var update := func() -> void:
+		if not card.is_inside_tree() or not button.is_inside_tree(): return
+		var transform := button.get_global_transform().affine_inverse() * card.get_global_transform()
+		var bounds: Rect2 = transform * Rect2(Vector2.ZERO, card.size)
+		focus.expand_margin_left = maxf(0.0, 5.0 - bounds.position.x)
+		focus.expand_margin_top = maxf(0.0, 5.0 - bounds.position.y)
+		focus.expand_margin_right = maxf(0.0, bounds.end.x - button.size.x + 5.0)
+		focus.expand_margin_bottom = maxf(0.0, bounds.end.y - button.size.y + 5.0)
+	card.resized.connect(update)
+	button.resized.connect(update)
+	button.focus_entered.connect(func() -> void:
+		focus.border_color = Color.TRANSPARENT if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) else Color.WHITE)
+	button.gui_input.connect(func(event: InputEvent) -> void:
+		if event is InputEventKey and event.pressed: focus.border_color = Color.WHITE)
+	update.call()
+	return focus
+
+
+func _style_toggle_card(card: PanelContainer, chip: Label, enabled: bool) -> void:
+	var narrow := size.x <= 340.0
+	card.custom_minimum_size.y = 48 if narrow else 58
+	var style := card.get_theme_stylebox("panel") as StyleBoxFlat
+	style.bg_color = Color("#eef9f6") if enabled else Color.WHITE
+	style.border_color = Color("#9acbc5") if enabled else Color("#d7ccd4")
+	# Godot content margins include the border; CSS padding is inside its 1px border.
+	style.content_margin_left = 9 if narrow else 11
+	style.content_margin_right = 9 if narrow else 11
+	style.content_margin_top = 8 if narrow else 10
+	style.content_margin_bottom = 8 if narrow else 10
+	var pill := StyleBoxFlat.new()
+	pill.bg_color = Color("#4aa5a3") if enabled else Color("#e4dfe4")
+	pill.set_corner_radius_all(99)
+	pill.content_margin_left = 6
+	pill.content_margin_right = 6
+	pill.content_margin_top = 4
+	pill.content_margin_bottom = 4
+	chip.add_theme_stylebox_override("normal", pill)
+	chip.add_theme_color_override("font_color", Color.WHITE if enabled else Color("#756f78"))
+
+
+func _layout_toggle_cards() -> void:
+	if not is_instance_valid(mute_card) or not is_instance_valid(haptics_card):
+		return
+	_style_toggle_card(mute_card, mute_switch, preferences.audio.muted)
+	_style_toggle_card(haptics_card, haptics_switch, preferences.audio.hapticsEnabled)
 
 
 func _preview_button(parent: Control, node_name: String, key: String) -> Button:
@@ -505,7 +610,8 @@ func _style_select(button: OptionButton) -> void:
 func _layout_language_row() -> void:
 	if not is_instance_valid(language_row_content) or not is_instance_valid(language):
 		return
-	var compact := get_viewport_rect().size.x <= 520.0
+	# CSS media queries use the physical window, not Godot's stretched viewport.
+	var compact := get_window().size.x <= 520
 	language_row_content.columns = 1 if compact else 2
 	language_row_content.add_theme_constant_override("h_separation", 0 if compact else 16)
 	language_row_content.add_theme_constant_override("v_separation", 16 if compact else 4)
@@ -521,6 +627,7 @@ func _language_copy_minimum(compact: bool) -> void:
 
 
 func _refresh(locale: String) -> void:
+	eyebrow.text = "НАЛАДЫ · СІСТЭМА" if locale == "be" else "CONFIG · SYSTEM"
 	title.text = MenuCopy.text("settings", locale)
 	language_label.text = MenuCopy.text("language", locale)
 	var install_heading := find_child("InstallHeading", true, false) as Label
@@ -579,6 +686,8 @@ func _refresh_audio(locale: String = "") -> void:
 	mute_switch.text = MenuCopy.text("vn_on" if settings.muted else "vn_off", selected_locale)
 	haptics_help.text = MenuCopy.text("haptics_short", selected_locale)
 	haptics_switch.text = MenuCopy.text("vn_on" if settings.hapticsEnabled else "vn_off", selected_locale)
+	_style_toggle_card(mute_card, mute_switch, settings.muted)
+	_style_toggle_card(haptics_card, haptics_switch, settings.hapticsEnabled)
 
 
 func _refresh_pwa() -> void:

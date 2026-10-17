@@ -27,7 +27,7 @@ func _run_smoke() -> void:
 	var default_font := menu.theme.default_font as FontVariation
 	assert(default_font != null and default_font.base_font == UiFonts.INTER_LATIN,
 		"Main menu and inherited screens should use the bundled Inter interface face")
-	assert((menu.get_node("Content/Title").get_theme_font("normal_font") as SystemFont).font_names.has("Georgia"),
+	assert((menu.get_node("Content/TitleFrame/Title").get_theme_font("normal_font") as SystemFont).font_names.has("Georgia"),
 		"Native main menu title should retain the source Georgia font stack")
 	var hero_top: float = menu_content.position.y + hero.position.y
 	var actions_top: float = menu_content.position.y + actions.position.y
@@ -52,12 +52,12 @@ func _run_smoke() -> void:
 
 	var locale := MenuCopy.default_locale()
 	assert(menu.get_node("Content/Eyebrow").text == MenuCopy.text("eyebrow", locale))
-	var menu_title := menu.get_node("Content/Title") as RichTextLabel
+	var menu_title := menu.get_node("Content/TitleFrame/Title") as RichTextLabel
 	assert(menu_title.text.contains(MenuCopy.text("title", locale)))
 	assert(menu_title.text.contains(MenuCopy.text("accent", locale)))
 	assert(menu.get_node("Content/Tagline/Copy").get_theme_font_size("font_size") == 15
-		and is_equal_approx(menu.get_node("Content/Tagline").custom_minimum_size.y, 20.0),
-		"Playgama Web tagline should preserve its calibrated width and fixed layout slot")
+		and menu.get_node("Content/Tagline").custom_minimum_size.y >= 21.0,
+		"Menu tagline must reserve its wrapped source line height instead of a fixed 20px slot")
 	assert(menu.get_node("Content/Actions/Continue").disabled, "Continue requires a save adapter")
 	var continue_button: Button = menu.get_node("Content/Actions/Continue")
 	assert(is_equal_approx(continue_button.modulate.a, 0.38),
@@ -83,6 +83,14 @@ func _run_smoke() -> void:
 			"%s medallion is missing" % character)
 		assert(medallion.get_node("Shadow") is Panel,
 			"%s medallion is missing its source drop shadow" % character)
+		var image: TextureRect = medallion.get_node("Portrait")
+		var shadow: ShaderMaterial = medallion.get_node("Shadow").material
+		assert(image.texture.get_image().has_mipmaps()
+			and image.material.shader == preload("res://shaders/menu_medallion.gdshader"),
+			"Menu portrait must use the render-audited border/content sampler")
+		assert(shadow != null and shadow.shader == preload("res://shaders/menu_medallion_shadow.gdshader")
+			and is_equal_approx(shadow.get_shader_parameter("radius_px"), 39.0),
+			"Menu portrait must use the source-sized soft circular shadow")
 
 	var events: Array[String] = []
 	menu.new_game_requested.connect(func() -> void: events.append("new_game"))
@@ -95,6 +103,8 @@ func _run_smoke() -> void:
 	menu._close_story()
 	menu.get_node("Content/Actions/Settings").emit_signal("pressed")
 	assert(events == ["new_game", "campaign", "settings"], "Unavailable Continue must not navigate")
+	menu.settings_screen.back_requested.emit()
+	await process_frame
 
 	for supported_locale in ["en", "ru", "be"]:
 		assert(not MenuCopy.text("new_game", supported_locale).is_empty())
@@ -105,22 +115,22 @@ func _run_smoke() -> void:
 	menu._layout_menu()
 	assert(is_equal_approx(menu.get_node("Content").offset_top, 26.0),
 		"Compact menu should use the source's 26 px top inset")
-	assert(menu.get_node("Content").get_theme_constant("separation") == 6,
-		"Compact menu should avoid adding excess vertical gaps beneath its short-screen title")
+	assert(menu.get_node("Content").get_theme_constant("separation") == 0,
+		"Menu flow should use explicit source margins instead of generic container gaps")
 	assert(menu_title.get_theme_font_size("normal_font_size") == 38,
 		"Compact menu title should match the source's 38 px heading")
 	var compact_tagline: Label = menu.get_node("Content/Tagline/Copy")
 	assert(is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 66.0)
-		and is_equal_approx(compact_tagline.offset_top, -6.0)
-		and is_equal_approx(compact_tagline.offset_bottom, -6.0),
-		"Compact menu should raise only the tagline glyphs while preserving hero flow")
+		and is_equal_approx(compact_tagline.offset_top, 0.0)
+		and is_equal_approx(compact_tagline.offset_bottom, 0.0),
+		"Compact menu should preserve source text flow without offsetting only its glyphs")
 	assert(is_equal_approx(menu.get_node("Content").anchor_bottom, 1.0 - 24.0 / 664.0),
 		"Compact menu should preserve the source's 24 px bottom inset")
 	menu.size = Vector2(390, 854)
 	menu._layout_menu()
 	assert(is_equal_approx(menu.get_node("Content").offset_top, 42.0)
 		and menu_title.get_theme_font_size("normal_font_size") == 44
-		and menu_title.get_theme_constant("line_separation") == -20
+		and is_equal_approx(menu.get_node("Content/TitleFrame").custom_minimum_size.y, 89.76)
 		and is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 78.0),
 		"Tall menu should restore the source's regular inset, heading and medallion sizes")
 	menu.size = Vector2(320, 568)
@@ -132,19 +142,26 @@ func _run_smoke() -> void:
 		and is_equal_approx(menu.get_node("Content/Tagline/Copy").offset_bottom, 0.0)
 		and is_equal_approx(menu.get_node("Content").offset_top, 18.0)
 		and menu_title.get_theme_font_size("normal_font_size") == 34
-		and not menu_title.fit_content
-		and is_equal_approx(menu_title.custom_minimum_size.y, 74.0)
-		and is_equal_approx(menu.get_node("Content/TitleSpacer").custom_minimum_size.y, 4.0)
-		and menu_title.get_theme_constant("line_separation") == -12
+		and menu_title.fit_content
+		and is_equal_approx(menu.get_node("Content/TitleFrame").custom_minimum_size.y, 69.36)
+		and is_equal_approx(menu.get_node("Content/TitleSpacer").custom_minimum_size.y, 12.0)
 		and is_equal_approx(menu.get_node("Content/Hero").custom_minimum_size.y, 56.0)
-		and is_equal_approx(menu.get_node("Content/HeroSpacer").custom_minimum_size.y, 2.0)
+		and is_equal_approx(menu.get_node("Content/HeroSpacer").custom_minimum_size.y, 8.0)
 		and menu.get_node("Content/Tagline/Copy").get_theme_font_size("font_size") == 12
-		and menu.get_node("Content/Tagline/Copy").autowrap_mode == TextServer.AUTOWRAP_OFF
-		and is_equal_approx(menu.get_node("Content/FooterSpacer").custom_minimum_size.y, 17.0)
+		and menu.get_node("Content/Tagline/Copy").autowrap_mode == TextServer.AUTOWRAP_WORD_SMART
+		and is_equal_approx(menu.get_node("Content/FooterSpacer").custom_minimum_size.y, 7.0)
 		and is_equal_approx(menu.get_node("Content/Actions/NewGame").custom_minimum_size.y, 44.0),
 		"Narrow menu should use the source's compact heading and medallion sizes")
 	assert(is_equal_approx(menu.get_node("Content").anchor_bottom, 1.0 - 12.0 / 568.0),
 		"Narrow menu should keep the source's 12 px bottom inset")
+	assert(menu.preferences.set_locale("be") == OK)
+	await process_frame
+	await process_frame
+	var narrow_copy: Label = menu.get_node("Content/Tagline/Copy")
+	assert(narrow_copy.get_line_count() == 2
+		and is_equal_approx(menu.get_node("Content/Tagline").custom_minimum_size.y, 32.0)
+		and narrow_copy.size.x <= 284.1,
+		"Belarusian narrow menu must reserve two source lines without overflowing its 284px column")
 
 	print("UPDS Godot main menu smoke test passed (locale: %s)." % locale)
 	quit()

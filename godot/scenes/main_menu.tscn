@@ -6,9 +6,13 @@
 [ext_resource type="Texture2D" path="res://assets/characters/onoe/portrait_neutral_256.png" id="4_onoe"]
 [ext_resource type="Texture2D" path="res://assets/characters/ayuki/portrait_neutral_256.png" id="5_ayuki"]
 
+[ext_resource type="Shader" path="res://shaders/menu_medallion.gdshader" id="6_medallion"]
+
+[ext_resource type="Shader" path="res://shaders/menu_backdrop.gdshader" id="7_backdrop"]
+
 [sub_resource type="Gradient" id="Gradient_wash"]
 offsets = PackedFloat32Array(0.0, 0.05, 0.48, 1.0)
-colors = PackedColorArray(1.0, 0.992157, 0.956863, 0.91, 1.0, 0.992157, 0.956863, 0.91, 0.972549, 0.92549, 0.921569, 0.84, 0.141176, 0.156863, 0.258824, 0.93)
+colors = PackedColorArray(1.0, 0.992157, 0.956863, 0.909804, 1.0, 0.992157, 0.956863, 0.91, 0.972549, 0.92549, 0.921569, 0.85098, 0.141176, 0.156863, 0.258824, 0.933333)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_wash"]
 gradient = SubResource("Gradient_wash")
@@ -17,20 +21,14 @@ height = 1024
 fill_from = Vector2(0.0, 0.0)
 fill_to = Vector2(0.0, 1.0)
 
-[sub_resource type="Shader" id="Shader_backdrop"]
-code = "shader_type canvas_item;\nvoid fragment() {\n\tvec2 point = UV - vec2(0.5, 0.0);\n\tfloat distance_from_center = length(point) + UV.y * 0.65;\n\tfloat shade = smoothstep(0.35, 1.05, distance_from_center);\n\tCOLOR = mix(vec4(0.333, 0.318, 0.431, 1.0), vec4(0.09, 0.102, 0.184, 1.0), shade);\n}"
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
-shader = SubResource("Shader_backdrop")
+shader = ExtResource("7_backdrop")
 
 [sub_resource type="Theme" id="Theme_runtime"]
 default_font_size = 16
 
-[sub_resource type="Shader" id="Shader_medallion"]
-code = "shader_type canvas_item;\nvoid fragment() {\n\tvec2 point = UV * 2.0 - 1.0;\n\tfloat radius = length(point);\n\tif (radius > 1.0) { discard; }\n\tCOLOR = texture(TEXTURE, UV);\n\tif (radius > 0.9) { COLOR = vec4(1.0, 0.97, 0.91, 1.0); }\n}"
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_medallion"]
-shader = SubResource("Shader_medallion")
+shader = ExtResource("6_medallion")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_medallion_shadow"]
 bg_color = Color(0, 0, 0, 0)
@@ -43,6 +41,7 @@ corner_radius_bottom_right = 39
 corner_radius_bottom_left = 39
 
 [node name="MainMenu" type="Control"]
+clip_contents = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -53,6 +52,9 @@ script = ExtResource("1_script")
 theme = SubResource("Theme_runtime")
 
 [node name="Backdrop" type="ColorRect" parent="."]
+top_level = true
+z_index = -100
+z_as_relative = false
 material = SubResource("ShaderMaterial_backdrop")
 layout_mode = 1
 anchors_preset = 15
@@ -114,8 +116,21 @@ theme_override_font_sizes/font_size = 10
 text = "SEIRAN COLLEGE · CASE 001"
 horizontal_alignment = 1
 
-[node name="Title" type="RichTextLabel" parent="Content"]
+[node name="TitleMargin" type="Control" parent="Content"]
 layout_mode = 2
+custom_minimum_size = Vector2(0, 14)
+
+[node name="TitleFrame" type="Control" parent="Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 89.76)
+
+[node name="Title" type="RichTextLabel" parent="Content/TitleFrame"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_top = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+clip_contents = false
 theme_override_colors/default_color = Color(0.122, 0.137, 0.251, 1)
 theme_override_font_sizes/normal_font_size = 44
 bbcode_enabled = true
@@ -267,7 +282,7 @@ layout_mode = 2
 
 [node name="Footer" type="Label" parent="Content"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.91, 0.94, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 10
 text = "UPDS · Godot port"
 horizontal_alignment = 1

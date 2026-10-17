@@ -141,21 +141,29 @@ func _run() -> void:
 		"Only a narrow phone width should use compact nameplate and speaker sizing")
 	screen.size.x = vn_width_before_compact_check
 	screen._layout_vn()
+	await process_frame
+	await process_frame
 	var dialogue_paper := screen.dialogue_panel.get_theme_stylebox("panel") as StyleBoxFlat
-	assert(is_equal_approx(screen.dialogue.global_position.y, screen.dialogue_panel.position.y + 43.0)
+	var text_padding: StyleBox = screen.dialogue.get_theme_stylebox("normal")
+	assert(is_equal_approx(screen.dialogue.global_position.y, screen.dialogue_panel.position.y + 34.0)
 		and dialogue_paper.content_margin_left == 22 and dialogue_paper.content_margin_right == 22
-		and dialogue_paper.content_margin_top == 31,
-		"VN dialogue text should match the source card's measured 2px horizontal and vertical inset correction")
+		and dialogue_paper.content_margin_top == 34 and text_padding.content_margin_top == 9
+		and text_padding.content_margin_bottom == 6 and text_padding.content_margin_right == 1,
+		"VN dialogue box and inner text padding must match source CSS independently")
 	var portrait_shadow := idle_portrait.material as ShaderMaterial
+	assert(idle_portrait.texture_filter == CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS,
+		"Downscaled VN art must retain the render-audited mipmap filtering")
+	assert(idle_portrait.texture.get_image().has_mipmaps(),
+		"The imported portrait must actually contain mip levels for the production filter")
 	var portrait_shader_code: String = portrait_shadow.shader.code
 	assert(portrait_shadow != null
 		and (portrait_shadow.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#10162b59"))
 		and (portrait_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0.0, 12.0))
 		and is_equal_approx(portrait_shadow.get_shader_parameter("shadow_blur_px"), 12.0),
 		"VN character portrait did not preserve the source drop shadow treatment")
-	assert(portrait_shader_code.contains("vec4 source = COLOR;")
+	assert(portrait_shadow.shader == preload("res://shaders/match3_drop_shadow.gdshader")
 		and not portrait_shader_code.contains("texture(TEXTURE, UV) * COLOR"),
-		"VN portrait texture color must be applied only once before the drop shadow")
+		"VN portraits must use the render-tested compositor without squaring texture color")
 	assert(idle_portrait.get_global_rect().end.y > screen.dialogue_panel.position.y,
 		"The portrait must continue underneath the overlayed VN dialogue card")
 	assert(screen._portrait_should_breathe("./assets/characters/miku/rig/pose_a/frames/frame-neutral.png"),
@@ -188,15 +196,10 @@ func _run() -> void:
 			"VN pages must preserve the complete localized line")
 		assert(screen.speaker.text == Prologue.data.lines[0].localized[locale].speaker)
 		assert(screen.skip_button.tooltip_text == Copy.text("vn_skip", locale))
-	var web_dialogue_font := FontVariation.new()
-	web_dialogue_font.base_font = preload("res://assets/fonts/Gelasio-wght.ttf")
-	web_dialogue_font.fallbacks = [preload("res://assets/fonts/NotoSerif-wdth-wght.ttf")]
-	web_dialogue_font.variation_opentype = {"weight": 400.0}
-	var fitted_wrap: String = screen._fit_candidate_with_hyphenation(
-		"После звонка кампус японского колледжа Сэйран не затихал:", "спортивные",
-		web_dialogue_font, 326.0, 16, 52.44)
-	assert(fitted_wrap.contains("колле-\nджа") and fitted_wrap.ends_with("спортивные"),
-		"VN web pagination should reproduce the source's measured RU hyphenation on the first page")
+	for page: String in screen._dialogue_pages:
+		assert(not page.contains("-\n"), "Paginator must preserve authored words instead of inserting synthetic hyphens")
+	assert(screen.page_progress.get_child(screen.page_progress.get_child_count() - 1) is Control,
+		"Advance cue must render independently of missing font glyphs")
 	if screen._dialogue_pages.size() > 1:
 		screen.next_button.pressed.emit()
 		assert(screen._dialogue_page_index == 1 and session.current_line().id == "VN0001",
@@ -963,8 +966,8 @@ func _vn_reading_controls(menu: Control) -> void:
 		"Long dialogue must show one progress dot per page and the animated advance cue (pages=%d, progress=%d, screen=%s, card=%s)" % [
 			screen._dialogue_pages.size(), screen.page_progress.get_child_count(), screen.size, screen.dialogue_panel.size,
 		])
-	var advance_cue: Label = screen.page_progress.get_child(screen.page_progress.get_child_count() - 1)
-	assert(advance_cue.text == "▼" and advance_cue.pivot_offset == Vector2.ZERO,
+	var advance_cue: Control = screen.page_progress.get_child(screen.page_progress.get_child_count() - 1)
+	assert(advance_cue.get_script() == preload("res://scripts/dialogue_advance_cue.gd") and advance_cue.pivot_offset == Vector2.ZERO,
 		"The source advance cue should be a non-scaling down-arrow")
 	var cue_gap: Control = screen.page_progress.get_child(screen.page_progress.get_child_count() - 2)
 	var dialogue_bounds: Rect2 = screen.dialogue_panel.get_global_rect()

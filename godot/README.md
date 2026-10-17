@@ -7,7 +7,7 @@ in small, verifiable slices.
 ## Engine and display baseline
 
 - Godot 4.7 stable, GDScript, Compatibility renderer.
-- Portrait logical viewport: 480 × 854, scaled with `canvas_items`.
+- Portrait logical viewport: 390 × 844, scaled with `canvas_items`.
 - `scenes/main_menu.tscn` is the project entry point; the connected story, endings and
   Match-3 campaign are playable in the native port.
 - `scenes/port_bootstrap.tscn` remains a minimal engine smoke-test fixture.
@@ -38,6 +38,16 @@ The script imports the project, parses GDScript and runs native smoke tests. The
 bridge listens on localhost port 6510 and is intended for development, not exported
 builds. Keep this editor open while using Codex Godot tools for live scene inspection
 and runtime interaction.
+
+
+GPU compositing validation is separate from the headless logic smoke suite. Run
+`./godot/check-render.ps1 -GodotPath "C:\path\to\Godot_console.exe"` on a Windows
+machine with a real Compatibility renderer. Optional `-CapturePath` saves the raw
+transparent viewport readback (premultiplied RGB). The runner rejects shader/script
+errors and missing success markers; it checks source-over, texture alpha, colored
+shadows and parent/item opacity using rendered pixels. Headless dummy rendering
+cannot validate these pixels. See
+`docs/reviews/PG003AO_ART_COMPOSITING_2026-10-16_RU.md` for the Chromium comparison.
 
 The main menu localizes to English, Russian or Belarusian. Settings opens a native
 language selector; the choice is saved separately from campaign progress in
@@ -96,5 +106,22 @@ campaign through M3_21 and renders the terminal ending result.
 
 For isolated visual review, run `tests/vn_preview.tscn` in the editor: campaign
 progress is in memory and player saves remain untouched. The native reader supports
-Next, menu/settings return and keyboard controls; paging/history/auto remain later
-reader improvements.
+Next, menu/settings return, keyboard controls, dialogue paging, history, auto and skip.
+
+## Art parity captures
+
+`e2e/tools/godot-art-matrix.mjs` compares all copied portrait frames/poses, tiles,
+specials, ingredient routes and blocker layers against the complete production CSS.
+It uses a real native Compatibility renderer and an isolated Chromium fixture.
+See `docs/reviews/PG003AO_ART_MATRIX_2026-10-16_RU.md` for the command, captured
+evidence, numerical results and remaining full-screen/Web/motion work.
+
+## Paired screen capture
+
+`e2e/tools/export-godot-parity.mjs` builds an isolated release capture scene in a
+temporary project without changing the normal entry point. Use
+`e2e/tools/serve-parity-previews.mjs` and `e2e/tools/godot-screen-matrix.mjs`
+to compare menu, initial VN, settings and fresh campaign on the three locales and
+viewport sizes. Runtime source digests reject stale/mixed exports; campaign state
+is isolated in memory. Full commands, captured evidence and remaining gaps are in
+`docs/reviews/PG003AO_SCREEN_MATRIX_2026-10-17_RU.md`.

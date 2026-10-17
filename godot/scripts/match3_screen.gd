@@ -12,6 +12,7 @@ const CampaignData = preload("res://scripts/match3_campaign_data.gd")
 const Tutorials = preload("res://scripts/match3_tutorials.gd")
 const CssMotion = preload("res://scripts/css_motion.gd")
 const Match3DropShadow = preload("res://shaders/match3_drop_shadow.gdshader")
+const ArtRendering = preload("res://scripts/art_rendering.gd")
 const Match3TutorialBackdrop = preload("res://shaders/match3_tutorial_backdrop.gdshader")
 const ReducedMotion = preload("res://scripts/reduced_motion.gd")
 const UiFonts = preload("res://scripts/ui_fonts.gd")
@@ -876,23 +877,25 @@ func _render_board() -> void:
 		var tile_asset := str(campaign_bundle.assets.tiles.get(game.tiles[index], ""))
 		if not tile_asset.is_empty():
 			var tile := TextureRect.new()
+			ArtRendering.configure(tile)
 			tile.name = "Tile"
 			tile.z_index = 1
 			tile.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-			tile.offset_left = 2
-			tile.offset_top = 2
-			tile.offset_right = -2
-			tile.offset_bottom = -2
+			# CSS .tile-stack is inside the 1px cell border; UI A adds no tile padding.
+			tile.offset_left = 1
+			tile.offset_top = 1
+			tile.offset_right = -1
+			tile.offset_bottom = -1
 			tile.resized.connect(func() -> void: tile.pivot_offset = tile.size * 0.5)
 			tile.texture = load("res://" + tile_asset.trim_prefix("./"))
 			tile.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			tile.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			var is_camisole: bool = game.tiles[index] == "camisole"
-			tile.scale = Vector2(1.04, 1.04)
+			tile.scale = Vector2(1.08, 1.08)
 			tile.material = _match3_drop_shadow_material(
-				Color("#071224b8"),
-				Vector2(0, 2),
-				1.0, 1.0, 1.05,
+				Color("#10172d66") if is_camisole else Color("#071224b8"),
+				Vector2(0, 1) if is_camisole else Vector2(0, 2),
+				1.0, 1.38 if is_camisole else 1.0, 1.0 if is_camisole else 1.05,
 			)
 			tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			tile_stack.add_child(tile)
@@ -927,13 +930,15 @@ func _render_board() -> void:
 			if blocker_style == "locked": blocker_asset = str(campaign_bundle.assets.lockedBlockers.get(str(game.blocker_layers[index]), blocker_asset))
 			if not blocker_asset.is_empty():
 				var blocker := TextureRect.new()
+				ArtRendering.configure(blocker)
 				blocker.name = "Blocker"
 				blocker.z_index = 4
 				blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-				blocker.offset_left = 1
-				blocker.offset_top = 1
-				blocker.offset_right = -1
-				blocker.offset_bottom = -1
+				# 1px containing cell border plus the source image's 1px padding.
+				blocker.offset_left = 2
+				blocker.offset_top = 2
+				blocker.offset_right = -2
+				blocker.offset_bottom = -2
 				blocker.texture = load("res://" + blocker_asset.trim_prefix("./"))
 				blocker.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				blocker.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -968,13 +973,15 @@ func _render_board() -> void:
 			if not ingredient_asset.is_empty():
 				var ingredient_texture: Texture2D = load("res://" + ingredient_asset.trim_prefix("./"))
 				var ingredient := TextureRect.new()
+				ArtRendering.configure(ingredient)
 				ingredient.name = "Ingredient"
 				ingredient.z_index = 3
 				ingredient.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-				ingredient.offset_left = 2
-				ingredient.offset_top = 2
-				ingredient.offset_right = -2
-				ingredient.offset_bottom = -2
+				# 1px cell border plus 2px production ingredient padding.
+				ingredient.offset_left = 3
+				ingredient.offset_top = 3
+				ingredient.offset_right = -3
+				ingredient.offset_bottom = -3
 				ingredient.texture = ingredient_texture
 				ingredient.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				ingredient.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -990,11 +997,11 @@ func _render_board() -> void:
 				if not reduced_motion:
 					var ingredient_bob := tile_button.create_tween().set_loops()
 					var css_ease_in_out := Callable(self, "_css_cubic_bezier").bind(0.42, 0.0, 0.58, 1.0)
-					ingredient_bob.tween_property(ingredient, "offset_top", 0.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -4.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.tween_property(ingredient, "offset_top", 1.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -5.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_shadow").bind(ingredient_material, false), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
-					ingredient_bob.chain().tween_property(ingredient, "offset_top", 2.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
-					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -2.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.chain().tween_property(ingredient, "offset_top", 3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
+					ingredient_bob.parallel().tween_property(ingredient, "offset_bottom", -3.0, 0.7).set_trans(Tween.TRANS_LINEAR).set_custom_interpolator(css_ease_in_out)
 					ingredient_bob.parallel().tween_method(Callable(self, "_set_ingredient_shadow").bind(ingredient_material, true), 0.0, 1.0, 0.7).set_trans(Tween.TRANS_LINEAR)
 		if not game.specials[index].is_empty():
 			var special_kind: String = game.specials[index]
@@ -1002,22 +1009,23 @@ func _render_board() -> void:
 			if not special_asset.is_empty():
 				var special_texture: Texture2D = load("res://" + special_asset.trim_prefix("./"))
 				var special := TextureRect.new()
+				ArtRendering.configure(special)
 				special.name = "Special"
 				special.z_index = 2
 				special.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 				# Keep the original web presentation: directional line specials fill
 				# their cell, while the three silhouette specials extend by 14%.
 				if special_kind in ["flash-row", "flash-column", "evidence"]:
-					special.offset_left = 0
-					special.offset_top = 0
-					special.offset_right = 0
-					special.offset_bottom = 0
+					special.offset_left = 1
+					special.offset_top = 1
+					special.offset_right = -1
+					special.offset_bottom = -1
 				else:
-					var special_bleed := cell_size * 0.14
-					special.offset_left = -special_bleed
-					special.offset_top = -special_bleed
-					special.offset_right = special_bleed
-					special.offset_bottom = special_bleed
+					var special_bleed := Vector2(cell_size - 2.0, _board_cell_height() - 2.0) * 0.14
+					special.offset_left = 1.0 - special_bleed.x
+					special.offset_top = 1.0 - special_bleed.y
+					special.offset_right = -1.0 + special_bleed.x
+					special.offset_bottom = -1.0 + special_bleed.y
 				special.texture = special_texture
 				special.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				special.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED

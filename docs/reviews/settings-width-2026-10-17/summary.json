@@ -1,0 +1,59 @@
+{
+  "generatedAt": "2026-10-17T03:13:32.118Z",
+  "cases": [
+    {
+      "id": "ru-320x568-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-390x844-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-480x854-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-320x568-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-390x844-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-480x854-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-320x568-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-390x844-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-480x854-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    }
+  ]
+}

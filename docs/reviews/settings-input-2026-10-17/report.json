@@ -1,0 +1,1752 @@
+{
+  "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+  "records": [
+    {
+      "id": "ru-320x568-mouse",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "drag-cancel",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "ru-320x568-touch",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "touch-scroll-cancel",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "scroll": {
+            "sourceDelta": 65,
+            "nativeDelta": 8.000003592082095
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "ru-390x844-mouse",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "drag-cancel",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "ru-390x844-touch",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "ru-480x854-mouse",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "drag-cancel",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "ru-480x854-touch",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "be-320x568-mouse",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "drag-cancel",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "be-320x568-touch",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "touch-scroll-cancel",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "scroll": {
+            "sourceDelta": 65,
+            "nativeDelta": 21.9999482645362
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "be-390x844-mouse",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "drag-cancel",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "be-390x844-touch",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "be-480x854-mouse",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "drag-cancel",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "be-480x854-touch",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "en-320x568-mouse",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "drag-cancel",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "en-320x568-touch",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "touch-scroll-cancel",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "scroll": {
+            "sourceDelta": 65,
+            "nativeDelta": 1.999980360123999
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "en-390x844-mouse",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "drag-cancel",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "en-390x844-touch",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "en-480x854-mouse",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "drag-cancel",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "en-480x854-touch",
+      "build": {
+        "fixture": "res://tests/parity_web_capture.tscn",
+        "generatedAt": "2026-10-17T04:39:44.147Z",
+        "sourceCommit": "1d88f9bebd90bf2262a3da97a25d2bf4ebf47623",
+        "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+        "sourceTreeClean": false
+      },
+      "steps": [
+        {
+          "step": "initial",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "mute-edge",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "keyboard-space",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "haptics-edge",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "caption-no-double-toggle",
+          "source": {
+            "muted": false,
+            "hapticsEnabled": true
+          },
+          "native": {
+            "muted": false,
+            "hapticsEnabled": true
+          }
+        },
+        {
+          "step": "before-reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        },
+        {
+          "step": "reload",
+          "source": {
+            "muted": true,
+            "hapticsEnabled": false
+          },
+          "native": {
+            "muted": true,
+            "hapticsEnabled": false
+          }
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

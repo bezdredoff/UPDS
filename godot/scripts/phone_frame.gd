@@ -26,6 +26,10 @@ static func fit(control: Control) -> void:
 
 
 static func _apply(control: Control) -> void:
+	# Web cancels the viewport stretch below to keep CSS-sized UI. Font atlases
+	# must include that inverse item scale too, or narrow screens upscale tiny glyphs.
+	if OS.has_feature("web"):
+		control.oversampling_with_scale = CanvasItem.OVERSAMPLING_WITH_SCALE_ENABLED
 	var parent_size := control.get_parent_area_size()
 	var canvas_scale := _canvas_scale(control, parent_size)
 	canvas_scale.x = maxf(canvas_scale.x, 0.0001)

@@ -20,7 +20,7 @@ func _run() -> void:
 	menu.preferences.set_locale("ru")
 	root.add_child(menu)
 	await process_frame
-	var menu_title_font: Font = menu.get_node("Content/Title").get_theme_font("normal_font")
+	var menu_title_font: Font = menu.get_node("Content/TitleFrame/Title").get_theme_font("normal_font")
 	if OS.has_feature("web"):
 		assert((menu_title_font as FontVariation).base_font == UiFonts.GEORGIA_LATIN
 			and _has_weighted_cyrillic_serif(menu_title_font, 800),
@@ -442,27 +442,31 @@ func _run() -> void:
 	match3._render_board()
 	var normal_tile := match3.board.get_child(normal_tile_index).get_node("TileStack/Tile") as TextureRect
 	var normal_tile_material := normal_tile.material as ShaderMaterial
-	assert(normal_tile.offset_left == 2 and normal_tile.offset_top == 2
-		and normal_tile.offset_right == -2 and normal_tile.offset_bottom == -2
-		and normal_tile.scale.is_equal_approx(Vector2(1.04, 1.04))
+	assert(normal_tile.texture_filter == CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS,
+		"Downscaled Match-3 art must retain the render-audited mipmap filtering")
+	assert(normal_tile.texture.get_image().has_mipmaps(),
+		"The imported tile must actually contain mip levels for the production filter")
+	assert(normal_tile.offset_left == 1 and normal_tile.offset_top == 1
+		and normal_tile.offset_right == -1 and normal_tile.offset_bottom == -1
+		and normal_tile.scale.is_equal_approx(Vector2(1.08, 1.08))
 		and normal_tile.z_index == 1
 		and normal_tile_material != null
-		and (normal_tile_material.shader.code as String).contains("vec4 source = COLOR;")
+		and normal_tile_material.shader == preload("res://shaders/match3_drop_shadow.gdshader")
 		and not (normal_tile_material.shader.code as String).contains("texture(TEXTURE, UV) * COLOR")
 		and (normal_tile_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2))
 		and is_equal_approx(normal_tile_material.get_shader_parameter("saturation"), 1.05),
-		"UI A tile artwork should preserve the source 2px inset, 1.04 scale, drop shadow and saturation")
+		"Computed UI A CSS requires a 1px cell border, zero tile padding, 1.08 scale and production filter")
 	var first_tile_before_variant_check: String = match3.game.tiles[normal_tile_index]
 	match3.game.tiles[normal_tile_index] = "camisole"
 	match3._render_board()
 	var camisole_tile := match3.board.get_child(normal_tile_index).get_node("TileStack/Tile") as TextureRect
 	var camisole_shadow := camisole_tile.material as ShaderMaterial
-	assert(camisole_shadow != null and is_equal_approx(camisole_shadow.get_shader_parameter("brightness"), 1.0)
+	assert(camisole_shadow != null and is_equal_approx(camisole_shadow.get_shader_parameter("brightness"), 1.38)
 		and is_equal_approx(camisole_shadow.get_shader_parameter("shadow_blur_px"), 1.0)
-		and is_equal_approx(camisole_shadow.get_shader_parameter("saturation"), 1.05)
-		and (camisole_shadow.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#071224b8"))
-		and (camisole_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 2)),
-		"Camisole tile should match the same production shadow and saturation as the active UI A CSS")
+		and is_equal_approx(camisole_shadow.get_shader_parameter("saturation"), 1.0)
+		and (camisole_shadow.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#10172d66"))
+		and (camisole_shadow.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0, 1)),
+		"The higher-specificity camisole CSS retains brightness(1.38) and its original drop shadow")
 	match3.game.tiles[normal_tile_index] = first_tile_before_variant_check
 	match3._render_board()
 	var visual_blocker_index := -1
@@ -833,8 +837,8 @@ func _run() -> void:
 	var ingredient_icon: TextureRect = ingredient_cell.get_node("TileStack/Ingredient")
 	var ingredient_material := ingredient_icon.material as ShaderMaterial
 	assert(ingredient_icon.anchor_right == 1.0 and ingredient_icon.anchor_bottom == 1.0
-		and ingredient_icon.offset_left == 2.0 and ingredient_icon.z_index == 3,
-		"Production ingredient artwork did not preserve its 2px inset and source z-layer")
+		and ingredient_icon.offset_left == 3.0 and ingredient_icon.z_index == 3,
+		"Production ingredient artwork must include the cell border and 2px image padding")
 	assert(ingredient_material != null
 		and (ingredient_material.get_shader_parameter("shadow_color") as Color).is_equal_approx(Color("#00000088"))
 		and (ingredient_material.get_shader_parameter("shadow_offset_px") as Vector2).is_equal_approx(Vector2(0.0, 2.0))
@@ -845,7 +849,7 @@ func _run() -> void:
 		"Ingredient idle did not start with the source dark 2px drop shadow")
 	await create_timer(0.69).timeout
 	var peak_ingredient_shadow: Color = ingredient_material.get_shader_parameter("shadow_color")
-	assert(absf(ingredient_icon.offset_top) < 0.25 and absf(ingredient_icon.offset_bottom + 4.0) < 0.25
+	assert(absf(ingredient_icon.offset_top - 1.0) < 0.25 and absf(ingredient_icon.offset_bottom + 5.0) < 0.25
 		and ingredient_icon.scale.is_equal_approx(Vector2.ONE)
 		and absf((ingredient_material.get_shader_parameter("shadow_offset_px") as Vector2).y) < 0.25
 		and float(ingredient_material.get_shader_parameter("shadow_blur_px")) > 6.7
@@ -857,7 +861,7 @@ func _run() -> void:
 	var resting_shadow_offset: Vector2 = ingredient_material.get_shader_parameter("shadow_offset_px")
 	var resting_shadow_blur: float = ingredient_material.get_shader_parameter("shadow_blur_px")
 	var source_shadow_color := Color("#00000088")
-	assert(absf(ingredient_icon.offset_top - 2.0) < 0.25 and absf(ingredient_icon.offset_bottom + 2.0) < 0.25
+	assert(absf(ingredient_icon.offset_top - 3.0) < 0.25 and absf(ingredient_icon.offset_bottom + 3.0) < 0.25
 		and absf(resting_shadow_offset.y - 2.0) < 0.1
 		and absf(resting_shadow_blur - 2.0) < 0.1
 		and absf(resting_ingredient_shadow.r - source_shadow_color.r) < 0.03
@@ -1001,12 +1005,12 @@ func _run() -> void:
 	match3.game.specials = oversized_specials
 	match3._render_board()
 	var oversized_special: TextureRect = match3.board.get_child(special_index).get_node("TileStack/Special")
-	var bleed: float = match3._board_cell_size() * 0.14
-	assert(is_equal_approx(oversized_special.offset_left, -bleed)
-		and is_equal_approx(oversized_special.offset_top, -bleed)
-		and is_equal_approx(oversized_special.offset_right, bleed)
-		and is_equal_approx(oversized_special.offset_bottom, bleed),
-		"Insight and lead silhouettes should extend by 14% of the responsive cell size, matching CSS")
+	var bleed := Vector2(match3._board_cell_size() - 2.0, match3._board_cell_height() - 2.0) * 0.14
+	assert(is_equal_approx(oversized_special.offset_left, 1.0 - bleed.x)
+		and is_equal_approx(oversized_special.offset_top, 1.0 - bleed.y)
+		and is_equal_approx(oversized_special.offset_right, -1.0 + bleed.x)
+		and is_equal_approx(oversized_special.offset_bottom, -1.0 + bleed.y),
+		"Insight and lead must extend by 14% of each inner cell dimension, excluding its border")
 	match3.game.specials = saved_specials
 	match3._render_board()
 	match3._render_frame({

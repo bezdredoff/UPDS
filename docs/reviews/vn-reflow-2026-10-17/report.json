@@ -1,0 +1,437 @@
+{
+  "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+  "records": [
+    {
+      "id": "ru-wide",
+      "source": {
+        "text": "После звонка кампус японского колледжа Сэйран не затихал: спортивные клубы…",
+        "pages": 2,
+        "pageIndex": 0,
+        "width": 362,
+        "fontSize": "17px",
+        "lineId": "VN0001"
+      },
+      "native": {
+        "displayed": "После звонка кампус японского колледжа Сэйран не затихал: спортивные клубы…",
+        "pageIndex": 0,
+        "pages": [
+          "После звонка кампус японского колледжа Сэйран не затихал: спортивные клубы",
+          "расходились на тренировки. Я же искала детективный клуб."
+        ],
+        "build": {
+          "fixture": "res://tests/parity_web_capture.tscn",
+          "generatedAt": "2026-10-17T03:44:07.750Z",
+          "sourceCommit": "357ad931cca470b42507b1cb51a4ba79b039b6f3",
+          "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+          "sourceTreeClean": false
+        },
+        "window": [
+          480,
+          854
+        ],
+        "scene": 0,
+        "line": 0
+      },
+      "contractErrors": []
+    },
+    {
+      "id": "ru-wide-page-2",
+      "source": {
+        "text": "расходились на тренировки. Я же искала детективный клуб.",
+        "pages": 2,
+        "pageIndex": 1,
+        "width": 362,
+        "fontSize": "17px",
+        "lineId": "VN0001"
+      },
+      "native": {
+        "displayed": "расходились на тренировки. Я же искала детективный клуб.",
+        "pageIndex": 1,
+        "pages": [
+          "После звонка кампус японского колледжа Сэйран не затихал: спортивные клубы",
+          "расходились на тренировки. Я же искала детективный клуб."
+        ],
+        "build": {
+          "fixture": "res://tests/parity_web_capture.tscn",
+          "generatedAt": "2026-10-17T03:44:07.750Z",
+          "sourceCommit": "357ad931cca470b42507b1cb51a4ba79b039b6f3",
+          "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+          "sourceTreeClean": false
+        },
+        "window": [
+          480,
+          854
+        ],
+        "scene": 0,
+        "line": 0
+      },
+      "contractErrors": []
+    },
+    {
+      "id": "ru-narrow",
+      "source": {
+        "text": "спортивные клубы расходились на тренировки…",
+        "pages": 3,
+        "pageIndex": 1,
+        "width": 272,
+        "fontSize": "14px",
+        "lineId": "VN0001"
+      },
+      "native": {
+        "displayed": "спортивные клубы расходились на тренировки…",
+        "pageIndex": 1,
+        "pages": [
+          "После звонка кампус японского колледжа Сэйран не затихал:",
+          "спортивные клубы расходились на тренировки.",
+          "Я же искала детективный клуб."
+        ],
+        "build": {
+          "fixture": "res://tests/parity_web_capture.tscn",
+          "generatedAt": "2026-10-17T03:44:07.750Z",
+          "sourceCommit": "357ad931cca470b42507b1cb51a4ba79b039b6f3",
+          "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+          "sourceTreeClean": false
+        },
+        "window": [
+          320,
+          568
+        ],
+        "scene": 0,
+        "line": 0
+      },
+      "contractErrors": []
+    },
+    {
+      "id": "ru-narrow-last",
+      "source": {
+        "text": "Я же искала детективный клуб.",
+        "pages": 3,
+        "pageIndex": 2,
+        "width": 272,
+        "fontSize": "14px",
+        "lineId": "VN0001"
+      },
+      "native": {
+        "displayed": "Я же искала детективный клуб.",
+        "pageIndex": 2,
+        "pages": [
+          "После звонка кампус японского колледжа Сэйран не затихал:",
+          "спортивные клубы расходились на тренировки.",
+          "Я же искала детективный клуб."
+        ],
+        "build": {
+          "fixture": "res://tests/parity_web_capture.tscn",
+          "generatedAt": "2026-10-17T03:44:07.750Z",
+          "sourceCommit": "357ad931cca470b42507b1cb51a4ba79b039b6f3",
+          "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+          "sourceTreeClean": false
+        },
+        "window": [
+          320,
+          568
+        ],
+        "scene": 0,
+        "line": 0
+      },
+      "contractErrors": []
+    },
+    {
+      "id": "ru-restored",
+      "source": {
+        "text": "расходились на тренировки. Я же искала детективный клуб.",
+        "pages": 2,
+        "pageIndex": 1,
+        "width": 362,
+        "fontSize": "17px",
+        "lineId": "VN0001"
+      },
+      "native": {
+        "displayed": "расходились на тренировки. Я же искала детективный клуб.",
+        "pageIndex": 1,
+        "pages": [
+          "После звонка кампус японского колледжа Сэйран не затихал: спортивные клубы",
+          "расходились на тренировки. Я же искала детективный клуб."
+        ],
+        "build": {
+          "fixture": "res://tests/parity_web_capture.tscn",
+          "generatedAt": "2026-10-17T03:44:07.750Z",
+          "sourceCommit": "357ad931cca470b42507b1cb51a4ba79b039b6f3",
+          "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+          "sourceTreeClean": false
+        },
+        "window": [
+          480,
+          854
+        ],
+        "scene": 0,
+        "line": 0
+      },
+      "contractErrors": []
+    },
+    {
+      "id": "be-wide",
+      "source": {
+        "text": "Пасля званка кампус японскага каледжа Сэйран не сціхаў: спартыўныя клубы…",
+        "pages": 2,
+        "pageIndex": 0,
+        "width": 362,
+        "fontSize": "17px",
+        "lineId": "VN0001"
+      },
+      "native": {
+        "displayed": "Пасля званка кампус японскага каледжа Сэйран не сціхаў: спартыўныя клубы…",
+        "pageIndex": 0,
+        "pages": [
+          "Пасля званка кампус японскага каледжа Сэйран не сціхаў: спартыўныя клубы",
+          "разыходзіліся на трэніроўкі. А я шукала дэтэктыўны клуб."
+        ],
+        "build": {
+          "fixture": "res://tests/parity_web_capture.tscn",
+          "generatedAt": "2026-10-17T03:44:07.750Z",
+          "sourceCommit": "357ad931cca470b42507b1cb51a4ba79b039b6f3",
+          "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+          "sourceTreeClean": false
+        },
+        "window": [
+          480,
+          854
+        ],
+        "scene": 0,
+        "line": 0
+      },
+      "contractErrors": []
+    },
+    {
+      "id": "be-wide-page-2",
+      "source": {
+        "text": "разыходзіліся на трэніроўкі. А я шукала дэтэктыўны клуб.",
+        "pages": 2,
+        "pageIndex": 1,
+        "width": 362,
+        "fontSize": "17px",
+        "lineId": "VN0001"
+      },
+      "native": {
+        "displayed": "разыходзіліся на трэніроўкі. А я шукала дэтэктыўны клуб.",
+        "pageIndex": 1,
+        "pages": [
+          "Пасля званка кампус японскага каледжа Сэйран не сціхаў: спартыўныя клубы",
+          "разыходзіліся на трэніроўкі. А я шукала дэтэктыўны клуб."
+        ],
+        "build": {
+          "fixture": "res://tests/parity_web_capture.tscn",
+          "generatedAt": "2026-10-17T03:44:07.750Z",
+          "sourceCommit": "357ad931cca470b42507b1cb51a4ba79b039b6f3",
+          "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+          "sourceTreeClean": false
+        },
+        "window": [
+          480,
+          854
+        ],
+        "scene": 0,
+        "line": 0
+      },
+      "contractErrors": []
+    },
+    {
+      "id": "be-narrow",
+      "source": {
+        "text": "разыходзіліся на трэніроўкі. А я шукала дэтэктыўны клуб.",
+        "pages": 2,
+        "pageIndex": 1,
+        "width": 272,
+        "fontSize": "14px",
+        "lineId": "VN0001"
+      },
+      "native": {
+        "displayed": "клубы разыходзіліся на трэніроўкі. А я шукала дэтэктыўны клуб.",
+        "pageIndex": 1,
+        "pages": [
+          "Пасля званка кампус японскага каледжа Сэйран не сціхаў: спартыўныя",
+          "клубы разыходзіліся на трэніроўкі. А я шукала дэтэктыўны клуб."
+        ],
+        "build": {
+          "fixture": "res://tests/parity_web_capture.tscn",
+          "generatedAt": "2026-10-17T03:44:07.750Z",
+          "sourceCommit": "357ad931cca470b42507b1cb51a4ba79b039b6f3",
+          "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+          "sourceTreeClean": false
+        },
+        "window": [
+          320,
+          568
+        ],
+        "scene": 0,
+        "line": 0
+      },
+      "contractErrors": []
+    },
+    {
+      "id": "be-restored",
+      "source": {
+        "text": "разыходзіліся на трэніроўкі. А я шукала дэтэктыўны клуб.",
+        "pages": 2,
+        "pageIndex": 1,
+        "width": 362,
+        "fontSize": "17px",
+        "lineId": "VN0001"
+      },
+      "native": {
+        "displayed": "разыходзіліся на трэніроўкі. А я шукала дэтэктыўны клуб.",
+        "pageIndex": 1,
+        "pages": [
+          "Пасля званка кампус японскага каледжа Сэйран не сціхаў: спартыўныя клубы",
+          "разыходзіліся на трэніроўкі. А я шукала дэтэктыўны клуб."
+        ],
+        "build": {
+          "fixture": "res://tests/parity_web_capture.tscn",
+          "generatedAt": "2026-10-17T03:44:07.750Z",
+          "sourceCommit": "357ad931cca470b42507b1cb51a4ba79b039b6f3",
+          "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+          "sourceTreeClean": false
+        },
+        "window": [
+          480,
+          854
+        ],
+        "scene": 0,
+        "line": 0
+      },
+      "contractErrors": []
+    },
+    {
+      "id": "en-wide",
+      "source": {
+        "text": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to practice…",
+        "pages": 2,
+        "pageIndex": 0,
+        "width": 362,
+        "fontSize": "17px",
+        "lineId": "VN0001"
+      },
+      "native": {
+        "displayed": "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to practice…",
+        "pageIndex": 0,
+        "pages": [
+          "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to practice.",
+          "I was looking for the detective club."
+        ],
+        "build": {
+          "fixture": "res://tests/parity_web_capture.tscn",
+          "generatedAt": "2026-10-17T03:44:07.750Z",
+          "sourceCommit": "357ad931cca470b42507b1cb51a4ba79b039b6f3",
+          "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+          "sourceTreeClean": false
+        },
+        "window": [
+          480,
+          854
+        ],
+        "scene": 0,
+        "line": 0
+      },
+      "contractErrors": []
+    },
+    {
+      "id": "en-wide-page-2",
+      "source": {
+        "text": "I was looking for the detective club.",
+        "pages": 2,
+        "pageIndex": 1,
+        "width": 362,
+        "fontSize": "17px",
+        "lineId": "VN0001"
+      },
+      "native": {
+        "displayed": "I was looking for the detective club.",
+        "pageIndex": 1,
+        "pages": [
+          "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to practice.",
+          "I was looking for the detective club."
+        ],
+        "build": {
+          "fixture": "res://tests/parity_web_capture.tscn",
+          "generatedAt": "2026-10-17T03:44:07.750Z",
+          "sourceCommit": "357ad931cca470b42507b1cb51a4ba79b039b6f3",
+          "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+          "sourceTreeClean": false
+        },
+        "window": [
+          480,
+          854
+        ],
+        "scene": 0,
+        "line": 0
+      },
+      "contractErrors": []
+    },
+    {
+      "id": "en-narrow",
+      "source": {
+        "text": "practice. I was looking for the detective club.",
+        "pages": 2,
+        "pageIndex": 1,
+        "width": 272,
+        "fontSize": "14px",
+        "lineId": "VN0001"
+      },
+      "native": {
+        "displayed": "I was looking for the detective club.",
+        "pageIndex": 1,
+        "pages": [
+          "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to practice.",
+          "I was looking for the detective club."
+        ],
+        "build": {
+          "fixture": "res://tests/parity_web_capture.tscn",
+          "generatedAt": "2026-10-17T03:44:07.750Z",
+          "sourceCommit": "357ad931cca470b42507b1cb51a4ba79b039b6f3",
+          "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+          "sourceTreeClean": false
+        },
+        "window": [
+          320,
+          568
+        ],
+        "scene": 0,
+        "line": 0
+      },
+      "contractErrors": []
+    },
+    {
+      "id": "en-restored",
+      "source": {
+        "text": "I was looking for the detective club.",
+        "pages": 2,
+        "pageIndex": 1,
+        "width": 362,
+        "fontSize": "17px",
+        "lineId": "VN0001"
+      },
+      "native": {
+        "displayed": "I was looking for the detective club.",
+        "pageIndex": 1,
+        "pages": [
+          "After the bell, Seiran College in Japan was still buzzing as sports clubs headed to practice.",
+          "I was looking for the detective club."
+        ],
+        "build": {
+          "fixture": "res://tests/parity_web_capture.tscn",
+          "generatedAt": "2026-10-17T03:44:07.750Z",
+          "sourceCommit": "357ad931cca470b42507b1cb51a4ba79b039b6f3",
+          "sourceHash": "1e6c6f73832193ddc5de849af274f96b70f59a8732749a342598b7ce27f7a876",
+          "sourceTreeClean": false
+        },
+        "window": [
+          480,
+          854
+        ],
+        "scene": 0,
+        "line": 0
+      },
+      "contractErrors": []
+    }
+  ],
+  "errors": []
+}

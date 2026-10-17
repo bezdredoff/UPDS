@@ -1,0 +1,60 @@
+{
+  "sourceHash": "0fa1bfdc9cfab19831358f812c23d971f7579084726fa828f3cd386509bdee63",
+  "generatedAt": "2026-10-17T04:51:14.894Z",
+  "cases": [
+    {
+      "id": "ru-320x568-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-390x844-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "ru-480x854-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-320x568-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-390x844-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "be-480x854-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-320x568-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-390x844-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    },
+    {
+      "id": "en-480x854-settings",
+      "pixelMetrics": null,
+      "contractErrors": [],
+      "errors": []
+    }
+  ]
+}
