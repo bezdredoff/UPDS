@@ -57,6 +57,8 @@ for(const locale of values.locale?[values.locale]:['ru','be','en'])for(const [wi
  await context.close();
 }
 }finally{await browser.close();}
-await writeFile(join(output,'report.json'),JSON.stringify({build,actorEntries:all.length,uniqueStaging:unique.size,records,errors},null,2));
+const header=JSON.stringify({build,actorEntries:all.length,uniqueStaging:unique.size,errors},null,2);
+// Keep one state per line so large evidence matrices remain reviewable in Git.
+await writeFile(join(output,'report.json'),header.slice(0,-2)+',\n  "records": [\n'+records.map(r=>'    '+JSON.stringify(r)).join(',\n')+'\n  ]\n}\n');
 console.log(JSON.stringify({states:records.length,frames:records.reduce((s,r)=>s+r.source.frames.length,0),matching:records.filter(r=>!r.differences.length).length,errors:errors.length,maxRectDelta:Math.max(...records.map(r=>r.maxRectDelta))}));
 if(errors.length||records.some(r=>r.differences.length))throw new Error('Core portrait parity contracts failed; inspect report');
