@@ -173,4 +173,6 @@ PR #467 исправил повторное умножение текстуры 
 
 - 2026-10-17 core camera/motion: все 767 core actor entries используют source compactHeight 168%; исправлены dynamic idle amplitude, Web reduced-motion gate и live preference changes. 702/702 geometry states, 180/180 motion states / 1620 time samples и 180 preference transitions проходят, errors=0, max rect delta <0.017px. Full Godot/npm check 848 tests. Pixel/layer/UI/прочие gameplay gaps открыты. docs/reviews/PG003AO_CORE_CAMERA_MOTION_2026-10-17_RU.md
 
+- 2026-10-17 speaking layers: все четыре authored export paths учитывают source speaker z+1; 261/261 states (29 многоперсонажных строк × RU/BE/EN × 3 viewport) сверили actual DOM/native z, painter order, assets и rect, errors=0, max delta <0.014px. Полный npm check 849 tests и Godot check проходят. Pixel/UI/background/прочие gaps открыты. docs/reviews/PG003AO_SPEAKING_LAYERS_2026-10-17_RU.md
+
 - 2026-10-17 VN background colors: перенесены source brightness/saturate и обе gradient vignette layers с корректным premultiplied source-over, без затемнения ending panels. Прямое сравнение 207 состояний/23 фонов × RU/BE/EN × 3 viewport: RGB MAE 10.90164→2.72550/255, все asset contracts совпали, errors=0. Blur/downsampling/ending backdrop и остальные gaps открыты. docs/reviews/PG003AO_VN_BACKGROUND_COLORS_2026-10-17_RU.md
