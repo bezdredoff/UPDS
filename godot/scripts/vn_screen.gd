@@ -29,6 +29,7 @@ var stage: Control
 var nameplate: PanelContainer
 var dialogue_panel: PanelContainer
 var background_rect: TextureRect
+var _vn_background_fit_material: ShaderMaterial
 var title: Label
 var speaker: Label
 var emotion: Label
@@ -109,9 +110,21 @@ func _ready() -> void:
 	background_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	background_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	background_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	background_rect.modulate = Color(0.92, 0.92, 0.92, 1.0)
+	var fit_material := ShaderMaterial.new()
+	fit_material.shader = preload("res://shaders/vn_background_fit.gdshader")
+	_vn_background_fit_material = fit_material
+	background_rect.material = fit_material
 	background_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background_rect)
+	var vignette := ColorRect.new()
+	vignette.name = "Vignette"
+	vignette.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	vignette.z_index = 1
+	vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var vignette_material := ShaderMaterial.new()
+	vignette_material.shader = preload("res://shaders/vn_vignette.gdshader")
+	vignette.material = vignette_material
+	add_child(vignette)
 	stage = Control.new()
 	stage.name = "Stage"
 	stage.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -463,6 +476,9 @@ func _refresh() -> void:
 		_refresh_ending(outcome)
 		return
 	ending_panel.hide()
+	get_node("Vignette").show()
+	background_rect.material = _vn_background_fit_material
+	background_rect.modulate = Color.WHITE
 	dialogue_panel.show()
 	stage.show()
 	controls_panel.show()
@@ -1094,6 +1110,11 @@ func _refresh_ending(outcome: Dictionary) -> void:
 	var metrics: Dictionary = outcome.metrics
 	var final_strategy: String = str(session.state.storyChoices.get("final-strategy", "A"))
 	_set_background(str(data.backgrounds[ending_id]))
+	# Ending artwork has its own source treatment; the VN wash must not paint
+	# over the ending panel, which shares the background's default canvas depth.
+	get_node("Vignette").hide()
+	background_rect.material = null
+	background_rect.modulate = Color(0.92, 0.92, 0.92, 1.0)
 	title.hide()
 	case_button.hide()
 	history_button.hide()

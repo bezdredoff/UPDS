@@ -31,6 +31,8 @@ func _run() -> void:
 	assert(is_equal_approx(portrait.size.y / screen.stage.size.y, 1.2816))
 	assert(absf(portrait.offset_top + portrait.size.y * 0.0035) < 0.001)
 	assert(menu.session.current_line().id == "VN0001")
+	assert(screen.get_node("Vignette").visible)
+	assert(screen.background_rect.material != null and screen.background_rect.modulate == Color.WHITE)
 	menu.queue_free()
 	await process_frame
 	print("UPDS core portrait camera smoke test passed.")

@@ -4,6 +4,7 @@ const Memory = preload("res://tests/memory_storage.gd")
 var menu: Control
 var _callback: JavaScriptObject
 var _build: Dictionary
+var _background_hidden: Array[CanvasItem] = []
 
 
 func _ready() -> void:
@@ -32,6 +33,15 @@ func _dispatch(arguments: Array) -> void:
 	var request: Dictionary = JSON.parse_string(str(arguments[0]))
 	var extra := {}
 	match str(request.action):
+		"background_only":
+			for item in _background_hidden:
+				if is_instance_valid(item): item.show()
+			_background_hidden.clear()
+			if bool(request.get("enabled", true)):
+				for item in menu.story_screen.get_children():
+					if item is CanvasItem and item.visible and str(item.name) not in ["BackgroundFill", "BackgroundFit", "Vignette"]:
+						_background_hidden.append(item)
+						item.hide()
 		"font_metrics":
 			var font := preload("res://scripts/ui_fonts.gd").serif()
 			extra.fontMetrics = {}
