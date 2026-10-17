@@ -27,7 +27,7 @@ export function godotPrologue() {
     if (shot) return resolveSceneStagingPreset(shot.presetId, shot.actors).actors.map((actor) => ({
       character: actor.character, asset: actor.pose === 'pose-b' ? poseAsset(actor.character) : expressionAsset(actor.character, actor.expression),
       x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent, compactHeight: 168,
-      scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex,
+      scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex + (actor.character === characterForSpeaker(line.speaker) ? 1 : 0),
     }));
     const character = characterForSpeaker(line.speaker);
     if (!character || isDirection(line)) return [];
@@ -67,7 +67,7 @@ export function godotLockerScene() {
         ? resolveSceneStagingPreset(shot.presetId, shot.actors).actors.map((actor) => ({
           character: actor.character, asset: actor.pose === 'pose-b' ? poseAsset(actor.character) : expressionAsset(actor.character, actor.expression),
           x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent, compactHeight: 168,
-          scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex,
+          scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex + (actor.character === characterForSpeaker(line.speaker) ? 1 : 0),
         }))
         : (() => {
           const character = characterForSpeaker(line.speaker);
@@ -119,7 +119,7 @@ export function godotPostMatchScene() {
         ? resolveSceneStagingPreset(shot.presetId, shot.actors).actors.map((actor) => ({
           character: actor.character, asset: actor.pose === 'pose-b' ? poseAsset(actor.character) : expressionAsset(actor.character, actor.expression),
           x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent, compactHeight: 168,
-          scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex,
+          scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex + (actor.character === characterForSpeaker(line.speaker) ? 1 : 0),
         }))
         : (() => {
           const character = characterForSpeaker(line.speaker);
@@ -189,7 +189,7 @@ export function godotStoryScene(sceneIndex: number) {
         ? resolveSceneStagingPreset(shot.presetId, shot.actors).actors.map((actor) => ({
           character: actor.character, asset: actor.pose === 'pose-b' ? poseAsset(actor.character) : expressionAsset(actor.character, actor.expression),
           x: actor.anchorXPercent, top: actor.portraitTopPercent, height: actor.portraitHeightPercent, compactHeight: 168,
-          scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex,
+          scale: actor.canonicalCharacterScale, y: actor.canonicalCharacterYPercent, z: actor.zIndex + (actor.character === characterForSpeaker(line.speaker) ? 1 : 0),
         }))
         : (() => {
           const character = characterForSpeaker(line.speaker);

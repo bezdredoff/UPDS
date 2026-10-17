@@ -31,6 +31,17 @@ func _run() -> void:
 	assert(is_equal_approx(portrait.size.y / screen.stage.size.y, 1.2816))
 	assert(absf(portrait.offset_top + portrait.size.y * 0.0035) < 0.001)
 	assert(menu.session.current_line().id == "VN0001")
+	menu.session.state.scene = 15
+	menu.session.state.line = 19
+	assert(menu.session.resume())
+	screen._refresh()
+	await process_frame
+	await process_frame
+	var onoe := screen.stage.get_node("onoe") as TextureRect
+	var miku := screen.stage.get_node("miku") as TextureRect
+	assert(onoe.z_index == 4 and miku.z_index == 3, "Speaking Onoe must paint above Miku in VN0389")
+	assert(screen.stage.z_index + onoe.z_index < screen.dialogue_panel.z_index,
+		"Speaking-slot lift must stay inside the source stage stacking context")
 	menu.queue_free()
 	await process_frame
 	print("UPDS core portrait camera smoke test passed.")

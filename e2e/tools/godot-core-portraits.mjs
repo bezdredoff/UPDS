@@ -5,14 +5,15 @@ import {readFile,readdir,mkdir,writeFile} from 'node:fs/promises';
 import {resolve,join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
-const {values}=parseArgs({options:{chrome:{type:'string'},web:{type:'string'},godot:{type:'string'},output:{type:'string'},locale:{type:'string'},viewport:{type:'string'},motion:{type:'boolean',default:false},'line-id':{type:'string'}}});
+const {values}=parseArgs({options:{chrome:{type:'string'},web:{type:'string'},godot:{type:'string'},output:{type:'string'},locale:{type:'string'},viewport:{type:'string'},motion:{type:'boolean',default:false},layers:{type:'boolean',default:false},'line-id':{type:'string'}}});
 if(!values.web||!values.godot||!values.output)throw new Error('--web, --godot, --output required');
 const all=[];
 for(const file of await readdir(join(root,'godot/data'))){if(!file.endsWith('.json'))continue;const data=JSON.parse(await readFile(join(root,'godot/data',file),'utf8'));if(!data.sceneId)continue;const scene=data.sceneIndex??Number(data.sceneId.match(/^VN_SCENE_(\d+)/)?.[1]);for(const [choice,lines]of data.variants?Object.entries(data.variants):[['A',data.lines??[]]])for(const [line,entry]of lines.entries())for(const actor of entry.actors??[])if(actor.asset.startsWith('./assets/characters/'))all.push({scene,line,choice,id:entry.id,actor});}
 all.sort((a,b)=>a.scene-b.scene||a.line-b.line||a.choice.localeCompare(b.choice));
 const unique=new Map();for(const row of all){const key=[row.actor.asset,row.actor.x,row.actor.top,row.actor.z].join('|');if(!unique.has(key))unique.set(key,row);}
-if(all.length!==767||unique.size!==78)throw new Error('Core portrait corpus changed; inspect canonical source');
+if(all.length!==767||unique.size!==79)throw new Error('Core portrait corpus changed; inspect canonical source');
 let cases=[...unique.values()];
+if(values.layers){const groups=new Map();for(const row of all){const key=[row.scene,row.line,row.choice].join('|');const group=groups.get(key)??[];group.push(row);groups.set(key,group);}cases=[...groups.values()].filter(g=>g.length>1).map(g=>g[0]);if(cases.length!==29)throw new Error('Multi-actor coverage changed');}
 if(values.motion){const reps=new Map();for(const row of all)if(row.actor.asset.endsWith('/frame-neutral.png')&&!reps.has(row.actor.character))reps.set(row.actor.character,row);cases=[...reps.values(),all.find(row=>row.actor.asset.includes('/poses/'))].filter(Boolean);if(reps.size!==9)throw new Error('Missing neutral rig motion coverage');}
 if(values['line-id'])cases=all.filter(row=>row.id===values['line-id']);
 const output=resolve(values.output);await mkdir(output,{recursive:true});
@@ -37,8 +38,15 @@ for(const locale of values.locale?[values.locale]:['ru','be','en'])for(const [wi
   for(const seconds of times){state=await call({action:'idle_sample',seconds});const p=state.controls.find(c=>c.path.endsWith(`/Stage/${entry.actor.character}`));if(!p)throw new Error(`Native portrait missing: ${entry.id}`);target.asset=p.asset.replace('res://','./');target.animation=p.idle;target.frames.push({seconds,rect:p.rect});}
   const differences=[];if(source.lineId!==entry.id||target.lineId!==entry.id)differences.push('line-id');if(source.asset!==entry.actor.asset||target.asset!==source.asset)differences.push('asset');if(source.animation!==target.animation)differences.push('motion-policy');if(state.reducedMotion!==(motion==='reduce'))differences.push('preference-gate');
   let maxRectDelta=0;for(let i=0;i<times.length;i++)for(let j=0;j<4;j++)maxRectDelta=Math.max(maxRectDelta,Math.abs(source.frames[i].rect[j]-target.frames[i].rect[j]));if(maxRectDelta>0.1)differences.push('geometry/timeline');
+  if(values.layers){
+   source.layers=await web.evaluate(()=>[...document.querySelectorAll('.portrait')].map(n=>{const slot=n.closest('.vn-authored-actor-slot'),r=n.getBoundingClientRect();return{character:n.closest('[data-character]')?.dataset.character,z:Number.parseInt(getComputedStyle(slot??n).zIndex)||0,asset:n.querySelector('img').getAttribute('src'),rect:[r.x,r.y,r.width,r.height]};}));
+   target.layers=state.storyLine.actors.map(a=>{const p=state.controls.find(c=>c.path.endsWith(`/Stage/${a.character}`));return{character:a.character,z:p.zIndex,asset:p.asset.replace('res://','./'),rect:p.rect};});
+   const order=rows=>[...rows].sort((a,b)=>a.z-b.z).map(a=>a.character);
+   if(JSON.stringify(order(source.layers))!==JSON.stringify(order(target.layers)))differences.push('paint-order');
+   for(const actor of source.layers){const p=target.layers.find(a=>a.character===actor.character);if(!p||p.z!==actor.z||p.asset!==actor.asset)differences.push(`layer-${actor.character}`);else if(actor.rect.some((v,i)=>Math.abs(v-p.rect[i])>.1))differences.push(`layer-geometry-${actor.character}`);}
+  }
   const id=`${locale}-${width}x${height}-${motion}-${entry.id}-${entry.actor.character}-${entry.choice}`;
-  if((!values.motion&&locale==='ru'&&width===320)||(values.motion&&entry.actor.character==='miku'&&locale==='ru')){await web.screenshot({path:join(output,`${id}-web.png`)});await native.screenshot({path:join(output,`${id}-godot.png`)});}
+  if((!values.motion&&locale==='ru'&&width===320)||(values.motion&&entry.actor.character==='miku'&&locale==='ru')||(values.layers&&entry.id==='VN0389')){await web.screenshot({path:join(output,`${id}-web.png`)});await native.screenshot({path:join(output,`${id}-godot.png`)});}
   if(values.motion&&entry.actor.character==='miku'&&locale==='ru'&&width===320)for(const seconds of [0,1.4,2.8]){
    await web.bringToFront();await web.evaluate(async seconds=>{const a=document.querySelector('.portrait').getAnimations().find(a=>a.animationName==='idle-breathe');if(a)a.currentTime=seconds*1000;await new Promise(r=>requestAnimationFrame(r));},seconds);
    await native.bringToFront();await call({action:'idle_sample',seconds});
