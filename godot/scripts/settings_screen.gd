@@ -193,7 +193,7 @@ func _ready() -> void:
 	haptics_help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	haptics_help.add_theme_color_override("font_color", Color("#746d7c"))
 	haptics_help.add_theme_constant_override("line_spacing", 0)
-	haptics_help.text = MenuCopy.text("haptics_short", preferences.locale)
+	haptics_help.text = MenuCopy.text("haptics_short" if audio_runtime.haptics_supported else "haptics_short_unavailable", preferences.locale)
 	haptics_switch = _switch_chip(haptics_row)
 	haptics_switch.name = "HapticsSwitch"
 	_bind_toggle_card(haptics_card, haptics)
@@ -645,7 +645,7 @@ func _refresh(locale: String) -> void:
 	haptics.text = MenuCopy.text("haptics", locale)
 	mute_help.text = MenuCopy.text("toggle_on" if preferences.audio.muted else "toggle_off", locale)
 	mute_switch.text = MenuCopy.text("vn_on" if preferences.audio.muted else "vn_off", locale)
-	haptics_help.text = MenuCopy.text("haptics_short", locale)
+	haptics_help.text = MenuCopy.text("haptics_short" if audio_runtime.haptics_supported else "haptics_short_unavailable", locale)
 	haptics_switch.text = MenuCopy.text("vn_on" if preferences.audio.hapticsEnabled else "vn_off", locale)
 	mobile_note_title.text = MenuCopy.text("mobile_contract_title", locale)
 	mobile_note_copy.text = MenuCopy.text("mobile_contract_copy", locale)
@@ -684,7 +684,7 @@ func _refresh_audio(locale: String = "") -> void:
 	effects_slider.tooltip_text = "%s · %s" % [effects_label.text, effects_value.text]
 	mute_help.text = MenuCopy.text("toggle_on" if settings.muted else "toggle_off", selected_locale)
 	mute_switch.text = MenuCopy.text("vn_on" if settings.muted else "vn_off", selected_locale)
-	haptics_help.text = MenuCopy.text("haptics_short", selected_locale)
+	haptics_help.text = MenuCopy.text("haptics_short" if audio_runtime.haptics_supported else "haptics_short_unavailable", selected_locale)
 	haptics_switch.text = MenuCopy.text("vn_on" if settings.hapticsEnabled else "vn_off", selected_locale)
 	_style_toggle_card(mute_card, mute_switch, settings.muted)
 	_style_toggle_card(haptics_card, haptics_switch, settings.hapticsEnabled)

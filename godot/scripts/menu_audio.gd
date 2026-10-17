@@ -12,6 +12,8 @@ var _scene := "menu"
 var _music_cache := {}
 var haptics_supported: bool:
 	get:
+		if OS.has_feature("web"):
+			return bool(JavaScriptBridge.eval("typeof navigator.vibrate === 'function'"))
 		return OS.get_name() in ["Android", "iOS"]
 
 
@@ -70,6 +72,13 @@ func _pulse(cue: String) -> void:
 		return
 	var generation := _haptic_generation
 	var pattern: Array = Synthesis.DEFINITIONS.data[cue].get("haptic", [])
+	if pattern.is_empty():
+		return
+	if OS.has_feature("web"):
+		# Submit the complete pattern atomically, like AudioManager.pulse().
+		# Browser permissions/device support can reject an optional capability.
+		JavaScriptBridge.eval("try { navigator.vibrate(%s); } catch (_) {}" % JSON.stringify(pattern))
+		return
 	var tree := get_tree()
 	for index in pattern.size():
 		if generation != _haptic_generation or not preferences.audio.hapticsEnabled or not _focused:
@@ -86,7 +95,7 @@ func _apply_settings() -> void:
 	var settings: Dictionary = preferences.audio
 	if not settings.hapticsEnabled or not _focused:
 		_haptic_generation += 1
-		if haptics_supported:
+		if haptics_supported and not OS.has_feature("web"):
 			Input.vibrate_handheld(0)
 	music.volume_db = linear_to_db(maxf(0.000001, settings.musicVolume * 0.52))
 	effects.volume_db = linear_to_db(maxf(0.000001, settings.effectsVolume))

@@ -40,6 +40,8 @@ func _dispatch(arguments: Array) -> void:
 		"new_game": menu._begin_new_game()
 		"campaign": menu._open_campaign()
 		"settings": menu._open_settings()
+		"audio_settings": menu.preferences.update_audio(request.patch)
+		"audio_cue": menu.audio_runtime.play_effect(str(request.cue))
 		"line":
 			menu.session.state.scene = int(request.scene)
 			menu.session.state.line = int(request.line)
@@ -72,6 +74,7 @@ func _publish(request_id: String) -> void:
 	var result := {"id": request_id, "controls": records, "scene": menu.session.state.scene,
 		"line": menu.session.state.line, "locale": menu.preferences.locale,
 		"audio": menu.preferences.audio,
+		"hapticsSupported": menu.audio_runtime.haptics_supported,
 		"build": _build, "engine": Engine.get_version_info().string,
 		"viewport": [get_viewport().get_visible_rect().size.x, get_viewport().get_visible_rect().size.y],
 		"window": [get_window().size.x, get_window().size.y]}
